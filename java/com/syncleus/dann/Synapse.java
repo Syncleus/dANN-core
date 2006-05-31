@@ -36,21 +36,42 @@ public class Synapse
 	  * <!-- Author: Jeffrey Phillips Freeman -->
 	  * @since 0.1
 	  */
-    public Neuron DestinationNeuron;
+    private Neuron destinationNeuron;
 	 
     /**
 	  * The incomming neuron connection.<BR>
 	  * <!-- Author: Jeffrey Phillips Freeman -->
 	  * @since 0.1
 	  */
-    public Neuron SourceNeuron;
+    private Neuron sourceNeuron;
 	 
     /**
 	  * The current weight of the synapse<BR>
 	  * <!-- Author: Jeffrey Phillips Freeman -->
 	  * @since 0.1
 	  */
-    public double Weight;
+    private double weight = 0.0;
+	 
+    /**
+	  * The current output of the synapse<BR>
+	  * <!-- Author: Jeffrey Phillips Freeman -->
+	  * @since 0.1
+	  */
+    private double output = 0.0;
+	 
+    /**
+	  * The current input from the synapse<BR>
+	  * <!-- Author: Jeffrey Phillips Freeman -->
+	  * @since 0.1
+	  */
+    private double input = 0.0;
+	 
+    /**
+	  * The current synapse's deltaTrain<BR>
+	  * <!-- Author: Jeffrey Phillips Freeman -->
+	  * @since 0.1
+	  */
+    private double deltaTrain = 0.0;
 	 
 	 // </editor-fold>
 	 
@@ -63,12 +84,38 @@ public class Synapse
 	  * @param SourceToSet The incomming neuron connection.
 	  * @param DestinationToSet The outgoing neuron connection.
 	  */
-    public Synapse(Neuron SourceToSet, Neuron DestinationToSet, double InitialWeight)
+    public Synapse(Neuron sourceToSet, Neuron destinationToSet, double initialWeight)
     {
-        this.DestinationNeuron = DestinationToSet;
-        this.SourceNeuron = SourceToSet;
-        this.Weight = InitialWeight;
+        this.destinationNeuron = destinationToSet;
+        this.sourceNeuron = sourceToSet;
+        this.weight = initialWeight;
     }
+	 
+	 // </editor-fold>
+	 
+	 // <editor-fold defaultstate="collapsed" desc="Link Traversal">
+	 
+	 /**
+	  * Obtains the incomming neuron.<BR>
+	  * <!-- Author: Jeffrey Phillips Freeman -->
+	  * @since 0.1
+	  * @return The source neuron.
+	  */
+	 public Neuron getSource()
+	 {
+		 return this.sourceNeuron;
+	 }
+
+	 /**
+	  * Obtains the outgoing neuron.<BR>
+	  * <!-- Author: Jeffrey Phillips Freeman -->
+	  * @since 0.1
+	  * @return The destination neuron.
+	  */
+	 public Neuron getDestination()
+	 {
+		 return this.destinationNeuron;
+	 }
 	 
 	 // </editor-fold>
     
@@ -80,9 +127,10 @@ public class Synapse
 	  * @since 0.1
 	  * @see com.syncleus.dann.Neuron#CalculateDeltaTrain
 	  */
-    public void LearnWeight()
+    public void learnWeight(double deltaTrainToSet, double learningRate)
     {
-        this.Weight += this.DestinationNeuron.OwnedDNA.LearningRate * this.SourceNeuron.Output * this.DestinationNeuron.DeltaTrain;
+		 this.deltaTrain = deltaTrainToSet;
+        this.weight += learningRate * this.input * this.deltaTrain;
     }
 
     /**
@@ -93,9 +141,22 @@ public class Synapse
 	  * @see com.syncleus.dann.Neuron#Propogate
 	  * @return the current synapse output.
 	  */
-    public double CalculateOutput()
+    public double getOutput()
     {
-        return this.SourceNeuron.Output * this.Weight;
+        this.output = this.input * this.weight;
+		 return this.output;
+    }
+	 
+    /**
+	  * Set the current input for the synapse<BR>
+	  * <!-- Author: Jeffrey Phillips Freeman -->
+	  * @since 0.1
+	  * @see com.syncleus.dann.Neuron#Propogate
+	  * @param newInput The new input value to set.
+	  */
+    public void setInput(double newInput)
+    {
+		 this.input = newInput;
     }
     
     /**
@@ -106,9 +167,9 @@ public class Synapse
 	  * @see com.syncleus.dann.Neuron#BackPropogate
 	  * @return the current synapse differential.
 	  */
-    public double CalculateDifferential()
+    public double getDifferential()
     {
-        return this.Weight * this.DestinationNeuron.DeltaTrain;
+        return this.deltaTrain * this.weight;
     }
 	 
 	 // </editor-fold>

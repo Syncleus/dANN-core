@@ -64,7 +64,7 @@ public class OutputNeuron extends Neuron
 	 
     public void CalculateDeltaTrain()
     {
-		 super.DeltaTrain = super.ActivationFunctionDerivitive() * (this.Desired - super.Output);
+		 super.DeltaTrain = super.ActivationFunctionDerivitive() * (this.Desired - super.getOutput());
     }
     
 }

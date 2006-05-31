@@ -52,7 +52,7 @@ public class Neuron
 	  * <!-- Author: Jeffrey Phillips Freeman -->
 	  * @since 0.1
 	  */
-    public double Output = 0;
+    private double Output = 0;
 	 
     /**
 	  * The current weight of the bias input. The bias is an input that is always
@@ -221,8 +221,8 @@ public class Neuron
             return; // TODO throw an error
             
         this.DestinationSynapses.remove(ToDisconnect);
-        if(  ToDisconnect.DestinationNeuron != null )
-            ToDisconnect.DestinationNeuron.RemoveSourceSynapse(ToDisconnect);
+        if(  ToDisconnect.getDestination() != null )
+            ToDisconnect.getDestination().RemoveSourceSynapse(ToDisconnect);
     }
 
     /**
@@ -239,8 +239,8 @@ public class Neuron
         
         this.SourceSynapses.remove(ToDisconnect);
         
-        if( ToDisconnect.SourceNeuron != null )
-            ToDisconnect.SourceNeuron.RemoveDestinationSynapse(ToDisconnect);
+        if( ToDisconnect.getSource() != null )
+            ToDisconnect.getSource().RemoveDestinationSynapse(ToDisconnect);
     }
     
     /**
@@ -293,7 +293,7 @@ public class Neuron
 			for(int Lcv = 0; Lcv < SynapseArray.length; Lcv++)
 			{
 				 Synapse CurrentSynapse = (Synapse) SynapseArray[Lcv];
-				 CurrentSynapse.LearnWeight();
+				 CurrentSynapse.learnWeight(this.DeltaTrain, this.OwnedDNA.LearningRate);
 			}
 
 			//learn the biases new weight
@@ -313,7 +313,7 @@ public class Neuron
 			for(int Lcv = 0; Lcv < SynapseArray.length; Lcv++)
 			{
 				 Synapse CurrentSynapse = (Synapse) SynapseArray[Lcv];
-				 this.DeltaTrain += CurrentSynapse.CalculateDifferential();
+				 this.DeltaTrain += CurrentSynapse.getDifferential();
 			}
 			this.DeltaTrain *= this.ActivationFunctionDerivitive();
         
@@ -334,15 +334,43 @@ public class Neuron
 			for(int Lcv = 0; Lcv < SynapseArray.length; Lcv++)
 			{
 				 Synapse CurrentSynapse = (Synapse) SynapseArray[Lcv];
-				 this.Activity += CurrentSynapse.CalculateOutput();
+				 this.Activity += CurrentSynapse.getOutput();
 			}
 			//Add the bias to the activity
 			this.Activity += this.BiasWeight;
         
         //calculate the activity function and set the result as the output
-        this.Output = this.ActivationFunction();
+        this.setOutput( this.ActivationFunction() );
     }
-    
+	 
+    /**
+	  * sets the current output on all outgoing synapses.<BR>
+	  * <!-- Author: Jeffrey Phillips Freeman -->
+	  * @since 0.1
+	  * @see com.syncleus.dann.Neuron#Propogate
+	  * @param newOutput The output value.
+	  */
+    protected void setOutput(double newOutput)
+    {
+		 this.Output = newOutput;
+		 
+		 for( Synapse current : this.DestinationSynapses )
+		 {
+			 current.setInput(newOutput);
+		 }
+    }
+	 
+    /**
+	  * Gets the current output.<BR>
+	  * <!-- Author: Jeffrey Phillips Freeman -->
+	  * @since 0.1
+	  * @return The current output.
+	  */
+    protected double getOutput()
+    {
+		 return this.Output;
+    }
+	 
     /**
 	  * obtains the output as a function of the current activity. This is a bound
 	  * function (usually between -1 and 1) based on the current activity of the

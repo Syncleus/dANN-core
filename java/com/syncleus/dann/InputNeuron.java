@@ -71,7 +71,7 @@ public class InputNeuron extends Neuron
 	 {
 		 super.Activity = this.input;
 		 
-		 super.Output = super.ActivationFunction();
+		 super.setOutput( super.ActivationFunction() );
 	 }
 	 
 	/**

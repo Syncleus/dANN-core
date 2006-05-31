@@ -64,7 +64,7 @@ public class OutputLayer extends Layer
         for(int Lcv = 0; Lcv < NeuronsToCalc.length; Lcv++)
         {
             Neuron CurrentNeuron = (Neuron) NeuronsToCalc[Lcv];
-            RetVal[Lcv] = CurrentNeuron.Output;
+            RetVal[Lcv] = CurrentNeuron.getOutput();
         }
         return RetVal;
     }
