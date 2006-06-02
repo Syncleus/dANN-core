@@ -19,6 +19,13 @@
 
 package com.syncleus.dann;
 
+/**
+ * All dANN specific exceptions that are thrown will either be a dannException
+ * or inherit from it.<BR>
+ * <!-- Author: Jeffrey Phillips Freeman -->
+ * @author Jeffrey Phillips Freeman
+ * @since 0.1
+ */
 public class dannException extends java.lang.Exception
 {
 	public dannException()

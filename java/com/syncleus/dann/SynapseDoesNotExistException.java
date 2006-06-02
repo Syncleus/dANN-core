@@ -19,6 +19,13 @@
 
 package com.syncleus.dann;
 
+
+/**
+ * This indicates that a required synapse does not exist.<BR>
+ * <!-- Author: Jeffrey Phillips Freeman -->
+ * @author Jeffrey Phillips Freeman
+ * @since 0.1
+ */
 public class SynapseDoesNotExistException extends dannException
 {
 	public SynapseDoesNotExistException()

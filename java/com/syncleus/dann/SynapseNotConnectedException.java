@@ -19,6 +19,12 @@
 
 package com.syncleus.dann;
 
+/**
+ * This means a synapse is not a connected synpase.<BR>
+ * <!-- Author: Jeffrey Phillips Freeman -->
+ * @author Jeffrey Phillips Freeman
+ * @since 0.1
+ */
 public class SynapseNotConnectedException extends dannException
 {
 	public SynapseNotConnectedException()
