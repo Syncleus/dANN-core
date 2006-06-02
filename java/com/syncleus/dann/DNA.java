@@ -30,7 +30,7 @@ import java.util.Random;
  * @author Jeffrey Phillips Freeman
  * @since 0.1
  */
-public class DNA 
+public class DNA implements java.io.Serializable
 {
 	// <editor-fold defaultstate="collapsed" desc="Attributes">
 	

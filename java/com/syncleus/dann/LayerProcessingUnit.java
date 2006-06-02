@@ -28,7 +28,7 @@ import java.util.ArrayList;
  * @author Jeffrey Phillips Freeman
  * @since 0.1
  */
-public class LayerProcessingUnit extends ProcessingUnit
+public class LayerProcessingUnit extends ProcessingUnit implements java.io.Serializable
 {
     // <editor-fold defaultstate="collapsed" desc="Attributes">
 

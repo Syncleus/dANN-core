@@ -26,7 +26,7 @@ package com.syncleus.dann;
  * @since 0.1
   * @see com.syncleus.dann.OutputNeuronProcessingUnit
  */
-public class InputNeuronProcessingUnit extends NeuronProcessingUnit
+public class InputNeuronProcessingUnit extends NeuronProcessingUnit implements java.io.Serializable
 {
 	/**
 	 * Holds the current input value for this neuron<BR>

@@ -35,7 +35,7 @@ import java.lang.Math;
  * @since 0.1
  * @see com.syncleus.dann.Synapse
  */
-public class NeuronProcessingUnit extends ProcessingUnit
+public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Serializable
 {
     // <editor-fold defaultstate="collapsed" desc="Attributes">
 	

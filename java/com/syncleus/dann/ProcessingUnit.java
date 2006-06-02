@@ -29,7 +29,7 @@ import java.util.Random;
  * @author Jeffrey Phillips Freeman
  * @since 0.1
  */
-public abstract class ProcessingUnit
+public abstract class ProcessingUnit implements java.io.Serializable
 {
 	/**
 	 * A shared random number generator.<BR>

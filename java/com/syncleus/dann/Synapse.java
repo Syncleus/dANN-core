@@ -27,7 +27,7 @@ package com.syncleus.dann;
  * @since 0.1
  * @see com.syncleus.dann.ProcessingUnit
  */
-public class Synapse
+public class Synapse implements java.io.Serializable
 {
 	// <editor-fold defaultstate="collapsed" desc="Attributes">
 	
