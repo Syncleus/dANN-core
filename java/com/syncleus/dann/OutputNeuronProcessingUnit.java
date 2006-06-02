@@ -20,68 +20,63 @@
 package com.syncleus.dann;
 
 /**
- * This is a special type of neuron that receives input.<BR>
+ * This is a special type of neuron that provides the output.<BR>
  * <!-- Author: Jeffrey Phillips Freeman -->
  * @author Jeffrey Phillips Freeman
  * @since 0.1
- * @see com.syncleus.dann.InputLayer
- * @see com.syncleus.dann.OutputNeuron
+  * @see com.syncleus.dann.InputNeuronProcessingUnit
  */
-public class InputNeuron extends Neuron
+public class OutputNeuronProcessingUnit extends NeuronProcessingUnit
 {
-	/**
-	 * Holds the current input value for this neuron<BR>
-	 * <!-- Author: Jeffrey Phillips Freeman -->
-	 * @since 0.1
-	 */
-	protected double input = 0;
-    
     /**
-	  * Creates a new instance of InputNeuron<BR>
+	  * holds the value for the current training set.<BR>
 	  * <!-- Author: Jeffrey Phillips Freeman -->
 	  * @since 0.1
-	  * @param OwnedDNAToSet This dna class will determine the various properties
-	  *	of the layer.
-	  * @param OwningLayerToSet This is the layer the new neuron will belong to.
-	  *	This can be null if you arent using layers.
 	  */
-    public InputNeuron(Layer OwningLayerToSet, DNA OwnedDNAToSet)
+	 protected double desired = 0;
+    
+    /**
+     * Creates a new instance of OutputNeuronProcessingUnit<BR>
+     * <!-- Author: Jeffrey Phillips Freeman -->
+     * @since 0.1
+     * @param ownedDNAToSet This dna class will determine the various properties
+     * 	of the layer.
+     */
+    public OutputNeuronProcessingUnit(DNA ownedDNAToSet) 
     {
-        super(OwningLayerToSet, OwnedDNAToSet);
+        super(ownedDNAToSet);
     }
     
     /**
-	  * This method sets the current input on the neuron.<BR>
+	  * This method sets the current training set on the neuron.<BR>
 	  * <!-- Author: Jeffrey Phillips Freeman -->
 	  * @since 0.1
-	  * @param InputToSet The value to set the current input to.
-	  * @see com.syncleus.dann.InputLayer#SetInput
+	  * @param trainingToSet sets the current training set.
 	  */
-    public void SetInputNeuronInput(double InputToSet)
+    public void setDesired(double trainingToSet)
     {
-        this.input = InputToSet;
+        this.desired = trainingToSet;
     }
 	 
-	/**
-	 * Refreshes the output of the neuron based on the current input<BR>
-	 * <!-- Author: Jeffrey Phillips Freeman -->
-	 * @since 0.1
-	 */
-	 public void Propogate()
-	 {
-		 super.Activity = this.input;
-		 
-		 super.setOutput( super.ActivationFunction() );
-	 }
-	 
-	/**
-	 * Calculates the new training set and adjusts weights accordingly.<BR>
-	 * <!-- Author: Jeffrey Phillips Freeman -->
-	 * @since 0.1
-	 */
-	public void BackPropogate()
-	{
-		super.CalculateDeltaTrain();
-	}
+    /**
+     * Calculates the Delta Train based on all the destination synapses<BR>
+     * <!-- Author: Jeffrey Phillips Freeman -->
+     * @since 0.1
+     * @see com.syncleus.dann.NeuronProcessingUnit#backPropogate
+     */
+    public void calculateDeltaTrain()
+    {
+			this.deltaTrain = 0;
+			Object[] SynapseArray = super.destination.toArray();
+			for(int Lcv = 0; Lcv < SynapseArray.length; Lcv++)
+			{
+				 Synapse CurrentSynapse = (Synapse) SynapseArray[Lcv];
+				 this.deltaTrain += CurrentSynapse.getDifferential();
+			}
+			
+			super.deltaTrain += (this.desired - super.getOutput());
+			
+			super.deltaTrain *= super.activationFunctionDerivitive();
+    }
     
 }

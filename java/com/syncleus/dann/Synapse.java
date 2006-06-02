@@ -25,7 +25,7 @@ package com.syncleus.dann;
  * <!-- Author: Jeffrey Phillips Freeman -->
  * @author Jeffrey Phillips Freeman
  * @since 0.1
- * @see com.syncleus.dann.Neuron
+ * @see com.syncleus.dann.ProcessingUnit
  */
 public class Synapse
 {
@@ -36,14 +36,14 @@ public class Synapse
 	  * <!-- Author: Jeffrey Phillips Freeman -->
 	  * @since 0.1
 	  */
-    private Neuron destinationNeuron;
+    private ProcessingUnit destination;
 	 
     /**
 	  * The incomming neuron connection.<BR>
 	  * <!-- Author: Jeffrey Phillips Freeman -->
 	  * @since 0.1
 	  */
-    private Neuron sourceNeuron;
+    private ProcessingUnit source;
 	 
     /**
 	  * The current weight of the synapse<BR>
@@ -81,19 +81,20 @@ public class Synapse
 	  * Creates a new instance of Synapse<BR>
 	  * <!-- Author: Jeffrey Phillips Freeman -->
 	  * @since 0.1
-	  * @param SourceToSet The incomming neuron connection.
-	  * @param DestinationToSet The outgoing neuron connection.
+	  * @param sourceToSet The incomming neuron connection.
+	  * @param destinationToSet The outgoing neuron connection.
+	  * @param initialWeight The initial weight of the synapse
 	  */
-    public Synapse(Neuron sourceToSet, Neuron destinationToSet, double initialWeight)
+    public Synapse(ProcessingUnit sourceToSet, ProcessingUnit destinationToSet, double initialWeight)
     {
-        this.destinationNeuron = destinationToSet;
-        this.sourceNeuron = sourceToSet;
+        this.destination = destinationToSet;
+        this.source = sourceToSet;
         this.weight = initialWeight;
     }
 	 
 	 // </editor-fold>
 	 
-	 // <editor-fold defaultstate="collapsed" desc="Link Traversal">
+	// <editor-fold defaultstate="collapsed" desc="Link Traversal">
 	 
 	 /**
 	  * Obtains the incomming neuron.<BR>
@@ -101,9 +102,9 @@ public class Synapse
 	  * @since 0.1
 	  * @return The source neuron.
 	  */
-	 public Neuron getSource()
+	 public ProcessingUnit getSource()
 	 {
-		 return this.sourceNeuron;
+		 return this.source;
 	 }
 
 	 /**
@@ -112,9 +113,9 @@ public class Synapse
 	  * @since 0.1
 	  * @return The destination neuron.
 	  */
-	 public Neuron getDestination()
+	 public ProcessingUnit getDestination()
 	 {
-		 return this.destinationNeuron;
+		 return this.destination;
 	 }
 	 
 	 // </editor-fold>
@@ -125,7 +126,7 @@ public class Synapse
 	  * learns the new weight based on the current training set<BR>
 	  * <!-- Author: Jeffrey Phillips Freeman -->
 	  * @since 0.1
-	  * @see com.syncleus.dann.Neuron#CalculateDeltaTrain
+	  * @see com.syncleus.dann.NeuronProcessingUnit#calculateDeltaTrain
 	  */
     public void learnWeight(double deltaTrainToSet, double learningRate)
     {
@@ -138,7 +139,7 @@ public class Synapse
 	  * weight<BR>
 	  * <!-- Author: Jeffrey Phillips Freeman -->
 	  * @since 0.1
-	  * @see com.syncleus.dann.Neuron#Propogate
+	  * @see com.syncleus.dann.NeuronProcessingUnit#propogate
 	  * @return the current synapse output.
 	  */
     public double getOutput()
@@ -151,7 +152,7 @@ public class Synapse
 	  * Set the current input for the synapse<BR>
 	  * <!-- Author: Jeffrey Phillips Freeman -->
 	  * @since 0.1
-	  * @see com.syncleus.dann.Neuron#Propogate
+	  * @see com.syncleus.dann.NeuronProcessingUnit#propogate
 	  * @param newInput The new input value to set.
 	  */
     public void setInput(double newInput)
@@ -164,7 +165,7 @@ public class Synapse
 	  * training sets.<BR>
 	  * <!-- Author: Jeffrey Phillips Freeman -->
 	  * @since 0.1
-	  * @see com.syncleus.dann.Neuron#BackPropogate
+	  * @see com.syncleus.dann.NeuronProcessingUnit#backPropogate
 	  * @return the current synapse differential.
 	  */
     public double getDifferential()

@@ -39,16 +39,9 @@ public class DNA
 	 * training set will be on its current state.<BR>
     * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @since 0.1
-	 * @see com.syncleus.dann.Synapse#LearnWeight
+	 * @see com.syncleus.dann.Synapse#learnWeight
 	 */
-	public double LearningRate = 0.02;
-	
-	/**
-	 * A random number generator shared by the system<BR>
-    * <!-- Author: Jeffrey Phillips Freeman -->
-	 * @since 0.1
-	 */
-	public static final Random RandomGenerator = new Random();
+	public double learningRate = 0.02;
 	
 	// </editor-fold>
 	 
