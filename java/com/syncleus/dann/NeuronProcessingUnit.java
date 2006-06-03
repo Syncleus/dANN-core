@@ -52,7 +52,7 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
 	  * <!-- Author: Jeffrey Phillips Freeman -->
 	  * @since 0.1
 	  */
-    private double output = 0;
+    protected double output = 0;
 	 
     /**
 	  * The current weight of the bias input. The bias is an input that is always
