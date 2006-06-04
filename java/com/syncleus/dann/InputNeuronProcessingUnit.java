@@ -39,12 +39,12 @@ public class InputNeuronProcessingUnit extends NeuronProcessingUnit implements j
      * Creates a new instance of InputNeuronProcessingUnit<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @param OwnedDNAToSet This dna class will determine the various properties
+     * @param ownedDNAToSet This dna class will determine the various properties
      * 	of the layer.
      */
-    public InputNeuronProcessingUnit(DNA OwnedDNAToSet)
+    public InputNeuronProcessingUnit(DNA ownedDNAToSet)
     {
-        super(OwnedDNAToSet);
+        super(ownedDNAToSet);
     }
     
     /**
@@ -67,11 +67,9 @@ public class InputNeuronProcessingUnit extends NeuronProcessingUnit implements j
 	 {
 			//calculate the current input activity
 			this.activity = 0;
-			Object[] SynapseArray = super.sourceSynapses.toArray();
-			for(int Lcv = 0; Lcv < SynapseArray.length; Lcv++)
+			for( Synapse currentSynapse : super.sources )
 			{
-				 Synapse CurrentSynapse = (Synapse) SynapseArray[Lcv];
-				 this.activity += CurrentSynapse.getOutput();
+				this.activity += currentSynapse.getOutput();
 			}
 			//Add the bias to the activity
 			super.activity += super.biasWeight;

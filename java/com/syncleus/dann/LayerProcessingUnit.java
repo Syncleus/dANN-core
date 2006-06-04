@@ -56,12 +56,12 @@ public class LayerProcessingUnit extends ProcessingUnit implements java.io.Seria
      * Creates a new instance of LayerProcessingUnit<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @param OwnedDNAToSet This dna class will determine the various properties
+     * @param ownedDNAToSet This dna class will determine the various properties
      * 	of the layer.
      */
-    public LayerProcessingUnit(DNA OwnedDNAToSet) 
+    public LayerProcessingUnit(DNA ownedDNAToSet) 
     {
-        this.ownedDNA = OwnedDNAToSet;
+        this.ownedDNA = ownedDNAToSet;
     }
 	 
 	 // </editor-fold>

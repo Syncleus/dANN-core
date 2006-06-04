@@ -69,14 +69,14 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
 	  * <!-- Author: Jeffrey Phillips Freeman -->
 	  * @since 0.1
 	  */
-    protected ArrayList<Synapse> destination = new ArrayList<Synapse>();
+    protected ArrayList<Synapse> destinations = new ArrayList<Synapse>();
 	 
     /**
 	  * All the synapses currently connecting into this neuron<BR>
 	  * <!-- Author: Jeffrey Phillips Freeman -->
 	  * @since 0.1
 	  */
-    protected ArrayList<Synapse> sourceSynapses = new ArrayList<Synapse>();
+    protected ArrayList<Synapse> sources = new ArrayList<Synapse>();
 	 
     /**
 	  * The DNA determines this neurons basic properties.<BR>
@@ -102,12 +102,12 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
      * Creates a new instance of NeuronProcessingUnit<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @param OwnedDNAToSet This dna class will determine the various properties
+     * @param ownedDNAToSet This dna class will determine the various properties
      * 	of the layer.
      */
-    public NeuronProcessingUnit(DNA OwnedDNAToSet)
+    public NeuronProcessingUnit(DNA ownedDNAToSet)
     {
-        this.ownedDNA = OwnedDNAToSet;
+        this.ownedDNA = ownedDNAToSet;
         this.biasWeight = (super.random.nextDouble()*2.0)-1.0;
     }
 	 
@@ -130,9 +130,9 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
             return; // todo throw an exception
         
         //connect to the neuron
-        Synapse NewSynapse = new Synapse(this, outUnit, (super.random.nextDouble() *2.0) - 1.0);
-        this.destination.add(NewSynapse);
-        outUnit.connectFrom(NewSynapse);
+        Synapse newSynapse = new Synapse(this, outUnit, (super.random.nextDouble() *2.0) - 1.0);
+        this.destinations.add(newSynapse);
+        outUnit.connectFrom(newSynapse);
     }
     
     /**
@@ -148,7 +148,7 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
         //make sure you arent already connected fromt his neuron
         
         //add the synapse to the source list
-        this.sourceSynapses.add(inSynapse);
+        this.sources.add(inSynapse);
     }
     
     /**
@@ -160,7 +160,7 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
      */
     public void disconnectAllDestinations()
     {
-		 for( Synapse currentDestination : this.destination )
+		 for( Synapse currentDestination : this.destinations )
 		 {
 			 try
 			 {
@@ -183,7 +183,7 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
      */
     public void disconnectAllSources()
     {
-		 for( Synapse currentSource : this.sourceSynapses )
+		 for( Synapse currentSource : this.sources )
 		 {
 			 try
 			 {
@@ -209,7 +209,7 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
         if(this instanceof OutputNeuronProcessingUnit)
             return; // TODO throw an error
             
-        if( this.destination.remove(outSynapse) == false )
+        if( this.destinations.remove(outSynapse) == false )
 			  throw new SynapseNotConnectedException("can not disconnect destination, does not exist.");
 		  
 		  try
@@ -235,7 +235,7 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
         if(this instanceof InputNeuronProcessingUnit)
             return; // TODO throw an error
         
-        if( this.sourceSynapses.remove(inSynapse) == false )
+        if( this.sources.remove(inSynapse) == false )
 			  throw new SynapseNotConnectedException("can not disconnect source, does not exist.");
 
 		  try
@@ -261,7 +261,7 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
         if(this instanceof OutputNeuronProcessingUnit)
             return; // TODO throw an exception'
             
-        if( this.destination.remove(outSynapse) == false )
+        if( this.destinations.remove(outSynapse) == false )
 			  throw new SynapseDoesNotExistException("Can not remove destination, does not exist.");
     }
     
@@ -277,7 +277,7 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
         if(this instanceof InputNeuronProcessingUnit)
             return; // TODO throw an exception
 
-        if( this.sourceSynapses.remove(inSynapse) == false )
+        if( this.sources.remove(inSynapse) == false )
 			  throw new SynapseDoesNotExistException("Can not remove destination, does not exist.");
     }
 	 
@@ -295,11 +295,9 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
         this.calculateDeltaTrain();
         
 			//step thru source synapses and make them learn their new weight.
-			Object[] SynapseArray = this.sourceSynapses.toArray();
-			for(int Lcv = 0; Lcv < SynapseArray.length; Lcv++)
+			for( Synapse currentSynapse : this.sources )
 			{
-				 Synapse CurrentSynapse = (Synapse) SynapseArray[Lcv];
-				 CurrentSynapse.learnWeight(this.deltaTrain, this.ownedDNA.learningRate);
+				currentSynapse.learnWeight(this.deltaTrain, this.ownedDNA.learningRate);
 			}
 
 			//learn the biases new weight
@@ -315,11 +313,9 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
     public void calculateDeltaTrain()
     {
 			this.deltaTrain = 0;
-			Object[] SynapseArray = this.destination.toArray();
-			for(int Lcv = 0; Lcv < SynapseArray.length; Lcv++)
+			for( Synapse currentSynapse : this.destinations )
 			{
-				 Synapse CurrentSynapse = (Synapse) SynapseArray[Lcv];
-				 this.deltaTrain += CurrentSynapse.getDifferential();
+				 this.deltaTrain += currentSynapse.getDifferential();
 			}
 			this.deltaTrain *= this.activationFunctionDerivitive();
     }
@@ -334,12 +330,10 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
     {
         //calculate the current input activity
         this.activity = 0;
-			Object[] SynapseArray = this.sourceSynapses.toArray();
-			for(int Lcv = 0; Lcv < SynapseArray.length; Lcv++)
-			{
-				 Synapse CurrentSynapse = (Synapse) SynapseArray[Lcv];
-				 this.activity += CurrentSynapse.getOutput();
-			}
+		  for( Synapse currentSynapse : this.sources )
+		  {
+			  this.activity += currentSynapse.getOutput();
+		  }
 			//Add the bias to the activity
 			this.activity += this.biasWeight;
         
@@ -358,7 +352,7 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
     {
 		 this.output = newOutput;
 		 
-		 for( Synapse current : this.destination )
+		 for( Synapse current : this.destinations )
 		 {
 			 current.setInput(newOutput);
 		 }

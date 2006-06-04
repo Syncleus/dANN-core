@@ -67,11 +67,9 @@ public class OutputNeuronProcessingUnit extends NeuronProcessingUnit implements 
     public void calculateDeltaTrain()
     {
 			this.deltaTrain = 0;
-			Object[] SynapseArray = super.destination.toArray();
-			for(int Lcv = 0; Lcv < SynapseArray.length; Lcv++)
+			for( Synapse currentSynapse : super.destinations )
 			{
-				 Synapse CurrentSynapse = (Synapse) SynapseArray[Lcv];
-				 this.deltaTrain += CurrentSynapse.getDifferential();
+				this.deltaTrain += currentSynapse.getDifferential();
 			}
 			
 			super.deltaTrain += (this.desired - super.getOutput());
