@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?><umlet_diagram><element><type>com.umlet.element.base.Relation</type><coordinates><x>850</x><y>546</y><w>240</w><h>54</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-&gt;
+&lt;Connects To
+m1=1
+m2=2</panel_attributes><additional_attributes>20;34;220;34</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>1070</x><y>440</y><w>550</w><h>260</h></coordinates><panel_attributes>Synapse
+--
+-deltaTrain: double
+-destination: ProcessingUnit
+-source: ProcessingUnit
+-input: double
+-output: double
+-weight: double
+--
++Synapse(source: ProcessingUnit, destination: ProcessingUnit, initialWeight: double)
++getDestination(): ProcessingUnit
++getSource(): ProcessingUnit
++getDifferential(): double
++getOutput(): double
++learnWeight(deltaTrain: double, learningRate: double): void
++setIntput(newInput: double): void
+</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>950</x><y>1210</y><w>170</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>20;20;150;100</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>710</x><y>1210</y><w>120</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>100;20;20;100</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>770</x><y>750</y><w>140</w><h>170</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>20;20;120;150</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>460</x><y>750</y><w>160</w><h>180</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>140;20;20;160</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>200</x><y>526</y><w>350</w><h>524</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+Contains&gt;
+m1=1..n
+m2=0..1</panel_attributes><additional_attributes>330;34;260;34;200;34;20;34;20;504;100;504</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>970</x><y>1310</y><w>270</w><h>80</h></coordinates><panel_attributes>AfferntNeuronProcessingUnit
+--
+#input: double
+--
++setInput(double newInput): void
++propogate(): void</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>580</x><y>1310</y><w>270</w><h>80</h></coordinates><panel_attributes>EfferntNeuronProcessingUnit
+--
+#desired: double
+--
++calculateDeltaTrain(): void
++setDesired(double newDesired): void</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>750</x><y>900</y><w>340</w><h>330</h></coordinates><panel_attributes>NeuronProcessingUnit
+--
+-inhibitory: bool
+-isTonic: bool
+-ticksPerPulse: int
+-BurstTicksPerPulse: int
+-BurstPulseCount: int
+#activity: double
+#biasWeight: double
+deltaTrain: double
+#destination: ArrayList&lt;Synapse&gt;
+-output: double
+#sourceSynapses: ArrayList&lt;Synapse&gt;
+--
+NeuronProcessingUnit()
++propogate(): void
++backPropogate(): void
+#connectFrom(inSynapse: Synapse): void
++connectTo(outUnit: ProcessingUnit): void
++disconnectAllDestinations(): void
++disconnectAllSources(): void
++disconnectDestination(outSynapse: Synapse): void
++disconnectSource(inSynapse: Synapse): void
+#removeDestination(outSynapse: Synapse): void
+#removeSource(inSynapse: Synapse): void
+#activationFunction(): double
+#activationFunctionDerivative(): double
+calculateDeltaTrain: double
+getOutput: double
+#setOutput(newOutput: double): void
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>300</x><y>910</y><w>340</w><h>330</h></coordinates><panel_attributes>LayerProcessingUnit
+--
+#children: ArrayList&lt;ProcessingUnit&gt;
+--
+LayerProcessingUnit()
++propogate(): void
++backPropogate(): void
+#connectFrom(inSynapse: Synapse): void
++connectTo(outUnit: ProcessingUnit): void
++disconnectAllDestinations(): void
++disconnectAllSources(): void
++disconnectDestination(outSynapse: Synapse): void
++disconnectSource(inSynapse: Synapse): void
+#removeDestination(outSynapse: Synapse): void
+#removeSource(inSynapse: Synapse): void
++add(toAdd: ProcessingUnit): void
++connectAllTo(toConnectTo: ProcessingUnit): void
+-getChildrenRecursivly(): ArrayList&lt;ProcessingUnit&gt;
+-getRandomChild(): ProcessingUnit
+</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>530</x><y>440</y><w>340</w><h>330</h></coordinates><panel_attributes>ProcessingUnit
+--
+#random: Random
+-pid: BigInteger
+#parentLayers: ArrayList&lt;LayerProcessingUnit&gt;
+--
+ProcessingUnit(pid: BigInteger)
+/+propogate(): void/
+/+backPropogate(): void/
+/#connectFrom(inSynapse: Synapse): void/
+/+connectTo(outUnit: ProcessingUnit): void/
++disconnectAll(): void
+/+disconnectAllDestinations(): void/
+/+disconnectAllSources(): void/
+/+disconnectDestination(outSynapse: Synapse): void/
+/+disconnectSource(inSynapse: Synapse): void/
+/#removeDestination(outSynapse: Synapse): void/
+/#removeSource(inSynapse: Synapse): void/
++getPid(): BigInteger
++getParentLayers(): LayerProcessingUnit[]</panel_attributes><additional_attributes></additional_attributes></element></umlet_diagram>
