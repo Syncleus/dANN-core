@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="dANN" default="all" basedir=".">
+	<path id="classpath">
+            <fileset dir="lib" includes="**/*.jar"/>
+	</path>
+        
+        <target name="clean">
+            <delete dir="build"/>
+        </target>
+        
+        <target name="javadoc">
+            <mkdir dir="build/javadoc"/>
+            <delete includeemptydirs="true">
+                <fileset dir="build/javadoc" includes="**/*"/>
+            </delete>
+            <javadoc destdir="build/javadoc/" classpathref="classpath">
+                <fileset dir="src/" includes="**/*.java"/>
+            </javadoc>
+        </target>
+        
+        <target name="compile">
+            <delete dir="build/classes"/>
+            
+            <mkdir dir="build/classes"/>
+            <javac destdir="build/classes" classpathref="classpath" debug="true">
+                <src path="src/com"/>
+            </javac>
+            
+            <mkdir dir="build/jar"/>
+            <jar destfile="build/jar/dann.jar" basedir="build/classes"/>
+        </target>
+
+	<target name="all">
+            <antcall target="clean"/>
+            <antcall target="javadoc"/>
+            <antcall target="compile"/>
+	</target>
+</project>
