@@ -139,7 +139,7 @@ public abstract class ProcessingUnit implements java.io.Serializable
 	  * <!-- Author: Jeffrey Phillips Freeman -->
 	  * @since 0.1
 	  */
-    public abstract void backPropogate();
+    public abstract void backPropagate();
     
 
     /**
@@ -147,5 +147,5 @@ public abstract class ProcessingUnit implements java.io.Serializable
 	  * <!-- Author: Jeffrey Phillips Freeman -->
 	  * @since 0.1
 	  */
-    public abstract void propogate();
+    public abstract void propagate();
 }

@@ -62,7 +62,7 @@ public class OutputNeuronProcessingUnit extends NeuronProcessingUnit implements 
      * Calculates the Delta Train based on all the destination synapses<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @see com.syncleus.dann.NeuronProcessingUnit#backPropogate
+     * @see com.syncleus.dann.NeuronProcessingUnit#backPropagate
      */
     public void calculateDeltaTrain()
     {

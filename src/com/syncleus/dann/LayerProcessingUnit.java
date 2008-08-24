@@ -329,13 +329,13 @@ public class LayerProcessingUnit extends ProcessingUnit implements java.io.Seria
 	  * the outgoign one.<BR>
 	  * <!-- Author: Jeffrey Phillips Freeman -->
 	  * @since 0.1
-	  * @see com.syncleus.dann.ProcessingUnit#propogate
+	  * @see com.syncleus.dann.ProcessingUnit#propagate
 	  */
-    public void propogate()
+    public void propagate()
     {
 		 for( ProcessingUnit currentChild : this.children )
 		 {
-			 currentChild.propogate();
+			 currentChild.propagate();
 		 }
     }
 
@@ -344,13 +344,13 @@ public class LayerProcessingUnit extends ProcessingUnit implements java.io.Seria
 	  * synapse to the incomming one.<BR>
 	  * <!-- Author: Jeffrey Phillips Freeman -->
 	  * @since 0.1
-	  * @see com.syncleus.dann.ProcessingUnit#backPropogate
+	  * @see com.syncleus.dann.ProcessingUnit#backPropagate
 	  */
-    public void backPropogate()
+    public void backPropagate()
     {
 		 for( ProcessingUnit currentChild : this.children )
 		 {
-			 currentChild.backPropogate();
+			 currentChild.backPropagate();
 		 }
     }
 	 

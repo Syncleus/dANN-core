@@ -68,7 +68,7 @@ public class InputNeuronProcessingUnit extends NeuronProcessingUnit implements j
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
-    public void propogate()
+    public void propagate()
     {
         //calculate the current input activity
         this.activity = 0;

@@ -290,7 +290,7 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
 	  * <!-- Author: Jeffrey Phillips Freeman -->
 	  * @since 0.1
 	  */
-    public void backPropogate()
+    public void backPropagate()
     {
         this.calculateDeltaTrain();
         
@@ -308,7 +308,7 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
      * Calculates the Delta Train based on all the destination synapses<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @see com.syncleus.dann.NeuronProcessingUnit#backPropogate
+     * @see com.syncleus.dann.NeuronProcessingUnit#backPropagate
      */
     public void calculateDeltaTrain()
     {
@@ -326,7 +326,7 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
 	  * <!-- Author: Jeffrey Phillips Freeman -->
 	  * @since 0.1
 	  */
-    public void propogate()
+    public void propagate()
     {
         //calculate the current input activity
         this.activity = 0;
@@ -345,7 +345,7 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
      * sets the current output on all outgoing synapses.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @see com.syncleus.dann.NeuronProcessingUnit#propogate
+     * @see com.syncleus.dann.NeuronProcessingUnit#propagate
      * @param newOutput The output value.
      */
     protected void setOutput(double newOutput)
@@ -377,7 +377,7 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
      * @since 0.1
      * @return a bound value (between -1 and 1 if this function is not
      * 	overwritten). It is a function of the neuron's current activity.
-     * @see com.syncleus.dann.NeuronProcessingUnit#propogate
+     * @see com.syncleus.dann.NeuronProcessingUnit#propagate
      */
     protected double activationFunction()
     {
