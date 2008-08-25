@@ -1,24 +1,22 @@
 /******************************************************************************
-*                                                                             *
-*  Copyright: (c) Jeffrey Phillips Freeman                                    *
-*                                                                             *
-*  You may redistribute and modify this source code under the terms and       *
-*  conditions of the Open Source Community License - Type C version 1.0       *
-*  or any later version as published by syncleus at http://www.syncleus.com.  *
-*  There should be a copy of the license included with this file. If a copy   *
-*  of the license is not included you are granted no right to distribute or   *
-*  otherwise use this file except through a legal and valid license. You      *
-*  should also contact syncleus at the information below if you cannot find   *
-*  a license:                                                                 *
-*                                                                             *
-*  Syncleus                                                                   *
-*  1116 McClellan St.                                                         *
-*  Philadelphia, PA 19148                                                     *
-*                                                                             *
-******************************************************************************/
-
+ *                                                                             *
+ *  Copyright: (c) Jeffrey Phillips Freeman                                    *
+ *                                                                             *
+ *  You may redistribute and modify this source code under the terms and       *
+ *  conditions of the Open Source Community License - Type C version 1.0       *
+ *  or any later version as published by syncleus at http://www.syncleus.com.  *
+ *  There should be a copy of the license included with this file. If a copy   *
+ *  of the license is not included you are granted no right to distribute or   *
+ *  otherwise use this file except through a legal and valid license. You      *
+ *  should also contact syncleus at the information below if you cannot find   *
+ *  a license:                                                                 *
+ *                                                                             *
+ *  Syncleus                                                                   *
+ *  1116 McClellan St.                                                         *
+ *  Philadelphia, PA 19148                                                     *
+ *                                                                             *
+ ******************************************************************************/
 package com.syncleus.dann;
-
 
 import java.util.ArrayList;
 import java.lang.Exception;
@@ -38,54 +36,47 @@ import java.lang.Math;
 public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Serializable
 {
     // <editor-fold defaultstate="collapsed" desc="Attributes">
-	
     /**
-	  * Represents the current excitation of the neuron from input
-	  * signals<BR>
-	  * <!-- Author: Jeffrey Phillips Freeman -->
-	  * @since 0.1
-	  */
+     * Represents the current excitation of the neuron from input
+     * signals<BR>
+     * <!-- Author: Jeffrey Phillips Freeman -->
+     * @since 0.1
+     */
     protected double activity = 0;
-
     /**
-	  * Represents the current output of the neuron<BR>
-	  * <!-- Author: Jeffrey Phillips Freeman -->
-	  * @since 0.1
-	  */
+     * Represents the current output of the neuron<BR>
+     * <!-- Author: Jeffrey Phillips Freeman -->
+     * @since 0.1
+     */
     protected double output = 0;
-	 
     /**
-	  * The current weight of the bias input. The bias is an input that is always
-	  * set to an on position. The bias weight usually adapts in the same manner
-	  * as the rest of the synapse's weights.<BR>
-	  * <!-- Author: Jeffrey Phillips Freeman -->
-	  * @since 0.1
-	  */
+     * The current weight of the bias input. The bias is an input that is always
+     * set to an on position. The bias weight usually adapts in the same manner
+     * as the rest of the synapse's weights.<BR>
+     * <!-- Author: Jeffrey Phillips Freeman -->
+     * @since 0.1
+     */
     protected double biasWeight = 0;
-	 
     /**
-	  * An array list of all the synapses that this neuron is currently
-	  * connection out to.<BR>
-	  * <!-- Author: Jeffrey Phillips Freeman -->
-	  * @since 0.1
-	  */
+     * An array list of all the synapses that this neuron is currently
+     * connection out to.<BR>
+     * <!-- Author: Jeffrey Phillips Freeman -->
+     * @since 0.1
+     */
     protected ArrayList<Synapse> destinations = new ArrayList<Synapse>();
-	 
     /**
-	  * All the synapses currently connecting into this neuron<BR>
-	  * <!-- Author: Jeffrey Phillips Freeman -->
-	  * @since 0.1
-	  */
+     * All the synapses currently connecting into this neuron<BR>
+     * <!-- Author: Jeffrey Phillips Freeman -->
+     * @since 0.1
+     */
     protected ArrayList<Synapse> sources = new ArrayList<Synapse>();
-	 
     /**
-	  * The DNA determines this neurons basic properties.<BR>
-	  * <!-- Author: Jeffrey Phillips Freeman -->
-	  * @since 0.1
-	  */
+     * The DNA determines this neurons basic properties.<BR>
+     * <!-- Author: Jeffrey Phillips Freeman -->
+     * @since 0.1
+     */
     public DNA ownedDNA;
-	 
-	/**
+    /**
      * This represents the net effect of all the training data from all the
      * inputs. It is essentially the reverse of the activity value.
      * <!-- Author: Jeffrey Phillips Freeman -->
@@ -93,11 +84,10 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
      * @see com.syncleus.dann.NeuronProcessingUnit#activity
      */
     public double deltaTrain = 0;
-	 
-	 // </editor-fold>
-    
+
+    // </editor-fold>
+
     // <editor-fold defaultstate="collapsed" desc="Constructors">
-	 
     /**
      * Creates a new instance of NeuronProcessingUnit<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
@@ -108,13 +98,12 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
     public NeuronProcessingUnit(DNA ownedDNAToSet)
     {
         this.ownedDNA = ownedDNAToSet;
-        this.biasWeight = (super.random.nextDouble()*2.0)-1.0;
+        this.biasWeight = (super.random.nextDouble() * 2.0) - 1.0;
     }
-	 
+
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Topology Manipulation">
-	 
     /**
      * This method is called externally to connect to another ProcessingUnit.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
@@ -126,15 +115,17 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
     {
         //make sure you arent already connected to the neuron
         int test;
-        if( outUnit == null)
+        if (outUnit == null)
             return; // todo throw an exception
-        
+
         //connect to the neuron
-        Synapse newSynapse = new Synapse(this, outUnit, (super.random.nextDouble() *2.0) - 1.0);
+        Synapse newSynapse = new Synapse(this, outUnit, (super.random.nextDouble() * 2.0) - 1.0);
         this.destinations.add(newSynapse);
         outUnit.connectFrom(newSynapse);
     }
-    
+
+
+
     /**
      * This method is called internally, between ProcessingUnits, to
      * facilitate the connection process.<BR>
@@ -146,11 +137,13 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
     protected void connectFrom(Synapse inSynapse)
     {
         //make sure you arent already connected fromt his neuron
-        
+
         //add the synapse to the source list
         this.sources.add(inSynapse);
     }
-    
+
+
+
     /**
      * Causes the ProcessingUnit to disconnect all outgoing connections.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
@@ -160,20 +153,20 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
      */
     public void disconnectAllDestinations()
     {
-		 for( Synapse currentDestination : this.destinations )
-		 {
-			 try
-			 {
-				this.disconnectDestination(currentDestination);
-			 }
-			 catch(SynapseNotConnectedException caughtException)
-			 {
-				 caughtException.printStackTrace();
-				 throw new InternalError("this shouldnt happen: " + caughtException);
-			 }
-		 }
+        for (Synapse currentDestination : this.destinations)
+            try
+            {
+                this.disconnectDestination(currentDestination);
+            }
+            catch (SynapseNotConnectedException caughtException)
+            {
+                caughtException.printStackTrace();
+                throw new InternalError("this shouldnt happen: " + caughtException);
+            }
     }
-    
+
+
+
     /**
      * Causes the ProcessingUnit to disconnect all incomming connections.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
@@ -183,20 +176,20 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
      */
     public void disconnectAllSources()
     {
-		 for( Synapse currentSource : this.sources )
-		 {
-			 try
-			 {
-				this.disconnectSource(currentSource);
-			 }
-			 catch(SynapseNotConnectedException caughtException)
-			 {
-				 caughtException.printStackTrace();
-				 throw new InternalError("this shouldnt happen: " + caughtException);
-			 }
-		 }     
+        for (Synapse currentSource : this.sources)
+            try
+            {
+                this.disconnectSource(currentSource);
+            }
+            catch (SynapseNotConnectedException caughtException)
+            {
+                caughtException.printStackTrace();
+                throw new InternalError("this shouldnt happen: " + caughtException);
+            }
     }
-    
+
+
+
     /**
      * Disconnects from a perticular outgoing connection.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
@@ -206,22 +199,24 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
      */
     public void disconnectDestination(Synapse outSynapse) throws SynapseNotConnectedException
     {
-        if(this instanceof OutputNeuronProcessingUnit)
+        if (this instanceof OutputNeuronProcessingUnit)
             return; // TODO throw an error
-            
-        if( this.destinations.remove(outSynapse) == false )
-			  throw new SynapseNotConnectedException("can not disconnect destination, does not exist.");
-		  
-		  try
-		  {
-			  if(  outSynapse.getDestination() != null )
-					outSynapse.getDestination().removeSource(outSynapse);
-		  }
-		  catch(SynapseDoesNotExistException caughtException)
-		  {
-			  //do nothing, its a recoverable exception
-		  }
+
+        if (this.destinations.remove(outSynapse) == false)
+            throw new SynapseNotConnectedException("can not disconnect destination, does not exist.");
+
+        try
+        {
+            if (outSynapse.getDestination() != null)
+                outSynapse.getDestination().removeSource(outSynapse);
+        }
+        catch (SynapseDoesNotExistException caughtException)
+        {
+            //do nothing, its a recoverable exception
+        }
     }
+
+
 
     /**
      * Disconnects from a perticular incomming connection.<BR>
@@ -232,23 +227,25 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
      */
     public void disconnectSource(Synapse inSynapse) throws SynapseNotConnectedException
     {
-        if(this instanceof InputNeuronProcessingUnit)
+        if (this instanceof InputNeuronProcessingUnit)
             return; // TODO throw an error
-        
-        if( this.sources.remove(inSynapse) == false )
-			  throw new SynapseNotConnectedException("can not disconnect source, does not exist.");
 
-		  try
-		  {
-			  if( inSynapse.getSource() != null )
-					inSynapse.getSource().removeDestination(inSynapse);
-		  }
-		  catch(SynapseDoesNotExistException caughtException)
-		  {
-			  //do nothing, its a recoverable exception
-		  }
+        if (this.sources.remove(inSynapse) == false)
+            throw new SynapseNotConnectedException("can not disconnect source, does not exist.");
+
+        try
+        {
+            if (inSynapse.getSource() != null)
+                inSynapse.getSource().removeDestination(inSynapse);
+        }
+        catch (SynapseDoesNotExistException caughtException)
+        {
+            //do nothing, its a recoverable exception
+        }
     }
-    
+
+
+
     /**
      * Called internally to facilitate the removal of a connection.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
@@ -258,13 +255,15 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
      */
     protected void removeDestination(Synapse outSynapse) throws SynapseDoesNotExistException
     {
-        if(this instanceof OutputNeuronProcessingUnit)
+        if (this instanceof OutputNeuronProcessingUnit)
             return; // TODO throw an exception'
-            
-        if( this.destinations.remove(outSynapse) == false )
-			  throw new SynapseDoesNotExistException("Can not remove destination, does not exist.");
+
+        if (this.destinations.remove(outSynapse) == false)
+            throw new SynapseDoesNotExistException("Can not remove destination, does not exist.");
     }
-    
+
+
+
     /**
      * Called internally to facilitate the removal of a connection.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
@@ -274,35 +273,34 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
      */
     protected void removeSource(Synapse inSynapse) throws SynapseDoesNotExistException
     {
-        if(this instanceof InputNeuronProcessingUnit)
+        if (this instanceof InputNeuronProcessingUnit)
             return; // TODO throw an exception
 
-        if( this.sources.remove(inSynapse) == false )
-			  throw new SynapseDoesNotExistException("Can not remove destination, does not exist.");
+        if (this.sources.remove(inSynapse) == false)
+            throw new SynapseDoesNotExistException("Can not remove destination, does not exist.");
     }
-	 
+
     // </editor-fold>
-	 
+
     // <editor-fold defaultstate="collapsed" desc="Propogation">
-    
     /**
-	  * Backpropogates the training data to all the incomming synapses.<BR>
-	  * <!-- Author: Jeffrey Phillips Freeman -->
-	  * @since 0.1
-	  */
+     * Backpropogates the training data to all the incomming synapses.<BR>
+     * <!-- Author: Jeffrey Phillips Freeman -->
+     * @since 0.1
+     */
     public void backPropagate()
     {
         this.calculateDeltaTrain();
-        
-			//step thru source synapses and make them learn their new weight.
-			for( Synapse currentSynapse : this.sources )
-			{
-				currentSynapse.learnWeight(this.deltaTrain, this.ownedDNA.learningRate);
-			}
 
-			//learn the biases new weight
-			this.biasWeight += this.ownedDNA.learningRate * this.deltaTrain;
+        //step thru source synapses and make them learn their new weight.
+        for (Synapse currentSynapse : this.sources)
+            currentSynapse.learnWeight(this.deltaTrain, this.ownedDNA.learningRate);
+
+        //learn the biases new weight
+        this.biasWeight += this.ownedDNA.learningRate * this.deltaTrain;
     }
+
+
 
     /**
      * Calculates the Delta Train based on all the destination synapses<BR>
@@ -312,35 +310,34 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
      */
     public void calculateDeltaTrain()
     {
-			this.deltaTrain = 0;
-			for( Synapse currentSynapse : this.destinations )
-			{
-				 this.deltaTrain += currentSynapse.getDifferential();
-			}
-			this.deltaTrain *= this.activationFunctionDerivitive();
+        this.deltaTrain = 0;
+        for (Synapse currentSynapse : this.destinations)
+            this.deltaTrain += currentSynapse.getDifferential();
+        this.deltaTrain *= this.activationFunctionDerivitive();
     }
-    
+
+
 
     /**
-	  * Propogates the current output to all outgoing synapses.<BR>
-	  * <!-- Author: Jeffrey Phillips Freeman -->
-	  * @since 0.1
-	  */
+     * Propogates the current output to all outgoing synapses.<BR>
+     * <!-- Author: Jeffrey Phillips Freeman -->
+     * @since 0.1
+     */
     public void propagate()
     {
         //calculate the current input activity
         this.activity = 0;
-		  for( Synapse currentSynapse : this.sources )
-		  {
-			  this.activity += currentSynapse.getOutput();
-		  }
-			//Add the bias to the activity
-			this.activity += this.biasWeight;
-        
+        for (Synapse currentSynapse : this.sources)
+            this.activity += currentSynapse.getOutput();
+        //Add the bias to the activity
+        this.activity += this.biasWeight;
+
         //calculate the activity function and set the result as the output
-        this.setOutput( this.activationFunction() );
+        this.setOutput(this.activationFunction());
     }
-	 
+
+
+
     /**
      * sets the current output on all outgoing synapses.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
@@ -350,25 +347,27 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
      */
     protected void setOutput(double newOutput)
     {
-		 this.output = newOutput;
-		 
-		 for( Synapse current : this.destinations )
-		 {
-			 current.setInput(newOutput);
-		 }
+        this.output = newOutput;
+
+        for (Synapse current : this.destinations)
+            current.setInput(newOutput);
     }
-	 
+
+
+
     /**
-	  * Gets the current output.<BR>
-	  * <!-- Author: Jeffrey Phillips Freeman -->
-	  * @since 0.1
-	  * @return The current output.
-	  */
+     * Gets the current output.<BR>
+     * <!-- Author: Jeffrey Phillips Freeman -->
+     * @since 0.1
+     * @return The current output.
+     */
     public double getOutput()
     {
-		 return this.output;
+        return this.output;
     }
-	 
+
+
+
     /**
      * obtains the output as a function of the current activity. This is a bound
      * function (usually between -1 and 1) based on the current activity of the
@@ -381,8 +380,10 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
      */
     protected double activationFunction()
     {
-		 return Math.tanh(this.activity);
+        return Math.tanh(this.activity);
     }
+
+
 
     /**
      * This must be the derivity of the ActivityFunction. As such it's output is
@@ -397,7 +398,5 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
     protected double activationFunctionDerivitive()
     {
         return 1.0 - Math.pow(this.activationFunction(), 2.0);
-    }
-	 
-    // </editor-fold>
+    }    // </editor-fold>
 }
