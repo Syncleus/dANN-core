@@ -387,6 +387,7 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
     protected double activationFunction()
     {
         return Math.tanh(this.activity);
+        //return Math.sin(this.activity);
     }
 
 
@@ -404,6 +405,7 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
     protected double activationFunctionDerivitive()
     {
         return 1.0 - Math.pow(this.activationFunction(), 2.0);
+        //return Math.cos(this.activity);
     }
     
     // </editor-fold>
