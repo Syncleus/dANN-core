@@ -72,11 +72,19 @@ public class InputNeuronProcessingUnit extends NeuronProcessingUnit implements j
      */
     public void propagate()
     {
+        /*
         //add the input to the activity
         super.activity -= this.lastInput;
         super.activity += this.input;
         this.lastInput = this.input;
 
         super.propagate();
+         */
+        super.setOutput(this.input);
+    }
+    
+    public void backPropagate()
+    {
+//        this.calculateDeltaTrain();
     }
 }

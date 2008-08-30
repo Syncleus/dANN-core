@@ -32,7 +32,7 @@ public class OutputNeuronProcessingUnit extends NeuronProcessingUnit implements 
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
-    protected double desired = 0;
+    protected double desired = 0.0;
 
 
 
@@ -71,6 +71,8 @@ public class OutputNeuronProcessingUnit extends NeuronProcessingUnit implements 
      */
     public void calculateDeltaTrain()
     {
+        if(super.differentialActivity != 0)
+            System.out.println("uh oh: differntialActivity isnt 0!");
         super.deltaTrain = (super.differentialActivity + (this.desired - super.getOutput())) * super.activationFunctionDerivitive();
     }
 }
