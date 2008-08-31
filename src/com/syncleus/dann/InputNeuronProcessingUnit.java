@@ -17,6 +17,8 @@
  *                                                                             *
  ******************************************************************************/
 package com.syncleus.dann;
+import java.security.InvalidParameterException;
+
 
 /**
  * This is a special type of neuron that receives input.<BR>
@@ -58,6 +60,9 @@ public class InputNeuronProcessingUnit extends NeuronProcessingUnit implements j
      */
     public void setInput(double inputToSet)
     {
+        if( Math.abs(inputToSet) > 1.0 )
+            throw new InvalidParameterException("InputToSet must be between -1 and +1");
+        
         this.input = inputToSet;
     }
 
@@ -71,17 +76,5 @@ public class InputNeuronProcessingUnit extends NeuronProcessingUnit implements j
     public void propagate()
     {
         this.setOutput(this.input);
-        //calculate the current input activity
-//        this.activity = 0;
-//        for (Synapse currentSynapse : super.sources)
-//            this.activity += currentSynapse.getOutput();
-        //Add the bias to the activity
-//        super.activity += super.biasWeight;
-
-        //add the input to the activity
-//        super.activity += this.input;
-
-        //calculate the activity function and set the result as the output
-//        super.setOutput(super.activationFunction());
     }
 }

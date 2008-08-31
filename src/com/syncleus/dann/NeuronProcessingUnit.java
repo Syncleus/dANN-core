@@ -19,8 +19,8 @@
 package com.syncleus.dann;
 
 import java.util.ArrayList;
-import java.lang.Exception;
 import java.lang.Math;
+import java.security.InvalidParameterException;
 
 
 /**
@@ -98,7 +98,7 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
     public NeuronProcessingUnit(DNA ownedDNAToSet)
     {
         this.ownedDNA = ownedDNAToSet;
-        this.biasWeight = ((super.random.nextDouble() * 2.0) - 1.0)/1000.0;
+        this.biasWeight = ((super.random.nextDouble() * 2.0) - 1.0) / 1000.0;
     }
 
     // </editor-fold>
@@ -114,12 +114,11 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
     public void connectTo(ProcessingUnit outUnit)
     {
         //make sure you arent already connected to the neuron
-        int test;
         if (outUnit == null)
-            return; // todo throw an exception
+            throw new NullPointerException("outUnit can not be null!");
 
         //connect to the neuron
-        Synapse newSynapse = new Synapse(this, outUnit, ((super.random.nextDouble() * 2.0) - 1.0)/1000.0);
+        Synapse newSynapse = new Synapse(this, outUnit, ((super.random.nextDouble() * 2.0) - 1.0) / 1000.0);
         this.destinations.add(newSynapse);
         outUnit.connectFrom(newSynapse);
     }
@@ -161,7 +160,7 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
             catch (SynapseNotConnectedException caughtException)
             {
                 caughtException.printStackTrace();
-                throw new InternalError("this shouldnt happen: " + caughtException);
+                throw new InternalError("Unexpected Runtime Exception: " + caughtException);
             }
     }
 
@@ -184,7 +183,7 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
             catch (SynapseNotConnectedException caughtException)
             {
                 caughtException.printStackTrace();
-                throw new InternalError("this shouldnt happen: " + caughtException);
+                throw new InternalError("Unexpected Runtime Exception: " + caughtException);
             }
     }
 
@@ -200,7 +199,7 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
     public void disconnectDestination(Synapse outSynapse) throws SynapseNotConnectedException
     {
         if (this instanceof OutputNeuronProcessingUnit)
-            return; // TODO throw an error
+            throw new InvalidParameterException("Can not disconnect a destination for a OutputNeuronProcessingUnit");
 
         if (this.destinations.remove(outSynapse) == false)
             throw new SynapseNotConnectedException("can not disconnect destination, does not exist.");
@@ -228,7 +227,7 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
     public void disconnectSource(Synapse inSynapse) throws SynapseNotConnectedException
     {
         if (this instanceof InputNeuronProcessingUnit)
-            return; // TODO throw an error
+            throw new InvalidParameterException("Can not disconnect a source for a InputNeuronProcessingUnit");
 
         if (this.sources.remove(inSynapse) == false)
             throw new SynapseNotConnectedException("can not disconnect source, does not exist.");
@@ -256,7 +255,7 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
     protected void removeDestination(Synapse outSynapse) throws SynapseDoesNotExistException
     {
         if (this instanceof OutputNeuronProcessingUnit)
-            return; // TODO throw an exception'
+            throw new InvalidParameterException("Can not remove a destination for a OutputNeuronProcessingUnit");
 
         if (this.destinations.remove(outSynapse) == false)
             throw new SynapseDoesNotExistException("Can not remove destination, does not exist.");
@@ -274,10 +273,16 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
     protected void removeSource(Synapse inSynapse) throws SynapseDoesNotExistException
     {
         if (this instanceof InputNeuronProcessingUnit)
-            return; // TODO throw an exception
+            throw new InvalidParameterException("Can not disconnect a source for a InputNeuronProcessingUnit");
 
         if (this.sources.remove(inSynapse) == false)
             throw new SynapseDoesNotExistException("Can not remove destination, does not exist.");
+    }
+    
+    public Synapse[] getDestinations()
+    {
+        Synapse[] destinationsArray = new Synapse[this.destinations.size()];
+        return this.destinations.toArray(destinationsArray);
     }
 
     // </editor-fold>
@@ -398,13 +403,6 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
     protected double activationFunctionDerivitive()
     {
         return 1.0 - Math.pow(this.activationFunction(), 2.0);
-    }    // </editor-fold>
-
-
-
-    public Synapse[] getDestinations()
-    {
-        Synapse[] destinationsArray = new Synapse[this.destinations.size()];
-        return this.destinations.toArray(destinationsArray);
     }
+    // </editor-fold>
 }
