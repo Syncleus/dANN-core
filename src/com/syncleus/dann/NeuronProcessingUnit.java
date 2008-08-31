@@ -18,8 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann;
 
+import com.syncleus.dann.Synapse;
 import java.util.ArrayList;
-import java.lang.Exception;
 import java.lang.Math;
 
 
@@ -406,6 +406,14 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
     {
         return 1.0 - Math.pow(this.activationFunction(), 2.0);
         //return Math.cos(this.activity);
+    }
+
+
+
+    public Synapse[] getDestinations()
+    {
+        Synapse[] destionationsArray = new Synapse[this.destinations.size()];
+        return this.destinations.toArray(destionationsArray);
     }
     
     // </editor-fold>

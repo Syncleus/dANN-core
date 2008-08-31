@@ -46,7 +46,7 @@ public class Synapse implements java.io.Serializable
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
-    private double weight = 0.0;
+    protected double weight = 0.0;
     /**
      * The current output of the synapse<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
@@ -124,6 +124,8 @@ public class Synapse implements java.io.Serializable
     {
         this.weight += learningRate * this.input * deltaTrainToSet;
         
+//        System.out.println("learningRate, input, deltaTrain, deltaweight: " + learningRate + ", " + this.input + ", " + deltaTrainToSet + ", " + (learningRate * this.input * deltaTrainToSet));
+        
         this.source.differentialActivity -= this.differential;
         this.differential = deltaTrainToSet * this.weight;
         this.source.differentialActivity += this.differential;
@@ -140,12 +142,28 @@ public class Synapse implements java.io.Serializable
      */
     public void setInput(double newInput)
     {
+        if( Math.abs(this.weight) == 0.00001 )
+        {
+            int sign = (int) (-1.0 * Math.signum(this.weight));
+            if(sign == 0)
+                sign = -1;
+            
+//            this.weight = sign * 0.0001;
+            System.out.println("weight is too low: " + this.weight);
+        }
         this.input = newInput;
         double newOutput = this.input * this.weight;
         double deltaOutput = newOutput - this.output;
         this.output = newOutput;
         
         this.destination.activity += deltaOutput;
+    }
+
+
+
+    public double getWeight()
+    {
+        return weight;
     }
 
 

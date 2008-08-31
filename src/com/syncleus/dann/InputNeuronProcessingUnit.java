@@ -80,6 +80,8 @@ public class InputNeuronProcessingUnit extends NeuronProcessingUnit implements j
 
         super.propagate();
          */
+        if( Math.abs(this.input) > 1.0)
+            System.out.println("oh no, input too high! " + this.input);
         super.setOutput(this.input);
     }
     

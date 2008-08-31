@@ -73,6 +73,16 @@ public class OutputNeuronProcessingUnit extends NeuronProcessingUnit implements 
     {
         if(super.differentialActivity != 0)
             System.out.println("uh oh: differntialActivity isnt 0!");
+        
+        if( Math.abs(this.desired) > 1.0)
+            System.out.println("oh no, desired too high! " + this.desired);
+        
         super.deltaTrain = (super.differentialActivity + (this.desired - super.getOutput())) * super.activationFunctionDerivitive();
+        
+        if( Math.abs(super.deltaTrain) >= 100.0)
+        {
+            System.out.println("desired: " + this.desired + " actual: " + super.getOutput() + " deltaTrain: " + super.deltaTrain + " activationFunctionDerivitive: " + super.activationFunctionDerivitive());
+            System.out.println();
+        }
     }
 }
