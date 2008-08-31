@@ -33,8 +33,6 @@ public class InputNeuronProcessingUnit extends NeuronProcessingUnit implements j
      * @since 0.1
      */
     protected double input = 0;
-    
-    private double lastInput = 0;
 
 
 
@@ -72,21 +70,18 @@ public class InputNeuronProcessingUnit extends NeuronProcessingUnit implements j
      */
     public void propagate()
     {
-        /*
-        //add the input to the activity
-        super.activity -= this.lastInput;
-        super.activity += this.input;
-        this.lastInput = this.input;
+        this.setOutput(this.input);
+        //calculate the current input activity
+//        this.activity = 0;
+//        for (Synapse currentSynapse : super.sources)
+//            this.activity += currentSynapse.getOutput();
+        //Add the bias to the activity
+//        super.activity += super.biasWeight;
 
-        super.propagate();
-         */
-        if( Math.abs(this.input) > 1.0)
-            System.out.println("oh no, input too high! " + this.input);
-        super.setOutput(this.input);
-    }
-    
-    public void backPropagate()
-    {
-//        this.calculateDeltaTrain();
+        //add the input to the activity
+//        super.activity += this.input;
+
+        //calculate the activity function and set the result as the output
+//        super.setOutput(super.activationFunction());
     }
 }

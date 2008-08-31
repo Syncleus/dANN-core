@@ -18,8 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann;
 
-import com.syncleus.dann.Synapse;
 import java.util.ArrayList;
+import java.lang.Exception;
 import java.lang.Math;
 
 
@@ -42,7 +42,7 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
-    double activity = 0;
+    protected double activity = 0;
     /**
      * Represents the current output of the neuron<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
@@ -57,11 +57,6 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
      * @since 0.1
      */
     protected double biasWeight = 0;
-    
-    /**
-     * The last activity of the bias input + weight
-     */
-    protected double biasActivity = 0;
     /**
      * An array list of all the synapses that this neuron is currently
      * connection out to.<BR>
@@ -89,8 +84,6 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
      * @see com.syncleus.dann.NeuronProcessingUnit#activity
      */
     public double deltaTrain = 0;
-    
-    double differentialActivity = 0.0;
 
     // </editor-fold>
 
@@ -105,7 +98,7 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
     public NeuronProcessingUnit(DNA ownedDNAToSet)
     {
         this.ownedDNA = ownedDNAToSet;
-        this.biasWeight = (super.random.nextDouble() * 2.0) - 1.0;
+        this.biasWeight = ((super.random.nextDouble() * 2.0) - 1.0)/1000.0;
     }
 
     // </editor-fold>
@@ -121,16 +114,14 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
     public void connectTo(ProcessingUnit outUnit)
     {
         //make sure you arent already connected to the neuron
+        int test;
         if (outUnit == null)
-            throw new NullPointerException("outUnit can not be null");
+            return; // todo throw an exception
 
-        if(outUnit instanceof NeuronProcessingUnit)
-        {
-            //connect to the neuron
-            Synapse newSynapse = new Synapse(this, (NeuronProcessingUnit)outUnit, (super.random.nextDouble() * 2.0) - 1.0);
-            this.destinations.add(newSynapse);
-            outUnit.connectFrom(newSynapse);
-        }
+        //connect to the neuron
+        Synapse newSynapse = new Synapse(this, outUnit, ((super.random.nextDouble() * 2.0) - 1.0)/1000.0);
+        this.destinations.add(newSynapse);
+        outUnit.connectFrom(newSynapse);
     }
 
 
@@ -319,7 +310,10 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
      */
     public void calculateDeltaTrain()
     {
-        this.deltaTrain = this.differentialActivity * this.activationFunctionDerivitive();
+        this.deltaTrain = 0;
+        for (Synapse currentSynapse : this.destinations)
+            this.deltaTrain += currentSynapse.getDifferential();
+        this.deltaTrain *= this.activationFunctionDerivitive();
     }
 
 
@@ -331,10 +325,12 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
      */
     public void propagate()
     {
+        //calculate the current input activity
+        this.activity = 0;
+        for (Synapse currentSynapse : this.sources)
+            this.activity += currentSynapse.getOutput();
         //Add the bias to the activity
-        this.activity -= this.biasActivity;
         this.activity += this.biasWeight;
-        this.biasActivity = this.biasWeight;
 
         //calculate the activity function and set the result as the output
         this.setOutput(this.activationFunction());
@@ -354,9 +350,7 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
         this.output = newOutput;
 
         for (Synapse current : this.destinations)
-        {
             current.setInput(newOutput);
-        }
     }
 
 
@@ -387,7 +381,6 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
     protected double activationFunction()
     {
         return Math.tanh(this.activity);
-        //return Math.sin(this.activity);
     }
 
 
@@ -405,16 +398,13 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
     protected double activationFunctionDerivitive()
     {
         return 1.0 - Math.pow(this.activationFunction(), 2.0);
-        //return Math.cos(this.activity);
-    }
+    }    // </editor-fold>
 
 
 
     public Synapse[] getDestinations()
     {
-        Synapse[] destionationsArray = new Synapse[this.destinations.size()];
-        return this.destinations.toArray(destionationsArray);
+        Synapse[] destinationsArray = new Synapse[this.destinations.size()];
+        return this.destinations.toArray(destinationsArray);
     }
-    
-    // </editor-fold>
 }

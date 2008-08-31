@@ -34,19 +34,19 @@ public class Synapse implements java.io.Serializable
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
-    private NeuronProcessingUnit destination;
+    private ProcessingUnit destination;
     /**
      * The incomming neuron connection.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
-    private NeuronProcessingUnit source;
+    private ProcessingUnit source;
     /**
      * The current weight of the synapse<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
-    protected double weight = 0.0;
+    private double weight = 0.0;
     /**
      * The current output of the synapse<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
@@ -64,7 +64,7 @@ public class Synapse implements java.io.Serializable
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
-    private double differential = 0.0;
+    private double deltaTrain = 0.0;
 
     // </editor-fold>
 
@@ -77,7 +77,7 @@ public class Synapse implements java.io.Serializable
      * @param destinationToSet The outgoing neuron connection.
      * @param initialWeight The initial weight of the synapse
      */
-    public Synapse(NeuronProcessingUnit sourceToSet, NeuronProcessingUnit destinationToSet, double initialWeight)
+    public Synapse(ProcessingUnit sourceToSet, ProcessingUnit destinationToSet, double initialWeight)
     {
         this.destination = destinationToSet;
         this.source = sourceToSet;
@@ -93,7 +93,7 @@ public class Synapse implements java.io.Serializable
      * @since 0.1
      * @return The source neuron.
      */
-    public NeuronProcessingUnit getSource()
+    public ProcessingUnit getSource()
     {
         return this.source;
     }
@@ -106,7 +106,7 @@ public class Synapse implements java.io.Serializable
      * @since 0.1
      * @return The destination neuron.
      */
-    public NeuronProcessingUnit getDestination()
+    public ProcessingUnit getDestination()
     {
         return this.destination;
     }
@@ -122,13 +122,24 @@ public class Synapse implements java.io.Serializable
      */
     public void learnWeight(double deltaTrainToSet, double learningRate)
     {
-        this.weight += learningRate * this.input * deltaTrainToSet;
-        
-//        System.out.println("learningRate, input, deltaTrain, deltaweight: " + learningRate + ", " + this.input + ", " + deltaTrainToSet + ", " + (learningRate * this.input * deltaTrainToSet));
-        
-        this.source.differentialActivity -= this.differential;
-        this.differential = deltaTrainToSet * this.weight;
-        this.source.differentialActivity += this.differential;
+        this.deltaTrain = deltaTrainToSet;
+        this.weight += learningRate * this.input * this.deltaTrain;
+    }
+
+
+
+    /**
+     * Calculates the current output of the synapse based on the input and
+     * weight<BR>
+     * <!-- Author: Jeffrey Phillips Freeman -->
+     * @since 0.1
+     * @see com.syncleus.dann.NeuronProcessingUnit#propogate
+     * @return the current synapse output.
+     */
+    public double getOutput()
+    {
+        this.output = this.input * this.weight;
+        return this.output;
     }
 
 
@@ -142,22 +153,23 @@ public class Synapse implements java.io.Serializable
      */
     public void setInput(double newInput)
     {
-        if( Math.abs(this.weight) == 0.00001 )
-        {
-            int sign = (int) (-1.0 * Math.signum(this.weight));
-            if(sign == 0)
-                sign = -1;
-            
-//            this.weight = sign * 0.0001;
-            System.out.println("weight is too low: " + this.weight);
-        }
         this.input = newInput;
-        double newOutput = this.input * this.weight;
-        double deltaOutput = newOutput - this.output;
-        this.output = newOutput;
-        
-        this.destination.activity += deltaOutput;
     }
+
+
+
+    /**
+     * Calculates the synapse differential. This is used when back propogating
+     * training sets.<BR>
+     * <!-- Author: Jeffrey Phillips Freeman -->
+     * @since 0.1
+     * @see com.syncleus.dann.NeuronProcessingUnit#backPropogate
+     * @return the current synapse differential.
+     */
+    public double getDifferential()
+    {
+        return this.deltaTrain * this.weight;
+    }    // </editor-fold>
 
 
 
@@ -165,8 +177,4 @@ public class Synapse implements java.io.Serializable
     {
         return weight;
     }
-
-
-
-    // </editor-fold>
 }
