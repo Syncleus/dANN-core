@@ -17,33 +17,35 @@
  *                                                                             *
  ******************************************************************************/
 package com.syncleus.dann;
+import java.security.InvalidParameterException;
+
 
 /**
- * This is a special type of neuron that provides the output.<BR>
+ * This is a special type of neuron that receives input.<BR>
  * <!-- Author: Jeffrey Phillips Freeman -->
  * @author Jeffrey Phillips Freeman
  * @since 0.1
- * @see com.syncleus.dann.InputNeuronProcessingUnit
+ * @see com.syncleus.dann.OutputNeuronProcessingUnit
  */
-public class OutputNeuronProcessingUnit extends NeuronProcessingUnit implements java.io.Serializable
+public class InputNeuron extends Neuron implements java.io.Serializable
 {
     /**
-     * holds the value for the current training set.<BR>
+     * Holds the current input value for this neuron<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
-    protected double desired = 0;
+    protected double input = 0;
 
 
 
     /**
-     * Creates a new instance of OutputNeuronProcessingUnit<BR>
+     * Creates a new instance of InputNeuron<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      * @param ownedDNAToSet This dna class will determine the various properties
      * 	of the layer.
      */
-    public OutputNeuronProcessingUnit(DNA ownedDNAToSet)
+    public InputNeuron(DNA ownedDNAToSet)
     {
         super(ownedDNAToSet);
     }
@@ -51,32 +53,28 @@ public class OutputNeuronProcessingUnit extends NeuronProcessingUnit implements 
 
 
     /**
-     * This method sets the current training set on the neuron.<BR>
+     * This method sets the current input on the neuron.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @param trainingToSet sets the current training set.
+     * @param inputToSet The value to set the current input to.
      */
-    public void setDesired(double trainingToSet)
+    public void setInput(double inputToSet)
     {
-        this.desired = trainingToSet;
+        if( Math.abs(inputToSet) > 1.0 )
+            throw new InvalidParameterException("InputToSet must be between -1 and +1");
+        
+        this.input = inputToSet;
     }
 
 
 
     /**
-     * Calculates the Delta Train based on all the destination synapses<BR>
+     * Refreshes the output of the neuron based on the current input<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @see com.syncleus.dann.NeuronProcessingUnit#backPropagate
      */
-    public void calculateDeltaTrain()
+    public void propagate()
     {
-        this.deltaTrain = 0;
-        for (Synapse currentSynapse : super.destinations)
-            this.deltaTrain += currentSynapse.getDifferential();
-
-        super.deltaTrain += (this.desired - super.getOutput());
-
-        super.deltaTrain *= super.activationFunctionDerivitive();
+        this.setOutput(this.input);
     }
 }

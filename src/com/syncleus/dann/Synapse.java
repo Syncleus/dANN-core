@@ -24,7 +24,7 @@ package com.syncleus.dann;
  * <!-- Author: Jeffrey Phillips Freeman -->
  * @author Jeffrey Phillips Freeman
  * @since 0.1
- * @see com.syncleus.dann.ProcessingUnit
+ * @see com.syncleus.dann.NetworkNode
  */
 public class Synapse implements java.io.Serializable
 {
@@ -34,13 +34,13 @@ public class Synapse implements java.io.Serializable
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
-    private ProcessingUnit destination;
+    private NetworkNode destination;
     /**
      * The incomming neuron connection.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
-    private ProcessingUnit source;
+    private NetworkNode source;
     /**
      * The current weight of the synapse<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
@@ -77,7 +77,7 @@ public class Synapse implements java.io.Serializable
      * @param destinationToSet The outgoing neuron connection.
      * @param initialWeight The initial weight of the synapse
      */
-    public Synapse(ProcessingUnit sourceToSet, ProcessingUnit destinationToSet, double initialWeight)
+    public Synapse(NetworkNode sourceToSet, NetworkNode destinationToSet, double initialWeight)
     {
         this.destination = destinationToSet;
         this.source = sourceToSet;
@@ -93,7 +93,7 @@ public class Synapse implements java.io.Serializable
      * @since 0.1
      * @return The source neuron.
      */
-    public ProcessingUnit getSource()
+    public NetworkNode getSource()
     {
         return this.source;
     }
@@ -106,7 +106,7 @@ public class Synapse implements java.io.Serializable
      * @since 0.1
      * @return The destination neuron.
      */
-    public ProcessingUnit getDestination()
+    public NetworkNode getDestination()
     {
         return this.destination;
     }

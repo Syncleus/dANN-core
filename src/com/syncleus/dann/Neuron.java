@@ -33,7 +33,7 @@ import java.security.InvalidParameterException;
  * @since 0.1
  * @see com.syncleus.dann.Synapse
  */
-public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Serializable
+public class Neuron extends NetworkNode implements java.io.Serializable
 {
     // <editor-fold defaultstate="collapsed" desc="Attributes">
     /**
@@ -81,7 +81,7 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
      * inputs. It is essentially the reverse of the activity value.
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @see com.syncleus.dann.NeuronProcessingUnit#activity
+     * @see com.syncleus.dann.Neuron#activity
      */
     public double deltaTrain = 0;
 
@@ -89,13 +89,13 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
 
     // <editor-fold defaultstate="collapsed" desc="Constructors">
     /**
-     * Creates a new instance of NeuronProcessingUnit<BR>
+     * Creates a new instance of Neuron<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      * @param ownedDNAToSet This dna class will determine the various properties
      * 	of the layer.
      */
-    public NeuronProcessingUnit(DNA ownedDNAToSet)
+    public Neuron(DNA ownedDNAToSet)
     {
         this.ownedDNA = ownedDNAToSet;
         this.biasWeight = ((super.random.nextDouble() * 2.0) - 1.0) / 1000.0;
@@ -105,13 +105,13 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
 
     // <editor-fold defaultstate="collapsed" desc="Topology Manipulation">
     /**
-     * This method is called externally to connect to another ProcessingUnit.<BR>
+     * This method is called externally to connect to another NetworkNode.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @param outUnit The ProcessingUnit to connect to.
-     * @see com.syncleus.dann.NeuronProcessingUnit#connectFrom
+     * @param outUnit The NetworkNode to connect to.
+     * @see com.syncleus.dann.Neuron#connectFrom
      */
-    public void connectTo(ProcessingUnit outUnit)
+    public void connectTo(NetworkNode outUnit)
     {
         //make sure you arent already connected to the neuron
         if (outUnit == null)
@@ -131,7 +131,7 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      * @param inSynapse The synapse to connect from.
-     * @see com.syncleus.dann.NeuronProcessingUnit#connectTo
+     * @see com.syncleus.dann.Neuron#connectTo
      */
     protected void connectFrom(Synapse inSynapse)
     {
@@ -144,11 +144,11 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
 
 
     /**
-     * Causes the ProcessingUnit to disconnect all outgoing connections.<BR>
+     * Causes the NetworkNode to disconnect all outgoing connections.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @see com.syncleus.dann.NeuronProcessingUnit#disconnectAllSources
-     * @see com.syncleus.dann.NeuronProcessingUnit#disconnectAll
+     * @see com.syncleus.dann.Neuron#disconnectAllSources
+     * @see com.syncleus.dann.Neuron#disconnectAll
      */
     public void disconnectAllDestinations()
     {
@@ -167,11 +167,11 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
 
 
     /**
-     * Causes the ProcessingUnit to disconnect all incomming connections.<BR>
+     * Causes the NetworkNode to disconnect all incomming connections.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @see com.syncleus.dann.NeuronProcessingUnit#disconnectAllDestinations
-     * @see com.syncleus.dann.NeuronProcessingUnit#disconnectAll
+     * @see com.syncleus.dann.Neuron#disconnectAllDestinations
+     * @see com.syncleus.dann.Neuron#disconnectAll
      */
     public void disconnectAllSources()
     {
@@ -194,11 +194,11 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      * @param outSynapse The outgoing synapse to disconnect from.<BR>
-     * @see com.syncleus.dann.NeuronProcessingUnit#removeSource
+     * @see com.syncleus.dann.Neuron#removeSource
      */
     public void disconnectDestination(Synapse outSynapse) throws SynapseNotConnectedException
     {
-        if (this instanceof OutputNeuronProcessingUnit)
+        if (this instanceof OutputNeuron)
             throw new InvalidParameterException("Can not disconnect a destination for a OutputNeuronProcessingUnit");
 
         if (this.destinations.remove(outSynapse) == false)
@@ -222,11 +222,11 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      * @param inSynapse The incomming synapse to disconnect from.<BR>
-     * @see com.syncleus.dann.NeuronProcessingUnit#removeDestination
+     * @see com.syncleus.dann.Neuron#removeDestination
      */
     public void disconnectSource(Synapse inSynapse) throws SynapseNotConnectedException
     {
-        if (this instanceof InputNeuronProcessingUnit)
+        if (this instanceof InputNeuron)
             throw new InvalidParameterException("Can not disconnect a source for a InputNeuronProcessingUnit");
 
         if (this.sources.remove(inSynapse) == false)
@@ -250,11 +250,11 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      * @param outSynapse The incomming synapse to remove from memory.<BR>
-     * @see com.syncleus.dann.NeuronProcessingUnit#disconnectSource
+     * @see com.syncleus.dann.Neuron#disconnectSource
      */
     protected void removeDestination(Synapse outSynapse) throws SynapseDoesNotExistException
     {
-        if (this instanceof OutputNeuronProcessingUnit)
+        if (this instanceof OutputNeuron)
             throw new InvalidParameterException("Can not remove a destination for a OutputNeuronProcessingUnit");
 
         if (this.destinations.remove(outSynapse) == false)
@@ -268,11 +268,11 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      * @param inSynapse The incomming synapse to remove from memory.<BR>
-     * @see com.syncleus.dann.NeuronProcessingUnit#disconnectDestination
+     * @see com.syncleus.dann.Neuron#disconnectDestination
      */
     protected void removeSource(Synapse inSynapse) throws SynapseDoesNotExistException
     {
-        if (this instanceof InputNeuronProcessingUnit)
+        if (this instanceof InputNeuron)
             throw new InvalidParameterException("Can not disconnect a source for a InputNeuronProcessingUnit");
 
         if (this.sources.remove(inSynapse) == false)
@@ -311,7 +311,7 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
      * Calculates the Delta Train based on all the destination synapses<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @see com.syncleus.dann.NeuronProcessingUnit#backPropagate
+     * @see com.syncleus.dann.Neuron#backPropagate
      */
     public void calculateDeltaTrain()
     {
@@ -347,7 +347,7 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
      * sets the current output on all outgoing synapses.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @see com.syncleus.dann.NeuronProcessingUnit#propagate
+     * @see com.syncleus.dann.Neuron#propagate
      * @param newOutput The output value.
      */
     protected void setOutput(double newOutput)
@@ -381,7 +381,7 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
      * @since 0.1
      * @return a bound value (between -1 and 1 if this function is not
      * 	overwritten). It is a function of the neuron's current activity.
-     * @see com.syncleus.dann.NeuronProcessingUnit#propagate
+     * @see com.syncleus.dann.Neuron#propagate
      */
     protected double activationFunction()
     {
@@ -398,7 +398,7 @@ public class NeuronProcessingUnit extends ProcessingUnit implements java.io.Seri
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      * @return the derivative output of the activationFunction
-     * @see com.syncleus.dann.NeuronProcessingUnit#activationFunction
+     * @see com.syncleus.dann.Neuron#activationFunction
      */
     protected double activationFunctionDerivitive()
     {

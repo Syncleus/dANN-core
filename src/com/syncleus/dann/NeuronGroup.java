@@ -22,13 +22,13 @@ package com.syncleus.dann;
 import java.util.ArrayList;
 
 /**
- * A special ProcessingUnit which can contain other ProcessingUnits as children.
+ * A special NetworkNode which can contain other ProcessingUnits as children.
  * <BR>
  * <!-- Author: Jeffrey Phillips Freeman -->
  * @author Jeffrey Phillips Freeman
  * @since 0.1
  */
-public class LayerProcessingUnit extends ProcessingUnit implements java.io.Serializable
+public class NeuronGroup extends NetworkNode implements java.io.Serializable
 {
     // <editor-fold defaultstate="collapsed" desc="Attributes">
 
@@ -39,7 +39,7 @@ public class LayerProcessingUnit extends ProcessingUnit implements java.io.Seria
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @since 0.1
 	 */
-    public ArrayList<ProcessingUnit> children = new ArrayList<ProcessingUnit>();
+    public ArrayList<NetworkNode> children = new ArrayList<NetworkNode>();
 	 
 	/**
 	 * This will determine most of the properties of the layer.<BR>
@@ -53,13 +53,13 @@ public class LayerProcessingUnit extends ProcessingUnit implements java.io.Seria
 	 // <editor-fold defaultstate="collapsed" desc="Constructors">
     
     /**
-     * Creates a new instance of LayerProcessingUnit<BR>
+     * Creates a new instance of NeuronGroup<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      * @param ownedDNAToSet This dna class will determine the various properties
      * 	of the layer.
      */
-    public LayerProcessingUnit(DNA ownedDNAToSet) 
+    public NeuronGroup(DNA ownedDNAToSet) 
     {
         this.ownedDNA = ownedDNAToSet;
     }
@@ -72,9 +72,9 @@ public class LayerProcessingUnit extends ProcessingUnit implements java.io.Seria
 	  * Adds another processing unit to this layer.<BR>
 	  * <!-- Author: Jeffrey Phillips Freeman -->
 	  * @since 0.1
-	  * @param toAdd the ProcessingUnit to add.
+	  * @param toAdd the NetworkNode to add.
 	  */
-    public void add(ProcessingUnit toAdd)
+    public void add(NetworkNode toAdd)
     {
 		 this.children.add(toAdd);
     }
@@ -86,22 +86,22 @@ public class LayerProcessingUnit extends ProcessingUnit implements java.io.Seria
      * @since 0.1
      * @param toConnectTo This is the layer the neurons will be connecting
      * 	to.
-     * @see com.syncleus.dann.LayerProcessingUnit#connectTo
+     * @see com.syncleus.dann.NeuronGroup#connectTo
      */
-    public void connectAllTo(ProcessingUnit toConnectTo)
+    public void connectAllTo(NetworkNode toConnectTo)
     {
-		 for( ProcessingUnit currentChild : this.children )
+		 for( NetworkNode currentChild : this.children )
 		 {
-			 if( currentChild instanceof LayerProcessingUnit )
+			 if( currentChild instanceof NeuronGroup )
 			 {
-				 ((LayerProcessingUnit)currentChild).connectAllTo(toConnectTo);
+				 ((NeuronGroup)currentChild).connectAllTo(toConnectTo);
 			 }
 			 else
 			 {
-				 if( toConnectTo instanceof LayerProcessingUnit )
+				 if( toConnectTo instanceof NeuronGroup )
 				 {
-					 ArrayList<ProcessingUnit> toConnectToChildren = ((LayerProcessingUnit)toConnectTo).getChildrenRecursivly();
-					 for( ProcessingUnit currentOut : toConnectToChildren )
+					 ArrayList<NetworkNode> toConnectToChildren = ((NeuronGroup)toConnectTo).getChildrenRecursivly();
+					 for( NetworkNode currentOut : toConnectToChildren )
 					 {
 						 currentChild.connectTo(currentOut);
 					 }
@@ -120,14 +120,14 @@ public class LayerProcessingUnit extends ProcessingUnit implements java.io.Seria
 	  * <!-- Author: Jeffrey Phillips Freeman -->
 	  * @since 0.1
 	  */
-	 public ArrayList<ProcessingUnit> getChildrenRecursivly()
+	 public ArrayList<NetworkNode> getChildrenRecursivly()
 	 {
-		 ArrayList<ProcessingUnit> returnList = new ArrayList<ProcessingUnit>();
+		 ArrayList<NetworkNode> returnList = new ArrayList<NetworkNode>();
 		 
-		 for( ProcessingUnit currentChild : this.children )
+		 for( NetworkNode currentChild : this.children )
 		 {
-			 if( currentChild instanceof LayerProcessingUnit )
-				 returnList.addAll(((LayerProcessingUnit)currentChild).getChildrenRecursivly());
+			 if( currentChild instanceof NeuronGroup )
+				 returnList.addAll(((NeuronGroup)currentChild).getChildrenRecursivly());
 			 else
 				 returnList.add(currentChild);
 		 }
@@ -141,20 +141,20 @@ public class LayerProcessingUnit extends ProcessingUnit implements java.io.Seria
 	  * @since 0.1
 	  * @return A randomly selected child.
 	  */
-	 private ProcessingUnit getRandomChild()
+	 private NetworkNode getRandomChild()
 	 {
 		 return this.children.get(this.random.nextInt(this.children.size()));
 	 }
 	 
     /**
-	  * This causes a random child ProcessingUnit to create a connection with
+	  * This causes a random child NetworkNode to create a connection with
 	  * the specified ProcessingUnti.
 	  * <!-- Author: Jeffrey Phillips Freeman -->
 	  * @since 0.1
-	  * @param outUnit The ProcessingUnit to connect to.
-	  * @see com.syncleus.dann.ProcessingUnit#connectFrom
+	  * @param outUnit The NetworkNode to connect to.
+	  * @see com.syncleus.dann.NetworkNode#connectFrom
 	  */
-    public void connectTo(ProcessingUnit outUnit)
+    public void connectTo(NetworkNode outUnit)
 	 {
 		 this.getRandomChild().connectTo(outUnit);
 	 }
@@ -165,7 +165,7 @@ public class LayerProcessingUnit extends ProcessingUnit implements java.io.Seria
 	  * <!-- Author: Jeffrey Phillips Freeman -->
 	  * @since 0.1
 	  * @param inSynapse The synapse to connect from.
-	  * @see com.syncleus.dann.ProcessingUnit#connectTo
+	  * @see com.syncleus.dann.NetworkNode#connectTo
 	  */
     protected void connectFrom(Synapse inSynapse)
 	 {
@@ -173,30 +173,30 @@ public class LayerProcessingUnit extends ProcessingUnit implements java.io.Seria
 	 }
     
     /**
-	  * Causes the ProcessingUnit to disconnect all outgoing connections.<BR>
+	  * Causes the NetworkNode to disconnect all outgoing connections.<BR>
 	  * <!-- Author: Jeffrey Phillips Freeman -->
 	  * @since 0.1
-	  * @see com.syncleus.dann.ProcessingUnit#disconnectAllSources
-	  * @see com.syncleus.dann.ProcessingUnit#disconnectAll
+	  * @see com.syncleus.dann.NetworkNode#disconnectAllSources
+	  * @see com.syncleus.dann.NetworkNode#disconnectAll
 	  */
     public void disconnectAllDestinations()
 	 {
-		 for( ProcessingUnit currentChild : this.children )
+		 for( NetworkNode currentChild : this.children )
 		 {
 			 currentChild.disconnectAllDestinations();
 		 }
 	 }
     
     /**
-	  * Causes the ProcessingUnit to disconnect all incomming connections.<BR>
+	  * Causes the NetworkNode to disconnect all incomming connections.<BR>
 	  * <!-- Author: Jeffrey Phillips Freeman -->
 	  * @since 0.1
-	  * @see com.syncleus.dann.ProcessingUnit#disconnectAllDestinations
-	  * @see com.syncleus.dann.ProcessingUnit#disconnectAll
+	  * @see com.syncleus.dann.NetworkNode#disconnectAllDestinations
+	  * @see com.syncleus.dann.NetworkNode#disconnectAll
 	  */
     public void disconnectAllSources()
 	 {
-		 for( ProcessingUnit currentChild : this.children )
+		 for( NetworkNode currentChild : this.children )
 		 {
 			 currentChild.disconnectAllSources();
 		 }
@@ -207,14 +207,14 @@ public class LayerProcessingUnit extends ProcessingUnit implements java.io.Seria
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      * @param outSynapse The outgoing synapse to disconnect from.<BR>
-     * @see com.syncleus.dann.ProcessingUnit#removeSource
+     * @see com.syncleus.dann.NetworkNode#removeSource
      * @throws SynapseNotConnectedException Thrown if the specified synapse is not
      * 	currently connected.
      */
     public void disconnectDestination(Synapse outSynapse) throws SynapseNotConnectedException
 	 {
 		 boolean found = true;
-		 for( ProcessingUnit currentChild : this.children )
+		 for( NetworkNode currentChild : this.children )
 		 {
 			 found = true;
 			 try
@@ -236,14 +236,14 @@ public class LayerProcessingUnit extends ProcessingUnit implements java.io.Seria
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      * @param inSynapse The incomming synapse to disconnect from.<BR>
-     * @see com.syncleus.dann.ProcessingUnit#removeDestination
+     * @see com.syncleus.dann.NetworkNode#removeDestination
      * @throws SynapseNotConnectedException Thrown if the specified synapse is not
      * 	currently connected.
      */
     public void disconnectSource(Synapse inSynapse) throws SynapseNotConnectedException
 	 {
 		 boolean found = true;
-		 for( ProcessingUnit currentChild : this.children )
+		 for( NetworkNode currentChild : this.children )
 		 {
 			 found = true;
 			 try
@@ -267,14 +267,14 @@ public class LayerProcessingUnit extends ProcessingUnit implements java.io.Seria
 	  * <!-- Author: Jeffrey Phillips Freeman -->
 	  * @since 0.1
 	  * @param outSynapse The incomming synapse to remove from memory.<BR>
-	  * @see com.syncleus.dann.ProcessingUnit#disconnectSource
+	  * @see com.syncleus.dann.NetworkNode#disconnectSource
 	  * @throws SynapseDoesNotExistException Thrown if the specified synapse
 	  *	does not exist as a source synapse.
 	  */
     protected void removeDestination(Synapse outSynapse) throws SynapseDoesNotExistException
 	 {
 		 boolean found = true;
-		 for( ProcessingUnit currentChild : this.children )
+		 for( NetworkNode currentChild : this.children )
 		 {
 			 found = true;
 			 try
@@ -296,14 +296,14 @@ public class LayerProcessingUnit extends ProcessingUnit implements java.io.Seria
 	  * <!-- Author: Jeffrey Phillips Freeman -->
 	  * @since 0.1
 	  * @param inSynapse The incomming synapse to remove from memory.<BR>
-	  * @see com.syncleus.dann.ProcessingUnit#disconnectDestination
+	  * @see com.syncleus.dann.NetworkNode#disconnectDestination
 	  * @throws SynapseDoesNotExistException Thrown if the specified synapse
 	  *	does not exist as a source synapse.
 	  */
     protected void removeSource(Synapse inSynapse) throws SynapseDoesNotExistException
 	 {
 		 boolean found = true;
-		 for( ProcessingUnit currentChild : this.children )
+		 for( NetworkNode currentChild : this.children )
 		 {
 			 found = true;
 			 try
@@ -329,11 +329,11 @@ public class LayerProcessingUnit extends ProcessingUnit implements java.io.Seria
 	  * the outgoign one.<BR>
 	  * <!-- Author: Jeffrey Phillips Freeman -->
 	  * @since 0.1
-	  * @see com.syncleus.dann.ProcessingUnit#propagate
+	  * @see com.syncleus.dann.NetworkNode#propagate
 	  */
     public void propagate()
     {
-		 for( ProcessingUnit currentChild : this.children )
+		 for( NetworkNode currentChild : this.children )
 		 {
 			 currentChild.propagate();
 		 }
@@ -344,11 +344,11 @@ public class LayerProcessingUnit extends ProcessingUnit implements java.io.Seria
 	  * synapse to the incomming one.<BR>
 	  * <!-- Author: Jeffrey Phillips Freeman -->
 	  * @since 0.1
-	  * @see com.syncleus.dann.ProcessingUnit#backPropagate
+	  * @see com.syncleus.dann.NetworkNode#backPropagate
 	  */
     public void backPropagate()
     {
-		 for( ProcessingUnit currentChild : this.children )
+		 for( NetworkNode currentChild : this.children )
 		 {
 			 currentChild.backPropagate();
 		 }
