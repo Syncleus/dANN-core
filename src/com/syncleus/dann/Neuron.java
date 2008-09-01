@@ -21,8 +21,8 @@ package com.syncleus.dann;
 import com.syncleus.dann.activation.ActivationFunction;
 import com.syncleus.dann.activation.HyperbolicTangentActivationFunction;
 import java.util.ArrayList;
-import java.lang.Math;
 import java.security.InvalidParameterException;
+import java.util.HashSet;
 
 
 /**
@@ -65,13 +65,13 @@ public class Neuron extends NetworkNode implements java.io.Serializable
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
-    protected ArrayList<Synapse> destinations = new ArrayList<Synapse>();
+    protected HashSet<Synapse> destinations = new HashSet<Synapse>();
     /**
      * All the synapses currently connecting into this neuron<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
-    protected ArrayList<Synapse> sources = new ArrayList<Synapse>();
+    protected HashSet<Synapse> sources = new HashSet<Synapse>();
     /**
      * The DNA determines this neurons basic properties.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
@@ -302,9 +302,9 @@ public class Neuron extends NetworkNode implements java.io.Serializable
 
 
 
-    public ArrayList<Synapse> getDestinations()
+    public HashSet<Synapse> getDestinations()
     {
-        return new ArrayList<Synapse>(this.destinations);
+        return new HashSet<Synapse>(this.destinations);
     }
 
     // </editor-fold>

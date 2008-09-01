@@ -19,6 +19,7 @@
 package com.syncleus.dann;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 
 /**
@@ -38,7 +39,7 @@ public class NeuronGroup extends NetworkNode implements java.io.Serializable
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
-    protected ArrayList<NetworkNode> children = new ArrayList<NetworkNode>();
+    protected HashSet<NetworkNode> children = new HashSet<NetworkNode>();
     /**
      * This will determine most of the properties of the layer.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
@@ -143,7 +144,7 @@ public class NeuronGroup extends NetworkNode implements java.io.Serializable
      */
     private NetworkNode getRandomChild()
     {
-        return this.children.get(this.random.nextInt(this.children.size()));
+        return (new ArrayList<NetworkNode>(this.children)).get(this.random.nextInt(this.children.size()));
     }
 
 
