@@ -1,7 +1,27 @@
+/******************************************************************************
+ *                                                                             *
+ *  Copyright: (c) Jeffrey Phillips Freeman                                    *
+ *                                                                             *
+ *  You may redistribute and modify this source code under the terms and       *
+ *  conditions of the Open Source Community License - Type C version 1.0       *
+ *  or any later version as published by syncleus at http://www.syncleus.com.  *
+ *  There should be a copy of the license included with this file. If a copy   *
+ *  of the license is not included you are granted no right to distribute or   *
+ *  otherwise use this file except through a legal and valid license. You      *
+ *  should also contact syncleus at the information below if you cannot find   *
+ *  a license:                                                                 *
+ *                                                                             *
+ *  Syncleus                                                                   *
+ *  1116 McClellan St.                                                         *
+ *  Philadelphia, PA 19148                                                     *
+ *                                                                             *
+ ******************************************************************************/
 package com.syncleus.dann;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.Set;
 
 
 public abstract class Brain implements Serializable
@@ -44,28 +64,28 @@ public abstract class Brain implements Serializable
 
 
 
-    public HashSet<InputNeuron> getInputNeurons()
+    public Set<InputNeuron> getInputNeurons()
     {
-        return new HashSet<InputNeuron>(this.inputNeurons);
+        return Collections.unmodifiableSet(this.inputNeurons);
     }
 
 
 
-    public HashSet<OutputNeuron> getOutputNeurons()
+    public Set<OutputNeuron> getOutputNeurons()
     {
-        return new HashSet<OutputNeuron>(this.outputNeurons);
+        return Collections.unmodifiableSet(this.outputNeurons);
     }
 
 
 
-    public HashSet<NetworkNode> getChildrenNodes()
+    public Set<NetworkNode> getChildrenNodes()
     {
-        return new HashSet<NetworkNode>(this.children);
+        return Collections.unmodifiableSet(this.children);
     }
 
 
 
-    public HashSet<Neuron> getChildrenNeuronsRecursivly()
+    public Set<Neuron> getChildrenNeuronsRecursivly()
     {
         HashSet<Neuron> allChildren = new HashSet<Neuron>();
         for (NetworkNode child : this.children)
@@ -80,6 +100,6 @@ public abstract class Brain implements Serializable
                 allChildren.addAll(childGroup.getChildrenNeuronsRecursivly());
             }
 
-        return allChildren;
+        return Collections.unmodifiableSet(allChildren);
     }
 }

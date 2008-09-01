@@ -19,7 +19,9 @@
 package com.syncleus.dann;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.Set;
 
 
 /**
@@ -95,7 +97,7 @@ public class NeuronGroup extends NetworkNode implements java.io.Serializable
             else
                 if (toConnectTo instanceof NeuronGroup)
                 {
-                    ArrayList<Neuron> toConnectToChildren = ((NeuronGroup) toConnectTo).getChildrenNeuronsRecursivly();
+                    Set<Neuron> toConnectToChildren = ((NeuronGroup) toConnectTo).getChildrenNeuronsRecursivly();
                     for (Neuron currentOut : toConnectToChildren)
                         currentChild.connectTo(currentOut);
                 }
@@ -109,9 +111,9 @@ public class NeuronGroup extends NetworkNode implements java.io.Serializable
      * Obtains all the NetworkNodes directly owned by this NetworkGroup.
      * @since 0.1
      */
-    public ArrayList<NetworkNode> getChildren()
+    public Set<NetworkNode> getChildren()
     {
-        return new ArrayList<NetworkNode>(this.children);
+        return Collections.unmodifiableSet(this.children);
     }
 
 
@@ -121,9 +123,9 @@ public class NeuronGroup extends NetworkNode implements java.io.Serializable
      * NeuronGroups.<BR>
      * @since 0.1
      */
-    public ArrayList<Neuron> getChildrenNeuronsRecursivly()
+    public Set<Neuron> getChildrenNeuronsRecursivly()
     {
-        ArrayList<Neuron> returnList = new ArrayList<Neuron>();
+        HashSet<Neuron> returnList = new HashSet<Neuron>();
 
         for (NetworkNode currentChild : this.children)
             if (currentChild instanceof NeuronGroup)
@@ -131,7 +133,7 @@ public class NeuronGroup extends NetworkNode implements java.io.Serializable
             else if (currentChild instanceof Neuron)
                 returnList.add((Neuron)currentChild);
 
-        return returnList;
+        return Collections.unmodifiableSet(returnList);
     }
 
 

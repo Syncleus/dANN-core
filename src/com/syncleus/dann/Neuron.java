@@ -20,9 +20,10 @@ package com.syncleus.dann;
 
 import com.syncleus.dann.activation.ActivationFunction;
 import com.syncleus.dann.activation.HyperbolicTangentActivationFunction;
-import java.util.ArrayList;
 import java.security.InvalidParameterException;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.Set;
 
 
 /**
@@ -302,9 +303,9 @@ public class Neuron extends NetworkNode implements java.io.Serializable
 
 
 
-    public HashSet<Synapse> getDestinations()
+    public Set<Synapse> getDestinations()
     {
-        return new HashSet<Synapse>(this.destinations);
+        return Collections.unmodifiableSet(this.destinations);
     }
 
     // </editor-fold>
