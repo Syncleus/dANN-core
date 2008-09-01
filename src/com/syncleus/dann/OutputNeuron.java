@@ -91,6 +91,6 @@ public class OutputNeuron extends Neuron implements java.io.Serializable
 
         super.deltaTrain += (this.desired - super.getOutput());
 
-        super.deltaTrain *= super.activationFunctionDerivitive();
+        super.deltaTrain *= super.activateDerivitive();
     }
 }

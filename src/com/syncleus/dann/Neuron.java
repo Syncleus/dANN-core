@@ -340,7 +340,7 @@ public class Neuron extends NetworkNode implements java.io.Serializable
         this.deltaTrain = 0;
         for (Synapse currentSynapse : this.destinations)
             this.deltaTrain += currentSynapse.getDifferential();
-        this.deltaTrain *= this.activationFunctionDerivitive();
+        this.deltaTrain *= this.activateDerivitive();
     }
 
 
@@ -360,7 +360,7 @@ public class Neuron extends NetworkNode implements java.io.Serializable
         this.activity += this.biasWeight;
 
         //calculate the activity function and set the result as the output
-        this.setOutput(this.activationFunction());
+        this.setOutput(this.activate());
     }
 
 
@@ -405,9 +405,9 @@ public class Neuron extends NetworkNode implements java.io.Serializable
      * 	overwritten). It is a function of the neuron's current activity.
      * @see com.syncleus.dann.Neuron#propagate
      */
-    protected double activationFunction()
+    protected double activate()
     {
-        return Math.tanh(this.activity);
+        return this.activationFunction.activate(this.activity);
     }
 
 
@@ -422,9 +422,9 @@ public class Neuron extends NetworkNode implements java.io.Serializable
      * @return the derivative output of the activationFunction
      * @see com.syncleus.dann.Neuron#activationFunction
      */
-    protected double activationFunctionDerivitive()
+    protected double activateDerivitive()
     {
-        return 1.0 - Math.pow(this.activationFunction(), 2.0);
+        return this.activationFunction.activateDerivative(this.activity);
     }
 
 
