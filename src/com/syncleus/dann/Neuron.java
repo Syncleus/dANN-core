@@ -279,10 +279,9 @@ public class Neuron extends NetworkNode implements java.io.Serializable
             throw new SynapseDoesNotExistException("Can not remove destination, does not exist.");
     }
     
-    public Synapse[] getDestinations()
+    public ArrayList<Synapse> getDestinations()
     {
-        Synapse[] destinationsArray = new Synapse[this.destinations.size()];
-        return this.destinations.toArray(destinationsArray);
+        return new ArrayList<Synapse>(this.destinations);
     }
 
     // </editor-fold>
