@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 
 /**
- * A special NetworkNode which can contain other ProcessingUnits as children.
+ * A special NetworkNode which can contain other NetworkNodes as children.
  * <BR>
  * <!-- Author: Jeffrey Phillips Freeman -->
  * @author Jeffrey Phillips Freeman
@@ -38,7 +38,7 @@ public class NeuronGroup extends NetworkNode implements java.io.Serializable
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
-    public ArrayList<NetworkNode> children = new ArrayList<NetworkNode>();
+    protected ArrayList<NetworkNode> children = new ArrayList<NetworkNode>();
     /**
      * This will determine most of the properties of the layer.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
@@ -78,8 +78,8 @@ public class NeuronGroup extends NetworkNode implements java.io.Serializable
 
 
     /**
-     * Connects all the ProcessingUnits in this layer recursivly to all the
-     * ProcessingUnits in another layer.
+     * Connects all the NetworkNodes in this layer recursivly to all the
+     * NetworkNodes in another layer.
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      * @param toConnectTo This is the layer the neurons will be connecting
@@ -101,13 +101,23 @@ public class NeuronGroup extends NetworkNode implements java.io.Serializable
                 else
                     currentChild.connectTo(toConnectTo);
     }
+    
+    
+    
+    /**
+     * Obtains all the NetworkNodes directly owned by this NetworkGroup.
+     * @since 0.1
+     */
+    public ArrayList<NetworkNode> getChildren()
+    {
+        return new ArrayList<NetworkNode>(this.children);
+    }
 
 
 
     /**
-     * Obtains all the ProcessingUnits owned recursivly excluding
-     * LayerProcessingUnits.<BR>
-     * <!-- Author: Jeffrey Phillips Freeman -->
+     * Obtains all the NetworkNodes owned recursivly excluding
+     * NeuronGroups.<BR>
      * @since 0.1
      */
     public ArrayList<Neuron> getChildrenNeuronsRecursivly()
@@ -326,7 +336,7 @@ public class NeuronGroup extends NetworkNode implements java.io.Serializable
 
     // <editor-fold defaultstate="collapsed" desc="Propogation">
     /**
-     * Propogates the output of the ProcessingUnits from the incoming synapse to
+     * Propogates the output of the NetworkNodes from the incoming synapse to
      * the outgoign one.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
@@ -341,7 +351,7 @@ public class NeuronGroup extends NetworkNode implements java.io.Serializable
 
 
     /**
-     * Back propogates the taining set of the ProcessingUnits from the outgoing
+     * Back propogates the taining set of the NetworkNodes from the outgoing
      * synapse to the incomming one.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1

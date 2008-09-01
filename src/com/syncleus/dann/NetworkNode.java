@@ -24,7 +24,7 @@ import java.util.Random;
 /**
  * This represents a blackbox unit that takes any number of inputs and produces
  * anynumber of outputs. The inputs and outputs all connect to other
- * ProcessingUnits.
+ * NetworkNodes.
  * <!-- Author: Jeffrey Phillips Freeman -->
  * @author Jeffrey Phillips Freeman
  * @since 0.1
@@ -52,7 +52,7 @@ public abstract class NetworkNode implements java.io.Serializable
 
 
     /**
-     * This method is called internally, between ProcessingUnits, to
+     * This method is called internally, between NetworkNodes, to
      * facilitate the connection process.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1

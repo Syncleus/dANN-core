@@ -118,7 +118,7 @@ public class Synapse implements java.io.Serializable
      * learns the new weight based on the current training set<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @see com.syncleus.dann.NeuronProcessingUnit#calculateDeltaTrain
+     * @see com.syncleus.dann.Neuron#calculateDeltaTrain
      */
     public void learnWeight(double deltaTrainToSet, double learningRate)
     {
@@ -133,7 +133,7 @@ public class Synapse implements java.io.Serializable
      * weight<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @see com.syncleus.dann.NeuronProcessingUnit#propogate
+     * @see com.syncleus.dann.Neuron#propogate
      * @return the current synapse output.
      */
     public double getOutput()
@@ -148,7 +148,7 @@ public class Synapse implements java.io.Serializable
      * Set the current input for the synapse<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @see com.syncleus.dann.NeuronProcessingUnit#propogate
+     * @see com.syncleus.dann.Neuron#propogate
      * @param newInput The new input value to set.
      */
     public void setInput(double newInput)
@@ -163,7 +163,7 @@ public class Synapse implements java.io.Serializable
      * training sets.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @see com.syncleus.dann.NeuronProcessingUnit#backPropogate
+     * @see com.syncleus.dann.Neuron#backPropogate
      * @return the current synapse differential.
      */
     public double getDifferential()

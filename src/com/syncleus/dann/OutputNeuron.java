@@ -23,7 +23,7 @@ package com.syncleus.dann;
  * <!-- Author: Jeffrey Phillips Freeman -->
  * @author Jeffrey Phillips Freeman
  * @since 0.1
- * @see com.syncleus.dann.InputNeuronProcessingUnit
+ * @see com.syncleus.dann.InputNeuron
  */
 public class OutputNeuron extends Neuron implements java.io.Serializable
 {
@@ -69,7 +69,7 @@ public class OutputNeuron extends Neuron implements java.io.Serializable
      * @since 0.1
      * @see com.syncleus.dann.Neuron#backPropagate
      */
-    public void calculateDeltaTrain()
+    protected void calculateDeltaTrain()
     {
         this.deltaTrain = 0;
         for (Synapse currentSynapse : super.destinations)

@@ -25,7 +25,7 @@ import java.security.InvalidParameterException;
  * <!-- Author: Jeffrey Phillips Freeman -->
  * @author Jeffrey Phillips Freeman
  * @since 0.1
- * @see com.syncleus.dann.OutputNeuronProcessingUnit
+ * @see com.syncleus.dann.OutputNeuron
  */
 public class InputNeuron extends Neuron implements java.io.Serializable
 {

@@ -26,8 +26,8 @@ import java.security.InvalidParameterException;
 /**
  * The neuron is the most fundemental component of the network; it is also the
  * thinktank of the system. One neuron will usually connect to many other
- * ProcessingUnits through synapses and receive input from many other
- * ProcessingUnits in the same way.<BR>
+ * NetworkNodes through synapses and receive input from many other
+ * NetworkNodes in the same way.<BR>
  * <!-- Author: Jeffrey Phillips Freeman -->
  * @author Jeffrey Phillips Freeman
  * @since 0.1
@@ -75,7 +75,7 @@ public class Neuron extends NetworkNode implements java.io.Serializable
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
-    public DNA ownedDNA;
+    protected DNA ownedDNA;
     /**
      * This represents the net effect of all the training data from all the
      * inputs. It is essentially the reverse of the activity value.
@@ -83,7 +83,7 @@ public class Neuron extends NetworkNode implements java.io.Serializable
      * @since 0.1
      * @see com.syncleus.dann.Neuron#activity
      */
-    public double deltaTrain = 0;
+    protected double deltaTrain = 0;
 
     // </editor-fold>
 
@@ -126,7 +126,7 @@ public class Neuron extends NetworkNode implements java.io.Serializable
 
 
     /**
-     * This method is called internally, between ProcessingUnits, to
+     * This method is called internally, between NetworkNodes, to
      * facilitate the connection process.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
@@ -199,7 +199,7 @@ public class Neuron extends NetworkNode implements java.io.Serializable
     public void disconnectDestination(Synapse outSynapse) throws SynapseNotConnectedException
     {
         if (this instanceof OutputNeuron)
-            throw new InvalidParameterException("Can not disconnect a destination for a OutputNeuronProcessingUnit");
+            throw new InvalidParameterException("Can not disconnect a destination for a OutputNeuron");
 
         if (this.destinations.remove(outSynapse) == false)
             throw new SynapseNotConnectedException("can not disconnect destination, does not exist.");
@@ -227,7 +227,7 @@ public class Neuron extends NetworkNode implements java.io.Serializable
     public void disconnectSource(Synapse inSynapse) throws SynapseNotConnectedException
     {
         if (this instanceof InputNeuron)
-            throw new InvalidParameterException("Can not disconnect a source for a InputNeuronProcessingUnit");
+            throw new InvalidParameterException("Can not disconnect a source for a InputNeuron");
 
         if (this.sources.remove(inSynapse) == false)
             throw new SynapseNotConnectedException("can not disconnect source, does not exist.");
@@ -255,7 +255,7 @@ public class Neuron extends NetworkNode implements java.io.Serializable
     protected void removeDestination(Synapse outSynapse) throws SynapseDoesNotExistException
     {
         if (this instanceof OutputNeuron)
-            throw new InvalidParameterException("Can not remove a destination for a OutputNeuronProcessingUnit");
+            throw new InvalidParameterException("Can not remove a destination for a OutputNeuron");
 
         if (this.destinations.remove(outSynapse) == false)
             throw new SynapseDoesNotExistException("Can not remove destination, does not exist.");
@@ -273,12 +273,14 @@ public class Neuron extends NetworkNode implements java.io.Serializable
     protected void removeSource(Synapse inSynapse) throws SynapseDoesNotExistException
     {
         if (this instanceof InputNeuron)
-            throw new InvalidParameterException("Can not disconnect a source for a InputNeuronProcessingUnit");
+            throw new InvalidParameterException("Can not disconnect a source for a InputNeuron");
 
         if (this.sources.remove(inSynapse) == false)
             throw new SynapseDoesNotExistException("Can not remove destination, does not exist.");
     }
-    
+
+
+
     public ArrayList<Synapse> getDestinations()
     {
         return new ArrayList<Synapse>(this.destinations);
@@ -312,7 +314,7 @@ public class Neuron extends NetworkNode implements java.io.Serializable
      * @since 0.1
      * @see com.syncleus.dann.Neuron#backPropagate
      */
-    public void calculateDeltaTrain()
+    protected void calculateDeltaTrain()
     {
         this.deltaTrain = 0;
         for (Synapse currentSynapse : this.destinations)
@@ -402,6 +404,20 @@ public class Neuron extends NetworkNode implements java.io.Serializable
     protected double activationFunctionDerivitive()
     {
         return 1.0 - Math.pow(this.activationFunction(), 2.0);
+    }
+
+
+
+    public double getDeltaTrain()
+    {
+        return deltaTrain;
+    }
+
+
+
+    public DNA getOwnedDNA()
+    {
+        return ownedDNA;
     }
     // </editor-fold>
 }
