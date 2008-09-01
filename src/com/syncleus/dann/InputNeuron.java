@@ -17,7 +17,9 @@
  *                                                                             *
  ******************************************************************************/
 package com.syncleus.dann;
+
 import java.security.InvalidParameterException;
+import com.syncleus.dann.activation.*;
 
 
 /**
@@ -50,6 +52,17 @@ public class InputNeuron extends Neuron implements java.io.Serializable
         super(ownedDNAToSet);
     }
 
+    /**
+     * Creates a new instance of InputNeuron<BR>
+     * <!-- Author: Jeffrey Phillips Freeman -->
+     * @since 0.1
+     * @param ownedDNAToSet This dna class will determine the various properties
+     * 	of the layer.
+     */
+    public InputNeuron(DNA ownedDNAToSet, ActivationFunction activationFunction)
+    {
+        super(ownedDNAToSet, activationFunction);
+    }
 
 
     /**

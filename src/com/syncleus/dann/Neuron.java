@@ -18,6 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann;
 
+import com.syncleus.dann.activation.ActivationFunction;
+import com.syncleus.dann.activation.HyperbolicTangentActivationFunction;
 import java.util.ArrayList;
 import java.lang.Math;
 import java.security.InvalidParameterException;
@@ -84,6 +86,7 @@ public class Neuron extends NetworkNode implements java.io.Serializable
      * @see com.syncleus.dann.Neuron#activity
      */
     protected double deltaTrain = 0;
+    protected ActivationFunction activationFunction;
 
     // </editor-fold>
 
@@ -97,8 +100,26 @@ public class Neuron extends NetworkNode implements java.io.Serializable
      */
     public Neuron(DNA ownedDNAToSet)
     {
+        if (ownedDNAToSet == null)
+            throw new NullPointerException("DNA can not be null");
+
         this.ownedDNA = ownedDNAToSet;
         this.biasWeight = ((super.random.nextDouble() * 2.0) - 1.0) / 1000.0;
+        this.activationFunction = new HyperbolicTangentActivationFunction();
+    }
+
+
+
+    public Neuron(DNA ownedDNAToSet, ActivationFunction activationFunction)
+    {
+        if (activationFunction == null)
+            throw new NullPointerException("activationFunction can not be null");
+        if (ownedDNAToSet == null)
+            throw new NullPointerException("DNA can not be null");
+
+        this.ownedDNA = ownedDNAToSet;
+        this.biasWeight = ((super.random.nextDouble() * 2.0) - 1.0) / 1000.0;
+        this.activationFunction = activationFunction;
     }
 
     // </editor-fold>

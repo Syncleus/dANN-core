@@ -18,6 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann;
 
+import com.syncleus.dann.activation.*;
+
 /**
  * This is a special type of neuron that provides the output.<BR>
  * <!-- Author: Jeffrey Phillips Freeman -->
@@ -46,6 +48,18 @@ public class OutputNeuron extends Neuron implements java.io.Serializable
     public OutputNeuron(DNA ownedDNAToSet)
     {
         super(ownedDNAToSet);
+    }
+    
+    /**
+     * Creates a new instance of OutputNeuron<BR>
+     * <!-- Author: Jeffrey Phillips Freeman -->
+     * @since 0.1
+     * @param ownedDNAToSet This dna class will determine the various properties
+     * 	of the layer.
+     */
+    public OutputNeuron(DNA ownedDNAToSet, ActivationFunction activationFunction)
+    {
+        super(ownedDNAToSet, activationFunction);
     }
 
 
