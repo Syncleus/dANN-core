@@ -114,4 +114,11 @@ public class AssociativeNode implements Serializable
     {
         return network;
     }
+
+
+
+    public Point getLocation()
+    {
+        return new Point(this.location);
+    }
 }
