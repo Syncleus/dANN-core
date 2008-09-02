@@ -72,7 +72,7 @@ public class Neuron extends NetworkNode implements java.io.Serializable
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
-    protected HashSet<Synapse> sources = new HashSet<Synapse>();
+    private HashSet<Synapse> sources = new HashSet<Synapse>();
     /**
      * The DNA determines this neurons basic properties.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
@@ -308,6 +308,41 @@ public class Neuron extends NetworkNode implements java.io.Serializable
         return Collections.unmodifiableSet(this.destinations);
     }
 
+
+
+    public Set<NetworkNode> getNeighbors()
+    {
+        HashSet<NetworkNode> neighbors = new HashSet<NetworkNode>();
+        for (Synapse source : this.getSources())
+            neighbors.add(source.getSource());
+        for (Synapse destination : this.getDestinations())
+            neighbors.add(destination.getDestination());
+
+        return Collections.unmodifiableSet(neighbors);
+    }
+
+
+
+    public Set<NetworkNode> getSourceNeighbors()
+    {
+        HashSet<NetworkNode> neighbors = new HashSet<NetworkNode>();
+        for (Synapse source : this.getSources())
+            neighbors.add(source.getSource());
+
+        return Collections.unmodifiableSet(neighbors);
+    }
+
+
+
+    public Set<NetworkNode> getDestinationNeighbors()
+    {
+        HashSet<NetworkNode> neighbors = new HashSet<NetworkNode>();
+        for (Synapse destination : this.getDestinations())
+            neighbors.add(destination.getDestination());
+
+        return Collections.unmodifiableSet(neighbors);
+    }
+
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Propogation">
@@ -440,6 +475,13 @@ public class Neuron extends NetworkNode implements java.io.Serializable
     public DNA getOwnedDNA()
     {
         return ownedDNA;
+    }
+
+
+
+    public Set<Synapse> getSources()
+    {
+        return Collections.unmodifiableSet(sources);
     }
     // </editor-fold>
 }

@@ -94,19 +94,18 @@ public class NeuronGroup extends NetworkNode implements java.io.Serializable
         for (NetworkNode currentChild : this.children)
             if (currentChild instanceof NeuronGroup)
                 ((NeuronGroup) currentChild).connectAllTo(toConnectTo);
+            else if (toConnectTo instanceof NeuronGroup)
+            {
+                Set<Neuron> toConnectToChildren = ((NeuronGroup) toConnectTo).getChildrenNeuronsRecursivly();
+                for (Neuron currentOut : toConnectToChildren)
+                    currentChild.connectTo(currentOut);
+            }
             else
-                if (toConnectTo instanceof NeuronGroup)
-                {
-                    Set<Neuron> toConnectToChildren = ((NeuronGroup) toConnectTo).getChildrenNeuronsRecursivly();
-                    for (Neuron currentOut : toConnectToChildren)
-                        currentChild.connectTo(currentOut);
-                }
-                else
-                    currentChild.connectTo(toConnectTo);
+                currentChild.connectTo(toConnectTo);
     }
-    
-    
-    
+
+
+
     /**
      * Obtains all the NetworkNodes directly owned by this NetworkGroup.
      * @since 0.1
@@ -131,7 +130,7 @@ public class NeuronGroup extends NetworkNode implements java.io.Serializable
             if (currentChild instanceof NeuronGroup)
                 returnList.addAll(((NeuronGroup) currentChild).getChildrenNeuronsRecursivly());
             else if (currentChild instanceof Neuron)
-                returnList.add((Neuron)currentChild);
+                returnList.add((Neuron) currentChild);
 
         return Collections.unmodifiableSet(returnList);
     }
@@ -364,5 +363,27 @@ public class NeuronGroup extends NetworkNode implements java.io.Serializable
     {
         for (NetworkNode currentChild : this.children)
             currentChild.backPropagate();
-    }    // </editor-fold>
+    }
+    
+   public Set<NetworkNode> getNeighbors()
+    {
+        throw new Error("Not yet implemented");
+    }
+
+
+
+    public Set<NetworkNode> getSourceNeighbors()
+    {
+        throw new Error("Not yet implemented");
+    }
+
+
+
+    public Set<NetworkNode> getDestinationNeighbors()
+    {
+        throw new Error("Not yet implemented");
+    }
+    
+    
+    // </editor-fold>
 }

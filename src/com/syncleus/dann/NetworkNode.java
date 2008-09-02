@@ -19,6 +19,7 @@
 package com.syncleus.dann;
 
 import java.util.Random;
+import java.util.Set;
 
 
 /**
@@ -169,4 +170,8 @@ public abstract class NetworkNode implements java.io.Serializable
      * @since 0.1
      */
     public abstract void propagate();
+    
+    public abstract Set<NetworkNode> getNeighbors();
+    public abstract Set<NetworkNode> getSourceNeighbors();
+    public abstract Set<NetworkNode> getDestinationNeighbors();
 }
