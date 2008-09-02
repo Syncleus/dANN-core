@@ -85,7 +85,7 @@ public class Point implements Serializable
     {
         if(dimension <= 0)
             throw new IllegalArgumentException("dimensions can not be less than or equal to zero");
-        if(dimension >= this.coordinates.length)
+        if(dimension > this.coordinates.length)
             throw new IllegalArgumentException("dimentions is larger than the dimentionality of this point");
         
         return this.coordinates[dimension-1];

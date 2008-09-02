@@ -30,8 +30,9 @@ public class AssociativeNode implements Serializable
     private AssociativeMap network;
     private Hashtable<AssociativeNode,Double> weightedNeighbors = new Hashtable<AssociativeNode,Double>();
     private Point location;
-    private static final double EQUILIBRIUM_DISTANCE = 100.0;
-    private static final double LEARNING_RATE = 0.01;
+    private static final double EQUILIBRIUM_DISTANCE = 10.0;
+    private static final double LEARNING_RATE = 0.0001;
+    private static final double MAXIMUM_DISTANCE = 100.0;
     
     public AssociativeNode(AssociativeMap network, int dimentions)
     {
@@ -104,6 +105,14 @@ public class AssociativeNode implements Serializable
             compositeVector = compositeVector.add(neighborVector);
         }
         compositeVector.setDistance(compositeVector.getDistance() * LEARNING_RATE);
+        
+        for(int dimention = 1; dimention <= compositeVector.getDimensions(); dimention++)
+        {
+            if(compositeVector.getCoordinate(dimention) >= MAXIMUM_DISTANCE)
+                compositeVector.setCoordinate(MAXIMUM_DISTANCE, dimention);
+            else if (compositeVector.getCoordinate(dimention) <= (-1.0*MAXIMUM_DISTANCE))
+                compositeVector.setCoordinate(-1.0*MAXIMUM_DISTANCE, dimention);
+        }
         
         this.location = this.location.add(compositeVector);
     }

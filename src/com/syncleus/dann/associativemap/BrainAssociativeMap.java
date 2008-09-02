@@ -33,6 +33,8 @@ public class BrainAssociativeMap extends AssociativeMap
     {
         this.brain = brain;
         this.dimentions = dimentions;
+        
+        this.refresh();
     }
     
     public void refresh()

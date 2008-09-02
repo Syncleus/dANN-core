@@ -19,21 +19,32 @@
 package com.syncleus.dann.associativemap;
 
 import com.syncleus.dann.NetworkNode;
-import com.syncleus.dann.Neuron;
-import com.syncleus.dann.Synapse;
 import java.util.HashSet;
+import java.util.Random;
 
 
 public class NetworkNodeAssociativeNode extends AssociativeNode
 {
+    private static Random random = new Random();
+    
     private NetworkNode networkNode;
 
 
 
+    private static Point randomCoordinates(int dimentions)
+    {
+        double[] randomCoords = new double[dimentions];
+        for(int randomCoordsIndex = 0; randomCoordsIndex < dimentions; randomCoordsIndex++)
+            randomCoords[randomCoordsIndex] = (random.nextDouble() * 2.0)-1.0;
+        
+        return new Point(randomCoords);
+    }
+    
+    
     public NetworkNodeAssociativeNode(BrainAssociativeMap network, int dimentions, NetworkNode networkNode)
     {
-        super(network, dimentions);
-
+        super(network, randomCoordinates(dimentions));
+        
         this.networkNode = networkNode;
     }
 

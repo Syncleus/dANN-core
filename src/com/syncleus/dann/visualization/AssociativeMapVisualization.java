@@ -28,7 +28,7 @@ import javax.vecmath.*;
 import java.awt.*;
 
 
-public class AssociativeMapVisualization extends BranchGroup
+public class AssociativeMapVisualization extends TransformGroup
 {
     private AssociativeMap map;
 
@@ -37,6 +37,9 @@ public class AssociativeMapVisualization extends BranchGroup
     public AssociativeMapVisualization(AssociativeMap map)
     {
         this.map = map;
+        
+        this.setCapability(ALLOW_CHILDREN_WRITE);
+        this.setCapability(this.ALLOW_CHILDREN_EXTEND);
 
         this.refresh();
     }
@@ -45,19 +48,21 @@ public class AssociativeMapVisualization extends BranchGroup
 
     public void refresh()
     {
-        this.removeAllChildren();
+        BranchGroup root = new BranchGroup();
+        root.setCapability(BranchGroup.ALLOW_DETACH);
+        
         Set<AssociativeNode> nodes = this.map.getNodes();
-        for(AssociativeNode node : nodes)
-        {
-            this.addChild(this.createNeuronSphere("", "", Color.RED, (float) node.getLocation().getCoordinate(1), (float) node.getLocation().getCoordinate(2), (float) node.getLocation().getCoordinate(3), 1.0F));
-        }
+        for (AssociativeNode node : nodes)
+            root.addChild(this.createNeuronSphere("", "", Color.RED, (float) node.getLocation().getCoordinate(1), (float) node.getLocation().getCoordinate(2), (float) node.getLocation().getCoordinate(3), 1.0F));
+        
+        this.removeAllChildren();
+        this.addChild(root);
     }
 
 
 
     public TransformGroup createNeuronSphere(String textLine1, String textLine2, Color myColor, float posX, float posY, float posZ, float radius)
     {
-
         // Create the transform group node holding the sphere
         TransformGroup myTransformGroup = new TransformGroup();
         myTransformGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
@@ -125,42 +130,47 @@ public class AssociativeMapVisualization extends BranchGroup
         g2d.drawImage(myNeuronTextureImage, null, 0, 0);
         return (myNeuronTextureImage);
     }
-    
-    
-      public Appearance makeMappingFromImage(BufferedImage myImage) {
-    	  Appearance mapping = new Appearance();
 
-    	  mapping.setCapability(Appearance.ALLOW_MATERIAL_READ);
-    	  mapping.setCapability(Appearance.ALLOW_MATERIAL_WRITE);
 
-    	  TextureLoader loader = new TextureLoader(myImage, TextureLoader.GENERATE_MIPMAP);
-    	  ImageComponent2D image = loader.getImage();
 
-    	  int imageWidth = image.getWidth();
-    	  int imageHeight = image.getHeight();
+    public Appearance makeMappingFromImage(BufferedImage myImage)
+    {
+        Appearance mapping = new Appearance();
 
-    	  Texture2D texture = new Texture2D(Texture.MULTI_LEVEL_MIPMAP,Texture.RGB, imageWidth, imageHeight);
+        mapping.setCapability(Appearance.ALLOW_MATERIAL_READ);
+        mapping.setCapability(Appearance.ALLOW_MATERIAL_WRITE);
 
-    	  // Mipmapping of the texture -- WARNING: original picture sizes have to be ^2 (e.g. 1024x512)
-    	  int imageLevel = 0;
-    	  texture.setImage(imageLevel, image);
+        TextureLoader loader = new TextureLoader(myImage, TextureLoader.GENERATE_MIPMAP);
+        ImageComponent2D image = loader.getImage();
 
-    	  while (imageWidth > 1 || imageHeight > 1) {
-    		  imageLevel++;
-    		  if (imageWidth > 1) imageWidth /= 2;
-    		  if (imageHeight > 1) imageHeight /= 2;
-    		  image = loader.getScaledImage(imageWidth, imageHeight);
-    		  texture.setImage(imageLevel, image);
-    		  System.out.println("From mipmapping in Brain3dView: image: Auto-generated image - width:"+imageWidth);
-    	  }
+        int imageWidth = image.getWidth();
+        int imageHeight = image.getHeight();
 
-    	  // Texture quality
-    	  texture.setMagFilter(Texture.BASE_LEVEL_LINEAR); //nice!
-    	  texture.setMinFilter(Texture.MULTI_LEVEL_LINEAR); //nice!
-    	  
-    	  mapping.setTexture(texture);
+        Texture2D texture = new Texture2D(Texture.MULTI_LEVEL_MIPMAP, Texture.RGB, imageWidth, imageHeight);
 
-    	  return mapping;
+        // Mipmapping of the texture -- WARNING: original picture sizes have to be ^2 (e.g. 1024x512)
+        int imageLevel = 0;
+        texture.setImage(imageLevel, image);
 
-      }
+        while (imageWidth > 1 || imageHeight > 1)
+        {
+            imageLevel++;
+            if (imageWidth > 1)
+                imageWidth /= 2;
+            if (imageHeight > 1)
+                imageHeight /= 2;
+            image = loader.getScaledImage(imageWidth, imageHeight);
+            texture.setImage(imageLevel, image);
+//            System.out.println("From mipmapping in Brain3dView: image: Auto-generated image - width:" + imageWidth);
+        }
+
+        // Texture quality
+        texture.setMagFilter(Texture.BASE_LEVEL_LINEAR); //nice!
+        texture.setMinFilter(Texture.MULTI_LEVEL_LINEAR); //nice!
+
+        mapping.setTexture(texture);
+
+        return mapping;
+
+    }
 }
