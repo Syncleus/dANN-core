@@ -32,7 +32,7 @@ public class AssociativeNode implements Serializable
     private Hyperpoint location;
     private static final double EQUILIBRIUM_DISTANCE = 1.0;
     private static final double LEARNING_RATE = 0.001;
-    private static final double MAXIMUM_DISTANCE = 10.0;
+    private static final double MAXIMUM_DISTANCE = 100.0;
     private static Random random = new Random();
 
 
@@ -152,7 +152,7 @@ public class AssociativeNode implements Serializable
             if ((neighbors.contains(node) == false)&&(node != this) )
             {
                 Hyperpoint nodeVector = node.location.calculateRelativeTo(this.location);
-                if (nodeVector.getDistance() < EQUILIBRIUM_DISTANCE)
+//                if (nodeVector.getDistance() < EQUILIBRIUM_DISTANCE)
                     nodeVector.setDistance(-1.0/Math.pow(nodeVector.getDistance(), 2.0));
                     //nodeVector.setDistance(-1.0 * atanh((EQUILIBRIUM_DISTANCE - nodeVector.getDistance()) / EQUILIBRIUM_DISTANCE));
                 
