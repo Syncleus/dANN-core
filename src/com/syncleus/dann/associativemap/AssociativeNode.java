@@ -22,6 +22,7 @@ package com.syncleus.dann.associativemap;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Hashtable;
+import java.util.Random;
 import java.util.Set;
 
 
@@ -31,8 +32,9 @@ public class AssociativeNode implements Serializable
     private Hashtable<AssociativeNode,Double> weightedNeighbors = new Hashtable<AssociativeNode,Double>();
     private Hyperpoint location;
     private static final double EQUILIBRIUM_DISTANCE = 1.0;
-    private static final double LEARNING_RATE = 0.0001;
+    private static final double LEARNING_RATE = 0.001;
     private static final double MAXIMUM_DISTANCE = 10.0;
+    private static Random random = new Random();
     
     public AssociativeNode(AssociativeMap network, int dimentions)
     {
@@ -59,16 +61,19 @@ public class AssociativeNode implements Serializable
         if(newNeighbor == null)
             throw new NullPointerException("newNeighbor can not be null!");
         
+//        System.out.println("adding new neighbor");
         this.weightedNeighbors.put(newNeighbor, newWeight);
     }
     
     public void dissociate(AssociativeNode neighbor)
     {
+//        System.out.println("warning, dissasociating");
         this.weightedNeighbors.remove(neighbor);
     }
     
     public void dissociateAll()
     {
+//        System.out.println("warning, dissasociating all");
         this.weightedNeighbors.clear();
     }
     
@@ -90,18 +95,34 @@ public class AssociativeNode implements Serializable
         return weight.doubleValue();
     }
     
+   protected static Hyperpoint randomCoordinates(int dimentions)
+    {
+        double[] randomCoords = new double[dimentions];
+        for(int randomCoordsIndex = 0; randomCoordsIndex < dimentions; randomCoordsIndex++)
+            randomCoords[randomCoordsIndex] = (random.nextDouble() * 2.0)-1.0;
+        
+        return new Hyperpoint(randomCoords);
+    }
+    
     public void align()
     {
+//        if( this.random.nextInt(10000) == 0)
+//            this.location = randomCoordinates(this.location.getDimensions());
+        
         Set<AssociativeNode> neighbors = this.weightedNeighbors.keySet();
+//        if(neighbors.size() > 0 )
+//            System.out.println("has " + neighbors.size() + " neighbors");
         Hyperpoint compositeVector = new Hyperpoint(this.location.getDimensions());
         for(AssociativeNode neighbor : neighbors)
         {
             Hyperpoint neighborVector = neighbor.location.calculateRelativeTo(this.location);
             double neighborEquilibrium = (EQUILIBRIUM_DISTANCE/this.weightedNeighbors.get(neighbor).doubleValue());
             if(neighborVector.getDistance() > neighborEquilibrium)
-                neighborVector.setDistance(neighborVector.getDistance() - neighborEquilibrium);
+                neighborVector.setDistance(Math.pow(neighborVector.getDistance() - neighborEquilibrium,2.0));
+                //neighborVector.setDistance(neighborVector.getDistance() - neighborEquilibrium);
             else
-                neighborVector.setDistance(neighborVector.getDistance() * (-1 * Math.pow(neighborEquilibrium,2)));
+                neighborVector.setDistance(-1.0 * atanh( (neighborEquilibrium-neighborVector.getDistance())/neighborEquilibrium ));
+                //neighborVector.setDistance(neighborVector.getDistance() * (-1 * Math.pow(neighborEquilibrium,2)));
             
             compositeVector = compositeVector.add(neighborVector);
         }
@@ -116,6 +137,11 @@ public class AssociativeNode implements Serializable
         }
         
         this.location = this.location.add(compositeVector);
+    }
+    
+    private static double atanh(double value)
+    {
+        return 0.5*Math.log(Math.abs( (value+1.0)/(1.0-value) ));
     }
 
 

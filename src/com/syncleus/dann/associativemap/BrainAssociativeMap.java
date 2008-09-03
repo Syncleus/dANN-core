@@ -56,17 +56,45 @@ public class BrainAssociativeMap extends AssociativeMap
 
         for (AssociativeNode node : this.nodes)
             if (node instanceof NetworkNodeAssociativeNode)
+            {
                 ((NetworkNodeAssociativeNode) node).refresh();
+                if( (( ((NetworkNodeAssociativeNode)node).getNetworkNode() instanceof OutputNeuron)==false) && ((((NetworkNodeAssociativeNode)node).getNetworkNode() instanceof InputNeuron)==false) )
+                    for (AssociativeNode toNode : this.nodes)
+                    {
+                        if( ((((NetworkNodeAssociativeNode)toNode).getNetworkNode() instanceof OutputNeuron)==false) && ((((NetworkNodeAssociativeNode)toNode).getNetworkNode() instanceof InputNeuron)==false) )
+                            if(toNode != node)
+                                node.associate(toNode, 100.0);
+                    }
+            }
 
         for (OutputNeuron neuron : this.brain.getOutputNeurons())
             for (OutputNeuron toNeuron : this.brain.getOutputNeurons())
-                this.neurons.get(neuron).associate(this.neurons.get(toNeuron), 100.0);
+                if(neuron != toNeuron)
+                    this.neurons.get(neuron).associate(this.neurons.get(toNeuron), 100.0);
 
         for (InputNeuron neuron : this.brain.getInputNeurons())
             for (InputNeuron toNeuron : this.brain.getInputNeurons())
-                this.neurons.get(neuron).associate(this.neurons.get(toNeuron), 100.0);
+                if(neuron != toNeuron)
+                    this.neurons.get(neuron).associate(this.neurons.get(toNeuron), 100.0);
+  
+/*
+        for (OutputNeuron neuron : this.brain.getOutputNeurons())
+        {
+//            System.out.println("got output neuron");
+            for (InputNeuron toNeuron : this.brain.getInputNeurons())
+            {
+//                System.out.println("got input neuron");
+                this.neurons.get(neuron).associate(this.neurons.get(toNeuron), 1.0);
+            }
+        }
+
+        for (InputNeuron neuron : this.brain.getInputNeurons())
+            for (OutputNeuron toNeuron : this.brain.getOutputNeurons())
+                this.neurons.get(neuron).associate(this.neurons.get(toNeuron), 1.0);
+*/
  
     }
+ 
 
 
 

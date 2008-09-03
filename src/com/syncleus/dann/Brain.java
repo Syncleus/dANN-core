@@ -39,11 +39,27 @@ public abstract class Brain implements Serializable
 
         this.children.add(newChild);
 
-        if (newChild instanceof OutputNeuron)
-            this.outputNeurons.add((OutputNeuron) newChild);
+        if (newChild instanceof NeuronGroup)
+        {
+            NeuronGroup newGroup = (NeuronGroup) newChild;
+            Set<Neuron> allChildren = newGroup.getChildrenNeuronsRecursivly();
+            for (Neuron allChild : allChildren)
+            {
+                if (allChild instanceof OutputNeuron)
+                    this.outputNeurons.add((OutputNeuron) allChild);
 
-        if (newChild instanceof InputNeuron)
-            this.inputNeurons.add((InputNeuron) newChild);
+                if (allChild instanceof InputNeuron)
+                    this.inputNeurons.add((InputNeuron) allChild);
+            }
+        }
+        else
+        {
+            if (newChild instanceof OutputNeuron)
+                this.outputNeurons.add((OutputNeuron) newChild);
+
+            if (newChild instanceof InputNeuron)
+                this.inputNeurons.add((InputNeuron) newChild);
+        }
     }
 
 
@@ -52,9 +68,9 @@ public abstract class Brain implements Serializable
     {
         if (this.children.contains(removeChild) == false)
             return;
-        
+
         this.children.remove(removeChild);
-        
+
         if (removeChild instanceof OutputNeuron)
             this.outputNeurons.remove((OutputNeuron) removeChild);
 

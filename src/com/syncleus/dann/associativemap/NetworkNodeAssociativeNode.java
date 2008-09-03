@@ -28,17 +28,6 @@ public class NetworkNodeAssociativeNode extends AssociativeNode
     private static Random random = new Random();
     
     private NetworkNode networkNode;
-
-
-
-    private static Hyperpoint randomCoordinates(int dimentions)
-    {
-        double[] randomCoords = new double[dimentions];
-        for(int randomCoordsIndex = 0; randomCoordsIndex < dimentions; randomCoordsIndex++)
-            randomCoords[randomCoordsIndex] = (random.nextDouble() * 2.0)-1.0;
-        
-        return new Hyperpoint(randomCoords);
-    }
     
     
     public NetworkNodeAssociativeNode(BrainAssociativeMap network, int dimentions, NetworkNode networkNode)
