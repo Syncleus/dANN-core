@@ -22,11 +22,11 @@ import java.io.Serializable;
 import java.util.List;
 
 
-public class Point implements Serializable
+public class Hyperpoint implements Serializable
 {
     private double[] coordinates;
     
-    public Point(int dimensions)
+    public Hyperpoint(int dimensions)
     {
         if(dimensions <= 0)
             throw new IllegalArgumentException("dimensions can not be less than or equal to zero");
@@ -34,7 +34,7 @@ public class Point implements Serializable
         this.coordinates = new double[dimensions];
     }
     
-    public Point(double[] coordinates)
+    public Hyperpoint(double[] coordinates)
     {
         if(coordinates == null)
             throw new NullPointerException("coordinates can not be null!");
@@ -45,7 +45,7 @@ public class Point implements Serializable
         this.coordinates = (double[]) coordinates.clone();
     }
     
-    public Point(List<Double> coordinates)
+    public Hyperpoint(List<Double> coordinates)
     {
         if(coordinates == null)
             throw new NullPointerException("coordinates can not be null!");
@@ -61,7 +61,7 @@ public class Point implements Serializable
         }
     }
     
-    public Point(Point copy)
+    public Hyperpoint(Hyperpoint copy)
     {
         this.coordinates = (double[]) copy.coordinates.clone();
     }
@@ -168,7 +168,7 @@ public class Point implements Serializable
         return Math.atan2(Math.sqrt(squaredSum), this.coordinates[dimention-1]);
     }
     
-    public Point calculateRelativeTo(Point absolutePoint)
+    public Hyperpoint calculateRelativeTo(Hyperpoint absolutePoint)
     {
         if(absolutePoint == null)
             throw new NullPointerException("absolutePoint can not be null!");
@@ -182,10 +182,10 @@ public class Point implements Serializable
             relativeCoords[coordIndex] = this.coordinates[coordIndex] - absolutePoint.getCoordinate(coordIndex+1);
         }
         
-        return new Point(relativeCoords);
+        return new Hyperpoint(relativeCoords);
     }
     
-    public Point add(Point pointToAdd)
+    public Hyperpoint add(Hyperpoint pointToAdd)
     {
         if(pointToAdd == null)
             throw new NullPointerException("absolutePoint can not be null!");
@@ -199,6 +199,6 @@ public class Point implements Serializable
             relativeCoords[coordIndex] = this.coordinates[coordIndex] + pointToAdd.getCoordinate(coordIndex+1);
         }
         
-        return new Point(relativeCoords);
+        return new Hyperpoint(relativeCoords);
     }
 }

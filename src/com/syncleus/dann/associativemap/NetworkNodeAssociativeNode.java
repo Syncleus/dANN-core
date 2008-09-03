@@ -31,13 +31,13 @@ public class NetworkNodeAssociativeNode extends AssociativeNode
 
 
 
-    private static Point randomCoordinates(int dimentions)
+    private static Hyperpoint randomCoordinates(int dimentions)
     {
         double[] randomCoords = new double[dimentions];
         for(int randomCoordsIndex = 0; randomCoordsIndex < dimentions; randomCoordsIndex++)
             randomCoords[randomCoordsIndex] = (random.nextDouble() * 2.0)-1.0;
         
-        return new Point(randomCoords);
+        return new Hyperpoint(randomCoords);
     }
     
     
@@ -50,7 +50,7 @@ public class NetworkNodeAssociativeNode extends AssociativeNode
 
 
 
-    public NetworkNodeAssociativeNode(BrainAssociativeMap network, Point location, NetworkNode networkNode)
+    public NetworkNodeAssociativeNode(BrainAssociativeMap network, Hyperpoint location, NetworkNode networkNode)
     {
         super(network, location);
 
@@ -75,5 +75,12 @@ public class NetworkNodeAssociativeNode extends AssociativeNode
         neighborNeurons.addAll(this.networkNode.getNeighbors());
         for (NetworkNode neighborNeuron : neighborNeurons)
             this.associate(this.getNetwork().getNodeFromNeuron(neighborNeuron), 1.0);
+    }
+
+
+
+    public NetworkNode getNetworkNode()
+    {
+        return networkNode;
     }
 }

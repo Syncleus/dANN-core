@@ -18,8 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.visualization;
 
+import com.syncleus.dann.*;
 import com.sun.j3d.utils.geometry.*;
 import com.sun.j3d.utils.image.TextureLoader;
+import com.syncleus.dann.NetworkNode;
 import com.syncleus.dann.associativemap.*;
 import java.awt.image.BufferedImage;
 import java.util.Set;
@@ -53,7 +55,18 @@ public class AssociativeMapVisualization extends TransformGroup
         
         Set<AssociativeNode> nodes = this.map.getNodes();
         for (AssociativeNode node : nodes)
-            root.addChild(this.createNeuronSphere("", "", Color.RED, (float) node.getLocation().getCoordinate(1), (float) node.getLocation().getCoordinate(2), (float) node.getLocation().getCoordinate(3), 0.01F));
+        {
+            Color neuronColor = Color.GRAY;
+            if(node instanceof NetworkNodeAssociativeNode)
+            {
+                NetworkNode networkNode = ((NetworkNodeAssociativeNode)node).getNetworkNode();
+                if(networkNode instanceof OutputNeuron)
+                    neuronColor = Color.RED;
+                else if(networkNode instanceof InputNeuron)
+                    neuronColor = Color.BLUE;
+            }
+            root.addChild(this.createNeuronSphere("", "", neuronColor, (float) node.getLocation().getCoordinate(1), (float) node.getLocation().getCoordinate(2), (float) node.getLocation().getCoordinate(3), 0.01F));
+        }
         
         this.removeAllChildren();
         this.addChild(root);

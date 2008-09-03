@@ -29,7 +29,7 @@ public class AssociativeNode implements Serializable
 {
     private AssociativeMap network;
     private Hashtable<AssociativeNode,Double> weightedNeighbors = new Hashtable<AssociativeNode,Double>();
-    private Point location;
+    private Hyperpoint location;
     private static final double EQUILIBRIUM_DISTANCE = 1.0;
     private static final double LEARNING_RATE = 0.0001;
     private static final double MAXIMUM_DISTANCE = 10.0;
@@ -39,11 +39,11 @@ public class AssociativeNode implements Serializable
         if(network == null)
             throw new NullPointerException("network can not be null!");
         
-        this.location = new Point(dimentions);
+        this.location = new Hyperpoint(dimentions);
         this.network = network;
     }
     
-    public AssociativeNode(AssociativeMap network, Point location)
+    public AssociativeNode(AssociativeMap network, Hyperpoint location)
     {
         if(location == null)
             throw new NullPointerException("location can not be null!");
@@ -93,14 +93,15 @@ public class AssociativeNode implements Serializable
     public void align()
     {
         Set<AssociativeNode> neighbors = this.weightedNeighbors.keySet();
-        Point compositeVector = new Point(this.location.getDimensions());
+        Hyperpoint compositeVector = new Hyperpoint(this.location.getDimensions());
         for(AssociativeNode neighbor : neighbors)
         {
-            Point neighborVector = neighbor.location.calculateRelativeTo(this.location);
-            if(neighborVector.getDistance() > EQUILIBRIUM_DISTANCE)
-                neighborVector.setDistance(neighborVector.getDistance() - EQUILIBRIUM_DISTANCE);
+            Hyperpoint neighborVector = neighbor.location.calculateRelativeTo(this.location);
+            double neighborEquilibrium = (EQUILIBRIUM_DISTANCE/this.weightedNeighbors.get(neighbor).doubleValue());
+            if(neighborVector.getDistance() > neighborEquilibrium)
+                neighborVector.setDistance(neighborVector.getDistance() - neighborEquilibrium);
             else
-                neighborVector.setDistance(neighborVector.getDistance() * (-1 * Math.pow(EQUILIBRIUM_DISTANCE,2)));
+                neighborVector.setDistance(neighborVector.getDistance() * (-1 * Math.pow(neighborEquilibrium,2)));
             
             compositeVector = compositeVector.add(neighborVector);
         }
@@ -126,8 +127,8 @@ public class AssociativeNode implements Serializable
 
 
 
-    public Point getLocation()
+    public Hyperpoint getLocation()
     {
-        return new Point(this.location);
+        return new Hyperpoint(this.location);
     }
 }

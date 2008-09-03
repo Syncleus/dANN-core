@@ -28,33 +28,48 @@ public class BrainAssociativeMap extends AssociativeMap
     private Brain brain;
     private int dimentions;
     private Hashtable<Neuron, NetworkNodeAssociativeNode> neurons = new Hashtable<Neuron, NetworkNodeAssociativeNode>();
-    
+
+
+
     public BrainAssociativeMap(Brain brain, int dimentions)
     {
         this.brain = brain;
         this.dimentions = dimentions;
-        
+
         this.refresh();
     }
-    
+
+
+
     public void refresh()
     {
         this.nodes.clear();
         this.neurons.clear();
-        
+
         Set<Neuron> neurons = this.brain.getChildrenNeuronsRecursivly();
-        for(Neuron neuron : neurons)
+        for (Neuron neuron : neurons)
         {
             NetworkNodeAssociativeNode node = new NetworkNodeAssociativeNode(this, this.dimentions, neuron);
             this.nodes.add(node);
             this.neurons.put(neuron, node);
         }
-        
-        for(AssociativeNode node : this.nodes)
-            if(node instanceof NetworkNodeAssociativeNode)
-                ((NetworkNodeAssociativeNode)node).refresh();
+
+        for (AssociativeNode node : this.nodes)
+            if (node instanceof NetworkNodeAssociativeNode)
+                ((NetworkNodeAssociativeNode) node).refresh();
+
+        for (OutputNeuron neuron : this.brain.getOutputNeurons())
+            for (OutputNeuron toNeuron : this.brain.getOutputNeurons())
+                this.neurons.get(neuron).associate(this.neurons.get(toNeuron), 100.0);
+
+        for (InputNeuron neuron : this.brain.getInputNeurons())
+            for (InputNeuron toNeuron : this.brain.getInputNeurons())
+                this.neurons.get(neuron).associate(this.neurons.get(toNeuron), 100.0);
+ 
     }
-    
+
+
+
     NetworkNodeAssociativeNode getNodeFromNeuron(NetworkNode node)
     {
         return neurons.get(node);
