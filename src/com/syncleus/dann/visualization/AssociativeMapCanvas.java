@@ -59,7 +59,7 @@ public class AssociativeMapCanvas extends Canvas3D
         // Set the initial view position
         TransformGroup viewTransformGroup = universe.getViewingPlatform().getViewPlatformTransform();
         Transform3D viewTransform = new Transform3D();
-        viewTransform.set(1f, new Vector3f(0f, 0f, 50f));
+        viewTransform.set(1f, new Vector3f(0f, 0f, 10f));
         viewTransformGroup.setTransform(viewTransform);
 
         // add an orbital mouse control to the scene
