@@ -108,6 +108,6 @@ public class AssociativeMapCanvas extends Canvas3D
         dirLight.setInfluencingBounds(bounds);
         branchGroup.addChild(dirLight);
 
-        return branchGroup;b
+        return branchGroup;
     }
 }

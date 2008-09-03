@@ -53,7 +53,7 @@ public class AssociativeMapVisualization extends TransformGroup
         
         Set<AssociativeNode> nodes = this.map.getNodes();
         for (AssociativeNode node : nodes)
-            root.addChild(this.createNeuronSphere("", "", Color.RED, (float) node.getLocation().getCoordinate(1), (float) node.getLocation().getCoordinate(2), (float) node.getLocation().getCoordinate(3), 1.0F));
+            root.addChild(this.createNeuronSphere("", "", Color.RED, (float) node.getLocation().getCoordinate(1), (float) node.getLocation().getCoordinate(2), (float) node.getLocation().getCoordinate(3), 0.01F));
         
         this.removeAllChildren();
         this.addChild(root);
