@@ -21,6 +21,7 @@ package com.syncleus.dann.associativemap;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Hashtable;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
 

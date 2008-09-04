@@ -28,20 +28,28 @@ import java.util.Set;
 import javax.media.j3d.*;
 import javax.vecmath.*;
 import java.awt.*;
+import java.util.Hashtable;
 
 
-public class AssociativeMapVisualization extends TransformGroup
+public class AssociativeMapVisualization extends BranchGroup
 {
     private AssociativeMap map;
+    private Hashtable<AssociativeNode, TransformGroup> nodeGraphics = new Hashtable<AssociativeNode, TransformGroup>();
+    private Hashtable<AssociativeNode, Hyperpoint> oldNodeLocations = new Hashtable<AssociativeNode, Hyperpoint>();
+    private BranchGroup nestedRoot = new BranchGroup();
 
 
 
     public AssociativeMapVisualization(AssociativeMap map)
     {
         this.map = map;
-        
-        this.setCapability(ALLOW_CHILDREN_WRITE);
-        this.setCapability(this.ALLOW_CHILDREN_EXTEND);
+
+        this.setCapability(BranchGroup.ALLOW_CHILDREN_WRITE);
+        this.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND);
+        this.setCapability(BranchGroup.ALLOW_DETACH);
+        this.nestedRoot.setCapability(BranchGroup.ALLOW_DETACH);
+
+        this.addChild(this.nestedRoot);
 
         this.refresh();
     }
@@ -50,26 +58,81 @@ public class AssociativeMapVisualization extends TransformGroup
 
     public void refresh()
     {
-        BranchGroup root = new BranchGroup();
-        root.setCapability(BranchGroup.ALLOW_DETACH);
-        
+//        BranchGroup root = new BranchGroup();
+//        this.nestedRoot.setCapability(BranchGroup.ALLOW_DETACH);
+
+//        this.removeAllChildren();
+
+        boolean childrenRemoved = false;
+//        System.out.println("nodeGraphics elements: " + this.nodeGraphics.size());
+        //if ((this.map.getNodes().containsAll(this.nodeGraphics.keySet()) == false) || (this.nodeGraphics.keySet().containsAll(this.map.getNodes()) == false))
+//        if(this.nodeGraphics.keySet().containsAll(this.map.getNodes()) == false)
+//        {
+//            this.removeAllChildren();
+//            childrenRemoved = true;
+//        }
+
+        Hashtable<AssociativeNode, TransformGroup> newGraphicalNodes = new Hashtable<AssociativeNode, TransformGroup>();
+
         Set<AssociativeNode> nodes = this.map.getNodes();
         for (AssociativeNode node : nodes)
-        {
-            Color neuronColor = Color.GRAY;
-            if(node instanceof NetworkNodeAssociativeNode)
+            if (this.nodeGraphics.containsKey(node) == false)
             {
-                NetworkNode networkNode = ((NetworkNodeAssociativeNode)node).getNetworkNode();
-                if(networkNode instanceof OutputNeuron)
-                    neuronColor = Color.RED;
-                else if(networkNode instanceof InputNeuron)
-                    neuronColor = Color.BLUE;
+                Color neuronColor = Color.GRAY;
+                if (node instanceof NetworkNodeAssociativeNode)
+                {
+                    NetworkNode networkNode = ((NetworkNodeAssociativeNode) node).getNetworkNode();
+                    if (networkNode instanceof OutputNeuron)
+                        neuronColor = Color.RED;
+                    else if (networkNode instanceof InputNeuron)
+                        neuronColor = Color.BLUE;
+                }
+                TransformGroup newVisual = this.createNeuronSphere("", "", neuronColor, (float) node.getLocation().getCoordinate(1), (float) node.getLocation().getCoordinate(2), (float) node.getLocation().getCoordinate(3), 0.01F);
+                if (childrenRemoved == false)
+                {
+//                    System.out.println("need to remove children for adds....");
+//                    (new Exception("need to remove children for adds")).printStackTrace();
+                    this.removeAllChildren();
+                    childrenRemoved = true;
+                }
+
+                this.nestedRoot.addChild(newVisual);
+                newGraphicalNodes.put(node, newVisual);
+                this.oldNodeLocations.put(node, new Hyperpoint(node.getLocation().getDimensions()));
             }
-            root.addChild(this.createNeuronSphere("", "", neuronColor, (float) node.getLocation().getCoordinate(1), (float) node.getLocation().getCoordinate(2), (float) node.getLocation().getCoordinate(3), 0.01F));
+            else
+            {
+                TransformGroup oldVisual = this.nodeGraphics.remove(node);
+
+                // Create the transform group node holding the sphere
+//                TransformGroup neuronTransformGroup = new TransformGroup();
+//                neuronTransformGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+//                neuronTransformGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+                Transform3D neuronTransform = new Transform3D();
+                Hyperpoint currentLocation = node.getLocation();
+                Hyperpoint oldLocation = this.oldNodeLocations.get(node);
+                neuronTransform.set(-1f, new Vector3f((float) oldLocation.getCoordinate(1), (float) oldLocation.getCoordinate(2), (float) oldLocation.getCoordinate(3)));
+                oldVisual.setTransform(neuronTransform);
+                neuronTransform.set(1f, new Vector3f((float) currentLocation.getCoordinate(1), (float) currentLocation.getCoordinate(2), (float) currentLocation.getCoordinate(3)));
+                oldVisual.setTransform(neuronTransform);
+                this.oldNodeLocations.put(node, currentLocation);
+
+                newGraphicalNodes.put(node, oldVisual);
+            }
+
+        //remove any stale nodes
+        for (AssociativeNode node : this.nodeGraphics.keySet())
+        {
+            this.nestedRoot.removeChild(this.nodeGraphics.get(node));
+            this.oldNodeLocations.remove(node);
         }
-        
-        this.removeAllChildren();
-        this.addChild(root);
+
+        this.nodeGraphics = newGraphicalNodes;
+
+//        this.removeAllChildren();
+
+        if (childrenRemoved)
+            this.addChild(this.nestedRoot);
     }
 
 
@@ -77,36 +140,36 @@ public class AssociativeMapVisualization extends TransformGroup
     public TransformGroup createNeuronSphere(String textLine1, String textLine2, Color myColor, float posX, float posY, float posZ, float radius)
     {
         // Create the transform group node holding the sphere
-        TransformGroup myTransformGroup = new TransformGroup();
-        myTransformGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
-        myTransformGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-        Transform3D myTransform = new Transform3D();
-        myTransform.set(1f, new Vector3f(posX, posY, posZ));
-        myTransformGroup.setTransform(myTransform);
+        TransformGroup neuronTransformGroup = new TransformGroup();
+        neuronTransformGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+        neuronTransformGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+        Transform3D neuronTransform = new Transform3D();
+        neuronTransform.set(1f, new Vector3f(posX, posY, posZ));
+        neuronTransformGroup.setTransform(neuronTransform);
 
         // create a nice texture image for the 3d sphere
-        BufferedImage myTextureImage = createNeuronTextureImage(textLine1, textLine2, myColor);
-        Appearance myAppearance = makeMappingFromImage(myTextureImage);
+        BufferedImage neuronTextureImage = createNeuronTextureImage(textLine1, textLine2, myColor);
+        Appearance neuronAppearance = makeMappingFromImage(neuronTextureImage);
 
 
-        Sphere myNeuron = new Sphere(radius, Primitive.GENERATE_TEXTURE_COORDS, 100, myAppearance); // animation ok on p4 2GHz and radeon X1600 GPU
+        Sphere neuronSphere = new Sphere(radius, Primitive.GENERATE_TEXTURE_COORDS, 100, neuronAppearance); // animation ok on p4 2GHz and radeon X1600 GPU
 
-        Alpha myAlpha = new Alpha(-1, 5000);
+        Alpha alpha = new Alpha(-1, 5000);
         Transform3D yAxis = new Transform3D();
-        TransformGroup myTgRot = new TransformGroup();
-        myTgRot.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
-        myTgRot.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+        TransformGroup rotateTransform = new TransformGroup();
+        rotateTransform.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
+        rotateTransform.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 
-        RotationInterpolator myRot = new RotationInterpolator(myAlpha, myTgRot, yAxis, (float) Math.PI * 2.0f, 0.0f);
+        RotationInterpolator rotator = new RotationInterpolator(alpha, rotateTransform, yAxis, (float) Math.PI * 2.0f, 0.0f);
 
         BoundingSphere bounds = new BoundingSphere(new Point3d(0, 0, 0), 10000f);
-        myRot.setSchedulingBounds(bounds);
+        rotator.setSchedulingBounds(bounds);
 
-        myTgRot.addChild(myRot);
-        myTgRot.addChild(myNeuron);
-        myTransformGroup.addChild(myTgRot);
+        rotateTransform.addChild(rotator);
+        rotateTransform.addChild(neuronSphere);
+        neuronTransformGroup.addChild(rotateTransform);
 
-        return myTransformGroup;
+        return neuronTransformGroup;
     }
 
 
