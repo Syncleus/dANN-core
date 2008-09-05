@@ -35,6 +35,11 @@ public class AssociativeMapCanvas extends Canvas3D
     {
         this(map, SimpleUniverse.getPreferredConfiguration());
     }
+    
+    public AssociativeMap getAssociativeMap()
+    {
+        return this.mapVisual.getMap();
+    }
 
 
 

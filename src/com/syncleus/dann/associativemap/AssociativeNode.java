@@ -32,7 +32,7 @@ public class AssociativeNode implements Serializable
     private Hashtable<AssociativeNode, Double> weightedNeighbors = new Hashtable<AssociativeNode, Double>();
     private Hyperpoint location;
     private static final double EQUILIBRIUM_DISTANCE = 1.0;
-    private static final double LEARNING_RATE = 0.001;
+    private static final double LEARNING_RATE = 0.004;
     private static final double MAXIMUM_DISTANCE = 100.0;
     private static Random random = new Random();
 
@@ -113,7 +113,7 @@ public class AssociativeNode implements Serializable
 
 
 
-    protected static Hyperpoint randomCoordinates(int dimentions)
+    public static Hyperpoint randomCoordinates(int dimentions)
     {
         double[] randomCoords = new double[dimentions];
         for (int randomCoordsIndex = 0; randomCoordsIndex < dimentions; randomCoordsIndex++)

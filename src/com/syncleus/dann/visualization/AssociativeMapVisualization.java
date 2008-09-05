@@ -249,4 +249,11 @@ public class AssociativeMapVisualization extends BranchGroup
         return mapping;
 
     }
+
+
+
+    AssociativeMap getMap()
+    {
+        return map;
+    }
 }
