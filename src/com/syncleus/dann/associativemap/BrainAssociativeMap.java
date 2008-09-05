@@ -72,15 +72,15 @@ public class BrainAssociativeMap extends AssociativeMap
             }
  */
 
-//        for (OutputNeuron neuron : this.brain.getOutputNeurons())
-//            for (OutputNeuron toNeuron : this.brain.getOutputNeurons())
-//                if(neuron != toNeuron)
-//                    this.neurons.get(neuron).associate(this.neurons.get(toNeuron), 10.0);
+        for (OutputNeuron neuron : this.brain.getOutputNeurons())
+            for (OutputNeuron toNeuron : this.brain.getOutputNeurons())
+                if(neuron != toNeuron)
+                    this.neurons.get(neuron).associate(this.neurons.get(toNeuron), 1.0);
 
-//        for (InputNeuron neuron : this.brain.getInputNeurons())
-//            for (InputNeuron toNeuron : this.brain.getInputNeurons())
-//                if(neuron != toNeuron)
-//                    this.neurons.get(neuron).associate(this.neurons.get(toNeuron), 10.0);
+        for (InputNeuron neuron : this.brain.getInputNeurons())
+            for (InputNeuron toNeuron : this.brain.getInputNeurons())
+                if(neuron != toNeuron)
+                    this.neurons.get(neuron).associate(this.neurons.get(toNeuron), 1.0);
   
 /*
         for (OutputNeuron neuron : this.brain.getOutputNeurons())
