@@ -32,18 +32,18 @@ public class AssociativeNode implements Serializable
     private Hashtable<AssociativeNode, Double> weightedNeighbors = new Hashtable<AssociativeNode, Double>();
     private Hyperpoint location;
     private static final double EQUILIBRIUM_DISTANCE = 1.0;
-    private static final double LEARNING_RATE = 0.004;
+    private static final double LEARNING_RATE = 0.003;
     private static final double MAXIMUM_DISTANCE = 100.0;
     private static Random random = new Random();
 
 
 
-    public AssociativeNode(AssociativeMap network, int dimentions)
+    public AssociativeNode(AssociativeMap network, int dimensions)
     {
         if (network == null)
             throw new NullPointerException("network can not be null!");
 
-        this.location = new Hyperpoint(dimentions);
+        this.location = new Hyperpoint(dimensions);
         this.network = network;
     }
 
@@ -113,10 +113,10 @@ public class AssociativeNode implements Serializable
 
 
 
-    public static Hyperpoint randomCoordinates(int dimentions)
+    public static Hyperpoint randomCoordinates(int dimensions)
     {
-        double[] randomCoords = new double[dimentions];
-        for (int randomCoordsIndex = 0; randomCoordsIndex < dimentions; randomCoordsIndex++)
+        double[] randomCoords = new double[dimensions];
+        for (int randomCoordsIndex = 0; randomCoordsIndex < dimensions; randomCoordsIndex++)
             randomCoords[randomCoordsIndex] = (random.nextDouble() * 2.0) - 1.0;
 
         return new Hyperpoint(randomCoords);
@@ -150,7 +150,7 @@ public class AssociativeNode implements Serializable
 
         //calculate repulsion with all non-neighbors
         for (AssociativeNode node : this.network.getNodes())
-            if ((neighbors.contains(node) == false)&&(node != this) )
+            if ((neighbors.contains(node) == false)&&(node != this)&&(node.weightedNeighbors.keySet().contains(this) == false) )
             {
                 Hyperpoint nodeVector = node.location.calculateRelativeTo(this.location);
 //                if (nodeVector.getDistance() < EQUILIBRIUM_DISTANCE)
@@ -162,11 +162,11 @@ public class AssociativeNode implements Serializable
 
         compositeVector.setDistance(compositeVector.getDistance() * LEARNING_RATE);
 
-        for (int dimention = 1; dimention <= compositeVector.getDimensions(); dimention++)
-            if (compositeVector.getCoordinate(dimention) >= MAXIMUM_DISTANCE)
-                compositeVector.setCoordinate(MAXIMUM_DISTANCE, dimention);
-            else if (compositeVector.getCoordinate(dimention) <= (-1.0 * MAXIMUM_DISTANCE))
-                compositeVector.setCoordinate(-1.0 * MAXIMUM_DISTANCE, dimention);
+        for (int dimension = 1; dimension <= compositeVector.getDimensions(); dimension++)
+            if (compositeVector.getCoordinate(dimension) >= MAXIMUM_DISTANCE)
+                compositeVector.setCoordinate(MAXIMUM_DISTANCE, dimension);
+            else if (compositeVector.getCoordinate(dimension) <= (-1.0 * MAXIMUM_DISTANCE))
+                compositeVector.setCoordinate(-1.0 * MAXIMUM_DISTANCE, dimension);
 
         this.location = this.location.add(compositeVector);
     }

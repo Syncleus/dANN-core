@@ -40,7 +40,7 @@ public class Hyperpoint implements Serializable
             throw new NullPointerException("coordinates can not be null!");
         
         if(coordinates.length <= 0)
-            throw new IllegalArgumentException("coordinates must have atleast one member, 0 dimentions isnt valid!");
+            throw new IllegalArgumentException("coordinates must have atleast one member, 0 dimensions isnt valid!");
         
         this.coordinates = (double[]) coordinates.clone();
     }
@@ -51,7 +51,7 @@ public class Hyperpoint implements Serializable
             throw new NullPointerException("coordinates can not be null!");
         
         if(coordinates.size() <= 0)
-            throw new IllegalArgumentException("coordinates must have atleast one member, 0 dimentions isnt valid!");
+            throw new IllegalArgumentException("coordinates must have atleast one member, 0 dimensions isnt valid!");
         
         this.coordinates = new double[coordinates.size()];
         int coordinatesIndex = 0;
@@ -76,7 +76,7 @@ public class Hyperpoint implements Serializable
         if(dimension <= 0)
             throw new IllegalArgumentException("dimensions can not be less than or equal to zero");
         if(dimension >= this.coordinates.length)
-            throw new IllegalArgumentException("dimentions is larger than the dimentionality of this point");
+            throw new IllegalArgumentException("dimensions is larger than the dimensionality of this point");
         
         this.coordinates[dimension-1] = coordinate;
     }
@@ -86,7 +86,7 @@ public class Hyperpoint implements Serializable
         if(dimension <= 0)
             throw new IllegalArgumentException("dimensions can not be less than or equal to zero");
         if(dimension > this.coordinates.length)
-            throw new IllegalArgumentException("dimentions is larger than the dimentionality of this point");
+            throw new IllegalArgumentException("dimensions is larger than the dimensionality of this point");
         
         return this.coordinates[dimension-1];
     }
@@ -98,16 +98,16 @@ public class Hyperpoint implements Serializable
         {
             double sphericalProducts = distance;
             
-            for(int angleDimention = 1; angleDimention - 1 < (coordinateIndex + 1);angleDimention++)
+            for(int angleDimension = 1; angleDimension - 1 < (coordinateIndex + 1);angleDimension++)
             {
-                if( angleDimention < (coordinateIndex + 1))
-                    sphericalProducts *= Math.sin(this.getAngularComponent(angleDimention));
+                if( angleDimension < (coordinateIndex + 1))
+                    sphericalProducts *= Math.sin(this.getAngularComponent(angleDimension));
                 else
                 {
                     if((coordinateIndex + 1) == this.getDimensions())
-                        sphericalProducts *= Math.sin(this.getAngularComponent(angleDimention));
+                        sphericalProducts *= Math.sin(this.getAngularComponent(angleDimension));
                     else
-                        sphericalProducts *= Math.cos(this.getAngularComponent(angleDimention));
+                        sphericalProducts *= Math.cos(this.getAngularComponent(angleDimension));
                 }
             }
             newCoords[coordinateIndex] = sphericalProducts;
@@ -116,28 +116,28 @@ public class Hyperpoint implements Serializable
         this.coordinates = newCoords;
     }
     
-    public void setAngularComponent(double angle, int dimention)
+    public void setAngularComponent(double angle, int dimension)
     {
-        if(dimention <= 0)
+        if(dimension <= 0)
             throw new IllegalArgumentException("dimensions can not be less than or equal to zero");
-        if((dimention-2) >= this.coordinates.length)
-            throw new IllegalArgumentException("dimentions is larger than the dimentionality (minus 1) o this point");
+        if((dimension-2) >= this.coordinates.length)
+            throw new IllegalArgumentException("dimensions is larger than the dimensionality (minus 1) o this point");
         
         double[] newCoords = (double[]) this.coordinates.clone();
-        for(int coordinateIndex = dimention-1; coordinateIndex < this.getDimensions(); coordinateIndex++)
+        for(int coordinateIndex = dimension-1; coordinateIndex < this.getDimensions(); coordinateIndex++)
         {
             double sphericalProducts = this.getDistance();
             
-            for(int angleDimention = 1; angleDimention - 1 < (coordinateIndex + 1);angleDimention++)
+            for(int angleDimension = 1; angleDimension - 1 < (coordinateIndex + 1);angleDimension++)
             {
-                if( angleDimention < (coordinateIndex + 1))
-                    sphericalProducts *= Math.sin(this.getAngularComponent(angleDimention));
+                if( angleDimension < (coordinateIndex + 1))
+                    sphericalProducts *= Math.sin(this.getAngularComponent(angleDimension));
                 else
                 {
                     if((coordinateIndex + 1) == this.getDimensions())
-                        sphericalProducts *= Math.sin(this.getAngularComponent(angleDimention));
+                        sphericalProducts *= Math.sin(this.getAngularComponent(angleDimension));
                     else
-                        sphericalProducts *= Math.cos(this.getAngularComponent(angleDimention));
+                        sphericalProducts *= Math.cos(this.getAngularComponent(angleDimension));
                 }
             }
             newCoords[coordinateIndex] = sphericalProducts;
@@ -154,18 +154,18 @@ public class Hyperpoint implements Serializable
         return Math.sqrt(squaredSum);
     }
     
-    public double getAngularComponent(int dimention)
+    public double getAngularComponent(int dimension)
     {
-        if(dimention <= 0)
+        if(dimension <= 0)
             throw new IllegalArgumentException("dimensions can not be less than or equal to zero");
-        if((dimention-2) >= this.coordinates.length)
-            throw new IllegalArgumentException("dimentions is larger than the dimentionality (minus 1) o this point");
+        if((dimension-2) >= this.coordinates.length)
+            throw new IllegalArgumentException("dimensions is larger than the dimensionality (minus 1) o this point");
         
         double squaredSum = 0.0;
-        for(int coordinateIndex = this.coordinates.length-1; coordinateIndex >= (dimention); coordinateIndex--)
+        for(int coordinateIndex = this.coordinates.length-1; coordinateIndex >= (dimension); coordinateIndex--)
             squaredSum += Math.pow(this.coordinates[coordinateIndex], 2.0);
         
-        return Math.atan2(Math.sqrt(squaredSum), this.coordinates[dimention-1]);
+        return Math.atan2(Math.sqrt(squaredSum), this.coordinates[dimension-1]);
     }
     
     public Hyperpoint calculateRelativeTo(Hyperpoint absolutePoint)
@@ -174,7 +174,7 @@ public class Hyperpoint implements Serializable
             throw new NullPointerException("absolutePoint can not be null!");
         
         if(absolutePoint.getDimensions() != this.getDimensions())
-            throw new IllegalArgumentException("absolutePoint must have the same dimentions as this point");
+            throw new IllegalArgumentException("absolutePoint must have the same dimensions as this point");
         
         double[] relativeCoords = new double[this.coordinates.length];
         for(int coordIndex = 0; coordIndex < this.coordinates.length; coordIndex++)
@@ -191,7 +191,7 @@ public class Hyperpoint implements Serializable
             throw new NullPointerException("absolutePoint can not be null!");
         
         if(pointToAdd.getDimensions() != this.getDimensions())
-            throw new IllegalArgumentException("absolutePoint must have the same dimentions as this point");
+            throw new IllegalArgumentException("absolutePoint must have the same dimensions as this point");
         
         double[] relativeCoords = new double[this.coordinates.length];
         for(int coordIndex = 0; coordIndex < this.coordinates.length; coordIndex++)

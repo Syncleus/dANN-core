@@ -30,9 +30,9 @@ public class NetworkNodeAssociativeNode extends AssociativeNode
     private NetworkNode networkNode;
     
     
-    public NetworkNodeAssociativeNode(BrainAssociativeMap network, int dimentions, NetworkNode networkNode)
+    public NetworkNodeAssociativeNode(BrainAssociativeMap network, int dimensions, NetworkNode networkNode)
     {
-        super(network, randomCoordinates(dimentions));
+        super(network, randomCoordinates(dimensions));
         
         this.networkNode = networkNode;
     }

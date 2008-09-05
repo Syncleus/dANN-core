@@ -26,15 +26,15 @@ import java.util.Set;
 public class BrainAssociativeMap extends AssociativeMap
 {
     private Brain brain;
-    private int dimentions;
+    private int dimensions;
     private Hashtable<Neuron, NetworkNodeAssociativeNode> neurons = new Hashtable<Neuron, NetworkNodeAssociativeNode>();
 
 
 
-    public BrainAssociativeMap(Brain brain, int dimentions)
+    public BrainAssociativeMap(Brain brain, int dimensions)
     {
         this.brain = brain;
-        this.dimentions = dimentions;
+        this.dimensions = dimensions;
 
         this.refresh();
     }
@@ -49,7 +49,7 @@ public class BrainAssociativeMap extends AssociativeMap
         Set<Neuron> neurons = this.brain.getChildrenNeuronsRecursivly();
         for (Neuron neuron : neurons)
         {
-            NetworkNodeAssociativeNode node = new NetworkNodeAssociativeNode(this, this.dimentions, neuron);
+            NetworkNodeAssociativeNode node = new NetworkNodeAssociativeNode(this, this.dimensions, neuron);
             this.nodes.add(node);
             this.neurons.put(neuron, node);
         }
