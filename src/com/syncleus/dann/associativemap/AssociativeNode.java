@@ -32,8 +32,8 @@ public class AssociativeNode implements Serializable
     private Hashtable<AssociativeNode, Double> weightedNeighbors = new Hashtable<AssociativeNode, Double>();
     private Hyperpoint location;
     private static final double EQUILIBRIUM_DISTANCE = 1.0;
-    private static final double LEARNING_RATE = 0.003;
-    private static final double MAXIMUM_DISTANCE = 100.0;
+    private static final double LEARNING_RATE = 0.004;
+    private static final double MAXIMUM_DISTANCE = 10.0;
     private static Random random = new Random();
 
 
@@ -161,6 +161,9 @@ public class AssociativeNode implements Serializable
             }
 
         compositeVector.setDistance(compositeVector.getDistance() * LEARNING_RATE);
+        
+        if( Math.abs(compositeVector.getDistance()) > (MAXIMUM_DISTANCE/4.0) )
+            compositeVector.setDistance(Math.signum(compositeVector.getDistance())*(MAXIMUM_DISTANCE/4.0));
 
         for (int dimension = 1; dimension <= compositeVector.getDimensions(); dimension++)
             if (compositeVector.getCoordinate(dimension) >= MAXIMUM_DISTANCE)
