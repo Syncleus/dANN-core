@@ -29,6 +29,8 @@ import javax.vecmath.*;
 
 public class AssociativeMapCanvas extends Canvas3D
 {
+    private static final long serialVersionUID = 1L;
+
     private AssociativeMapVisualization mapVisual;
     
     public AssociativeMapCanvas(AssociativeMap map)
