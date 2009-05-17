@@ -1,38 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="dANN" default="all" basedir=".">
 	<path id="classpath">
-            <fileset dir="lib" includes="**/*.jar"/>
+		<fileset dir="lib" includes="**/*.jar"/>
 	</path>
-        
-        <target name="clean">
-            <delete dir="build"/>
-        </target>
-        
-        <target name="javadoc">
-            <mkdir dir="build/javadoc"/>
-            <delete includeemptydirs="true">
-                <fileset dir="build/javadoc" includes="**/*"/>
-            </delete>
-            <javadoc destdir="build/javadoc/" classpathref="classpath">
-                <fileset dir="src/" includes="**/*.java"/>
-            </javadoc>
-        </target>
-        
-        <target name="compile">
-            <delete dir="build/classes"/>
-            
-            <mkdir dir="build/classes"/>
-            <javac destdir="build/classes" classpathref="classpath" debug="true">
-                <src path="src/com"/>
-            </javac>
-            
-            <mkdir dir="build/jar"/>
-            <jar destfile="build/jar/dann.jar" basedir="build/classes"/>
-        </target>
-
+    
+	<target name="clean">
+		<delete dir="build"/>
+	</target>
+    
+	<target name="javadoc">
+		<mkdir dir="build/javadoc"/>
+		<delete includeemptydirs="true">
+			<fileset dir="build/javadoc" includes="**/*"/>
+		</delete>
+		<javadoc destdir="build/javadoc/" classpathref="classpath">
+			<fileset dir="src/" includes="**/*.java"/>
+		</javadoc>
+	</target>
+    
+	<target name="compile">
+		<delete dir="build/classes"/>
+	
+		<mkdir dir="build/classes"/>
+		<javac destdir="build/classes" classpathref="classpath" debug="true">
+			<src path="src/com"/>
+		</javac>
+	
+		<mkdir dir="build/jar"/>
+		<jar destfile="build/jar/dann.jar" basedir="build/classes"/>
+	</target>
+    
+	<target name="tests">
+		<mkdir dir="build/tests"/>
+		<junit printsummary="yes" haltonfailure="yes" showoutput="yes" >
+			<classpath>
+				<pathelement location="build/jar/dann.jar"/>
+				<pathelement location="lib/junit-4.6.jar"/>
+			</classpath>
+			<formatter type="xml"/>
+			<batchtest fork="yes" todir="build/tests">
+				<fileset dir="src">
+					<include name="com/syncleus/tests/**/*.java"/>
+					<exclude name="**/AllTests.java"/>
+				</fileset>
+			</batchtest>
+		</junit>
+	</target>
+    
 	<target name="all">
-            <antcall target="clean"/>
-            <antcall target="javadoc"/>
-            <antcall target="compile"/>
+		<antcall target="clean"/>
+		<antcall target="javadoc"/>
+		<antcall target="compile"/>
+		<antcall target="tests"/>
 	</target>
 </project>
