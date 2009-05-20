@@ -40,7 +40,7 @@
 			<formatter type="xml"/>
 			<batchtest fork="yes" todir="build/tests">
 				<fileset dir="src">
-					<include name="com/syncleus/tests/**/*.java"/>
+					<include name="com/syncleus/tests/**/Test*.java"/>
 					<exclude name="**/AllTests.java"/>
 				</fileset>
 			</batchtest>
