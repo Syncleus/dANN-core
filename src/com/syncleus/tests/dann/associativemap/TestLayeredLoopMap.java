@@ -9,7 +9,7 @@ public class TestLayeredLoopMap
 
 	@BeforeClass public static void alignMap()
 	{
-		testMap = new LayeredAssociativeMap(16);
+		testMap = new LayeredAssociativeMap(32);
 
 		//align the testMap
 		for(int alignCount = 0; alignCount<100; alignCount++)
@@ -44,15 +44,16 @@ public class TestLayeredLoopMap
 			}
 
 
-			for(int seperatedLayerIndex = 0; seperatedLayerIndex < nodes[8].length; seperatedLayerIndex++)
+			for(int seperatedLayerIndex = 0; seperatedLayerIndex < nodes[16].length; seperatedLayerIndex++)
 			{
-				AssociativeNode currentSeperatedLayerNode = nodes[8][seperatedLayerIndex];
+				AssociativeNode currentSeperatedLayerNode = nodes[16][seperatedLayerIndex];
 				double currentDistance = currentPrimaryLayerNode.getLocation().calculateRelativeTo(currentSeperatedLayerNode.getLocation()).getDistance();
 
 				if(closestSeperated > currentDistance)
 					closestSeperated = currentDistance;
 			}
 		}
+
 		Assert.assertTrue("Associative Map did not properly align: farthestAdjacent:" + farthestAdjacent + " closestSeperated:" + closestSeperated, farthestAdjacent < closestSeperated);
 	}
 
@@ -80,9 +81,9 @@ public class TestLayeredLoopMap
 			}
 
 
-			for(int seperatedLayerIndex = 0; seperatedLayerIndex < nodes[5].length; seperatedLayerIndex++)
+			for(int seperatedLayerIndex = 0; seperatedLayerIndex < nodes[16].length; seperatedLayerIndex++)
 			{
-				AssociativeNode currentSeperatedLayerNode = nodes[5][seperatedLayerIndex];
+				AssociativeNode currentSeperatedLayerNode = nodes[16][seperatedLayerIndex];
 				double currentDistance = currentPrimaryLayerNode.getLocation().calculateRelativeTo(currentSeperatedLayerNode.getLocation()).getDistance();
 
 				seperatedTotal += currentDistance;
