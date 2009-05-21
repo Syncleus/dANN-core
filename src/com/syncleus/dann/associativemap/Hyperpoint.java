@@ -121,7 +121,7 @@ public class Hyperpoint implements Serializable
         if(dimension <= 0)
             throw new IllegalArgumentException("dimensions can not be less than or equal to zero");
         if((dimension-2) >= this.coordinates.length)
-            throw new IllegalArgumentException("dimensions is larger than the dimensionality (minus 1) o this point");
+            throw new IllegalArgumentException("dimensions is larger than the dimensionality (minus 1) of this point");
         
         double[] newCoords = (double[]) this.coordinates.clone();
         for(int coordinateIndex = dimension-1; coordinateIndex < this.getDimensions(); coordinateIndex++)
@@ -159,7 +159,7 @@ public class Hyperpoint implements Serializable
         if(dimension <= 0)
             throw new IllegalArgumentException("dimensions can not be less than or equal to zero");
         if((dimension-2) >= this.coordinates.length)
-            throw new IllegalArgumentException("dimensions is larger than the dimensionality (minus 1) o this point");
+            throw new IllegalArgumentException("dimensions is larger than the dimensionality (minus 1) of this point");
         
         double squaredSum = 0.0;
         for(int coordinateIndex = this.coordinates.length-1; coordinateIndex >= (dimension); coordinateIndex--)
@@ -188,10 +188,10 @@ public class Hyperpoint implements Serializable
     public Hyperpoint add(Hyperpoint pointToAdd)
     {
         if(pointToAdd == null)
-            throw new NullPointerException("absolutePoint can not be null!");
+            throw new NullPointerException("pointToAdd can not be null!");
         
         if(pointToAdd.getDimensions() != this.getDimensions())
-            throw new IllegalArgumentException("absolutePoint must have the same dimensions as this point");
+            throw new IllegalArgumentException("pointToAdd must have the same dimensions as this point");
         
         double[] relativeCoords = new double[this.coordinates.length];
         for(int coordIndex = 0; coordIndex < this.coordinates.length; coordIndex++)
