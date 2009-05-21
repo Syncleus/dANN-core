@@ -10,7 +10,7 @@ import com.syncleus.dann.associativemap.*;
 public class LayeredAssociativeMap extends AssociativeMap
 {
     private AssociativeNode layeredNodes[][];
-    private static final int NODES_PER_LAYER = 16;
+    private static final int NODES_PER_LAYER = 8;
     
     LayeredAssociativeMap(int layers)
     {
