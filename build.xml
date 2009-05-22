@@ -3,6 +3,15 @@
 	<taskdef name="lint4j" classname="com.jutils.lint4j.ant.Lint4jAntTask">
 		<classpath><pathelement location="lib/lint4j.jar"/></classpath>
 	</taskdef>
+	<taskdef classpath="lib/cobertura.jar" resource="tasks.properties">
+		<classpath>
+			<pathelement location="lib/cobertura.jar"/>
+			<pathelement location="lib/asm-3.0.jar"/>
+			<pathelement location="lib/log4j-1.2.9.jar"/>
+			<pathelement location="lib/asm-tree-3.0.jar"/>
+			<pathelement location="lib/jakarta-oro-2.0.8.jar"/>
+		</classpath>
+	</taskdef>
 
 	<path id="classpath">
 		<fileset dir="lib" includes="**/*.jar"/>
@@ -10,6 +19,7 @@
     
 	<target name="clean">
 		<delete dir="build"/>
+		<delete file="cobertura.ser"/>
 	</target>
     
 	<target name="javadoc">
@@ -42,24 +52,38 @@
 			</formatters>
 		</lint4j>
 	</target>
-    
+
 	<target name="compile">
 		<delete dir="build/classes"/>
 	
 		<mkdir dir="build/classes"/>
-		<javac destdir="build/classes" classpathref="classpath" debug="true">
-			<src path="src/com"/>
-		</javac>
-	
+		<javac destdir="build/classes" classpathref="classpath" debug="true" excludes="src/com/syncleus/tests/**" srcdir="src/com"/>
+
+		<mkdir dir="build/tests/classes"/>
+		<javac destdir="build/tests/classes" classpathref="classpath" debug="true" srcdir="src/com" includes="src/com/syncleus/tests/**" />
+
+		<mkdir dir="build/coverage/classes"/>
+		<cobertura-instrument todir="build/coverage/classes">
+			<fileset dir="build">
+				<include name="classes/**/*.class"/>
+				<include name="tests/classes/**/*.class"/>
+			</fileset>
+		</cobertura-instrument>
+	</target>
+
+	<target name="build">
 		<mkdir dir="build/jar"/>
 		<jar destfile="build/jar/dann.jar" basedir="build/classes"/>
+		<jar destfile="build/jar/dann-tests.jar" basedir="build/tests/classes"/>
+		<jar destfile="build/jar/dann-coverage.jar" basedir="build/coverage/classes"/>
 	</target>
     
-	<target name="tests">
+	<target name="tests-nocoverage">
 		<mkdir dir="build/tests"/>
 		<junit printsummary="yes" haltonfailure="yes" showoutput="yes" >
 			<classpath>
 				<pathelement location="build/jar/dann.jar"/>
+				<pathelement location="build/jar/dann-tests.jar"/>
 				<pathelement location="lib/junit-4.6.jar"/>
 			</classpath>
 			<formatter type="xml"/>
@@ -72,11 +96,38 @@
 		</junit>
 	</target>
 
+	<target name="tests-coverage">
+		<mkdir dir="build/coverage/tests"/>
+		<junit printsummary="yes" haltonfailure="yes" showoutput="yes" >
+			<classpath>
+				<pathelement location="build/jar/dann-coverage.jar"/>
+                                <pathelement location="build/jar/dann.jar"/>
+                                <pathelement location="build/jar/dann-tests.jar"/>
+				<pathelement location="lib/junit-4.6.jar"/>
+				<pathelement location="lib/cobertura.jar"/>
+			</classpath>
+			<formatter type="xml"/>
+			<batchtest fork="yes" todir="build/coverage/tests">
+				<fileset dir="src">
+					<include name="com/syncleus/tests/**/Test*.java"/>
+					<exclude name="**/AllTests.java"/>
+				</fileset>
+			</batchtest>
+		</junit>
+
+                <mkdir dir="build/coverage/reports"/>
+                <cobertura-report format="xml" srcdir="build/coverage" destdir="build/coverage/reports"/>
+
+		<move file="./cobertura.ser" tofile="build/coverage/cobertura.ser"/>
+	</target>
+
 	<target name="all">
 		<antcall target="clean"/>
 		<antcall target="javadoc"/>
 		<antcall target="lint"/>
 		<antcall target="compile"/>
-		<antcall target="tests"/>
+		<antcall target="build"/>
+		<antcall target="tests-nocoverage"/>
+		<antcall target="tests-coverage"/>
 	</target>
 </project>
