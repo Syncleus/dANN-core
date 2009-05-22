@@ -55,12 +55,15 @@
 
 	<target name="compile">
 		<delete dir="build/classes"/>
-	
+
 		<mkdir dir="build/classes"/>
-		<javac destdir="build/classes" classpathref="classpath" debug="true" excludes="src/com/syncleus/tests/**" srcdir="src/com"/>
+		<javac destdir="build/classes" classpathref="classpath" debug="true" excludes="com/syncleus/tests/**" srcdir="src"/>
 
 		<mkdir dir="build/tests/classes"/>
-		<javac destdir="build/tests/classes" classpathref="classpath" debug="true" srcdir="src/com" includes="src/com/syncleus/tests/**" />
+		<javac destdir="build/tests/classes" classpathref="classpath" debug="true" srcdir="src">
+			<include name="com/syncleus/tests/**"/>
+		</javac>
+		<delete dir="build/tests/classes/com/syncleus/dann"/>
 
 		<mkdir dir="build/coverage/classes"/>
 		<cobertura-instrument todir="build/coverage/classes">
