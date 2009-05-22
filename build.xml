@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="dANN" default="all" basedir=".">
+	<taskdef name="lint4j" classname="com.jutils.lint4j.ant.Lint4jAntTask">
+		<classpath><pathelement location="lib/lint4j.jar"/></classpath>
+	</taskdef>
+
 	<path id="classpath">
 		<fileset dir="lib" includes="**/*.jar"/>
 	</path>
@@ -16,6 +20,27 @@
 		<javadoc destdir="build/javadoc/" classpathref="classpath">
 			<fileset dir="src/" includes="**/*.java"/>
 		</javadoc>
+	</target>
+
+	<target name="lint" description="Perform lint checks">
+		<mkdir dir="build/lint"/>
+		<lint4j packages="com.syncleus.*" level="5">
+			<sourcepath>
+				<dirset dir="src">
+					<include name="**/*.java" />
+				</dirset>
+				<pathelement path="src/" />
+			</sourcepath>
+			<classpath>
+				<fileset dir="lib/">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+			<formatters>
+				<formatter type="text" />
+				<formatter type="xml" toFile="build/lint/all.xml"/>
+			</formatters>
+		</lint4j>
 	</target>
     
 	<target name="compile">
@@ -46,10 +71,11 @@
 			</batchtest>
 		</junit>
 	</target>
-    
+
 	<target name="all">
 		<antcall target="clean"/>
 		<antcall target="javadoc"/>
+		<antcall target="lint"/>
 		<antcall target="compile"/>
 		<antcall target="tests"/>
 	</target>
