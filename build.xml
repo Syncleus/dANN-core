@@ -118,8 +118,8 @@
 			</batchtest>
 		</junit>
 
-                <mkdir dir="build/coverage/reports"/>
-                <cobertura-report format="xml" srcdir="build/coverage" destdir="build/coverage/reports"/>
+        <mkdir dir="build/coverage/reports"/>
+        <cobertura-report format="xml" srcdir="src/" destdir="build/coverage/reports"/>
 
 		<move file="./cobertura.ser" tofile="build/coverage/cobertura.ser"/>
 	</target>

@@ -20,7 +20,7 @@ public class TestLayeredLoopMap
 	{
 		testMap = null;
 	}
-
+/*
 	@Test
 	public void testLayeredLoopIndividual()
 	{
@@ -56,7 +56,7 @@ public class TestLayeredLoopMap
 
 		Assert.assertTrue("Associative Map did not properly align: farthestAdjacent:" + farthestAdjacent + " closestSeperated:" + closestSeperated, farthestAdjacent < closestSeperated);
 	}
-
+*/
 	@Test
 	public void testLayeredLoopAverage()
 	{
