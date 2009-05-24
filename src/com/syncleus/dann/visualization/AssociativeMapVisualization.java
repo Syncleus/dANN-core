@@ -194,12 +194,12 @@ public class AssociativeMapVisualization extends BranchGroup
         g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
         int tempStringWidth1 = fm.stringWidth(textLine1);
-        int tempTextPosX1 = Math.round(imSizeX / 2 - tempStringWidth1 / 2);
+        int tempTextPosX1 = imSizeX / 2 - tempStringWidth1 / 2;
 //		  int tempTextPosX = 100;
         g2d.drawString(textLine1, tempTextPosX1, 60);
 
         int tempStringWidth2 = fm.stringWidth(textLine1);
-        int tempTextPosX2 = Math.round(imSizeX / 2 - tempStringWidth2 / 2);
+        int tempTextPosX2 = imSizeX / 2 - tempStringWidth2 / 2;
 
         g2d.drawString(textLine2, tempTextPosX2, 90);
 
