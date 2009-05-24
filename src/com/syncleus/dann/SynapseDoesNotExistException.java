@@ -26,7 +26,7 @@ package com.syncleus.dann;
  * @author Jeffrey Phillips Freeman
  * @since 0.1
  */
-public class SynapseDoesNotExistException extends dannException
+public class SynapseDoesNotExistException extends DannException
 {
 	public SynapseDoesNotExistException()
 	{

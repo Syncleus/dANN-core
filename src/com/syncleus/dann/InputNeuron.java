@@ -97,8 +97,8 @@ public class InputNeuron extends Neuron implements java.io.Serializable
         this.calculateDeltaTrain();
     }
     
-    protected void connectFrom(Synapse inSynapse) throws dannException
+    protected void connectFrom(Synapse inSynapse) throws DannException
     {
-        throw new dannException("Can not connect a neuron to an InputNeuron");
+        throw new DannException("Can not connect a neuron to an InputNeuron");
     }
 }

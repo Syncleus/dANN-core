@@ -20,7 +20,7 @@ package com.syncleus.dann.associativemap;
 
 import com.syncleus.dann.*;
 
-public class NeighborNotFoundException extends dannException
+public class NeighborNotFoundException extends DannException
 {
     public NeighborNotFoundException()
     {

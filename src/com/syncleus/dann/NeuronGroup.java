@@ -98,10 +98,10 @@ public class NeuronGroup extends NetworkNode implements java.io.Serializable
             {
                 Set<Neuron> toConnectToChildren = ((NeuronGroup) toConnectTo).getChildrenNeuronsRecursivly();
                 for (Neuron currentOut : toConnectToChildren)
-                    try{ currentChild.connectTo(currentOut); } catch(dannException e){}
+                    try{ currentChild.connectTo(currentOut); } catch(DannException e){}
             }
             else
-                try{ currentChild.connectTo(toConnectTo); } catch(dannException e){}
+                try{ currentChild.connectTo(toConnectTo); } catch(DannException e){}
     }
 
 
@@ -158,7 +158,7 @@ public class NeuronGroup extends NetworkNode implements java.io.Serializable
      * @param outUnit The NetworkNode to connect to.
      * @see com.syncleus.dann.NetworkNode#connectFrom
      */
-    public void connectTo(NetworkNode outUnit) throws dannException
+    public void connectTo(NetworkNode outUnit) throws DannException
     {
         this.getRandomChild().connectTo(outUnit);
     }
@@ -173,7 +173,7 @@ public class NeuronGroup extends NetworkNode implements java.io.Serializable
      * @param inSynapse The synapse to connect from.
      * @see com.syncleus.dann.NetworkNode#connectTo
      */
-    protected void connectFrom(Synapse inSynapse) throws dannException
+    protected void connectFrom(Synapse inSynapse) throws DannException
     {
         this.getRandomChild().connectFrom(inSynapse);
     }

@@ -48,7 +48,7 @@ public abstract class NetworkNode implements java.io.Serializable
      * @param outUnit The NetworkNode to connect to.
      * @see com.syncleus.dann.NetworkNode#connectFrom
      */
-    public abstract void connectTo(NetworkNode outUnit) throws dannException;
+    public abstract void connectTo(NetworkNode outUnit) throws DannException;
 
 
 
@@ -60,7 +60,7 @@ public abstract class NetworkNode implements java.io.Serializable
      * @param inSynapse The synapse to connect from.
      * @see com.syncleus.dann.NetworkNode#connectTo
      */
-    protected abstract void connectFrom(Synapse inSynapse) throws dannException;
+    protected abstract void connectFrom(Synapse inSynapse) throws DannException;
 
 
 

@@ -133,7 +133,7 @@ public class Neuron extends NetworkNode implements java.io.Serializable
      * @param outUnit The NetworkNode to connect to.
      * @see com.syncleus.dann.Neuron#connectFrom
      */
-    public void connectTo(NetworkNode outUnit) throws dannException
+    public void connectTo(NetworkNode outUnit) throws DannException
     {
         //make sure you arent already connected to the neuron
         if (outUnit == null)
@@ -155,7 +155,7 @@ public class Neuron extends NetworkNode implements java.io.Serializable
      * @param inSynapse The synapse to connect from.
      * @see com.syncleus.dann.Neuron#connectTo
      */
-    protected void connectFrom(Synapse inSynapse) throws dannException
+    protected void connectFrom(Synapse inSynapse) throws DannException
     {
         //make sure you arent already connected fromt his neuron
 

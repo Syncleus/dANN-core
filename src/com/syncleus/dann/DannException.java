@@ -26,13 +26,13 @@ package com.syncleus.dann;
  * @author Jeffrey Phillips Freeman
  * @since 0.1
  */
-public class dannException extends java.lang.Exception
+public class DannException extends java.lang.Exception
 {
-	public dannException()
+	public DannException()
 	{
 	}
 	
-	public dannException(String msg)
+	public DannException(String msg)
 	{
 		super(msg);
 	}

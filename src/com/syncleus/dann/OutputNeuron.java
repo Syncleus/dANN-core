@@ -94,8 +94,8 @@ public class OutputNeuron extends Neuron implements java.io.Serializable
         super.deltaTrain *= super.activateDerivitive();
     }
     
-    public void connectTo(NetworkNode outUnit) throws dannException
+    public void connectTo(NetworkNode outUnit) throws DannException
     {
-        throw new dannException("Can not connect from a OutputNeuron");
+        throw new DannException("Can not connect from a OutputNeuron");
     }
 }
