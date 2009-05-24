@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.activation;
 
-public interface ActivationFunction
+public interface ActivationFunction extends java.io.Serializable
 {
     public double activate(double activity);
     public double activateDerivative(double activity);
