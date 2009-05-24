@@ -37,22 +37,25 @@ public class AssociativeMapCanvas extends Canvas3D
     {
         this(map, SimpleUniverse.getPreferredConfiguration());
     }
-    
-    public AssociativeMap getAssociativeMap()
+
+    public AssociativeMapCanvas(AssociativeMap map, float nodeRadius)
     {
-        return this.mapVisual.getMap();
+        this(map, SimpleUniverse.getPreferredConfiguration(), nodeRadius);
     }
 
-
-
     public AssociativeMapCanvas(AssociativeMap map, GraphicsConfiguration configuration)
+    {
+        this(map, configuration, 0.01F);
+    }
+    
+    public AssociativeMapCanvas(AssociativeMap map, GraphicsConfiguration configuration, float nodeRadius)
     {
         super(configuration);
         
 
         BranchGroup root = createRoot();
 
-        this.mapVisual = new AssociativeMapVisualization(map);
+        this.mapVisual = new AssociativeMapVisualization(map, nodeRadius);
         this.mapVisual.refresh();
 
         root.addChild(mapVisual);
@@ -72,6 +75,11 @@ public class AssociativeMapCanvas extends Canvas3D
         mouseOrbital.setReverseRotate(true);
         mouseOrbital.setSchedulingBounds(new BoundingSphere(new Point3d(0.0, 0.0, 0.0), Double.POSITIVE_INFINITY));
         universe.getViewingPlatform().setViewPlatformBehavior(mouseOrbital);
+    }
+
+    public AssociativeMap getAssociativeMap()
+    {
+        return this.mapVisual.getMap();
     }
     
     

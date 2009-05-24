@@ -37,11 +37,18 @@ public class AssociativeMapVisualization extends BranchGroup
     private Hashtable<AssociativeNode, TransformGroup> nodeGraphics = new Hashtable<AssociativeNode, TransformGroup>();
     private Hashtable<AssociativeNode, Hyperpoint> oldNodeLocations = new Hashtable<AssociativeNode, Hyperpoint>();
     private BranchGroup nestedRoot = new BranchGroup();
+	private float nodeRadius;
 
 
 
     public AssociativeMapVisualization(AssociativeMap map)
     {
+		this(map, 0.01F);
+    }
+
+	public AssociativeMapVisualization(AssociativeMap map, float nodeRadius)
+	{
+		this.nodeRadius = nodeRadius;
         this.map = map;
 
         this.setCapability(BranchGroup.ALLOW_CHILDREN_WRITE);
@@ -52,7 +59,7 @@ public class AssociativeMapVisualization extends BranchGroup
         this.addChild(this.nestedRoot);
 
         this.refresh();
-    }
+	}
 
 
 
@@ -87,7 +94,7 @@ public class AssociativeMapVisualization extends BranchGroup
                     else if (networkNode instanceof InputNeuron)
                         neuronColor = Color.BLUE;
                 }
-                TransformGroup newVisual = this.createNeuronSphere("", "", neuronColor, (float) node.getLocation().getCoordinate(1), (float) node.getLocation().getCoordinate(2), (float) node.getLocation().getCoordinate(3), 0.01F);
+                TransformGroup newVisual = this.createNeuronSphere("", "", neuronColor, (float) node.getLocation().getCoordinate(1), (float) node.getLocation().getCoordinate(2), (float) node.getLocation().getCoordinate(3), this.nodeRadius);
                 if (childrenRemoved == false)
                 {
 //                    System.out.println("need to remove children for adds....");
