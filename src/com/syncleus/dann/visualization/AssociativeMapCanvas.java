@@ -60,9 +60,6 @@ public class AssociativeMapCanvas extends Canvas3D
         SimpleUniverse universe = new SimpleUniverse(this);
         universe.addBranchGraph(root);
 
-        // Use parallel projection.
-        View view = universe.getViewer().getView();
-
         // Set the initial view position
         TransformGroup viewTransformGroup = universe.getViewingPlatform().getViewPlatformTransform();
         Transform3D viewTransform = new Transform3D();
@@ -75,9 +72,6 @@ public class AssociativeMapCanvas extends Canvas3D
         mouseOrbital.setReverseRotate(true);
         mouseOrbital.setSchedulingBounds(new BoundingSphere(new Point3d(0.0, 0.0, 0.0), Double.POSITIVE_INFINITY));
         universe.getViewingPlatform().setViewPlatformBehavior(mouseOrbital);
-
-        // a zoom control with the mouse wheel
-        MouseWheelZoom mouseZoom = new MouseWheelZoom(viewTransformGroup);
     }
     
     
