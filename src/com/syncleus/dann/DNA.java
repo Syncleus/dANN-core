@@ -39,7 +39,7 @@ public class DNA implements java.io.Serializable
      * @since 0.1
      * @see com.syncleus.dann.Synapse#learnWeight
      */
-    public double learningRate = 0.001;
+    public double learningRate;
 
     // </editor-fold>
 
@@ -51,5 +51,6 @@ public class DNA implements java.io.Serializable
      */
     public DNA()
     {
+		this.learningRate = 0.001;
     }    // </editor-fold>
 }

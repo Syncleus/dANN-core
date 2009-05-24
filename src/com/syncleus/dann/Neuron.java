@@ -36,7 +36,7 @@ import java.util.Set;
  * @since 0.1
  * @see com.syncleus.dann.Synapse
  */
-public class Neuron extends NetworkNode implements java.io.Serializable
+public class Neuron extends NetworkNode
 {
     // <editor-fold defaultstate="collapsed" desc="Attributes">
     /**
@@ -45,13 +45,13 @@ public class Neuron extends NetworkNode implements java.io.Serializable
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
-    protected double activity = 0;
+    protected double activity;
     /**
      * Represents the current output of the neuron<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
-    protected double output = 0;
+    protected double output;
     /**
      * The current weight of the bias input. The bias is an input that is always
      * set to an on position. The bias weight usually adapts in the same manner
@@ -59,7 +59,7 @@ public class Neuron extends NetworkNode implements java.io.Serializable
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
-    protected double biasWeight = 0;
+    protected double biasWeight;
     /**
      * An array list of all the synapses that this neuron is currently
      * connection out to.<BR>

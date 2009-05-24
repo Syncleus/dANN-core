@@ -31,7 +31,7 @@ import java.util.Set;
  * @author Jeffrey Phillips Freeman
  * @since 0.1
  */
-public class NeuronGroup extends NetworkNode implements java.io.Serializable
+public class NeuronGroup extends NetworkNode
 {
     // <editor-fold defaultstate="collapsed" desc="Attributes">
     /**

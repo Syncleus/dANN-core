@@ -29,14 +29,14 @@ import com.syncleus.dann.activation.*;
  * @since 0.1
  * @see com.syncleus.dann.OutputNeuron
  */
-public class InputNeuron extends Neuron implements java.io.Serializable
+public class InputNeuron extends Neuron
 {
     /**
      * Holds the current input value for this neuron<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
-    protected double input = 0;
+    protected double input;
 
 
 

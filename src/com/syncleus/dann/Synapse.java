@@ -46,25 +46,25 @@ public class Synapse implements java.io.Serializable
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
-    private double weight = 0.0;
+    private double weight;
     /**
      * The current output of the synapse<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
-    private double output = 0.0;
+    private double output;
     /**
      * The current input from the synapse<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
-    private double input = 0.0;
+    private double input;
     /**
      * The current synapse's deltaTrain<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
-    private double deltaTrain = 0.0;
+    private double deltaTrain;
 
     // </editor-fold>
 
