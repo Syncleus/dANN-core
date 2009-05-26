@@ -55,8 +55,7 @@ public
 
 
 	@Test
-	public
-		void testXor()
+	public void testXor() throws DannException
 	{
 		//Adjust the learning rate
 		myDNA.learningRate = 0.01;

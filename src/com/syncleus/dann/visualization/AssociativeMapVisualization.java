@@ -21,7 +21,7 @@ package com.syncleus.dann.visualization;
 import com.syncleus.dann.*;
 import com.sun.j3d.utils.geometry.*;
 import com.sun.j3d.utils.image.TextureLoader;
-import com.syncleus.dann.NetworkNode;
+import com.syncleus.dann.Neuron;
 import com.syncleus.dann.associativemap.*;
 import java.awt.image.BufferedImage;
 import java.util.Set;
@@ -86,12 +86,12 @@ public class AssociativeMapVisualization extends BranchGroup
             if (this.nodeGraphics.containsKey(node) == false)
             {
                 Color neuronColor = Color.GRAY;
-                if (node instanceof NetworkNodeAssociativeNode)
+                if (node instanceof NeuronAssociativeNode)
                 {
-                    NetworkNode networkNode = ((NetworkNodeAssociativeNode) node).getNetworkNode();
-                    if (networkNode instanceof OutputNeuron)
+                    Neuron neuron = ((NeuronAssociativeNode) node).getNeuron();
+                    if (neuron instanceof OutputNeuron)
                         neuronColor = Color.RED;
-                    else if (networkNode instanceof InputNeuron)
+                    else if (neuron instanceof InputNeuron)
                         neuronColor = Color.BLUE;
                 }
                 TransformGroup newVisual = this.createNeuronSphere("", "", neuronColor, (float) node.getLocation().getCoordinate(1), (float) node.getLocation().getCoordinate(2), (float) node.getLocation().getCoordinate(3), this.nodeRadius);

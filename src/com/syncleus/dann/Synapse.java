@@ -34,13 +34,13 @@ public class Synapse implements java.io.Serializable
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
-    private NetworkNode destination;
+    private Neuron destination;
     /**
      * The incomming neuron connection.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
-    private NetworkNode source;
+    private Neuron source;
     /**
      * The current weight of the synapse<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
@@ -77,7 +77,7 @@ public class Synapse implements java.io.Serializable
      * @param destinationToSet The outgoing neuron connection.
      * @param initialWeight The initial weight of the synapse
      */
-    public Synapse(NetworkNode sourceToSet, NetworkNode destinationToSet, double initialWeight)
+    public Synapse(Neuron sourceToSet, Neuron destinationToSet, double initialWeight)
     {
         this.destination = destinationToSet;
         this.source = sourceToSet;
@@ -93,7 +93,7 @@ public class Synapse implements java.io.Serializable
      * @since 0.1
      * @return The source neuron.
      */
-    public NetworkNode getSource()
+    public Neuron getSource()
     {
         return this.source;
     }
@@ -106,7 +106,7 @@ public class Synapse implements java.io.Serializable
      * @since 0.1
      * @return The destination neuron.
      */
-    public NetworkNode getDestination()
+    public Neuron getDestination()
     {
         return this.destination;
     }

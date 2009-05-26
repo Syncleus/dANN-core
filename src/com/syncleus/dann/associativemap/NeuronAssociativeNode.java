@@ -18,32 +18,30 @@
  ******************************************************************************/
 package com.syncleus.dann.associativemap;
 
-import com.syncleus.dann.NetworkNode;
+import com.syncleus.dann.Neuron;
 import java.util.HashSet;
 import java.util.Random;
 
 
-public class NetworkNodeAssociativeNode extends AssociativeNode
+public class NeuronAssociativeNode extends AssociativeNode
 {
-    private static Random random = new Random();
-    
-    private NetworkNode networkNode;
+    private Neuron neuron;
     
     
-    public NetworkNodeAssociativeNode(BrainAssociativeMap network, int dimensions, NetworkNode networkNode)
+    public NeuronAssociativeNode(BrainAssociativeMap network, int dimensions, Neuron networkNode)
     {
         super(network, randomCoordinates(dimensions));
         
-        this.networkNode = networkNode;
+        this.neuron = networkNode;
     }
 
 
 
-    public NetworkNodeAssociativeNode(BrainAssociativeMap network, Hyperpoint location, NetworkNode networkNode)
+    public NeuronAssociativeNode(BrainAssociativeMap network, Hyperpoint location, Neuron networkNode)
     {
         super(network, location);
 
-        this.networkNode = networkNode;
+        this.neuron = networkNode;
     }
 
 
@@ -60,16 +58,16 @@ public class NetworkNodeAssociativeNode extends AssociativeNode
     {
         this.dissociateAll();
 
-        HashSet<NetworkNode> neighborNeurons = new HashSet<NetworkNode>();
-        neighborNeurons.addAll(this.networkNode.getNeighbors());
-        for (NetworkNode neighborNeuron : neighborNeurons)
+        HashSet<Neuron> neurons = new HashSet<Neuron>();
+        neurons.addAll(this.neuron.getNeighbors());
+        for (Neuron neighborNeuron : neurons)
             this.associate(this.getNetwork().getNodeFromNeuron(neighborNeuron), 1.0);
     }
 
 
 
-    public NetworkNode getNetworkNode()
+    public Neuron getNeuron()
     {
-        return networkNode;
+        return neuron;
     }
 }

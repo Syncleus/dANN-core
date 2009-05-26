@@ -21,6 +21,7 @@ package com.syncleus.dann;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 
@@ -31,7 +32,7 @@ import java.util.Set;
  * @author Jeffrey Phillips Freeman
  * @since 0.1
  */
-public class NeuronGroup extends NetworkNode
+public class NeuronGroup implements java.io.Serializable
 {
     // <editor-fold defaultstate="collapsed" desc="Attributes">
     /**
@@ -41,13 +42,25 @@ public class NeuronGroup extends NetworkNode
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
-    protected HashSet<NetworkNode> children = new HashSet<NetworkNode>();
+    protected HashSet<Neuron> childrenNeurons = new HashSet<Neuron>();
+
+    // <editor-fold defaultstate="collapsed" desc="Attributes">
+    /**
+     * This contains all the neuronGroups considered to be a part of this layer. Any
+     * one neuron can only belong to one layer. But one layer owns many neurons.
+     * <BR>
+     * <!-- Author: Jeffrey Phillips Freeman -->
+     * @since 0.1
+     */
+	protected HashSet<NeuronGroup> childrenNeuronGroups = new HashSet<NeuronGroup>();
     /**
      * This will determine most of the properties of the layer.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
     DNA ownedDNA;
+
+	protected Random random = new Random();
 
     // </editor-fold>
 
@@ -68,14 +81,25 @@ public class NeuronGroup extends NetworkNode
 
     // <editor-fold defaultstate="collapsed" desc="Topology Manipulation">
     /**
-     * Adds another processing unit to this layer.<BR>
+     * Adds another Neuron to this layer.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @param toAdd the NetworkNode to add.
+     * @param toAdd the Neuron to add.
      */
-    public void add(NetworkNode toAdd)
+    public void add(Neuron toAdd)
     {
-        this.children.add(toAdd);
+        this.childrenNeurons.add(toAdd);
+    }
+
+    /**
+     * Adds another NeuronGroup to this layer.<BR>
+     * <!-- Author: Jeffrey Phillips Freeman -->
+     * @since 0.1
+     * @param toAdd the NeuronGroup to add.
+     */
+    public void add(NeuronGroup toAdd)
+    {
+        this.childrenNeuronGroups.add(toAdd);
     }
 
 
@@ -89,30 +113,48 @@ public class NeuronGroup extends NetworkNode
      * 	to.
      * @see com.syncleus.dann.NeuronGroup#connectTo
      */
-    public void connectAllTo(NetworkNode toConnectTo)
+    public void connectAllTo(Neuron toConnectTo) throws DannException
     {
-        for (NetworkNode currentChild : this.children)
-            if (currentChild instanceof NeuronGroup)
-                ((NeuronGroup) currentChild).connectAllTo(toConnectTo);
-            else if (toConnectTo instanceof NeuronGroup)
-            {
-                Set<Neuron> toConnectToChildren = ((NeuronGroup) toConnectTo).getChildrenNeuronsRecursivly();
-                for (Neuron currentOut : toConnectToChildren)
-                    try{ currentChild.connectTo(currentOut); } catch(DannException e){}
-            }
-            else
-                try{ currentChild.connectTo(toConnectTo); } catch(DannException e){}
+		for (Neuron currentChild : this.childrenNeurons)
+			currentChild.connectTo(toConnectTo);
+		for(NeuronGroup currentChild : this.childrenNeuronGroups)
+			currentChild.connectAllTo(toConnectTo);
     }
+
+	public void connectAllTo(NeuronGroup toConnectTo) throws DannException
+	{
+		for (Neuron currentChild : this.childrenNeurons)
+		{
+			Set<Neuron> toConnectToChildren = toConnectTo.getChildrenNeuronsRecursivly();
+			for (Neuron currentOut : toConnectToChildren)
+				currentChild.connectTo(currentOut);
+		}
+		for(NeuronGroup currentChild : this.childrenNeuronGroups)
+		{
+			Set<Neuron> toConnectToChildren = toConnectTo.getChildrenNeuronsRecursivly();
+			for (Neuron currentOut : toConnectToChildren)
+				currentChild.connectAllTo(currentOut);
+		}
+	}
 
 
 
     /**
-     * Obtains all the NetworkNodes directly owned by this NetworkGroup.
+     * Obtains all the Neurons directly owned by this NeuronGroup.
      * @since 0.1
      */
-    public Set<NetworkNode> getChildren()
+    public Set<Neuron> getChildrenNeurons()
     {
-        return Collections.unmodifiableSet(this.children);
+        return Collections.unmodifiableSet(this.childrenNeurons);
+    }
+
+    /**
+     * Obtains all the NeuronGroups directly owned by this NeuronGroup.
+     * @since 0.1
+     */
+    public Set<NeuronGroup> getChildrenNeuronGroups()
+    {
+        return Collections.unmodifiableSet(this.childrenNeuronGroups);
     }
 
 
@@ -126,11 +168,9 @@ public class NeuronGroup extends NetworkNode
     {
         HashSet<Neuron> returnList = new HashSet<Neuron>();
 
-        for (NetworkNode currentChild : this.children)
-            if (currentChild instanceof NeuronGroup)
-                returnList.addAll(((NeuronGroup) currentChild).getChildrenNeuronsRecursivly());
-            else if (currentChild instanceof Neuron)
-                returnList.add((Neuron) currentChild);
+		returnList.addAll(this.childrenNeurons);
+		for (NeuronGroup currentChild : this.childrenNeuronGroups)
+			returnList.addAll(currentChild.getChildrenNeuronsRecursivly());
 
         return Collections.unmodifiableSet(returnList);
     }
@@ -143,39 +183,14 @@ public class NeuronGroup extends NetworkNode
      * @since 0.1
      * @return A randomly selected child.
      */
-    private NetworkNode getRandomChild()
+    private Neuron getRandomChild()
     {
-        return (new ArrayList<NetworkNode>(this.children)).get(this.random.nextInt(this.children.size()));
-    }
+		Set<Neuron> childrenSet = this.getChildrenNeuronsRecursivly();
 
+		Neuron[] allChildren = new Neuron[childrenSet.size()];
+		childrenSet.toArray(allChildren);
 
-
-    /**
-     * This causes a random child NetworkNode to create a connection with
-     * the specified ProcessingUnti.
-     * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
-     * @param outUnit The NetworkNode to connect to.
-     * @see com.syncleus.dann.NetworkNode#connectFrom
-     */
-    public void connectTo(NetworkNode outUnit) throws DannException
-    {
-        this.getRandomChild().connectTo(outUnit);
-    }
-
-
-
-    /**
-     * This will cause the incomming connection synapse to be passed randomly to
-     * one of its children.<BR>
-     * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
-     * @param inSynapse The synapse to connect from.
-     * @see com.syncleus.dann.NetworkNode#connectTo
-     */
-    protected void connectFrom(Synapse inSynapse) throws DannException
-    {
-        this.getRandomChild().connectFrom(inSynapse);
+		return allChildren[this.random.nextInt(allChildren.length)];
     }
 
 
@@ -189,7 +204,7 @@ public class NeuronGroup extends NetworkNode
      */
     public void disconnectAllDestinations()
     {
-        for (NetworkNode currentChild : this.children)
+        for (Neuron currentChild : this.getChildrenNeuronsRecursivly())
             currentChild.disconnectAllDestinations();
     }
 
@@ -204,136 +219,22 @@ public class NeuronGroup extends NetworkNode
      */
     public void disconnectAllSources()
     {
-        for (NetworkNode currentChild : this.children)
+        for (Neuron currentChild : this.getChildrenNeuronsRecursivly())
             currentChild.disconnectAllSources();
     }
 
-
-
     /**
-     * Disconnects from a perticular outgoing connection.<BR>
+     * Causes the NetworkNode to disconnect all connections.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @param outSynapse The outgoing synapse to disconnect from.<BR>
-     * @see com.syncleus.dann.NetworkNode#removeSource
-     * @throws SynapseNotConnectedException Thrown if the specified synapse is not
-     * 	currently connected.
+     * @see com.syncleus.dann.NetworkNode#disconnectAllSources
+     * @see com.syncleus.dann.NetworkNode#disconnectAllDestinations
      */
-    public void disconnectDestination(Synapse outSynapse) throws SynapseNotConnectedException
+    public void disconnectAll()
     {
-        boolean found = true;
-        for (NetworkNode currentChild : this.children)
-        {
-            found = true;
-            try
-            {
-                currentChild.disconnectDestination(outSynapse);
-            }
-            catch (SynapseNotConnectedException caughtException)
-            {
-                found = false;
-            }
-
-            if (found == true)
-                return;
-        }
+        this.disconnectAllDestinations();
+        this.disconnectAllSources();
     }
-
-
-
-    /**
-     * Disconnects from a perticular incomming connection.<BR>
-     * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
-     * @param inSynapse The incomming synapse to disconnect from.<BR>
-     * @see com.syncleus.dann.NetworkNode#removeDestination
-     * @throws SynapseNotConnectedException Thrown if the specified synapse is not
-     * 	currently connected.
-     */
-    public void disconnectSource(Synapse inSynapse) throws SynapseNotConnectedException
-    {
-        boolean found = true;
-        for (NetworkNode currentChild : this.children)
-        {
-            found = true;
-            try
-            {
-                currentChild.disconnectSource(inSynapse);
-            }
-            catch (SynapseNotConnectedException caughtException)
-            {
-                found = false;
-            }
-
-            if (found == true)
-                return;
-        }
-    }
-
-
-
-    /**
-     * Called internally to facilitate the removal of a connection. It removes
-     * the specified synapse from memory assuming it has already been
-     * disconnected<BR>
-     * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
-     * @param outSynapse The incomming synapse to remove from memory.<BR>
-     * @see com.syncleus.dann.NetworkNode#disconnectSource
-     * @throws SynapseDoesNotExistException Thrown if the specified synapse
-     *	does not exist as a source synapse.
-     */
-    protected void removeDestination(Synapse outSynapse) throws SynapseDoesNotExistException
-    {
-        boolean found = true;
-        for (NetworkNode currentChild : this.children)
-        {
-            found = true;
-            try
-            {
-                currentChild.removeDestination(outSynapse);
-            }
-            catch (SynapseDoesNotExistException caughtException)
-            {
-                found = false;
-            }
-
-            if (found == true)
-                return;
-        }
-    }
-
-
-
-    /**
-     * Called internally to facilitate the removal of a connection.<BR>
-     * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
-     * @param inSynapse The incomming synapse to remove from memory.<BR>
-     * @see com.syncleus.dann.NetworkNode#disconnectDestination
-     * @throws SynapseDoesNotExistException Thrown if the specified synapse
-     *	does not exist as a source synapse.
-     */
-    protected void removeSource(Synapse inSynapse) throws SynapseDoesNotExistException
-    {
-        boolean found = true;
-        for (NetworkNode currentChild : this.children)
-        {
-            found = true;
-            try
-            {
-                currentChild.removeSource(inSynapse);
-            }
-            catch (SynapseDoesNotExistException caughtException)
-            {
-                found = false;
-            }
-
-            if (found == true)
-                return;
-        }
-    }
-
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Propogation">
@@ -346,7 +247,7 @@ public class NeuronGroup extends NetworkNode
      */
     public void propagate()
     {
-        for (NetworkNode currentChild : this.children)
+        for (Neuron currentChild : this.getChildrenNeuronsRecursivly())
             currentChild.propagate();
     }
 
@@ -361,25 +262,25 @@ public class NeuronGroup extends NetworkNode
      */
     public void backPropagate()
     {
-        for (NetworkNode currentChild : this.children)
+        for (Neuron currentChild : this.getChildrenNeuronsRecursivly())
             currentChild.backPropagate();
     }
     
-   public Set<NetworkNode> getNeighbors()
+   public Set<Neuron> getNeighbors()
     {
         throw new Error("Not yet implemented");
     }
 
 
 
-    public Set<NetworkNode> getSourceNeighbors()
+    public Set<Neuron> getSourceNeighbors()
     {
         throw new Error("Not yet implemented");
     }
 
 
 
-    public Set<NetworkNode> getDestinationNeighbors()
+    public Set<Neuron> getDestinationNeighbors()
     {
         throw new Error("Not yet implemented");
     }

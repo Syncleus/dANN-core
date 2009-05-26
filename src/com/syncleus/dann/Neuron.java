@@ -23,6 +23,7 @@ import com.syncleus.dann.activation.HyperbolicTangentActivationFunction;
 import java.security.InvalidParameterException;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 
@@ -36,7 +37,7 @@ import java.util.Set;
  * @since 0.1
  * @see com.syncleus.dann.Synapse
  */
-public class Neuron extends NetworkNode
+public class Neuron implements java.io.Serializable
 {
     // <editor-fold defaultstate="collapsed" desc="Attributes">
     /**
@@ -88,6 +89,7 @@ public class Neuron extends NetworkNode
      */
     protected double deltaTrain = 0;
     protected ActivationFunction activationFunction;
+	protected Random random = new Random();
 
     // </editor-fold>
 
@@ -105,7 +107,7 @@ public class Neuron extends NetworkNode
             throw new NullPointerException("DNA can not be null");
 
         this.ownedDNA = ownedDNAToSet;
-        this.biasWeight = ((super.random.nextDouble() * 2.0) - 1.0) / 1000.0;
+        this.biasWeight = ((this.random.nextDouble() * 2.0) - 1.0) / 1000.0;
         this.activationFunction = new HyperbolicTangentActivationFunction();
     }
 
@@ -119,7 +121,7 @@ public class Neuron extends NetworkNode
             throw new NullPointerException("DNA can not be null");
 
         this.ownedDNA = ownedDNAToSet;
-        this.biasWeight = ((super.random.nextDouble() * 2.0) - 1.0) / 1000.0;
+        this.biasWeight = ((this.random.nextDouble() * 2.0) - 1.0) / 1000.0;
         this.activationFunction = activationFunction;
     }
 
@@ -133,14 +135,14 @@ public class Neuron extends NetworkNode
      * @param outUnit The NetworkNode to connect to.
      * @see com.syncleus.dann.Neuron#connectFrom
      */
-    public void connectTo(NetworkNode outUnit) throws DannException
+    public void connectTo(Neuron outUnit) throws DannException
     {
         //make sure you arent already connected to the neuron
         if (outUnit == null)
             throw new NullPointerException("outUnit can not be null!");
 
         //connect to the neuron
-        Synapse newSynapse = new Synapse(this, outUnit, ((super.random.nextDouble() * 2.0) - 1.0) / 10000.0);
+        Synapse newSynapse = new Synapse(this, outUnit, ((this.random.nextDouble() * 2.0) - 1.0) / 10000.0);
         this.destinations.add(newSynapse);
         outUnit.connectFrom(newSynapse);
     }
@@ -161,6 +163,19 @@ public class Neuron extends NetworkNode
 
         //add the synapse to the source list
         this.sources.add(inSynapse);
+    }
+
+    /**
+     * Causes the NetworkNode to disconnect all connections.<BR>
+     * <!-- Author: Jeffrey Phillips Freeman -->
+     * @since 0.1
+     * @see com.syncleus.dann.NetworkNode#disconnectAllSources
+     * @see com.syncleus.dann.NetworkNode#disconnectAllDestinations
+     */
+    public void disconnectAll()
+    {
+        this.disconnectAllDestinations();
+        this.disconnectAllSources();
     }
 
 
@@ -310,9 +325,9 @@ public class Neuron extends NetworkNode
 
 
 
-    public Set<NetworkNode> getNeighbors()
+    public Set<Neuron> getNeighbors()
     {
-        HashSet<NetworkNode> neighbors = new HashSet<NetworkNode>();
+        HashSet<Neuron> neighbors = new HashSet<Neuron>();
         for (Synapse source : this.getSources())
             neighbors.add(source.getSource());
         for (Synapse destination : this.getDestinations())
@@ -323,9 +338,9 @@ public class Neuron extends NetworkNode
 
 
 
-    public Set<NetworkNode> getSourceNeighbors()
+    public Set<Neuron> getSourceNeighbors()
     {
-        HashSet<NetworkNode> neighbors = new HashSet<NetworkNode>();
+        HashSet<Neuron> neighbors = new HashSet<Neuron>();
         for (Synapse source : this.getSources())
             neighbors.add(source.getSource());
 
@@ -334,9 +349,9 @@ public class Neuron extends NetworkNode
 
 
 
-    public Set<NetworkNode> getDestinationNeighbors()
+    public Set<Neuron> getDestinationNeighbors()
     {
-        HashSet<NetworkNode> neighbors = new HashSet<NetworkNode>();
+        HashSet<Neuron> neighbors = new HashSet<Neuron>();
         for (Synapse destination : this.getDestinations())
             neighbors.add(destination.getDestination());
 

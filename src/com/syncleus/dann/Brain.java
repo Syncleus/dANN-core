@@ -19,6 +19,7 @@
 package com.syncleus.dann;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -26,56 +27,54 @@ import java.util.Set;
 
 public abstract class Brain implements Serializable
 {
-    private HashSet<NetworkNode> children = new HashSet<NetworkNode>();
+    private HashSet<Neuron> neurons = new HashSet<Neuron>();
     private HashSet<OutputNeuron> outputNeurons = new HashSet<OutputNeuron>();
     private HashSet<InputNeuron> inputNeurons = new HashSet<InputNeuron>();
 
 
 
-    public void addChild(NetworkNode newChild)
+    protected void addNeuron(Neuron newNeuron)
     {
-        if (this.children.contains(newChild))
+        if (this.neurons.contains(newNeuron))
             return;
 
-        this.children.add(newChild);
+        this.neurons.add(newNeuron);
 
-        if (newChild instanceof NeuronGroup)
-        {
-            NeuronGroup newGroup = (NeuronGroup) newChild;
-            Set<Neuron> allChildren = newGroup.getChildrenNeuronsRecursivly();
-            for (Neuron allChild : allChildren)
-            {
-                if (allChild instanceof OutputNeuron)
-                    this.outputNeurons.add((OutputNeuron) allChild);
+		if (newNeuron instanceof OutputNeuron)
+			this.outputNeurons.add((OutputNeuron) newNeuron);
 
-                if (allChild instanceof InputNeuron)
-                    this.inputNeurons.add((InputNeuron) allChild);
-            }
-        }
-        else
-        {
-            if (newChild instanceof OutputNeuron)
-                this.outputNeurons.add((OutputNeuron) newChild);
-
-            if (newChild instanceof InputNeuron)
-                this.inputNeurons.add((InputNeuron) newChild);
-        }
+		if (newNeuron instanceof InputNeuron)
+			this.inputNeurons.add((InputNeuron) newNeuron);
     }
 
+	protected void addNeurons(Collection<Neuron> newNeurons)
+	{
+		this.neurons.addAll(newNeurons);
+
+		for(Neuron newNeuron : newNeurons)
+		{
+			if (newNeuron instanceof OutputNeuron)
+				this.outputNeurons.add((OutputNeuron) newNeuron);
+
+			if (newNeuron instanceof InputNeuron)
+				this.inputNeurons.add((InputNeuron) newNeuron);
+		}
+	}
 
 
-    public void removeChild(NetworkNode removeChild)
+
+    protected void removeNeuron(Neuron removeNeuron)
     {
-        if (this.children.contains(removeChild) == false)
+        if (this.neurons.contains(removeNeuron) == false)
             return;
 
-        this.children.remove(removeChild);
+        this.neurons.remove(removeNeuron);
 
-        if (removeChild instanceof OutputNeuron)
-            this.outputNeurons.remove((OutputNeuron) removeChild);
+        if (removeNeuron instanceof OutputNeuron)
+            this.outputNeurons.remove((OutputNeuron) removeNeuron);
 
-        if (removeChild instanceof InputNeuron)
-            this.inputNeurons.remove((InputNeuron) removeChild);
+        if (removeNeuron instanceof InputNeuron)
+            this.inputNeurons.remove((InputNeuron) removeNeuron);
     }
 
 
@@ -94,28 +93,8 @@ public abstract class Brain implements Serializable
 
 
 
-    public Set<NetworkNode> getChildrenNodes()
+    public Set<Neuron> getNeurons()
     {
-        return Collections.unmodifiableSet(this.children);
-    }
-
-
-
-    public Set<Neuron> getChildrenNeuronsRecursivly()
-    {
-        HashSet<Neuron> allChildren = new HashSet<Neuron>();
-        for (NetworkNode child : this.children)
-            if (child instanceof Neuron)
-            {
-                Neuron childNeuron = (Neuron) child;
-                allChildren.add(childNeuron);
-            }
-            else if (child instanceof NeuronGroup)
-            {
-                NeuronGroup childGroup = (NeuronGroup) child;
-                allChildren.addAll(childGroup.getChildrenNeuronsRecursivly());
-            }
-
-        return Collections.unmodifiableSet(allChildren);
+        return Collections.unmodifiableSet(this.neurons);
     }
 }

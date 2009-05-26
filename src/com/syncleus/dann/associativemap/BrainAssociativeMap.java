@@ -27,7 +27,7 @@ public class BrainAssociativeMap extends AssociativeMap
 {
     private Brain brain;
     private int dimensions;
-    private Hashtable<Neuron, NetworkNodeAssociativeNode> neurons = new Hashtable<Neuron, NetworkNodeAssociativeNode>();
+    private Hashtable<Neuron, NeuronAssociativeNode> neurons = new Hashtable<Neuron, NeuronAssociativeNode>();
 
 
 
@@ -46,17 +46,17 @@ public class BrainAssociativeMap extends AssociativeMap
         this.nodes.clear();
         this.neurons.clear();
 
-        Set<Neuron> neurons = this.brain.getChildrenNeuronsRecursivly();
+        Set<Neuron> neurons = this.brain.getNeurons();
         for (Neuron neuron : neurons)
         {
-            NetworkNodeAssociativeNode node = new NetworkNodeAssociativeNode(this, this.dimensions, neuron);
+            NeuronAssociativeNode node = new NeuronAssociativeNode(this, this.dimensions, neuron);
             this.nodes.add(node);
             this.neurons.put(neuron, node);
         }
         
         for(AssociativeNode node : this.nodes)
-            if( node instanceof NetworkNodeAssociativeNode)
-                ((NetworkNodeAssociativeNode)node).refresh();
+            if( node instanceof NeuronAssociativeNode)
+                ((NeuronAssociativeNode)node).refresh();
 /*
         for (AssociativeNode node : this.nodes)
             if (node instanceof NetworkNodeAssociativeNode)
@@ -103,7 +103,7 @@ public class BrainAssociativeMap extends AssociativeMap
 
 
 
-    NetworkNodeAssociativeNode getNodeFromNeuron(NetworkNode node)
+    NeuronAssociativeNode getNodeFromNeuron(Neuron node)
     {
         return neurons.get(node);
     }
