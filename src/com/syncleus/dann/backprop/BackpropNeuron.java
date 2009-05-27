@@ -20,12 +20,6 @@ package com.syncleus.dann.backprop;
 
 import com.syncleus.dann.*;
 import com.syncleus.dann.activation.ActivationFunction;
-import com.syncleus.dann.activation.HyperbolicTangentActivationFunction;
-import java.security.InvalidParameterException;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
 
 
 /**

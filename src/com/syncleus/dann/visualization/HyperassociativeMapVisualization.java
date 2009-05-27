@@ -20,14 +20,9 @@ package com.syncleus.dann.visualization;
 
 import com.syncleus.dann.backprop.InputBackpropNeuron;
 import com.syncleus.dann.backprop.OutputBackpropNeuron;
-import com.syncleus.dann.hyperassociativemap.HyperassociativeNode;
-import com.syncleus.dann.hyperassociativemap.Hyperpoint;
-import com.syncleus.dann.hyperassociativemap.NeuronHyperassociativeNode;
-import com.syncleus.dann.hyperassociativemap.HyperassociativeMap;
 import com.syncleus.dann.*;
 import com.sun.j3d.utils.geometry.*;
 import com.sun.j3d.utils.image.TextureLoader;
-import com.syncleus.dann.backprop.BackpropNeuron;
 import com.syncleus.dann.hyperassociativemap.*;
 import java.awt.image.BufferedImage;
 import java.util.Set;
