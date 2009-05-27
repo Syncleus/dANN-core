@@ -26,7 +26,7 @@ package com.syncleus.dann;
  * @since 0.1
  * @see com.syncleus.dann.NetworkNode
  */
-public class Synapse implements java.io.Serializable
+public class Synapse<SN extends NeuronImpl, DN extends NeuronImpl> implements java.io.Serializable
 {
     // <editor-fold defaultstate="collapsed" desc="Attributes">
     /**
@@ -34,13 +34,13 @@ public class Synapse implements java.io.Serializable
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
-    private Neuron destination;
+    private DN destination;
     /**
      * The incomming neuron connection.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
-    private Neuron source;
+    private SN source;
     /**
      * The current weight of the synapse<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
@@ -59,12 +59,6 @@ public class Synapse implements java.io.Serializable
      * @since 0.1
      */
     private double input;
-    /**
-     * The current synapse's deltaTrain<BR>
-     * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
-     */
-    private double deltaTrain;
 
     // </editor-fold>
 
@@ -77,7 +71,7 @@ public class Synapse implements java.io.Serializable
      * @param destinationToSet The outgoing neuron connection.
      * @param initialWeight The initial weight of the synapse
      */
-    public Synapse(Neuron sourceToSet, Neuron destinationToSet, double initialWeight)
+    public Synapse(SN sourceToSet, DN destinationToSet, double initialWeight)
     {
         this.destination = destinationToSet;
         this.source = sourceToSet;
@@ -93,7 +87,7 @@ public class Synapse implements java.io.Serializable
      * @since 0.1
      * @return The source neuron.
      */
-    public Neuron getSource()
+    public SN getSource()
     {
         return this.source;
     }
@@ -106,7 +100,7 @@ public class Synapse implements java.io.Serializable
      * @since 0.1
      * @return The destination neuron.
      */
-    public Neuron getDestination()
+    public DN getDestination()
     {
         return this.destination;
     }
@@ -114,20 +108,6 @@ public class Synapse implements java.io.Serializable
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Propogation">
-    /**
-     * learns the new weight based on the current training set<BR>
-     * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
-     * @see com.syncleus.dann.Neuron#calculateDeltaTrain
-     */
-    public void learnWeight(double deltaTrainToSet, double learningRate)
-    {
-        this.deltaTrain = deltaTrainToSet;
-        this.weight += learningRate * this.input * this.deltaTrain;
-    }
-
-
-
     /**
      * Calculates the current output of the synapse based on the input and
      * weight<BR>
@@ -156,25 +136,19 @@ public class Synapse implements java.io.Serializable
         this.input = newInput;
     }
 
-
-
-    /**
-     * Calculates the synapse differential. This is used when back propogating
-     * training sets.<BR>
-     * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
-     * @see com.syncleus.dann.Neuron#backPropagate
-     * @return the current synapse differential.
-     */
-    public double getDifferential()
-    {
-        return this.deltaTrain * this.weight;
-    }    // </editor-fold>
-
-
+	protected void setWeight(double newWeight)
+	{
+		this.weight = newWeight;
+	}
 
     public double getWeight()
     {
         return weight;
     }
+
+	public double getInput()
+	{
+		return input;
+	}
+	// </editor-fold>
 }

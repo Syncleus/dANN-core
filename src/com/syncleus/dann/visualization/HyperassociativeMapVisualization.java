@@ -18,6 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.visualization;
 
+import com.syncleus.dann.backprop.InputBackpropNeuron;
+import com.syncleus.dann.backprop.OutputBackpropNeuron;
 import com.syncleus.dann.hyperassociativemap.HyperassociativeNode;
 import com.syncleus.dann.hyperassociativemap.Hyperpoint;
 import com.syncleus.dann.hyperassociativemap.NeuronHyperassociativeNode;
@@ -25,7 +27,7 @@ import com.syncleus.dann.hyperassociativemap.HyperassociativeMap;
 import com.syncleus.dann.*;
 import com.sun.j3d.utils.geometry.*;
 import com.sun.j3d.utils.image.TextureLoader;
-import com.syncleus.dann.Neuron;
+import com.syncleus.dann.backprop.BackpropNeuron;
 import com.syncleus.dann.hyperassociativemap.*;
 import java.awt.image.BufferedImage;
 import java.util.Set;
@@ -93,9 +95,9 @@ public class HyperassociativeMapVisualization extends BranchGroup
                 if (node instanceof NeuronHyperassociativeNode)
                 {
                     Neuron neuron = ((NeuronHyperassociativeNode) node).getNeuron();
-                    if (neuron instanceof OutputNeuron)
+                    if (neuron instanceof OutputBackpropNeuron)
                         neuronColor = Color.RED;
-                    else if (neuron instanceof InputNeuron)
+                    else if (neuron instanceof InputBackpropNeuron)
                         neuronColor = Color.BLUE;
                 }
                 TransformGroup newVisual = this.createNeuronSphere("", "", neuronColor, (float) node.getLocation().getCoordinate(1), (float) node.getLocation().getCoordinate(2), (float) node.getLocation().getCoordinate(3), this.nodeRadius);

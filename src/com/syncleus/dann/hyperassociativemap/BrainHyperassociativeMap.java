@@ -18,6 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.hyperassociativemap;
 
+import com.syncleus.dann.backprop.InputBackpropNeuron;
+import com.syncleus.dann.backprop.BackpropNeuron;
+import com.syncleus.dann.backprop.OutputBackpropNeuron;
 import com.syncleus.dann.*;
 import java.util.Hashtable;
 import java.util.Set;
@@ -46,8 +49,8 @@ public class BrainHyperassociativeMap extends HyperassociativeMap
         this.nodes.clear();
         this.neurons.clear();
 
-        Set<Neuron> neurons = this.brain.getNeurons();
-        for (Neuron neuron : neurons)
+        Set<BackpropNeuron> neurons = this.brain.getNeurons();
+        for (BackpropNeuron neuron : neurons)
         {
             NeuronHyperassociativeNode node = new NeuronHyperassociativeNode(this, this.dimensions, neuron);
             this.nodes.add(node);
@@ -72,13 +75,13 @@ public class BrainHyperassociativeMap extends HyperassociativeMap
             }
  */
 
-        for (OutputNeuron neuron : this.brain.getOutputNeurons())
-            for (OutputNeuron toNeuron : this.brain.getOutputNeurons())
+        for (OutputBackpropNeuron neuron : this.brain.getOutputNeurons())
+            for (OutputBackpropNeuron toNeuron : this.brain.getOutputNeurons())
                 if(neuron != toNeuron)
                     this.neurons.get(neuron).associate(this.neurons.get(toNeuron), 0.5);
 
-        for (InputNeuron neuron : this.brain.getInputNeurons())
-            for (InputNeuron toNeuron : this.brain.getInputNeurons())
+        for (InputBackpropNeuron neuron : this.brain.getInputNeurons())
+            for (InputBackpropNeuron toNeuron : this.brain.getInputNeurons())
                 if(neuron != toNeuron)
                     this.neurons.get(neuron).associate(this.neurons.get(toNeuron), 0.5);
   

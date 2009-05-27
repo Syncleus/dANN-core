@@ -18,6 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann;
 
+import com.syncleus.dann.backprop.BackpropNeuron;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Random;
@@ -31,7 +33,7 @@ import java.util.Set;
  * @author Jeffrey Phillips Freeman
  * @since 0.1
  */
-public class NeuronGroup implements java.io.Serializable
+public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
 {
     // <editor-fold defaultstate="collapsed" desc="Attributes">
     /**
@@ -41,9 +43,8 @@ public class NeuronGroup implements java.io.Serializable
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
-    protected HashSet<Neuron> childrenNeurons = new HashSet<Neuron>();
+    protected HashSet<N> childrenNeurons = new HashSet<N>();
 
-    // <editor-fold defaultstate="collapsed" desc="Attributes">
     /**
      * This contains all the neuronGroups considered to be a part of this layer. Any
      * one neuron can only belong to one layer. But one layer owns many neurons.
@@ -51,7 +52,7 @@ public class NeuronGroup implements java.io.Serializable
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
-	protected HashSet<NeuronGroup> childrenNeuronGroups = new HashSet<NeuronGroup>();
+	protected HashSet<NeuronGroup<N>> childrenNeuronGroups = new HashSet<NeuronGroup<N>>();
     /**
      * This will determine most of the properties of the layer.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
@@ -85,7 +86,7 @@ public class NeuronGroup implements java.io.Serializable
      * @since 0.1
      * @param toAdd the Neuron to add.
      */
-    public void add(Neuron toAdd)
+    public void add(N toAdd)
     {
         this.childrenNeurons.add(toAdd);
     }
@@ -96,7 +97,7 @@ public class NeuronGroup implements java.io.Serializable
      * @since 0.1
      * @param toAdd the NeuronGroup to add.
      */
-    public void add(NeuronGroup toAdd)
+    public void add(NeuronGroup<N> toAdd)
     {
         this.childrenNeuronGroups.add(toAdd);
     }
@@ -112,26 +113,26 @@ public class NeuronGroup implements java.io.Serializable
      * 	to.
      * @see com.syncleus.dann.NeuronGroup#connectTo
      */
-    public void connectAllTo(Neuron toConnectTo) throws InvalidConnectionTypeDannException
+    public void connectAllTo(N toConnectTo) throws InvalidConnectionTypeDannException
     {
-		for (Neuron currentChild : this.childrenNeurons)
+		for (N currentChild : this.childrenNeurons)
 			currentChild.connectTo(toConnectTo);
-		for(NeuronGroup currentChild : this.childrenNeuronGroups)
+		for(NeuronGroup<N> currentChild : this.childrenNeuronGroups)
 			currentChild.connectAllTo(toConnectTo);
     }
 
-	public void connectAllTo(NeuronGroup toConnectTo) throws InvalidConnectionTypeDannException
+	public void connectAllTo(NeuronGroup<N> toConnectTo) throws InvalidConnectionTypeDannException
 	{
-		for (Neuron currentChild : this.childrenNeurons)
+		for (N currentChild : this.childrenNeurons)
 		{
-			Set<Neuron> toConnectToChildren = toConnectTo.getChildrenNeuronsRecursivly();
-			for (Neuron currentOut : toConnectToChildren)
+			Set<N> toConnectToChildren = toConnectTo.getChildrenNeuronsRecursivly();
+			for (N currentOut : toConnectToChildren)
 				currentChild.connectTo(currentOut);
 		}
-		for(NeuronGroup currentChild : this.childrenNeuronGroups)
+		for(NeuronGroup<N> currentChild : this.childrenNeuronGroups)
 		{
-			Set<Neuron> toConnectToChildren = toConnectTo.getChildrenNeuronsRecursivly();
-			for (Neuron currentOut : toConnectToChildren)
+			Set<N> toConnectToChildren = toConnectTo.getChildrenNeuronsRecursivly();
+			for (N currentOut : toConnectToChildren)
 				currentChild.connectAllTo(currentOut);
 		}
 	}
@@ -142,7 +143,7 @@ public class NeuronGroup implements java.io.Serializable
      * Obtains all the Neurons directly owned by this NeuronGroup.
      * @since 0.1
      */
-    public Set<Neuron> getChildrenNeurons()
+    public Set<N> getChildrenNeurons()
     {
         return Collections.unmodifiableSet(this.childrenNeurons);
     }
@@ -151,7 +152,7 @@ public class NeuronGroup implements java.io.Serializable
      * Obtains all the NeuronGroups directly owned by this NeuronGroup.
      * @since 0.1
      */
-    public Set<NeuronGroup> getChildrenNeuronGroups()
+    public Set<NeuronGroup<N>> getChildrenNeuronGroups()
     {
         return Collections.unmodifiableSet(this.childrenNeuronGroups);
     }
@@ -163,12 +164,12 @@ public class NeuronGroup implements java.io.Serializable
      * NeuronGroups.<BR>
      * @since 0.1
      */
-    public Set<Neuron> getChildrenNeuronsRecursivly()
+    public Set<N> getChildrenNeuronsRecursivly()
     {
-        HashSet<Neuron> returnList = new HashSet<Neuron>();
+        HashSet<N> returnList = new HashSet<N>();
 
 		returnList.addAll(this.childrenNeurons);
-		for (NeuronGroup currentChild : this.childrenNeuronGroups)
+		for (NeuronGroup<N> currentChild : this.childrenNeuronGroups)
 			returnList.addAll(currentChild.getChildrenNeuronsRecursivly());
 
         return Collections.unmodifiableSet(returnList);
@@ -182,14 +183,11 @@ public class NeuronGroup implements java.io.Serializable
      * @since 0.1
      * @return A randomly selected child.
      */
-    private Neuron getRandomChild()
+    private N getRandomChild()
     {
-		Set<Neuron> childrenSet = this.getChildrenNeuronsRecursivly();
-
-		Neuron[] allChildren = new Neuron[childrenSet.size()];
-		childrenSet.toArray(allChildren);
-
-		return allChildren[this.random.nextInt(allChildren.length)];
+		Set<N> childrenSet = this.getChildrenNeuronsRecursivly();
+		ArrayList<N> childrenList = new ArrayList<N>(childrenSet);
+		return childrenList.get(this.random.nextInt(childrenSet.size()));
     }
 
 
@@ -203,7 +201,7 @@ public class NeuronGroup implements java.io.Serializable
      */
     public void disconnectAllDestinations()
     {
-        for (Neuron currentChild : this.getChildrenNeuronsRecursivly())
+        for (N currentChild : this.getChildrenNeuronsRecursivly())
             currentChild.disconnectAllDestinations();
     }
 
@@ -218,7 +216,7 @@ public class NeuronGroup implements java.io.Serializable
      */
     public void disconnectAllSources()
     {
-        for (Neuron currentChild : this.getChildrenNeuronsRecursivly())
+        for (N currentChild : this.getChildrenNeuronsRecursivly())
             currentChild.disconnectAllSources();
     }
 
@@ -234,56 +232,5 @@ public class NeuronGroup implements java.io.Serializable
         this.disconnectAllDestinations();
         this.disconnectAllSources();
     }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Propogation">
-    /**
-     * Propogates the output of the NetworkNodes from the incoming synapse to
-     * the outgoign one.<BR>
-     * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
-     * @see com.syncleus.dann.NetworkNode#propagate
-     */
-    public void propagate()
-    {
-        for (Neuron currentChild : this.getChildrenNeuronsRecursivly())
-            currentChild.propagate();
-    }
-
-
-
-    /**
-     * Back propogates the taining set of the NetworkNodes from the outgoing
-     * synapse to the incomming one.<BR>
-     * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
-     * @see com.syncleus.dann.NetworkNode#backPropagate
-     */
-    public void backPropagate()
-    {
-        for (Neuron currentChild : this.getChildrenNeuronsRecursivly())
-            currentChild.backPropagate();
-    }
-    
-   public Set<Neuron> getNeighbors()
-    {
-        throw new Error("Not yet implemented");
-    }
-
-
-
-    public Set<Neuron> getSourceNeighbors()
-    {
-        throw new Error("Not yet implemented");
-    }
-
-
-
-    public Set<Neuron> getDestinationNeighbors()
-    {
-        throw new Error("Not yet implemented");
-    }
-    
-    
     // </editor-fold>
 }

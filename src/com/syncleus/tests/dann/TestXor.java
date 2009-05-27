@@ -19,6 +19,7 @@
 package com.syncleus.tests.dann;
 
 
+import com.syncleus.dann.backprop.*;
 import com.syncleus.dann.*;
 import org.junit.*;
 
@@ -36,19 +37,19 @@ public
 	private static
 		DNA myDNA = new DNA();
 	private static
-		InputNeuron inputA = null;
+		InputBackpropNeuron inputA = null;
 	private static
-		InputNeuron inputB = null;
+		InputBackpropNeuron inputB = null;
 	private static
-		InputNeuron inputC = null;
+		InputBackpropNeuron inputC = null;
 	private static
-		NeuronGroup firstLayer = null;
+		BackpropNeuronGroup firstLayer = null;
 	private static
-		NeuronGroup secondLayer = null;
+		BackpropNeuronGroup secondLayer = null;
 	private static
-		NeuronGroup thirdLayer = null;
+		BackpropNeuronGroup thirdLayer = null;
 	private static
-		OutputNeuron output = null;
+		OutputBackpropNeuron output = null;
 
 
 
@@ -59,26 +60,26 @@ public
 		myDNA.learningRate = 0.01;
 
 		//creates the first layer which holds all the input neurons
-		inputA = new InputNeuron(myDNA);
-		inputB = new InputNeuron(myDNA);
-		inputC = new InputNeuron(myDNA);
-		firstLayer = new NeuronGroup(myDNA);
+		inputA = new InputBackpropNeuron(myDNA);
+		inputB = new InputBackpropNeuron(myDNA);
+		inputC = new InputBackpropNeuron(myDNA);
+		firstLayer = new BackpropNeuronGroup(myDNA);
 		firstLayer.add(inputA);
 		firstLayer.add(inputB);
 		firstLayer.add(inputC);
 
 		//creates the second layer of neurons
-		secondLayer = new NeuronGroup(myDNA);
+		secondLayer = new BackpropNeuronGroup(myDNA);
 		for(int lcv = 0;lcv < 10;lcv++)
-			secondLayer.add(new Neuron(myDNA));
+			secondLayer.add(new BackpropNeuron(myDNA));
 
 		//creates the third layer of neurons
-		thirdLayer = new NeuronGroup(myDNA);
+		thirdLayer = new BackpropNeuronGroup(myDNA);
 		for(int lcv = 0;lcv < 10;lcv++)
-			thirdLayer.add(new Neuron(myDNA));
+			thirdLayer.add(new BackpropNeuron(myDNA));
 
 		//the output layer is just a single neuron
-		output = new OutputNeuron(myDNA);
+		output = new OutputBackpropNeuron(myDNA);
 
 		//connects the network in a feedforward fasion.
 		firstLayer.connectAllTo(secondLayer);

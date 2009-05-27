@@ -57,11 +57,14 @@
 		<delete dir="build/classes"/>
 
 		<mkdir dir="build/classes"/>
-		<javac destdir="build/classes" classpathref="classpath" debug="true" excludes="com/syncleus/tests/**" srcdir="src"/>
+		<javac destdir="build/classes" classpathref="classpath" debug="true" excludes="com/syncleus/tests/**" srcdir="src">
+			<compilerarg value="-Xlint:unchecked"/>
+		</javac>
 
 		<mkdir dir="build/tests/classes"/>
 		<javac destdir="build/tests/classes" classpathref="classpath" debug="true" srcdir="src">
 			<include name="com/syncleus/tests/**"/>
+			<compilerarg value="-Xlint:unchecked"/>
 		</javac>
 		<delete dir="build/tests/classes/com/syncleus/dann"/>
 
