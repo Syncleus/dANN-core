@@ -48,9 +48,9 @@ public class InputBackpropNeuron extends BackpropNeuron implements InputNeuron<N
      * @param ownedDNAToSet This dna class will determine the various properties
      * 	of the layer.
      */
-    public InputBackpropNeuron(DNA ownedDNAToSet)
+    public InputBackpropNeuron()
     {
-        super(ownedDNAToSet);
+        super();
     }
 
     /**
@@ -60,10 +60,20 @@ public class InputBackpropNeuron extends BackpropNeuron implements InputNeuron<N
      * @param ownedDNAToSet This dna class will determine the various properties
      * 	of the layer.
      */
-    public InputBackpropNeuron(DNA ownedDNAToSet, ActivationFunction activationFunction)
+    public InputBackpropNeuron(ActivationFunction activationFunction)
     {
-        super(ownedDNAToSet, activationFunction);
+        super(activationFunction);
     }
+
+	public InputBackpropNeuron(double learningRate)
+	{
+		super(learningRate);
+	}
+
+	public InputBackpropNeuron(ActivationFunction activationFunction, double learningRate)
+	{
+		super(activationFunction, learningRate);
+	}
 
 
     /**

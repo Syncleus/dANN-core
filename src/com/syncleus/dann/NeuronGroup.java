@@ -18,7 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann;
 
-import com.syncleus.dann.backprop.BackpropNeuron;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -53,12 +52,6 @@ public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
      * @since 0.1
      */
 	protected HashSet<NeuronGroup<N>> childrenNeuronGroups = new HashSet<NeuronGroup<N>>();
-    /**
-     * This will determine most of the properties of the layer.<BR>
-     * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
-     */
-    DNA ownedDNA;
 
 	protected Random random = new Random();
 
@@ -69,12 +62,9 @@ public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
      * Creates a new instance of NeuronGroup<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @param ownedDNAToSet This dna class will determine the various properties
-     * 	of the layer.
      */
-    public NeuronGroup(DNA ownedDNAToSet)
+    public NeuronGroup()
     {
-        this.ownedDNA = ownedDNAToSet;
     }
 
     // </editor-fold>

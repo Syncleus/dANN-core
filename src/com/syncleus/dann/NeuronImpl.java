@@ -45,12 +45,6 @@ public abstract class NeuronImpl<SN extends NeuronImpl, SS extends Synapse<? ext
      * @since 0.1
      */
     private HashSet<SS> sources = new HashSet<SS>();
-    /**
-     * The DNA determines this neurons basic properties.<BR>
-     * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
-     */
-    protected DNA ownedDNA;
 
     protected ActivationFunction activationFunction;
 	protected Random random = new Random();
@@ -65,26 +59,20 @@ public abstract class NeuronImpl<SN extends NeuronImpl, SS extends Synapse<? ext
      * @param ownedDNAToSet This dna class will determine the various properties
      * 	of the layer.
      */
-    public NeuronImpl(DNA ownedDNAToSet)
+    public NeuronImpl()
     {
-        if (ownedDNAToSet == null)
-            throw new NullPointerException("DNA can not be null");
-
-        this.ownedDNA = ownedDNAToSet;
         this.biasWeight = ((this.random.nextDouble() * 2.0) - 1.0) / 1000.0;
         this.activationFunction = new HyperbolicTangentActivationFunction();
     }
 
 
 
-    public NeuronImpl(DNA ownedDNAToSet, ActivationFunction activationFunction)
+    public NeuronImpl(ActivationFunction activationFunction)
     {
         if (activationFunction == null)
             throw new NullPointerException("activationFunction can not be null");
-        if (ownedDNAToSet == null)
-            throw new NullPointerException("DNA can not be null");
 
-        this.ownedDNA = ownedDNAToSet;
+
         this.biasWeight = ((this.random.nextDouble() * 2.0) - 1.0) / 1000.0;
         this.activationFunction = activationFunction;
     }
@@ -369,13 +357,6 @@ public abstract class NeuronImpl<SN extends NeuronImpl, SS extends Synapse<? ext
     protected double activateDerivitive()
     {
         return this.activationFunction.activateDerivative(this.activity);
-    }
-
-
-
-    public DNA getOwnedDNA()
-    {
-        return ownedDNA;
     }
     // </editor-fold>
 }

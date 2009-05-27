@@ -16,6 +16,5 @@ public interface Neuron<SN extends NeuronImpl, SS extends Synapse<? extends SN, 
     public Set<Neuron> getNeighbors();
     public Set<SN> getSourceNeighbors();
     public Set<DN> getDestinationNeighbors();
-    public DNA getOwnedDNA();
     public Set<SS> getSources();
 }

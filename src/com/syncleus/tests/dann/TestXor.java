@@ -31,11 +31,8 @@ import org.junit.*;
  * <!-- Author: Jeffrey Phillips Freeman -->
  * @author Jeffrey Phillips Freeman
  */
-public
-	class TestXor
+public class TestXor
 {
-	private static
-		DNA myDNA = new DNA();
 	private static
 		InputBackpropNeuron inputA = null;
 	private static
@@ -57,29 +54,29 @@ public
 	public void testXor() throws DannException
 	{
 		//Adjust the learning rate
-		myDNA.learningRate = 0.01;
+		double learningRate = 0.01;
 
 		//creates the first layer which holds all the input neurons
-		inputA = new InputBackpropNeuron(myDNA);
-		inputB = new InputBackpropNeuron(myDNA);
-		inputC = new InputBackpropNeuron(myDNA);
-		firstLayer = new BackpropNeuronGroup(myDNA);
+		inputA = new InputBackpropNeuron(learningRate);
+		inputB = new InputBackpropNeuron(learningRate);
+		inputC = new InputBackpropNeuron(learningRate);
+		firstLayer = new BackpropNeuronGroup();
 		firstLayer.add(inputA);
 		firstLayer.add(inputB);
 		firstLayer.add(inputC);
 
 		//creates the second layer of neurons
-		secondLayer = new BackpropNeuronGroup(myDNA);
+		secondLayer = new BackpropNeuronGroup();
 		for(int lcv = 0;lcv < 10;lcv++)
-			secondLayer.add(new BackpropNeuron(myDNA));
+			secondLayer.add(new BackpropNeuron(learningRate));
 
 		//creates the third layer of neurons
-		thirdLayer = new BackpropNeuronGroup(myDNA);
+		thirdLayer = new BackpropNeuronGroup();
 		for(int lcv = 0;lcv < 10;lcv++)
-			thirdLayer.add(new BackpropNeuron(myDNA));
+			thirdLayer.add(new BackpropNeuron(learningRate));
 
 		//the output layer is just a single neuron
-		output = new OutputBackpropNeuron(myDNA);
+		output = new OutputBackpropNeuron(learningRate);
 
 		//connects the network in a feedforward fasion.
 		firstLayer.connectAllTo(secondLayer);

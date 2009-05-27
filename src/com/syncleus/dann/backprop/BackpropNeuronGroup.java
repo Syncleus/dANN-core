@@ -1,13 +1,13 @@
 package com.syncleus.dann.backprop;
-import com.syncleus.dann.DNA;
+
 import com.syncleus.dann.NeuronGroup;
 import java.util.Set;
 
 public class BackpropNeuronGroup extends NeuronGroup<BackpropNeuron>
 {
-    public BackpropNeuronGroup(DNA ownedDNAToSet)
+    public BackpropNeuronGroup()
     {
-        super(ownedDNAToSet);
+        super();
     }
 
 

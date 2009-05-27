@@ -50,6 +50,8 @@ public class BackpropNeuron extends NeuronImpl<NeuronImpl, Synapse<? extends Neu
      */
     protected double deltaTrain = 0;
 
+	private double learningRate = 0.001;
+
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Constructors">
@@ -60,17 +62,30 @@ public class BackpropNeuron extends NeuronImpl<NeuronImpl, Synapse<? extends Neu
      * @param ownedDNAToSet This dna class will determine the various properties
      * 	of the layer.
      */
-    public BackpropNeuron(DNA ownedDNAToSet)
+    public BackpropNeuron()
     {
-		super(ownedDNAToSet);
+		super();
     }
 
 
 
-    public BackpropNeuron(DNA ownedDNAToSet, ActivationFunction activationFunction)
+    public BackpropNeuron(ActivationFunction activationFunction)
     {
-        super(ownedDNAToSet, activationFunction);
+        super(activationFunction);
     }
+
+
+	public BackpropNeuron(double learningRate)
+	{
+		super();
+		this.learningRate = learningRate;
+	}
+
+	public BackpropNeuron(ActivationFunction activationFunction, double learningRate)
+	{
+		super(activationFunction);
+		this.learningRate = learningRate;
+	}
 
     // </editor-fold>
 
@@ -110,11 +125,11 @@ public class BackpropNeuron extends NeuronImpl<NeuronImpl, Synapse<? extends Neu
         for (Synapse currentSynapse : this.getSources())
 		{
 			if(currentSynapse instanceof BackpropSynapse)
-				((BackpropSynapse)currentSynapse).learnWeight(this.deltaTrain, this.ownedDNA.learningRate);
+				((BackpropSynapse)currentSynapse).learnWeight(this.deltaTrain, this.learningRate);
 		}
 
         //learn the biases new weight
-        this.biasWeight += this.ownedDNA.learningRate * this.deltaTrain;
+        this.biasWeight += this.learningRate * this.deltaTrain;
     }
 
 

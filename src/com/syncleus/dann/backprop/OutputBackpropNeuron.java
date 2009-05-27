@@ -46,9 +46,9 @@ public class OutputBackpropNeuron extends BackpropNeuron implements OutputNeuron
      * @param ownedDNAToSet This dna class will determine the various properties
      * 	of the layer.
      */
-    public OutputBackpropNeuron(DNA ownedDNAToSet)
+    public OutputBackpropNeuron()
     {
-        super(ownedDNAToSet);
+        super();
     }
     
     /**
@@ -58,10 +58,20 @@ public class OutputBackpropNeuron extends BackpropNeuron implements OutputNeuron
      * @param ownedDNAToSet This dna class will determine the various properties
      * 	of the layer.
      */
-    public OutputBackpropNeuron(DNA ownedDNAToSet, ActivationFunction activationFunction)
+    public OutputBackpropNeuron(ActivationFunction activationFunction)
     {
-        super(ownedDNAToSet, activationFunction);
+        super(activationFunction);
     }
+
+	public OutputBackpropNeuron(double learningRate)
+	{
+		super(learningRate);
+	}
+
+	public OutputBackpropNeuron(ActivationFunction activationFunction, double learningRate)
+	{
+		super(activationFunction, learningRate);
+	}
 
 
 
