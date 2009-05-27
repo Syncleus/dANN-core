@@ -36,4 +36,14 @@ public class SynapseDoesNotExistException extends DannException
 	{
 		super(msg);
 	}
+
+	public SynapseDoesNotExistException(String msg, Throwable cause)
+	{
+		super(msg, cause);
+	}
+
+	public SynapseDoesNotExistException(Throwable cause)
+	{
+		super(cause);
+	}
 }

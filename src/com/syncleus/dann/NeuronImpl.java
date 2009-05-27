@@ -179,7 +179,7 @@ public abstract class NeuronImpl<SN extends NeuronImpl, SS extends Synapse<? ext
         }
         catch (SynapseDoesNotExistException caughtException)
         {
-            //do nothing, its a recoverable exception
+            throw new SynapseNotConnectedException("can not disconnect destination, does not exist.", caughtException);
         }
     }
 
@@ -207,7 +207,7 @@ public abstract class NeuronImpl<SN extends NeuronImpl, SS extends Synapse<? ext
         }
         catch (SynapseDoesNotExistException caughtException)
         {
-            //do nothing, its a recoverable exception
+            throw new SynapseNotConnectedException("can not disconnect source, does not exist.", caughtException);
         }
     }
 

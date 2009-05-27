@@ -29,4 +29,14 @@ public class InvalidConnectionTypeDannException extends DannException
 	{
 		super(msg);
 	}
+
+	public InvalidConnectionTypeDannException(String msg, Throwable cause)
+	{
+		super(msg, cause);
+	}
+
+	public InvalidConnectionTypeDannException(Throwable cause)
+	{
+		super(cause);
+	}
 }

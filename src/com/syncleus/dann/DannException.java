@@ -36,4 +36,14 @@ public class DannException extends java.lang.Exception
 	{
 		super(msg);
 	}
+
+	public DannException(String msg, Throwable cause)
+	{
+		super(msg, cause);
+	}
+
+	public DannException(Throwable cause)
+	{
+		super(cause);
+	}
 }

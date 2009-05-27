@@ -35,4 +35,14 @@ public class SynapseNotConnectedException extends DannException
 	{
 		super(msg);
 	}
+
+	public SynapseNotConnectedException(String msg, Throwable cause)
+	{
+		super(msg, cause);
+	}
+
+	public SynapseNotConnectedException(Throwable cause)
+	{
+		super(cause);
+	}
 }
