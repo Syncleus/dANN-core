@@ -20,6 +20,7 @@ package com.syncleus.dann.backprop;
 
 import com.syncleus.dann.*;
 import com.syncleus.dann.activation.ActivationFunction;
+import java.util.Hashtable;
 
 
 /**
@@ -32,7 +33,7 @@ import com.syncleus.dann.activation.ActivationFunction;
  * @since 0.1
  * @see com.syncleus.dann.Synapse
  */
-public class BackpropNeuron extends NeuronImpl<NeuronImpl, Synapse<? extends NeuronImpl, ? extends NeuronImpl>, BackpropNeuron, BackpropSynapse>
+public class BackpropNeuron extends NeuronImpl<NeuronImpl, BackpropNeuron>
 {
     // <editor-fold defaultstate="collapsed" desc="Attributes">
     /**
@@ -45,6 +46,8 @@ public class BackpropNeuron extends NeuronImpl<NeuronImpl, Synapse<? extends Neu
     protected double deltaTrain = 0;
 
 	private double learningRate = 0.001;
+
+	protected Hashtable<Synapse, Double> deltaTrainDestinations = new Hashtable<Synapse, Double>();
 
     // </editor-fold>
 
@@ -98,10 +101,23 @@ public class BackpropNeuron extends NeuronImpl<NeuronImpl, Synapse<? extends Neu
             throw new NullPointerException("outUnit can not be null!");
 
         //connect to the neuron
-        BackpropSynapse newSynapse = new BackpropSynapse(this, outUnit, ((this.random.nextDouble() * 2.0) - 1.0) / 10000.0);
+        Synapse newSynapse = new Synapse(this, outUnit, ((this.random.nextDouble() * 2.0) - 1.0) / 10000.0);
         this.destinations.add(newSynapse);
+		this.deltaTrainDestinations.put(newSynapse, Double.valueOf(0.0));
         outUnit.connectFrom(newSynapse);
     }
+
+	protected void removeDestination(Synapse outSynapse) throws SynapseDoesNotExistException
+	{
+		super.removeDestination(outSynapse);
+		this.deltaTrainDestinations.remove(outSynapse);
+	}
+
+	public void disconnectDestination(Synapse outSynapse) throws SynapseNotConnectedException
+	{
+		super.disconnectDestination(outSynapse);
+		this.deltaTrainDestinations.remove(outSynapse);
+	}
 
 	// </editor-fold>
 
@@ -118,8 +134,15 @@ public class BackpropNeuron extends NeuronImpl<NeuronImpl, Synapse<? extends Neu
         //step thru source synapses and make them learn their new weight.
         for (Synapse currentSynapse : this.getSources())
 		{
-			if(currentSynapse instanceof BackpropSynapse)
-				((BackpropSynapse)currentSynapse).learnWeight(this.deltaTrain, this.learningRate);
+			NeuronImpl sourceNeuron = currentSynapse.getSource();
+			if(sourceNeuron instanceof BackpropNeuron)
+			{
+				BackpropNeuron sourceBackpropNeuron = (BackpropNeuron) sourceNeuron;
+
+				sourceBackpropNeuron.deltaTrainDestinations.put(currentSynapse, Double.valueOf(this.deltaTrain));
+
+				currentSynapse.setWeight(currentSynapse.getWeight() + (this.deltaTrain * this.learningRate * currentSynapse.getInput()));
+			}
 		}
 
         //learn the biases new weight
@@ -137,8 +160,8 @@ public class BackpropNeuron extends NeuronImpl<NeuronImpl, Synapse<? extends Neu
     protected void calculateDeltaTrain()
     {
         this.deltaTrain = 0;
-        for (BackpropSynapse currentSynapse : this.destinations)
-            this.deltaTrain += currentSynapse.getDifferential();
+        for (Synapse currentSynapse : this.destinations)
+            this.deltaTrain += (currentSynapse.getWeight() * this.deltaTrainDestinations.get(currentSynapse).doubleValue());
         this.deltaTrain *= this.activateDerivitive();
     }
 

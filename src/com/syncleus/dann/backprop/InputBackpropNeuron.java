@@ -30,7 +30,7 @@ import com.syncleus.dann.activation.*;
  * @since 0.1
  * @see com.syncleus.dann.OutputNeuron
  */
-public class InputBackpropNeuron extends BackpropNeuron implements InputNeuron<NeuronImpl, Synapse<? extends NeuronImpl, ? extends NeuronImpl>, BackpropNeuron, BackpropSynapse>
+public class InputBackpropNeuron extends BackpropNeuron implements InputNeuron<NeuronImpl, BackpropNeuron>
 {
     /**
      * Holds the current input value for this neuron<BR>

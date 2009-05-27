@@ -26,7 +26,7 @@ package com.syncleus.dann;
  * @since 0.1
  * @see com.syncleus.dann.NetworkNode
  */
-public class Synapse<SN extends NeuronImpl, DN extends NeuronImpl> implements java.io.Serializable
+public class Synapse implements java.io.Serializable
 {
     // <editor-fold defaultstate="collapsed" desc="Attributes">
     /**
@@ -34,13 +34,13 @@ public class Synapse<SN extends NeuronImpl, DN extends NeuronImpl> implements ja
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
-    private DN destination;
+    private NeuronImpl destination;
     /**
      * The incomming neuron connection.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
-    private SN source;
+    private NeuronImpl source;
     /**
      * The current weight of the synapse<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
@@ -71,7 +71,7 @@ public class Synapse<SN extends NeuronImpl, DN extends NeuronImpl> implements ja
      * @param destinationToSet The outgoing neuron connection.
      * @param initialWeight The initial weight of the synapse
      */
-    public Synapse(SN sourceToSet, DN destinationToSet, double initialWeight)
+    public Synapse(NeuronImpl sourceToSet, NeuronImpl destinationToSet, double initialWeight)
     {
         this.destination = destinationToSet;
         this.source = sourceToSet;
@@ -87,7 +87,7 @@ public class Synapse<SN extends NeuronImpl, DN extends NeuronImpl> implements ja
      * @since 0.1
      * @return The source neuron.
      */
-    public SN getSource()
+    public NeuronImpl getSource()
     {
         return this.source;
     }
@@ -100,7 +100,7 @@ public class Synapse<SN extends NeuronImpl, DN extends NeuronImpl> implements ja
      * @since 0.1
      * @return The destination neuron.
      */
-    public DN getDestination()
+    public NeuronImpl getDestination()
     {
         return this.destination;
     }
@@ -136,7 +136,7 @@ public class Synapse<SN extends NeuronImpl, DN extends NeuronImpl> implements ja
         this.input = newInput;
     }
 
-	protected void setWeight(double newWeight)
+	public void setWeight(double newWeight)
 	{
 		this.weight = newWeight;
 	}

@@ -27,7 +27,7 @@ import java.util.Random;
 import java.util.Set;
 
 
-public abstract class NeuronImpl<SN extends NeuronImpl, SS extends Synapse<? extends SN, ? extends NeuronImpl>, DN extends NeuronImpl, DS extends Synapse<? extends NeuronImpl, ? extends DN>> implements Neuron<SN, SS, DN, DS>
+public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> implements Neuron<SN, DN>
 {
     // <editor-fold defaultstate="collapsed" desc="Attributes">
     /**
@@ -57,13 +57,13 @@ public abstract class NeuronImpl<SN extends NeuronImpl, SS extends Synapse<? ext
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
-    protected HashSet<DS> destinations = new HashSet<DS>();
+    protected HashSet<Synapse> destinations = new HashSet<Synapse>();
     /**
      * All the synapses currently connecting into this neuron<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
-    private HashSet<SS> sources = new HashSet<SS>();
+    private HashSet<Synapse> sources = new HashSet<Synapse>();
 
     protected ActivationFunction activationFunction;
 	protected Random random = new Random();
@@ -107,7 +107,7 @@ public abstract class NeuronImpl<SN extends NeuronImpl, SS extends Synapse<? ext
      * @param inSynapse The synapse to connect from.
      * @see com.syncleus.dann.Neuron#connectTo
      */
-    protected void connectFrom(SS inSynapse) throws InvalidConnectionTypeDannException
+    protected void connectFrom(Synapse inSynapse) throws InvalidConnectionTypeDannException
     {
         //make sure you arent already connected fromt his neuron
 
@@ -139,7 +139,7 @@ public abstract class NeuronImpl<SN extends NeuronImpl, SS extends Synapse<? ext
      */
     public void disconnectAllDestinations()
     {
-        for (DS currentDestination : this.destinations)
+        for (Synapse currentDestination : this.destinations)
             try
             {
                 this.disconnectDestination(currentDestination);
@@ -162,7 +162,7 @@ public abstract class NeuronImpl<SN extends NeuronImpl, SS extends Synapse<? ext
      */
     public void disconnectAllSources()
     {
-        for (SS currentSource : this.sources)
+        for (Synapse currentSource : this.sources)
             try
             {
                 this.disconnectSource(currentSource);
@@ -183,7 +183,7 @@ public abstract class NeuronImpl<SN extends NeuronImpl, SS extends Synapse<? ext
      * @param outSynapse The outgoing synapse to disconnect from.<BR>
      * @see com.syncleus.dann.Neuron#removeSource
      */
-    public void disconnectDestination(DS outSynapse) throws SynapseNotConnectedException
+    public void disconnectDestination(Synapse outSynapse) throws SynapseNotConnectedException
     {
         if (this instanceof OutputNeuron)
             throw new InvalidParameterException("Can not disconnect a destination for a OutputNeuron");
@@ -211,7 +211,7 @@ public abstract class NeuronImpl<SN extends NeuronImpl, SS extends Synapse<? ext
      * @param inSynapse The incomming synapse to disconnect from.<BR>
      * @see com.syncleus.dann.Neuron#removeDestination
      */
-    public void disconnectSource(SS inSynapse) throws SynapseNotConnectedException
+    public void disconnectSource(Synapse inSynapse) throws SynapseNotConnectedException
     {
         if (this instanceof InputNeuron)
             throw new InvalidParameterException("Can not disconnect a source for a InputNeuron");
@@ -239,7 +239,7 @@ public abstract class NeuronImpl<SN extends NeuronImpl, SS extends Synapse<? ext
      * @param outSynapse The incomming synapse to remove from memory.<BR>
      * @see com.syncleus.dann.Neuron#disconnectSource
      */
-    protected void removeDestination(DS outSynapse) throws SynapseDoesNotExistException
+    protected void removeDestination(Synapse outSynapse) throws SynapseDoesNotExistException
     {
         if (this instanceof OutputNeuron)
             throw new InvalidParameterException("Can not remove a destination for a OutputNeuron");
@@ -257,7 +257,7 @@ public abstract class NeuronImpl<SN extends NeuronImpl, SS extends Synapse<? ext
      * @param inSynapse The incomming synapse to remove from memory.<BR>
      * @see com.syncleus.dann.Neuron#disconnectDestination
      */
-    protected void removeSource(SS inSynapse) throws SynapseDoesNotExistException
+    protected void removeSource(Synapse inSynapse) throws SynapseDoesNotExistException
     {
         if (this instanceof InputNeuron)
             throw new InvalidParameterException("Can not disconnect a source for a InputNeuron");
@@ -268,7 +268,7 @@ public abstract class NeuronImpl<SN extends NeuronImpl, SS extends Synapse<? ext
 
 
 
-    public Set<DS> getDestinations()
+    public Set<Synapse> getDestinations()
     {
         return Collections.unmodifiableSet(this.destinations);
     }
@@ -291,8 +291,8 @@ public abstract class NeuronImpl<SN extends NeuronImpl, SS extends Synapse<? ext
     public Set<SN> getSourceNeighbors()
     {
         HashSet<SN> neighbors = new HashSet<SN>();
-        for (SS sourceSynapse : this.getSources())
-				neighbors.add(sourceSynapse.getSource());
+        for (Synapse sourceSynapse : this.getSources())
+			neighbors.add((SN)sourceSynapse.getSource());
 
         return Collections.unmodifiableSet(neighbors);
     }
@@ -302,13 +302,13 @@ public abstract class NeuronImpl<SN extends NeuronImpl, SS extends Synapse<? ext
     public Set<DN> getDestinationNeighbors()
     {
         HashSet<DN> neighbors = new HashSet<DN>();
-        for (DS destination : this.getDestinations())
-            neighbors.add(destination.getDestination());
+        for (Synapse destination : this.getDestinations())
+            neighbors.add((DN)destination.getDestination());
 
         return Collections.unmodifiableSet(neighbors);
     }
 
-    public Set<SS> getSources()
+    public Set<Synapse> getSources()
     {
         return Collections.unmodifiableSet(sources);
     }
@@ -327,7 +327,7 @@ public abstract class NeuronImpl<SN extends NeuronImpl, SS extends Synapse<? ext
     {
         this.output = newOutput;
 
-        for (DS current : this.destinations)
+        for (Synapse current : this.destinations)
             current.setInput(newOutput);
     }
 

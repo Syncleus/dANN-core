@@ -28,7 +28,7 @@ import com.syncleus.dann.activation.*;
  * @since 0.1
  * @see com.syncleus.dann.InputNeuron
  */
-public class OutputBackpropNeuron extends BackpropNeuron implements OutputNeuron<NeuronImpl, Synapse<? extends NeuronImpl, ? extends NeuronImpl>, BackpropNeuron, BackpropSynapse>
+public class OutputBackpropNeuron extends BackpropNeuron implements OutputNeuron<NeuronImpl, BackpropNeuron>
 {
     /**
      * holds the value for the current training set.<BR>
@@ -97,12 +97,12 @@ public class OutputBackpropNeuron extends BackpropNeuron implements OutputNeuron
     protected void calculateDeltaTrain()
     {
         this.deltaTrain = 0;
-        for (BackpropSynapse currentSynapse : super.destinations)
-            this.deltaTrain += currentSynapse.getDifferential();
+        for (Synapse currentSynapse : super.destinations)
+			this.deltaTrain += (currentSynapse.getWeight() * this.deltaTrainDestinations.get(currentSynapse).doubleValue());
 
-        super.deltaTrain += (this.desired - super.getOutput());
+        this.deltaTrain += (this.desired - this.getOutput());
 
-        super.deltaTrain *= super.activateDerivitive();
+        this.deltaTrain *= super.activateDerivitive();
     }
     
     public void connectTo(BackpropNeuron outUnit) throws InvalidConnectionTypeDannException
