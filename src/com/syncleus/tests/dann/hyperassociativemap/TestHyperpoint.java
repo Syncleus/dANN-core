@@ -1,6 +1,6 @@
-package com.syncleus.tests.dann.associativemap;
+package com.syncleus.tests.dann.hyperassociativemap;
 
-import com.syncleus.dann.associativemap.Hyperpoint;
+import com.syncleus.dann.hyperassociativemap.Hyperpoint;
 import org.junit.*;
 
 public class TestHyperpoint

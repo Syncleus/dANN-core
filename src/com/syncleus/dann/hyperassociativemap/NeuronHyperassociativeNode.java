@@ -16,20 +16,57 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.associativemap;
+package com.syncleus.dann.hyperassociativemap;
 
-import com.syncleus.dann.*;
+import com.syncleus.dann.Neuron;
+import java.util.HashSet;
 
-public class NeighborNotFoundException extends DannException
+
+public class NeuronHyperassociativeNode extends HyperassociativeNode
 {
-    public NeighborNotFoundException()
+    private Neuron neuron;
+    
+    
+    public NeuronHyperassociativeNode(BrainHyperassociativeMap network, int dimensions, Neuron networkNode)
     {
+        super(network, randomCoordinates(dimensions));
+        
+        this.neuron = networkNode;
     }
 
 
 
-    public NeighborNotFoundException(String msg)
+    public NeuronHyperassociativeNode(BrainHyperassociativeMap network, Hyperpoint location, Neuron networkNode)
     {
-        super(msg);
+        super(network, location);
+
+        this.neuron = networkNode;
+    }
+
+
+
+    @Override
+    protected BrainHyperassociativeMap getNetwork()
+    {
+        return (BrainHyperassociativeMap) super.getNetwork();
+    }
+
+
+
+    void refresh()
+    {
+        this.dissociateAll();
+
+        HashSet<Neuron> neurons = new HashSet<Neuron>();
+        neurons.addAll(this.neuron.getNeighbors());
+        for (Neuron neighborNeuron : neurons)
+            this.associate(this.getNetwork().getNodeFromNeuron(neighborNeuron), 1.0);
+    }
+
+
+
+    public Neuron getNeuron()
+    {
+        return neuron;
     }
 }

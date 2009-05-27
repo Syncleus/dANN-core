@@ -1,15 +1,15 @@
-package com.syncleus.tests.dann.associativemap;
+package com.syncleus.tests.dann.hyperassociativemap;
 
-import com.syncleus.dann.associativemap.AssociativeNode;
+import com.syncleus.dann.hyperassociativemap.HyperassociativeNode;
 import org.junit.*;
 
 public class TestLayeredLoopMap
 {
-	private static LayeredAssociativeMap testMap = null;
+	private static LayeredHyperassociativeMap testMap = null;
 
 	@BeforeClass public static void alignMap()
 	{
-		testMap = new LayeredAssociativeMap(32);
+		testMap = new LayeredHyperassociativeMap(32);
 
 		//align the testMap
 		for(int alignCount = 0; alignCount<100; alignCount++)
@@ -24,7 +24,7 @@ public class TestLayeredLoopMap
 	@Test
 	public void testLayeredLoopAverage()
 	{
-		AssociativeNode[][] nodes = testMap.getLayers();
+		HyperassociativeNode[][] nodes = testMap.getLayers();
 
 		//find the farthest nodes in layer 1 and 2
 		double adjacentTotal = 0.0;
@@ -33,11 +33,11 @@ public class TestLayeredLoopMap
 		double seperatedComponents = 0.0;
 		for(int primaryLayerIndex = 0; primaryLayerIndex < nodes[0].length; primaryLayerIndex++)
 		{
-			AssociativeNode currentPrimaryLayerNode = nodes[0][primaryLayerIndex];
+			HyperassociativeNode currentPrimaryLayerNode = nodes[0][primaryLayerIndex];
 
 			for(int adjacentLayerIndex = 0; adjacentLayerIndex < nodes[1].length; adjacentLayerIndex++)
 			{
-				AssociativeNode currentAdjacentLayerNode = nodes[1][adjacentLayerIndex];
+				HyperassociativeNode currentAdjacentLayerNode = nodes[1][adjacentLayerIndex];
 				double currentDistance = currentPrimaryLayerNode.getLocation().calculateRelativeTo(currentAdjacentLayerNode.getLocation()).getDistance();
 
 				adjacentTotal += currentDistance;
@@ -47,7 +47,7 @@ public class TestLayeredLoopMap
 
 			for(int seperatedLayerIndex = 0; seperatedLayerIndex < nodes[16].length; seperatedLayerIndex++)
 			{
-				AssociativeNode currentSeperatedLayerNode = nodes[16][seperatedLayerIndex];
+				HyperassociativeNode currentSeperatedLayerNode = nodes[16][seperatedLayerIndex];
 				double currentDistance = currentPrimaryLayerNode.getLocation().calculateRelativeTo(currentSeperatedLayerNode.getLocation()).getDistance();
 
 				seperatedTotal += currentDistance;

@@ -21,41 +21,41 @@ package com.syncleus.dann.visualization;
 import com.sun.j3d.utils.behaviors.mouse.MouseWheelZoom;
 import com.sun.j3d.utils.behaviors.vp.OrbitBehavior;
 import com.sun.j3d.utils.universe.SimpleUniverse;
-import com.syncleus.dann.associativemap.AssociativeMap;
+import com.syncleus.dann.hyperassociativemap.HyperassociativeMap;
 import java.awt.GraphicsConfiguration;
 import javax.media.j3d.*;
 import javax.vecmath.*;
 
 
-public class AssociativeMapCanvas extends Canvas3D
+public class HyperassociativeMapCanvas extends Canvas3D
 {
     private static final long serialVersionUID = 1L;
 
-    private AssociativeMapVisualization mapVisual;
+    private HyperassociativeMapVisualization mapVisual;
     
-    public AssociativeMapCanvas(AssociativeMap map)
+    public HyperassociativeMapCanvas(HyperassociativeMap map)
     {
         this(map, SimpleUniverse.getPreferredConfiguration());
     }
 
-    public AssociativeMapCanvas(AssociativeMap map, float nodeRadius)
+    public HyperassociativeMapCanvas(HyperassociativeMap map, float nodeRadius)
     {
         this(map, SimpleUniverse.getPreferredConfiguration(), nodeRadius);
     }
 
-    public AssociativeMapCanvas(AssociativeMap map, GraphicsConfiguration configuration)
+    public HyperassociativeMapCanvas(HyperassociativeMap map, GraphicsConfiguration configuration)
     {
         this(map, configuration, 0.01F);
     }
     
-    public AssociativeMapCanvas(AssociativeMap map, GraphicsConfiguration configuration, float nodeRadius)
+    public HyperassociativeMapCanvas(HyperassociativeMap map, GraphicsConfiguration configuration, float nodeRadius)
     {
         super(configuration);
         
 
         BranchGroup root = createRoot();
 
-        this.mapVisual = new AssociativeMapVisualization(map, nodeRadius);
+        this.mapVisual = new HyperassociativeMapVisualization(map, nodeRadius);
         this.mapVisual.refresh();
 
         root.addChild(mapVisual);
@@ -77,7 +77,7 @@ public class AssociativeMapCanvas extends Canvas3D
         universe.getViewingPlatform().setViewPlatformBehavior(mouseOrbital);
     }
 
-    public AssociativeMap getAssociativeMap()
+    public HyperassociativeMap getHyperassociativeMap()
     {
         return this.mapVisual.getMap();
     }

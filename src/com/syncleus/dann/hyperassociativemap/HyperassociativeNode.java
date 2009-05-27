@@ -16,7 +16,7 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.associativemap;
+package com.syncleus.dann.hyperassociativemap;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -25,10 +25,10 @@ import java.util.Random;
 import java.util.Set;
 
 
-public class AssociativeNode implements Serializable
+public class HyperassociativeNode implements Serializable
 {
-    private AssociativeMap network;
-    private Hashtable<AssociativeNode, Double> weightedNeighbors = new Hashtable<AssociativeNode, Double>();
+    private HyperassociativeMap network;
+    private Hashtable<HyperassociativeNode, Double> weightedNeighbors = new Hashtable<HyperassociativeNode, Double>();
     private Hyperpoint location;
     private static final double EQUILIBRIUM_DISTANCE = 1.0;
     private static final double LEARNING_RATE = 0.004;
@@ -37,7 +37,7 @@ public class AssociativeNode implements Serializable
 
 
 
-    public AssociativeNode(AssociativeMap network, int dimensions)
+    public HyperassociativeNode(HyperassociativeMap network, int dimensions)
     {
         if (network == null)
             throw new NullPointerException("network can not be null!");
@@ -48,7 +48,7 @@ public class AssociativeNode implements Serializable
 
 
 
-    public AssociativeNode(AssociativeMap network, Hyperpoint location)
+    public HyperassociativeNode(HyperassociativeMap network, Hyperpoint location)
     {
         if (location == null)
             throw new NullPointerException("location can not be null!");
@@ -61,7 +61,7 @@ public class AssociativeNode implements Serializable
 
 
 
-    public void associate(AssociativeNode newNeighbor, double newWeight)
+    public void associate(HyperassociativeNode newNeighbor, double newWeight)
     {
         if (newNeighbor == null)
             throw new NullPointerException("newNeighbor can not be null!");
@@ -74,7 +74,7 @@ public class AssociativeNode implements Serializable
 
 
 
-    public void dissociate(AssociativeNode neighbor)
+    public void dissociate(HyperassociativeNode neighbor)
     {
 //        System.out.println("warning, dissasociating");
         this.weightedNeighbors.remove(neighbor);
@@ -90,14 +90,14 @@ public class AssociativeNode implements Serializable
 
 
 
-    public Set<AssociativeNode> getNeighbors()
+    public Set<HyperassociativeNode> getNeighbors()
     {
         return Collections.unmodifiableSet(this.weightedNeighbors.keySet());
     }
 
 
 
-    public double getNeighborsWeight(AssociativeNode neighbor) throws NeighborNotFoundException
+    public double getNeighborsWeight(HyperassociativeNode neighbor) throws NeighborNotFoundException
     {
         if (neighbor == null)
             throw new NullPointerException("neighbor can not be null!");
@@ -129,11 +129,11 @@ public class AssociativeNode implements Serializable
 //            this.location = randomCoordinates(this.location.getDimensions());
 
         //calculate equilibrium with neighbors
-        Set<AssociativeNode> neighbors = this.weightedNeighbors.keySet();
+        Set<HyperassociativeNode> neighbors = this.weightedNeighbors.keySet();
 //        if(neighbors.size() > 0 )
 //            System.out.println("has " + neighbors.size() + " neighbors");
         Hyperpoint compositeVector = new Hyperpoint(this.location.getDimensions());
-        for (AssociativeNode neighbor : neighbors)
+        for (HyperassociativeNode neighbor : neighbors)
         {
             Hyperpoint neighborVector = neighbor.location.calculateRelativeTo(this.location);
             double neighborEquilibrium = (EQUILIBRIUM_DISTANCE / this.weightedNeighbors.get(neighbor).doubleValue());
@@ -148,7 +148,7 @@ public class AssociativeNode implements Serializable
         }
 
         //calculate repulsion with all non-neighbors
-        for (AssociativeNode node : this.network.getNodes())
+        for (HyperassociativeNode node : this.network.getNodes())
             if ((neighbors.contains(node) == false)&&(node != this)&&(node.weightedNeighbors.keySet().contains(this) == false) )
             {
                 Hyperpoint nodeVector = node.location.calculateRelativeTo(this.location);
@@ -182,7 +182,7 @@ public class AssociativeNode implements Serializable
 
 
 
-    protected AssociativeMap getNetwork()
+    protected HyperassociativeMap getNetwork()
     {
         return network;
     }

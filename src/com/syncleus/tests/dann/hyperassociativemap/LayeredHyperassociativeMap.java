@@ -3,24 +3,26 @@
  * and open the template in the editor.
  */
 
-package com.syncleus.tests.dann.associativemap;
+package com.syncleus.tests.dann.hyperassociativemap;
 
-import com.syncleus.dann.associativemap.*;
+import com.syncleus.dann.hyperassociativemap.HyperassociativeNode;
+import com.syncleus.dann.hyperassociativemap.HyperassociativeMap;
+import com.syncleus.dann.hyperassociativemap.*;
 
-public class LayeredAssociativeMap extends AssociativeMap
+public class LayeredHyperassociativeMap extends HyperassociativeMap
 {
-    private AssociativeNode layeredNodes[][];
+    private HyperassociativeNode layeredNodes[][];
     private static final int NODES_PER_LAYER = 8;
     
-    LayeredAssociativeMap(int layers)
+    LayeredHyperassociativeMap(int layers)
     {
-        this.layeredNodes = new AssociativeNode[layers][NODES_PER_LAYER];
+        this.layeredNodes = new HyperassociativeNode[layers][NODES_PER_LAYER];
         
         //create the nodes
         for(int layerIndex = 0; layerIndex < layers; layerIndex++)
             for(int nodeIndex = 0; nodeIndex < NODES_PER_LAYER; nodeIndex++)
             {
-                this.layeredNodes[layerIndex][nodeIndex] = new AssociativeNode(this, AssociativeNode.randomCoordinates(3));
+                this.layeredNodes[layerIndex][nodeIndex] = new HyperassociativeNode(this, HyperassociativeNode.randomCoordinates(3));
                 this.nodes.add(this.layeredNodes[layerIndex][nodeIndex]);
             }
         
@@ -29,7 +31,7 @@ public class LayeredAssociativeMap extends AssociativeMap
         {
             for(int nodeIndex = 0; nodeIndex < NODES_PER_LAYER; nodeIndex++)
             {
-                AssociativeNode currentNode = this.layeredNodes[layerIndex][nodeIndex];
+                HyperassociativeNode currentNode = this.layeredNodes[layerIndex][nodeIndex];
                 for(int toNodeIndex = 0; toNodeIndex < NODES_PER_LAYER; toNodeIndex++)
                 {
                     if(layerIndex < (layers-1))
@@ -50,8 +52,8 @@ public class LayeredAssociativeMap extends AssociativeMap
     }
 
 
-	public AssociativeNode[][] getLayers()
+	public HyperassociativeNode[][] getLayers()
 	{
-		return (AssociativeNode[][]) this.layeredNodes.clone();
+		return (HyperassociativeNode[][]) this.layeredNodes.clone();
 	}
 }

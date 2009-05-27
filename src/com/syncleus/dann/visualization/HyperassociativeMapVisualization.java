@@ -18,11 +18,15 @@
  ******************************************************************************/
 package com.syncleus.dann.visualization;
 
+import com.syncleus.dann.hyperassociativemap.HyperassociativeNode;
+import com.syncleus.dann.hyperassociativemap.Hyperpoint;
+import com.syncleus.dann.hyperassociativemap.NeuronHyperassociativeNode;
+import com.syncleus.dann.hyperassociativemap.HyperassociativeMap;
 import com.syncleus.dann.*;
 import com.sun.j3d.utils.geometry.*;
 import com.sun.j3d.utils.image.TextureLoader;
 import com.syncleus.dann.Neuron;
-import com.syncleus.dann.associativemap.*;
+import com.syncleus.dann.hyperassociativemap.*;
 import java.awt.image.BufferedImage;
 import java.util.Set;
 import javax.media.j3d.*;
@@ -31,22 +35,22 @@ import java.awt.*;
 import java.util.Hashtable;
 
 
-public class AssociativeMapVisualization extends BranchGroup
+public class HyperassociativeMapVisualization extends BranchGroup
 {
-    private AssociativeMap map;
-    private Hashtable<AssociativeNode, TransformGroup> nodeGraphics = new Hashtable<AssociativeNode, TransformGroup>();
-    private Hashtable<AssociativeNode, Hyperpoint> oldNodeLocations = new Hashtable<AssociativeNode, Hyperpoint>();
+    private HyperassociativeMap map;
+    private Hashtable<HyperassociativeNode, TransformGroup> nodeGraphics = new Hashtable<HyperassociativeNode, TransformGroup>();
+    private Hashtable<HyperassociativeNode, Hyperpoint> oldNodeLocations = new Hashtable<HyperassociativeNode, Hyperpoint>();
     private BranchGroup nestedRoot = new BranchGroup();
 	private float nodeRadius;
 
 
 
-    public AssociativeMapVisualization(AssociativeMap map)
+    public HyperassociativeMapVisualization(HyperassociativeMap map)
     {
 		this(map, 0.01F);
     }
 
-	public AssociativeMapVisualization(AssociativeMap map, float nodeRadius)
+	public HyperassociativeMapVisualization(HyperassociativeMap map, float nodeRadius)
 	{
 		this.nodeRadius = nodeRadius;
         this.map = map;
@@ -79,16 +83,16 @@ public class AssociativeMapVisualization extends BranchGroup
 //            childrenRemoved = true;
 //        }
 
-        Hashtable<AssociativeNode, TransformGroup> newGraphicalNodes = new Hashtable<AssociativeNode, TransformGroup>();
+        Hashtable<HyperassociativeNode, TransformGroup> newGraphicalNodes = new Hashtable<HyperassociativeNode, TransformGroup>();
 
-        Set<AssociativeNode> nodes = this.map.getNodes();
-        for (AssociativeNode node : nodes)
+        Set<HyperassociativeNode> nodes = this.map.getNodes();
+        for (HyperassociativeNode node : nodes)
             if (this.nodeGraphics.containsKey(node) == false)
             {
                 Color neuronColor = Color.GRAY;
-                if (node instanceof NeuronAssociativeNode)
+                if (node instanceof NeuronHyperassociativeNode)
                 {
-                    Neuron neuron = ((NeuronAssociativeNode) node).getNeuron();
+                    Neuron neuron = ((NeuronHyperassociativeNode) node).getNeuron();
                     if (neuron instanceof OutputNeuron)
                         neuronColor = Color.RED;
                     else if (neuron instanceof InputNeuron)
@@ -128,7 +132,7 @@ public class AssociativeMapVisualization extends BranchGroup
             }
 
         //remove any stale nodes
-        for (AssociativeNode node : this.nodeGraphics.keySet())
+        for (HyperassociativeNode node : this.nodeGraphics.keySet())
         {
             this.nestedRoot.removeChild(this.nodeGraphics.get(node));
             this.oldNodeLocations.remove(node);
@@ -259,7 +263,7 @@ public class AssociativeMapVisualization extends BranchGroup
 
 
 
-    AssociativeMap getMap()
+    HyperassociativeMap getMap()
     {
         return map;
     }

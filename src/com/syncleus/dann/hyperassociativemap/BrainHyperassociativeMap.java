@@ -16,22 +16,22 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.associativemap;
+package com.syncleus.dann.hyperassociativemap;
 
 import com.syncleus.dann.*;
 import java.util.Hashtable;
 import java.util.Set;
 
 
-public class BrainAssociativeMap extends AssociativeMap
+public class BrainHyperassociativeMap extends HyperassociativeMap
 {
     private Brain brain;
     private int dimensions;
-    private Hashtable<Neuron, NeuronAssociativeNode> neurons = new Hashtable<Neuron, NeuronAssociativeNode>();
+    private Hashtable<Neuron, NeuronHyperassociativeNode> neurons = new Hashtable<Neuron, NeuronHyperassociativeNode>();
 
 
 
-    public BrainAssociativeMap(Brain brain, int dimensions)
+    public BrainHyperassociativeMap(Brain brain, int dimensions)
     {
         this.brain = brain;
         this.dimensions = dimensions;
@@ -49,14 +49,14 @@ public class BrainAssociativeMap extends AssociativeMap
         Set<Neuron> neurons = this.brain.getNeurons();
         for (Neuron neuron : neurons)
         {
-            NeuronAssociativeNode node = new NeuronAssociativeNode(this, this.dimensions, neuron);
+            NeuronHyperassociativeNode node = new NeuronHyperassociativeNode(this, this.dimensions, neuron);
             this.nodes.add(node);
             this.neurons.put(neuron, node);
         }
         
-        for(AssociativeNode node : this.nodes)
-            if( node instanceof NeuronAssociativeNode)
-                ((NeuronAssociativeNode)node).refresh();
+        for(HyperassociativeNode node : this.nodes)
+            if( node instanceof NeuronHyperassociativeNode)
+                ((NeuronHyperassociativeNode)node).refresh();
 /*
         for (AssociativeNode node : this.nodes)
             if (node instanceof NetworkNodeAssociativeNode)
@@ -103,7 +103,7 @@ public class BrainAssociativeMap extends AssociativeMap
 
 
 
-    NeuronAssociativeNode getNodeFromNeuron(Neuron node)
+    NeuronHyperassociativeNode getNodeFromNeuron(Neuron node)
     {
         return neurons.get(node);
     }

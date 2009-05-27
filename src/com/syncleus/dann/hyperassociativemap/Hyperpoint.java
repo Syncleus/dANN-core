@@ -16,7 +16,7 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.associativemap;
+package com.syncleus.dann.hyperassociativemap;
 
 import java.io.Serializable;
 import java.util.List;
