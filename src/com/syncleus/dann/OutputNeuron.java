@@ -94,8 +94,8 @@ public class OutputNeuron extends Neuron
         super.deltaTrain *= super.activateDerivitive();
     }
     
-    public void connectTo(Neuron outUnit) throws DannException
+    public void connectTo(Neuron outUnit) throws InvalidConnectionTypeDannException
     {
-        throw new DannException("Can not connect from a OutputNeuron");
+        throw new InvalidConnectionTypeDannException("Can not connect from a OutputNeuron");
     }
 }

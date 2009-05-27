@@ -97,8 +97,8 @@ public class InputNeuron extends Neuron
         this.calculateDeltaTrain();
     }
     
-    protected void connectFrom(Synapse inSynapse) throws DannException
+    protected void connectFrom(Synapse inSynapse) throws InvalidConnectionTypeDannException
     {
-        throw new DannException("Can not connect a neuron to an InputNeuron");
+        throw new InvalidConnectionTypeDannException("Can not connect a neuron to an InputNeuron");
     }
 }

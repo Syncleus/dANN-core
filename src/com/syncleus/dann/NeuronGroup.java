@@ -113,7 +113,7 @@ public class NeuronGroup implements java.io.Serializable
      * 	to.
      * @see com.syncleus.dann.NeuronGroup#connectTo
      */
-    public void connectAllTo(Neuron toConnectTo) throws DannException
+    public void connectAllTo(Neuron toConnectTo) throws InvalidConnectionTypeDannException
     {
 		for (Neuron currentChild : this.childrenNeurons)
 			currentChild.connectTo(toConnectTo);
@@ -121,7 +121,7 @@ public class NeuronGroup implements java.io.Serializable
 			currentChild.connectAllTo(toConnectTo);
     }
 
-	public void connectAllTo(NeuronGroup toConnectTo) throws DannException
+	public void connectAllTo(NeuronGroup toConnectTo) throws InvalidConnectionTypeDannException
 	{
 		for (Neuron currentChild : this.childrenNeurons)
 		{
