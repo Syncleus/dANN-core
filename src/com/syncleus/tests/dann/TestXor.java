@@ -19,10 +19,8 @@
 package com.syncleus.tests.dann;
 
 
-import java.io.*;
 import com.syncleus.dann.*;
 import org.junit.*;
-import com.syncleus.dann.activation.*;
 
 /**
  * An example main class that shows using dANN to solve an XOR problem. An XOR

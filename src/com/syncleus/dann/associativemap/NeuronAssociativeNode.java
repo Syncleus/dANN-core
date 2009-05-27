@@ -20,7 +20,6 @@ package com.syncleus.dann.associativemap;
 
 import com.syncleus.dann.Neuron;
 import java.util.HashSet;
-import java.util.Random;
 
 
 public class NeuronAssociativeNode extends AssociativeNode

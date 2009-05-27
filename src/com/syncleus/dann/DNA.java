@@ -18,8 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann;
 
-import java.util.Random;
-
 
 /**
  * Largly under developed this class will contain or generate a basic list of
