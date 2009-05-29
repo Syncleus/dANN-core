@@ -33,20 +33,13 @@ import org.junit.*;
  */
 public class TestXor
 {
-	private static
-		InputBackpropNeuron inputA = null;
-	private static
-		InputBackpropNeuron inputB = null;
-	private static
-		InputBackpropNeuron inputC = null;
-	private static
-		BackpropNeuronGroup firstLayer = null;
-	private static
-		BackpropNeuronGroup secondLayer = null;
-	private static
-		BackpropNeuronGroup thirdLayer = null;
-	private static
-		OutputBackpropNeuron output = null;
+	private static InputBackpropNeuron inputA = null;
+	private static InputBackpropNeuron inputB = null;
+	private static InputBackpropNeuron inputC = null;
+	private static BackpropNeuronGroup firstLayer = null;
+	private static BackpropNeuronGroup secondLayer = null;
+	private static BackpropNeuronGroup thirdLayer = null;
+	private static OutputBackpropNeuron output = null;
 
 
 

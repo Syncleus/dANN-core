@@ -184,21 +184,6 @@ public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
 
 
     /**
-     * Randomly returns one of the children.<BR>
-     * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
-     * @return A randomly selected child.
-     */
-    private N getRandomChild()
-    {
-		Set<N> childrenSet = this.getChildrenNeuronsRecursivly();
-		ArrayList<N> childrenList = new ArrayList<N>(childrenSet);
-		return childrenList.get(this.random.nextInt(childrenSet.size()));
-    }
-
-
-
-    /**
      * Causes the NetworkNode to disconnect all outgoing connections.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1

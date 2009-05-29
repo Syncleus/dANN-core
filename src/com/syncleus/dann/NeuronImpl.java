@@ -139,7 +139,11 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
      */
     public void disconnectAllDestinations()
     {
-        for (Synapse currentDestination : this.destinations)
+		Synapse[] destinations = new Synapse[this.destinations.size()];
+		this.destinations.toArray(destinations);
+		
+        for (Synapse currentDestination : destinations)
+		{
             try
             {
                 this.disconnectDestination(currentDestination);
@@ -149,6 +153,7 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
                 caughtException.printStackTrace();
                 throw new InternalError("Unexpected Runtime Exception: " + caughtException);
             }
+		}
     }
 
 
@@ -162,7 +167,11 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
      */
     public void disconnectAllSources()
     {
-        for (Synapse currentSource : this.sources)
+		Synapse[] sources = new Synapse[this.sources.size()];
+		this.sources.toArray(sources);
+		
+        for (Synapse currentSource : sources)
+		{
             try
             {
                 this.disconnectSource(currentSource);
@@ -172,6 +181,7 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
                 caughtException.printStackTrace();
                 throw new InternalError("Unexpected Runtime Exception: " + caughtException);
             }
+		}
     }
 
 
