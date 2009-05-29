@@ -19,6 +19,7 @@
 package com.syncleus.tests.dann.hyperassociativemap;
 
 import com.syncleus.dann.hyperassociativemap.Hyperpoint;
+import java.util.ArrayList;
 import org.junit.*;
 
 public class TestHyperpoint
@@ -90,5 +91,38 @@ public class TestHyperpoint
 
 		result = pointA.add(pointB).getAngularComponent(2);
 		Assert.assertTrue("add(2): " + result, Math.abs(result - 0.7853981633974483d) < 0.00001d);
+	}
+
+	@Test
+	public void testAccessors()
+	{
+		Hyperpoint testPoint = new Hyperpoint(3);
+		Assert.assertTrue(testPoint.getDimensions() == 3);
+
+		Hyperpoint anotherTestPoint = new Hyperpoint(testPoint);
+		Assert.assertTrue(anotherTestPoint.getDimensions() == 3);
+
+		ArrayList<Double> points = new ArrayList<Double>();
+		points.add(Double.valueOf(1.0d));
+		points.add(Double.valueOf(2.0d));
+		points.add(Double.valueOf(3.0d));
+		testPoint = new Hyperpoint(points);
+
+		Assert.assertTrue(testPoint.getDimensions() == 3);
+		Assert.assertTrue(testPoint.getCoordinate(1) == 1.0d);
+		Assert.assertTrue(testPoint.getCoordinate(2) == 2.0d);
+		Assert.assertTrue(testPoint.getCoordinate(3) == 3.0d);
+
+		testPoint.setCoordinate(5.0d, 1);
+		testPoint.setCoordinate(0.0d, 2);
+		testPoint.setCoordinate(0.0d, 3);
+		testPoint.setDistance(5.0d);
+		Assert.assertTrue(testPoint.getDistance() == 5.0d);
+
+		testPoint = new Hyperpoint(2);
+		testPoint.setCoordinate(1.0d, 1);
+		testPoint.setCoordinate(1.0d, 2);
+		testPoint.setAngularComponent(Math.PI/8.0d, 1);
+		Assert.assertTrue(Math.abs(testPoint.getAngularComponent(1) - Math.PI/8.0d) < 0.1);
 	}
 }
