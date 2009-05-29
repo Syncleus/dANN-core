@@ -51,14 +51,16 @@ public class TestActivationValues
 			double currentIn = 1000000000.0;
 			while(currentIn >= 100.0)
 			{
-				double result =currentActivationFunction.activate(currentIn);
+				currentActivationFunction.activateDerivative(currentIn);
+				double result = currentActivationFunction.activate(currentIn);
 				Assert.assertTrue("Transfer out of bounds. In: " + currentIn + ", result: " + result, (result <= 1.0)&&(result >= -1.0));
 				
 				currentIn = currentIn/10.0;
 			}
 			while(currentIn > 0.0)
 			{
-				double result =currentActivationFunction.activate(currentIn);
+				currentActivationFunction.activateDerivative(currentIn);
+				double result = currentActivationFunction.activate(currentIn);
 				Assert.assertTrue("Transfer out of bounds. In: " + currentIn + ", result: " + result, (result <= 1.0)&&(result >= -1.0));
 				
 				currentIn--;
@@ -67,14 +69,16 @@ public class TestActivationValues
 			currentIn = -1000000000.0;
 			while(currentIn <= -100.0)
 			{
-				double result =currentActivationFunction.activate(currentIn);
+				currentActivationFunction.activateDerivative(currentIn);
+				double result = currentActivationFunction.activate(currentIn);
 				Assert.assertTrue("Transfer out of bounds. In: " + currentIn + ", result: " + result, (result <= 1.0)&&(result >= -1.0));
 				
 				currentIn = currentIn/10.0;
 			}
 			while(currentIn <= 0.0)
 			{
-				double result =currentActivationFunction.activate(currentIn);
+				currentActivationFunction.activateDerivative(currentIn);
+				double result = currentActivationFunction.activate(currentIn);
 				Assert.assertTrue("Transfer out of bounds. In: " + currentIn + ", result: " + result, (result <= 1.0)&&(result >= -1.0));
 				
 				currentIn++;
@@ -83,7 +87,8 @@ public class TestActivationValues
 			for(int count = 0;count < 10000; count++)
 			{
 				currentIn = ((random.nextDouble()*2.0)-1.0)*1000.0;
-				double result =currentActivationFunction.activate(currentIn);
+				currentActivationFunction.activateDerivative(currentIn);
+				double result = currentActivationFunction.activate(currentIn);
 				Assert.assertTrue("Transfer out of bounds. In: " + currentIn + ", result: " + result, (result <= 1.0)&&(result >= -1.0));
 			}
 		}

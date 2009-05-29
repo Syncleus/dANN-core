@@ -18,8 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.backprop;
 
-import com.syncleus.dann.NeuronGroup;
-import java.util.Set;
+import com.syncleus.dann.*;
+import java.util.*;
 
 public class BackpropNeuronGroup extends NeuronGroup<BackpropNeuron>
 {
@@ -58,23 +58,35 @@ public class BackpropNeuronGroup extends NeuronGroup<BackpropNeuron>
             currentChild.backPropagate();
     }
 
-   public Set<BackpropNeuron> getNeighbors()
+	@SuppressWarnings("unchecked")
+   public Set<Neuron> getNeighbors()
     {
-        throw new Error("Not yet implemented");
+        HashSet<Neuron> returnSet = new HashSet<Neuron>();
+		for(Neuron currentNeuron : this.getChildrenNeuronsRecursivly())
+			returnSet.addAll(currentNeuron.getNeighbors());
+		return Collections.unmodifiableSet(returnSet);
     }
 
 
 
-    public Set<BackpropNeuron> getSourceNeighbors()
+	@SuppressWarnings("unchecked")
+    public Set<Neuron> getSourceNeighbors()
     {
-        throw new Error("Not yet implemented");
+        HashSet<Neuron> returnSet = new HashSet<Neuron>();
+		for(Neuron currentNeuron : this.getChildrenNeuronsRecursivly())
+			returnSet.addAll(currentNeuron.getSourceNeighbors());
+		return Collections.unmodifiableSet(returnSet);
     }
 
 
 
-    public Set<BackpropNeuron> getDestinationNeighbors()
+	@SuppressWarnings("unchecked")
+    public Set<Neuron> getDestinationNeighbors()
     {
-        throw new Error("Not yet implemented");
+        HashSet<Neuron> returnSet = new HashSet<Neuron>();
+		for(Neuron currentNeuron : this.getChildrenNeuronsRecursivly())
+			returnSet.addAll(currentNeuron.getDestinationNeighbors());
+		return Collections.unmodifiableSet(returnSet);
     }
 
 
