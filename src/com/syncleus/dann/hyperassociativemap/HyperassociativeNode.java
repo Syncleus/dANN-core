@@ -168,10 +168,8 @@ public class HyperassociativeNode implements Serializable
             double neighborEquilibrium = (equilibriumDistance / this.weightedNeighbors.get(neighbor).doubleValue());
             if (neighborVector.getDistance() > neighborEquilibrium)
                 neighborVector.setDistance(Math.pow(neighborVector.getDistance() - neighborEquilibrium, 2.0));
-            //neighborVector.setDistance(neighborVector.getDistance() - neighborEquilibrium);
             else
                 neighborVector.setDistance(-1.0 * atanh((neighborEquilibrium - neighborVector.getDistance()) / neighborEquilibrium));
-            //neighborVector.setDistance(neighborVector.getDistance() * (-1 * Math.pow(neighborEquilibrium,2)));
 
             compositeVector = compositeVector.add(neighborVector);
         }
@@ -181,9 +179,7 @@ public class HyperassociativeNode implements Serializable
             if ((neighbors.contains(node) == false)&&(node != this)&&(node.weightedNeighbors.keySet().contains(this) == false) )
             {
                 Hyperpoint nodeVector = node.location.calculateRelativeTo(this.location);
-//                if (nodeVector.getDistance() < EQUILIBRIUM_DISTANCE)
                     nodeVector.setDistance(-1.0/Math.pow(nodeVector.getDistance(), 2.0));
-                    //nodeVector.setDistance(-1.0 * atanh((EQUILIBRIUM_DISTANCE - nodeVector.getDistance()) / EQUILIBRIUM_DISTANCE));
                 
                 compositeVector = compositeVector.add(nodeVector);
             }
@@ -196,6 +192,7 @@ public class HyperassociativeNode implements Serializable
 
         this.location = this.location.add(compositeVector);
 
+		//if this node is outside of the maximum distance allowed then readjust its distance
         if( Math.abs(this.location.getDistance()) > (maximumDistance) )
 		{
 			 if( Math.abs(this.location.getDistance()) >= maximumDistance )
