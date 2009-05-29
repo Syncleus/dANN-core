@@ -123,6 +123,28 @@ public class TestHyperpoint
 		testPoint.setCoordinate(1.0d, 1);
 		testPoint.setCoordinate(1.0d, 2);
 		testPoint.setAngularComponent(Math.PI/8.0d, 1);
-		Assert.assertTrue(Math.abs(testPoint.getAngularComponent(1) - Math.PI/8.0d) < 0.1);
+		Assert.assertTrue(Math.abs(testPoint.getAngularComponent(1) - Math.PI/8.0d) < 0.001);
+
+		testPoint = new Hyperpoint(4);
+		testPoint.setCoordinate(1.0d, 1);
+		testPoint.setCoordinate(1.0d, 2);
+		testPoint.setCoordinate(1.0d, 3);
+		testPoint.setCoordinate(1.0d, 4);
+		testPoint.setAngularComponent(Math.PI/8.0d, 1);
+		Assert.assertTrue(Math.abs(testPoint.getAngularComponent(1) - Math.PI/8.0d) < 0.001);
+
+		testPoint.setCoordinate(1.0d, 1);
+		testPoint.setCoordinate(1.0d, 2);
+		testPoint.setCoordinate(1.0d, 3);
+		testPoint.setCoordinate(1.0d, 4);
+		testPoint.setAngularComponent(Math.PI/8.0d, 2);
+		Assert.assertTrue(Math.abs(testPoint.getAngularComponent(2) - Math.PI/8.0d) < 0.001);
+
+		testPoint.setCoordinate(1.0d, 1);
+		testPoint.setCoordinate(1.0d, 2);
+		testPoint.setCoordinate(1.0d, 3);
+		testPoint.setCoordinate(1.0d, 4);
+		testPoint.setAngularComponent(Math.PI/8.0d, 3);
+		Assert.assertTrue(Math.abs(testPoint.getAngularComponent(3) - Math.PI/8.0d) < 0.001);
 	}
 }

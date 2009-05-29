@@ -92,27 +92,33 @@ public class Hyperpoint implements Serializable
     }
     
     public void setDistance(double distance)
-    {        
-        double[] newCoords = (double[]) this.coordinates.clone();
+    {
+		double[] newCoords = (double[]) this.coordinates.clone();
         for(int coordinateIndex = 0; coordinateIndex < this.getDimensions(); coordinateIndex++)
         {
             double sphericalProducts = distance;
-            
-            for(int angleDimension = 1; angleDimension - 1 < (coordinateIndex + 1);angleDimension++)
+
+            for(int angleDimension = 1; angleDimension - 1 < ((coordinateIndex+1 < this.getDimensions() ? coordinateIndex : coordinateIndex - 1) + 1);angleDimension++)
             {
                 if( angleDimension < (coordinateIndex + 1))
+				{
                     sphericalProducts *= Math.sin(this.getAngularComponent(angleDimension));
+				}
                 else
                 {
                     if((coordinateIndex + 1) == this.getDimensions())
+					{
                         sphericalProducts *= Math.sin(this.getAngularComponent(angleDimension));
+					}
                     else
+					{
                         sphericalProducts *= Math.cos(this.getAngularComponent(angleDimension));
+					}
                 }
             }
             newCoords[coordinateIndex] = sphericalProducts;
         }
-        
+
         this.coordinates = newCoords;
     }
     
@@ -120,7 +126,7 @@ public class Hyperpoint implements Serializable
     {
         if(dimension <= 0)
             throw new IllegalArgumentException("dimensions can not be less than or equal to zero");
-        if((dimension-1) > this.coordinates.length)
+        if(dimension >= this.getDimensions())
             throw new IllegalArgumentException("dimensions is larger than the dimensionality (minus 1) of this point");
         
         double[] newCoords = (double[]) this.coordinates.clone();
@@ -164,7 +170,7 @@ public class Hyperpoint implements Serializable
     {
         if(dimension <= 0)
             throw new IllegalArgumentException("dimensions can not be less than or equal to zero");
-        if((dimension-1) > this.coordinates.length)
+        if(dimension >= this.getDimensions())
             throw new IllegalArgumentException("dimensions is larger than the dimensionality (minus 1) of this point");
         
         double squaredSum = 0.0;
