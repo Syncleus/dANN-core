@@ -103,27 +103,43 @@ public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
      * 	to.
      * @see com.syncleus.dann.NeuronGroup#connectTo
      */
+	@SuppressWarnings("unchecked")
     public void connectAllTo(N toConnectTo) throws InvalidConnectionTypeDannException
     {
-		for (N currentChild : this.childrenNeurons)
-			currentChild.connectTo(toConnectTo);
-		for(NeuronGroup<N> currentChild : this.childrenNeuronGroups)
-			currentChild.connectAllTo(toConnectTo);
+		try
+		{
+			for (N currentChild : this.childrenNeurons)
+				currentChild.connectTo(toConnectTo);
+			for(NeuronGroup<N> currentChild : this.childrenNeuronGroups)
+				currentChild.connectAllTo(toConnectTo);
+		}
+		catch(ClassCastException caughtException)
+		{
+			throw new AssertionError(caughtException);
+		}
     }
 
+	@SuppressWarnings("unchecked")
 	public void connectAllTo(NeuronGroup<N> toConnectTo) throws InvalidConnectionTypeDannException
 	{
-		for (N currentChild : this.childrenNeurons)
+		try
 		{
-			Set<N> toConnectToChildren = toConnectTo.getChildrenNeuronsRecursivly();
-			for (N currentOut : toConnectToChildren)
-				currentChild.connectTo(currentOut);
+			for (N currentChild : this.childrenNeurons)
+			{
+				Set<N> toConnectToChildren = toConnectTo.getChildrenNeuronsRecursivly();
+				for (N currentOut : toConnectToChildren)
+					currentChild.connectTo(currentOut);
+			}
+			for(NeuronGroup<N> currentChild : this.childrenNeuronGroups)
+			{
+				Set<N> toConnectToChildren = toConnectTo.getChildrenNeuronsRecursivly();
+				for (N currentOut : toConnectToChildren)
+					currentChild.connectAllTo(currentOut);
+			}
 		}
-		for(NeuronGroup<N> currentChild : this.childrenNeuronGroups)
+		catch(ClassCastException caughtException)
 		{
-			Set<N> toConnectToChildren = toConnectTo.getChildrenNeuronsRecursivly();
-			for (N currentOut : toConnectToChildren)
-				currentChild.connectAllTo(currentOut);
+			throw new AssertionError(caughtException);
 		}
 	}
 

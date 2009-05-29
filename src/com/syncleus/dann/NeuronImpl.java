@@ -288,17 +288,26 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
 
 
 
+	@SuppressWarnings("unchecked")
     public Set<SN> getSourceNeighbors()
     {
         HashSet<SN> neighbors = new HashSet<SN>();
-        for (Synapse sourceSynapse : this.getSources())
-			neighbors.add((SN)sourceSynapse.getSource());
+		try
+		{
+			for (Synapse sourceSynapse : this.getSources())
+				neighbors.add((SN)sourceSynapse.getSource());
+		}
+		catch(ClassCastException caughtException)
+		{
+			throw new AssertionError(caughtException);
+		}
 
         return Collections.unmodifiableSet(neighbors);
     }
 
 
 
+	@SuppressWarnings("unchecked")
     public Set<DN> getDestinationNeighbors()
     {
         HashSet<DN> neighbors = new HashSet<DN>();

@@ -53,12 +53,20 @@ public class NeuronHyperassociativeNode extends HyperassociativeNode
 
 
 
+	@SuppressWarnings("unchecked")
     void refresh()
     {
         this.dissociateAll();
 
         HashSet<Neuron> neurons = new HashSet<Neuron>();
-        neurons.addAll(this.neuron.getNeighbors());
+		try
+		{
+			neurons.addAll(this.neuron.getNeighbors());
+		}
+		catch(ClassCastException caughtException)
+		{
+			throw new AssertionError(caughtException);
+		}
         for (Neuron neighborNeuron : neurons)
             this.associate(this.getNetwork().getNodeFromNeuron(neighborNeuron), 1.0);
     }
