@@ -19,23 +19,40 @@
 package com.syncleus.dann.hyperassociativemap;
 
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.Hashtable;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 
 public class HyperassociativeNode implements Serializable
 {
+	// <editor-fold defaultstate="collapsed" desc="Attributes">
     private HyperassociativeMap network;
     private Hashtable<HyperassociativeNode, Double> weightedNeighbors = new Hashtable<HyperassociativeNode, Double>();
     private Hyperpoint location;
-    private static final double EQUILIBRIUM_DISTANCE = 1.0;
-    private static final double LEARNING_RATE = 0.004;
-    private static final double MAXIMUM_DISTANCE = 10.0;
+    private double equilibriumDistance = 1.0;
+    private double learningRate = 0.004;
+    private double maximumDistance = 50.0;
     private static Random random = new Random();
+	// </editor-fold>
 
 
+	// <editor-fold defaultstate="collapsed" desc="Constructors">
+	public HyperassociativeNode(HyperassociativeMap network, int dimensions, double learningRate, double maximumDistance, double equilibriumDistance)
+	{
+        this(network, dimensions, learningRate, maximumDistance);
+		this.equilibriumDistance = equilibriumDistance;
+	}
+
+	public HyperassociativeNode(HyperassociativeMap network, int dimensions, double learningRate, double maximumDistance)
+	{
+		this(network, dimensions, learningRate);
+		this.maximumDistance = maximumDistance;
+	}
+
+	public HyperassociativeNode(HyperassociativeMap network, int dimensions, double learningRate)
+	{
+		this(network, dimensions);
+		this.learningRate = learningRate;
+	}
 
     public HyperassociativeNode(HyperassociativeMap network, int dimensions)
     {
@@ -45,6 +62,24 @@ public class HyperassociativeNode implements Serializable
         this.location = new Hyperpoint(dimensions);
         this.network = network;
     }
+
+	public HyperassociativeNode(HyperassociativeMap network, Hyperpoint location, double learningRate, double maximumDistance, double equilibriumDistance)
+	{
+		this(network, location, learningRate, maximumDistance);
+		this.equilibriumDistance = equilibriumDistance;
+	}
+
+	public HyperassociativeNode(HyperassociativeMap network, Hyperpoint location, double learningRate, double maximumDistance)
+	{
+		this(network, location, learningRate);
+		this.maximumDistance = maximumDistance;
+	}
+
+	public HyperassociativeNode(HyperassociativeMap network, Hyperpoint location, double learningRate)
+	{
+		this(network, location);
+		this.learningRate = learningRate;
+	}
 
 
 
@@ -58,6 +93,7 @@ public class HyperassociativeNode implements Serializable
         this.location = location;
         this.network = network;
     }
+	// </editor-fold>
 
 
 
@@ -68,7 +104,6 @@ public class HyperassociativeNode implements Serializable
         if (this == newNeighbor)
             throw new IllegalArgumentException("an AssociativeNode can not associate with itself");
 
-//        System.out.println("adding new neighbor");
         this.weightedNeighbors.put(newNeighbor, newWeight);
     }
 
@@ -76,7 +111,6 @@ public class HyperassociativeNode implements Serializable
 
     public void dissociate(HyperassociativeNode neighbor)
     {
-//        System.out.println("warning, dissasociating");
         this.weightedNeighbors.remove(neighbor);
     }
 
@@ -84,7 +118,6 @@ public class HyperassociativeNode implements Serializable
 
     public void dissociateAll()
     {
-//        System.out.println("warning, dissasociating all");
         this.weightedNeighbors.clear();
     }
 
@@ -125,18 +158,14 @@ public class HyperassociativeNode implements Serializable
 
     public void align()
     {
-//        if( this.random.nextInt(10000) == 0)
-//            this.location = randomCoordinates(this.location.getDimensions());
-
         //calculate equilibrium with neighbors
         Set<HyperassociativeNode> neighbors = this.weightedNeighbors.keySet();
-//        if(neighbors.size() > 0 )
-//            System.out.println("has " + neighbors.size() + " neighbors");
+
         Hyperpoint compositeVector = new Hyperpoint(this.location.getDimensions());
         for (HyperassociativeNode neighbor : neighbors)
         {
             Hyperpoint neighborVector = neighbor.location.calculateRelativeTo(this.location);
-            double neighborEquilibrium = (EQUILIBRIUM_DISTANCE / this.weightedNeighbors.get(neighbor).doubleValue());
+            double neighborEquilibrium = (equilibriumDistance / this.weightedNeighbors.get(neighbor).doubleValue());
             if (neighborVector.getDistance() > neighborEquilibrium)
                 neighborVector.setDistance(Math.pow(neighborVector.getDistance() - neighborEquilibrium, 2.0));
             //neighborVector.setDistance(neighborVector.getDistance() - neighborEquilibrium);
@@ -159,18 +188,20 @@ public class HyperassociativeNode implements Serializable
                 compositeVector = compositeVector.add(nodeVector);
             }
 
-        compositeVector.setDistance(compositeVector.getDistance() * LEARNING_RATE);
-        
-        if( Math.abs(compositeVector.getDistance()) > (MAXIMUM_DISTANCE/4.0) )
-            compositeVector.setDistance(Math.signum(compositeVector.getDistance())*(MAXIMUM_DISTANCE/4.0));
+        compositeVector.setDistance(compositeVector.getDistance() * learningRate);
 
-        for (int dimension = 1; dimension <= compositeVector.getDimensions(); dimension++)
-            if (compositeVector.getCoordinate(dimension) >= MAXIMUM_DISTANCE)
-                compositeVector.setCoordinate(MAXIMUM_DISTANCE, dimension);
-            else if (compositeVector.getCoordinate(dimension) <= (-1.0 * MAXIMUM_DISTANCE))
-                compositeVector.setCoordinate(-1.0 * MAXIMUM_DISTANCE, dimension);
+		
+        if( Math.abs(compositeVector.getDistance()) > (maximumDistance/4.0) )
+            compositeVector.setDistance(Math.signum(compositeVector.getDistance())*(maximumDistance/4.0));
 
         this.location = this.location.add(compositeVector);
+
+        if( Math.abs(this.location.getDistance()) > (maximumDistance) )
+		{
+			 if( Math.abs(this.location.getDistance()) >= maximumDistance )
+				this.location.setDistance(Math.signum(this.location.getDistance())*(maximumDistance*0.9d));
+			this.location.setDistance(this.location.getDistance() - (atanh(Math.abs(this.location.getDistance())/maximumDistance) * this.learningRate));
+		}
     }
 
 
