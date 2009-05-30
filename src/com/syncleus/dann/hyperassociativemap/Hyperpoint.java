@@ -207,4 +207,19 @@ public class Hyperpoint implements Serializable
         
         return new Hyperpoint(relativeCoords);
     }
+
+
+	@Override
+	public String toString()
+	{
+		String stringValue = "{";
+		for(int dimension = 1; dimension <= this.getDimensions(); dimension++)
+		{
+			stringValue += this.getCoordinate(dimension);
+			if(dimension < this.getDimensions())
+				stringValue += ",";
+		}
+
+		return stringValue + "}";
+	}
 }
