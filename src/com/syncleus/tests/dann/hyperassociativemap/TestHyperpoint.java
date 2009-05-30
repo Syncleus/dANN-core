@@ -147,4 +147,16 @@ public class TestHyperpoint
 		testPoint.setAngularComponent(Math.PI/8.0d, 3);
 		Assert.assertTrue(Math.abs(testPoint.getAngularComponent(3) - Math.PI/8.0d) < 0.001);
 	}
+
+	@Test
+	public void testToString()
+	{
+		ArrayList<Double> points = new ArrayList<Double>();
+		points.add(Double.valueOf(1.0d));
+		points.add(Double.valueOf(2.0d));
+		points.add(Double.valueOf(3.0d));
+		Hyperpoint testPoint = new Hyperpoint(points);
+
+		Assert.assertTrue(testPoint.toString().compareToIgnoreCase("{1.0,2.0,3.0}") == 0);
+	}
 }
