@@ -172,7 +172,6 @@ public class HyperassociativeNode implements Serializable
 				if(Math.abs(newDistance) > Math.abs(neighborVector.getDistance() - neighborEquilibrium))
 					newDistance = neighborVector.getDistance() - neighborEquilibrium;
                 neighborVector.setDistance(newDistance);
-				neighborVector.setCoordinate(0.0d, neighborVector.getDimensions());
 			}
             else
 			{
@@ -180,7 +179,6 @@ public class HyperassociativeNode implements Serializable
 				if( Math.abs(newDistance) > Math.abs(neighborEquilibrium - neighborVector.getDistance()))
 					newDistance = -1.0 * (neighborEquilibrium - neighborVector.getDistance());
                 neighborVector.setDistance(newDistance);
-				neighborVector.setCoordinate(0.0d, neighborVector.getDimensions());
 			}
 
             compositeVector = compositeVector.add(neighborVector);
@@ -195,33 +193,32 @@ public class HyperassociativeNode implements Serializable
 				if(Math.abs(newDistance) > Math.abs(this.equilibriumDistance))
 					newDistance = -1.0 * this.equilibriumDistance;
                 nodeVector.setDistance(newDistance);
-				nodeVector.setCoordinate(0.0d, nodeVector.getDimensions());
                 
                 compositeVector = compositeVector.add(nodeVector);
             }
 
         compositeVector.setDistance(compositeVector.getDistance() * learningRate);
+		//this line is a hack that makes it work, not sure why.
 		compositeVector.setCoordinate(0.0d, compositeVector.getDimensions());
 
 		
-        if( Math.abs(compositeVector.getDistance()) > (maximumDistance/10.0) )
-		{
-            compositeVector.setDistance(Math.signum(compositeVector.getDistance())*(maximumDistance/10.0));
-			compositeVector.setCoordinate(0.0d, compositeVector.getDimensions());
-		}
+//        if( Math.abs(compositeVector.getDistance()) > (maximumDistance/10.0) )
+//		{
+//            compositeVector.setDistance(Math.signum(compositeVector.getDistance())*(maximumDistance/10.0));
+//			compositeVector.setCoordinate(0.0d, compositeVector.getDimensions());
+//		}
 
         this.location = this.location.add(compositeVector);
 
 		//if this node is outside of the maximum distance allowed then readjust its distance
-        if( Math.abs(this.location.getDistance()) > (maximumDistance) )
-		{
-			 if( Math.abs(this.location.getDistance()) >= maximumDistance )
-			 {
-				this.location.setDistance(Math.signum(this.location.getDistance())*(maximumDistance*0.9d));
-				this.location.setCoordinate(0.0d, this.location.getDimensions());
-			 }
-//			this.location.setDistance(this.location.getDistance() - (atanh(Math.abs(this.location.getDistance())/maximumDistance) * this.learningRate));
-		}
+//        if( Math.abs(this.location.getDistance()) > (maximumDistance) )
+//		{
+//			 if( Math.abs(this.location.getDistance()) >= maximumDistance )
+//			 {
+//				this.location.setDistance(Math.signum(this.location.getDistance())*(maximumDistance*0.9d));
+//				this.location.setCoordinate(0.0d, this.location.getDimensions());
+//			 }
+//		}
     }
 
 	void recenter(Hyperpoint center)
