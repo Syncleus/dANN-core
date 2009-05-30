@@ -27,6 +27,8 @@ public class LayeredHyperassociativeMap extends HyperassociativeMap
     
     LayeredHyperassociativeMap(int layers)
     {
+		super(3);
+		
         this.layeredNodes = new HyperassociativeNode[layers][NODES_PER_LAYER];
         
         //create the nodes

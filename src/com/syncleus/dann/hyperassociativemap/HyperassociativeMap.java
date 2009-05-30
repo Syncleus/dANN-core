@@ -26,6 +26,17 @@ import java.util.Set;
 public abstract class HyperassociativeMap implements Serializable
 {
     protected HashSet<HyperassociativeNode> nodes = new HashSet<HyperassociativeNode>();
+	private int dimensions;
+
+	public HyperassociativeMap(int dimensions)
+	{
+		this.dimensions = dimensions;
+	}
+
+	public int getDimensions()
+	{
+		return this.dimensions;
+	}
     
     public Set<HyperassociativeNode> getNodes()
     {
@@ -34,7 +45,20 @@ public abstract class HyperassociativeMap implements Serializable
     
     public void align()
     {
+		Hyperpoint center = new Hyperpoint(this.dimensions);
         for(HyperassociativeNode node : nodes)
+		{
             node.align();
+			for(int dimensionIndex = 1; dimensionIndex <= this.dimensions; dimensionIndex++)
+				center.setCoordinate(center.getCoordinate(dimensionIndex) + node.getLocation().getCoordinate(dimensionIndex), dimensionIndex);
+		}
+
+		for(int dimensionIndex = 1; dimensionIndex <= this.dimensions; dimensionIndex++)
+			center.setCoordinate(center.getCoordinate(dimensionIndex)/((double)this.nodes.size()),dimensionIndex);
+
+		for(HyperassociativeNode node : nodes)
+		{
+			node.recenter(center);
+		}
     }
 }

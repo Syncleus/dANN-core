@@ -127,6 +127,12 @@
 		<move file="./cobertura.ser" tofile="build/coverage/cobertura.ser"/>
 	</target>
 
+	<target name="build-all">
+		<antcall target="clean"/>
+		<antcall target="compile"/>
+		<antcall target="build"/>
+	</target>
+
 	<target name="all">
 		<antcall target="clean"/>
 		<antcall target="javadoc"/>

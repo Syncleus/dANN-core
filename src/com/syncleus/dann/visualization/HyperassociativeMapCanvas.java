@@ -45,7 +45,7 @@ public class HyperassociativeMapCanvas extends Canvas3D
 
     public HyperassociativeMapCanvas(HyperassociativeMap map, GraphicsConfiguration configuration)
     {
-        this(map, configuration, 0.01F);
+        this(map, configuration, 0.07F);
     }
     
     public HyperassociativeMapCanvas(HyperassociativeMap map, GraphicsConfiguration configuration, float nodeRadius)

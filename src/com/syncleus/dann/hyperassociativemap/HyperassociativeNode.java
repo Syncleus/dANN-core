@@ -167,9 +167,21 @@ public class HyperassociativeNode implements Serializable
             Hyperpoint neighborVector = neighbor.location.calculateRelativeTo(this.location);
             double neighborEquilibrium = (equilibriumDistance / this.weightedNeighbors.get(neighbor).doubleValue());
             if (neighborVector.getDistance() > neighborEquilibrium)
-                neighborVector.setDistance(Math.pow(neighborVector.getDistance() - neighborEquilibrium, 2.0));
+			{
+				double newDistance = Math.pow(neighborVector.getDistance() - neighborEquilibrium, 2.0);
+				if(Math.abs(newDistance) > Math.abs(neighborVector.getDistance() - neighborEquilibrium))
+					newDistance = neighborVector.getDistance() - neighborEquilibrium;
+                neighborVector.setDistance(newDistance);
+				neighborVector.setCoordinate(0.0d, neighborVector.getDimensions());
+			}
             else
-                neighborVector.setDistance(-1.0 * atanh((neighborEquilibrium - neighborVector.getDistance()) / neighborEquilibrium));
+			{
+				double newDistance = -1.0 * atanh((neighborEquilibrium - neighborVector.getDistance()) / neighborEquilibrium);
+				if( Math.abs(newDistance) > Math.abs(neighborEquilibrium - neighborVector.getDistance()))
+					newDistance = -1.0 * (neighborEquilibrium - neighborVector.getDistance());
+                neighborVector.setDistance(newDistance);
+				neighborVector.setCoordinate(0.0d, neighborVector.getDimensions());
+			}
 
             compositeVector = compositeVector.add(neighborVector);
         }
@@ -179,16 +191,24 @@ public class HyperassociativeNode implements Serializable
             if ((neighbors.contains(node) == false)&&(node != this)&&(node.weightedNeighbors.keySet().contains(this) == false) )
             {
                 Hyperpoint nodeVector = node.location.calculateRelativeTo(this.location);
-                    nodeVector.setDistance(-1.0/Math.pow(nodeVector.getDistance(), 2.0));
+				double newDistance = -1.0/Math.pow(nodeVector.getDistance(), 2.0);
+				if(Math.abs(newDistance) > Math.abs(this.equilibriumDistance))
+					newDistance = -1.0 * this.equilibriumDistance;
+                nodeVector.setDistance(newDistance);
+				nodeVector.setCoordinate(0.0d, nodeVector.getDimensions());
                 
                 compositeVector = compositeVector.add(nodeVector);
             }
 
         compositeVector.setDistance(compositeVector.getDistance() * learningRate);
+		compositeVector.setCoordinate(0.0d, compositeVector.getDimensions());
 
 		
-        if( Math.abs(compositeVector.getDistance()) > (maximumDistance/4.0) )
-            compositeVector.setDistance(Math.signum(compositeVector.getDistance())*(maximumDistance/4.0));
+        if( Math.abs(compositeVector.getDistance()) > (maximumDistance/10.0) )
+		{
+            compositeVector.setDistance(Math.signum(compositeVector.getDistance())*(maximumDistance/10.0));
+			compositeVector.setCoordinate(0.0d, compositeVector.getDimensions());
+		}
 
         this.location = this.location.add(compositeVector);
 
@@ -196,10 +216,18 @@ public class HyperassociativeNode implements Serializable
         if( Math.abs(this.location.getDistance()) > (maximumDistance) )
 		{
 			 if( Math.abs(this.location.getDistance()) >= maximumDistance )
+			 {
 				this.location.setDistance(Math.signum(this.location.getDistance())*(maximumDistance*0.9d));
-			this.location.setDistance(this.location.getDistance() - (atanh(Math.abs(this.location.getDistance())/maximumDistance) * this.learningRate));
+				this.location.setCoordinate(0.0d, this.location.getDimensions());
+			 }
+//			this.location.setDistance(this.location.getDistance() - (atanh(Math.abs(this.location.getDistance())/maximumDistance) * this.learningRate));
 		}
     }
+
+	void recenter(Hyperpoint center)
+	{
+		this.location = this.location.calculateRelativeTo(center);
+	}
 
 
 

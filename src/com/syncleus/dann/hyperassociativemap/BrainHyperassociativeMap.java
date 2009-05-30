@@ -36,6 +36,8 @@ public class BrainHyperassociativeMap extends HyperassociativeMap
 
     public BrainHyperassociativeMap(Brain brain, int dimensions)
     {
+		super(dimensions);
+		
         this.brain = brain;
         this.dimensions = dimensions;
 

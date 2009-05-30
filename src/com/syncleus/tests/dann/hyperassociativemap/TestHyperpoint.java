@@ -114,10 +114,10 @@ public class TestHyperpoint
 		Assert.assertTrue(testPoint.getCoordinate(3) == 3.0d);
 
 		testPoint.setCoordinate(5.0d, 1);
-		testPoint.setCoordinate(0.0d, 2);
-		testPoint.setCoordinate(0.0d, 3);
+		testPoint.setCoordinate(4.0d, 2);
+		testPoint.setCoordinate(3.0d, 3);
 		testPoint.setDistance(5.0d);
-		Assert.assertTrue(testPoint.getDistance() == 5.0d);
+		Assert.assertTrue(Math.abs(testPoint.getDistance() - 5.0d) < 0.001d);
 
 		testPoint = new Hyperpoint(2);
 		testPoint.setCoordinate(1.0d, 1);
