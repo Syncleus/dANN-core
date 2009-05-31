@@ -30,9 +30,7 @@ public class BrainHyperassociativeMap extends HyperassociativeMap
 {
     private Brain brain;
     private int dimensions;
-    private Hashtable<Neuron, NeuronHyperassociativeNode> neurons = new Hashtable<Neuron, NeuronHyperassociativeNode>();
-
-
+    protected Hashtable<Neuron, NeuronHyperassociativeNode> neurons = new Hashtable<Neuron, NeuronHyperassociativeNode>();
 
     public BrainHyperassociativeMap(Brain brain, int dimensions)
     {
