@@ -30,73 +30,73 @@ import java.util.Set;
 
 public abstract class Brain implements Serializable
 {
-    private HashSet<BackpropNeuron> neurons = new HashSet<BackpropNeuron>();
-    private HashSet<OutputBackpropNeuron> outputNeurons = new HashSet<OutputBackpropNeuron>();
-    private HashSet<InputBackpropNeuron> inputNeurons = new HashSet<InputBackpropNeuron>();
+    private HashSet<Neuron> neurons = new HashSet<Neuron>();
+    private HashSet<OutputNeuron> outputNeurons = new HashSet<OutputNeuron>();
+    private HashSet<InputNeuron> inputNeurons = new HashSet<InputNeuron>();
 
 
 
-    protected void addNeuron(BackpropNeuron newNeuron)
+    protected void addNeuron(Neuron newNeuron)
     {
         if (this.neurons.contains(newNeuron))
             return;
 
         this.neurons.add(newNeuron);
 
-		if (newNeuron instanceof OutputBackpropNeuron)
-			this.outputNeurons.add((OutputBackpropNeuron) newNeuron);
+		if (newNeuron instanceof OutputNeuron)
+			this.outputNeurons.add((OutputNeuron) newNeuron);
 
-		if (newNeuron instanceof InputBackpropNeuron)
-			this.inputNeurons.add((InputBackpropNeuron) newNeuron);
+		if (newNeuron instanceof InputNeuron)
+			this.inputNeurons.add((InputNeuron) newNeuron);
     }
 
-	protected void addNeurons(Collection<BackpropNeuron> newNeurons)
+	protected void addNeurons(Collection<? extends Neuron> newNeurons)
 	{
 		this.neurons.addAll(newNeurons);
 
-		for(BackpropNeuron newNeuron : newNeurons)
+		for(Neuron newNeuron : newNeurons)
 		{
-			if (newNeuron instanceof OutputBackpropNeuron)
-				this.outputNeurons.add((OutputBackpropNeuron) newNeuron);
+			if (newNeuron instanceof OutputNeuron)
+				this.outputNeurons.add((OutputNeuron) newNeuron);
 
-			if (newNeuron instanceof InputBackpropNeuron)
-				this.inputNeurons.add((InputBackpropNeuron) newNeuron);
+			if (newNeuron instanceof InputNeuron)
+				this.inputNeurons.add((InputNeuron) newNeuron);
 		}
 	}
 
 
 
-    protected void removeNeuron(BackpropNeuron removeNeuron)
+    protected void removeNeuron(Neuron removeNeuron)
     {
         if (this.neurons.contains(removeNeuron) == false)
             return;
 
         this.neurons.remove(removeNeuron);
 
-        if (removeNeuron instanceof OutputBackpropNeuron)
-            this.outputNeurons.remove((OutputBackpropNeuron) removeNeuron);
+        if (removeNeuron instanceof OutputNeuron)
+            this.outputNeurons.remove((OutputNeuron) removeNeuron);
 
-        if (removeNeuron instanceof InputBackpropNeuron)
-            this.inputNeurons.remove((InputBackpropNeuron) removeNeuron);
+        if (removeNeuron instanceof InputNeuron)
+            this.inputNeurons.remove((InputNeuron) removeNeuron);
     }
 
 
 
-    public Set<InputBackpropNeuron> getInputNeurons()
+    public Set<InputNeuron> getInputNeurons()
     {
         return Collections.unmodifiableSet(this.inputNeurons);
     }
 
 
 
-    public Set<OutputBackpropNeuron> getOutputNeurons()
+    public Set<OutputNeuron> getOutputNeurons()
     {
         return Collections.unmodifiableSet(this.outputNeurons);
     }
 
 
 
-    public Set<BackpropNeuron> getNeurons()
+    public Set<Neuron> getNeurons()
     {
         return Collections.unmodifiableSet(this.neurons);
     }
