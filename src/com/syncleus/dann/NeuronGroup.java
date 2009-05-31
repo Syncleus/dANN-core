@@ -18,7 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Random;
@@ -51,7 +50,7 @@ public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
-	protected HashSet<NeuronGroup<N>> childrenNeuronGroups = new HashSet<NeuronGroup<N>>();
+	protected HashSet<NeuronGroup<? extends N>> childrenNeuronGroups = new HashSet<NeuronGroup<? extends N>>();
 
 	protected Random random = new Random();
 
@@ -66,6 +65,15 @@ public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
     public NeuronGroup()
     {
     }
+
+	public NeuronGroup(NeuronGroup<? extends N> copyGroup)
+	{
+		this.childrenNeurons.addAll(copyGroup.childrenNeurons);
+		for(NeuronGroup<? extends N> currentGroup : copyGroup.childrenNeuronGroups)
+		{
+			this.childrenNeuronGroups.add(currentGroup);
+		}
+	}
 
     // </editor-fold>
 
@@ -87,7 +95,7 @@ public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
      * @since 0.1
      * @param toAdd the NeuronGroup to add.
      */
-    public void add(NeuronGroup<N> toAdd)
+    public void add(NeuronGroup<? extends N> toAdd)
     {
         this.childrenNeuronGroups.add(toAdd);
     }
@@ -110,7 +118,7 @@ public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
 		{
 			for (N currentChild : this.childrenNeurons)
 				currentChild.connectTo(toConnectTo);
-			for(NeuronGroup<N> currentChild : this.childrenNeuronGroups)
+			for(NeuronGroup currentChild : this.childrenNeuronGroups)
 				currentChild.connectAllTo(toConnectTo);
 		}
 		catch(ClassCastException caughtException)
@@ -120,19 +128,19 @@ public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
     }
 
 	@SuppressWarnings("unchecked")
-	public void connectAllTo(NeuronGroup<N> toConnectTo) throws InvalidConnectionTypeDannException
+	public void connectAllTo(NeuronGroup<? extends N> toConnectTo) throws InvalidConnectionTypeDannException
 	{
 		try
 		{
 			for (N currentChild : this.childrenNeurons)
 			{
-				Set<N> toConnectToChildren = toConnectTo.getChildrenNeuronsRecursivly();
+				Set<? extends N> toConnectToChildren = toConnectTo.getChildrenNeuronsRecursivly();
 				for (N currentOut : toConnectToChildren)
 					currentChild.connectTo(currentOut);
 			}
-			for(NeuronGroup<N> currentChild : this.childrenNeuronGroups)
+			for(NeuronGroup currentChild : this.childrenNeuronGroups)
 			{
-				Set<N> toConnectToChildren = toConnectTo.getChildrenNeuronsRecursivly();
+				Set<? extends N> toConnectToChildren = toConnectTo.getChildrenNeuronsRecursivly();
 				for (N currentOut : toConnectToChildren)
 					currentChild.connectAllTo(currentOut);
 			}
@@ -158,7 +166,7 @@ public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
      * Obtains all the NeuronGroups directly owned by this NeuronGroup.
      * @since 0.1
      */
-    public Set<NeuronGroup<N>> getChildrenNeuronGroups()
+    public Set<NeuronGroup<? extends N>> getChildrenNeuronGroups()
     {
         return Collections.unmodifiableSet(this.childrenNeuronGroups);
     }
@@ -175,7 +183,7 @@ public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
         HashSet<N> returnList = new HashSet<N>();
 
 		returnList.addAll(this.childrenNeurons);
-		for (NeuronGroup<N> currentChild : this.childrenNeuronGroups)
+		for (NeuronGroup<? extends N> currentChild : this.childrenNeuronGroups)
 			returnList.addAll(currentChild.getChildrenNeuronsRecursivly());
 
         return Collections.unmodifiableSet(returnList);

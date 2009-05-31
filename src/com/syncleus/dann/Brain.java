@@ -18,9 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann;
 
-import com.syncleus.dann.backprop.InputBackpropNeuron;
-import com.syncleus.dann.backprop.BackpropNeuron;
-import com.syncleus.dann.backprop.OutputBackpropNeuron;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
