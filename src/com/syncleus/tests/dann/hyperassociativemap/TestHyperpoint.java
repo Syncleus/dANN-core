@@ -70,6 +70,11 @@ public class TestHyperpoint
 		result = pointB.getAngularComponent(2);
 		Assert.assertTrue("angle(B 2): " + result, Math.abs(result - 0.7853981633974483d) < 0.00001d);
 
+		double distance = pointA.getDistance();
+		pointA.setAngularComponent(1.2345, 1);
+		pointA.setAngularComponent(0.5432, 2);
+		Assert.assertTrue("distance drifted after setting angle", Math.abs(pointA.getDistance() - distance) < 0.00001d);
+
 		valuesA = new double[]{1.0, 1.0};
 		pointA = new Hyperpoint(valuesA);
 
@@ -97,10 +102,10 @@ public class TestHyperpoint
 	public void testAccessors()
 	{
 		Hyperpoint testPoint = new Hyperpoint(3);
-		Assert.assertTrue(testPoint.getDimensions() == 3);
+		Assert.assertTrue("dimensions value is incorrect", testPoint.getDimensions() == 3);
 
 		Hyperpoint anotherTestPoint = new Hyperpoint(testPoint);
-		Assert.assertTrue(anotherTestPoint.getDimensions() == 3);
+		Assert.assertTrue("dimensions value is incorrect", anotherTestPoint.getDimensions() == 3);
 
 		ArrayList<Double> points = new ArrayList<Double>();
 		points.add(Double.valueOf(1.0d));
@@ -108,22 +113,26 @@ public class TestHyperpoint
 		points.add(Double.valueOf(3.0d));
 		testPoint = new Hyperpoint(points);
 
-		Assert.assertTrue(testPoint.getDimensions() == 3);
-		Assert.assertTrue(testPoint.getCoordinate(1) == 1.0d);
-		Assert.assertTrue(testPoint.getCoordinate(2) == 2.0d);
-		Assert.assertTrue(testPoint.getCoordinate(3) == 3.0d);
+		Assert.assertTrue("dimensions value is incorrect", testPoint.getDimensions() == 3);
+		Assert.assertTrue("coordinate 1 incorrect", testPoint.getCoordinate(1) == 1.0d);
+		Assert.assertTrue("coordinate 2 incorrect", testPoint.getCoordinate(2) == 2.0d);
+		Assert.assertTrue("coordinate 3 incorrect", testPoint.getCoordinate(3) == 3.0d);
 
 		testPoint.setCoordinate(5.0d, 1);
 		testPoint.setCoordinate(4.0d, 2);
 		testPoint.setCoordinate(3.0d, 3);
+		double angle1 = testPoint.getAngularComponent(1);
+		double angle2 = testPoint.getAngularComponent(2);
 		testPoint.setDistance(5.0d);
-		Assert.assertTrue(Math.abs(testPoint.getDistance() - 5.0d) < 0.001d);
+		Assert.assertTrue("distance didnt set properly", Math.abs(testPoint.getDistance() - 5.0d) < 0.00001d);
+		Assert.assertTrue("angle drifted after setting distance", Math.abs(testPoint.getAngularComponent(1) - angle1) < 0.00001d);
+		Assert.assertTrue("angle drifted after setting distance", Math.abs(testPoint.getAngularComponent(2) - angle2) < 0.00001d);
 
 		testPoint = new Hyperpoint(2);
 		testPoint.setCoordinate(1.0d, 1);
 		testPoint.setCoordinate(1.0d, 2);
 		testPoint.setAngularComponent(Math.PI/8.0d, 1);
-		Assert.assertTrue(Math.abs(testPoint.getAngularComponent(1) - Math.PI/8.0d) < 0.001);
+		Assert.assertTrue("angular component didnt set properly", Math.abs(testPoint.getAngularComponent(1) - Math.PI/8.0d) < 0.00001);
 
 		testPoint = new Hyperpoint(4);
 		testPoint.setCoordinate(1.0d, 1);
@@ -131,21 +140,21 @@ public class TestHyperpoint
 		testPoint.setCoordinate(1.0d, 3);
 		testPoint.setCoordinate(1.0d, 4);
 		testPoint.setAngularComponent(Math.PI/8.0d, 1);
-		Assert.assertTrue(Math.abs(testPoint.getAngularComponent(1) - Math.PI/8.0d) < 0.001);
+		Assert.assertTrue("angular component didnt set properly", Math.abs(testPoint.getAngularComponent(1) - Math.PI/8.0d) < 0.00001);
 
 		testPoint.setCoordinate(1.0d, 1);
 		testPoint.setCoordinate(1.0d, 2);
 		testPoint.setCoordinate(1.0d, 3);
 		testPoint.setCoordinate(1.0d, 4);
 		testPoint.setAngularComponent(Math.PI/8.0d, 2);
-		Assert.assertTrue(Math.abs(testPoint.getAngularComponent(2) - Math.PI/8.0d) < 0.001);
+		Assert.assertTrue("angular component didnt set properly", Math.abs(testPoint.getAngularComponent(2) - Math.PI/8.0d) < 0.00001);
 
 		testPoint.setCoordinate(1.0d, 1);
 		testPoint.setCoordinate(1.0d, 2);
 		testPoint.setCoordinate(1.0d, 3);
 		testPoint.setCoordinate(1.0d, 4);
 		testPoint.setAngularComponent(Math.PI/8.0d, 3);
-		Assert.assertTrue(Math.abs(testPoint.getAngularComponent(3) - Math.PI/8.0d) < 0.001);
+		Assert.assertTrue("angular component didnt set properly", Math.abs(testPoint.getAngularComponent(3) - Math.PI/8.0d) < 0.00001);
 	}
 
 	@Test
