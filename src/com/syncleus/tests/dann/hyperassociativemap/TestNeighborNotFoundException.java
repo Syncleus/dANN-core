@@ -16,28 +16,34 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.hyperassociativemap;
+package com.syncleus.tests.dann.hyperassociativemap;
 
-import com.syncleus.dann.*;
+import com.syncleus.dann.hyperassociativemap.NeighborNotFoundException;
+import org.junit.*;
 
-public class NeighborNotFoundException extends DannException
+public class TestNeighborNotFoundException
 {
-    public NeighborNotFoundException()
-    {
-    }
-
-    public NeighborNotFoundException(String msg)
-    {
-        super(msg);
-    }
-
-	public NeighborNotFoundException(String msg, Throwable cause)
+	@Test(expected=NeighborNotFoundException.class)
+	public void testDefault() throws NeighborNotFoundException
 	{
-		super(msg, cause);
+		throw new NeighborNotFoundException();
 	}
 
-	public NeighborNotFoundException(Throwable cause)
+	@Test(expected=NeighborNotFoundException.class)
+	public void testString() throws NeighborNotFoundException
 	{
-		super(cause);
+		throw new NeighborNotFoundException("This is just a test");
+	}
+
+	@Test(expected=NeighborNotFoundException.class)
+	public void testCause() throws NeighborNotFoundException
+	{
+		throw new NeighborNotFoundException(new Exception());
+	}
+
+	@Test(expected=NeighborNotFoundException.class)
+	public void testStringCause() throws NeighborNotFoundException
+	{
+		throw new NeighborNotFoundException("This is just a test", new Exception());
 	}
 }
