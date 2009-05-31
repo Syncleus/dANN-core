@@ -35,7 +35,7 @@ public class LayeredHyperassociativeMap extends HyperassociativeMap
         for(int layerIndex = 0; layerIndex < layers; layerIndex++)
             for(int nodeIndex = 0; nodeIndex < NODES_PER_LAYER; nodeIndex++)
             {
-                this.layeredNodes[layerIndex][nodeIndex] = new HyperassociativeNode(this, HyperassociativeNode.randomCoordinates(3));
+                this.layeredNodes[layerIndex][nodeIndex] = new HyperassociativeNode(this, HyperassociativeNode.randomCoordinates(3), 0.02);
                 this.nodes.add(this.layeredNodes[layerIndex][nodeIndex]);
             }
         
