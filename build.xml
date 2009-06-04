@@ -86,7 +86,7 @@
     
 	<target name="tests-nocoverage">
 		<mkdir dir="build/tests"/>
-		<junit printsummary="yes" haltonfailure="yes" showoutput="yes" >
+		<junit printsummary="yes" haltonfailure="no" showoutput="yes" >
 			<classpath>
 				<pathelement location="build/jar/dann.jar"/>
 				<pathelement location="build/jar/dann-tests.jar"/>
@@ -104,11 +104,11 @@
 
 	<target name="tests-coverage">
 		<mkdir dir="build/coverage/tests"/>
-		<junit printsummary="yes" haltonfailure="yes" showoutput="yes" >
+		<junit printsummary="yes" haltonfailure="no" showoutput="yes" >
 			<classpath>
 				<pathelement location="build/jar/dann-coverage.jar"/>
-                                <pathelement location="build/jar/dann.jar"/>
-                                <pathelement location="build/jar/dann-tests.jar"/>
+                <pathelement location="build/jar/dann.jar"/>
+                <pathelement location="build/jar/dann-tests.jar"/>
 				<pathelement location="lib/junit-4.6.jar"/>
 				<pathelement location="lib/cobertura.jar"/>
 			</classpath>

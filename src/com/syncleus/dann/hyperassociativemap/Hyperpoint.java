@@ -92,26 +92,14 @@ public class Hyperpoint implements Serializable
     }
     
     public void setDistance(double distance)
-    {        
-        double[] newCoords = (double[]) this.coordinates.clone();
-        for(int coordinateIndex = 0; coordinateIndex < this.getDimensions(); coordinateIndex++)
-        {
-            double sphericalProducts = distance;
-
-			for(int angleDimension = 1; angleDimension - 1 < ((coordinateIndex+1 < this.getDimensions() ? coordinateIndex : coordinateIndex - 1) + 1);angleDimension++)
-            {
-                if( angleDimension < (coordinateIndex + 1))
-                    sphericalProducts *= Math.sin(this.getAngularComponent(angleDimension));
-                else
-                {
-                    if((coordinateIndex + 1) == this.getDimensions())
-                        sphericalProducts *= Math.sin(this.getAngularComponent(angleDimension));
-                    else
-                        sphericalProducts *= Math.cos(this.getAngularComponent(angleDimension));
-                }
-            }
-            newCoords[coordinateIndex] = sphericalProducts;
-        }
+    {
+		double[] newCoords = (double[]) this.coordinates.clone();
+		
+		double oldDistance = this.getDistance();
+		double scalar = distance/oldDistance;
+		
+		for(int newCoordsIndex = 0; newCoordsIndex < newCoords.length; newCoordsIndex++)
+			newCoords[newCoordsIndex] *= scalar;
         
         this.coordinates = newCoords;
     }
@@ -124,30 +112,28 @@ public class Hyperpoint implements Serializable
             throw new IllegalArgumentException("dimensions is larger than the dimensionality (minus 1) of this point");
         
         double[] newCoords = (double[]) this.coordinates.clone();
-        for(int coordinateIndex = dimension-1; coordinateIndex < this.getDimensions(); coordinateIndex++)
-        {
-            double sphericalProducts = this.getDistance();
-            
-            for(int angleDimension = 1; angleDimension - 1 < ((coordinateIndex+1 < this.getDimensions() ? coordinateIndex : coordinateIndex - 1) + 1);angleDimension++)
-            {
-                if( angleDimension < (coordinateIndex + 1))
+		for(int cartesianDimension = 1; cartesianDimension <= this.getDimensions(); cartesianDimension++)
+		{
+			double sphericalProducts = this.getDistance();
+			for(int angleDimension = 1; angleDimension <= ( cartesianDimension >= this.getDimensions() ? this.getDimensions() - 1 : cartesianDimension); angleDimension++)
+			{
+				if(angleDimension < cartesianDimension)
 				{
-                    sphericalProducts *= Math.sin((angleDimension == dimension ? angle : this.getAngularComponent(angleDimension)));
+					if(angleDimension != dimension)
+						sphericalProducts *= Math.sin(this.getAngularComponent(angleDimension));
+					else
+						sphericalProducts *= Math.sin(angle);
 				}
-                else
-                {
-                    if((coordinateIndex + 1) == this.getDimensions())
-					{
-                        sphericalProducts *= Math.sin((angleDimension == dimension ? angle : this.getAngularComponent(angleDimension)));
-					}
-                    else
-					{
-                        sphericalProducts *= Math.cos((angleDimension == dimension ? angle : this.getAngularComponent(angleDimension)));
-					}
-                }
-            }
-            newCoords[coordinateIndex] = sphericalProducts;
-        }
+				else
+				{
+					if(angleDimension != dimension)
+						sphericalProducts *= Math.cos(this.getAngularComponent(angleDimension));
+					else
+						sphericalProducts *= Math.cos(angle);
+				}
+			}
+			newCoords[cartesianDimension-1] = sphericalProducts;
+		}
         
         this.coordinates = newCoords;
     }
@@ -159,19 +145,37 @@ public class Hyperpoint implements Serializable
             squaredSum += Math.pow(coordinate,2);
         return Math.sqrt(squaredSum);
     }
-    
+
+	/**
+	 * Obtain the angle of a particular dimension.
+	 * @param dimension The dimension you want the angle of. the first
+	 * dimension is 1. the last is one less than the total number of dimensions.
+	 * @return returns a value representing the angle between Pi/2 and -Pi/2
+	 */
     public double getAngularComponent(int dimension)
     {
         if(dimension <= 0)
             throw new IllegalArgumentException("dimensions can not be less than or equal to zero");
         if((dimension-1) > this.coordinates.length)
             throw new IllegalArgumentException("dimensions is larger than the dimensionality (minus 1) of this point");
-        
+
         double squaredSum = 0.0;
+		String out = "0";
         for(int coordinateIndex = this.coordinates.length-1; coordinateIndex >= (dimension); coordinateIndex--)
+		{
             squaredSum += Math.pow(this.coordinates[coordinateIndex], 2.0);
-        
-        return Math.atan2(Math.sqrt(squaredSum), this.coordinates[dimension-1]);
+			out += " + " + this.coordinates[coordinateIndex] + "^2";
+		}
+
+		if( dimension != this.getDimensions() - 1)
+		{
+			if(this.coordinates[dimension-1] == 0.0d)
+				return Math.PI/2.0d;
+
+			return Math.atan(Math.sqrt(squaredSum) / this.coordinates[dimension-1]);
+		}
+		else
+			return Math.atan2(Math.sqrt(squaredSum), this.coordinates[dimension-1]);
     }
     
     public Hyperpoint calculateRelativeTo(Hyperpoint absolutePoint)
@@ -184,9 +188,7 @@ public class Hyperpoint implements Serializable
         
         double[] relativeCoords = new double[this.coordinates.length];
         for(int coordIndex = 0; coordIndex < this.coordinates.length; coordIndex++)
-        {
             relativeCoords[coordIndex] = this.coordinates[coordIndex] - absolutePoint.getCoordinate(coordIndex+1);
-        }
         
         return new Hyperpoint(relativeCoords);
     }
@@ -221,5 +223,17 @@ public class Hyperpoint implements Serializable
 		}
 
 		return stringValue + "}";
+	}
+
+	public String toStringHypersphere()
+	{
+		String retString = this.getDistance() + "<-";
+		for(int angleDimension = 1; angleDimension < this.getDimensions(); angleDimension++)
+		{
+			retString += this.getAngularComponent(angleDimension);
+			if(angleDimension < this.getDimensions() - 1)
+				retString += ",";
+		}
+		return retString;
 	}
 }

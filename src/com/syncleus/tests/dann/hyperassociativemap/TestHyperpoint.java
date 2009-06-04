@@ -53,7 +53,7 @@ public class TestHyperpoint
 		Hyperpoint pointB = new Hyperpoint(valuesB);
 
 		double result = pointA.calculateRelativeTo(pointB).getAngularComponent(1);
-		Assert.assertTrue("angle(relative 1): " + result, Math.abs(result - 2.186276035465284d) < 0.00001d);
+		Assert.assertTrue("angle(relative 1): " + result, Math.abs(result - -0.9553166181245093d) < 0.00001d);
 
 		result = pointA.calculateRelativeTo(pointB).getAngularComponent(2);
 		Assert.assertTrue("angle(relative 2): " + result, Math.abs(result - 2.356194490192345d) < 0.00001d);
@@ -127,6 +127,17 @@ public class TestHyperpoint
 		Assert.assertTrue("distance didnt set properly", Math.abs(testPoint.getDistance() - 5.0d) < 0.00001d);
 		Assert.assertTrue("angle drifted after setting distance", Math.abs(testPoint.getAngularComponent(1) - angle1) < 0.00001d);
 		Assert.assertTrue("angle drifted after setting distance", Math.abs(testPoint.getAngularComponent(2) - angle2) < 0.00001d);
+
+		testPoint.setCoordinate(15.0d, 1);
+		testPoint.setCoordinate(14.0d, 2);
+		testPoint.setCoordinate(13.0d, 3);
+		testPoint.setDistance(10.0d);
+		angle1 = testPoint.getAngularComponent(1);
+		angle2 = testPoint.getAngularComponent(2);
+		testPoint.setDistance(5.0d);
+		Assert.assertTrue("distance didnt set properly -> 5.0:" + testPoint.getDistance(), Math.abs(testPoint.getDistance() - 5.0d) < 0.00001d);
+		Assert.assertTrue("angle drifted after setting distance -> " + angle1 + ":" + testPoint.getAngularComponent(1), Math.abs(testPoint.getAngularComponent(1) - angle1) < 0.00001d);
+		Assert.assertTrue("angle drifted after setting distance -> " + angle2 + ":" + testPoint.getAngularComponent(2), Math.abs(testPoint.getAngularComponent(2) - angle2) < 0.00001d);
 
 		testPoint = new Hyperpoint(2);
 		testPoint.setCoordinate(1.0d, 1);

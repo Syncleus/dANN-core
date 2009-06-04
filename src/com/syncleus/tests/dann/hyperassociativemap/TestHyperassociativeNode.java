@@ -50,8 +50,8 @@ public class TestHyperassociativeNode
 	{
 		TestMap testMap = new TestMap(3);
 
-		HyperassociativeNode testNode1 = new HyperassociativeNode(testMap, testMap.getDimensions());
-		HyperassociativeNode testNode2 = new HyperassociativeNode(testMap, testMap.getDimensions());
+		HyperassociativeNode testNode1 = new HyperassociativeNode(testMap, new Hyperpoint(new double[]{1.0d, 2.0d, 3.0d}), 0.1d);
+		HyperassociativeNode testNode2 = new HyperassociativeNode(testMap, new Hyperpoint(new double[]{4.0d, 5.0d, 6.0d}), 0.1d);
 		testNode1.associate(testNode2, 1.0d);
 		testNode2.associate(testNode1, 1.0d);
 
@@ -63,6 +63,9 @@ public class TestHyperassociativeNode
 			testMap.align();
 		}
 
+		double relativeDistance = testNode1.getLocation().calculateRelativeTo(testNode2.getLocation()).getDistance();
+		Assert.assertTrue("one time node distance isnt close to equilibrium distance: expecting->1.0 received->" + relativeDistance, Math.abs(relativeDistance - 1.0d)< 0.01d);
+
 		double averageSum = 0.0;
 		double averageCount = 0.0;
 		for(int count = 0; count < 50; count++)
@@ -73,7 +76,7 @@ public class TestHyperassociativeNode
 		}
 		double average = averageSum / averageCount;
 
-		Assert.assertTrue("average node distance isnt close to equilibrium distance", Math.abs(average - 1.0d)< 0.01d);
+		Assert.assertTrue("average node distance isnt close to equilibrium distance: expecting->1.0 received->" + average, Math.abs(average - 1.0d)< 0.01d);
 	}
 
 	@Test
@@ -81,8 +84,8 @@ public class TestHyperassociativeNode
 	{
 		TestMap testMap = new TestMap(3);
 
-		HyperassociativeNode testNode1 = new HyperassociativeNode(testMap, testMap.getDimensions());
-		HyperassociativeNode testNode2 = new HyperassociativeNode(testMap, testMap.getDimensions());
+		HyperassociativeNode testNode1 = new HyperassociativeNode(testMap, new Hyperpoint(new double[]{1.0d, 2.0d, 3.0d}));
+		HyperassociativeNode testNode2 = new HyperassociativeNode(testMap, new Hyperpoint(new double[]{4.0d, 5.0d, 6.0d}));
 
 		testNode1.associate(testNode2, 1.0d);
 		testNode2.associate(testNode1, 3.0d);

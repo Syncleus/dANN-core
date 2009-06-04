@@ -166,19 +166,19 @@ public class HyperassociativeNode implements Serializable
         {
             Hyperpoint neighborVector = neighbor.location.calculateRelativeTo(this.location);
             double neighborEquilibrium = (equilibriumDistance / this.weightedNeighbors.get(neighbor).doubleValue());
-            if (neighborVector.getDistance() > neighborEquilibrium)
+            if (Math.abs(neighborVector.getDistance()) > neighborEquilibrium)
 			{
-				double newDistance = Math.pow(neighborVector.getDistance() - neighborEquilibrium, 2.0);
-				if(Math.abs(newDistance) > Math.abs(neighborVector.getDistance() - neighborEquilibrium))
-					newDistance = neighborVector.getDistance() - neighborEquilibrium;
-                neighborVector.setDistance(newDistance);
+				double newDistance = Math.pow(Math.abs(neighborVector.getDistance()) - neighborEquilibrium, 2.0);
+				if(Math.abs(newDistance) > Math.abs(Math.abs(neighborVector.getDistance()) - neighborEquilibrium))
+					newDistance = Math.abs(Math.abs(neighborVector.getDistance()) - neighborEquilibrium);
+                neighborVector.setDistance(Math.signum(neighborVector.getDistance()) * newDistance);
 			}
             else
 			{
-				double newDistance = -1.0 * atanh((neighborEquilibrium - neighborVector.getDistance()) / neighborEquilibrium);
-				if( Math.abs(newDistance) > Math.abs(neighborEquilibrium - neighborVector.getDistance()))
-					newDistance = -1.0 * (neighborEquilibrium - neighborVector.getDistance());
-                neighborVector.setDistance(newDistance);
+				double newDistance = -1.0 * atanh((neighborEquilibrium - Math.abs(neighborVector.getDistance())) / neighborEquilibrium);
+				if( Math.abs(newDistance) > Math.abs(neighborEquilibrium - Math.abs(neighborVector.getDistance())))
+					newDistance = -1.0 * (neighborEquilibrium - Math.abs(neighborVector.getDistance()));
+                neighborVector.setDistance(Math.signum(neighborVector.getDistance()) * newDistance);
 			}
 
             compositeVector = compositeVector.add(neighborVector);
@@ -198,27 +198,8 @@ public class HyperassociativeNode implements Serializable
             }
 
         compositeVector.setDistance(compositeVector.getDistance() * learningRate);
-		//this line is a hack that makes it work, not sure why.
-		compositeVector.setCoordinate(0.0d, compositeVector.getDimensions());
-
-		
-//        if( Math.abs(compositeVector.getDistance()) > (maximumDistance/10.0) )
-//		{
-//            compositeVector.setDistance(Math.signum(compositeVector.getDistance())*(maximumDistance/10.0));
-//			compositeVector.setCoordinate(0.0d, compositeVector.getDimensions());
-//		}
 
         this.location = this.location.add(compositeVector);
-
-		//if this node is outside of the maximum distance allowed then readjust its distance
-//        if( Math.abs(this.location.getDistance()) > (maximumDistance) )
-//		{
-//			 if( Math.abs(this.location.getDistance()) >= maximumDistance )
-//			 {
-//				this.location.setDistance(Math.signum(this.location.getDistance())*(maximumDistance*0.9d));
-//				this.location.setCoordinate(0.0d, this.location.getDimensions());
-//			 }
-//		}
     }
 
 	void recenter(Hyperpoint center)
