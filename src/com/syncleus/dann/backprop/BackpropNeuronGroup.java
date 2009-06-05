@@ -21,8 +21,22 @@ package com.syncleus.dann.backprop;
 import com.syncleus.dann.*;
 import java.util.*;
 
+/**
+ * A NeuronGroup which contains only BackpropNeurons.
+ *
+ * <!-- Author: Jeffrey Phillips Freeman -->
+ * @author Jeffrey Phillips Freeman
+ * @since 0.1
+ * @version 0.1
+ */
 public class BackpropNeuronGroup extends NeuronGroup<BackpropNeuron>
 {
+	/**
+	 * Creates an instance of a default empty BackpropNeuronGroup
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @since 0.1
+	 */
     public BackpropNeuronGroup()
     {
         super();
@@ -30,12 +44,14 @@ public class BackpropNeuronGroup extends NeuronGroup<BackpropNeuron>
 
 
     // <editor-fold defaultstate="collapsed" desc="Propogation">
+
     /**
-     * Propogates the output of the NetworkNodes from the incoming synapse to
-     * the outgoign one.<BR>
+     * Propogates the output of the BackpropNeurons from the incoming synapse to
+     * the outgoign one.
+	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @see com.syncleus.dann.NetworkNode#propagate
+     * @see com.syncleus.dann.backprop.BackpropNeuron#propagate
      */
     public void propagate()
     {
@@ -46,11 +62,11 @@ public class BackpropNeuronGroup extends NeuronGroup<BackpropNeuron>
 
 
     /**
-     * Back propogates the taining set of the NetworkNodes from the outgoing
-     * synapse to the incomming one.<BR>
+     * Back propogates the taining set of the BackpropNeuron from the outgoing
+     * synapse to the incomming one.
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @see com.syncleus.dann.NetworkNode#backPropagate
+     * @see com.syncleus.dann.backprop.BackpropNeuron#backPropagate
      */
     public void backPropagate()
     {
@@ -58,6 +74,14 @@ public class BackpropNeuronGroup extends NeuronGroup<BackpropNeuron>
             currentChild.backPropagate();
     }
 
+	/**
+	 * Gets all the Neurons that either connect to, or are connected from, any
+	 * of the BackpropNeurons in this group.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @return An unmodifiable Set of source and destination BackpropNeurons.
+	 * @since 0.1
+	 */
 	@SuppressWarnings("unchecked")
    public Set<Neuron> getNeighbors()
     {
@@ -69,6 +93,14 @@ public class BackpropNeuronGroup extends NeuronGroup<BackpropNeuron>
 
 
 
+	/**
+	 * Gets all the Neurons that connect to any of the BackpropNeurons in this
+	 * group.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @return An unmodifiable Set of source BackpropNeurons.
+	 * @since 0.1
+	 */
 	@SuppressWarnings("unchecked")
     public Set<Neuron> getSourceNeighbors()
     {
@@ -80,11 +112,19 @@ public class BackpropNeuronGroup extends NeuronGroup<BackpropNeuron>
 
 
 
+	/**
+	 * Gets all the Neurons that any of the BackpropNeurons in this group
+	 * connect to.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @return An unmodifiable Set of destination BackpropNeurons.
+	 * @since 0.1
+	 */
 	@SuppressWarnings("unchecked")
-    public Set<Neuron> getDestinationNeighbors()
+    public Set<BackpropNeuron> getDestinationNeighbors()
     {
-        HashSet<Neuron> returnSet = new HashSet<Neuron>();
-		for(Neuron currentNeuron : this.getChildrenNeuronsRecursivly())
+        HashSet<BackpropNeuron> returnSet = new HashSet<BackpropNeuron>();
+		for(BackpropNeuron currentNeuron : this.getChildrenNeuronsRecursivly())
 			returnSet.addAll(currentNeuron.getDestinationNeighbors());
 		return Collections.unmodifiableSet(returnSet);
     }
