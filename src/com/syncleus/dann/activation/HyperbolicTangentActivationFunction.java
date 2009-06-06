@@ -24,8 +24,8 @@ package com.syncleus.dann.activation;
  *
  * <!-- Author: Jeffrey Phillips Freeman -->
  * @author Syncleus, Inc.
- * @since 0.1
- * @version 0.1
+ * @since 1.0
+ * @version 1.0
  */
 public class HyperbolicTangentActivationFunction implements ActivationFunction
 {
@@ -36,7 +36,7 @@ public class HyperbolicTangentActivationFunction implements ActivationFunction
 	 * @param activity the neuron's current activity.
 	 * @return The result of the hyperbolic tangent activation function bound
 	 * between -1 and 1.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public double activate(double activity)
     {
@@ -50,7 +50,7 @@ public class HyperbolicTangentActivationFunction implements ActivationFunction
 	 * @param activity The neuron's current activity.
 	 * @return The result of the derivative of the hyperbolic tangent activation
 	 * function.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public double activateDerivative(double activity)
     {

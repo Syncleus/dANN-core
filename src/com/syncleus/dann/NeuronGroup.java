@@ -29,7 +29,7 @@ import java.util.Set;
  * 
  * <!-- Author: Jeffrey Phillips Freeman -->
  * @author Syncleus, Inc.
- * @since 0.1
+ * @since 1.0
  */
 public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
 {
@@ -39,7 +39,7 @@ public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
      * one neuron can only belong to one layer. But one layer owns many neurons.
      * <BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
+     * @since 1.0
      */
     protected HashSet<N> childrenNeurons = new HashSet<N>();
 
@@ -48,7 +48,7 @@ public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
      * one neuron can only belong to one layer. But one layer owns many neurons.
      * <BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
+     * @since 1.0
      */
 	protected HashSet<NeuronGroup<? extends N>> childrenNeuronGroups = new HashSet<NeuronGroup<? extends N>>();
 
@@ -56,7 +56,7 @@ public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
 	 * The random number generator used for this class
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
-	 * @since 0.1
+	 * @since 1.0
 	 */
 	protected static Random random = new Random();
 
@@ -68,7 +68,7 @@ public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
      * Creates a new empty instance of NeuronGroup
 	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
+     * @since 1.0
      */
     public NeuronGroup()
     {
@@ -79,7 +79,7 @@ public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @param copyGroup NeuronGroup to copy.
-	 * @since 0.1
+	 * @since 1.0
 	 */
 	public NeuronGroup(NeuronGroup<? extends N> copyGroup)
 	{
@@ -98,7 +98,7 @@ public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
      * Adds another Neuron to this layer.
 	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
+     * @since 1.0
      * @param toAdd the Neuron to add.
      */
     public void add(N toAdd)
@@ -110,7 +110,7 @@ public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
      * Adds another NeuronGroup to this layer.
 	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
+     * @since 1.0
      * @param toAdd the NeuronGroup to add.
      */
     public void add(NeuronGroup<? extends N> toAdd)
@@ -125,7 +125,7 @@ public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
      * NetworkNodes in another layer.
 	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
+     * @since 1.0
      * @param toConnectTo This is the layer the neurons will be connecting
      * 	to.
      */
@@ -154,7 +154,7 @@ public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
 	 * @param toConnectTo The NeuronGroup to connect to.
 	 * @throws com.syncleus.dann.InvalidConnectionTypeDannException Thrown if
 	 * any of the neurons can not connect due to invalid types.
-	 * @since 0.1
+	 * @since 1.0
 	 */
 	@SuppressWarnings("unchecked")
 	public void connectAllTo(NeuronGroup<? extends N> toConnectTo) throws InvalidConnectionTypeDannException
@@ -184,7 +184,7 @@ public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
 
     /**
      * Obtains all the Neurons directly owned by this NeuronGroup.
-     * @since 0.1
+     * @since 1.0
      */
     public Set<N> getChildrenNeurons()
     {
@@ -193,7 +193,7 @@ public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
 
     /**
      * Obtains all the NeuronGroups directly owned by this NeuronGroup.
-     * @since 0.1
+     * @since 1.0
      */
     public Set<NeuronGroup<? extends N>> getChildrenNeuronGroups()
     {
@@ -205,7 +205,7 @@ public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
     /**
      * Obtains all the NetworkNodes owned recursivly excluding
      * NeuronGroups.<BR>
-     * @since 0.1
+     * @since 1.0
      */
     public Set<N> getChildrenNeuronsRecursivly()
     {
@@ -223,7 +223,7 @@ public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
     /**
      * Causes the NetworkNode to disconnect all outgoing connections.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
+     * @since 1.0
      * @see com.syncleus.dann.NeuronGroup#disconnectAllSources
      * @see com.syncleus.dann.NeuronGroup#disconnectAll
      */
@@ -238,7 +238,7 @@ public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
     /**
      * Causes the NetworkNode to disconnect all incomming connections.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
+     * @since 1.0
      * @see com.syncleus.dann.NeuronGroup#disconnectAllDestinations
      * @see com.syncleus.dann.NeuronGroup#disconnectAll
      */
@@ -251,7 +251,7 @@ public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
     /**
      * Causes the NetworkNode to disconnect all connections.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
+     * @since 1.0
      * @see com.syncleus.dann.NeuronGroup#disconnectAllSources
      * @see com.syncleus.dann.NeuronGroup#disconnectAllDestinations
      */

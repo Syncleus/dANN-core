@@ -24,8 +24,8 @@ package com.syncleus.dann;
  * 
  * <!-- Author: Jeffrey Phillips Freeman -->
  * @author Syncleus, Inc.
- * @since 0.1
- * @version 0.1
+ * @since 1.0
+ * @version 1.0
  * @see com.syncleus.dann.Neuron
  */
 public class Synapse implements java.io.Serializable
@@ -35,35 +35,35 @@ public class Synapse implements java.io.Serializable
     /**
      * The outgoing neuron connection.
      * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
+     * @since 1.0
      */
     private NeuronImpl destination;
 
     /**
      * The incomming neuron connection.
      * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
+     * @since 1.0
      */
     private NeuronImpl source;
 
     /**
      * The current weight of the synapse.
      * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
+     * @since 1.0
      */
     private double weight;
 
     /**
      * The current output of the synapse.
      * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
+     * @since 1.0
      */
     private double output;
 
     /**
      * The current input from the synapse.
      * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
+     * @since 1.0
      */
     private double input;
 
@@ -75,7 +75,7 @@ public class Synapse implements java.io.Serializable
      * Creates a new instance of Synapse
 	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
+     * @since 1.0
      * @param sourceToSet The incomming neuron connection.
      * @param destinationToSet The outgoing neuron connection.
      * @param initialWeight The initial weight of the synapse
@@ -95,7 +95,7 @@ public class Synapse implements java.io.Serializable
      * Obtains the incomming neuron.
 	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
+     * @since 1.0
      * @return The source neuron.
      */
     public NeuronImpl getSource()
@@ -109,7 +109,7 @@ public class Synapse implements java.io.Serializable
      * Obtains the outgoing neuron.
 	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
+     * @since 1.0
      * @return The destination neuron.
      */
     public NeuronImpl getDestination()
@@ -126,7 +126,7 @@ public class Synapse implements java.io.Serializable
      * weight.
 	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
+     * @since 1.0
      * @return the current synapse output.
      */
     public double getOutput()
@@ -141,7 +141,7 @@ public class Synapse implements java.io.Serializable
      * Set the current input for the synapse.
 	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
+     * @since 1.0
      * @param newInput The new input value to set.
      */
     public void setInput(double newInput)
@@ -154,7 +154,7 @@ public class Synapse implements java.io.Serializable
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @param newWeight new weight for the synapse.
-	 * @since 0.1
+	 * @since 1.0
 	 */
 	public void setWeight(double newWeight)
 	{
@@ -166,7 +166,7 @@ public class Synapse implements java.io.Serializable
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @return The current weight of the synapse.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public double getWeight()
     {
@@ -178,7 +178,7 @@ public class Synapse implements java.io.Serializable
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @return The current input of the synapse.
-	 * @since 0.1
+	 * @since 1.0
 	 */
 	public double getInput()
 	{

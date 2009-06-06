@@ -27,8 +27,8 @@ import java.util.HashSet;
  *
  * <!-- Author: Jeffrey Phillips Freeman -->
  * @author Syncleus, Inc.
- * @version 0.1
- * @since 0.1
+ * @version 1.0
+ * @since 1.0
  */
 public class NeuronHyperassociativeNode extends HyperassociativeNode
 {
@@ -42,7 +42,7 @@ public class NeuronHyperassociativeNode extends HyperassociativeNode
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @param network the map this node will belong to.
 	 * @param backingNeuron the neuron backing this node.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public NeuronHyperassociativeNode(BrainHyperassociativeMap network, Neuron backingNeuron)
     {
@@ -62,7 +62,7 @@ public class NeuronHyperassociativeNode extends HyperassociativeNode
 	 * @param network the map this node will belong to.
 	 * @param location the initial Hyperpoint location of this node.
 	 * @param backingNeuron the neuron backing this node.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public NeuronHyperassociativeNode(BrainHyperassociativeMap network, Hyperpoint location, Neuron backingNeuron)
     {
@@ -78,7 +78,7 @@ public class NeuronHyperassociativeNode extends HyperassociativeNode
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @return the map this node belongs to.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     @Override
     protected BrainHyperassociativeMap getNetwork()
@@ -93,7 +93,7 @@ public class NeuronHyperassociativeNode extends HyperassociativeNode
 	 * of the backing neuron.
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
-	 * @since 0.1
+	 * @since 1.0
 	 */
 	@SuppressWarnings("unchecked")
     void refresh()
@@ -120,7 +120,7 @@ public class NeuronHyperassociativeNode extends HyperassociativeNode
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @return the backing neuron.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public Neuron getNeuron()
     {

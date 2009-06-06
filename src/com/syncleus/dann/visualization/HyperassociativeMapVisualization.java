@@ -37,8 +37,8 @@ import java.util.Hashtable;
  *
  * <!-- Author: Jeffrey Phillips Freeman -->
  * @author Syncleus, Inc.
- * @since 0.1
- * @version 0.1
+ * @since 1.0
+ * @version 1.0
  */
 public class HyperassociativeMapVisualization extends BranchGroup
 {
@@ -55,7 +55,7 @@ public class HyperassociativeMapVisualization extends BranchGroup
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @param map The map to represent by this BranchGroup
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public HyperassociativeMapVisualization(HyperassociativeMap map)
     {
@@ -69,7 +69,7 @@ public class HyperassociativeMapVisualization extends BranchGroup
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @param map The map to represent by this BranchGroup
 	 * @param nodeRadius The radius of the spheres representing each node.
-	 * @since 0.1
+	 * @since 1.0
 	 */
 	public HyperassociativeMapVisualization(HyperassociativeMap map, float nodeRadius)
 	{
@@ -93,7 +93,7 @@ public class HyperassociativeMapVisualization extends BranchGroup
 	 * representation accordingly.
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public void refresh()
     {
@@ -276,7 +276,7 @@ public class HyperassociativeMapVisualization extends BranchGroup
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @return The map this class is representing.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     HyperassociativeMap getMap()
     {

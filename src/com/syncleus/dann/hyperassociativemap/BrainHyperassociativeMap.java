@@ -27,8 +27,8 @@ import java.util.*;
  *
  * <!-- Author: Jeffrey Phillips Freeman -->
  * @author Syncleus, Inc.
- * @version 0.1
- * @since 0.1
+ * @version 1.0
+ * @since 1.0
  */
 public class BrainHyperassociativeMap extends HyperassociativeMap
 {
@@ -39,7 +39,7 @@ public class BrainHyperassociativeMap extends HyperassociativeMap
 	 * A Hashtable containing all the neurons in the brain and their counterpart
 	 * NeuronHyperassociativeNode.
 	 * <!-- Author: Jeffrey Phillips Freeman -->
-	 * @since 0.1
+	 * @since 1.0
 	 */
     protected Hashtable<Neuron, NeuronHyperassociativeNode> neurons = new Hashtable<Neuron, NeuronHyperassociativeNode>();
 
@@ -50,7 +50,7 @@ public class BrainHyperassociativeMap extends HyperassociativeMap
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @param brain Brain to represent by this map
 	 * @param dimensions Number of dimensions to represent this brain in
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public BrainHyperassociativeMap(Brain brain, int dimensions)
     {
@@ -69,7 +69,7 @@ public class BrainHyperassociativeMap extends HyperassociativeMap
 	 * new associations between nodes.
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public void refresh()
     {
@@ -109,7 +109,7 @@ public class BrainHyperassociativeMap extends HyperassociativeMap
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @param node Neuron to get Node from.
 	 * @return Node The Node used to represent the neuron.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     NeuronHyperassociativeNode getNodeFromNeuron(Neuron node)
     {

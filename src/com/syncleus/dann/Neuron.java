@@ -30,8 +30,8 @@ import java.util.Set;
  * @author Syncleus, Inc.
  * @param <SN> Source Neurons allowed to connect to this Neuron.
  * @param <DN> Destination Neurons this Neuron is allowed to connect to.
- * @since 0.1
- * @version 0.1
+ * @since 1.0
+ * @version 1.0
  */
 public interface Neuron<SN extends NeuronImpl, DN extends NeuronImpl> extends Serializable
 {
@@ -42,7 +42,7 @@ public interface Neuron<SN extends NeuronImpl, DN extends NeuronImpl> extends Se
 	 * @param outUnit The Neuron to connect to.
 	 * @throws com.syncleus.dann.InvalidConnectionTypeDannException The
 	 * specified neuron to connect to is not valid.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public void connectTo(DN outUnit) throws InvalidConnectionTypeDannException;
 
@@ -50,7 +50,7 @@ public interface Neuron<SN extends NeuronImpl, DN extends NeuronImpl> extends Se
      * Causes the Neuron to disconnect all connections.
 	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
+     * @since 1.0
      * @see com.syncleus.dann.Neuron#disconnectAllSources
      * @see com.syncleus.dann.Neuron#disconnectAllDestinations
      */
@@ -60,7 +60,7 @@ public interface Neuron<SN extends NeuronImpl, DN extends NeuronImpl> extends Se
      * Causes the Neuron to disconnect all outgoing connections.
 	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
+     * @since 1.0
      * @see com.syncleus.dann.Neuron#disconnectAllSources
      * @see com.syncleus.dann.Neuron#disconnectAll
      */
@@ -70,7 +70,7 @@ public interface Neuron<SN extends NeuronImpl, DN extends NeuronImpl> extends Se
      * Causes the Neuron to disconnect all incomming connections.
 	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
+     * @since 1.0
      * @see com.syncleus.dann.Neuron#disconnectAllDestinations
      * @see com.syncleus.dann.Neuron#disconnectAll
      */
@@ -80,7 +80,7 @@ public interface Neuron<SN extends NeuronImpl, DN extends NeuronImpl> extends Se
      * Disconnects from a perticular outgoing connection.
 	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
+     * @since 1.0
      * @param outSynapse The outgoing synapse to disconnect from.<BR>
      * @see com.syncleus.dann.NeuronImpl#removeSource
 	 * @throws SynapseNotConnectedException Thrown if the specified synapse isnt
@@ -92,7 +92,7 @@ public interface Neuron<SN extends NeuronImpl, DN extends NeuronImpl> extends Se
      * Disconnects from a perticular incomming connection.
 	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
+     * @since 1.0
      * @param inSynapse The incomming synapse to disconnect from.
      * @see com.syncleus.dann.NeuronImpl#removeDestination
 	 * @throws SynapseNotConnectedException Thrown if the specified synapse isnt
@@ -105,7 +105,7 @@ public interface Neuron<SN extends NeuronImpl, DN extends NeuronImpl> extends Se
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @return An unmodifiable Set of destination Synapses
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public Set<Synapse> getDestinations();
 
@@ -114,7 +114,7 @@ public interface Neuron<SN extends NeuronImpl, DN extends NeuronImpl> extends Se
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @return An unmodifiable Set of source Synapses
-	 * @since 0.1
+	 * @since 1.0
 	 */
 	public Set<Synapse> getSources();
 
@@ -124,7 +124,7 @@ public interface Neuron<SN extends NeuronImpl, DN extends NeuronImpl> extends Se
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @return An unmodifiable Set of source and destination Neurons.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public Set<Neuron> getNeighbors();
 
@@ -133,7 +133,7 @@ public interface Neuron<SN extends NeuronImpl, DN extends NeuronImpl> extends Se
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @return An unmodifiable Set of source Neurons.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public Set<SN> getSourceNeighbors();
 
@@ -142,7 +142,7 @@ public interface Neuron<SN extends NeuronImpl, DN extends NeuronImpl> extends Se
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @return An unmodifiable Set of destination Neurons.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public Set<DN> getDestinationNeighbors();
 }

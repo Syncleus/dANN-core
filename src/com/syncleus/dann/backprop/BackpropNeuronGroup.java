@@ -26,8 +26,8 @@ import java.util.*;
  *
  * <!-- Author: Jeffrey Phillips Freeman -->
  * @author Syncleus, Inc.
- * @since 0.1
- * @version 0.1
+ * @since 1.0
+ * @version 1.0
  */
 public class BackpropNeuronGroup extends NeuronGroup<BackpropNeuron>
 {
@@ -37,7 +37,7 @@ public class BackpropNeuronGroup extends NeuronGroup<BackpropNeuron>
 	 * Creates an instance of a default empty BackpropNeuronGroup
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public BackpropNeuronGroup()
     {
@@ -53,7 +53,7 @@ public class BackpropNeuronGroup extends NeuronGroup<BackpropNeuron>
      * the outgoign one.
 	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
+     * @since 1.0
      * @see com.syncleus.dann.backprop.BackpropNeuron#propagate
      */
     public void propagate()
@@ -68,7 +68,7 @@ public class BackpropNeuronGroup extends NeuronGroup<BackpropNeuron>
      * Back propogates the taining set of the BackpropNeuron from the outgoing
      * synapse to the incomming one.
      * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
+     * @since 1.0
      * @see com.syncleus.dann.backprop.BackpropNeuron#backPropagate
      */
     public void backPropagate()
@@ -83,7 +83,7 @@ public class BackpropNeuronGroup extends NeuronGroup<BackpropNeuron>
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @return An unmodifiable Set of source and destination BackpropNeurons.
-	 * @since 0.1
+	 * @since 1.0
 	 */
 	@SuppressWarnings("unchecked")
    public Set<Neuron> getNeighbors()
@@ -102,7 +102,7 @@ public class BackpropNeuronGroup extends NeuronGroup<BackpropNeuron>
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @return An unmodifiable Set of source BackpropNeurons.
-	 * @since 0.1
+	 * @since 1.0
 	 */
 	@SuppressWarnings("unchecked")
     public Set<Neuron> getSourceNeighbors()
@@ -121,7 +121,7 @@ public class BackpropNeuronGroup extends NeuronGroup<BackpropNeuron>
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @return An unmodifiable Set of destination BackpropNeurons.
-	 * @since 0.1
+	 * @since 1.0
 	 */
 	@SuppressWarnings("unchecked")
     public Set<BackpropNeuron> getDestinationNeighbors()

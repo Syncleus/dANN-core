@@ -26,8 +26,8 @@ package com.syncleus.dann;
  * @author Syncleus, Inc.
  * @param <SN> The type of Neuron allowed to connect to this Neuron.
  * @param <DN> The type of Neuron this Neuron is allowed to connect to.
- * @since 0.1
- * @version 0.1
+ * @since 1.0
+ * @version 1.0
  */
 public interface InputNeuron<SN extends NeuronImpl, DN extends NeuronImpl> extends Neuron<SN, DN>
 {

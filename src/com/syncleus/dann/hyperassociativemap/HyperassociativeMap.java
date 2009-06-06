@@ -26,15 +26,15 @@ import java.util.*;
  *
  * <!-- Author: Jeffrey Phillips Freeman -->
  * @author Syncleus, Inc.
- * @since 0.1
- * @version 0.1
+ * @since 1.0
+ * @version 1.0
  */
 public abstract class HyperassociativeMap implements Serializable
 {
 	/**
 	 * HashSet of all the nodes in this map.
 	 * <!-- Author: Jeffrey Phillips Freeman -->
-	 * @since 0.1
+	 * @since 1.0
 	 */
     protected HashSet<HyperassociativeNode> nodes = new HashSet<HyperassociativeNode>();
 	private int dimensions;
@@ -44,7 +44,7 @@ public abstract class HyperassociativeMap implements Serializable
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @param dimensions The number of dimensions for this map.
-	 * @since 0.1
+	 * @since 1.0
 	 */
 	public HyperassociativeMap(int dimensions)
 	{
@@ -56,7 +56,7 @@ public abstract class HyperassociativeMap implements Serializable
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @return The number of dimensions for this map.
-	 * @since 0.1
+	 * @since 1.0
 	 */
 	public int getDimensions()
 	{
@@ -68,7 +68,7 @@ public abstract class HyperassociativeMap implements Serializable
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @return An unmodifiable Set of all the nodes in this map.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public Set<HyperassociativeNode> getNodes()
     {
@@ -79,7 +79,7 @@ public abstract class HyperassociativeMap implements Serializable
 	 * Aligns all the nodes in this map by a single step.
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public void align()
     {

@@ -27,8 +27,8 @@ import java.util.List;
  *
  * <!-- Author: Jeffrey Phillips Freeman -->
  * @author Syncleus, Inc.
- * @since 0.1
- * @version 0.1
+ * @since 1.0
+ * @version 1.0
  */
 public class Hyperpoint implements Serializable
 {
@@ -40,7 +40,7 @@ public class Hyperpoint implements Serializable
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @param dimensions number of dimensions of the point
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public Hyperpoint(int dimensions)
     {
@@ -56,7 +56,7 @@ public class Hyperpoint implements Serializable
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @param coordinates The initial coordinates for this point.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public Hyperpoint(double[] coordinates)
     {
@@ -75,7 +75,7 @@ public class Hyperpoint implements Serializable
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @param coordinates The initial coordinates for this point.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public Hyperpoint(List<Double> coordinates)
     {
@@ -98,7 +98,7 @@ public class Hyperpoint implements Serializable
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @param copy the Hyperpoint to copy.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public Hyperpoint(Hyperpoint copy)
     {
@@ -124,7 +124,7 @@ public class Hyperpoint implements Serializable
 	 * @param dimension The dimension of the coordinate to set.
 	 * @throws IllegalArgumentException Thrown if the coordinate is less than or
 	 * equal to 0 or more than the number of dimensions.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public void setCoordinate(double coordinate, int dimension)
     {
@@ -144,7 +144,7 @@ public class Hyperpoint implements Serializable
 	 * @return The value for the requested coordinate.
 	 * @throws IllegalArgumentException Thrown if the coordinate is less than or
 	 * equal to 0 or more than the number of dimensions.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public double getCoordinate(int dimension)
     {
@@ -164,7 +164,7 @@ public class Hyperpoint implements Serializable
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @param distance The new distance for this vector.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public void setDistance(double distance)
     {
@@ -190,7 +190,7 @@ public class Hyperpoint implements Serializable
 	 * @throws IllegalArgumentException Thrown if dimension is less than or
 	 * equal to 0 or if dimension is greater than or equal to the number of
 	 * dimensions.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public void setAngularComponent(double angle, int dimension)
     {
@@ -233,7 +233,7 @@ public class Hyperpoint implements Serializable
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @return The distance component of this point using hyperspherical
 	 * coordinates.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public double getDistance()
     {
@@ -250,7 +250,7 @@ public class Hyperpoint implements Serializable
 	 * @param dimension The dimension you want the angle of. the first
 	 * dimension is 1. the last is one less than the total number of dimensions.
 	 * @return returns a value representing the angle between Pi/2 and -Pi/2
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public double getAngularComponent(int dimension)
     {
@@ -280,7 +280,7 @@ public class Hyperpoint implements Serializable
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @param absolutePoint The origin to calculate relative to.
 	 * @return The new Hyperpoint resulting from the new origin.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public Hyperpoint calculateRelativeTo(Hyperpoint absolutePoint)
     {
@@ -303,7 +303,7 @@ public class Hyperpoint implements Serializable
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @param pointToAdd Hyperpoint to add with this one.
 	 * @return The resulting Hyperpoint after addition.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public Hyperpoint add(Hyperpoint pointToAdd)
     {
@@ -326,7 +326,7 @@ public class Hyperpoint implements Serializable
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @return String representation of this point in cartesian coordinates.
-	 * @since 0.1
+	 * @since 1.0
 	 */
 	@Override
 	public String toString()
@@ -348,7 +348,7 @@ public class Hyperpoint implements Serializable
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @return String representation of this Hyperpoint in Hyperspherical
 	 * coordinates.
-	 * @since 0.1
+	 * @since 1.0
 	 */
 	public String toStringHypersphere()
 	{

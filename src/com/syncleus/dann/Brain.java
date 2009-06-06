@@ -29,8 +29,8 @@ import java.util.*;
  * This class is abstract and must be extended in order to be used.
  *
  * @author Syncleus, Inc.
- * @since 0.1
- * @version 0.1
+ * @since 1.0
+ * @version 1.0
  */
 public abstract class Brain implements Serializable
 {
@@ -46,7 +46,7 @@ public abstract class Brain implements Serializable
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @param newNeuron The neuron to add to the brain.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     protected void addNeuron(Neuron newNeuron)
     {
@@ -68,7 +68,7 @@ public abstract class Brain implements Serializable
 	 *
 	 *  <!-- Author: Jeffrey Phillips Freeman -->
 	 * @param newNeurons The collection of neurons to add.
-	 * @since 0.1
+	 * @since 1.0
 	 */
 	protected void addNeurons(Collection<? extends Neuron> newNeurons)
 	{
@@ -92,7 +92,7 @@ public abstract class Brain implements Serializable
 	 *
 	 *  <!-- Author: Jeffrey Phillips Freeman -->
 	 * @param removeNeuron The neuron to remove.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     protected void removeNeuron(Neuron removeNeuron)
     {
@@ -115,7 +115,7 @@ public abstract class Brain implements Serializable
 	 *
 	 *  <!-- Author: Jeffrey Phillips Freeman -->
 	 * @return An unmodifiable Set of InputNeurons.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public Set<InputNeuron> getInputNeurons()
     {
@@ -129,7 +129,7 @@ public abstract class Brain implements Serializable
 	 *
 	 *  <!-- Author: Jeffrey Phillips Freeman -->
 	 * @return An unmodifiable Set of OutputNeurons
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public Set<OutputNeuron> getOutputNeurons()
     {
@@ -144,7 +144,7 @@ public abstract class Brain implements Serializable
 	 *
 	 *  <!-- Author: Jeffrey Phillips Freeman -->
 	 * @return An unmodifiable Set of all Neurons.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public Set<Neuron> getNeurons()
     {

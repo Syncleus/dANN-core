@@ -26,7 +26,7 @@ import com.syncleus.dann.activation.*;
  *
  * <!-- Author: Jeffrey Phillips Freeman -->
  * @author Syncleus, Inc.
- * @since 0.1
+ * @since 1.0
  * @see com.syncleus.dann.backprop.InputBackpropNeuron
  */
 public class OutputBackpropNeuron extends BackpropNeuron implements OutputNeuron<NeuronImpl, BackpropNeuron>
@@ -34,7 +34,7 @@ public class OutputBackpropNeuron extends BackpropNeuron implements OutputNeuron
     /**
      * holds the value for the current training set.
      * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
+     * @since 1.0
      */
     protected double desired;
 
@@ -43,7 +43,7 @@ public class OutputBackpropNeuron extends BackpropNeuron implements OutputNeuron
     /**
      * Creates a new instance of OutputBackpropNeuron
      * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
+     * @since 1.0
      */
     public OutputBackpropNeuron()
     {
@@ -56,7 +56,7 @@ public class OutputBackpropNeuron extends BackpropNeuron implements OutputNeuron
 	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @param activationFunction The activation function to use.
-     * @since 0.1
+     * @since 1.0
      */
     public OutputBackpropNeuron(ActivationFunction activationFunction)
     {
@@ -68,7 +68,7 @@ public class OutputBackpropNeuron extends BackpropNeuron implements OutputNeuron
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @param learningRate The learning rate for this neuron.
-	 * @since 0.1
+	 * @since 1.0
 	 */
 	public OutputBackpropNeuron(double learningRate)
 	{
@@ -82,7 +82,7 @@ public class OutputBackpropNeuron extends BackpropNeuron implements OutputNeuron
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @param activationFunction The activation used by this neuron.
 	 * @param learningRate The learning rate for this neuron.
-	 * @since 0.1
+	 * @since 1.0
 	 */
 	public OutputBackpropNeuron(ActivationFunction activationFunction, double learningRate)
 	{
@@ -95,7 +95,7 @@ public class OutputBackpropNeuron extends BackpropNeuron implements OutputNeuron
      * This method sets the expected output for this neuron to learn from.
 	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
+     * @since 1.0
      * @param trainingToSet sets the current desired output.
      */
     public void setDesired(double trainingToSet)
@@ -109,7 +109,7 @@ public class OutputBackpropNeuron extends BackpropNeuron implements OutputNeuron
      * Calculates the Delta Train based on all the destination synapses
 	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 0.1
+     * @since 1.0
      * @see com.syncleus.dann.backprop.BackpropNeuron#backPropagate
      */
 	@Override
@@ -131,7 +131,7 @@ public class OutputBackpropNeuron extends BackpropNeuron implements OutputNeuron
 	 * @param outUnit The Neuron to connect to.
 	 * @throws com.syncleus.dann.InvalidConnectionTypeDannException The
 	 * specified neuron to connect to is not valid.
-	 * @since 0.1
+	 * @since 1.0
 	 */
 	@Override
     public void connectTo(BackpropNeuron outUnit) throws InvalidConnectionTypeDannException

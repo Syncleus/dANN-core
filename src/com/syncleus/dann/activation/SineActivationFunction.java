@@ -23,8 +23,8 @@ package com.syncleus.dann.activation;
  *
  * <!-- Author: Jeffrey Phillips Freeman -->
  * @author Syncleus, Inc.
- * @since 0.1
- * @version 0.1
+ * @since 1.0
+ * @version 1.0
  */
 public class SineActivationFunction implements ActivationFunction
 {
@@ -35,7 +35,7 @@ public class SineActivationFunction implements ActivationFunction
 	 * @param activity the neuron's current activity.
 	 * @return The result of the sine activation function bound between -1
 	 * and 1.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public double activate(double activity)
     {
@@ -48,7 +48,7 @@ public class SineActivationFunction implements ActivationFunction
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @param activity The neuron's current activity.
 	 * @return The result of the derivative of the sine activation function.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public double activateDerivative(double activity)
     {

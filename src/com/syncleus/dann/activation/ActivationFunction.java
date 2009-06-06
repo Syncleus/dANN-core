@@ -24,8 +24,8 @@ package com.syncleus.dann.activation;
  *
  * <!-- Author: Jeffrey Phillips Freeman -->
  * @author Syncleus, Inc.
- * @since 0.1
- * @version 0.1
+ * @since 1.0
+ * @version 1.0
  */
 public interface ActivationFunction extends java.io.Serializable
 {
@@ -36,7 +36,7 @@ public interface ActivationFunction extends java.io.Serializable
 	 * @param activity the neuron's current activity.
 	 * @return The result of the activation function. Usually a bound value
 	 * between 1 and -1 or 1 and 0. However this bound range is not required.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public double activate(double activity);
 
@@ -46,7 +46,7 @@ public interface ActivationFunction extends java.io.Serializable
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @param activity The neuron's current activity.
 	 * @return The result of the derivative of the activation function.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public double activateDerivative(double activity);
 }

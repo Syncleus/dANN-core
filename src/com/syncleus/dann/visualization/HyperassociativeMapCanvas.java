@@ -32,8 +32,8 @@ import javax.vecmath.*;
  *
  * <!-- Author: Jeffrey Phillips Freeman -->
  * @author Syncleus, Inc.
- * @since 0.1
- * @version 0.1
+ * @since 1.0
+ * @version 1.0
  */
 public class HyperassociativeMapCanvas extends Canvas3D
 {
@@ -46,7 +46,7 @@ public class HyperassociativeMapCanvas extends Canvas3D
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @param map The HyperassociativeMap to display.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public HyperassociativeMapCanvas(HyperassociativeMap map)
     {
@@ -61,7 +61,7 @@ public class HyperassociativeMapCanvas extends Canvas3D
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @param map The HyperassociativeMap to display.
 	 * @param nodeRadius The radius of the spheres representing each node.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public HyperassociativeMapCanvas(HyperassociativeMap map, float nodeRadius)
     {
@@ -76,7 +76,7 @@ public class HyperassociativeMapCanvas extends Canvas3D
 	 * @param map The HyperassociativeMap to display.
 	 * @param configuration The GraphicsConfiguration to use for configuring the
 	 * canvas.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public HyperassociativeMapCanvas(HyperassociativeMap map, GraphicsConfiguration configuration)
     {
@@ -93,7 +93,7 @@ public class HyperassociativeMapCanvas extends Canvas3D
 	 * @param configuration The GraphicsConfiguration to use for configuring the
 	 * canvas.
 	 * @param nodeRadius The radius of the spheres representing each node.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public HyperassociativeMapCanvas(HyperassociativeMap map, GraphicsConfiguration configuration, float nodeRadius)
     {
@@ -129,7 +129,7 @@ public class HyperassociativeMapCanvas extends Canvas3D
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @return The HyperassociativeMap this class is displaying.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public HyperassociativeMap getHyperassociativeMap()
     {
@@ -142,7 +142,7 @@ public class HyperassociativeMapCanvas extends Canvas3D
 	 * representation accordingly.
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public void refresh()
     {

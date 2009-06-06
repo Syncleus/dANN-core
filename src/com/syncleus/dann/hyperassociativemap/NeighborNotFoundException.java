@@ -25,8 +25,8 @@ import com.syncleus.dann.*;
  *
  * <!-- Author: Jeffrey Phillips Freeman -->
  * @author Syncleus, Inc.
- * @since 0.1
- * @version 0.1
+ * @since 1.0
+ * @version 1.0
  */
 public class NeighborNotFoundException extends DannException
 {
@@ -34,7 +34,7 @@ public class NeighborNotFoundException extends DannException
 	 * Creates a blank default exception.
 	 *
 	 *  <!-- Author: Jeffrey Phillips Freeman -->
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public NeighborNotFoundException()
     {
@@ -45,7 +45,7 @@ public class NeighborNotFoundException extends DannException
 	 *
 	 *  <!-- Author: Jeffrey Phillips Freeman -->
 	 * @param msg A string describing the cause of the exception
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public NeighborNotFoundException(String msg)
     {
@@ -59,7 +59,7 @@ public class NeighborNotFoundException extends DannException
 	 *  <!-- Author: Jeffrey Phillips Freeman -->
 	 * @param msg A string describing the cause of the exception
 	 * @param cause The throwable which caused this exception
-	 * @since 0.1
+	 * @since 1.0
 	 */
 	public NeighborNotFoundException(String msg, Throwable cause)
 	{
@@ -72,7 +72,7 @@ public class NeighborNotFoundException extends DannException
 	 *
 	 *  <!-- Author: Jeffrey Phillips Freeman -->
 	 * @param cause The throwable which caused this exception
-	 * @since 0.1
+	 * @since 1.0
 	 */
 	public NeighborNotFoundException(Throwable cause)
 	{

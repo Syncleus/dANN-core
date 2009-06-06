@@ -45,7 +45,7 @@ public class HyperassociativeNode implements Serializable
 	 * @param learningRate The learning rate for this node.
 	 * @param equilibriumDistance The equilibrium distance between this node
 	 * and any nodes it associates with.
-	 * @since 0.1
+	 * @since 1.0
 	 */
 	public HyperassociativeNode(HyperassociativeMap network, double learningRate, double equilibriumDistance)
 	{
@@ -59,7 +59,7 @@ public class HyperassociativeNode implements Serializable
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @param network The network this node will belong to.
 	 * @param learningRate The learning rate for this node.
-	 * @since 0.1
+	 * @since 1.0
 	 */
 	public HyperassociativeNode(HyperassociativeMap network, double learningRate)
 	{
@@ -72,7 +72,7 @@ public class HyperassociativeNode implements Serializable
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @param network The network this node will belong to.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public HyperassociativeNode(HyperassociativeMap network)
     {
@@ -92,7 +92,7 @@ public class HyperassociativeNode implements Serializable
 	 * @param learningRate The learning rate for this node.
 	 * @param equilibriumDistance The equilibrium distance between this node
 	 * and any nodes it associates with.
-	 * @since 0.1
+	 * @since 1.0
 	 */
 	public HyperassociativeNode(HyperassociativeMap network, Hyperpoint location, double learningRate, double equilibriumDistance)
 	{
@@ -107,7 +107,7 @@ public class HyperassociativeNode implements Serializable
 	 * @param network The network this node will belong to.
 	 * @param location The initial location of this node.
 	 * @param learningRate The learning rate for this node.
-	 * @since 0.1
+	 * @since 1.0
 	 */
 	public HyperassociativeNode(HyperassociativeMap network, Hyperpoint location, double learningRate)
 	{
@@ -122,7 +122,7 @@ public class HyperassociativeNode implements Serializable
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @param network The network this node will belong to.
 	 * @param location The initial location of this node.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public HyperassociativeNode(HyperassociativeMap network, Hyperpoint location)
     {
@@ -143,7 +143,7 @@ public class HyperassociativeNode implements Serializable
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @return The map this node belongs to.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     protected HyperassociativeMap getNetwork()
     {
@@ -160,7 +160,7 @@ public class HyperassociativeNode implements Serializable
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @param newNeighbor Node to associate to.
 	 * @param newWeight Weight of association.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public void associate(HyperassociativeNode newNeighbor, double newWeight)
     {
@@ -179,7 +179,7 @@ public class HyperassociativeNode implements Serializable
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @param neighbor Node to dissociate from.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public void dissociate(HyperassociativeNode neighbor)
     {
@@ -192,7 +192,7 @@ public class HyperassociativeNode implements Serializable
 	 * Dissociates from all nodes.
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public void dissociateAll()
     {
@@ -206,7 +206,7 @@ public class HyperassociativeNode implements Serializable
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @return An unmodifiable set of associated nodes.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public Set<HyperassociativeNode> getNeighbors()
     {
@@ -223,7 +223,7 @@ public class HyperassociativeNode implements Serializable
 	 * @return The weight of the specified node.
 	 * @throws com.syncleus.dann.hyperassociativemap.NeighborNotFoundException
 	 * thrown if neighbor is null.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public double getNeighborsWeight(HyperassociativeNode neighbor) throws NeighborNotFoundException
     {
@@ -247,7 +247,7 @@ public class HyperassociativeNode implements Serializable
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @param dimensions Number of dimensions for the random Hyperpoint
 	 * @return New random Hyperpoint
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public static Hyperpoint randomCoordinates(int dimensions)
     {
@@ -266,7 +266,7 @@ public class HyperassociativeNode implements Serializable
 	 * Aligns this node by one step against all nodes associated or not.
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public void align()
     {
@@ -319,7 +319,7 @@ public class HyperassociativeNode implements Serializable
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @param center The new origin for this node.
-	 * @since 0.1
+	 * @since 1.0
 	 */
 	void recenter(Hyperpoint center)
 	{
@@ -339,7 +339,7 @@ public class HyperassociativeNode implements Serializable
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @return The current Hyperpoint location for this node.
-	 * @since 0.1
+	 * @since 1.0
 	 */
     public Hyperpoint getLocation()
     {
