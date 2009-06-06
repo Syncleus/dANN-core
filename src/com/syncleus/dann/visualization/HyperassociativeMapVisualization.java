@@ -32,6 +32,14 @@ import java.awt.*;
 import java.util.Hashtable;
 
 
+/**
+ * A BranchGroup representing a HyperAssociativeMap
+ *
+ * <!-- Author: Jeffrey Phillips Freeman -->
+ * @author Jeffrey Phillips Freeman
+ * @since 0.1
+ * @version 0.1
+ */
 public class HyperassociativeMapVisualization extends BranchGroup
 {
     private HyperassociativeMap map;
@@ -42,11 +50,27 @@ public class HyperassociativeMapVisualization extends BranchGroup
 
 
 
+	/**
+	 * Initializes a new visualization to represent the specified map.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param map The map to represent by this BranchGroup
+	 * @since 0.1
+	 */
     public HyperassociativeMapVisualization(HyperassociativeMap map)
     {
 		this(map, 0.01F);
     }
 
+	/**
+	 * Initializes a new visualization to represent the specified map and with
+	 * nodes of the specified radius.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param map The map to represent by this BranchGroup
+	 * @param nodeRadius The radius of the spheres representing each node.
+	 * @since 0.1
+	 */
 	public HyperassociativeMapVisualization(HyperassociativeMap map, float nodeRadius)
 	{
 		this.nodeRadius = nodeRadius;
@@ -64,21 +88,17 @@ public class HyperassociativeMapVisualization extends BranchGroup
 
 
 
+	/**
+	 * Gets all the latest locations from the map and refreshes the graphical
+	 * representation accordingly.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @since 0.1
+	 */
     public void refresh()
     {
-//        BranchGroup root = new BranchGroup();
-//        this.nestedRoot.setCapability(BranchGroup.ALLOW_DETACH);
-
-//        this.removeAllChildren();
 
         boolean childrenRemoved = false;
-//        System.out.println("nodeGraphics elements: " + this.nodeGraphics.size());
-        //if ((this.map.getNodes().containsAll(this.nodeGraphics.keySet()) == false) || (this.nodeGraphics.keySet().containsAll(this.map.getNodes()) == false))
-//        if(this.nodeGraphics.keySet().containsAll(this.map.getNodes()) == false)
-//        {
-//            this.removeAllChildren();
-//            childrenRemoved = true;
-//        }
 
         Hashtable<HyperassociativeNode, TransformGroup> newGraphicalNodes = new Hashtable<HyperassociativeNode, TransformGroup>();
 
@@ -98,8 +118,6 @@ public class HyperassociativeMapVisualization extends BranchGroup
                 TransformGroup newVisual = this.createNeuronSphere("", "", neuronColor, (float) node.getLocation().getCoordinate(1), (float) node.getLocation().getCoordinate(2), (float) node.getLocation().getCoordinate(3), this.nodeRadius);
                 if (childrenRemoved == false)
                 {
-//                    System.out.println("need to remove children for adds....");
-//                    (new Exception("need to remove children for adds")).printStackTrace();
                     this.removeAllChildren();
                     childrenRemoved = true;
                 }
@@ -113,9 +131,6 @@ public class HyperassociativeMapVisualization extends BranchGroup
                 TransformGroup oldVisual = this.nodeGraphics.remove(node);
 
                 // Create the transform group node holding the sphere
-//                TransformGroup neuronTransformGroup = new TransformGroup();
-//                neuronTransformGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
-//                neuronTransformGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
                 Transform3D neuronTransform = new Transform3D();
                 Hyperpoint currentLocation = node.getLocation();
                 Hyperpoint oldLocation = this.oldNodeLocations.get(node);
@@ -137,15 +152,13 @@ public class HyperassociativeMapVisualization extends BranchGroup
 
         this.nodeGraphics = newGraphicalNodes;
 
-//        this.removeAllChildren();
-
         if (childrenRemoved)
             this.addChild(this.nestedRoot);
     }
 
 
 
-    public TransformGroup createNeuronSphere(String textLine1, String textLine2, Color myColor, float posX, float posY, float posZ, float radius)
+    private TransformGroup createNeuronSphere(String textLine1, String textLine2, Color myColor, float posX, float posY, float posZ, float radius)
     {
         // Create the transform group node holding the sphere
         TransformGroup neuronTransformGroup = new TransformGroup();
@@ -182,7 +195,7 @@ public class HyperassociativeMapVisualization extends BranchGroup
 
 
 
-    public BufferedImage createNeuronTextureImage(String textLine1, String textLine2, Color myColor)
+    private BufferedImage createNeuronTextureImage(String textLine1, String textLine2, Color myColor)
     {
 
         int imSizeX = 256; // high quality for now - we will optimize later
@@ -203,7 +216,6 @@ public class HyperassociativeMapVisualization extends BranchGroup
 
         int tempStringWidth1 = fm.stringWidth(textLine1);
         int tempTextPosX1 = imSizeX / 2 - tempStringWidth1 / 2;
-//		  int tempTextPosX = 100;
         g2d.drawString(textLine1, tempTextPosX1, 60);
 
         int tempStringWidth2 = fm.stringWidth(textLine1);
@@ -217,7 +229,7 @@ public class HyperassociativeMapVisualization extends BranchGroup
 
 
 
-    public Appearance makeMappingFromImage(BufferedImage myImage)
+    private Appearance makeMappingFromImage(BufferedImage myImage)
     {
         Appearance mapping = new Appearance();
 
@@ -245,7 +257,6 @@ public class HyperassociativeMapVisualization extends BranchGroup
                 imageHeight /= 2;
             image = loader.getScaledImage(imageWidth, imageHeight);
             texture.setImage(imageLevel, image);
-//            System.out.println("From mipmapping in Brain3dView: image: Auto-generated image - width:" + imageWidth);
         }
 
         // Texture quality
@@ -260,6 +271,13 @@ public class HyperassociativeMapVisualization extends BranchGroup
 
 
 
+	/**
+	 * Gets the map this class is representing
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @return The map this class is representing.
+	 * @since 0.1
+	 */
     HyperassociativeMap getMap()
     {
         return map;

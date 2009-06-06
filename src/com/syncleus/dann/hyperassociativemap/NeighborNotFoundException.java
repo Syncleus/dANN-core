@@ -20,22 +20,60 @@ package com.syncleus.dann.hyperassociativemap;
 
 import com.syncleus.dann.*;
 
+/**
+ * An exception thrown to indicate that no neighbor nodes currently exist.
+ *
+ * <!-- Author: Jeffrey Phillips Freeman -->
+ * @author Jeffrey Phillips Freeman
+ * @since 0.1
+ * @version 0.1
+ */
 public class NeighborNotFoundException extends DannException
 {
+	/**
+	 * Creates a blank default exception.
+	 *
+	 *  <!-- Author: Jeffrey Phillips Freeman -->
+	 * @since 0.1
+	 */
     public NeighborNotFoundException()
     {
     }
 
+	/**
+	 * Creates an exception with a message describing the cause.
+	 *
+	 *  <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param msg A string describing the cause of the exception
+	 * @since 0.1
+	 */
     public NeighborNotFoundException(String msg)
     {
         super(msg);
     }
 
+	/**
+	 * Creates an exception with a message describing the cause as well as the
+	 * throwable which caused this exception to be thrown.
+	 *
+	 *  <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param msg A string describing the cause of the exception
+	 * @param cause The throwable which caused this exception
+	 * @since 0.1
+	 */
 	public NeighborNotFoundException(String msg, Throwable cause)
 	{
 		super(msg, cause);
 	}
 
+	/**
+	 * Creates an exception containing the throwable which caused this exception
+	 * to be thrown.
+	 *
+	 *  <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param cause The throwable which caused this exception
+	 * @since 0.1
+	 */
 	public NeighborNotFoundException(Throwable cause)
 	{
 		super(cause);

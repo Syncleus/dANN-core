@@ -27,27 +27,74 @@ import javax.media.j3d.*;
 import javax.vecmath.*;
 
 
+/**
+ * A Canvas3D specifically for displaying a HyperassociativeMap.
+ *
+ * <!-- Author: Jeffrey Phillips Freeman -->
+ * @author Jeffrey Phillips Freeman
+ * @since 0.1
+ * @version 0.1
+ */
 public class HyperassociativeMapCanvas extends Canvas3D
 {
     private static final long serialVersionUID = 1L;
-
     private HyperassociativeMapVisualization mapVisual;
-    
+
+	/**
+	 * Initializes a new HyperassociativeMapCanvas to represent the specified
+	 * HyperassociativeMap.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param map The HyperassociativeMap to display.
+	 * @since 0.1
+	 */
     public HyperassociativeMapCanvas(HyperassociativeMap map)
     {
         this(map, SimpleUniverse.getPreferredConfiguration());
     }
 
+	/**
+	 * Initializes a new HyperassociativeMapCanvas to represent the specified
+	 * HyperassociativeMap and with nodes represented graphically as spheres
+	 * with the specified radius.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param map The HyperassociativeMap to display.
+	 * @param nodeRadius The radius of the spheres representing each node.
+	 * @since 0.1
+	 */
     public HyperassociativeMapCanvas(HyperassociativeMap map, float nodeRadius)
     {
         this(map, SimpleUniverse.getPreferredConfiguration(), nodeRadius);
     }
 
+	/**
+	 * Initializes a new HyperassociativeMapCanvas to represent the specified
+	 * HyperassociativeMap using the specified GraphicsConfiguration.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param map The HyperassociativeMap to display.
+	 * @param configuration The GraphicsConfiguration to use for configuring the
+	 * canvas.
+	 * @since 0.1
+	 */
     public HyperassociativeMapCanvas(HyperassociativeMap map, GraphicsConfiguration configuration)
     {
         this(map, configuration, 0.07F);
     }
-    
+
+	/**
+	 * Initializes a new HyperassociativeMapCanvas to represent the specified
+	 * HyperassociativeMap using the specified GraphicsConfiguration and with
+	 * nodes represented graphically as spheres with the specified radius.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param map The HyperassociativeMap to display.
+	 * @param configuration The GraphicsConfiguration to use for configuring the
+	 * canvas.
+	 * @param nodeRadius The radius of the spheres representing each node.
+	 * @since 0.1
+	 */
     public HyperassociativeMapCanvas(HyperassociativeMap map, GraphicsConfiguration configuration, float nodeRadius)
     {
         super(configuration);
@@ -77,12 +124,26 @@ public class HyperassociativeMapCanvas extends Canvas3D
         universe.getViewingPlatform().setViewPlatformBehavior(mouseOrbital);
     }
 
+	/**
+	 * Gets the HyperassocitiaveMap this class is displaying.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @return The HyperassociativeMap this class is displaying.
+	 * @since 0.1
+	 */
     public HyperassociativeMap getHyperassociativeMap()
     {
         return this.mapVisual.getMap();
     }
     
-    
+
+	/**
+	 * Gets all the latest locations from the map and refreshes the graphical
+	 * representation accordingly.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @since 0.1
+	 */
     public void refresh()
     {
         this.mapVisual.refresh();

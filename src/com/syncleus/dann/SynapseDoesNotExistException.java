@@ -20,27 +20,59 @@ package com.syncleus.dann;
 
 
 /**
- * This indicates that a required synapse does not exist.<BR>
+ * This indicates that a required synapse does not exist.
+ *
  * <!-- Author: Jeffrey Phillips Freeman -->
  * @author Jeffrey Phillips Freeman
  * @since 0.1
+ * @version 0.1
  */
 public class SynapseDoesNotExistException extends DannException
 {
+	/**
+	 * Creates a blank default exception.
+	 *
+	 *  <!-- Author: Jeffrey Phillips Freeman -->
+	 * @since 0.1
+	 */
 	public SynapseDoesNotExistException()
 	{
 	}
-	
+
+	/**
+	 * Creates an exception with a message describing the cause.
+	 *
+	 *  <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param msg A string describing the cause of the exception
+	 * @since 0.1
+	 */
 	public SynapseDoesNotExistException(String msg)
 	{
 		super(msg);
 	}
 
+	/**
+	 * Creates an exception with a message describing the cause as well as the
+	 * throwable which caused this exception to be thrown.
+	 *
+	 *  <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param msg A string describing the cause of the exception
+	 * @param cause The throwable which caused this exception
+	 * @since 0.1
+	 */
 	public SynapseDoesNotExistException(String msg, Throwable cause)
 	{
 		super(msg, cause);
 	}
 
+	/**
+	 * Creates an exception containing the throwable which caused this exception
+	 * to be thrown.
+	 *
+	 *  <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param cause The throwable which caused this exception
+	 * @since 0.1
+	 */
 	public SynapseDoesNotExistException(Throwable cause)
 	{
 		super(cause);

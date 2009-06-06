@@ -19,12 +19,19 @@
 package com.syncleus.dann;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
-
+/**
+ * Represents a single artificial brain typically belonging to a single
+ * artificial organism. It will contain a set of input and output neurons which
+ * corelates to a specific dataset pattern.<br/>
+ * <br/>
+ * This class is abstract and must be extended in order to be used.
+ *
+ * @author Jeffrey Phillips Freeman
+ * @since 0.1
+ * @version 0.1
+ */
 public abstract class Brain implements Serializable
 {
     private HashSet<Neuron> neurons = new HashSet<Neuron>();
@@ -33,6 +40,14 @@ public abstract class Brain implements Serializable
 
 
 
+	/**
+	 * Adds a new neuron to the brain. The construction of the brain is done
+	 * by the child class so this method is protected.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param newNeuron The neuron to add to the brain.
+	 * @since 0.1
+	 */
     protected void addNeuron(Neuron newNeuron)
     {
         if (this.neurons.contains(newNeuron))
@@ -47,6 +62,14 @@ public abstract class Brain implements Serializable
 			this.inputNeurons.add((InputNeuron) newNeuron);
     }
 
+	/**
+	 * Adds a new collection of neurons to the brain. The construction of the
+	 * brain is done by the child class so this method is protected.
+	 *
+	 *  <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param newNeurons The collection of neurons to add.
+	 * @since 0.1
+	 */
 	protected void addNeurons(Collection<? extends Neuron> newNeurons)
 	{
 		this.neurons.addAll(newNeurons);
@@ -63,6 +86,14 @@ public abstract class Brain implements Serializable
 
 
 
+	/**
+	 * Removes the specified neuron from the brain. This only removes it from
+	 * the collection of neurons it does not disconnect it from other neurons.
+	 *
+	 *  <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param removeNeuron The neuron to remove.
+	 * @since 0.1
+	 */
     protected void removeNeuron(Neuron removeNeuron)
     {
         if (this.neurons.contains(removeNeuron) == false)
@@ -79,6 +110,13 @@ public abstract class Brain implements Serializable
 
 
 
+	/**
+	 * Obtains all InputNeurons contained within the brain.
+	 *
+	 *  <!-- Author: Jeffrey Phillips Freeman -->
+	 * @return An unmodifiable Set of InputNeurons.
+	 * @since 0.1
+	 */
     public Set<InputNeuron> getInputNeurons()
     {
         return Collections.unmodifiableSet(this.inputNeurons);
@@ -86,6 +124,13 @@ public abstract class Brain implements Serializable
 
 
 
+	/**
+	 * Obtains all OutputNeurons contained within the brain.
+	 *
+	 *  <!-- Author: Jeffrey Phillips Freeman -->
+	 * @return An unmodifiable Set of OutputNeurons
+	 * @since 0.1
+	 */
     public Set<OutputNeuron> getOutputNeurons()
     {
         return Collections.unmodifiableSet(this.outputNeurons);
@@ -93,6 +138,14 @@ public abstract class Brain implements Serializable
 
 
 
+	/**
+	 * Obtains all Neurons, including InputNeurons and OutputNeurons contained
+	 * within the brain.
+	 *
+	 *  <!-- Author: Jeffrey Phillips Freeman -->
+	 * @return An unmodifiable Set of all Neurons.
+	 * @since 0.1
+	 */
     public Set<Neuron> getNeurons()
     {
         return Collections.unmodifiableSet(this.neurons);

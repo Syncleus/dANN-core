@@ -25,56 +25,90 @@ import java.util.*;
 public class HyperassociativeNode implements Serializable
 {
 	// <editor-fold defaultstate="collapsed" desc="Attributes">
+
     private HyperassociativeMap network;
     private Hashtable<HyperassociativeNode, Double> weightedNeighbors = new Hashtable<HyperassociativeNode, Double>();
     private Hyperpoint location;
     private double equilibriumDistance = 1.0;
     private double learningRate = 0.004;
-    private double maximumDistance = 50.0;
     private static Random random = new Random();
+
 	// </editor-fold>
 
-
 	// <editor-fold defaultstate="collapsed" desc="Constructors">
-	public HyperassociativeNode(HyperassociativeMap network, int dimensions, double learningRate, double maximumDistance, double equilibriumDistance)
+
+	/**
+	 * Initializes an Hyperassociative node with the specified properties.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param network The network this node will belong to.
+	 * @param learningRate The learning rate for this node.
+	 * @param equilibriumDistance The equilibrium distance between this node
+	 * and any nodes it associates with.
+	 * @since 0.1
+	 */
+	public HyperassociativeNode(HyperassociativeMap network, double learningRate, double equilibriumDistance)
 	{
-        this(network, dimensions, learningRate, maximumDistance);
+        this(network, learningRate);
 		this.equilibriumDistance = equilibriumDistance;
 	}
 
-	public HyperassociativeNode(HyperassociativeMap network, int dimensions, double learningRate, double maximumDistance)
+	/**
+	 * Initializes an Hyperassociative node with the specified properties.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param network The network this node will belong to.
+	 * @param learningRate The learning rate for this node.
+	 * @since 0.1
+	 */
+	public HyperassociativeNode(HyperassociativeMap network, double learningRate)
 	{
-		this(network, dimensions, learningRate);
-		this.maximumDistance = maximumDistance;
-	}
-
-	public HyperassociativeNode(HyperassociativeMap network, int dimensions, double learningRate)
-	{
-		this(network, dimensions);
+		this(network);
 		this.learningRate = learningRate;
 	}
 
-    public HyperassociativeNode(HyperassociativeMap network, int dimensions)
+	/**
+	 * Initializes an Hyperassociative node with the specified properties.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param network The network this node will belong to.
+	 * @since 0.1
+	 */
+    public HyperassociativeNode(HyperassociativeMap network)
     {
         if (network == null)
             throw new NullPointerException("network can not be null!");
 
-        this.location = new Hyperpoint(dimensions);
+        this.location = new Hyperpoint(network.getDimensions());
         this.network = network;
     }
 
-	public HyperassociativeNode(HyperassociativeMap network, Hyperpoint location, double learningRate, double maximumDistance, double equilibriumDistance)
+	/**
+	 * Initializes an Hyperassociative node with the specified properties.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param network The network this node will belong to.
+	 * @param location The initial location of this node.
+	 * @param learningRate The learning rate for this node.
+	 * @param equilibriumDistance The equilibrium distance between this node
+	 * and any nodes it associates with.
+	 * @since 0.1
+	 */
+	public HyperassociativeNode(HyperassociativeMap network, Hyperpoint location, double learningRate, double equilibriumDistance)
 	{
-		this(network, location, learningRate, maximumDistance);
+		this(network, location, learningRate);
 		this.equilibriumDistance = equilibriumDistance;
 	}
 
-	public HyperassociativeNode(HyperassociativeMap network, Hyperpoint location, double learningRate, double maximumDistance)
-	{
-		this(network, location, learningRate);
-		this.maximumDistance = maximumDistance;
-	}
-
+	/**
+	 * Initializes an Hyperassociative node with the specified properties.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param network The network this node will belong to.
+	 * @param location The initial location of this node.
+	 * @param learningRate The learning rate for this node.
+	 * @since 0.1
+	 */
 	public HyperassociativeNode(HyperassociativeMap network, Hyperpoint location, double learningRate)
 	{
 		this(network, location);
@@ -82,7 +116,14 @@ public class HyperassociativeNode implements Serializable
 	}
 
 
-
+	/**
+	 * Initializes an Hyperassociative node with the specified properties.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param network The network this node will belong to.
+	 * @param location The initial location of this node.
+	 * @since 0.1
+	 */
     public HyperassociativeNode(HyperassociativeMap network, Hyperpoint location)
     {
         if (location == null)
@@ -95,8 +136,32 @@ public class HyperassociativeNode implements Serializable
     }
 	// </editor-fold>
 
+	// <editor-fold defaultstate="collapsed" desc="Accessors">
 
+	/**
+	 * Gets the Map this node belongs to.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @return The map this node belongs to.
+	 * @since 0.1
+	 */
+    protected HyperassociativeMap getNetwork()
+    {
+        return network;
+    }
 
+	// </editor-fold>
+
+	// <editor-fold defaultstate="collapsed" desc="Association">
+
+	/**
+	 * Associates this node with the specified node at the specified weight.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param newNeighbor Node to associate to.
+	 * @param newWeight Weight of association.
+	 * @since 0.1
+	 */
     public void associate(HyperassociativeNode newNeighbor, double newWeight)
     {
         if (newNeighbor == null)
@@ -109,6 +174,13 @@ public class HyperassociativeNode implements Serializable
 
 
 
+	/**
+	 * Dissociates from the specified node.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param neighbor Node to dissociate from.
+	 * @since 0.1
+	 */
     public void dissociate(HyperassociativeNode neighbor)
     {
         this.weightedNeighbors.remove(neighbor);
@@ -116,6 +188,12 @@ public class HyperassociativeNode implements Serializable
 
 
 
+	/**
+	 * Dissociates from all nodes.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @since 0.1
+	 */
     public void dissociateAll()
     {
         this.weightedNeighbors.clear();
@@ -123,6 +201,13 @@ public class HyperassociativeNode implements Serializable
 
 
 
+	/**
+	 * Gets all nodes currently associated to.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @return An unmodifiable set of associated nodes.
+	 * @since 0.1
+	 */
     public Set<HyperassociativeNode> getNeighbors()
     {
         return Collections.unmodifiableSet(this.weightedNeighbors.keySet());
@@ -130,6 +215,16 @@ public class HyperassociativeNode implements Serializable
 
 
 
+	/**
+	 * Gets the weight of the specified associated node.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param neighbor Node to get the weight for.
+	 * @return The weight of the specified node.
+	 * @throws com.syncleus.dann.hyperassociativemap.NeighborNotFoundException
+	 * thrown if neighbor is null.
+	 * @since 0.1
+	 */
     public double getNeighborsWeight(HyperassociativeNode neighbor) throws NeighborNotFoundException
     {
         if (neighbor == null)
@@ -145,6 +240,15 @@ public class HyperassociativeNode implements Serializable
 
 
 
+	/**
+	 * Obtains a Hyperpoint with random coordinates for the specified number of
+	 * dimensions.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param dimensions Number of dimensions for the random Hyperpoint
+	 * @return New random Hyperpoint
+	 * @since 0.1
+	 */
     public static Hyperpoint randomCoordinates(int dimensions)
     {
         double[] randomCoords = new double[dimensions];
@@ -154,8 +258,16 @@ public class HyperassociativeNode implements Serializable
         return new Hyperpoint(randomCoords);
     }
 
+	// </editor-fold>
 
+	// <editor-fold defaultstate="collapsed" desc="Alignment">
 
+	/**
+	 * Aligns this node by one step against all nodes associated or not.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @since 0.1
+	 */
     public void align()
     {
         //calculate equilibrium with neighbors
@@ -202,11 +314,17 @@ public class HyperassociativeNode implements Serializable
         this.location = this.location.add(compositeVector);
     }
 
+	/**
+	 * Centers this node to a new center point (origin).
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param center The new origin for this node.
+	 * @since 0.1
+	 */
 	void recenter(Hyperpoint center)
 	{
 		this.location = this.location.calculateRelativeTo(center);
 	}
-
 
 
     private static double atanh(double value)
@@ -216,15 +334,17 @@ public class HyperassociativeNode implements Serializable
 
 
 
-    protected HyperassociativeMap getNetwork()
-    {
-        return network;
-    }
-
-
-
+	/**
+	 * Gets the current Hyperpoint location for this node.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @return The current Hyperpoint location for this node.
+	 * @since 0.1
+	 */
     public Hyperpoint getLocation()
     {
         return new Hyperpoint(this.location);
     }
+
+	// </editor-fold>
 }

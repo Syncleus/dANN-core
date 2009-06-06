@@ -18,8 +18,35 @@
  ******************************************************************************/
 package com.syncleus.dann.activation;
 
+/**
+ * An interface containing methods for an activation function as well as its
+ * derivative. This is used in propogating as well as backpropogating activity.
+ *
+ * <!-- Author: Jeffrey Phillips Freeman -->
+ * @author Jeffrey Phillips Freeman
+ * @since 0.1
+ * @version 0.1
+ */
 public interface ActivationFunction extends java.io.Serializable
 {
+	/**
+	 * The activation function.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param activity the neuron's current activity.
+	 * @return The result of the activation function. Usually a bound value
+	 * between 1 and -1 or 1 and 0. However this bound range is not required.
+	 * @since 0.1
+	 */
     public double activate(double activity);
+
+	/**
+	 * The derivative of the activation function.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param activity The neuron's current activity.
+	 * @return The result of the derivative of the activation function.
+	 * @since 0.1
+	 */
     public double activateDerivative(double activity);
 }

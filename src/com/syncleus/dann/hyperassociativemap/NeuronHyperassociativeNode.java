@@ -22,29 +22,64 @@ import com.syncleus.dann.Neuron;
 import java.util.HashSet;
 
 
+/**
+ * A HyperassociativeNode that is representing a Neuron.
+ *
+ * <!-- Author: Jeffrey Phillips Freeman -->
+ * @author Jeffrey Phillips Freeman
+ * @version 0.1
+ * @since 0.1
+ */
 public class NeuronHyperassociativeNode extends HyperassociativeNode
 {
     private Neuron neuron;
     
-    
-    public NeuronHyperassociativeNode(BrainHyperassociativeMap network, int dimensions, Neuron networkNode)
+
+	/**
+	 * Initializes a new NeuronHyperassociativeNode that is a part of the
+	 * specified Map, and backs the specified neuron.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param network the map this node will belong to.
+	 * @param backingNeuron the neuron backing this node.
+	 * @since 0.1
+	 */
+    public NeuronHyperassociativeNode(BrainHyperassociativeMap network, Neuron backingNeuron)
     {
-        super(network, randomCoordinates(dimensions));
+        super(network, randomCoordinates(network.getDimensions()));
         
-        this.neuron = networkNode;
+        this.neuron = backingNeuron;
     }
 
 
 
-    public NeuronHyperassociativeNode(BrainHyperassociativeMap network, Hyperpoint location, Neuron networkNode)
+	/**
+	 * Initializes a new NeuronHyperassociativeNode that is a part of the
+	 * specified Map, and backs the specified neuron, as well as using the
+	 * specified initial point.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param network the map this node will belong to.
+	 * @param location the initial Hyperpoint location of this node.
+	 * @param backingNeuron the neuron backing this node.
+	 * @since 0.1
+	 */
+    public NeuronHyperassociativeNode(BrainHyperassociativeMap network, Hyperpoint location, Neuron backingNeuron)
     {
         super(network, location);
 
-        this.neuron = networkNode;
+        this.neuron = backingNeuron;
     }
 
 
 
+	/**
+	 * Gets the map this node belongs to.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @return the map this node belongs to.
+	 * @since 0.1
+	 */
     @Override
     protected BrainHyperassociativeMap getNetwork()
     {
@@ -53,6 +88,13 @@ public class NeuronHyperassociativeNode extends HyperassociativeNode
 
 
 
+	/**
+	 * Refreshes the associations of this node based off the current connections
+	 * of the backing neuron.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @since 0.1
+	 */
 	@SuppressWarnings("unchecked")
     void refresh()
     {
@@ -73,6 +115,13 @@ public class NeuronHyperassociativeNode extends HyperassociativeNode
 
 
 
+	/**
+	 * Gets the backing neuron.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @return the backing neuron.
+	 * @since 0.1
+	 */
     public Neuron getNeuron()
     {
         return neuron;

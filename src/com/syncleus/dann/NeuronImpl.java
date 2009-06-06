@@ -21,71 +21,106 @@ package com.syncleus.dann;
 import com.syncleus.dann.activation.ActivationFunction;
 import com.syncleus.dann.activation.HyperbolicTangentActivationFunction;
 import java.security.InvalidParameterException;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 
+/**
+ * An abstract implementation of the Neuron interface. Included activation
+ * function handling.
+ *
+ * <!-- Author: Jeffrey Phillips Freeman -->
+ * @author Jeffrey Phillips Freeman
+ * @param <SN> Source Neurons allowed to connect to this Neuron.
+ * @param <DN> Destination Neurons this Neuron is allowed to connect to.
+ * @since 0.1
+ * @version 0.1
+ */
 public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> implements Neuron<SN, DN>
 {
     // <editor-fold defaultstate="collapsed" desc="Attributes">
+
     /**
      * Represents the current excitation of the neuron from input
-     * signals<BR>
+     * signals
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
     protected double activity;
+
     /**
-     * Represents the current output of the neuron<BR>
+     * Represents the current output of the neuron
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
     protected double output;
+
     /**
      * The current weight of the bias input. The bias is an input that is always
      * set to an on position. The bias weight usually adapts in the same manner
-     * as the rest of the synapse's weights.<BR>
+     * as the rest of the synapse's weights.
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
     protected double biasWeight;
+
     /**
      * An array list of all the synapses that this neuron is currently
-     * connection out to.<BR>
+     * connection out to.
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
     protected HashSet<Synapse> destinations = new HashSet<Synapse>();
-    /**
-     * All the synapses currently connecting into this neuron<BR>
+
+	/**
+     * All the synapses currently connecting into this neuron
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
     private HashSet<Synapse> sources = new HashSet<Synapse>();
 
+	/**
+	 * The current activation function used by this neuron. This is used to
+	 * calculate the output from the activity.
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @since 0.1
+	 */
     protected ActivationFunction activationFunction;
-	protected Random random = new Random();
+
+	/**
+	 * Random number generator used toproduce any needed random values
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @since 0.1
+	 */
+	protected static Random random = new Random();
 
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Constructors">
+
     /**
-     * Creates a new instance of Neuron<BR>
+     * Creates a new instance of NeuronImpl with a random bias weight and
+	 * HyperbolicTangentActivationFunction as the activation function.
+	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @param ownedDNAToSet This dna class will determine the various properties
-     * 	of the layer.
      */
     public NeuronImpl()
     {
-        this.biasWeight = ((this.random.nextDouble() * 2.0) - 1.0) / 1000.0;
+        this.biasWeight = ((random.nextDouble() * 2.0) - 1.0) / 1000.0;
         this.activationFunction = new HyperbolicTangentActivationFunction();
     }
 
 
 
+	/**
+	 * Creates a new instance of NEuronImpl with a random bias weight and the
+	 * specified activation function.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param activationFunction The activation function used to calculate the
+	 * output fromt he neuron's activity.
+	 * @since 0.1
+	 */
     public NeuronImpl(ActivationFunction activationFunction)
     {
         if (activationFunction == null)
@@ -99,8 +134,9 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Topology Manipulation">
+
     /**
-     * This method is called internally, between NetworkNodes, to
+     * This method is called internally, between Neurons, to
      * facilitate the connection process.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
@@ -116,11 +152,12 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
     }
 
     /**
-     * Causes the NetworkNode to disconnect all connections.<BR>
+     * Causes the Neuron to disconnect all connections.
+	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @see com.syncleus.dann.NetworkNode#disconnectAllSources
-     * @see com.syncleus.dann.NetworkNode#disconnectAllDestinations
+     * @see com.syncleus.dann.Neuron#disconnectAllSources
+     * @see com.syncleus.dann.Neuron#disconnectAllDestinations
      */
     public void disconnectAll()
     {
@@ -131,7 +168,8 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
 
 
     /**
-     * Causes the NetworkNode to disconnect all outgoing connections.<BR>
+     * Causes the Neuron to disconnect all outgoing connections.
+	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      * @see com.syncleus.dann.Neuron#disconnectAllSources
@@ -159,7 +197,8 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
 
 
     /**
-     * Causes the NetworkNode to disconnect all incomming connections.<BR>
+     * Causes the Neuron to disconnect all incomming connections.
+	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      * @see com.syncleus.dann.Neuron#disconnectAllDestinations
@@ -187,11 +226,14 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
 
 
     /**
-     * Disconnects from a perticular outgoing connection.<BR>
+     * Disconnects from a perticular outgoing connection.
+	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @param outSynapse The outgoing synapse to disconnect from.<BR>
-     * @see com.syncleus.dann.Neuron#removeSource
+     * @param outSynapse The outgoing synapse to disconnect from.
+     * @see com.syncleus.dann.NeuronImpl#removeSource
+	 * @throws SynapseNotConnectedException Thrown if the specified synapse isnt
+	 * currently connected.
      */
     public void disconnectDestination(Synapse outSynapse) throws SynapseNotConnectedException
     {
@@ -215,11 +257,14 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
 
 
     /**
-     * Disconnects from a perticular incomming connection.<BR>
+     * Disconnects from a perticular incomming connection.
+	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @param inSynapse The incomming synapse to disconnect from.<BR>
-     * @see com.syncleus.dann.Neuron#removeDestination
+     * @param inSynapse The incomming synapse to disconnect from.
+     * @see com.syncleus.dann.NeuronImpl#removeDestination
+	 * @throws SynapseNotConnectedException Thrown if the specified synapse isnt
+	 * currently connected.
      */
     public void disconnectSource(Synapse inSynapse) throws SynapseNotConnectedException
     {
@@ -243,10 +288,11 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
 
 
     /**
-     * Called internally to facilitate the removal of a connection.<BR>
+     * Called internally to facilitate the removal of a connection.
+	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @param outSynapse The incomming synapse to remove from memory.<BR>
+     * @param outSynapse The incomming synapse to remove from memory.
      * @see com.syncleus.dann.Neuron#disconnectSource
      */
     protected void removeDestination(Synapse outSynapse) throws SynapseDoesNotExistException
@@ -278,6 +324,13 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
 
 
 
+	/**
+	 * Gets all the destination Synapses this neuron's output is connected to.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @return An unmodifiable Set of destination Synapses
+	 * @since 0.1
+	 */
     public Set<Synapse> getDestinations()
     {
         return Collections.unmodifiableSet(this.destinations);
@@ -285,6 +338,14 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
 
 
 
+	/**
+	 * Gets all the Neurons that either connect to, or are connected from, this
+	 * Neuron.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @return An unmodifiable Set of source and destination Neurons.
+	 * @since 0.1
+	 */
     public Set<Neuron> getNeighbors()
     {
         HashSet<Neuron> neighbors = new HashSet<Neuron>();
@@ -298,6 +359,13 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
 
 
 
+	/**
+	 * Get all the source Neuron's connecting to this Neuron.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @return An unmodifiable Set of source Neurons.
+	 * @since 0.1
+	 */
 	@SuppressWarnings("unchecked")
     public Set<SN> getSourceNeighbors()
     {
@@ -317,6 +385,13 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
 
 
 
+	/**
+	 * Get all the destination Neuron's this Neuron connects to.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @return An unmodifiable Set of destination Neurons.
+	 * @since 0.1
+	 */
 	@SuppressWarnings("unchecked")
     public Set<DN> getDestinationNeighbors()
     {
@@ -327,6 +402,13 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
         return Collections.unmodifiableSet(neighbors);
     }
 
+	/**
+	 * Gets all the source Synapses connected to this neuron.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @return An unmodifiable Set of source Synapses
+	 * @since 0.1
+	 */
     public Set<Synapse> getSources()
     {
         return Collections.unmodifiableSet(sources);
@@ -335,11 +417,13 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Propogation">
+
     /**
-     * sets the current output on all outgoing synapses.<BR>
+     * sets the current output on all outgoing synapses.
+	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @see com.syncleus.dann.Neuron#propagate
+     * @see com.syncleus.dann.backprop.BackpropNeuron#propagate
      * @param newOutput The output value.
      */
     protected void setOutput(double newOutput)
@@ -353,7 +437,8 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
 
 
     /**
-     * Gets the current output.<BR>
+     * Gets the current output.
+	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      * @return The current output.
@@ -368,12 +453,13 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
     /**
      * obtains the output as a function of the current activity. This is a bound
      * function (usually between -1 and 1) based on the current activity of the
-     * neuron.<BR>
+     * neuron.
+	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      * @return a bound value (between -1 and 1 if this function is not
      * 	overwritten). It is a function of the neuron's current activity.
-     * @see com.syncleus.dann.Neuron#propagate
+     * @see com.syncleus.dann.backprop.BackpropNeuron#propagate
      */
     protected double activate()
     {
@@ -386,15 +472,17 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
      * This must be the derivity of the ActivityFunction. As such it's output is
      * also based on the current activity of the neuron. If the
      * activationFunction is overwritten then this method must also be
-     * overwritten with the proper derivative.<BR>
+     * overwritten with the proper derivative.
+	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      * @return the derivative output of the activationFunction
-     * @see com.syncleus.dann.Neuron#activationFunction
+     * @see com.syncleus.dann.NeuronImpl#activationFunction
      */
     protected double activateDerivitive()
     {
         return this.activationFunction.activateDerivative(this.activity);
     }
+
     // </editor-fold>
 }

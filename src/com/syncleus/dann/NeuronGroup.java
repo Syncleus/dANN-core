@@ -26,7 +26,7 @@ import java.util.Set;
 
 /**
  * A special NetworkNode which can contain other NetworkNodes as children.
- * <BR>
+ * 
  * <!-- Author: Jeffrey Phillips Freeman -->
  * @author Jeffrey Phillips Freeman
  * @since 0.1
@@ -52,13 +52,21 @@ public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
      */
 	protected HashSet<NeuronGroup<? extends N>> childrenNeuronGroups = new HashSet<NeuronGroup<? extends N>>();
 
-	protected Random random = new Random();
+	/**
+	 * The random number generator used for this class
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @since 0.1
+	 */
+	protected static Random random = new Random();
 
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Constructors">
+
     /**
-     * Creates a new instance of NeuronGroup<BR>
+     * Creates a new empty instance of NeuronGroup
+	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
@@ -66,6 +74,13 @@ public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
     {
     }
 
+	/**
+	 * Creates a new NeuronGroup that is a copy of the specified group.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param copyGroup NeuronGroup to copy.
+	 * @since 0.1
+	 */
 	public NeuronGroup(NeuronGroup<? extends N> copyGroup)
 	{
 		this.childrenNeurons.addAll(copyGroup.childrenNeurons);
@@ -78,8 +93,10 @@ public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Topology Manipulation">
+
     /**
-     * Adds another Neuron to this layer.<BR>
+     * Adds another Neuron to this layer.
+	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      * @param toAdd the Neuron to add.
@@ -90,7 +107,8 @@ public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
     }
 
     /**
-     * Adds another NeuronGroup to this layer.<BR>
+     * Adds another NeuronGroup to this layer.
+	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      * @param toAdd the NeuronGroup to add.
@@ -105,11 +123,11 @@ public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
     /**
      * Connects all the NetworkNodes in this layer recursivly to all the
      * NetworkNodes in another layer.
+	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      * @param toConnectTo This is the layer the neurons will be connecting
      * 	to.
-     * @see com.syncleus.dann.NeuronGroup#connectTo
      */
 	@SuppressWarnings("unchecked")
     public void connectAllTo(N toConnectTo) throws InvalidConnectionTypeDannException
@@ -127,6 +145,17 @@ public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
 		}
     }
 
+	/**
+	 * Connects all the Neurons in this group, as well as children groups
+	 * recursivly to all the neurons in the specified NeuronGroup, also
+	 * recurisvly.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param toConnectTo The NeuronGroup to connect to.
+	 * @throws com.syncleus.dann.InvalidConnectionTypeDannException Thrown if
+	 * any of the neurons can not connect due to invalid types.
+	 * @since 0.1
+	 */
 	@SuppressWarnings("unchecked")
 	public void connectAllTo(NeuronGroup<? extends N> toConnectTo) throws InvalidConnectionTypeDannException
 	{
@@ -195,8 +224,8 @@ public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
      * Causes the NetworkNode to disconnect all outgoing connections.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @see com.syncleus.dann.NetworkNode#disconnectAllSources
-     * @see com.syncleus.dann.NetworkNode#disconnectAll
+     * @see com.syncleus.dann.NeuronGroup#disconnectAllSources
+     * @see com.syncleus.dann.NeuronGroup#disconnectAll
      */
     public void disconnectAllDestinations()
     {
@@ -210,8 +239,8 @@ public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
      * Causes the NetworkNode to disconnect all incomming connections.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @see com.syncleus.dann.NetworkNode#disconnectAllDestinations
-     * @see com.syncleus.dann.NetworkNode#disconnectAll
+     * @see com.syncleus.dann.NeuronGroup#disconnectAllDestinations
+     * @see com.syncleus.dann.NeuronGroup#disconnectAll
      */
     public void disconnectAllSources()
     {
@@ -223,8 +252,8 @@ public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
      * Causes the NetworkNode to disconnect all connections.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @see com.syncleus.dann.NetworkNode#disconnectAllSources
-     * @see com.syncleus.dann.NetworkNode#disconnectAllDestinations
+     * @see com.syncleus.dann.NeuronGroup#disconnectAllSources
+     * @see com.syncleus.dann.NeuronGroup#disconnectAllDestinations
      */
     public void disconnectAll()
     {

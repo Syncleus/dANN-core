@@ -18,20 +18,40 @@
  ******************************************************************************/
 package com.syncleus.dann.hyperassociativemap;
 
-import com.syncleus.dann.backprop.InputBackpropNeuron;
-import com.syncleus.dann.backprop.BackpropNeuron;
-import com.syncleus.dann.backprop.OutputBackpropNeuron;
 import com.syncleus.dann.*;
-import java.util.Hashtable;
-import java.util.Set;
+import java.util.*;
 
 
+/**
+ * An hyperassociative map used to represent a Brain.
+ *
+ * <!-- Author: Jeffrey Phillips Freeman -->
+ * @author Jeffrey Phillips Freeman
+ * @version 0.1
+ * @since 0.1
+ */
 public class BrainHyperassociativeMap extends HyperassociativeMap
 {
     private Brain brain;
     private int dimensions;
+
+	/**
+	 * A Hashtable containing all the neurons in the brain and their counterpart
+	 * NeuronHyperassociativeNode.
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @since 0.1
+	 */
     protected Hashtable<Neuron, NeuronHyperassociativeNode> neurons = new Hashtable<Neuron, NeuronHyperassociativeNode>();
 
+	/**
+	 * Initializes a new BrainHyperassociativeMap using the specified brain and
+	 * dimensions
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param brain Brain to represent by this map
+	 * @param dimensions Number of dimensions to represent this brain in
+	 * @since 0.1
+	 */
     public BrainHyperassociativeMap(Brain brain, int dimensions)
     {
 		super(dimensions);
@@ -44,6 +64,13 @@ public class BrainHyperassociativeMap extends HyperassociativeMap
 
 
 
+	/**
+	 * Refresh this Map by pulling any new neurons from the brain as well as any
+	 * new associations between nodes.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @since 0.1
+	 */
     public void refresh()
     {
         this.nodes.clear();
@@ -52,7 +79,7 @@ public class BrainHyperassociativeMap extends HyperassociativeMap
         Set<Neuron> brainNeurons = this.brain.getNeurons();
         for (Neuron neuron : brainNeurons)
         {
-            NeuronHyperassociativeNode node = new NeuronHyperassociativeNode(this, this.dimensions, neuron);
+            NeuronHyperassociativeNode node = new NeuronHyperassociativeNode(this, neuron);
             this.nodes.add(node);
             this.neurons.put(neuron, node);
         }
@@ -76,6 +103,14 @@ public class BrainHyperassociativeMap extends HyperassociativeMap
 
 
 
+	/**
+	 * Gets the NeuronHyperassociativeNode lined with the specified neuron.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param node Neuron to get Node from.
+	 * @return Node The Node used to represent the neuron.
+	 * @since 0.1
+	 */
     NeuronHyperassociativeNode getNodeFromNeuron(Neuron node)
     {
         return neurons.get(node);

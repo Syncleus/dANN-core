@@ -22,16 +22,17 @@ import com.syncleus.dann.*;
 import com.syncleus.dann.activation.*;
 
 /**
- * This is a special type of neuron that provides the output.<BR>
+ * This is a special type of neuron that provides the output.
+ *
  * <!-- Author: Jeffrey Phillips Freeman -->
  * @author Jeffrey Phillips Freeman
  * @since 0.1
- * @see com.syncleus.dann.InputNeuron
+ * @see com.syncleus.dann.backprop.InputBackpropNeuron
  */
 public class OutputBackpropNeuron extends BackpropNeuron implements OutputNeuron<NeuronImpl, BackpropNeuron>
 {
     /**
-     * holds the value for the current training set.<BR>
+     * holds the value for the current training set.
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
@@ -40,11 +41,9 @@ public class OutputBackpropNeuron extends BackpropNeuron implements OutputNeuron
 
 
     /**
-     * Creates a new instance of OutputNeuron<BR>
+     * Creates a new instance of OutputBackpropNeuron
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @param ownedDNAToSet This dna class will determine the various properties
-     * 	of the layer.
      */
     public OutputBackpropNeuron()
     {
@@ -52,22 +51,39 @@ public class OutputBackpropNeuron extends BackpropNeuron implements OutputNeuron
     }
     
     /**
-     * Creates a new instance of OutputNeuron<BR>
+     * Creates a new instance of OutputBackpropNeuron using the specified
+	 * activation function.
+	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param activationFunction The activation function to use.
      * @since 0.1
-     * @param ownedDNAToSet This dna class will determine the various properties
-     * 	of the layer.
      */
     public OutputBackpropNeuron(ActivationFunction activationFunction)
     {
         super(activationFunction);
     }
 
+	/**
+	 * Creates a new instance of this class using the specified learning rate.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param learningRate The learning rate for this neuron.
+	 * @since 0.1
+	 */
 	public OutputBackpropNeuron(double learningRate)
 	{
 		super(learningRate);
 	}
 
+	/**
+	 * Creates a new instance of this class with the specified activation
+	 * function and learning rate.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param activationFunction The activation used by this neuron.
+	 * @param learningRate The learning rate for this neuron.
+	 * @since 0.1
+	 */
 	public OutputBackpropNeuron(ActivationFunction activationFunction, double learningRate)
 	{
 		super(activationFunction, learningRate);
@@ -76,10 +92,11 @@ public class OutputBackpropNeuron extends BackpropNeuron implements OutputNeuron
 
 
     /**
-     * This method sets the current training set on the neuron.<BR>
+     * This method sets the expected output for this neuron to learn from.
+	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @param trainingToSet sets the current training set.
+     * @param trainingToSet sets the current desired output.
      */
     public void setDesired(double trainingToSet)
     {
@@ -89,11 +106,13 @@ public class OutputBackpropNeuron extends BackpropNeuron implements OutputNeuron
 
 
     /**
-     * Calculates the Delta Train based on all the destination synapses<BR>
+     * Calculates the Delta Train based on all the destination synapses
+	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @see com.syncleus.dann.Neuron#backPropagate
+     * @see com.syncleus.dann.backprop.BackpropNeuron#backPropagate
      */
+	@Override
     protected void calculateDeltaTrain()
     {
         this.deltaTrain = 0;
@@ -104,12 +123,29 @@ public class OutputBackpropNeuron extends BackpropNeuron implements OutputNeuron
 
         this.deltaTrain *= super.activateDerivitive();
     }
-    
+
+	/**
+	 * Connects this Neuron to the specified Neuron.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param outUnit The Neuron to connect to.
+	 * @throws com.syncleus.dann.InvalidConnectionTypeDannException The
+	 * specified neuron to connect to is not valid.
+	 * @since 0.1
+	 */
+	@Override
     public void connectTo(BackpropNeuron outUnit) throws InvalidConnectionTypeDannException
     {
         throw new InvalidConnectionTypeDannException("Can not connect from a OutputNeuron");
     }
 
+	/**
+	 * Obtains the current output for this neuron.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @return The current output of the neuron.
+	 */
+	@Override
 	public double getOutput()
 	{
 		return super.getOutput();

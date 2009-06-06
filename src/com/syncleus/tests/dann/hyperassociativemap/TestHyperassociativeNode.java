@@ -41,8 +41,8 @@ public class TestHyperassociativeNode
 	{
 		TestMap testMap = new TestMap(3);
 		Hyperpoint testPoint = new Hyperpoint(3);
-		testMap.addNode(new HyperassociativeNode(testMap, testMap.getDimensions(), 0.123d, 0.456d, 0.789d));
-		testMap.addNode(new HyperassociativeNode(testMap, testPoint, 0.123d, 0.456d, 0.789d));
+		testMap.addNode(new HyperassociativeNode(testMap, 0.123d, 0.456d));
+		testMap.addNode(new HyperassociativeNode(testMap, testPoint, 0.456d, 0.789d));
 	}
 
 	@Test

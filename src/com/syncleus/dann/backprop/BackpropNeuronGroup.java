@@ -31,6 +31,8 @@ import java.util.*;
  */
 public class BackpropNeuronGroup extends NeuronGroup<BackpropNeuron>
 {
+	// <editor-fold defaultstate="collapsed" desc="Constructors">
+
 	/**
 	 * Creates an instance of a default empty BackpropNeuronGroup
 	 *
@@ -42,6 +44,7 @@ public class BackpropNeuronGroup extends NeuronGroup<BackpropNeuron>
         super();
     }
 
+	// </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Propogation">
 

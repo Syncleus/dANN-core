@@ -18,31 +18,69 @@
  ******************************************************************************/
 package com.syncleus.dann.hyperassociativemap;
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 
+/**
+ * Represents a collection of interconnected hyperassociative map nodes.
+ *
+ * <!-- Author: Jeffrey Phillips Freeman -->
+ * @author Jeffrey Phillips Freeman
+ * @since 0.1
+ * @version 0.1
+ */
 public abstract class HyperassociativeMap implements Serializable
 {
+	/**
+	 * HashSet of all the nodes in this map.
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @since 0.1
+	 */
     protected HashSet<HyperassociativeNode> nodes = new HashSet<HyperassociativeNode>();
 	private int dimensions;
 
+	/**
+	 * Initializes a HyperassociativeMap of the specified dimensions.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param dimensions The number of dimensions for this map.
+	 * @since 0.1
+	 */
 	public HyperassociativeMap(int dimensions)
 	{
 		this.dimensions = dimensions;
 	}
 
+	/**
+	 * Gets the number of dimensions for this map.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @return The number of dimensions for this map.
+	 * @since 0.1
+	 */
 	public int getDimensions()
 	{
 		return this.dimensions;
 	}
-    
+
+	/**
+	 * Gets all the nodes contained within this map.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @return An unmodifiable Set of all the nodes in this map.
+	 * @since 0.1
+	 */
     public Set<HyperassociativeNode> getNodes()
     {
         return Collections.unmodifiableSet(this.nodes);
     }
-    
+
+	/**
+	 * Aligns all the nodes in this map by a single step.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @since 0.1
+	 */
     public void align()
     {
 		Hyperpoint center = new Hyperpoint(this.dimensions);

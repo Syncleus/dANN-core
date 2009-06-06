@@ -18,13 +18,38 @@
  ******************************************************************************/
 package com.syncleus.dann.activation;
 
+/**
+ * An implementation of an activation function using a gausian function.
+ *
+ * <!-- Author: Jeffrey Phillips Freeman -->
+ * @author Jeffrey Phillips Freeman
+ * @since 0.1
+ * @version 0.1
+ */
 public class GausianActivationFunction implements ActivationFunction
 {
+	/**
+	 * The gausian activation function.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param activity the neuron's current activity.
+	 * @return The result of the gausian activation function bound between 0 and
+	 * 1.
+	 * @since 0.1
+	 */
     public double activate(double activity)
     {
         return Math.pow(Math.E, (-1.0 * Math.pow(activity,2) ));
     }
-    
+
+	/**
+	 * The derivative of the gausian activation function.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param activity The neuron's current activity.
+	 * @return The result of the derivative of the gausian activation function.
+	 * @since 0.1
+	 */
     public double activateDerivative(double activity)
     {
         return (-2.0 * Math.log10(Math.E) * activity) / Math.pow(Math.E, Math.pow(activity,2));

@@ -20,41 +20,48 @@ package com.syncleus.dann;
 
 /**
  * The synapse acts as a bridge between connected neurons. It is also where the
- * connection weights are stores and manipulated.<BR>
+ * connection weights are stores and manipulated.
+ * 
  * <!-- Author: Jeffrey Phillips Freeman -->
  * @author Jeffrey Phillips Freeman
  * @since 0.1
- * @see com.syncleus.dann.NetworkNode
+ * @version 0.1
+ * @see com.syncleus.dann.Neuron
  */
 public class Synapse implements java.io.Serializable
 {
     // <editor-fold defaultstate="collapsed" desc="Attributes">
+
     /**
-     * The outgoing neuron connection.<BR>
+     * The outgoing neuron connection.
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
     private NeuronImpl destination;
+
     /**
-     * The incomming neuron connection.<BR>
+     * The incomming neuron connection.
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
     private NeuronImpl source;
+
     /**
-     * The current weight of the synapse<BR>
+     * The current weight of the synapse.
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
     private double weight;
+
     /**
-     * The current output of the synapse<BR>
+     * The current output of the synapse.
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
     private double output;
+
     /**
-     * The current input from the synapse<BR>
+     * The current input from the synapse.
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
@@ -63,8 +70,10 @@ public class Synapse implements java.io.Serializable
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Constructors">
+
     /**
-     * Creates a new instance of Synapse<BR>
+     * Creates a new instance of Synapse
+	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      * @param sourceToSet The incomming neuron connection.
@@ -81,8 +90,10 @@ public class Synapse implements java.io.Serializable
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Link Traversal">
+
     /**
-     * Obtains the incomming neuron.<BR>
+     * Obtains the incomming neuron.
+	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      * @return The source neuron.
@@ -95,7 +106,8 @@ public class Synapse implements java.io.Serializable
 
 
     /**
-     * Obtains the outgoing neuron.<BR>
+     * Obtains the outgoing neuron.
+	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      * @return The destination neuron.
@@ -108,12 +120,13 @@ public class Synapse implements java.io.Serializable
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Propogation">
+
     /**
      * Calculates the current output of the synapse based on the input and
-     * weight<BR>
+     * weight.
+	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @see com.syncleus.dann.Neuron#propagate
      * @return the current synapse output.
      */
     public double getOutput()
@@ -125,10 +138,10 @@ public class Synapse implements java.io.Serializable
 
 
     /**
-     * Set the current input for the synapse<BR>
+     * Set the current input for the synapse.
+	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @see com.syncleus.dann.Neuron#propagate
      * @param newInput The new input value to set.
      */
     public void setInput(double newInput)
@@ -136,16 +149,37 @@ public class Synapse implements java.io.Serializable
         this.input = newInput;
     }
 
+	/**
+	 * Set the weight of the synapse.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param newWeight new weight for the synapse.
+	 * @since 0.1
+	 */
 	public void setWeight(double newWeight)
 	{
 		this.weight = newWeight;
 	}
 
+	/**
+	 * Get the weight of the synapse.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @return The current weight of the synapse.
+	 * @since 0.1
+	 */
     public double getWeight()
     {
         return weight;
     }
 
+	/**
+	 * Get the current input of the synapse.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @return The current input of the synapse.
+	 * @since 0.1
+	 */
 	public double getInput()
 	{
 		return input;

@@ -24,16 +24,18 @@ import com.syncleus.dann.activation.*;
 
 
 /**
- * This is a special type of neuron that receives input.<BR>
+ * This is a special type of BackpropNeuron that receives input.
+ *
  * <!-- Author: Jeffrey Phillips Freeman -->
  * @author Jeffrey Phillips Freeman
  * @since 0.1
- * @see com.syncleus.dann.OutputNeuron
+ * @version 0.1
  */
 public class InputBackpropNeuron extends BackpropNeuron implements InputNeuron<NeuronImpl, BackpropNeuron>
 {
     /**
-     * Holds the current input value for this neuron<BR>
+     * Holds the current input value for this neuron
+	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
@@ -42,11 +44,10 @@ public class InputBackpropNeuron extends BackpropNeuron implements InputNeuron<N
 
 
     /**
-     * Creates a new instance of InputNeuron<BR>
+     * Creates a new instance of InputBackpropNeuron
+	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @param ownedDNAToSet This dna class will determine the various properties
-     * 	of the layer.
      */
     public InputBackpropNeuron()
     {
@@ -54,22 +55,38 @@ public class InputBackpropNeuron extends BackpropNeuron implements InputNeuron<N
     }
 
     /**
-     * Creates a new instance of InputNeuron<BR>
+     * Creates a new instance of InputBackpropNeuron that uses the specified
+	 * activation function.
+	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
-     * @param ownedDNAToSet This dna class will determine the various properties
-     * 	of the layer.
      */
     public InputBackpropNeuron(ActivationFunction activationFunction)
     {
         super(activationFunction);
     }
 
+	/**
+	 * Creates a new instance of this class with the specified learning rate.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param learningRate The learning rate for this neuron.
+	 * @since 0.1
+	 */
 	public InputBackpropNeuron(double learningRate)
 	{
 		super(learningRate);
 	}
 
+	/**
+	 * Creates a new instance of this class with the specified activation
+	 * function and learning rate.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param activationFunction The activation function to use.
+	 * @param learningRate The learning rate to use.
+	 * @since 0.1
+	 */
 	public InputBackpropNeuron(ActivationFunction activationFunction, double learningRate)
 	{
 		super(activationFunction, learningRate);
@@ -77,7 +94,8 @@ public class InputBackpropNeuron extends BackpropNeuron implements InputNeuron<N
 
 
     /**
-     * This method sets the current input on the neuron.<BR>
+     * This method sets the current input on the neuron.
+	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      * @param inputToSet The value to set the current input to.
@@ -93,21 +111,42 @@ public class InputBackpropNeuron extends BackpropNeuron implements InputNeuron<N
 
 
     /**
-     * Refreshes the output of the neuron based on the current input<BR>
+     * Refreshes the output of the neuron based on the current input
+	 * 
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 0.1
      */
+	@Override
     public void propagate()
     {
         this.setOutput(this.input);
     }
     
-    
+
+	/**
+	 * Back propogates and learns from the destination neurons. This should
+	 * be called successivly from the output neurons back towards the input
+	 * neurons on all BackpropNeurons.
+	 *
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @since 0.1
+	 */
+	@Override
     public void backPropagate()
     {
         this.calculateDeltaTrain();
     }
-    
+
+    /**
+     * This method is called internally, between Neurons, to
+     * facilitate the connection process.
+	 *
+     * <!-- Author: Jeffrey Phillips Freeman -->
+     * @since 0.1
+     * @param inSynapse The synapse to connect from.
+     * @see com.syncleus.dann.Neuron#connectTo
+     */
+	@Override
     protected void connectFrom(Synapse inSynapse) throws InvalidConnectionTypeDannException
     {
         throw new InvalidConnectionTypeDannException("Can not connect a neuron to an InputNeuron");

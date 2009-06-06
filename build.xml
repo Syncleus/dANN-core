@@ -28,7 +28,7 @@
 			<fileset dir="build/javadoc" includes="**/*"/>
 		</delete>
 		<javadoc destdir="build/javadoc/" classpathref="classpath">
-			<fileset dir="src/" includes="**/*.java"/>
+			<fileset dir="src/com/syncleus/dann" includes="**/*.java"/>
 		</javadoc>
 	</target>
 
