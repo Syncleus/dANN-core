@@ -26,7 +26,7 @@ import java.util.*;
  * An hyperassociative map used to represent a Brain.
  *
  * <!-- Author: Jeffrey Phillips Freeman -->
- * @author Jeffrey Phillips Freeman
+ * @author Syncleus, Inc.
  * @version 0.1
  * @since 0.1
  */

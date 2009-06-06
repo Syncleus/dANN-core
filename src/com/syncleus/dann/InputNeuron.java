@@ -23,7 +23,7 @@ package com.syncleus.dann;
  * you to input data into the brain for processing.
  *
  * <!-- Author: Jeffrey Phillips Freeman -->
- * @author Jeffrey Phillips Freeman
+ * @author Syncleus, Inc.
  * @param <SN> The type of Neuron allowed to connect to this Neuron.
  * @param <DN> The type of Neuron this Neuron is allowed to connect to.
  * @since 0.1

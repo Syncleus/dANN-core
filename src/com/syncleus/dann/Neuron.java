@@ -27,7 +27,7 @@ import java.util.Set;
  * All neurons will connect to other neurons as well as be able to disconnect.
  *
  * <!-- Author: Jeffrey Phillips Freeman -->
- * @author Jeffrey Phillips Freeman
+ * @author Syncleus, Inc.
  * @param <SN> Source Neurons allowed to connect to this Neuron.
  * @param <DN> Destination Neurons this Neuron is allowed to connect to.
  * @since 0.1

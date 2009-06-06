@@ -28,7 +28,7 @@ import java.util.*;
  * <br/>
  * This class is abstract and must be extended in order to be used.
  *
- * @author Jeffrey Phillips Freeman
+ * @author Syncleus, Inc.
  * @since 0.1
  * @version 0.1
  */

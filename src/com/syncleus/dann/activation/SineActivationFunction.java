@@ -22,7 +22,7 @@ package com.syncleus.dann.activation;
  * An implementation of an activation function using a sine function.
  *
  * <!-- Author: Jeffrey Phillips Freeman -->
- * @author Jeffrey Phillips Freeman
+ * @author Syncleus, Inc.
  * @since 0.1
  * @version 0.1
  */

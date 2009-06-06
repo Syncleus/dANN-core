@@ -23,7 +23,7 @@ package com.syncleus.dann.activation;
  * function.
  *
  * <!-- Author: Jeffrey Phillips Freeman -->
- * @author Jeffrey Phillips Freeman
+ * @author Syncleus, Inc.
  * @since 0.1
  * @version 0.1
  */

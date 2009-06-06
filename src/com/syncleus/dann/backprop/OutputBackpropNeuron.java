@@ -25,7 +25,7 @@ import com.syncleus.dann.activation.*;
  * This is a special type of neuron that provides the output.
  *
  * <!-- Author: Jeffrey Phillips Freeman -->
- * @author Jeffrey Phillips Freeman
+ * @author Syncleus, Inc.
  * @since 0.1
  * @see com.syncleus.dann.backprop.InputBackpropNeuron
  */

@@ -25,7 +25,7 @@ import java.util.*;
  * A NeuronGroup which contains only BackpropNeurons.
  *
  * <!-- Author: Jeffrey Phillips Freeman -->
- * @author Jeffrey Phillips Freeman
+ * @author Syncleus, Inc.
  * @since 0.1
  * @version 0.1
  */

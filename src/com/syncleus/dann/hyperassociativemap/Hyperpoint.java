@@ -26,7 +26,7 @@ import java.util.List;
  * coordinate systems and hyperspherical coordinate systems.
  *
  * <!-- Author: Jeffrey Phillips Freeman -->
- * @author Jeffrey Phillips Freeman
+ * @author Syncleus, Inc.
  * @since 0.1
  * @version 0.1
  */

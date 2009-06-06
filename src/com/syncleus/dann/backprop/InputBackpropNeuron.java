@@ -27,7 +27,7 @@ import com.syncleus.dann.activation.*;
  * This is a special type of BackpropNeuron that receives input.
  *
  * <!-- Author: Jeffrey Phillips Freeman -->
- * @author Jeffrey Phillips Freeman
+ * @author Syncleus, Inc.
  * @since 0.1
  * @version 0.1
  */

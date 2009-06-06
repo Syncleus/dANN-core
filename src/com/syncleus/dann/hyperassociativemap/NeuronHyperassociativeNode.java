@@ -26,7 +26,7 @@ import java.util.HashSet;
  * A HyperassociativeNode that is representing a Neuron.
  *
  * <!-- Author: Jeffrey Phillips Freeman -->
- * @author Jeffrey Phillips Freeman
+ * @author Syncleus, Inc.
  * @version 0.1
  * @since 0.1
  */

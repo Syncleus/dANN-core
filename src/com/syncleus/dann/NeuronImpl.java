@@ -29,7 +29,7 @@ import java.util.*;
  * function handling.
  *
  * <!-- Author: Jeffrey Phillips Freeman -->
- * @author Jeffrey Phillips Freeman
+ * @author Syncleus, Inc.
  * @param <SN> Source Neurons allowed to connect to this Neuron.
  * @param <DN> Destination Neurons this Neuron is allowed to connect to.
  * @since 0.1
