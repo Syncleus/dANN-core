@@ -1,0 +1,110 @@
+                               dANN Core Library
+                      http://www.syncleus.com/dannProject
+
+These are the instructions for compiling, testing, and using the dANN core
+library. If you've downloaded the binary distribution, skip to the "Using the
+Library" portion of this document.
+
+
+Description:
+
+dANN is an Artificial Neural Network (ANN) and Artificial Intelligence suite
+intending to incorporate conventional techniques as well as entirely new
+techniques inspired by biological systems. Some of the features included are:
+
+ * Hyperassociative Map
+ * 3D mapping and visualizations
+ * Genetic Algorithms
+ * Genetic Programming
+ * Wavelet Genetics
+ * ANN Connection Optimization
+ * ANN Genetic Framework
+ * Backprop ANN
+ * Perceptron ANN
+ * Layered Feedforward ANN
+ * Fully/partial Feedback ANN
+ * Example Applications
+
+
+Getting The Files:
+
+There are several distributions available: you can export from svn, download
+the source, or download the precompiled jar files. If you would like to export
+the latest version from svn to the current directory the command is:
+
+svn export svn://svn.syncleus.com/dANN/trunk/projects/java_dann/
+
+If you would like to obtain one of the latest versioned distributions simply get
+one of the files found at:
+
+http://files.syncleus.com/pub/dANN/latest/
+
+If You would like an older version or snapshot you can go directly to:
+
+http://files.syncleus.com/pub/dANN/
+
+
+Compilation:
+
+Assuming you obtained a source distribution in the previous step you will need
+to continue with this step, otherwise skip ahead to "Using the Library".
+
+First we need to compile the core library; change directory to the java_dann
+directory where the build.xml file resides. Next run the following command:
+
+ant build-all
+
+If you are developing and would like to display lint4j based warnings execute
+the following command:
+
+ant lint
+
+You should now have the appropriate jar files in build/jar.
+
+
+Running Unit Tests:
+
+The following step is only helpful if you are developing against the library
+or have recently had trouble running the library reliably and wish to submit
+unit tests along with your bug report. In order to execute the packaged unit
+tests simply execute the following command from within the java_dann directory:
+
+ant tests-nocoverage
+
+If all goes well it should execute all unit tests with no errors or failures.
+Once the tests are completed the detailed XML reports can be found in
+build/tests.
+
+
+Generating Javadocs:
+
+The following step is only useful if you plan to develop with the library;
+if you are only running the library as a dependency for another application
+you shouldn't need the javadoc API documentation. In order to generate the
+javadocs from the source code simply execute the following from within
+the java_dann directory:
+
+ant javadoc
+
+
+Using the Library:
+
+In order to use the library you either need to have obtained the binary
+distribution or used the source distribution and successfully completed the
+"Compilation" step above. Once compiled the core library will reside in the
+following location:
+
+build/jar/dann.jar
+
+You will want to use this jar file in the classpath of the application that
+uses this library (follow the directions for that application). You will need
+to compile and run it against java 1.5 or later (unless the application
+requires a later version). You will also need to add the following libraries
+to the application's classpath, these libraries should be included in lib:
+
+lib/j3dcore.jar
+lib/vecmath.jar
+lib/j3dutils.jar
+
+You may not need all these libraries for every application so consult your
+target applications documentation for more details.
