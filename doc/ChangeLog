@@ -1,9 +1,0 @@
--- 0.1 Alpha RC2 --
-
-Completly changed around the infastructure. Made the library more flexible. The 
-aim is to allow creative custom designs to make way for testing various genetic 
-algorithms.
-
--- 0.1 Alpha RC1 --
-
-First Public release, no changes to report.
