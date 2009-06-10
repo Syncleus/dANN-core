@@ -108,3 +108,9 @@ lib/j3dutils.jar
 
 You may not need all these libraries for every application so consult your
 target applications documentation for more details.
+
+If you intend to run any of the 3D visualizations then you will need to have
+Java3D installed during runtime. You do not, however, need Java3D installed
+to compile. You can obtain Java3D at the following URL:
+
+http://java.sun.com/javase/technologies/desktop/java3d/index.jsp
