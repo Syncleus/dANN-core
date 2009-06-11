@@ -22,7 +22,7 @@ techniques inspired by biological systems. Some of the features included are:
  * Backprop ANN
  * Perceptron ANN
  * Layered Feedforward ANN
- * Fully/partial Feedback ANN
+ * Fully/Partial Recurent ANN
  * Example Applications
 
 
