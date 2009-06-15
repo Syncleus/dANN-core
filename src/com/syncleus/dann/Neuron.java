@@ -100,6 +100,14 @@ public interface Neuron<SN extends NeuronImpl, DN extends NeuronImpl> extends Se
      */
     public void disconnectSource(Synapse inSynapse) throws SynapseNotConnectedException;
 
+    /**
+     * Propogates the current output to all outgoing synapses.
+	 *
+     * <!-- Author: Jeffrey Phillips Freeman -->
+     * @since 1.0
+     */
+	public void propagate();
+
 	/**
 	 * Gets all the destination Synapses this neuron's output is connected to.
 	 *

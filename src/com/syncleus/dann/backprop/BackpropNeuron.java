@@ -226,27 +226,6 @@ public class BackpropNeuron extends NeuronImpl<NeuronImpl, BackpropNeuron>
 
 
 
-    /**
-     * Propogates the current output to all outgoing synapses.
-	 *
-     * <!-- Author: Jeffrey Phillips Freeman -->
-     * @since 1.0
-     */
-    public void propagate()
-    {
-        //calculate the current input activity
-        this.activity = 0;
-        for (Synapse currentSynapse : this.getSources())
-            this.activity += currentSynapse.getOutput();
-        //Add the bias to the activity
-        this.activity += this.biasWeight;
-
-        //calculate the activity function and set the result as the output
-        this.setOutput(this.activate());
-    }
-
-
-
 	/**
 	 * Gets the current delta train of the neuron.
 	 *

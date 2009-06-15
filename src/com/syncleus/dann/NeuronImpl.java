@@ -484,5 +484,25 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
         return this.activationFunction.activateDerivative(this.activity);
     }
 
+	
+    /**
+     * Propogates the current output to all outgoing synapses.
+	 *
+     * <!-- Author: Jeffrey Phillips Freeman -->
+     * @since 1.0
+     */
+    public void propagate()
+    {
+        //calculate the current input activity
+        this.activity = 0;
+        for (Synapse currentSynapse : this.getSources())
+            this.activity += currentSynapse.getOutput();
+        //Add the bias to the activity
+        this.activity += this.biasWeight;
+
+        //calculate the activity function and set the result as the output
+        this.setOutput(this.activate());
+    }
+
     // </editor-fold>
 }
