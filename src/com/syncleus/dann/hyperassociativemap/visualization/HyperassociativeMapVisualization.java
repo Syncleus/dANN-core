@@ -16,7 +16,7 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.visualization;
+package com.syncleus.dann.hyperassociativemap.visualization;
 
 import com.syncleus.dann.neural.Neuron;
 import com.syncleus.dann.neural.backprop.InputBackpropNeuron;
