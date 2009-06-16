@@ -16,7 +16,7 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann;
+package com.syncleus.dann.neural;
 
 /**
  * The synapse acts as a bridge between connected neurons. It is also where the

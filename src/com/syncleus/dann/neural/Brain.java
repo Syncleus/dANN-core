@@ -16,7 +16,7 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann;
+package com.syncleus.dann.neural;
 
 import java.io.Serializable;
 import java.util.*;

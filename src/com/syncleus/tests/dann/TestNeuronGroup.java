@@ -18,8 +18,10 @@
  ******************************************************************************/
 package com.syncleus.tests.dann;
 
+import com.syncleus.dann.neural.InvalidConnectionTypeDannException;
+import com.syncleus.dann.neural.NeuronGroup;
 import com.syncleus.dann.*;
-import com.syncleus.dann.backprop.BackpropNeuron;
+import com.syncleus.dann.neural.backprop.BackpropNeuron;
 import org.junit.*;
 
 public class TestNeuronGroup

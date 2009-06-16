@@ -16,42 +16,65 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.activation;
-
+package com.syncleus.dann.neural;
+import com.syncleus.dann.*;
 /**
- * An implementation of an activation function using a sine function.
+ * An exception thrown to indicate two neurons trying to be connected are
+ * invalid.
  *
- * <!-- Author: Jeffrey Phillips Freeman -->
+ *  <!-- Author: Jeffrey Phillips Freeman -->
  * @author Syncleus, Inc.
  * @since 1.0
  * @version 1.0
  */
-public class SineActivationFunction implements ActivationFunction
+public class InvalidConnectionTypeDannException extends DannException
 {
 	/**
-	 * The sine activation function.
+	 * Creates a blank default exception.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
-	 * @param activity the neuron's current activity.
-	 * @return The result of the sine activation function bound between -1
-	 * and 1.
+	 *  <!-- Author: Jeffrey Phillips Freeman -->
 	 * @since 1.0
 	 */
-    public double activate(double activity)
-    {
-        return Math.sin(activity);
-    }
+	public InvalidConnectionTypeDannException()
+	{
+	}
 
 	/**
-	 * The derivative of the sine activation function.
+	 * Creates an exception with a message describing the cause.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
-	 * @param activity The neuron's current activity.
-	 * @return The result of the derivative of the sine activation function.
+	 *  <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param msg A string describing the cause of the exception
 	 * @since 1.0
 	 */
-    public double activateDerivative(double activity)
-    {
-        return Math.cos(activity);
-    }
+	public InvalidConnectionTypeDannException(String msg)
+	{
+		super(msg);
+	}
+
+	/**
+	 * Creates an exception with a message describing the cause as well as the
+	 * throwable which caused this exception to be thrown.
+	 *
+	 *  <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param msg A string describing the cause of the exception
+	 * @param cause The throwable which caused this exception
+	 * @since 1.0
+	 */
+	public InvalidConnectionTypeDannException(String msg, Throwable cause)
+	{
+		super(msg, cause);
+	}
+
+	/**
+	 * Creates an exception containing the throwable which caused this exception
+	 * to be thrown.
+	 *
+	 *  <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param cause The throwable which caused this exception
+	 * @since 1.0
+	 */
+	public InvalidConnectionTypeDannException(Throwable cause)
+	{
+		super(cause);
+	}
 }

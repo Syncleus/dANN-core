@@ -18,8 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.visualization;
 
-import com.syncleus.dann.backprop.InputBackpropNeuron;
-import com.syncleus.dann.backprop.OutputBackpropNeuron;
+import com.syncleus.dann.neural.Neuron;
+import com.syncleus.dann.neural.backprop.InputBackpropNeuron;
+import com.syncleus.dann.neural.backprop.OutputBackpropNeuron;
 import com.syncleus.dann.*;
 import com.sun.j3d.utils.geometry.*;
 import com.sun.j3d.utils.image.TextureLoader;

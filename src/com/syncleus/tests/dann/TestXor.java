@@ -19,8 +19,8 @@
 package com.syncleus.tests.dann;
 
 
-import com.syncleus.dann.backprop.*;
-import com.syncleus.dann.*;
+import com.syncleus.dann.DannException;
+import com.syncleus.dann.neural.backprop.*;
 import org.junit.*;
 
 /**

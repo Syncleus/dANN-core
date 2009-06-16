@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.hyperassociativemap;
 
-import com.syncleus.dann.Neuron;
+import com.syncleus.dann.neural.Neuron;
 import java.util.HashSet;
 
 

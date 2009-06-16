@@ -16,26 +16,65 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann;
+package com.syncleus.dann.neural;
+import com.syncleus.dann.*;
 
 /**
- * A Neuron which allows you to retreive its output. These neurons allow you to
- * output data from the brain after processing.
+ * This indicates that a required synapse does not exist.
  *
  * <!-- Author: Jeffrey Phillips Freeman -->
  * @author Syncleus, Inc.
- * @param <SN> The type of Neuron allowed to connect to this Neuron.
- * @param <DN> The type of Neuron this Neuron is allowed to connect to.
  * @since 1.0
  * @version 1.0
  */
-public interface OutputNeuron<SN extends NeuronImpl, DN extends NeuronImpl> extends Neuron<SN, DN>
+public class SynapseDoesNotExistException extends DannException
 {
 	/**
-	 * Obtains the current output for this neuron.
+	 * Creates a blank default exception.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
-	 * @return The current output of the neuron.
+	 *  <!-- Author: Jeffrey Phillips Freeman -->
+	 * @since 1.0
 	 */
-	public double getOutput();
+	public SynapseDoesNotExistException()
+	{
+	}
+
+	/**
+	 * Creates an exception with a message describing the cause.
+	 *
+	 *  <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param msg A string describing the cause of the exception
+	 * @since 1.0
+	 */
+	public SynapseDoesNotExistException(String msg)
+	{
+		super(msg);
+	}
+
+	/**
+	 * Creates an exception with a message describing the cause as well as the
+	 * throwable which caused this exception to be thrown.
+	 *
+	 *  <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param msg A string describing the cause of the exception
+	 * @param cause The throwable which caused this exception
+	 * @since 1.0
+	 */
+	public SynapseDoesNotExistException(String msg, Throwable cause)
+	{
+		super(msg, cause);
+	}
+
+	/**
+	 * Creates an exception containing the throwable which caused this exception
+	 * to be thrown.
+	 *
+	 *  <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param cause The throwable which caused this exception
+	 * @since 1.0
+	 */
+	public SynapseDoesNotExistException(Throwable cause)
+	{
+		super(cause);
+	}
 }

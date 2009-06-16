@@ -18,9 +18,8 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.activation;
 
+import com.syncleus.dann.neural.activation.*;
 import org.junit.*;
-
-import com.syncleus.dann.activation.*;
 import java.util.ArrayList;
 import java.util.Random;
 

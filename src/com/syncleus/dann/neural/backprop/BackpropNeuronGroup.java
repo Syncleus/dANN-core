@@ -16,8 +16,10 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.backprop;
+package com.syncleus.dann.neural.backprop;
 
+import com.syncleus.dann.neural.NeuronGroup;
+import com.syncleus.dann.neural.Neuron;
 import com.syncleus.dann.*;
 import java.util.*;
 

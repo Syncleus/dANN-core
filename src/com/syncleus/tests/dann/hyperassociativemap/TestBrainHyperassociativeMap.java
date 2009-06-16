@@ -18,9 +18,9 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.hyperassociativemap;
 
-import com.syncleus.dann.*;
+import com.syncleus.dann.neural.*;
 import com.syncleus.dann.hyperassociativemap.*;
-import com.syncleus.dann.backprop.*;
+import com.syncleus.dann.neural.backprop.*;
 import java.util.Hashtable;
 import org.junit.*;
 

@@ -16,10 +16,10 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann;
+package com.syncleus.dann.neural;
 
-import com.syncleus.dann.activation.ActivationFunction;
-import com.syncleus.dann.activation.HyperbolicTangentActivationFunction;
+import com.syncleus.dann.neural.activation.ActivationFunction;
+import com.syncleus.dann.neural.activation.HyperbolicTangentActivationFunction;
 import java.security.InvalidParameterException;
 import java.util.*;
 

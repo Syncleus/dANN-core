@@ -16,10 +16,10 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.activation;
+package com.syncleus.dann.neural.activation;
 
 /**
- * An implementation of an activation function using a hyperbolic secant
+ * An implementation of an activation function using a hyperbolic tangent
  * function.
  *
  * <!-- Author: Jeffrey Phillips Freeman -->
@@ -27,33 +27,33 @@ package com.syncleus.dann.activation;
  * @since 1.0
  * @version 1.0
  */
-public class HyperbolicSecantActivationFunction implements ActivationFunction
+public class HyperbolicTangentActivationFunction implements ActivationFunction
 {
 	/**
-	 * The hyperbolic secant activation function.
+	 * The hyperbolic tangent activation function.
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @param activity the neuron's current activity.
-	 * @return The result of the hyperbolic secant activation function bound
-	 * between 0 and 1.
+	 * @return The result of the hyperbolic tangent activation function bound
+	 * between -1 and 1.
 	 * @since 1.0
 	 */
     public double activate(double activity)
     {
-        return 1.0/Math.cosh(activity);
+        return Math.tanh(activity);
     }
 
 	/**
-	 * The derivative of the hyperbolic secant activation function.
+	 * The derivative of the hyperbolic tangent activation function.
 	 *
 	 * <!-- Author: Jeffrey Phillips Freeman -->
 	 * @param activity The neuron's current activity.
-	 * @return The result of the derivative of the hyperbolic secand activation
+	 * @return The result of the derivative of the hyperbolic tangent activation
 	 * function.
 	 * @since 1.0
 	 */
     public double activateDerivative(double activity)
     {
-        return -1.0 * Math.tanh(activity) * this.activate(activity);
+        return 1.0 - Math.pow(this.activate(activity), 2.0);
     }
 }

@@ -16,11 +16,11 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.backprop;
+package com.syncleus.dann.neural.backprop;
 
-import com.syncleus.dann.*;
+import com.syncleus.dann.neural.*;
 import java.security.InvalidParameterException;
-import com.syncleus.dann.activation.*;
+import com.syncleus.dann.neural.activation.*;
 
 
 /**

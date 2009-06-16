@@ -16,65 +16,42 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann;
-
+package com.syncleus.dann.neural.activation;
 
 /**
- * This indicates that a required synapse does not exist.
+ * An implementation of an activation function using a gausian function.
  *
  * <!-- Author: Jeffrey Phillips Freeman -->
  * @author Syncleus, Inc.
  * @since 1.0
  * @version 1.0
  */
-public class SynapseDoesNotExistException extends DannException
+public class GausianActivationFunction implements ActivationFunction
 {
 	/**
-	 * Creates a blank default exception.
+	 * The gausian activation function.
 	 *
-	 *  <!-- Author: Jeffrey Phillips Freeman -->
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param activity the neuron's current activity.
+	 * @return The result of the gausian activation function bound between 0 and
+	 * 1.
 	 * @since 1.0
 	 */
-	public SynapseDoesNotExistException()
-	{
-	}
+    public double activate(double activity)
+    {
+        return Math.pow(Math.E, (-1.0 * Math.pow(activity,2) ));
+    }
 
 	/**
-	 * Creates an exception with a message describing the cause.
+	 * The derivative of the gausian activation function.
 	 *
-	 *  <!-- Author: Jeffrey Phillips Freeman -->
-	 * @param msg A string describing the cause of the exception
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param activity The neuron's current activity.
+	 * @return The result of the derivative of the gausian activation function.
 	 * @since 1.0
 	 */
-	public SynapseDoesNotExistException(String msg)
-	{
-		super(msg);
-	}
-
-	/**
-	 * Creates an exception with a message describing the cause as well as the
-	 * throwable which caused this exception to be thrown.
-	 *
-	 *  <!-- Author: Jeffrey Phillips Freeman -->
-	 * @param msg A string describing the cause of the exception
-	 * @param cause The throwable which caused this exception
-	 * @since 1.0
-	 */
-	public SynapseDoesNotExistException(String msg, Throwable cause)
-	{
-		super(msg, cause);
-	}
-
-	/**
-	 * Creates an exception containing the throwable which caused this exception
-	 * to be thrown.
-	 *
-	 *  <!-- Author: Jeffrey Phillips Freeman -->
-	 * @param cause The throwable which caused this exception
-	 * @since 1.0
-	 */
-	public SynapseDoesNotExistException(Throwable cause)
-	{
-		super(cause);
-	}
+    public double activateDerivative(double activity)
+    {
+        return (-2.0 * Math.log10(Math.E) * activity) / Math.pow(Math.E, Math.pow(activity,2));
+    }
 }

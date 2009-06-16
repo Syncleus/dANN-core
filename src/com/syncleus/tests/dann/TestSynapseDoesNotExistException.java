@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.tests.dann;
 
-import com.syncleus.dann.SynapseDoesNotExistException;
+import com.syncleus.dann.neural.SynapseDoesNotExistException;
 import org.junit.*;
 
 public class TestSynapseDoesNotExistException

@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.tests.dann;
 
-import com.syncleus.dann.SynapseNotConnectedException;
+import com.syncleus.dann.neural.SynapseNotConnectedException;
 import org.junit.*;
 
 public class TestSynapseNotConnectedException

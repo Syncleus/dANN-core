@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.tests.dann;
 
-import com.syncleus.dann.InvalidConnectionTypeDannException;
+import com.syncleus.dann.neural.InvalidConnectionTypeDannException;
 import org.junit.*;
 
 public class TestInvalidConnectionTypeDannException

@@ -18,6 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.hyperassociativemap;
 
+import com.syncleus.dann.neural.Brain;
+import com.syncleus.dann.neural.OutputNeuron;
+import com.syncleus.dann.neural.InputNeuron;
+import com.syncleus.dann.neural.Neuron;
 import com.syncleus.dann.*;
 import java.util.*;
 

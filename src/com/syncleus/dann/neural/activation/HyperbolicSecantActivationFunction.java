@@ -16,64 +16,44 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann;
+package com.syncleus.dann.neural.activation;
 
 /**
- * This means a synapse is not a connected synpase.
+ * An implementation of an activation function using a hyperbolic secant
+ * function.
  *
  * <!-- Author: Jeffrey Phillips Freeman -->
  * @author Syncleus, Inc.
  * @since 1.0
  * @version 1.0
  */
-public class SynapseNotConnectedException extends DannException
+public class HyperbolicSecantActivationFunction implements ActivationFunction
 {
 	/**
-	 * Creates a blank default exception.
+	 * The hyperbolic secant activation function.
 	 *
-	 *  <!-- Author: Jeffrey Phillips Freeman -->
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param activity the neuron's current activity.
+	 * @return The result of the hyperbolic secant activation function bound
+	 * between 0 and 1.
 	 * @since 1.0
 	 */
-	public SynapseNotConnectedException()
-	{
-	}
+    public double activate(double activity)
+    {
+        return 1.0/Math.cosh(activity);
+    }
 
 	/**
-	 * Creates an exception with a message describing the cause.
+	 * The derivative of the hyperbolic secant activation function.
 	 *
-	 *  <!-- Author: Jeffrey Phillips Freeman -->
-	 * @param msg A string describing the cause of the exception
+	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 * @param activity The neuron's current activity.
+	 * @return The result of the derivative of the hyperbolic secand activation
+	 * function.
 	 * @since 1.0
 	 */
-	public SynapseNotConnectedException(String msg)
-	{
-		super(msg);
-	}
-
-	/**
-	 * Creates an exception with a message describing the cause as well as the
-	 * throwable which caused this exception to be thrown.
-	 *
-	 *  <!-- Author: Jeffrey Phillips Freeman -->
-	 * @param msg A string describing the cause of the exception
-	 * @param cause The throwable which caused this exception
-	 * @since 1.0
-	 */
-	public SynapseNotConnectedException(String msg, Throwable cause)
-	{
-		super(msg, cause);
-	}
-
-	/**
-	 * Creates an exception containing the throwable which caused this exception
-	 * to be thrown.
-	 *
-	 *  <!-- Author: Jeffrey Phillips Freeman -->
-	 * @param cause The throwable which caused this exception
-	 * @since 1.0
-	 */
-	public SynapseNotConnectedException(Throwable cause)
-	{
-		super(cause);
-	}
+    public double activateDerivative(double activity)
+    {
+        return -1.0 * Math.tanh(activity) * this.activate(activity);
+    }
 }

@@ -16,10 +16,15 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.backprop;
+package com.syncleus.dann.neural.backprop;
 
+import com.syncleus.dann.neural.InvalidConnectionTypeDannException;
+import com.syncleus.dann.neural.SynapseNotConnectedException;
+import com.syncleus.dann.neural.NeuronImpl;
+import com.syncleus.dann.neural.Synapse;
+import com.syncleus.dann.neural.SynapseDoesNotExistException;
 import com.syncleus.dann.*;
-import com.syncleus.dann.activation.ActivationFunction;
+import com.syncleus.dann.neural.activation.ActivationFunction;
 import java.util.Hashtable;
 
 
