@@ -18,7 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
-public interface Mutatable<E>
+public interface SignalMutable<E> extends Mutable<E>
 {
     public E mutate();
+    public E mutate(Signal newSignal);
 }

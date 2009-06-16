@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 import com.syncleus.dann.math.WaveMultidimensionalMathFunction;
-public interface SignaledWaveMutatable<E> extends SignalMutatable<E>
+public interface SignaledWaveMutable<E> extends SignalMutable<E>
 {
     public E mutate();
     public E mutate(Signal newSignal);

@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.TreeSet;
 
-public class SignalProcessingWavelet implements SignalMutatable<SignalProcessingWavelet>, Comparable<SignalProcessingWavelet>, Cloneable
+public class SignalProcessingWavelet implements SignalMutable<SignalProcessingWavelet>, Comparable<SignalProcessingWavelet>, Cloneable
 {
     private UniqueId id = null;
     private Signal output;
