@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.hyperassociativemap;
 
-import com.syncleus.dann.hyperassociativemap.HyperassociativeNode;
+import com.syncleus.dann.graph.hyperassociativemap.HyperassociativeNode;
 import org.junit.*;
 
 public class TestLayeredLoopMap

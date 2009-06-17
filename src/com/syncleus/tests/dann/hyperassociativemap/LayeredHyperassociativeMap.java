@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.hyperassociativemap;
 
-import com.syncleus.dann.hyperassociativemap.*;
+import com.syncleus.dann.graph.hyperassociativemap.*;
 
 public class LayeredHyperassociativeMap extends HyperassociativeMap
 {
