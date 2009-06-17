@@ -16,28 +16,34 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.tests.dann;
+package com.syncleus.tests.dann.neural;
 
-import com.syncleus.dann.neural.*;
-import com.syncleus.dann.neural.backprop.*;
+import com.syncleus.dann.neural.SynapseNotConnectedException;
 import org.junit.*;
 
-public class TestSynapse
+public class TestSynapseNotConnectedException
 {
-	@Test
-	public void testAccessors()
+	@Test(expected=SynapseNotConnectedException.class)
+	public void testDefault() throws SynapseNotConnectedException
 	{
-		BackpropNeuron sourceNeuron = new BackpropNeuron();
-		BackpropNeuron destinationNeuron = new BackpropNeuron();
+		throw new SynapseNotConnectedException();
+	}
 
-		Synapse testSynapse = new Synapse(sourceNeuron, destinationNeuron, 0.01);
+	@Test(expected=SynapseNotConnectedException.class)
+	public void testString() throws SynapseNotConnectedException
+	{
+		throw new SynapseNotConnectedException("This is just a test");
+	}
 
-		testSynapse.setInput(2.0d);
-		Assert.assertTrue(testSynapse.getInput() == 2.0d);
-		testSynapse.setWeight(3.0d);
-		Assert.assertTrue(testSynapse.getWeight() == 3.0d);
-		Assert.assertTrue(testSynapse.getOutput() == 6.0d);
-		Assert.assertTrue(testSynapse.getSource() == sourceNeuron);
-		Assert.assertTrue(testSynapse.getDestination() == destinationNeuron);
+	@Test(expected=SynapseNotConnectedException.class)
+	public void testCause() throws SynapseNotConnectedException
+	{
+		throw new SynapseNotConnectedException(new Exception());
+	}
+
+	@Test(expected=SynapseNotConnectedException.class)
+	public void testStringCause() throws SynapseNotConnectedException
+	{
+		throw new SynapseNotConnectedException("This is just a test", new Exception());
 	}
 }

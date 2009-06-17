@@ -16,34 +16,34 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.tests.dann;
+package com.syncleus.tests.dann.neural;
 
-import com.syncleus.dann.neural.InvalidConnectionTypeDannException;
+import com.syncleus.dann.neural.SynapseDoesNotExistException;
 import org.junit.*;
 
-public class TestInvalidConnectionTypeDannException
+public class TestSynapseDoesNotExistException
 {
-	@Test(expected=InvalidConnectionTypeDannException.class)
-	public void testDefault() throws InvalidConnectionTypeDannException
+	@Test(expected=SynapseDoesNotExistException.class)
+	public void testDefault() throws SynapseDoesNotExistException
 	{
-		throw new InvalidConnectionTypeDannException();
+		throw new SynapseDoesNotExistException();
 	}
 
-	@Test(expected=InvalidConnectionTypeDannException.class)
-	public void testString() throws InvalidConnectionTypeDannException
+	@Test(expected=SynapseDoesNotExistException.class)
+	public void testString() throws SynapseDoesNotExistException
 	{
-		throw new InvalidConnectionTypeDannException("This is just a test");
+		throw new SynapseDoesNotExistException("This is just a test");
 	}
 
-	@Test(expected=InvalidConnectionTypeDannException.class)
-	public void testCause() throws InvalidConnectionTypeDannException
+	@Test(expected=SynapseDoesNotExistException.class)
+	public void testCause() throws SynapseDoesNotExistException
 	{
-		throw new InvalidConnectionTypeDannException(new Exception());
+		throw new SynapseDoesNotExistException(new Exception());
 	}
 
-	@Test(expected=InvalidConnectionTypeDannException.class)
-	public void testStringCause() throws InvalidConnectionTypeDannException
+	@Test(expected=SynapseDoesNotExistException.class)
+	public void testStringCause() throws SynapseDoesNotExistException
 	{
-		throw new InvalidConnectionTypeDannException("This is just a test", new Exception());
+		throw new SynapseDoesNotExistException("This is just a test", new Exception());
 	}
 }

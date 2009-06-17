@@ -16,34 +16,34 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.tests.dann;
+package com.syncleus.tests.dann.neural;
 
-import com.syncleus.dann.DannException;
+import com.syncleus.dann.neural.InvalidConnectionTypeDannException;
 import org.junit.*;
 
-public class TestDannException
+public class TestInvalidConnectionTypeDannException
 {
-	@Test(expected=DannException.class)
-	public void testDefault() throws DannException
+	@Test(expected=InvalidConnectionTypeDannException.class)
+	public void testDefault() throws InvalidConnectionTypeDannException
 	{
-		throw new DannException();
+		throw new InvalidConnectionTypeDannException();
 	}
 
-	@Test(expected=DannException.class)
-	public void testString() throws DannException
+	@Test(expected=InvalidConnectionTypeDannException.class)
+	public void testString() throws InvalidConnectionTypeDannException
 	{
-		throw new DannException("This is just a test");
+		throw new InvalidConnectionTypeDannException("This is just a test");
 	}
 
-	@Test(expected=DannException.class)
-	public void testCause() throws DannException
+	@Test(expected=InvalidConnectionTypeDannException.class)
+	public void testCause() throws InvalidConnectionTypeDannException
 	{
-		throw new DannException(new Exception());
+		throw new InvalidConnectionTypeDannException(new Exception());
 	}
 
-	@Test(expected=DannException.class)
-	public void testStringCause() throws DannException
+	@Test(expected=InvalidConnectionTypeDannException.class)
+	public void testStringCause() throws InvalidConnectionTypeDannException
 	{
-		throw new DannException("This is just a test", new Exception());
+		throw new InvalidConnectionTypeDannException("This is just a test", new Exception());
 	}
 }

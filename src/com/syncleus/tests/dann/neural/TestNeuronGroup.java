@@ -16,7 +16,7 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.tests.dann;
+package com.syncleus.tests.dann.neural;
 
 import com.syncleus.dann.neural.InvalidConnectionTypeDannException;
 import com.syncleus.dann.neural.NeuronGroup;

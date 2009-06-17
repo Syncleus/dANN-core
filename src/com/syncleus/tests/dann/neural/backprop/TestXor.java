@@ -16,7 +16,7 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.tests.dann;
+package com.syncleus.tests.dann.neural.backprop;
 
 
 import com.syncleus.dann.DannException;

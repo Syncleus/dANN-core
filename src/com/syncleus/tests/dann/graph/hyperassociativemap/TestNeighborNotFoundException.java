@@ -16,34 +16,34 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.tests.dann;
+package com.syncleus.tests.dann.graph.hyperassociativemap;
 
-import com.syncleus.dann.neural.SynapseNotConnectedException;
+import com.syncleus.dann.graph.hyperassociativemap.NeighborNotFoundException;
 import org.junit.*;
 
-public class TestSynapseNotConnectedException
+public class TestNeighborNotFoundException
 {
-	@Test(expected=SynapseNotConnectedException.class)
-	public void testDefault() throws SynapseNotConnectedException
+	@Test(expected=NeighborNotFoundException.class)
+	public void testDefault() throws NeighborNotFoundException
 	{
-		throw new SynapseNotConnectedException();
+		throw new NeighborNotFoundException();
 	}
 
-	@Test(expected=SynapseNotConnectedException.class)
-	public void testString() throws SynapseNotConnectedException
+	@Test(expected=NeighborNotFoundException.class)
+	public void testString() throws NeighborNotFoundException
 	{
-		throw new SynapseNotConnectedException("This is just a test");
+		throw new NeighborNotFoundException("This is just a test");
 	}
 
-	@Test(expected=SynapseNotConnectedException.class)
-	public void testCause() throws SynapseNotConnectedException
+	@Test(expected=NeighborNotFoundException.class)
+	public void testCause() throws NeighborNotFoundException
 	{
-		throw new SynapseNotConnectedException(new Exception());
+		throw new NeighborNotFoundException(new Exception());
 	}
 
-	@Test(expected=SynapseNotConnectedException.class)
-	public void testStringCause() throws SynapseNotConnectedException
+	@Test(expected=NeighborNotFoundException.class)
+	public void testStringCause() throws NeighborNotFoundException
 	{
-		throw new SynapseNotConnectedException("This is just a test", new Exception());
+		throw new NeighborNotFoundException("This is just a test", new Exception());
 	}
 }

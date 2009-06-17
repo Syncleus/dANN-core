@@ -16,7 +16,7 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.tests.dann.activation;
+package com.syncleus.tests.dann.neural.activation;
 
 import com.syncleus.dann.neural.activation.*;
 import org.junit.*;

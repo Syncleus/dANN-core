@@ -16,34 +16,28 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.tests.dann;
+package com.syncleus.tests.dann.neural;
 
-import com.syncleus.dann.neural.SynapseDoesNotExistException;
+import com.syncleus.dann.neural.*;
+import com.syncleus.dann.neural.backprop.*;
 import org.junit.*;
 
-public class TestSynapseDoesNotExistException
+public class TestSynapse
 {
-	@Test(expected=SynapseDoesNotExistException.class)
-	public void testDefault() throws SynapseDoesNotExistException
+	@Test
+	public void testAccessors()
 	{
-		throw new SynapseDoesNotExistException();
-	}
+		BackpropNeuron sourceNeuron = new BackpropNeuron();
+		BackpropNeuron destinationNeuron = new BackpropNeuron();
 
-	@Test(expected=SynapseDoesNotExistException.class)
-	public void testString() throws SynapseDoesNotExistException
-	{
-		throw new SynapseDoesNotExistException("This is just a test");
-	}
+		Synapse testSynapse = new Synapse(sourceNeuron, destinationNeuron, 0.01);
 
-	@Test(expected=SynapseDoesNotExistException.class)
-	public void testCause() throws SynapseDoesNotExistException
-	{
-		throw new SynapseDoesNotExistException(new Exception());
-	}
-
-	@Test(expected=SynapseDoesNotExistException.class)
-	public void testStringCause() throws SynapseDoesNotExistException
-	{
-		throw new SynapseDoesNotExistException("This is just a test", new Exception());
+		testSynapse.setInput(2.0d);
+		Assert.assertTrue(testSynapse.getInput() == 2.0d);
+		testSynapse.setWeight(3.0d);
+		Assert.assertTrue(testSynapse.getWeight() == 3.0d);
+		Assert.assertTrue(testSynapse.getOutput() == 6.0d);
+		Assert.assertTrue(testSynapse.getSource() == sourceNeuron);
+		Assert.assertTrue(testSynapse.getDestination() == destinationNeuron);
 	}
 }

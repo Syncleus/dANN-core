@@ -16,34 +16,34 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.tests.dann.hyperassociativemap;
+package com.syncleus.tests.dann.neural;
 
-import com.syncleus.dann.graph.hyperassociativemap.NeighborNotFoundException;
+import com.syncleus.dann.DannException;
 import org.junit.*;
 
-public class TestNeighborNotFoundException
+public class TestDannException
 {
-	@Test(expected=NeighborNotFoundException.class)
-	public void testDefault() throws NeighborNotFoundException
+	@Test(expected=DannException.class)
+	public void testDefault() throws DannException
 	{
-		throw new NeighborNotFoundException();
+		throw new DannException();
 	}
 
-	@Test(expected=NeighborNotFoundException.class)
-	public void testString() throws NeighborNotFoundException
+	@Test(expected=DannException.class)
+	public void testString() throws DannException
 	{
-		throw new NeighborNotFoundException("This is just a test");
+		throw new DannException("This is just a test");
 	}
 
-	@Test(expected=NeighborNotFoundException.class)
-	public void testCause() throws NeighborNotFoundException
+	@Test(expected=DannException.class)
+	public void testCause() throws DannException
 	{
-		throw new NeighborNotFoundException(new Exception());
+		throw new DannException(new Exception());
 	}
 
-	@Test(expected=NeighborNotFoundException.class)
-	public void testStringCause() throws NeighborNotFoundException
+	@Test(expected=DannException.class)
+	public void testStringCause() throws DannException
 	{
-		throw new NeighborNotFoundException("This is just a test", new Exception());
+		throw new DannException("This is just a test", new Exception());
 	}
 }
