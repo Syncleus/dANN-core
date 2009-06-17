@@ -18,80 +18,44 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics;
 
-import java.util.Random;
-
-public abstract class MutableNumber<E, N extends Number> extends Number implements Mutable<E>
+public class MutableLong extends MutableNumber<MutableLong, Long> implements Comparable<MutableLong>
 {
-	private static Random random = new Random();
-
-	private N number;
-
-	protected MutableNumber(N number)
+	public MutableLong(long value)
 	{
-		this.number = number;
+		super(Long.valueOf(value));
 	}
 
-	static protected double getDistributedRandom(double deviation)
+	public MutableLong(String s)
 	{
-		double normalRand = (MutableNumber.random.nextDouble() * 2.0) - 1.0;
-		return atanh(normalRand) * Math.abs(deviation);
+		super(Long.valueOf(s));
 	}
 
-    static private double atanh(double value)
-    {
-        return 0.5 * Math.log(Math.abs((value + 1.0) / (1.0 - value)));
-    }
-
-	public N getNumber()
+	public MutableLong(Long value)
 	{
-		return this.number;
+		super(value);
 	}
 
-	public double doubleValue()
+	public MutableLong mutate(double deviation)
 	{
-		return this.number.doubleValue();
+		double doubleDistributed = MutableNumber.getDistributedRandom(deviation);
+		long distributedRand = (long) doubleDistributed;
+		if(doubleDistributed > Long.MAX_VALUE)
+			distributedRand = Long.MAX_VALUE;
+		else if(doubleDistributed < Long.MIN_VALUE)
+			distributedRand = Long.MIN_VALUE;
+
+		long result = this.getNumber().longValue() + distributedRand;
+
+		if(( distributedRand > 0)&&( result < this.getNumber().longValue()))
+			return new MutableLong(Long.MAX_VALUE);
+		else if((distributedRand < 0)&&( result > this.getNumber().longValue()))
+			return new MutableLong(Long.MIN_VALUE);
+
+		return new MutableLong(result);
 	}
 
-	public float floatValue()
+	public int compareTo(MutableLong compareWith)
 	{
-		return this.number.floatValue();
-	}
-	
-	public byte byteValue()
-	{
-		return this.number.byteValue();
-	}
-
-	public short shortValue()
-	{
-		return this.number.shortValue();
-	}
-
-	public int intValue()
-	{
-		return this.number.intValue();
-	}
-
-	public long longValue()
-	{
-		return this.number.longValue();
-	}
-
-	@Override
-	public int hashCode()
-	{
-		return this.number.hashCode();
-	}
-
-	@Override
-	public boolean equals(Object compareWith)
-	{
-		return this.number.equals(compareWith);
-	}
-
-	@Override
-	public String toString()
-	{
-		return this.number.toString();
+		return this.getNumber().compareTo(compareWith.getNumber());
 	}
 }

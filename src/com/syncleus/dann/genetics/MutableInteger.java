@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics;
 
-public class MutableInteger extends MutableNumber<MutableInteger, Integer>
+public class MutableInteger extends MutableNumber<MutableInteger, Integer> implements Comparable<MutableInteger>
 {
 	public MutableInteger(int value)
 	{
@@ -37,16 +37,25 @@ public class MutableInteger extends MutableNumber<MutableInteger, Integer>
 
 	public MutableInteger mutate(double deviation)
 	{
-		double distributedRand = MutableNumber.getDistributedRandom(deviation);
+		double doubleDistributed = MutableNumber.getDistributedRandom(deviation);
+		int distributedRand = (int) doubleDistributed;
+		if(doubleDistributed > Integer.MAX_VALUE)
+			distributedRand = Integer.MAX_VALUE;
+		else if(doubleDistributed < Integer.MIN_VALUE)
+			distributedRand = Integer.MIN_VALUE;
 
-		if ((Integer.MAX_VALUE - distributedRand)< this.getNumber().intValue())
-		{
-			if(distributedRand > 0)
-				return new MutableInteger(Integer.MAX_VALUE);
-			else
-				return new MutableInteger(Integer.MIN_VALUE);
-		}
+		int result = this.getNumber().intValue() + distributedRand;
 
-		return new MutableInteger(this.getNumber().intValue() + ((int)distributedRand));
+		if(( distributedRand > 0)&&( result < this.getNumber().intValue()))
+			return new MutableInteger(Integer.MAX_VALUE);
+		else if((distributedRand < 0)&&( result > this.getNumber().intValue()))
+			return new MutableInteger(Integer.MIN_VALUE);
+
+		return new MutableInteger(result);
+	}
+
+	public int compareTo(MutableInteger compareWith)
+	{
+		return this.getNumber().compareTo(compareWith.getNumber());
 	}
 }

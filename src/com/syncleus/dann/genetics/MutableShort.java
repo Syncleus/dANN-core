@@ -18,80 +18,44 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics;
 
-import java.util.Random;
-
-public abstract class MutableNumber<E, N extends Number> extends Number implements Mutable<E>
+public class MutableShort extends MutableNumber<MutableShort, Short> implements Comparable<MutableShort>
 {
-	private static Random random = new Random();
-
-	private N number;
-
-	protected MutableNumber(N number)
+	public MutableShort(short value)
 	{
-		this.number = number;
+		super(Short.valueOf(value));
 	}
 
-	static protected double getDistributedRandom(double deviation)
+	public MutableShort(String s)
 	{
-		double normalRand = (MutableNumber.random.nextDouble() * 2.0) - 1.0;
-		return atanh(normalRand) * Math.abs(deviation);
+		super(Short.valueOf(s));
 	}
 
-    static private double atanh(double value)
-    {
-        return 0.5 * Math.log(Math.abs((value + 1.0) / (1.0 - value)));
-    }
-
-	public N getNumber()
+	public MutableShort(Short value)
 	{
-		return this.number;
+		super(value);
 	}
 
-	public double doubleValue()
+	public MutableShort mutate(double deviation)
 	{
-		return this.number.doubleValue();
+		double doubleDistributed = MutableNumber.getDistributedRandom(deviation);
+		short distributedRand = (short) doubleDistributed;
+		if(doubleDistributed > Short.MAX_VALUE)
+			distributedRand = Short.MAX_VALUE;
+		else if(doubleDistributed < Short.MIN_VALUE)
+			distributedRand = Short.MIN_VALUE;
+
+		short result = (short)(this.getNumber().shortValue() + distributedRand);
+
+		if(( distributedRand > 0)&&( result < this.getNumber().shortValue()))
+			return new MutableShort(Short.MAX_VALUE);
+		else if((distributedRand < 0)&&( result > this.getNumber().shortValue()))
+			return new MutableShort(Short.MIN_VALUE);
+
+		return new MutableShort(result);
 	}
 
-	public float floatValue()
+	public int compareTo(MutableShort compareWith)
 	{
-		return this.number.floatValue();
-	}
-	
-	public byte byteValue()
-	{
-		return this.number.byteValue();
-	}
-
-	public short shortValue()
-	{
-		return this.number.shortValue();
-	}
-
-	public int intValue()
-	{
-		return this.number.intValue();
-	}
-
-	public long longValue()
-	{
-		return this.number.longValue();
-	}
-
-	@Override
-	public int hashCode()
-	{
-		return this.number.hashCode();
-	}
-
-	@Override
-	public boolean equals(Object compareWith)
-	{
-		return this.number.equals(compareWith);
-	}
-
-	@Override
-	public String toString()
-	{
-		return this.number.toString();
+		return this.getNumber().compareTo(compareWith.getNumber());
 	}
 }
