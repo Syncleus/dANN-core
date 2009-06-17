@@ -16,9 +16,9 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.genetics.wavelets;
+package com.syncleus.dann.genetics;
 
 public interface Mutable<E>
 {
-    public E mutate();
+    public E mutate(double deviation);
 }

@@ -186,7 +186,7 @@ public class Gene implements Cloneable
         copy.processors.clear();
         for(SignalProcessingWavelet processor:this.processors)
         {
-            copy.processors.add(processor.mutate());
+            copy.processors.add(processor.mutate(1.0));
         }
 
         while(random.nextFloat() < 0.1)
@@ -205,7 +205,7 @@ public class Gene implements Cloneable
 
                     SignalProcessingWavelet newProcessor = new SignalProcessingWavelet(copy.cell, inSignal, outSignal);
                     //give the new processor a change to internally mutate
-                    newProcessor.mutate();
+                    newProcessor.mutate(1.0);
 
                     copy.processors.add(newProcessor);
                 }
@@ -222,10 +222,10 @@ public class Gene implements Cloneable
 
                     SignalProcessingWavelet newProcessor = new SignalProcessingWavelet(copy.cell, inSignal, outSignal);
                     //give the new processor a change to internally mutate
-                    newProcessor.mutate();
+                    newProcessor.mutate(1.0);
 
                     copy.processors.remove(linkedWave);
-                    copy.processors.add(linkedWave.mutate(outSignal));
+                    copy.processors.add(linkedWave.mutate(1.0, outSignal));
 
 
                     copy.processors.add(newProcessor);
@@ -237,7 +237,7 @@ public class Gene implements Cloneable
             {
                 if(copy.processors.size() > 0)
                 {
-                    copy.processors.add(copy.getRandomizedProcessor().mutate());
+                    copy.processors.add(copy.getRandomizedProcessor().mutate(1.0));
                 }
             }
 
@@ -276,7 +276,7 @@ public class Gene implements Cloneable
                     Signal sourceCopy = uniqueArray[random.nextInt(uniqueArray.length)];
 
                     copy.processors.remove(destination);
-                    copy.processors.add(destination.mutate(sourceCopy));
+                    copy.processors.add(destination.mutate(1.0, sourceCopy));
                 }
             }
         }
@@ -321,7 +321,7 @@ public class Gene implements Cloneable
 
             SignalProcessingWavelet newProcessor = new SignalProcessingWavelet(copy.cell, randomSignal, newSignal);
             //give the new processor a change to internally mutate
-            newProcessor.mutate();
+            newProcessor.mutate(1.0);
 
             copy.processors.add(newProcessor);
         }
@@ -331,7 +331,7 @@ public class Gene implements Cloneable
             SignalProcessingWavelet wavelet = copy.getRandomizedProcessor();
             
             copy.processors.remove(wavelet);
-            copy.processors.add(wavelet.mutate(newSignal));
+            copy.processors.add(wavelet.mutate(1.0, newSignal));
         }
 
         return copy.mutate();

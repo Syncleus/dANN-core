@@ -18,13 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
-
-import com.syncleus.dann.math.WaveletMathFunction;
-import com.syncleus.dann.math.WaveMultidimensionalMathFunction;
+import com.syncleus.dann.math.*;
 import com.syncleus.dann.util.UniqueId;
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.TreeSet;
+import java.util.*;
 
 public class SignalProcessingWavelet implements SignalMutable<SignalProcessingWavelet>, Comparable<SignalProcessingWavelet>, Cloneable
 {
@@ -124,16 +120,6 @@ public class SignalProcessingWavelet implements SignalMutable<SignalProcessingWa
         copy.signals = new TreeSet<Signal>(this.signals);
         copy.waves = new ArrayList<WaveMultidimensionalMathFunction>(this.waves);
 
-
-
-
-
-
-
-
-
-
-
         copy.output = this.output;
         copy.wavelet = (this.wavelet == null ? null : this.wavelet.clone());
         copy.id = this.id;
@@ -201,7 +187,7 @@ public class SignalProcessingWavelet implements SignalMutable<SignalProcessingWa
      * 
      * @return New mutated wavelet
      */
-    public SignalProcessingWavelet mutate()
+    public SignalProcessingWavelet mutate(double deviation)
     {
         SignalProcessingWavelet copy = this.clone();
 
@@ -290,7 +276,7 @@ public class SignalProcessingWavelet implements SignalMutable<SignalProcessingWa
      * @param newSignal The new signal to incorperate.
      * @return New mutated wavelet
      */
-    public SignalProcessingWavelet mutate(Signal newSignal)
+    public SignalProcessingWavelet mutate(double deviation, Signal newSignal)
     {
         SignalProcessingWavelet copy = this.clone();
         copy.signals.add(newSignal);
@@ -324,7 +310,7 @@ public class SignalProcessingWavelet implements SignalMutable<SignalProcessingWa
         }
 
         copy.id = new UniqueId(64);
-        return copy.mutate();
+        return copy.mutate(1.0);
     }
 
 

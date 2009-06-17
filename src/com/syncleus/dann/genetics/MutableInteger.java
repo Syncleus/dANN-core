@@ -16,12 +16,37 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.genetics.wavelets;
+package com.syncleus.dann.genetics;
 
-import com.syncleus.dann.genetics.Mutable;
-
-public interface SignalMutable<E> extends Mutable<E>
+public class MutableInteger extends MutableNumber<MutableInteger, Integer>
 {
-    public E mutate(double deviation);
-    public E mutate(double deviation, Signal newSignal);
+	public MutableInteger(int value)
+	{
+		super(Integer.valueOf(value));
+	}
+
+	public MutableInteger(String s)
+	{
+		super(Integer.valueOf(s));
+	}
+
+	public MutableInteger(Integer value)
+	{
+		super(value);
+	}
+
+	public MutableInteger mutate(double deviation)
+	{
+		double distributedRand = MutableNumber.getDistributedRandom(deviation);
+
+		if ((Integer.MAX_VALUE - distributedRand)< this.getNumber().intValue())
+		{
+			if(distributedRand > 0)
+				return new MutableInteger(Integer.MAX_VALUE);
+			else
+				return new MutableInteger(Integer.MIN_VALUE);
+		}
+
+		return new MutableInteger(this.getNumber().intValue() + ((int)distributedRand));
+	}
 }
