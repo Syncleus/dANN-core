@@ -16,49 +16,40 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.genetics.wavelets;
+package com.syncleus.dann.genetics;
 
-
-import com.syncleus.dann.util.UniqueId;
-
-public abstract class Signal implements Comparable<Signal>
+public class FloatValueGene extends ValueGene<MutableFloat>
 {
-    private double value = 0.0;
-    private UniqueId id = new UniqueId(32);
-    
-    public Signal()
-    {
-    }
-    
-    protected Signal(Signal originalSignal)
-    {
-        value = originalSignal.value;
-        id = originalSignal.id;
-    }
-    
-    public double add(double addValue)
-    {
-        this.value += addValue;
-        return this.value;
-    }
-    
-    public double getValue()
-    {
-        return this.value;
-    }
-    
-    public void setValue(double newValue)
-    {
-        this.value = newValue;
-    }
-    
-    public UniqueId getId()
-    {
-        return this.id;
-    }
-    
-    public int compareTo(Signal compareWith)
-    {
-        return this.getId().compareTo(compareWith.getId());
-    }
+	public FloatValueGene()
+	{
+		super(new MutableFloat(0f));
+	}
+
+	public FloatValueGene(float value)
+	{
+		super(new MutableFloat(value));
+	}
+
+	public FloatValueGene(Float value)
+	{
+		super(new MutableFloat(value));
+	}
+
+	public FloatValueGene(MutableFloat value)
+	{
+		super(value);
+	}
+
+	public FloatValueGene(FloatValueGene copyGene)
+	{
+		super(copyGene);
+	}
+
+	public FloatValueGene mutate(double deviation)
+	{
+		FloatValueGene copy = new FloatValueGene(this);
+		copy.internalMutate(deviation);
+
+		return copy;
+	}
 }

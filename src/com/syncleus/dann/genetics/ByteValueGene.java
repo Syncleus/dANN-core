@@ -16,16 +16,40 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.genetics.wavelets;
+package com.syncleus.dann.genetics;
 
-public class LocalSignal extends Signal
+public class ByteValueGene extends ValueGene<MutableByte>
 {
-    public LocalSignal()
-    {
-    }
-    
-    protected LocalSignal(LocalSignal originalSignal)
-    {
-        super(originalSignal);
-    }
+	public ByteValueGene()
+	{
+		super(new MutableByte((byte)0));
+	}
+
+	public ByteValueGene(byte value)
+	{
+		super(new MutableByte(value));
+	}
+
+	public ByteValueGene(Byte value)
+	{
+		super(new MutableByte(value));
+	}
+
+	public ByteValueGene(MutableByte value)
+	{
+		super(value);
+	}
+
+	public ByteValueGene(ByteValueGene copyGene)
+	{
+		super(copyGene);
+	}
+
+	public ByteValueGene mutate(double deviation)
+	{
+		ByteValueGene copy = new ByteValueGene(this);
+		copy.internalMutate(deviation);
+
+		return copy;
+	}
 }

@@ -16,11 +16,40 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.genetics.wavelets;
-import com.syncleus.dann.math.WaveMultidimensionalMathFunction;
-public interface SignaledWaveMutable extends SignalMutable
+package com.syncleus.dann.genetics;
+
+public class ShortValueGene extends ValueGene<MutableShort>
 {
-    public SignaledWaveMutable mutate();
-    public SignaledWaveMutable mutate(SignalConcentration newSignal);
-    public SignaledWaveMutable mutate(SignalConcentration newSignal, WaveMultidimensionalMathFunction newWave);
+	public ShortValueGene()
+	{
+		super(new MutableShort((short)0));
+	}
+
+	public ShortValueGene(short value)
+	{
+		super(new MutableShort(value));
+	}
+
+	public ShortValueGene(Short value)
+	{
+		super(new MutableShort(value));
+	}
+
+	public ShortValueGene(MutableShort value)
+	{
+		super(value);
+	}
+
+	public ShortValueGene(ShortValueGene copyGene)
+	{
+		super(copyGene);
+	}
+
+	public ShortValueGene mutate(double deviation)
+	{
+		ShortValueGene copy = new ShortValueGene(this);
+		copy.internalMutate(deviation);
+
+		return copy;
+	}
 }

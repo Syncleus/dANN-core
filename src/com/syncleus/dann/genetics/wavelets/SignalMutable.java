@@ -20,8 +20,8 @@ package com.syncleus.dann.genetics.wavelets;
 
 import com.syncleus.dann.genetics.Mutable;
 
-public interface SignalMutable<E> extends Mutable<E>
+public interface SignalMutable extends Mutable
 {
-    public E mutate(double deviation);
-    public E mutate(double deviation, Signal newSignal);
+    public SignalMutable mutate(double deviation);
+    public SignalMutable mutate(double deviation, SignalConcentration newSignal);
 }

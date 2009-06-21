@@ -18,14 +18,47 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
-public class GlobalSignal extends Signal
+
+import com.syncleus.dann.util.UniqueId;
+
+public abstract class SignalConcentration implements Comparable<SignalConcentration>
 {
-    public GlobalSignal()
+    private double value = 0.0;
+    private UniqueId id = new UniqueId(32);
+    
+    public SignalConcentration()
     {
     }
     
-    protected GlobalSignal(GlobalSignal originalSignal)
+    protected SignalConcentration(SignalConcentration originalSignal)
     {
-        super(originalSignal);
+        value = originalSignal.value;
+        id = originalSignal.id;
+    }
+    
+    public double add(double addValue)
+    {
+        this.value += addValue;
+        return this.value;
+    }
+    
+    public double getValue()
+    {
+        return this.value;
+    }
+    
+    public void setValue(double newValue)
+    {
+        this.value = newValue;
+    }
+    
+    public UniqueId getId()
+    {
+        return this.id;
+    }
+    
+    public int compareTo(SignalConcentration compareWith)
+    {
+        return this.getId().compareTo(compareWith.getId());
     }
 }

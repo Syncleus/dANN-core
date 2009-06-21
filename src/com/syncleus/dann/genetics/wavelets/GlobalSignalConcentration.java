@@ -18,55 +18,14 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
-
-import com.syncleus.dann.util.UniqueId;
-import java.util.Hashtable;
-
-public class Cell
+public class GlobalSignalConcentration extends SignalConcentration
 {
-    private Organism organism;
-    private Nucleus nucleus;
-    private Hashtable<UniqueId, LocalSignal> localSignals = new Hashtable<UniqueId, LocalSignal>();
-    
-//    private LocalSignal mitosisActivator;
-//    private LocalSignal identitySignal;
-    
-    LocalSignal getLocalSignal(UniqueId signalId)
+    public GlobalSignalConcentration()
     {
-        return this.localSignals.get(signalId);
     }
     
-    GlobalSignal getGlobalSignal(UniqueId signalId)
+    protected GlobalSignalConcentration(GlobalSignalConcentration originalSignal)
     {
-        return this.organism.getGlobalSignal(signalId);
-    }
-    
-    Signal updateSignal(Signal oldSignal)
-    {
-        if( oldSignal instanceof GlobalSignal )
-            return oldSignal;
-        
-        LocalSignal oldLocalSignal = (LocalSignal) oldSignal;
-        
-        //if the local signal already exists return the current one else create it
-        LocalSignal newSignal = this.getLocalSignal(oldLocalSignal.getId());
-        if( newSignal != null )
-            return newSignal;
-        else
-            newSignal = new LocalSignal(oldLocalSignal);
-        
-        this.localSignals.put(newSignal.getId(), newSignal);
-        
-        return newSignal;
-    }
-    
-    void preTick()
-    {
-        this.nucleus.preTick();
-    }
-    
-    void tick()
-    {
-        this.nucleus.tick();
+        super(originalSignal);
     }
 }

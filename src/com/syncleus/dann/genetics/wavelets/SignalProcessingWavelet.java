@@ -22,20 +22,20 @@ import com.syncleus.dann.math.*;
 import com.syncleus.dann.util.UniqueId;
 import java.util.*;
 
-public class SignalProcessingWavelet implements SignalMutable<SignalProcessingWavelet>, Comparable<SignalProcessingWavelet>, Cloneable
+public class SignalProcessingWavelet implements SignalMutable, Comparable<SignalProcessingWavelet>, Cloneable
 {
     private UniqueId id = null;
-    private Signal output;
+    private SignalConcentration output;
     private double currentOutput = 0.0;
     private static Random random = new Random();
-    TreeSet<Signal> signals = new TreeSet<Signal>();
+    TreeSet<SignalConcentration> signals = new TreeSet<SignalConcentration>();
     ArrayList<WaveMultidimensionalMathFunction> waves = new ArrayList<WaveMultidimensionalMathFunction>();
     WaveletMathFunction wavelet;
-    private Cell cell = null;
+//    private Cell cell = null;
 
 
 
-    public SignalProcessingWavelet(Cell cell, Signal initialInput, Signal initialOutput)
+    public SignalProcessingWavelet(/*Cell cell,*/ SignalConcentration initialInput, SignalConcentration initialOutput)
     {
         this.output = initialOutput;
 
@@ -44,7 +44,7 @@ public class SignalProcessingWavelet implements SignalMutable<SignalProcessingWa
         WaveMultidimensionalMathFunction initialWave = generateNewWave();
         this.waves.add(initialWave);
 
-        this.cell = cell;
+//        this.cell = cell;
 
         this.id = new UniqueId(64);
     }
@@ -65,9 +65,9 @@ public class SignalProcessingWavelet implements SignalMutable<SignalProcessingWa
 
 
 
-    public TreeSet<Signal> getSignals()
+    public TreeSet<SignalConcentration> getSignals()
     {
-        TreeSet<Signal> copy = new TreeSet<Signal>(this.signals);
+        TreeSet<SignalConcentration> copy = new TreeSet<SignalConcentration>(this.signals);
         copy.add(this.output);
         return copy;
     }
@@ -93,7 +93,7 @@ public class SignalProcessingWavelet implements SignalMutable<SignalProcessingWa
     {
         this.reconstructWavelet();
 
-        for(Signal signal:this.signals)
+        for(SignalConcentration signal:this.signals)
         {
             this.wavelet.setParameter(this.wavelet.getParameterNameIndex(signal.getId().toString()), signal.getValue());
         }
@@ -117,7 +117,7 @@ public class SignalProcessingWavelet implements SignalMutable<SignalProcessingWa
     public SignalProcessingWavelet clone()
     {
         SignalProcessingWavelet copy = new SignalProcessingWavelet();
-        copy.signals = new TreeSet<Signal>(this.signals);
+        copy.signals = new TreeSet<SignalConcentration>(this.signals);
         copy.waves = new ArrayList<WaveMultidimensionalMathFunction>(this.waves);
 
         copy.output = this.output;
@@ -127,7 +127,7 @@ public class SignalProcessingWavelet implements SignalMutable<SignalProcessingWa
     }
 
 
-
+/*
     public SignalProcessingWavelet clone(Cell cell)
     {
         SignalProcessingWavelet newWavelet = this.clone();
@@ -135,9 +135,9 @@ public class SignalProcessingWavelet implements SignalMutable<SignalProcessingWa
 
         return newWavelet;
     }
+*/
 
-
-
+/*
     void setCell(Cell cell)
     {
         this.cell = cell;
@@ -149,7 +149,7 @@ public class SignalProcessingWavelet implements SignalMutable<SignalProcessingWa
             newSignals.add(this.cell.updateSignal(dimension));
         }
         this.signals = newSignals;
-    }
+    }*/
 
 
 
@@ -158,7 +158,7 @@ public class SignalProcessingWavelet implements SignalMutable<SignalProcessingWa
         String[] signalNames = new String[this.signals.size()];
         //System.out.println("dimensions size: " + this.dimensions.size());
         int signalNamesIndex = 0;
-        for(Signal dimension:this.signals)
+        for(SignalConcentration dimension:this.signals)
         {
             signalNames[signalNamesIndex++] = dimension.getId().toString();
         }
@@ -224,18 +224,18 @@ public class SignalProcessingWavelet implements SignalMutable<SignalProcessingWa
                 //only delet eif there will be atleast one signal left
                 if(this.signals.size() > 1)
                 {
-                    Signal[] signals = new Signal[copy.signals.size()];
+                    SignalConcentration[] signals = new SignalConcentration[copy.signals.size()];
                     copy.signals.toArray(signals);
 
-                    Signal deleteSignal = signals[random.nextInt(signals.length)];
+                    SignalConcentration deleteSignal = signals[random.nextInt(signals.length)];
                     copy.signals.remove(deleteSignal);
 
-                    Signal[] copySignals = new Signal[copy.signals.size()];
+                    SignalConcentration[] copySignals = new SignalConcentration[copy.signals.size()];
                     copy.signals.toArray(copySignals);
 
                     String[] dimensionNames = new String[copySignals.length];
                     int dimensionNamesIndex = 0;
-                    for(Signal copySignal:copySignals)
+                    for(SignalConcentration copySignal:copySignals)
                     {
                         dimensionNames[dimensionNamesIndex++] = copySignal.getId().toString();
                     }
@@ -276,7 +276,7 @@ public class SignalProcessingWavelet implements SignalMutable<SignalProcessingWa
      * @param newSignal The new signal to incorperate.
      * @return New mutated wavelet
      */
-    public SignalProcessingWavelet mutate(double deviation, Signal newSignal)
+    public SignalProcessingWavelet mutate(double deviation, SignalConcentration newSignal)
     {
         SignalProcessingWavelet copy = this.clone();
         copy.signals.add(newSignal);
@@ -355,12 +355,12 @@ public class SignalProcessingWavelet implements SignalMutable<SignalProcessingWa
 
 
 
-    private Signal getRandomSignal()
+    private SignalConcentration getRandomSignal()
     {
 
-        Signal[] signalsArray = new Signal[this.signals.size()];
+        SignalConcentration[] signalsArray = new SignalConcentration[this.signals.size()];
         this.signals.toArray(signalsArray);
-        Signal randomSignal = signalsArray[random.nextInt(signalsArray.length)];
+        SignalConcentration randomSignal = signalsArray[random.nextInt(signalsArray.length)];
 
         return randomSignal;
     }
@@ -371,7 +371,7 @@ public class SignalProcessingWavelet implements SignalMutable<SignalProcessingWa
     {
         String[] dimensionNames = new String[this.signals.size()];
         int index = 0;
-        for(Signal dimension:this.signals)
+        for(SignalConcentration dimension:this.signals)
         {
             dimensionNames[index++] = dimension.getId().toString();
         }

@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics;
 
-public interface Mutable<E>
+public interface Mutable
 {
-    public E mutate(double deviation);
+    public Mutable mutate(double deviation);
 }

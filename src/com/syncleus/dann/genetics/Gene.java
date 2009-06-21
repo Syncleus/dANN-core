@@ -16,11 +16,10 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.genetics.wavelets;
-import com.syncleus.dann.math.WaveMultidimensionalMathFunction;
-public interface SignaledWaveMutable extends SignalMutable
+package com.syncleus.dann.genetics;
+
+public interface Gene extends Mutable
 {
-    public SignaledWaveMutable mutate();
-    public SignaledWaveMutable mutate(SignalConcentration newSignal);
-    public SignaledWaveMutable mutate(SignalConcentration newSignal, WaveMultidimensionalMathFunction newWave);
+	public double expressionActivity();
+	public Gene mutate(double deviation);
 }

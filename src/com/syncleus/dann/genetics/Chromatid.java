@@ -16,57 +16,14 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.genetics.wavelets;
+package com.syncleus.dann.genetics;
 
+import java.util.*;
 
-import java.util.TreeSet;
-
-public class Nucleus implements Cloneable
-{
-    private TreeSet<Chromosome> chromosomes = new TreeSet<Chromosome>();
-    private Cell cell = null;
-    
-    private Nucleus(Nucleus originalNucleus)
-    {
-        this.cell = originalNucleus.cell;
-        for(Chromosome oldChromosome : originalNucleus.chromosomes)
-            this.chromosomes.add(oldChromosome);
-    }
-    
-    public Nucleus clone()
-    {
-        Nucleus copy = new Nucleus(this);
-        return copy;
-    }
-
-
-
-    public Nucleus clone(Cell cell)
-    {
-        Nucleus copy = this.clone();
-        copy.setCell(cell);
-        return copy;
-    }
-    
-    
-    void preTick()
-    {
-        for(Chromosome chromosome : this.chromosomes)
-            chromosome.preTick();
-    }
-    
-    void tick()
-    {
-        for(Chromosome chromosome : this.chromosomes)
-            chromosome.preTick();
-    }
-
-
-
-    private void setCell(Cell cell)
-    {
-        this.cell = cell;
-        for(Chromosome chromosome : this.chromosomes )
-            chromosome.setCell(cell);
-    }
+public interface Chromatid<G extends Gene> extends Mutable
+{	
+	public List<? extends G> getGenes();
+	public List<? extends G> crossover(int point);
+	public void crossover(List<G> geneticSegment, int point);
+	public Chromatid mutate(double deviation);
 }

@@ -16,32 +16,40 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.genetics.wavelets;
+package com.syncleus.dann.genetics;
 
-
-import com.syncleus.dann.util.UniqueId;
-import java.util.Hashtable;
-import java.util.TreeSet;
-
-public class Organism
+public class LongValueGene extends ValueGene<MutableLong>
 {
-    TreeSet<Cell> cells = new TreeSet<Cell>();
-    Hashtable<UniqueId, GlobalSignal> globalSignals = new Hashtable<UniqueId, GlobalSignal>();
-    
-    public GlobalSignal getGlobalSignal(UniqueId signalId)
-    {
-        return this.globalSignals.get(signalId);
-    }
-    
-    void preTick()
-    {
-        for(Cell cell : this.cells)
-            cell.preTick();
-    }
-    
-    void tick()
-    {
-        for(Cell cell : this.cells)
-            cell.tick();
-    }
+	public LongValueGene()
+	{
+		super(new MutableLong(0));
+	}
+
+	public LongValueGene(long value)
+	{
+		super(new MutableLong(value));
+	}
+
+	public LongValueGene(Long value)
+	{
+		super(new MutableLong(value));
+	}
+
+	public LongValueGene(MutableLong value)
+	{
+		super(value);
+	}
+
+	public LongValueGene(LongValueGene copyGene)
+	{
+		super(copyGene);
+	}
+
+	public LongValueGene mutate(double deviation)
+	{
+		LongValueGene copy = new LongValueGene(this);
+		copy.internalMutate(deviation);
+
+		return copy;
+	}
 }

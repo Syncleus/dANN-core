@@ -20,7 +20,7 @@ package com.syncleus.dann.genetics;
 
 import java.util.Random;
 
-public abstract class MutableNumber<E, N extends Number> extends Number implements Mutable<E>
+public abstract class MutableNumber<E extends MutableNumber, N extends Number> extends Number implements Mutable
 {
 	private static Random random = new Random();
 
@@ -94,4 +94,6 @@ public abstract class MutableNumber<E, N extends Number> extends Number implemen
 	{
 		return this.number.toString();
 	}
+
+	public abstract MutableNumber<E,N> mutate(double deviation);
 }
