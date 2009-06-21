@@ -41,9 +41,9 @@ public abstract class GeneticAlgorithmPopulation
 			this.population.add(this.packageChromosome(chromosome));
 		}
 
-		this.mutationDeviation = 1d;
-		this.crossoverPercentage = 0.1d;
-		this.dieOffPercentage = 0.25d;
+		this.mutationDeviation = 0.25d;
+		this.crossoverPercentage = 0.75d;
+		this.dieOffPercentage = 0.90d;
 	}
 
 	public Set<GeneticAlgorithmChromosome> getChromosomes()
@@ -55,6 +55,11 @@ public abstract class GeneticAlgorithmPopulation
 		}
 
 		return Collections.unmodifiableSet(chromosomes);
+	}
+
+	public GeneticAlgorithmChromosome getWinner()
+	{
+		return this.population.last().getChromosome();
 	}
 	
 	public int getGenerations()
@@ -98,7 +103,7 @@ public abstract class GeneticAlgorithmPopulation
 
 			if(random.nextDouble() < this.crossoverPercentage)
 			{
-				int crossoverPoint = random.nextInt(child1.getGenes().size());
+				int crossoverPoint = random.nextInt(child1.getGenes().size() - 1) + 1;
 
 				List<ValueGene> child1Segment = child1.crossover(crossoverPoint);
 				List<ValueGene> child2Segment = child2.crossover(crossoverPoint);
