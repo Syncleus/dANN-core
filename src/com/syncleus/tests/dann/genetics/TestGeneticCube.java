@@ -74,7 +74,7 @@ public class TestGeneticCube
 	{
 		public VolumeAreaCubePopulation(Set<GeneticAlgorithmChromosome> initialChromosomes)
 		{
-			super(initialChromosomes, 0.25d, 0.75d, 0.90d);
+			super(initialChromosomes, 0.25d, 0.75d, 0.95d);
 		}
 
 		protected GeneticAlgorithmFitnessFunction packageChromosome(GeneticAlgorithmChromosome chromosome)
