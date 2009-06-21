@@ -100,8 +100,6 @@ public class TestGeneticCube
 			fitness = new VolumeAreaCubeFitness(population.getWinner());
 		}
 
-		System.out.println("cube complete: [" + fitness.getChromosome().getGenes().get(0).expressionActivity() + ", " + fitness.getChromosome().getGenes().get(1).expressionActivity() + ", " + fitness.getChromosome().getGenes().get(2).expressionActivity() + "] x " + population.getGenerations() + " @ " + fitness.getError());
-
 		Assert.assertTrue("Volume/Area Cube failed (error was too great)" + fitness.getError(), fitness.getError() < 0.1d);
 	}
 }
