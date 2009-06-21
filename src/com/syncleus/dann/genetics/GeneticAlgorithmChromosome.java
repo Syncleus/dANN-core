@@ -23,6 +23,7 @@ import java.util.*;
 public class GeneticAlgorithmChromosome implements Chromatid<ValueGene>
 {
 	private Vector<ValueGene> alleles;
+	protected static Random random = new Random();
 
 	public GeneticAlgorithmChromosome()
 	{
@@ -42,6 +43,16 @@ public class GeneticAlgorithmChromosome implements Chromatid<ValueGene>
 		while(this.alleles.size() < geneCount)
 		{
 			this.alleles.add(new DoubleValueGene());
+		}
+	}
+
+	public GeneticAlgorithmChromosome(int geneCount, double maxDeviation)
+	{
+		this();
+
+		while(this.alleles.size() < geneCount)
+		{
+			this.alleles.add(new DoubleValueGene(((random.nextDouble()*2d)-1d) * maxDeviation));
 		}
 	}
 
