@@ -224,8 +224,8 @@ public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
      * Causes the NetworkNode to disconnect all outgoing connections.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 1.0
-     * @see com.syncleus.dann.NeuronGroup#disconnectAllSources
-     * @see com.syncleus.dann.NeuronGroup#disconnectAll
+     * @see com.syncleus.dann.neural.NeuronGroup#disconnectAllSources
+     * @see com.syncleus.dann.neural.NeuronGroup#disconnectAll
      */
     public void disconnectAllDestinations()
     {
@@ -239,8 +239,8 @@ public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
      * Causes the NetworkNode to disconnect all incomming connections.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 1.0
-     * @see com.syncleus.dann.NeuronGroup#disconnectAllDestinations
-     * @see com.syncleus.dann.NeuronGroup#disconnectAll
+     * @see com.syncleus.dann.neural.NeuronGroup#disconnectAllDestinations
+     * @see com.syncleus.dann.neural.NeuronGroup#disconnectAll
      */
     public void disconnectAllSources()
     {
@@ -252,8 +252,8 @@ public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
      * Causes the NetworkNode to disconnect all connections.<BR>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 1.0
-     * @see com.syncleus.dann.NeuronGroup#disconnectAllSources
-     * @see com.syncleus.dann.NeuronGroup#disconnectAllDestinations
+     * @see com.syncleus.dann.neural.NeuronGroup#disconnectAllSources
+     * @see com.syncleus.dann.neural.NeuronGroup#disconnectAllDestinations
      */
     public void disconnectAll()
     {

@@ -51,8 +51,8 @@ public interface Neuron<SN extends NeuronImpl, DN extends NeuronImpl> extends Se
 	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 1.0
-     * @see com.syncleus.dann.Neuron#disconnectAllSources
-     * @see com.syncleus.dann.Neuron#disconnectAllDestinations
+     * @see com.syncleus.dann.neural.Neuron#disconnectAllSources
+     * @see com.syncleus.dann.neural.Neuron#disconnectAllDestinations
      */
     public void disconnectAll();
 
@@ -61,8 +61,8 @@ public interface Neuron<SN extends NeuronImpl, DN extends NeuronImpl> extends Se
 	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 1.0
-     * @see com.syncleus.dann.Neuron#disconnectAllSources
-     * @see com.syncleus.dann.Neuron#disconnectAll
+     * @see com.syncleus.dann.neural.Neuron#disconnectAllSources
+     * @see com.syncleus.dann.neural.Neuron#disconnectAll
      */
     public void disconnectAllDestinations();
 
@@ -71,8 +71,8 @@ public interface Neuron<SN extends NeuronImpl, DN extends NeuronImpl> extends Se
 	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 1.0
-     * @see com.syncleus.dann.Neuron#disconnectAllDestinations
-     * @see com.syncleus.dann.Neuron#disconnectAll
+     * @see com.syncleus.dann.neural.Neuron#disconnectAllDestinations
+     * @see com.syncleus.dann.neural.Neuron#disconnectAll
      */
     public void disconnectAllSources();
 
@@ -82,7 +82,7 @@ public interface Neuron<SN extends NeuronImpl, DN extends NeuronImpl> extends Se
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 1.0
      * @param outSynapse The outgoing synapse to disconnect from.<BR>
-     * @see com.syncleus.dann.NeuronImpl#removeSource
+     * @see com.syncleus.dann.neural.NeuronImpl#removeSource
 	 * @throws SynapseNotConnectedException Thrown if the specified synapse isnt
 	 * currently connected.
      */
@@ -94,7 +94,7 @@ public interface Neuron<SN extends NeuronImpl, DN extends NeuronImpl> extends Se
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 1.0
      * @param inSynapse The incomming synapse to disconnect from.
-     * @see com.syncleus.dann.NeuronImpl#removeDestination
+     * @see com.syncleus.dann.neural.NeuronImpl#removeDestination
 	 * @throws SynapseNotConnectedException Thrown if the specified synapse isnt
 	 * currently connected.
      */

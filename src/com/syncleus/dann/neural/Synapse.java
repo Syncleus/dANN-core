@@ -26,7 +26,7 @@ package com.syncleus.dann.neural;
  * @author Syncleus, Inc.
  * @since 1.0
  * @version 1.0
- * @see com.syncleus.dann.Neuron
+ * @see com.syncleus.dann.neural.Neuron
  */
 public class Synapse implements java.io.Serializable
 {

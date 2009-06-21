@@ -38,7 +38,7 @@ import java.util.Hashtable;
  * @author Syncleus, Inc.
  * @since 1.0
  * @version 1.0
- * @see com.syncleus.dann.Synapse
+ * @see com.syncleus.dann.neural.Synapse
  */
 public class BackpropNeuron extends NeuronImpl<NeuronImpl, BackpropNeuron>
 {
@@ -49,7 +49,7 @@ public class BackpropNeuron extends NeuronImpl<NeuronImpl, BackpropNeuron>
      * inputs. It is essentially the reverse of the activity value.
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 1.0
-     * @see com.syncleus.dann.NeuronImpl#activity
+     * @see com.syncleus.dann.neural.NeuronImpl#activity
      */
     protected double deltaTrain = 0;
 
@@ -133,7 +133,7 @@ public class BackpropNeuron extends NeuronImpl<NeuronImpl, BackpropNeuron>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 1.0
      * @param outUnit The BackpropNeuron to connect to.
-     * @see com.syncleus.dann.NeuronImpl#connectFrom
+     * @see com.syncleus.dann.neural.NeuronImpl#connectFrom
      */
     public void connectTo(BackpropNeuron outUnit) throws InvalidConnectionTypeDannException
     {
@@ -154,7 +154,7 @@ public class BackpropNeuron extends NeuronImpl<NeuronImpl, BackpropNeuron>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 1.0
      * @param outSynapse The incomming synapse to remove from memory.
-     * @see com.syncleus.dann.Neuron#disconnectSource
+     * @see com.syncleus.dann.neural.Neuron#disconnectSource
      */
 	@Override
 	protected void removeDestination(Synapse outSynapse) throws SynapseDoesNotExistException
@@ -169,7 +169,7 @@ public class BackpropNeuron extends NeuronImpl<NeuronImpl, BackpropNeuron>
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 1.0
      * @param outSynapse The outgoing synapse to disconnect from.
-     * @see com.syncleus.dann.NeuronImpl#removeSource
+     * @see com.syncleus.dann.neural.NeuronImpl#removeSource
 	 * @throws SynapseNotConnectedException Thrown if the specified synapse isnt
 	 * currently connected.
      */
@@ -219,7 +219,7 @@ public class BackpropNeuron extends NeuronImpl<NeuronImpl, BackpropNeuron>
 	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 1.0
-     * @see com.syncleus.dann.backprop.BackpropNeuron#backPropagate
+     * @see com.syncleus.dann.neural.backprop.BackpropNeuron#backPropagate
      */
     protected void calculateDeltaTrain()
     {

@@ -28,7 +28,7 @@ import com.syncleus.dann.neural.activation.*;
  * <!-- Author: Jeffrey Phillips Freeman -->
  * @author Syncleus, Inc.
  * @since 1.0
- * @see com.syncleus.dann.backprop.InputBackpropNeuron
+ * @see com.syncleus.dann.neural.backprop.InputBackpropNeuron
  */
 public class OutputBackpropNeuron extends BackpropNeuron implements OutputNeuron<NeuronImpl, BackpropNeuron>
 {
@@ -111,7 +111,7 @@ public class OutputBackpropNeuron extends BackpropNeuron implements OutputNeuron
 	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 1.0
-     * @see com.syncleus.dann.backprop.BackpropNeuron#backPropagate
+     * @see com.syncleus.dann.neural.backprop.BackpropNeuron#backPropagate
      */
 	@Override
     protected void calculateDeltaTrain()

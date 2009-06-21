@@ -56,7 +56,7 @@ public class BackpropNeuronGroup extends NeuronGroup<BackpropNeuron>
 	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 1.0
-     * @see com.syncleus.dann.backprop.BackpropNeuron#propagate
+     * @see com.syncleus.dann.neural.backprop.BackpropNeuron#propagate
      */
     public void propagate()
     {
@@ -71,7 +71,7 @@ public class BackpropNeuronGroup extends NeuronGroup<BackpropNeuron>
      * synapse to the incomming one.
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 1.0
-     * @see com.syncleus.dann.backprop.BackpropNeuron#backPropagate
+     * @see com.syncleus.dann.neural.backprop.BackpropNeuron#backPropagate
      */
     public void backPropagate()
     {

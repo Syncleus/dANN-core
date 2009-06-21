@@ -141,7 +141,7 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 1.0
      * @param inSynapse The synapse to connect from.
-     * @see com.syncleus.dann.Neuron#connectTo
+     * @see com.syncleus.dann.neural.Neuron#connectTo
      */
     protected void connectFrom(Synapse inSynapse) throws InvalidConnectionTypeDannException
     {
@@ -156,8 +156,8 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
 	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 1.0
-     * @see com.syncleus.dann.Neuron#disconnectAllSources
-     * @see com.syncleus.dann.Neuron#disconnectAllDestinations
+     * @see com.syncleus.dann.neural.Neuron#disconnectAllSources
+     * @see com.syncleus.dann.neural.Neuron#disconnectAllDestinations
      */
     public void disconnectAll()
     {
@@ -172,8 +172,8 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
 	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 1.0
-     * @see com.syncleus.dann.Neuron#disconnectAllSources
-     * @see com.syncleus.dann.Neuron#disconnectAll
+     * @see com.syncleus.dann.neural.Neuron#disconnectAllSources
+     * @see com.syncleus.dann.neural.Neuron#disconnectAll
      */
     public void disconnectAllDestinations()
     {
@@ -201,8 +201,8 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
 	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 1.0
-     * @see com.syncleus.dann.Neuron#disconnectAllDestinations
-     * @see com.syncleus.dann.Neuron#disconnectAll
+     * @see com.syncleus.dann.neural.Neuron#disconnectAllDestinations
+     * @see com.syncleus.dann.neural.Neuron#disconnectAll
      */
     public void disconnectAllSources()
     {
@@ -231,7 +231,7 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 1.0
      * @param outSynapse The outgoing synapse to disconnect from.
-     * @see com.syncleus.dann.NeuronImpl#removeSource
+     * @see com.syncleus.dann.neural.NeuronImpl#removeSource
 	 * @throws SynapseNotConnectedException Thrown if the specified synapse isnt
 	 * currently connected.
      */
@@ -262,7 +262,7 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 1.0
      * @param inSynapse The incomming synapse to disconnect from.
-     * @see com.syncleus.dann.NeuronImpl#removeDestination
+     * @see com.syncleus.dann.neural.NeuronImpl#removeDestination
 	 * @throws SynapseNotConnectedException Thrown if the specified synapse isnt
 	 * currently connected.
      */
@@ -293,7 +293,7 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 1.0
      * @param outSynapse The incomming synapse to remove from memory.
-     * @see com.syncleus.dann.Neuron#disconnectSource
+     * @see com.syncleus.dann.neural.Neuron#disconnectSource
      */
     protected void removeDestination(Synapse outSynapse) throws SynapseDoesNotExistException
     {
@@ -311,7 +311,7 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 1.0
      * @param inSynapse The incomming synapse to remove from memory.<BR>
-     * @see com.syncleus.dann.Neuron#disconnectDestination
+     * @see com.syncleus.dann.neural.Neuron#disconnectDestination
      */
     protected void removeSource(Synapse inSynapse) throws SynapseDoesNotExistException
     {
@@ -423,7 +423,7 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
 	 *
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 1.0
-     * @see com.syncleus.dann.backprop.BackpropNeuron#propagate
+     * @see com.syncleus.dann.neural.backprop.BackpropNeuron#propagate
      * @param newOutput The output value.
      */
     protected void setOutput(double newOutput)
@@ -459,7 +459,7 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
      * @since 1.0
      * @return a bound value (between -1 and 1 if this function is not
      * 	overwritten). It is a function of the neuron's current activity.
-     * @see com.syncleus.dann.backprop.BackpropNeuron#propagate
+     * @see com.syncleus.dann.neural.backprop.BackpropNeuron#propagate
      */
     protected double activate()
     {
@@ -477,7 +477,7 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 1.0
      * @return the derivative output of the activationFunction
-     * @see com.syncleus.dann.NeuronImpl#activationFunction
+     * @see com.syncleus.dann.neural.NeuronImpl#activationFunction
      */
     protected double activateDerivitive()
     {

@@ -144,7 +144,7 @@ public class InputBackpropNeuron extends BackpropNeuron implements InputNeuron<N
      * <!-- Author: Jeffrey Phillips Freeman -->
      * @since 1.0
      * @param inSynapse The synapse to connect from.
-     * @see com.syncleus.dann.Neuron#connectTo
+     * @see com.syncleus.dann.neural.Neuron#connectTo
      */
 	@Override
     protected void connectFrom(Synapse inSynapse) throws InvalidConnectionTypeDannException
