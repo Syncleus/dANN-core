@@ -29,7 +29,7 @@ public abstract class GeneticAlgorithmPopulation
 	private double dieOffPercentage;
 	private int generations;
 
-	public GeneticAlgorithmPopulation(Set<GeneticAlgorithmChromosome> initialChromosomes)
+	public GeneticAlgorithmPopulation(Set<GeneticAlgorithmChromosome> initialChromosomes, double mutationDeviation, double crossoverPercentage, double dieOffPercentage)
 	{
 		if(initialChromosomes.size() <4)
 			throw new IllegalArgumentException("Must have a population of atleast 4");
@@ -41,9 +41,14 @@ public abstract class GeneticAlgorithmPopulation
 			this.population.add(this.packageChromosome(chromosome));
 		}
 
-		this.mutationDeviation = 0.25d;
-		this.crossoverPercentage = 0.75d;
-		this.dieOffPercentage = 0.90d;
+		this.mutationDeviation = mutationDeviation;
+		this.crossoverPercentage = crossoverPercentage;
+		this.dieOffPercentage = dieOffPercentage;
+	}
+
+	public GeneticAlgorithmPopulation(Set<GeneticAlgorithmChromosome> initialChromosomes)
+	{
+		this(initialChromosomes, 0.25d, 0.75d, 0.90d);
 	}
 
 	public Set<GeneticAlgorithmChromosome> getChromosomes()
