@@ -20,6 +20,8 @@ package com.syncleus.tests.dann.neural.backprop;
 
 
 import com.syncleus.dann.DannException;
+import com.syncleus.dann.neural.activation.ActivationFunction;
+import com.syncleus.dann.neural.activation.SineActivationFunction;
 import com.syncleus.dann.neural.backprop.*;
 import org.junit.*;
 
@@ -33,13 +35,12 @@ import org.junit.*;
  */
 public class TestXor
 {
-	private static InputBackpropNeuron inputA = null;
-	private static InputBackpropNeuron inputB = null;
-	private static InputBackpropNeuron inputC = null;
-	private static BackpropNeuronGroup firstLayer = null;
-	private static BackpropNeuronGroup secondLayer = null;
-	private static BackpropNeuronGroup thirdLayer = null;
-	private static OutputBackpropNeuron output = null;
+	private InputBackpropNeuron inputA = null;
+	private InputBackpropNeuron inputB = null;
+	private InputBackpropNeuron inputC = null;
+	private BackpropNeuronGroup firstLayer = null;
+	private BackpropNeuronGroup secondLayer = null;
+	private OutputBackpropNeuron output = null;
 
 
 
@@ -47,12 +48,14 @@ public class TestXor
 	public void testXor() throws DannException
 	{
 		//Adjust the learning rate
-		double learningRate = 0.01;
+		double learningRate = 0.0175;
+
+		ActivationFunction activationFunction = new SineActivationFunction();
 
 		//creates the first layer which holds all the input neurons
-		inputA = new InputBackpropNeuron(learningRate);
-		inputB = new InputBackpropNeuron(learningRate);
-		inputC = new InputBackpropNeuron(learningRate);
+		inputA = new InputBackpropNeuron(activationFunction, learningRate);
+		inputB = new InputBackpropNeuron(activationFunction, learningRate);
+		inputC = new InputBackpropNeuron(activationFunction, learningRate);
 		firstLayer = new BackpropNeuronGroup();
 		firstLayer.add(inputA);
 		firstLayer.add(inputB);
@@ -60,59 +63,48 @@ public class TestXor
 
 		//creates the second layer of neurons
 		secondLayer = new BackpropNeuronGroup();
-		for(int lcv = 0;lcv < 10;lcv++)
-			secondLayer.add(new BackpropNeuron(learningRate));
-
-		//creates the third layer of neurons
-		thirdLayer = new BackpropNeuronGroup();
-		for(int lcv = 0;lcv < 10;lcv++)
-			thirdLayer.add(new BackpropNeuron(learningRate));
+		for(int lcv = 0;lcv < 3;lcv++)
+			secondLayer.add(new BackpropNeuron(activationFunction, learningRate));
 
 		//the output layer is just a single neuron
-		output = new OutputBackpropNeuron(learningRate);
+		output = new OutputBackpropNeuron(activationFunction, learningRate);
 
 		//connects the network in a feedforward fasion.
 		firstLayer.connectAllTo(secondLayer);
-		secondLayer.connectAllTo(thirdLayer);
-		thirdLayer.connectAllTo(output);
+		secondLayer.connectAllTo(output);
 
-		int cycles = 50000;
+		int cycles = 750;
 		train(cycles);
 
 		testOutput();
 	}
 
-	private static
-		void propogateOutput()
+	private void propogateOutput()
 	{
 		firstLayer.propagate();
 		secondLayer.propagate();
-		thirdLayer.propagate();
 		output.propagate();
 	}
 
 
 
-	private static
-		void backPropogateTraining()
+	private void backPropogateTraining()
 	{
 		output.backPropagate();
-		thirdLayer.backPropagate();
 		secondLayer.backPropagate();
 		firstLayer.backPropagate();
 	}
 
 
 
-	private static
-		void setCurrentInput(double[] inputToSet)
+	private void setCurrentInput(double[] inputToSet)
 	{
 		inputA.setInput(inputToSet[0]);
 		inputB.setInput(inputToSet[1]);
 		inputC.setInput(inputToSet[2]);
 	}
 
-	private static boolean checkTruthTable(double in1, double in2, double in3, double result)
+	private boolean checkTruthTable(double in1, double in2, double in3, double result)
 	{
 		if( ((in1 > 0.0)&&(in2 <= 0.0)&&(in3 <= 0.0))||
 			((in1 <= 0.0)&&(in2 > 0.0)&&(in3 <= 0.0))||
@@ -135,7 +127,7 @@ public class TestXor
 
 
 
-	private static void testOutput()
+	private void testOutput()
 	{
 		double[] curInput =
 		{
@@ -198,7 +190,7 @@ public class TestXor
 
 
 
-	private static void train(int count)
+	private void train(int count)
 	{
 		for(int lcv = 0;lcv < count;lcv++)
 		{
