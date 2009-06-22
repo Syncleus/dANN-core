@@ -19,6 +19,7 @@
 package com.syncleus.tests.dann;
 
 
+import com.syncleus.dann.activation.*;
 import com.syncleus.dann.backprop.*;
 import com.syncleus.dann.*;
 import org.junit.*;
@@ -38,7 +39,6 @@ public class TestXor
 	private static InputBackpropNeuron inputC = null;
 	private static BackpropNeuronGroup firstLayer = null;
 	private static BackpropNeuronGroup secondLayer = null;
-	private static BackpropNeuronGroup thirdLayer = null;
 	private static OutputBackpropNeuron output = null;
 
 
@@ -47,12 +47,14 @@ public class TestXor
 	public void testXor() throws DannException
 	{
 		//Adjust the learning rate
-		double learningRate = 0.01;
+		double learningRate = 0.0175;
+
+		ActivationFunction activationFunction = new SineActivationFunction();
 
 		//creates the first layer which holds all the input neurons
-		inputA = new InputBackpropNeuron(learningRate);
-		inputB = new InputBackpropNeuron(learningRate);
-		inputC = new InputBackpropNeuron(learningRate);
+		inputA = new InputBackpropNeuron(activationFunction, learningRate);
+		inputB = new InputBackpropNeuron(activationFunction, learningRate);
+		inputC = new InputBackpropNeuron(activationFunction, learningRate);
 		firstLayer = new BackpropNeuronGroup();
 		firstLayer.add(inputA);
 		firstLayer.add(inputB);
@@ -60,52 +62,41 @@ public class TestXor
 
 		//creates the second layer of neurons
 		secondLayer = new BackpropNeuronGroup();
-		for(int lcv = 0;lcv < 10;lcv++)
-			secondLayer.add(new BackpropNeuron(learningRate));
-
-		//creates the third layer of neurons
-		thirdLayer = new BackpropNeuronGroup();
-		for(int lcv = 0;lcv < 10;lcv++)
-			thirdLayer.add(new BackpropNeuron(learningRate));
+		for(int lcv = 0;lcv < 3;lcv++)
+			secondLayer.add(new BackpropNeuron(activationFunction, learningRate));
 
 		//the output layer is just a single neuron
-		output = new OutputBackpropNeuron(learningRate);
+		output = new OutputBackpropNeuron(activationFunction, learningRate);
 
 		//connects the network in a feedforward fasion.
 		firstLayer.connectAllTo(secondLayer);
-		secondLayer.connectAllTo(thirdLayer);
-		thirdLayer.connectAllTo(output);
+		secondLayer.connectAllTo(output);
 
-		int cycles = 50000;
+		int cycles = 750;
 		train(cycles);
 
 		testOutput();
 	}
 
-	private static
-		void propogateOutput()
+	private static void propogateOutput()
 	{
 		firstLayer.propagate();
 		secondLayer.propagate();
-		thirdLayer.propagate();
 		output.propagate();
 	}
 
 
 
-	private static
-		void backPropogateTraining()
+	private static void backPropogateTraining()
 	{
 		output.backPropagate();
-		thirdLayer.backPropagate();
 		secondLayer.backPropagate();
 		firstLayer.backPropagate();
 	}
 
 
 
-	private static
-		void setCurrentInput(double[] inputToSet)
+	private static void setCurrentInput(double[] inputToSet)
 	{
 		inputA.setInput(inputToSet[0]);
 		inputB.setInput(inputToSet[1]);
