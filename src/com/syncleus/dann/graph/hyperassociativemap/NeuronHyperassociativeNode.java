@@ -18,6 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.hyperassociativemap;
 
+import com.syncleus.dann.math.Hyperpoint;
 import com.syncleus.dann.neural.Neuron;
 import java.util.HashSet;
 

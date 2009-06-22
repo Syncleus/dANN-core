@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.graph.hyperassociativemap;
 
-import com.syncleus.dann.graph.hyperassociativemap.Hyperpoint;
+import com.syncleus.dann.math.Hyperpoint;
 import java.util.ArrayList;
 import org.junit.*;
 
