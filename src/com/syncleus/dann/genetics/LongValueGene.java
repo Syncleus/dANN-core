@@ -45,6 +45,11 @@ public class LongValueGene extends ValueGene<MutableLong>
 		super(copyGene);
 	}
 
+	public LongValueGene clone()
+	{
+		return new LongValueGene(this);
+	}
+
 	public LongValueGene mutate(double deviation)
 	{
 		LongValueGene copy = new LongValueGene(this);

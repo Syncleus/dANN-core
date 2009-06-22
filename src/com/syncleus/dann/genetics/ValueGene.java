@@ -49,4 +49,7 @@ public abstract class ValueGene<N extends MutableNumber> implements Gene
 	}
 
 	public abstract ValueGene<N> mutate(double deviation);
+	
+	@Override
+	public abstract ValueGene clone();
 }

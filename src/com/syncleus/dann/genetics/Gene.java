@@ -20,6 +20,7 @@ package com.syncleus.dann.genetics;
 
 public interface Gene extends Mutable
 {
+	public Gene clone();
 	public double expressionActivity();
 	public Gene mutate(double deviation);
 }

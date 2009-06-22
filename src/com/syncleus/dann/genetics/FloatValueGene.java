@@ -45,6 +45,11 @@ public class FloatValueGene extends ValueGene<MutableFloat>
 		super(copyGene);
 	}
 
+	public FloatValueGene clone()
+	{
+		return new FloatValueGene(this);
+	}
+
 	public FloatValueGene mutate(double deviation)
 	{
 		FloatValueGene copy = new FloatValueGene(this);

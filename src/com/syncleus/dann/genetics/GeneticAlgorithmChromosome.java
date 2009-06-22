@@ -85,6 +85,12 @@ public class GeneticAlgorithmChromosome implements Chromatid<ValueGene>
 		return Collections.unmodifiableList(this.alleles.subList(point, this.alleles.size()));
 	}
 
+	@Override
+	public GeneticAlgorithmChromosome clone()
+	{
+		return new GeneticAlgorithmChromosome(this);
+	}
+
 	public GeneticAlgorithmChromosome mutate(double deviation)
 	{
 		GeneticAlgorithmChromosome mutated = new GeneticAlgorithmChromosome();

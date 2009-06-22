@@ -45,6 +45,11 @@ public class ByteValueGene extends ValueGene<MutableByte>
 		super(copyGene);
 	}
 
+	public ByteValueGene clone()
+	{
+		return new ByteValueGene(this);
+	}
+
 	public ByteValueGene mutate(double deviation)
 	{
 		ByteValueGene copy = new ByteValueGene(this);

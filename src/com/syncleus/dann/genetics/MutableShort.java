@@ -35,6 +35,11 @@ public class MutableShort extends MutableNumber<MutableShort, Short> implements 
 		super(value);
 	}
 
+	public MutableShort clone()
+	{
+		return new MutableShort(this.getNumber());
+	}
+
 	public MutableShort mutate(double deviation)
 	{
 		double doubleDistributed = MutableNumber.getDistributedRandom(deviation);

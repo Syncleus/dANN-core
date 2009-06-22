@@ -35,6 +35,11 @@ public class MutableByte extends MutableNumber<MutableByte, Byte> implements Com
 		super(value);
 	}
 
+	public MutableByte clone()
+	{
+		return new MutableByte(this.getNumber());
+	}
+
 	public MutableByte mutate(double deviation)
 	{
 		double doubleDistributed = MutableNumber.getDistributedRandom(deviation);

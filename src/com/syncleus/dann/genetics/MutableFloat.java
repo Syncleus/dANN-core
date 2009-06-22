@@ -35,6 +35,11 @@ public class MutableFloat extends MutableNumber<MutableFloat, Float> implements 
 		super(value);
 	}
 
+	public MutableFloat clone()
+	{
+		return new MutableFloat(this.getNumber());
+	}
+
 	public MutableFloat mutate(double deviation)
 	{
 		double doubleDistributed = MutableNumber.getDistributedRandom(deviation);

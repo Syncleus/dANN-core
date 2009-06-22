@@ -45,6 +45,11 @@ public class IntegerValueGene extends ValueGene<MutableInteger>
 		super(copyGene);
 	}
 
+	public IntegerValueGene clone()
+	{
+		return new IntegerValueGene(this);
+	}
+
 	public IntegerValueGene mutate(double deviation)
 	{
 		IntegerValueGene copy = new IntegerValueGene(this);

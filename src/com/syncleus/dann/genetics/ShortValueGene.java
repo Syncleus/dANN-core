@@ -45,6 +45,11 @@ public class ShortValueGene extends ValueGene<MutableShort>
 		super(copyGene);
 	}
 
+	public ShortValueGene clone()
+	{
+		return new ShortValueGene(this);
+	}
+
 	public ShortValueGene mutate(double deviation)
 	{
 		ShortValueGene copy = new ShortValueGene(this);

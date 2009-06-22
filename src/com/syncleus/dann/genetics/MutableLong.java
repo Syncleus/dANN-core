@@ -35,6 +35,11 @@ public class MutableLong extends MutableNumber<MutableLong, Long> implements Com
 		super(value);
 	}
 
+	public MutableLong clone()
+	{
+		return new MutableLong(this.getNumber());
+	}
+
 	public MutableLong mutate(double deviation)
 	{
 		double doubleDistributed = MutableNumber.getDistributedRandom(deviation);

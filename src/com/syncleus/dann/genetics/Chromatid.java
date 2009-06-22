@@ -25,5 +25,6 @@ public interface Chromatid<G extends Gene> extends Mutable
 	public List<? extends G> getGenes();
 	public List<? extends G> crossover(int point);
 	public void crossover(List<G> geneticSegment, int point);
-	public Chromatid mutate(double deviation);
+	public Chromatid<G> clone();
+	public Chromatid<G> mutate(double deviation);
 }

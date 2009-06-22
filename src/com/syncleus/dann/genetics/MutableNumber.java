@@ -95,5 +95,7 @@ public abstract class MutableNumber<E extends MutableNumber, N extends Number> e
 		return this.number.toString();
 	}
 
+	@Override
+	public abstract MutableNumber<E,N> clone();
 	public abstract MutableNumber<E,N> mutate(double deviation);
 }

@@ -45,6 +45,11 @@ public class DoubleValueGene extends ValueGene<MutableDouble>
 		super(copyGene);
 	}
 
+	public DoubleValueGene clone()
+	{
+		return new DoubleValueGene(this);
+	}
+
 	public DoubleValueGene mutate(double deviation)
 	{
 		DoubleValueGene copy = new DoubleValueGene(this);

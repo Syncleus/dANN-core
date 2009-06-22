@@ -35,6 +35,11 @@ public class MutableInteger extends MutableNumber<MutableInteger, Integer> imple
 		super(value);
 	}
 
+	public MutableInteger clone()
+	{
+		return new MutableInteger(this.getNumber());
+	}
+
 	public MutableInteger mutate(double deviation)
 	{
 		double doubleDistributed = MutableNumber.getDistributedRandom(deviation);

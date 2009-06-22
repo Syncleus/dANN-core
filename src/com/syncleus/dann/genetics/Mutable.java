@@ -18,7 +18,12 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics;
 
-public interface Mutable
+/**
+ * Represents an item which knows how to copy and mutate itself.
+ * @author freemo
+ */
+public interface Mutable extends Cloneable
 {
+	public Mutable clone();
     public Mutable mutate(double deviation);
 }
