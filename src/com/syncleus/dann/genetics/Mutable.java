@@ -20,10 +20,32 @@ package com.syncleus.dann.genetics;
 
 /**
  * Represents an item which knows how to copy and mutate itself.
- * @author freemo
+ *
+ * @author Syncleus, Inc.
+ * @since 2.0
+ * @version 2.0
  */
 public interface Mutable extends Cloneable
 {
+	/**
+	 * All children of this class should override this method and return
+	 * their own class type even if it is abstract. It should return a copy
+	 * without any mutation.
+	 *
+	 * @return an exact copy of this object.
+	 * @since 2.0
+	 */
 	public Mutable clone();
+
+	/**
+	 * This will make a copy of the object and mutate it. The mutation has
+	 * a normal distribution multiplied by the deviation.
+	 *
+	 * @param deviation A double indicating how extreme the mutation will be.
+	 * The greater the deviation the more drastically the object will mutate.
+	 * A deviation of 0 should cause no mutation.
+	 * @return A copy of the current object with potential mutations.
+	 * @since 2.0
+	 */
     public Mutable mutate(double deviation);
 }

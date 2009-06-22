@@ -20,15 +20,38 @@ package com.syncleus.dann.genetics;
 
 import java.util.*;
 
+/**
+ * Rerpesents a population governed by Genetic Algorithm parameters. This class
+ * is abstract and should be extended to assign fitness functions to each
+ * member of the population. This class handles each generation of the
+ * population.
+ *
+ * @author Syncleus, Inc.
+ * @since 2.0
+ */
 public abstract class GeneticAlgorithmPopulation
 {
-	protected static Random random = new Random();
+	private static Random random = new Random();
 	private TreeSet<GeneticAlgorithmFitnessFunction> population;
 	private double mutationDeviation;
 	private double crossoverPercentage;
 	private double dieOffPercentage;
 	private int generations;
 
+	/**
+	 * Creates a new population with an initial population consisting of the
+	 * specified chromosomes and with the given Genetic Algorithm parameters.
+	 *
+	 * @param initialChromosomes The initial chromosomes for the first
+	 * generation of the population.
+	 * @param mutationDeviation The deviation used when mutating each chromosome
+	 * in the population.
+	 * @param crossoverPercentage The percentage change crossover will take
+	 * place.
+	 * @param dieOffPercentage The percentage of the population to die off in
+	 * each generation.
+	 * @since 2.0
+	 */
 	public GeneticAlgorithmPopulation(Set<GeneticAlgorithmChromosome> initialChromosomes, double mutationDeviation, double crossoverPercentage, double dieOffPercentage)
 	{
 		if(initialChromosomes.size() <4)
@@ -46,11 +69,27 @@ public abstract class GeneticAlgorithmPopulation
 		this.dieOffPercentage = dieOffPercentage;
 	}
 
+	/**
+	 * Creates a new population with an initial population consisting of the
+	 * specified chromosomes and using default Genetic Algorithm parameters.
+	 *
+	 * @param initialChromosomes The initial chromosomes for the first
+	 * generation of the population.
+	 * @since 2.0
+	 */
 	public GeneticAlgorithmPopulation(Set<GeneticAlgorithmChromosome> initialChromosomes)
 	{
 		this(initialChromosomes, 0.25d, 0.75d, 0.90d);
 	}
 
+	/**
+	 * Gets all the chromosomes consisting of the current generation of the
+	 * population.
+	 *
+	 * @return An unmodifiable set of GeneticAlgorithmChromosomes consiting of
+	 * the current population.
+	 * @since 2.0
+	 */
 	public Set<GeneticAlgorithmChromosome> getChromosomes()
 	{
 		HashSet<GeneticAlgorithmChromosome> chromosomes = new HashSet<GeneticAlgorithmChromosome>();
@@ -62,16 +101,37 @@ public abstract class GeneticAlgorithmPopulation
 		return Collections.unmodifiableSet(chromosomes);
 	}
 
+	/**
+	 * Gets the most successful member of the current population according to
+	 * its fitness function.
+	 *
+	 * @return the most successful member of the current population according to
+	 * its fitness function.
+	 * @since 2.0
+	 */
 	public GeneticAlgorithmChromosome getWinner()
 	{
 		return this.population.last().getChromosome();
 	}
-	
+
+	/**
+	 * Gets the number of generations this population has went through.
+	 *
+	 * @return The number of generations this population has went through.
+	 * @since 2.0
+	 */
 	public int getGenerations()
 	{
 		return this.generations;
 	}
 
+	/**
+	 * Proceeds to the next generation of the population. This includes killing
+	 * off the worst preforming of the population and randomly selecting parents
+	 * to replace them. Parents produce children through mutation and crossover.
+	 *
+	 * @since 2.0
+	 */
 	public void nextGeneration()
 	{
 		this.generations++;
@@ -122,5 +182,13 @@ public abstract class GeneticAlgorithmPopulation
 		}
 	}
 
+	/**
+	 * An abstract method that must be implemented to package a supplied
+	 * chromosome into an appropriate fitness function wrapper.
+	 *
+	 * @param chromosome Chromosome to wrap into a fitness function class.
+	 * @return A fitness function wrapping the chromosome.
+	 * @since 2.0
+	 */
 	protected abstract GeneticAlgorithmFitnessFunction packageChromosome(GeneticAlgorithmChromosome chromosome);
 }

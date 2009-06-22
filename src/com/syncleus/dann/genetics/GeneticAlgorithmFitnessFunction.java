@@ -18,20 +18,52 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics;
 
+/**
+ * An abstract wrapper class for a GeneticAlgorithmChromosome that can evaluate
+ * the relative fitness of one chromosome over another. The relative fitness is
+ * represented by its natural ordering through implementation of the Comparable
+ * interface.
+ *
+ * @author Syncleus, Inc.
+ * @since 2.0
+ */
 public abstract class GeneticAlgorithmFitnessFunction implements Comparable<GeneticAlgorithmFitnessFunction>
 {
 	private GeneticAlgorithmChromosome chromosome;
 
+	/**
+	 * Initializes a new instance of this class acting as a wrapper for the
+	 * specified chromosome.
+	 *
+	 * @param chromosome Chromosome to wrap and evaluate the fitness of.
+	 * @since 2.0
+	 */
 	public GeneticAlgorithmFitnessFunction(GeneticAlgorithmChromosome chromosome)
 	{
 		this.chromosome = chromosome;
 	}
 
+	/**
+	 * Gets the chromosome this class wraps.
+	 *
+	 * @return The chromosome this class is evaluating and wrapping.
+	 * @since 2.0
+	 */
 	public GeneticAlgorithmChromosome getChromosome()
 	{
 		return this.chromosome;
 	}
 
-	//higher is more fit
+	/**
+	 * Evaluates the fitness of the chromosome being wrapped relative to the
+	 * specified chromosome.
+	 *
+	 * @param compareWith The fitness function containing a chromosome to
+	 * compare to.
+	 * @return If this chromosome is more fit it will return a
+	 * positive value, if it is less fit it will be negative. If they are
+	 * both equally as fit it will return 0.
+	 * @since 2.0
+	 */
 	public abstract int compareTo(GeneticAlgorithmFitnessFunction compareWith);
 }

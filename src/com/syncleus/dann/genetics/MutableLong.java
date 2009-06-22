@@ -18,28 +18,74 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics;
 
-public class MutableLong extends MutableNumber<MutableLong, Long> implements Comparable<MutableLong>
+/**
+ * This is a MutableNumber backed by a Long. It essentially just allows the
+ * number to mutate
+ *
+ * @author Syncleus, Inc.
+ * @since 2.0
+ * @version 2.0
+ */
+public class MutableLong extends MutableNumber<Long> implements Comparable<MutableLong>
 {
+	/**
+	 * Initializes a new instance of this class with the specified value.
+	 *
+	 * @param value The value of this number.
+	 * @since 2.0
+	 */
 	public MutableLong(long value)
 	{
 		super(Long.valueOf(value));
 	}
 
+	/**
+	 * Initializes a new instance of this class from the value represented
+	 * by the specified string.
+	 *
+	 * @param s A string representing the value of this number.
+	 * @since 2.0
+	 */
 	public MutableLong(String s)
 	{
 		super(Long.valueOf(s));
 	}
 
+	/**
+	 * Initializes a new instance of this class as a copy of the specefied
+	 * number.
+	 *
+	 * @param value The value to copy
+	 * @since 2.0
+	 */
 	public MutableLong(Long value)
 	{
 		super(value);
 	}
 
+	/**
+	 * An new exact copy of this object with the same value.
+	 *
+	 * @return a new exact copy of this object with the same value.
+	 * @since 2.0
+	 */
 	public MutableLong clone()
 	{
 		return new MutableLong(this.getNumber());
 	}
 
+	/**
+	 * This will make a copy of the object and mutate it. The mutation has
+	 * a normal distribution multiplied by the deviation. If the Number is
+	 * mutated past its largest or smallest representable number it will
+	 * simply return the max or min respectivly.
+	 *
+	 * @param deviation A double indicating how extreme the mutation will be.
+	 * The greater the deviation the more drastically the object will mutate.
+	 * A deviation of 0 should cause no mutation.
+	 * @return A copy of the current object with potential mutations.
+	 * @since 2.0
+	 */
 	public MutableLong mutate(double deviation)
 	{
 		double doubleDistributed = MutableNumber.getDistributedRandom(deviation);
@@ -59,6 +105,14 @@ public class MutableLong extends MutableNumber<MutableLong, Long> implements Com
 		return new MutableLong(result);
 	}
 
+	/**
+	 * Compares the value of this number against another object of the same
+	 * type. The backing number handles the comparison.
+	 *
+	 * @param compareWith Number to compare against.
+	 * @return the natural ordering of the backed number.
+	 * @since 2.0
+	 */
 	public int compareTo(MutableLong compareWith)
 	{
 		return this.getNumber().compareTo(compareWith.getNumber());
