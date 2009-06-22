@@ -25,7 +25,7 @@ import javax.vecmath.*;
 import java.awt.Color;
 import java.security.InvalidParameterException;
 
-public class MathFunction3dDataBinder implements Binned2DData
+public class MathFunctionDataBinder implements Binned2DData
 {
     private MathFunction function = null;
     private int functionXIndex;
@@ -40,7 +40,7 @@ public class MathFunction3dDataBinder implements Binned2DData
 
 
 
-    public MathFunction3dDataBinder(MathFunction function,
+    public MathFunctionDataBinder(MathFunction function,
                                      String functionXParam,
                                      String functionYParam,
                                      float xMin,
@@ -103,7 +103,7 @@ public class MathFunction3dDataBinder implements Binned2DData
 
 
 
-private float convertFromXIndex(int x)
+	private float convertFromXIndex(int x)
     {
         float xSize = this.xMax - this.xMin;
 
@@ -128,7 +128,20 @@ private float convertFromXIndex(int x)
         return this.function;
     }
 
+	public int getXIndex()
+	{
+		return this.functionXIndex;
+	}
 
+	public int getYIndex()
+	{
+		return this.functionYIndex;
+	}
+
+	public int getResolution()
+	{
+		return this.resolution;
+	}
 
     private void setX(double x)
     {
