@@ -24,7 +24,7 @@ package com.syncleus.dann.genetics;
  *
  * @author Syncleus, Inc.
  * @since 2.0
- * @version 2.0
+ *
  */
 public class MutableShort extends MutableNumber< Short> implements Comparable<MutableShort>
 {

@@ -22,17 +22,17 @@ package com.syncleus.dann.neural.activation;
  * An implementation of an activation function using a hyperbolic secant
  * function.
  *
- * <!-- Author: Jeffrey Phillips Freeman -->
+ *
  * @author Syncleus, Inc.
  * @since 1.0
- * @version 1.0
+ *
  */
 public class HyperbolicSecantActivationFunction implements ActivationFunction
 {
 	/**
 	 * The hyperbolic secant activation function.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @param activity the neuron's current activity.
 	 * @return The result of the hyperbolic secant activation function bound
 	 * between 0 and 1.
@@ -46,7 +46,7 @@ public class HyperbolicSecantActivationFunction implements ActivationFunction
 	/**
 	 * The derivative of the hyperbolic secant activation function.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @param activity The neuron's current activity.
 	 * @return The result of the derivative of the hyperbolic secand activation
 	 * function.

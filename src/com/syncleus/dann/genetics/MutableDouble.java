@@ -24,7 +24,7 @@ package com.syncleus.dann.genetics;
  *
  * @author Syncleus, Inc.
  * @since 2.0
- * @version 2.0
+ *
  */
 public class MutableDouble extends MutableNumber<Double> implements Comparable<MutableDouble>
 {

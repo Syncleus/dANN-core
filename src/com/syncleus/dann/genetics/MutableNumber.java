@@ -27,7 +27,7 @@ import java.util.Random;
  * @author Syncleus, Inc.
  * @param <N> The type of number backing the Gene.
  * @since 2.0
- * @version 2.0
+ *
  */
 public abstract class MutableNumber<N extends Number> extends Number implements Mutable
 {

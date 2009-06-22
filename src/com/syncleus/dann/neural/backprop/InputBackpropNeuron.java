@@ -26,17 +26,17 @@ import com.syncleus.dann.neural.activation.*;
 /**
  * This is a special type of BackpropNeuron that receives input.
  *
- * <!-- Author: Jeffrey Phillips Freeman -->
+ *
  * @author Syncleus, Inc.
  * @since 1.0
- * @version 1.0
+ *
  */
 public class InputBackpropNeuron extends BackpropNeuron implements InputNeuron<NeuronImpl, BackpropNeuron>
 {
     /**
      * Holds the current input value for this neuron
 	 *
-     * <!-- Author: Jeffrey Phillips Freeman -->
+     *
      * @since 1.0
      */
     protected double input;
@@ -46,7 +46,7 @@ public class InputBackpropNeuron extends BackpropNeuron implements InputNeuron<N
     /**
      * Creates a new instance of InputBackpropNeuron
 	 *
-     * <!-- Author: Jeffrey Phillips Freeman -->
+     *
      * @since 1.0
      */
     public InputBackpropNeuron()
@@ -58,7 +58,7 @@ public class InputBackpropNeuron extends BackpropNeuron implements InputNeuron<N
      * Creates a new instance of InputBackpropNeuron that uses the specified
 	 * activation function.
 	 *
-     * <!-- Author: Jeffrey Phillips Freeman -->
+     *
      * @since 1.0
      */
     public InputBackpropNeuron(ActivationFunction activationFunction)
@@ -69,7 +69,7 @@ public class InputBackpropNeuron extends BackpropNeuron implements InputNeuron<N
 	/**
 	 * Creates a new instance of this class with the specified learning rate.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @param learningRate The learning rate for this neuron.
 	 * @since 1.0
 	 */
@@ -82,7 +82,7 @@ public class InputBackpropNeuron extends BackpropNeuron implements InputNeuron<N
 	 * Creates a new instance of this class with the specified activation
 	 * function and learning rate.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @param activationFunction The activation function to use.
 	 * @param learningRate The learning rate to use.
 	 * @since 1.0
@@ -96,7 +96,7 @@ public class InputBackpropNeuron extends BackpropNeuron implements InputNeuron<N
     /**
      * This method sets the current input on the neuron.
 	 *
-     * <!-- Author: Jeffrey Phillips Freeman -->
+     *
      * @since 1.0
      * @param inputToSet The value to set the current input to.
      */
@@ -113,7 +113,7 @@ public class InputBackpropNeuron extends BackpropNeuron implements InputNeuron<N
     /**
      * Refreshes the output of the neuron based on the current input
 	 * 
-     * <!-- Author: Jeffrey Phillips Freeman -->
+     *
      * @since 1.0
      */
 	@Override
@@ -128,7 +128,7 @@ public class InputBackpropNeuron extends BackpropNeuron implements InputNeuron<N
 	 * be called successivly from the output neurons back towards the input
 	 * neurons on all BackpropNeurons.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @since 1.0
 	 */
 	@Override
@@ -141,7 +141,7 @@ public class InputBackpropNeuron extends BackpropNeuron implements InputNeuron<N
      * This method is called internally, between Neurons, to
      * facilitate the connection process.
 	 *
-     * <!-- Author: Jeffrey Phillips Freeman -->
+     *
      * @since 1.0
      * @param inSynapse The synapse to connect from.
      * @see com.syncleus.dann.neural.Neuron#connectTo

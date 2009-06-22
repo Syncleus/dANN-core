@@ -30,10 +30,10 @@ import javax.vecmath.*;
 /**
  * A Canvas3D specifically for displaying a HyperassociativeMap.
  *
- * <!-- Author: Jeffrey Phillips Freeman -->
+ *
  * @author Syncleus, Inc.
  * @since 1.0
- * @version 1.0
+ *
  */
 public class HyperassociativeMapCanvas extends Canvas3D
 {
@@ -44,7 +44,7 @@ public class HyperassociativeMapCanvas extends Canvas3D
 	 * Initializes a new HyperassociativeMapCanvas to represent the specified
 	 * HyperassociativeMap.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @param map The HyperassociativeMap to display.
 	 * @since 1.0
 	 */
@@ -58,7 +58,7 @@ public class HyperassociativeMapCanvas extends Canvas3D
 	 * HyperassociativeMap and with nodes represented graphically as spheres
 	 * with the specified radius.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @param map The HyperassociativeMap to display.
 	 * @param nodeRadius The radius of the spheres representing each node.
 	 * @since 1.0
@@ -72,7 +72,7 @@ public class HyperassociativeMapCanvas extends Canvas3D
 	 * Initializes a new HyperassociativeMapCanvas to represent the specified
 	 * HyperassociativeMap using the specified GraphicsConfiguration.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @param map The HyperassociativeMap to display.
 	 * @param configuration The GraphicsConfiguration to use for configuring the
 	 * canvas.
@@ -88,7 +88,7 @@ public class HyperassociativeMapCanvas extends Canvas3D
 	 * HyperassociativeMap using the specified GraphicsConfiguration and with
 	 * nodes represented graphically as spheres with the specified radius.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @param map The HyperassociativeMap to display.
 	 * @param configuration The GraphicsConfiguration to use for configuring the
 	 * canvas.
@@ -127,7 +127,7 @@ public class HyperassociativeMapCanvas extends Canvas3D
 	/**
 	 * Gets the HyperassocitiaveMap this class is displaying.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @return The HyperassociativeMap this class is displaying.
 	 * @since 1.0
 	 */
@@ -141,7 +141,7 @@ public class HyperassociativeMapCanvas extends Canvas3D
 	 * Gets all the latest locations from the map and refreshes the graphical
 	 * representation accordingly.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @since 1.0
 	 */
     public void refresh()

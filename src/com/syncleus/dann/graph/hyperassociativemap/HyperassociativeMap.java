@@ -24,16 +24,16 @@ import java.util.*;
 /**
  * Represents a collection of interconnected hyperassociative map nodes.
  *
- * <!-- Author: Jeffrey Phillips Freeman -->
+ *
  * @author Syncleus, Inc.
  * @since 1.0
- * @version 1.0
+ *
  */
 public abstract class HyperassociativeMap implements Serializable
 {
 	/**
 	 * HashSet of all the nodes in this map.
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @since 1.0
 	 */
     protected HashSet<HyperassociativeNode> nodes = new HashSet<HyperassociativeNode>();
@@ -42,7 +42,7 @@ public abstract class HyperassociativeMap implements Serializable
 	/**
 	 * Initializes a HyperassociativeMap of the specified dimensions.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @param dimensions The number of dimensions for this map.
 	 * @since 1.0
 	 */
@@ -54,7 +54,7 @@ public abstract class HyperassociativeMap implements Serializable
 	/**
 	 * Gets the number of dimensions for this map.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @return The number of dimensions for this map.
 	 * @since 1.0
 	 */
@@ -66,7 +66,7 @@ public abstract class HyperassociativeMap implements Serializable
 	/**
 	 * Gets all the nodes contained within this map.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @return An unmodifiable Set of all the nodes in this map.
 	 * @since 1.0
 	 */
@@ -78,7 +78,7 @@ public abstract class HyperassociativeMap implements Serializable
 	/**
 	 * Aligns all the nodes in this map by a single step.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @since 1.0
 	 */
     public void align()

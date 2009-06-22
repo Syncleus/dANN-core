@@ -26,10 +26,10 @@ import java.util.*;
 /**
  * A NeuronGroup which contains only BackpropNeurons.
  *
- * <!-- Author: Jeffrey Phillips Freeman -->
+ *
  * @author Syncleus, Inc.
  * @since 1.0
- * @version 1.0
+ *
  */
 public class BackpropNeuronGroup extends NeuronGroup<BackpropNeuron>
 {
@@ -38,7 +38,7 @@ public class BackpropNeuronGroup extends NeuronGroup<BackpropNeuron>
 	/**
 	 * Creates an instance of a default empty BackpropNeuronGroup
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @since 1.0
 	 */
     public BackpropNeuronGroup()
@@ -54,7 +54,7 @@ public class BackpropNeuronGroup extends NeuronGroup<BackpropNeuron>
      * Propogates the output of the BackpropNeurons from the incoming synapse to
      * the outgoign one.
 	 *
-     * <!-- Author: Jeffrey Phillips Freeman -->
+     *
      * @since 1.0
      * @see com.syncleus.dann.neural.backprop.BackpropNeuron#propagate
      */
@@ -69,7 +69,7 @@ public class BackpropNeuronGroup extends NeuronGroup<BackpropNeuron>
     /**
      * Back propogates the taining set of the BackpropNeuron from the outgoing
      * synapse to the incomming one.
-     * <!-- Author: Jeffrey Phillips Freeman -->
+     *
      * @since 1.0
      * @see com.syncleus.dann.neural.backprop.BackpropNeuron#backPropagate
      */
@@ -83,7 +83,7 @@ public class BackpropNeuronGroup extends NeuronGroup<BackpropNeuron>
 	 * Gets all the Neurons that either connect to, or are connected from, any
 	 * of the BackpropNeurons in this group.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @return An unmodifiable Set of source and destination BackpropNeurons.
 	 * @since 1.0
 	 */
@@ -102,7 +102,7 @@ public class BackpropNeuronGroup extends NeuronGroup<BackpropNeuron>
 	 * Gets all the Neurons that connect to any of the BackpropNeurons in this
 	 * group.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @return An unmodifiable Set of source BackpropNeurons.
 	 * @since 1.0
 	 */
@@ -121,7 +121,7 @@ public class BackpropNeuronGroup extends NeuronGroup<BackpropNeuron>
 	 * Gets all the Neurons that any of the BackpropNeurons in this group
 	 * connect to.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @return An unmodifiable Set of destination BackpropNeurons.
 	 * @since 1.0
 	 */

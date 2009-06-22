@@ -28,7 +28,7 @@ import java.util.*;
  * @author Syncleus, Inc.
  * @param <G> The type of Gene this Chromatid may contain.
  * @since 2.0
- * @version 2.0
+ *
  */
 public interface Chromatid<G extends Gene> extends Mutable
 {

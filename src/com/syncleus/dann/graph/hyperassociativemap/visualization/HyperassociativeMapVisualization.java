@@ -34,10 +34,10 @@ import java.util.Hashtable;
 /**
  * A BranchGroup representing a HyperAssociativeMap
  *
- * <!-- Author: Jeffrey Phillips Freeman -->
+ *
  * @author Syncleus, Inc.
  * @since 1.0
- * @version 1.0
+ *
  */
 public class HyperassociativeMapVisualization extends BranchGroup
 {
@@ -52,7 +52,7 @@ public class HyperassociativeMapVisualization extends BranchGroup
 	/**
 	 * Initializes a new visualization to represent the specified map.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @param map The map to represent by this BranchGroup
 	 * @since 1.0
 	 */
@@ -65,7 +65,7 @@ public class HyperassociativeMapVisualization extends BranchGroup
 	 * Initializes a new visualization to represent the specified map and with
 	 * nodes of the specified radius.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @param map The map to represent by this BranchGroup
 	 * @param nodeRadius The radius of the spheres representing each node.
 	 * @since 1.0
@@ -91,7 +91,7 @@ public class HyperassociativeMapVisualization extends BranchGroup
 	 * Gets all the latest locations from the map and refreshes the graphical
 	 * representation accordingly.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @since 1.0
 	 */
     public void refresh()
@@ -273,7 +273,7 @@ public class HyperassociativeMapVisualization extends BranchGroup
 	/**
 	 * Gets the map this class is representing
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @return The map this class is representing.
 	 * @since 1.0
 	 */

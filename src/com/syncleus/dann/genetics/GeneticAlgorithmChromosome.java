@@ -27,7 +27,7 @@ import java.util.*;
  *
  * @author Syncleus, Inc.
  * @since 2.0
- * @version 2.0
+ *
  */
 public class GeneticAlgorithmChromosome implements Chromatid<ValueGene>
 {

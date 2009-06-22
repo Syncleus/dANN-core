@@ -22,17 +22,17 @@ import com.syncleus.dann.*;
  * An exception thrown to indicate two neurons trying to be connected are
  * invalid.
  *
- *  <!-- Author: Jeffrey Phillips Freeman -->
+ * 
  * @author Syncleus, Inc.
  * @since 1.0
- * @version 1.0
+ *
  */
 public class InvalidConnectionTypeDannException extends DannException
 {
 	/**
 	 * Creates a blank default exception.
 	 *
-	 *  <!-- Author: Jeffrey Phillips Freeman -->
+	 * 
 	 * @since 1.0
 	 */
 	public InvalidConnectionTypeDannException()
@@ -42,7 +42,7 @@ public class InvalidConnectionTypeDannException extends DannException
 	/**
 	 * Creates an exception with a message describing the cause.
 	 *
-	 *  <!-- Author: Jeffrey Phillips Freeman -->
+	 * 
 	 * @param msg A string describing the cause of the exception
 	 * @since 1.0
 	 */
@@ -55,7 +55,7 @@ public class InvalidConnectionTypeDannException extends DannException
 	 * Creates an exception with a message describing the cause as well as the
 	 * throwable which caused this exception to be thrown.
 	 *
-	 *  <!-- Author: Jeffrey Phillips Freeman -->
+	 * 
 	 * @param msg A string describing the cause of the exception
 	 * @param cause The throwable which caused this exception
 	 * @since 1.0
@@ -69,7 +69,7 @@ public class InvalidConnectionTypeDannException extends DannException
 	 * Creates an exception containing the throwable which caused this exception
 	 * to be thrown.
 	 *
-	 *  <!-- Author: Jeffrey Phillips Freeman -->
+	 * 
 	 * @param cause The throwable which caused this exception
 	 * @since 1.0
 	 */

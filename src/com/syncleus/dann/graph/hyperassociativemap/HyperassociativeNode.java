@@ -40,7 +40,7 @@ public class HyperassociativeNode implements Serializable
 	/**
 	 * Initializes an Hyperassociative node with the specified properties.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @param network The network this node will belong to.
 	 * @param learningRate The learning rate for this node.
 	 * @param equilibriumDistance The equilibrium distance between this node
@@ -56,7 +56,7 @@ public class HyperassociativeNode implements Serializable
 	/**
 	 * Initializes an Hyperassociative node with the specified properties.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @param network The network this node will belong to.
 	 * @param learningRate The learning rate for this node.
 	 * @since 1.0
@@ -70,7 +70,7 @@ public class HyperassociativeNode implements Serializable
 	/**
 	 * Initializes an Hyperassociative node with the specified properties.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @param network The network this node will belong to.
 	 * @since 1.0
 	 */
@@ -86,7 +86,7 @@ public class HyperassociativeNode implements Serializable
 	/**
 	 * Initializes an Hyperassociative node with the specified properties.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @param network The network this node will belong to.
 	 * @param location The initial location of this node.
 	 * @param learningRate The learning rate for this node.
@@ -103,7 +103,7 @@ public class HyperassociativeNode implements Serializable
 	/**
 	 * Initializes an Hyperassociative node with the specified properties.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @param network The network this node will belong to.
 	 * @param location The initial location of this node.
 	 * @param learningRate The learning rate for this node.
@@ -119,7 +119,7 @@ public class HyperassociativeNode implements Serializable
 	/**
 	 * Initializes an Hyperassociative node with the specified properties.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @param network The network this node will belong to.
 	 * @param location The initial location of this node.
 	 * @since 1.0
@@ -141,7 +141,7 @@ public class HyperassociativeNode implements Serializable
 	/**
 	 * Gets the Map this node belongs to.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @return The map this node belongs to.
 	 * @since 1.0
 	 */
@@ -157,7 +157,7 @@ public class HyperassociativeNode implements Serializable
 	/**
 	 * Associates this node with the specified node at the specified weight.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @param newNeighbor Node to associate to.
 	 * @param newWeight Weight of association.
 	 * @since 1.0
@@ -177,7 +177,7 @@ public class HyperassociativeNode implements Serializable
 	/**
 	 * Dissociates from the specified node.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @param neighbor Node to dissociate from.
 	 * @since 1.0
 	 */
@@ -191,7 +191,7 @@ public class HyperassociativeNode implements Serializable
 	/**
 	 * Dissociates from all nodes.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @since 1.0
 	 */
     public void dissociateAll()
@@ -204,7 +204,7 @@ public class HyperassociativeNode implements Serializable
 	/**
 	 * Gets all nodes currently associated to.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @return An unmodifiable set of associated nodes.
 	 * @since 1.0
 	 */
@@ -218,7 +218,7 @@ public class HyperassociativeNode implements Serializable
 	/**
 	 * Gets the weight of the specified associated node.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @param neighbor Node to get the weight for.
 	 * @return The weight of the specified node.
 	 * @throws com.syncleus.dann.hyperassociativemap.NeighborNotFoundException
@@ -244,7 +244,7 @@ public class HyperassociativeNode implements Serializable
 	 * Obtains a Hyperpoint with random coordinates for the specified number of
 	 * dimensions.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @param dimensions Number of dimensions for the random Hyperpoint
 	 * @return New random Hyperpoint
 	 * @since 1.0
@@ -265,7 +265,7 @@ public class HyperassociativeNode implements Serializable
 	/**
 	 * Aligns this node by one step against all nodes associated or not.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @since 1.0
 	 */
     public void align()
@@ -317,7 +317,7 @@ public class HyperassociativeNode implements Serializable
 	/**
 	 * Centers this node to a new center point (origin).
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @param center The new origin for this node.
 	 * @since 1.0
 	 */
@@ -337,7 +337,7 @@ public class HyperassociativeNode implements Serializable
 	/**
 	 * Gets the current Hyperpoint location for this node.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @return The current Hyperpoint location for this node.
 	 * @since 1.0
 	 */

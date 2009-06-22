@@ -34,10 +34,10 @@ import java.util.Hashtable;
  * many other Neurons through synapses and receive input from many other
  * Neurons in the same way.
  *
- * <!-- Author: Jeffrey Phillips Freeman -->
+ *
  * @author Syncleus, Inc.
  * @since 1.0
- * @version 1.0
+ *
  * @see com.syncleus.dann.neural.Synapse
  */
 public class BackpropNeuron extends NeuronImpl<NeuronImpl, BackpropNeuron>
@@ -47,7 +47,7 @@ public class BackpropNeuron extends NeuronImpl<NeuronImpl, BackpropNeuron>
     /**
      * This represents the net effect of all the training data from all the
      * inputs. It is essentially the reverse of the activity value.
-     * <!-- Author: Jeffrey Phillips Freeman -->
+     *
      * @since 1.0
      * @see com.syncleus.dann.neural.NeuronImpl#activity
      */
@@ -59,7 +59,7 @@ public class BackpropNeuron extends NeuronImpl<NeuronImpl, BackpropNeuron>
 	 * A hashtable which contains the current delta train for each of the
 	 * destination synapses.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @since 1.0
 	 */
 	protected Hashtable<Synapse, Double> deltaTrainDestinations = new Hashtable<Synapse, Double>();
@@ -71,7 +71,7 @@ public class BackpropNeuron extends NeuronImpl<NeuronImpl, BackpropNeuron>
     /**
      * Creates a new default instance of BackpropNeuron
 	 *
-     * <!-- Author: Jeffrey Phillips Freeman -->
+     *
      * @since 1.0
      */
     public BackpropNeuron()
@@ -85,7 +85,7 @@ public class BackpropNeuron extends NeuronImpl<NeuronImpl, BackpropNeuron>
 	 * Creates a new instance of BackpropNeuron with the specified activation
 	 * function.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @param activationFunction The Neuron's activation function.
 	 * @since 1.0
 	 */
@@ -99,7 +99,7 @@ public class BackpropNeuron extends NeuronImpl<NeuronImpl, BackpropNeuron>
 	 * Creates a new instance of a BackpropNeuron using the default activation
 	 * function with the specified learning rate.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @param learningRate learning rate of this neuron.
 	 * @since 1.0
 	 */
@@ -113,7 +113,7 @@ public class BackpropNeuron extends NeuronImpl<NeuronImpl, BackpropNeuron>
 	 * Creates a new instance of a BackpropNeuron with the specified activtion
 	 * function and learning rate.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @param activationFunction Activation function for this neuron.
 	 * @param learningRate Learning rate for this neuron.
 	 */
@@ -130,7 +130,7 @@ public class BackpropNeuron extends NeuronImpl<NeuronImpl, BackpropNeuron>
     /**
      * This method is called externally to connect to another BackpropNeuron.
 	 *
-     * <!-- Author: Jeffrey Phillips Freeman -->
+     *
      * @since 1.0
      * @param outUnit The BackpropNeuron to connect to.
      * @see com.syncleus.dann.neural.NeuronImpl#connectFrom
@@ -151,7 +151,7 @@ public class BackpropNeuron extends NeuronImpl<NeuronImpl, BackpropNeuron>
     /**
      * Called internally to facilitate the removal of a connection.
 	 *
-     * <!-- Author: Jeffrey Phillips Freeman -->
+     *
      * @since 1.0
      * @param outSynapse The incomming synapse to remove from memory.
      * @see com.syncleus.dann.neural.Neuron#disconnectSource
@@ -166,7 +166,7 @@ public class BackpropNeuron extends NeuronImpl<NeuronImpl, BackpropNeuron>
     /**
      * Disconnects from a perticular outgoing connection.
 	 *
-     * <!-- Author: Jeffrey Phillips Freeman -->
+     *
      * @since 1.0
      * @param outSynapse The outgoing synapse to disconnect from.
      * @see com.syncleus.dann.neural.NeuronImpl#removeSource
@@ -187,7 +187,7 @@ public class BackpropNeuron extends NeuronImpl<NeuronImpl, BackpropNeuron>
     /**
      * Backpropogates the training data to all the incomming synapses.
 	 *
-     * <!-- Author: Jeffrey Phillips Freeman -->
+     *
      * @since 1.0
      */
     public void backPropagate()
@@ -217,7 +217,7 @@ public class BackpropNeuron extends NeuronImpl<NeuronImpl, BackpropNeuron>
     /**
      * Calculates the Delta Train based on all the destination synapses
 	 *
-     * <!-- Author: Jeffrey Phillips Freeman -->
+     *
      * @since 1.0
      * @see com.syncleus.dann.neural.backprop.BackpropNeuron#backPropagate
      */
@@ -234,7 +234,7 @@ public class BackpropNeuron extends NeuronImpl<NeuronImpl, BackpropNeuron>
 	/**
 	 * Gets the current delta train of the neuron.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @return The delta train of the neuron.
 	 * @since 1.0
 	 */

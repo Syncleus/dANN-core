@@ -30,7 +30,7 @@ import java.util.*;
  *
  * @author Syncleus, Inc.
  * @since 1.0
- * @version 1.0
+ *
  */
 public abstract class Brain implements Serializable
 {
@@ -44,7 +44,7 @@ public abstract class Brain implements Serializable
 	 * Adds a new neuron to the brain. The construction of the brain is done
 	 * by the child class so this method is protected.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @param newNeuron The neuron to add to the brain.
 	 * @since 1.0
 	 */
@@ -66,7 +66,7 @@ public abstract class Brain implements Serializable
 	 * Adds a new collection of neurons to the brain. The construction of the
 	 * brain is done by the child class so this method is protected.
 	 *
-	 *  <!-- Author: Jeffrey Phillips Freeman -->
+	 * 
 	 * @param newNeurons The collection of neurons to add.
 	 * @since 1.0
 	 */
@@ -90,7 +90,7 @@ public abstract class Brain implements Serializable
 	 * Removes the specified neuron from the brain. This only removes it from
 	 * the collection of neurons it does not disconnect it from other neurons.
 	 *
-	 *  <!-- Author: Jeffrey Phillips Freeman -->
+	 * 
 	 * @param removeNeuron The neuron to remove.
 	 * @since 1.0
 	 */
@@ -113,7 +113,7 @@ public abstract class Brain implements Serializable
 	/**
 	 * Obtains all InputNeurons contained within the brain.
 	 *
-	 *  <!-- Author: Jeffrey Phillips Freeman -->
+	 * 
 	 * @return An unmodifiable Set of InputNeurons.
 	 * @since 1.0
 	 */
@@ -127,7 +127,7 @@ public abstract class Brain implements Serializable
 	/**
 	 * Obtains all OutputNeurons contained within the brain.
 	 *
-	 *  <!-- Author: Jeffrey Phillips Freeman -->
+	 * 
 	 * @return An unmodifiable Set of OutputNeurons
 	 * @since 1.0
 	 */
@@ -142,7 +142,7 @@ public abstract class Brain implements Serializable
 	 * Obtains all Neurons, including InputNeurons and OutputNeurons contained
 	 * within the brain.
 	 *
-	 *  <!-- Author: Jeffrey Phillips Freeman -->
+	 * 
 	 * @return An unmodifiable Set of all Neurons.
 	 * @since 1.0
 	 */

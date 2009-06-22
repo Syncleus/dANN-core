@@ -18,20 +18,16 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.hyperassociativemap;
 
-import com.syncleus.dann.neural.Brain;
-import com.syncleus.dann.neural.OutputNeuron;
-import com.syncleus.dann.neural.InputNeuron;
-import com.syncleus.dann.neural.Neuron;
-import com.syncleus.dann.*;
+import com.syncleus.dann.neural.*;
 import java.util.*;
 
 
 /**
  * An hyperassociative map used to represent a Brain.
  *
- * <!-- Author: Jeffrey Phillips Freeman -->
+ *
  * @author Syncleus, Inc.
- * @version 1.0
+ *
  * @since 1.0
  */
 public class BrainHyperassociativeMap extends HyperassociativeMap
@@ -42,7 +38,7 @@ public class BrainHyperassociativeMap extends HyperassociativeMap
 	/**
 	 * A Hashtable containing all the neurons in the brain and their counterpart
 	 * NeuronHyperassociativeNode.
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @since 1.0
 	 */
     protected Hashtable<Neuron, NeuronHyperassociativeNode> neurons = new Hashtable<Neuron, NeuronHyperassociativeNode>();
@@ -51,7 +47,7 @@ public class BrainHyperassociativeMap extends HyperassociativeMap
 	 * Initializes a new BrainHyperassociativeMap using the specified brain and
 	 * dimensions
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @param brain Brain to represent by this map
 	 * @param dimensions Number of dimensions to represent this brain in
 	 * @since 1.0
@@ -72,7 +68,7 @@ public class BrainHyperassociativeMap extends HyperassociativeMap
 	 * Refresh this Map by pulling any new neurons from the brain as well as any
 	 * new associations between nodes.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @since 1.0
 	 */
     public void refresh()
@@ -110,7 +106,7 @@ public class BrainHyperassociativeMap extends HyperassociativeMap
 	/**
 	 * Gets the NeuronHyperassociativeNode lined with the specified neuron.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @param node Neuron to get Node from.
 	 * @return Node The Node used to represent the neuron.
 	 * @since 1.0

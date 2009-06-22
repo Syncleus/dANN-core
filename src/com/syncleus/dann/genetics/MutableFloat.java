@@ -24,7 +24,7 @@ package com.syncleus.dann.genetics;
  *
  * @author Syncleus, Inc.
  * @since 2.0
- * @version 2.0
+ *
  */
 public class MutableFloat extends MutableNumber<Float> implements Comparable<MutableFloat>
 {

@@ -28,7 +28,7 @@ import org.junit.*;
  * is a circuit that returns true (1) when only one of its inputs is true. It
  * returns false (-1) if none all of its inputs are false or if more then one
  * of its inputs are true.
- * <!-- Author: Jeffrey Phillips Freeman -->
+ *
  * @author Syncleus, Inc.
  */
 public class TestXor

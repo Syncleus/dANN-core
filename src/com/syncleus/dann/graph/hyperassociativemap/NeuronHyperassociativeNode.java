@@ -25,9 +25,9 @@ import java.util.HashSet;
 /**
  * A HyperassociativeNode that is representing a Neuron.
  *
- * <!-- Author: Jeffrey Phillips Freeman -->
+ *
  * @author Syncleus, Inc.
- * @version 1.0
+ *
  * @since 1.0
  */
 public class NeuronHyperassociativeNode extends HyperassociativeNode
@@ -39,7 +39,7 @@ public class NeuronHyperassociativeNode extends HyperassociativeNode
 	 * Initializes a new NeuronHyperassociativeNode that is a part of the
 	 * specified Map, and backs the specified neuron.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @param network the map this node will belong to.
 	 * @param backingNeuron the neuron backing this node.
 	 * @since 1.0
@@ -58,7 +58,7 @@ public class NeuronHyperassociativeNode extends HyperassociativeNode
 	 * specified Map, and backs the specified neuron, as well as using the
 	 * specified initial point.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @param network the map this node will belong to.
 	 * @param location the initial Hyperpoint location of this node.
 	 * @param backingNeuron the neuron backing this node.
@@ -76,7 +76,7 @@ public class NeuronHyperassociativeNode extends HyperassociativeNode
 	/**
 	 * Gets the map this node belongs to.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @return the map this node belongs to.
 	 * @since 1.0
 	 */
@@ -92,7 +92,7 @@ public class NeuronHyperassociativeNode extends HyperassociativeNode
 	 * Refreshes the associations of this node based off the current connections
 	 * of the backing neuron.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @since 1.0
 	 */
 	@SuppressWarnings("unchecked")
@@ -118,7 +118,7 @@ public class NeuronHyperassociativeNode extends HyperassociativeNode
 	/**
 	 * Gets the backing neuron.
 	 *
-	 * <!-- Author: Jeffrey Phillips Freeman -->
+	 *
 	 * @return the backing neuron.
 	 * @since 1.0
 	 */
