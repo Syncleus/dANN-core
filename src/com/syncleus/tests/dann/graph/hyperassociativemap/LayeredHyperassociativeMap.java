@@ -23,7 +23,7 @@ import com.syncleus.dann.graph.hyperassociativemap.*;
 public class LayeredHyperassociativeMap extends HyperassociativeMap
 {
     private HyperassociativeNode layeredNodes[][];
-    private static final int NODES_PER_LAYER = 8;
+    private static final int NODES_PER_LAYER = 4;
     
     LayeredHyperassociativeMap(int layers)
     {
