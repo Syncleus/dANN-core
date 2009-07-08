@@ -55,6 +55,11 @@ public class WaveletChromatid implements Chromatid<WaveletGene>
 			this.externalSignalGenes.add(currentGene.clone());
 	}
 
+	public boolean bind(SignalKeyConcentration concentration, boolean isExternal)
+	{
+		return false;
+	}
+
 	public int getCentromerePosition()
 	{
 		return this.centromerePosition;

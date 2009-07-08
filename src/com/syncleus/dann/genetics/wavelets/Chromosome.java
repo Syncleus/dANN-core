@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-public class Chromosome implements Clonable
+public class Chromosome implements Cloneable
 {
 	private WaveletChromatid leftChromatid;
 	private WaveletChromatid rightChromatid;
@@ -38,6 +38,11 @@ public class Chromosome implements Clonable
 		this.leftChromatid = copy.leftChromatid.clone();
 		this.rightChromatid = copy.rightChromatid.clone();
 		this.mutability = copy.mutability;
+	}
+
+	public boolean bind(SignalKeyConcentration concentration, boolean isExternal)
+	{
+		return false;
 	}
 
 	protected WaveletChromatid getLeftChromatid()

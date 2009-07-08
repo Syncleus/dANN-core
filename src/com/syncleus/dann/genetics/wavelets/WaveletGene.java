@@ -74,7 +74,7 @@ public abstract class WaveletGene implements Gene
 		return this.currentActivity;
 	}
 
-	public boolean bind(SignalKeyConcentration concentration)
+	public boolean bind(SignalKeyConcentration concentration, boolean isExternal)
 	{
 		if( this.expressionFunction.receives(concentration.getSignal()))
 		{

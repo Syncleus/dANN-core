@@ -45,6 +45,11 @@ public class Nucleus implements Cloneable
 	{
 	}
 
+	public boolean bind(SignalKeyConcentration concentration, boolean isExternal)
+	{
+		return false;
+	}
+
 	/*
 	public List<ExternalSignalGene> getExternalSignalGenes()
 	{
