@@ -107,7 +107,7 @@ public class LongValueGene extends ValueGene<MutableLong>
 	 */
 	public LongValueGene mutate(double deviation)
 	{
-		LongValueGene copy = new LongValueGene(this);
+		LongValueGene copy = this.clone();
 		copy.internalMutate(deviation);
 
 		return copy;

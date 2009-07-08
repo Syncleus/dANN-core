@@ -125,6 +125,21 @@ public abstract class GeneticAlgorithmPopulation
 		return this.generations;
 	}
 
+	private GeneticAlgorithmChromosome getRandomMember()
+	{
+		int randomIndex = random.nextInt(this.population.size());
+		int currentIndex = 0;
+		for(GeneticAlgorithmFitnessFunction member : this.population)
+		{
+			if(currentIndex == randomIndex)
+				return member.getChromosome();
+
+			currentIndex++;
+		}
+
+		throw new AssertionError("randomIndex was out of bounds!");
+	}
+
 	/**
 	 * Proceeds to the next generation of the population. This includes killing
 	 * off the worst preforming of the population and randomly selecting parents
@@ -148,24 +163,18 @@ public abstract class GeneticAlgorithmPopulation
 		while(this.population.size() > remainingPopulation)
 			this.population.pollFirst();
 
-		//randomly select parents to beed to replenish population
-		double chanceOfSelection = ((double)lostPopulation)/((double)remainingPopulation);
-		ArrayList<GeneticAlgorithmChromosome> parents = new ArrayList<GeneticAlgorithmChromosome>();
-		while(parents.size() < lostPopulation)
-		{
-			for(GeneticAlgorithmFitnessFunction member : this.population)
-			{
-				if(random.nextDouble() < chanceOfSelection)
-					parents.add(member.getChromosome());
-			}
-		}
-
 		//breed children through mutation and crossover
-		while(this.population.size() < populationSize)
+		TreeSet<GeneticAlgorithmFitnessFunction> children = new TreeSet<GeneticAlgorithmFitnessFunction>();
+		while(this.population.size() + children.size() < populationSize)
 		{
-			GeneticAlgorithmChromosome child1 = parents.remove(0).mutate(this.mutationDeviation);
-			GeneticAlgorithmChromosome child2 = parents.remove(0).mutate(this.mutationDeviation);
+			//obtain parents and mutate into children
+			GeneticAlgorithmChromosome child1 = this.getRandomMember();
+			GeneticAlgorithmChromosome child2 = this.getRandomMember();
 
+			child1 = child1.mutate(mutationDeviation);
+			child2 = child2.mutate(mutationDeviation);
+
+			//crossover performed on children
 			if(random.nextDouble() < this.crossoverPercentage)
 			{
 				int crossoverPoint = random.nextInt(child1.getGenes().size() - 1) + 1;
@@ -177,9 +186,13 @@ public abstract class GeneticAlgorithmPopulation
 				child2.crossover(child1Segment, crossoverPoint);
 			}
 
-			this.population.add(this.packageChromosome(child1));
-			this.population.add(this.packageChromosome(child2));
+			//store the new children
+			children.add(this.packageChromosome(child1));
+			children.add(this.packageChromosome(child2));
 		}
+
+		//add children to the population
+		this.population.addAll(children);
 	}
 
 	/**

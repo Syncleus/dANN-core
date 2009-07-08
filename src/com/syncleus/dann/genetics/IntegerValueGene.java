@@ -107,7 +107,7 @@ public class IntegerValueGene extends ValueGene<MutableInteger>
 	 */
 	public IntegerValueGene mutate(double deviation)
 	{
-		IntegerValueGene copy = new IntegerValueGene(this);
+		IntegerValueGene copy = this.clone();
 		copy.internalMutate(deviation);
 
 		return copy;

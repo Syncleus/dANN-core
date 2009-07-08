@@ -16,34 +16,67 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.genetics;
+package com.syncleus.dann.genetics.wavelets;
 
-/**
- * Represents a Gene which can mutate and expresses some activity. All New
- * types of Gene's will inherit from this class.
- *
- * @author Syncleus, Inc.
- * @since 2.0
- *
- */
-public interface Gene
+import java.util.Map.Entry;
+
+public class ReceptorKey extends Key
 {
-	/**
-	 * All children of this class should override this method and return
-	 * their own class type even if it is abstract. It should return a copy
-	 * without any mutation.
-	 *
-	 * @return an exact copy of this object.
-	 * @since 2.0
-	 */
-	public Gene clone();
+	public ReceptorKey()
+	{
+		super();
+	}
+	
+	public ReceptorKey(Key copy)
+	{
+		super(copy);
+	}
+	
+	public boolean binds(SignalKey binding)
+	{
+		if(binding.getPoints().size() < this.getPoints().size())
+			return false;
 
-	/**
-	 * The current expression activity. The meaning of this value depends on the
-	 * type of gene and the genetic system being used.
-	 *
-	 * @return The current expression activity.
-	 * @since 2.0
-	 */
-	public double expressionActivity();
+		boolean matching;
+		for(Integer offsetPoint : binding.getPoints().keySet())
+		{
+			matching = true;
+			Integer offset = null;
+			for(Entry<Integer,Boolean> point : this.getPoints().entrySet())
+			{
+				if (offset == null)
+					offset = offsetPoint - point.getKey();
+
+				Boolean bindingValue = binding.getPoints().get(point.getKey() + offset);
+				if(bindingValue == null)
+				{
+					matching = false;
+					break;
+				}
+				else if(bindingValue.booleanValue() != point.getValue().booleanValue())
+				{
+					matching = false;
+					break;
+				}
+			}
+			
+			if(matching)
+				return true;
+		}
+		
+		return false;
+	}
+
+	public ReceptorKey clone()
+	{
+		return new ReceptorKey(this);
+	}
+
+	public ReceptorKey mutate(double deviation)
+	{
+		ReceptorKey copy = this.clone();
+		copy.internalMutate(deviation);
+
+		return copy;
+	}
 }

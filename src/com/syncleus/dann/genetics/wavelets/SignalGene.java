@@ -16,36 +16,34 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.genetics;
-
-/**
- * Represents an item which knows how to copy and mutate itself.
- *
- * @author Syncleus, Inc.
- * @since 2.0
- *
- */
-public interface Mutable extends Cloneable
+package com.syncleus.dann.genetics.wavelets;
+import java.util.Set;
+public class SignalGene extends WaveletGene
 {
-	/**
-	 * All children of this class should override this method and return
-	 * their own class type even if it is abstract. It should return a copy
-	 * without any mutation.
-	 *
-	 * @return an exact copy of this object.
-	 * @since 2.0
-	 */
-	public Mutable clone();
+	private SignalKey outputSignal;
 
-	/**
-	 * This will make a copy of the object and mutate it. The mutation has
-	 * a normal distribution multiplied by the deviation.
-	 *
-	 * @param deviation A double indicating how extreme the mutation will be.
-	 * The greater the deviation the more drastically the object will mutate.
-	 * A deviation of 0 should cause no mutation.
-	 * @return A copy of the current object with potential mutations.
-	 * @since 2.0
-	 */
-    public Mutable mutate(double deviation);
+	public SignalGene(SignalGene copy)
+	{
+		super(copy);
+
+		this.outputSignal = copy.outputSignal;
+	}
+
+	public SignalKey getOutputSignal()
+	{
+		return this.outputSignal;
+	}
+
+	@Override
+	public SignalGene clone()
+	{
+		return new SignalGene(this);
+	}
+
+	@Override
+	public void mutate(Set<Key> keyPool)
+	{
+		super.mutate(keyPool);
+		this.outputSignal = this.outputSignal.mutate(this.getMutability());
+	}
 }

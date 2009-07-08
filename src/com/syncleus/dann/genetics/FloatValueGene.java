@@ -107,7 +107,7 @@ public class FloatValueGene extends ValueGene<MutableFloat>
 	 */
 	public FloatValueGene mutate(double deviation)
 	{
-		FloatValueGene copy = new FloatValueGene(this);
+		FloatValueGene copy = this.clone();
 		copy.internalMutate(deviation);
 
 		return copy;

@@ -107,7 +107,7 @@ public class ByteValueGene extends ValueGene<MutableByte>
 	 */
 	public ByteValueGene mutate(double deviation)
 	{
-		ByteValueGene copy = new ByteValueGene(this);
+		ByteValueGene copy = this.clone();
 		copy.internalMutate(deviation);
 
 		return copy;

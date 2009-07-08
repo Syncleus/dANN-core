@@ -29,7 +29,7 @@ import java.util.Random;
  * @since 2.0
  *
  */
-public abstract class MutableNumber<N extends Number> extends Number implements Mutable
+public abstract class MutableNumber<N extends Number> extends Number
 {
 	private static Random random = new Random();
 

@@ -16,34 +16,36 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.genetics;
-
-/**
- * Represents a Gene which can mutate and expresses some activity. All New
- * types of Gene's will inherit from this class.
- *
- * @author Syncleus, Inc.
- * @since 2.0
- *
- */
-public interface Gene
+package com.syncleus.dann.genetics.wavelets;
+import com.syncleus.dann.genetics.MutableInteger;
+import java.util.Set;
+public class PromoterGene extends WaveletGene
 {
-	/**
-	 * All children of this class should override this method and return
-	 * their own class type even if it is abstract. It should return a copy
-	 * without any mutation.
-	 *
-	 * @return an exact copy of this object.
-	 * @since 2.0
-	 */
-	public Gene clone();
+	private MutableInteger targetDistance;
 
-	/**
-	 * The current expression activity. The meaning of this value depends on the
-	 * type of gene and the genetic system being used.
-	 *
-	 * @return The current expression activity.
-	 * @since 2.0
-	 */
-	public double expressionActivity();
+	public PromoterGene(PromoterGene copy)
+	{
+		super(copy);
+
+		this.targetDistance = copy.targetDistance;
+	}
+
+	public int getTargetDistance()
+	{
+		return this.targetDistance.intValue();
+	}
+
+	@Override
+	public PromoterGene clone()
+	{
+		return new PromoterGene(this);
+	}
+
+	@Override
+	public void mutate(Set<Key> keyPool)
+	{
+		super.mutate(keyPool);
+
+		this.targetDistance = this.targetDistance.mutate(this.getMutability());
+	}
 }

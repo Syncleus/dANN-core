@@ -19,11 +19,163 @@
 package com.syncleus.dann.genetics.wavelets;
 
 import com.syncleus.dann.math.*;
-import com.syncleus.dann.util.UniqueId;
+import java.io.Serializable;
 import java.util.*;
 
-public class SignalProcessingWavelet implements SignalMutable, Comparable<SignalProcessingWavelet>, Cloneable
+public class SignalProcessingWavelet implements Comparable<SignalProcessingWavelet>, Cloneable
 {
+	// <editor-fold defaultstate="collapsed" desc="internal class">
+	public static class UniqueId implements Comparable<UniqueId>, Serializable
+	{
+		private Random rand = new Random();
+		private byte[] uniqueData = null;
+
+
+
+		public UniqueId(int size)
+		{
+			this.uniqueData = new byte[size];
+			rand.nextBytes(this.uniqueData);
+		}
+
+
+
+		public int hashCode()
+		{
+			int dataIndex = 0;
+			int hash = 0;
+			while(dataIndex < this.uniqueData.length)
+			{
+				int intBlock = 0;
+				for(int blockIndex = 0;blockIndex < 4;blockIndex++)
+				{
+					if(dataIndex < this.uniqueData.length)
+						intBlock += this.uniqueData[dataIndex] << blockIndex;
+					else
+						break;
+
+					dataIndex++;
+				}
+
+				hash ^= intBlock;
+			}
+
+			return hash;
+		}
+
+
+
+		public int compareTo(UniqueId compareWith)
+		{
+			return this.toString().compareTo(compareWith.toString());
+		}
+
+
+
+		public boolean equals(Object compareWithObj)
+		{
+			if(!(compareWithObj instanceof UniqueId))
+				return false;
+
+			UniqueId compareWith = (UniqueId)compareWithObj;
+
+			if(this.compareTo(compareWith) != 0)
+				return false;
+
+			return true;
+		}
+
+
+
+		public String toString()
+		{
+			StringBuffer dataBuffer = new StringBuffer();
+			for(int dataIndex = (this.uniqueData.length - 1);dataIndex >= 0;dataIndex--)
+			{
+				long currentData = convertByteToUnsignedLong(this.uniqueData[dataIndex]);
+				String newHex = Long.toHexString(currentData);
+				while(newHex.length() < 2)
+					newHex = "0" + newHex;
+				dataBuffer.append(newHex);
+			}
+
+			return dataBuffer.toString().toUpperCase();
+		}
+
+		/*
+		 * A better solution to the convert* methods needs to be found.
+		 */
+
+
+		private long convertByteToUnsignedLong(byte signedByte)
+		{
+			long unsignedLong = signedByte;
+			if(unsignedLong < 0)
+				unsignedLong += 256;
+
+			return unsignedLong;
+		}
+	}
+	// </editor-fold>
+
+	// <editor-fold defaultstate="collapsed" desc="internal class">
+	public static abstract class SignalConcentration implements Comparable<SignalConcentration>
+	{
+		private double value = 0.0;
+		private UniqueId id = new UniqueId(32);
+
+		public SignalConcentration()
+		{
+		}
+
+		protected SignalConcentration(SignalConcentration originalSignal)
+		{
+			value = originalSignal.value;
+			id = originalSignal.id;
+		}
+
+		public double add(double addValue)
+		{
+			this.value += addValue;
+			return this.value;
+		}
+
+		public double getValue()
+		{
+			return this.value;
+		}
+
+		public void setValue(double newValue)
+		{
+			this.value = newValue;
+		}
+
+		public UniqueId getId()
+		{
+			return this.id;
+		}
+
+		public int compareTo(SignalConcentration compareWith)
+		{
+			return this.getId().compareTo(compareWith.getId());
+		}
+	}
+	// </editor-fold>
+
+	// <editor-fold defaultstate="collapsed" desc="internal class">
+	public static class GlobalSignalConcentration extends SignalConcentration
+	{
+		public GlobalSignalConcentration()
+		{
+		}
+
+		protected GlobalSignalConcentration(GlobalSignalConcentration originalSignal)
+		{
+			super(originalSignal);
+		}
+	}
+	// </editor-fold>
+	
     private UniqueId id = null;
     private SignalConcentration output;
     private double currentOutput = 0.0;

@@ -107,7 +107,7 @@ public class DoubleValueGene extends ValueGene<MutableDouble>
 	 */
 	public DoubleValueGene mutate(double deviation)
 	{
-		DoubleValueGene copy = new DoubleValueGene(this);
+		DoubleValueGene copy = this.clone();
 		copy.internalMutate(deviation);
 
 		return copy;

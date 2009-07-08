@@ -107,7 +107,7 @@ public class ShortValueGene extends ValueGene<MutableShort>
 	 */
 	public ShortValueGene mutate(double deviation)
 	{
-		ShortValueGene copy = new ShortValueGene(this);
+		ShortValueGene copy = this.clone();
 		copy.internalMutate(deviation);
 
 		return copy;

@@ -30,7 +30,7 @@ import java.util.*;
  * @since 2.0
  *
  */
-public interface Chromatid<G extends Gene> extends Mutable
+public interface Chromatid<G extends Gene>
 {
 	/**
 	 * Gets an unmodifiable List of all the genes. The index of the genes
@@ -72,16 +72,4 @@ public interface Chromatid<G extends Gene> extends Mutable
 	 * @since 2.0
 	 */
 	public Chromatid<G> clone();
-
-	/**
-	 * This will make a copy of the object and mutate it. The mutation has
-	 * a normal distribution multiplied by the deviation.
-	 *
-	 * @param deviation A double indicating how extreme the mutation will be.
-	 * The greater the deviation the more drastically the object will mutate.
-	 * A deviation of 0 should cause no mutation.
-	 * @return A copy of the current object with potential mutations.
-	 * @since 2.0
-	 */
-	public Chromatid<G> mutate(double deviation);
 }

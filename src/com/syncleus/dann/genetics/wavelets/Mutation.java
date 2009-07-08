@@ -17,48 +17,21 @@
  *                                                                             *
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
-
-
-import com.syncleus.dann.util.UniqueId;
-
-public abstract class SignalConcentration implements Comparable<SignalConcentration>
+import com.syncleus.dann.genetics.MutableDouble;
+public class Mutation
 {
-    private double value = 0.0;
-    private UniqueId id = new UniqueId(32);
-    
-    public SignalConcentration()
-    {
-    }
-    
-    protected SignalConcentration(SignalConcentration originalSignal)
-    {
-        value = originalSignal.value;
-        id = originalSignal.id;
-    }
-    
-    public double add(double addValue)
-    {
-        this.value += addValue;
-        return this.value;
-    }
-    
-    public double getValue()
-    {
-        return this.value;
-    }
-    
-    public void setValue(double newValue)
-    {
-        this.value = newValue;
-    }
-    
-    public UniqueId getId()
-    {
-        return this.id;
-    }
-    
-    public int compareTo(SignalConcentration compareWith)
-    {
-        return this.getId().compareTo(compareWith.getId());
-    }
+	public static double mutabilityMutation(double mutability)
+	{
+		double mutabilityMutation = new MutableDouble(0.0).mutate(mutability).doubleValue();
+		if(mutabilityMutation > 0)
+			return mutability + mutabilityMutation;
+		else
+		{
+			double returnValue = mutability - (mutability * (1 - 1/(Math.abs(mutabilityMutation) + 1)));
+			if(returnValue == 0.0)
+				returnValue = Double.MIN_VALUE;
+
+			return returnValue;
+		}
+	}
 }

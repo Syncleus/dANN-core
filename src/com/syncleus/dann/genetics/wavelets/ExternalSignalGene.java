@@ -17,15 +17,33 @@
  *                                                                             *
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
-
-public class GlobalSignalConcentration extends SignalConcentration
+import java.util.Set;
+public class ExternalSignalGene extends SignalGene
 {
-    public GlobalSignalConcentration()
-    {
-    }
-    
-    protected GlobalSignalConcentration(GlobalSignalConcentration originalSignal)
-    {
-        super(originalSignal);
-    }
+	private boolean outward;
+
+	public ExternalSignalGene(ExternalSignalGene copy)
+	{
+		super(copy);
+	}
+
+	public boolean isOutward()
+	{
+		return this.outward;
+	}
+
+	@Override
+	public ExternalSignalGene clone()
+	{
+		return new ExternalSignalGene(this);
+	}
+
+	@Override
+	public void mutate(Set<Key> keyPool)
+	{
+		super.mutate(keyPool);
+
+		if(this.getRandom().nextDouble() < Math.tanh(this.getMutability()))
+			this.outward = !this.outward;
+	}
 }

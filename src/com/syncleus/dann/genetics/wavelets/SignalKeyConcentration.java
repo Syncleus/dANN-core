@@ -17,10 +17,29 @@
  *                                                                             *
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
-import com.syncleus.dann.math.WaveMultidimensionalMathFunction;
-public interface SignaledWaveMutable extends SignalMutable
+
+public class SignalKeyConcentration
 {
-    public SignaledWaveMutable mutate();
-    public SignaledWaveMutable mutate(SignalConcentration newSignal);
-    public SignaledWaveMutable mutate(SignalConcentration newSignal, WaveMultidimensionalMathFunction newWave);
+	private SignalKey signal;
+	private double concentration;
+
+	public SignalKeyConcentration(SignalKey signal)
+	{
+		this.signal = signal;
+	}
+
+	public SignalKey getSignal()
+	{
+		return signal;
+	}
+
+	public double getConcentration()
+	{
+		return concentration;
+	}
+
+	public void setConcentration(double concentration)
+	{
+		this.concentration = concentration;
+	}
 }

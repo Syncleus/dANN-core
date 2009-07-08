@@ -16,34 +16,30 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.genetics;
+package com.syncleus.dann.genetics.wavelets;
 
-/**
- * Represents a Gene which can mutate and expresses some activity. All New
- * types of Gene's will inherit from this class.
- *
- * @author Syncleus, Inc.
- * @since 2.0
- *
- */
-public interface Gene
+public class SignalKey extends Key
 {
-	/**
-	 * All children of this class should override this method and return
-	 * their own class type even if it is abstract. It should return a copy
-	 * without any mutation.
-	 *
-	 * @return an exact copy of this object.
-	 * @since 2.0
-	 */
-	public Gene clone();
+	public SignalKey()
+	{
+		super();
+	}
+	
+	public SignalKey(Key copy)
+	{
+		super(copy);
+	}
 
-	/**
-	 * The current expression activity. The meaning of this value depends on the
-	 * type of gene and the genetic system being used.
-	 *
-	 * @return The current expression activity.
-	 * @since 2.0
-	 */
-	public double expressionActivity();
+	public SignalKey clone()
+	{
+		return new SignalKey(this);
+	}
+
+	public SignalKey mutate(double deviation)
+	{
+		SignalKey copy = this.clone();
+		copy.internalMutate(deviation);
+
+		return copy;
+	}
 }

@@ -18,10 +18,60 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
-import com.syncleus.dann.genetics.Mutable;
+import com.syncleus.dann.genetics.MutableInteger;
+import java.util.*;
 
-public interface SignalMutable extends Mutable
+public abstract class Key
 {
-    public SignalMutable mutate(double deviation);
-    public SignalMutable mutate(double deviation, SignalConcentration newSignal);
+	private HashMap<Integer, Boolean> points;
+	private static Random random = new Random();
+
+	protected Key()
+	{
+		this.points = new HashMap<Integer, Boolean>();
+		this.points.put(Integer.valueOf(random.nextInt()), random.nextBoolean());
+	}
+
+	protected Key(Map<Integer, Boolean> points)
+	{
+		this.points = new HashMap<Integer, Boolean>(points);
+	}
+
+	protected Key(Key copy)
+	{
+		this.points = copy.points;
+	}
+
+	protected Map<Integer, Boolean> getPoints()
+	{
+		return Collections.unmodifiableMap(points);
+	}
+	
+	protected void internalMutate(double deviation)
+	{
+		Integer[] pointsArray = new Integer[this.points.size()];
+		this.points.keySet().toArray(pointsArray);
+		
+		MutableInteger point = new MutableInteger(pointsArray[random.nextInt(pointsArray.length)]);
+		if(random.nextBoolean())
+			this.points.put(point.mutate(deviation).getNumber(), random.nextBoolean());
+		else
+			this.points.remove(point.getNumber());
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return this.points.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object compareWith)
+	{
+		return this.points.equals(compareWith);
+	}
+	
+	@Override
+	public abstract Key clone();
+	public abstract Key mutate(double deviation);
 }

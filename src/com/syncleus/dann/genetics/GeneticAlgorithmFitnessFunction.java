@@ -66,4 +66,19 @@ public abstract class GeneticAlgorithmFitnessFunction implements Comparable<Gene
 	 * @since 2.0
 	 */
 	public abstract int compareTo(GeneticAlgorithmFitnessFunction compareWith);
+
+	@Override
+	public boolean equals(Object compareWith)
+	{
+		if(compareWith instanceof GeneticAlgorithmFitnessFunction)
+			return ((GeneticAlgorithmFitnessFunction)compareWith).chromosome.equals(this.chromosome);
+		else
+			return false;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return this.chromosome.hashCode();
+	}
 }

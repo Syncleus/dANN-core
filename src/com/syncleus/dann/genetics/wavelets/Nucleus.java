@@ -18,14 +18,60 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
-public class LocalSignalConcentration extends SignalConcentration
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+
+public class Nucleus implements Cloneable
 {
-    public LocalSignalConcentration()
-    {
-    }
-    
-    protected LocalSignalConcentration(LocalSignalConcentration originalSignal)
-    {
-        super(originalSignal);
-    }
+	private ArrayList<Chromosome> chromosomes;
+
+	public Nucleus(Nucleus copy)
+	{
+		this.chromosomes = new ArrayList<Chromosome>();
+		for(Chromosome chromosome : copy.chromosomes)
+		{
+			this.chromosomes.add(chromosome.clone());
+		}
+	}
+
+	protected List<Chromosome> getChromosomes()
+	{
+		return Collections.unmodifiableList(this.chromosomes);
+	}
+
+	public void tick(Set<SignalKeyConcentration> externalSignalConcentrations)
+	{
+	}
+
+	/*
+	public List<ExternalSignalGene> getExternalSignalGenes()
+	{
+		HashMap<SignalKey, Double> externalSignals = new HashMap<SignalKey, Double>();
+		for(Chromosome chromosome : this.chromosomes)
+		{
+			for(ExternalSignalGene gene : chromosome.getExternalSignalGenes())
+			{
+				Double currentConcentration = externalSignals.get(gene);
+				if(currentConcentration == null)
+					currentConcentration = 0D;
+				externalSignals.put(gene.getOutputSignal(), currentConcentration + gene.expressionActivity());
+			}
+
+		}
+		return Collections.unmodifiableMap(externalSignals);
+	}*/
+
+	@Override
+	public Nucleus clone()
+	{
+		return new Nucleus(this);
+	}
+
+	public void mutate()
+	{
+		for(Chromosome chromosome : this.chromosomes)
+			chromosome.mutate(null);
+	}
 }

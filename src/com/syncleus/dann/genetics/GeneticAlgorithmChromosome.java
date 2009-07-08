@@ -174,7 +174,6 @@ public class GeneticAlgorithmChromosome implements Chromatid<ValueGene>
 		{
 			mutated.alleles.add(allele.mutate(deviation));
 		}
-
 		return mutated;
 	}
 }
