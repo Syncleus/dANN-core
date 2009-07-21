@@ -48,24 +48,6 @@ public class Nucleus implements Cloneable
 		return false;
 	}
 
-	/*
-	public List<ExternalSignalGene> getExternalSignalGenes()
-	{
-		HashMap<SignalKey, Double> externalSignals = new HashMap<SignalKey, Double>();
-		for(Chromosome chromosome : this.chromosomes)
-		{
-			for(ExternalSignalGene gene : chromosome.getExternalSignalGenes())
-			{
-				Double currentConcentration = externalSignals.get(gene);
-				if(currentConcentration == null)
-					currentConcentration = 0D;
-				externalSignals.put(gene.getOutputSignal(), currentConcentration + gene.expressionActivity());
-			}
-
-		}
-		return Collections.unmodifiableMap(externalSignals);
-	}*/
-
 	@Override
 	public Nucleus clone()
 	{
