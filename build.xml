@@ -3,6 +3,7 @@
 	<taskdef name="lint4j" classname="com.jutils.lint4j.ant.Lint4jAntTask">
 		<classpath><pathelement location="lib/lint4j.jar"/></classpath>
 	</taskdef>
+	
 	<taskdef classpath="lib/cobertura.jar" resource="tasks.properties">
 		<classpath>
 			<pathelement location="lib/cobertura.jar"/>
