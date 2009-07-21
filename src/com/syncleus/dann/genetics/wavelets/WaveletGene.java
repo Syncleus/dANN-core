@@ -30,8 +30,11 @@ public abstract class WaveletGene implements Gene
 	private double currentActivity;
 	private double pendingActivity;
 	private ExpressionFunction expressionFunction;
+
 	private HashSet<SignalKeyConcentration> signalConcentrations;
+
 	private double mutability;
+
 	private static Random random = new Random();
 
 	protected WaveletGene(ReceptorKey initialReceptor)
