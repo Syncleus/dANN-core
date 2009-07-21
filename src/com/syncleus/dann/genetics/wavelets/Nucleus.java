@@ -31,9 +31,7 @@ public class Nucleus implements Cloneable
 	{
 		this.chromosomes = new ArrayList<Chromosome>();
 		for(Chromosome chromosome : copy.chromosomes)
-		{
 			this.chromosomes.add(chromosome.clone());
-		}
 	}
 
 	protected List<Chromosome> getChromosomes()
