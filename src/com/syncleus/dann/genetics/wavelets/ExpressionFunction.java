@@ -200,9 +200,7 @@ public class ExpressionFunction
                     String[] dimensionNames = new String[copyReceptors.length];
                     int dimensionNamesIndex = 0;
                     for(ReceptorKey copyReceptor : copyReceptors)
-                    {
                         dimensionNames[dimensionNamesIndex++] = String.valueOf(copyReceptor.hashCode());
-                    }
 
                     copy.waves.clear();
                     for(WaveMultidimensionalMathFunction wave:this.waves)
@@ -254,9 +252,7 @@ public class ExpressionFunction
                 String[] names = new String[wave.getDimensionNames().length + 1];
                 int index = 0;
                 for(String dimensionName:wave.getDimensionNames())
-                {
                     names[index++] = dimensionName;
-                }
                 names[index++] = String.valueOf(newReceptor.hashCode());
 
                 WaveMultidimensionalMathFunction newWave = new WaveMultidimensionalMathFunction(names);
