@@ -318,32 +318,20 @@ public class ExpressionFunction
             WaveMultidimensionalMathFunction newWave = randomWave.clone();
 
             if(random.nextDouble() <= 1.0)
-            {
                 newWave.setFrequency(newWave.getFrequency() + ((random.nextFloat() * 2 - 1) * 0.01));
-            }
             if(random.nextDouble() <= 1.0)
-            {
                 newWave.setPhase(newWave.getPhase() + ((random.nextFloat() * 2 - 1) * 10));
-            }
             if(random.nextDouble() <= 1.0)
-            {
                 newWave.setAmplitude(newWave.getAmplitude() + ((random.nextFloat() * 2 - 1) * 10));
-            }
             if(random.nextDouble() <= 1.0)
-            {
                 newWave.setForm(newWave.getForm() + (random.nextFloat() * 0.01));
-            }
             if(random.nextDouble() <= 1.0)
-            {
                 newWave.setDistribution(newWave.getDistribution() + ((random.nextFloat() * 2 - 1) * 100));
-            }
             if(random.nextDouble() <= 1.0)
             {
                 String[] dimensionNames = newWave.getDimensionNames();
                 for(String dimensionName:dimensionNames)
-                {
                     newWave.setCenter(dimensionName, newWave.getCenter(dimensionName) + ((random.nextFloat() * 2 - 1) * 100));
-                }
             }
 
             return newWave;
