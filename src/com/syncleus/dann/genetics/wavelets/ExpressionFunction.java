@@ -237,7 +237,7 @@ public class ExpressionFunction
      * <ul>
      * <li>adding the new signal</li>
      * <ul>
-     * @param newReceptor The new receptor to incorperate.
+     * @param newReceptor The new receptor to possibly incorperate into mutation
 	 * @param deviation random deviation for mutation.
      * @return New mutated wavelet
      */
