@@ -16,27 +16,50 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.tests.dann.neural;
+package com.syncleus.dann.neural.som;
 
-import com.syncleus.dann.neural.*;
-import com.syncleus.dann.neural.backprop.*;
-import org.junit.*;
-
-public class TestSynapse
+public class ExponentialDecaySomBrain extends SomBrain
 {
-	@Test
-	public void testAccessors()
+	int iterationsToConverge;
+	double initialLearningRate;
+
+	public ExponentialDecaySomBrain(int inputCount, int dimentionality, int iterationsToConverge, double initialLearningRate)
 	{
-		BackpropNeuron sourceNeuron = new BackpropNeuron();
-		BackpropNeuron destinationNeuron = new BackpropNeuron();
+		super(inputCount, dimentionality);
+		this.iterationsToConverge = iterationsToConverge;
+		this.initialLearningRate = initialLearningRate;
+	}
 
-		Synapse testSynapse = new Synapse(sourceNeuron, destinationNeuron, 0.01);
+	private double getIntialRadius()
+	{
+		double maxCrossSection = 0.0;
+		for(int dimensionIndex = 1; dimensionIndex <= this.getUpperBounds().getDimensions(); dimensionIndex++)
+		{
+			double crossSection = this.getUpperBounds().getCoordinate(dimensionIndex) - this.getLowerBounds().getCoordinate(dimensionIndex);
+			if( crossSection > maxCrossSection)
+				maxCrossSection = crossSection;
+		}
 
-		testSynapse.setInput(2.0d);
-		Assert.assertTrue(testSynapse.getInput() == 2.0d);
-		testSynapse.setWeight(3.0d);
-		Assert.assertTrue(testSynapse.getWeight() == 3.0d);
-		Assert.assertTrue(testSynapse.getSource() == sourceNeuron);
-		Assert.assertTrue(testSynapse.getDestination() == destinationNeuron);
+		return maxCrossSection/2.0;
+	}
+
+	private double getTimeConstant()
+	{
+		return ((double)this.iterationsToConverge) / Math.log(this.getIntialRadius());
+	}
+
+	protected double neighborhoodFunction(double distanceFromBest)
+	{
+		return Math.exp(-1.0*(Math.pow(distanceFromBest, 2.0))/(2.0*Math.pow(this.neighborhoodRadiusFunction(), 2.0)));
+	}
+
+	protected double neighborhoodRadiusFunction()
+	{
+		return this.getIntialRadius() * Math.exp(-1.0 * this.getIterationsTrained() / this.getTimeConstant());
+	}
+
+	protected double learningRateFunction()
+	{
+		return this.initialLearningRate * Math.exp(-1.0 * this.getIterationsTrained() / this.getTimeConstant());
 	}
 }

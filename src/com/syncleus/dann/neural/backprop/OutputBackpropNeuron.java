@@ -132,10 +132,11 @@ public class OutputBackpropNeuron extends BackpropNeuron implements OutputNeuron
 	 * @param outUnit The Neuron to connect to.
 	 * @throws com.syncleus.dann.InvalidConnectionTypeDannException The
 	 * specified neuron to connect to is not valid.
+	 * @return newly created Synapse.
 	 * @since 1.0
 	 */
 	@Override
-    public void connectTo(BackpropNeuron outUnit) throws InvalidConnectionTypeDannException
+    public Synapse connectTo(BackpropNeuron outUnit) throws InvalidConnectionTypeDannException
     {
         throw new InvalidConnectionTypeDannException("Can not connect from a OutputNeuron");
     }

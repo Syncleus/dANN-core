@@ -92,6 +92,8 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
 	 * @since 1.0
 	 */
 	protected static Random random = new Random();
+	
+	private final static HyperbolicTangentActivationFunction DEFAULT_ACTIVATION_FUNCTION = new HyperbolicTangentActivationFunction();
 
     // </editor-fold>
 
@@ -107,7 +109,7 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
     public NeuronImpl()
     {
         this.biasWeight = ((random.nextDouble() * 2.0) - 1.0) / 1000.0;
-        this.activationFunction = new HyperbolicTangentActivationFunction();
+        this.activationFunction = DEFAULT_ACTIVATION_FUNCTION;
     }
 
 
@@ -149,6 +151,30 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
 
         //add the synapse to the source list
         this.sources.add(inSynapse);
+    }
+
+    /**
+     * This method is called externally to connect to another Neuron.
+	 *
+     *
+     * @since 1.0
+     * @param outUnit The Neuron to connect to.
+	 * @throws com.syncleus.dann.InvalidConnectionTypeDannException Not
+	 * thrown, but children are allowed to throw this exception.
+     * @see com.syncleus.dann.neural.NeuronImpl#connectFrom
+     */
+    public Synapse connectTo(DN outUnit) throws InvalidConnectionTypeDannException
+    {
+        //make sure you arent already connected to the neuron
+        if (outUnit == null)
+            throw new NullPointerException("outUnit can not be null!");
+
+        //connect to the neuron
+        Synapse newSynapse = new Synapse(this, outUnit, ((this.random.nextDouble() * 2.0) - 1.0) / 10000.0);
+        this.destinations.add(newSynapse);
+        outUnit.connectFrom(newSynapse);
+
+		return newSynapse;
     }
 
     /**
@@ -496,7 +522,7 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
         //calculate the current input activity
         this.activity = 0;
         for (Synapse currentSynapse : this.getSources())
-            this.activity += currentSynapse.getOutput();
+            this.activity += currentSynapse.getInput() * currentSynapse.getWeight();
         //Add the bias to the activity
         this.activity += this.biasWeight;
 

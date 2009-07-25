@@ -16,27 +16,40 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.tests.dann.neural;
+package com.syncleus.dann.neural.activation;
 
-import com.syncleus.dann.neural.*;
-import com.syncleus.dann.neural.backprop.*;
-import org.junit.*;
-
-public class TestSynapse
+/**
+ * This activation function always returns the current activity.
+ *
+ * @since 2.0
+ * @author Syncleus, Inc.
+ */
+public class IdentityActivationFunction implements ActivationFunction
 {
-	@Test
-	public void testAccessors()
+	/**
+	 * The activation function.
+	 *
+	 *
+	 * @param activity the neuron's current activity.
+	 * @return The result of the activation function. Usually a bound value
+	 * between 1 and -1 or 1 and 0. However this bound range is not required.
+	 * @since 2.0
+	 */
+    public double activate(double activity)
 	{
-		BackpropNeuron sourceNeuron = new BackpropNeuron();
-		BackpropNeuron destinationNeuron = new BackpropNeuron();
+		return activity;
+	}
 
-		Synapse testSynapse = new Synapse(sourceNeuron, destinationNeuron, 0.01);
-
-		testSynapse.setInput(2.0d);
-		Assert.assertTrue(testSynapse.getInput() == 2.0d);
-		testSynapse.setWeight(3.0d);
-		Assert.assertTrue(testSynapse.getWeight() == 3.0d);
-		Assert.assertTrue(testSynapse.getSource() == sourceNeuron);
-		Assert.assertTrue(testSynapse.getDestination() == destinationNeuron);
+	/**
+	 * The derivative of the activation function.
+	 *
+	 *
+	 * @param activity The neuron's current activity.
+	 * @return The result of the derivative of the activation function.
+	 * @since 2.0
+	 */
+    public double activateDerivative(double activity)
+	{
+		return 1.0;
 	}
 }

@@ -128,19 +128,16 @@ public class BackpropNeuron extends NeuronImpl<NeuronImpl, BackpropNeuron>
      *
      * @since 1.0
      * @param outUnit The BackpropNeuron to connect to.
+	 * @throws com.syncleus.dann.InvalidConnectionTypeDannException Not
+	 * thrown, but children are allowed to throw this exception.
      * @see com.syncleus.dann.neural.NeuronImpl#connectFrom
      */
-    public void connectTo(BackpropNeuron outUnit) throws InvalidConnectionTypeDannException
+	@Override
+    public Synapse connectTo(BackpropNeuron outUnit) throws InvalidConnectionTypeDannException
     {
-        //make sure you arent already connected to the neuron
-        if (outUnit == null)
-            throw new NullPointerException("outUnit can not be null!");
-
-        //connect to the neuron
-        Synapse newSynapse = new Synapse(this, outUnit, ((this.random.nextDouble() * 2.0) - 1.0) / 10000.0);
-        this.destinations.add(newSynapse);
-		this.deltaTrainDestinations.put(newSynapse, Double.valueOf(0.0));
-        outUnit.connectFrom(newSynapse);
+		Synapse outSynapse = super.connectTo(outUnit);
+		this.deltaTrainDestinations.put(outSynapse, Double.valueOf(0.0));
+		return outSynapse;
     }
 
     /**

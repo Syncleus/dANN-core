@@ -361,4 +361,43 @@ public class Hyperpoint implements Serializable
 		}
 		return retString;
 	}
+
+	/**
+	 * Generates a hash code based on thie coordinate values.
+	 *
+	 * @return the hashcode representing this object.
+	 * @since 2.0
+	 */
+	@Override
+	public int hashCode()
+	{
+		int hashcode = 0;
+		for( double coordinate : this.coordinates)
+			hashcode ^= Double.valueOf(coordinate).hashCode();
+		return hashcode;
+	}
+
+	/**
+	 * checks if another point is equals to this one.
+	 *
+	 * @return true if equals, false if not.
+	 * @since 2.0
+	 */
+	@Override
+	public boolean equals(Object compareWithObject)
+	{
+		if(!(compareWithObject instanceof Hyperpoint))
+			return false;
+
+		Hyperpoint compareWith = (Hyperpoint) compareWithObject;
+
+		if(this.getDimensions() != compareWith.getDimensions())
+			return false;
+
+		for( int dimension = 1; dimension <= this.getDimensions(); dimension++)
+			if( this.getCoordinate(dimension)!= compareWith.getCoordinate(dimension))
+				return false;
+
+		return true;
+	}
 }

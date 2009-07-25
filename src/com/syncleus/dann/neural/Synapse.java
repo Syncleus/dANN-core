@@ -121,21 +121,6 @@ public class Synapse implements java.io.Serializable
 
     // <editor-fold defaultstate="collapsed" desc="Propogation">
 
-    /**
-     * Calculates the current output of the synapse based on the input and
-     * weight.
-	 *
-     *
-     * @since 1.0
-     * @return the current synapse output.
-     */
-    public double getOutput()
-    {
-        this.output = this.input * this.weight;
-        return this.output;
-    }
-
-
 
     /**
      * Set the current input for the synapse.
