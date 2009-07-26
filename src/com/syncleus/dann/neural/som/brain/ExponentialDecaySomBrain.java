@@ -16,7 +16,7 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.neural.som;
+package com.syncleus.dann.neural.som.brain;
 
 /**
  * A SomBrain which uses exponential decay over time for the neighboorhood

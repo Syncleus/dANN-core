@@ -16,8 +16,9 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.neural.som;
+package com.syncleus.dann.neural.som.brain;
 
+import com.syncleus.dann.neural.som.*;
 import com.syncleus.dann.neural.*;
 import java.util.*;
 import java.util.Map.Entry;

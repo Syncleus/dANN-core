@@ -19,7 +19,7 @@
 package com.syncleus.tests.dann.neural.som;
 
 import com.syncleus.dann.math.Hyperpoint;
-import com.syncleus.dann.neural.som.ExponentialDecaySomBrain;
+import com.syncleus.dann.neural.som.brain.ExponentialDecaySomBrain;
 import java.util.Random;
 import org.junit.*;
 

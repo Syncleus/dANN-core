@@ -48,7 +48,7 @@ public class SomNeuron extends NeuronImpl<NeuronImpl, SomNeuron> implements Outp
 	 *
 	 * @since 2.0
 	 */
-	void train(double learningRate, double neighborhoodAdjustment)
+	public void train(double learningRate, double neighborhoodAdjustment)
 	{
 		for(Synapse source : this.getSources())
 			source.setWeight( source.getWeight() + (learningRate * neighborhoodAdjustment * (source.getInput() - source.getWeight())) );
