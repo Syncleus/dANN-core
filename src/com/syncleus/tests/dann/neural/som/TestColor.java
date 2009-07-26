@@ -25,14 +25,13 @@ import org.junit.*;
 
 public class TestColor
 {
-	@Test
 	public void testLoop()
 	{
 		for(int i = 0; i < 200;i++)
 			this.testColor();
 	}
 
-	
+	@Test
 	public void testColor()
 	{
 		final int iterations = 10000;
