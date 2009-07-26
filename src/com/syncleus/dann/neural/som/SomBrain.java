@@ -159,7 +159,7 @@ public abstract class SomBrain extends Brain
 	 * @return the iterationsTrained so far.
 	 * @since 2.0
 	 */
-	protected int getIterationsTrained()
+	public int getIterationsTrained()
 	{
 		return iterationsTrained;
 	}
@@ -188,6 +188,39 @@ public abstract class SomBrain extends Brain
 	protected Hyperpoint getLowerBounds()
 	{
 		return lowerBounds;
+	}
+
+	/**
+	 * Gets the number of inputs.
+	 *
+	 * @return The number of inputs.
+	 * @since 2.0
+	 */
+	public int getInputCount()
+	{
+		return this.inputs.size();
+	}
+
+	/**
+	 * Sets the current input.
+	 *
+	 * @since 2.0
+	 * @param inputIndex
+	 * @param inputValue
+	 */
+	public void setInput(int inputIndex, double inputValue)
+	{
+		if(inputIndex >= this.getInputCount())
+			throw new IllegalArgumentException("inputIndex is out of bounds");
+		
+		SomInputNeuron currentInput = this.inputs.get(inputIndex);
+		currentInput.setInput(inputValue);
+		currentInput.propagate();
+	}
+
+	public double getInput(int index)
+	{
+		return this.inputs.get(index).getInput();
 	}
 
 

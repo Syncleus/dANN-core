@@ -147,7 +147,7 @@ public class InputBackpropNeuron extends BackpropNeuron implements InputNeuron<N
      * @see com.syncleus.dann.neural.Neuron#connectTo
      */
 	@Override
-    protected void connectFrom(Synapse inSynapse) throws InvalidConnectionTypeDannException
+    public void connectFrom(Synapse inSynapse) throws InvalidConnectionTypeDannException
     {
         throw new InvalidConnectionTypeDannException("Can not connect a neuron to an InputNeuron");
     }

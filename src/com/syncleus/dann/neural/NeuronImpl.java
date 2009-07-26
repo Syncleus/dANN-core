@@ -145,7 +145,7 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
      * @param inSynapse The synapse to connect from.
      * @see com.syncleus.dann.neural.Neuron#connectTo
      */
-    protected void connectFrom(Synapse inSynapse) throws InvalidConnectionTypeDannException
+    public void connectFrom(Synapse inSynapse) throws InvalidConnectionTypeDannException
     {
         //make sure you arent already connected fromt his neuron
 

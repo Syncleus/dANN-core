@@ -373,7 +373,7 @@ public class Hyperpoint implements Serializable
 	{
 		int hashcode = 0;
 		for( double coordinate : this.coordinates)
-			hashcode ^= Double.valueOf(coordinate).hashCode();
+			hashcode += hashcode ^ Double.valueOf(coordinate).hashCode();
 		return hashcode;
 	}
 

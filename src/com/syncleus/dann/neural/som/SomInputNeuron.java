@@ -66,6 +66,35 @@ public class SomInputNeuron extends NeuronImpl<NeuronImpl, SomNeuron> implements
 		this.input = inputToSet;
 	}
 
+	public double getInput()
+	{
+		return this.input;
+	}
+
+    /**
+     * This method is called externally to connect to another Neuron.
+	 *
+     *
+     * @since 1.0
+     * @param outUnit The Neuron to connect to.
+	 * @throws com.syncleus.dann.InvalidConnectionTypeDannException Not
+	 * thrown, but children are allowed to throw this exception.
+     * @see com.syncleus.dann.neural.NeuronImpl#connectFrom
+     */
+    public Synapse connectTo(SomNeuron outUnit) throws InvalidConnectionTypeDannException
+    {
+        //make sure you arent already connected to the neuron
+        if (outUnit == null)
+            throw new NullPointerException("outUnit can not be null!");
+
+        //connect to the neuron
+        Synapse newSynapse = new Synapse(this, outUnit, this.random.nextDouble());
+        this.destinations.add(newSynapse);
+        outUnit.connectFrom(newSynapse);
+
+		return newSynapse;
+    }
+
     /**
 	 * This should never be called, This class can not be connected to, only
 	 * send. Any call to this method will always throw an
@@ -78,7 +107,7 @@ public class SomInputNeuron extends NeuronImpl<NeuronImpl, SomNeuron> implements
      * @see com.syncleus.dann.neural.Neuron#connectTo
      */
 	@Override
-    protected void connectFrom(Synapse inSynapse) throws InvalidConnectionTypeDannException
+    public void connectFrom(Synapse inSynapse) throws InvalidConnectionTypeDannException
 	{
 		throw new InvalidConnectionTypeDannException("SOM networks' SomInputNeuron can not receive connections from any neurons.");
 	}
