@@ -28,7 +28,7 @@ import com.syncleus.dann.neural.activation.SqrtActivationFunction;
  * @author Syncleus, Inc.
  * @since 2.0
  */
-public class SomNeuron extends NeuronImpl<NeuronImpl, SomNeuron> implements OutputNeuron<NeuronImpl, SomNeuron>
+public class SomNeuron extends NeuronImpl<NeuronImpl, NeuronImpl> implements OutputNeuron<NeuronImpl, NeuronImpl>
 {
 	private final static SqrtActivationFunction ACTIVATION_FUNCTION = new SqrtActivationFunction();
 
@@ -83,21 +83,5 @@ public class SomNeuron extends NeuronImpl<NeuronImpl, SomNeuron> implements Outp
 	public double getOutput()
 	{
 		return super.getOutput();
-	}
-
-	/**
-	 * This should never be called, This class can not connect outward, only
-	 * receive. Any call to this method will always throw an
-	 * InvalidConnectionTypeDannException.
-	 *
-	 * @param outUnit This is ignored.
-	 * @throws com.syncleus.dann.InvalidConnectionTypeDannException Always
-	 * thrown
-	 * @since 2.0
-	 */
-	@Override
-	public Synapse connectTo(SomNeuron outUnit) throws InvalidConnectionTypeDannException
-	{
-		throw new InvalidConnectionTypeDannException("SOM networks' SomNeuron can not connect to any other neurons.");
 	}
 }
