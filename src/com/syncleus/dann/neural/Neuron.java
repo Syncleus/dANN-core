@@ -42,7 +42,7 @@ public interface Neuron<SN extends NeuronImpl, DN extends NeuronImpl> extends Se
 	 * @param outUnit The Neuron to connect to.
 	 * @throws com.syncleus.dann.InvalidConnectionTypeDannException The
 	 * specified neuron to connect to is not valid.
-	 * @returns the newly created Synapse
+	 * @return the newly created Synapse
 	 * @since 1.0
 	 */
     public Synapse connectTo(DN outUnit) throws InvalidConnectionTypeDannException;

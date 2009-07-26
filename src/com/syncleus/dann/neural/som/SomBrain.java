@@ -23,6 +23,15 @@ import java.util.*;
 import java.util.Map.Entry;
 import com.syncleus.dann.math.Hyperpoint;
 
+/**
+ * A SomBrain acts as the parent class for all brains that use traditional SOM
+ * agorithms. It implements a standard SOM leaving only the methods handling the
+ * neighborhood and learning rate as abstract. These methods can be implemented
+ * in several ways to alow for different types of SOM networks.
+ *
+ * @author Syncleus, Inc.
+ * @since 2.0
+ */
 public abstract class SomBrain extends Brain
 {
 	private int iterationsTrained;
@@ -31,6 +40,15 @@ public abstract class SomBrain extends Brain
 	private ArrayList<SomInputNeuron> inputs = new ArrayList<SomInputNeuron>();
 	private Hashtable<Hyperpoint, SomNeuron> outputs = new Hashtable<Hyperpoint, SomNeuron>();
 
+	/**
+	 * Called by chidren classes to instantiate a basic SomBrain with the given
+	 * number of inputs and with an output lattice of the given number of
+	 * dimensions.
+	 *
+	 * @param inputCount The number of inputs
+	 * @param dimentionality The number of dimensions of the output lattice
+	 * @since 2.0
+	 */
 	protected SomBrain(int inputCount, int dimentionality)
 	{
 		if( inputCount <= 0 )
@@ -43,7 +61,7 @@ public abstract class SomBrain extends Brain
 		for(int inputIndex = 0; inputIndex < inputCount; inputIndex++)
 			this.inputs.add(new SomInputNeuron());
 	}
-	
+
 	private void updateBounds(Hyperpoint position)
 	{
 		//make sure we have the proper dimentionality
@@ -59,6 +77,13 @@ public abstract class SomBrain extends Brain
 		}
 	}
 
+	/**
+	 * Creates a new point in the output lattice at the given position. This
+	 * will automatically have all inputs connected to it.
+	 *
+	 * @param position The position of the new output in the latice.
+	 * @since 2.0
+	 */
 	public void createOutput(Hyperpoint position)
 	{
 		//make sure we have the proper dimentionality
@@ -86,6 +111,12 @@ public abstract class SomBrain extends Brain
 		}
 	}
 
+	/**
+	 * Gets the positions of all the outputs in the output lattice.
+	 *
+	 * @return the positions of all the outputs in the output lattice.
+	 * @since 2.0
+	 */
 	public Set<Hyperpoint> getPositions()
 	{
 		HashSet<Hyperpoint> positions = new HashSet<Hyperpoint>();
@@ -94,6 +125,17 @@ public abstract class SomBrain extends Brain
 		return Collections.unmodifiableSet(positions);
 	}
 
+	/**
+	 * Gets the current output at the specified position in the output lattice
+	 * if the position doesnt have a SomNeuron associated with it then it
+	 * returns null.
+	 *
+	 * @param position position in the output latice of the output you wish to
+	 * retreive.
+	 * @return The value of the specified SomNeuron, or null if there is no
+	 * SomNeuron associated with the given position.
+	 * @since 2.0
+	 */
 	public double getOutput(Hyperpoint position)
 	{
 		SomNeuron outputNeuron = this.outputs.get(position);
@@ -101,11 +143,26 @@ public abstract class SomBrain extends Brain
 		return outputNeuron.getOutput();
 	}
 
+	/**
+	 * Obtains the BMU (Best Matching Unit) for the current input set. This will
+	 * also train against the current input.
+	 *
+	 * @return the BMU for the current input set.
+	 */
 	public Hyperpoint getBestMatchingUnit()
 	{
 		return this.getBestMatchingUnit(true);
 	}
 
+	/**
+	 * Obtains the BMU (Best Matching Unit) for the current input set. This will
+	 * also train against the current input when specified.
+	 *
+	 * @param train true to train against the input set, false if no training
+	 * occurs.
+	 * @return the BMU for the current input set.
+	 * @since 2.0
+	 */
 	public Hyperpoint getBestMatchingUnit(boolean train)
 	{
 		//make sure we have atleast one output
@@ -218,13 +275,43 @@ public abstract class SomBrain extends Brain
 		currentInput.propagate();
 	}
 
+	/**
+	 * Gets the current input value at the specied index.
+	 *
+	 * @param index Index of the input to get.
+	 * @return The current value for the specified input.
+	 * @since 2.0
+	 */
 	public double getInput(int index)
 	{
 		return this.inputs.get(index).getInput();
 	}
 
-
+	/**
+	 * Determines the neighboorhood function based on the neurons distance from
+	 * the Best Matching Unit (BMU).
+	 *
+	 * @param distanceFromBest The neuron's distance from the BMU.
+	 * @return the decay effecting the learning of the specified neuron due to
+	 * its distance from the BMU.
+	 * @since 2.0
+	 */
 	protected abstract double neighborhoodFunction(double distanceFromBest);
+
+	/**
+	 * Determine the current radius of the neighborhood which will be centered
+	 * around the Best Matching Unit (BMU).
+	 *
+	 * @return the current radius of the neighborhood.
+	 * @since 2.0
+	 */
 	protected abstract double neighborhoodRadiusFunction();
+
+	/**
+	 * Determines the current learning rate for the network.
+	 *
+	 * @return the current learning rate for the network.
+	 * @since 2.0
+	 */
 	protected abstract double learningRateFunction();
 }

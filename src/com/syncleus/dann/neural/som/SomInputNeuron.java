@@ -66,6 +66,12 @@ public class SomInputNeuron extends NeuronImpl<NeuronImpl, SomNeuron> implements
 		this.input = inputToSet;
 	}
 
+	/**
+	 * Gets the current input.
+	 *
+	 * @return the current input.
+	 * @since 2.0
+	 */
 	public double getInput()
 	{
 		return this.input;
@@ -96,12 +102,12 @@ public class SomInputNeuron extends NeuronImpl<NeuronImpl, SomNeuron> implements
     }
 
     /**
-	 * This should never be called, This class can not be connected to, only
+	 * This should never be called, This class can not be connected from, only
 	 * send. Any call to this method will always throw an
 	 * InvalidConnectionTypeDannException.
      *
 	 * @since 2.0
-	 * @param outUnit This is ignored.
+	 * @param inSynapse This is ignored.
 	 * @throws com.syncleus.dann.InvalidConnectionTypeDannException Always
 	 * thrown
      * @see com.syncleus.dann.neural.Neuron#connectTo

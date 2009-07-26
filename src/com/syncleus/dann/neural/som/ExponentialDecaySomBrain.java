@@ -18,6 +18,13 @@
  ******************************************************************************/
 package com.syncleus.dann.neural.som;
 
+/**
+ * A SomBrain which uses exponential decay over time for the neighboorhood
+ * radius, neighboorhood function, and learning rate.
+ *
+ * @author Syncleus, Inc.
+ * @since 2.0
+ */
 public class ExponentialDecaySomBrain extends SomBrain
 {
 	private int iterationsToConverge;
@@ -48,16 +55,38 @@ public class ExponentialDecaySomBrain extends SomBrain
 		return ((double)this.iterationsToConverge) / Math.log(this.getIntialRadius());
 	}
 
+	/**
+	 * Determines the neighboorhood function based on the neurons distance from
+	 * the BMU.
+	 *
+	 * @param distanceFromBest The neuron's distance from the BMU.
+	 * @return the decay effecting the learning of the specified neuron due to
+	 * its distance from the BMU.
+	 * @since 2.0
+	 */
 	protected double neighborhoodFunction(double distanceFromBest)
 	{
 		return Math.exp(-1.0*(Math.pow(distanceFromBest, 2.0))/(2.0*Math.pow(this.neighborhoodRadiusFunction(), 2.0)));
 	}
 
+	/**
+	 * Determine the current radius of the neighborhood which will be centered
+	 * around the Best Matching Unit (BMU).
+	 *
+	 * @return the current radius of the neighborhood.
+	 * @since 2.0
+	 */
 	protected double neighborhoodRadiusFunction()
 	{
 		return this.getIntialRadius() * Math.exp(-1.0 * this.getIterationsTrained() / this.getTimeConstant());
 	}
 
+	/**
+	 * Determines the current learning rate for the network.
+	 *
+	 * @return the current learning rate for the network.
+	 * @since 2.0
+	 */
 	protected double learningRateFunction()
 	{
 		return this.initialLearningRate * Math.exp(-1.0 * this.getIterationsTrained() / this.getTimeConstant());
