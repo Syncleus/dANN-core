@@ -1,4 +1,4 @@
-/*******************************************************************************
+/******************************************************************************
  *                                                                             *
  *  Copyright: (c) Syncleus, Inc.                                              *
  *                                                                             *
@@ -19,40 +19,8 @@
 package com.syncleus.dann.genetics.wavelets;
 
 import java.util.HashSet;
-import java.util.Set;
 
-public class Cell
+public class Organism
 {
-	private HashSet<SignalKeyConcentration> localConcentrations;
-	private Nucleus nucleus;
-
-	public Cell(Cell copy)
-	{
-		this.nucleus = copy.nucleus.clone();
-		this.localConcentrations  = new HashSet<SignalKeyConcentration>(copy.localConcentrations);
-	}
-
-	public Cell()
-	{
-		this.nucleus = new Nucleus();
-		this.localConcentrations = new HashSet<SignalKeyConcentration>();
-
-		Set<SignalKey> localSignals = this.nucleus.getExpressedSignals(false);
-		for(SignalKey localSignal : localSignals)
-		{
-			SignalKeyConcentration newConcentration = new SignalKeyConcentration(localSignal);
-			this.localConcentrations.add(newConcentration);
-			this.nucleus.bind(newConcentration, false);
-		}
-	}
-
-	public boolean bind(SignalKeyConcentration concentration, boolean isExternal)
-	{
-		return false;
-	}
-
-	Set<SignalKey> getExpressedSignals()
-	{
-		return this.nucleus.getExpressedSignals(true);
-	}
+	private HashSet<Cell> cells;
 }
