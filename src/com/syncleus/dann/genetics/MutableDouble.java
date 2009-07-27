@@ -97,7 +97,7 @@ public class MutableDouble extends MutableNumber<Double> implements Comparable<M
 			if(result > 0)
 				result = Double.MAX_VALUE;
 			else
-				result = Double.MAX_VALUE * 1.0;
+				result = Double.MAX_VALUE * -1.0;
 		}
 
 		return new MutableDouble(result);

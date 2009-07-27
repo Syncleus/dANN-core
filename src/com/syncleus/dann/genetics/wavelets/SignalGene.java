@@ -22,6 +22,13 @@ public class SignalGene extends WaveletGene
 {
 	private SignalKey outputSignal;
 
+	public SignalGene(ReceptorKey initialReceptor, SignalKey initialSignal)
+	{
+		super(initialReceptor);
+
+		this.outputSignal = initialSignal;
+	}
+
 	public SignalGene(SignalGene copy)
 	{
 		super(copy);

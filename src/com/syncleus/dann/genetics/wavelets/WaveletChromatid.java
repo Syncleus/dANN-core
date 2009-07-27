@@ -19,6 +19,7 @@
 package com.syncleus.dann.genetics.wavelets;
 
 import com.syncleus.dann.genetics.Chromatid;
+import com.syncleus.dann.genetics.MutableInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -26,15 +27,33 @@ import java.util.Set;
 
 public class WaveletChromatid implements Chromatid<WaveletGene>
 {
+	//contains all the genes as their sequenced in the chromatid
 	private ArrayList<WaveletGene> sequencedGenes;
+	//contains all the promoter genes in an arbitrary order
 	private ArrayList<PromoterGene> promoters;
+	//contains just the local (non-external) signal genes in an arbitrary order.
 	private ArrayList<SignalGene> localSignalGenes;
+	//contains al the external signal genes in an arbitrary order.
 	private ArrayList<ExternalSignalGene> externalSignalGenes;
 
+	//Position of the gene's centromere. This is the origin where chromatid
+	//pairs are joined.
 	private int centromerePosition;
 
+	//This chomatids chance of mutating. This value itself will mutate.
 	private double mutability;
 
+	public WaveletChromatid()
+	{
+		mutability = Mutation.getRandom().nextDouble() * 10.0;
+
+		while(this.sequencedGenes.size() <= 0 )
+			this.mutate(null);
+
+		while(Mutation.mutationEvent(mutability))
+			this.mutate(null);
+	}
+	
 	public WaveletChromatid(WaveletChromatid copy)
 	{
 		this.centromerePosition = copy.centromerePosition;
@@ -55,9 +74,47 @@ public class WaveletChromatid implements Chromatid<WaveletGene>
 			this.externalSignalGenes.add(currentGene.clone());
 	}
 
+	public void preTick()
+	{
+		for(WaveletGene gene : this.sequencedGenes)
+			gene.preTick();
+	}
+
+	public void tick()
+	{
+		for(WaveletGene gene : this.sequencedGenes)
+			gene.tick();
+	}
+
 	public boolean bind(SignalKeyConcentration concentration, boolean isExternal)
 	{
-		return false;
+		boolean bound = false;
+		if( isExternal )
+		{
+			for(ExternalSignalGene gene : this.externalSignalGenes )
+			{
+				//if the gene points inward (therefore reacts from external
+				//signals
+				if(!gene.isOutward())
+					if( gene.bind(concentration) )
+						bound = true;
+			}
+		}
+		else
+		{
+			for(WaveletGene gene : this.sequencedGenes)
+			{
+				if(gene instanceof ExternalSignalGene)
+					if(! ((ExternalSignalGene)gene).isOutward() )
+						continue;
+				
+				if( gene.bind(concentration) )
+					bound = true;
+			}
+		}
+
+
+		return bound;
 	}
 
 	public int getCentromerePosition()
@@ -161,9 +218,75 @@ public class WaveletChromatid implements Chromatid<WaveletGene>
 		return new WaveletChromatid(this);
 	}
 
+	private static Key randomKey(Set<Key> keyPool)
+	{
+		if((keyPool != null)&&(!keyPool.isEmpty()))
+		{
+			//select a random key from the pool
+			Key randomKey = null;
+			int keyIndex = Mutation.getRandom().nextInt(keyPool.size());
+			for(Key key : keyPool)
+			{
+				if(keyIndex <= 0)
+				{
+					randomKey = key;
+					break;
+				}
+				else
+					keyIndex--;
+			}
+			if(randomKey == null)
+				throw new AssertionError("randomKey was unexpectidly null");
+			return new ReceptorKey(randomKey);
+		}
+
+		return new ReceptorKey();
+	}
+
 	public void mutate(Set<Key> keyPool)
 	{
+		//there is a chance we will add a new gene to the chromatid
+		if(Mutation.mutationEvent(mutability))
+		{
+			//generate the new receptorKey used in the new gene
+			ReceptorKey newReceptorKey = new ReceptorKey(randomKey(keyPool));
+
+			//mutate new receptorKey before using it
+			while(Mutation.mutationEvent(this.mutability))
+				newReceptorKey = newReceptorKey.mutate(mutability);
+
+			//create a new gene using the new receptor
+			WaveletGene newGene;
+			SignalKey newSignalKey = new SignalKey(randomKey(keyPool));
+			switch( Mutation.getRandom().nextInt(3) )
+			{
+			case 0:
+				MutableInteger initialDistance = (new MutableInteger(0)).mutate(mutability);
+				newGene = new PromoterGene(newReceptorKey, initialDistance.intValue());
+				this.promoters.add((PromoterGene)newGene);
+				break;
+			case 1:
+				newGene = new SignalGene(newReceptorKey, newSignalKey);
+				this.localSignalGenes.add((SignalGene)newGene);
+				break;
+			default:
+				newGene = new ExternalSignalGene(newReceptorKey, newSignalKey, Mutation.getRandom().nextBoolean());
+				this.externalSignalGenes.add((ExternalSignalGene)newGene);
+			}
+			//add the new gene to the sequence. there is an equal chance the
+			//gene will be added to the head and tail
+			if(Mutation.getRandom().nextBoolean())
+				this.sequencedGenes.add(0, newGene);
+			else
+				this.sequencedGenes.add(newGene);
+		}
+
+		//mutate each gene (the gene itself will handle if it actually mutates)
 		for(WaveletGene currentGene : this.sequencedGenes)
 			currentGene.mutate(keyPool);
+
+		//mutate the mutability factor.
+		if( Mutation.mutationEvent(mutability) )
+			this.mutability = Mutation.mutabilityMutation(this.mutability);
 	}
 }

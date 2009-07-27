@@ -23,6 +23,13 @@ public class PromoterGene extends WaveletGene
 {
 	private MutableInteger targetDistance;
 
+	public PromoterGene(ReceptorKey initialReceptor, int initialDistance)
+	{
+		super(initialReceptor);
+
+		this.targetDistance = new MutableInteger(initialDistance);
+	}
+
 	public PromoterGene(PromoterGene copy)
 	{
 		super(copy);

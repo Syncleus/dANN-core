@@ -21,11 +21,23 @@ package com.syncleus.dann.genetics.wavelets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 public class Nucleus implements Cloneable
 {
 	private ArrayList<Chromosome> chromosomes;
+	private double mutability;
+
+	public Nucleus()
+	{
+		this.mutability = Mutation.getRandom().nextDouble() * 10.0;
+
+		//make sure there is atleast one starting chromosome.
+		this.chromosomes.add(new Chromosome());
+
+		//there is a chance more chromosomes can be created
+		while(Mutation.mutationEvent(mutability))
+			this.chromosomes.add(new Chromosome());
+	}
 
 	public Nucleus(Nucleus copy)
 	{
@@ -39,13 +51,25 @@ public class Nucleus implements Cloneable
 		return Collections.unmodifiableList(this.chromosomes);
 	}
 
-	public void tick(Set<SignalKeyConcentration> externalSignalConcentrations)
+	public void preTick()
 	{
+		for(Chromosome chromosome : this.chromosomes)
+			chromosome.preTick();
+	}
+
+	public void tick()
+	{
+		for(Chromosome chromosome : this.chromosomes)
+			chromosome.tick();
 	}
 
 	public boolean bind(SignalKeyConcentration concentration, boolean isExternal)
 	{
-		return false;
+		boolean bound = true;
+		for( Chromosome chromosome : this.chromosomes )
+			if( chromosome.bind(concentration, isExternal) )
+				bound = true;
+		return bound;
 	}
 
 	@Override

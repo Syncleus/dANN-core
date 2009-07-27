@@ -22,6 +22,13 @@ public class ExternalSignalGene extends SignalGene
 {
 	private boolean outward;
 
+	public ExternalSignalGene(ReceptorKey initialReceptor, SignalKey initialSignal, boolean outward)
+	{
+		super(initialReceptor, initialSignal);
+
+		this.outward = outward;
+	}
+	
 	public ExternalSignalGene(ExternalSignalGene copy)
 	{
 		super(copy);

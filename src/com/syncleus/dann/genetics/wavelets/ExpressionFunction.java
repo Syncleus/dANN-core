@@ -23,7 +23,7 @@ import java.util.*;
 
 public class ExpressionFunction
 {
-    private static Random random = new Random();
+    private static Random random = Mutation.getRandom();
     HashSet<ReceptorKey> receptors;
     ArrayList<WaveMultidimensionalMathFunction> waves;
     WaveletMathFunction wavelet;
@@ -185,7 +185,7 @@ public class ExpressionFunction
             //delete a signal
             if(random.nextDouble() < 0.1)
             {
-                //only delet eif there will be atleast one signal left
+                //only delete if there will be atleast one signal left
                 if(this.receptors.size() > 1)
                 {
                     ReceptorKey[] receptorArray = new ReceptorKey[copy.receptors.size()];

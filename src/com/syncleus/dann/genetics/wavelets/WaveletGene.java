@@ -35,7 +35,7 @@ public abstract class WaveletGene implements Gene
 
 	private double mutability;
 
-	private static Random random = new Random();
+	private static Random random = Mutation.getRandom();
 
 	protected WaveletGene(ReceptorKey initialReceptor)
 	{
@@ -74,7 +74,7 @@ public abstract class WaveletGene implements Gene
 		return this.currentActivity;
 	}
 
-	public boolean bind(SignalKeyConcentration concentration, boolean isExternal)
+	public boolean bind(SignalKeyConcentration concentration)
 	{
 		if( this.expressionFunction.receives(concentration.getSignal()))
 		{
@@ -101,7 +101,7 @@ public abstract class WaveletGene implements Gene
 		this.currentActivity = 0.0;
 		this.pendingActivity = 0.0;
 
-		if(keyPool != null)
+		if((keyPool != null)||(keyPool.isEmpty()))
 		{
 			ReceptorKey newReceptor = new ReceptorKey(new ArrayList<Key>(keyPool).get(random.nextInt(keyPool.size())));
 			this.expressionFunction.mutate(mutability, newReceptor);
@@ -109,7 +109,8 @@ public abstract class WaveletGene implements Gene
 		else
 			this.expressionFunction.mutate(mutability);
 
-		this.mutability = Mutation.mutabilityMutation(mutability);
+		if( Mutation.mutationEvent(this.mutability) )
+			this.mutability = Mutation.mutabilityMutation(mutability);
 	}
 
 	@Override

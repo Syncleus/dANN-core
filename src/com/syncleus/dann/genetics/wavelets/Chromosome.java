@@ -29,9 +29,15 @@ public class Chromosome implements Cloneable
 {
 	private WaveletChromatid leftChromatid;
 	private WaveletChromatid rightChromatid;
-	private static Random random = new Random();
+	private static Random random = Mutation.getRandom();
 
 	private double mutability;
+
+	public Chromosome()
+	{
+		this.leftChromatid = new WaveletChromatid();
+		this.rightChromatid = new WaveletChromatid();
+	}
 
 	public Chromosome(Chromosome copy)
 	{
@@ -40,9 +46,26 @@ public class Chromosome implements Cloneable
 		this.mutability = copy.mutability;
 	}
 
+	public void preTick()
+	{
+		this.leftChromatid.preTick();
+		this.rightChromatid.preTick();
+	}
+
+	public void tick()
+	{
+		this.leftChromatid.tick();
+		this.rightChromatid.tick();
+	}
+
 	public boolean bind(SignalKeyConcentration concentration, boolean isExternal)
 	{
-		return false;
+		boolean bound = false;
+		if( this.leftChromatid.bind(concentration, isExternal))
+			bound = true;
+		if( this.rightChromatid.bind(concentration, isExternal))
+			bound = true;
+		return bound;
 	}
 
 	protected WaveletChromatid getLeftChromatid()
@@ -127,9 +150,13 @@ public class Chromosome implements Cloneable
 
 	public void mutate(Set<Key> keyPool)
 	{
-		this.crossover(this.mutability);
+		if( Mutation.mutationEvent(mutability) )
+			this.crossover(this.mutability);
+
 		this.leftChromatid.mutate(keyPool);
 		this.rightChromatid.mutate(keyPool);
-		this.mutability = Mutation.mutabilityMutation(this.mutability);
+
+		if( Mutation.mutationEvent(this.mutability) )
+			this.mutability = Mutation.mutabilityMutation(this.mutability);
 	}
 }

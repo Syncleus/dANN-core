@@ -18,6 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics;
 
+import com.syncleus.dann.genetics.wavelets.Mutation;
 import java.util.Random;
 
 /**
@@ -31,7 +32,7 @@ import java.util.Random;
  */
 public abstract class MutableNumber<N extends Number> extends Number
 {
-	private static Random random = new Random();
+	private static Random random = Mutation.getRandom();
 
 	private N number;
 

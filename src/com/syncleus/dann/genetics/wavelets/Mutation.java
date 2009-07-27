@@ -18,8 +18,12 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 import com.syncleus.dann.genetics.MutableDouble;
+import java.util.Random;
+
 public class Mutation
 {
+	private static Random random = new Random();
+
 	public static double mutabilityMutation(double mutability)
 	{
 		double mutabilityMutation = new MutableDouble(0.0).mutate(mutability).doubleValue();
@@ -33,5 +37,17 @@ public class Mutation
 
 			return returnValue;
 		}
+	}
+
+	public static Random getRandom()
+	{
+		return random;
+	}
+
+	public static boolean mutationEvent(double mutability)
+	{
+		if(Mutation.getRandom().nextDouble() < Math.tanh(Math.abs(mutability)))
+			return true;
+		return false;
 	}
 }
