@@ -19,11 +19,7 @@
 package com.syncleus.dann.genetics.wavelets;
 
 import com.syncleus.dann.genetics.MutableDouble;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 public class Chromosome implements Cloneable
 {
@@ -44,6 +40,21 @@ public class Chromosome implements Cloneable
 		this.leftChromatid = copy.leftChromatid.clone();
 		this.rightChromatid = copy.rightChromatid.clone();
 		this.mutability = copy.mutability;
+	}
+
+	public Map<SignalKey, SignalKeyConcentration> getSignalConcentrations(boolean external)
+	{
+		Hashtable<SignalKey, SignalKeyConcentration> allConcentrations = new Hashtable<SignalKey, SignalKeyConcentration>(this.leftChromatid.getSignalConcentrations(external));
+		allConcentrations.putAll(this.rightChromatid.getSignalConcentrations(external));
+		return Collections.unmodifiableMap(allConcentrations);
+	}
+	
+	public Set<Key> getKeys()
+	{
+		HashSet<Key> allKeys = new HashSet<Key>();
+		allKeys.addAll(this.leftChromatid.getKeys());
+		allKeys.addAll(this.rightChromatid.getKeys());
+		return Collections.unmodifiableSet(allKeys);
 	}
 
 	public void preTick()

@@ -17,7 +17,9 @@
  *                                                                             *
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
-import java.util.Set;
+
+import java.util.*;
+
 public class SignalGene extends WaveletGene
 {
 	private SignalKey outputSignal;
@@ -34,6 +36,14 @@ public class SignalGene extends WaveletGene
 		super(copy);
 
 		this.outputSignal = copy.outputSignal;
+	}
+
+	@Override
+	public Set<Key> getKeys()
+	{
+		HashSet<Key> allKeys = new HashSet<Key>(super.getKeys());
+		allKeys.add(this.outputSignal);
+		return Collections.unmodifiableSet(allKeys);
 	}
 
 	public SignalKey getOutputSignal()

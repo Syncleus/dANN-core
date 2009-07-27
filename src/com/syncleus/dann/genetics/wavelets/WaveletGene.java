@@ -20,10 +20,7 @@ package com.syncleus.dann.genetics.wavelets;
 
 import com.syncleus.dann.genetics.Gene;
 import com.syncleus.dann.math.MathFunction;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 public abstract class WaveletGene implements Gene
 {
@@ -52,6 +49,11 @@ public abstract class WaveletGene implements Gene
 
 		this.mutability = copy.mutability;
 		this.signalConcentrations = new HashSet<SignalKeyConcentration>(copy.signalConcentrations);
+	}
+
+	public Set<Key> getKeys()
+	{
+		return Collections.unmodifiableSet(new HashSet<Key>(this.expressionFunction.getReceptors()));
 	}
 
 	protected Random getRandom()

@@ -18,9 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Nucleus implements Cloneable
 {
@@ -80,7 +78,29 @@ public class Nucleus implements Cloneable
 
 	public void mutate()
 	{
+		HashSet<Key> allKeys = new HashSet<Key>();
 		for(Chromosome chromosome : this.chromosomes)
-			chromosome.mutate(null);
+			allKeys.addAll(chromosome.getKeys());
+
+		for(Chromosome chromosome : this.chromosomes)
+			chromosome.mutate(allKeys);
+	}
+
+	public void mutate(Set<Key> keyPool)
+	{
+		HashSet<Key> allKeys = new HashSet<Key>(keyPool);
+		for(Chromosome chromosome : this.chromosomes)
+			allKeys.addAll(chromosome.getKeys());
+		
+		for(Chromosome chromosome : this.chromosomes)
+			chromosome.mutate(allKeys);
+	}
+
+	public Map<SignalKey, SignalKeyConcentration> getSignalConcentrations(boolean external)
+	{
+		Hashtable<SignalKey, SignalKeyConcentration> allConcentrations = new Hashtable<SignalKey, SignalKeyConcentration>();
+		for(Chromosome chromosome:this.chromosomes)
+			allConcentrations.putAll(chromosome.getSignalConcentrations(external));
+		return Collections.unmodifiableMap(allConcentrations);
 	}
 }
