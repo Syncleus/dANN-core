@@ -34,6 +34,26 @@ public class ExternalSignalGene extends SignalGene
 		super(copy);
 	}
 
+	@Override
+	public boolean bind(SignalKeyConcentration concentration, boolean isExternal)
+	{
+		if( (this.outward && !isExternal) || (!this.outward && isExternal) )
+		{
+			if( this.expressionFunction.receives(concentration.getSignal()))
+			{
+				this.receivingConcentrations.add(concentration);
+				return true;
+			}
+		}
+		else if( (this.outward && isExternal) || (!this.outward && !isExternal) )
+		{
+			this.expressingConcentration = concentration;
+			return true;
+		}
+
+		return false;
+	}
+
 	public boolean isOutward()
 	{
 		return this.outward;

@@ -26,9 +26,9 @@ public abstract class WaveletGene implements Gene
 {
 	private double currentActivity;
 	private double pendingActivity;
-	private ExpressionFunction expressionFunction;
+	protected ExpressionFunction expressionFunction;
 
-	private HashSet<SignalKeyConcentration> signalConcentrations;
+	protected HashSet<SignalKeyConcentration> receivingConcentrations;
 
 	private double mutability;
 
@@ -38,7 +38,7 @@ public abstract class WaveletGene implements Gene
 	{
 		this.expressionFunction = new ExpressionFunction(initialReceptor);
 		this.mutability = 1d;
-		this.signalConcentrations = new HashSet<SignalKeyConcentration>();
+		this.receivingConcentrations = new HashSet<SignalKeyConcentration>();
 	}
 
 	protected WaveletGene(WaveletGene copy)
@@ -48,7 +48,7 @@ public abstract class WaveletGene implements Gene
 		this.expressionFunction = copy.expressionFunction;
 
 		this.mutability = copy.mutability;
-		this.signalConcentrations = new HashSet<SignalKeyConcentration>(copy.signalConcentrations);
+		this.receivingConcentrations = new HashSet<SignalKeyConcentration>(copy.receivingConcentrations);
 	}
 
 	public Set<Key> getKeys()
@@ -76,11 +76,14 @@ public abstract class WaveletGene implements Gene
 		return this.currentActivity;
 	}
 
-	public boolean bind(SignalKeyConcentration concentration)
+	public boolean bind(SignalKeyConcentration concentration, boolean isExternal)
 	{
+		if(isExternal)
+			return false;
+
 		if( this.expressionFunction.receives(concentration.getSignal()))
 		{
-			this.signalConcentrations.add(concentration);
+			this.receivingConcentrations.add(concentration);
 			return true;
 		}
 
@@ -89,12 +92,12 @@ public abstract class WaveletGene implements Gene
 
 	public void preTick()
 	{
-		this.pendingActivity = this.expressionFunction.calculate(signalConcentrations);
+		this.pendingActivity = this.expressionFunction.calculate(receivingConcentrations);
 	}
 
-	public void tick()
+	public void tick(double promotion)
 	{
-		this.currentActivity = this.pendingActivity;
+		this.currentActivity = this.pendingActivity + (this.pendingActivity * promotion);
 	}
 
 

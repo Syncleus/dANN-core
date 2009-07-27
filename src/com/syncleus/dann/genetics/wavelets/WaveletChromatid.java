@@ -73,23 +73,6 @@ public class WaveletChromatid implements Chromatid<WaveletGene>
 
 	Set<SignalKey> getExpressedSignals(boolean external)
 	{
-		//first we need to calculate the promotion of each site
-		Hashtable<Integer, Double> promotions = new Hashtable<Integer, Double>();
-		for(PromoterGene promoter : this.promoters)
-		{
-			int promoterIndex = this.sequencedGenes.indexOf(promoter);
-			int promotedIndex = promoter.getTargetDistance() + promoterIndex;
-			if( promotedIndex < this.sequencedGenes.size() )
-			{
-				double promotion = 0.0;
-				if( promotions.contains(promotedIndex) )
-					promotion = promotions.get(promotedIndex);
-				double newPromotion = promotion + promoter.expressionActivity();
-				if(newPromotion != 0.0)
-					promotions.put(promotedIndex, newPromotion);
-			}
-		}
-
 		//calculate the signal concentrations
 		HashSet<SignalKey> allSignals = new HashSet<SignalKey>();
 		for(WaveletGene waveletGene : this.sequencedGenes)
@@ -119,29 +102,8 @@ public class WaveletChromatid implements Chromatid<WaveletGene>
 			}
 
 			allSignals.add(gene.getOutputSignal());
-
-			//obtain the promotion of the current gene (0.0 if none).
-//			int genePosition = this.sequencedGenes.indexOf(gene);
-//			double promotion = 0.0;
-//			if(promotions.contains(genePosition))
-//				promotion = promotions.get(genePosition);
-
-			//obtain the concentration of the current signal, or create a new one.
-//			SignalKeyConcentration newConcentration;
-//			if(allSignals.containsKey(gene.getOutputSignal()))
-//				newConcentration = allSignals.get(gene.getOutputSignal());
-//			else
-//				newConcentration = new SignalKeyConcentration(gene.getOutputSignal());
-
-			//apply the gene to the concentration
-//			double expression = (gene.expressionActivity() * promotion) + gene.expressionActivity();
-//			newConcentration.setConcentration(newConcentration.getConcentration() + expression);
-
-			//store the new concentration
-//			allSignals.put(newConcentration.getSignal());
 		}
 
-//		return Collections.unmodifiableMap(allSignals);
 		return Collections.unmodifiableSet(allSignals);
 	}
 
@@ -161,38 +123,35 @@ public class WaveletChromatid implements Chromatid<WaveletGene>
 
 	public void tick()
 	{
-		for(WaveletGene gene : this.sequencedGenes)
-			gene.tick();
+		//first we need to calculate the promotion of each site
+		Hashtable<Integer, Double> promotions = new Hashtable<Integer, Double>();
+		for(PromoterGene promoter : this.promoters)
+		{
+			int promoterIndex = this.sequencedGenes.indexOf(promoter);
+			int promotedIndex = promoter.getTargetDistance() + promoterIndex;
+			if( promotedIndex < this.sequencedGenes.size() )
+			{
+				double promotion = 0.0;
+				if( promotions.contains(promotedIndex) )
+					promotion = promotions.get(promotedIndex);
+				double newPromotion = promotion + promoter.expressionActivity();
+				if(newPromotion != 0.0)
+					promotions.put(promotedIndex, newPromotion);
+			}
+		}
+
+		for(int sequenceIndex = 0; sequenceIndex < this.sequencedGenes.size(); sequenceIndex++)
+		{
+			this.sequencedGenes.get(sequenceIndex).tick(promotions.get(sequenceIndex));
+		}
 	}
 
 	public boolean bind(SignalKeyConcentration concentration, boolean isExternal)
 	{
 		boolean bound = false;
-		if( isExternal )
-		{
-			for(ExternalSignalGene gene : this.externalSignalGenes )
-			{
-				//if the gene points inward (therefore reacts from external
-				//signals
-				if(!gene.isOutward())
-					if( gene.bind(concentration) )
-						bound = true;
-			}
-		}
-		else
-		{
-			for(WaveletGene gene : this.sequencedGenes)
-			{
-				if(gene instanceof ExternalSignalGene)
-					if(! ((ExternalSignalGene)gene).isOutward() )
-						continue;
-				
-				if( gene.bind(concentration) )
-					bound = true;
-			}
-		}
-
-
+		for(WaveletGene gene : this.sequencedGenes)
+			if(	gene.bind(concentration, isExternal) )
+				bound = true;
 		return bound;
 	}
 

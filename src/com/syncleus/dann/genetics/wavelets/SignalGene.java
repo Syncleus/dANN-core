@@ -23,6 +23,7 @@ import java.util.*;
 public class SignalGene extends WaveletGene
 {
 	private SignalKey outputSignal;
+	protected SignalKeyConcentration expressingConcentration;
 
 	public SignalGene(ReceptorKey initialReceptor, SignalKey initialSignal)
 	{
@@ -36,6 +37,25 @@ public class SignalGene extends WaveletGene
 		super(copy);
 
 		this.outputSignal = copy.outputSignal;
+	}
+
+	@Override
+	public boolean bind(SignalKeyConcentration concentration, boolean isExternal)
+	{
+		boolean bound;
+		bound = super.bind(concentration, isExternal);
+		if( concentration.getSignal().equals(this.outputSignal))
+		{
+			this.expressingConcentration = concentration;
+			bound = true;
+		}
+		return bound;
+	}
+	
+	public void tick(double promotion)
+	{
+		super.tick(promotion);
+		this.expressingConcentration.setConcentration(this.expressingConcentration.getConcentration() + this.expressionActivity());
 	}
 
 	@Override
