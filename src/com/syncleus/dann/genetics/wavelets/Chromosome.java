@@ -42,11 +42,11 @@ public class Chromosome implements Cloneable
 		this.mutability = copy.mutability;
 	}
 
-	public Map<SignalKey, SignalKeyConcentration> getSignalConcentrations(boolean external)
+	Set<SignalKey> getExpressedSignals(boolean external)
 	{
-		Hashtable<SignalKey, SignalKeyConcentration> allConcentrations = new Hashtable<SignalKey, SignalKeyConcentration>(this.leftChromatid.getSignalConcentrations(external));
-		allConcentrations.putAll(this.rightChromatid.getSignalConcentrations(external));
-		return Collections.unmodifiableMap(allConcentrations);
+		HashSet<SignalKey> allSignals = new HashSet<SignalKey>(this.leftChromatid.getExpressedSignals(external));
+		allSignals.addAll(this.rightChromatid.getExpressedSignals(external));
+		return Collections.unmodifiableSet(allSignals);
 	}
 	
 	public Set<Key> getKeys()

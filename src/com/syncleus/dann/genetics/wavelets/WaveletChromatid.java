@@ -71,7 +71,7 @@ public class WaveletChromatid implements Chromatid<WaveletGene>
 			this.externalSignalGenes.add(currentGene.clone());
 	}
 
-	public Map<SignalKey, SignalKeyConcentration> getSignalConcentrations(boolean external)
+	Set<SignalKey> getExpressedSignals(boolean external)
 	{
 		//first we need to calculate the promotion of each site
 		Hashtable<Integer, Double> promotions = new Hashtable<Integer, Double>();
@@ -91,7 +91,7 @@ public class WaveletChromatid implements Chromatid<WaveletGene>
 		}
 
 		//calculate the signal concentrations
-		HashMap<SignalKey, SignalKeyConcentration> allConcentrations = new HashMap<SignalKey, SignalKeyConcentration>();
+		HashSet<SignalKey> allSignals = new HashSet<SignalKey>();
 		for(WaveletGene waveletGene : this.sequencedGenes)
 		{
 			//if the current gene doesnt express a signal then skip it.
@@ -118,28 +118,31 @@ public class WaveletChromatid implements Chromatid<WaveletGene>
 						continue;
 			}
 
+			allSignals.add(gene.getOutputSignal());
+
 			//obtain the promotion of the current gene (0.0 if none).
-			int genePosition = this.sequencedGenes.indexOf(gene);
-			double promotion = 0.0;
-			if(promotions.contains(genePosition))
-				promotion = promotions.get(genePosition);
+//			int genePosition = this.sequencedGenes.indexOf(gene);
+//			double promotion = 0.0;
+//			if(promotions.contains(genePosition))
+//				promotion = promotions.get(genePosition);
 
 			//obtain the concentration of the current signal, or create a new one.
-			SignalKeyConcentration newConcentration;
-			if(allConcentrations.containsKey(gene.getOutputSignal()))
-				newConcentration = allConcentrations.get(gene.getOutputSignal());
-			else
-				newConcentration = new SignalKeyConcentration(gene.getOutputSignal());
+//			SignalKeyConcentration newConcentration;
+//			if(allSignals.containsKey(gene.getOutputSignal()))
+//				newConcentration = allSignals.get(gene.getOutputSignal());
+//			else
+//				newConcentration = new SignalKeyConcentration(gene.getOutputSignal());
 
 			//apply the gene to the concentration
-			double expression = (gene.expressionActivity() * promotion) + gene.expressionActivity();
-			newConcentration.setConcentration(newConcentration.getConcentration() + expression);
+//			double expression = (gene.expressionActivity() * promotion) + gene.expressionActivity();
+//			newConcentration.setConcentration(newConcentration.getConcentration() + expression);
 
 			//store the new concentration
-			allConcentrations.put(newConcentration.getSignal(), newConcentration);
+//			allSignals.put(newConcentration.getSignal());
 		}
 
-		return Collections.unmodifiableMap(allConcentrations);
+//		return Collections.unmodifiableMap(allSignals);
+		return Collections.unmodifiableSet(allSignals);
 	}
 
 	public Set<Key> getKeys()

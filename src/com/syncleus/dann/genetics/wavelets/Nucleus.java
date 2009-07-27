@@ -96,11 +96,11 @@ public class Nucleus implements Cloneable
 			chromosome.mutate(allKeys);
 	}
 
-	public Map<SignalKey, SignalKeyConcentration> getSignalConcentrations(boolean external)
+	Set<SignalKey> getExpressedSignals(boolean external)
 	{
-		Hashtable<SignalKey, SignalKeyConcentration> allConcentrations = new Hashtable<SignalKey, SignalKeyConcentration>();
+		HashSet<SignalKey> allSignals = new HashSet<SignalKey>();
 		for(Chromosome chromosome:this.chromosomes)
-			allConcentrations.putAll(chromosome.getSignalConcentrations(external));
-		return Collections.unmodifiableMap(allConcentrations);
+			allSignals.addAll(chromosome.getExpressedSignals(external));
+		return Collections.unmodifiableSet(allSignals);
 	}
 }
