@@ -55,4 +55,14 @@ public class Cell
 	{
 		return this.nucleus.getExpressedSignals(true);
 	}
+
+	public void preTick()
+	{
+		this.nucleus.preTick();
+	}
+
+	public void tick()
+	{
+		this.nucleus.tick();
+	}
 }
