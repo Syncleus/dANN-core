@@ -35,6 +35,14 @@
 			<pathelement location="lib/jakarta-oro-2.0.8.jar"/>
 		</classpath>
 	</taskdef>
+	<taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask">
+		<classpath>
+			<pathelement location="lib/pmd/pmd-4.1.jar"/>
+			<pathelement location="lib/pmd/jaxen-1.1.1.jar"/>
+			<pathelement location="lib/pmd/asm-3.1.jar"/>
+			<pathelement location="lib/pmd/junit-4.4.jar"/>
+		</classpath>
+	</taskdef>
 
 	<path id="classpath">
 		<fileset dir="lib" includes="**/*.jar"/>
@@ -197,6 +205,17 @@
 			<formatter type="xml" toFile="build/checkstyle/checkstyle-report.xml"/>
 		</checkstyle>
 	</target>
+
+	<target name="pmd">
+		<mkdir dir="build/pmd"/>
+		<pmd rulesetfiles="basic,unusedcode,braces,codesize,clone,coupling,design,finalizers,imports,junit,logging-java,logging-jakarta-commons,migrating,naming,optimizations,strictexception,strings,sunsecure,unusedcode">
+			<formatter type="xml" toFile="build/pmd/pmd-report.xml"/>
+			<fileset dir="src/">
+				<include name="**/*.java"/>
+			</fileset>
+		</pmd>
+	</target>
+
 
 
 	<target name="build-all">
