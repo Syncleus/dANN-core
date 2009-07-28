@@ -91,6 +91,30 @@
 		</cobertura-instrument>
 	</target>
 
+	<target name="compile-warnings">
+		<delete dir="build/classes"/>
+
+		<mkdir dir="build/classes"/>
+		<javac destdir="build/classes" classpathref="classpath" debug="true" excludes="com/syncleus/tests/**" srcdir="src">
+			<compilerarg value="-Xlint"/>
+		</javac>
+
+		<mkdir dir="build/tests/classes"/>
+		<javac destdir="build/tests/classes" classpathref="classpath" debug="true" srcdir="src">
+			<include name="com/syncleus/tests/**"/>
+			<compilerarg value="-Xlint:unchecked"/>
+		</javac>
+		<delete dir="build/tests/classes/com/syncleus/dann"/>
+
+		<mkdir dir="build/coverage/classes"/>
+		<cobertura-instrument todir="build/coverage/classes">
+			<fileset dir="build">
+				<include name="classes/**/*.class"/>
+				<include name="tests/classes/**/*.class"/>
+			</fileset>
+		</cobertura-instrument>
+	</target>
+
 	<target name="build">
 		<mkdir dir="build/jar"/>
 		<jar destfile="build/jar/dann.jar" basedir="build/classes"/>
