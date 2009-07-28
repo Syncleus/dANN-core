@@ -16,7 +16,16 @@
 			<pathelement location="lib/findbugs/commons-lang-2.4.jar"/>
 		</classpath>
 	</taskdef>
-	
+	<taskdef name="checkstyle" classname="com.puppycrawl.tools.checkstyle.CheckStyleTask">
+		<classpath>
+			<pathelement location="lib/checkstyle/checkstyle-5.0.jar"/>
+			<pathelement location="lib/checkstyle/commons-beanutils-core.jar"/>
+			<pathelement location="lib/checkstyle/commons-cli-1.1.jar"/>
+			<pathelement location="lib/checkstyle/commons-logging.jar"/>
+			<pathelement location="lib/checkstyle/antlr.jar"/>
+			<pathelement location="lib/checkstyle/google-collect-snapshot-20090211.jar"/>
+		</classpath>
+	</taskdef>
 	<taskdef classpath="lib/cobertura.jar" resource="tasks.properties">
 		<classpath>
 			<pathelement location="lib/cobertura.jar"/>
@@ -177,6 +186,16 @@
 			<sourcePath path="src/" />
 			<class location="build/jar/dann.jar" />
 		</findbugs>
+	</target>
+
+
+	<target name="checkstyle">
+		<mkdir dir="build/checkstyle"/>
+		<checkstyle config="checks.xml" maxErrors="2147483647">
+			<fileset dir="src" includes="**/*.java"/>
+			<formatter type="plain"/>
+			<formatter type="xml" toFile="build/checkstyle/checkstyle-report.xml"/>
+		</checkstyle>
 	</target>
 
 
