@@ -3,6 +3,19 @@
 	<taskdef name="lint4j" classname="com.jutils.lint4j.ant.Lint4jAntTask">
 		<classpath><pathelement location="lib/lint4j.jar"/></classpath>
 	</taskdef>
+	<taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask">
+		<classpath>
+			<pathelement location="lib/findbugs/findbugs-ant.jar"/>
+			<pathelement location="lib/findbugs/bcel.jar"/>
+			<pathelement location="lib/findbugs/dom4j-1.6.1.jar"/>
+			<pathelement location="lib/findbugs/jFormatString.jar"/>
+			<pathelement location="lib/findbugs/asm-3.1.jar"/>
+			<pathelement location="lib/findbugs/asm-commons-3.1.jar"/>
+			<pathelement location="lib/findbugs/asm-tree-3.1.jar"/>
+			<pathelement location="lib/findbugs/jsr305.jar"/>
+			<pathelement location="lib/findbugs/commons-lang-2.4.jar"/>
+		</classpath>
+	</taskdef>
 	
 	<taskdef classpath="lib/cobertura.jar" resource="tasks.properties">
 		<classpath>
@@ -127,6 +140,21 @@
 
 		<move file="./cobertura.ser" tofile="build/coverage/cobertura.ser"/>
 	</target>
+	
+	<target name="findbugs">
+		<mkdir dir="build/findbugs"/>
+		<findbugs home="lib/findbugs/"
+				  output="xml"
+				  outputFile="build/findbugs/findbugs-report.xml" >
+			<auxClasspath path="lib/j3dcore.jar"/>
+			<auxClasspath path="lib/freehep-j3d.jar"/>
+			<auxClasspath path="lib/j3dutils.jar"/>
+			<auxClasspath path="lib/vecmath.jar"/>
+			<sourcePath path="src/" />
+			<class location="build/jar/dann.jar" />
+		</findbugs>
+	</target>
+
 
 	<target name="build-all">
 		<antcall target="clean"/>
