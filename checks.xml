@@ -73,9 +73,18 @@
         <!-- Checks for Javadoc comments.                     -->
         <!-- See http://checkstyle.sf.net/config_javadoc.html -->
         <module name="JavadocMethod"/>
-        <module name="JavadocType"/>
-        <module name="JavadocVariable"/>
+             <property name="scope" value="package"/>
+        </module>
+        <module name="JavadocType">
+             <property name="scope" value="package"/>
+             <property name="authorFormat" value=".*"/>
+        </module>
+        <module name="JavadocVariable">
+             <property name="scope" value="package"/>
+        </module>
         <module name="JavadocStyle"/>
+             <property name="checkEmptyJavadoc" value="true"/>
+        </module>
 
 
         <!-- Checks for Naming Conventions.                  -->
