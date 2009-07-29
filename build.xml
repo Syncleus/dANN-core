@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="dANN" default="all" basedir=".">
 	<taskdef name="lint4j" classname="com.jutils.lint4j.ant.Lint4jAntTask">
-		<classpath><pathelement location="lib/lint4j.jar"/></classpath>
+		<classpath>
+			<pathelement location="lib/lint/lint4j.jar"/>
+		</classpath>
 	</taskdef>
 	<taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask">
 		<classpath>
@@ -26,13 +28,13 @@
 			<pathelement location="lib/checkstyle/google-collect-snapshot-20090211.jar"/>
 		</classpath>
 	</taskdef>
-	<taskdef classpath="lib/cobertura.jar" resource="tasks.properties">
+	<taskdef resource="tasks.properties">
 		<classpath>
-			<pathelement location="lib/cobertura.jar"/>
-			<pathelement location="lib/asm-3.0.jar"/>
-			<pathelement location="lib/log4j-1.2.9.jar"/>
-			<pathelement location="lib/asm-tree-3.0.jar"/>
-			<pathelement location="lib/jakarta-oro-2.0.8.jar"/>
+			<pathelement location="lib/testing/cobertura.jar"/>
+			<pathelement location="lib/testing/asm-3.0.jar"/>
+			<pathelement location="lib/testing/log4j-1.2.9.jar"/>
+			<pathelement location="lib/testing/asm-tree-3.0.jar"/>
+			<pathelement location="lib/testing/jakarta-oro-2.0.8.jar"/>
 		</classpath>
 	</taskdef>
 	<taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask">
@@ -145,7 +147,7 @@
 			<classpath>
 				<pathelement location="build/jar/dann.jar"/>
 				<pathelement location="build/jar/dann-tests.jar"/>
-				<pathelement location="lib/junit-4.6.jar"/>
+				<pathelement location="lib/testing/junit-4.6.jar"/>
 			</classpath>
 			<formatter type="xml"/>
 			<batchtest fork="yes" todir="build/tests">
@@ -164,8 +166,8 @@
 				<pathelement location="build/jar/dann-coverage.jar"/>
                 <pathelement location="build/jar/dann.jar"/>
                 <pathelement location="build/jar/dann-tests.jar"/>
-				<pathelement location="lib/junit-4.6.jar"/>
-				<pathelement location="lib/cobertura.jar"/>
+				<pathelement location="lib/testing/junit-4.6.jar"/>
+				<pathelement location="lib/testing/cobertura.jar"/>
 			</classpath>
 			<formatter type="xml"/>
 			<batchtest fork="yes" todir="build/coverage/tests">
