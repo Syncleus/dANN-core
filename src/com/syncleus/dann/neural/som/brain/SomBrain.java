@@ -289,6 +289,36 @@ public abstract class SomBrain extends Brain
 	}
 
 	/**
+	 * Obtains the weight vectors of the outputs
+	 *
+	 * @return the weight vectors of each output in the output lattice
+	 * @since 2.0
+	 */
+	public Map<Hyperpoint, double[]> getOutputWeightVectors()
+	{
+		//iterate through the output lattice
+		HashMap<Hyperpoint, double[]> weightVectors = new HashMap<Hyperpoint, double[]>();
+		for(Entry<Hyperpoint,SomNeuron> output : this.outputs.entrySet())
+		{
+			double[] weightVector = new double[this.inputs.size()];
+			SomNeuron currentNeuron = output.getValue();
+			Hyperpoint currentPoint = output.getKey();
+
+			//iterate through the weight vectors of the current neuron
+			for(Synapse source : currentNeuron.getSources())
+			{
+				int sourceIndex = this.inputs.indexOf(source.getSource());
+				weightVector[sourceIndex] = source.getWeight();
+			}
+
+			//add the current weight vector to the map
+			weightVectors.put(currentPoint, weightVector);
+		}
+
+		return Collections.unmodifiableMap(weightVectors);
+	}
+
+	/**
 	 * Determines the neighboorhood function based on the neurons distance from
 	 * the Best Matching Unit (BMU).
 	 *
