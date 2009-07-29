@@ -25,28 +25,30 @@ import org.junit.*;
 
 public class TestColor
 {
-	public void testLoop()
-	{
-		for(int i = 0; i < 200;i++)
-			this.testColor();
-	}
+	private static final int TEST_ITERATIONS = 100;
+	private static final int TRAIN_ITERATIONS = 10000;
+	private static final double DRIFT_FACTOR = 400.0;
+	private static final int OUTPUT_WIDTH = 10;
+	private static final int OUTPUT_HEIGHT = 10;
+	private static final int OUTPUT_DIMENSIONS = 2;
+	private static final double LEARNING_RATE = 0.1;
+	private static final int INPUT_DIMENSIONS = 3;
 
 	@Test
 	public void testColor()
 	{
-		final int iterations = 10000;
 		final Random random = new Random();
 
 		//initialize brain with 3d input and 2d output
-		ExponentialDecaySomBrain brain = new ExponentialDecaySomBrain(3, 2, iterations, 0.1);
-		
+		ExponentialDecaySomBrain brain = new ExponentialDecaySomBrain(INPUT_DIMENSIONS, OUTPUT_DIMENSIONS, TRAIN_ITERATIONS, LEARNING_RATE);
+
 		//create the output latice
-		for(double x = 0; x < 10; x++)
-			for(double y = 0; y < 10; y++)
+		for(double x = 0; x < OUTPUT_WIDTH; x++)
+			for(double y = 0; y < OUTPUT_HEIGHT; y++)
 				brain.createOutput(new Hyperpoint(new double[]{x, y}));
 
 		//run through random training data
-		for(int iteration = 0; iteration < iterations; iteration++)
+		for(int iteration = 0; iteration < TRAIN_ITERATIONS; iteration++)
 		{
 			brain.setInput(0, random.nextDouble());
 			brain.setInput(1, random.nextDouble());
@@ -61,7 +63,7 @@ public class TestColor
 		//test the maximum distance of close colors in the color space
 		double farthestDistanceClose = 0.0;
 		String closeOutText = "";
-		for(int iteration = 0; iteration < 100; iteration++)
+		for(int iteration = 0; iteration < TEST_ITERATIONS; iteration++)
 		{
 			String outText = "";
 			//find a mutual offset in the color space (leaving room for the
@@ -99,12 +101,12 @@ public class TestColor
 		}
 
 		//test the maximum distance of far colors in the color space
-		final double maxDrift = maxOffset/400.0;
+		final double maxDrift = maxOffset/DRIFT_FACTOR;
 		double closestDistanceFar = Double.POSITIVE_INFINITY;
 		String farOutText = "";
-		for(int iteration = 0; iteration < 100; iteration++)
+		for(int iteration = 0; iteration < TEST_ITERATIONS; iteration++)
 		{
-			String outText= "";
+			String outText = "";
 			//get the location of a color within the block
 			boolean isRed1Positive = random.nextBoolean();
 			boolean isGreen1Positive = random.nextBoolean();

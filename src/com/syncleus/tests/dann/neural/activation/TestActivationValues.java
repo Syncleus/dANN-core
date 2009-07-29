@@ -26,14 +26,23 @@ import java.util.Random;
 public class TestActivationValues
 {
 	private static Random random = new Random();
-	
-	private GausianActivationFunction gausianActivationFunction = new GausianActivationFunction();
-	private HyperbolicSecantActivationFunction hyperbolicSecantActivationFunction = new HyperbolicSecantActivationFunction();
-	private HyperbolicTangentActivationFunction hyperbolicTangentActivationFunction = new HyperbolicTangentActivationFunction();
-	private SineActivationFunction sineActivationFunction = new SineActivationFunction();
-	
+
+	private static GausianActivationFunction gausianActivationFunction = new GausianActivationFunction();
+	private static HyperbolicSecantActivationFunction hyperbolicSecantActivationFunction = new HyperbolicSecantActivationFunction();
+	private static HyperbolicTangentActivationFunction hyperbolicTangentActivationFunction = new HyperbolicTangentActivationFunction();
+	private static SineActivationFunction sineActivationFunction = new SineActivationFunction();
+
 	private ArrayList<ActivationFunction> activationFunctions = new ArrayList<ActivationFunction>();
-	
+
+	private static final double UPPER_TEST_VALUE = 1000000000.0;
+	private static final double UPPER_CUTOFF_VALUE = 100.0;
+	private static final double LOWER_TEST_VALUE = -1000000000.0;
+	private static final double LOWER_CUTOFF_VALUE = -100.0;
+	private static final double TEST_INCREMENT = 10.0;
+	private static final int RANDOM_TEST_ITERATIONS = 10000;
+	private static final double RANDOM_TEST_RANGE = 1000.0;
+
+
 	public TestActivationValues()
 	{
 		activationFunctions.add(this.gausianActivationFunction);
@@ -41,51 +50,51 @@ public class TestActivationValues
 		activationFunctions.add(this.hyperbolicTangentActivationFunction);
 		activationFunctions.add(this.sineActivationFunction);
 	}
-	
+
 	@Test
 	public void testBounds()
 	{
 		for(ActivationFunction currentActivationFunction : this.activationFunctions)
 		{
-			double currentIn = 1000000000.0;
-			while(currentIn >= 100.0)
+			double currentIn = UPPER_TEST_VALUE;
+			while(currentIn >= UPPER_CUTOFF_VALUE)
 			{
 				currentActivationFunction.activateDerivative(currentIn);
 				double result = currentActivationFunction.activate(currentIn);
 				Assert.assertTrue("Transfer out of bounds. In: " + currentIn + ", result: " + result, (result <= 1.0)&&(result >= -1.0));
-				
-				currentIn = currentIn/10.0;
+
+				currentIn = currentIn/TEST_INCREMENT;
 			}
 			while(currentIn > 0.0)
 			{
 				currentActivationFunction.activateDerivative(currentIn);
 				double result = currentActivationFunction.activate(currentIn);
 				Assert.assertTrue("Transfer out of bounds. In: " + currentIn + ", result: " + result, (result <= 1.0)&&(result >= -1.0));
-				
+
 				currentIn--;
 			}
-			
-			currentIn = -1000000000.0;
-			while(currentIn <= -100.0)
+
+			currentIn = LOWER_TEST_VALUE;
+			while(currentIn <= LOWER_CUTOFF_VALUE)
 			{
 				currentActivationFunction.activateDerivative(currentIn);
 				double result = currentActivationFunction.activate(currentIn);
 				Assert.assertTrue("Transfer out of bounds. In: " + currentIn + ", result: " + result, (result <= 1.0)&&(result >= -1.0));
-				
-				currentIn = currentIn/10.0;
+
+				currentIn = currentIn/TEST_INCREMENT;
 			}
 			while(currentIn <= 0.0)
 			{
 				currentActivationFunction.activateDerivative(currentIn);
 				double result = currentActivationFunction.activate(currentIn);
 				Assert.assertTrue("Transfer out of bounds. In: " + currentIn + ", result: " + result, (result <= 1.0)&&(result >= -1.0));
-				
+
 				currentIn++;
 			}
-			
-			for(int count = 0;count < 10000; count++)
+
+			for(int count = 0; count < RANDOM_TEST_ITERATIONS; count++)
 			{
-				currentIn = ((random.nextDouble()*2.0)-1.0)*1000.0;
+				currentIn = ((random.nextDouble()*2.0)-1.0) * RANDOM_TEST_RANGE;
 				currentActivationFunction.activateDerivative(currentIn);
 				double result = currentActivationFunction.activate(currentIn);
 				Assert.assertTrue("Transfer out of bounds. In: " + currentIn + ", result: " + result, (result <= 1.0)&&(result >= -1.0));
