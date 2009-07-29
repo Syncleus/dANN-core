@@ -24,18 +24,22 @@ import org.junit.*;
 
 public class TestSynapse
 {
+	private static final double INITIAL_WEIGHT = 0.01;
+	private static final double TEST_INPUT = 2.0;
+	private static final double TEST_WEIGHT = 3.0;
+
 	@Test
 	public void testAccessors()
 	{
 		BackpropNeuron sourceNeuron = new BackpropNeuron();
 		BackpropNeuron destinationNeuron = new BackpropNeuron();
 
-		Synapse testSynapse = new Synapse(sourceNeuron, destinationNeuron, 0.01);
+		Synapse testSynapse = new Synapse(sourceNeuron, destinationNeuron, INITIAL_WEIGHT);
 
-		testSynapse.setInput(2.0d);
-		Assert.assertTrue(testSynapse.getInput() == 2.0d);
-		testSynapse.setWeight(3.0d);
-		Assert.assertTrue(testSynapse.getWeight() == 3.0d);
+		testSynapse.setInput(TEST_INPUT);
+		Assert.assertTrue(testSynapse.getInput() == TEST_INPUT);
+		testSynapse.setWeight(TEST_WEIGHT);
+		Assert.assertTrue(testSynapse.getWeight() == TEST_WEIGHT);
 		Assert.assertTrue(testSynapse.getSource() == sourceNeuron);
 		Assert.assertTrue(testSynapse.getDestination() == destinationNeuron);
 	}
