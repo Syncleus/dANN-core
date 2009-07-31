@@ -143,7 +143,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractLocalBrain
 		return layerCount;
 	}
 
-	public final void propogate()
+	public final void propagate()
 	{
 		if(this.initialized == false)
 			throw new IllegalStateException("An implementation of AbstractFeedforwardBrain did not initialize network");
@@ -177,7 +177,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractLocalBrain
 		}
 	}
 
-	public final void backPropogate()
+	public final void backPropagate()
 	{
 		if(this.initialized == false)
 			throw new IllegalStateException("An implementation of AbstractFeedforwardBrain did not initialize network");

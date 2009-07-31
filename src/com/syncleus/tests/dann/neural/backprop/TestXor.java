@@ -70,14 +70,14 @@ public class TestXor
 
 	private void propogateOutput()
 	{
-		this.brain.propogate();
+		this.brain.propagate();
 	}
 
 
 
 	private void backPropogateTraining()
 	{
-		this.brain.backPropogate();
+		this.brain.backPropagate();
 	}
 
 
