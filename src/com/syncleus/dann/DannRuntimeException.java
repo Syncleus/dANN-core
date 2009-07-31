@@ -19,34 +19,33 @@
 package com.syncleus.dann;
 
 /**
- * All dANN specific exceptions that are thrown will either be a dannException
- * or inherit from it.
- *
+ * All dANN specific runtime exceptions that are thrown will either be a
+ * DannRuntimeException or inherit from it.
  *
  * @author Syncleus, Inc.
- * @since 1.0
+ * @since 2.0
  *
  */
-public class DannException extends Exception
+public class DannRuntimeException extends RuntimeException
 {
 	/**
 	 * Creates a blank default exception.
 	 *
-	 * 
-	 * @since 1.0
+	 *
+	 * @since 2.0
 	 */
-	public DannException()
+	public DannRuntimeException()
 	{
 	}
 
 	/**
 	 * Creates an exception with a message describing the cause.
 	 *
-	 * 
+	 *
 	 * @param msg A string describing the cause of the exception
-	 * @since 1.0
+	 * @since 2.0
 	 */
-	public DannException(String msg)
+	public DannRuntimeException(String msg)
 	{
 		super(msg);
 	}
@@ -55,12 +54,12 @@ public class DannException extends Exception
 	 * Creates an exception with a message describing the cause as well as the
 	 * throwable which caused this exception to be thrown.
 	 *
-	 * 
+	 *
 	 * @param msg A string describing the cause of the exception
 	 * @param cause The throwable which caused this exception
-	 * @since 1.0
+	 * @since 2.0
 	 */
-	public DannException(String msg, Throwable cause)
+	public DannRuntimeException(String msg, Throwable cause)
 	{
 		super(msg, cause);
 	}
@@ -69,11 +68,11 @@ public class DannException extends Exception
 	 * Creates an exception containing the throwable which caused this exception
 	 * to be thrown.
 	 *
-	 * 
+	 *
 	 * @param cause The throwable which caused this exception
-	 * @since 1.0
+	 * @since 2.0
 	 */
-	public DannException(Throwable cause)
+	public DannRuntimeException(Throwable cause)
 	{
 		super(cause);
 	}

@@ -27,7 +27,7 @@ import com.syncleus.dann.*;
  * @since 1.0
  *
  */
-public class InvalidConnectionTypeDannException extends DannException
+public class InvalidConnectionTypeDannException extends DannRuntimeException
 {
 	/**
 	 * Creates a blank default exception.

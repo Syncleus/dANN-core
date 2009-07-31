@@ -20,7 +20,6 @@ package com.syncleus.dann.neural.backprop;
 
 import com.syncleus.dann.neural.NeuronGroup;
 import com.syncleus.dann.neural.Neuron;
-import com.syncleus.dann.*;
 import java.util.*;
 
 /**
@@ -48,36 +47,7 @@ public class BackpropNeuronGroup extends NeuronGroup<BackpropNeuron>
 
 	// </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Propogation">
-
-    /**
-     * Propogates the output of the BackpropNeurons from the incoming synapse to
-     * the outgoign one.
-	 *
-     *
-     * @since 1.0
-     * @see com.syncleus.dann.neural.backprop.BackpropNeuron#propagate
-     */
-    public void propagate()
-    {
-        for (BackpropNeuron currentChild : this.getChildrenNeuronsRecursivly())
-            currentChild.propagate();
-    }
-
-
-
-    /**
-     * Back propogates the taining set of the BackpropNeuron from the outgoing
-     * synapse to the incomming one.
-     *
-     * @since 1.0
-     * @see com.syncleus.dann.neural.backprop.BackpropNeuron#backPropagate
-     */
-    public void backPropagate()
-    {
-        for (BackpropNeuron currentChild : this.getChildrenNeuronsRecursivly())
-            currentChild.backPropagate();
-    }
+    // <editor-fold defaultstate="collapsed" desc="Topology">
 
 	/**
 	 * Gets all the Neurons that either connect to, or are connected from, any

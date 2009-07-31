@@ -16,65 +16,43 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann;
+package com.syncleus.dann.neural.backprop.brain;
 
-/**
- * All dANN specific exceptions that are thrown will either be a dannException
- * or inherit from it.
- *
- *
- * @author Syncleus, Inc.
- * @since 1.0
- *
- */
-public class DannException extends Exception
+import java.util.concurrent.ThreadPoolExecutor;
+
+public abstract class AbstractFullyConnectedFeedforwardBrain extends AbstractFeedforwardBrain
 {
 	/**
-	 * Creates a blank default exception.
+	 * Uses the given threadExecutor for executing tasks.
 	 *
-	 * 
-	 * @since 1.0
+	 * @param threadExecutor executor to use for executing tasks.
+	 * @since 2.0
 	 */
-	public DannException()
+	protected AbstractFullyConnectedFeedforwardBrain(ThreadPoolExecutor threadExecutor)
 	{
+		super(threadExecutor);
 	}
 
 	/**
-	 * Creates an exception with a message describing the cause.
+	 * Default constructor initializes a default threadExecutor based on the
+	 * number of processors.
 	 *
-	 * 
-	 * @param msg A string describing the cause of the exception
-	 * @since 1.0
+	 * @since 2.0
 	 */
-	public DannException(String msg)
+	protected AbstractFullyConnectedFeedforwardBrain()
 	{
-		super(msg);
+		super();
 	}
 
-	/**
-	 * Creates an exception with a message describing the cause as well as the
-	 * throwable which caused this exception to be thrown.
-	 *
-	 * 
-	 * @param msg A string describing the cause of the exception
-	 * @param cause The throwable which caused this exception
-	 * @since 1.0
-	 */
-	public DannException(String msg, Throwable cause)
+	@Override
+	protected final void initalizeNetwork(int neuronsPerLayer[])
 	{
-		super(msg, cause);
-	}
+		//makse sure the parent has a chance to create the unconnected network.
+		super.initalizeNetwork(neuronsPerLayer);
 
-	/**
-	 * Creates an exception containing the throwable which caused this exception
-	 * to be thrown.
-	 *
-	 * 
-	 * @param cause The throwable which caused this exception
-	 * @since 1.0
-	 */
-	public DannException(Throwable cause)
-	{
-		super(cause);
+		//iterate through all layers (except the last) and connect it to the
+		//next layer
+		for(int layerIndex = 0; layerIndex < (this.getLayerCount() - 1); layerIndex++)
+			this.getNeuronLayers().get(layerIndex).connectAllTo(this.getNeuronLayers().get(layerIndex + 1));
 	}
 }

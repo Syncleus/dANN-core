@@ -64,10 +64,10 @@ public class TestBackpropNeuronGroup
 		firstNeuron.connectTo(middleNeuron);
 		middleNeuron.connectTo(lastNeuron);
 
-		firstGroup.propagate();
-		middleGroup.propagate();
+		firstNeuron.propagate();
+		middleNeuron.propagate();
 
-		lastGroup.backPropagate();
-		middleGroup.backPropagate();
+		lastNeuron.backPropagate();
+		middleNeuron.backPropagate();
 	}
 }

@@ -20,9 +20,13 @@ package com.syncleus.tests.dann.neural.backprop;
 
 
 import com.syncleus.dann.DannException;
+import com.syncleus.dann.neural.InputNeuron;
+import com.syncleus.dann.neural.OutputNeuron;
 import com.syncleus.dann.neural.activation.ActivationFunction;
 import com.syncleus.dann.neural.activation.SineActivationFunction;
 import com.syncleus.dann.neural.backprop.*;
+import com.syncleus.dann.neural.backprop.brain.FullyConnectedFeedforwardBrain;
+import java.util.ArrayList;
 import org.junit.*;
 
 /**
@@ -38,9 +42,8 @@ public class TestXor
 	private InputBackpropNeuron inputA = null;
 	private InputBackpropNeuron inputB = null;
 	private InputBackpropNeuron inputC = null;
-	private BackpropNeuronGroup firstLayer = null;
-	private BackpropNeuronGroup secondLayer = null;
 	private OutputBackpropNeuron output = null;
+	private FullyConnectedFeedforwardBrain brain = null;
 
 
 
@@ -49,29 +52,15 @@ public class TestXor
 	{
 		//Adjust the learning rate
 		double learningRate = 0.0175;
-
 		ActivationFunction activationFunction = new SineActivationFunction();
 
-		//creates the first layer which holds all the input neurons
-		inputA = new InputBackpropNeuron(activationFunction, learningRate);
-		inputB = new InputBackpropNeuron(activationFunction, learningRate);
-		inputC = new InputBackpropNeuron(activationFunction, learningRate);
-		firstLayer = new BackpropNeuronGroup();
-		firstLayer.add(inputA);
-		firstLayer.add(inputB);
-		firstLayer.add(inputC);
-
-		//creates the second layer of neurons
-		secondLayer = new BackpropNeuronGroup();
-		for(int lcv = 0;lcv < 3;lcv++)
-			secondLayer.add(new BackpropNeuron(activationFunction, learningRate));
-
-		//the output layer is just a single neuron
-		output = new OutputBackpropNeuron(activationFunction, learningRate);
-
-		//connects the network in a feedforward fasion.
-		firstLayer.connectAllTo(secondLayer);
-		secondLayer.connectAllTo(output);
+		this.brain = new FullyConnectedFeedforwardBrain(new int[]{3, 3, 1}, learningRate, activationFunction);
+		ArrayList<InputNeuron> inputs = new ArrayList<InputNeuron>(this.brain.getInputNeurons());
+		this.inputA = (InputBackpropNeuron) inputs.get(0);
+		this.inputB = (InputBackpropNeuron) inputs.get(1);
+		this.inputC = (InputBackpropNeuron) inputs.get(2);
+		ArrayList<OutputNeuron> outputs = new ArrayList<OutputNeuron>(this.brain.getOutputNeurons());
+		this.output = (OutputBackpropNeuron) outputs.get(0);
 
 		int cycles = 750;
 		train(cycles);
@@ -81,18 +70,14 @@ public class TestXor
 
 	private void propogateOutput()
 	{
-		firstLayer.propagate();
-		secondLayer.propagate();
-		output.propagate();
+		this.brain.propogate();
 	}
 
 
 
 	private void backPropogateTraining()
 	{
-		output.backPropagate();
-		secondLayer.backPropagate();
-		firstLayer.backPropagate();
+		this.brain.backPropogate();
 	}
 
 
