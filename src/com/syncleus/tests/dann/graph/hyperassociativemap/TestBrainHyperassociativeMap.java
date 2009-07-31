@@ -26,7 +26,7 @@ import org.junit.*;
 
 public class TestBrainHyperassociativeMap
 {
-	private class TestBrain extends Brain
+	private class TestBrain extends LocalBrain
 	{
 		public void addNeuron(Neuron newNeuron)
 		{
@@ -36,7 +36,7 @@ public class TestBrainHyperassociativeMap
 
 	private class TestMap extends BrainHyperassociativeMap
 	{
-		public TestMap(Brain brain, int dimensions)
+		public TestMap(LocalBrain brain, int dimensions)
 		{
 			super(brain, dimensions);
 		}

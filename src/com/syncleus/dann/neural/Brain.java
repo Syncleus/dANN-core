@@ -18,7 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.neural;
 
-import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -32,109 +31,27 @@ import java.util.*;
  * @since 1.0
  *
  */
-public abstract class Brain implements Serializable
+public interface Brain
 {
-    private HashSet<Neuron> neurons = new HashSet<Neuron>();
-    private HashSet<OutputNeuron> outputNeurons = new HashSet<OutputNeuron>();
-    private HashSet<InputNeuron> inputNeurons = new HashSet<InputNeuron>();
-
-
-
-	/**
-	 * Adds a new neuron to the brain. The construction of the brain is done
-	 * by the child class so this method is protected.
-	 *
-	 *
-	 * @param newNeuron The neuron to add to the brain.
-	 * @since 1.0
-	 */
-    protected void addNeuron(Neuron newNeuron)
-    {
-        if (this.neurons.contains(newNeuron))
-            return;
-
-        this.neurons.add(newNeuron);
-
-		if (newNeuron instanceof OutputNeuron)
-			this.outputNeurons.add((OutputNeuron) newNeuron);
-
-		if (newNeuron instanceof InputNeuron)
-			this.inputNeurons.add((InputNeuron) newNeuron);
-    }
-
-	/**
-	 * Adds a new collection of neurons to the brain. The construction of the
-	 * brain is done by the child class so this method is protected.
-	 *
-	 * 
-	 * @param newNeurons The collection of neurons to add.
-	 * @since 1.0
-	 */
-	protected void addNeurons(Collection<? extends Neuron> newNeurons)
-	{
-		this.neurons.addAll(newNeurons);
-
-		for(Neuron newNeuron : newNeurons)
-		{
-			if (newNeuron instanceof OutputNeuron)
-				this.outputNeurons.add((OutputNeuron) newNeuron);
-
-			if (newNeuron instanceof InputNeuron)
-				this.inputNeurons.add((InputNeuron) newNeuron);
-		}
-	}
-
-
-
-	/**
-	 * Removes the specified neuron from the brain. This only removes it from
-	 * the collection of neurons it does not disconnect it from other neurons.
-	 *
-	 * 
-	 * @param removeNeuron The neuron to remove.
-	 * @since 1.0
-	 */
-    protected void removeNeuron(Neuron removeNeuron)
-    {
-        if (this.neurons.contains(removeNeuron) == false)
-            return;
-
-        this.neurons.remove(removeNeuron);
-
-        if (removeNeuron instanceof OutputNeuron)
-            this.outputNeurons.remove((OutputNeuron) removeNeuron);
-
-        if (removeNeuron instanceof InputNeuron)
-            this.inputNeurons.remove((InputNeuron) removeNeuron);
-    }
-
-
-
 	/**
 	 * Obtains all InputNeurons contained within the brain.
 	 *
-	 * 
+	 *
 	 * @return An unmodifiable Set of InputNeurons.
 	 * @since 1.0
 	 */
-    public Set<InputNeuron> getInputNeurons()
-    {
-        return Collections.unmodifiableSet(this.inputNeurons);
-    }
+    public abstract Set<InputNeuron> getInputNeurons();
 
 
 
 	/**
 	 * Obtains all OutputNeurons contained within the brain.
 	 *
-	 * 
+	 *
 	 * @return An unmodifiable Set of OutputNeurons
 	 * @since 1.0
 	 */
-    public Set<OutputNeuron> getOutputNeurons()
-    {
-        return Collections.unmodifiableSet(this.outputNeurons);
-    }
+    public abstract Set<OutputNeuron> getOutputNeurons();
 
 
 
@@ -142,12 +59,9 @@ public abstract class Brain implements Serializable
 	 * Obtains all Neurons, including InputNeurons and OutputNeurons contained
 	 * within the brain.
 	 *
-	 * 
+	 *
 	 * @return An unmodifiable Set of all Neurons.
 	 * @since 1.0
 	 */
-    public Set<Neuron> getNeurons()
-    {
-        return Collections.unmodifiableSet(this.neurons);
-    }
+    public abstract Set<Neuron> getNeurons();
 }

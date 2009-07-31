@@ -32,7 +32,7 @@ import java.util.*;
  */
 public class BrainHyperassociativeMap extends HyperassociativeMap
 {
-    private Brain brain;
+    private LocalBrain brain;
     private int dimensions;
 
 	/**
@@ -52,7 +52,7 @@ public class BrainHyperassociativeMap extends HyperassociativeMap
 	 * @param dimensions Number of dimensions to represent this brain in
 	 * @since 1.0
 	 */
-    public BrainHyperassociativeMap(Brain brain, int dimensions)
+    public BrainHyperassociativeMap(LocalBrain brain, int dimensions)
     {
 		super(dimensions);
 		

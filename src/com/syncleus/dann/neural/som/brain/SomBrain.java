@@ -23,6 +23,9 @@ import com.syncleus.dann.neural.*;
 import java.util.*;
 import java.util.Map.Entry;
 import com.syncleus.dann.math.Hyperpoint;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 /**
  * A SomBrain acts as the parent class for all brains that use traditional SOM
@@ -33,13 +36,59 @@ import com.syncleus.dann.math.Hyperpoint;
  * @author Syncleus, Inc.
  * @since 2.0
  */
-public abstract class SomBrain extends Brain
+public abstract class SomBrain extends LocalBrain
 {
 	private int iterationsTrained;
 	private Hyperpoint upperBounds;
 	private Hyperpoint lowerBounds;
 	private ArrayList<SomInputNeuron> inputs = new ArrayList<SomInputNeuron>();
 	private Hashtable<Hyperpoint, SomNeuron> outputs = new Hashtable<Hyperpoint, SomNeuron>();
+
+	private class PropogateOutput implements Callable<Double>
+	{
+		private SomNeuron neuron;
+
+		public PropogateOutput(SomNeuron neuron)
+		{
+			this.neuron = neuron;
+		}
+
+		public Double call()
+		{
+			this.neuron.propagate();
+			return Double.valueOf(this.neuron.getOutput());
+		}
+	}
+
+	private class TrainNeuron implements Runnable
+	{
+		private SomNeuron neuron;
+		private Hyperpoint neuronPoint;
+		private Hyperpoint bestMatchPoint;
+		private SomBrain brain;
+		private double neighborhoodRadius;
+		private double learningRate;
+
+		public TrainNeuron(SomNeuron neuron, Hyperpoint neuronPoint, Hyperpoint bestMatchPoint, double neighborhoodRadius, double learningRate, SomBrain brain)
+		{
+			this.neuron = neuron;
+			this.neuronPoint = neuronPoint;
+			this.bestMatchPoint = bestMatchPoint;
+			this.brain = brain;
+			this.neighborhoodRadius = neighborhoodRadius;
+			this.learningRate = learningRate;
+		}
+
+		public void run()
+		{
+			double currentDistance = this.neuronPoint.calculateRelativeTo(this.bestMatchPoint).getDistance();
+			if( currentDistance < this.neighborhoodRadius)
+			{
+				double neighborhoodAdjustment = this.brain.neighborhoodFunction(currentDistance);
+				this.neuron.train(this.learningRate, neighborhoodAdjustment);
+			}
+		}
+	}
 
 	/**
 	 * Called by chidren classes to instantiate a basic SomBrain with the given
@@ -170,19 +219,39 @@ public abstract class SomBrain extends Brain
 		if( this.outputs.size() <= 0)
 			throw new IllegalStateException("Must have atleast one output");
 
+		//stick all the neurons in the queue to propogate
+		HashMap<Hyperpoint, Future<Double>> futureOutput = new HashMap<Hyperpoint, Future<Double>>();
+		for(Entry<Hyperpoint, SomNeuron> entry : this.outputs.entrySet())
+		{
+			PropogateOutput callable = new PropogateOutput(entry.getValue());
+			futureOutput.put(entry.getKey(), this.getThreadExecutor().submit(callable));
+		}
+
 		//find the best matching unit
 		Hyperpoint bestMatchingUnit = null;
 		double bestError = Double.POSITIVE_INFINITY;
 		for(Entry<Hyperpoint, SomNeuron> entry : this.outputs.entrySet())
 		{
-			entry.getValue().propagate();
-			
+			double currentError;
+			try
+			{
+				currentError = futureOutput.get(entry.getKey()).get().doubleValue();
+			}
+			catch(InterruptedException caughtException)
+			{
+				throw new AssertionError("Unexpected interuption. Get should block indefinately");
+			}
+			catch(ExecutionException caughtException)
+			{
+				throw new AssertionError("Unexpected execution exception. Get should block indefinately");
+			}
+
 			if(bestMatchingUnit == null)
 				bestMatchingUnit = entry.getKey();
-			else if(entry.getValue().getOutput() < bestError)
+			else if(currentError < bestError)
 			{
 				bestMatchingUnit = entry.getKey();
-				bestError = entry.getValue().getOutput();
+				bestError = currentError;
 			}
 		}
 
@@ -197,14 +266,27 @@ public abstract class SomBrain extends Brain
 		double neighborhoodRadius = this.neighborhoodRadiusFunction();
 		double learningRate = this.learningRateFunction();
 
+		//add all the neuron trainingevents to the thread queue
+		ArrayList<Future> futures = new ArrayList<Future>();
 		for(Entry<Hyperpoint, SomNeuron> entry : this.outputs.entrySet())
 		{
-			double currentDistance = entry.getKey().calculateRelativeTo(bestMatchingUnit).getDistance();
-			if( currentDistance < neighborhoodRadius)
-			{
-				double neighborhoodAdjustment = this.neighborhoodFunction(currentDistance);
-				entry.getValue().train(learningRate, neighborhoodAdjustment);
-			}
+			TrainNeuron runnable = new TrainNeuron(entry.getValue(), entry.getKey(), bestMatchingUnit, neighborhoodRadius, learningRate, this);
+			futures.add(this.getThreadExecutor().submit(runnable));
+		}
+
+		//wait until all neurons are trained
+		try
+		{
+			for(Future future : futures)
+				future.get();
+		}
+		catch(InterruptedException caughtException)
+		{
+			throw new AssertionError("Unexpected interuption. Get should block indefinately");
+		}
+		catch(ExecutionException caughtException)
+		{
+			throw new AssertionError("Unexpected execution exception. Get should block indefinately");
 		}
 
 		this.iterationsTrained++;
