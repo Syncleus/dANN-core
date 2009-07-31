@@ -19,7 +19,7 @@
 package com.syncleus.dann.math.visualization;
 
 
-import com.syncleus.dann.math.MathFunction;
+import com.syncleus.dann.math.AbstractMathFunction;
 import org.freehep.j3d.plot.*;
 import javax.vecmath.*;
 import java.awt.Color;
@@ -27,7 +27,7 @@ import java.security.InvalidParameterException;
 
 public class MathFunctionDataBinder implements Binned2DData
 {
-    private MathFunction function = null;
+    private AbstractMathFunction function = null;
     private int functionXIndex;
     private int functionYIndex;
     private float xMin;
@@ -40,7 +40,7 @@ public class MathFunctionDataBinder implements Binned2DData
 
 
 
-    public MathFunctionDataBinder(MathFunction function,
+    public MathFunctionDataBinder(AbstractMathFunction function,
                                      String functionXParam,
                                      String functionYParam,
                                      float xMin,
@@ -123,7 +123,7 @@ public class MathFunctionDataBinder implements Binned2DData
 
 
 
-    public MathFunction getFunction()
+    public AbstractMathFunction getFunction()
     {
         return this.function;
     }

@@ -28,7 +28,7 @@ import com.syncleus.dann.neural.activation.SqrtActivationFunction;
  * @author Syncleus, Inc.
  * @since 2.0
  */
-public class SomNeuron extends NeuronImpl<NeuronImpl, NeuronImpl> implements OutputNeuron<NeuronImpl, NeuronImpl>
+public class SomNeuron extends AbstractNeuron<AbstractNeuron, AbstractNeuron> implements OutputNeuron<AbstractNeuron, AbstractNeuron>
 {
 	private final static SqrtActivationFunction ACTIVATION_FUNCTION = new SqrtActivationFunction();
 

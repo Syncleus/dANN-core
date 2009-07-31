@@ -29,10 +29,10 @@ import java.util.*;
  * @author Syncleus, Inc.
  * @since 2.0
  */
-public abstract class GeneticAlgorithmPopulation
+public abstract class AbstractGeneticAlgorithmPopulation
 {
 	private static Random random = new Random();
-	private TreeSet<GeneticAlgorithmFitnessFunction> population;
+	private TreeSet<AbstractGeneticAlgorithmFitnessFunction> population;
 	private double mutationDeviation;
 	private double crossoverPercentage;
 	private double dieOffPercentage;
@@ -52,12 +52,12 @@ public abstract class GeneticAlgorithmPopulation
 	 * each generation.
 	 * @since 2.0
 	 */
-	public GeneticAlgorithmPopulation(Set<GeneticAlgorithmChromosome> initialChromosomes, double mutationDeviation, double crossoverPercentage, double dieOffPercentage)
+	public AbstractGeneticAlgorithmPopulation(Set<GeneticAlgorithmChromosome> initialChromosomes, double mutationDeviation, double crossoverPercentage, double dieOffPercentage)
 	{
 		if(initialChromosomes.size() <4)
 			throw new IllegalArgumentException("Must have a population of atleast 4");
 
-		this.population  = new TreeSet<GeneticAlgorithmFitnessFunction>();
+		this.population  = new TreeSet<AbstractGeneticAlgorithmFitnessFunction>();
 
 		for(GeneticAlgorithmChromosome chromosome : initialChromosomes)
 		{
@@ -77,7 +77,7 @@ public abstract class GeneticAlgorithmPopulation
 	 * generation of the population.
 	 * @since 2.0
 	 */
-	public GeneticAlgorithmPopulation(Set<GeneticAlgorithmChromosome> initialChromosomes)
+	public AbstractGeneticAlgorithmPopulation(Set<GeneticAlgorithmChromosome> initialChromosomes)
 	{
 		this(initialChromosomes, 0.25d, 0.75d, 0.90d);
 	}
@@ -93,7 +93,7 @@ public abstract class GeneticAlgorithmPopulation
 	public Set<GeneticAlgorithmChromosome> getChromosomes()
 	{
 		HashSet<GeneticAlgorithmChromosome> chromosomes = new HashSet<GeneticAlgorithmChromosome>();
-		for(GeneticAlgorithmFitnessFunction member : population)
+		for(AbstractGeneticAlgorithmFitnessFunction member : population)
 		{
 			chromosomes.add(member.getChromosome());
 		}
@@ -129,7 +129,7 @@ public abstract class GeneticAlgorithmPopulation
 	{
 		int randomIndex = random.nextInt(this.population.size());
 		int currentIndex = 0;
-		for(GeneticAlgorithmFitnessFunction member : this.population)
+		for(AbstractGeneticAlgorithmFitnessFunction member : this.population)
 		{
 			if(currentIndex == randomIndex)
 				return member.getChromosome();
@@ -164,7 +164,7 @@ public abstract class GeneticAlgorithmPopulation
 			this.population.pollFirst();
 
 		//breed children through mutation and crossover
-		TreeSet<GeneticAlgorithmFitnessFunction> children = new TreeSet<GeneticAlgorithmFitnessFunction>();
+		TreeSet<AbstractGeneticAlgorithmFitnessFunction> children = new TreeSet<AbstractGeneticAlgorithmFitnessFunction>();
 		while(this.population.size() + children.size() < populationSize)
 		{
 			//obtain parents and mutate into children
@@ -179,8 +179,8 @@ public abstract class GeneticAlgorithmPopulation
 			{
 				int crossoverPoint = random.nextInt(child1.getGenes().size() - 1) + 1;
 
-				List<ValueGene> child1Segment = child1.crossover(crossoverPoint);
-				List<ValueGene> child2Segment = child2.crossover(crossoverPoint);
+				List<AbstractValueGene> child1Segment = child1.crossover(crossoverPoint);
+				List<AbstractValueGene> child2Segment = child2.crossover(crossoverPoint);
 
 				child1.crossover(child2Segment, crossoverPoint);
 				child2.crossover(child1Segment, crossoverPoint);
@@ -203,5 +203,5 @@ public abstract class GeneticAlgorithmPopulation
 	 * @return A fitness function wrapping the chromosome.
 	 * @since 2.0
 	 */
-	protected abstract GeneticAlgorithmFitnessFunction packageChromosome(GeneticAlgorithmChromosome chromosome);
+	protected abstract AbstractGeneticAlgorithmFitnessFunction packageChromosome(GeneticAlgorithmChromosome chromosome);
 }

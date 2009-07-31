@@ -36,7 +36,7 @@ import java.util.concurrent.Future;
  * @author Syncleus, Inc.
  * @since 2.0
  */
-public abstract class SomBrain extends LocalBrain
+public abstract class AbstractSomBrain extends AbstractLocalBrain
 {
 	private int iterationsTrained;
 	private Hyperpoint upperBounds;
@@ -65,11 +65,11 @@ public abstract class SomBrain extends LocalBrain
 		private SomNeuron neuron;
 		private Hyperpoint neuronPoint;
 		private Hyperpoint bestMatchPoint;
-		private SomBrain brain;
+		private AbstractSomBrain brain;
 		private double neighborhoodRadius;
 		private double learningRate;
 
-		public TrainNeuron(SomNeuron neuron, Hyperpoint neuronPoint, Hyperpoint bestMatchPoint, double neighborhoodRadius, double learningRate, SomBrain brain)
+		public TrainNeuron(SomNeuron neuron, Hyperpoint neuronPoint, Hyperpoint bestMatchPoint, double neighborhoodRadius, double learningRate, AbstractSomBrain brain)
 		{
 			this.neuron = neuron;
 			this.neuronPoint = neuronPoint;
@@ -99,7 +99,7 @@ public abstract class SomBrain extends LocalBrain
 	 * @param dimentionality The number of dimensions of the output lattice
 	 * @since 2.0
 	 */
-	protected SomBrain(int inputCount, int dimentionality)
+	protected AbstractSomBrain(int inputCount, int dimentionality)
 	{
 		if( inputCount <= 0 )
 			throw new IllegalArgumentException("input count must be greater than 0");

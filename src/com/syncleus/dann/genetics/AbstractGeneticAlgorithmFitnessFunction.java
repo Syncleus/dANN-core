@@ -27,7 +27,7 @@ package com.syncleus.dann.genetics;
  * @author Syncleus, Inc.
  * @since 2.0
  */
-public abstract class GeneticAlgorithmFitnessFunction implements Comparable<GeneticAlgorithmFitnessFunction>
+public abstract class AbstractGeneticAlgorithmFitnessFunction implements Comparable<AbstractGeneticAlgorithmFitnessFunction>
 {
 	private GeneticAlgorithmChromosome chromosome;
 
@@ -38,7 +38,7 @@ public abstract class GeneticAlgorithmFitnessFunction implements Comparable<Gene
 	 * @param chromosome Chromosome to wrap and evaluate the fitness of.
 	 * @since 2.0
 	 */
-	public GeneticAlgorithmFitnessFunction(GeneticAlgorithmChromosome chromosome)
+	public AbstractGeneticAlgorithmFitnessFunction(GeneticAlgorithmChromosome chromosome)
 	{
 		this.chromosome = chromosome;
 	}
@@ -65,13 +65,13 @@ public abstract class GeneticAlgorithmFitnessFunction implements Comparable<Gene
 	 * both equally as fit it will return 0.
 	 * @since 2.0
 	 */
-	public abstract int compareTo(GeneticAlgorithmFitnessFunction compareWith);
+	public abstract int compareTo(AbstractGeneticAlgorithmFitnessFunction compareWith);
 
 	@Override
 	public boolean equals(Object compareWith)
 	{
-		if(compareWith instanceof GeneticAlgorithmFitnessFunction)
-			return ((GeneticAlgorithmFitnessFunction)compareWith).chromosome.equals(this.chromosome);
+		if(compareWith instanceof AbstractGeneticAlgorithmFitnessFunction)
+			return ((AbstractGeneticAlgorithmFitnessFunction)compareWith).chromosome.equals(this.chromosome);
 		else
 			return false;
 	}

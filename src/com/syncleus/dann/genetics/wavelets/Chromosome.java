@@ -49,9 +49,9 @@ public class Chromosome implements Cloneable
 		return Collections.unmodifiableSet(allSignals);
 	}
 	
-	public Set<Key> getKeys()
+	public Set<AbstractKey> getKeys()
 	{
-		HashSet<Key> allKeys = new HashSet<Key>();
+		HashSet<AbstractKey> allKeys = new HashSet<AbstractKey>();
 		allKeys.addAll(this.leftChromatid.getKeys());
 		allKeys.addAll(this.rightChromatid.getKeys());
 		return Collections.unmodifiableSet(allKeys);
@@ -89,9 +89,9 @@ public class Chromosome implements Cloneable
 		return this.rightChromatid;
 	}
 
-	public List<WaveletGene> getGenes()
+	public List<AbstractWaveletGene> getGenes()
 	{
-		List<WaveletGene> genes = new ArrayList<WaveletGene>(this.leftChromatid.getGenes());
+		List<AbstractWaveletGene> genes = new ArrayList<AbstractWaveletGene>(this.leftChromatid.getGenes());
 		genes.addAll(this.rightChromatid.getGenes());
 		return Collections.unmodifiableList(genes);
 	}
@@ -146,8 +146,8 @@ public class Chromosome implements Cloneable
 		}
 
 		//perform the crossover.
-		List<WaveletGene> leftGenes = this.leftChromatid.crossover(crossoverPosition);
-		List<WaveletGene> rightGenes = this.rightChromatid.crossover(crossoverPosition);
+		List<AbstractWaveletGene> leftGenes = this.leftChromatid.crossover(crossoverPosition);
+		List<AbstractWaveletGene> rightGenes = this.rightChromatid.crossover(crossoverPosition);
 
 		this.leftChromatid.crossover(rightGenes, crossoverPosition);
 		this.rightChromatid.crossover(leftGenes, crossoverPosition);
@@ -159,7 +159,7 @@ public class Chromosome implements Cloneable
 		return new Chromosome(this);
 	}
 
-	public void mutate(Set<Key> keyPool)
+	public void mutate(Set<AbstractKey> keyPool)
 	{
 		if( Mutation.mutationEvent(mutability) )
 			this.crossover(this.mutability);

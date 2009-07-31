@@ -20,9 +20,9 @@ package com.syncleus.dann.genetics.wavelets;
 
 import java.util.HashSet;
 
-public abstract class Organism
+public abstract class AbstractOrganism
 {
 	private HashSet<Cell> cells;
 
-	public abstract Organism mate(Organism partner);
+	public abstract AbstractOrganism mate(AbstractOrganism partner);
 }

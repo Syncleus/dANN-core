@@ -33,7 +33,7 @@ import java.util.Set;
  * @since 1.0
  *
  */
-public interface Neuron<SN extends NeuronImpl, DN extends NeuronImpl> extends Serializable
+public interface Neuron<SN extends AbstractNeuron, DN extends AbstractNeuron> extends Serializable
 {
 	/**
 	 * Connects this Neuron to the specified Neuron.

@@ -29,14 +29,14 @@ import java.util.*;
  * @since 2.0
  *
  */
-public class GeneticAlgorithmChromosome implements Chromatid<ValueGene>
+public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>
 {
-	private Vector<ValueGene> alleles;
+	private Vector<AbstractValueGene> alleles;
 	private static Random random = new Random();
 
 	private GeneticAlgorithmChromosome()
 	{
-		this.alleles = new Vector<ValueGene>();
+		this.alleles = new Vector<AbstractValueGene>();
 	}
 
 	/**
@@ -48,7 +48,7 @@ public class GeneticAlgorithmChromosome implements Chromatid<ValueGene>
 	 */
 	public GeneticAlgorithmChromosome(GeneticAlgorithmChromosome copy)
 	{
-		this.alleles = new Vector<ValueGene>(copy.alleles);
+		this.alleles = new Vector<AbstractValueGene>(copy.alleles);
 	}
 
 	/**
@@ -97,7 +97,7 @@ public class GeneticAlgorithmChromosome implements Chromatid<ValueGene>
 	 * @return An unmodifiable List of all genes in the chromatid
 	 * @since 2.0
 	 */
-	public List<ValueGene> getGenes()
+	public List<AbstractValueGene> getGenes()
 	{
 		return Collections.unmodifiableList(this.alleles);
 	}
@@ -111,7 +111,7 @@ public class GeneticAlgorithmChromosome implements Chromatid<ValueGene>
 	 * point
 	 * @return A List of the genetic segment crossing over.
 	 */
-	public List<ValueGene> crossover(int point)
+	public List<AbstractValueGene> crossover(int point)
 	{
 		if(point <= 0)
 			throw new IllegalArgumentException("point must be positive");
@@ -130,7 +130,7 @@ public class GeneticAlgorithmChromosome implements Chromatid<ValueGene>
 	 * @since 2.0
 	 * @see com.syncleus.dann.genetics.Chromatid#crossover(int)
 	 */
-	public void crossover(List<ValueGene> geneticSegment, int point)
+	public void crossover(List<AbstractValueGene> geneticSegment, int point)
 	{
 		if(point <= 0)
 			throw new IllegalArgumentException("point must be positive");
@@ -138,7 +138,7 @@ public class GeneticAlgorithmChromosome implements Chromatid<ValueGene>
 			throw new IllegalArgumentException("point can not be larger than the number of alleles");
 
 		//remove allel replaced by crossover
-		this.alleles = new Vector<ValueGene>(this.alleles.subList(0, point));
+		this.alleles = new Vector<AbstractValueGene>(this.alleles.subList(0, point));
 
 		//add the genetic segment to the end
 		this.alleles.addAll(geneticSegment);
@@ -170,7 +170,7 @@ public class GeneticAlgorithmChromosome implements Chromatid<ValueGene>
 	public GeneticAlgorithmChromosome mutate(double deviation)
 	{
 		GeneticAlgorithmChromosome mutated = new GeneticAlgorithmChromosome();
-		for(ValueGene allele : this.alleles)
+		for(AbstractValueGene allele : this.alleles)
 		{
 			mutated.alleles.add(allele.mutate(deviation));
 		}

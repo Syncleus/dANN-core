@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.neural.backprop.brain;
 
-import com.syncleus.dann.neural.LocalBrain;
+import com.syncleus.dann.neural.AbstractLocalBrain;
 import com.syncleus.dann.neural.backprop.BackpropNeuron;
 import com.syncleus.dann.neural.backprop.BackpropNeuronGroup;
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 
-public abstract class AbstractFeedforwardBrain extends LocalBrain
+public abstract class AbstractFeedforwardBrain extends AbstractLocalBrain
 {
 	private boolean initialized = false;
 	private ArrayList<BackpropNeuronGroup> neuronLayers = new ArrayList<BackpropNeuronGroup>();

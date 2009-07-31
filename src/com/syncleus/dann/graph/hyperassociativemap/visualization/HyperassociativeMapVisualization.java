@@ -42,7 +42,7 @@ import java.util.Hashtable;
  */
 public class HyperassociativeMapVisualization extends BranchGroup
 {
-    private HyperassociativeMap map;
+    private AbstractHyperassociativeMap map;
     private Hashtable<HyperassociativeNode, TransformGroup> nodeGraphics = new Hashtable<HyperassociativeNode, TransformGroup>();
     private Hashtable<HyperassociativeNode, Hyperpoint> oldNodeLocations = new Hashtable<HyperassociativeNode, Hyperpoint>();
     private BranchGroup nestedRoot = new BranchGroup();
@@ -57,7 +57,7 @@ public class HyperassociativeMapVisualization extends BranchGroup
 	 * @param map The map to represent by this BranchGroup
 	 * @since 1.0
 	 */
-    public HyperassociativeMapVisualization(HyperassociativeMap map)
+    public HyperassociativeMapVisualization(AbstractHyperassociativeMap map)
     {
 		this(map, 0.01F);
     }
@@ -71,7 +71,7 @@ public class HyperassociativeMapVisualization extends BranchGroup
 	 * @param nodeRadius The radius of the spheres representing each node.
 	 * @since 1.0
 	 */
-	public HyperassociativeMapVisualization(HyperassociativeMap map, float nodeRadius)
+	public HyperassociativeMapVisualization(AbstractHyperassociativeMap map, float nodeRadius)
 	{
 		this.nodeRadius = nodeRadius;
         this.map = map;
@@ -278,7 +278,7 @@ public class HyperassociativeMapVisualization extends BranchGroup
 	 * @return The map this class is representing.
 	 * @since 1.0
 	 */
-    HyperassociativeMap getMap()
+    AbstractHyperassociativeMap getMap()
     {
         return map;
     }

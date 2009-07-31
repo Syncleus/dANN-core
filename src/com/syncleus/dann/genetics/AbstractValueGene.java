@@ -28,7 +28,7 @@ package com.syncleus.dann.genetics;
  * @since 2.0
  *
  */
-public abstract class ValueGene<N extends MutableNumber> implements Gene
+public abstract class AbstractValueGene<N extends MutableNumber> implements Gene
 {
 	private N value;
 
@@ -39,7 +39,7 @@ public abstract class ValueGene<N extends MutableNumber> implements Gene
 	 * @param value MutableNumber to back the ValueGene with.
 	 * @since 2.0
 	 */
-	protected ValueGene(N value)
+	protected AbstractValueGene(N value)
 	{
 		this.value = value;
 	}
@@ -51,7 +51,7 @@ public abstract class ValueGene<N extends MutableNumber> implements Gene
 	 * @param copyValueGene ValueGene to copy.
 	 * @since 2.0
 	 */
-	protected ValueGene(ValueGene<N> copyValueGene)
+	protected AbstractValueGene(AbstractValueGene<N> copyValueGene)
 	{
 		this.value = copyValueGene.value;
 	}
@@ -103,7 +103,7 @@ public abstract class ValueGene<N extends MutableNumber> implements Gene
 	 * @since 2.0
 	 */
 	@Override
-	public abstract ValueGene clone();
+	public abstract AbstractValueGene clone();
 
 	/**
 	 * This will make a copy of the object and mutate it. The mutation has
@@ -115,5 +115,5 @@ public abstract class ValueGene<N extends MutableNumber> implements Gene
 	 * @return A copy of the current object with potential mutations.
 	 * @since 2.0
 	 */
-	public abstract ValueGene<N> mutate(double deviation);
+	public abstract AbstractValueGene<N> mutate(double deviation);
 }

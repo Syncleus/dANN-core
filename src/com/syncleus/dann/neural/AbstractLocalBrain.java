@@ -35,7 +35,7 @@ import java.util.concurrent.TimeUnit;
  * @since 1.0
  *
  */
-public abstract class LocalBrain implements Brain, Serializable
+public abstract class AbstractLocalBrain implements Brain, Serializable
 {
     private HashSet<Neuron> neurons = new HashSet<Neuron>();
     private HashSet<OutputNeuron> outputNeurons = new HashSet<OutputNeuron>();
@@ -50,7 +50,7 @@ public abstract class LocalBrain implements Brain, Serializable
 	 * @param threadExecutor executor to use for executing tasks.
 	 * @since 2.0
 	 */
-	public LocalBrain(ThreadPoolExecutor threadExecutor)
+	public AbstractLocalBrain(ThreadPoolExecutor threadExecutor)
 	{
 		this.threadExecutor = threadExecutor;
 	}
@@ -61,7 +61,7 @@ public abstract class LocalBrain implements Brain, Serializable
 	 *
 	 * @since 2.0
 	 */
-	public LocalBrain()
+	public AbstractLocalBrain()
 	{
 		this.threadExecutor = new ThreadPoolExecutor(Runtime.getRuntime().availableProcessors(), Runtime.getRuntime().availableProcessors()*5, 20, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
 	}

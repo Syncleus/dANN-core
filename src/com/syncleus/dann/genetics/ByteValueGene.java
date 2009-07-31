@@ -27,7 +27,7 @@ package com.syncleus.dann.genetics;
  * @since 2.0
  *
  */
-public class ByteValueGene extends ValueGene<MutableByte>
+public class ByteValueGene extends AbstractValueGene<MutableByte>
 {
 	/**
 	 * Initializes a new instance of this class with a value of 0.

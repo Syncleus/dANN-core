@@ -17,6 +17,7 @@
  *                                                                             *
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
+
 import com.syncleus.dann.genetics.MutableDouble;
 import java.util.Random;
 

@@ -20,14 +20,14 @@ package com.syncleus.dann.genetics.wavelets;
 
 import java.util.Map.Entry;
 
-public class ReceptorKey extends Key
+public class ReceptorKey extends AbstractKey
 {
 	public ReceptorKey()
 	{
 		super();
 	}
 	
-	public ReceptorKey(Key copy)
+	public ReceptorKey(AbstractKey copy)
 	{
 		super(copy);
 	}

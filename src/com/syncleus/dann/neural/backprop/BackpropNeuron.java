@@ -35,7 +35,7 @@ import java.util.Hashtable;
  *
  * @see com.syncleus.dann.neural.Synapse
  */
-public class BackpropNeuron extends NeuronImpl<NeuronImpl, BackpropNeuron>
+public class BackpropNeuron extends AbstractNeuron<AbstractNeuron, BackpropNeuron>
 {
     // <editor-fold defaultstate="collapsed" desc="Attributes">
 
@@ -189,7 +189,7 @@ public class BackpropNeuron extends NeuronImpl<NeuronImpl, BackpropNeuron>
         //step thru source synapses and make them learn their new weight.
         for (Synapse currentSynapse : this.getSources())
 		{
-			NeuronImpl sourceNeuron = currentSynapse.getSource();
+			AbstractNeuron sourceNeuron = currentSynapse.getSource();
 			if(sourceNeuron instanceof BackpropNeuron)
 			{
 				BackpropNeuron sourceBackpropNeuron = (BackpropNeuron) sourceNeuron;

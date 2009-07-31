@@ -21,23 +21,23 @@ package com.syncleus.dann.genetics.wavelets;
 import com.syncleus.dann.genetics.MutableInteger;
 import java.util.*;
 
-public abstract class Key
+public abstract class AbstractKey
 {
 	private HashMap<Integer, Boolean> points;
 	private static Random random = new Random();
 
-	protected Key()
+	protected AbstractKey()
 	{
 		this.points = new HashMap<Integer, Boolean>();
 		this.points.put(Integer.valueOf(random.nextInt()), random.nextBoolean());
 	}
 
-	protected Key(Map<Integer, Boolean> points)
+	protected AbstractKey(Map<Integer, Boolean> points)
 	{
 		this.points = new HashMap<Integer, Boolean>(points);
 	}
 
-	protected Key(Key copy)
+	protected AbstractKey(AbstractKey copy)
 	{
 		this.points = copy.points;
 	}
@@ -72,6 +72,6 @@ public abstract class Key
 	}
 	
 	@Override
-	public abstract Key clone();
-	public abstract Key mutate(double deviation);
+	public abstract AbstractKey clone();
+	public abstract AbstractKey mutate(double deviation);
 }

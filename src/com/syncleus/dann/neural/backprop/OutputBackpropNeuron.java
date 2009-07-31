@@ -30,7 +30,7 @@ import com.syncleus.dann.neural.activation.*;
  * @since 1.0
  * @see com.syncleus.dann.neural.backprop.InputBackpropNeuron
  */
-public class OutputBackpropNeuron extends BackpropNeuron implements OutputNeuron<NeuronImpl, BackpropNeuron>
+public class OutputBackpropNeuron extends BackpropNeuron implements OutputNeuron<AbstractNeuron, BackpropNeuron>
 {
     /**
      * holds the value for the current training set.

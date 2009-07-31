@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.math;
 
-public class WaveMathFunction extends MathFunction implements Cloneable
+public class WaveMathFunction extends AbstractMathFunction implements Cloneable
 {
     public WaveMathFunction()
     {

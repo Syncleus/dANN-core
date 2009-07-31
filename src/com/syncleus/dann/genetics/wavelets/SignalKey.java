@@ -18,14 +18,14 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
-public class SignalKey extends Key
+public class SignalKey extends AbstractKey
 {
 	public SignalKey()
 	{
 		super();
 	}
 	
-	public SignalKey(Key copy)
+	public SignalKey(AbstractKey copy)
 	{
 		super(copy);
 	}

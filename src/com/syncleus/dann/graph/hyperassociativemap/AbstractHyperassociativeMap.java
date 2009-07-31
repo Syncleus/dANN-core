@@ -30,7 +30,7 @@ import java.util.*;
  * @since 1.0
  *
  */
-public abstract class HyperassociativeMap implements Serializable
+public abstract class AbstractHyperassociativeMap implements Serializable
 {
 	/**
 	 * HashSet of all the nodes in this map.
@@ -47,7 +47,7 @@ public abstract class HyperassociativeMap implements Serializable
 	 * @param dimensions The number of dimensions for this map.
 	 * @since 1.0
 	 */
-	public HyperassociativeMap(int dimensions)
+	public AbstractHyperassociativeMap(int dimensions)
 	{
 		this.dimensions = dimensions;
 	}

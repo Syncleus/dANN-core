@@ -21,13 +21,13 @@ package com.syncleus.dann.math;
 import java.security.InvalidParameterException;
 import java.util.Hashtable;
 
-public abstract class MathFunction
+public abstract class AbstractMathFunction
 {
     private double[] parameters;
     private String[] parameterNames;
     private Hashtable<String,Integer> indexNames = new Hashtable<String,Integer>();
     
-    protected MathFunction(String[] parameterNames)
+    protected AbstractMathFunction(String[] parameterNames)
     {
         if(parameterNames.length <= 0)
             return;
@@ -112,7 +112,7 @@ public abstract class MathFunction
         return this.parameters.length;
     }
     
-    public abstract MathFunction clone();
+    public abstract AbstractMathFunction clone();
     public abstract double calculate();
     public abstract String toString();
 }

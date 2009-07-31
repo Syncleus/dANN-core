@@ -24,7 +24,7 @@ import org.junit.*;
 
 public class TestHyperassociativeNode
 {
-	private class TestMap extends HyperassociativeMap
+	private class TestMap extends AbstractHyperassociativeMap
 	{
 		public TestMap(int dimensions)
 		{

@@ -28,7 +28,7 @@ import com.syncleus.dann.neural.activation.IdentityActivationFunction;
  * @author Syncleus, Inc.
  * @since 2.0
  */
-public class SomInputNeuron extends NeuronImpl<NeuronImpl, SomNeuron> implements InputNeuron<NeuronImpl, SomNeuron>
+public class SomInputNeuron extends AbstractNeuron<AbstractNeuron, SomNeuron> implements InputNeuron<AbstractNeuron, SomNeuron>
 {
 	private double input;
 	private static final IdentityActivationFunction ACTIVATION_FUNCTION = new IdentityActivationFunction();

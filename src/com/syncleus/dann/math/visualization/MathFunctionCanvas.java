@@ -18,12 +18,12 @@
  ******************************************************************************/
 package com.syncleus.dann.math.visualization;
 
-import com.syncleus.dann.math.MathFunction;
+import com.syncleus.dann.math.AbstractMathFunction;
 import org.freehep.j3d.plot.*;
 
 public class MathFunctionCanvas extends SurfacePlot
 {
-	private MathFunction function;
+	private AbstractMathFunction function;
 	private int xIndex;
 	private int yIndex;
 	private float xMin;
@@ -32,7 +32,7 @@ public class MathFunctionCanvas extends SurfacePlot
 	private float yMax;
 	private int resolution;
 
-	public MathFunctionCanvas(MathFunction function, String xParameter, String yParameter, float xMin, float xMax, float yMin, float yMax, int resolution)
+	public MathFunctionCanvas(AbstractMathFunction function, String xParameter, String yParameter, float xMin, float xMax, float yMin, float yMax, int resolution)
 	{
 		super();
 
@@ -65,7 +65,7 @@ public class MathFunctionCanvas extends SurfacePlot
 		super.setData(dataBinder);
 	}
 
-	public void setFunction(MathFunction newFunction, String xParameter, String yParameter)
+	public void setFunction(AbstractMathFunction newFunction, String xParameter, String yParameter)
 	{
 		this.function = newFunction;
 		this.xIndex = this.function.getParameterNameIndex(xParameter);
@@ -74,7 +74,7 @@ public class MathFunctionCanvas extends SurfacePlot
 		this.refresh();
 	}
 
-    public MathFunction getFunction()
+    public AbstractMathFunction getFunction()
     {
         return this.function;
     }

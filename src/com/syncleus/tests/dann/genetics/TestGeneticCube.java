@@ -24,7 +24,7 @@ import org.junit.*;
 
 public class TestGeneticCube
 {
-	private class VolumeAreaCubeFitness extends GeneticAlgorithmFitnessFunction
+	private class VolumeAreaCubeFitness extends AbstractGeneticAlgorithmFitnessFunction
 	{
 		private double IDEAL_AREA = 2200d;
 		private double IDEAL_VOLUME = 6000d;
@@ -39,7 +39,7 @@ public class TestGeneticCube
 
 		public double getError()
 		{
-			List<ValueGene> genes = this.getChromosome().getGenes();
+			List<AbstractValueGene> genes = this.getChromosome().getGenes();
 			double side1 = genes.get(0).expressionActivity();
 			double side2 = genes.get(1).expressionActivity();
 			double side3 = genes.get(2).expressionActivity();
@@ -53,7 +53,7 @@ public class TestGeneticCube
 			return volumeError + areaError;
 		}
 		
-		public int compareTo(GeneticAlgorithmFitnessFunction baseCompareWith)
+		public int compareTo(AbstractGeneticAlgorithmFitnessFunction baseCompareWith)
 		{
 			if(!(baseCompareWith instanceof VolumeAreaCubeFitness))
 				throw new ClassCastException("Can only compare with VolumeAreaCubeFitness");
@@ -70,14 +70,14 @@ public class TestGeneticCube
 		}
 	}
 
-	private class VolumeAreaCubePopulation extends GeneticAlgorithmPopulation
+	private class VolumeAreaCubePopulation extends AbstractGeneticAlgorithmPopulation
 	{
 		public VolumeAreaCubePopulation(Set<GeneticAlgorithmChromosome> initialChromosomes)
 		{
 			super(initialChromosomes, 0.25d, 0.75d, 0.95d);
 		}
 
-		protected GeneticAlgorithmFitnessFunction packageChromosome(GeneticAlgorithmChromosome chromosome)
+		protected AbstractGeneticAlgorithmFitnessFunction packageChromosome(GeneticAlgorithmChromosome chromosome)
 		{
 			return new VolumeAreaCubeFitness(chromosome);
 		}

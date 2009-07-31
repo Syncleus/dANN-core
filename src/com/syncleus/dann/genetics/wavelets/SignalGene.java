@@ -20,7 +20,7 @@ package com.syncleus.dann.genetics.wavelets;
 
 import java.util.*;
 
-public class SignalGene extends WaveletGene
+public class SignalGene extends AbstractWaveletGene
 {
 	private SignalKey outputSignal;
 	protected SignalKeyConcentration expressingConcentration;
@@ -59,9 +59,9 @@ public class SignalGene extends WaveletGene
 	}
 
 	@Override
-	public Set<Key> getKeys()
+	public Set<AbstractKey> getKeys()
 	{
-		HashSet<Key> allKeys = new HashSet<Key>(super.getKeys());
+		HashSet<AbstractKey> allKeys = new HashSet<AbstractKey>(super.getKeys());
 		allKeys.add(this.outputSignal);
 		return Collections.unmodifiableSet(allKeys);
 	}
@@ -78,7 +78,7 @@ public class SignalGene extends WaveletGene
 	}
 
 	@Override
-	public void mutate(Set<Key> keyPool)
+	public void mutate(Set<AbstractKey> keyPool)
 	{
 		super.mutate(keyPool);
 		this.outputSignal = this.outputSignal.mutate(this.getMutability());

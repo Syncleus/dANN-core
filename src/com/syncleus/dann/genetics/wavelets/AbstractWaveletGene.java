@@ -19,10 +19,10 @@
 package com.syncleus.dann.genetics.wavelets;
 
 import com.syncleus.dann.genetics.Gene;
-import com.syncleus.dann.math.MathFunction;
+import com.syncleus.dann.math.AbstractMathFunction;
 import java.util.*;
 
-public abstract class WaveletGene implements Gene
+public abstract class AbstractWaveletGene implements Gene
 {
 	private double currentActivity;
 	private double pendingActivity;
@@ -34,14 +34,14 @@ public abstract class WaveletGene implements Gene
 
 	private static Random random = Mutation.getRandom();
 
-	protected WaveletGene(ReceptorKey initialReceptor)
+	protected AbstractWaveletGene(ReceptorKey initialReceptor)
 	{
 		this.expressionFunction = new ExpressionFunction(initialReceptor);
 		this.mutability = 1d;
 		this.receivingConcentrations = new HashSet<SignalKeyConcentration>();
 	}
 
-	protected WaveletGene(WaveletGene copy)
+	protected AbstractWaveletGene(AbstractWaveletGene copy)
 	{
 		this.currentActivity = copy.currentActivity;
 		this.pendingActivity = copy.pendingActivity;
@@ -51,9 +51,9 @@ public abstract class WaveletGene implements Gene
 		this.receivingConcentrations = new HashSet<SignalKeyConcentration>(copy.receivingConcentrations);
 	}
 
-	public Set<Key> getKeys()
+	public Set<AbstractKey> getKeys()
 	{
-		return Collections.unmodifiableSet(new HashSet<Key>(this.expressionFunction.getReceptors()));
+		return Collections.unmodifiableSet(new HashSet<AbstractKey>(this.expressionFunction.getReceptors()));
 	}
 
 	protected Random getRandom()
@@ -66,7 +66,7 @@ public abstract class WaveletGene implements Gene
 		return this.mutability;
 	}
 
-	public MathFunction getExpressionActivityMathFunction()
+	public AbstractMathFunction getExpressionActivityMathFunction()
 	{
 		return this.expressionFunction.getWaveletMathFunction();
 	}
@@ -101,14 +101,14 @@ public abstract class WaveletGene implements Gene
 	}
 
 
-	public void mutate(Set<Key> keyPool)
+	public void mutate(Set<AbstractKey> keyPool)
 	{
 		this.currentActivity = 0.0;
 		this.pendingActivity = 0.0;
 
 		if((keyPool != null)||(keyPool.isEmpty()))
 		{
-			ReceptorKey newReceptor = new ReceptorKey(new ArrayList<Key>(keyPool).get(random.nextInt(keyPool.size())));
+			ReceptorKey newReceptor = new ReceptorKey(new ArrayList<AbstractKey>(keyPool).get(random.nextInt(keyPool.size())));
 			this.expressionFunction.mutate(mutability, newReceptor);
 		}
 		else
@@ -119,5 +119,5 @@ public abstract class WaveletGene implements Gene
 	}
 
 	@Override
-	public abstract WaveletGene clone();
+	public abstract AbstractWaveletGene clone();
 }

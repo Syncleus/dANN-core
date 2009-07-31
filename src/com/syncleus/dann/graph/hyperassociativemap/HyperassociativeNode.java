@@ -27,7 +27,7 @@ public class HyperassociativeNode implements Serializable
 {
 	// <editor-fold defaultstate="collapsed" desc="Attributes">
 
-    private HyperassociativeMap network;
+    private AbstractHyperassociativeMap network;
     private Hashtable<HyperassociativeNode, Double> weightedNeighbors = new Hashtable<HyperassociativeNode, Double>();
     private Hyperpoint location;
     private double equilibriumDistance = 1.0;
@@ -48,7 +48,7 @@ public class HyperassociativeNode implements Serializable
 	 * and any nodes it associates with.
 	 * @since 1.0
 	 */
-	public HyperassociativeNode(HyperassociativeMap network, double learningRate, double equilibriumDistance)
+	public HyperassociativeNode(AbstractHyperassociativeMap network, double learningRate, double equilibriumDistance)
 	{
         this(network, learningRate);
 		this.equilibriumDistance = equilibriumDistance;
@@ -62,7 +62,7 @@ public class HyperassociativeNode implements Serializable
 	 * @param learningRate The learning rate for this node.
 	 * @since 1.0
 	 */
-	public HyperassociativeNode(HyperassociativeMap network, double learningRate)
+	public HyperassociativeNode(AbstractHyperassociativeMap network, double learningRate)
 	{
 		this(network);
 		this.learningRate = learningRate;
@@ -75,7 +75,7 @@ public class HyperassociativeNode implements Serializable
 	 * @param network The network this node will belong to.
 	 * @since 1.0
 	 */
-    public HyperassociativeNode(HyperassociativeMap network)
+    public HyperassociativeNode(AbstractHyperassociativeMap network)
     {
         if (network == null)
             throw new NullPointerException("network can not be null!");
@@ -95,7 +95,7 @@ public class HyperassociativeNode implements Serializable
 	 * and any nodes it associates with.
 	 * @since 1.0
 	 */
-	public HyperassociativeNode(HyperassociativeMap network, Hyperpoint location, double learningRate, double equilibriumDistance)
+	public HyperassociativeNode(AbstractHyperassociativeMap network, Hyperpoint location, double learningRate, double equilibriumDistance)
 	{
 		this(network, location, learningRate);
 		this.equilibriumDistance = equilibriumDistance;
@@ -110,7 +110,7 @@ public class HyperassociativeNode implements Serializable
 	 * @param learningRate The learning rate for this node.
 	 * @since 1.0
 	 */
-	public HyperassociativeNode(HyperassociativeMap network, Hyperpoint location, double learningRate)
+	public HyperassociativeNode(AbstractHyperassociativeMap network, Hyperpoint location, double learningRate)
 	{
 		this(network, location);
 		this.learningRate = learningRate;
@@ -125,7 +125,7 @@ public class HyperassociativeNode implements Serializable
 	 * @param location The initial location of this node.
 	 * @since 1.0
 	 */
-    public HyperassociativeNode(HyperassociativeMap network, Hyperpoint location)
+    public HyperassociativeNode(AbstractHyperassociativeMap network, Hyperpoint location)
     {
         if (location == null)
             throw new NullPointerException("location can not be null!");
@@ -146,7 +146,7 @@ public class HyperassociativeNode implements Serializable
 	 * @return The map this node belongs to.
 	 * @since 1.0
 	 */
-    protected HyperassociativeMap getNetwork()
+    protected AbstractHyperassociativeMap getNetwork()
     {
         return network;
     }

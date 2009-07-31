@@ -20,7 +20,7 @@ package com.syncleus.dann.math;
 
 import java.security.InvalidParameterException;
 
-public class WaveMultidimensionalMathFunction extends MathFunction implements Cloneable
+public class WaveMultidimensionalMathFunction extends AbstractMathFunction implements Cloneable
 {
     private boolean constantMode = false;
     private double constantValue;

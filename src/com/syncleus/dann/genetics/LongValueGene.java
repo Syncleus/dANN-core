@@ -27,7 +27,7 @@ package com.syncleus.dann.genetics;
  * @since 2.0
  *
  */
-public class LongValueGene extends ValueGene<MutableLong>
+public class LongValueGene extends AbstractValueGene<MutableLong>
 {
 	/**
 	 * Initializes a new instance of this class with a value of 0.

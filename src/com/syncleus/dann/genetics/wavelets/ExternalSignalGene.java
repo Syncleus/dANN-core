@@ -17,7 +17,9 @@
  *                                                                             *
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
+
 import java.util.Set;
+
 public class ExternalSignalGene extends SignalGene
 {
 	private boolean outward;
@@ -66,7 +68,7 @@ public class ExternalSignalGene extends SignalGene
 	}
 
 	@Override
-	public void mutate(Set<Key> keyPool)
+	public void mutate(Set<AbstractKey> keyPool)
 	{
 		super.mutate(keyPool);
 

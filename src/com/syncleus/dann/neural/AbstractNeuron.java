@@ -35,7 +35,7 @@ import java.util.*;
  * @since 1.0
  *
  */
-public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> implements Neuron<SN, DN>
+public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends AbstractNeuron> implements Neuron<SN, DN>
 {
     // <editor-fold defaultstate="collapsed" desc="Attributes">
 
@@ -106,7 +106,7 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
      *
      * @since 1.0
      */
-    public NeuronImpl()
+    public AbstractNeuron()
     {
         this.biasWeight = ((random.nextDouble() * 2.0) - 1.0) / 1000.0;
         this.activationFunction = DEFAULT_ACTIVATION_FUNCTION;
@@ -123,7 +123,7 @@ public abstract class NeuronImpl<SN extends NeuronImpl, DN extends NeuronImpl> i
 	 * output fromt he neuron's activity.
 	 * @since 1.0
 	 */
-    public NeuronImpl(ActivationFunction activationFunction)
+    public AbstractNeuron(ActivationFunction activationFunction)
     {
         if (activationFunction == null)
             throw new NullPointerException("activationFunction can not be null");

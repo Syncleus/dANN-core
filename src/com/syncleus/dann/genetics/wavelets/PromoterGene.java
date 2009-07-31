@@ -17,9 +17,11 @@
  *                                                                             *
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
+
 import com.syncleus.dann.genetics.MutableInteger;
 import java.util.Set;
-public class PromoterGene extends WaveletGene
+
+public class PromoterGene extends AbstractWaveletGene
 {
 	private MutableInteger targetDistance;
 
@@ -49,7 +51,7 @@ public class PromoterGene extends WaveletGene
 	}
 
 	@Override
-	public void mutate(Set<Key> keyPool)
+	public void mutate(Set<AbstractKey> keyPool)
 	{
 		super.mutate(keyPool);
 

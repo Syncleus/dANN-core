@@ -25,7 +25,7 @@ package com.syncleus.dann.neural.som.brain;
  * @author Syncleus, Inc.
  * @since 2.0
  */
-public class ExponentialDecaySomBrain extends SomBrain
+public class ExponentialDecaySomBrain extends AbstractSomBrain
 {
 	private int iterationsToConverge;
 	private double initialLearningRate;

@@ -27,7 +27,7 @@ package com.syncleus.dann.genetics;
  * @since 2.0
  *
  */
-public class FloatValueGene extends ValueGene<MutableFloat>
+public class FloatValueGene extends AbstractValueGene<MutableFloat>
 {
 	/**
 	 * Initializes a new instance of this class with a value of 0.

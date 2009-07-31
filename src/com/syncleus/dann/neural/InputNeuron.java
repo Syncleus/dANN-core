@@ -29,7 +29,7 @@ package com.syncleus.dann.neural;
  * @since 1.0
  *
  */
-public interface InputNeuron<SN extends NeuronImpl, DN extends NeuronImpl> extends Neuron<SN, DN>
+public interface InputNeuron<SN extends AbstractNeuron, DN extends AbstractNeuron> extends Neuron<SN, DN>
 {
 	/**
 	 * Sets the current input for this neuron.

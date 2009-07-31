@@ -31,7 +31,7 @@ import java.util.Set;
  * @author Syncleus, Inc.
  * @since 1.0
  */
-public class NeuronGroup<N extends NeuronImpl> implements java.io.Serializable
+public class NeuronGroup<N extends AbstractNeuron> implements java.io.Serializable
 {
     // <editor-fold defaultstate="collapsed" desc="Attributes">
     /**

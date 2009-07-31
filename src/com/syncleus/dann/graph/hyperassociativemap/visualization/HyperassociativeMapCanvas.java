@@ -21,7 +21,7 @@ package com.syncleus.dann.graph.hyperassociativemap.visualization;
 import com.sun.j3d.utils.behaviors.mouse.MouseWheelZoom;
 import com.sun.j3d.utils.behaviors.vp.OrbitBehavior;
 import com.sun.j3d.utils.universe.SimpleUniverse;
-import com.syncleus.dann.graph.hyperassociativemap.HyperassociativeMap;
+import com.syncleus.dann.graph.hyperassociativemap.AbstractHyperassociativeMap;
 import java.awt.GraphicsConfiguration;
 import javax.media.j3d.*;
 import javax.vecmath.*;
@@ -48,7 +48,7 @@ public class HyperassociativeMapCanvas extends Canvas3D
 	 * @param map The HyperassociativeMap to display.
 	 * @since 1.0
 	 */
-    public HyperassociativeMapCanvas(HyperassociativeMap map)
+    public HyperassociativeMapCanvas(AbstractHyperassociativeMap map)
     {
         this(map, SimpleUniverse.getPreferredConfiguration());
     }
@@ -63,7 +63,7 @@ public class HyperassociativeMapCanvas extends Canvas3D
 	 * @param nodeRadius The radius of the spheres representing each node.
 	 * @since 1.0
 	 */
-    public HyperassociativeMapCanvas(HyperassociativeMap map, float nodeRadius)
+    public HyperassociativeMapCanvas(AbstractHyperassociativeMap map, float nodeRadius)
     {
         this(map, SimpleUniverse.getPreferredConfiguration(), nodeRadius);
     }
@@ -78,7 +78,7 @@ public class HyperassociativeMapCanvas extends Canvas3D
 	 * canvas.
 	 * @since 1.0
 	 */
-    public HyperassociativeMapCanvas(HyperassociativeMap map, GraphicsConfiguration configuration)
+    public HyperassociativeMapCanvas(AbstractHyperassociativeMap map, GraphicsConfiguration configuration)
     {
         this(map, configuration, 0.07F);
     }
@@ -95,7 +95,7 @@ public class HyperassociativeMapCanvas extends Canvas3D
 	 * @param nodeRadius The radius of the spheres representing each node.
 	 * @since 1.0
 	 */
-    public HyperassociativeMapCanvas(HyperassociativeMap map, GraphicsConfiguration configuration, float nodeRadius)
+    public HyperassociativeMapCanvas(AbstractHyperassociativeMap map, GraphicsConfiguration configuration, float nodeRadius)
     {
         super(configuration);
         
@@ -131,7 +131,7 @@ public class HyperassociativeMapCanvas extends Canvas3D
 	 * @return The HyperassociativeMap this class is displaying.
 	 * @since 1.0
 	 */
-    public HyperassociativeMap getHyperassociativeMap()
+    public AbstractHyperassociativeMap getHyperassociativeMap()
     {
         return this.mapVisual.getMap();
     }

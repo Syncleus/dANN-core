@@ -78,7 +78,7 @@ public class Nucleus implements Cloneable
 
 	public void mutate()
 	{
-		HashSet<Key> allKeys = new HashSet<Key>();
+		HashSet<AbstractKey> allKeys = new HashSet<AbstractKey>();
 		for(Chromosome chromosome : this.chromosomes)
 			allKeys.addAll(chromosome.getKeys());
 
@@ -86,9 +86,9 @@ public class Nucleus implements Cloneable
 			chromosome.mutate(allKeys);
 	}
 
-	public void mutate(Set<Key> keyPool)
+	public void mutate(Set<AbstractKey> keyPool)
 	{
-		HashSet<Key> allKeys = new HashSet<Key>(keyPool);
+		HashSet<AbstractKey> allKeys = new HashSet<AbstractKey>(keyPool);
 		for(Chromosome chromosome : this.chromosomes)
 			allKeys.addAll(chromosome.getKeys());
 		
