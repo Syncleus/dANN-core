@@ -46,7 +46,7 @@ public abstract class SomBrain extends LocalBrain
 
 	private class PropogateOutput implements Callable<Double>
 	{
-		private SomNeuron neuron;
+		private volatile SomNeuron neuron;
 
 		public PropogateOutput(SomNeuron neuron)
 		{
