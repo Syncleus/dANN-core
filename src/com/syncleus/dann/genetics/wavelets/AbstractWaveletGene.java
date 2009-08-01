@@ -22,7 +22,7 @@ import com.syncleus.dann.genetics.Gene;
 import com.syncleus.dann.math.AbstractMathFunction;
 import java.util.*;
 
-public abstract class AbstractWaveletGene implements Gene
+public abstract class AbstractWaveletGene implements Gene, Cloneable
 {
 	private double currentActivity;
 	private double pendingActivity;
@@ -101,12 +101,12 @@ public abstract class AbstractWaveletGene implements Gene
 	}
 
 
-	public void mutate(Set<AbstractKey> keyPool)
+	public void mutate(Set<AbstractKey> keyPool) throws CloneNotSupportedException
 	{
 		this.currentActivity = 0.0;
 		this.pendingActivity = 0.0;
 
-		if((keyPool != null)||(keyPool.isEmpty()))
+		if((keyPool != null)&&(keyPool.isEmpty()))
 		{
 			ReceptorKey newReceptor = new ReceptorKey(new ArrayList<AbstractKey>(keyPool).get(random.nextInt(keyPool.size())));
 			this.expressionFunction.mutate(mutability, newReceptor);
@@ -119,5 +119,17 @@ public abstract class AbstractWaveletGene implements Gene
 	}
 
 	@Override
-	public abstract AbstractWaveletGene clone();
+	public AbstractWaveletGene clone() throws CloneNotSupportedException
+	{
+		AbstractWaveletGene copy  = (AbstractWaveletGene) super.clone();
+
+		copy.currentActivity = this.currentActivity;
+		copy.pendingActivity = this.pendingActivity;
+		copy.expressionFunction = this.expressionFunction;
+
+		copy.mutability = this.mutability;
+		copy.receivingConcentrations = new HashSet<SignalKeyConcentration>(this.receivingConcentrations);
+
+		return copy;
+	}
 }

@@ -20,7 +20,7 @@ package com.syncleus.dann.genetics.wavelets;
 
 import java.util.Set;
 
-public class ExternalSignalGene extends SignalGene
+public class ExternalSignalGene extends SignalGene implements Cloneable
 {
 	private boolean outward;
 
@@ -62,13 +62,13 @@ public class ExternalSignalGene extends SignalGene
 	}
 
 	@Override
-	public ExternalSignalGene clone()
+	public ExternalSignalGene clone() throws CloneNotSupportedException
 	{
-		return new ExternalSignalGene(this);
+		return (ExternalSignalGene) super.clone();
 	}
 
 	@Override
-	public void mutate(Set<AbstractKey> keyPool)
+	public void mutate(Set<AbstractKey> keyPool) throws CloneNotSupportedException
 	{
 		super.mutate(keyPool);
 

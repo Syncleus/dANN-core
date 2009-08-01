@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
-public class SignalKey extends AbstractKey
+public class SignalKey extends AbstractKey implements Cloneable
 {
 	public SignalKey()
 	{
@@ -30,12 +30,13 @@ public class SignalKey extends AbstractKey
 		super(copy);
 	}
 
-	public SignalKey clone()
+	@Override
+	public SignalKey clone() throws CloneNotSupportedException
 	{
-		return new SignalKey(this);
+		return (SignalKey) super.clone();
 	}
 
-	public SignalKey mutate(double deviation)
+	public SignalKey mutate(double deviation) throws CloneNotSupportedException
 	{
 		SignalKey copy = this.clone();
 		copy.internalMutate(deviation);

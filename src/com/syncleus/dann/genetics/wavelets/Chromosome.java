@@ -37,8 +37,8 @@ public class Chromosome implements Cloneable
 
 	public Chromosome(Chromosome copy)
 	{
-		this.leftChromatid = copy.leftChromatid.clone();
-		this.rightChromatid = copy.rightChromatid.clone();
+		this.leftChromatid = new WaveletChromatid(copy.leftChromatid);
+		this.rightChromatid = new WaveletChromatid(copy.rightChromatid);
 		this.mutability = copy.mutability;
 	}
 
@@ -154,12 +154,16 @@ public class Chromosome implements Cloneable
 	}
 
 	@Override
-	public Chromosome clone()
+	public Chromosome clone() throws CloneNotSupportedException
 	{
-		return new Chromosome(this);
+		Chromosome copy = (Chromosome) super.clone();
+		copy.leftChromatid = new WaveletChromatid(this.leftChromatid);
+		copy.rightChromatid = new WaveletChromatid(this.rightChromatid);
+		copy.mutability = this.mutability;
+		return copy;
 	}
 
-	public void mutate(Set<AbstractKey> keyPool)
+	public void mutate(Set<AbstractKey> keyPool) throws CloneNotSupportedException
 	{
 		if( Mutation.mutationEvent(mutability) )
 			this.crossover(this.mutability);

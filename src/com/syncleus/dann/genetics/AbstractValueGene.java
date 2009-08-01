@@ -28,7 +28,7 @@ package com.syncleus.dann.genetics;
  * @since 2.0
  *
  */
-public abstract class AbstractValueGene<N extends MutableNumber> implements Gene
+public abstract class AbstractValueGene<N extends MutableNumber> implements Gene, Cloneable
 {
 	private N value;
 
@@ -102,8 +102,14 @@ public abstract class AbstractValueGene<N extends MutableNumber> implements Gene
 	 * @return an exact copy of this object.
 	 * @since 2.0
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public abstract AbstractValueGene clone();
+	public AbstractValueGene clone() throws CloneNotSupportedException
+	{
+		 AbstractValueGene copy = (AbstractValueGene) super.clone();
+		 copy.value = (N) this.value;
+		 return copy;
+	}
 
 	/**
 	 * This will make a copy of the object and mutate it. The mutation has
@@ -115,5 +121,5 @@ public abstract class AbstractValueGene<N extends MutableNumber> implements Gene
 	 * @return A copy of the current object with potential mutations.
 	 * @since 2.0
 	 */
-	public abstract AbstractValueGene<N> mutate(double deviation);
+	public abstract AbstractValueGene<N> mutate(double deviation) throws CloneNotSupportedException;
 }

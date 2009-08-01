@@ -21,12 +21,14 @@ package com.syncleus.dann.math;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.TreeSet;
 
 public class WaveletMathFunction extends AbstractMathFunction implements Cloneable
 {
     private TreeSet<String> dimensions = new TreeSet<String>();
-    private ArrayList<WaveMultidimensionalMathFunction> waves = new ArrayList<WaveMultidimensionalMathFunction>();
+    private List<WaveMultidimensionalMathFunction> waves = Collections.synchronizedList(new ArrayList<WaveMultidimensionalMathFunction>());
     //private Hashtable<DistributedFormedWaveMathFunction, String[]> waves = new Hashtable<DistributedFormedWaveMathFunction, String>();
     //private Hashtable<String, WaveMultidimensionalMathFunction[]> waves = new Hashtable<String, WaveMultidimensionalMathFunction[]>();
 
@@ -160,27 +162,15 @@ public class WaveletMathFunction extends AbstractMathFunction implements Cloneab
 
 
 
-    public WaveletMathFunction clone()
+	@Override
+    public WaveletMathFunction clone() throws CloneNotSupportedException
     {
-        String[] dimensionsCopy = new String[this.dimensions.size()];
-        this.dimensions.toArray(dimensionsCopy);
+        WaveletMathFunction copy = (WaveletMathFunction) super.clone();
 
-        WaveletMathFunction copy = new WaveletMathFunction(dimensionsCopy);
-
-        for(WaveMultidimensionalMathFunction wave:this.waves)
-        {
-            copy.waves.add(wave);
-        }
+        copy.waves.addAll(this.waves);
+		copy.dimensions.addAll(this.dimensions);
 
         return copy;
-    /*
-    for( Entry<String, WaveMultidimensionalMathFunction[]> wavePair : waves.entrySet())
-    {
-    //DistributedFormedWaveMathFunction wave = wavePair.getKey();
-    //String dimension = wavePair.getValue();
-    copy.waves.put(wavePair.getKey(), wavePair.getValue().clone());
-    }
-    return copy;*/
     }
 
 

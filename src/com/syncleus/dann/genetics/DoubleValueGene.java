@@ -27,7 +27,7 @@ package com.syncleus.dann.genetics;
  * @since 2.0
  *
  */
-public class DoubleValueGene extends AbstractValueGene<MutableDouble>
+public class DoubleValueGene extends AbstractValueGene<MutableDouble> implements Cloneable
 {
 	/**
 	 * Initializes a new instance of this class with a value of 0.
@@ -90,9 +90,10 @@ public class DoubleValueGene extends AbstractValueGene<MutableDouble>
 	 * @return an exact copy of this object.
 	 * @since 2.0
 	 */
-	public DoubleValueGene clone()
+	@Override
+	public DoubleValueGene clone() throws CloneNotSupportedException
 	{
-		return new DoubleValueGene(this);
+		return (DoubleValueGene) super.clone();
 	}
 
 	/**
@@ -105,7 +106,7 @@ public class DoubleValueGene extends AbstractValueGene<MutableDouble>
 	 * @return A copy of the current object with potential mutations.
 	 * @since 2.0
 	 */
-	public DoubleValueGene mutate(double deviation)
+	public DoubleValueGene mutate(double deviation) throws CloneNotSupportedException
 	{
 		DoubleValueGene copy = this.clone();
 		copy.internalMutate(deviation);

@@ -91,7 +91,7 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
 	 *
 	 * @since 1.0
 	 */
-	protected static Random random = new Random();
+	protected static final Random RANDOM = new Random();
 	
 	private final static HyperbolicTangentActivationFunction DEFAULT_ACTIVATION_FUNCTION = new HyperbolicTangentActivationFunction();
 
@@ -108,7 +108,7 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
      */
     public AbstractNeuron()
     {
-        this.biasWeight = ((random.nextDouble() * 2.0) - 1.0) / 1000.0;
+        this.biasWeight = ((RANDOM.nextDouble() * 2.0) - 1.0) / 1000.0;
         this.activationFunction = DEFAULT_ACTIVATION_FUNCTION;
     }
 
@@ -129,7 +129,7 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
             throw new NullPointerException("activationFunction can not be null");
 
 
-        this.biasWeight = ((this.random.nextDouble() * 2.0) - 1.0) / 1000.0;
+        this.biasWeight = ((this.RANDOM.nextDouble() * 2.0) - 1.0) / 1000.0;
         this.activationFunction = activationFunction;
     }
 
@@ -170,7 +170,7 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
             throw new NullPointerException("outUnit can not be null!");
 
         //connect to the neuron
-        Synapse newSynapse = new Synapse(this, outUnit, ((this.random.nextDouble() * 2.0) - 1.0) / 10000.0);
+        Synapse newSynapse = new Synapse(this, outUnit, ((this.RANDOM.nextDouble() * 2.0) - 1.0) / 10000.0);
         this.destinations.add(newSynapse);
         outUnit.connectFrom(newSynapse);
 

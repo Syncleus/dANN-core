@@ -20,6 +20,11 @@ package com.syncleus.dann.math;
 
 public class FormedWaveMathFunction extends WaveMathFunction
 {
+	public FormedWaveMathFunction(FormedWaveMathFunction copy)
+	{
+		super(copy);
+	}
+	
     public FormedWaveMathFunction()
     {
         super(new String[]{"form"});
@@ -49,10 +54,11 @@ public class FormedWaveMathFunction extends WaveMathFunction
         
         return (super.calculate()/Math.abs(super.calculate())) * Math.abs(Math.pow(Math.abs(super.calculate()/this.getAmplitude()),this.getForm()) * this.getAmplitude() );
     }
-    
-    public FormedWaveMathFunction clone()
+
+	@Override
+    public FormedWaveMathFunction clone() throws CloneNotSupportedException
     {
-        FormedWaveMathFunction copy = new FormedWaveMathFunction();
+        FormedWaveMathFunction copy = (FormedWaveMathFunction) super.clone();
         copy.setX(this.getX());
         copy.setFrequency(this.getFrequency());
         copy.setPhase(this.getPhase());

@@ -20,7 +20,7 @@ package com.syncleus.dann.genetics.wavelets;
 
 import java.util.Map.Entry;
 
-public class ReceptorKey extends AbstractKey
+public class ReceptorKey extends AbstractKey implements Cloneable
 {
 	public ReceptorKey()
 	{
@@ -67,12 +67,13 @@ public class ReceptorKey extends AbstractKey
 		return false;
 	}
 
-	public ReceptorKey clone()
+	@Override
+	public ReceptorKey clone() throws CloneNotSupportedException
 	{
-		return new ReceptorKey(this);
+		return (ReceptorKey) super.clone();
 	}
 
-	public ReceptorKey mutate(double deviation)
+	public ReceptorKey mutate(double deviation) throws CloneNotSupportedException
 	{
 		ReceptorKey copy = this.clone();
 		copy.internalMutate(deviation);

@@ -30,7 +30,7 @@ import java.util.Random;
  * @since 2.0
  *
  */
-public abstract class MutableNumber<N extends Number> extends Number
+public abstract class MutableNumber<N extends Number> extends Number implements Cloneable
 {
 	private static Random random = Mutation.getRandom();
 
@@ -190,8 +190,14 @@ public abstract class MutableNumber<N extends Number> extends Number
 	 * @return an exact copy of this object.
 	 * @since 2.0
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public abstract MutableNumber<N> clone();
+	public MutableNumber<N> clone() throws CloneNotSupportedException
+	{
+		MutableNumber<N> copy = (MutableNumber<N>) super.clone();
+		copy.number = this.number;
+		return copy;
+	}
 
 	/**
 	 * This will make a copy of the object and mutate it. The mutation has

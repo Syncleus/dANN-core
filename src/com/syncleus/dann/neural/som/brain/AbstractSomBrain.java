@@ -44,7 +44,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	private ArrayList<SomInputNeuron> inputs = new ArrayList<SomInputNeuron>();
 	private Hashtable<Hyperpoint, SomNeuron> outputs = new Hashtable<Hyperpoint, SomNeuron>();
 
-	private class PropogateOutput implements Callable<Double>
+	private static class PropogateOutput implements Callable<Double>
 	{
 		private SomNeuron neuron;
 
@@ -65,16 +65,14 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 		private SomNeuron neuron;
 		private Hyperpoint neuronPoint;
 		private Hyperpoint bestMatchPoint;
-		private AbstractSomBrain brain;
 		private double neighborhoodRadius;
 		private double learningRate;
 
-		public TrainNeuron(SomNeuron neuron, Hyperpoint neuronPoint, Hyperpoint bestMatchPoint, double neighborhoodRadius, double learningRate, AbstractSomBrain brain)
+		public TrainNeuron(SomNeuron neuron, Hyperpoint neuronPoint, Hyperpoint bestMatchPoint, double neighborhoodRadius, double learningRate)
 		{
 			this.neuron = neuron;
 			this.neuronPoint = neuronPoint;
 			this.bestMatchPoint = bestMatchPoint;
-			this.brain = brain;
 			this.neighborhoodRadius = neighborhoodRadius;
 			this.learningRate = learningRate;
 		}
@@ -84,7 +82,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 			double currentDistance = this.neuronPoint.calculateRelativeTo(this.bestMatchPoint).getDistance();
 			if( currentDistance < this.neighborhoodRadius)
 			{
-				double neighborhoodAdjustment = this.brain.neighborhoodFunction(currentDistance);
+				double neighborhoodAdjustment = neighborhoodFunction(currentDistance);
 				this.neuron.train(this.learningRate, neighborhoodAdjustment);
 			}
 		}
@@ -270,7 +268,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 		ArrayList<Future> futures = new ArrayList<Future>();
 		for(Entry<Hyperpoint, SomNeuron> entry : this.outputs.entrySet())
 		{
-			TrainNeuron runnable = new TrainNeuron(entry.getValue(), entry.getKey(), bestMatchingUnit, neighborhoodRadius, learningRate, this);
+			TrainNeuron runnable = new TrainNeuron(entry.getValue(), entry.getKey(), bestMatchingUnit, neighborhoodRadius, learningRate);
 			futures.add(this.getThreadExecutor().submit(runnable));
 		}
 

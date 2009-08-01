@@ -30,7 +30,7 @@ import java.util.*;
  * @since 2.0
  *
  */
-public interface Chromatid<G extends Gene>
+public interface Chromatid<G extends Gene> extends Cloneable
 {
 	/**
 	 * Gets an unmodifiable List of all the genes. The index of the genes
@@ -71,5 +71,5 @@ public interface Chromatid<G extends Gene>
 	 * @return an exact copy of this object.
 	 * @since 2.0
 	 */
-	public Chromatid<G> clone();
+	public Chromatid<G> clone() throws CloneNotSupportedException;
 }

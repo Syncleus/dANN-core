@@ -27,7 +27,7 @@ package com.syncleus.dann.genetics;
  * @since 2.0
  *
  */
-public class IntegerValueGene extends AbstractValueGene<MutableInteger>
+public class IntegerValueGene extends AbstractValueGene<MutableInteger> implements Cloneable
 {
 	/**
 	 * Initializes a new instance of this class with a value of 0.
@@ -90,9 +90,10 @@ public class IntegerValueGene extends AbstractValueGene<MutableInteger>
 	 * @return an exact copy of this object.
 	 * @since 2.0
 	 */
-	public IntegerValueGene clone()
+	@Override
+	public IntegerValueGene clone() throws CloneNotSupportedException
 	{
-		return new IntegerValueGene(this);
+		return (IntegerValueGene) super.clone();
 	}
 
 	/**
@@ -105,7 +106,7 @@ public class IntegerValueGene extends AbstractValueGene<MutableInteger>
 	 * @return A copy of the current object with potential mutations.
 	 * @since 2.0
 	 */
-	public IntegerValueGene mutate(double deviation)
+	public IntegerValueGene mutate(double deviation) throws CloneNotSupportedException
 	{
 		IntegerValueGene copy = this.clone();
 		copy.internalMutate(deviation);

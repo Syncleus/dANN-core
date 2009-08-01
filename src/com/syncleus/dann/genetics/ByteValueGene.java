@@ -27,7 +27,7 @@ package com.syncleus.dann.genetics;
  * @since 2.0
  *
  */
-public class ByteValueGene extends AbstractValueGene<MutableByte>
+public class ByteValueGene extends AbstractValueGene<MutableByte> implements Cloneable
 {
 	/**
 	 * Initializes a new instance of this class with a value of 0.
@@ -90,9 +90,10 @@ public class ByteValueGene extends AbstractValueGene<MutableByte>
 	 * @return an exact copy of this object.
 	 * @since 2.0
 	 */
-	public ByteValueGene clone()
+	@Override
+	public ByteValueGene clone() throws CloneNotSupportedException
 	{
-		return new ByteValueGene(this);
+		return (ByteValueGene) super.clone();
 	}
 
 	/**
@@ -105,7 +106,7 @@ public class ByteValueGene extends AbstractValueGene<MutableByte>
 	 * @return A copy of the current object with potential mutations.
 	 * @since 2.0
 	 */
-	public ByteValueGene mutate(double deviation)
+	public ByteValueGene mutate(double deviation) throws CloneNotSupportedException
 	{
 		ByteValueGene copy = this.clone();
 		copy.internalMutate(deviation);

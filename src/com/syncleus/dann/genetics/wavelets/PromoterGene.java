@@ -21,7 +21,7 @@ package com.syncleus.dann.genetics.wavelets;
 import com.syncleus.dann.genetics.MutableInteger;
 import java.util.Set;
 
-public class PromoterGene extends AbstractWaveletGene
+public class PromoterGene extends AbstractWaveletGene implements Cloneable
 {
 	private MutableInteger targetDistance;
 
@@ -45,13 +45,17 @@ public class PromoterGene extends AbstractWaveletGene
 	}
 
 	@Override
-	public PromoterGene clone()
+	public PromoterGene clone() throws CloneNotSupportedException
 	{
-		return new PromoterGene(this);
+		PromoterGene copy = (PromoterGene) super.clone();
+
+		copy.targetDistance = this.targetDistance;
+
+		return copy;
 	}
 
 	@Override
-	public void mutate(Set<AbstractKey> keyPool)
+	public void mutate(Set<AbstractKey> keyPool) throws CloneNotSupportedException
 	{
 		super.mutate(keyPool);
 

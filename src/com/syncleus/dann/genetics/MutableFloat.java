@@ -26,7 +26,7 @@ package com.syncleus.dann.genetics;
  * @since 2.0
  *
  */
-public class MutableFloat extends MutableNumber<Float> implements Comparable<MutableFloat>
+public class MutableFloat extends MutableNumber<Float> implements Comparable<MutableFloat>, Cloneable
 {
 	/**
 	 * Initializes a new instance of this class with the specified value.
@@ -69,9 +69,10 @@ public class MutableFloat extends MutableNumber<Float> implements Comparable<Mut
 	 * @return a new exact copy of this object with the same value.
 	 * @since 2.0
 	 */
-	public MutableFloat clone()
+	@Override
+	public MutableFloat clone() throws CloneNotSupportedException
 	{
-		return new MutableFloat(this.getNumber());
+		return (MutableFloat) super.clone();
 	}
 
 	/**

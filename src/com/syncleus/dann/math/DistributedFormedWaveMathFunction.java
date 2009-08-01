@@ -37,6 +37,14 @@ public class DistributedFormedWaveMathFunction extends FormedWaveMathFunction
     }
 
 
+	public DistributedFormedWaveMathFunction(DistributedFormedWaveMathFunction copy)
+	{
+		super(copy);
+		this.constantMode = copy.constantMode;
+		this.constantValue = copy.constantValue;
+	}
+
+
 
     public DistributedFormedWaveMathFunction()
     {
@@ -107,9 +115,10 @@ public class DistributedFormedWaveMathFunction extends FormedWaveMathFunction
 
 
 
-    public DistributedFormedWaveMathFunction clone()
+	@Override
+    public DistributedFormedWaveMathFunction clone() throws CloneNotSupportedException
     {
-        DistributedFormedWaveMathFunction copy = new DistributedFormedWaveMathFunction();
+        DistributedFormedWaveMathFunction copy = (DistributedFormedWaveMathFunction)super.clone();
         copy.setX(this.getX());
         copy.setFrequency(this.getFrequency());
         copy.setPhase(this.getPhase());

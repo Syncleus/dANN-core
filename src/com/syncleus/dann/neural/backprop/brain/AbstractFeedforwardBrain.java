@@ -34,7 +34,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
 
 
 
-	private class Propogate implements Runnable
+	private static class Propogate implements Runnable
 	{
 		private BackpropNeuron neuron;
 
@@ -49,7 +49,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
 		}
 	}
 
-	private class BackPropogate implements Runnable
+	private static class BackPropogate implements Runnable
 	{
 		private BackpropNeuron neuron;
 

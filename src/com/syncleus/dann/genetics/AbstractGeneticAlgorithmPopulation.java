@@ -44,7 +44,7 @@ public abstract class AbstractGeneticAlgorithmPopulation
 	private int generations;
 	private ThreadPoolExecutor threadExecutor;
 
-	private class Process implements Runnable
+	private static class Process implements Runnable
 	{
 		private AbstractGeneticAlgorithmFitnessFunction fitnessFunction;
 
@@ -242,8 +242,15 @@ public abstract class AbstractGeneticAlgorithmPopulation
 			GeneticAlgorithmChromosome child1 = this.getRandomMember();
 			GeneticAlgorithmChromosome child2 = this.getRandomMember();
 
-			child1 = child1.mutate(mutationDeviation);
-			child2 = child2.mutate(mutationDeviation);
+			try
+			{
+				child1 = child1.mutate(mutationDeviation);
+				child2 = child2.mutate(mutationDeviation);
+			}
+			catch(CloneNotSupportedException caughtException)
+			{
+				throw new AssertionError("cloning not supported on a class being mutated");
+			}
 
 			//crossover performed on children
 			if(random.nextDouble() < this.crossoverPercentage)

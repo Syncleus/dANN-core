@@ -231,12 +231,31 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
         return compareWith.id.compareTo(this.id);
     }
 
+	@Override
+	public boolean equals(Object compareWithObject)
+	{
+		return this.id.equals(compareWithObject);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return super.hashCode();
+	}
+
 
 
     public WaveletMathFunction getWavelet()
     {
-        this.reconstructWavelet();
-        return this.wavelet.clone();
+		try
+		{
+			this.reconstructWavelet();
+			return this.wavelet.clone();
+		}
+		catch(CloneNotSupportedException caughtException)
+		{
+			throw new AssertionError("WaveletMathFunctions should be clonable");
+		}
     }
 
 
@@ -266,9 +285,10 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 
 
 
-    public SignalProcessingWavelet clone()
+	@Override
+    public SignalProcessingWavelet clone() throws CloneNotSupportedException
     {
-        SignalProcessingWavelet copy = new SignalProcessingWavelet();
+        SignalProcessingWavelet copy = (SignalProcessingWavelet) super.clone();
         copy.signals = new TreeSet<SignalConcentration>(this.signals);
         copy.waves = new ArrayList<WaveMultidimensionalMathFunction>(this.waves);
 
@@ -277,31 +297,6 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
         copy.id = this.id;
         return copy;
     }
-
-
-/*
-    public SignalProcessingWavelet clone(Cell cell)
-    {
-        SignalProcessingWavelet newWavelet = this.clone();
-        newWavelet.setCell(cell);
-
-        return newWavelet;
-    }
-*/
-
-/*
-    void setCell(Cell cell)
-    {
-        this.cell = cell;
-
-        this.output = this.cell.updateSignal(this.output);
-        TreeSet<Signal> newSignals = new TreeSet<Signal>();
-        for(Signal dimension:this.signals)
-        {
-            newSignals.add(this.cell.updateSignal(dimension));
-        }
-        this.signals = newSignals;
-    }*/
 
 
 
@@ -339,7 +334,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
      * 
      * @return New mutated wavelet
      */
-    public SignalProcessingWavelet mutate(double deviation)
+    public SignalProcessingWavelet mutate(double deviation) throws CloneNotSupportedException
     {
         SignalProcessingWavelet copy = this.clone();
 
@@ -428,7 +423,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
      * @param newSignal The new signal to incorperate.
      * @return New mutated wavelet
      */
-    public SignalProcessingWavelet mutate(double deviation, SignalConcentration newSignal)
+    public SignalProcessingWavelet mutate(double deviation, SignalConcentration newSignal) throws CloneNotSupportedException
     {
         SignalProcessingWavelet copy = this.clone();
         copy.signals.add(newSignal);
@@ -556,7 +551,15 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
             WaveMultidimensionalMathFunction[] wavesArray = new WaveMultidimensionalMathFunction[this.waves.size()];
             this.waves.toArray(wavesArray);
             WaveMultidimensionalMathFunction randomWave = wavesArray[random.nextInt(wavesArray.length)];
-            WaveMultidimensionalMathFunction newWave = randomWave.clone();
+			WaveMultidimensionalMathFunction newWave;
+			try
+			{
+				newWave = randomWave.clone();
+			}
+			catch(CloneNotSupportedException caughtException)
+			{
+				throw new AssertionError("newWave should be cloneable");
+			}
 
             if(random.nextDouble() <= 1.0)
             {

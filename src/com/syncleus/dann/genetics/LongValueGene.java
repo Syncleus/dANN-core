@@ -27,7 +27,7 @@ package com.syncleus.dann.genetics;
  * @since 2.0
  *
  */
-public class LongValueGene extends AbstractValueGene<MutableLong>
+public class LongValueGene extends AbstractValueGene<MutableLong> implements Cloneable
 {
 	/**
 	 * Initializes a new instance of this class with a value of 0.
@@ -90,9 +90,10 @@ public class LongValueGene extends AbstractValueGene<MutableLong>
 	 * @return an exact copy of this object.
 	 * @since 2.0
 	 */
-	public LongValueGene clone()
+	@Override
+	public LongValueGene clone() throws CloneNotSupportedException
 	{
-		return new LongValueGene(this);
+		return (LongValueGene) super.clone();
 	}
 
 	/**
@@ -105,7 +106,7 @@ public class LongValueGene extends AbstractValueGene<MutableLong>
 	 * @return A copy of the current object with potential mutations.
 	 * @since 2.0
 	 */
-	public LongValueGene mutate(double deviation)
+	public LongValueGene mutate(double deviation) throws CloneNotSupportedException
 	{
 		LongValueGene copy = this.clone();
 		copy.internalMutate(deviation);

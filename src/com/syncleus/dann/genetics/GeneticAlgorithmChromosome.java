@@ -29,7 +29,7 @@ import java.util.*;
  * @since 2.0
  *
  */
-public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>
+public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>, Cloneable
 {
 	private Vector<AbstractValueGene> alleles;
 	private static Random random = new Random();
@@ -151,9 +151,11 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>
 	 * @since 2.0
 	 */
 	@Override
-	public GeneticAlgorithmChromosome clone()
+	public GeneticAlgorithmChromosome clone() throws CloneNotSupportedException
 	{
-		return new GeneticAlgorithmChromosome(this);
+		GeneticAlgorithmChromosome copy = (GeneticAlgorithmChromosome) super.clone();
+		copy.alleles = new Vector<AbstractValueGene>(this.alleles);
+		return copy;
 	}
 
 	/**
@@ -167,7 +169,7 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>
 	 * @return A copy of the current object with potential mutations.
 	 * @since 2.0
 	 */
-	public GeneticAlgorithmChromosome mutate(double deviation)
+	public GeneticAlgorithmChromosome mutate(double deviation) throws CloneNotSupportedException
 	{
 		GeneticAlgorithmChromosome mutated = new GeneticAlgorithmChromosome();
 		for(AbstractValueGene allele : this.alleles)

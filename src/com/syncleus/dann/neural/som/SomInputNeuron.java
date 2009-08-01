@@ -94,7 +94,7 @@ public class SomInputNeuron extends AbstractNeuron<AbstractNeuron, SomNeuron> im
             throw new NullPointerException("outUnit can not be null!");
 
         //connect to the neuron
-        Synapse newSynapse = new Synapse(this, outUnit, this.random.nextDouble());
+        Synapse newSynapse = new Synapse(this, outUnit, RANDOM.nextDouble());
         this.destinations.add(newSynapse);
         outUnit.connectFrom(newSynapse);
 

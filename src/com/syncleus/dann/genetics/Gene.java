@@ -26,7 +26,7 @@ package com.syncleus.dann.genetics;
  * @since 2.0
  *
  */
-public interface Gene
+public interface Gene extends Cloneable
 {
 	/**
 	 * All children of this class should override this method and return
@@ -36,7 +36,7 @@ public interface Gene
 	 * @return an exact copy of this object.
 	 * @since 2.0
 	 */
-	public Gene clone();
+	public Gene clone() throws CloneNotSupportedException;
 
 	/**
 	 * The current expression activity. The meaning of this value depends on the

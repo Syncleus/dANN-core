@@ -28,7 +28,7 @@ public class Cell
 
 	public Cell(Cell copy)
 	{
-		this.nucleus = copy.nucleus.clone();
+		this.nucleus = new Nucleus(copy.nucleus);
 		this.localConcentrations  = new HashSet<SignalKeyConcentration>(copy.localConcentrations);
 	}
 

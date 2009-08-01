@@ -24,6 +24,11 @@ public class WaveMathFunction extends AbstractMathFunction implements Cloneable
     {
         super(new String[]{"x", "frequency", "amplitude", "phase"});
     }
+
+	public WaveMathFunction(WaveMathFunction copy)
+	{
+		super(copy);
+	}
     
     protected WaveMathFunction(String[] parameterNames)
     {
@@ -77,9 +82,9 @@ public class WaveMathFunction extends AbstractMathFunction implements Cloneable
         return Math.sin( (this.getX()+(this.getPhase()/360)) * 2 * Math.PI * this.getFrequency()) * this.getAmplitude();
     }
     
-    public WaveMathFunction clone()
+    public WaveMathFunction clone() throws CloneNotSupportedException
     {
-        WaveMathFunction copy = new WaveMathFunction();
+        WaveMathFunction copy = (WaveMathFunction) super.clone();
         copy.setX(this.getX());
         copy.setFrequency(this.getFrequency());
         copy.setPhase(this.getPhase());

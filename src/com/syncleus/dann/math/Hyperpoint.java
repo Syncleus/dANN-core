@@ -351,15 +351,17 @@ public class Hyperpoint implements Serializable
 	public String toString()
 	{
 		double currentCoords[] = this.coordinates.clone();
-		String stringValue = "{";
+		StringBuffer stringValue = new StringBuffer("{");
 		for(int dimension = 0; dimension < currentCoords.length; dimension++)
 		{
-			stringValue += currentCoords[dimension];
+			stringValue.append(currentCoords[dimension]);
 			if(dimension < (currentCoords.length-1))
-				stringValue += ",";
+				stringValue.append(",");
 		}
 
-		return stringValue + "}";
+		stringValue.append("}");
+
+		return stringValue.toString();
 	}
 
 	/**
@@ -374,14 +376,14 @@ public class Hyperpoint implements Serializable
 	{
 		synchronized(this)
 		{
-			String retString = this.getDistance() + "@";
+			StringBuffer retString = new StringBuffer(this.getDistance() + "@");
 			for(int angleDimension = 1; angleDimension < this.getDimensions(); angleDimension++)
 			{
-				retString += this.getAngularComponent(angleDimension);
+				retString.append(this.getAngularComponent(angleDimension));
 				if(angleDimension < this.getDimensions() - 1)
-					retString += ",";
+					retString.append(",");
 			}
-			return retString;
+			return retString.toString();
 		}
 	}
 

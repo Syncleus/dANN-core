@@ -48,7 +48,7 @@ public abstract class AbstractHyperassociativeMap implements Serializable
 	private int dimensions;
 	private ThreadPoolExecutor threadExecutor;
 
-	private class Align implements Callable<Hyperpoint>
+	private static class Align implements Callable<Hyperpoint>
 	{
 		private HyperassociativeNode node;
 

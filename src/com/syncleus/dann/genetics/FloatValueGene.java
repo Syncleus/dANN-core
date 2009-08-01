@@ -27,7 +27,7 @@ package com.syncleus.dann.genetics;
  * @since 2.0
  *
  */
-public class FloatValueGene extends AbstractValueGene<MutableFloat>
+public class FloatValueGene extends AbstractValueGene<MutableFloat> implements Cloneable
 {
 	/**
 	 * Initializes a new instance of this class with a value of 0.
@@ -90,9 +90,10 @@ public class FloatValueGene extends AbstractValueGene<MutableFloat>
 	 * @return an exact copy of this object.
 	 * @since 2.0
 	 */
-	public FloatValueGene clone()
+	@Override
+	public FloatValueGene clone() throws CloneNotSupportedException
 	{
-		return new FloatValueGene(this);
+		return (FloatValueGene) super.clone();
 	}
 
 	/**
@@ -105,7 +106,7 @@ public class FloatValueGene extends AbstractValueGene<MutableFloat>
 	 * @return A copy of the current object with potential mutations.
 	 * @since 2.0
 	 */
-	public FloatValueGene mutate(double deviation)
+	public FloatValueGene mutate(double deviation) throws CloneNotSupportedException
 	{
 		FloatValueGene copy = this.clone();
 		copy.internalMutate(deviation);

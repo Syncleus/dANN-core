@@ -22,11 +22,13 @@ import java.util.*;
 
 public class Nucleus implements Cloneable
 {
-	private ArrayList<Chromosome> chromosomes;
+	private final ArrayList<Chromosome> chromosomes;
 	private double mutability;
 
 	public Nucleus()
 	{
+		this.chromosomes = new ArrayList<Chromosome>();
+
 		this.mutability = Mutation.getRandom().nextDouble() * 10.0;
 
 		//make sure there is atleast one starting chromosome.
@@ -41,7 +43,7 @@ public class Nucleus implements Cloneable
 	{
 		this.chromosomes = new ArrayList<Chromosome>();
 		for(Chromosome chromosome : copy.chromosomes)
-			this.chromosomes.add(chromosome.clone());
+			this.chromosomes.add(new Chromosome(chromosome));
 	}
 
 	protected List<Chromosome> getChromosomes()
@@ -71,12 +73,15 @@ public class Nucleus implements Cloneable
 	}
 
 	@Override
-	public Nucleus clone()
+	public Nucleus clone() throws CloneNotSupportedException
 	{
-		return new Nucleus(this);
+		Nucleus copy = (Nucleus) super.clone();
+		for(Chromosome chromosome : this.chromosomes)
+			copy.chromosomes.add(new Chromosome(chromosome));
+		return copy;
 	}
 
-	public void mutate()
+	public void mutate() throws CloneNotSupportedException
 	{
 		HashSet<AbstractKey> allKeys = new HashSet<AbstractKey>();
 		for(Chromosome chromosome : this.chromosomes)
@@ -86,7 +91,7 @@ public class Nucleus implements Cloneable
 			chromosome.mutate(allKeys);
 	}
 
-	public void mutate(Set<AbstractKey> keyPool)
+	public void mutate(Set<AbstractKey> keyPool) throws CloneNotSupportedException
 	{
 		HashSet<AbstractKey> allKeys = new HashSet<AbstractKey>(keyPool);
 		for(Chromosome chromosome : this.chromosomes)

@@ -28,6 +28,31 @@ public class WaveMultidimensionalMathFunction extends AbstractMathFunction imple
     private String[] dimensionNames = null;
     
     DistributedFormedWaveMathFunction wave = new DistributedFormedWaveMathFunction();
+
+	public WaveMultidimensionalMathFunction(WaveMultidimensionalMathFunction copy)
+	{
+		super(copy);
+
+		copy.dimensionNames = this.dimensionNames.clone();
+        copy.constantMode = this.constantMode;
+        copy.constantValue = this.constantValue;
+
+		
+        this.setFrequency(copy.getFrequency());
+        this.setPhase(copy.getPhase());
+        this.setAmplitude(copy.getAmplitude());
+        this.setForm(copy.getForm());
+        this.setDistribution(copy.getDistribution());
+        for(String dimensionName : copy.dimensionNames )
+        {
+            double dimensionValue = copy.getDimension(dimensionName);
+            double centerValue = copy.getCenter(dimensionName);
+            this.setDimension(dimensionName, dimensionValue);
+            this.setCenter(dimensionName, centerValue);
+        }
+        this.constantMode = copy.constantMode;
+        this.constantValue = copy.constantValue;
+	}
     
     public WaveMultidimensionalMathFunction(double constantValue)
     {
@@ -182,9 +207,16 @@ public class WaveMultidimensionalMathFunction extends AbstractMathFunction imple
 
 
 
-    public WaveMultidimensionalMathFunction clone()
+	@Override
+    public WaveMultidimensionalMathFunction clone() throws CloneNotSupportedException
     {
-        WaveMultidimensionalMathFunction copy = new WaveMultidimensionalMathFunction(this.dimensionNames);
+        WaveMultidimensionalMathFunction copy = (WaveMultidimensionalMathFunction)super.clone();
+
+		copy.wave = this.wave.clone();
+		copy.dimensionNames = this.dimensionNames.clone();
+        copy.constantMode = this.constantMode;
+        copy.constantValue = this.constantValue;
+/*
         copy.setFrequency(this.getFrequency());
         copy.setPhase(this.getPhase());
         copy.setAmplitude(this.getAmplitude());
@@ -198,7 +230,8 @@ public class WaveMultidimensionalMathFunction extends AbstractMathFunction imple
             copy.setCenter(dimensionName, centerValue);
         }
         copy.constantMode = this.constantMode;
-        copy.constantValue = this.constantValue;
+        copy.constantValue = this.constantValue;*/
+
         return copy;
     }
 

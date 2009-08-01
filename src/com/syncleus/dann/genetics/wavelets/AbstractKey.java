@@ -21,7 +21,7 @@ package com.syncleus.dann.genetics.wavelets;
 import com.syncleus.dann.genetics.MutableInteger;
 import java.util.*;
 
-public abstract class AbstractKey
+public abstract class AbstractKey implements Cloneable
 {
 	private HashMap<Integer, Boolean> points;
 	private static Random random = new Random();
@@ -72,6 +72,12 @@ public abstract class AbstractKey
 	}
 	
 	@Override
-	public abstract AbstractKey clone();
-	public abstract AbstractKey mutate(double deviation);
+	public AbstractKey clone() throws CloneNotSupportedException
+	{
+		AbstractKey copy = (AbstractKey) super.clone();
+		copy.points = this.points;
+		return copy;
+	}
+
+	public abstract AbstractKey mutate(double deviation) throws CloneNotSupportedException;
 }

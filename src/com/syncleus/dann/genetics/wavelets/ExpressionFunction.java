@@ -21,7 +21,7 @@ package com.syncleus.dann.genetics.wavelets;
 import com.syncleus.dann.math.*;
 import java.util.*;
 
-public class ExpressionFunction
+public class ExpressionFunction implements Cloneable
 {
     private static Random random = Mutation.getRandom();
     HashSet<ReceptorKey> receptors;
@@ -74,8 +74,15 @@ public class ExpressionFunction
 
     public WaveletMathFunction getWavelet()
     {
-        this.reconstructWavelet();
-        return this.wavelet.clone();
+		try
+		{
+			this.reconstructWavelet();
+			return this.wavelet.clone();
+		}
+		catch(CloneNotSupportedException caughtException)
+		{
+			throw new AssertionError("WaveletMathFunctions should be clonable");
+		}
     }
 
 
@@ -116,7 +123,20 @@ public class ExpressionFunction
 	@Override
     public ExpressionFunction clone()
     {
-        return new ExpressionFunction(this);
+		ExpressionFunction copy ;
+		try
+		{
+			copy = (ExpressionFunction) super.clone();
+		}
+		catch(CloneNotSupportedException caughtException)
+		{
+			throw new AssertionError("Clone should be supported");
+		}
+		copy.receptors = new HashSet<ReceptorKey>(this.receptors);
+		copy.waves = new ArrayList<WaveMultidimensionalMathFunction>(this.waves);
+		copy.wavelet = this.wavelet;
+
+		return copy;
     }
 
 
@@ -311,7 +331,7 @@ public class ExpressionFunction
             WaveMultidimensionalMathFunction[] wavesArray = new WaveMultidimensionalMathFunction[this.waves.size()];
             this.waves.toArray(wavesArray);
             WaveMultidimensionalMathFunction randomWave = wavesArray[random.nextInt(wavesArray.length)];
-            WaveMultidimensionalMathFunction newWave = randomWave.clone();
+            WaveMultidimensionalMathFunction newWave = new WaveMultidimensionalMathFunction(randomWave);
 
             if(random.nextDouble() <= 1.0)
                 newWave.setFrequency(newWave.getFrequency() + ((random.nextFloat() * 2 - 1) * 0.01));

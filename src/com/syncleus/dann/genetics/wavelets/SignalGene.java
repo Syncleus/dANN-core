@@ -20,7 +20,7 @@ package com.syncleus.dann.genetics.wavelets;
 
 import java.util.*;
 
-public class SignalGene extends AbstractWaveletGene
+public class SignalGene extends AbstractWaveletGene implements Cloneable
 {
 	private SignalKey outputSignal;
 	protected SignalKeyConcentration expressingConcentration;
@@ -72,13 +72,15 @@ public class SignalGene extends AbstractWaveletGene
 	}
 
 	@Override
-	public SignalGene clone()
+	public SignalGene clone() throws CloneNotSupportedException
 	{
-		return new SignalGene(this);
+		SignalGene copy = (SignalGene) super.clone();
+		copy.outputSignal = this.outputSignal;
+		return copy;
 	}
 
 	@Override
-	public void mutate(Set<AbstractKey> keyPool)
+	public void mutate(Set<AbstractKey> keyPool) throws CloneNotSupportedException
 	{
 		super.mutate(keyPool);
 		this.outputSignal = this.outputSignal.mutate(this.getMutability());

@@ -25,8 +25,15 @@ public abstract class AbstractMathFunction
 {
     private double[] parameters;
     private String[] parameterNames;
-    private Hashtable<String,Integer> indexNames = new Hashtable<String,Integer>();
-    
+    private final Hashtable<String,Integer> indexNames = new Hashtable<String,Integer>();
+
+	protected AbstractMathFunction(AbstractMathFunction copy)
+	{
+		this.parameters = copy.parameters.clone();
+		this.parameterNames = copy.parameterNames.clone();
+		this.indexNames.putAll(copy.indexNames);
+	}
+
     protected AbstractMathFunction(String[] parameterNames)
     {
         if(parameterNames.length <= 0)
@@ -111,8 +118,18 @@ public abstract class AbstractMathFunction
     {
         return this.parameters.length;
     }
-    
-    public abstract AbstractMathFunction clone();
+
+	@Override
+	@SuppressWarnings("unchecked")
+    public AbstractMathFunction clone() throws CloneNotSupportedException
+	{
+		AbstractMathFunction copy = (AbstractMathFunction) super.clone();
+		copy.indexNames.putAll(this.indexNames);
+		copy.parameterNames = this.parameterNames.clone();
+		copy.parameters = this.parameters.clone();
+		return copy;
+	}
+
     public abstract double calculate();
     public abstract String toString();
 }

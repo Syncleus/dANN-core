@@ -27,7 +27,7 @@ package com.syncleus.dann.genetics;
  * @since 2.0
  *
  */
-public class ShortValueGene extends AbstractValueGene<MutableShort>
+public class ShortValueGene extends AbstractValueGene<MutableShort> implements Cloneable
 {
 	/**
 	 * Initializes a new instance of this class with a value of 0.
@@ -90,9 +90,10 @@ public class ShortValueGene extends AbstractValueGene<MutableShort>
 	 * @return an exact copy of this object.
 	 * @since 2.0
 	 */
-	public ShortValueGene clone()
+	@Override
+	public ShortValueGene clone() throws CloneNotSupportedException
 	{
-		return new ShortValueGene(this);
+		return (ShortValueGene) super.clone();
 	}
 
 	/**
@@ -105,7 +106,7 @@ public class ShortValueGene extends AbstractValueGene<MutableShort>
 	 * @return A copy of the current object with potential mutations.
 	 * @since 2.0
 	 */
-	public ShortValueGene mutate(double deviation)
+	public ShortValueGene mutate(double deviation) throws CloneNotSupportedException
 	{
 		ShortValueGene copy = this.clone();
 		copy.internalMutate(deviation);

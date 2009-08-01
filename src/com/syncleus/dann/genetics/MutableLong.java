@@ -26,7 +26,7 @@ package com.syncleus.dann.genetics;
  * @since 2.0
  *
  */
-public class MutableLong extends MutableNumber<Long> implements Comparable<MutableLong>
+public class MutableLong extends MutableNumber<Long> implements Comparable<MutableLong>, Cloneable
 {
 	/**
 	 * Initializes a new instance of this class with the specified value.
@@ -69,9 +69,10 @@ public class MutableLong extends MutableNumber<Long> implements Comparable<Mutab
 	 * @return a new exact copy of this object with the same value.
 	 * @since 2.0
 	 */
-	public MutableLong clone()
+	@Override
+	public MutableLong clone() throws CloneNotSupportedException
 	{
-		return new MutableLong(this.getNumber());
+		return (MutableLong) super.clone();
 	}
 
 	/**
