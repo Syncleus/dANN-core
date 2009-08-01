@@ -29,6 +29,9 @@ public class TestGeneticCube
 		private double IDEAL_AREA = 2200d;
 		private double IDEAL_VOLUME = 6000d;
 
+		private boolean errorProcessed = false;
+		private double error;
+
 		public VolumeAreaCubeFitness(GeneticAlgorithmChromosome chromosome)
 		{
 			super(chromosome);
@@ -37,7 +40,7 @@ public class TestGeneticCube
 				throw new IllegalArgumentException("Chromosome must have atleast 3 genes");
 		}
 
-		public double getError()
+		public void process()
 		{
 			List<AbstractValueGene> genes = this.getChromosome().getGenes();
 			double side1 = genes.get(0).expressionActivity();
@@ -50,7 +53,16 @@ public class TestGeneticCube
 			double volumeError = Math.abs(IDEAL_VOLUME - volume);
 			double areaError = Math.abs(IDEAL_AREA - area);
 
-			return volumeError + areaError;
+			this.error = volumeError + areaError;
+			this.errorProcessed = true;
+		}
+
+		public double getError()
+		{
+			if(this.errorProcessed == false)
+				this.process();
+			
+			return this.error;
 		}
 		
 		public int compareTo(AbstractGeneticAlgorithmFitnessFunction baseCompareWith)

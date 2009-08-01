@@ -19,6 +19,11 @@
 package com.syncleus.dann.genetics;
 
 import java.util.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Rerpesents a population governed by Genetic Algorithm parameters. This class
@@ -37,8 +42,24 @@ public abstract class AbstractGeneticAlgorithmPopulation
 	private double crossoverPercentage;
 	private double dieOffPercentage;
 	private int generations;
+	private ThreadPoolExecutor threadExecutor;
 
-	/**
+	private class Process implements Runnable
+	{
+		private AbstractGeneticAlgorithmFitnessFunction fitnessFunction;
+
+		public Process(AbstractGeneticAlgorithmFitnessFunction fitnessFunction)
+		{
+			this.fitnessFunction = fitnessFunction;
+		}
+
+		public void run()
+		{
+			this.fitnessFunction.process();
+		}
+	}
+
+		/**
 	 * Creates a new population with an initial population consisting of the
 	 * specified chromosomes and with the given Genetic Algorithm parameters.
 	 *
@@ -54,19 +75,68 @@ public abstract class AbstractGeneticAlgorithmPopulation
 	 */
 	public AbstractGeneticAlgorithmPopulation(Set<GeneticAlgorithmChromosome> initialChromosomes, double mutationDeviation, double crossoverPercentage, double dieOffPercentage)
 	{
+		this(initialChromosomes, mutationDeviation, crossoverPercentage, dieOffPercentage, new ThreadPoolExecutor(Runtime.getRuntime().availableProcessors(), Runtime.getRuntime().availableProcessors()*5, 20, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>()));
+	}
+
+	/**
+	 * Creates a new population with an initial population consisting of the
+	 * specified chromosomes and with the given Genetic Algorithm parameters.
+	 *
+	 * @param initialChromosomes The initial chromosomes for the first
+	 * generation of the population.
+	 * @param mutationDeviation The deviation used when mutating each chromosome
+	 * in the population.
+	 * @param crossoverPercentage The percentage change crossover will take
+	 * place.
+	 * @param dieOffPercentage The percentage of the population to die off in
+	 * each generation.
+	 * @since 2.0
+	 */
+	public AbstractGeneticAlgorithmPopulation(Set<GeneticAlgorithmChromosome> initialChromosomes, double mutationDeviation, double crossoverPercentage, double dieOffPercentage, ThreadPoolExecutor threadExecutor)
+	{
 		if(initialChromosomes.size() <4)
 			throw new IllegalArgumentException("Must have a population of atleast 4");
 
 		this.population  = new TreeSet<AbstractGeneticAlgorithmFitnessFunction>();
-
-		for(GeneticAlgorithmChromosome chromosome : initialChromosomes)
-		{
-			this.population.add(this.packageChromosome(chromosome));
-		}
-
 		this.mutationDeviation = mutationDeviation;
 		this.crossoverPercentage = crossoverPercentage;
 		this.dieOffPercentage = dieOffPercentage;
+		this.threadExecutor = threadExecutor;
+
+		this.addAll(initialChromosomes);
+	}
+
+	private void addAll(Collection<GeneticAlgorithmChromosome> chromosomes)
+	{
+		//create all the fitness functions and then process them in parallel
+		ArrayList<AbstractGeneticAlgorithmFitnessFunction> initialPopulation = new ArrayList<AbstractGeneticAlgorithmFitnessFunction>();
+		ArrayList<Future> futures = new ArrayList<Future>();
+		for(GeneticAlgorithmChromosome chromosome : chromosomes)
+		{
+			AbstractGeneticAlgorithmFitnessFunction fitnessFunction = this.packageChromosome(chromosome);
+			initialPopulation.add(fitnessFunction);
+			futures.add(this.threadExecutor.submit(new Process(fitnessFunction)));
+		}
+		//wait for processing to finish
+		try
+		{
+			for(Future future : futures)
+				future.get();
+		}
+		catch(InterruptedException caughtException)
+		{
+			throw new AssertionError("Unexpected interuption. Get should block indefinately");
+		}
+		catch(ExecutionException caughtException)
+		{
+			throw new AssertionError("Unexpected execution exception. Get should block indefinately");
+		}
+
+		//add to thetree set and sort
+		for(AbstractGeneticAlgorithmFitnessFunction initialMember : initialPopulation)
+		{
+			this.population.add(initialMember);
+		}
 	}
 
 	/**
@@ -164,7 +234,8 @@ public abstract class AbstractGeneticAlgorithmPopulation
 			this.population.pollFirst();
 
 		//breed children through mutation and crossover
-		TreeSet<AbstractGeneticAlgorithmFitnessFunction> children = new TreeSet<AbstractGeneticAlgorithmFitnessFunction>();
+//		TreeSet<AbstractGeneticAlgorithmFitnessFunction> children = new TreeSet<AbstractGeneticAlgorithmFitnessFunction>();
+		ArrayList<GeneticAlgorithmChromosome> children = new ArrayList<GeneticAlgorithmChromosome>();
 		while(this.population.size() + children.size() < populationSize)
 		{
 			//obtain parents and mutate into children
@@ -187,12 +258,15 @@ public abstract class AbstractGeneticAlgorithmPopulation
 			}
 
 			//store the new children
-			children.add(this.packageChromosome(child1));
-			children.add(this.packageChromosome(child2));
+//			children.add(this.packageChromosome(child1));
+//			children.add(this.packageChromosome(child2));
+			children.add(child1);
+			children.add(child2);
 		}
 
 		//add children to the population
-		this.population.addAll(children);
+		//this.population.addAll(children);
+		this.addAll(children);
 	}
 
 	/**

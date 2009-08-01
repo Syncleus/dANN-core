@@ -18,6 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics;
 
+import java.util.concurrent.ThreadPoolExecutor;
+
 /**
  * An abstract wrapper class for a GeneticAlgorithmChromosome that can evaluate
  * the relative fitness of one chromosome over another. The relative fitness is
@@ -54,18 +56,6 @@ public abstract class AbstractGeneticAlgorithmFitnessFunction implements Compara
 		return this.chromosome;
 	}
 
-	/**
-	 * Evaluates the fitness of the chromosome being wrapped relative to the
-	 * specified chromosome.
-	 *
-	 * @param compareWith The fitness function containing a chromosome to
-	 * compare to.
-	 * @return If this chromosome is more fit it will return a
-	 * positive value, if it is less fit it will be negative. If they are
-	 * both equally as fit it will return 0.
-	 * @since 2.0
-	 */
-	public abstract int compareTo(AbstractGeneticAlgorithmFitnessFunction compareWith);
 
 	@Override
 	public boolean equals(Object compareWith)
@@ -81,4 +71,25 @@ public abstract class AbstractGeneticAlgorithmFitnessFunction implements Compara
 	{
 		return this.chromosome.hashCode();
 	}
+
+	/**
+	 * Evaluates the fitness of the chromosome being wrapped relative to the
+	 * specified chromosome.
+	 *
+	 * @param compareWith The fitness function containing a chromosome to
+	 * compare to.
+	 * @return If this chromosome is more fit it will return a
+	 * positive value, if it is less fit it will be negative. If they are
+	 * both equally as fit it will return 0.
+	 * @since 2.0
+	 */
+	public abstract int compareTo(AbstractGeneticAlgorithmFitnessFunction compareWith);
+
+	/**
+	 * Called once after the class is initialized in case child implementations
+	 * want to cash a value for compareTo. This must be thread safe.
+	 *
+	 * @since 2.0
+	 */
+	public abstract void process();
 }
