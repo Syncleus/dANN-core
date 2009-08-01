@@ -62,7 +62,7 @@ public class Hyperpoint implements Serializable
     public Hyperpoint(double[] coordinates)
     {
         if(coordinates == null)
-            throw new NullPointerException("coordinates can not be null!");
+            throw new IllegalArgumentException("coordinates can not be null!");
         
         if(coordinates.length <= 0)
             throw new IllegalArgumentException("coordinates must have atleast one member, 0 dimensions isnt valid!");
@@ -81,7 +81,7 @@ public class Hyperpoint implements Serializable
     public Hyperpoint(List<Double> coordinates)
     {
         if(coordinates == null)
-            throw new NullPointerException("coordinates can not be null!");
+            throw new IllegalArgumentException("coordinates can not be null!");
         
         if(coordinates.size() <= 0)
             throw new IllegalArgumentException("coordinates must have atleast one member, 0 dimensions isnt valid!");

@@ -32,7 +32,7 @@ public class TestMutableDouble
 		test = new MutableDouble("456");
 		Assert.assertTrue("string value constructor failed", test.getNumber().doubleValue() == 456.0);
 
-		test = new MutableDouble(new Double(789));
+		test = new MutableDouble(Double.valueOf(789));
 		Assert.assertTrue("Number value constructor failed", test.getNumber().doubleValue() == 789.0);
 	}
 

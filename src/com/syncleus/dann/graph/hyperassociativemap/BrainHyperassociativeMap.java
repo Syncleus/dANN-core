@@ -59,7 +59,7 @@ public class BrainHyperassociativeMap extends AbstractHyperassociativeMap
         this.brain = brain;
         this.dimensions = dimensions;
 
-        this.refresh();
+		this.refresh();
     }
 
 
@@ -71,7 +71,7 @@ public class BrainHyperassociativeMap extends AbstractHyperassociativeMap
 	 *
 	 * @since 1.0
 	 */
-    public void refresh()
+    public final void refresh()
     {
         this.nodes.clear();
         this.neurons.clear();

@@ -32,7 +32,7 @@ public class TestMutableFloat
 		test = new MutableFloat("456");
 		Assert.assertTrue("string value constructor failed", test.getNumber().floatValue() == 456f);
 
-		test = new MutableFloat(new Float(789f));
+		test = new MutableFloat(Float.valueOf(789f));
 		Assert.assertTrue("Number value constructor failed", test.getNumber().floatValue() == 789f);
 	}
 

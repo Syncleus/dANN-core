@@ -36,13 +36,13 @@ import java.util.concurrent.TimeUnit;
  */
 public abstract class AbstractGeneticAlgorithmPopulation
 {
-	private static Random random = new Random();
-	private TreeSet<AbstractGeneticAlgorithmFitnessFunction> population;
-	private double mutationDeviation;
-	private double crossoverPercentage;
-	private double dieOffPercentage;
+	private final static Random RANDOM = new Random();
+	private final TreeSet<AbstractGeneticAlgorithmFitnessFunction> population;
+	private final double mutationDeviation;
+	private final double crossoverPercentage;
+	private final double dieOffPercentage;
 	private int generations;
-	private ThreadPoolExecutor threadExecutor;
+	private final ThreadPoolExecutor threadExecutor;
 
 	private static class Process implements Runnable
 	{
@@ -197,7 +197,7 @@ public abstract class AbstractGeneticAlgorithmPopulation
 
 	private final GeneticAlgorithmChromosome getRandomMember()
 	{
-		int randomIndex = random.nextInt(this.population.size());
+		int randomIndex = RANDOM.nextInt(this.population.size());
 		int currentIndex = 0;
 		for(AbstractGeneticAlgorithmFitnessFunction member : this.population)
 		{
@@ -253,9 +253,9 @@ public abstract class AbstractGeneticAlgorithmPopulation
 			}
 
 			//crossover performed on children
-			if(random.nextDouble() < this.crossoverPercentage)
+			if(RANDOM.nextDouble() < this.crossoverPercentage)
 			{
-				int crossoverPoint = random.nextInt(child1.getGenes().size() - 1) + 1;
+				int crossoverPoint = RANDOM.nextInt(child1.getGenes().size() - 1) + 1;
 
 				List<AbstractValueGene> child1Segment = child1.crossover(crossoverPoint);
 				List<AbstractValueGene> child2Segment = child2.crossover(crossoverPoint);

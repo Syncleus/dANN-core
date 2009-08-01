@@ -78,7 +78,7 @@ public class HyperassociativeNode implements Serializable
     public HyperassociativeNode(AbstractHyperassociativeMap network)
     {
         if (network == null)
-            throw new NullPointerException("network can not be null!");
+            throw new IllegalArgumentException("network can not be null!");
 
         this.location = new Hyperpoint(network.getDimensions());
         this.network = network;
@@ -128,9 +128,9 @@ public class HyperassociativeNode implements Serializable
     public HyperassociativeNode(AbstractHyperassociativeMap network, Hyperpoint location)
     {
         if (location == null)
-            throw new NullPointerException("location can not be null!");
+            throw new IllegalArgumentException("location can not be null!");
         if (network == null)
-            throw new NullPointerException("network can not be null!");
+            throw new IllegalArgumentException("network can not be null!");
 
         this.location = location;
         this.network = network;

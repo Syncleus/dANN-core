@@ -487,7 +487,7 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
      * 	overwritten). It is a function of the neuron's current activity.
      * @see com.syncleus.dann.neural.backprop.BackpropNeuron#propagate
      */
-    protected double activate()
+    protected final double activate()
     {
         return this.activationFunction.activate(this.activity);
     }
@@ -505,7 +505,7 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
      * @return the derivative output of the activationFunction
      * @see com.syncleus.dann.neural.NeuronImpl#activationFunction
      */
-    protected double activateDerivitive()
+    protected final double activateDerivitive()
     {
         return this.activationFunction.activateDerivative(this.activity);
     }

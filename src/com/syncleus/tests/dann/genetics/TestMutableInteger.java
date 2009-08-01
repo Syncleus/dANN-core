@@ -32,7 +32,7 @@ public class TestMutableInteger
 		test = new MutableInteger("456");
 		Assert.assertTrue("string value constructor failed", test.getNumber().intValue() == 456);
 
-		test = new MutableInteger(new Integer(789));
+		test = new MutableInteger(Integer.valueOf(789));
 		Assert.assertTrue("Number value constructor failed", test.getNumber().intValue() == 789);
 	}
 

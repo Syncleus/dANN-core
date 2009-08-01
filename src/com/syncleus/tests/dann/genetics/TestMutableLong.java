@@ -32,7 +32,7 @@ public class TestMutableLong
 		test = new MutableLong("456");
 		Assert.assertTrue("string value constructor failed", test.getNumber().longValue() == 456);
 
-		test = new MutableLong(new Long(789));
+		test = new MutableLong(Long.valueOf(789));
 		Assert.assertTrue("Number value constructor failed", test.getNumber().longValue() == 789);
 	}
 

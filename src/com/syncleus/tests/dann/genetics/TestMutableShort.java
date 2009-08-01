@@ -32,7 +32,7 @@ public class TestMutableShort
 		test = new MutableShort("456");
 		Assert.assertTrue("string value constructor failed", test.getNumber().shortValue() == 456);
 
-		test = new MutableShort(new Short((short)789));
+		test = new MutableShort(Short.valueOf((short)789));
 		Assert.assertTrue("Number value constructor failed", test.getNumber().shortValue() == 789);
 	}
 
