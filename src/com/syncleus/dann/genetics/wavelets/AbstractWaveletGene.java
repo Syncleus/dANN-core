@@ -32,7 +32,7 @@ public abstract class AbstractWaveletGene implements Gene, Cloneable
 
 	private double mutability;
 
-	private static Random random = Mutation.getRandom();
+	protected final static Random RANDOM = Mutation.getRandom();
 
 	protected AbstractWaveletGene(ReceptorKey initialReceptor)
 	{
@@ -56,22 +56,17 @@ public abstract class AbstractWaveletGene implements Gene, Cloneable
 		return Collections.unmodifiableSet(new HashSet<AbstractKey>(this.expressionFunction.getReceptors()));
 	}
 
-	protected Random getRandom()
-	{
-		return random;
-	}
-
-	protected double getMutability()
+	protected final double getMutability()
 	{
 		return this.mutability;
 	}
 
-	public AbstractMathFunction getExpressionActivityMathFunction()
+	public final AbstractMathFunction getExpressionActivityMathFunction()
 	{
 		return this.expressionFunction.getWaveletMathFunction();
 	}
 
-	public double expressionActivity()
+	public final double expressionActivity()
 	{
 		return this.currentActivity;
 	}
@@ -108,7 +103,7 @@ public abstract class AbstractWaveletGene implements Gene, Cloneable
 
 		if((keyPool != null)&&(keyPool.isEmpty()))
 		{
-			ReceptorKey newReceptor = new ReceptorKey(new ArrayList<AbstractKey>(keyPool).get(random.nextInt(keyPool.size())));
+			ReceptorKey newReceptor = new ReceptorKey(new ArrayList<AbstractKey>(keyPool).get(RANDOM.nextInt(keyPool.size())));
 			this.expressionFunction.mutate(mutability, newReceptor);
 		}
 		else

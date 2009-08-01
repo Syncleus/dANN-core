@@ -94,33 +94,33 @@ public class WaveMultidimensionalMathFunction extends AbstractMathFunction imple
         return copy;
     }
     
-    public void setDimension(String dimension, double value)
+    public final void setDimension(String dimension, double value)
     {
         this.setParameter(this.getParameterNameIndex(dimension), value);
     }
     
     
-    public double getDimension(String dimension)
+    public final double getDimension(String dimension)
     {
         return this.getParameter(this.getParameterNameIndex(dimension));
     }
     
     
-    public void setCenter(String dimension, double value)
+    public final void setCenter(String dimension, double value)
     {
         this.setParameter(this.getParameterNameIndex("center-" + dimension), value);
         this.wave.setCenter(0.0);
     }
     
     
-    public double getCenter(String dimension)
+    public final double getCenter(String dimension)
     {
         return this.getParameter(this.getParameterNameIndex("center-" + dimension));
     }
 
 
 
-    public void setDistribution(double distribution)
+    public final void setDistribution(double distribution)
     {
         if(distribution == 0.0)
             throw new InvalidParameterException("distribution can't be 0");
@@ -131,52 +131,52 @@ public class WaveMultidimensionalMathFunction extends AbstractMathFunction imple
 
 
 
-    public double getDistribution()
+    public final double getDistribution()
     {
         return this.getParameter(this.getParameterNameIndex("distribution"));
     }
     
     
-    public void setFrequency(double frequency)
+    public final void setFrequency(double frequency)
     {
         this.setParameter(this.getParameterNameIndex("frequency"), frequency);
         this.wave.setFrequency(frequency);
     }
     
-    public double getFrequency()
+    public final double getFrequency()
     {
         return this.getParameter(this.getParameterNameIndex("frequency"));
     }
     
-    public void setAmplitude(double amplitude)
+    public final void setAmplitude(double amplitude)
     {
         this.setParameter(this.getParameterNameIndex("amplitude"), amplitude);
         this.wave.setAmplitude(amplitude);
     }
     
-    public double getAmplitude()
+    public final double getAmplitude()
     {
         return this.getParameter(this.getParameterNameIndex("amplitude"));
     }
     
-    public void setPhase(double phase)
+    public final void setPhase(double phase)
     {
         this.setParameter(this.getParameterNameIndex("phase"), phase);
         this.wave.setPhase(phase);
     }
     
-    public double getPhase()
+    public final double getPhase()
     {
         return this.getParameter(this.getParameterNameIndex("phase"));
     }
     
-    public void setForm(double form)
+    public final void setForm(double form)
     {
         this.setParameter(this.getParameterNameIndex("form"), form);
         this.wave.setForm(form);
     }
     
-    public double getForm()
+    public final double getForm()
     {
         return this.getParameter(this.getParameterNameIndex("form"));
     }

@@ -166,7 +166,7 @@ public class HyperassociativeNode implements Serializable
     public void associate(HyperassociativeNode newNeighbor, double newWeight)
     {
         if (newNeighbor == null)
-            throw new NullPointerException("newNeighbor can not be null!");
+            throw new IllegalArgumentException("newNeighbor can not be null!");
         if (this == newNeighbor)
             throw new IllegalArgumentException("an AssociativeNode can not associate with itself");
 

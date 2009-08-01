@@ -48,7 +48,7 @@ public abstract class AbstractMathFunction
         }
     }
     
-    public String[] getParameterNames()
+    public final String[] getParameterNames()
     {
         return this.parameterNames.clone();
     }
@@ -72,7 +72,7 @@ public abstract class AbstractMathFunction
         return result;
     }
     
-    public void setParameter(int parameterIndex, double value)
+    public final void setParameter(int parameterIndex, double value)
     {
         if(parameterIndex >= parameters.length || parameterIndex < 0)
             throw new InvalidParameterException("parameterIndex of " + parameterIndex + " is out of range");
@@ -80,12 +80,12 @@ public abstract class AbstractMathFunction
         this.parameters[parameterIndex] = value;
     }
 
-	public void setParameter(String parameterName, double value)
+	public final void setParameter(String parameterName, double value)
 	{
 		this.setParameter(this.getParameterNameIndex(parameterName), value);
 	}
     
-    public double getParameter(int parameterIndex)
+    public final double getParameter(int parameterIndex)
     {
         if(parameterIndex >= parameters.length || parameterIndex < 0)
             throw new InvalidParameterException("parameterIndex out of range");
@@ -93,12 +93,12 @@ public abstract class AbstractMathFunction
         return this.parameters[parameterIndex];
     }
 
-	public double getParameter(String parameterName)
+	public final double getParameter(String parameterName)
 	{
 		return this.getParameter(this.getParameterNameIndex(parameterName));
 	}
     
-    public String getParameterName(int parameterIndex)
+    public final String getParameterName(int parameterIndex)
     {
         if( parameterIndex >= this.parameterNames.length || parameterIndex < 0 )
             throw new InvalidParameterException("parameterIndex is not within range");
@@ -106,7 +106,7 @@ public abstract class AbstractMathFunction
         return this.parameterNames[parameterIndex];
     }
     
-    public int getParameterNameIndex(String parameterName)
+    public final int getParameterNameIndex(String parameterName)
     {
         if( this.indexNames.containsKey(parameterName) == false)
             throw new InvalidParameterException("parameterName: " + parameterName + " does not exist");
@@ -114,7 +114,7 @@ public abstract class AbstractMathFunction
         return this.indexNames.get(parameterName).intValue();
     }
     
-    public int getParameterCount()
+    public final int getParameterCount()
     {
         return this.parameters.length;
     }

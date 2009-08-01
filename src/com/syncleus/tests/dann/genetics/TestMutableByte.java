@@ -32,7 +32,7 @@ public class TestMutableByte
 		test = new MutableByte("57");
 		Assert.assertTrue("string value constructor failed", test.getNumber().byteValue() == 57);
 
-		test = new MutableByte(new Byte((byte)83));
+		test = new MutableByte(Byte.valueOf((byte)83));
 		Assert.assertTrue("Number value constructor failed", test.getNumber().byteValue() == 83);
 	}
 

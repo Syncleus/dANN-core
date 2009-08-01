@@ -136,8 +136,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
 	/**
 	 * @return the layerCount
 	 */
-	public
-	int getLayerCount()
+	public final int getLayerCount()
 	{
 		return layerCount;
 	}

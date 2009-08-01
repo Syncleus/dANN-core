@@ -297,7 +297,7 @@ public class Hyperpoint implements Serializable
     public Hyperpoint calculateRelativeTo(Hyperpoint absolutePoint)
     {
         if(absolutePoint == null)
-            throw new NullPointerException("absolutePoint can not be null!");
+            throw new IllegalArgumentException("absolutePoint can not be null!");
 
 		double currentCoords[] = this.coordinates.clone();
 		double absoluteCoords[] = absolutePoint.coordinates.clone();

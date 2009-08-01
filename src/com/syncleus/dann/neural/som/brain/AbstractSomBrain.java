@@ -165,7 +165,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	 * @return the positions of all the outputs in the output lattice.
 	 * @since 2.0
 	 */
-	public Set<Hyperpoint> getPositions()
+	public final Set<Hyperpoint> getPositions()
 	{
 		HashSet<Hyperpoint> positions = new HashSet<Hyperpoint>();
 		for(Hyperpoint position : this.outputs.keySet())
@@ -184,7 +184,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	 * SomNeuron associated with the given position.
 	 * @since 2.0
 	 */
-	public double getOutput(Hyperpoint position)
+	public final double getOutput(Hyperpoint position)
 	{
 		SomNeuron outputNeuron = this.outputs.get(position);
 		outputNeuron.propagate();
@@ -197,7 +197,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	 *
 	 * @return the BMU for the current input set.
 	 */
-	public Hyperpoint getBestMatchingUnit()
+	public final Hyperpoint getBestMatchingUnit()
 	{
 		return this.getBestMatchingUnit(true);
 	}
@@ -211,7 +211,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	 * @return the BMU for the current input set.
 	 * @since 2.0
 	 */
-	public Hyperpoint getBestMatchingUnit(boolean train)
+	public final Hyperpoint getBestMatchingUnit(boolean train)
 	{
 		//make sure we have atleast one output
 		if( this.outputs.size() <= 0)
@@ -297,7 +297,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	 * @return the iterationsTrained so far.
 	 * @since 2.0
 	 */
-	public int getIterationsTrained()
+	public final int getIterationsTrained()
 	{
 		return iterationsTrained;
 	}
@@ -310,7 +310,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	 * @since 2.0
 	 * @return the upperBounds
 	 */
-	protected Hyperpoint getUpperBounds()
+	protected final Hyperpoint getUpperBounds()
 	{
 		return upperBounds;
 	}
@@ -323,7 +323,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	 * @since 2.0
 	 * @return the lowerBounds
 	 */
-	protected Hyperpoint getLowerBounds()
+	protected final Hyperpoint getLowerBounds()
 	{
 		return lowerBounds;
 	}
@@ -334,7 +334,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	 * @return The number of inputs.
 	 * @since 2.0
 	 */
-	public int getInputCount()
+	public final int getInputCount()
 	{
 		return this.inputs.size();
 	}
@@ -346,7 +346,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	 * @param inputIndex
 	 * @param inputValue
 	 */
-	public void setInput(int inputIndex, double inputValue)
+	public final void setInput(int inputIndex, double inputValue)
 	{
 		if(inputIndex >= this.getInputCount())
 			throw new IllegalArgumentException("inputIndex is out of bounds");
@@ -363,7 +363,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	 * @return The current value for the specified input.
 	 * @since 2.0
 	 */
-	public double getInput(int index)
+	public final double getInput(int index)
 	{
 		return this.inputs.get(index).getInput();
 	}
@@ -374,7 +374,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	 * @return the weight vectors of each output in the output lattice
 	 * @since 2.0
 	 */
-	public Map<Hyperpoint, double[]> getOutputWeightVectors()
+	public final Map<Hyperpoint, double[]> getOutputWeightVectors()
 	{
 		//iterate through the output lattice
 		HashMap<Hyperpoint, double[]> weightVectors = new HashMap<Hyperpoint, double[]>();

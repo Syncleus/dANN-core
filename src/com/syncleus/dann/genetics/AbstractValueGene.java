@@ -62,7 +62,7 @@ public abstract class AbstractValueGene<N extends MutableNumber> implements Gene
 	 * @return The number backing this object.
 	 * @since 2.0
 	 */
-	public N getValue()
+	public final N getValue()
 	{
 		return this.value;
 	}
@@ -75,7 +75,7 @@ public abstract class AbstractValueGene<N extends MutableNumber> implements Gene
 	 * @return The current expression activity.
 	 * @since 2.0
 	 */
-	public double expressionActivity()
+	public final double expressionActivity()
 	{
 		return this.getValue().doubleValue();
 	}

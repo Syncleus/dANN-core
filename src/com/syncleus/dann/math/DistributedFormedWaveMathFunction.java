@@ -62,21 +62,21 @@ public class DistributedFormedWaveMathFunction extends FormedWaveMathFunction
 
 
 
-    public void setCenter(double center)
+    public final void setCenter(double center)
     {
         this.setParameter(this.getParameterNameIndex("center"), center);
     }
 
 
 
-    public double getCenter()
+    public final double getCenter()
     {
         return this.getParameter(this.getParameterNameIndex("center"));
     }
 
 
 
-    public void setDistribution(double distribution)
+    public final void setDistribution(double distribution)
     {
         if(distribution == 0.0)
         {
@@ -88,7 +88,7 @@ public class DistributedFormedWaveMathFunction extends FormedWaveMathFunction
 
 
 
-    public double getDistribution()
+    public final double getDistribution()
     {
         return this.getParameter(this.getParameterNameIndex("distribution"));
     }

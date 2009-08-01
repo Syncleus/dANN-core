@@ -160,7 +160,7 @@ public abstract class AbstractGeneticAlgorithmPopulation
 	 * the current population.
 	 * @since 2.0
 	 */
-	public Set<GeneticAlgorithmChromosome> getChromosomes()
+	public final Set<GeneticAlgorithmChromosome> getChromosomes()
 	{
 		HashSet<GeneticAlgorithmChromosome> chromosomes = new HashSet<GeneticAlgorithmChromosome>();
 		for(AbstractGeneticAlgorithmFitnessFunction member : population)
@@ -179,7 +179,7 @@ public abstract class AbstractGeneticAlgorithmPopulation
 	 * its fitness function.
 	 * @since 2.0
 	 */
-	public GeneticAlgorithmChromosome getWinner()
+	public final GeneticAlgorithmChromosome getWinner()
 	{
 		return this.population.last().getChromosome();
 	}
@@ -190,12 +190,12 @@ public abstract class AbstractGeneticAlgorithmPopulation
 	 * @return The number of generations this population has went through.
 	 * @since 2.0
 	 */
-	public int getGenerations()
+	public final int getGenerations()
 	{
 		return this.generations;
 	}
 
-	private GeneticAlgorithmChromosome getRandomMember()
+	private final GeneticAlgorithmChromosome getRandomMember()
 	{
 		int randomIndex = random.nextInt(this.population.size());
 		int currentIndex = 0;

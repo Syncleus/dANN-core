@@ -98,7 +98,7 @@ public abstract class AbstractHyperassociativeMap implements Serializable
 	 * @return The number of dimensions for this map.
 	 * @since 1.0
 	 */
-	public int getDimensions()
+	public final int getDimensions()
 	{
 		return this.dimensions;
 	}
@@ -110,7 +110,7 @@ public abstract class AbstractHyperassociativeMap implements Serializable
 	 * @return An unmodifiable Set of all the nodes in this map.
 	 * @since 1.0
 	 */
-    public Set<HyperassociativeNode> getNodes()
+    public final Set<HyperassociativeNode> getNodes()
     {
         return Collections.unmodifiableSet(this.nodes);
     }

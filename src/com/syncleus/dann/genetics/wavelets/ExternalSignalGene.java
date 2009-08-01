@@ -72,7 +72,7 @@ public class ExternalSignalGene extends SignalGene implements Cloneable
 	{
 		super.mutate(keyPool);
 
-		if(this.getRandom().nextDouble() < Math.tanh(this.getMutability()))
+		if(RANDOM.nextDouble() < Math.tanh(this.getMutability()))
 			this.outward = !this.outward;
 	}
 }

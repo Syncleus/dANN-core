@@ -72,7 +72,7 @@ public abstract class MutableNumber<N extends Number> extends Number implements 
 	 * @return The backing number.
 	 * @since 2.0
 	 */
-	public N getNumber()
+	public final N getNumber()
 	{
 		return this.number;
 	}
@@ -83,7 +83,7 @@ public abstract class MutableNumber<N extends Number> extends Number implements 
 	 * @return double representation of the value.
 	 * @since 2.0
 	 */
-	public double doubleValue()
+	public final double doubleValue()
 	{
 		return this.number.doubleValue();
 	}
@@ -94,7 +94,7 @@ public abstract class MutableNumber<N extends Number> extends Number implements 
 	 * @return float representation of the value.
 	 * @since 2.0
 	 */
-	public float floatValue()
+	public final float floatValue()
 	{
 		return this.number.floatValue();
 	}
@@ -106,7 +106,7 @@ public abstract class MutableNumber<N extends Number> extends Number implements 
 	 * @since 2.0
 	 */
 	@Override
-	public byte byteValue()
+	public final byte byteValue()
 	{
 		return this.number.byteValue();
 	}
@@ -118,7 +118,7 @@ public abstract class MutableNumber<N extends Number> extends Number implements 
 	 * @since 2.0
 	 */
 	@Override
-	public short shortValue()
+	public final short shortValue()
 	{
 		return this.number.shortValue();
 	}
@@ -129,7 +129,7 @@ public abstract class MutableNumber<N extends Number> extends Number implements 
 	 * @return int representation of the value.
 	 * @since 2.0
 	 */
-	public int intValue()
+	public final int intValue()
 	{
 		return this.number.intValue();
 	}
@@ -140,7 +140,7 @@ public abstract class MutableNumber<N extends Number> extends Number implements 
 	 * @return long representation of the value.
 	 * @since 2.0
 	 */
-	public long longValue()
+	public final long longValue()
 	{
 		return this.number.longValue();
 	}
@@ -152,7 +152,7 @@ public abstract class MutableNumber<N extends Number> extends Number implements 
 	 * @since 2.0
 	 */
 	@Override
-	public int hashCode()
+	public final int hashCode()
 	{
 		return this.number.hashCode();
 	}

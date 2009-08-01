@@ -25,7 +25,7 @@ import javax.vecmath.*;
 import java.awt.Color;
 import java.security.InvalidParameterException;
 
-public class MathFunctionDataBinder implements Binned2DData
+public final class MathFunctionDataBinder implements Binned2DData
 {
     private AbstractMathFunction function = null;
     private int functionXIndex;
