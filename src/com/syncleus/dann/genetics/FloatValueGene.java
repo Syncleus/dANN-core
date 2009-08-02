@@ -91,7 +91,7 @@ public class FloatValueGene extends AbstractValueGene<MutableFloat> implements C
 	 * @since 2.0
 	 */
 	@Override
-	public FloatValueGene clone() throws CloneNotSupportedException
+	public FloatValueGene clone()
 	{
 		return (FloatValueGene) super.clone();
 	}
@@ -106,7 +106,7 @@ public class FloatValueGene extends AbstractValueGene<MutableFloat> implements C
 	 * @return A copy of the current object with potential mutations.
 	 * @since 2.0
 	 */
-	public FloatValueGene mutate(double deviation) throws CloneNotSupportedException
+	public FloatValueGene mutate(double deviation)
 	{
 		FloatValueGene copy = this.clone();
 		copy.internalMutate(deviation);

@@ -19,7 +19,6 @@
 package com.syncleus.dann.neural.backprop;
 
 import com.syncleus.dann.neural.*;
-import java.security.InvalidParameterException;
 import com.syncleus.dann.neural.activation.*;
 
 
@@ -103,7 +102,7 @@ public class InputBackpropNeuron extends BackpropNeuron implements InputNeuron<A
     public void setInput(double inputToSet)
     {
         if( Math.abs(inputToSet) > 1.0 )
-            throw new InvalidParameterException("InputToSet must be between -1 and +1");
+            throw new IllegalArgumentException("InputToSet must be between -1 and +1");
         
         this.input = inputToSet;
     }

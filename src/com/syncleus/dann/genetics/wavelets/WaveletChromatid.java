@@ -18,9 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
+import java.util.*;
+import org.apache.log4j.Logger;
 import com.syncleus.dann.genetics.Chromatid;
 import com.syncleus.dann.genetics.MutableInteger;
-import java.util.*;
 
 public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneable
 {
@@ -32,6 +33,10 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 	private ArrayList<SignalGene> localSignalGenes;
 	//contains al the external signal genes in an arbitrary order.
 	private ArrayList<ExternalSignalGene> externalSignalGenes;
+	//Logger used to log debugging information.
+	private final static Logger LOGGER = Logger.getLogger(WaveletChromatid.class);
+	//Random used for all random values.
+	private final static Random RANDOM = Mutation.getRandom();
 
 	//Position of the gene's centromere. This is the origin where chromatid
 	//pairs are joined.
@@ -44,18 +49,11 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 	{
 		mutability = Mutation.getRandom().nextDouble() * 10.0;
 
-		try
-		{
-			while(this.sequencedGenes.size() <= 0 )
-				this.mutate(null);
+		while(this.sequencedGenes.size() <= 0 )
+			this.mutate(null);
 
-			while(Mutation.mutationEvent(mutability))
-				this.mutate(null);
-		}
-		catch(CloneNotSupportedException caughtException)
-		{
-			throw new AssertionError("Trying to mutate a class that is not cloneable");
-		}
+		while(Mutation.mutationEvent(mutability))
+			this.mutate(null);
 
 	}
 	
@@ -69,21 +67,14 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 		this.localSignalGenes = new ArrayList<SignalGene>();
 		this.externalSignalGenes = new ArrayList<ExternalSignalGene>();
 
-		try
-		{
-			for(AbstractWaveletGene currentGene : copy.sequencedGenes)
-				this.sequencedGenes.add(currentGene.clone());
-			for(PromoterGene currentGene : copy.promoters)
-				this.promoters.add(currentGene.clone());
-			for(SignalGene currentGene : copy.localSignalGenes)
-				this.localSignalGenes.add(currentGene.clone());
-			for(ExternalSignalGene currentGene : copy.externalSignalGenes)
-				this.externalSignalGenes.add(currentGene.clone());
-		}
-		catch(CloneNotSupportedException caughtException)
-		{
-			throw new AssertionError("A gene does not support clone!");
-		}
+		for(AbstractWaveletGene currentGene : copy.sequencedGenes)
+			this.sequencedGenes.add(currentGene.clone());
+		for(PromoterGene currentGene : copy.promoters)
+			this.promoters.add(currentGene.clone());
+		for(SignalGene currentGene : copy.localSignalGenes)
+			this.localSignalGenes.add(currentGene.clone());
+		for(ExternalSignalGene currentGene : copy.externalSignalGenes)
+			this.externalSignalGenes.add(currentGene.clone());
 	}
 
 	Set<SignalKey> getExpressedSignals(boolean external)
@@ -266,28 +257,36 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 	}
 
 	@Override
-	public WaveletChromatid clone() throws CloneNotSupportedException
+	public WaveletChromatid clone()
 	{
-		WaveletChromatid copy  = (WaveletChromatid) super.clone();
+		try
+		{
+			WaveletChromatid copy  = (WaveletChromatid) super.clone();
 
-		copy.centromerePosition = this.centromerePosition;
-		copy.mutability = this.mutability;
+			copy.centromerePosition = this.centromerePosition;
+			copy.mutability = this.mutability;
 
-		copy.sequencedGenes = new ArrayList<AbstractWaveletGene>();
-		copy.promoters = new ArrayList<PromoterGene>();
-		copy.localSignalGenes = new ArrayList<SignalGene>();
-		copy.externalSignalGenes = new ArrayList<ExternalSignalGene>();
+			copy.sequencedGenes = new ArrayList<AbstractWaveletGene>();
+			copy.promoters = new ArrayList<PromoterGene>();
+			copy.localSignalGenes = new ArrayList<SignalGene>();
+			copy.externalSignalGenes = new ArrayList<ExternalSignalGene>();
 
-		for(AbstractWaveletGene currentGene : this.sequencedGenes)
-			copy.sequencedGenes.add(currentGene.clone());
-		for(PromoterGene currentGene : this.promoters)
-			copy.promoters.add(currentGene.clone());
-		for(SignalGene currentGene : this.localSignalGenes)
-			copy.localSignalGenes.add(currentGene.clone());
-		for(ExternalSignalGene currentGene : this.externalSignalGenes)
-			copy.externalSignalGenes.add(currentGene.clone());
+			for(AbstractWaveletGene currentGene : this.sequencedGenes)
+				copy.sequencedGenes.add(currentGene.clone());
+			for(PromoterGene currentGene : this.promoters)
+				copy.promoters.add(currentGene.clone());
+			for(SignalGene currentGene : this.localSignalGenes)
+				copy.localSignalGenes.add(currentGene.clone());
+			for(ExternalSignalGene currentGene : this.externalSignalGenes)
+				copy.externalSignalGenes.add(currentGene.clone());
 
-		return copy;
+			return copy;
+		}
+		catch(CloneNotSupportedException caught)
+		{
+			LOGGER.error("CloneNotSupportedException caught but not expected!", caught);
+			throw new AssertionError("CloneNotSupportedException caught but not expected: " + caught);
+		}
 	}
 
 	private static AbstractKey randomKey(Set<AbstractKey> keyPool)
@@ -296,7 +295,7 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 		{
 			//select a random key from the pool
 			AbstractKey randomKey = null;
-			int keyIndex = Mutation.getRandom().nextInt(keyPool.size());
+			int keyIndex = RANDOM.nextInt(keyPool.size());
 			for(AbstractKey key : keyPool)
 			{
 				if(keyIndex <= 0)
@@ -308,14 +307,17 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 					keyIndex--;
 			}
 			if(randomKey == null)
+			{
+				LOGGER.error("randomKey was null which shouldnt be possible");
 				throw new AssertionError("randomKey was unexpectidly null");
+			}
 			return new ReceptorKey(randomKey);
 		}
 
 		return new ReceptorKey();
 	}
 
-	public void mutate(Set<AbstractKey> keyPool) throws CloneNotSupportedException
+	public void mutate(Set<AbstractKey> keyPool)
 	{
 		//there is a chance we will add a new gene to the chromatid
 		if(Mutation.mutationEvent(mutability))
@@ -330,7 +332,7 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 			//create a new gene using the new receptor
 			AbstractWaveletGene newGene;
 			SignalKey newSignalKey = new SignalKey(randomKey(keyPool));
-			switch( Mutation.getRandom().nextInt(3) )
+			switch( RANDOM.nextInt(3) )
 			{
 			case 0:
 				MutableInteger initialDistance = (new MutableInteger(0)).mutate(mutability);
@@ -342,12 +344,12 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 				this.localSignalGenes.add((SignalGene)newGene);
 				break;
 			default:
-				newGene = new ExternalSignalGene(newReceptorKey, newSignalKey, Mutation.getRandom().nextBoolean());
+				newGene = new ExternalSignalGene(newReceptorKey, newSignalKey, RANDOM.nextBoolean());
 				this.externalSignalGenes.add((ExternalSignalGene)newGene);
 			}
 			//add the new gene to the sequence. there is an equal chance the
 			//gene will be added to the head and tail
-			if(Mutation.getRandom().nextBoolean())
+			if(RANDOM.nextBoolean())
 				this.sequencedGenes.add(0, newGene);
 			else
 				this.sequencedGenes.add(newGene);

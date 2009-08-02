@@ -20,12 +20,14 @@ package com.syncleus.dann.math;
 
 import java.security.InvalidParameterException;
 import java.util.Hashtable;
+import org.apache.log4j.Logger;
 
-public abstract class AbstractMathFunction
+public abstract class AbstractMathFunction implements Cloneable
 {
     private double[] parameters;
     private String[] parameterNames;
     private final Hashtable<String,Integer> indexNames = new Hashtable<String,Integer>();
+	private final static Logger LOGGER = Logger.getLogger(AbstractMathFunction.class);
 
 	protected AbstractMathFunction(AbstractMathFunction copy)
 	{
@@ -43,9 +45,7 @@ public abstract class AbstractMathFunction
         this.parameterNames = parameterNames.clone();
         
         for(int index = 0; index < this.parameterNames.length; index++)
-        {
             this.indexNames.put(this.parameterNames[index], Integer.valueOf(index));
-        }
     }
     
     public final String[] getParameterNames()
@@ -121,13 +121,21 @@ public abstract class AbstractMathFunction
 
 	@Override
 	@SuppressWarnings("unchecked")
-    public AbstractMathFunction clone() throws CloneNotSupportedException
+    public AbstractMathFunction clone()
 	{
-		AbstractMathFunction copy = (AbstractMathFunction) super.clone();
-		copy.indexNames.putAll(this.indexNames);
-		copy.parameterNames = this.parameterNames.clone();
-		copy.parameters = this.parameters.clone();
-		return copy;
+		try
+		{
+			AbstractMathFunction copy = (AbstractMathFunction) super.clone();
+			copy.indexNames.putAll(this.indexNames);
+			copy.parameterNames = this.parameterNames.clone();
+			copy.parameters = this.parameters.clone();
+			return copy;
+		}
+		catch(CloneNotSupportedException caught)
+		{
+			LOGGER.error("CloneNotSupportedException caught but not expected!", caught);
+			throw new AssertionError("CloneNotSupportedException caught but not expected: " + caught);
+		}
 	}
 
     public abstract double calculate();

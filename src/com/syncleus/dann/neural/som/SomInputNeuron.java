@@ -87,11 +87,12 @@ public class SomInputNeuron extends AbstractNeuron<AbstractNeuron, SomNeuron> im
 	 * thrown, but children are allowed to throw this exception.
      * @see com.syncleus.dann.neural.NeuronImpl#connectFrom
      */
+	@Override
     public Synapse connectTo(SomNeuron outUnit) throws InvalidConnectionTypeDannException
     {
         //make sure you arent already connected to the neuron
         if (outUnit == null)
-            throw new NullPointerException("outUnit can not be null!");
+            throw new IllegalArgumentException("outUnit can not be null!");
 
         //connect to the neuron
         Synapse newSynapse = new Synapse(this, outUnit, RANDOM.nextDouble());

@@ -18,18 +18,21 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
-import com.syncleus.dann.genetics.MutableInteger;
+
 import java.util.*;
+import org.apache.log4j.Logger;
+import com.syncleus.dann.genetics.MutableInteger;
 
 public abstract class AbstractKey implements Cloneable
 {
 	private HashMap<Integer, Boolean> points;
-	private static Random random = new Random();
+	private final static Random RANDOM = Mutation.getRandom();
+	private final static Logger LOGGER = Logger.getLogger(AbstractKey.class);
 
 	protected AbstractKey()
 	{
 		this.points = new HashMap<Integer, Boolean>();
-		this.points.put(Integer.valueOf(random.nextInt()), random.nextBoolean());
+		this.points.put(Integer.valueOf(RANDOM.nextInt()), RANDOM.nextBoolean());
 	}
 
 	protected AbstractKey(Map<Integer, Boolean> points)
@@ -52,9 +55,9 @@ public abstract class AbstractKey implements Cloneable
 		Integer[] pointsArray = new Integer[this.points.size()];
 		this.points.keySet().toArray(pointsArray);
 		
-		MutableInteger point = new MutableInteger(pointsArray[random.nextInt(pointsArray.length)]);
-		if(random.nextBoolean())
-			this.points.put(point.mutate(deviation).getNumber(), random.nextBoolean());
+		MutableInteger point = new MutableInteger(pointsArray[RANDOM.nextInt(pointsArray.length)]);
+		if(RANDOM.nextBoolean())
+			this.points.put(point.mutate(deviation).getNumber(), RANDOM.nextBoolean());
 		else
 			this.points.remove(point.getNumber());
 	}
@@ -72,12 +75,20 @@ public abstract class AbstractKey implements Cloneable
 	}
 	
 	@Override
-	public AbstractKey clone() throws CloneNotSupportedException
+	public AbstractKey clone()
 	{
-		AbstractKey copy = (AbstractKey) super.clone();
-		copy.points = this.points;
-		return copy;
+		try
+		{
+			AbstractKey copy = (AbstractKey) super.clone();
+			copy.points = this.points;
+			return copy;
+		}
+		catch(CloneNotSupportedException caught)
+		{
+			LOGGER.error("CloneNotSupportedException caught but not expected!", caught);
+			throw new AssertionError("CloneNotSupportedException caught but not expected: " + caught);
+		}
 	}
 
-	public abstract AbstractKey mutate(double deviation) throws CloneNotSupportedException;
+	public abstract AbstractKey mutate(double deviation);
 }

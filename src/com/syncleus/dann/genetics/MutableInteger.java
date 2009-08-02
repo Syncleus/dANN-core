@@ -70,7 +70,7 @@ public class MutableInteger extends MutableNumber<Integer> implements Comparable
 	 * @since 2.0
 	 */
 	@Override
-	public MutableInteger clone() throws CloneNotSupportedException
+	public MutableInteger clone()
 	{
 		return (MutableInteger) super.clone();
 	}

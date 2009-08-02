@@ -93,6 +93,7 @@
 		<javac destdir="build/classes" classpathref="classpath" debug="true" excludes="com/syncleus/tests/**" srcdir="src">
 			<compilerarg value="-Xlint:unchecked"/>
 		</javac>
+		<copy file="log4j.xml" todir="build/classes"/>
 
 		<mkdir dir="build/tests/classes"/>
 		<javac destdir="build/tests/classes" classpathref="classpath" debug="true" srcdir="src">
@@ -100,6 +101,7 @@
 			<compilerarg value="-Xlint:unchecked"/>
 		</javac>
 		<delete dir="build/tests/classes/com/syncleus/dann"/>
+		<copy file="log4j.xml" todir="build/tests/classes"/>
 
 		<mkdir dir="build/coverage/classes"/>
 		<cobertura-instrument todir="build/coverage/classes">
@@ -108,6 +110,7 @@
 				<include name="tests/classes/**/*.class"/>
 			</fileset>
 		</cobertura-instrument>
+		<copy file="log4j.xml" todir="build/coverage/classes"/>
 	</target>
 
 	<target name="compile-warnings">
@@ -117,6 +120,7 @@
 		<javac destdir="build/classes" classpathref="classpath" debug="true" excludes="com/syncleus/tests/**" srcdir="src">
 			<compilerarg value="-Xlint"/>
 		</javac>
+		<copy file="log4j.xml" todir="build/classes"/>
 
 		<mkdir dir="build/tests/classes"/>
 		<javac destdir="build/tests/classes" classpathref="classpath" debug="true" srcdir="src">
@@ -124,6 +128,7 @@
 			<compilerarg value="-Xlint:unchecked"/>
 		</javac>
 		<delete dir="build/tests/classes/com/syncleus/dann"/>
+		<copy file="log4j.xml" todir="build/tests/classes"/>
 
 		<mkdir dir="build/coverage/classes"/>
 		<cobertura-instrument todir="build/coverage/classes">
@@ -132,6 +137,7 @@
 				<include name="tests/classes/**/*.class"/>
 			</fileset>
 		</cobertura-instrument>
+		<copy file="log4j.xml" todir="build/coverage/classes"/>
 	</target>
 
 	<target name="build">
@@ -148,6 +154,7 @@
 				<pathelement location="build/jar/dann.jar"/>
 				<pathelement location="build/jar/dann-tests.jar"/>
 				<pathelement location="lib/testing/junit-4.6.jar"/>
+				<pathelement location="lib/log4j-1.2.15.jar"/>
 			</classpath>
 			<formatter type="xml"/>
 			<batchtest fork="yes" todir="build/tests">
@@ -168,6 +175,7 @@
                 <pathelement location="build/jar/dann-tests.jar"/>
 				<pathelement location="lib/testing/junit-4.6.jar"/>
 				<pathelement location="lib/testing/cobertura.jar"/>
+				<pathelement location="lib/log4j-1.2.15.jar"/>
 			</classpath>
 			<formatter type="xml"/>
 			<batchtest fork="yes" todir="build/coverage/tests">
@@ -193,6 +201,7 @@
 			<auxClasspath path="lib/freehep-j3d.jar"/>
 			<auxClasspath path="lib/j3dutils.jar"/>
 			<auxClasspath path="lib/vecmath.jar"/>
+			<auxClasspath path="lib/log4j-1.2.15.jar"/>
 			<sourcePath path="src/" />
 			<class location="build/jar/dann.jar" />
 		</findbugs>

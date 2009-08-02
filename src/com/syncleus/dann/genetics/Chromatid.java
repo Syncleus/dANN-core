@@ -71,5 +71,5 @@ public interface Chromatid<G extends Gene> extends Cloneable
 	 * @return an exact copy of this object.
 	 * @since 2.0
 	 */
-	public Chromatid<G> clone() throws CloneNotSupportedException;
+	public Chromatid<G> clone();
 }

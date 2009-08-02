@@ -91,7 +91,7 @@ public class ByteValueGene extends AbstractValueGene<MutableByte> implements Clo
 	 * @since 2.0
 	 */
 	@Override
-	public ByteValueGene clone() throws CloneNotSupportedException
+	public ByteValueGene clone()
 	{
 		return (ByteValueGene) super.clone();
 	}
@@ -106,7 +106,7 @@ public class ByteValueGene extends AbstractValueGene<MutableByte> implements Clo
 	 * @return A copy of the current object with potential mutations.
 	 * @since 2.0
 	 */
-	public ByteValueGene mutate(double deviation) throws CloneNotSupportedException
+	public ByteValueGene mutate(double deviation)
 	{
 		ByteValueGene copy = this.clone();
 		copy.internalMutate(deviation);

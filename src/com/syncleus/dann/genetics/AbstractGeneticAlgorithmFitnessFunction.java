@@ -18,8 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics;
 
-import java.util.concurrent.ThreadPoolExecutor;
-
 /**
  * An abstract wrapper class for a GeneticAlgorithmChromosome that can evaluate
  * the relative fitness of one chromosome over another. The relative fitness is

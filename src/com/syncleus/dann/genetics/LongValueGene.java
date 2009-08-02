@@ -91,7 +91,7 @@ public class LongValueGene extends AbstractValueGene<MutableLong> implements Clo
 	 * @since 2.0
 	 */
 	@Override
-	public LongValueGene clone() throws CloneNotSupportedException
+	public LongValueGene clone()
 	{
 		return (LongValueGene) super.clone();
 	}
@@ -106,7 +106,7 @@ public class LongValueGene extends AbstractValueGene<MutableLong> implements Clo
 	 * @return A copy of the current object with potential mutations.
 	 * @since 2.0
 	 */
-	public LongValueGene mutate(double deviation) throws CloneNotSupportedException
+	public LongValueGene mutate(double deviation)
 	{
 		LongValueGene copy = this.clone();
 		copy.internalMutate(deviation);

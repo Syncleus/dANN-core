@@ -19,11 +19,10 @@
 package com.syncleus.dann.genetics;
 
 import java.util.*;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
+import org.apache.log4j.Logger;
+import com.syncleus.dann.DannRuntimeException;
+import com.syncleus.dann.InterruptedDannRuntimeException;
 
 /**
  * Rerpesents a population governed by Genetic Algorithm parameters. This class
@@ -43,10 +42,12 @@ public abstract class AbstractGeneticAlgorithmPopulation
 	private final double dieOffPercentage;
 	private int generations;
 	private final ThreadPoolExecutor threadExecutor;
+	private final static Logger LOGGER = Logger.getLogger(AbstractGeneticAlgorithmPopulation.class);
 
 	private static class Process implements Runnable
 	{
 		private AbstractGeneticAlgorithmFitnessFunction fitnessFunction;
+		private final static Logger LOGGER = Logger.getLogger(Process.class);
 
 		public Process(AbstractGeneticAlgorithmFitnessFunction fitnessFunction)
 		{
@@ -55,7 +56,15 @@ public abstract class AbstractGeneticAlgorithmPopulation
 
 		public void run()
 		{
-			this.fitnessFunction.process();
+			try
+			{
+				this.fitnessFunction.process();
+			}
+			catch(Throwable caught)
+			{
+				LOGGER.error("A throwable was caught!", caught);
+				throw new DannRuntimeException("Throwable caught: " + caught, caught);
+			}
 		}
 	}
 
@@ -123,12 +132,14 @@ public abstract class AbstractGeneticAlgorithmPopulation
 			for(Future future : futures)
 				future.get();
 		}
-		catch(InterruptedException caughtException)
+		catch(InterruptedException caught)
 		{
-			throw new AssertionError("Unexpected interuption. Get should block indefinately");
+			LOGGER.error("Unexpected interuption of Process(fitnessFunction)", caught);
+			throw new InterruptedDannRuntimeException("Unexpected interuption. Get should block indefinately", caught);
 		}
-		catch(ExecutionException caughtException)
+		catch(ExecutionException caught)
 		{
+			LOGGER.error("Unexpected execution exception thrown from within Process(fitnessFunction)", caught);
 			throw new AssertionError("Unexpected execution exception. Get should block indefinately");
 		}
 
@@ -234,7 +245,6 @@ public abstract class AbstractGeneticAlgorithmPopulation
 			this.population.pollFirst();
 
 		//breed children through mutation and crossover
-//		TreeSet<AbstractGeneticAlgorithmFitnessFunction> children = new TreeSet<AbstractGeneticAlgorithmFitnessFunction>();
 		ArrayList<GeneticAlgorithmChromosome> children = new ArrayList<GeneticAlgorithmChromosome>();
 		while(this.population.size() + children.size() < populationSize)
 		{
@@ -242,15 +252,8 @@ public abstract class AbstractGeneticAlgorithmPopulation
 			GeneticAlgorithmChromosome child1 = this.getRandomMember();
 			GeneticAlgorithmChromosome child2 = this.getRandomMember();
 
-			try
-			{
-				child1 = child1.mutate(mutationDeviation);
-				child2 = child2.mutate(mutationDeviation);
-			}
-			catch(CloneNotSupportedException caughtException)
-			{
-				throw new AssertionError("cloning not supported on a class being mutated");
-			}
+			child1 = child1.mutate(mutationDeviation);
+			child2 = child2.mutate(mutationDeviation);
 
 			//crossover performed on children
 			if(RANDOM.nextDouble() < this.crossoverPercentage)
@@ -265,14 +268,11 @@ public abstract class AbstractGeneticAlgorithmPopulation
 			}
 
 			//store the new children
-//			children.add(this.packageChromosome(child1));
-//			children.add(this.packageChromosome(child2));
 			children.add(child1);
 			children.add(child2);
 		}
 
 		//add children to the population
-		//this.population.addAll(children);
 		this.addAll(children);
 	}
 

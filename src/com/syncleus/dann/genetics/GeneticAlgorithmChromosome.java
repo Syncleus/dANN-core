@@ -19,6 +19,8 @@
 package com.syncleus.dann.genetics;
 
 import java.util.*;
+import org.apache.log4j.Logger;
+import com.syncleus.dann.genetics.wavelets.Mutation;
 
 /**
  * A Genetic Algorithm based Chromosome. While technically a Chromatid in
@@ -32,7 +34,8 @@ import java.util.*;
 public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>, Cloneable
 {
 	private Vector<AbstractValueGene> alleles;
-	private static Random random = new Random();
+	private final static Random RANDOM = Mutation.getRandom();
+	private final static Logger LOGGER = Logger.getLogger(GeneticAlgorithmChromosome.class);
 
 	private GeneticAlgorithmChromosome()
 	{
@@ -86,7 +89,7 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>,
 
 		while(this.alleles.size() < geneCount)
 		{
-			this.alleles.add(new DoubleValueGene(((random.nextDouble()*2d)-1d) * maxDeviation));
+			this.alleles.add(new DoubleValueGene(((RANDOM.nextDouble()*2d)-1d) * maxDeviation));
 		}
 	}
 
@@ -151,11 +154,19 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>,
 	 * @since 2.0
 	 */
 	@Override
-	public GeneticAlgorithmChromosome clone() throws CloneNotSupportedException
+	public GeneticAlgorithmChromosome clone()
 	{
-		GeneticAlgorithmChromosome copy = (GeneticAlgorithmChromosome) super.clone();
-		copy.alleles = new Vector<AbstractValueGene>(this.alleles);
-		return copy;
+		try
+		{
+			GeneticAlgorithmChromosome copy = (GeneticAlgorithmChromosome) super.clone();
+			copy.alleles = new Vector<AbstractValueGene>(this.alleles);
+			return copy;
+		}
+		catch(CloneNotSupportedException caught)
+		{
+			LOGGER.error("CloneNotSupportedException caught but not expected!", caught);
+			throw new AssertionError("CloneNotSupportedException caught but not expected: " + caught);
+		}
 	}
 
 	/**
@@ -169,7 +180,7 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>,
 	 * @return A copy of the current object with potential mutations.
 	 * @since 2.0
 	 */
-	public GeneticAlgorithmChromosome mutate(double deviation) throws CloneNotSupportedException
+	public GeneticAlgorithmChromosome mutate(double deviation)
 	{
 		GeneticAlgorithmChromosome mutated = new GeneticAlgorithmChromosome();
 		for(AbstractValueGene allele : this.alleles)

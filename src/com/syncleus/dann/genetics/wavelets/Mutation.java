@@ -23,7 +23,7 @@ import java.util.Random;
 
 public class Mutation
 {
-	private static Random random = new Random();
+	private final static Random RANDOM = new Random();
 
 	public static double mutabilityMutation(double mutability)
 	{
@@ -42,7 +42,7 @@ public class Mutation
 
 	public static Random getRandom()
 	{
-		return random;
+		return RANDOM;
 	}
 
 	public static boolean mutationEvent(double mutability)

@@ -45,7 +45,7 @@ public class PromoterGene extends AbstractWaveletGene implements Cloneable
 	}
 
 	@Override
-	public PromoterGene clone() throws CloneNotSupportedException
+	public PromoterGene clone()
 	{
 		PromoterGene copy = (PromoterGene) super.clone();
 
@@ -55,7 +55,7 @@ public class PromoterGene extends AbstractWaveletGene implements Cloneable
 	}
 
 	@Override
-	public void mutate(Set<AbstractKey> keyPool) throws CloneNotSupportedException
+	public void mutate(Set<AbstractKey> keyPool)
 	{
 		super.mutate(keyPool);
 

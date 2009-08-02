@@ -18,14 +18,16 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
-import com.syncleus.dann.genetics.MutableDouble;
 import java.util.*;
+import com.syncleus.dann.genetics.MutableDouble;
+import org.apache.log4j.Logger;
 
 public class Chromosome implements Cloneable
 {
 	private WaveletChromatid leftChromatid;
 	private WaveletChromatid rightChromatid;
-	private static Random random = Mutation.getRandom();
+	private final static Random RANDOM = Mutation.getRandom();
+	private final static Logger LOGGER = Logger.getLogger(Chromosome.class);
 
 	private double mutability;
 
@@ -121,7 +123,7 @@ public class Chromosome implements Cloneable
 	{
 		//find the crossover position
 		int crossoverPosition;
-		if(random.nextBoolean())
+		if(RANDOM.nextBoolean())
 		{
 			int length = ( this.leftChromatid.getCentromerePosition() < this.rightChromatid.getCentromerePosition() ? this.leftChromatid.getCentromerePosition() : this.rightChromatid.getCentromerePosition());
 
@@ -154,16 +156,24 @@ public class Chromosome implements Cloneable
 	}
 
 	@Override
-	public Chromosome clone() throws CloneNotSupportedException
+	public Chromosome clone()
 	{
-		Chromosome copy = (Chromosome) super.clone();
-		copy.leftChromatid = new WaveletChromatid(this.leftChromatid);
-		copy.rightChromatid = new WaveletChromatid(this.rightChromatid);
-		copy.mutability = this.mutability;
-		return copy;
+		try
+		{
+			Chromosome copy = (Chromosome) super.clone();
+			copy.leftChromatid = new WaveletChromatid(this.leftChromatid);
+			copy.rightChromatid = new WaveletChromatid(this.rightChromatid);
+			copy.mutability = this.mutability;
+			return copy;
+		}
+		catch(CloneNotSupportedException caught)
+		{
+			LOGGER.error("CloneNotSupportedException caught but not expected!", caught);
+			throw new AssertionError("CloneNotSupportedException caught but not expected: " + caught);
+		}
 	}
 
-	public void mutate(Set<AbstractKey> keyPool) throws CloneNotSupportedException
+	public void mutate(Set<AbstractKey> keyPool)
 	{
 		if( Mutation.mutationEvent(mutability) )
 			this.crossover(this.mutability);

@@ -91,7 +91,7 @@ public class ShortValueGene extends AbstractValueGene<MutableShort> implements C
 	 * @since 2.0
 	 */
 	@Override
-	public ShortValueGene clone() throws CloneNotSupportedException
+	public ShortValueGene clone()
 	{
 		return (ShortValueGene) super.clone();
 	}
@@ -106,7 +106,7 @@ public class ShortValueGene extends AbstractValueGene<MutableShort> implements C
 	 * @return A copy of the current object with potential mutations.
 	 * @since 2.0
 	 */
-	public ShortValueGene mutate(double deviation) throws CloneNotSupportedException
+	public ShortValueGene mutate(double deviation)
 	{
 		ShortValueGene copy = this.clone();
 		copy.internalMutate(deviation);

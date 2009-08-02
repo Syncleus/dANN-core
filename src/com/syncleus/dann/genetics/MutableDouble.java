@@ -70,7 +70,7 @@ public class MutableDouble extends MutableNumber<Double> implements Comparable<M
 	 * @since 2.0
 	 */
 	@Override
-	public MutableDouble clone() throws CloneNotSupportedException
+	public MutableDouble clone()
 	{
 		return (MutableDouble) super.clone();
 	}

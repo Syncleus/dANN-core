@@ -19,11 +19,13 @@
 package com.syncleus.dann.genetics.wavelets;
 
 import java.util.*;
+import org.apache.log4j.Logger;
 
 public class Nucleus implements Cloneable
 {
-	private final ArrayList<Chromosome> chromosomes;
+	private ArrayList<Chromosome> chromosomes;
 	private double mutability;
+	private final static Logger LOGGER = Logger.getLogger(Nucleus.class);
 
 	public Nucleus()
 	{
@@ -73,15 +75,24 @@ public class Nucleus implements Cloneable
 	}
 
 	@Override
-	public Nucleus clone() throws CloneNotSupportedException
+	public Nucleus clone()
 	{
-		Nucleus copy = (Nucleus) super.clone();
-		for(Chromosome chromosome : this.chromosomes)
-			copy.chromosomes.add(new Chromosome(chromosome));
-		return copy;
+		try
+		{
+			Nucleus copy = (Nucleus) super.clone();
+			copy.chromosomes = new ArrayList<Chromosome>();
+			for(Chromosome chromosome : this.chromosomes)
+				copy.chromosomes.add(new Chromosome(chromosome));
+			return copy;
+		}
+		catch(CloneNotSupportedException caught)
+		{
+			LOGGER.error("CloneNotSupportedException caught but not expected!", caught);
+			throw new AssertionError("CloneNotSupportedException caught but not expected: " + caught);
+		}
 	}
 
-	public void mutate() throws CloneNotSupportedException
+	public void mutate()
 	{
 		HashSet<AbstractKey> allKeys = new HashSet<AbstractKey>();
 		for(Chromosome chromosome : this.chromosomes)
@@ -91,7 +102,7 @@ public class Nucleus implements Cloneable
 			chromosome.mutate(allKeys);
 	}
 
-	public void mutate(Set<AbstractKey> keyPool) throws CloneNotSupportedException
+	public void mutate(Set<AbstractKey> keyPool)
 	{
 		HashSet<AbstractKey> allKeys = new HashSet<AbstractKey>(keyPool);
 		for(Chromosome chromosome : this.chromosomes)

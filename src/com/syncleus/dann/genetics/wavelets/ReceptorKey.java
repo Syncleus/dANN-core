@@ -68,12 +68,12 @@ public class ReceptorKey extends AbstractKey implements Cloneable
 	}
 
 	@Override
-	public ReceptorKey clone() throws CloneNotSupportedException
+	public ReceptorKey clone()
 	{
 		return (ReceptorKey) super.clone();
 	}
 
-	public ReceptorKey mutate(double deviation) throws CloneNotSupportedException
+	public ReceptorKey mutate(double deviation)
 	{
 		ReceptorKey copy = this.clone();
 		copy.internalMutate(deviation);

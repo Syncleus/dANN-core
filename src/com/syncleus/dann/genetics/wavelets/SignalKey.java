@@ -31,12 +31,12 @@ public class SignalKey extends AbstractKey implements Cloneable
 	}
 
 	@Override
-	public SignalKey clone() throws CloneNotSupportedException
+	public SignalKey clone()
 	{
 		return (SignalKey) super.clone();
 	}
 
-	public SignalKey mutate(double deviation) throws CloneNotSupportedException
+	public SignalKey mutate(double deviation)
 	{
 		SignalKey copy = this.clone();
 		copy.internalMutate(deviation);

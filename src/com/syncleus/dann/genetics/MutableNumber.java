@@ -20,6 +20,7 @@ package com.syncleus.dann.genetics;
 
 import com.syncleus.dann.genetics.wavelets.Mutation;
 import java.util.Random;
+import org.apache.log4j.Logger;
 
 /**
  * An abstract class representing a gene which expresses a constant value
@@ -32,9 +33,9 @@ import java.util.Random;
  */
 public abstract class MutableNumber<N extends Number> extends Number implements Cloneable
 {
-	private static Random random = Mutation.getRandom();
-
+	private final static Random RANDOM = Mutation.getRandom();
 	private N number;
+	private final static Logger LOGGER = Logger.getLogger(MutableNumber.class);
 
 	/**
 	 * Initializes a new MutableNumber backed by the specified number.
@@ -57,7 +58,7 @@ public abstract class MutableNumber<N extends Number> extends Number implements 
 	 */
 	static protected double getDistributedRandom(double deviation)
 	{
-		double normalRand = (MutableNumber.random.nextDouble() * 2.0) - 1.0;
+		double normalRand = (MutableNumber.RANDOM.nextDouble() * 2.0) - 1.0;
 		return atanh(normalRand) * Math.abs(deviation);
 	}
 
@@ -165,7 +166,7 @@ public abstract class MutableNumber<N extends Number> extends Number implements 
 	 * @since 2.0
 	 */
 	@Override
-	public boolean equals(Object compareWith)
+	public final boolean equals(Object compareWith)
 	{
 		return this.number.equals(compareWith);
 	}
@@ -192,11 +193,19 @@ public abstract class MutableNumber<N extends Number> extends Number implements 
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public MutableNumber<N> clone() throws CloneNotSupportedException
+	public MutableNumber<N> clone()
 	{
-		MutableNumber<N> copy = (MutableNumber<N>) super.clone();
-		copy.number = this.number;
-		return copy;
+		try
+		{
+			MutableNumber<N> copy = (MutableNumber<N>) super.clone();
+			copy.number = this.number;
+			return copy;
+		}
+		catch(CloneNotSupportedException caught)
+		{
+			LOGGER.error("CloneNotSupportedException caught but not expected!", caught);
+			throw new AssertionError("CloneNotSupportedException caught but not expected: " + caught);
+		}
 	}
 
 	/**

@@ -18,10 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.neural;
 
+import java.util.*;
 import com.syncleus.dann.neural.activation.ActivationFunction;
 import com.syncleus.dann.neural.activation.HyperbolicTangentActivationFunction;
-import java.security.InvalidParameterException;
-import java.util.*;
+import org.apache.log4j.Logger;
 
 
 /**
@@ -94,6 +94,7 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
 	protected static final Random RANDOM = new Random();
 	
 	private final static HyperbolicTangentActivationFunction DEFAULT_ACTIVATION_FUNCTION = new HyperbolicTangentActivationFunction();
+	private final static Logger LOGGER = Logger.getLogger(AbstractNeuron.class);
 
     // </editor-fold>
 
@@ -126,7 +127,7 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
     public AbstractNeuron(ActivationFunction activationFunction)
     {
         if (activationFunction == null)
-            throw new NullPointerException("activationFunction can not be null");
+            throw new IllegalArgumentException("activationFunction can not be null");
 
 
         this.biasWeight = ((this.RANDOM.nextDouble() * 2.0) - 1.0) / 1000.0;
@@ -167,7 +168,7 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
     {
         //make sure you arent already connected to the neuron
         if (outUnit == null)
-            throw new NullPointerException("outUnit can not be null!");
+            throw new IllegalArgumentException("outUnit can not be null!");
 
         //connect to the neuron
         Synapse newSynapse = new Synapse(this, outUnit, ((this.RANDOM.nextDouble() * 2.0) - 1.0) / 10000.0);
@@ -212,10 +213,10 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
             {
                 this.disconnectDestination(currentDestination);
             }
-            catch (SynapseNotConnectedException caughtException)
+            catch (SynapseNotConnectedException caught)
             {
-                caughtException.printStackTrace();
-                throw new InternalError("Unexpected Runtime Exception: " + caughtException);
+                LOGGER.error("Received an unexpected exception, this should not ever happen", caught);
+                throw new AssertionError("Unexpected Runtime Exception: " + caught);
             }
 		}
     }
@@ -241,10 +242,10 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
             {
                 this.disconnectSource(currentSource);
             }
-            catch (SynapseNotConnectedException caughtException)
+            catch (SynapseNotConnectedException caught)
             {
-                caughtException.printStackTrace();
-                throw new InternalError("Unexpected Runtime Exception: " + caughtException);
+                LOGGER.error("Received an unexpected exception, this should not ever happen", caught);
+                throw new AssertionError("Unexpected Runtime Exception: " + caught);
             }
 		}
     }
@@ -264,7 +265,7 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
     public void disconnectDestination(Synapse outSynapse) throws SynapseNotConnectedException
     {
         if (this instanceof OutputNeuron)
-            throw new InvalidParameterException("Can not disconnect a destination for a OutputNeuron");
+            throw new IllegalArgumentException("Can not disconnect a destination for a OutputNeuron");
 
         if (this.destinations.remove(outSynapse) == false)
             throw new SynapseNotConnectedException("can not disconnect destination, does not exist.");
@@ -276,7 +277,8 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
         }
         catch (SynapseDoesNotExistException caughtException)
         {
-            throw new SynapseNotConnectedException("can not disconnect destination, does not exist.", caughtException);
+			LOGGER.error("Incorrect state, a synapse was partially connected");
+            throw new SynapseNotConnectedException("can not disconnect destination, this shouldnt happen because it was partially connected.", caughtException);
         }
     }
 
@@ -295,7 +297,7 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
     public void disconnectSource(Synapse inSynapse) throws SynapseNotConnectedException
     {
         if (this instanceof InputNeuron)
-            throw new InvalidParameterException("Can not disconnect a source for a InputNeuron");
+            throw new IllegalArgumentException("Can not disconnect a source for a InputNeuron");
 
         if (this.sources.remove(inSynapse) == false)
             throw new SynapseNotConnectedException("can not disconnect source, does not exist.");
@@ -307,7 +309,8 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
         }
         catch (SynapseDoesNotExistException caughtException)
         {
-            throw new SynapseNotConnectedException("can not disconnect source, does not exist.", caughtException);
+			LOGGER.error("Incorrect state, a synapse was partially connected");
+            throw new SynapseNotConnectedException("can not disconnect source, this should never happen, it was partially connected.", caughtException);
         }
     }
 
@@ -324,7 +327,7 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
     protected void removeDestination(Synapse outSynapse) throws SynapseDoesNotExistException
     {
         if (this instanceof OutputNeuron)
-            throw new InvalidParameterException("Can not remove a destination for a OutputNeuron");
+            throw new IllegalArgumentException("Can not remove a destination for a OutputNeuron");
 
         if (this.destinations.remove(outSynapse) == false)
             throw new SynapseDoesNotExistException("Can not remove destination, does not exist.");
@@ -342,7 +345,7 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
     protected void removeSource(Synapse inSynapse) throws SynapseDoesNotExistException
     {
         if (this instanceof InputNeuron)
-            throw new InvalidParameterException("Can not disconnect a source for a InputNeuron");
+            throw new IllegalArgumentException("Can not disconnect a source for a InputNeuron");
 
         if (this.sources.remove(inSynapse) == false)
             throw new SynapseDoesNotExistException("Can not remove destination, does not exist.");

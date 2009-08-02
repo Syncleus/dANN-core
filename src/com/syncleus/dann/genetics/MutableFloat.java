@@ -70,7 +70,7 @@ public class MutableFloat extends MutableNumber<Float> implements Comparable<Mut
 	 * @since 2.0
 	 */
 	@Override
-	public MutableFloat clone() throws CloneNotSupportedException
+	public MutableFloat clone()
 	{
 		return (MutableFloat) super.clone();
 	}

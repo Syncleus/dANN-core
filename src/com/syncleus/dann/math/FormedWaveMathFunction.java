@@ -56,7 +56,7 @@ public class FormedWaveMathFunction extends WaveMathFunction
     }
 
 	@Override
-    public FormedWaveMathFunction clone() throws CloneNotSupportedException
+    public FormedWaveMathFunction clone()
     {
         FormedWaveMathFunction copy = (FormedWaveMathFunction) super.clone();
         copy.setX(this.getX());

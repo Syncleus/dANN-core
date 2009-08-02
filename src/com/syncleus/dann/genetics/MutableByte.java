@@ -70,7 +70,7 @@ public class MutableByte extends MutableNumber<Byte> implements Comparable<Mutab
 	 * @since 2.0
 	 */
 	@Override
-	public MutableByte clone() throws CloneNotSupportedException
+	public MutableByte clone()
 	{
 		return (MutableByte) super.clone();
 	}

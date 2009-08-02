@@ -16,30 +16,62 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.genetics.wavelets;
+package com.syncleus.dann;
 
-public class SignalKeyConcentration
+/**
+ *This exception signifes that execution could not complete because the thread
+ * was interrupted.
+ *
+ * @author Syncleus, Inc.
+ * @since 2.0
+ */
+public class InterruptedDannRuntimeException extends DannRuntimeException
 {
-	private final SignalKey signal;
-	private double concentration;
-
-	public SignalKeyConcentration(SignalKey signal)
+	/**
+	 * Creates a blank default exception.
+	 *
+	 * @since 2.0
+	 */
+	public InterruptedDannRuntimeException()
 	{
-		this.signal = signal;
 	}
 
-	public final SignalKey getSignal()
+	/**
+	 * Creates an exception with a message describing the cause.
+	 *
+	 *
+	 * @param msg A string describing the cause of the exception
+	 * @since 2.0
+	 */
+	public InterruptedDannRuntimeException(String msg)
 	{
-		return signal;
+		super(msg);
 	}
 
-	public final double getConcentration()
+	/**
+	 * Creates an exception with a message describing the cause as well as the
+	 * throwable which caused this exception to be thrown.
+	 *
+	 *
+	 * @param msg A string describing the cause of the exception
+	 * @param cause The throwable which caused this exception
+	 * @since 2.0
+	 */
+	public InterruptedDannRuntimeException(String msg, Throwable cause)
 	{
-		return concentration;
+		super(msg, cause);
 	}
 
-	public final void setConcentration(double concentration)
+	/**
+	 * Creates an exception containing the throwable which caused this exception
+	 * to be thrown.
+	 *
+	 *
+	 * @param cause The throwable which caused this exception
+	 * @since 2.0
+	 */
+	public InterruptedDannRuntimeException(Throwable cause)
 	{
-		this.concentration = concentration;
+		super(cause);
 	}
 }

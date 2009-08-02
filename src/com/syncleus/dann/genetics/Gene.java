@@ -36,7 +36,7 @@ public interface Gene extends Cloneable
 	 * @return an exact copy of this object.
 	 * @since 2.0
 	 */
-	public Gene clone() throws CloneNotSupportedException;
+	public Gene clone();
 
 	/**
 	 * The current expression activity. The meaning of this value depends on the

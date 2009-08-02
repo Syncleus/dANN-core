@@ -82,7 +82,7 @@ public class WaveMathFunction extends AbstractMathFunction implements Cloneable
         return Math.sin( (this.getX()+(this.getPhase()/360)) * 2 * Math.PI * this.getFrequency()) * this.getAmplitude();
     }
     
-    public WaveMathFunction clone() throws CloneNotSupportedException
+    public WaveMathFunction clone()
     {
         WaveMathFunction copy = (WaveMathFunction) super.clone();
         copy.setX(this.getX());

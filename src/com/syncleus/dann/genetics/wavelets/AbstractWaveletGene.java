@@ -18,20 +18,20 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
+import java.util.*;
 import com.syncleus.dann.genetics.Gene;
 import com.syncleus.dann.math.AbstractMathFunction;
-import java.util.*;
+import org.apache.log4j.Logger;
 
 public abstract class AbstractWaveletGene implements Gene, Cloneable
 {
 	private double currentActivity;
 	private double pendingActivity;
-	protected ExpressionFunction expressionFunction;
-
-	protected HashSet<SignalKeyConcentration> receivingConcentrations;
-
 	private double mutability;
+	private final static Logger LOGGER = Logger.getLogger(AbstractWaveletGene.class);
 
+	protected ExpressionFunction expressionFunction;
+	protected HashSet<SignalKeyConcentration> receivingConcentrations;
 	protected final static Random RANDOM = Mutation.getRandom();
 
 	protected AbstractWaveletGene(ReceptorKey initialReceptor)
@@ -96,7 +96,7 @@ public abstract class AbstractWaveletGene implements Gene, Cloneable
 	}
 
 
-	public void mutate(Set<AbstractKey> keyPool) throws CloneNotSupportedException
+	public void mutate(Set<AbstractKey> keyPool)
 	{
 		this.currentActivity = 0.0;
 		this.pendingActivity = 0.0;
@@ -114,17 +114,24 @@ public abstract class AbstractWaveletGene implements Gene, Cloneable
 	}
 
 	@Override
-	public AbstractWaveletGene clone() throws CloneNotSupportedException
+	public AbstractWaveletGene clone()
 	{
-		AbstractWaveletGene copy  = (AbstractWaveletGene) super.clone();
+		try
+		{
+			AbstractWaveletGene copy  = (AbstractWaveletGene) super.clone();
 
-		copy.currentActivity = this.currentActivity;
-		copy.pendingActivity = this.pendingActivity;
-		copy.expressionFunction = this.expressionFunction;
+			copy.currentActivity = this.currentActivity;
+			copy.pendingActivity = this.pendingActivity;
+			copy.expressionFunction = this.expressionFunction;
+			copy.mutability = this.mutability;
+			copy.receivingConcentrations = new HashSet<SignalKeyConcentration>(this.receivingConcentrations);
 
-		copy.mutability = this.mutability;
-		copy.receivingConcentrations = new HashSet<SignalKeyConcentration>(this.receivingConcentrations);
-
-		return copy;
+			return copy;
+		}
+		catch(CloneNotSupportedException caught)
+		{
+			LOGGER.error("CloneNotSupportedException caught but not expected!", caught);
+			throw new AssertionError("CloneNotSupportedException caught but not expected: " + caught);
+		}
 	}
 }

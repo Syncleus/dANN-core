@@ -70,7 +70,7 @@ public class MutableShort extends MutableNumber< Short> implements Comparable<Mu
 	 * @since 2.0
 	 */
 	@Override
-	public MutableShort clone() throws CloneNotSupportedException
+	public MutableShort clone()
 	{
 		return (MutableShort) super.clone();
 	}

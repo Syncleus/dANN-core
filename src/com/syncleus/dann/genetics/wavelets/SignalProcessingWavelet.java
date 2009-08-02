@@ -247,15 +247,8 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 
     public WaveletMathFunction getWavelet()
     {
-		try
-		{
-			this.reconstructWavelet();
-			return this.wavelet.clone();
-		}
-		catch(CloneNotSupportedException caughtException)
-		{
-			throw new AssertionError("WaveletMathFunctions should be clonable");
-		}
+		this.reconstructWavelet();
+		return this.wavelet.clone();
     }
 
 
@@ -551,15 +544,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
             WaveMultidimensionalMathFunction[] wavesArray = new WaveMultidimensionalMathFunction[this.waves.size()];
             this.waves.toArray(wavesArray);
             WaveMultidimensionalMathFunction randomWave = wavesArray[random.nextInt(wavesArray.length)];
-			WaveMultidimensionalMathFunction newWave;
-			try
-			{
-				newWave = randomWave.clone();
-			}
-			catch(CloneNotSupportedException caughtException)
-			{
-				throw new AssertionError("newWave should be cloneable");
-			}
+			WaveMultidimensionalMathFunction newWave = randomWave.clone();
 
             if(random.nextDouble() <= 1.0)
             {

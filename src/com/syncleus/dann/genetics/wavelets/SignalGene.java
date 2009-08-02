@@ -72,7 +72,7 @@ public class SignalGene extends AbstractWaveletGene implements Cloneable
 	}
 
 	@Override
-	public SignalGene clone() throws CloneNotSupportedException
+	public SignalGene clone()
 	{
 		SignalGene copy = (SignalGene) super.clone();
 		copy.outputSignal = this.outputSignal;
@@ -80,7 +80,7 @@ public class SignalGene extends AbstractWaveletGene implements Cloneable
 	}
 
 	@Override
-	public void mutate(Set<AbstractKey> keyPool) throws CloneNotSupportedException
+	public void mutate(Set<AbstractKey> keyPool)
 	{
 		super.mutate(keyPool);
 		this.outputSignal = this.outputSignal.mutate(this.getMutability());

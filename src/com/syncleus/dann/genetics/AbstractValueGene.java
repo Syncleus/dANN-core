@@ -18,6 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics;
 
+import org.apache.log4j.Logger;
+
 /**
  * Represents a Gene which can mutate and expresses constant activity. The
  * activity of a ValueGene remains constant and only changes through mutation.
@@ -31,6 +33,7 @@ package com.syncleus.dann.genetics;
 public abstract class AbstractValueGene<N extends MutableNumber> implements Gene, Cloneable
 {
 	private N value;
+	private final static Logger LOGGER = Logger.getLogger(AbstractValueGene.class);
 
 	/**
 	 * Initializes a new instance of this class backed by the specified
@@ -104,11 +107,19 @@ public abstract class AbstractValueGene<N extends MutableNumber> implements Gene
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public AbstractValueGene clone() throws CloneNotSupportedException
+	public AbstractValueGene clone()
 	{
-		 AbstractValueGene copy = (AbstractValueGene) super.clone();
-		 copy.value = (N) this.value;
-		 return copy;
+		try
+		{
+			AbstractValueGene copy = (AbstractValueGene) super.clone();
+			copy.value = (N) this.value;
+			return copy;
+		}
+		catch(CloneNotSupportedException caught)
+		{
+			LOGGER.error("CloneNotSupportedException caught but not expected!", caught);
+			throw new AssertionError("CloneNotSupportedException caught but not expected: " + caught);
+		}
 	}
 
 	/**
@@ -121,5 +132,5 @@ public abstract class AbstractValueGene<N extends MutableNumber> implements Gene
 	 * @return A copy of the current object with potential mutations.
 	 * @since 2.0
 	 */
-	public abstract AbstractValueGene<N> mutate(double deviation) throws CloneNotSupportedException;
+	public abstract AbstractValueGene<N> mutate(double deviation);
 }

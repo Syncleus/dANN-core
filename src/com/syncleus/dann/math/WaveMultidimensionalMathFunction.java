@@ -208,7 +208,7 @@ public class WaveMultidimensionalMathFunction extends AbstractMathFunction imple
 
 
 	@Override
-    public WaveMultidimensionalMathFunction clone() throws CloneNotSupportedException
+    public WaveMultidimensionalMathFunction clone()
     {
         WaveMultidimensionalMathFunction copy = (WaveMultidimensionalMathFunction)super.clone();
 

@@ -98,7 +98,6 @@ public class DistributedFormedWaveMathFunction extends FormedWaveMathFunction
     private double calculateDistribution()
     {
         return (1 / (this.getDistribution() * Math.sqrt(2 * Math.PI))) * Math.exp(-1 * (Math.pow((this.getX() - this.getCenter()), 2)) / (2 * Math.pow(this.getDistribution(), 2)));
-    //return Math.pow(1/Math.cosh(this.getX() - this.getCenter()), this.getDistribution());
     }
 
 
@@ -116,7 +115,7 @@ public class DistributedFormedWaveMathFunction extends FormedWaveMathFunction
 
 
 	@Override
-    public DistributedFormedWaveMathFunction clone() throws CloneNotSupportedException
+    public DistributedFormedWaveMathFunction clone()
     {
         DistributedFormedWaveMathFunction copy = (DistributedFormedWaveMathFunction)super.clone();
         copy.setX(this.getX());

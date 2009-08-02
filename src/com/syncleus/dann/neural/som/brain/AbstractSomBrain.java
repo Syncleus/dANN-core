@@ -21,11 +21,13 @@ package com.syncleus.dann.neural.som.brain;
 import com.syncleus.dann.neural.som.*;
 import com.syncleus.dann.neural.*;
 import java.util.*;
+import java.util.concurrent.*;
 import java.util.Map.Entry;
 import com.syncleus.dann.math.Hyperpoint;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
+import org.apache.log4j.Logger;
+import com.syncleus.dann.InterruptedDannRuntimeException;
+import com.syncleus.dann.DannRuntimeException;
+
 
 /**
  * A SomBrain acts as the parent class for all brains that use traditional SOM
@@ -44,19 +46,31 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	private ArrayList<SomInputNeuron> inputs = new ArrayList<SomInputNeuron>();
 	private Hashtable<Hyperpoint, SomNeuron> outputs = new Hashtable<Hyperpoint, SomNeuron>();
 
-	private static class PropogateOutput implements Callable<Double>
+	private final static Logger LOGGER = Logger.getLogger(AbstractSomBrain.class);
+
+
+	private static class PropagateOutput implements Callable<Double>
 	{
 		private SomNeuron neuron;
+		private final static Logger LOGGER = Logger.getLogger(PropagateOutput.class);
 
-		public PropogateOutput(SomNeuron neuron)
+		public PropagateOutput(SomNeuron neuron)
 		{
 			this.neuron = neuron;
 		}
 
 		public Double call()
 		{
-			this.neuron.propagate();
-			return Double.valueOf(this.neuron.getOutput());
+			try
+			{
+				this.neuron.propagate();
+				return Double.valueOf(this.neuron.getOutput());
+			}
+			catch(Throwable caught)
+			{
+				LOGGER.error("A throwable was caught!", caught);
+				throw new DannRuntimeException("Throwable caught: " + caught, caught);
+			}
 		}
 	}
 
@@ -79,11 +93,19 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 
 		public void run()
 		{
-			double currentDistance = this.neuronPoint.calculateRelativeTo(this.bestMatchPoint).getDistance();
-			if( currentDistance < this.neighborhoodRadius)
+			try
 			{
-				double neighborhoodAdjustment = neighborhoodFunction(currentDistance);
-				this.neuron.train(this.learningRate, neighborhoodAdjustment);
+				double currentDistance = this.neuronPoint.calculateRelativeTo(this.bestMatchPoint).getDistance();
+				if( currentDistance < this.neighborhoodRadius)
+				{
+					double neighborhoodAdjustment = neighborhoodFunction(currentDistance);
+					this.neuron.train(this.learningRate, neighborhoodAdjustment);
+				}
+			}
+			catch(Throwable caught)
+			{
+				LOGGER.error("A throwable was caught in TrainNeuron!", caught);
+				throw new DannRuntimeException("Throwable caught: " + caught, caught);
 			}
 		}
 	}
@@ -155,6 +177,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 		}
 		catch(InvalidConnectionTypeDannException caughtException)
 		{
+			LOGGER.error("An error was caught that wasnt expected", caughtException);
 			throw new AssertionError("unexpected InvalidConnectionTypeDannException");
 		}
 	}
@@ -221,7 +244,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 		HashMap<Hyperpoint, Future<Double>> futureOutput = new HashMap<Hyperpoint, Future<Double>>();
 		for(Entry<Hyperpoint, SomNeuron> entry : this.outputs.entrySet())
 		{
-			PropogateOutput callable = new PropogateOutput(entry.getValue());
+			PropagateOutput callable = new PropagateOutput(entry.getValue());
 			futureOutput.put(entry.getKey(), this.getThreadExecutor().submit(callable));
 		}
 
@@ -235,12 +258,14 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 			{
 				currentError = futureOutput.get(entry.getKey()).get().doubleValue();
 			}
-			catch(InterruptedException caughtException)
+			catch(InterruptedException caught)
 			{
-				throw new AssertionError("Unexpected interuption. Get should block indefinately");
+				LOGGER.error("PropagateOutput was unexpectidy interupted", caught);
+				throw new InterruptedDannRuntimeException("Unexpected interuption. Get should block indefinately", caught);
 			}
-			catch(ExecutionException caughtException)
+			catch(ExecutionException caught)
 			{
+				LOGGER.error("PropagateOutput was had an unexcepted problem executing.", caught);
 				throw new AssertionError("Unexpected execution exception. Get should block indefinately");
 			}
 
@@ -278,12 +303,14 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 			for(Future future : futures)
 				future.get();
 		}
-		catch(InterruptedException caughtException)
+		catch(InterruptedException caught)
 		{
-			throw new AssertionError("Unexpected interuption. Get should block indefinately");
+			LOGGER.error("PropagateOutput was unexpectidy interupted", caught);
+			throw new InterruptedDannRuntimeException("Unexpected interuption. Get should block indefinately", caught);
 		}
-		catch(ExecutionException caughtException)
+		catch(ExecutionException caught)
 		{
+			LOGGER.error("PropagateOutput had an unexpected problem executing.", caught);
 			throw new AssertionError("Unexpected execution exception. Get should block indefinately");
 		}
 

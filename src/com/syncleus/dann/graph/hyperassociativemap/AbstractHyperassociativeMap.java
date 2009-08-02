@@ -17,15 +17,14 @@
  *                                                                             *
  ******************************************************************************/
 package com.syncleus.dann.graph.hyperassociativemap;
+
+import java.util.*;
+import java.util.concurrent.*;
 import com.syncleus.dann.math.Hyperpoint;
 import java.io.Serializable;
-import java.util.*;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import org.apache.log4j.Logger;
+import com.syncleus.dann.DannRuntimeException;
+import com.syncleus.dann.InterruptedDannRuntimeException;
 
 
 /**
@@ -47,10 +46,12 @@ public abstract class AbstractHyperassociativeMap implements Serializable
 
 	private int dimensions;
 	private ThreadPoolExecutor threadExecutor;
+	private final static Logger LOGGER = Logger.getLogger(AbstractHyperassociativeMap.class);
 
 	private static class Align implements Callable<Hyperpoint>
 	{
 		private HyperassociativeNode node;
+		private final static Logger LOGGER = Logger.getLogger(Align.class);
 
 		public Align(HyperassociativeNode node)
 		{
@@ -59,8 +60,16 @@ public abstract class AbstractHyperassociativeMap implements Serializable
 
 		public Hyperpoint call()
 		{
-			this.node.align();
-			return this.node.getLocation();
+			try
+			{
+				this.node.align();
+				return this.node.getLocation();
+			}
+			catch(Throwable caught)
+			{
+				LOGGER.error("Throwable was caught by Align", caught);
+				throw new DannRuntimeException("Throwable was caught by Align", caught);
+			}
 		}
 	}
 
@@ -139,13 +148,15 @@ public abstract class AbstractHyperassociativeMap implements Serializable
 					center.setCoordinate(center.getCoordinate(dimensionIndex) + newPoint.getCoordinate(dimensionIndex), dimensionIndex);
 			}
 		}
-		catch(InterruptedException caughtException)
+		catch(InterruptedException caught)
 		{
-			throw new AssertionError("Unexpected interuption. Get should block indefinately");
+			LOGGER.error("Align was unexpectidy interupted", caught);
+			throw new InterruptedDannRuntimeException("Unexpected interuption. Get should block indefinately", caught);
 		}
-		catch(ExecutionException caughtException)
+		catch(ExecutionException caught)
 		{
-			throw new AssertionError("Unexpected execution exception. Get should block indefinately");
+				LOGGER.error("Align had an unexcepted problem executing.", caught);
+				throw new AssertionError("Unexpected execution exception. Get should block indefinately");
 		}
 
 		for(int dimensionIndex = 1; dimensionIndex <= this.dimensions; dimensionIndex++)

@@ -132,17 +132,10 @@ public class NeuronGroup<N extends AbstractNeuron> implements java.io.Serializab
 	@SuppressWarnings("unchecked")
     public void connectAllTo(N toConnectTo) throws InvalidConnectionTypeDannException
     {
-		try
-		{
-			for (N currentChild : this.childrenNeurons)
-				currentChild.connectTo(toConnectTo);
-			for(NeuronGroup currentChild : this.childrenNeuronGroups)
-				currentChild.connectAllTo(toConnectTo);
-		}
-		catch(ClassCastException caughtException)
-		{
-			throw new AssertionError(caughtException);
-		}
+		for (N currentChild : this.childrenNeurons)
+			currentChild.connectTo(toConnectTo);
+		for(NeuronGroup currentChild : this.childrenNeuronGroups)
+			currentChild.connectAllTo(toConnectTo);
     }
 
 	/**
@@ -159,24 +152,17 @@ public class NeuronGroup<N extends AbstractNeuron> implements java.io.Serializab
 	@SuppressWarnings("unchecked")
 	public void connectAllTo(NeuronGroup<? extends N> toConnectTo) throws InvalidConnectionTypeDannException
 	{
-		try
+		for (N currentChild : this.childrenNeurons)
 		{
-			for (N currentChild : this.childrenNeurons)
-			{
-				Set<? extends N> toConnectToChildren = toConnectTo.getChildrenNeuronsRecursivly();
-				for (N currentOut : toConnectToChildren)
-					currentChild.connectTo(currentOut);
-			}
-			for(NeuronGroup currentChild : this.childrenNeuronGroups)
-			{
-				Set<? extends N> toConnectToChildren = toConnectTo.getChildrenNeuronsRecursivly();
-				for (N currentOut : toConnectToChildren)
-					currentChild.connectAllTo(currentOut);
-			}
+			Set<? extends N> toConnectToChildren = toConnectTo.getChildrenNeuronsRecursivly();
+			for (N currentOut : toConnectToChildren)
+				currentChild.connectTo(currentOut);
 		}
-		catch(ClassCastException caughtException)
+		for(NeuronGroup currentChild : this.childrenNeuronGroups)
 		{
-			throw new AssertionError(caughtException);
+			Set<? extends N> toConnectToChildren = toConnectTo.getChildrenNeuronsRecursivly();
+			for (N currentOut : toConnectToChildren)
+				currentChild.connectAllTo(currentOut);
 		}
 	}
 

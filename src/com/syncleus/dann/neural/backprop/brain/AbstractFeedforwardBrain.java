@@ -18,49 +18,66 @@
  ******************************************************************************/
 package com.syncleus.dann.neural.backprop.brain;
 
-import com.syncleus.dann.neural.backprop.BackpropNeuron;
-import com.syncleus.dann.neural.backprop.BackpropNeuronGroup;
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.concurrent.ThreadPoolExecutor;
+import com.syncleus.dann.*;
+import com.syncleus.dann.neural.backprop.*;
+import java.util.*;
+import java.util.concurrent.*;
+import org.apache.log4j.Logger;
 
 public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
 {
 	private boolean initialized = false;
 	private ArrayList<BackpropNeuronGroup> neuronLayers = new ArrayList<BackpropNeuronGroup>();
 	private int layerCount;
+	private final static Logger LOGGER = Logger.getLogger(AbstractFeedforwardBrain.class);
 
 
 
-	private static class Propogate implements Runnable
+	private static class Propagate implements Runnable
 	{
 		private BackpropNeuron neuron;
+		private final static Logger LOGGER = Logger.getLogger(Propagate.class);
 
-		public Propogate(BackpropNeuron neuron)
+		public Propagate(BackpropNeuron neuron)
 		{
 			this.neuron = neuron;
 		}
 
 		public void run()
 		{
-			this.neuron.propagate();
+			try
+			{
+				this.neuron.propagate();
+			}
+			catch(Throwable caught)
+			{
+				LOGGER.error("Throwable caught!", caught);
+				throw new DannRuntimeException("Throwable exception caught in Propagate", caught);
+			}
 		}
 	}
 
-	private static class BackPropogate implements Runnable
+	private static class BackPropagate implements Runnable
 	{
 		private BackpropNeuron neuron;
+		private final static Logger LOGGER = Logger.getLogger(BackPropagate.class);
 
-		public BackPropogate(BackpropNeuron neuron)
+		public BackPropagate(BackpropNeuron neuron)
 		{
 			this.neuron = neuron;
 		}
 
 		public void run()
 		{
-			this.neuron.backPropagate();
+			try
+			{
+				this.neuron.backPropagate();
+			}
+			catch(Throwable caught)
+			{
+				LOGGER.error("Throwable caught!", caught);
+				throw new DannRuntimeException("Throwable exception caught in Propagate", caught);
+			}
 		}
 	}
 
@@ -155,7 +172,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
 			//begin processing all neurons in one layer simultaniously
 			ArrayList<Future> futures = new ArrayList<Future>();
 			for(BackpropNeuron neuron : layerNeurons)
-				futures.add(this.getThreadExecutor().submit(new Propogate(neuron)));
+				futures.add(this.getThreadExecutor().submit(new Propagate(neuron)));
 
 			//wait until all neurons have propogated
 			try
@@ -163,12 +180,14 @@ public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
 				for(Future future : futures)
 					future.get();
 			}
-			catch(InterruptedException caughtException)
+			catch(InterruptedException caught)
 			{
-				throw new AssertionError("Unexpected interuption. Get should block indefinately");
+				LOGGER.error("Propagate was unexpectidy interupted", caught);
+				throw new InterruptedDannRuntimeException("Unexpected interuption. Get should block indefinately", caught);
 			}
-			catch(ExecutionException caughtException)
+			catch(ExecutionException caught)
 			{
+				LOGGER.error("Propagate had an unexcepted problem executing.", caught);
 				throw new AssertionError("Unexpected execution exception. Get should block indefinately");
 			}
 
@@ -189,7 +208,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
 			//begin processing all neurons in one layer simultaniously
 			ArrayList<Future> futures = new ArrayList<Future>();
 			for(BackpropNeuron neuron : layerNeurons)
-				futures.add(this.getThreadExecutor().submit(new BackPropogate(neuron)));
+				futures.add(this.getThreadExecutor().submit(new BackPropagate(neuron)));
 
 			//wait until all neurons have backPropogated
 			try
@@ -197,12 +216,14 @@ public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
 				for(Future future : futures)
 					future.get();
 			}
-			catch(InterruptedException caughtException)
+			catch(InterruptedException caught)
 			{
-				throw new AssertionError("Unexpected interuption. Get should block indefinately");
+				LOGGER.error("BackPropagate was unexpectidy interupted", caught);
+				throw new InterruptedDannRuntimeException("Unexpected interuption. Get should block indefinately", caught);
 			}
-			catch(ExecutionException caughtException)
+			catch(ExecutionException caught)
 			{
+				LOGGER.error("BackPropagate had an unexcepted problem executing.", caught);
 				throw new AssertionError("Unexpected execution exception. Get should block indefinately");
 			}
 

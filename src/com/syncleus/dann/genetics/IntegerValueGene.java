@@ -91,7 +91,7 @@ public class IntegerValueGene extends AbstractValueGene<MutableInteger> implemen
 	 * @since 2.0
 	 */
 	@Override
-	public IntegerValueGene clone() throws CloneNotSupportedException
+	public IntegerValueGene clone()
 	{
 		return (IntegerValueGene) super.clone();
 	}
@@ -106,7 +106,7 @@ public class IntegerValueGene extends AbstractValueGene<MutableInteger> implemen
 	 * @return A copy of the current object with potential mutations.
 	 * @since 2.0
 	 */
-	public IntegerValueGene mutate(double deviation) throws CloneNotSupportedException
+	public IntegerValueGene mutate(double deviation)
 	{
 		IntegerValueGene copy = this.clone();
 		copy.internalMutate(deviation);

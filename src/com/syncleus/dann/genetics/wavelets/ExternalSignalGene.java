@@ -62,13 +62,13 @@ public class ExternalSignalGene extends SignalGene implements Cloneable
 	}
 
 	@Override
-	public ExternalSignalGene clone() throws CloneNotSupportedException
+	public ExternalSignalGene clone()
 	{
 		return (ExternalSignalGene) super.clone();
 	}
 
 	@Override
-	public void mutate(Set<AbstractKey> keyPool) throws CloneNotSupportedException
+	public void mutate(Set<AbstractKey> keyPool)
 	{
 		super.mutate(keyPool);
 

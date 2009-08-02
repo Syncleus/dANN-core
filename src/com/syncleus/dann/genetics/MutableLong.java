@@ -70,7 +70,7 @@ public class MutableLong extends MutableNumber<Long> implements Comparable<Mutab
 	 * @since 2.0
 	 */
 	@Override
-	public MutableLong clone() throws CloneNotSupportedException
+	public MutableLong clone()
 	{
 		return (MutableLong) super.clone();
 	}
