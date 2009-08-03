@@ -115,10 +115,7 @@ public final class MathFunctionDataBinder implements Binned2DData
     private float convertFromYIndex(int y)
     {
         float ySize = this.yMax - this.yMin;
-        
-        y = this.yBins() - y;
-
-        return (((float)y) / ((float)this.yBins())) * ySize + this.yMin;
+        return (((float)(this.yBins() - y)) / ((float)this.yBins())) * ySize + this.yMin;
     }
 
 

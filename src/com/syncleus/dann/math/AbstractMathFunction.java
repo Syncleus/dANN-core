@@ -18,7 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.math;
 
-import java.security.InvalidParameterException;
 import java.util.Hashtable;
 import org.apache.log4j.Logger;
 
@@ -75,7 +74,7 @@ public abstract class AbstractMathFunction implements Cloneable
     public final void setParameter(int parameterIndex, double value)
     {
         if(parameterIndex >= parameters.length || parameterIndex < 0)
-            throw new InvalidParameterException("parameterIndex of " + parameterIndex + " is out of range");
+            throw new IllegalArgumentException("parameterIndex of " + parameterIndex + " is out of range");
         
         this.parameters[parameterIndex] = value;
     }
@@ -88,7 +87,7 @@ public abstract class AbstractMathFunction implements Cloneable
     public final double getParameter(int parameterIndex)
     {
         if(parameterIndex >= parameters.length || parameterIndex < 0)
-            throw new InvalidParameterException("parameterIndex out of range");
+            throw new IllegalArgumentException("parameterIndex out of range");
         
         return this.parameters[parameterIndex];
     }
@@ -101,7 +100,7 @@ public abstract class AbstractMathFunction implements Cloneable
     public final String getParameterName(int parameterIndex)
     {
         if( parameterIndex >= this.parameterNames.length || parameterIndex < 0 )
-            throw new InvalidParameterException("parameterIndex is not within range");
+            throw new IllegalArgumentException("parameterIndex is not within range");
         
         return this.parameterNames[parameterIndex];
     }
@@ -109,7 +108,7 @@ public abstract class AbstractMathFunction implements Cloneable
     public final int getParameterNameIndex(String parameterName)
     {
         if( this.indexNames.containsKey(parameterName) == false)
-            throw new InvalidParameterException("parameterName: " + parameterName + " does not exist");
+            throw new IllegalArgumentException("parameterName: " + parameterName + " does not exist");
         
         return this.indexNames.get(parameterName).intValue();
     }
@@ -134,7 +133,7 @@ public abstract class AbstractMathFunction implements Cloneable
 		catch(CloneNotSupportedException caught)
 		{
 			LOGGER.error("CloneNotSupportedException caught but not expected!", caught);
-			throw new AssertionError("CloneNotSupportedException caught but not expected: " + caught);
+			throw new AssertionError("CloneNotSupportedException caught but not expected");
 		}
 	}
 

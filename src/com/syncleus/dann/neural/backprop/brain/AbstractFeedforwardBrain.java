@@ -198,7 +198,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
 			catch(ExecutionException caught)
 			{
 				LOGGER.error("Propagate had an unexcepted problem executing.", caught);
-				throw new InternalError("Unexpected execution exception. Get should block indefinately");
+				throw new AssertionError("Unexpected execution exception. Get should block indefinately");
 			}
 
 		}
@@ -234,7 +234,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
 			catch(ExecutionException caught)
 			{
 				LOGGER.error("BackPropagate had an unexcepted problem executing.", caught);
-				throw new InternalError("Unexpected execution exception. Get should block indefinately");
+				throw new AssertionError("Unexpected execution exception. Get should block indefinately");
 			}
 
 		}

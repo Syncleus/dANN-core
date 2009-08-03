@@ -161,7 +161,7 @@ public abstract class AbstractHyperassociativeMap implements Serializable
 		catch(ExecutionException caught)
 		{
 			LOGGER.error("Align had an unexcepted problem executing.", caught);
-			throw new InternalError("Unexpected execution exception. Get should block indefinately");
+			throw new AssertionError("Unexpected execution exception. Get should block indefinately");
 		}
 
 		for(int dimensionIndex = 1; dimensionIndex <= this.dimensions; dimensionIndex++)

@@ -145,7 +145,7 @@ public abstract class AbstractGeneticAlgorithmPopulation
 		catch(ExecutionException caught)
 		{
 			LOGGER.error("Unexpected execution exception thrown from within Process(fitnessFunction)", caught);
-			throw new InternalError("Unexpected execution exception. Get should block indefinately");
+			throw new AssertionError("Unexpected execution exception. Get should block indefinately");
 		}
 
 		//add to thetree set and sort

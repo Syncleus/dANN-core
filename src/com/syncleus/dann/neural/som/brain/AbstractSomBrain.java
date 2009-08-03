@@ -188,7 +188,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 		catch(InvalidConnectionTypeDannException caughtException)
 		{
 			LOGGER.error("An error was caught that wasnt expected", caughtException);
-			throw new InternalError("unexpected InvalidConnectionTypeDannException");
+			throw new AssertionError("unexpected InvalidConnectionTypeDannException");
 		}
 	}
 
@@ -276,7 +276,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 			catch(ExecutionException caught)
 			{
 				LOGGER.error("PropagateOutput was had an unexcepted problem executing.", caught);
-				throw new InternalError("Unexpected execution exception. Get should block indefinately");
+				throw new AssertionError("Unexpected execution exception. Get should block indefinately");
 			}
 
 			if(bestMatchingUnit == null)
@@ -321,7 +321,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 		catch(ExecutionException caught)
 		{
 			LOGGER.error("PropagateOutput had an unexpected problem executing.", caught);
-			throw new InternalError("Unexpected execution exception. Get should block indefinately");
+			throw new AssertionError("Unexpected execution exception. Get should block indefinately");
 		}
 
 		this.iterationsTrained++;

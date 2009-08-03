@@ -95,7 +95,7 @@ public class HyperassociativeMapVisualization extends BranchGroup
 	 *
 	 * @since 1.0
 	 */
-    public void refresh()
+    public final void refresh()
     {
 
         boolean childrenRemoved = false;
