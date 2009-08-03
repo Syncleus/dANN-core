@@ -66,10 +66,15 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 				this.neuron.propagate();
 				return Double.valueOf(this.neuron.getOutput());
 			}
-			catch(Throwable caught)
+			catch(Exception caught)
 			{
 				LOGGER.error("A throwable was caught!", caught);
 				throw new DannRuntimeException("Throwable caught: " + caught, caught);
+			}
+			catch(Error caught)
+			{
+				LOGGER.error("A throwable was caught!", caught);
+				throw new Error("Throwable caught: " + caught, caught);
 			}
 		}
 	}
@@ -102,10 +107,15 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 					this.neuron.train(this.learningRate, neighborhoodAdjustment);
 				}
 			}
-			catch(Throwable caught)
+			catch(Exception caught)
 			{
 				LOGGER.error("A throwable was caught in TrainNeuron!", caught);
 				throw new DannRuntimeException("Throwable caught: " + caught, caught);
+			}
+			catch(Error caught)
+			{
+				LOGGER.error("A throwable was caught in TrainNeuron!", caught);
+				throw new Error("Throwable caught: " + caught, caught);
 			}
 		}
 	}
@@ -178,7 +188,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 		catch(InvalidConnectionTypeDannException caughtException)
 		{
 			LOGGER.error("An error was caught that wasnt expected", caughtException);
-			throw new AssertionError("unexpected InvalidConnectionTypeDannException");
+			throw new InternalError("unexpected InvalidConnectionTypeDannException");
 		}
 	}
 
@@ -266,7 +276,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 			catch(ExecutionException caught)
 			{
 				LOGGER.error("PropagateOutput was had an unexcepted problem executing.", caught);
-				throw new AssertionError("Unexpected execution exception. Get should block indefinately");
+				throw new InternalError("Unexpected execution exception. Get should block indefinately");
 			}
 
 			if(bestMatchingUnit == null)
@@ -311,7 +321,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 		catch(ExecutionException caught)
 		{
 			LOGGER.error("PropagateOutput had an unexpected problem executing.", caught);
-			throw new AssertionError("Unexpected execution exception. Get should block indefinately");
+			throw new InternalError("Unexpected execution exception. Get should block indefinately");
 		}
 
 		this.iterationsTrained++;

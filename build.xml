@@ -93,7 +93,6 @@
 		<javac destdir="build/classes" classpathref="classpath" debug="true" excludes="com/syncleus/tests/**" srcdir="src">
 			<compilerarg value="-Xlint:unchecked"/>
 		</javac>
-		<copy file="log4j.xml" todir="build/classes"/>
 
 		<mkdir dir="build/tests/classes"/>
 		<javac destdir="build/tests/classes" classpathref="classpath" debug="true" srcdir="src">
@@ -101,7 +100,6 @@
 			<compilerarg value="-Xlint:unchecked"/>
 		</javac>
 		<delete dir="build/tests/classes/com/syncleus/dann"/>
-		<copy file="log4j.xml" todir="build/tests/classes"/>
 
 		<mkdir dir="build/coverage/classes"/>
 		<cobertura-instrument todir="build/coverage/classes">
@@ -110,7 +108,6 @@
 				<include name="tests/classes/**/*.class"/>
 			</fileset>
 		</cobertura-instrument>
-		<copy file="log4j.xml" todir="build/coverage/classes"/>
 	</target>
 
 	<target name="compile-warnings">
@@ -120,7 +117,6 @@
 		<javac destdir="build/classes" classpathref="classpath" debug="true" excludes="com/syncleus/tests/**" srcdir="src">
 			<compilerarg value="-Xlint"/>
 		</javac>
-		<copy file="log4j.xml" todir="build/classes"/>
 
 		<mkdir dir="build/tests/classes"/>
 		<javac destdir="build/tests/classes" classpathref="classpath" debug="true" srcdir="src">
@@ -128,7 +124,6 @@
 			<compilerarg value="-Xlint:unchecked"/>
 		</javac>
 		<delete dir="build/tests/classes/com/syncleus/dann"/>
-		<copy file="log4j.xml" todir="build/tests/classes"/>
 
 		<mkdir dir="build/coverage/classes"/>
 		<cobertura-instrument todir="build/coverage/classes">
@@ -137,7 +132,6 @@
 				<include name="tests/classes/**/*.class"/>
 			</fileset>
 		</cobertura-instrument>
-		<copy file="log4j.xml" todir="build/coverage/classes"/>
 	</target>
 
 	<target name="build">

@@ -60,10 +60,15 @@ public abstract class AbstractGeneticAlgorithmPopulation
 			{
 				this.fitnessFunction.process();
 			}
-			catch(Throwable caught)
+			catch(Exception caught)
 			{
 				LOGGER.error("A throwable was caught!", caught);
 				throw new DannRuntimeException("Throwable caught: " + caught, caught);
+			}
+			catch(Error caught)
+			{
+				LOGGER.error("A throwable was caught!", caught);
+				throw new Error("Throwable caught: " + caught, caught);
 			}
 		}
 	}
@@ -140,7 +145,7 @@ public abstract class AbstractGeneticAlgorithmPopulation
 		catch(ExecutionException caught)
 		{
 			LOGGER.error("Unexpected execution exception thrown from within Process(fitnessFunction)", caught);
-			throw new AssertionError("Unexpected execution exception. Get should block indefinately");
+			throw new InternalError("Unexpected execution exception. Get should block indefinately");
 		}
 
 		//add to thetree set and sort

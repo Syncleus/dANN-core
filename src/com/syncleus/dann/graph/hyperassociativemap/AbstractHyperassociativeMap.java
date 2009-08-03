@@ -65,10 +65,15 @@ public abstract class AbstractHyperassociativeMap implements Serializable
 				this.node.align();
 				return this.node.getLocation();
 			}
-			catch(Throwable caught)
+			catch(Exception caught)
 			{
 				LOGGER.error("Throwable was caught by Align", caught);
 				throw new DannRuntimeException("Throwable was caught by Align", caught);
+			}
+			catch(Error caught)
+			{
+				LOGGER.error("Throwable was caught by Align", caught);
+				throw new Error("Throwable was caught by Align", caught);
 			}
 		}
 	}
@@ -155,8 +160,8 @@ public abstract class AbstractHyperassociativeMap implements Serializable
 		}
 		catch(ExecutionException caught)
 		{
-				LOGGER.error("Align had an unexcepted problem executing.", caught);
-				throw new AssertionError("Unexpected execution exception. Get should block indefinately");
+			LOGGER.error("Align had an unexcepted problem executing.", caught);
+			throw new InternalError("Unexpected execution exception. Get should block indefinately");
 		}
 
 		for(int dimensionIndex = 1; dimensionIndex <= this.dimensions; dimensionIndex++)

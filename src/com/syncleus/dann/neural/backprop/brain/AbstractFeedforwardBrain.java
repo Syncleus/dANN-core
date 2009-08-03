@@ -49,10 +49,15 @@ public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
 			{
 				this.neuron.propagate();
 			}
-			catch(Throwable caught)
+			catch(Exception caught)
 			{
 				LOGGER.error("Throwable caught!", caught);
 				throw new DannRuntimeException("Throwable exception caught in Propagate", caught);
+			}
+			catch(Error caught)
+			{
+				LOGGER.error("Throwable caught!", caught);
+				throw new Error("Throwable exception caught in Propagate", caught);
 			}
 		}
 	}
@@ -73,7 +78,12 @@ public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
 			{
 				this.neuron.backPropagate();
 			}
-			catch(Throwable caught)
+			catch(Exception caught)
+			{
+				LOGGER.error("Throwable caught!", caught);
+				throw new DannRuntimeException("Throwable exception caught in Propagate", caught);
+			}
+			catch(Error caught)
 			{
 				LOGGER.error("Throwable caught!", caught);
 				throw new DannRuntimeException("Throwable exception caught in Propagate", caught);
@@ -188,7 +198,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
 			catch(ExecutionException caught)
 			{
 				LOGGER.error("Propagate had an unexcepted problem executing.", caught);
-				throw new AssertionError("Unexpected execution exception. Get should block indefinately");
+				throw new InternalError("Unexpected execution exception. Get should block indefinately");
 			}
 
 		}
@@ -224,7 +234,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
 			catch(ExecutionException caught)
 			{
 				LOGGER.error("BackPropagate had an unexcepted problem executing.", caught);
-				throw new AssertionError("Unexpected execution exception. Get should block indefinately");
+				throw new InternalError("Unexpected execution exception. Get should block indefinately");
 			}
 
 		}
