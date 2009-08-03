@@ -229,7 +229,7 @@ public class HyperassociativeNode implements Serializable
     public double getNeighborsWeight(HyperassociativeNode neighbor) throws NeighborNotFoundException
     {
         if (neighbor == null)
-            throw new NullPointerException("neighbor can not be null!");
+            throw new IllegalArgumentException("neighbor can not be null!");
 
         Double weight = this.weightedNeighbors.get(neighbor);
 

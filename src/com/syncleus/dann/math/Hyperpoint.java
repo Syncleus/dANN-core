@@ -323,7 +323,7 @@ public class Hyperpoint implements Serializable
     public Hyperpoint add(Hyperpoint pointToAdd)
     {
         if(pointToAdd == null)
-            throw new NullPointerException("pointToAdd can not be null!");
+            throw new IllegalArgumentException("pointToAdd can not be null!");
 
 		double currentCoords[] = this.coordinates.clone();
 		double addCoords[] = pointToAdd.coordinates.clone();

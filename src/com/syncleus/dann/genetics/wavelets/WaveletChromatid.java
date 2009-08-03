@@ -45,16 +45,9 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 	//This chomatids chance of mutating. This value itself will mutate.
 	private double mutability;
 
-	public WaveletChromatid()
+	private WaveletChromatid()
 	{
 		mutability = Mutation.getRandom().nextDouble() * 10.0;
-
-		while(this.sequencedGenes.size() <= 0 )
-			this.mutate(null);
-
-		while(Mutation.mutationEvent(mutability))
-			this.mutate(null);
-
 	}
 	
 	public WaveletChromatid(WaveletChromatid copy)
@@ -75,6 +68,19 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 			this.localSignalGenes.add(currentGene.clone());
 		for(ExternalSignalGene currentGene : copy.externalSignalGenes)
 			this.externalSignalGenes.add(currentGene.clone());
+	}
+
+	public static WaveletChromatid newRandomWaveletChromatid()
+	{
+		WaveletChromatid newChromatid = new WaveletChromatid();
+
+		while(newChromatid.sequencedGenes.size() <= 0 )
+			newChromatid.mutate(null);
+
+		while(Mutation.mutationEvent(newChromatid.mutability))
+			newChromatid.mutate(null);
+
+		return newChromatid;
 	}
 
 	Set<SignalKey> getExpressedSignals(boolean external)

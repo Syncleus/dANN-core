@@ -33,8 +33,8 @@ public class Chromosome implements Cloneable
 
 	public Chromosome()
 	{
-		this.leftChromatid = new WaveletChromatid();
-		this.rightChromatid = new WaveletChromatid();
+		this.leftChromatid = WaveletChromatid.newRandomWaveletChromatid();
+		this.rightChromatid = WaveletChromatid.newRandomWaveletChromatid();
 	}
 
 	public Chromosome(Chromosome copy)
