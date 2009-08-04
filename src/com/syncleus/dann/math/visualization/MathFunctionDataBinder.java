@@ -76,13 +76,13 @@ public final class MathFunctionDataBinder implements Binned2DData
                 if(!Float.isNaN(currentZ))
                 {
 
-                    if((this.maxZ < currentZ) || (!zMaxSet))
+                    if((newZMax < currentZ) || (!zMaxSet))
                     {
                         newZMax = currentZ;
                         zMaxSet = true;
                     }
 
-                    if((this.minZ > currentZ) || (!zMinSet))
+                    if((newZMin > currentZ) || (!zMinSet))
                     {
                         newZMin = currentZ;
                         zMinSet = true;
@@ -100,7 +100,7 @@ public final class MathFunctionDataBinder implements Binned2DData
 		this.maxZ = newZMax;
 		this.minZ = newZMin;
         
-        if( Float.isNaN(maxZ) || Float.isNaN(minZ))
+        if( Float.isNaN(this.maxZ) || Float.isNaN(this.minZ))
             throw new InvalidParameterException("z does not deviate, nothing to plot!");
     }
 
