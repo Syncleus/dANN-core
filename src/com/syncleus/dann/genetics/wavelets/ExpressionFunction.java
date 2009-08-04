@@ -26,8 +26,8 @@ import org.apache.log4j.Logger;
 public class ExpressionFunction implements Cloneable
 {
     private final static Random RANDOM = Mutation.getRandom();
-    private HashSet<ReceptorKey> receptors;
-    private ArrayList<WaveMultidimensionalMathFunction> waves;
+    private Set<ReceptorKey> receptors;
+    private List<WaveMultidimensionalMathFunction> waves;
     private WaveletMathFunction wavelet;
 	private final static Logger LOGGER = Logger.getLogger(ExpressionFunction.class);
 
@@ -47,7 +47,7 @@ public class ExpressionFunction implements Cloneable
 
         this.receptors.add(initialInput);
 
-        WaveMultidimensionalMathFunction initialWave = generateNewWave();
+        final WaveMultidimensionalMathFunction initialWave = generateNewWave();
         this.waves.add(initialWave);
     }
 
@@ -82,7 +82,7 @@ public class ExpressionFunction implements Cloneable
     }
 
 
-	public boolean receives(SignalKey signal)
+	public boolean receives(final SignalKey signal)
 	{
 		for(ReceptorKey receptor : this.receptors)
 		{
@@ -94,7 +94,7 @@ public class ExpressionFunction implements Cloneable
 	}
 
 
-	public double calculate(Set<SignalKeyConcentration> signalConcentrations)
+	public double calculate(final Set<SignalKeyConcentration> signalConcentrations)
 	{
         this.reconstructWavelet();
 
@@ -121,7 +121,7 @@ public class ExpressionFunction implements Cloneable
     {
 		try
 		{
-			ExpressionFunction copy = (ExpressionFunction) super.clone();
+			final ExpressionFunction copy = (ExpressionFunction) super.clone();
 			copy.receptors = new HashSet<ReceptorKey>(this.receptors);
 			copy.waves = new ArrayList<WaveMultidimensionalMathFunction>(this.waves);
 			copy.wavelet = this.wavelet;
@@ -168,9 +168,9 @@ public class ExpressionFunction implements Cloneable
      *
      * @return New mutated wavelet
      */
-    public ExpressionFunction mutate(double deviation)
+    public ExpressionFunction mutate(final double deviation)
     {
-        ExpressionFunction copy = this.clone();
+        final ExpressionFunction copy = this.clone();
 
         while(RANDOM.nextFloat() < 0.1)
         {
@@ -188,53 +188,45 @@ public class ExpressionFunction implements Cloneable
                 copy.waves.add(this.generateNewWave());
             }
             //delete a random wave
-            if(RANDOM.nextDouble() < 0.1)
+            if((this.waves.size() > 1)&&(RANDOM.nextDouble() < 0.1))
             {
-                //only delete if there will be atleast one wave left
-                if(this.waves.size() > 1)
-                {
-                    WaveMultidimensionalMathFunction deleteWave = copy.waves.get(RANDOM.nextInt(copy.waves.size()));
-                    copy.waves.remove(deleteWave);
-                }
+				final WaveMultidimensionalMathFunction deleteWave = copy.waves.get(RANDOM.nextInt(copy.waves.size()));
+				copy.waves.remove(deleteWave);
             }
-            //delete a signal
-            if(RANDOM.nextDouble() < 0.1)
+            //only delete if there will be atleast one signal left
+            if((this.receptors.size() > 1)&&(RANDOM.nextDouble() < 0.1))
             {
-                //only delete if there will be atleast one signal left
-                if(this.receptors.size() > 1)
-                {
-                    ReceptorKey[] receptorArray = new ReceptorKey[copy.receptors.size()];
-                    copy.receptors.toArray(receptorArray);
+				final ReceptorKey[] receptorArray = new ReceptorKey[copy.receptors.size()];
+				copy.receptors.toArray(receptorArray);
 
-                    ReceptorKey deleteReceptor = receptorArray[RANDOM.nextInt(receptorArray.length)];
-                    copy.receptors.remove(deleteReceptor);
+				final ReceptorKey deleteReceptor = receptorArray[RANDOM.nextInt(receptorArray.length)];
+				copy.receptors.remove(deleteReceptor);
 
-                    ReceptorKey[] copyReceptors = new ReceptorKey[copy.receptors.size()];
-                    copy.receptors.toArray(copyReceptors);
+				ReceptorKey[] copyReceptors = new ReceptorKey[copy.receptors.size()];
+				copy.receptors.toArray(copyReceptors);
 
-                    String[] dimensionNames = new String[copyReceptors.length];
-                    int dimensionNamesIndex = 0;
-                    for(ReceptorKey copyReceptor : copyReceptors)
-                        dimensionNames[dimensionNamesIndex++] = String.valueOf(copyReceptor.hashCode());
+				final String[] dimensionNames = new String[copyReceptors.length];
+				int dimensionNamesIndex = 0;
+				for(ReceptorKey copyReceptor : copyReceptors)
+					dimensionNames[dimensionNamesIndex++] = String.valueOf(copyReceptor.hashCode());
 
-                    copy.waves.clear();
-                    for(WaveMultidimensionalMathFunction wave:this.waves)
-                    {
-                        WaveMultidimensionalMathFunction newWave = new WaveMultidimensionalMathFunction(dimensionNames);
-                        newWave.setAmplitude(wave.getAmplitude());
-                        newWave.setDistribution(wave.getDistribution());
-                        newWave.setForm(wave.getForm());
-                        newWave.setFrequency(wave.getFrequency());
-                        newWave.setPhase(wave.getPhase());
-                        for(String dimension:dimensionNames)
-                        {
-                            newWave.setCenter(dimension, wave.getCenter(dimension));
-                            newWave.setDimension(dimension, wave.getDimension(dimension));
-                        }
+				copy.waves.clear();
+				for(WaveMultidimensionalMathFunction wave:this.waves)
+				{
+					final WaveMultidimensionalMathFunction newWave = new WaveMultidimensionalMathFunction(dimensionNames);
+					newWave.setAmplitude(wave.getAmplitude());
+					newWave.setDistribution(wave.getDistribution());
+					newWave.setForm(wave.getForm());
+					newWave.setFrequency(wave.getFrequency());
+					newWave.setPhase(wave.getPhase());
+					for(String dimension:dimensionNames)
+					{
+						newWave.setCenter(dimension, wave.getCenter(dimension));
+						newWave.setDimension(dimension, wave.getDimension(dimension));
+					}
 
-                        copy.waves.add(newWave);
-                    }
-                }
+					copy.waves.add(newWave);
+				}
             }
         }
 
@@ -254,9 +246,9 @@ public class ExpressionFunction implements Cloneable
 	 * @param deviation random deviation for mutation.
      * @return New mutated wavelet
      */
-    public ExpressionFunction mutate(double deviation, ReceptorKey newReceptor)
+    public ExpressionFunction mutate(final double deviation, final ReceptorKey newReceptor)
     {
-        ExpressionFunction copy = this.clone();
+        final ExpressionFunction copy = this.clone();
 
         copy.receptors.add(newReceptor);
         if(copy.receptors.size() > this.receptors.size())
@@ -320,10 +312,10 @@ public class ExpressionFunction implements Cloneable
     {
         if(this.waves.size() > 0)
         {
-            WaveMultidimensionalMathFunction[] wavesArray = new WaveMultidimensionalMathFunction[this.waves.size()];
+            final WaveMultidimensionalMathFunction[] wavesArray = new WaveMultidimensionalMathFunction[this.waves.size()];
             this.waves.toArray(wavesArray);
-            WaveMultidimensionalMathFunction randomWave = wavesArray[RANDOM.nextInt(wavesArray.length)];
-            WaveMultidimensionalMathFunction newWave = new WaveMultidimensionalMathFunction(randomWave);
+            final WaveMultidimensionalMathFunction randomWave = wavesArray[RANDOM.nextInt(wavesArray.length)];
+            final WaveMultidimensionalMathFunction newWave = new WaveMultidimensionalMathFunction(randomWave);
 
             if(RANDOM.nextDouble() <= 1.0)
                 newWave.setFrequency(newWave.getFrequency() + ((RANDOM.nextFloat() * 2 - 1) * 0.01));

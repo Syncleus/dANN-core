@@ -44,8 +44,8 @@ public class HyperassociativeMapVisualization extends BranchGroup
 {
     private AbstractHyperassociativeMap map;
     private Hashtable<HyperassociativeNode, TransformGroup> nodeGraphics = new Hashtable<HyperassociativeNode, TransformGroup>();
-    private Hashtable<HyperassociativeNode, Hyperpoint> oldNodeLocations = new Hashtable<HyperassociativeNode, Hyperpoint>();
-    private BranchGroup nestedRoot = new BranchGroup();
+    private final Hashtable<HyperassociativeNode, Hyperpoint> oldNodeLocations = new Hashtable<HyperassociativeNode, Hyperpoint>();
+    private final BranchGroup nestedRoot = new BranchGroup();
 	private float nodeRadius;
 
 
@@ -100,23 +100,23 @@ public class HyperassociativeMapVisualization extends BranchGroup
 
         boolean childrenRemoved = false;
 
-        Hashtable<HyperassociativeNode, TransformGroup> newGraphicalNodes = new Hashtable<HyperassociativeNode, TransformGroup>();
+        final Hashtable<HyperassociativeNode, TransformGroup> newGraphicalNodes = new Hashtable<HyperassociativeNode, TransformGroup>();
 
-        Set<HyperassociativeNode> nodes = this.map.getNodes();
+        final Set<HyperassociativeNode> nodes = this.map.getNodes();
         for (HyperassociativeNode node : nodes)
-            if (this.nodeGraphics.containsKey(node) == false)
+            if (!this.nodeGraphics.containsKey(node))
             {
                 Color neuronColor = Color.GRAY;
                 if (node instanceof NeuronHyperassociativeNode)
                 {
-                    Neuron neuron = ((NeuronHyperassociativeNode) node).getNeuron();
+                    final Neuron neuron = ((NeuronHyperassociativeNode) node).getNeuron();
                     if (neuron instanceof OutputBackpropNeuron)
                         neuronColor = Color.RED;
                     else if (neuron instanceof InputBackpropNeuron)
                         neuronColor = Color.BLUE;
                 }
-                TransformGroup newVisual = this.createNeuronSphere("", "", neuronColor, (float) node.getLocation().getCoordinate(1), (float) node.getLocation().getCoordinate(2), (float) node.getLocation().getCoordinate(3), this.nodeRadius);
-                if (childrenRemoved == false)
+                final TransformGroup newVisual = this.createNeuronSphere("", "", neuronColor, (float) node.getLocation().getCoordinate(1), (float) node.getLocation().getCoordinate(2), (float) node.getLocation().getCoordinate(3), this.nodeRadius);
+                if(!childrenRemoved)
                 {
                     this.removeAllChildren();
                     childrenRemoved = true;
@@ -128,12 +128,12 @@ public class HyperassociativeMapVisualization extends BranchGroup
             }
             else
             {
-                TransformGroup oldVisual = this.nodeGraphics.remove(node);
+                final TransformGroup oldVisual = this.nodeGraphics.remove(node);
 
                 // Create the transform group node holding the sphere
-                Transform3D neuronTransform = new Transform3D();
-                Hyperpoint currentLocation = node.getLocation();
-                Hyperpoint oldLocation = this.oldNodeLocations.get(node);
+                final Transform3D neuronTransform = new Transform3D();
+                final Hyperpoint currentLocation = node.getLocation();
+                final Hyperpoint oldLocation = this.oldNodeLocations.get(node);
                 neuronTransform.set(-1f, new Vector3f((float) oldLocation.getCoordinate(1), (float) oldLocation.getCoordinate(2), (float) oldLocation.getCoordinate(3)));
                 oldVisual.setTransform(neuronTransform);
                 neuronTransform.set(1f, new Vector3f((float) currentLocation.getCoordinate(1), (float) currentLocation.getCoordinate(2), (float) currentLocation.getCoordinate(3)));
@@ -158,32 +158,32 @@ public class HyperassociativeMapVisualization extends BranchGroup
 
 
 
-    private TransformGroup createNeuronSphere(String textLine1, String textLine2, Color myColor, float posX, float posY, float posZ, float radius)
+    private TransformGroup createNeuronSphere(final String textLine1, final String textLine2, final Color myColor, final float posX, final float posY, final float posZ, final float radius)
     {
         // Create the transform group node holding the sphere
-        TransformGroup neuronTransformGroup = new TransformGroup();
+        final TransformGroup neuronTransformGroup = new TransformGroup();
         neuronTransformGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
         neuronTransformGroup.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-        Transform3D neuronTransform = new Transform3D();
+        final Transform3D neuronTransform = new Transform3D();
         neuronTransform.set(1f, new Vector3f(posX, posY, posZ));
         neuronTransformGroup.setTransform(neuronTransform);
 
         // create a nice texture image for the 3d sphere
-        BufferedImage neuronTextureImage = createNeuronTextureImage(textLine1, textLine2, myColor);
-        Appearance neuronAppearance = makeMappingFromImage(neuronTextureImage);
+        final BufferedImage neuronTextureImage = createNeuronTextureImage(textLine1, textLine2, myColor);
+        final Appearance neuronAppearance = makeMappingFromImage(neuronTextureImage);
 
 
-        Sphere neuronSphere = new Sphere(radius, Primitive.GENERATE_TEXTURE_COORDS, 100, neuronAppearance); // animation ok on p4 2GHz and radeon X1600 GPU
+        final Sphere neuronSphere = new Sphere(radius, Primitive.GENERATE_TEXTURE_COORDS, 100, neuronAppearance); // animation ok on p4 2GHz and radeon X1600 GPU
 
-        Alpha alpha = new Alpha(-1, 5000);
-        Transform3D yAxis = new Transform3D();
-        TransformGroup rotateTransform = new TransformGroup();
+        final Alpha alpha = new Alpha(-1, 5000);
+        final Transform3D yAxis = new Transform3D();
+        final TransformGroup rotateTransform = new TransformGroup();
         rotateTransform.setCapability(TransformGroup.ALLOW_TRANSFORM_READ);
         rotateTransform.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
 
-        RotationInterpolator rotator = new RotationInterpolator(alpha, rotateTransform, yAxis, (float) Math.PI * 2.0f, 0.0f);
+        final RotationInterpolator rotator = new RotationInterpolator(alpha, rotateTransform, yAxis, (float) Math.PI * 2.0f, 0.0f);
 
-        BoundingSphere bounds = new BoundingSphere(new Point3d(0, 0, 0), 10000f);
+        final BoundingSphere bounds = new BoundingSphere(new Point3d(0, 0, 0), 10000f);
         rotator.setSchedulingBounds(bounds);
 
         rotateTransform.addChild(rotator);
@@ -195,31 +195,31 @@ public class HyperassociativeMapVisualization extends BranchGroup
 
 
 
-    private BufferedImage createNeuronTextureImage(String textLine1, String textLine2, Color myColor)
+    private BufferedImage createNeuronTextureImage(final String textLine1, final String textLine2, final Color myColor)
     {
 
-        int imSizeX = 256; // high quality for now - we will optimize later
-        int imSizeY = 128;
+        final int imSizeX = 256; // high quality for now - we will optimize later
+        final int imSizeY = 128;
 
-        BufferedImage myNeuronTextureImage = new BufferedImage(imSizeX, imSizeY, BufferedImage.TYPE_INT_RGB);
+        final BufferedImage myNeuronTextureImage = new BufferedImage(imSizeX, imSizeY, BufferedImage.TYPE_INT_RGB);
 
-        Graphics2D g2d = myNeuronTextureImage.createGraphics(); // creates a Graphics2D to draw in the BufferedImage
+        final Graphics2D g2d = myNeuronTextureImage.createGraphics(); // creates a Graphics2D to draw in the BufferedImage
         g2d.setBackground(myColor);
         g2d.clearRect(0, 0, myNeuronTextureImage.getWidth(), myNeuronTextureImage.getHeight());
 
-        int tempFontSize = 32; // high quality for now
+        final int tempFontSize = 32; // high quality for now
 
         g2d.setFont(new Font("Arial", Font.BOLD, tempFontSize));
         g2d.setColor(Color.BLACK);
-        FontMetrics fm = g2d.getFontMetrics();
+        final FontMetrics fontMetrics = g2d.getFontMetrics();
         g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-        int tempStringWidth1 = fm.stringWidth(textLine1);
-        int tempTextPosX1 = imSizeX / 2 - tempStringWidth1 / 2;
+        final int tempStringWidth1 = fontMetrics.stringWidth(textLine1);
+        final int tempTextPosX1 = imSizeX / 2 - tempStringWidth1 / 2;
         g2d.drawString(textLine1, tempTextPosX1, 60);
 
-        int tempStringWidth2 = fm.stringWidth(textLine1);
-        int tempTextPosX2 = imSizeX / 2 - tempStringWidth2 / 2;
+        final int tempStringWidth2 = fontMetrics.stringWidth(textLine1);
+        final int tempTextPosX2 = imSizeX / 2 - tempStringWidth2 / 2;
 
         g2d.drawString(textLine2, tempTextPosX2, 90);
 
@@ -229,20 +229,20 @@ public class HyperassociativeMapVisualization extends BranchGroup
 
 
 
-    private Appearance makeMappingFromImage(BufferedImage myImage)
+    private Appearance makeMappingFromImage(final BufferedImage myImage)
     {
-        Appearance mapping = new Appearance();
+        final Appearance mapping = new Appearance();
 
         mapping.setCapability(Appearance.ALLOW_MATERIAL_READ);
         mapping.setCapability(Appearance.ALLOW_MATERIAL_WRITE);
 
-        TextureLoader loader = new TextureLoader(myImage, TextureLoader.GENERATE_MIPMAP);
+        final TextureLoader loader = new TextureLoader(myImage, TextureLoader.GENERATE_MIPMAP);
         ImageComponent2D image = loader.getImage();
 
         int imageWidth = image.getWidth();
         int imageHeight = image.getHeight();
 
-        Texture2D texture = new Texture2D(Texture.MULTI_LEVEL_MIPMAP, Texture.RGB, imageWidth, imageHeight);
+        final Texture2D texture = new Texture2D(Texture.MULTI_LEVEL_MIPMAP, Texture.RGB, imageWidth, imageHeight);
 
         // Mipmapping of the texture -- WARNING: original picture sizes have to be ^2 (e.g. 1024x512)
         int imageLevel = 0;
