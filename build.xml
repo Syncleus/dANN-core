@@ -213,7 +213,7 @@
 
 	<target name="pmd">
 		<mkdir dir="build/pmd"/>
-		<pmd rulesetfiles="basic,unusedcode,codesize,clone,coupling,design,finalizers,imports,junit,logging-java,logging-jakarta-commons,migrating,naming,optimizations,strictexception,strings,sunsecure,unusedcode">
+		<pmd rulesetfiles="pmd.xml">
 			<formatter type="xml" toFile="build/pmd/pmd-report.xml"/>
 			<fileset dir="src/">
 				<include name="**/*.java"/>
