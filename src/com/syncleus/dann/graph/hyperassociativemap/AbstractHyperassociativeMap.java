@@ -25,6 +25,7 @@ import java.io.Serializable;
 import org.apache.log4j.Logger;
 import com.syncleus.dann.DannRuntimeException;
 import com.syncleus.dann.InterruptedDannRuntimeException;
+import com.syncleus.dann.UnexpectedDannError;
 
 
 /**
@@ -161,7 +162,7 @@ public abstract class AbstractHyperassociativeMap implements Serializable
 		catch(ExecutionException caught)
 		{
 			LOGGER.error("Align had an unexcepted problem executing.", caught);
-			throw new AssertionError("Unexpected execution exception. Get should block indefinately");
+			throw new UnexpectedDannError("Unexpected execution exception. Get should block indefinately", caught);
 		}
 
 		for(int dimensionIndex = 1; dimensionIndex <= this.dimensions; dimensionIndex++)

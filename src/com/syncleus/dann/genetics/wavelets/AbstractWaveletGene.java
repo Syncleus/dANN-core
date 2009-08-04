@@ -18,6 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
+import com.syncleus.dann.UnexpectedDannError;
 import java.util.*;
 import com.syncleus.dann.genetics.Gene;
 import com.syncleus.dann.math.AbstractMathFunction;
@@ -131,7 +132,7 @@ public abstract class AbstractWaveletGene implements Gene, Cloneable
 		catch(CloneNotSupportedException caught)
 		{
 			LOGGER.error("CloneNotSupportedException caught but not expected!", caught);
-			throw new AssertionError("CloneNotSupportedException caught but not expected: " + caught);
+			throw new UnexpectedDannError("CloneNotSupportedException caught but not expected", caught);
 		}
 	}
 }

@@ -18,6 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics;
 
+import com.syncleus.dann.UnexpectedDannError;
 import com.syncleus.dann.genetics.wavelets.Mutation;
 import java.util.Random;
 import org.apache.log4j.Logger;
@@ -204,7 +205,7 @@ public abstract class MutableNumber<N extends Number> extends Number implements 
 		catch(CloneNotSupportedException caught)
 		{
 			LOGGER.error("CloneNotSupportedException caught but not expected!", caught);
-			throw new AssertionError("CloneNotSupportedException caught but not expected: " + caught);
+			throw new UnexpectedDannError("CloneNotSupportedException caught but not expected", caught);
 		}
 	}
 

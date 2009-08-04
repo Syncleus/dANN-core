@@ -18,6 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.neural;
 
+import com.syncleus.dann.UnexpectedDannError;
 import java.util.*;
 import com.syncleus.dann.neural.activation.ActivationFunction;
 import com.syncleus.dann.neural.activation.HyperbolicTangentActivationFunction;
@@ -216,7 +217,7 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
             catch (SynapseNotConnectedException caught)
             {
                 LOGGER.error("Received an unexpected exception, this should not ever happen", caught);
-                throw new AssertionError("Unexpected Runtime Exception: " + caught);
+                throw new UnexpectedDannError("Unexpected Runtime Exception", caught);
             }
 		}
     }
@@ -245,7 +246,7 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
             catch (SynapseNotConnectedException caught)
             {
                 LOGGER.error("Received an unexpected exception, this should not ever happen", caught);
-                throw new AssertionError("Unexpected Runtime Exception: " + caught);
+                throw new UnexpectedDannError("Unexpected Runtime Exception: ", caught);
             }
 		}
     }
@@ -406,7 +407,7 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
 		}
 		catch(ClassCastException caughtException)
 		{
-			throw new AssertionError(caughtException);
+			throw new UnexpectedDannError("unexpected class cash exception when getting sourced", caughtException);
 		}
 
         return Collections.unmodifiableSet(neighbors);

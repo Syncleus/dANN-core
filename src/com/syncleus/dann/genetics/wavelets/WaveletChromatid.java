@@ -18,6 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
+import com.syncleus.dann.UnexpectedDannError;
 import java.util.*;
 import org.apache.log4j.Logger;
 import com.syncleus.dann.genetics.Chromatid;
@@ -291,7 +292,7 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 		catch(CloneNotSupportedException caught)
 		{
 			LOGGER.error("CloneNotSupportedException caught but not expected!", caught);
-			throw new AssertionError("CloneNotSupportedException caught but not expected: " + caught);
+			throw new UnexpectedDannError("CloneNotSupportedException caught but not expected", caught);
 		}
 	}
 
@@ -315,7 +316,7 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 			if(randomKey == null)
 			{
 				LOGGER.error("randomKey was null which shouldnt be possible");
-				throw new AssertionError("randomKey was unexpectidly null");
+				throw new UnexpectedDannError("randomKey was unexpectidly null");
 			}
 			return new ReceptorKey(randomKey);
 		}

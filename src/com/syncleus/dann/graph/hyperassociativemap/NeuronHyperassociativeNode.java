@@ -18,9 +18,11 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.hyperassociativemap;
 
+import com.syncleus.dann.UnexpectedDannError;
 import com.syncleus.dann.math.Hyperpoint;
 import com.syncleus.dann.neural.Neuron;
 import java.util.HashSet;
+import org.apache.log4j.Logger;
 
 
 /**
@@ -34,6 +36,7 @@ import java.util.HashSet;
 public class NeuronHyperassociativeNode extends HyperassociativeNode
 {
     private Neuron neuron;
+	private final static Logger LOGGER = Logger.getLogger(NeuronHyperassociativeNode.class);
     
 
 	/**
@@ -108,7 +111,8 @@ public class NeuronHyperassociativeNode extends HyperassociativeNode
 		}
 		catch(ClassCastException caughtException)
 		{
-			throw new AssertionError(caughtException);
+			LOGGER.error("unexpected class cast exception whn getting neighbors", caughtException);
+			throw new UnexpectedDannError("unexpected class cast exception whn getting neighbors", caughtException);
 		}
         for (Neuron neighborNeuron : neurons)
             this.associate(this.getNetwork().getNodeFromNeuron(neighborNeuron), 1.0);

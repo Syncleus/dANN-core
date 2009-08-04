@@ -18,6 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics;
 
+import com.syncleus.dann.UnexpectedDannError;
 import org.apache.log4j.Logger;
 
 /**
@@ -118,7 +119,7 @@ public abstract class AbstractValueGene<N extends MutableNumber> implements Gene
 		catch(CloneNotSupportedException caught)
 		{
 			LOGGER.error("CloneNotSupportedException caught but not expected!", caught);
-			throw new AssertionError("CloneNotSupportedException caught but not expected: " + caught);
+			throw new UnexpectedDannError("CloneNotSupportedException caught but not expected", caught);
 		}
 	}
 

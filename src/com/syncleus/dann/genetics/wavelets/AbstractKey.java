@@ -19,6 +19,7 @@
 package com.syncleus.dann.genetics.wavelets;
 
 
+import com.syncleus.dann.UnexpectedDannError;
 import java.util.*;
 import org.apache.log4j.Logger;
 import com.syncleus.dann.genetics.MutableInteger;
@@ -86,7 +87,7 @@ public abstract class AbstractKey implements Cloneable
 		catch(CloneNotSupportedException caught)
 		{
 			LOGGER.error("CloneNotSupportedException caught but not expected!", caught);
-			throw new AssertionError("CloneNotSupportedException caught but not expected: " + caught);
+			throw new UnexpectedDannError("CloneNotSupportedException caught but not expected", caught);
 		}
 	}
 

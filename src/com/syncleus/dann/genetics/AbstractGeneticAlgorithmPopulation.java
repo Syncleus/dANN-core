@@ -23,6 +23,7 @@ import java.util.concurrent.*;
 import org.apache.log4j.Logger;
 import com.syncleus.dann.DannRuntimeException;
 import com.syncleus.dann.InterruptedDannRuntimeException;
+import com.syncleus.dann.UnexpectedDannError;
 
 /**
  * Rerpesents a population governed by Genetic Algorithm parameters. This class
@@ -145,7 +146,7 @@ public abstract class AbstractGeneticAlgorithmPopulation
 		catch(ExecutionException caught)
 		{
 			LOGGER.error("Unexpected execution exception thrown from within Process(fitnessFunction)", caught);
-			throw new AssertionError("Unexpected execution exception. Get should block indefinately");
+			throw new UnexpectedDannError("Unexpected execution exception. Get should block indefinately", caught);
 		}
 
 		//add to thetree set and sort
@@ -223,7 +224,7 @@ public abstract class AbstractGeneticAlgorithmPopulation
 			currentIndex++;
 		}
 
-		throw new AssertionError("randomIndex was out of bounds!");
+		throw new UnexpectedDannError("randomIndex was out of bounds!");
 	}
 
 	/**

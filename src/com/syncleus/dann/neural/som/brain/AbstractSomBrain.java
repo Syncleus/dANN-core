@@ -27,6 +27,7 @@ import com.syncleus.dann.math.Hyperpoint;
 import org.apache.log4j.Logger;
 import com.syncleus.dann.InterruptedDannRuntimeException;
 import com.syncleus.dann.DannRuntimeException;
+import com.syncleus.dann.UnexpectedDannError;
 
 
 /**
@@ -41,17 +42,16 @@ import com.syncleus.dann.DannRuntimeException;
 public abstract class AbstractSomBrain extends AbstractLocalBrain
 {
 	private int iterationsTrained;
-	private Hyperpoint upperBounds;
-	private Hyperpoint lowerBounds;
-	private ArrayList<SomInputNeuron> inputs = new ArrayList<SomInputNeuron>();
-	private Hashtable<Hyperpoint, SomNeuron> outputs = new Hashtable<Hyperpoint, SomNeuron>();
-
+	private final Hyperpoint upperBounds;
+	private final Hyperpoint lowerBounds;
+	private final List<SomInputNeuron> inputs = new ArrayList<SomInputNeuron>();
+	private final Hashtable<Hyperpoint, SomNeuron> outputs = new Hashtable<Hyperpoint, SomNeuron>();
 	private final static Logger LOGGER = Logger.getLogger(AbstractSomBrain.class);
 
 
 	private static class PropagateOutput implements Callable<Double>
 	{
-		private SomNeuron neuron;
+		private final SomNeuron neuron;
 		private final static Logger LOGGER = Logger.getLogger(PropagateOutput.class);
 
 		public PropagateOutput(SomNeuron neuron)
@@ -81,11 +81,11 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 
 	private class TrainNeuron implements Runnable
 	{
-		private SomNeuron neuron;
-		private Hyperpoint neuronPoint;
-		private Hyperpoint bestMatchPoint;
-		private double neighborhoodRadius;
-		private double learningRate;
+		private final SomNeuron neuron;
+		private final Hyperpoint neuronPoint;
+		private final Hyperpoint bestMatchPoint;
+		private final double neighborhoodRadius;
+		private final double learningRate;
 
 		public TrainNeuron(SomNeuron neuron, Hyperpoint neuronPoint, Hyperpoint bestMatchPoint, double neighborhoodRadius, double learningRate)
 		{
@@ -100,10 +100,10 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 		{
 			try
 			{
-				double currentDistance = this.neuronPoint.calculateRelativeTo(this.bestMatchPoint).getDistance();
+				final double currentDistance = this.neuronPoint.calculateRelativeTo(this.bestMatchPoint).getDistance();
 				if( currentDistance < this.neighborhoodRadius)
 				{
-					double neighborhoodAdjustment = neighborhoodFunction(currentDistance);
+					final double neighborhoodAdjustment = neighborhoodFunction(currentDistance);
 					this.neuron.train(this.learningRate, neighborhoodAdjustment);
 				}
 			}
@@ -142,7 +142,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 			this.inputs.add(new SomInputNeuron());
 	}
 
-	private void updateBounds(Hyperpoint position)
+	private void updateBounds(final Hyperpoint position)
 	{
 		//make sure we have the proper dimentionality
 		if(position.getDimensions() != this.getUpperBounds().getDimensions())
@@ -164,19 +164,19 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	 * @param position The position of the new output in the latice.
 	 * @since 2.0
 	 */
-	public void createOutput(Hyperpoint position)
+	public void createOutput(final Hyperpoint position)
 	{
 		//make sure we have the proper dimentionality
 		if(position.getDimensions() != this.getUpperBounds().getDimensions())
 			throw new IllegalArgumentException("Dimentionality mismatch");
 
-		Hyperpoint positionCopy = new Hyperpoint(position);
+		final Hyperpoint positionCopy = new Hyperpoint(position);
 
 		//increase the upper bounds if needed
 		this.updateBounds(positionCopy);
 
 		//create and add the new output neuron
-		SomNeuron outputNeuron = new SomNeuron();
+		final SomNeuron outputNeuron = new SomNeuron();
 		this.outputs.put(positionCopy, outputNeuron);
 
 		//connect all inputs to the new neuron
@@ -185,10 +185,10 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 			for(SomInputNeuron input : inputs)
 				input.connectTo(outputNeuron);
 		}
-		catch(InvalidConnectionTypeDannException caughtException)
+		catch(InvalidConnectionTypeDannException caught)
 		{
-			LOGGER.error("An error was caught that wasnt expected", caughtException);
-			throw new AssertionError("unexpected InvalidConnectionTypeDannException");
+			LOGGER.error("An error was caught that wasnt expected", caught);
+			throw new UnexpectedDannError("unexpected InvalidConnectionTypeDannException", caught);
 		}
 	}
 
@@ -200,7 +200,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	 */
 	public final Set<Hyperpoint> getPositions()
 	{
-		HashSet<Hyperpoint> positions = new HashSet<Hyperpoint>();
+		final HashSet<Hyperpoint> positions = new HashSet<Hyperpoint>();
 		for(Hyperpoint position : this.outputs.keySet())
 			positions.add(new Hyperpoint(position));
 		return Collections.unmodifiableSet(positions);
@@ -217,9 +217,9 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	 * SomNeuron associated with the given position.
 	 * @since 2.0
 	 */
-	public final double getOutput(Hyperpoint position)
+	public final double getOutput(final Hyperpoint position)
 	{
-		SomNeuron outputNeuron = this.outputs.get(position);
+		final SomNeuron outputNeuron = this.outputs.get(position);
 		outputNeuron.propagate();
 		return outputNeuron.getOutput();
 	}
@@ -244,17 +244,17 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	 * @return the BMU for the current input set.
 	 * @since 2.0
 	 */
-	public final Hyperpoint getBestMatchingUnit(boolean train)
+	public final Hyperpoint getBestMatchingUnit(final boolean train)
 	{
 		//make sure we have atleast one output
 		if( this.outputs.size() <= 0)
 			throw new IllegalStateException("Must have atleast one output");
 
 		//stick all the neurons in the queue to propogate
-		HashMap<Hyperpoint, Future<Double>> futureOutput = new HashMap<Hyperpoint, Future<Double>>();
+		final HashMap<Hyperpoint, Future<Double>> futureOutput = new HashMap<Hyperpoint, Future<Double>>();
 		for(Entry<Hyperpoint, SomNeuron> entry : this.outputs.entrySet())
 		{
-			PropagateOutput callable = new PropagateOutput(entry.getValue());
+			final PropagateOutput callable = new PropagateOutput(entry.getValue());
 			futureOutput.put(entry.getKey(), this.getThreadExecutor().submit(callable));
 		}
 
@@ -276,7 +276,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 			catch(ExecutionException caught)
 			{
 				LOGGER.error("PropagateOutput was had an unexcepted problem executing.", caught);
-				throw new AssertionError("Unexpected execution exception. Get should block indefinately");
+				throw new UnexpectedDannError("Unexpected execution exception. Get should block indefinately", caught);
 			}
 
 			if(bestMatchingUnit == null)
@@ -294,16 +294,16 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 		return bestMatchingUnit;
 	}
 
-	private void train(Hyperpoint bestMatchingUnit)
+	private void train(final Hyperpoint bestMatchingUnit)
 	{
-		double neighborhoodRadius = this.neighborhoodRadiusFunction();
-		double learningRate = this.learningRateFunction();
+		final double neighborhoodRadius = this.neighborhoodRadiusFunction();
+		final double learningRate = this.learningRateFunction();
 
 		//add all the neuron trainingevents to the thread queue
-		ArrayList<Future> futures = new ArrayList<Future>();
+		final ArrayList<Future> futures = new ArrayList<Future>();
 		for(Entry<Hyperpoint, SomNeuron> entry : this.outputs.entrySet())
 		{
-			TrainNeuron runnable = new TrainNeuron(entry.getValue(), entry.getKey(), bestMatchingUnit, neighborhoodRadius, learningRate);
+			final TrainNeuron runnable = new TrainNeuron(entry.getValue(), entry.getKey(), bestMatchingUnit, neighborhoodRadius, learningRate);
 			futures.add(this.getThreadExecutor().submit(runnable));
 		}
 
@@ -321,7 +321,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 		catch(ExecutionException caught)
 		{
 			LOGGER.error("PropagateOutput had an unexpected problem executing.", caught);
-			throw new AssertionError("Unexpected execution exception. Get should block indefinately");
+			throw new UnexpectedDannError("Unexpected execution exception. Get should block indefinately", caught);
 		}
 
 		this.iterationsTrained++;
@@ -383,12 +383,12 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	 * @param inputIndex
 	 * @param inputValue
 	 */
-	public final void setInput(int inputIndex, double inputValue)
+	public final void setInput(final int inputIndex, final double inputValue)
 	{
 		if(inputIndex >= this.getInputCount())
 			throw new IllegalArgumentException("inputIndex is out of bounds");
 		
-		SomInputNeuron currentInput = this.inputs.get(inputIndex);
+		final SomInputNeuron currentInput = this.inputs.get(inputIndex);
 		currentInput.setInput(inputValue);
 		currentInput.propagate();
 	}
@@ -400,7 +400,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	 * @return The current value for the specified input.
 	 * @since 2.0
 	 */
-	public final double getInput(int index)
+	public final double getInput(final int index)
 	{
 		return this.inputs.get(index).getInput();
 	}
@@ -414,17 +414,17 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	public final Map<Hyperpoint, double[]> getOutputWeightVectors()
 	{
 		//iterate through the output lattice
-		HashMap<Hyperpoint, double[]> weightVectors = new HashMap<Hyperpoint, double[]>();
+		final HashMap<Hyperpoint, double[]> weightVectors = new HashMap<Hyperpoint, double[]>();
 		for(Entry<Hyperpoint,SomNeuron> output : this.outputs.entrySet())
 		{
-			double[] weightVector = new double[this.inputs.size()];
-			SomNeuron currentNeuron = output.getValue();
-			Hyperpoint currentPoint = output.getKey();
+			final double[] weightVector = new double[this.inputs.size()];
+			final SomNeuron currentNeuron = output.getValue();
+			final Hyperpoint currentPoint = output.getKey();
 
 			//iterate through the weight vectors of the current neuron
 			for(Synapse source : currentNeuron.getSources())
 			{
-				int sourceIndex = this.inputs.indexOf(source.getSource());
+				final int sourceIndex = this.inputs.indexOf(source.getSource());
 				weightVector[sourceIndex] = source.getWeight();
 			}
 

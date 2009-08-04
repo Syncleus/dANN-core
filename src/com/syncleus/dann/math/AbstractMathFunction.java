@@ -18,6 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.math;
 
+import com.syncleus.dann.UnexpectedDannError;
 import java.util.Hashtable;
 import org.apache.log4j.Logger;
 
@@ -133,7 +134,7 @@ public abstract class AbstractMathFunction implements Cloneable
 		catch(CloneNotSupportedException caught)
 		{
 			LOGGER.error("CloneNotSupportedException caught but not expected!", caught);
-			throw new AssertionError("CloneNotSupportedException caught but not expected");
+			throw new UnexpectedDannError("CloneNotSupportedException caught but not expected", caught);
 		}
 	}
 

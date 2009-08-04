@@ -19,7 +19,9 @@
 	<rule ref="rulesets/naming.xml">
 		<exclude name="LongVariable"/>
 	</rule>
-	<rule ref="rulesets/optimizations.xml"/>
+	<rule ref="rulesets/optimizations.xml">
+		<exclude name="AvoidInstantiatingObjectsInLoops"/>
+	</rule>
 	<rule ref="rulesets/strictexception.xml">
 		<exclude name="AvoidThrowingRawExceptionTypes"/>
 	</rule>

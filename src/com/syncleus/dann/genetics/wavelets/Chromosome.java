@@ -18,6 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
+import com.syncleus.dann.UnexpectedDannError;
 import java.util.*;
 import com.syncleus.dann.genetics.MutableDouble;
 import org.apache.log4j.Logger;
@@ -169,7 +170,7 @@ public class Chromosome implements Cloneable
 		catch(CloneNotSupportedException caught)
 		{
 			LOGGER.error("CloneNotSupportedException caught but not expected!", caught);
-			throw new AssertionError("CloneNotSupportedException caught but not expected: " + caught);
+			throw new UnexpectedDannError("CloneNotSupportedException caught but not expected", caught);
 		}
 	}
 

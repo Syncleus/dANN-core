@@ -18,6 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics;
 
+import com.syncleus.dann.UnexpectedDannError;
 import java.util.*;
 import org.apache.log4j.Logger;
 import com.syncleus.dann.genetics.wavelets.Mutation;
@@ -165,7 +166,7 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>,
 		catch(CloneNotSupportedException caught)
 		{
 			LOGGER.error("CloneNotSupportedException caught but not expected!", caught);
-			throw new AssertionError("CloneNotSupportedException caught but not expected: " + caught);
+			throw new UnexpectedDannError("CloneNotSupportedException caught but not expected", caught);
 		}
 	}
 

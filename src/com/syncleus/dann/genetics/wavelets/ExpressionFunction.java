@@ -18,6 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
+import com.syncleus.dann.UnexpectedDannError;
 import com.syncleus.dann.math.*;
 import java.util.*;
 import org.apache.log4j.Logger;
@@ -129,7 +130,7 @@ public class ExpressionFunction implements Cloneable
 		catch(CloneNotSupportedException caught)
 		{
 			LOGGER.error("CloneNotSupportedException caught but not expected!", caught);
-			throw new AssertionError("CloneNotSupportedException caught but not expected: " + caught);
+			throw new UnexpectedDannError("CloneNotSupportedException caught but not expected",caught);
 		}
     }
 
