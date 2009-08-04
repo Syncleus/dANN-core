@@ -23,7 +23,6 @@ import com.syncleus.dann.math.AbstractMathFunction;
 import org.freehep.j3d.plot.*;
 import javax.vecmath.*;
 import java.awt.Color;
-import java.security.InvalidParameterException;
 
 public final class MathFunctionDataBinder implements Binned2DData
 {
@@ -50,7 +49,7 @@ public final class MathFunctionDataBinder implements Binned2DData
                                      int resolution)
     {
         if( resolution <= 0 )
-            throw new InvalidParameterException("resolution must be greater than 0");
+            throw new IllegalArgumentException("resolution must be greater than 0");
         
         this.function = function;
         this.functionXIndex = this.function.getParameterNameIndex(functionXParam);
@@ -101,7 +100,7 @@ public final class MathFunctionDataBinder implements Binned2DData
 		this.minZ = newZMin;
         
         if( Float.isNaN(this.maxZ) || Float.isNaN(this.minZ))
-            throw new InvalidParameterException("z does not deviate, nothing to plot!");
+            throw new IllegalArgumentException("z does not deviate, nothing to plot!");
     }
 
 

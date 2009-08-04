@@ -18,9 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.math;
 
-
-import java.security.InvalidParameterException;
-
 public class DistributedFormedWaveMathFunction extends FormedWaveMathFunction
 {
     private boolean constantMode = false;
@@ -79,9 +76,7 @@ public class DistributedFormedWaveMathFunction extends FormedWaveMathFunction
     public final void setDistribution(double distribution)
     {
         if(distribution == 0.0)
-        {
-            throw new InvalidParameterException("distribution can't be 0");
-        }
+            throw new IllegalArgumentException("distribution can't be 0");
 
         this.setParameter(this.getParameterNameIndex("distribution"), distribution);
     }

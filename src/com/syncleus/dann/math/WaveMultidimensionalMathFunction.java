@@ -18,16 +18,12 @@
  ******************************************************************************/
 package com.syncleus.dann.math;
 
-import java.security.InvalidParameterException;
-
 public class WaveMultidimensionalMathFunction extends AbstractMathFunction implements Cloneable
 {
     private boolean constantMode = false;
     private double constantValue;
-    
     private String[] dimensionNames = null;
-    
-    DistributedFormedWaveMathFunction wave = new DistributedFormedWaveMathFunction();
+    private DistributedFormedWaveMathFunction wave = new DistributedFormedWaveMathFunction();
 
 	public WaveMultidimensionalMathFunction(WaveMultidimensionalMathFunction copy)
 	{
@@ -45,8 +41,8 @@ public class WaveMultidimensionalMathFunction extends AbstractMathFunction imple
         this.setDistribution(copy.getDistribution());
         for(String dimensionName : copy.dimensionNames )
         {
-            double dimensionValue = copy.getDimension(dimensionName);
-            double centerValue = copy.getCenter(dimensionName);
+            final double dimensionValue = copy.getDimension(dimensionName);
+            final double centerValue = copy.getCenter(dimensionName);
             this.setDimension(dimensionName, dimensionValue);
             this.setCenter(dimensionName, centerValue);
         }
@@ -74,56 +70,46 @@ public class WaveMultidimensionalMathFunction extends AbstractMathFunction imple
         return this.dimensionNames.clone();
     }
 
-
-
-    /*
-    protected WaveMultidimensionalMathFunction(String[] additionalParameters)
+    private static String[] appendStrings(final String[] original, final String append)
     {
-        super(combineLabels(new String[]{"distribution", "form", "frequency", "amplitude", "phase"}, additionalParameters));
-        this.setDistribution(1.0);
-    }*/
-    
-    
-    private static String[] appendStrings(String[] original, String append)
-    {
-        String[] copy = original.clone();
+        String[] copy = new String[original.length];
         for(int index = 0; index < copy.length; index++)
         {
-            copy[index] = append + copy[index];
+            copy[index] = append + original[index];
         }
         return copy;
     }
     
-    public final void setDimension(String dimension, double value)
+    public final void setDimension(final String dimension, final double value)
     {
         this.setParameter(this.getParameterNameIndex(dimension), value);
     }
     
     
-    public final double getDimension(String dimension)
+    public final double getDimension(final String dimension)
     {
         return this.getParameter(this.getParameterNameIndex(dimension));
     }
     
     
-    public final void setCenter(String dimension, double value)
+    public final void setCenter(final String dimension, final double value)
     {
         this.setParameter(this.getParameterNameIndex("center-" + dimension), value);
         this.wave.setCenter(0.0);
     }
     
     
-    public final double getCenter(String dimension)
+    public final double getCenter(final String dimension)
     {
         return this.getParameter(this.getParameterNameIndex("center-" + dimension));
     }
 
 
 
-    public final void setDistribution(double distribution)
+    public final void setDistribution(final double distribution)
     {
         if(distribution == 0.0)
-            throw new InvalidParameterException("distribution can't be 0");
+            throw new IllegalArgumentException("distribution can't be 0");
         
         this.setParameter(this.getParameterNameIndex("distribution"), distribution);
         this.wave.setDistribution(distribution);
@@ -137,7 +123,7 @@ public class WaveMultidimensionalMathFunction extends AbstractMathFunction imple
     }
     
     
-    public final void setFrequency(double frequency)
+    public final void setFrequency(final double frequency)
     {
         this.setParameter(this.getParameterNameIndex("frequency"), frequency);
         this.wave.setFrequency(frequency);
@@ -148,7 +134,7 @@ public class WaveMultidimensionalMathFunction extends AbstractMathFunction imple
         return this.getParameter(this.getParameterNameIndex("frequency"));
     }
     
-    public final void setAmplitude(double amplitude)
+    public final void setAmplitude(final double amplitude)
     {
         this.setParameter(this.getParameterNameIndex("amplitude"), amplitude);
         this.wave.setAmplitude(amplitude);
@@ -159,7 +145,7 @@ public class WaveMultidimensionalMathFunction extends AbstractMathFunction imple
         return this.getParameter(this.getParameterNameIndex("amplitude"));
     }
     
-    public final void setPhase(double phase)
+    public final void setPhase(final double phase)
     {
         this.setParameter(this.getParameterNameIndex("phase"), phase);
         this.wave.setPhase(phase);
@@ -170,7 +156,7 @@ public class WaveMultidimensionalMathFunction extends AbstractMathFunction imple
         return this.getParameter(this.getParameterNameIndex("phase"));
     }
     
-    public final void setForm(double form)
+    public final void setForm(final double form)
     {
         this.setParameter(this.getParameterNameIndex("form"), form);
         this.wave.setForm(form);
@@ -192,13 +178,13 @@ public class WaveMultidimensionalMathFunction extends AbstractMathFunction imple
         double squaredSum = 0.0;
         for(String dimensionName : this.dimensionNames )
         {
-            double dimensionValue = this.getDimension(dimensionName);
-            double centerValue = this.getCenter(dimensionName);
-            double relativeValue = dimensionValue - centerValue;
+            final double dimensionValue = this.getDimension(dimensionName);
+            final double centerValue = this.getCenter(dimensionName);
+            final double relativeValue = dimensionValue - centerValue;
             
             squaredSum += Math.pow(relativeValue, 2.0);
         }
-        double distanceFromCenter = Math.sqrt(squaredSum);
+        final double distanceFromCenter = Math.sqrt(squaredSum);
         
         this.wave.setX(distanceFromCenter);
         
@@ -210,36 +196,21 @@ public class WaveMultidimensionalMathFunction extends AbstractMathFunction imple
 	@Override
     public WaveMultidimensionalMathFunction clone()
     {
-        WaveMultidimensionalMathFunction copy = (WaveMultidimensionalMathFunction)super.clone();
+        final WaveMultidimensionalMathFunction copy = (WaveMultidimensionalMathFunction)super.clone();
 
 		copy.wave = this.wave.clone();
 		copy.dimensionNames = this.dimensionNames.clone();
         copy.constantMode = this.constantMode;
         copy.constantValue = this.constantValue;
-/*
-        copy.setFrequency(this.getFrequency());
-        copy.setPhase(this.getPhase());
-        copy.setAmplitude(this.getAmplitude());
-        copy.setForm(this.getForm());
-        copy.setDistribution(this.getDistribution());
-        for(String dimensionName : this.dimensionNames )
-        {
-            double dimensionValue = this.getDimension(dimensionName);
-            double centerValue = this.getCenter(dimensionName);
-            copy.setDimension(dimensionName, dimensionValue);
-            copy.setCenter(dimensionName, centerValue);
-        }
-        copy.constantMode = this.constantMode;
-        copy.constantValue = this.constantValue;*/
 
         return copy;
     }
 
 
 
-    String toString(String centerName)
+    String toString(final String centerName)
     {
-        StringBuffer equationBuffer = new StringBuffer();
+        final StringBuffer equationBuffer = new StringBuffer(32);
         for(int squaredSumsIndex = 0; squaredSumsIndex < this.dimensionNames.length; squaredSumsIndex++)
         {
             if(squaredSumsIndex > 0)
@@ -247,7 +218,7 @@ public class WaveMultidimensionalMathFunction extends AbstractMathFunction imple
             equationBuffer.append("(" + this.dimensionNames[squaredSumsIndex] + " - center-" + this.dimensionNames[squaredSumsIndex] + ")^2");
         }
 
-        String equation = "sqrt( " + equationBuffer.toString() + " )";
+        final String equation = "sqrt( " + equationBuffer.toString() + " )";
         
         return this.wave.toString(equation, centerName);
     }

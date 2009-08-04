@@ -19,11 +19,7 @@
 package com.syncleus.dann.math;
 
 
-import java.security.InvalidParameterException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.TreeSet;
+import java.util.*;
 
 public class WaveletMathFunction extends AbstractMathFunction implements Cloneable
 {
@@ -80,13 +76,7 @@ public class WaveletMathFunction extends AbstractMathFunction implements Cloneab
         {
             for(String dimension:this.dimensions)
             {
-                try
-                {
-                    currentWave.setDimension(dimension, this.getDimension(dimension));
-                }
-                catch(InvalidParameterException caughtException)
-                {
-                }
+				currentWave.setDimension(dimension, this.getDimension(dimension));
             }
 
             waveTotal += currentWave.calculate();
