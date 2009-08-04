@@ -51,21 +51,21 @@ public class TestXor
 	public void testXor() throws DannException
 	{
 		//Adjust the learning rate
-		double learningRate = 0.0175;
-		ActivationFunction activationFunction = new SineActivationFunction();
+		final double learningRate = 0.0175;
+		final ActivationFunction activationFunction = new SineActivationFunction();
 
 		this.brain = new FullyConnectedFeedforwardBrain(new int[]{3, 3, 1}, learningRate, activationFunction);
-		ArrayList<InputNeuron> inputs = new ArrayList<InputNeuron>(this.brain.getInputNeurons());
+		final ArrayList<InputNeuron> inputs = new ArrayList<InputNeuron>(this.brain.getInputNeurons());
 		this.inputA = (InputBackpropNeuron) inputs.get(0);
 		this.inputB = (InputBackpropNeuron) inputs.get(1);
 		this.inputC = (InputBackpropNeuron) inputs.get(2);
-		ArrayList<OutputNeuron> outputs = new ArrayList<OutputNeuron>(this.brain.getOutputNeurons());
+		final ArrayList<OutputNeuron> outputs = new ArrayList<OutputNeuron>(this.brain.getOutputNeurons());
 		this.output = (OutputBackpropNeuron) outputs.get(0);
 
-		int cycles = 750;
+		final int cycles = 750;
 		train(cycles);
 
-		testOutput();
+		checkOutput();
 	}
 
 	private void propogateOutput()
@@ -82,37 +82,27 @@ public class TestXor
 
 
 
-	private void setCurrentInput(double[] inputToSet)
+	private void setCurrentInput(final double[] inputToSet)
 	{
 		inputA.setInput(inputToSet[0]);
 		inputB.setInput(inputToSet[1]);
 		inputC.setInput(inputToSet[2]);
 	}
 
-	private boolean checkTruthTable(double in1, double in2, double in3, double result)
+	private boolean checkTruthTable(final double in1, final double in2, final double in3, final double result)
 	{
 		if( ((in1 > 0.0)&&(in2 <= 0.0)&&(in3 <= 0.0))||
 			((in1 <= 0.0)&&(in2 > 0.0)&&(in3 <= 0.0))||
 			((in1 <= 0.0)&&(in2 <= 0.0)&&(in3 > 0.0))
 		  )
-		{
-			if(result > 0.0)
-				return true;
-			else
-				return false;
-		}
+			return (result > 0.0);
 		else
-		{
-			if(result <= 0.0)
-				return true;
-			else
-				return false;
-		}
+			return (result <= 0.0);
 	}
 
 
 
-	private void testOutput()
+	private void checkOutput()
 	{
 		double[] curInput =
 		{
@@ -175,7 +165,7 @@ public class TestXor
 
 
 
-	private void train(int count)
+	private void train(final int count)
 	{
 		for(int lcv = 0;lcv < count;lcv++)
 		{

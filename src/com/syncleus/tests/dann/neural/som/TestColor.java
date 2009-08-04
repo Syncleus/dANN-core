@@ -40,7 +40,7 @@ public class TestColor
 		final Random random = new Random();
 
 		//initialize brain with 3d input and 2d output
-		ExponentialDecaySomBrain brain = new ExponentialDecaySomBrain(INPUT_DIMENSIONS, OUTPUT_DIMENSIONS, TRAIN_ITERATIONS, LEARNING_RATE);
+		final ExponentialDecaySomBrain brain = new ExponentialDecaySomBrain(INPUT_DIMENSIONS, OUTPUT_DIMENSIONS, TRAIN_ITERATIONS, LEARNING_RATE);
 
 		//create the output latice
 		for(double x = 0; x < OUTPUT_WIDTH; x++)
@@ -65,38 +65,38 @@ public class TestColor
 		String closeOutText = "";
 		for(int iteration = 0; iteration < TEST_ITERATIONS; iteration++)
 		{
-			String outText = "";
+			StringBuffer outText = new StringBuffer(64);
 			//find a mutual offset in the color space (leaving room for the
 			//block)
-			double redOffset = random.nextDouble() * maxOffset;
-			double greenOffset =  random.nextDouble() * maxOffset;
-			double blueOffset =  random.nextDouble() * maxOffset;
-			outText += "close color offsets... red: " + redOffset + ", green: " + greenOffset + ", blue: " + blueOffset + "\n";
+			final double redOffset = random.nextDouble() * maxOffset;
+			final double greenOffset =  random.nextDouble() * maxOffset;
+			final double blueOffset =  random.nextDouble() * maxOffset;
+			outText.append("close color offsets... red: " + redOffset + ", green: " + greenOffset + ", blue: " + blueOffset + "\n");
 
 			//get the location of a color within the block
 			brain.setInput(0, redOffset + (random.nextDouble() * blockSize));
 			brain.setInput(1, greenOffset + (random.nextDouble() * blockSize));
 			brain.setInput(2, blueOffset + (random.nextDouble() * blockSize));
-			outText += "close color1... red:" + brain.getInput(0) + ", green: " +brain.getInput(1) + ", blue" + brain.getInput(2) + "\n";
-			Hyperpoint color1 = brain.getBestMatchingUnit(true);
+			outText.append("close color1... red:" + brain.getInput(0) + ", green: " +brain.getInput(1) + ", blue" + brain.getInput(2) + "\n");
+			final Hyperpoint color1 = brain.getBestMatchingUnit(true);
 
 			//get the location of the other color within the block
 			brain.setInput(0, redOffset + (random.nextDouble() * blockSize));
 			brain.setInput(1, greenOffset + (random.nextDouble() * blockSize));
 			brain.setInput(2, blueOffset + (random.nextDouble() * blockSize));
-			outText += "close color2... red:" + brain.getInput(0) + ", green: " +brain.getInput(1) + ", blue" + brain.getInput(2) + "\n";
-			Hyperpoint color2 = brain.getBestMatchingUnit(true);
+			outText.append("close color2... red:" + brain.getInput(0) + ", green: " +brain.getInput(1) + ", blue" + brain.getInput(2) + "\n");
+			final Hyperpoint color2 = brain.getBestMatchingUnit(true);
 
 			//calculate the distance between these two points
-			outText += "close color1 point: " + color1 + "\n";
-			outText += "close color2 point: " + color2 + "\n";
-			double distance = color1.calculateRelativeTo(color2).getDistance();
-			outText += "close color distance: " + distance + "\n";
+			outText.append("close color1 point: " + color1 + "\n");
+			outText.append("close color2 point: " + color2 + "\n");
+			final double distance = color1.calculateRelativeTo(color2).getDistance();
+			outText.append("close color distance: " + distance + "\n");
 			//store the distance if its greater than the current max
 			if( farthestDistanceClose < distance )
 			{
 				farthestDistanceClose = distance;
-				closeOutText = outText;
+				closeOutText = outText.toString();
 			}
 		}
 
@@ -106,34 +106,34 @@ public class TestColor
 		String farOutText = "";
 		for(int iteration = 0; iteration < TEST_ITERATIONS; iteration++)
 		{
-			String outText = "";
+			StringBuffer outText = new StringBuffer(64);
 			//get the location of a color within the block
-			boolean isRed1Positive = random.nextBoolean();
-			boolean isGreen1Positive = random.nextBoolean();
-			boolean isBlue1Positive = random.nextBoolean();
+			final boolean isRed1Positive = random.nextBoolean();
+			final boolean isGreen1Positive = random.nextBoolean();
+			final boolean isBlue1Positive = random.nextBoolean();
 			brain.setInput(0, ( isRed1Positive ? random.nextDouble() * maxDrift : 1.0 - (random.nextDouble() * maxDrift)));
 			brain.setInput(1, ( isGreen1Positive ? random.nextDouble() * maxDrift : 1.0 - (random.nextDouble() * maxDrift)));
 			brain.setInput(2, ( isBlue1Positive ? random.nextDouble() * maxDrift : 1.0 - (random.nextDouble() * maxDrift)));
-			outText += "far color1... red:" + brain.getInput(0) + ", green: " +brain.getInput(1) + ", blue" + brain.getInput(2) + "\n";
-			Hyperpoint color1 = brain.getBestMatchingUnit(true);
+			outText.append("far color1... red:" + brain.getInput(0) + ", green: " +brain.getInput(1) + ", blue" + brain.getInput(2) + "\n");
+			final Hyperpoint color1 = brain.getBestMatchingUnit(true);
 
 			//get the location of the other color within the block
-			brain.setInput(0, ( !isRed1Positive ? random.nextDouble() * maxDrift : 1.0 - (random.nextDouble() * maxDrift)));
-			brain.setInput(1, ( !isGreen1Positive ? random.nextDouble() * maxDrift : 1.0 - (random.nextDouble() * maxDrift)));
-			brain.setInput(2, ( !isBlue1Positive ? random.nextDouble() * maxDrift : 1.0 - (random.nextDouble() * maxDrift)));
-			outText += "far color2... red:" + brain.getInput(0) + ", green: " +brain.getInput(1) + ", blue" + brain.getInput(2) + "\n";
-			Hyperpoint color2 = brain.getBestMatchingUnit(true);
+			brain.setInput(0, ( isRed1Positive ? 1.0 - (random.nextDouble() * maxDrift) : random.nextDouble() * maxDrift));
+			brain.setInput(1, ( isGreen1Positive ? 1.0 - (random.nextDouble() * maxDrift) : random.nextDouble() * maxDrift));
+			brain.setInput(2, ( isBlue1Positive ? 1.0 - (random.nextDouble() * maxDrift) : random.nextDouble() * maxDrift));
+			outText.append("far color2... red:" + brain.getInput(0) + ", green: " +brain.getInput(1) + ", blue" + brain.getInput(2) + "\n");
+			final Hyperpoint color2 = brain.getBestMatchingUnit(true);
 
 			//calculate the distance between these two points
-			outText += "far color1 point: " + color1 + "\n";
-			outText += "far color2 point: " + color2 + "\n";
-			double distance = color1.calculateRelativeTo(color2).getDistance();
-			outText += "far color distance: " + distance + "\n";
+			outText.append("far color1 point: " + color1 + "\n");
+			outText.append("far color2 point: " + color2 + "\n");
+			final double distance = color1.calculateRelativeTo(color2).getDistance();
+			outText.append("far color distance: " + distance + "\n");
 			//store the distance if its greater than the current max
 			if( closestDistanceFar > distance )
 			{
 				closestDistanceFar = distance;
-				farOutText = outText;
+				farOutText = outText.toString();
 			}
 		}
 

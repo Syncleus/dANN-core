@@ -25,7 +25,9 @@
 	<rule ref="rulesets/strictexception.xml">
 		<exclude name="AvoidThrowingRawExceptionTypes"/>
 	</rule>
-	<rule ref="rulesets/strings.xml"/>
+	<rule ref="rulesets/strings.xml">
+		<exclude name="AvoidDuplicateLiterals"/>
+	</rule>
 	<rule ref="rulesets/basic.xml"/>
 	<rule ref="rulesets/unusedcode.xml"/>
 	<rule ref="rulesets/codesize.xml"/>
