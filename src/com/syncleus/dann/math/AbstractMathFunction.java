@@ -53,26 +53,19 @@ public abstract class AbstractMathFunction implements Cloneable
         return this.parameterNames.clone();
     }
     
-    protected static String[] combineLabels(String[] first, String[] second)
+    protected static String[] combineLabels(final String[] first, final String[] second)
     {
-        String[] result = new String[first.length + second.length];
+        final String[] result = new String[first.length + second.length];
         int resultIndex = 0;
-        
-        for(int firstIndex = 0; firstIndex < first.length; firstIndex++)
-        {
-            result[resultIndex] = first[firstIndex];
-            resultIndex++;
-        }
-        for(int secondIndex = 0; secondIndex < second.length; secondIndex++)
-        {
-            result[resultIndex] = second[secondIndex];
-            resultIndex++;
-        }
+
+		System.arraycopy(first, 0, result, resultIndex, first.length);
+        resultIndex += first.length;
+		System.arraycopy(second, 0, result, resultIndex, second.length);
         
         return result;
     }
     
-    public final void setParameter(int parameterIndex, double value)
+    public final void setParameter(final int parameterIndex, final double value)
     {
         if(parameterIndex >= parameters.length || parameterIndex < 0)
             throw new IllegalArgumentException("parameterIndex of " + parameterIndex + " is out of range");
@@ -80,12 +73,12 @@ public abstract class AbstractMathFunction implements Cloneable
         this.parameters[parameterIndex] = value;
     }
 
-	public final void setParameter(String parameterName, double value)
+	public final void setParameter(final String parameterName, final double value)
 	{
 		this.setParameter(this.getParameterNameIndex(parameterName), value);
 	}
     
-    public final double getParameter(int parameterIndex)
+    public final double getParameter(final int parameterIndex)
     {
         if(parameterIndex >= parameters.length || parameterIndex < 0)
             throw new IllegalArgumentException("parameterIndex out of range");
@@ -93,12 +86,12 @@ public abstract class AbstractMathFunction implements Cloneable
         return this.parameters[parameterIndex];
     }
 
-	public final double getParameter(String parameterName)
+	public final double getParameter(final String parameterName)
 	{
 		return this.getParameter(this.getParameterNameIndex(parameterName));
 	}
     
-    public final String getParameterName(int parameterIndex)
+    public final String getParameterName(final int parameterIndex)
     {
         if( parameterIndex >= this.parameterNames.length || parameterIndex < 0 )
             throw new IllegalArgumentException("parameterIndex is not within range");
@@ -106,9 +99,9 @@ public abstract class AbstractMathFunction implements Cloneable
         return this.parameterNames[parameterIndex];
     }
     
-    public final int getParameterNameIndex(String parameterName)
+    public final int getParameterNameIndex(final String parameterName)
     {
-        if( this.indexNames.containsKey(parameterName) == false)
+        if( !this.indexNames.containsKey(parameterName))
             throw new IllegalArgumentException("parameterName: " + parameterName + " does not exist");
         
         return this.indexNames.get(parameterName).intValue();
@@ -125,7 +118,7 @@ public abstract class AbstractMathFunction implements Cloneable
 	{
 		try
 		{
-			AbstractMathFunction copy = (AbstractMathFunction) super.clone();
+			final AbstractMathFunction copy = (AbstractMathFunction) super.clone();
 			copy.indexNames.putAll(this.indexNames);
 			copy.parameterNames = this.parameterNames.clone();
 			copy.parameters = this.parameters.clone();

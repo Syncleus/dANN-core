@@ -18,7 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.hyperassociativemap.visualization;
 
-import com.sun.j3d.utils.behaviors.mouse.MouseWheelZoom;
 import com.sun.j3d.utils.behaviors.vp.OrbitBehavior;
 import com.sun.j3d.utils.universe.SimpleUniverse;
 import com.syncleus.dann.graph.hyperassociativemap.AbstractHyperassociativeMap;
@@ -100,24 +99,24 @@ public class HyperassociativeMapCanvas extends Canvas3D
         super(configuration);
         
 
-        BranchGroup root = createRoot();
+        final BranchGroup root = createRoot();
 
         this.mapVisual = new HyperassociativeMapVisualization(map, nodeRadius);
         this.mapVisual.refresh();
 
         root.addChild(mapVisual);
 
-        SimpleUniverse universe = new SimpleUniverse(this);
+        final SimpleUniverse universe = new SimpleUniverse(this);
         universe.addBranchGraph(root);
 
         // Set the initial view position
-        TransformGroup viewTransformGroup = universe.getViewingPlatform().getViewPlatformTransform();
-        Transform3D viewTransform = new Transform3D();
+        final TransformGroup viewTransformGroup = universe.getViewingPlatform().getViewPlatformTransform();
+        final Transform3D viewTransform = new Transform3D();
         viewTransform.set(1f, new Vector3f(0f, 0f, 10f));
         viewTransformGroup.setTransform(viewTransform);
 
         // add an orbital mouse control to the scene
-        OrbitBehavior mouseOrbital = new OrbitBehavior(this);
+        final OrbitBehavior mouseOrbital = new OrbitBehavior(this);
         mouseOrbital.setRotationCenter(new Point3d(0f, 0f, -2f));
         mouseOrbital.setReverseRotate(true);
         mouseOrbital.setSchedulingBounds(new BoundingSphere(new Point3d(0.0, 0.0, 0.0), Double.POSITIVE_INFINITY));
@@ -155,26 +154,26 @@ public class HyperassociativeMapCanvas extends Canvas3D
     {
 
         // Create the branch group
-        BranchGroup branchGroup = new BranchGroup();
+        final BranchGroup branchGroup = new BranchGroup();
 
         // Create the bounding leaf node
-        BoundingSphere bounds = new BoundingSphere(new Point3d(0.0, 0.0, 0.0), 1000.0);
-        BoundingLeaf boundingLeaf = new BoundingLeaf(bounds);
+        final BoundingSphere bounds = new BoundingSphere(new Point3d(0.0, 0.0, 0.0), 1000.0);
+        final BoundingLeaf boundingLeaf = new BoundingLeaf(bounds);
         branchGroup.addChild(boundingLeaf);
 
         // Create the background
-        Background bg = new Background(new Color3f(0.05f, 0.05f, 0.2f));
-        bg.setApplicationBounds(bounds);
-        branchGroup.addChild(bg);
+        final Background background = new Background(new Color3f(0.05f, 0.05f, 0.2f));
+        background.setApplicationBounds(bounds);
+        branchGroup.addChild(background);
 
         // Create the ambient light
-        AmbientLight ambLight = new AmbientLight(new Color3f(1.0f, 1.0f, 1.0f));
+        final AmbientLight ambLight = new AmbientLight(new Color3f(1.0f, 1.0f, 1.0f));
         ambLight.setInfluencingBounds(bounds);
         branchGroup.addChild(ambLight);
 
         // Create the directional light
-        Vector3f dir = new Vector3f(-1f, -1f, -1f);
-        DirectionalLight dirLight = new DirectionalLight(new Color3f(1.0f, 1.0f, 1.0f), dir);
+        final Vector3f dir = new Vector3f(-1f, -1f, -1f);
+        final DirectionalLight dirLight = new DirectionalLight(new Color3f(1.0f, 1.0f, 1.0f), dir);
         dirLight.setInfluencingBounds(bounds);
         branchGroup.addChild(dirLight);
 

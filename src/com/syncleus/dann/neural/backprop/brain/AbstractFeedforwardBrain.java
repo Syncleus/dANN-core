@@ -27,7 +27,7 @@ import org.apache.log4j.Logger;
 public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
 {
 	private boolean initialized = false;
-	private ArrayList<BackpropNeuronGroup> neuronLayers = new ArrayList<BackpropNeuronGroup>();
+	private final List<BackpropNeuronGroup> neuronLayers = new ArrayList<BackpropNeuronGroup>();
 	private int layerCount;
 	private final static Logger LOGGER = Logger.getLogger(AbstractFeedforwardBrain.class);
 
@@ -35,7 +35,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
 
 	private static class Propagate implements Runnable
 	{
-		private BackpropNeuron neuron;
+		private final BackpropNeuron neuron;
 		private final static Logger LOGGER = Logger.getLogger(Propagate.class);
 
 		public Propagate(BackpropNeuron neuron)
@@ -64,7 +64,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
 
 	private static class BackPropagate implements Runnable
 	{
-		private BackpropNeuron neuron;
+		private final BackpropNeuron neuron;
 		private final static Logger LOGGER = Logger.getLogger(BackPropagate.class);
 
 		public BackPropagate(BackpropNeuron neuron)
@@ -121,7 +121,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
 		super();
 	}
 
-	protected void initalizeNetwork(int neuronsPerLayer[])
+	protected void initalizeNetwork(final int neuronsPerLayer[])
 	{
 		if(neuronsPerLayer.length < 2)
 			throw new IllegalArgumentException("neuronsPerLayer must have atleast 2 elements");
@@ -132,10 +132,10 @@ public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
 		int currentLayerCount = 0;
 		for(int neuronCount : neuronsPerLayer)
 		{
-			BackpropNeuronGroup currentGroup = new BackpropNeuronGroup();
+			final BackpropNeuronGroup currentGroup = new BackpropNeuronGroup();
 			for(int neuronIndex = 0; neuronIndex < neuronCount; neuronIndex++)
 			{
-				BackpropNeuron currentNeuron = this.createNeuron(currentLayerCount, neuronIndex);
+				final BackpropNeuron currentNeuron = this.createNeuron(currentLayerCount, neuronIndex);
 
 				currentGroup.add(currentNeuron);
 				this.addNeuron(currentNeuron);
@@ -155,7 +155,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
 	 * @return the neuronLayers for children to use for connection.
 	 * @since 2.0
 	 */
-	protected final ArrayList<BackpropNeuronGroup> getNeuronLayers()
+	protected final List<BackpropNeuronGroup> getNeuronLayers()
 	{
 		return neuronLayers;
 	}
@@ -170,17 +170,17 @@ public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
 
 	public final void propagate()
 	{
-		if(this.initialized == false)
+		if(!this.initialized)
 			throw new IllegalStateException("An implementation of AbstractFeedforwardBrain did not initialize network");
 
 		//step forward through all the layers, except the last (output)
 		for(int layerIndex = 0; layerIndex < (this.neuronLayers.size()); layerIndex++)
 		{
-			BackpropNeuronGroup layer = this.neuronLayers.get(layerIndex);
-			Set<BackpropNeuron> layerNeurons = layer.getChildrenNeuronsRecursivly();
+			final BackpropNeuronGroup layer = this.neuronLayers.get(layerIndex);
+			final Set<BackpropNeuron> layerNeurons = layer.getChildrenNeuronsRecursivly();
 
 			//begin processing all neurons in one layer simultaniously
-			ArrayList<Future> futures = new ArrayList<Future>();
+			final ArrayList<Future> futures = new ArrayList<Future>();
 			for(BackpropNeuron neuron : layerNeurons)
 				futures.add(this.getThreadExecutor().submit(new Propagate(neuron)));
 
@@ -206,17 +206,17 @@ public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
 
 	public final void backPropagate()
 	{
-		if(this.initialized == false)
+		if(!this.initialized)
 			throw new IllegalStateException("An implementation of AbstractFeedforwardBrain did not initialize network");
 		
 		//step backwards through all the layers, except the first.
 		for(int layerIndex = (this.neuronLayers.size()-1); layerIndex >= 0 ; layerIndex--)
 		{
-			BackpropNeuronGroup layer = this.neuronLayers.get(layerIndex);
-			Set<BackpropNeuron> layerNeurons = layer.getChildrenNeuronsRecursivly();
+			final BackpropNeuronGroup layer = this.neuronLayers.get(layerIndex);
+			final Set<BackpropNeuron> layerNeurons = layer.getChildrenNeuronsRecursivly();
 
 			//begin processing all neurons in one layer simultaniously
-			ArrayList<Future> futures = new ArrayList<Future>();
+			final ArrayList<Future> futures = new ArrayList<Future>();
 			for(BackpropNeuron neuron : layerNeurons)
 				futures.add(this.getThreadExecutor().submit(new BackPropagate(neuron)));
 

@@ -37,7 +37,7 @@ import com.syncleus.dann.UnexpectedDannError;
 public abstract class AbstractGeneticAlgorithmPopulation
 {
 	private final static Random RANDOM = new Random();
-	private final TreeSet<AbstractGeneticAlgorithmFitnessFunction> population;
+	private final SortedSet<AbstractGeneticAlgorithmFitnessFunction> population;
 	private final double mutationDeviation;
 	private final double crossoverPercentage;
 	private final double dieOffPercentage;
@@ -47,7 +47,7 @@ public abstract class AbstractGeneticAlgorithmPopulation
 
 	private static class Process implements Runnable
 	{
-		private AbstractGeneticAlgorithmFitnessFunction fitnessFunction;
+		private final AbstractGeneticAlgorithmFitnessFunction fitnessFunction;
 		private final static Logger LOGGER = Logger.getLogger(Process.class);
 
 		public Process(AbstractGeneticAlgorithmFitnessFunction fitnessFunction)
@@ -121,14 +121,14 @@ public abstract class AbstractGeneticAlgorithmPopulation
 		this.addAll(initialChromosomes);
 	}
 
-	private void addAll(Collection<GeneticAlgorithmChromosome> chromosomes)
+	private void addAll(final Collection<GeneticAlgorithmChromosome> chromosomes)
 	{
 		//create all the fitness functions and then process them in parallel
-		ArrayList<AbstractGeneticAlgorithmFitnessFunction> initialPopulation = new ArrayList<AbstractGeneticAlgorithmFitnessFunction>();
-		ArrayList<Future> futures = new ArrayList<Future>();
+		final ArrayList<AbstractGeneticAlgorithmFitnessFunction> initialPopulation = new ArrayList<AbstractGeneticAlgorithmFitnessFunction>();
+		final ArrayList<Future> futures = new ArrayList<Future>();
 		for(GeneticAlgorithmChromosome chromosome : chromosomes)
 		{
-			AbstractGeneticAlgorithmFitnessFunction fitnessFunction = this.packageChromosome(chromosome);
+			final AbstractGeneticAlgorithmFitnessFunction fitnessFunction = this.packageChromosome(chromosome);
 			initialPopulation.add(fitnessFunction);
 			futures.add(this.threadExecutor.submit(new Process(fitnessFunction)));
 		}
@@ -179,7 +179,7 @@ public abstract class AbstractGeneticAlgorithmPopulation
 	 */
 	public final Set<GeneticAlgorithmChromosome> getChromosomes()
 	{
-		HashSet<GeneticAlgorithmChromosome> chromosomes = new HashSet<GeneticAlgorithmChromosome>();
+		final HashSet<GeneticAlgorithmChromosome> chromosomes = new HashSet<GeneticAlgorithmChromosome>();
 		for(AbstractGeneticAlgorithmFitnessFunction member : population)
 		{
 			chromosomes.add(member.getChromosome());
@@ -214,7 +214,7 @@ public abstract class AbstractGeneticAlgorithmPopulation
 
 	private final GeneticAlgorithmChromosome getRandomMember()
 	{
-		int randomIndex = RANDOM.nextInt(this.population.size());
+		final int randomIndex = RANDOM.nextInt(this.population.size());
 		int currentIndex = 0;
 		for(AbstractGeneticAlgorithmFitnessFunction member : this.population)
 		{
@@ -239,19 +239,19 @@ public abstract class AbstractGeneticAlgorithmPopulation
 		this.generations++;
 
 		//calculate population sizes
-		int populationSize = this.population.size();
+		final int populationSize = this.population.size();
 		int lostPopulation = (int)((double)populationSize * this.dieOffPercentage);
 		//ensure the population to kill off is even.
 		if( lostPopulation%2 != 0)
 			lostPopulation--;
-		int remainingPopulation = populationSize - lostPopulation;
+		final int remainingPopulation = populationSize - lostPopulation;
 
 		//remove least performing members of the population
 		while(this.population.size() > remainingPopulation)
-			this.population.pollFirst();
+			this.population.remove(this.population.first());
 
 		//breed children through mutation and crossover
-		ArrayList<GeneticAlgorithmChromosome> children = new ArrayList<GeneticAlgorithmChromosome>();
+		final ArrayList<GeneticAlgorithmChromosome> children = new ArrayList<GeneticAlgorithmChromosome>();
 		while(this.population.size() + children.size() < populationSize)
 		{
 			//obtain parents and mutate into children
@@ -264,10 +264,10 @@ public abstract class AbstractGeneticAlgorithmPopulation
 			//crossover performed on children
 			if(RANDOM.nextDouble() < this.crossoverPercentage)
 			{
-				int crossoverPoint = RANDOM.nextInt(child1.getGenes().size() - 1) + 1;
+				final int crossoverPoint = RANDOM.nextInt(child1.getGenes().size() - 1) + 1;
 
-				List<AbstractValueGene> child1Segment = child1.crossover(crossoverPoint);
-				List<AbstractValueGene> child2Segment = child2.crossover(crossoverPoint);
+				final List<AbstractValueGene> child1Segment = child1.crossover(crossoverPoint);
+				final List<AbstractValueGene> child2Segment = child2.crossover(crossoverPoint);
 
 				child1.crossover(child2Segment, crossoverPoint);
 				child2.crossover(child1Segment, crossoverPoint);
