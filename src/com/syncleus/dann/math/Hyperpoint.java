@@ -34,6 +34,7 @@ import java.util.List;
 public class Hyperpoint implements Serializable
 {
     private volatile double[] coordinates;
+	private static final String DIMENSIONS_BELOW_ONE = "dimensions can not be less than or equal to zero";
 
 	/**
 	 * Creates a Hyperpoint at the origin (all coordinates are 0) in the
@@ -46,7 +47,7 @@ public class Hyperpoint implements Serializable
     public Hyperpoint(int dimensions)
     {
         if(dimensions <= 0)
-            throw new IllegalArgumentException("dimensions can not be less than or equal to zero");
+            throw new IllegalArgumentException(DIMENSIONS_BELOW_ONE);
 
         this.coordinates = new double[dimensions];
     }
@@ -127,10 +128,10 @@ public class Hyperpoint implements Serializable
 	 * equal to 0 or more than the number of dimensions.
 	 * @since 1.0
 	 */
-    public void setCoordinate(double coordinate, int dimension)
+    public void setCoordinate(final double coordinate, final int dimension)
     {
         if(dimension <= 0)
-            throw new IllegalArgumentException("dimensions can not be less than or equal to zero");
+            throw new IllegalArgumentException(DIMENSIONS_BELOW_ONE);
         if(dimension > this.coordinates.length)
             throw new IllegalArgumentException("dimensions is larger than the dimensionality of this point");
 
@@ -150,10 +151,10 @@ public class Hyperpoint implements Serializable
 	 * equal to 0 or more than the number of dimensions.
 	 * @since 1.0
 	 */
-    public double getCoordinate(int dimension)
+    public double getCoordinate(final int dimension)
     {
         if(dimension <= 0)
-            throw new IllegalArgumentException("dimensions can not be less than or equal to zero");
+            throw new IllegalArgumentException(DIMENSIONS_BELOW_ONE);
         if(dimension > this.coordinates.length)
             throw new IllegalArgumentException("dimensions is larger than the dimensionality of this point");
         
@@ -170,14 +171,14 @@ public class Hyperpoint implements Serializable
 	 * @param distance The new distance for this vector.
 	 * @since 1.0
 	 */
-    public void setDistance(double distance)
+    public void setDistance(final double distance)
     {
 		synchronized(this)
 		{
-			double[] newCoords = (double[]) this.coordinates.clone();
+			final double[] newCoords = (double[]) this.coordinates.clone();
 
-			double oldDistance = this.getDistance();
-			double scalar = distance/oldDistance;
+			final double oldDistance = this.getDistance();
+			final double scalar = distance/oldDistance;
 
 			for(int newCoordsIndex = 0; newCoordsIndex < newCoords.length; newCoordsIndex++)
 				newCoords[newCoordsIndex] *= scalar;
@@ -199,10 +200,10 @@ public class Hyperpoint implements Serializable
 	 * dimensions.
 	 * @since 1.0
 	 */
-    public void setAngularComponent(double angle, int dimension)
+    public void setAngularComponent(final double angle, final int dimension)
     {
         if(dimension <= 0)
-            throw new IllegalArgumentException("dimensions can not be less than or equal to zero");
+            throw new IllegalArgumentException(DIMENSIONS_BELOW_ONE);
         if((dimension-1) > this.coordinates.length)
             throw new IllegalArgumentException("dimensions is larger than the dimensionality (minus 1) of this point");
 
@@ -216,17 +217,17 @@ public class Hyperpoint implements Serializable
 				{
 					if(angleDimension < cartesianDimension)
 					{
-						if(angleDimension != dimension)
-							sphericalProducts *= Math.sin(this.getAngularComponent(angleDimension));
-						else
+						if(angleDimension == dimension)
 							sphericalProducts *= Math.sin(angle);
+						else
+							sphericalProducts *= Math.sin(this.getAngularComponent(angleDimension));
 					}
 					else
 					{
-						if(angleDimension != dimension)
-							sphericalProducts *= Math.cos(this.getAngularComponent(angleDimension));
-						else
+						if(angleDimension == dimension)
 							sphericalProducts *= Math.cos(angle);
+						else
+							sphericalProducts *= Math.cos(this.getAngularComponent(angleDimension));
 					}
 				}
 				newCoords[cartesianDimension-1] = sphericalProducts;
@@ -247,7 +248,7 @@ public class Hyperpoint implements Serializable
 	 */
     public double getDistance()
     {
-		double currentCoords[] = this.coordinates.clone();
+		final double currentCoords[] = this.coordinates.clone();
         double squaredSum = 0.0;
         for(double coordinate : currentCoords)
             squaredSum += Math.pow(coordinate,2);
@@ -263,27 +264,27 @@ public class Hyperpoint implements Serializable
 	 * @return returns a value representing the angle between Pi/2 and -Pi/2
 	 * @since 1.0
 	 */
-    public double getAngularComponent(int dimension)
+    public double getAngularComponent(final int dimension)
     {
         if(dimension <= 0)
-            throw new IllegalArgumentException("dimensions can not be less than or equal to zero");
+            throw new IllegalArgumentException(DIMENSIONS_BELOW_ONE);
         if((dimension-1) > this.coordinates.length)
             throw new IllegalArgumentException("dimensions is larger than the dimensionality (minus 1) of this point");
 
-		double currentCoords[] = this.coordinates.clone();
+		final double currentCoords[] = this.coordinates.clone();
         double squaredSum = 0.0;
         for(int coordinateIndex = currentCoords.length-1; coordinateIndex >= dimension; coordinateIndex--)
             squaredSum += Math.pow(currentCoords[coordinateIndex], 2.0);
 
-		if( dimension != this.getDimensions() - 1)
+		if( dimension == (this.getDimensions() - 1))
+			return Math.atan2(Math.sqrt(squaredSum), currentCoords[dimension-1]);
+		else
 		{
 			if(currentCoords[dimension-1] == 0.0d)
 				return Math.PI/2.0d;
 
 			return Math.atan(Math.sqrt(squaredSum) / currentCoords[dimension-1]);
 		}
-		else
-			return Math.atan2(Math.sqrt(squaredSum), currentCoords[dimension-1]);
     }
 
 	/**
@@ -294,13 +295,13 @@ public class Hyperpoint implements Serializable
 	 * @return The new Hyperpoint resulting from the new origin.
 	 * @since 1.0
 	 */
-    public Hyperpoint calculateRelativeTo(Hyperpoint absolutePoint)
+    public Hyperpoint calculateRelativeTo(final Hyperpoint absolutePoint)
     {
         if(absolutePoint == null)
             throw new IllegalArgumentException("absolutePoint can not be null!");
 
-		double currentCoords[] = this.coordinates.clone();
-		double absoluteCoords[] = absolutePoint.coordinates.clone();
+		final double currentCoords[] = this.coordinates.clone();
+		final double absoluteCoords[] = absolutePoint.coordinates.clone();
         
         if(absoluteCoords.length != currentCoords.length)
             throw new IllegalArgumentException("absolutePoint must have the same dimensions as this point");
@@ -320,13 +321,13 @@ public class Hyperpoint implements Serializable
 	 * @return The resulting Hyperpoint after addition.
 	 * @since 1.0
 	 */
-    public Hyperpoint add(Hyperpoint pointToAdd)
+    public Hyperpoint add(final Hyperpoint pointToAdd)
     {
         if(pointToAdd == null)
             throw new IllegalArgumentException("pointToAdd can not be null!");
 
-		double currentCoords[] = this.coordinates.clone();
-		double addCoords[] = pointToAdd.coordinates.clone();
+		final double currentCoords[] = this.coordinates.clone();
+		final double addCoords[] = pointToAdd.coordinates.clone();
 
         
         if(addCoords.length != currentCoords.length)
@@ -350,16 +351,17 @@ public class Hyperpoint implements Serializable
 	@Override
 	public String toString()
 	{
-		double currentCoords[] = this.coordinates.clone();
-		StringBuffer stringValue = new StringBuffer("{");
+		final double currentCoords[] = this.coordinates.clone();
+		final StringBuffer stringValue = new StringBuffer();
+		stringValue.append('{');
 		for(int dimension = 0; dimension < currentCoords.length; dimension++)
 		{
 			stringValue.append(currentCoords[dimension]);
 			if(dimension < (currentCoords.length-1))
-				stringValue.append(",");
+				stringValue.append(',');
 		}
 
-		stringValue.append("}");
+		stringValue.append('}');
 
 		return stringValue.toString();
 	}
@@ -376,12 +378,14 @@ public class Hyperpoint implements Serializable
 	{
 		synchronized(this)
 		{
-			StringBuffer retString = new StringBuffer(this.getDistance() + "@");
+			final StringBuffer retString = new StringBuffer();
+			retString.append(this.getDistance());
+			retString.append('@');
 			for(int angleDimension = 1; angleDimension < this.getDimensions(); angleDimension++)
 			{
 				retString.append(this.getAngularComponent(angleDimension));
-				if(angleDimension < this.getDimensions() - 1)
-					retString.append(",");
+				if(angleDimension < (this.getDimensions() - 1))
+					retString.append(',');
 			}
 			return retString.toString();
 		}
@@ -410,15 +414,15 @@ public class Hyperpoint implements Serializable
 	 * @since 2.0
 	 */
 	@Override
-	public boolean equals(Object compareWithObject)
+	public boolean equals(final Object compareWithObject)
 	{
 		if(!(compareWithObject instanceof Hyperpoint))
 			return false;
 
-		Hyperpoint compareWith = (Hyperpoint) compareWithObject;
+		final Hyperpoint compareWith = (Hyperpoint) compareWithObject;
 
-		double currentCoords[] = this.coordinates.clone();
-		double otherCoords[] = compareWith.coordinates.clone();
+		final double currentCoords[] = this.coordinates.clone();
+		final double otherCoords[] = compareWith.coordinates.clone();
 
 		if(currentCoords.length != otherCoords.length)
 			return false;

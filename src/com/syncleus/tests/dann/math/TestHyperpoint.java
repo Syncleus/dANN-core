@@ -182,6 +182,6 @@ public class TestHyperpoint
 		points.add(Double.valueOf(3.0d));
 		Hyperpoint testPoint = new Hyperpoint(points);
 
-		Assert.assertTrue(testPoint.toString() + "!= {1.0,2.0,3.0}", testPoint.toString().compareToIgnoreCase("{1.0,2.0,3.0}") == 0);
+		Assert.assertTrue(testPoint.toString() + " != {1.0,2.0,3.0}", testPoint.toString().compareToIgnoreCase("{1.0,2.0,3.0}") == 0);
 	}
 }

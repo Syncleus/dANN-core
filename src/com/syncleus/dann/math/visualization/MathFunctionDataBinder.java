@@ -27,16 +27,16 @@ import java.security.InvalidParameterException;
 
 public final class MathFunctionDataBinder implements Binned2DData
 {
-    private AbstractMathFunction function = null;
-    private int functionXIndex;
-    private int functionYIndex;
-    private float xMin;
-    private float xMax;
-    private float yMin;
-    private float yMax;
-    private float zMin;
-    private float zMax;
-    private int resolution;
+    private final AbstractMathFunction function;
+    private final int functionXIndex;
+    private final int functionYIndex;
+    private final float minX;
+    private final float maxX;
+    private final float minY;
+    private final float maxY;
+    private final float minZ;
+    private final float maxZ;
+    private final int resolution;
 
 
 
@@ -55,67 +55,70 @@ public final class MathFunctionDataBinder implements Binned2DData
         this.function = function;
         this.functionXIndex = this.function.getParameterNameIndex(functionXParam);
         this.functionYIndex = this.function.getParameterNameIndex(functionYParam);
-        this.xMin = xMin;
-        this.xMax = xMax;
-        this.yMin = yMin;
-        this.yMax = yMax;
+        this.minX = xMin;
+        this.maxX = xMax;
+        this.minY = yMin;
+        this.maxY = yMax;
         this.resolution = resolution;
 
         boolean zMaxSet = false;
         boolean zMinSet = false;
-        zMin = -1.0f;
-        zMax = 1.0f;
+		float newZMax = 1.0f;
+		float newZMin = -1.0f;
         for(int xIndex = 0;xIndex < this.xBins();xIndex++)
         {
             this.setX(this.convertFromXIndex(xIndex));
             for(int yIndex = 0;yIndex < this.yBins();yIndex++)
             {
                 this.setY(this.convertFromYIndex(yIndex));
-                float currentZ = (float)this.calculateZ();
+                final float currentZ = (float)this.calculateZ();
 
-                if(Float.isNaN(currentZ) == false)
+                if(!Float.isNaN(currentZ))
                 {
 
-                    if((this.zMax < currentZ) || (zMaxSet == false))
+                    if((this.maxZ < currentZ) || (!zMaxSet))
                     {
-                        this.zMax = currentZ;
+                        newZMax = currentZ;
                         zMaxSet = true;
                     }
 
-                    if((this.zMin > currentZ) || (zMinSet == false))
+                    if((this.minZ > currentZ) || (!zMinSet))
                     {
-                        this.zMin = currentZ;
+                        newZMin = currentZ;
                         zMinSet = true;
                     }
                 }
             }
         }
         
-        if(zMax == zMin)
+        if(newZMax == newZMin)
         {
-            zMax += 1.0;
-            zMin += -1.0;
+            newZMax += 1.0;
+            newZMin += -1.0;
         }
+
+		this.maxZ = newZMax;
+		this.minZ = newZMin;
         
-        if( Float.isNaN(zMax) || Float.isNaN(zMin))
+        if( Float.isNaN(maxZ) || Float.isNaN(minZ))
             throw new InvalidParameterException("z does not deviate, nothing to plot!");
     }
 
 
 
-	private float convertFromXIndex(int x)
+	private float convertFromXIndex(final int xCoord)
     {
-        float xSize = this.xMax - this.xMin;
+        final float xSize = this.maxX - this.minX;
 
-        return (((float)x) / ((float)this.xBins())) * xSize + this.xMin;
+        return (((float)xCoord) / ((float)this.xBins())) * xSize + this.minX;
     }
 
 
 
-    private float convertFromYIndex(int y)
+    private float convertFromYIndex(final int yCoord)
     {
-        float ySize = this.yMax - this.yMin;
-        return (((float)(this.yBins() - y)) / ((float)this.yBins())) * ySize + this.yMin;
+        final float ySize = this.maxY - this.minY;
+        return (((float)(this.yBins() - yCoord)) / ((float)this.yBins())) * ySize + this.minY;
     }
 
 
@@ -140,16 +143,16 @@ public final class MathFunctionDataBinder implements Binned2DData
 		return this.resolution;
 	}
 
-    private void setX(double x)
+    private void setX(final double xCoord)
     {
-        this.function.setParameter(this.functionXIndex, x);
+        this.function.setParameter(this.functionXIndex, xCoord);
     }
 
 
 
-    private void setY(double y)
+    private void setY(final double yCoord)
     {
-        this.function.setParameter(this.functionYIndex, y);
+        this.function.setParameter(this.functionYIndex, yCoord);
     }
 
 
@@ -161,27 +164,25 @@ public final class MathFunctionDataBinder implements Binned2DData
 
 
 
-    public Color3b colorAt(int xIndex, int yIndex)
+    public Color3b colorAt(final int xIndex, final int yIndex)
     {
-        byte blueBytes = Byte.MIN_VALUE;
+        final float xCoord = this.convertFromXIndex(xIndex);
+        final float yCoord = this.convertFromYIndex(yIndex);
 
-        float x = this.convertFromXIndex(xIndex);
-        float y = this.convertFromYIndex(yIndex);
-
-        this.setX(x);
-        this.setY(y);
-        double z = this.calculateZ();
+        this.setX(xCoord);
+        this.setY(yCoord);
+        final double zCoord = this.calculateZ();
 
 
-        if(z > this.zMax)
+        if(zCoord > this.maxZ)
             return new Color3b(new Color(0.0f, 0.0f, 0.0f));
-        else if(z < this.zMin)
+        else if(zCoord < this.minZ)
             return new Color3b(new Color(0.0f, 0.0f, 0.0f));
         else
         {
-            float redValue = (float)(z - this.zMin) / (this.zMax - this.zMin);
-            float blueValue = 1.0f - redValue;
-            float greenValue = 0.0f;
+            final float redValue = (float)(zCoord - this.minZ) / (this.maxZ - this.minZ);
+            final float blueValue = 1.0f - redValue;
+            final float greenValue = 0.0f;
 
             return new Color3b(new Color(redValue, greenValue, blueValue));
         }
@@ -198,14 +199,14 @@ public final class MathFunctionDataBinder implements Binned2DData
 
     public float xMax()
     {
-        return this.xMax;
+        return this.maxX;
     }
 
 
 
     public float xMin()
     {
-        return this.xMin;
+        return this.minX;
     }
 
 
@@ -219,49 +220,49 @@ public final class MathFunctionDataBinder implements Binned2DData
 
     public float yMax()
     {
-        return this.yMax;
+        return this.maxY;
     }
 
 
 
     public float yMin()
     {
-        return this.yMin;
+        return this.minY;
     }
 
 
 
-    public float zAt(int xIndex, int yIndex)
+    public float zAt(final int xIndex, final int yIndex)
     {
-        float x = this.convertFromXIndex(xIndex);
-        float y = this.convertFromYIndex(yIndex);
+        final float xCoord = this.convertFromXIndex(xIndex);
+        final float yCoord = this.convertFromYIndex(yIndex);
 
-        this.setX(x);
-        this.setY(y);
-        float z = (float)this.calculateZ();
+        this.setX(xCoord);
+        this.setY(yCoord);
+        final float zCoord = (float)this.calculateZ();
 
 
-        if(z < this.zMin)
-            return this.zMin;
-        else if(z > this.zMax)
-            return this.zMax;
-        else if(Float.isNaN(z))
+        if(zCoord < this.minZ)
+            return this.minZ;
+        else if(zCoord > this.maxZ)
+            return this.maxZ;
+        else if(Float.isNaN(zCoord))
             return 0.0f;
         else
-            return z;
+            return zCoord;
     }
 
 
 
     public float zMax()
     {
-        return this.zMax;
+        return this.maxZ;
     }
 
 
 
     public float zMin()
     {
-        return this.zMin;
+        return this.minZ;
     }
 }
