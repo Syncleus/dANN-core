@@ -45,16 +45,16 @@ public class Chromosome implements Cloneable
 		this.mutability = copy.mutability;
 	}
 
-	Set<SignalKey> getExpressedSignals(boolean external)
+	Set<SignalKey> getExpressedSignals(final boolean external)
 	{
-		HashSet<SignalKey> allSignals = new HashSet<SignalKey>(this.leftChromatid.getExpressedSignals(external));
+		final HashSet<SignalKey> allSignals = new HashSet<SignalKey>(this.leftChromatid.getExpressedSignals(external));
 		allSignals.addAll(this.rightChromatid.getExpressedSignals(external));
 		return Collections.unmodifiableSet(allSignals);
 	}
 	
 	public Set<AbstractKey> getKeys()
 	{
-		HashSet<AbstractKey> allKeys = new HashSet<AbstractKey>();
+		final HashSet<AbstractKey> allKeys = new HashSet<AbstractKey>();
 		allKeys.addAll(this.leftChromatid.getKeys());
 		allKeys.addAll(this.rightChromatid.getKeys());
 		return Collections.unmodifiableSet(allKeys);
@@ -72,7 +72,7 @@ public class Chromosome implements Cloneable
 		this.rightChromatid.tick();
 	}
 
-	public boolean bind(SignalKeyConcentration concentration, boolean isExternal)
+	public boolean bind(final SignalKeyConcentration concentration, final boolean isExternal)
 	{
 		boolean bound = false;
 		if( this.leftChromatid.bind(concentration, isExternal))
@@ -94,41 +94,41 @@ public class Chromosome implements Cloneable
 
 	public List<AbstractWaveletGene> getGenes()
 	{
-		List<AbstractWaveletGene> genes = new ArrayList<AbstractWaveletGene>(this.leftChromatid.getGenes());
+		final List<AbstractWaveletGene> genes = new ArrayList<AbstractWaveletGene>(this.leftChromatid.getGenes());
 		genes.addAll(this.rightChromatid.getGenes());
 		return Collections.unmodifiableList(genes);
 	}
 
 	public List<PromoterGene> getPromoterGenes()
 	{
-		List<PromoterGene> promoters = new ArrayList<PromoterGene>(this.leftChromatid.getPromoterGenes());
+		final List<PromoterGene> promoters = new ArrayList<PromoterGene>(this.leftChromatid.getPromoterGenes());
 		promoters.addAll(this.rightChromatid.getPromoterGenes());
 		return Collections.unmodifiableList(promoters);
 	}
 
 	public List<SignalGene> getLocalSignalGenes()
 	{
-		List<SignalGene> localSignalGenes = new ArrayList<SignalGene>(this.leftChromatid.getLocalSignalGenes());
+		final List<SignalGene> localSignalGenes = new ArrayList<SignalGene>(this.leftChromatid.getLocalSignalGenes());
 		localSignalGenes.addAll(this.rightChromatid.getLocalSignalGenes());
 		return Collections.unmodifiableList(localSignalGenes);
 	}
 
 	public List<ExternalSignalGene> getExternalSignalGenes()
 	{
-		List<ExternalSignalGene> externalSignalGenes = new ArrayList<ExternalSignalGene>(this.leftChromatid.getExternalSignalGenes());
+		final List<ExternalSignalGene> externalSignalGenes = new ArrayList<ExternalSignalGene>(this.leftChromatid.getExternalSignalGenes());
 		externalSignalGenes.addAll(this.rightChromatid.getExternalSignalGenes());
 		return Collections.unmodifiableList(externalSignalGenes);
 	}
 
-	private void crossover(double deviation)
+	private void crossover(final double deviation)
 	{
 		//find the crossover position
 		int crossoverPosition;
 		if(RANDOM.nextBoolean())
 		{
-			int length = ( this.leftChromatid.getCentromerePosition() < this.rightChromatid.getCentromerePosition() ? this.leftChromatid.getCentromerePosition() : this.rightChromatid.getCentromerePosition());
+			final int length = ( this.leftChromatid.getCentromerePosition() < this.rightChromatid.getCentromerePosition() ? this.leftChromatid.getCentromerePosition() : this.rightChromatid.getCentromerePosition());
 
-			int fromEnd = (int) Math.abs( (new MutableDouble(0d)).mutate(deviation).doubleValue() );
+			final int fromEnd = (int) Math.abs( (new MutableDouble(0d)).mutate(deviation).doubleValue() );
 			if(fromEnd > length)
 				crossoverPosition = 0;
 			else
@@ -136,12 +136,12 @@ public class Chromosome implements Cloneable
 		}
 		else
 		{
-			int leftLength = this.leftChromatid.getGenes().size() - this.leftChromatid.getCentromerePosition();
-			int rightLength = this.rightChromatid.getGenes().size() - this.leftChromatid.getCentromerePosition();
+			final int leftLength = this.leftChromatid.getGenes().size() - this.leftChromatid.getCentromerePosition();
+			final int rightLength = this.rightChromatid.getGenes().size() - this.leftChromatid.getCentromerePosition();
 
-			int length = ( leftLength < rightLength ? leftLength : rightLength);
+			final int length = ( leftLength < rightLength ? leftLength : rightLength);
 
-			int fromEnd = (int) Math.abs( (new MutableDouble(0d)).mutate(deviation).doubleValue() );
+			final int fromEnd = (int) Math.abs( (new MutableDouble(0d)).mutate(deviation).doubleValue() );
 			if(fromEnd > length)
 				crossoverPosition = 0;
 			else
@@ -149,8 +149,8 @@ public class Chromosome implements Cloneable
 		}
 
 		//perform the crossover.
-		List<AbstractWaveletGene> leftGenes = this.leftChromatid.crossover(crossoverPosition);
-		List<AbstractWaveletGene> rightGenes = this.rightChromatid.crossover(crossoverPosition);
+		final List<AbstractWaveletGene> leftGenes = this.leftChromatid.crossover(crossoverPosition);
+		final List<AbstractWaveletGene> rightGenes = this.rightChromatid.crossover(crossoverPosition);
 
 		this.leftChromatid.crossover(rightGenes, crossoverPosition);
 		this.rightChromatid.crossover(leftGenes, crossoverPosition);
@@ -161,7 +161,7 @@ public class Chromosome implements Cloneable
 	{
 		try
 		{
-			Chromosome copy = (Chromosome) super.clone();
+			final Chromosome copy = (Chromosome) super.clone();
 			copy.leftChromatid = new WaveletChromatid(this.leftChromatid);
 			copy.rightChromatid = new WaveletChromatid(this.rightChromatid);
 			copy.mutability = this.mutability;
@@ -174,7 +174,7 @@ public class Chromosome implements Cloneable
 		}
 	}
 
-	public void mutate(Set<AbstractKey> keyPool)
+	public void mutate(final Set<AbstractKey> keyPool)
 	{
 		if( Mutation.mutationEvent(mutability) )
 			this.crossover(this.mutability);

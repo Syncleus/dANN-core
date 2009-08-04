@@ -70,14 +70,14 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
      *
      * @since 1.0
      */
-    protected HashSet<Synapse> destinations = new HashSet<Synapse>();
+    protected final Set<Synapse> destinations = new HashSet<Synapse>();
 
 	/**
      * All the synapses currently connecting into this neuron
      *
      * @since 1.0
      */
-    private HashSet<Synapse> sources = new HashSet<Synapse>();
+    private final Set<Synapse> sources = new HashSet<Synapse>();
 
 	/**
 	 * The current activation function used by this neuron. This is used to
@@ -147,7 +147,7 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
      * @param inSynapse The synapse to connect from.
      * @see com.syncleus.dann.neural.Neuron#connectTo
      */
-    public void connectFrom(Synapse inSynapse) throws InvalidConnectionTypeDannException
+    public void connectFrom(final Synapse inSynapse) throws InvalidConnectionTypeDannException
     {
         //make sure you arent already connected fromt his neuron
 
@@ -165,14 +165,14 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
 	 * thrown, but children are allowed to throw this exception.
      * @see com.syncleus.dann.neural.NeuronImpl#connectFrom
      */
-    public Synapse connectTo(DN outUnit) throws InvalidConnectionTypeDannException
+    public Synapse connectTo(final DN outUnit) throws InvalidConnectionTypeDannException
     {
         //make sure you arent already connected to the neuron
         if (outUnit == null)
             throw new IllegalArgumentException("outUnit can not be null!");
 
         //connect to the neuron
-        Synapse newSynapse = new Synapse(this, outUnit, ((this.RANDOM.nextDouble() * 2.0) - 1.0) / 10000.0);
+        final Synapse newSynapse = new Synapse(this, outUnit, ((this.RANDOM.nextDouble() * 2.0) - 1.0) / 10000.0);
         this.destinations.add(newSynapse);
         outUnit.connectFrom(newSynapse);
 
@@ -205,10 +205,10 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
      */
     public void disconnectAllDestinations()
     {
-		Synapse[] destinations = new Synapse[this.destinations.size()];
-		this.destinations.toArray(destinations);
+		final Synapse[] destinationsArray = new Synapse[this.destinations.size()];
+		this.destinations.toArray(destinationsArray);
 		
-        for (Synapse currentDestination : destinations)
+        for (Synapse currentDestination : destinationsArray)
 		{
             try
             {
@@ -234,10 +234,10 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
      */
     public void disconnectAllSources()
     {
-		Synapse[] sources = new Synapse[this.sources.size()];
-		this.sources.toArray(sources);
+		final Synapse[] sourcesArray = new Synapse[this.sources.size()];
+		this.sources.toArray(sourcesArray);
 		
-        for (Synapse currentSource : sources)
+        for (Synapse currentSource : sourcesArray)
 		{
             try
             {
@@ -263,12 +263,12 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
 	 * @throws SynapseNotConnectedException Thrown if the specified synapse isnt
 	 * currently connected.
      */
-    public void disconnectDestination(Synapse outSynapse) throws SynapseNotConnectedException
+    public void disconnectDestination(final Synapse outSynapse) throws SynapseNotConnectedException
     {
         if (this instanceof OutputNeuron)
             throw new IllegalArgumentException("Can not disconnect a destination for a OutputNeuron");
 
-        if (this.destinations.remove(outSynapse) == false)
+        if (!this.destinations.remove(outSynapse))
             throw new SynapseNotConnectedException("can not disconnect destination, does not exist.");
 
         try
@@ -295,12 +295,12 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
 	 * @throws SynapseNotConnectedException Thrown if the specified synapse isnt
 	 * currently connected.
      */
-    public void disconnectSource(Synapse inSynapse) throws SynapseNotConnectedException
+    public void disconnectSource(final Synapse inSynapse) throws SynapseNotConnectedException
     {
         if (this instanceof InputNeuron)
             throw new IllegalArgumentException("Can not disconnect a source for a InputNeuron");
 
-        if (this.sources.remove(inSynapse) == false)
+        if (!this.sources.remove(inSynapse))
             throw new SynapseNotConnectedException("can not disconnect source, does not exist.");
 
         try
@@ -325,12 +325,12 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
      * @param outSynapse The incomming synapse to remove from memory.
      * @see com.syncleus.dann.neural.Neuron#disconnectSource
      */
-    protected void removeDestination(Synapse outSynapse) throws SynapseDoesNotExistException
+    protected void removeDestination(final Synapse outSynapse) throws SynapseDoesNotExistException
     {
         if (this instanceof OutputNeuron)
             throw new IllegalArgumentException("Can not remove a destination for a OutputNeuron");
 
-        if (this.destinations.remove(outSynapse) == false)
+        if (!this.destinations.remove(outSynapse))
             throw new SynapseDoesNotExistException("Can not remove destination, does not exist.");
     }
 
@@ -343,12 +343,12 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
      * @param inSynapse The incomming synapse to remove from memory.<BR>
      * @see com.syncleus.dann.neural.Neuron#disconnectDestination
      */
-    protected void removeSource(Synapse inSynapse) throws SynapseDoesNotExistException
+    protected void removeSource(final Synapse inSynapse) throws SynapseDoesNotExistException
     {
         if (this instanceof InputNeuron)
             throw new IllegalArgumentException("Can not disconnect a source for a InputNeuron");
 
-        if (this.sources.remove(inSynapse) == false)
+        if (!this.sources.remove(inSynapse))
             throw new SynapseDoesNotExistException("Can not remove destination, does not exist.");
     }
 
@@ -378,7 +378,7 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
 	 */
     public Set<Neuron> getNeighbors()
     {
-        HashSet<Neuron> neighbors = new HashSet<Neuron>();
+        final HashSet<Neuron> neighbors = new HashSet<Neuron>();
         for (Synapse source : this.getSources())
             neighbors.add(source.getSource());
         for (Synapse destination : this.getDestinations())
@@ -399,7 +399,7 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
 	@SuppressWarnings("unchecked")
     public Set<SN> getSourceNeighbors()
     {
-        HashSet<SN> neighbors = new HashSet<SN>();
+        final HashSet<SN> neighbors = new HashSet<SN>();
 		try
 		{
 			for (Synapse sourceSynapse : this.getSources())
@@ -425,7 +425,7 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
 	@SuppressWarnings("unchecked")
     public Set<DN> getDestinationNeighbors()
     {
-        HashSet<DN> neighbors = new HashSet<DN>();
+        final HashSet<DN> neighbors = new HashSet<DN>();
         for (Synapse destination : this.getDestinations())
             neighbors.add((DN)destination.getDestination());
 
@@ -456,7 +456,7 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
      * @see com.syncleus.dann.neural.backprop.BackpropNeuron#propagate
      * @param newOutput The output value.
      */
-    protected void setOutput(double newOutput)
+    protected void setOutput(final double newOutput)
     {
         this.output = newOutput;
 
