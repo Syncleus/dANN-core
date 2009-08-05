@@ -27,7 +27,7 @@ package com.syncleus.dann.genetics;
  * @author Syncleus, Inc.
  * @since 2.0
  */
-public abstract class AbstractGeneticAlgorithmFitnessFunction implements Comparable<AbstractGeneticAlgorithmFitnessFunction>
+public abstract class AbstractGeneticAlgorithmFitnessFunction<E extends AbstractGeneticAlgorithmFitnessFunction> implements Comparable<E>
 {
 	private GeneticAlgorithmChromosome chromosome;
 
@@ -81,7 +81,7 @@ public abstract class AbstractGeneticAlgorithmFitnessFunction implements Compara
 	 * both equally as fit it will return 0.
 	 * @since 2.0
 	 */
-	public abstract int compareTo(AbstractGeneticAlgorithmFitnessFunction compareWith);
+	public abstract int compareTo(E compareWith);
 
 	/**
 	 * Called once after the class is initialized in case child implementations

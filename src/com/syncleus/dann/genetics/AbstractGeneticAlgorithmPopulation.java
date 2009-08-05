@@ -88,9 +88,9 @@ public abstract class AbstractGeneticAlgorithmPopulation
 	 * each generation.
 	 * @since 2.0
 	 */
-	public AbstractGeneticAlgorithmPopulation(Set<GeneticAlgorithmChromosome> initialChromosomes, double mutationDeviation, double crossoverPercentage, double dieOffPercentage)
+	public AbstractGeneticAlgorithmPopulation(double mutationDeviation, double crossoverPercentage, double dieOffPercentage)
 	{
-		this(initialChromosomes, mutationDeviation, crossoverPercentage, dieOffPercentage, new ThreadPoolExecutor(Runtime.getRuntime().availableProcessors(), Runtime.getRuntime().availableProcessors()*5, 20, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>()));
+		this(mutationDeviation, crossoverPercentage, dieOffPercentage, new ThreadPoolExecutor(Runtime.getRuntime().availableProcessors(), Runtime.getRuntime().availableProcessors()*5, 20, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>()));
 	}
 
 	/**
@@ -107,21 +107,21 @@ public abstract class AbstractGeneticAlgorithmPopulation
 	 * each generation.
 	 * @since 2.0
 	 */
-	public AbstractGeneticAlgorithmPopulation(Set<GeneticAlgorithmChromosome> initialChromosomes, double mutationDeviation, double crossoverPercentage, double dieOffPercentage, ThreadPoolExecutor threadExecutor)
+	public AbstractGeneticAlgorithmPopulation(double mutationDeviation, double crossoverPercentage, double dieOffPercentage, ThreadPoolExecutor threadExecutor)
 	{
-		if(initialChromosomes.size() <4)
-			throw new IllegalArgumentException("Must have a population of atleast 4");
-
 		this.population  = new TreeSet<AbstractGeneticAlgorithmFitnessFunction>();
 		this.mutationDeviation = mutationDeviation;
 		this.crossoverPercentage = crossoverPercentage;
 		this.dieOffPercentage = dieOffPercentage;
 		this.threadExecutor = threadExecutor;
-
-		this.addAll(initialChromosomes);
 	}
 
-	private void addAll(final Collection<GeneticAlgorithmChromosome> chromosomes)
+	public final void add(final GeneticAlgorithmChromosome chromosome)
+	{
+		this.population.add(this.packageChromosome(chromosome));
+	}
+
+	public final void addAll(final Collection<GeneticAlgorithmChromosome> chromosomes)
 	{
 		//create all the fitness functions and then process them in parallel
 		final ArrayList<AbstractGeneticAlgorithmFitnessFunction> initialPopulation = new ArrayList<AbstractGeneticAlgorithmFitnessFunction>();
@@ -150,23 +150,7 @@ public abstract class AbstractGeneticAlgorithmPopulation
 		}
 
 		//add to thetree set and sort
-		for(AbstractGeneticAlgorithmFitnessFunction initialMember : initialPopulation)
-		{
-			this.population.add(initialMember);
-		}
-	}
-
-	/**
-	 * Creates a new population with an initial population consisting of the
-	 * specified chromosomes and using default Genetic Algorithm parameters.
-	 *
-	 * @param initialChromosomes The initial chromosomes for the first
-	 * generation of the population.
-	 * @since 2.0
-	 */
-	public AbstractGeneticAlgorithmPopulation(Set<GeneticAlgorithmChromosome> initialChromosomes)
-	{
-		this(initialChromosomes, 0.25d, 0.75d, 0.90d);
+		this.population.addAll(initialPopulation);
 	}
 
 	/**
@@ -196,7 +180,7 @@ public abstract class AbstractGeneticAlgorithmPopulation
 	 * its fitness function.
 	 * @since 2.0
 	 */
-	public final GeneticAlgorithmChromosome getWinner()
+	public GeneticAlgorithmChromosome getWinner()
 	{
 		return this.population.last().getChromosome();
 	}
@@ -236,6 +220,9 @@ public abstract class AbstractGeneticAlgorithmPopulation
 	 */
 	public void nextGeneration()
 	{
+		if(this.population.size() < 4)
+			throw new IllegalStateException("Must have a population of atleast 4. Currently: " + this.population.size());
+
 		this.generations++;
 
 		//calculate population sizes
@@ -251,35 +238,40 @@ public abstract class AbstractGeneticAlgorithmPopulation
 			this.population.remove(this.population.first());
 
 		//breed children through mutation and crossover
-		final ArrayList<GeneticAlgorithmChromosome> children = new ArrayList<GeneticAlgorithmChromosome>();
-		while(this.population.size() + children.size() < populationSize)
+		while(this.population.size() < populationSize)
 		{
-			//obtain parents and mutate into children
-			GeneticAlgorithmChromosome child1 = this.getRandomMember();
-			GeneticAlgorithmChromosome child2 = this.getRandomMember();
-
-			child1 = child1.mutate(mutationDeviation);
-			child2 = child2.mutate(mutationDeviation);
-
-			//crossover performed on children
-			if(RANDOM.nextDouble() < this.crossoverPercentage)
+			final ArrayList<GeneticAlgorithmChromosome> children = new ArrayList<GeneticAlgorithmChromosome>();
+			while(this.population.size() + children.size() < populationSize)
 			{
-				final int crossoverPoint = RANDOM.nextInt(child1.getGenes().size() - 1) + 1;
+				//obtain parents and mutate into children
+				GeneticAlgorithmChromosome child1 = this.getRandomMember();
+				GeneticAlgorithmChromosome child2 = this.getRandomMember();
 
-				final List<AbstractValueGene> child1Segment = child1.crossover(crossoverPoint);
-				final List<AbstractValueGene> child2Segment = child2.crossover(crossoverPoint);
+				child1 = child1.mutate(mutationDeviation);
+				child2 = child2.mutate(mutationDeviation);
 
-				child1.crossover(child2Segment, crossoverPoint);
-				child2.crossover(child1Segment, crossoverPoint);
+				//crossover performed on children
+				if(RANDOM.nextDouble() < this.crossoverPercentage)
+				{
+					final int crossoverPoint = RANDOM.nextInt(child1.getGenes().size() - 1) + 1;
+
+					final List<AbstractValueGene> child1Segment = child1.crossover(crossoverPoint);
+					final List<AbstractValueGene> child2Segment = child2.crossover(crossoverPoint);
+
+					child1.crossover(child2Segment, crossoverPoint);
+					child2.crossover(child1Segment, crossoverPoint);
+				}
+
+				//store the new children
+				children.add(child1);
+				if(this.population.size() + children.size() < populationSize)
+					children.add(child2);
+
 			}
 
-			//store the new children
-			children.add(child1);
-			children.add(child2);
+			//add children to the population
+			this.addAll(children);
 		}
-
-		//add children to the population
-		this.addAll(children);
 	}
 
 	/**
@@ -290,5 +282,5 @@ public abstract class AbstractGeneticAlgorithmPopulation
 	 * @return A fitness function wrapping the chromosome.
 	 * @since 2.0
 	 */
-	protected abstract AbstractGeneticAlgorithmFitnessFunction packageChromosome(GeneticAlgorithmChromosome chromosome);
+	protected abstract AbstractGeneticAlgorithmFitnessFunction packageChromosome(final GeneticAlgorithmChromosome chromosome);
 }

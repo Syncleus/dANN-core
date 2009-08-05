@@ -18,10 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics;
 
-import com.syncleus.dann.UnexpectedDannError;
 import java.util.*;
 import org.apache.log4j.Logger;
 import com.syncleus.dann.genetics.wavelets.Mutation;
+import com.syncleus.dann.UnexpectedDannError;
 
 /**
  * A Genetic Algorithm based Chromosome. While technically a Chromatid in
@@ -101,7 +101,7 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>,
 	 * @return An unmodifiable List of all genes in the chromatid
 	 * @since 2.0
 	 */
-	public List<AbstractValueGene> getGenes()
+	public final List<AbstractValueGene> getGenes()
 	{
 		return Collections.unmodifiableList(this.alleles);
 	}
@@ -183,11 +183,23 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>,
 	 */
 	public GeneticAlgorithmChromosome mutate(double deviation)
 	{
-		GeneticAlgorithmChromosome mutated = new GeneticAlgorithmChromosome();
+		GeneticAlgorithmChromosome mutated = this.clone();
+		mutated.alleles.clear();
 		for(AbstractValueGene allele : this.alleles)
 		{
 			mutated.alleles.add(allele.mutate(deviation));
 		}
 		return mutated;
+	}
+
+	/**
+	 * Gets the number of genes in the chromosome.
+	 *
+	 * @return the number of genes in the chromosome.
+	 * @snce 2.0
+	 */
+	public final int getGeneCount()
+	{
+		return this.alleles.size();
 	}
 }
