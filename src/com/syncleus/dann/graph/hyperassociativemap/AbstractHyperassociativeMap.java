@@ -130,28 +130,25 @@ public abstract class AbstractHyperassociativeMap implements Serializable
         return Collections.unmodifiableSet(this.nodes);
     }
 
-	/**
-	 * Aligns all the nodes in this map by a single step.
-	 *
-	 *
-	 * @since 1.0
-	 */
-    public void align()
-    {
-		//align all nodes in parallel
-		ArrayList<Future<Hyperpoint>> futures = new ArrayList<Future<Hyperpoint>>();
+	private List<Future<Hyperpoint>> submitFutureAligns()
+	{
+		final ArrayList<Future<Hyperpoint>> futures = new ArrayList<Future<Hyperpoint>>();
 		for(HyperassociativeNode node : this.nodes)
 			futures.add(this.threadExecutor.submit(new Align(node)));
+		return futures;
+	}
 
+	private Hyperpoint waitAndProcessFutures(final List<Future<Hyperpoint>> futures)
+	{
 		//wait for all nodes to finish aligning and calculate new center point
-		Hyperpoint center = new Hyperpoint(this.dimensions);
+		Hyperpoint pointSum = new Hyperpoint(this.dimensions);
 		try
 		{
 			for(Future<Hyperpoint> future : futures)
 			{
 				Hyperpoint newPoint = future.get();
 				for(int dimensionIndex = 1; dimensionIndex <= this.dimensions; dimensionIndex++)
-					center.setCoordinate(center.getCoordinate(dimensionIndex) + newPoint.getCoordinate(dimensionIndex), dimensionIndex);
+					pointSum = pointSum.setCoordinate(pointSum.getCoordinate(dimensionIndex) + newPoint.getCoordinate(dimensionIndex), dimensionIndex);
 			}
 		}
 		catch(InterruptedException caught)
@@ -165,12 +162,35 @@ public abstract class AbstractHyperassociativeMap implements Serializable
 			throw new UnexpectedDannError("Unexpected execution exception. Get should block indefinately", caught);
 		}
 
-		for(int dimensionIndex = 1; dimensionIndex <= this.dimensions; dimensionIndex++)
-			center.setCoordinate(center.getCoordinate(dimensionIndex)/((double)this.nodes.size()),dimensionIndex);
+		return pointSum;
+	}
 
-		for(HyperassociativeNode node : nodes)
-		{
+	private void recenterNodes(final Hyperpoint center)
+	{
+		for(HyperassociativeNode node : this.nodes)
 			node.recenter(center);
-		}
+	}
+
+	/**
+	 * Aligns all the nodes in this map by a single step.
+	 *
+	 *
+	 * @since 1.0
+	 */
+    public void align()
+    {
+		//align all nodes in parallel
+		final List<Future<Hyperpoint>> futures = this.submitFutureAligns();
+
+		//wait for all nodes to finish aligning and calculate new sum of all the points
+		Hyperpoint center = this.waitAndProcessFutures(futures);
+
+		//divide each coordinate of the sum of all the points by the number of
+		//nodes in order to calulate the average point, or cente rof all the
+		//points
+		for(int dimensionIndex = 1; dimensionIndex <= this.dimensions; dimensionIndex++)
+			center = center.setCoordinate(center.getCoordinate(dimensionIndex)/((double)this.nodes.size()),dimensionIndex);
+
+		this.recenterNodes(center);
     }
 }

@@ -284,14 +284,14 @@ public class HyperassociativeNode implements Serializable
 				double newDistance = Math.pow(Math.abs(neighborVector.getDistance()) - neighborEquilibrium, 2.0);
 				if(Math.abs(newDistance) > Math.abs(Math.abs(neighborVector.getDistance()) - neighborEquilibrium))
 					newDistance = Math.abs(Math.abs(neighborVector.getDistance()) - neighborEquilibrium);
-                neighborVector.setDistance(Math.signum(neighborVector.getDistance()) * newDistance);
+                neighborVector = neighborVector.setDistance(Math.signum(neighborVector.getDistance()) * newDistance);
 			}
             else
 			{
 				double newDistance = -1.0 * atanh((neighborEquilibrium - Math.abs(neighborVector.getDistance())) / neighborEquilibrium);
 				if( Math.abs(newDistance) > Math.abs(neighborEquilibrium - Math.abs(neighborVector.getDistance())))
 					newDistance = -1.0 * (neighborEquilibrium - Math.abs(neighborVector.getDistance()));
-                neighborVector.setDistance(Math.signum(neighborVector.getDistance()) * newDistance);
+                neighborVector = neighborVector.setDistance(Math.signum(neighborVector.getDistance()) * newDistance);
 			}
 
             compositeVector = compositeVector.add(neighborVector);
@@ -305,12 +305,12 @@ public class HyperassociativeNode implements Serializable
 				double newDistance = -1.0/Math.pow(nodeVector.getDistance(), 2.0);
 				if(Math.abs(newDistance) > Math.abs(this.equilibriumDistance))
 					newDistance = -1.0 * this.equilibriumDistance;
-                nodeVector.setDistance(newDistance);
+                nodeVector = nodeVector.setDistance(newDistance);
                 
                 compositeVector = compositeVector.add(nodeVector);
             }
 
-        compositeVector.setDistance(compositeVector.getDistance() * learningRate);
+        compositeVector = compositeVector.setDistance(compositeVector.getDistance() * learningRate);
 
         this.location = this.location.add(compositeVector);
     }

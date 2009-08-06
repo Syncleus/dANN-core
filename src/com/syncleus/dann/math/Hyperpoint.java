@@ -128,17 +128,16 @@ public class Hyperpoint implements Serializable
 	 * equal to 0 or more than the number of dimensions.
 	 * @since 1.0
 	 */
-    public void setCoordinate(final double coordinate, final int dimension)
+    public Hyperpoint setCoordinate(final double coordinate, final int dimension)
     {
         if(dimension <= 0)
             throw new IllegalArgumentException(DIMENSIONS_BELOW_ONE);
         if(dimension > this.coordinates.length)
             throw new IllegalArgumentException("dimensions is larger than the dimensionality of this point");
 
-		synchronized(this)
-		{
-			this.coordinates[dimension-1] = coordinate;
-		}
+		double coords[] = this.coordinates.clone();
+		coords[dimension-1] = coordinate;
+		return new Hyperpoint(coords);
     }
 
 	/**
@@ -171,20 +170,17 @@ public class Hyperpoint implements Serializable
 	 * @param distance The new distance for this vector.
 	 * @since 1.0
 	 */
-    public void setDistance(final double distance)
+    public Hyperpoint setDistance(final double distance)
     {
-		synchronized(this)
-		{
-			final double[] newCoords = (double[]) this.coordinates.clone();
+		final double[] newCoords = (double[]) this.coordinates.clone();
 
-			final double oldDistance = this.getDistance();
-			final double scalar = distance/oldDistance;
+		final double oldDistance = this.getDistance();
+		final double scalar = distance/oldDistance;
 
-			for(int newCoordsIndex = 0; newCoordsIndex < newCoords.length; newCoordsIndex++)
-				newCoords[newCoordsIndex] *= scalar;
+		for(int newCoordsIndex = 0; newCoordsIndex < newCoords.length; newCoordsIndex++)
+			newCoords[newCoordsIndex] *= scalar;
 
-			this.coordinates = newCoords;
-		}
+		return new Hyperpoint(newCoords);
     }
 
 	/**
@@ -200,41 +196,38 @@ public class Hyperpoint implements Serializable
 	 * dimensions.
 	 * @since 1.0
 	 */
-    public void setAngularComponent(final double angle, final int dimension)
+    public Hyperpoint setAngularComponent(final double angle, final int dimension)
     {
         if(dimension <= 0)
             throw new IllegalArgumentException(DIMENSIONS_BELOW_ONE);
         if((dimension-1) > this.coordinates.length)
             throw new IllegalArgumentException("dimensions is larger than the dimensionality (minus 1) of this point");
 
-		synchronized(this)
+		double[] newCoords = (double[]) this.coordinates.clone();
+		for(int cartesianDimension = 1; cartesianDimension <= this.getDimensions(); cartesianDimension++)
 		{
-			double[] newCoords = (double[]) this.coordinates.clone();
-			for(int cartesianDimension = 1; cartesianDimension <= this.getDimensions(); cartesianDimension++)
+			double sphericalProducts = this.getDistance();
+			for(int angleDimension = 1; angleDimension <= ( cartesianDimension >= this.getDimensions() ? this.getDimensions() - 1 : cartesianDimension); angleDimension++)
 			{
-				double sphericalProducts = this.getDistance();
-				for(int angleDimension = 1; angleDimension <= ( cartesianDimension >= this.getDimensions() ? this.getDimensions() - 1 : cartesianDimension); angleDimension++)
+				if(angleDimension < cartesianDimension)
 				{
-					if(angleDimension < cartesianDimension)
-					{
-						if(angleDimension == dimension)
-							sphericalProducts *= Math.sin(angle);
-						else
-							sphericalProducts *= Math.sin(this.getAngularComponent(angleDimension));
-					}
+					if(angleDimension == dimension)
+						sphericalProducts *= Math.sin(angle);
 					else
-					{
-						if(angleDimension == dimension)
-							sphericalProducts *= Math.cos(angle);
-						else
-							sphericalProducts *= Math.cos(this.getAngularComponent(angleDimension));
-					}
+						sphericalProducts *= Math.sin(this.getAngularComponent(angleDimension));
 				}
-				newCoords[cartesianDimension-1] = sphericalProducts;
+				else
+				{
+					if(angleDimension == dimension)
+						sphericalProducts *= Math.cos(angle);
+					else
+						sphericalProducts *= Math.cos(this.getAngularComponent(angleDimension));
+				}
 			}
-
-			this.coordinates = newCoords;
+			newCoords[cartesianDimension-1] = sphericalProducts;
 		}
+
+		return new Hyperpoint(newCoords);
     }
 
 	/**

@@ -42,8 +42,8 @@ import com.syncleus.dann.UnexpectedDannError;
 public abstract class AbstractSomBrain extends AbstractLocalBrain
 {
 	private int iterationsTrained;
-	private final Hyperpoint upperBounds;
-	private final Hyperpoint lowerBounds;
+	private Hyperpoint upperBounds;
+	private Hyperpoint lowerBounds;
 	private final List<SomInputNeuron> inputs = new ArrayList<SomInputNeuron>();
 	private final Hashtable<Hyperpoint, SomNeuron> outputs = new Hashtable<Hyperpoint, SomNeuron>();
 	private final static Logger LOGGER = Logger.getLogger(AbstractSomBrain.class);
@@ -145,15 +145,15 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	private void updateBounds(final Hyperpoint position)
 	{
 		//make sure we have the proper dimentionality
-		if(position.getDimensions() != this.getUpperBounds().getDimensions())
+		if(position.getDimensions() != this.upperBounds.getDimensions())
 			throw new IllegalArgumentException("Dimentionality mismatch");
 
 		for(int dimensionIndex = 1; dimensionIndex <= position.getDimensions(); dimensionIndex++)
 		{
-			if(this.getUpperBounds().getCoordinate(dimensionIndex) < position.getCoordinate(dimensionIndex))
-				this.getUpperBounds().setCoordinate(position.getCoordinate(dimensionIndex), dimensionIndex);
-			if(this.getLowerBounds().getCoordinate(dimensionIndex) > position.getCoordinate(dimensionIndex))
-				this.getLowerBounds().setCoordinate(position.getCoordinate(dimensionIndex), dimensionIndex);
+			if(this.upperBounds.getCoordinate(dimensionIndex) < position.getCoordinate(dimensionIndex))
+				this.upperBounds = this.upperBounds.setCoordinate(position.getCoordinate(dimensionIndex), dimensionIndex);
+			if(this.lowerBounds.getCoordinate(dimensionIndex) > position.getCoordinate(dimensionIndex))
+				this.lowerBounds = this.lowerBounds.setCoordinate(position.getCoordinate(dimensionIndex), dimensionIndex);
 		}
 	}
 
