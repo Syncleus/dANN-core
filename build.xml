@@ -136,9 +136,48 @@
 
 	<target name="build">
 		<mkdir dir="build/jar"/>
-		<jar destfile="build/jar/dann.jar" basedir="build/classes"/>
-		<jar destfile="build/jar/dann-tests.jar" basedir="build/tests/classes"/>
-		<jar destfile="build/jar/dann-coverage.jar" basedir="build/coverage/classes"/>
+		<jar destfile="build/jar/dann.jar" basedir="build/classes">
+			<manifest>
+				<attribute name="Product-Name" value="dANN"/>
+				<attribute name="Package-Title" value="com.syncleus.dann"/>
+				<attribute name="Package-Version" value="2.0"/>
+				<attribute name="Specification-Title" value="An Artificial Intelligence library."/>
+				<attribute name="Specification-Vendor" value="Syncleus, Inc."/>
+				<attribute name="Specification-Version" value="2.0"/>
+				<attribute name="Implementation-Title" value="An Artificial Intelligence library."/>
+				<attribute name="Implementation-Vendor" value="Syncleus, Inc."/>
+				<attribute name="Implementation-Vendor-Id" value="com.syncleus.dann"/>
+				<attribute name="Implementation-Version" value="2.0"/>
+			</manifest>
+		</jar>
+		<jar destfile="build/jar/dann-tests.jar" basedir="build/tests/classes">
+			<manifest>
+				<attribute name="Product-Name" value="dANN"/>
+				<attribute name="Package-Title" value="com.syncleus.dann"/>
+				<attribute name="Package-Version" value="2.0"/>
+				<attribute name="Specification-Title" value="An Artificial Intelligence library."/>
+				<attribute name="Specification-Vendor" value="Syncleus, Inc."/>
+				<attribute name="Specification-Version" value="2.0"/>
+				<attribute name="Implementation-Title" value="An Artificial Intelligence library."/>
+				<attribute name="Implementation-Vendor" value="Syncleus, Inc."/>
+				<attribute name="Implementation-Vendor-Id" value="com.syncleus.dann"/>
+				<attribute name="Implementation-Version" value="2.0"/>
+			</manifest>
+		</jar>
+		<jar destfile="build/jar/dann-coverage.jar" basedir="build/coverage/classes">
+			<manifest>
+				<attribute name="Product-Name" value="dANN"/>
+				<attribute name="Package-Title" value="com.syncleus.dann"/>
+				<attribute name="Package-Version" value="2.0"/>
+				<attribute name="Specification-Title" value="An Artificial Intelligence library."/>
+				<attribute name="Specification-Vendor" value="Syncleus, Inc."/>
+				<attribute name="Specification-Version" value="2.0"/>
+				<attribute name="Implementation-Title" value="An Artificial Intelligence library."/>
+				<attribute name="Implementation-Vendor" value="Syncleus, Inc."/>
+				<attribute name="Implementation-Vendor-Id" value="com.syncleus.dann"/>
+				<attribute name="Implementation-Version" value="2.0"/>
+			</manifest>
+		</jar>
 	</target>
     
 	<target name="tests-nocoverage">
