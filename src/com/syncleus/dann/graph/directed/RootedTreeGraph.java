@@ -16,34 +16,15 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.tests.dann.graph.hyperassociativemap;
+package com.syncleus.dann.graph.directed;
 
-import com.syncleus.dann.graph.drawing.hyperassociativemap.NeighborNotFoundException;
-import org.junit.*;
+import com.syncleus.dann.graph.TreeGraph;
+import java.util.List;
+import java.util.Set;
 
-public class TestNeighborNotFoundException
+public interface RootedTreeGraph<G extends RootedTreeGraph<? extends G, ? extends N, ? extends E, ? extends W>, N extends DirectedTreeNode<? extends E>, E extends DirectedTreeEdge<? extends N>, W extends DirectedTreeWalk<? extends N, ? extends E>> extends DirectedGraph<G, N, E, W>, TreeGraph<G, N, E, W>
 {
-	@Test(expected=NeighborNotFoundException.class)
-	public void testDefault() throws NeighborNotFoundException
-	{
-		throw new NeighborNotFoundException();
-	}
-
-	@Test(expected=NeighborNotFoundException.class)
-	public void testString() throws NeighborNotFoundException
-	{
-		throw new NeighborNotFoundException("This is just a test");
-	}
-
-	@Test(expected=NeighborNotFoundException.class)
-	public void testCause() throws NeighborNotFoundException
-	{
-		throw new NeighborNotFoundException(new Exception());
-	}
-
-	@Test(expected=NeighborNotFoundException.class)
-	public void testStringCause() throws NeighborNotFoundException
-	{
-		throw new NeighborNotFoundException("This is just a test", new Exception());
-	}
+	Set<? extends N> getNodes();
+	List<? extends E> getEdges();
+	N getRoot();
 }

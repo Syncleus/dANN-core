@@ -16,34 +16,15 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.tests.dann.graph.hyperassociativemap;
+package com.syncleus.dann.graph.directed.network;
 
-import com.syncleus.dann.graph.drawing.hyperassociativemap.NeighborNotFoundException;
-import org.junit.*;
+import com.syncleus.dann.graph.WeightedGraph;
+import com.syncleus.dann.graph.directed.BidirectedGraph;
+import java.util.List;
+import java.util.Set;
 
-public class TestNeighborNotFoundException
+public interface BidirectedNetwork<G extends BidirectedNetwork<? extends G, ? extends N, ? extends E, ? extends W>, N extends WeightedBidirectedNode<? extends E>, E extends WeightedBidirectedEdge<? extends N>, W extends WeightedBidirectedWalk<? extends N, ? extends E>> extends BidirectedGraph<G, N, E, W>, WeightedGraph<G, N, E, W>
 {
-	@Test(expected=NeighborNotFoundException.class)
-	public void testDefault() throws NeighborNotFoundException
-	{
-		throw new NeighborNotFoundException();
-	}
-
-	@Test(expected=NeighborNotFoundException.class)
-	public void testString() throws NeighborNotFoundException
-	{
-		throw new NeighborNotFoundException("This is just a test");
-	}
-
-	@Test(expected=NeighborNotFoundException.class)
-	public void testCause() throws NeighborNotFoundException
-	{
-		throw new NeighborNotFoundException(new Exception());
-	}
-
-	@Test(expected=NeighborNotFoundException.class)
-	public void testStringCause() throws NeighborNotFoundException
-	{
-		throw new NeighborNotFoundException("This is just a test", new Exception());
-	}
+	Set<? extends N> getNodes();
+	List<? extends E> getEdges();
 }

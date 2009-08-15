@@ -16,34 +16,21 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.tests.dann.graph.hyperassociativemap;
+package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.drawing.hyperassociativemap.NeighborNotFoundException;
-import org.junit.*;
+import java.util.List;
 
-public class TestNeighborNotFoundException
+public interface Walk<N extends Node<? extends E>, E extends Edge<? extends Node>>
 {
-	@Test(expected=NeighborNotFoundException.class)
-	public void testDefault() throws NeighborNotFoundException
-	{
-		throw new NeighborNotFoundException();
-	}
-
-	@Test(expected=NeighborNotFoundException.class)
-	public void testString() throws NeighborNotFoundException
-	{
-		throw new NeighborNotFoundException("This is just a test");
-	}
-
-	@Test(expected=NeighborNotFoundException.class)
-	public void testCause() throws NeighborNotFoundException
-	{
-		throw new NeighborNotFoundException(new Exception());
-	}
-
-	@Test(expected=NeighborNotFoundException.class)
-	public void testStringCause() throws NeighborNotFoundException
-	{
-		throw new NeighborNotFoundException("This is just a test", new Exception());
-	}
+	List<? extends E> getSteps();
+	N getFirstNode();
+	N getLastNode();
+	boolean isClosed();
+	boolean isOpen();
+	int getLength();
+	boolean isTrail();
+	boolean isTour();
+	boolean isPath();
+	boolean isCycle();
+	boolean isIndependent(Walk<? extends N, ? extends E> walk);
 }

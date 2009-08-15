@@ -16,34 +16,66 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.tests.dann.graph.hyperassociativemap;
+package com.syncleus.dann.graph.drawing.hyperassociativemap;
 
-import com.syncleus.dann.graph.drawing.hyperassociativemap.NeighborNotFoundException;
-import org.junit.*;
+import com.syncleus.dann.*;
 
-public class TestNeighborNotFoundException
+/**
+ * An exception thrown to indicate that no neighbor nodes currently exist.
+ *
+ *
+ * @author Syncleus, Inc.
+ * @since 1.0
+ *
+ */
+public class NeighborNotFoundException extends DannException
 {
-	@Test(expected=NeighborNotFoundException.class)
-	public void testDefault() throws NeighborNotFoundException
+	/**
+	 * Creates a blank default exception.
+	 *
+	 * 
+	 * @since 1.0
+	 */
+    public NeighborNotFoundException()
+    {
+    }
+
+	/**
+	 * Creates an exception with a message describing the cause.
+	 *
+	 * 
+	 * @param msg A string describing the cause of the exception
+	 * @since 1.0
+	 */
+    public NeighborNotFoundException(String msg)
+    {
+        super(msg);
+    }
+
+	/**
+	 * Creates an exception with a message describing the cause as well as the
+	 * throwable which caused this exception to be thrown.
+	 *
+	 * 
+	 * @param msg A string describing the cause of the exception
+	 * @param cause The throwable which caused this exception
+	 * @since 1.0
+	 */
+	public NeighborNotFoundException(String msg, Throwable cause)
 	{
-		throw new NeighborNotFoundException();
+		super(msg, cause);
 	}
 
-	@Test(expected=NeighborNotFoundException.class)
-	public void testString() throws NeighborNotFoundException
+	/**
+	 * Creates an exception containing the throwable which caused this exception
+	 * to be thrown.
+	 *
+	 * 
+	 * @param cause The throwable which caused this exception
+	 * @since 1.0
+	 */
+	public NeighborNotFoundException(Throwable cause)
 	{
-		throw new NeighborNotFoundException("This is just a test");
-	}
-
-	@Test(expected=NeighborNotFoundException.class)
-	public void testCause() throws NeighborNotFoundException
-	{
-		throw new NeighborNotFoundException(new Exception());
-	}
-
-	@Test(expected=NeighborNotFoundException.class)
-	public void testStringCause() throws NeighborNotFoundException
-	{
-		throw new NeighborNotFoundException("This is just a test", new Exception());
+		super(cause);
 	}
 }

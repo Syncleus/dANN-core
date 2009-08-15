@@ -16,10 +16,10 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph.hyperassociativemap.visualization;
+package com.syncleus.dann.graph.drawing.hyperassociativemap.visualization;
 
 import com.syncleus.dann.math.Hyperpoint;
-import com.syncleus.dann.graph.hyperassociativemap.*;
+import com.syncleus.dann.graph.drawing.hyperassociativemap.*;
 import com.syncleus.dann.neural.Neuron;
 import com.syncleus.dann.neural.backprop.*;
 import com.sun.j3d.utils.geometry.*;

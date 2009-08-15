@@ -16,34 +16,12 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.tests.dann.graph.hyperassociativemap;
+package com.syncleus.dann.graph.directed;
 
-import com.syncleus.dann.graph.drawing.hyperassociativemap.NeighborNotFoundException;
-import org.junit.*;
+import com.syncleus.dann.graph.TreeNode;
+import java.util.List;
 
-public class TestNeighborNotFoundException
+public interface DirectedTreeNode<E extends DirectedTreeEdge> extends DirectedNode<E>, TreeNode<E>
 {
-	@Test(expected=NeighborNotFoundException.class)
-	public void testDefault() throws NeighborNotFoundException
-	{
-		throw new NeighborNotFoundException();
-	}
-
-	@Test(expected=NeighborNotFoundException.class)
-	public void testString() throws NeighborNotFoundException
-	{
-		throw new NeighborNotFoundException("This is just a test");
-	}
-
-	@Test(expected=NeighborNotFoundException.class)
-	public void testCause() throws NeighborNotFoundException
-	{
-		throw new NeighborNotFoundException(new Exception());
-	}
-
-	@Test(expected=NeighborNotFoundException.class)
-	public void testStringCause() throws NeighborNotFoundException
-	{
-		throw new NeighborNotFoundException("This is just a test", new Exception());
-	}
+	List<? extends E> getEdges();
 }

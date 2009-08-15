@@ -16,34 +16,41 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.tests.dann.graph.hyperassociativemap;
+package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.drawing.hyperassociativemap.NeighborNotFoundException;
-import org.junit.*;
+import java.util.List;
+import java.util.Set;
 
-public class TestNeighborNotFoundException
+public interface Graph<G extends Graph<? extends G, ? extends N, ? extends E, ? extends W>, N extends Node<? extends E>, E extends Edge<? extends N>, W extends Walk<? extends N, ? extends E>>
 {
-	@Test(expected=NeighborNotFoundException.class)
-	public void testDefault() throws NeighborNotFoundException
-	{
-		throw new NeighborNotFoundException();
-	}
-
-	@Test(expected=NeighborNotFoundException.class)
-	public void testString() throws NeighborNotFoundException
-	{
-		throw new NeighborNotFoundException("This is just a test");
-	}
-
-	@Test(expected=NeighborNotFoundException.class)
-	public void testCause() throws NeighborNotFoundException
-	{
-		throw new NeighborNotFoundException(new Exception());
-	}
-
-	@Test(expected=NeighborNotFoundException.class)
-	public void testStringCause() throws NeighborNotFoundException
-	{
-		throw new NeighborNotFoundException("This is just a test", new Exception());
-	}
+	Set<? extends N> getNodes();
+	List<? extends E> getEdges();
+	boolean isConnected(N begin, N end);
+	boolean isConnected();
+	Set<? extends G> getConnectedComponents();
+	boolean isMaximalConnected();
+	boolean isCut(G subGraph);
+	boolean isCut(G subGraph, N begin, N end);
+	int getNodeConnectivity();
+	int getEdgeConnectivity();
+	int getNodeConnectivity(N begin, N end);
+	int getEdgeConnectivity(N begin, N end);
+	boolean isCompleteGraph();
+	boolean isReachable(N begin, N end);
+	W getShortestPath(N begin, N end);
+	int getOrder();
+	int getCycleCount();
+	boolean isPancyclic();
+	int getGirth();
+	int getCircumference();
+	boolean isTraceable();
+	boolean isSpanning(W walk);
+	boolean isSpanning(TreeGraph graph);
+	boolean isTraversable();
+	boolean isEularian(W walk);
+	boolean isTree();
+	boolean isSubGraph(G graph);
+	boolean isKnot(G subGraph);
+	int getTotalDegree();
+	boolean isMultigraph();
 }

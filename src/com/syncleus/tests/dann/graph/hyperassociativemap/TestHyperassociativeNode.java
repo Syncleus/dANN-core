@@ -19,7 +19,7 @@
 package com.syncleus.tests.dann.graph.hyperassociativemap;
 
 import com.syncleus.dann.math.Hyperpoint;
-import com.syncleus.dann.graph.hyperassociativemap.*;
+import com.syncleus.dann.graph.drawing.hyperassociativemap.*;
 import org.junit.*;
 
 public class TestHyperassociativeNode

@@ -16,34 +16,29 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.tests.dann.graph.hyperassociativemap;
+package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.drawing.hyperassociativemap.NeighborNotFoundException;
-import org.junit.*;
-
-public class TestNeighborNotFoundException
+public final class NodePair<N extends Node>
 {
-	@Test(expected=NeighborNotFoundException.class)
-	public void testDefault() throws NeighborNotFoundException
+	private N left;
+	private N right;
+
+	NodePair(N left, N right)
 	{
-		throw new NeighborNotFoundException();
+		if((left == null)||(right == null))
+			throw new IllegalArgumentException("Neither left nor right can be null.");
+
+		this.left = left;
+		this.right = right;
 	}
 
-	@Test(expected=NeighborNotFoundException.class)
-	public void testString() throws NeighborNotFoundException
+	N getLeftNode()
 	{
-		throw new NeighborNotFoundException("This is just a test");
+		return this.left;
 	}
 
-	@Test(expected=NeighborNotFoundException.class)
-	public void testCause() throws NeighborNotFoundException
+	N getRightNode()
 	{
-		throw new NeighborNotFoundException(new Exception());
-	}
-
-	@Test(expected=NeighborNotFoundException.class)
-	public void testStringCause() throws NeighborNotFoundException
-	{
-		throw new NeighborNotFoundException("This is just a test", new Exception());
+		return this.right;
 	}
 }

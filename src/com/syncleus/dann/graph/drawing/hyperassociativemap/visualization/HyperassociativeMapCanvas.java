@@ -16,11 +16,11 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph.hyperassociativemap.visualization;
+package com.syncleus.dann.graph.drawing.hyperassociativemap.visualization;
 
 import com.sun.j3d.utils.behaviors.vp.OrbitBehavior;
 import com.sun.j3d.utils.universe.SimpleUniverse;
-import com.syncleus.dann.graph.hyperassociativemap.AbstractHyperassociativeMap;
+import com.syncleus.dann.graph.drawing.hyperassociativemap.AbstractHyperassociativeMap;
 import java.awt.GraphicsConfiguration;
 import javax.media.j3d.*;
 import javax.vecmath.*;

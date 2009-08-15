@@ -16,66 +16,12 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph.hyperassociativemap;
+package com.syncleus.dann.graph.directed;
 
-import com.syncleus.dann.*;
+import com.syncleus.dann.graph.NodePair;
+import com.syncleus.dann.graph.TreeEdge;
 
-/**
- * An exception thrown to indicate that no neighbor nodes currently exist.
- *
- *
- * @author Syncleus, Inc.
- * @since 1.0
- *
- */
-public class NeighborNotFoundException extends DannException
+public interface DirectedTreeEdge<N extends DirectedTreeNode> extends DirectedEdge<N>, TreeEdge<N>
 {
-	/**
-	 * Creates a blank default exception.
-	 *
-	 * 
-	 * @since 1.0
-	 */
-    public NeighborNotFoundException()
-    {
-    }
-
-	/**
-	 * Creates an exception with a message describing the cause.
-	 *
-	 * 
-	 * @param msg A string describing the cause of the exception
-	 * @since 1.0
-	 */
-    public NeighborNotFoundException(String msg)
-    {
-        super(msg);
-    }
-
-	/**
-	 * Creates an exception with a message describing the cause as well as the
-	 * throwable which caused this exception to be thrown.
-	 *
-	 * 
-	 * @param msg A string describing the cause of the exception
-	 * @param cause The throwable which caused this exception
-	 * @since 1.0
-	 */
-	public NeighborNotFoundException(String msg, Throwable cause)
-	{
-		super(msg, cause);
-	}
-
-	/**
-	 * Creates an exception containing the throwable which caused this exception
-	 * to be thrown.
-	 *
-	 * 
-	 * @param cause The throwable which caused this exception
-	 * @since 1.0
-	 */
-	public NeighborNotFoundException(Throwable cause)
-	{
-		super(cause);
-	}
+	NodePair<? extends N> getNodes();
 }
