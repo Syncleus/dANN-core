@@ -18,32 +18,32 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.neural;
 
-import com.syncleus.dann.neural.SynapseDoesNotExistException;
+import com.syncleus.dann.neural.SynapseDoesNotExistDannException;
 import org.junit.*;
 
 public class TestSynapseDoesNotExistException
 {
-	@Test(expected=SynapseDoesNotExistException.class)
-	public void testDefault() throws SynapseDoesNotExistException
+	@Test(expected=SynapseDoesNotExistDannException.class)
+	public void testDefault() throws SynapseDoesNotExistDannException
 	{
-		throw new SynapseDoesNotExistException();
+		throw new SynapseDoesNotExistDannException();
 	}
 
-	@Test(expected=SynapseDoesNotExistException.class)
-	public void testString() throws SynapseDoesNotExistException
+	@Test(expected=SynapseDoesNotExistDannException.class)
+	public void testString() throws SynapseDoesNotExistDannException
 	{
-		throw new SynapseDoesNotExistException("This is just a test");
+		throw new SynapseDoesNotExistDannException("This is just a test");
 	}
 
-	@Test(expected=SynapseDoesNotExistException.class)
-	public void testCause() throws SynapseDoesNotExistException
+	@Test(expected=SynapseDoesNotExistDannException.class)
+	public void testCause() throws SynapseDoesNotExistDannException
 	{
-		throw new SynapseDoesNotExistException(new Exception());
+		throw new SynapseDoesNotExistDannException(new Exception());
 	}
 
-	@Test(expected=SynapseDoesNotExistException.class)
-	public void testStringCause() throws SynapseDoesNotExistException
+	@Test(expected=SynapseDoesNotExistDannException.class)
+	public void testStringCause() throws SynapseDoesNotExistDannException
 	{
-		throw new SynapseDoesNotExistException("This is just a test", new Exception());
+		throw new SynapseDoesNotExistDannException("This is just a test", new Exception());
 	}
 }

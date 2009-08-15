@@ -87,7 +87,7 @@ public interface Neuron<SN extends AbstractNeuron, DN extends AbstractNeuron> ex
 	 * @throws SynapseNotConnectedException Thrown if the specified synapse isnt
 	 * currently connected.
      */
-    public void disconnectDestination(Synapse outSynapse) throws SynapseNotConnectedException;
+    public void disconnectDestination(Synapse outSynapse) throws SynapseNotConnectedDannException;
 
     /**
      * Disconnects from a perticular incomming connection.
@@ -99,7 +99,7 @@ public interface Neuron<SN extends AbstractNeuron, DN extends AbstractNeuron> ex
 	 * @throws SynapseNotConnectedException Thrown if the specified synapse isnt
 	 * currently connected.
      */
-    public void disconnectSource(Synapse inSynapse) throws SynapseNotConnectedException;
+    public void disconnectSource(Synapse inSynapse) throws SynapseNotConnectedDannException;
 
     /**
      * Propogates the current output to all outgoing synapses.

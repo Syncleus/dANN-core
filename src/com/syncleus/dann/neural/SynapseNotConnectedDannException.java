@@ -26,7 +26,7 @@ import com.syncleus.dann.*;
  * @since 1.0
  *
  */
-public class SynapseNotConnectedException extends DannException
+public class SynapseNotConnectedDannException extends DannException
 {
 	/**
 	 * Creates a blank default exception.
@@ -34,7 +34,7 @@ public class SynapseNotConnectedException extends DannException
 	 * 
 	 * @since 1.0
 	 */
-	public SynapseNotConnectedException()
+	public SynapseNotConnectedDannException()
 	{
 	}
 
@@ -45,7 +45,7 @@ public class SynapseNotConnectedException extends DannException
 	 * @param msg A string describing the cause of the exception
 	 * @since 1.0
 	 */
-	public SynapseNotConnectedException(String msg)
+	public SynapseNotConnectedDannException(String msg)
 	{
 		super(msg);
 	}
@@ -59,7 +59,7 @@ public class SynapseNotConnectedException extends DannException
 	 * @param cause The throwable which caused this exception
 	 * @since 1.0
 	 */
-	public SynapseNotConnectedException(String msg, Throwable cause)
+	public SynapseNotConnectedDannException(String msg, Throwable cause)
 	{
 		super(msg, cause);
 	}
@@ -72,7 +72,7 @@ public class SynapseNotConnectedException extends DannException
 	 * @param cause The throwable which caused this exception
 	 * @since 1.0
 	 */
-	public SynapseNotConnectedException(Throwable cause)
+	public SynapseNotConnectedDannException(Throwable cause)
 	{
 		super(cause);
 	}

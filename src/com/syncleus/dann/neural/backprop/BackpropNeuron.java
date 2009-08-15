@@ -149,7 +149,7 @@ public class BackpropNeuron extends AbstractNeuron<AbstractNeuron, BackpropNeuro
      * @see com.syncleus.dann.neural.Neuron#disconnectSource
      */
 	@Override
-	protected void removeDestination(Synapse outSynapse) throws SynapseDoesNotExistException
+	protected void removeDestination(Synapse outSynapse) throws SynapseDoesNotExistDannException
 	{
 		super.removeDestination(outSynapse);
 		this.deltaTrainDestinations.remove(outSynapse);
@@ -166,7 +166,7 @@ public class BackpropNeuron extends AbstractNeuron<AbstractNeuron, BackpropNeuro
 	 * currently connected.
      */
 	@Override
-	public void disconnectDestination(Synapse outSynapse) throws SynapseNotConnectedException
+	public void disconnectDestination(Synapse outSynapse) throws SynapseNotConnectedDannException
 	{
 		super.disconnectDestination(outSynapse);
 		this.deltaTrainDestinations.remove(outSynapse);

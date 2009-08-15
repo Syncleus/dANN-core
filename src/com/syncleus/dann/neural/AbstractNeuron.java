@@ -214,7 +214,7 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
             {
                 this.disconnectDestination(currentDestination);
             }
-            catch (SynapseNotConnectedException caught)
+            catch (SynapseNotConnectedDannException caught)
             {
                 LOGGER.error("Received an unexpected exception, this should not ever happen", caught);
                 throw new UnexpectedDannError("Unexpected Runtime Exception", caught);
@@ -243,7 +243,7 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
             {
                 this.disconnectSource(currentSource);
             }
-            catch (SynapseNotConnectedException caught)
+            catch (SynapseNotConnectedDannException caught)
             {
                 LOGGER.error("Received an unexpected exception, this should not ever happen", caught);
                 throw new UnexpectedDannError("Unexpected Runtime Exception: ", caught);
@@ -263,23 +263,23 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
 	 * @throws SynapseNotConnectedException Thrown if the specified synapse isnt
 	 * currently connected.
      */
-    public void disconnectDestination(final Synapse outSynapse) throws SynapseNotConnectedException
+    public void disconnectDestination(final Synapse outSynapse) throws SynapseNotConnectedDannException
     {
         if (this instanceof OutputNeuron)
             throw new IllegalArgumentException("Can not disconnect a destination for a OutputNeuron");
 
         if (!this.destinations.remove(outSynapse))
-            throw new SynapseNotConnectedException("can not disconnect destination, does not exist.");
+            throw new SynapseNotConnectedDannException("can not disconnect destination, does not exist.");
 
         try
         {
             if (outSynapse.getDestination() != null)
                 outSynapse.getDestination().removeSource(outSynapse);
         }
-        catch (SynapseDoesNotExistException caughtException)
+        catch (SynapseDoesNotExistDannException caughtException)
         {
 			LOGGER.error("Incorrect state, a synapse was partially connected");
-            throw new SynapseNotConnectedException("can not disconnect destination, this shouldnt happen because it was partially connected.", caughtException);
+            throw new SynapseNotConnectedDannException("can not disconnect destination, this shouldnt happen because it was partially connected.", caughtException);
         }
     }
 
@@ -295,23 +295,23 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
 	 * @throws SynapseNotConnectedException Thrown if the specified synapse isnt
 	 * currently connected.
      */
-    public void disconnectSource(final Synapse inSynapse) throws SynapseNotConnectedException
+    public void disconnectSource(final Synapse inSynapse) throws SynapseNotConnectedDannException
     {
         if (this instanceof InputNeuron)
             throw new IllegalArgumentException("Can not disconnect a source for a InputNeuron");
 
         if (!this.sources.remove(inSynapse))
-            throw new SynapseNotConnectedException("can not disconnect source, does not exist.");
+            throw new SynapseNotConnectedDannException("can not disconnect source, does not exist.");
 
         try
         {
             if (inSynapse.getSource() != null)
                 inSynapse.getSource().removeDestination(inSynapse);
         }
-        catch (SynapseDoesNotExistException caughtException)
+        catch (SynapseDoesNotExistDannException caughtException)
         {
 			LOGGER.error("Incorrect state, a synapse was partially connected");
-            throw new SynapseNotConnectedException("can not disconnect source, this should never happen, it was partially connected.", caughtException);
+            throw new SynapseNotConnectedDannException("can not disconnect source, this should never happen, it was partially connected.", caughtException);
         }
     }
 
@@ -325,13 +325,13 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
      * @param outSynapse The incomming synapse to remove from memory.
      * @see com.syncleus.dann.neural.Neuron#disconnectSource
      */
-    protected void removeDestination(final Synapse outSynapse) throws SynapseDoesNotExistException
+    protected void removeDestination(final Synapse outSynapse) throws SynapseDoesNotExistDannException
     {
         if (this instanceof OutputNeuron)
             throw new IllegalArgumentException("Can not remove a destination for a OutputNeuron");
 
         if (!this.destinations.remove(outSynapse))
-            throw new SynapseDoesNotExistException("Can not remove destination, does not exist.");
+            throw new SynapseDoesNotExistDannException("Can not remove destination, does not exist.");
     }
 
 
@@ -343,13 +343,13 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
      * @param inSynapse The incomming synapse to remove from memory.<BR>
      * @see com.syncleus.dann.neural.Neuron#disconnectDestination
      */
-    protected void removeSource(final Synapse inSynapse) throws SynapseDoesNotExistException
+    protected void removeSource(final Synapse inSynapse) throws SynapseDoesNotExistDannException
     {
         if (this instanceof InputNeuron)
             throw new IllegalArgumentException("Can not disconnect a source for a InputNeuron");
 
         if (!this.sources.remove(inSynapse))
-            throw new SynapseDoesNotExistException("Can not remove destination, does not exist.");
+            throw new SynapseDoesNotExistDannException("Can not remove destination, does not exist.");
     }
 
 

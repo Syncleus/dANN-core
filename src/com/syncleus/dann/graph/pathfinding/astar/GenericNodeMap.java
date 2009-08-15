@@ -16,34 +16,41 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.tests.dann.neural;
+package com.syncleus.dann.graph.pathfinding.astar;
 
-import com.syncleus.dann.neural.SynapseNotConnectedDannException;
-import org.junit.*;
-
-public class TestSynapseNotConnectedException
+public class GenericNodeMap extends NodeMap
 {
-	@Test(expected=SynapseNotConnectedDannException.class)
-	public void testDefault() throws SynapseNotConnectedDannException
+	private Node[] map;
+	private Node start = null;
+	private Node goal = null;
+	
+	public GenericNodeMap(Node[] map)
 	{
-		throw new SynapseNotConnectedDannException();
+		this.map = map;
+	}
+	
+	protected Node[] getMap()
+	{
+		return this.map;
+	}
+	
+	protected Node getStart()
+	{
+		return this.start;
+	}
+	
+	protected Node getGoal()
+	{
+		return this.goal;
 	}
 
-	@Test(expected=SynapseNotConnectedDannException.class)
-	public void testString() throws SynapseNotConnectedDannException
+	public void setStart(Node start)
 	{
-		throw new SynapseNotConnectedDannException("This is just a test");
+		this.start = start;
 	}
 
-	@Test(expected=SynapseNotConnectedDannException.class)
-	public void testCause() throws SynapseNotConnectedDannException
+	public void setGoal(Node goal)
 	{
-		throw new SynapseNotConnectedDannException(new Exception());
-	}
-
-	@Test(expected=SynapseNotConnectedDannException.class)
-	public void testStringCause() throws SynapseNotConnectedDannException
-	{
-		throw new SynapseNotConnectedDannException("This is just a test", new Exception());
+		this.goal = goal;
 	}
 }

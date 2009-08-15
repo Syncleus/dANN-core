@@ -16,34 +16,89 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.tests.dann.neural;
+package com.syncleus.dann.graph.pathfinding.astar;
 
-import com.syncleus.dann.neural.SynapseNotConnectedDannException;
-import org.junit.*;
+import java.util.HashSet;
+import java.util.Stack;
 
-public class TestSynapseNotConnectedException
+public class Node
 {
-	@Test(expected=SynapseNotConnectedDannException.class)
-	public void testDefault() throws SynapseNotConnectedDannException
+	private Node parent = null;
+	private double cost = 1.0;
+	private HashSet<Node> paths = new HashSet<Node>();
+	
+	public Node()
 	{
-		throw new SynapseNotConnectedDannException();
 	}
-
-	@Test(expected=SynapseNotConnectedDannException.class)
-	public void testString() throws SynapseNotConnectedDannException
+	
+	public Node(double cost)
 	{
-		throw new SynapseNotConnectedDannException("This is just a test");
+		this.cost = cost;
 	}
-
-	@Test(expected=SynapseNotConnectedDannException.class)
-	public void testCause() throws SynapseNotConnectedDannException
+	
+	public void connect(Node connectNode)
 	{
-		throw new SynapseNotConnectedDannException(new Exception());
+		this.paths.add(connectNode);
 	}
-
-	@Test(expected=SynapseNotConnectedDannException.class)
-	public void testStringCause() throws SynapseNotConnectedDannException
+	
+	public void disconnect(Node disconnectNode)
 	{
-		throw new SynapseNotConnectedDannException("This is just a test", new Exception());
+		this.paths.remove(disconnectNode);
 	}
+	
+	public double getPathCost()
+	{
+		if( this.parent == null)
+			return this.getCost();
+		
+		return this.parent.getPathCost() + this.getCost();
+	}
+	
+	public void reset()
+	{
+		this.parent = null;
+	}
+	
+	public Node[] getReturnPath()
+	{
+		Stack<Node> returnPath = new Stack<Node>();
+		
+		Node current = this;
+		while(current != null )
+		{
+			returnPath.add(current);
+			current = current.getParent();
+		}
+		
+		Node[] returnValue = new Node[returnPath.size()];
+		for( int lcv = returnValue.length - 1; lcv >= 0; lcv--)
+		{
+			returnValue[lcv] = returnPath.pop();
+		}
+		
+		return returnValue;
+	}
+	
+	public double getCost()
+	{
+		return cost;
+	}
+	
+	public Node[] getPaths()
+	{
+		Node[] returnValue = new Node[this.paths.size()];
+		this.paths.toArray(returnValue);
+		return returnValue;
+	}
+	
+	public Node getParent()
+	{
+		return parent;
+	}
+	
+	public void setParent(Node parent)
+	{
+		this.parent = parent;
+	}
+	
 }
