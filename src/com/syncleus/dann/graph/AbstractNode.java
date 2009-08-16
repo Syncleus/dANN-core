@@ -18,8 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface WeightedEdge<N extends WeightedNode> extends Edge<N>
+public abstract class AbstractNode<E extends Edge> implements Node<E>
 {
-	NodePair<N> getNodes();
-	Number getWeight();
+	public int getDegree()
+	{
+		return this.getEdges().size();
+	}
 }

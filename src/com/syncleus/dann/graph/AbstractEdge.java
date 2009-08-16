@@ -18,8 +18,35 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface WeightedEdge<N extends WeightedNode> extends Edge<N>
+public abstract class AbstractEdge<N extends Node> implements Edge<N>
 {
-	NodePair<N> getNodes();
-	Number getWeight();
+	private NodePair<N> nodes;
+
+	protected AbstractEdge(N leftNode, N rightNode)
+	{
+		if((leftNode == null)||(rightNode == null))
+			throw new IllegalArgumentException("Neither leftNode nor rightNode can be null.");
+		
+		this.nodes = new NodePair<N>(leftNode, rightNode);
+	}
+
+	protected AbstractEdge(NodePair<N> nodes)
+	{
+		if(nodes == null)
+			throw new IllegalArgumentException("nodes can not be null.");
+
+		this.nodes = nodes;
+	}
+
+	public NodePair<N> getNodes()
+	{
+		return this.nodes;
+	}
+
+	public boolean isLoop()
+	{
+		if(this.nodes.getLeftNode().equals(this.nodes.getRightNode()))
+			return true;
+		return false;
+	}
 }

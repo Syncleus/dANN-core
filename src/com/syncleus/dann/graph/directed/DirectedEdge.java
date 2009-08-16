@@ -22,7 +22,7 @@ import com.syncleus.dann.graph.NodePair;
 
 public interface DirectedEdge<N extends DirectedNode> extends BidirectedEdge<N>
 {
-	NodePair<? extends N> getNodes();
+	NodePair<N> getNodes();
 	N getSourceNode();
 	N getDestinationNode();
 }

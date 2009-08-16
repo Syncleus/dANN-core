@@ -22,7 +22,7 @@ import java.util.List;
 
 public interface WeightedWalk<N extends WeightedNode<? extends E>, E extends WeightedEdge<? extends Node>> extends Walk<N, E>
 {
-	List<? extends E> getSteps();
+	List<E> getSteps();
 	N getFirstNode();
 	N getLastNode();
 }

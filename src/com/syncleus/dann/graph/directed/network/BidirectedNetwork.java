@@ -25,6 +25,6 @@ import java.util.Set;
 
 public interface BidirectedNetwork<G extends BidirectedNetwork<? extends G, ? extends N, ? extends E, ? extends W>, N extends WeightedBidirectedNode<? extends E>, E extends WeightedBidirectedEdge<? extends N>, W extends WeightedBidirectedWalk<? extends N, ? extends E>> extends BidirectedGraph<G, N, E, W>, WeightedGraph<G, N, E, W>
 {
-	Set<? extends N> getNodes();
-	List<? extends E> getEdges();
+	Set<N> getNodes();
+	List<E> getEdges();
 }

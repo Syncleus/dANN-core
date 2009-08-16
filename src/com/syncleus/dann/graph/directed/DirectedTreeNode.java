@@ -23,5 +23,5 @@ import java.util.List;
 
 public interface DirectedTreeNode<E extends DirectedTreeEdge> extends DirectedNode<E>, TreeNode<E>
 {
-	List<? extends E> getEdges();
+	List<E> getEdges();
 }

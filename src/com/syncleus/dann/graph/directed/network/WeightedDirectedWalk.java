@@ -23,7 +23,7 @@ import java.util.List;
 
 public interface WeightedDirectedWalk<N extends WeightedDirectedNode<? extends E>, E extends WeightedDirectedEdge<? extends N>> extends DirectedWalk<N,E>, WeightedBidirectedWalk<N,E>
 {
-	List<? extends E> getSteps();
+	List<E> getSteps();
 	N getFirstNode();
 	N getLastNode();
 }

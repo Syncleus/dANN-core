@@ -16,10 +16,63 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph;
+package com.syncleus.dann.graph.directed;
 
-public interface WeightedEdge<N extends WeightedNode> extends Edge<N>
+public abstract class AbstractDirectedEdge<N extends DirectedNode> extends AbstractBidirectedEdge<N> implements DirectedEdge<N>
 {
-	NodePair<N> getNodes();
-	Number getWeight();
+	private N sourceNode;
+	private N destinationNode;
+
+	protected AbstractDirectedEdge(N sourceNode, N destinationNode)
+	{
+		super(sourceNode, destinationNode, EndState.Inward, EndState.Outward);
+		this.sourceNode = sourceNode;
+		this.destinationNode = destinationNode;
+	}
+
+	public N getSourceNode()
+	{
+		return this.sourceNode;
+	}
+
+	public N getDestinationNode()
+	{
+		return this.destinationNode;
+	}
+
+	@Override
+	public boolean isIntroverted()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isExtraverted()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isDirected()
+	{
+		return true;
+	}
+
+	@Override
+	public boolean isHalfEdge()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isLooseEdge()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isOrdinaryEdge()
+	{
+		return true;
+	}
 }

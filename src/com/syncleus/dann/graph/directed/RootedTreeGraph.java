@@ -24,7 +24,7 @@ import java.util.Set;
 
 public interface RootedTreeGraph<G extends RootedTreeGraph<? extends G, ? extends N, ? extends E, ? extends W>, N extends DirectedTreeNode<? extends E>, E extends DirectedTreeEdge<? extends N>, W extends DirectedTreeWalk<? extends N, ? extends E>> extends DirectedGraph<G, N, E, W>, TreeGraph<G, N, E, W>
 {
-	Set<? extends N> getNodes();
-	List<? extends E> getEdges();
+	Set<N> getNodes();
+	List<E> getEdges();
 	N getRoot();
 }

@@ -22,6 +22,6 @@ import java.util.List;
 
 public interface Node<E extends Edge>
 {
-	List<? extends E> getEdges();
+	List<E> getEdges();
 	int getDegree();
 }

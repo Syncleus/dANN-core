@@ -22,11 +22,10 @@ import java.util.List;
 
 public interface Walk<N extends Node<? extends E>, E extends Edge<? extends Node>>
 {
-	List<? extends E> getSteps();
+	List<E> getSteps();
 	N getFirstNode();
 	N getLastNode();
 	boolean isClosed();
-	boolean isOpen();
 	int getLength();
 	boolean isTrail();
 	boolean isTour();

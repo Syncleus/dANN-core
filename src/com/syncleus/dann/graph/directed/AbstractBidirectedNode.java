@@ -16,10 +16,49 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph;
+package com.syncleus.dann.graph.directed;
 
-public interface WeightedEdge<N extends WeightedNode> extends Edge<N>
+import com.syncleus.dann.graph.AbstractNode;
+import com.syncleus.dann.graph.NodePair;
+import java.util.List;
+
+public abstract class AbstractBidirectedNode<E extends BidirectedEdge> extends AbstractNode<E> implements BidirectedNode<E>
 {
-	NodePair<N> getNodes();
-	Number getWeight();
+	public int getIndegree()
+	{
+		int indegree = 0;
+		List<E> allEdges = this.getEdges();
+		for(E edge : allEdges)
+		{
+			if(edge.isDirected())
+			{
+				NodePair nodePair = edge.getNodes();
+				if( (nodePair.getLeftNode().equals(this)) && (edge.getLeftEndState() == BidirectedEdge.EndState.Outward) )
+					indegree++;
+				else if( (nodePair.getRightNode().equals(this)) && (edge.getRightEndState() == BidirectedEdge.EndState.Outward) )
+					indegree++;
+			}
+		}
+
+		return indegree;
+	}
+
+	public int getOutdegree()
+	{
+		int outdegree = 0;
+		List<E> allEdges = this.getEdges();
+		for(E edge : allEdges)
+		{
+			if(edge.isDirected())
+			{
+				NodePair nodePair = edge.getNodes();
+				if( (nodePair.getLeftNode().equals(this)) && (edge.getRightEndState() == BidirectedEdge.EndState.Outward) )
+					outdegree++;
+				else if( (nodePair.getRightNode().equals(this)) && (edge.getLeftEndState() == BidirectedEdge.EndState.Outward) )
+					outdegree++;
+			}
+		}
+
+		return outdegree;
+	}
 }

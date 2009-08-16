@@ -23,7 +23,7 @@ public final class NodePair<N extends Node>
 	private N left;
 	private N right;
 
-	NodePair(N left, N right)
+	public NodePair(N left, N right)
 	{
 		if((left == null)||(right == null))
 			throw new IllegalArgumentException("Neither left nor right can be null.");
@@ -32,12 +32,12 @@ public final class NodePair<N extends Node>
 		this.right = right;
 	}
 
-	N getLeftNode()
+	public N getLeftNode()
 	{
 		return this.left;
 	}
 
-	N getRightNode()
+	public N getRightNode()
 	{
 		return this.right;
 	}

@@ -23,7 +23,7 @@ import java.util.List;
 
 public interface DirectedTreeWalk<N extends DirectedTreeNode<? extends E>, E extends DirectedTreeEdge<? extends N>> extends DirectedWalk<N,E>, TreeWalk<N,E>
 {
-	List<? extends E> getSteps();
+	List<E> getSteps();
 	N getFirstNode();
 	N getLastNode();
 }

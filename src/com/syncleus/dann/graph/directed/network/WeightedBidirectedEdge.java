@@ -24,6 +24,6 @@ import com.syncleus.dann.graph.directed.BidirectedEdge;
 
 public interface WeightedBidirectedEdge<N extends WeightedBidirectedNode> extends BidirectedEdge<N>, WeightedEdge<N>
 {
-	NodePair<? extends N> getNodes();
+	NodePair<N> getNodes();
 	Number getWeight();
 }

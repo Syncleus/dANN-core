@@ -23,11 +23,11 @@ import java.util.Set;
 
 public interface Graph<G extends Graph<? extends G, ? extends N, ? extends E, ? extends W>, N extends Node<? extends E>, E extends Edge<? extends N>, W extends Walk<? extends N, ? extends E>>
 {
-	Set<? extends N> getNodes();
-	List<? extends E> getEdges();
+	Set<N> getNodes();
+	List<E> getEdges();
 	boolean isConnected(N begin, N end);
 	boolean isConnected();
-	Set<? extends G> getConnectedComponents();
+	Set<G> getConnectedComponents();
 	boolean isMaximalConnected();
 	boolean isCut(G subGraph);
 	boolean isCut(G subGraph, N begin, N end);

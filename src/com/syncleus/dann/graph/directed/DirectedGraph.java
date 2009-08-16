@@ -23,6 +23,6 @@ import java.util.Set;
 
 public interface DirectedGraph<G extends DirectedGraph<? extends G, ? extends N, ? extends E, ? extends W>, N extends DirectedNode<? extends E>, E extends DirectedEdge<? extends N>, W extends DirectedWalk<? extends N, ? extends E>> extends BidirectedGraph<G, N, E, W>
 {
-	Set<? extends N> getNodes();
-	List<? extends E> getEdges();
+	Set<N> getNodes();
+	List<E> getEdges();
 }

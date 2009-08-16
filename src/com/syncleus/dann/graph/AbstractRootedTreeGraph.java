@@ -18,8 +18,16 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface WeightedEdge<N extends WeightedNode> extends Edge<N>
+import com.syncleus.dann.graph.directed.AbstractBidirectedGraph;
+import com.syncleus.dann.graph.directed.DirectedTreeEdge;
+import com.syncleus.dann.graph.directed.DirectedTreeNode;
+import com.syncleus.dann.graph.directed.DirectedTreeWalk;
+import com.syncleus.dann.graph.directed.RootedTreeGraph;
+
+public abstract class AbstractRootedTreeGraph<G extends RootedTreeGraph<? extends G, ? extends N, ? extends E, ? extends W>, N extends DirectedTreeNode<? extends E>, E extends DirectedTreeEdge<? extends N>, W extends DirectedTreeWalk<? extends N, ? extends E>> extends AbstractBidirectedGraph<G, N, E, W> implements RootedTreeGraph<G, N, E, W>
 {
-	NodePair<N> getNodes();
-	Number getWeight();
+	public N getRoot()
+	{
+		return null;
+	}
 }

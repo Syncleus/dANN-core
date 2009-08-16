@@ -23,5 +23,5 @@ import java.util.List;
 
 public interface WeightedDirectedNode<E extends WeightedDirectedEdge> extends DirectedNode<E>, WeightedBidirectedNode<E>
 {
-	List<? extends E> getEdges();
+	List<E> getEdges();
 }

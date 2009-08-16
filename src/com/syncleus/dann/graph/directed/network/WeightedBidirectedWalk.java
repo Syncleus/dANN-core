@@ -24,7 +24,7 @@ import java.util.List;
 
 public interface WeightedBidirectedWalk<N extends WeightedBidirectedNode<? extends E>, E extends WeightedBidirectedEdge<? extends N>> extends BidirectedWalk<N,E>, WeightedWalk<N,E>
 {
-	List<? extends E> getSteps();
+	List<E> getSteps();
 	N getFirstNode();
 	N getLastNode();
 }

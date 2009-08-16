@@ -18,8 +18,25 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface WeightedEdge<N extends WeightedNode> extends Edge<N>
+public abstract class AbstractTreeEdge<N extends TreeNode> extends AbstractEdge<N> implements TreeEdge<N>
 {
-	NodePair<N> getNodes();
-	Number getWeight();
+	protected AbstractTreeEdge(N leftNode, N rightNode)
+	{
+		super(leftNode, rightNode);
+	}
+
+	protected AbstractTreeEdge(NodePair<N> nodes)
+	{
+		super(nodes);
+	}
+
+	public boolean isLeaf()
+	{
+		if(this.getNodes().getLeftNode().isLeaf())
+			return true;
+		if(this.getNodes().getRightNode().isLeaf())
+			return true;
+
+		return false;
+	}
 }

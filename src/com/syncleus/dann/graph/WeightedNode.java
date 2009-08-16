@@ -22,5 +22,5 @@ import java.util.List;
 
 public interface WeightedNode<E extends WeightedEdge> extends Node<E>
 {
-	List<? extends E> getEdges();
+	List<E> getEdges();
 }

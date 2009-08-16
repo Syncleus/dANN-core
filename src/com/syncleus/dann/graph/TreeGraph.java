@@ -23,6 +23,6 @@ import java.util.Set;
 
 public interface TreeGraph<G extends TreeGraph<? extends G, ? extends N, ? extends E, ? extends W>, N extends TreeNode<? extends E>, E extends TreeEdge<? extends N>, W extends TreeWalk<? extends N, ? extends E>> extends Graph<G, N, E, W>
 {
-	Set<? extends N> getNodes();
-	List<? extends E> getEdges();
+	Set<N> getNodes();
+	List<E> getEdges();
 }

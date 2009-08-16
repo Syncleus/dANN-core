@@ -23,6 +23,6 @@ import java.util.Set;
 
 public interface WeightedGraph<G extends WeightedGraph<? extends G, ? extends N, ? extends E, ? extends W>, N extends WeightedNode<? extends E>, E extends WeightedEdge<? extends N>, W extends WeightedWalk<? extends N, ? extends E>> extends Graph<G, N, E, W>
 {
-	Set<? extends N> getNodes();
-	List<? extends E> getEdges();
+	Set<N> getNodes();
+	List<E> getEdges();
 }

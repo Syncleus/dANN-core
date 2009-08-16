@@ -22,7 +22,7 @@ import java.util.List;
 
 public interface DirectedWalk<N extends DirectedNode<? extends E>, E extends DirectedEdge<? extends N>> extends BidirectedWalk<N, E>
 {
-	List<? extends E> getSteps();
+	List<E> getSteps();
 	N getFirstNode();
 	N getLastNode();
 }

@@ -20,6 +20,6 @@ package com.syncleus.dann.graph;
 
 public interface Edge<N extends Node>
 {
-	NodePair<? extends N> getNodes();
+	NodePair<N> getNodes();
 	boolean isLoop();
 }

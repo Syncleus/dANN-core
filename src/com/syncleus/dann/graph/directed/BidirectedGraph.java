@@ -24,10 +24,10 @@ import java.util.Set;
 
 public interface BidirectedGraph<G extends BidirectedGraph<? extends G, ? extends N, ? extends E, ? extends W>, N extends BidirectedNode<? extends E>, E extends BidirectedEdge<? extends N>, W extends BidirectedWalk<? extends N, ? extends E>> extends Graph<G, N, E, W>
 {
-	Set<? extends N> getNodes();
-	List<? extends E> getEdges();
-	Set<? extends G> getConnectedComponents();
+	Set<N> getNodes();
+	List<E> getEdges();
+	Set<G> getConnectedComponents();
 	boolean isStronglyConnected();
-	Set<? extends G> getStrongComponents();
+	Set<G> getStrongComponents();
 	boolean isPolytree();
 }

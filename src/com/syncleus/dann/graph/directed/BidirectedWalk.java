@@ -23,7 +23,7 @@ import java.util.List;
 
 public interface BidirectedWalk<N extends BidirectedNode<? extends E>, E extends BidirectedEdge<? extends N>> extends Walk<N, E>
 {
-	List<? extends E> getSteps();
+	List<E> getSteps();
 	N getFirstNode();
 	N getLastNode();
 	boolean isSymmetric();

@@ -22,7 +22,7 @@ import java.util.List;
 
 public interface DirectedNode<E extends DirectedEdge> extends BidirectedNode<E>
 {
-	List<? extends E> getEdges();
+	List<E> getEdges();
 	int getIndegree();
 	int getOutdegree();
 }

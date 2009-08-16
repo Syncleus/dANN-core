@@ -16,10 +16,20 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph;
+package com.syncleus.dann.graph.directed;
 
-public interface WeightedEdge<N extends WeightedNode> extends Edge<N>
+import com.syncleus.dann.graph.AbstractWalk;
+import java.util.List;
+
+public  abstract class AbstractBidirectedWalk<N extends BidirectedNode<? extends E>, E extends BidirectedEdge<? extends N>> extends AbstractWalk<N,E> implements BidirectedWalk<N,E>
 {
-	NodePair<N> getNodes();
-	Number getWeight();
+	protected AbstractBidirectedWalk(N firstNode, N lastNode, List<E> steps)
+	{
+		super(firstNode, lastNode, steps);
+	}
+
+	public boolean isSymmetric()
+	{
+		return false;
+	}
 }

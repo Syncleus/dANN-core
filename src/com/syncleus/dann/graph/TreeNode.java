@@ -22,6 +22,6 @@ import java.util.List;
 
 public interface TreeNode<E extends TreeEdge> extends Node<E>
 {
-	List<? extends E> getEdges();
+	List<E> getEdges();
 	boolean isLeaf();
 }

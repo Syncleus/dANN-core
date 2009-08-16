@@ -27,7 +27,7 @@ public interface BidirectedEdge<N extends BidirectedNode> extends Edge<N>
 		Outward, Inward, None;
 	};
 
-	NodePair<? extends N> getNodes();
+	NodePair<N> getNodes();
 	EndState getLeftEndState();
 	EndState getRightEndState();
 	boolean isIntroverted();

@@ -22,7 +22,7 @@ import java.util.List;
 
 public interface TreeWalk<N extends TreeNode<? extends E>, E extends TreeEdge<? extends N>> extends Walk<N, E>
 {
-	List<? extends E> getSteps();
+	List<E> getSteps();
 	N getFirstNode();
 	N getLastNode();
 }
