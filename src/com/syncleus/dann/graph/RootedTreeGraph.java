@@ -16,14 +16,15 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph.directed;
+package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.*;
+import com.syncleus.dann.graph.TreeGraph;
 import java.util.List;
+import java.util.Set;
 
-public interface BidirectedNode<E extends BidirectedEdge> extends Node<E>
+public interface RootedTreeGraph<G extends RootedTreeGraph<? extends G, ? extends N, ? extends E, ? extends W>, N extends DirectedTreeNode<? extends E>, E extends DirectedTreeEdge<? extends N>, W extends DirectedTreeWalk<? extends N, ? extends E>> extends DirectedGraph<G, N, E, W>, TreeGraph<G, N, E, W>
 {
+	Set<N> getNodes();
 	List<E> getEdges();
-	int getIndegree();
-	int getOutdegree();
+	N getRoot();
 }

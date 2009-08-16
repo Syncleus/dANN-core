@@ -16,24 +16,12 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph.directed;
+package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.*;
+import com.syncleus.dann.graph.NodePair;
+import com.syncleus.dann.graph.TreeEdge;
 
-public interface BidirectedEdge<N extends BidirectedNode> extends Edge<N>
+public interface DirectedTreeEdge<N extends DirectedTreeNode> extends DirectedEdge<N>, TreeEdge<N>
 {
-	public enum EndState
-	{
-		Outward, Inward, None;
-	};
-
 	NodePair<N> getNodes();
-	EndState getLeftEndState();
-	EndState getRightEndState();
-	boolean isIntroverted();
-	boolean isExtraverted();
-	boolean isDirected();
-	boolean isHalfEdge();
-	boolean isLooseEdge();
-	boolean isOrdinaryEdge();
 }

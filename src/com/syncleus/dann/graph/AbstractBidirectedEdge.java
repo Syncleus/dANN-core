@@ -16,7 +16,7 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph.directed;
+package com.syncleus.dann.graph;
 
 import com.syncleus.dann.graph.AbstractEdge;
 import com.syncleus.dann.graph.NodePair;

@@ -16,13 +16,12 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph.directed;
+package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.NodePair;
+import com.syncleus.dann.graph.TreeNode;
+import java.util.List;
 
-public interface DirectedEdge<N extends DirectedNode> extends BidirectedEdge<N>
+public interface DirectedTreeNode<E extends DirectedTreeEdge> extends DirectedNode<E>, TreeNode<E>
 {
-	NodePair<N> getNodes();
-	N getSourceNode();
-	N getDestinationNode();
+	List<E> getEdges();
 }

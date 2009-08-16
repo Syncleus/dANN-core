@@ -16,15 +16,13 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph.directed;
+package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.*;
-import java.util.List;
+import com.syncleus.dann.graph.NodePair;
 
-public interface BidirectedWalk<N extends BidirectedNode<? extends E>, E extends BidirectedEdge<? extends N>> extends Walk<N, E>
+public interface DirectedEdge<N extends DirectedNode> extends BidirectedEdge<N>
 {
-	List<E> getSteps();
-	N getFirstNode();
-	N getLastNode();
-	boolean isSymmetric();
+	NodePair<N> getNodes();
+	N getSourceNode();
+	N getDestinationNode();
 }

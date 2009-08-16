@@ -16,13 +16,15 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph.directed;
+package com.syncleus.dann.graph;
 
+import com.syncleus.dann.graph.WeightedGraph;
+import com.syncleus.dann.graph.BidirectedGraph;
 import java.util.List;
+import java.util.Set;
 
-public interface DirectedWalk<N extends DirectedNode<? extends E>, E extends DirectedEdge<? extends N>> extends BidirectedWalk<N, E>
+public interface BidirectedNetwork<G extends BidirectedNetwork<? extends G, ? extends N, ? extends E, ? extends W>, N extends WeightedBidirectedNode<? extends E>, E extends WeightedBidirectedEdge<? extends N>, W extends WeightedBidirectedWalk<? extends N, ? extends E>> extends BidirectedGraph<G, N, E, W>, WeightedGraph<G, N, E, W>
 {
-	List<E> getSteps();
-	N getFirstNode();
-	N getLastNode();
+	Set<N> getNodes();
+	List<E> getEdges();
 }

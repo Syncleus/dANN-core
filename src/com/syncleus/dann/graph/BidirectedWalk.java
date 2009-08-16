@@ -16,63 +16,15 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph.directed;
+package com.syncleus.dann.graph;
 
-public abstract class AbstractDirectedEdge<N extends DirectedNode> extends AbstractBidirectedEdge<N> implements DirectedEdge<N>
+import com.syncleus.dann.graph.*;
+import java.util.List;
+
+public interface BidirectedWalk<N extends BidirectedNode<? extends E>, E extends BidirectedEdge<? extends N>> extends Walk<N, E>
 {
-	private N sourceNode;
-	private N destinationNode;
-
-	protected AbstractDirectedEdge(N sourceNode, N destinationNode)
-	{
-		super(sourceNode, destinationNode, EndState.Inward, EndState.Outward);
-		this.sourceNode = sourceNode;
-		this.destinationNode = destinationNode;
-	}
-
-	public N getSourceNode()
-	{
-		return this.sourceNode;
-	}
-
-	public N getDestinationNode()
-	{
-		return this.destinationNode;
-	}
-
-	@Override
-	public boolean isIntroverted()
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isExtraverted()
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isDirected()
-	{
-		return true;
-	}
-
-	@Override
-	public boolean isHalfEdge()
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isLooseEdge()
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isOrdinaryEdge()
-	{
-		return true;
-	}
+	List<E> getSteps();
+	N getFirstNode();
+	N getLastNode();
+	boolean isSymmetric();
 }

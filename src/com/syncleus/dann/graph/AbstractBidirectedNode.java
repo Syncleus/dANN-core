@@ -16,12 +16,49 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph.directed;
+package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.TreeNode;
+import com.syncleus.dann.graph.AbstractNode;
+import com.syncleus.dann.graph.NodePair;
 import java.util.List;
 
-public interface DirectedTreeNode<E extends DirectedTreeEdge> extends DirectedNode<E>, TreeNode<E>
+public abstract class AbstractBidirectedNode<E extends BidirectedEdge> extends AbstractNode<E> implements BidirectedNode<E>
 {
-	List<E> getEdges();
+	public int getIndegree()
+	{
+		int indegree = 0;
+		List<E> allEdges = this.getEdges();
+		for(E edge : allEdges)
+		{
+			if(edge.isDirected())
+			{
+				NodePair nodePair = edge.getNodes();
+				if( (nodePair.getLeftNode().equals(this)) && (edge.getLeftEndState() == BidirectedEdge.EndState.Outward) )
+					indegree++;
+				else if( (nodePair.getRightNode().equals(this)) && (edge.getRightEndState() == BidirectedEdge.EndState.Outward) )
+					indegree++;
+			}
+		}
+
+		return indegree;
+	}
+
+	public int getOutdegree()
+	{
+		int outdegree = 0;
+		List<E> allEdges = this.getEdges();
+		for(E edge : allEdges)
+		{
+			if(edge.isDirected())
+			{
+				NodePair nodePair = edge.getNodes();
+				if( (nodePair.getLeftNode().equals(this)) && (edge.getRightEndState() == BidirectedEdge.EndState.Outward) )
+					outdegree++;
+				else if( (nodePair.getRightNode().equals(this)) && (edge.getLeftEndState() == BidirectedEdge.EndState.Outward) )
+					outdegree++;
+			}
+		}
+
+		return outdegree;
+	}
 }

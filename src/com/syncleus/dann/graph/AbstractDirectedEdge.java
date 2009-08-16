@@ -16,25 +16,63 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph.directed;
+package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.AbstractGraph;
-import java.util.Set;
-
-public abstract class AbstractBidirectedGraph<G extends BidirectedGraph<? extends G, ? extends N, ? extends E, ? extends W>, N extends BidirectedNode<? extends E>, E extends BidirectedEdge<? extends N>, W extends BidirectedWalk<? extends N, ? extends E>> extends AbstractGraph<G, N, E, W> implements BidirectedGraph<G, N, E, W>
+public abstract class AbstractDirectedEdge<N extends DirectedNode> extends AbstractBidirectedEdge<N> implements DirectedEdge<N>
 {
-	public boolean isStronglyConnected()
+	private N sourceNode;
+	private N destinationNode;
+
+	protected AbstractDirectedEdge(N sourceNode, N destinationNode)
+	{
+		super(sourceNode, destinationNode, EndState.Inward, EndState.Outward);
+		this.sourceNode = sourceNode;
+		this.destinationNode = destinationNode;
+	}
+
+	public N getSourceNode()
+	{
+		return this.sourceNode;
+	}
+
+	public N getDestinationNode()
+	{
+		return this.destinationNode;
+	}
+
+	@Override
+	public boolean isIntroverted()
 	{
 		return false;
 	}
 
-	public Set<G> getStrongComponents()
-	{
-		return null;
-	}
-
-	public boolean isPolytree()
+	@Override
+	public boolean isExtraverted()
 	{
 		return false;
+	}
+
+	@Override
+	public boolean isDirected()
+	{
+		return true;
+	}
+
+	@Override
+	public boolean isHalfEdge()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isLooseEdge()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isOrdinaryEdge()
+	{
+		return true;
 	}
 }

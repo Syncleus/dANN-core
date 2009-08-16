@@ -16,12 +16,25 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph.directed.network;
+package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.directed.DirectedNode;
-import java.util.List;
+import com.syncleus.dann.graph.AbstractGraph;
+import java.util.Set;
 
-public interface WeightedDirectedNode<E extends WeightedDirectedEdge> extends DirectedNode<E>, WeightedBidirectedNode<E>
+public abstract class AbstractBidirectedGraph<G extends BidirectedGraph<? extends G, ? extends N, ? extends E, ? extends W>, N extends BidirectedNode<? extends E>, E extends BidirectedEdge<? extends N>, W extends BidirectedWalk<? extends N, ? extends E>> extends AbstractGraph<G, N, E, W> implements BidirectedGraph<G, N, E, W>
 {
-	List<E> getEdges();
+	public boolean isStronglyConnected()
+	{
+		return false;
+	}
+
+	public Set<G> getStrongComponents()
+	{
+		return null;
+	}
+
+	public boolean isPolytree()
+	{
+		return false;
+	}
 }

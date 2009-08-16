@@ -16,14 +16,13 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph.directed;
+package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.TreeWalk;
 import java.util.List;
 
-public interface DirectedTreeWalk<N extends DirectedTreeNode<? extends E>, E extends DirectedTreeEdge<? extends N>> extends DirectedWalk<N,E>, TreeWalk<N,E>
+public interface DirectedNode<E extends DirectedEdge> extends BidirectedNode<E>
 {
-	List<E> getSteps();
-	N getFirstNode();
-	N getLastNode();
+	List<E> getEdges();
+	int getIndegree();
+	int getOutdegree();
 }
