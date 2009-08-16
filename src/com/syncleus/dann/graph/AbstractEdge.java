@@ -18,35 +18,28 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public abstract class AbstractEdge<N extends Node> implements Edge<N>
 {
-	private NodePair<N> nodes;
+	List<N> nodes;
 
-	protected AbstractEdge(N leftNode, N rightNode)
+	protected AbstractEdge(List<N> nodes)
 	{
-		if((leftNode == null)||(rightNode == null))
-			throw new IllegalArgumentException("Neither leftNode nor rightNode can be null.");
-		
-		this.nodes = new NodePair<N>(leftNode, rightNode);
+		this.nodes = new ArrayList<N>(nodes);
 	}
 
-	protected AbstractEdge(NodePair<N> nodes)
+	protected AbstractEdge(N... nodes)
 	{
-		if(nodes == null)
-			throw new IllegalArgumentException("nodes can not be null.");
-
-		this.nodes = nodes;
+		this.nodes = new ArrayList<N>();
+		for(N node : nodes)
+			this.nodes.add(node);
 	}
-
-	public NodePair<N> getNodes()
+	
+	public List<N> getNodes()
 	{
-		return this.nodes;
-	}
-
-	public boolean isLoop()
-	{
-		if(this.nodes.getLeftNode().equals(this.nodes.getRightNode()))
-			return true;
-		return false;
+		return Collections.unmodifiableList(nodes);
 	}
 }

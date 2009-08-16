@@ -18,9 +18,51 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface DirectedEdge<N extends DirectedNode> extends BidirectedEdge<N>
+public abstract class AbstractUndirectedEdge<N extends UndirectedNode> extends AbstractBidirectedEdge<N> implements UndirectedEdge<N>
 {
-	NodePair<N> getNodePair();
-	N getSourceNode();
-	N getDestinationNode();
+	protected AbstractUndirectedEdge(N leftNode, N rightNode)
+	{
+		super(new NodePair<N>(leftNode, rightNode), EndState.None, EndState.None);
+	}
+
+	protected AbstractUndirectedEdge(NodePair<N> nodes)
+	{
+		super(nodes, EndState.None, EndState.None);
+	}
+
+	@Override
+	public boolean isIntroverted()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isExtraverted()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isDirected()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isHalfEdge()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isLooseEdge()
+	{
+		return true;
+	}
+
+	@Override
+	public boolean isOrdinaryEdge()
+	{
+		return false;
+	}
 }

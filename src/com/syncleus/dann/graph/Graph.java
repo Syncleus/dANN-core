@@ -53,4 +53,7 @@ public interface Graph<G extends Graph<? extends G, ? extends N, ? extends E, ? 
 	boolean isKnot(G subGraph);
 	int getTotalDegree();
 	boolean isMultigraph();
+	boolean isIsomorphic(G isomorphicGraph);
+	boolean isHomomorphic(G homomorphicGraph);
+	boolean isRegular();
 }

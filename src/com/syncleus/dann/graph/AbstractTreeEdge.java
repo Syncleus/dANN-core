@@ -17,24 +17,28 @@
  *                                                                             *
  ******************************************************************************/
 package com.syncleus.dann.graph;
-
+import java.util.ArrayList;
+import java.util.List;
 public abstract class AbstractTreeEdge<N extends TreeNode> extends AbstractEdge<N> implements TreeEdge<N>
 {
-	protected AbstractTreeEdge(N leftNode, N rightNode)
-	{
-		super(leftNode, rightNode);
-	}
-
 	protected AbstractTreeEdge(NodePair<N> nodes)
 	{
-		super(nodes);
+		super(pairToList(nodes));
+	}
+	
+	private static <N extends TreeNode> List<N> pairToList(NodePair<N> nodes)
+	{
+		List<N> pairList = new ArrayList<N>();
+		pairList.add(nodes.getLeftNode());
+		pairList.add(nodes.getRightNode());
+		return pairList;
 	}
 
 	public boolean isLeaf()
 	{
-		if(this.getNodes().getLeftNode().isLeaf())
+		if(this.getNodePair().getLeftNode().isLeaf())
 			return true;
-		if(this.getNodes().getRightNode().isLeaf())
+		if(this.getNodePair().getRightNode().isLeaf())
 			return true;
 
 		return false;

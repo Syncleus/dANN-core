@@ -18,9 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface DirectedEdge<N extends DirectedNode> extends BidirectedEdge<N>
+public interface HyperEdge<N extends HyperNode> extends Edge<N>
 {
-	NodePair<N> getNodePair();
-	N getSourceNode();
-	N getDestinationNode();
+	int getDegree();
+	boolean isSymmetric(HyperEdge<N> symmetricEdge);
 }

@@ -25,4 +25,6 @@ public interface DirectedNode<E extends DirectedEdge> extends BidirectedNode<E>
 	List<E> getEdges();
 	int getIndegree();
 	int getOutdegree();
+	List<E> getOutEdges();
+	List<E> getInEdges();
 }

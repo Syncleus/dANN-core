@@ -25,7 +25,7 @@ public abstract class AbstractDirectedEdge<N extends DirectedNode> extends Abstr
 
 	protected AbstractDirectedEdge(N sourceNode, N destinationNode)
 	{
-		super(sourceNode, destinationNode, EndState.Inward, EndState.Outward);
+		super(new NodePair<N>(sourceNode, destinationNode), EndState.Inward, EndState.Outward);
 		this.sourceNode = sourceNode;
 		this.destinationNode = destinationNode;
 	}

@@ -23,5 +23,6 @@ import java.util.List;
 public interface Node<E extends Edge>
 {
 	List<E> getEdges();
+	List<E> getTraversableEdges();
 	int getDegree();
 }

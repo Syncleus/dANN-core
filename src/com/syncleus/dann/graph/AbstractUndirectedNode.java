@@ -18,9 +18,38 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface DirectedEdge<N extends DirectedNode> extends BidirectedEdge<N>
+import java.util.Collections;
+import java.util.List;
+
+public abstract class AbstractUndirectedNode<E extends UndirectedEdge> extends AbstractBidirectedNode<E> implements UndirectedNode<E>
 {
-	NodePair<N> getNodePair();
-	N getSourceNode();
-	N getDestinationNode();
+	@Override
+	public List<E> getTraversableEdges()
+	{
+		return this.getEdges();
+	}
+	
+	@Override
+	public List<E> getOutEdges()
+	{
+		return Collections.emptyList();
+	}
+
+	@Override
+	public List<E> getInEdges()
+	{
+		return Collections.emptyList();
+	}
+
+	@Override
+	public int getIndegree()
+	{
+		return 0;
+	}
+
+	@Override
+	public int getOutdegree()
+	{
+		return 0;
+	}
 }

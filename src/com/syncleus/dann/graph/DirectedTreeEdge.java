@@ -23,5 +23,5 @@ import com.syncleus.dann.graph.TreeEdge;
 
 public interface DirectedTreeEdge<N extends DirectedTreeNode> extends DirectedEdge<N>, TreeEdge<N>
 {
-	NodePair<N> getNodes();
+	NodePair<N> getNodePair();
 }

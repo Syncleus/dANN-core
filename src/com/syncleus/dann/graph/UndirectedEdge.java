@@ -18,9 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface DirectedEdge<N extends DirectedNode> extends BidirectedEdge<N>
+public interface UndirectedEdge<N extends UndirectedNode> extends BidirectedEdge<N>
 {
 	NodePair<N> getNodePair();
-	N getSourceNode();
-	N getDestinationNode();
 }

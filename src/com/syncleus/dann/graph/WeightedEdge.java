@@ -20,6 +20,6 @@ package com.syncleus.dann.graph;
 
 public interface WeightedEdge<N extends WeightedNode> extends Edge<N>
 {
-	NodePair<N> getNodes();
+	NodePair<N> getNodePair();
 	Number getWeight();
 }

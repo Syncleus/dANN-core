@@ -18,8 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
+import java.util.List;
+
 public interface Edge<N extends Node>
 {
-	NodePair<N> getNodes();
-	boolean isLoop();
+	List<N> getNodes();
 }

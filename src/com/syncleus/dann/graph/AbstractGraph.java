@@ -18,36 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public abstract class AbstractGraph<G extends Graph<? extends G, ? extends N, ? extends E, ? extends W>, N extends Node<? extends E>, E extends Edge<? extends N>, W extends Walk<? extends N, ? extends E>> implements Graph<G, N, E, W>
 {
-	public List<E> getEdges()
-	{
-		List<E> allEdges = new ArrayList<E>();
-		Set<N> allNodes = this.getNodes();
-		Set<N> traversedNodes = new HashSet<N>();
-		for(N node : allNodes)
-		{
-			List<? extends E> currentEdges = node.getEdges();
-
-			for(E edge : currentEdges)
-			{
-				NodePair<? extends N> currentNodePair = edge.getNodes();
-				if((!traversedNodes.contains(currentNodePair.getLeftNode()))&&(!traversedNodes.contains(currentNodePair.getRightNode())))
-					allEdges.add(edge);
-			}
-
-			traversedNodes.add(node);
-		}
-
-		return Collections.unmodifiableList(allEdges);
-	}
-
 	public boolean isConnected(N begin, N end)
 	{
 		return false;
@@ -184,6 +158,21 @@ public abstract class AbstractGraph<G extends Graph<? extends G, ? extends N, ? 
 	}
 
 	public boolean isMultigraph()
+	{
+		return false;
+	}
+
+	public boolean isIsomorphic(G isomorphicGraph)
+	{
+		return false;
+	}
+
+	public boolean isHomomorphic(G homomorphicGraph)
+	{
+		return false;
+	}
+
+	public boolean isRegular()
 	{
 		return false;
 	}

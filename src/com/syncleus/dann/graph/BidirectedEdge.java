@@ -18,8 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.*;
-
 public interface BidirectedEdge<N extends BidirectedNode> extends Edge<N>
 {
 	public enum EndState
@@ -27,7 +25,7 @@ public interface BidirectedEdge<N extends BidirectedNode> extends Edge<N>
 		Outward, Inward, None;
 	};
 
-	NodePair<N> getNodes();
+	NodePair<N> getNodePair();
 	EndState getLeftEndState();
 	EndState getRightEndState();
 	boolean isIntroverted();
@@ -36,4 +34,5 @@ public interface BidirectedEdge<N extends BidirectedNode> extends Edge<N>
 	boolean isHalfEdge();
 	boolean isLooseEdge();
 	boolean isOrdinaryEdge();
+	boolean isLoop();
 }

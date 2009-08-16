@@ -17,10 +17,31 @@
  *                                                                             *
  ******************************************************************************/
 package com.syncleus.dann.graph;
-
-public interface DirectedEdge<N extends DirectedNode> extends BidirectedEdge<N>
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+public abstract class AbstractHyperWalk<N extends HyperNode<? extends E>, E extends HyperEdge<? extends N>> extends AbstractWalk<N, E> implements HyperWalk<N, E>
 {
-	NodePair<N> getNodePair();
-	N getSourceNode();
-	N getDestinationNode();
+	private List<N> nodeSteps;
+
+	protected AbstractHyperWalk(List<N> nodeSteps, List<E> edgeSteps)
+	{
+		super(nodeSteps.get(0), nodeSteps.get(nodeSteps.size() - 1), edgeSteps);
+
+		if(nodeSteps == null)
+			throw new IllegalArgumentException("nodeSteps can not be null");
+		if(edgeSteps == null)
+			throw new IllegalArgumentException("edgeSteps can not be null");
+		if(nodeSteps.size() < 2)
+			throw new IllegalArgumentException("nodeSteps must have atleast 2 elements");
+		if(edgeSteps.size() != (nodeSteps.size()-1) )
+			throw new IllegalArgumentException("edgeSteps must be exactly one less in size than nodeSteps");
+
+		this.nodeSteps = new ArrayList<N>(nodeSteps);
+	}
+
+	public List<N> getNodeSteps()
+	{
+		return Collections.unmodifiableList(nodeSteps);
+	}
 }

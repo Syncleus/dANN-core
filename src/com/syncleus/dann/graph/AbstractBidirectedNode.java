@@ -18,12 +18,71 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.AbstractNode;
-import com.syncleus.dann.graph.NodePair;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public abstract class AbstractBidirectedNode<E extends BidirectedEdge> extends AbstractNode<E> implements BidirectedNode<E>
 {
+	public List<E> getTraversableEdges()
+	{
+		List<E> traversableEdges = new ArrayList<E>();
+		List<E> allEdges = this.getEdges();
+		for(E edge : allEdges)
+		{
+			if(edge.isLooseEdge())
+				traversableEdges.add(edge);
+			else if(edge.isDirected())
+			{
+				NodePair nodePair = edge.getNodePair();
+				if( (nodePair.getLeftNode().equals(this)) && (edge.getRightEndState() == BidirectedEdge.EndState.Outward) )
+					traversableEdges.add(edge);
+				else if( (nodePair.getRightNode().equals(this)) && (edge.getLeftEndState() == BidirectedEdge.EndState.Outward) )
+					traversableEdges.add(edge);
+			}
+		}
+
+		return Collections.unmodifiableList(traversableEdges);
+	}
+
+	public List<E> getOutEdges()
+	{
+		List<E> outEdges = new ArrayList<E>();
+		List<E> allEdges = this.getEdges();
+		for(E edge : allEdges)
+		{
+			if(edge.isDirected())
+			{
+				NodePair nodePair = edge.getNodePair();
+				if( (nodePair.getLeftNode().equals(this)) && (edge.getRightEndState() == BidirectedEdge.EndState.Outward) )
+					outEdges.add(edge);
+				else if( (nodePair.getRightNode().equals(this)) && (edge.getLeftEndState() == BidirectedEdge.EndState.Outward) )
+					outEdges.add(edge);
+			}
+		}
+
+		return Collections.unmodifiableList(outEdges);
+	}
+
+	public List<E> getInEdges()
+	{
+		List<E> inEdges = new ArrayList<E>();
+		List<E> allEdges = this.getEdges();
+		for(E edge : allEdges)
+		{
+			if(edge.isDirected())
+			{
+				NodePair nodePair = edge.getNodePair();
+				if( (nodePair.getLeftNode().equals(this)) && (edge.getLeftEndState() == BidirectedEdge.EndState.Outward) )
+					inEdges.add(edge);
+				else if( (nodePair.getRightNode().equals(this)) && (edge.getRightEndState() == BidirectedEdge.EndState.Outward) )
+					inEdges.add(edge);
+			}
+		}
+
+		return Collections.unmodifiableList(inEdges);
+	}
+
 	public int getIndegree()
 	{
 		int indegree = 0;
@@ -32,7 +91,7 @@ public abstract class AbstractBidirectedNode<E extends BidirectedEdge> extends A
 		{
 			if(edge.isDirected())
 			{
-				NodePair nodePair = edge.getNodes();
+				NodePair nodePair = edge.getNodePair();
 				if( (nodePair.getLeftNode().equals(this)) && (edge.getLeftEndState() == BidirectedEdge.EndState.Outward) )
 					indegree++;
 				else if( (nodePair.getRightNode().equals(this)) && (edge.getRightEndState() == BidirectedEdge.EndState.Outward) )
@@ -51,7 +110,7 @@ public abstract class AbstractBidirectedNode<E extends BidirectedEdge> extends A
 		{
 			if(edge.isDirected())
 			{
-				NodePair nodePair = edge.getNodes();
+				NodePair nodePair = edge.getNodePair();
 				if( (nodePair.getLeftNode().equals(this)) && (edge.getRightEndState() == BidirectedEdge.EndState.Outward) )
 					outdegree++;
 				else if( (nodePair.getRightNode().equals(this)) && (edge.getLeftEndState() == BidirectedEdge.EndState.Outward) )

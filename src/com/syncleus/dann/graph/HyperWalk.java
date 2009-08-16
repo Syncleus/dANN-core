@@ -18,9 +18,12 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface DirectedEdge<N extends DirectedNode> extends BidirectedEdge<N>
+import java.util.List;
+
+public interface HyperWalk<N extends HyperNode<? extends E>, E extends HyperEdge<? extends N>> extends Walk<N, E>
 {
-	NodePair<N> getNodePair();
-	N getSourceNode();
-	N getDestinationNode();
+	List<E> getSteps();
+	List<N> getNodeSteps();
+	N getFirstNode();
+	N getLastNode();
 }

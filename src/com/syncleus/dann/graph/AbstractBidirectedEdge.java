@@ -18,26 +18,34 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.AbstractEdge;
-import com.syncleus.dann.graph.NodePair;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class AbstractBidirectedEdge<N extends BidirectedNode> extends AbstractEdge<N> implements BidirectedEdge<N>
 {
 	private EndState leftEndState;
 	private EndState rightEndState;
+	private NodePair<N> nodePair;
 
-	protected AbstractBidirectedEdge(N leftNode, N rightNode, EndState leftEndState, EndState rightEndState)
+	protected AbstractBidirectedEdge(NodePair<N> nodePair, EndState leftEndState, EndState rightEndState)
 	{
-		super(leftNode, rightNode);
+		super(pairToList(nodePair));
 		this.leftEndState = leftEndState;
 		this.rightEndState = rightEndState;
+		this.nodePair = nodePair;
 	}
 
-	protected AbstractBidirectedEdge(NodePair<N> nodes, EndState leftEndState, EndState rightEndState)
+	private static <N extends BidirectedNode> List<N> pairToList(NodePair<N> nodes)
 	{
-		super(nodes);
-		this.leftEndState = leftEndState;
-		this.rightEndState = rightEndState;
+		List<N> pairList = new ArrayList<N>();
+		pairList.add(nodes.getLeftNode());
+		pairList.add(nodes.getRightNode());
+		return pairList;
+	}
+
+	public NodePair<N> getNodePair()
+	{
+		return this.nodePair;
 	}
 
 	public EndState getLeftEndState()
@@ -92,6 +100,13 @@ public abstract class AbstractBidirectedEdge<N extends BidirectedNode> extends A
 	public boolean isOrdinaryEdge()
 	{
 		if( (!this.isHalfEdge()) && (!this.isLooseEdge()) )
+			return true;
+		return false;
+	}
+
+	public boolean isLoop()
+	{
+		if(this.leftEndState.equals(this.rightEndState))
 			return true;
 		return false;
 	}

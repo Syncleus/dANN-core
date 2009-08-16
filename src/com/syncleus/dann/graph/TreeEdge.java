@@ -20,6 +20,6 @@ package com.syncleus.dann.graph;
 
 public interface TreeEdge<N extends TreeNode> extends Edge<N>
 {
-	NodePair<N> getNodes();
+	NodePair<N> getNodePair();
 	boolean isLeaf();
 }

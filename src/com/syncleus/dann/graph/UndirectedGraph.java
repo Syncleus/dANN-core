@@ -18,9 +18,11 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface DirectedEdge<N extends DirectedNode> extends BidirectedEdge<N>
+import java.util.List;
+import java.util.Set;
+
+public interface UndirectedGraph<G extends UndirectedGraph<? extends G, ? extends N, ? extends E, ? extends W>, N extends UndirectedNode<? extends E>, E extends UndirectedEdge<? extends N>, W extends UndirectedWalk<? extends N, ? extends E>> extends BidirectedGraph<G, N, E, W>
 {
-	NodePair<N> getNodePair();
-	N getSourceNode();
-	N getDestinationNode();
+	Set<N> getNodes();
+	List<E> getEdges();
 }

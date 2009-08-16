@@ -18,7 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.*;
 import java.util.List;
 
 public interface BidirectedNode<E extends BidirectedEdge> extends Node<E>
@@ -26,4 +25,6 @@ public interface BidirectedNode<E extends BidirectedEdge> extends Node<E>
 	List<E> getEdges();
 	int getIndegree();
 	int getOutdegree();
+	List<E> getOutEdges();
+	List<E> getInEdges();
 }

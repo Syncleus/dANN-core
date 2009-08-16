@@ -18,9 +18,46 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface DirectedEdge<N extends DirectedNode> extends BidirectedEdge<N>
+public abstract class AbstractHyperGraph<G extends HyperGraph<? extends G, ? extends N, ? extends E, ? extends W>, N extends HyperNode<? extends E>, E extends HyperEdge<? extends N>, W extends HyperWalk<? extends N, ? extends E>> extends AbstractGraph<G, N, E, W> implements HyperGraph<G, N, E, W>
 {
-	NodePair<N> getNodePair();
-	N getSourceNode();
-	N getDestinationNode();
+	public boolean isPartial(G partialGraph)
+	{
+		return false;
+	}
+
+	public boolean isDual(G dualGraph)
+	{
+		return false;
+	}
+
+	public boolean isHost(G hostGraph)
+	{
+		return false;
+	}
+
+	public boolean isPrimal(Graph primalGraph)
+	{
+		return false;
+	}
+
+	public boolean isUniform()
+	{
+		return false;
+	}
+
+	public boolean isSymmetric()
+	{
+		return false;
+	}
+
+	public boolean isVertexSymmetric()
+	{
+		return false;
+	}
+
+	public boolean isEdgeSymmetric()
+	{
+		return false;
+	}
+	
 }
