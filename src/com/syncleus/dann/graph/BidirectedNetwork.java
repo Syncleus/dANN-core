@@ -18,8 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.WeightedGraph;
-import com.syncleus.dann.graph.BidirectedGraph;
 import java.util.List;
 import java.util.Set;
 

@@ -18,7 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.TreeGraph;
 import java.util.List;
 import java.util.Set;
 

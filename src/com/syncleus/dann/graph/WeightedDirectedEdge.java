@@ -18,9 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.NodePair;
-import com.syncleus.dann.graph.DirectedEdge;
-
 public interface WeightedDirectedEdge<N extends WeightedDirectedNode> extends DirectedEdge<N>, WeightedBidirectedEdge<N>
 {
 	NodePair<N> getNodePair();

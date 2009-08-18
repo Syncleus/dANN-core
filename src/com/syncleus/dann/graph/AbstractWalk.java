@@ -38,6 +38,10 @@ public abstract class AbstractWalk<N extends Node<? extends E>, E extends Edge<?
 			throw new IllegalArgumentException("steps can not be null.");
 		if(steps.size() <= 0)
 			throw new IllegalArgumentException("steps must have atleast one member.");
+		if(!steps.get(0).getNodes().contains(firstNode))
+			throw new IllegalArgumentException("the first element in steps must contain firstNode.");
+		if(!steps.get(steps.size()-1).getNodes().contains(lastNode))
+			throw new IllegalArgumentException("the last element in steps must contain lastNode.");
 		
 		this.firstNode = firstNode;
 		this.lastNode = lastNode;

@@ -18,8 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.WeightedWalk;
-import com.syncleus.dann.graph.BidirectedWalk;
 import java.util.List;
 
 public interface WeightedBidirectedWalk<N extends WeightedBidirectedNode<? extends E>, E extends WeightedBidirectedEdge<? extends N>> extends BidirectedWalk<N,E>, WeightedWalk<N,E>

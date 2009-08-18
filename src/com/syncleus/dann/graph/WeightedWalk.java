@@ -25,4 +25,5 @@ public interface WeightedWalk<N extends WeightedNode<? extends E>, E extends Wei
 	List<E> getSteps();
 	N getFirstNode();
 	N getLastNode();
+	Number getWeight();
 }

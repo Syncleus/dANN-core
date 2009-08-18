@@ -18,7 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.DirectedNode;
 import java.util.List;
 
 public interface WeightedDirectedNode<E extends WeightedDirectedEdge> extends DirectedNode<E>, WeightedBidirectedNode<E>

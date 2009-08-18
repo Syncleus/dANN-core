@@ -19,6 +19,7 @@
 package com.syncleus.dann.graph;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public abstract class AbstractEdge<N extends Node> implements Edge<N>
 {
 	List<N> nodes;
 
-	protected AbstractEdge(List<N> nodes)
+	protected AbstractEdge(Collection<N> nodes)
 	{
 		this.nodes = new ArrayList<N>(nodes);
 	}
