@@ -20,9 +20,9 @@ package com.syncleus.dann.graph;
 
 import java.util.Set;
 
-public abstract class AbstractGraph<G extends Graph<? extends G, ? extends N, ? extends E, ? extends W>, N extends Node<? extends E>, E extends Edge<? extends N>, W extends Walk<? extends N, ? extends E>> implements Graph<G, N, E, W>
+public abstract class AbstractGraph implements Graph
 {
-	public boolean isConnected(N begin, N end)
+	public boolean isConnected(Node begin, Node end)
 	{
 		return false;
 	}
@@ -32,7 +32,7 @@ public abstract class AbstractGraph<G extends Graph<? extends G, ? extends N, ? 
 		return false;
 	}
 
-	public Set<G> getConnectedComponents()
+	public Set<? extends Graph> getConnectedComponents()
 	{
 		return null;
 	}
@@ -42,12 +42,12 @@ public abstract class AbstractGraph<G extends Graph<? extends G, ? extends N, ? 
 		return false;
 	}
 
-	public boolean isCut(G subGraph)
+	public boolean isCut(Graph subGraph)
 	{
 		return false;
 	}
 
-	public boolean isCut(G subGraph, N begin, N end)
+	public boolean isCut(Graph subGraph, Node begin, Node end)
 	{
 		return false;
 	}
@@ -62,12 +62,12 @@ public abstract class AbstractGraph<G extends Graph<? extends G, ? extends N, ? 
 		return 0;
 	}
 
-	public int getNodeConnectivity(N begin, N end)
+	public int getNodeConnectivity(Node begin, Node end)
 	{
 		return 0;
 	}
 
-	public int getEdgeConnectivity(N begin, N end)
+	public int getEdgeConnectivity(Node begin, Node end)
 	{
 		return 0;
 	}
@@ -77,12 +77,12 @@ public abstract class AbstractGraph<G extends Graph<? extends G, ? extends N, ? 
 		return false;
 	}
 
-	public boolean isReachable(N begin, N end)
+	public boolean isReachable(Node begin, Node end)
 	{
 		return false;
 	}
 
-	public W getShortestPath(N begin, N end)
+	public Walk getShortestPath(Node begin, Node end)
 	{
 		return null;
 	}
@@ -117,7 +117,7 @@ public abstract class AbstractGraph<G extends Graph<? extends G, ? extends N, ? 
 		return false;
 	}
 
-	public boolean isSpanning(W walk)
+	public boolean isSpanning(Walk walk)
 	{
 		return false;
 	}
@@ -132,7 +132,7 @@ public abstract class AbstractGraph<G extends Graph<? extends G, ? extends N, ? 
 		return false;
 	}
 
-	public boolean isEularian(W walk)
+	public boolean isEularian(Walk walk)
 	{
 		return false;
 	}
@@ -142,12 +142,12 @@ public abstract class AbstractGraph<G extends Graph<? extends G, ? extends N, ? 
 		return false;
 	}
 
-	public boolean isSubGraph(G graph)
+	public boolean isSubGraph(Graph graph)
 	{
 		return false;
 	}
 
-	public boolean isKnot(G subGraph)
+	public boolean isKnot(Graph subGraph)
 	{
 		return false;
 	}
@@ -162,12 +162,12 @@ public abstract class AbstractGraph<G extends Graph<? extends G, ? extends N, ? 
 		return false;
 	}
 
-	public boolean isIsomorphic(G isomorphicGraph)
+	public boolean isIsomorphic(Graph isomorphicGraph)
 	{
 		return false;
 	}
 
-	public boolean isHomomorphic(G homomorphicGraph)
+	public boolean isHomomorphic(Graph homomorphicGraph)
 	{
 		return false;
 	}

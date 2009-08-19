@@ -18,19 +18,19 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public abstract class AbstractHyperGraph<G extends HyperGraph<? extends G, ? extends N, ? extends E, ? extends W>, N extends HyperNode<? extends E>, E extends HyperEdge<? extends N>, W extends HyperWalk<? extends N, ? extends E>> extends AbstractGraph<G, N, E, W> implements HyperGraph<G, N, E, W>
+public abstract class AbstractHyperGraph extends AbstractGraph implements HyperGraph
 {
-	public boolean isPartial(G partialGraph)
+	public boolean isPartial(HyperGraph partialGraph)
 	{
 		return false;
 	}
 
-	public boolean isDual(G dualGraph)
+	public boolean isDual(HyperGraph dualGraph)
 	{
 		return false;
 	}
 
-	public boolean isHost(G hostGraph)
+	public boolean isHost(HyperGraph hostGraph)
 	{
 		return false;
 	}

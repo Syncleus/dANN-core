@@ -20,9 +20,9 @@ package com.syncleus.dann.graph;
 
 import java.util.List;
 
-public interface TreeWalk<N extends TreeNode<? extends E>, E extends TreeEdge<? extends N>> extends Walk<N, E>
+public interface TreeWalk extends BidirectedWalk
 {
-	List<E> getSteps();
-	N getFirstNode();
-	N getLastNode();
+	List<? extends TreeEdge> getSteps();
+	TreeNode getFirstNode();
+	TreeNode getLastNode();
 }

@@ -18,8 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface TreeEdge<N extends TreeNode> extends Edge<N>
+public interface TreeEdge extends BidirectedEdge
 {
-	NodePair<N> getNodePair();
+	NodePair<? extends TreeNode> getNodePair();
 	boolean isLeaf();
 }

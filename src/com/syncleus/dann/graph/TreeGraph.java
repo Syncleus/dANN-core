@@ -21,8 +21,8 @@ package com.syncleus.dann.graph;
 import java.util.List;
 import java.util.Set;
 
-public interface TreeGraph<G extends TreeGraph<? extends G, ? extends N, ? extends E, ? extends W>, N extends TreeNode<? extends E>, E extends TreeEdge<? extends N>, W extends TreeWalk<? extends N, ? extends E>> extends Graph<G, N, E, W>
+public interface TreeGraph extends BidirectedGraph
 {
-	Set<N> getNodes();
-	List<E> getEdges();
+	Set<? extends TreeNode> getNodes();
+	List<? extends TreeEdge> getEdges();
 }

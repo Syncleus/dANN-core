@@ -20,9 +20,9 @@ package com.syncleus.dann.graph;
 
 import java.util.List;
 
-public interface UndirectedWalk<N extends UndirectedNode<? extends E>, E extends UndirectedEdge<? extends N>> extends BidirectedWalk<N, E>
+public interface UndirectedWalk extends BidirectedWalk
 {
-	List<E> getSteps();
-	N getFirstNode();
-	N getLastNode();
+	List<? extends UndirectedEdge> getSteps();
+	UndirectedNode getFirstNode();
+	UndirectedNode getLastNode();
 }

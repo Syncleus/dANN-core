@@ -20,8 +20,11 @@ package com.syncleus.dann.graph;
 
 import java.util.List;
 
-public interface TreeNode<E extends TreeEdge> extends Node<E>
+public interface TreeNode extends BidirectedNode
 {
-	List<E> getEdges();
+	List<? extends TreeEdge> getEdges();
+	List<? extends TreeEdge> getTraversableEdges();
+	List<? extends TreeEdge> getOutEdges();
+	List<? extends TreeEdge> getInEdges();
 	boolean isLeaf();
 }

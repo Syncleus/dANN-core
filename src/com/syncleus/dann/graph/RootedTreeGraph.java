@@ -21,9 +21,9 @@ package com.syncleus.dann.graph;
 import java.util.List;
 import java.util.Set;
 
-public interface RootedTreeGraph<G extends RootedTreeGraph<? extends G, ? extends N, ? extends E, ? extends W>, N extends DirectedTreeNode<? extends E>, E extends DirectedTreeEdge<? extends N>, W extends DirectedTreeWalk<? extends N, ? extends E>> extends DirectedGraph<G, N, E, W>, TreeGraph<G, N, E, W>
+public interface RootedTreeGraph extends TreeGraph
 {
-	Set<N> getNodes();
-	List<E> getEdges();
-	N getRoot();
+	Set<? extends TreeNode> getNodes();
+	List<? extends TreeEdge> getEdges();
+	TreeNode getRoot();
 }

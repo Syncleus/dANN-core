@@ -18,16 +18,15 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.*;
 import java.util.List;
 import java.util.Set;
 
-public interface BidirectedGraph<G extends BidirectedGraph<? extends G, ? extends N, ? extends E, ? extends W>, N extends BidirectedNode<? extends E>, E extends BidirectedEdge<? extends N>, W extends BidirectedWalk<? extends N, ? extends E>> extends Graph<G, N, E, W>
+public interface BidirectedGraph extends Graph
 {
-	Set<N> getNodes();
-	List<E> getEdges();
-	Set<G> getConnectedComponents();
+	Set<? extends BidirectedNode> getNodes();
+	List<? extends BidirectedEdge> getEdges();
+	Set<? extends BidirectedGraph> getConnectedComponents();
+	Set<? extends BidirectedGraph> getStrongComponents();
 	boolean isStronglyConnected();
-	Set<G> getStrongComponents();
 	boolean isPolytree();
 }

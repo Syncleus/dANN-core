@@ -18,8 +18,12 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface HyperNode<E extends HyperEdge> extends Node<E>
+import java.util.List;
+
+public interface HyperNode extends Node
 {
+	List<? extends HyperEdge> getEdges();
+	List<? extends HyperEdge> getTraversableEdges();
 	int getNeighborCount();
-	boolean isSymmetric(HyperNode<E> symmetricNode);
+	boolean isSymmetric(HyperNode symmetricNode);
 }

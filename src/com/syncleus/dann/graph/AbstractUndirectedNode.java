@@ -21,22 +21,22 @@ package com.syncleus.dann.graph;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class AbstractUndirectedNode<E extends UndirectedEdge> extends AbstractBidirectedNode<E> implements UndirectedNode<E>
+public abstract class AbstractUndirectedNode extends AbstractBidirectedNode implements UndirectedNode
 {
 	@Override
-	public List<E> getTraversableEdges()
+	public List<? extends UndirectedEdge> getTraversableEdges()
 	{
 		return this.getEdges();
 	}
 	
 	@Override
-	public List<E> getOutEdges()
+	public List<? extends UndirectedEdge> getOutEdges()
 	{
 		return Collections.emptyList();
 	}
 
 	@Override
-	public List<E> getInEdges()
+	public List<? extends UndirectedEdge> getInEdges()
 	{
 		return Collections.emptyList();
 	}

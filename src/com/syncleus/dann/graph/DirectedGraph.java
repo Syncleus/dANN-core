@@ -21,8 +21,8 @@ package com.syncleus.dann.graph;
 import java.util.List;
 import java.util.Set;
 
-public interface DirectedGraph<G extends DirectedGraph<? extends G, ? extends N, ? extends E, ? extends W>, N extends DirectedNode<? extends E>, E extends DirectedEdge<? extends N>, W extends DirectedWalk<? extends N, ? extends E>> extends BidirectedGraph<G, N, E, W>
+public interface DirectedGraph extends BidirectedGraph
 {
-	Set<N> getNodes();
-	List<E> getEdges();
+	Set<? extends DirectedNode> getNodes();
+	List<? extends DirectedEdge> getEdges();
 }

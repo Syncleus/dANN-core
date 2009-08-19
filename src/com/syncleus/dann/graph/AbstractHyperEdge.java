@@ -18,21 +18,14 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.List;
-
-public abstract class AbstractHyperEdge<N extends HyperNode> extends AbstractEdge<N> implements HyperEdge<N>
+public abstract class AbstractHyperEdge implements HyperEdge
 {
-	protected AbstractHyperEdge(List<N> nodes)
-	{
-		super(nodes);
-	}
-
 	public int getDegree()
 	{
 		return 0;
 	}
 
-	public boolean isSymmetric(HyperEdge<N> symmetricEdge)
+	public boolean isSymmetric(HyperEdge symmetricEdge)
 	{
 		return false;
 	}

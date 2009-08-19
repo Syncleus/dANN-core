@@ -20,9 +20,9 @@ package com.syncleus.dann.graph;
 
 import java.util.List;
 
-public abstract class AbstractHyperNode<E extends HyperEdge> extends AbstractNode<E> implements HyperNode<E>
+public abstract class AbstractHyperNode extends AbstractNode implements HyperNode
 {
-	public List<E> getTraversableEdges()
+	public List<? extends HyperEdge> getTraversableEdges()
 	{
 		return this.getEdges();
 	}
@@ -32,7 +32,7 @@ public abstract class AbstractHyperNode<E extends HyperEdge> extends AbstractNod
 		return 0;
 	}
 
-	public boolean isSymmetric(HyperNode<E> symmetricNode)
+	public boolean isSymmetric(HyperNode symmetricNode)
 	{
 		return false;
 	}

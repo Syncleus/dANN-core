@@ -18,11 +18,11 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface HyperGraph<G extends HyperGraph<? extends G, ? extends N, ? extends E, ? extends W>, N extends HyperNode<? extends E>, E extends HyperEdge<? extends N>, W extends HyperWalk<? extends N, ? extends E>> extends Graph<G, N, E, W>
+public interface HyperGraph extends Graph
 {
-	boolean isPartial(G partialGraph);
-	boolean isDual(G dualGraph);
-	boolean isHost(G hostGraph);
+	boolean isPartial(HyperGraph partialGraph);
+	boolean isDual(HyperGraph dualGraph);
+	boolean isHost(HyperGraph hostGraph);
 	boolean isPrimal(Graph primalGraph);
 	boolean isUniform();
 	boolean isSymmetric();

@@ -16,13 +16,68 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph;
+package com.syncleus.dann.graph.pathfinding.astar;
 
-import com.syncleus.dann.graph.WeightedNode;
-import com.syncleus.dann.graph.BidirectedNode;
+import com.syncleus.dann.graph.AbstractBidirectedWalk;
+import com.syncleus.dann.graph.DirectedWalk;
+import com.syncleus.dann.graph.WeightedWalk;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public interface WeightedBidirectedNode<E extends WeightedBidirectedEdge> extends BidirectedNode<E>, WeightedNode<E>
+public class AstarWalk extends AbstractBidirectedWalk implements WeightedWalk, DirectedWalk
 {
-	List<E> getEdges();
+	private List<AstarEdge> steps;
+	private AstarNode firstNode;
+	private AstarNode lastNode;
+
+	public AstarWalk(AstarNode firstNode, AstarNode lastNode, List<AstarEdge> steps)
+	{
+		this.steps = new ArrayList<AstarEdge>(steps);
+		this.firstNode = firstNode;
+		this.lastNode = lastNode;
+	}
+
+	public List<AstarEdge> getSteps()
+	{
+		return Collections.unmodifiableList(steps);
+	}
+
+	public AstarNode getFirstNode()
+	{
+		return this.firstNode;
+	}
+
+	public AstarNode getLastNode()
+	{
+		return this.lastNode;
+	}
+
+	public double getAstarWeight()
+	{
+		double weight = this.getFirstNode().getAstarWeight();
+		AstarNode lastNode = this.getFirstNode();
+		List<AstarEdge> steps = this.getSteps();
+		for(AstarEdge step : steps)
+		{
+			weight += step.getAstarWeight();
+			if(step.getSourceNode().equals(lastNode))
+			{
+				weight += step.getDestinationNode().getAstarWeight();
+				lastNode = step.getDestinationNode();
+			}
+			else
+			{
+				weight += step.getSourceNode().getAstarWeight();
+				lastNode = step.getSourceNode();
+			}
+
+		}
+		return weight;
+	}
+
+	public Number getWeight()
+	{
+		return Double.valueOf(this.getAstarWeight());
+	}
 }

@@ -18,16 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.AbstractWalk;
-import java.util.List;
-
-public  abstract class AbstractBidirectedWalk<N extends BidirectedNode<? extends E>, E extends BidirectedEdge<? extends N>> extends AbstractWalk<N,E> implements BidirectedWalk<N,E>
+public abstract class AbstractBidirectedWalk extends AbstractWalk implements BidirectedWalk
 {
-	protected AbstractBidirectedWalk(N firstNode, N lastNode, List<E> steps)
-	{
-		super(firstNode, lastNode, steps);
-	}
-
 	public boolean isSymmetric()
 	{
 		return false;

@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public abstract class AbstractTreeNode<E extends TreeEdge> extends AbstractNode<E> implements TreeNode<E>
+public abstract class AbstractTreeNode extends AbstractNode implements TreeNode
 {
 	public boolean isLeaf()
 	{

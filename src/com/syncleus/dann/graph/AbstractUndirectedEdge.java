@@ -18,18 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public abstract class AbstractUndirectedEdge<N extends UndirectedNode> extends AbstractBidirectedEdge<N> implements UndirectedEdge<N>
+public abstract class AbstractUndirectedEdge extends AbstractBidirectedEdge implements UndirectedEdge
 {
-	protected AbstractUndirectedEdge(N leftNode, N rightNode)
-	{
-		super(new NodePair<N>(leftNode, rightNode), EndState.None, EndState.None);
-	}
-
-	protected AbstractUndirectedEdge(NodePair<N> nodes)
-	{
-		super(nodes, EndState.None, EndState.None);
-	}
-
 	@Override
 	public boolean isIntroverted()
 	{

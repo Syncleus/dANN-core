@@ -20,9 +20,9 @@ package com.syncleus.dann.graph;
 
 import java.util.List;
 
-public interface Node<E extends Edge>
+public interface Node
 {
-	List<E> getEdges();
-	List<E> getTraversableEdges();
+	List<? extends Edge> getEdges();
+	List<? extends Edge> getTraversableEdges();
 	int getDegree();
 }

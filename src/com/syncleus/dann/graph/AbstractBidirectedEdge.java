@@ -21,21 +21,9 @@ package com.syncleus.dann.graph;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractBidirectedEdge<N extends BidirectedNode> extends AbstractEdge<N> implements BidirectedEdge<N>
+public abstract class AbstractBidirectedEdge implements BidirectedEdge
 {
-	private EndState leftEndState;
-	private EndState rightEndState;
-	private NodePair<N> nodePair;
-
-	protected AbstractBidirectedEdge(NodePair<N> nodePair, EndState leftEndState, EndState rightEndState)
-	{
-		super(pairToList(nodePair));
-		this.leftEndState = leftEndState;
-		this.rightEndState = rightEndState;
-		this.nodePair = nodePair;
-	}
-
-	private static <N extends BidirectedNode> List<N> pairToList(NodePair<N> nodes)
+	protected static <N extends BidirectedNode> List<N> pairToList(NodePair<N> nodes)
 	{
 		List<N> pairList = new ArrayList<N>();
 		pairList.add(nodes.getLeftNode());
@@ -43,56 +31,41 @@ public abstract class AbstractBidirectedEdge<N extends BidirectedNode> extends A
 		return pairList;
 	}
 
-	public NodePair<N> getNodePair()
-	{
-		return this.nodePair;
-	}
-
-	public EndState getLeftEndState()
-	{
-		return this.leftEndState;
-	}
-
-	public EndState getRightEndState()
-	{
-		return this.rightEndState;
-	}
-
 	public boolean isIntroverted()
 	{
-		if( (this.rightEndState == EndState.Inward) && (this.leftEndState == EndState.Inward) )
+		if( (this.getRightEndState() == EndState.Inward) && (this.getLeftEndState() == EndState.Inward) )
 			return true;
 		return false;
 	}
 
 	public boolean isExtraverted()
 	{
-		if( (this.rightEndState == EndState.Outward) && (this.leftEndState == EndState.Outward) )
+		if( (this.getRightEndState() == EndState.Outward) && (this.getLeftEndState() == EndState.Outward) )
 			return true;
 		return false;
 	}
 
 	public boolean isDirected()
 	{
-		if( (this.rightEndState == EndState.Inward) && (this.leftEndState == EndState.Outward) )
+		if( (this.getRightEndState() == EndState.Inward) && (this.getLeftEndState() == EndState.Outward) )
 			return true;
-		else if( (this.rightEndState == EndState.Outward) && (this.leftEndState == EndState.Inward) )
+		else if( (this.getRightEndState() == EndState.Outward) && (this.getLeftEndState() == EndState.Inward) )
 			return true;
 		return false;
 	}
 
 	public boolean isHalfEdge()
 	{
-		if( (this.rightEndState == EndState.None) && (this.leftEndState != EndState.None) )
+		if( (this.getRightEndState() == EndState.None) && (this.getLeftEndState() != EndState.None) )
 			return true;
-		else if( (this.rightEndState != EndState.None) && (this.leftEndState == EndState.None) )
+		else if( (this.getRightEndState() != EndState.None) && (this.getLeftEndState() == EndState.None) )
 			return true;
 		return false;
 	}
 
 	public boolean isLooseEdge()
 	{
-		if( (this.rightEndState == EndState.None) && (this.leftEndState == EndState.None) )
+		if( (this.getRightEndState() == EndState.None) && (this.getLeftEndState() == EndState.None) )
 			return true;
 		return false;
 	}
@@ -106,7 +79,7 @@ public abstract class AbstractBidirectedEdge<N extends BidirectedNode> extends A
 
 	public boolean isLoop()
 	{
-		if(this.leftEndState.equals(this.rightEndState))
+		if(this.getLeftEndState().equals(this.getRightEndState()))
 			return true;
 		return false;
 	}

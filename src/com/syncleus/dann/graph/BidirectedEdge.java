@@ -18,14 +18,14 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface BidirectedEdge<N extends BidirectedNode> extends Edge<N>
+public interface BidirectedEdge extends Edge
 {
 	public enum EndState
 	{
 		Outward, Inward, None;
 	};
 
-	NodePair<N> getNodePair();
+	NodePair<? extends BidirectedNode> getNodePair();
 	EndState getLeftEndState();
 	EndState getRightEndState();
 	boolean isIntroverted();

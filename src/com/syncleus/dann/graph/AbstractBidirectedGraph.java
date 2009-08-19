@@ -18,27 +18,26 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.AbstractGraph;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public abstract class AbstractBidirectedGraph<G extends BidirectedGraph<? extends G, ? extends N, ? extends E, ? extends W>, N extends BidirectedNode<? extends E>, E extends BidirectedEdge<? extends N>, W extends BidirectedWalk<? extends N, ? extends E>> extends AbstractGraph<G, N, E, W> implements BidirectedGraph<G, N, E, W>
+public abstract class AbstractBidirectedGraph extends AbstractGraph implements BidirectedGraph
 {
-	public List<E> getEdges()
+	public List<? extends BidirectedEdge> getEdges()
 	{
-		List<E> allEdges = new ArrayList<E>();
-		Set<N> allNodes = this.getNodes();
-		Set<N> traversedNodes = new HashSet<N>();
-		for(N node : allNodes)
+		List<BidirectedEdge> allEdges = new ArrayList<BidirectedEdge>();
+		Set<? extends BidirectedNode> allNodes = this.getNodes();
+		Set<BidirectedNode> traversedNodes = new HashSet<BidirectedNode>();
+		for(BidirectedNode node : allNodes)
 		{
-			List<? extends E> currentEdges = node.getEdges();
+			List<? extends BidirectedEdge> currentEdges = node.getEdges();
 
-			for(E edge : currentEdges)
+			for(BidirectedEdge edge : currentEdges)
 			{
-				NodePair<? extends N> currentNodePair = edge.getNodePair();
+				NodePair<? extends BidirectedNode> currentNodePair = edge.getNodePair();
 				if((!traversedNodes.contains(currentNodePair.getLeftNode()))&&(!traversedNodes.contains(currentNodePair.getRightNode())))
 					allEdges.add(edge);
 			}
@@ -54,7 +53,7 @@ public abstract class AbstractBidirectedGraph<G extends BidirectedGraph<? extend
 		return false;
 	}
 
-	public Set<G> getStrongComponents()
+	public Set<? extends BidirectedGraph> getStrongComponents()
 	{
 		return null;
 	}
@@ -62,5 +61,10 @@ public abstract class AbstractBidirectedGraph<G extends BidirectedGraph<? extend
 	public boolean isPolytree()
 	{
 		return false;
+	}
+
+	public Set<? extends BidirectedGraph> getConnectedComponents()
+	{
+		return null;
 	}
 }

@@ -22,20 +22,20 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class AbstractDirectedNode<E extends DirectedEdge> extends AbstractBidirectedNode<E> implements DirectedNode<E>
+public abstract class AbstractDirectedNode extends AbstractBidirectedNode implements DirectedNode
 {
 	@Override
-	public List<E> getTraversableEdges()
+	public List<? extends DirectedEdge> getTraversableEdges()
 	{
 		return this.getOutEdges();
 	}
 
 	@Override
-	public List<E> getOutEdges()
+	public List<? extends DirectedEdge> getOutEdges()
 	{
-		List<E> allEdges = this.getEdges();
-		List<E> outEdges = new ArrayList<E>();
-		for(E edge : allEdges)
+		List<? extends DirectedEdge> allEdges = this.getEdges();
+		List<DirectedEdge> outEdges = new ArrayList<DirectedEdge>();
+		for(DirectedEdge edge : allEdges)
 			if(edge.getSourceNode().equals(this))
 				outEdges.add(edge);
 
@@ -43,11 +43,11 @@ public abstract class AbstractDirectedNode<E extends DirectedEdge> extends Abstr
 	}
 
 	@Override
-	public List<E> getInEdges()
+	public List<? extends DirectedEdge> getInEdges()
 	{
-		List<E> allEdges = this.getEdges();
-		List<E> outEdges = new ArrayList<E>();
-		for(E edge : allEdges)
+		List<? extends DirectedEdge> allEdges = this.getEdges();
+		List<DirectedEdge> outEdges = new ArrayList<DirectedEdge>();
+		for(DirectedEdge edge : allEdges)
 			if(edge.getDestinationNode().equals(this))
 				outEdges.add(edge);
 

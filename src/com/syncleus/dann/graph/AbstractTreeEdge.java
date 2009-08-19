@@ -17,16 +17,13 @@
  *                                                                             *
  ******************************************************************************/
 package com.syncleus.dann.graph;
+
 import java.util.ArrayList;
 import java.util.List;
-public abstract class AbstractTreeEdge<N extends TreeNode> extends AbstractEdge<N> implements TreeEdge<N>
+
+public abstract class AbstractTreeEdge implements TreeEdge
 {
-	protected AbstractTreeEdge(NodePair<N> nodes)
-	{
-		super(pairToList(nodes));
-	}
-	
-	private static <N extends TreeNode> List<N> pairToList(NodePair<N> nodes)
+	protected static <N extends TreeNode> List<N> pairToList(NodePair<N> nodes)
 	{
 		List<N> pairList = new ArrayList<N>();
 		pairList.add(nodes.getLeftNode());

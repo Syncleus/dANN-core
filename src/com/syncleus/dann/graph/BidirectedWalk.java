@@ -18,13 +18,12 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.*;
 import java.util.List;
 
-public interface BidirectedWalk<N extends BidirectedNode<? extends E>, E extends BidirectedEdge<? extends N>> extends Walk<N, E>
+public interface BidirectedWalk extends Walk
 {
-	List<E> getSteps();
-	N getFirstNode();
-	N getLastNode();
+	List<? extends BidirectedEdge> getSteps();
+	BidirectedNode getFirstNode();
+	BidirectedNode getLastNode();
 	boolean isSymmetric();
 }
