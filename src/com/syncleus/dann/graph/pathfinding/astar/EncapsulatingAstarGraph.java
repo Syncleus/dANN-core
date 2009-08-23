@@ -23,9 +23,6 @@ import com.syncleus.dann.graph.Graph;
 import com.syncleus.dann.graph.Node;
 import com.syncleus.dann.graph.Walk;
 import com.syncleus.dann.graph.WeightedEdge;
-import com.syncleus.dann.graph.WeightedGraph;
-import com.syncleus.dann.graph.WeightedNode;
-import com.syncleus.dann.graph.WeightedWalk;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -33,14 +30,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public final class EncapsulatingAstarGraph extends AbstractAstarGraph<Node>
+public final class EncapsulatingAstarGraph<G extends Graph<? extends Node<? extends Edge>, ? extends Edge, ? extends Walk>> extends AbstractAstarGraph<Node>
 {
-	private Graph<? extends Node<? extends Edge>, ? extends Edge, ? extends Walk<? extends Node<? extends Edge>, ? extends Edge>> encapsulatedGraph;
+	private G encapsulatedGraph;
 	private boolean useGraphWeights = false;
 	private Set<AstarNode<Node>> cachedNodes;
 	private Map<Node, AstarNode<Node>> cachedNodeMapping;
 
-	public EncapsulatingAstarGraph(Graph<? extends Node<? extends Edge>, ? extends Edge, ? extends Walk<? extends Node<? extends Edge>, ? extends Edge>> encapsulatedGraph)
+	public EncapsulatingAstarGraph(G encapsulatedGraph)
 	{
 		if( encapsulatedGraph == null )
 			throw new IllegalArgumentException("encapsulatedGraph can not be null");
@@ -50,7 +47,7 @@ public final class EncapsulatingAstarGraph extends AbstractAstarGraph<Node>
 		this.remapSnapshot();
 	}
 
-	public EncapsulatingAstarGraph(WeightedGraph<? extends WeightedNode<? extends WeightedEdge>, ? extends WeightedEdge, ? extends WeightedWalk<? extends WeightedNode<? extends WeightedEdge>, ? extends WeightedEdge>> encapsulatedGraph, boolean useGraphWeights)
+	public EncapsulatingAstarGraph(G encapsulatedGraph, boolean useGraphWeights)
 	{
 		this(encapsulatedGraph);
 		this.useGraphWeights = useGraphWeights;
@@ -75,11 +72,11 @@ public final class EncapsulatingAstarGraph extends AbstractAstarGraph<Node>
 		}
 
 		//generate connections between AstarNodes
-		for(Node source : encapsulatedNodes)
+		for(Node<? extends Edge> source : encapsulatedNodes)
 		{
 			AstarNode<Node> newSource = newNodeMapping.get(source);
 
-			List<Edge> paths = source.getTraversableEdges();
+			List<? extends Edge> paths = source.getTraversableEdges();
 			for(Edge path : paths)
 			{
 				List<Node> destinations = path.getNodes();
