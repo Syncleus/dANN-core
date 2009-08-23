@@ -20,10 +20,12 @@ package com.syncleus.dann.graph;
 
 import java.util.List;
 
-public interface HyperNode extends Node
+public interface HyperNode<E extends HyperEdge> extends Node<E>
 {
-	List<? extends HyperEdge> getEdges();
-	List<? extends HyperEdge> getTraversableEdges();
 	int getNeighborCount();
-	boolean isSymmetric(HyperNode symmetricNode);
+	boolean isSymmetric(E symmetricNode);
+	//Parent methods
+	List<E> getEdges();
+	List<E> getTraversableEdges();
+	int getDegree();
 }

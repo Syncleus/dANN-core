@@ -23,6 +23,7 @@ import com.syncleus.dann.graph.DirectedGraph;
 import com.syncleus.dann.graph.WeightedGraph;
 import com.syncleus.dann.graph.Node;
 import com.syncleus.dann.graph.NodePair;
+import com.syncleus.dann.graph.pathfinding.PathFinder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -32,16 +33,16 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
-public abstract class AbstractAstarGraph extends AbstractBidirectedGraph implements WeightedGraph, DirectedGraph
+public abstract class AbstractAstarGraph<L> extends AbstractBidirectedGraph<AstarNode<L>,AstarEdge<L>,AstarWalk<L>> implements WeightedGraph<AstarNode<L>,AstarEdge<L>,AstarWalk<L>>, DirectedGraph<AstarNode<L>,AstarEdge<L>,AstarWalk<L>>, PathFinder<AstarNode<L>,AstarWalk<L>>
 {
-	private static class PathedStep implements Comparable<PathedStep>
+	private static class PathedStep<L> implements Comparable<PathedStep<L>>
 	{
-		private AstarNode node;
-		private PathedStep parent;
-		private AstarEdge parentEdge;
+		private AstarNode<L> node;
+		private PathedStep<L> parent;
+		private AstarEdge<L> parentEdge;
 		private double cachedPathWeight;
 
-		public PathedStep(AstarNode node)
+		public PathedStep(AstarNode<L> node)
 		{
 			if( node == null )
 				throw new IllegalArgumentException("node can not be null");
@@ -49,7 +50,7 @@ public abstract class AbstractAstarGraph extends AbstractBidirectedGraph impleme
 			this.node = node;
 		}
 
-		public boolean updateParent(PathedStep newParent, AstarEdge newParentEdge)
+		public boolean updateParent(PathedStep<L> newParent, AstarEdge<L> newParentEdge)
 		{
 			if( newParent == null )
 				throw new IllegalArgumentException("newParent can not be null");
@@ -61,7 +62,7 @@ public abstract class AbstractAstarGraph extends AbstractBidirectedGraph impleme
 				throw new IllegalArgumentException("newParentEdge must connect to new Parent");
 
 			boolean parentHasEdge = false;
-			for(AstarEdge edge : this.getNode().getTraversableEdges())
+			for(AstarEdge<L> edge : this.getNode().getTraversableEdges())
 				if(edge.getNodes().contains(newParent.getNode()))
 				{
 					parentHasEdge = true;
@@ -82,12 +83,12 @@ public abstract class AbstractAstarGraph extends AbstractBidirectedGraph impleme
 				return false;
 		}
 
-		public AstarNode getNode()
+		public AstarNode<L> getNode()
 		{
 			return node;
 		}
 
-		public PathedStep getParent()
+		public PathedStep<L> getParent()
 		{
 			return parent;
 		}
@@ -112,7 +113,7 @@ public abstract class AbstractAstarGraph extends AbstractBidirectedGraph impleme
 			return this.node.hashCode();
 		}
 
-		public int compareTo(PathedStep compareWith)
+		public int compareTo(PathedStep<L> compareWith)
 		{
 			//the natural ordering is inverse cause the smallest path weight is
 			//the best weight.
@@ -124,25 +125,25 @@ public abstract class AbstractAstarGraph extends AbstractBidirectedGraph impleme
 				return 0;
 		}
 
-		public AstarEdge getParentEdge()
+		public AstarEdge<L> getParentEdge()
 		{
 			return parentEdge;
 		}
 	}
 
 	@Override
-	public List<? extends AstarEdge> getEdges()
+	public List<AstarEdge<L>> getEdges()
 	{
-		List<AstarEdge> allEdges = new ArrayList<AstarEdge>();
-		Set<? extends AstarNode> allNodes = this.getNodes();
-		Set<AstarNode> traversedNodes = new HashSet<AstarNode>();
-		for(AstarNode node : allNodes)
+		List<AstarEdge<L>> allEdges = new ArrayList<AstarEdge<L>>();
+		Set<AstarNode<L>> allNodes = this.getNodes();
+		Set<AstarNode<L>> traversedNodes = new HashSet<AstarNode<L>>();
+		for(AstarNode<L> node : allNodes)
 		{
-			List<? extends AstarEdge> currentEdges = node.getEdges();
+			List<AstarEdge<L>> currentEdges = node.getEdges();
 
-			for(AstarEdge edge : currentEdges)
+			for(AstarEdge<L> edge : currentEdges)
 			{
-				NodePair<? extends AstarNode> currentNodePair = edge.getNodePair();
+				NodePair<AstarNode<L>> currentNodePair = edge.getAstarNodePair();
 				if((!traversedNodes.contains(currentNodePair.getLeftNode()))&&(!traversedNodes.contains(currentNodePair.getRightNode())))
 					allEdges.add(edge);
 			}
@@ -153,48 +154,102 @@ public abstract class AbstractAstarGraph extends AbstractBidirectedGraph impleme
 		return Collections.unmodifiableList(allEdges);
 	}
 
-	@Override
-	public AstarWalk getShortestPath(Node beginNode, Node endNode)
+	public boolean isReachable(AstarNode<L> begin, AstarNode<L> end)
 	{
-		if(beginNode == null)
-			throw new IllegalArgumentException("begin can not be null");
-		if(endNode == null)
-			throw new IllegalArgumentException("end can not be null");
-		if(beginNode.equals(endNode))
-			throw new IllegalArgumentException("begin can not be equal to end");
-		if( (!(beginNode instanceof AstarNode)) || (!(endNode instanceof AstarNode)) )
-			return null;
+		if( this.getBestPath(begin, end) != null )
+			return true;
+		return false;
+	}
 
-		AstarNode begin = (AstarNode) beginNode;
-		AstarNode end = (AstarNode) endNode;
+	public boolean isConnected(AstarNode<L> begin, AstarNode<L> end)
+	{
+		if(begin == null)
+			throw new IllegalArgumentException("begin can not be null");
+		if(end == null)
+			throw new IllegalArgumentException("end can not be null");
+		if(begin.equals(end))
+			throw new IllegalArgumentException("begin can not be equal to end");
 
 		//initalize candidate nodes queue containing potential steps as a
 		//solution
-		Map<AstarNode, PathedStep> nodeStepMapping = new HashMap<AstarNode, PathedStep>();
-		PriorityQueue<PathedStep> candidateSteps = new PriorityQueue<PathedStep>();
-		PathedStep beginStep = new PathedStep(begin);
+		Map<AstarNode<L>, PathedStep<L>> nodeStepMapping = new HashMap<AstarNode<L>, PathedStep<L>>();
+		PriorityQueue<PathedStep<L>> candidateSteps = new PriorityQueue<PathedStep<L>>();
+		PathedStep<L> beginStep = new PathedStep<L>(begin);
 		nodeStepMapping.put(begin, beginStep);
 		candidateSteps.add(beginStep);
 
 		//all nodes that have been closed cannolonger be traversed
-		Set<PathedStep> closedSteps = new HashSet<PathedStep>();
+		Set<PathedStep<L>> closedSteps = new HashSet<PathedStep<L>>();
 
 		//lets iterate through each step from the begining
 		while(!candidateSteps.isEmpty())
 		{
-			PathedStep currentStep = candidateSteps.poll();
+			PathedStep<L> currentStep = candidateSteps.poll();
 			if( currentStep.getNode().equals(end) )
-				return pathedStepToWalk(currentStep);
+				return true;
 
-			for(AstarEdge edge : currentStep.node.getTraversableEdges())
+			for(AstarEdge<L> edge : currentStep.node.getEdges())
 			{
-				AstarNode neighborNode = (edge.getSourceNode().equals(currentStep.getNode()) ? edge.getDestinationNode() : edge.getSourceNode());
-				PathedStep neighborStep;
+				AstarNode<L> neighborNode = (edge.getAstarNodePair().getSourceNode().equals(currentStep.getNode()) ? edge.getAstarNodePair().getDestinationNode() : edge.getAstarNodePair().getSourceNode());
+				PathedStep<L> neighborStep;
 				if(nodeStepMapping.containsKey(neighborNode))
 					neighborStep = nodeStepMapping.get(neighborNode);
 				else
 				{
-					neighborStep = new PathedStep(neighborNode);
+					neighborStep = new PathedStep<L>(neighborNode);
+					nodeStepMapping.put(neighborNode, neighborStep);
+				}
+
+				if(!closedSteps.contains(neighborStep))
+					candidateSteps.add(neighborStep);
+
+				if(!neighborNode.equals(begin))
+					neighborStep.updateParent(currentStep, edge);
+			}
+
+			closedSteps.add(currentStep);
+		}
+
+		return false;
+	}
+
+	@Override
+	public AstarWalk<L> getBestPath(AstarNode<L> begin, AstarNode<L> end)
+	{
+		if(begin == null)
+			throw new IllegalArgumentException("begin can not be null");
+		if(end == null)
+			throw new IllegalArgumentException("end can not be null");
+		if(begin.equals(end))
+			throw new IllegalArgumentException("begin can not be equal to end");
+
+		//initalize candidate nodes queue containing potential steps as a
+		//solution
+		Map<AstarNode<L>, PathedStep<L>> nodeStepMapping = new HashMap<AstarNode<L>, PathedStep<L>>();
+		PriorityQueue<PathedStep<L>> candidateSteps = new PriorityQueue<PathedStep<L>>();
+		PathedStep<L> beginStep = new PathedStep<L>(begin);
+		nodeStepMapping.put(begin, beginStep);
+		candidateSteps.add(beginStep);
+
+		//all nodes that have been closed cannolonger be traversed
+		Set<PathedStep<L>> closedSteps = new HashSet<PathedStep<L>>();
+
+		//lets iterate through each step from the begining
+		while(!candidateSteps.isEmpty())
+		{
+			PathedStep<L> currentStep = candidateSteps.poll();
+			if( currentStep.getNode().equals(end) )
+				return pathedStepToWalk(currentStep);
+
+			for(AstarEdge<L> edge : currentStep.node.getTraversableEdges())
+			{
+				AstarNode<L> neighborNode = (edge.getAstarNodePair().getSourceNode().equals(currentStep.getNode()) ? edge.getAstarNodePair().getDestinationNode() : edge.getAstarNodePair().getSourceNode());
+				PathedStep<L> neighborStep;
+				if(nodeStepMapping.containsKey(neighborNode))
+					neighborStep = nodeStepMapping.get(neighborNode);
+				else
+				{
+					neighborStep = new PathedStep<L>(neighborNode);
 					nodeStepMapping.put(neighborNode, neighborStep);
 				}
 
@@ -211,13 +266,13 @@ public abstract class AbstractAstarGraph extends AbstractBidirectedGraph impleme
 		return null;
 	}
 
-	private static AstarWalk pathedStepToWalk(PathedStep endPathedStep)
+	private static <L> AstarWalk<L> pathedStepToWalk(PathedStep<L> endPathedStep)
 	{
-		List<AstarEdge> steps = new ArrayList<AstarEdge>();
-		AstarNode lastNode = endPathedStep.getNode();
-		AstarNode firstNode = endPathedStep.getNode();
+		List<AstarEdge<L>> steps = new ArrayList<AstarEdge<L>>();
+		AstarNode<L> lastNode = endPathedStep.getNode();
+		AstarNode<L> firstNode = endPathedStep.getNode();
 
-		PathedStep currentStep = endPathedStep;
+		PathedStep<L> currentStep = endPathedStep;
 		while(currentStep != null)
 		{
 			firstNode = currentStep.getNode();
@@ -225,11 +280,6 @@ public abstract class AbstractAstarGraph extends AbstractBidirectedGraph impleme
 			currentStep = currentStep.getParent();
 		}
 
-		return new AstarWalk(firstNode, lastNode, steps);
-	}
-
-	public Set<? extends AstarNode> getNodes()
-	{
-		return null;
+		return new AstarWalk<L>(firstNode, lastNode, steps);
 	}
 }

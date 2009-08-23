@@ -20,11 +20,15 @@ package com.syncleus.dann.graph;
 
 import java.util.List;
 
-public interface TreeNode extends BidirectedNode
+public interface TreeNode<E extends TreeEdge> extends BidirectedNode<E>
 {
-	List<? extends TreeEdge> getEdges();
-	List<? extends TreeEdge> getTraversableEdges();
-	List<? extends TreeEdge> getOutEdges();
-	List<? extends TreeEdge> getInEdges();
 	boolean isLeaf();
+	//Parent methods
+	List<E> getEdges();
+	List<E> getTraversableEdges();
+	List<E> getOutEdges();
+	List<E> getInEdges();
+	int getIndegree();
+	int getOutdegree();
+	int getDegree();
 }

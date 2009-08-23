@@ -21,8 +21,11 @@ package com.syncleus.dann.graph.pathfinding.astar;
 import com.syncleus.dann.graph.Edge;
 import com.syncleus.dann.graph.Graph;
 import com.syncleus.dann.graph.Node;
+import com.syncleus.dann.graph.Walk;
 import com.syncleus.dann.graph.WeightedEdge;
 import com.syncleus.dann.graph.WeightedGraph;
+import com.syncleus.dann.graph.WeightedNode;
+import com.syncleus.dann.graph.WeightedWalk;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -30,14 +33,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public final class EncapsulatingAstarGraph extends AbstractAstarGraph
+public final class EncapsulatingAstarGraph extends AbstractAstarGraph<Node>
 {
-	private Graph encapsulatedGraph;
+	private Graph<? extends Node<? extends Edge>, ? extends Edge, ? extends Walk<? extends Node<? extends Edge>, ? extends Edge>> encapsulatedGraph;
 	private boolean useGraphWeights = false;
-	private Set<AstarNode> cachedNodes;
-	private Map<Node, AstarNode> cachedNodeMapping;
+	private Set<AstarNode<Node>> cachedNodes;
+	private Map<Node, AstarNode<Node>> cachedNodeMapping;
 
-	public EncapsulatingAstarGraph(Graph encapsulatedGraph)
+	public EncapsulatingAstarGraph(Graph<? extends Node<? extends Edge>, ? extends Edge, ? extends Walk<? extends Node<? extends Edge>, ? extends Edge>> encapsulatedGraph)
 	{
 		if( encapsulatedGraph == null )
 			throw new IllegalArgumentException("encapsulatedGraph can not be null");
@@ -47,7 +50,7 @@ public final class EncapsulatingAstarGraph extends AbstractAstarGraph
 		this.remapSnapshot();
 	}
 
-	public EncapsulatingAstarGraph(WeightedGraph encapsulatedGraph, boolean useGraphWeights)
+	public EncapsulatingAstarGraph(WeightedGraph<? extends WeightedNode<? extends WeightedEdge>, ? extends WeightedEdge, ? extends WeightedWalk<? extends WeightedNode<? extends WeightedEdge>, ? extends WeightedEdge>> encapsulatedGraph, boolean useGraphWeights)
 	{
 		this(encapsulatedGraph);
 		this.useGraphWeights = useGraphWeights;
@@ -55,18 +58,18 @@ public final class EncapsulatingAstarGraph extends AbstractAstarGraph
 
 	public void remapSnapshot()
 	{
-		Set<? extends Node> encapsulatedNodes = this.encapsulatedGraph.getNodes();
-		Set<AstarNode> newNodes = new HashSet<AstarNode>();
-		Map<Node, AstarNode> newNodeMapping = new HashMap<Node, AstarNode>();
+		Set<? extends Node<? extends Edge>> encapsulatedNodes = this.encapsulatedGraph.getNodes();
+		Set<AstarNode<Node>> newNodes = new HashSet<AstarNode<Node>>();
+		Map<Node, AstarNode<Node>> newNodeMapping = new HashMap<Node, AstarNode<Node>>();
 
 		//generate new AstarNodes to encapsulate nodes
 		for(Node encapsulatedNode : encapsulatedNodes)
 		{
-			AstarNode newNode;
+			AstarNode<Node> newNode;
 			if(useGraphWeights)
-				newNode = new AstarNode(encapsulatedNode, 0.0);
+				newNode = new AstarNode<Node>(encapsulatedNode, 0.0);
 			else
-				newNode = new AstarNode(encapsulatedNode, 1.0);
+				newNode = new AstarNode<Node>(encapsulatedNode, 1.0);
 			newNodes.add(newNode);
 			newNodeMapping.put(encapsulatedNode, newNode);
 		}
@@ -74,18 +77,18 @@ public final class EncapsulatingAstarGraph extends AbstractAstarGraph
 		//generate connections between AstarNodes
 		for(Node source : encapsulatedNodes)
 		{
-			AstarNode newSource = newNodeMapping.get(source);
+			AstarNode<Node> newSource = newNodeMapping.get(source);
 
-			List<? extends Edge> paths = source.getTraversableEdges();
+			List<Edge> paths = source.getTraversableEdges();
 			for(Edge path : paths)
 			{
-				List<? extends Node> destinations = path.getNodes();
+				List<Node> destinations = path.getNodes();
 				for(Node destination : destinations)
 				{
 					if(destination.equals(source))
 						continue;
 
-					AstarNode newDestrination = newNodeMapping.get(destination);
+					AstarNode<Node> newDestrination = newNodeMapping.get(destination);
 					if((useGraphWeights)&&(path instanceof WeightedEdge))
 						newSource.connectTo(newDestrination, ((WeightedEdge)path).getWeight().doubleValue());
 					else
@@ -100,7 +103,7 @@ public final class EncapsulatingAstarGraph extends AbstractAstarGraph
 	}
 
 	@Override
-	public Set<AstarNode> getNodes()
+	public Set<AstarNode<Node>> getNodes()
 	{
 		return Collections.unmodifiableSet(cachedNodes);
 	}

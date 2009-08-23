@@ -16,56 +16,14 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph;
+package com.syncleus.dann.graph.pathfinding;
 
-public abstract class AbstractUndirectedEdge extends AbstractBidirectedEdge implements UndirectedEdge
+import com.syncleus.dann.graph.Node;
+import com.syncleus.dann.graph.Walk;
+
+public interface PathFinder<N extends Node, W extends Walk>
 {
-	private final NodePair<UndirectedNode> undirectedNodePair;
-
-	protected AbstractUndirectedEdge(UndirectedNode leftNode, UndirectedNode rightNode)
-	{
-		super(leftNode, EndState.None, rightNode, EndState.None);
-		this.undirectedNodePair = new NodePair<UndirectedNode>(leftNode, rightNode);
-	}
-
-	public final NodePair<UndirectedNode> getUndirectedNodePair()
-	{
-		return this.undirectedNodePair;
-	}
-
-	@Override
-	public boolean isIntroverted()
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isExtraverted()
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isDirected()
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isHalfEdge()
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isLooseEdge()
-	{
-		return true;
-	}
-
-	@Override
-	public boolean isOrdinaryEdge()
-	{
-		return false;
-	}
+	W getBestPath(N begin, N end);
+	boolean isReachable(N begin, N end);
+	boolean isConnected(N begin, N end);
 }

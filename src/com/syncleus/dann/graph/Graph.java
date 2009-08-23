@@ -21,33 +21,30 @@ package com.syncleus.dann.graph;
 import java.util.List;
 import java.util.Set;
 
-public interface Graph
+public interface Graph<N extends Node<? extends E>, E extends Edge, W extends Walk<? extends N, ? extends E>>
 {
-	Set<? extends Node> getNodes();
-	List<? extends Edge> getEdges();
-	boolean isConnected(Node begin, Node end);
+	Set<N> getNodes();
+	List<E> getEdges();
 	boolean isConnected();
-	Set<? extends Graph> getConnectedComponents();
+	Set<Graph> getConnectedComponents();
 	boolean isMaximalConnected();
 	boolean isCut(Graph subGraph);
-	boolean isCut(Graph subGraph, Node begin, Node end);
+	boolean isCut(Graph subGraph, N begin, N end);
 	int getNodeConnectivity();
 	int getEdgeConnectivity();
-	int getNodeConnectivity(Node begin, Node end);
-	int getEdgeConnectivity(Node begin, Node end);
+	int getNodeConnectivity(N begin, N end);
+	int getEdgeConnectivity(N begin, N end);
 	boolean isCompleteGraph();
-	boolean isReachable(Node begin, Node end);
-	Walk getShortestPath(Node begin, Node end);
 	int getOrder();
 	int getCycleCount();
 	boolean isPancyclic();
 	int getGirth();
 	int getCircumference();
 	boolean isTraceable();
-	boolean isSpanning(Walk walk);
+	boolean isSpanning(W walk);
 	boolean isSpanning(TreeGraph graph);
 	boolean isTraversable();
-	boolean isEularian(Walk walk);
+	boolean isEularian(W walk);
 	boolean isTree();
 	boolean isSubGraph(Graph graph);
 	boolean isKnot(Graph subGraph);

@@ -21,21 +21,26 @@ package com.syncleus.dann.graph;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractTreeEdge implements TreeEdge
+public abstract class AbstractTreeEdge extends AbstractBidirectedEdge implements TreeEdge
 {
-	protected static <N extends TreeNode> List<N> pairToList(NodePair<N> nodes)
+	private final NodePair<TreeNode> treeNodePair;
+
+	protected AbstractTreeEdge(TreeNode leftNode, EndState leftEndState, TreeNode rightNode, EndState rightEndState)
 	{
-		List<N> pairList = new ArrayList<N>();
-		pairList.add(nodes.getLeftNode());
-		pairList.add(nodes.getRightNode());
-		return pairList;
+		super(leftNode, leftEndState, rightNode, rightEndState);
+		this.treeNodePair = new NodePair<TreeNode>(leftNode, rightNode);
+	}
+
+	public final NodePair<TreeNode> getTreeNodePair()
+	{
+		return this.treeNodePair;
 	}
 
 	public boolean isLeaf()
 	{
-		if(this.getNodePair().getLeftNode().isLeaf())
+		if(this.getTreeNodePair().getLeftNode().isLeaf())
 			return true;
-		if(this.getNodePair().getRightNode().isLeaf())
+		if(this.getTreeNodePair().getRightNode().isLeaf())
 			return true;
 
 		return false;

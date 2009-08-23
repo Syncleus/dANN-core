@@ -18,8 +18,34 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public abstract class AbstractHyperEdge implements HyperEdge
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public abstract class AbstractHyperEdge extends AbstractEdge implements HyperEdge
 {
+	private final List<HyperNode> hyperNodes;
+
+	protected AbstractHyperEdge(List<HyperNode> nodes)
+	{
+		super(new ArrayList<Node>(nodes));
+		this.hyperNodes = Collections.unmodifiableList(new ArrayList<HyperNode>(nodes));
+	}
+
+	protected AbstractHyperEdge(HyperNode... nodes)
+	{
+		super(nodes);
+		List<HyperNode> newNodes = new ArrayList<HyperNode>();
+		for(HyperNode node : nodes)
+			newNodes.add(node);
+		this.hyperNodes = Collections.unmodifiableList(newNodes);
+	}
+
+	public List<HyperNode> getHyperNodes()
+	{
+		return this.hyperNodes;
+	}
+
 	public int getDegree()
 	{
 		return 0;

@@ -20,10 +20,18 @@ package com.syncleus.dann.graph;
 
 import java.util.List;
 
-public interface WeightedWalk extends Walk
+public interface WeightedWalk<N extends WeightedNode<? extends E>, E extends WeightedEdge> extends Walk<N,E>
 {
-	List<? extends WeightedEdge> getSteps();
-	WeightedNode getFirstNode();
-	WeightedNode getLastNode();
 	Number getWeight();
+	//Parent methods
+	List<E> getSteps();
+	N getFirstNode();
+	N getLastNode();
+	boolean isClosed();
+	int getLength();
+	boolean isTrail();
+	boolean isTour();
+	boolean isPath();
+	boolean isCycle();
+	boolean isIndependent(Walk walk);
 }

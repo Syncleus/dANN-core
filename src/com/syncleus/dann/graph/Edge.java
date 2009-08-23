@@ -22,5 +22,5 @@ import java.util.List;
 
 public interface Edge
 {
-	List<? extends Node> getNodes();
+	List<Node> getNodes();
 }

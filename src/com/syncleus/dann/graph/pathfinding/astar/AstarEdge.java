@@ -20,62 +20,36 @@ package com.syncleus.dann.graph.pathfinding.astar;
 
 import com.syncleus.dann.graph.AbstractDirectedEdge;
 import com.syncleus.dann.graph.DirectedEdge;
-import com.syncleus.dann.graph.NodePair;
+import com.syncleus.dann.graph.DirectedNodePair;
 import com.syncleus.dann.graph.WeightedEdge;
+import com.syncleus.dann.graph.WeightedNode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class AstarEdge extends AbstractDirectedEdge implements WeightedEdge, DirectedEdge
+public class AstarEdge<L> extends AbstractDirectedEdge implements WeightedEdge, DirectedEdge
 {
 	private final double weight;
-	private final AstarNode source;
-	private final AstarNode destination;
-	private final List<AstarNode> nodes;
-	private final NodePair<AstarNode> pair;
+	private final DirectedNodePair<AstarNode<L>> pair;
+	private final List<WeightedNode> weightedNodes;
 
-	public AstarEdge(AstarNode sourceNode, AstarNode destinationNode, double weight)
+	public AstarEdge(AstarNode<L> sourceNode, AstarNode<L> destinationNode, double weight)
 	{
-		this.source = sourceNode;
-		this.destination = destinationNode;
+		super(sourceNode, destinationNode);
+
 		this.weight = weight;
-
-		List<AstarNode> newNodes = new ArrayList<AstarNode>();
-		newNodes.add(source);
-		newNodes.add(destination);
-		this.nodes = Collections.unmodifiableList(newNodes);
-
-		this.pair = new NodePair<AstarNode>(source, destination);
+		this.pair = new DirectedNodePair<AstarNode<L>>(sourceNode, destinationNode);
+		this.weightedNodes = Collections.unmodifiableList(new ArrayList<WeightedNode>(this.pair.getNodes()));
 	}
 
-	public NodePair<AstarNode> getNodePair()
+	public 	List<WeightedNode> getWeightedNodes()
+	{
+		return this.weightedNodes;
+	}
+
+	public final DirectedNodePair<AstarNode<L>> getAstarNodePair()
 	{
 		return this.pair;
-	}
-
-	public EndState getRightEndState()
-	{
-		return EndState.Outward;
-	}
-
-	public EndState getLeftEndState()
-	{
-		return EndState.Inward;
-	}
-
-	public List<AstarNode> getNodes()
-	{
-		return this.nodes;
-	}
-
-	public AstarNode getSourceNode()
-	{
-		return this.source;
-	}
-
-	public AstarNode getDestinationNode()
-	{
-		return this.destination;
 	}
 
 	public double getAstarWeight()
@@ -91,7 +65,7 @@ public class AstarEdge extends AbstractDirectedEdge implements WeightedEdge, Dir
 	@Override
 	public int hashCode()
 	{
-		return this.getSourceNode().hashCode() + (this.getDestinationNode().hashCode() * this.getSourceNode().hashCode()) + this.getWeight().hashCode();
+		return this.getAstarNodePair().getSourceNode().hashCode() + (this.getAstarNodePair().getDestinationNode().hashCode() * this.getAstarNodePair().getSourceNode().hashCode()) + this.getWeight().hashCode();
 	}
 
 	@Override
@@ -102,7 +76,7 @@ public class AstarEdge extends AbstractDirectedEdge implements WeightedEdge, Dir
 
 		AstarEdge compareEdge = (AstarEdge) compareObject;
 
-		if( (this.getSourceNode().equals(compareEdge.getSourceNode())) && (this.getDestinationNode().equals(compareEdge.getDestinationNode())) && (this.weight == compareEdge.weight) )
+		if( (this.getAstarNodePair().getSourceNode().equals(compareEdge.getAstarNodePair().getSourceNode())) && (this.getAstarNodePair().getDestinationNode().equals(compareEdge.getAstarNodePair().getDestinationNode())) && (this.weight == compareEdge.weight) )
 			return true;
 		
 		return false;

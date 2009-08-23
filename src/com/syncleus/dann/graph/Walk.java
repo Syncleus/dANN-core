@@ -20,11 +20,11 @@ package com.syncleus.dann.graph;
 
 import java.util.List;
 
-public interface Walk
+public interface Walk<N extends Node<? extends E>, E extends Edge>
 {
-	List<? extends Edge> getSteps();
-	Node getFirstNode();
-	Node getLastNode();
+	List<E> getSteps();
+	N getFirstNode();
+	N getLastNode();
 	boolean isClosed();
 	int getLength();
 	boolean isTrail();

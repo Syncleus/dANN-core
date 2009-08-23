@@ -20,19 +20,14 @@ package com.syncleus.dann.graph;
 
 import java.util.Set;
 
-public abstract class AbstractGraph implements Graph
+public abstract class AbstractGraph<N extends Node<? extends E>, E extends Edge, W extends Walk<? extends N, ? extends E>> implements Graph<N,E,W>
 {
-	public boolean isConnected(Node begin, Node end)
-	{
-		return false;
-	}
-
 	public boolean isConnected()
 	{
 		return false;
 	}
 
-	public Set<? extends Graph> getConnectedComponents()
+	public Set<Graph> getConnectedComponents()
 	{
 		return null;
 	}
@@ -47,7 +42,7 @@ public abstract class AbstractGraph implements Graph
 		return false;
 	}
 
-	public boolean isCut(Graph subGraph, Node begin, Node end)
+	public boolean isCut(Graph subGraph, N begin, N end)
 	{
 		return false;
 	}
@@ -62,12 +57,12 @@ public abstract class AbstractGraph implements Graph
 		return 0;
 	}
 
-	public int getNodeConnectivity(Node begin, Node end)
+	public int getNodeConnectivity(N begin, N end)
 	{
 		return 0;
 	}
 
-	public int getEdgeConnectivity(Node begin, Node end)
+	public int getEdgeConnectivity(N begin, N end)
 	{
 		return 0;
 	}
@@ -75,16 +70,6 @@ public abstract class AbstractGraph implements Graph
 	public boolean isCompleteGraph()
 	{
 		return false;
-	}
-
-	public boolean isReachable(Node begin, Node end)
-	{
-		return false;
-	}
-
-	public Walk getShortestPath(Node begin, Node end)
-	{
-		return null;
 	}
 
 	public int getOrder()
@@ -117,7 +102,7 @@ public abstract class AbstractGraph implements Graph
 		return false;
 	}
 
-	public boolean isSpanning(Walk walk)
+	public boolean isSpanning(W walk)
 	{
 		return false;
 	}
@@ -132,7 +117,7 @@ public abstract class AbstractGraph implements Graph
 		return false;
 	}
 
-	public boolean isEularian(Walk walk)
+	public boolean isEularian(W walk)
 	{
 		return false;
 	}

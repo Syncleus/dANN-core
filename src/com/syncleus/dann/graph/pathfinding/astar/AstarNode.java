@@ -27,54 +27,54 @@ import java.util.Collections;
 import java.util.List;
 
 
-public class AstarNode extends AbstractDirectedNode implements WeightedNode, DirectedNode
+public class AstarNode<L> extends AbstractDirectedNode<AstarEdge<L>> implements WeightedNode<AstarEdge<L>>, DirectedNode<AstarEdge<L>>
 {
-	private Object label;
+	private L label;
 	private double weight;
-	private List<AstarEdge> edges;
+	private List<AstarEdge<L>> edges;
 
-	public AstarNode(Object label, double weight)
+	public AstarNode(L label, double weight)
 	{
 		this.label = label;
 		this.weight = weight;
-		this.edges = new ArrayList<AstarEdge>();
+		this.edges = new ArrayList<AstarEdge<L>>();
 	}
 
 	@Override
-	public List<? extends AstarEdge> getTraversableEdges()
+	public List<AstarEdge<L>> getTraversableEdges()
 	{
-		List<AstarEdge> traversableEdges = new ArrayList<AstarEdge>();
-		for(AstarEdge edge : this.edges)
-			if(edge.getDestinationNode() != this)
+		List<AstarEdge<L>> traversableEdges = new ArrayList<AstarEdge<L>>();
+		for(AstarEdge<L> edge : this.edges)
+			if(edge.getAstarNodePair().getDestinationNode() != this)
 				traversableEdges.add(edge);
 		return Collections.unmodifiableList(traversableEdges);
 	}
 
-	public void disconnect(AstarEdge edge)
+	public void disconnect(AstarEdge<L> edge)
 	{
-		edge.getSourceNode().disconnectFrom(edge);
-		edge.getDestinationNode().disconnectFrom(edge);
+		edge.getAstarNodePair().getSourceNode().disconnectFrom(edge);
+		edge.getAstarNodePair().getDestinationNode().disconnectFrom(edge);
 	}
 
-	private void disconnectFrom(AstarEdge edge)
+	private void disconnectFrom(AstarEdge<L> edge)
 	{
 		this.edges.remove(edge);
 	}
 
-	public AstarEdge connectTo(AstarNode destination, double weight)
+	public AstarEdge<L> connectTo(AstarNode<L> destination, double weight)
 	{
-		AstarEdge newEdge = new AstarEdge(this, destination, weight);
+		AstarEdge<L> newEdge = new AstarEdge<L>(this, destination, weight);
 		destination.connectFrom(newEdge);
 		this.edges.add(newEdge);
 		return newEdge;
 	}
 
-	private void connectFrom(AstarEdge source)
+	private void connectFrom(AstarEdge<L> source)
 	{
 		this.edges.add(source);
 	}
 
-	public List<? extends AstarEdge> getEdges()
+	public List<AstarEdge<L>> getEdges()
 	{
 		return Collections.unmodifiableList(edges);
 	}
@@ -89,7 +89,7 @@ public class AstarNode extends AbstractDirectedNode implements WeightedNode, Dir
 		return Double.valueOf(weight);
 	}
 
-	public Object getLabel()
+	public L getLabel()
 	{
 		return this.label;
 	}

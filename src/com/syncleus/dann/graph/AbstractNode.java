@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public abstract class AbstractNode implements Node
+public abstract class AbstractNode<E extends Edge> implements Node<E>
 {
 	public int getDegree()
 	{

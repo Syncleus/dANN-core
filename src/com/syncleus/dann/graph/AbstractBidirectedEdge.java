@@ -18,17 +18,33 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public abstract class AbstractBidirectedEdge implements BidirectedEdge
+public abstract class AbstractBidirectedEdge extends AbstractEdge implements BidirectedEdge
 {
-	protected static <N extends BidirectedNode> List<N> pairToList(NodePair<N> nodes)
+	private final NodePair<BidirectedNode> nodePair;
+	private final EndState leftEndState;
+	private final EndState rightEndState;
+
+	protected AbstractBidirectedEdge(BidirectedNode leftNode, EndState leftEndState, BidirectedNode rightNode, EndState rightEndState)
 	{
-		List<N> pairList = new ArrayList<N>();
-		pairList.add(nodes.getLeftNode());
-		pairList.add(nodes.getRightNode());
-		return pairList;
+		super(leftNode, rightNode);
+		this.nodePair = new NodePair<BidirectedNode>(leftNode, rightNode);
+		this.leftEndState = leftEndState;
+		this.rightEndState = rightEndState;
+	}
+
+	public final NodePair<BidirectedNode> getNodePair()
+	{
+		return this.nodePair;
+	}
+
+	public final EndState getLeftEndState()
+	{
+		return this.leftEndState;
+	}
+
+	public final EndState getRightEndState()
+	{
+		return this.rightEndState;
 	}
 
 	public boolean isIntroverted()

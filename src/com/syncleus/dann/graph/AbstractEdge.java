@@ -18,54 +18,29 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public abstract class AbstractUndirectedEdge extends AbstractBidirectedEdge implements UndirectedEdge
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public abstract class AbstractEdge implements Edge
 {
-	private final NodePair<UndirectedNode> undirectedNodePair;
+	private final List<Node> nodes;
 
-	protected AbstractUndirectedEdge(UndirectedNode leftNode, UndirectedNode rightNode)
+	protected AbstractEdge(List<Node> nodes)
 	{
-		super(leftNode, EndState.None, rightNode, EndState.None);
-		this.undirectedNodePair = new NodePair<UndirectedNode>(leftNode, rightNode);
+		this.nodes = Collections.unmodifiableList(new ArrayList<Node>(nodes));
 	}
 
-	public final NodePair<UndirectedNode> getUndirectedNodePair()
+	protected AbstractEdge(Node... nodes)
 	{
-		return this.undirectedNodePair;
+		List<Node> newNodes = new ArrayList<Node>();
+		for(Node node : nodes)
+			newNodes.add(node);
+		this.nodes = Collections.unmodifiableList(newNodes);
 	}
 
-	@Override
-	public boolean isIntroverted()
+	public final List<Node> getNodes()
 	{
-		return false;
-	}
-
-	@Override
-	public boolean isExtraverted()
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isDirected()
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isHalfEdge()
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isLooseEdge()
-	{
-		return true;
-	}
-
-	@Override
-	public boolean isOrdinaryEdge()
-	{
-		return false;
+		return this.nodes;
 	}
 }

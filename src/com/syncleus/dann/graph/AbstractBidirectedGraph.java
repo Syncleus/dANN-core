@@ -24,20 +24,20 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public abstract class AbstractBidirectedGraph extends AbstractGraph implements BidirectedGraph
+public abstract class AbstractBidirectedGraph<N extends BidirectedNode<E>, E extends BidirectedEdge, W extends BidirectedWalk<N, E>> extends AbstractGraph<N,E,W> implements BidirectedGraph<N,E,W>
 {
-	public List<? extends BidirectedEdge> getEdges()
+	public List<E> getEdges()
 	{
-		List<BidirectedEdge> allEdges = new ArrayList<BidirectedEdge>();
-		Set<? extends BidirectedNode> allNodes = this.getNodes();
-		Set<BidirectedNode> traversedNodes = new HashSet<BidirectedNode>();
-		for(BidirectedNode node : allNodes)
+		List<E> allEdges = new ArrayList<E>();
+		Set<N> allNodes = this.getNodes();
+		Set<N> traversedNodes = new HashSet<N>();
+		for(N node : allNodes)
 		{
-			List<? extends BidirectedEdge> currentEdges = node.getEdges();
+			List<E> currentEdges = node.getEdges();
 
-			for(BidirectedEdge edge : currentEdges)
+			for(E edge : currentEdges)
 			{
-				NodePair<? extends BidirectedNode> currentNodePair = edge.getNodePair();
+				NodePair<BidirectedNode> currentNodePair = edge.getNodePair();
 				if((!traversedNodes.contains(currentNodePair.getLeftNode()))&&(!traversedNodes.contains(currentNodePair.getRightNode())))
 					allEdges.add(edge);
 			}
@@ -53,7 +53,7 @@ public abstract class AbstractBidirectedGraph extends AbstractGraph implements B
 		return false;
 	}
 
-	public Set<? extends BidirectedGraph> getStrongComponents()
+	public Set<BidirectedGraph> getStrongComponents()
 	{
 		return null;
 	}
@@ -63,7 +63,8 @@ public abstract class AbstractBidirectedGraph extends AbstractGraph implements B
 		return false;
 	}
 
-	public Set<? extends BidirectedGraph> getConnectedComponents()
+	@Override
+	public Set<Graph> getConnectedComponents()
 	{
 		return null;
 	}

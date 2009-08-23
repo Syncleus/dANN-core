@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public abstract class AbstractWalk implements Walk
+public abstract class AbstractWalk<N extends Node<? extends E>, E extends Edge> implements Walk<N,E>
 {
 	public boolean isClosed()
 	{

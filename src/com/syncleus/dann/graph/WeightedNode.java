@@ -20,7 +20,10 @@ package com.syncleus.dann.graph;
 
 import java.util.List;
 
-public interface WeightedNode extends Node
+public interface WeightedNode<E extends WeightedEdge> extends Node<E>
 {
-	List<? extends WeightedEdge> getEdges();
+	//Parent methods
+	List<E> getEdges();
+	List<E> getTraversableEdges();
+	int getDegree();
 }

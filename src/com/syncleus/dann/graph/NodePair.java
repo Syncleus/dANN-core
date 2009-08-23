@@ -18,10 +18,15 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public final class NodePair<N extends Node>
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class NodePair<N extends Node>
 {
-	private N left;
-	private N right;
+	private final N left;
+	private final N right;
+	private final List<N> nodes;
 
 	public NodePair(N left, N right)
 	{
@@ -30,6 +35,11 @@ public final class NodePair<N extends Node>
 
 		this.left = left;
 		this.right = right;
+
+		List<N> newNodes = new ArrayList<N>();
+		newNodes.add(left);
+		newNodes.add(right);
+		this.nodes = Collections.unmodifiableList(newNodes);
 	}
 
 	public N getLeftNode()
@@ -40,5 +50,10 @@ public final class NodePair<N extends Node>
 	public N getRightNode()
 	{
 		return this.right;
+	}
+
+	public List<N> getNodes()
+	{
+		return this.nodes;
 	}
 }

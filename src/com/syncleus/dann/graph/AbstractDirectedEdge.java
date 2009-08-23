@@ -20,6 +20,19 @@ package com.syncleus.dann.graph;
 
 public abstract class AbstractDirectedEdge extends AbstractBidirectedEdge implements DirectedEdge
 {
+	private final DirectedNodePair<DirectedNode> directedNodePair;
+
+	protected AbstractDirectedEdge(DirectedNode source, DirectedNode destination)
+	{
+		super(source, EndState.Inward, destination, EndState.Outward);
+		this.directedNodePair = new DirectedNodePair<DirectedNode>(source, destination);
+	}
+
+	public DirectedNodePair<DirectedNode> getDirectedNodePair()
+	{
+		return this.directedNodePair;
+	}
+
 	@Override
 	public boolean isIntroverted()
 	{

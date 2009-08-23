@@ -18,8 +18,22 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
+import java.util.List;
+
 public interface TreeEdge extends BidirectedEdge
 {
-	NodePair<? extends TreeNode> getNodePair();
+	NodePair<TreeNode> getTreeNodePair();
 	boolean isLeaf();
+	//Parent methods
+	List<Node> getNodes();
+	NodePair<BidirectedNode> getNodePair();
+	EndState getLeftEndState();
+	EndState getRightEndState();
+	boolean isIntroverted();
+	boolean isExtraverted();
+	boolean isDirected();
+	boolean isHalfEdge();
+	boolean isLooseEdge();
+	boolean isOrdinaryEdge();
+	boolean isLoop();
 }

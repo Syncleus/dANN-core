@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public abstract class AbstractBidirectedWalk extends AbstractWalk implements BidirectedWalk
+public abstract class AbstractBidirectedWalk<N extends BidirectedNode<? extends E>, E extends BidirectedEdge> extends AbstractWalk<N,E> implements BidirectedWalk<N,E>
 {
 	public boolean isSymmetric()
 	{

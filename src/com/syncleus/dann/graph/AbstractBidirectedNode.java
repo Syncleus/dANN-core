@@ -22,13 +22,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class AbstractBidirectedNode extends AbstractNode implements BidirectedNode
+public abstract class AbstractBidirectedNode<E extends BidirectedEdge> extends AbstractNode<E> implements BidirectedNode<E>
 {
-	public List<? extends BidirectedEdge> getTraversableEdges()
+	public List<E> getTraversableEdges()
 	{
-		List<BidirectedEdge> traversableEdges = new ArrayList<BidirectedEdge>();
-		List<? extends BidirectedEdge> allEdges = this.getEdges();
-		for(BidirectedEdge edge : allEdges)
+		List<E> traversableEdges = new ArrayList<E>();
+		List<E> allEdges = this.getEdges();
+		for(E edge : allEdges)
 		{
 			if(edge.isLooseEdge())
 				traversableEdges.add(edge);
@@ -45,11 +45,11 @@ public abstract class AbstractBidirectedNode extends AbstractNode implements Bid
 		return Collections.unmodifiableList(traversableEdges);
 	}
 
-	public List<? extends BidirectedEdge> getOutEdges()
+	public List<E> getOutEdges()
 	{
-		List<BidirectedEdge> outEdges = new ArrayList<BidirectedEdge>();
-		List<? extends BidirectedEdge> allEdges = this.getEdges();
-		for(BidirectedEdge edge : allEdges)
+		List<E> outEdges = new ArrayList<E>();
+		List<E> allEdges = this.getEdges();
+		for(E edge : allEdges)
 		{
 			if(edge.isDirected())
 			{
@@ -64,11 +64,11 @@ public abstract class AbstractBidirectedNode extends AbstractNode implements Bid
 		return Collections.unmodifiableList(outEdges);
 	}
 
-	public List<? extends BidirectedEdge> getInEdges()
+	public List<E> getInEdges()
 	{
-		List<BidirectedEdge> inEdges = new ArrayList<BidirectedEdge>();
-		List<? extends BidirectedEdge> allEdges = this.getEdges();
-		for(BidirectedEdge edge : allEdges)
+		List<E> inEdges = new ArrayList<E>();
+		List<E> allEdges = this.getEdges();
+		for(E edge : allEdges)
 		{
 			if(edge.isDirected())
 			{
@@ -86,8 +86,8 @@ public abstract class AbstractBidirectedNode extends AbstractNode implements Bid
 	public int getIndegree()
 	{
 		int indegree = 0;
-		List<? extends BidirectedEdge> allEdges = this.getEdges();
-		for(BidirectedEdge edge : allEdges)
+		List<E> allEdges = this.getEdges();
+		for(E edge : allEdges)
 		{
 			if(edge.isDirected())
 			{
@@ -105,8 +105,8 @@ public abstract class AbstractBidirectedNode extends AbstractNode implements Bid
 	public int getOutdegree()
 	{
 		int outdegree = 0;
-		List<? extends BidirectedEdge> allEdges = this.getEdges();
-		for(BidirectedEdge edge : allEdges)
+		List<E> allEdges = this.getEdges();
+		for(E edge : allEdges)
 		{
 			if(edge.isDirected())
 			{

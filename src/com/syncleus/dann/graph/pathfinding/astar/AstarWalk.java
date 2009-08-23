@@ -25,30 +25,30 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class AstarWalk extends AbstractBidirectedWalk implements WeightedWalk, DirectedWalk
+public class AstarWalk<L> extends AbstractBidirectedWalk<AstarNode<L>,AstarEdge<L>> implements WeightedWalk<AstarNode<L>,AstarEdge<L>>, DirectedWalk<AstarNode<L>,AstarEdge<L>>
 {
-	private List<AstarEdge> steps;
-	private AstarNode firstNode;
-	private AstarNode lastNode;
+	private List<AstarEdge<L>> steps;
+	private AstarNode<L> firstNode;
+	private AstarNode<L> lastNode;
 
-	public AstarWalk(AstarNode firstNode, AstarNode lastNode, List<AstarEdge> steps)
+	public AstarWalk(AstarNode<L> firstNode, AstarNode<L> lastNode, List<AstarEdge<L>> steps)
 	{
-		this.steps = new ArrayList<AstarEdge>(steps);
+		this.steps = new ArrayList<AstarEdge<L>>(steps);
 		this.firstNode = firstNode;
 		this.lastNode = lastNode;
 	}
 
-	public List<AstarEdge> getSteps()
+	public List<AstarEdge<L>> getSteps()
 	{
 		return Collections.unmodifiableList(steps);
 	}
 
-	public AstarNode getFirstNode()
+	public AstarNode<L> getFirstNode()
 	{
 		return this.firstNode;
 	}
 
-	public AstarNode getLastNode()
+	public AstarNode<L> getLastNode()
 	{
 		return this.lastNode;
 	}
@@ -56,20 +56,20 @@ public class AstarWalk extends AbstractBidirectedWalk implements WeightedWalk, D
 	public double getAstarWeight()
 	{
 		double weight = this.getFirstNode().getAstarWeight();
-		AstarNode lastNode = this.getFirstNode();
-		List<AstarEdge> steps = this.getSteps();
-		for(AstarEdge step : steps)
+		AstarNode<L> lastNode = this.getFirstNode();
+		List<AstarEdge<L>> steps = this.getSteps();
+		for(AstarEdge<L> step : steps)
 		{
 			weight += step.getAstarWeight();
-			if(step.getSourceNode().equals(lastNode))
+			if(step.getAstarNodePair().getSourceNode().equals(lastNode))
 			{
-				weight += step.getDestinationNode().getAstarWeight();
-				lastNode = step.getDestinationNode();
+				weight += step.getAstarNodePair().getDestinationNode().getAstarWeight();
+				lastNode = step.getAstarNodePair().getDestinationNode();
 			}
 			else
 			{
-				weight += step.getSourceNode().getAstarWeight();
-				lastNode = step.getSourceNode();
+				weight += step.getAstarNodePair().getSourceNode().getAstarWeight();
+				lastNode = step.getAstarNodePair().getSourceNode();
 			}
 
 		}

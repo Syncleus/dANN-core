@@ -21,12 +21,40 @@ package com.syncleus.dann.graph;
 import java.util.List;
 import java.util.Set;
 
-public interface BidirectedGraph extends Graph
+public interface BidirectedGraph<N extends BidirectedNode<? extends E>, E extends BidirectedEdge, W extends BidirectedWalk<? extends N, ? extends E>> extends Graph<N,E,W>
 {
-	Set<? extends BidirectedNode> getNodes();
-	List<? extends BidirectedEdge> getEdges();
-	Set<? extends BidirectedGraph> getConnectedComponents();
-	Set<? extends BidirectedGraph> getStrongComponents();
+	Set<BidirectedGraph> getStrongComponents();
 	boolean isStronglyConnected();
 	boolean isPolytree();
+	//Parent methods
+	Set<N> getNodes();
+	List<E> getEdges();
+	boolean isConnected();
+	Set<Graph> getConnectedComponents();
+	boolean isMaximalConnected();
+	boolean isCut(Graph subGraph);
+	boolean isCut(Graph subGraph, N begin, N end);
+	int getNodeConnectivity();
+	int getEdgeConnectivity();
+	int getNodeConnectivity(N begin, N end);
+	int getEdgeConnectivity(N begin, N end);
+	boolean isCompleteGraph();
+	int getOrder();
+	int getCycleCount();
+	boolean isPancyclic();
+	int getGirth();
+	int getCircumference();
+	boolean isTraceable();
+	boolean isSpanning(W walk);
+	boolean isSpanning(TreeGraph graph);
+	boolean isTraversable();
+	boolean isEularian(W walk);
+	boolean isTree();
+	boolean isSubGraph(Graph graph);
+	boolean isKnot(Graph subGraph);
+	int getTotalDegree();
+	boolean isMultigraph();
+	boolean isIsomorphic(Graph isomorphicGraph);
+	boolean isHomomorphic(Graph homomorphicGraph);
+	boolean isRegular();
 }

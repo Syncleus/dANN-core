@@ -17,8 +17,9 @@
  *                                                                             *
  ******************************************************************************/
 package com.syncleus.dann.graph;
-
-public interface HyperGraph extends Graph
+import java.util.List;
+import java.util.Set;
+public interface HyperGraph<N extends HyperNode<? extends E>, E extends HyperEdge, W extends HyperWalk<? extends N, ? extends E>> extends Graph<N,E,W>
 {
 	boolean isPartial(HyperGraph partialGraph);
 	boolean isDual(HyperGraph dualGraph);
@@ -28,4 +29,35 @@ public interface HyperGraph extends Graph
 	boolean isSymmetric();
 	boolean isVertexSymmetric();
 	boolean isEdgeSymmetric();
+	//Parent methods
+	Set<N> getNodes();
+	List<E> getEdges();
+	boolean isConnected();
+	Set<Graph> getConnectedComponents();
+	boolean isMaximalConnected();
+	boolean isCut(Graph subGraph);
+	boolean isCut(Graph subGraph, N begin, N end);
+	int getNodeConnectivity();
+	int getEdgeConnectivity();
+	int getNodeConnectivity(N begin, N end);
+	int getEdgeConnectivity(N begin, N end);
+	boolean isCompleteGraph();
+	int getOrder();
+	int getCycleCount();
+	boolean isPancyclic();
+	int getGirth();
+	int getCircumference();
+	boolean isTraceable();
+	boolean isSpanning(W walk);
+	boolean isSpanning(TreeGraph graph);
+	boolean isTraversable();
+	boolean isEularian(W walk);
+	boolean isTree();
+	boolean isSubGraph(Graph graph);
+	boolean isKnot(Graph subGraph);
+	int getTotalDegree();
+	boolean isMultigraph();
+	boolean isIsomorphic(Graph isomorphicGraph);
+	boolean isHomomorphic(Graph homomorphicGraph);
+	boolean isRegular();
 }

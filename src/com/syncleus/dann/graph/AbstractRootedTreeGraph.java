@@ -18,15 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.List;
-
-public abstract class AbstractRootedTreeGraph extends AbstractBidirectedGraph implements RootedTreeGraph
+public abstract class AbstractRootedTreeGraph<N extends TreeNode<E>, E extends TreeEdge, W extends TreeWalk<N, E>> extends AbstractBidirectedGraph<N,E,W> implements RootedTreeGraph<N,E,W>
 {
-	public TreeNode getRoot()
+	public N getRoot()
 	{
 		return null;
 	}
-
-	@Override
-	abstract public List<? extends TreeEdge> getEdges();
 }
