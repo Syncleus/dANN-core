@@ -25,4 +25,10 @@ public interface FastFourierTransformer
 	double[] inverseTransform(DiscreteFourierTransform transform);
 	double[] circularConvolve(double[] first, double[] second);
 	double[] linearConvolve(double[] first, double[] second);
+	int getBlockSize();
+	void setBlockSize(int blockSize);
+	int getBitrate();
+	void setBitrate(int bitrate);
+	int getInterval();
+	void setInterval(int interval);
 }
