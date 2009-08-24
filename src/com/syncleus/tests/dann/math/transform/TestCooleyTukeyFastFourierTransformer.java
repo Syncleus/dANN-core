@@ -73,7 +73,7 @@ public class TestCooleyTukeyFastFourierTransformer
 		for(double startBandFreq = 0.0; startBandFreq < (transformed.getMaximumFrequency()-0.01); startBandFreq+=bandSize)
 		{
 			final double endBandFreq = (startBandFreq+bandSize);
-			final double currentBandPower = transformed.getBandAmplitude(startBandFreq, (startBandFreq+bandSize));
+			final double currentBandPower = transformed.getBandRms(startBandFreq, (startBandFreq+bandSize));
 
 			if(maxBandPower < currentBandPower)
 				maxBandPower = currentBandPower;

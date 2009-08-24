@@ -79,12 +79,32 @@ public class DiscreteFourierTransform
 		return this.frequencies.get(Double.valueOf(frequency)).phase();
 	}
 
-	public double getBandAmplitude(double startFrequency, double endFrequency)
+	private ComplexNumber[] amplitudes(double startFrequency, double endFrequency)
 	{
 		final NavigableMap<Double, ComplexNumber> subFrequencies = this.frequencies.subMap(startFrequency, true, endFrequency, true);
 		ComplexNumber[] amplitudes = new ComplexNumber[subFrequencies.size()];
 		subFrequencies.values().toArray(amplitudes);
-		return ComplexNumber.sum(amplitudes).abs();
+		return amplitudes;
+	}
+
+	public double getBandSum(double startFrequency, double endFrequency)
+	{
+		return ComplexNumber.sum(amplitudes(startFrequency, endFrequency)).abs();
+	}
+
+	public double getBandRms(double startFrequency, double endFrequency)
+	{
+		return ComplexNumber.rms(amplitudes(startFrequency, endFrequency)).abs();
+	}
+
+	public double getBandMean(double startFrequency, double endFrequency)
+	{
+		return ComplexNumber.mean(amplitudes(startFrequency, endFrequency)).abs();
+	}
+
+	public double getBandGeometricMean(double startFrequency, double endFrequency)
+	{
+		return ComplexNumber.geometricMean(amplitudes(startFrequency, endFrequency)).abs();
 	}
 
 	public ComplexNumber[] getTransform()
