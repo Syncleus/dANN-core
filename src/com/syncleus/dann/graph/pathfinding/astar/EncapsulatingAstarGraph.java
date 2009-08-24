@@ -87,7 +87,7 @@ public final class EncapsulatingAstarGraph<G extends Graph<? extends Node<? exte
 
 					AstarNode<Node> newDestrination = newNodeMapping.get(destination);
 					if((useGraphWeights)&&(path instanceof WeightedEdge))
-						newSource.connectTo(newDestrination, ((WeightedEdge)path).getWeight().doubleValue());
+						newSource.connectTo(newDestrination, ((WeightedEdge)path).getWeight());
 					else
 						newSource.connectTo(newDestrination, 1.0);
 				}

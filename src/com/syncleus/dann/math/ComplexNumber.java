@@ -250,14 +250,6 @@ public class ComplexNumber
 		return realValue + " + " + imaginaryValue + "i";
 	}
 
-	public static ComplexNumber rms(ComplexNumber... values)
-	{
-		ComplexNumber rootSum = ComplexNumber.ZERO;
-		for(ComplexNumber value : values)
-			rootSum = rootSum.add(value.multiply(value));
-		return rootSum.divide((double)values.length);
-	}
-
 	public static ComplexNumber sum(ComplexNumber... values)
 	{
 		ComplexNumber complexSum = ComplexNumber.ZERO;
@@ -272,17 +264,5 @@ public class ComplexNumber
 		for(ComplexNumber value : values)
 			complexProduct = complexProduct.multiply(value);
 		return complexProduct;
-	}
-
-	public static ComplexNumber mean(ComplexNumber... values)
-	{
-		ComplexNumber complexSum = sum(values);
-		return complexSum.divide((double)values.length);
-	}
-
-	public static ComplexNumber geometricMean(ComplexNumber... values)
-	{
-		ComplexNumber complexProduct = multiply(values);
-		return complexProduct.pow(1.0/((double)values.length));
 	}
 }

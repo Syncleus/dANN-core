@@ -94,17 +94,17 @@ public class DiscreteFourierTransform
 
 	public double getBandRms(double startFrequency, double endFrequency)
 	{
-		return ComplexNumber.rms(amplitudes(startFrequency, endFrequency)).abs();
+		return Averages.rms(amplitudes(startFrequency, endFrequency)).abs();
 	}
 
 	public double getBandMean(double startFrequency, double endFrequency)
 	{
-		return ComplexNumber.mean(amplitudes(startFrequency, endFrequency)).abs();
+		return Averages.mean(amplitudes(startFrequency, endFrequency)).abs();
 	}
 
 	public double getBandGeometricMean(double startFrequency, double endFrequency)
 	{
-		return ComplexNumber.geometricMean(amplitudes(startFrequency, endFrequency)).abs();
+		return Averages.geometricMean(amplitudes(startFrequency, endFrequency)).abs();
 	}
 
 	public ComplexNumber[] getTransform()

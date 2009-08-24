@@ -23,7 +23,7 @@ import java.util.List;
 public interface WeightedEdge extends Edge
 {
 	List<WeightedNode> getWeightedNodes();
-	Number getWeight();
+	double getWeight();
 	//Parent methods
 	List<Node> getNodes();
 }

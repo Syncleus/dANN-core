@@ -57,15 +57,15 @@ public class AstarEdge<L> extends AbstractDirectedEdge implements WeightedEdge, 
 		return weight;
 	}
 
-	public Number getWeight()
+	public double getWeight()
 	{
-		return Double.valueOf(weight);
+		return weight;
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return this.getAstarNodePair().getSourceNode().hashCode() + (this.getAstarNodePair().getDestinationNode().hashCode() * this.getAstarNodePair().getSourceNode().hashCode()) + this.getWeight().hashCode();
+		return this.getAstarNodePair().getSourceNode().hashCode() + (this.getAstarNodePair().getDestinationNode().hashCode() * this.getAstarNodePair().getSourceNode().hashCode()) + Double.valueOf(this.getWeight()).hashCode();
 	}
 
 	@Override
