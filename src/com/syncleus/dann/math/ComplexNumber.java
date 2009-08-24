@@ -17,10 +17,13 @@
  *                                                                             *
  ******************************************************************************/
 package com.syncleus.dann.math;
-
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 public class ComplexNumber
 {
 	public final static ComplexNumber ZERO = new ComplexNumber(0, 0);
+	public final static ComplexNumber I = new ComplexNumber(0, 1);
 	
     private final double realValue;
     private final double imaginaryValue;
@@ -89,6 +92,43 @@ public class ComplexNumber
         return new ComplexNumber(Math.exp(realValue) * Math.cos(imaginaryValue), Math.exp(realValue) * Math.sin(imaginaryValue));
     }
 
+	public final ComplexNumber log()
+	{
+		return new ComplexNumber(Math.log(this.abs()), Math.atan2(this.imaginaryValue, this.realValue));
+	}
+
+	public final ComplexNumber pow(ComplexNumber exponent)
+	{
+		if(exponent == null)
+			throw new IllegalArgumentException("exponent can not be null");
+		
+		return this.log().multiply(exponent).exp();
+	}
+
+	public final ComplexNumber pow(double exponent)
+	{
+		return this.log().multiply(exponent).exp();
+	}
+
+    public List<ComplexNumber> root(int n)
+	{
+
+        if (n <= 0)
+            throw new IllegalArgumentException("n must be greater than 0");
+
+        List<ComplexNumber> result = new ArrayList<ComplexNumber>();
+
+        double inner = this.phase()/n;
+        for (int nIndex = 0; nIndex < n ; nIndex++)
+		{
+            result.add(new ComplexNumber(Math.cos(inner) * Math.pow(this.abs(), 1.0 / n), Math.sin(inner) * Math.pow(this.abs(), 1.0 / n)));
+            inner += 2 * Math.PI / n;
+        }
+
+        return Collections.unmodifiableList(result);
+    }
+
+
 	public final ComplexNumber sqrt()
 	{
 		//The square-root of the complex number (a + i b) is
@@ -99,20 +139,62 @@ public class ComplexNumber
 		return intermediate.multiply(Math.sqrt(2.0)).divide(2.0);
 	}
 
+    public ComplexNumber sqrt1z()
+	{
+        return (new ComplexNumber(1.0, 0.0)).subtract(this.multiply(this)).sqrt();
+    }
+
+
     public final ComplexNumber sin()
 	{
         return new ComplexNumber(Math.sin(realValue) * Math.cosh(imaginaryValue), Math.cos(realValue) * Math.sinh(imaginaryValue));
     }
+
+	public final ComplexNumber asin()
+	{
+		return sqrt1z().add(this.multiply(ComplexNumber.I)).log().multiply(ComplexNumber.I.negate());
+	}
+
+	public final ComplexNumber sinh()
+	{
+		return new ComplexNumber(Math.sinh(this.realValue) * Math.cos(this.imaginaryValue), Math.cosh(this.realValue) * Math.sin(this.imaginaryValue));
+	}
 
     public final ComplexNumber cos()
 	{
         return new ComplexNumber(Math.cos(realValue) * Math.cosh(imaginaryValue), -Math.sin(realValue) * Math.sinh(imaginaryValue));
     }
 
+    public final ComplexNumber acos()
+	{
+		return this.add(this.sqrt1z().multiply(ComplexNumber.I)).log().multiply(ComplexNumber.I.negate());
+    }
+
+	public final ComplexNumber cosh()
+	{
+		return new ComplexNumber(Math.cosh(this.realValue) * Math.cos(this.imaginaryValue), Math.sinh(this.realValue) * Math.sin(this.imaginaryValue));
+	}
+
     public final ComplexNumber tan()
 	{
         return sin().divide(cos());
     }
+
+	public final ComplexNumber atan()
+	{
+		return this.add(ComplexNumber.I).divide(ComplexNumber.I.subtract(this)).log().multiply(ComplexNumber.I.divide(new ComplexNumber(2.0, 0.0)));
+	}
+
+	public final ComplexNumber tanh()
+	{
+        double denominator = Math.cosh(2.0 * this.realValue) + Math.cos(2.0 * this.imaginaryValue);
+        return new ComplexNumber(Math.sinh(2.0 * this.realValue) / denominator, Math.sin(2.0 * this.imaginaryValue) / denominator);
+	}
+
+	public final ComplexNumber negate()
+	{
+		return new ComplexNumber(-this.realValue, -this.imaginaryValue);
+	}
 
     public final ComplexNumber reciprocal()
 	{
@@ -185,9 +267,23 @@ public class ComplexNumber
 		return complexSum;
 	}
 
+	public static ComplexNumber multiply(ComplexNumber... values)
+	{
+		ComplexNumber complexProduct = new ComplexNumber(1.0, 0.0);
+		for(ComplexNumber value : values)
+			complexProduct = complexProduct.multiply(value);
+		return complexProduct;
+	}
+
 	public static ComplexNumber mean(ComplexNumber... values)
 	{
 		ComplexNumber complexSum = sum(values);
 		return complexSum.divide((double)values.length);
+	}
+
+	public static ComplexNumber geometricMean(ComplexNumber... values)
+	{
+		ComplexNumber complexProduct = multiply(values);
+		return complexProduct.pow(1.0/((double)values.length));
 	}
 }
