@@ -16,8 +16,8 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.math;
-
+package com.syncleus.dann.math.wave;
+import com.syncleus.dann.math.*;
 public class WaveMathFunction extends AbstractMathFunction implements Cloneable
 {
     public WaveMathFunction()

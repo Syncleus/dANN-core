@@ -16,17 +16,19 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.math;
+package com.syncleus.dann.math.wave.wavelet;
 
 
+import com.syncleus.dann.math.wave.*;
+import com.syncleus.dann.math.*;
 import java.util.*;
 
-public class WaveletMathFunction extends AbstractMathFunction implements Cloneable
+public class CombinedWaveletMathFunction extends AbstractMathFunction implements Cloneable
 {
     private TreeSet<String> dimensions = new TreeSet<String>();
     private List<WaveMultidimensionalMathFunction> waves = Collections.synchronizedList(new ArrayList<WaveMultidimensionalMathFunction>());
 
-    public WaveletMathFunction(String[] dimensions)
+    public CombinedWaveletMathFunction(String[] dimensions)
     {
         super(dimensions);
         for(String dimension:dimensions)
@@ -88,9 +90,9 @@ public class WaveletMathFunction extends AbstractMathFunction implements Cloneab
 
 
 	@Override
-    public WaveletMathFunction clone()
+    public CombinedWaveletMathFunction clone()
     {
-        WaveletMathFunction copy = (WaveletMathFunction) super.clone();
+        CombinedWaveletMathFunction copy = (CombinedWaveletMathFunction) super.clone();
 
         copy.waves.addAll(this.waves);
 		copy.dimensions.addAll(this.dimensions);

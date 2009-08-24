@@ -18,6 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
+import com.syncleus.dann.math.wave.WaveMultidimensionalMathFunction;
+import com.syncleus.dann.math.wave.wavelet.CombinedWaveletMathFunction;
 import com.syncleus.dann.math.*;
 import java.io.Serializable;
 import java.util.*;
@@ -182,7 +184,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
     private static Random random = new Random();
     TreeSet<SignalConcentration> signals = new TreeSet<SignalConcentration>();
     ArrayList<WaveMultidimensionalMathFunction> waves = new ArrayList<WaveMultidimensionalMathFunction>();
-    WaveletMathFunction wavelet;
+    CombinedWaveletMathFunction wavelet;
 //    private Cell cell = null;
 
 
@@ -245,7 +247,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 
 
 
-    public WaveletMathFunction getWavelet()
+    public CombinedWaveletMathFunction getWavelet()
     {
 		this.reconstructWavelet();
 		return this.wavelet.clone();
@@ -303,7 +305,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
             signalNames[signalNamesIndex++] = dimension.getId().toString();
         }
 
-        this.wavelet = new WaveletMathFunction(signalNames);
+        this.wavelet = new CombinedWaveletMathFunction(signalNames);
 
         for(WaveMultidimensionalMathFunction wave:this.waves)
         {

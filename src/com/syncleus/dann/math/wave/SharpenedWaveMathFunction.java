@@ -16,21 +16,21 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.math;
+package com.syncleus.dann.math.wave;
 
-public class FormedWaveMathFunction extends WaveMathFunction
+public class SharpenedWaveMathFunction extends WaveMathFunction
 {
-	public FormedWaveMathFunction(FormedWaveMathFunction copy)
+	public SharpenedWaveMathFunction(SharpenedWaveMathFunction copy)
 	{
 		super(copy);
 	}
 	
-    public FormedWaveMathFunction()
+    public SharpenedWaveMathFunction()
     {
         super(new String[]{"form"});
     }
     
-    public FormedWaveMathFunction(String[] additionalParameters)
+    public SharpenedWaveMathFunction(String[] additionalParameters)
     {
         super(combineLabels(new String[]{"form"},additionalParameters));
     }
@@ -56,9 +56,9 @@ public class FormedWaveMathFunction extends WaveMathFunction
     }
 
 	@Override
-    public FormedWaveMathFunction clone()
+    public SharpenedWaveMathFunction clone()
     {
-        FormedWaveMathFunction copy = (FormedWaveMathFunction) super.clone();
+        SharpenedWaveMathFunction copy = (SharpenedWaveMathFunction) super.clone();
         copy.setX(this.getX());
         copy.setFrequency(this.getFrequency());
         copy.setPhase(this.getPhase());
@@ -66,13 +66,15 @@ public class FormedWaveMathFunction extends WaveMathFunction
         copy.setForm(this.getForm());
         return copy;
     }
-    
+
+	@Override
     public String toString()
     {
         return this.toString("x");
     }
-    
-    String toString(String xName)
+
+	@Override
+    public String toString(String xName)
     {
         return "(" + super.toString(xName) + "/|" + super.toString(xName) + "|) * |(|" + super.toString(xName) + ")/amplitude|^form| * amplitude";
     }

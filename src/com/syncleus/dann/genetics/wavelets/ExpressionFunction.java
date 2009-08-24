@@ -18,6 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
+import com.syncleus.dann.math.wave.WaveMultidimensionalMathFunction;
+import com.syncleus.dann.math.wave.wavelet.CombinedWaveletMathFunction;
 import com.syncleus.dann.UnexpectedDannError;
 import com.syncleus.dann.math.*;
 import java.util.*;
@@ -28,7 +30,7 @@ public class ExpressionFunction implements Cloneable
     private final static Random RANDOM = Mutation.getRandom();
     private Set<ReceptorKey> receptors;
     private List<WaveMultidimensionalMathFunction> waves;
-    private WaveletMathFunction wavelet;
+    private CombinedWaveletMathFunction wavelet;
 	private final static Logger LOGGER = Logger.getLogger(ExpressionFunction.class);
 
 
@@ -55,7 +57,7 @@ public class ExpressionFunction implements Cloneable
     {
     }
 
-	public WaveletMathFunction getWaveletMathFunction()
+	public CombinedWaveletMathFunction getWaveletMathFunction()
 	{
 		return this.wavelet;
 	}
@@ -75,7 +77,7 @@ public class ExpressionFunction implements Cloneable
 
 
 
-    public WaveletMathFunction getWavelet()
+    public CombinedWaveletMathFunction getWavelet()
     {
 		this.reconstructWavelet();
 		return this.wavelet.clone();
@@ -144,7 +146,7 @@ public class ExpressionFunction implements Cloneable
         for(ReceptorKey receptor : this.receptors)
             receptorNames[receptorNamesIndex++] = String.valueOf(receptor.hashCode());
 
-        this.wavelet = new WaveletMathFunction(receptorNames);
+        this.wavelet = new CombinedWaveletMathFunction(receptorNames);
 
         for(WaveMultidimensionalMathFunction wave : this.waves)
         {

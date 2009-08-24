@@ -16,14 +16,15 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.math;
-
+package com.syncleus.dann.math.wave;
+import com.syncleus.dann.math.wave.wavelet.ShapenedWaveletMathFunction;
+import com.syncleus.dann.math.*;
 public class WaveMultidimensionalMathFunction extends AbstractMathFunction implements Cloneable
 {
     private boolean constantMode = false;
     private double constantValue;
     private String[] dimensionNames = null;
-    private DistributedFormedWaveMathFunction wave = new DistributedFormedWaveMathFunction();
+    private ShapenedWaveletMathFunction wave = new ShapenedWaveletMathFunction();
 
 	public WaveMultidimensionalMathFunction(WaveMultidimensionalMathFunction copy)
 	{

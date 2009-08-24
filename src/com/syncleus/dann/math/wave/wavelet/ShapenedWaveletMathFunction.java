@@ -16,16 +16,16 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.math;
-
-public class DistributedFormedWaveMathFunction extends FormedWaveMathFunction
+package com.syncleus.dann.math.wave.wavelet;
+import com.syncleus.dann.math.wave.*;
+public class ShapenedWaveletMathFunction extends SharpenedWaveMathFunction
 {
     private boolean constantMode = false;
     private double constantValue;
 
 
 
-    public DistributedFormedWaveMathFunction(double constantValue)
+    public ShapenedWaveletMathFunction(double constantValue)
     {
         this();
 
@@ -34,7 +34,7 @@ public class DistributedFormedWaveMathFunction extends FormedWaveMathFunction
     }
 
 
-	public DistributedFormedWaveMathFunction(DistributedFormedWaveMathFunction copy)
+	public ShapenedWaveletMathFunction(ShapenedWaveletMathFunction copy)
 	{
 		super(copy);
 		this.constantMode = copy.constantMode;
@@ -43,7 +43,7 @@ public class DistributedFormedWaveMathFunction extends FormedWaveMathFunction
 
 
 
-    public DistributedFormedWaveMathFunction()
+    public ShapenedWaveletMathFunction()
     {
         super(new String[]{"center", "distribution"});
         this.setDistribution(1.0);
@@ -51,7 +51,7 @@ public class DistributedFormedWaveMathFunction extends FormedWaveMathFunction
 
 
 
-    protected DistributedFormedWaveMathFunction(String[] additionalParameters)
+    protected ShapenedWaveletMathFunction(String[] additionalParameters)
     {
         super(combineLabels(new String[]{"center", "distribution"}, additionalParameters));
         this.setDistribution(1.0);
@@ -110,9 +110,9 @@ public class DistributedFormedWaveMathFunction extends FormedWaveMathFunction
 
 
 	@Override
-    public DistributedFormedWaveMathFunction clone()
+    public ShapenedWaveletMathFunction clone()
     {
-        DistributedFormedWaveMathFunction copy = (DistributedFormedWaveMathFunction)super.clone();
+        ShapenedWaveletMathFunction copy = (ShapenedWaveletMathFunction)super.clone();
         copy.setX(this.getX());
         copy.setFrequency(this.getFrequency());
         copy.setPhase(this.getPhase());
@@ -125,14 +125,13 @@ public class DistributedFormedWaveMathFunction extends FormedWaveMathFunction
         return copy;
     }
 
-
-
+	@Override
     public String toString()
     {
         return this.toString("x", "center");
     }
     
-    String toString(String xName, String centerName)
+    public String toString(String xName, String centerName)
     {
         return "(1 / (distribution * Math.sqrt(2 * pi))) * e^(-1 * ( (" + xName + " - " + centerName + ")^2 ) / (2 * distribution^2))" + " * " + super.toString(xName);
     }
