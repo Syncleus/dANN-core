@@ -16,43 +16,55 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.genetics.wavelets;
+package com.syncleus.dann.math;
 
-import com.syncleus.dann.genetics.MutableDouble;
-import java.util.Random;
-
-public final class Mutation
+public final class Averages
 {
-	private final static Random RANDOM = new Random();
-
-	private Mutation()
+	private Averages()
 	{
 	}
 
-	public static double mutabilityMutation(double mutability)
+	public static ComplexNumber rms(ComplexNumber... values)
 	{
-		double mutabilityMutation = new MutableDouble(0.0).mutate(mutability).doubleValue();
-		if(mutabilityMutation > 0)
-			return mutability + mutabilityMutation;
-		else
-		{
-			double returnValue = mutability - (mutability * (1 - 1/(Math.abs(mutabilityMutation) + 1)));
-			if(returnValue == 0.0)
-				returnValue = Double.MIN_VALUE;
-
-			return returnValue;
-		}
+		ComplexNumber rootSum = ComplexNumber.ZERO;
+		for(ComplexNumber value : values)
+			rootSum = rootSum.add(value.multiply(value));
+		return rootSum.divide((double)values.length);
 	}
 
-	public static Random getRandom()
+	public static ComplexNumber mean(ComplexNumber... values)
 	{
-		return RANDOM;
+		ComplexNumber complexSum = ComplexNumber.sum(values);
+		return complexSum.divide((double)values.length);
 	}
 
-	public static boolean mutationEvent(double mutability)
+	public static ComplexNumber geometricMean(ComplexNumber... values)
 	{
-		if(Mutation.getRandom().nextDouble() < Math.tanh(Math.abs(mutability)))
-			return true;
-		return false;
+		ComplexNumber complexProduct = ComplexNumber.multiply(values);
+		return complexProduct.pow(1.0/((double)values.length));
+	}
+
+	public static double rms(double... values)
+	{
+		double rootSum = 0.0;
+		for(double value : values)
+			rootSum += value*value;
+		return rootSum / ((double)values.length);
+	}
+
+	public static double mean(double... values)
+	{
+		double meanSum = 0.0;
+		for(double value:values)
+			meanSum += value;
+		return meanSum / ((double)values.length);
+	}
+
+	public static double geometricMean(double... values)
+	{
+		double geometricProduct = 1.0;
+		for(double value : values)
+			geometricProduct *= value;
+		return Math.pow(geometricProduct, (1.0/((double)values.length)));
 	}
 }
