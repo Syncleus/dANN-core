@@ -211,7 +211,7 @@ public class ComplexNumber
 		return realValue;
 	}
 
-    public final double getImaginaryValue()
+	public final double getImaginaryValue()
 	{
 		return imaginaryValue;
 	}
