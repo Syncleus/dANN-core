@@ -18,13 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.math.transform;
 
-import com.syncleus.dann.math.*;
 import com.syncleus.dann.math.ComplexNumber;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.List;
-import java.util.Map.Entry;
 
 public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 {
@@ -164,7 +159,7 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 	}
  
 
-    private static ComplexNumber[] transformMatrix(ComplexNumber[] dataPoints)
+	private static ComplexNumber[] transformMatrix(ComplexNumber[] dataPoints)
 	{
 		int dataPointCount = dataPoints.length;
 		if(!isPowerOf2(dataPointCount))
@@ -173,79 +168,77 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
         if (dataPointCount == 1)
 			return new ComplexNumber[]{ dataPoints[0] };
 
-        //process odd points
-        ComplexNumber[] oddDataPoints  = new ComplexNumber[dataPointCount/2];
-        for (int oddIndex = 0; oddIndex < (dataPointCount/2); oddIndex++)
-            oddDataPoints[oddIndex] = dataPoints[2*oddIndex + 1];
-        ComplexNumber[] oddTransform = transformMatrix(oddDataPoints);
+		//process odd points
+		ComplexNumber[] oddDataPoints  = new ComplexNumber[dataPointCount/2];
+		for (int oddIndex = 0; oddIndex < (dataPointCount/2); oddIndex++)
+			oddDataPoints[oddIndex] = dataPoints[2*oddIndex + 1];
+		ComplexNumber[] oddTransform = transformMatrix(oddDataPoints);
 
-        //process even points
-        ComplexNumber[] evenDataPoints = new ComplexNumber[dataPointCount/2];
-        for (int evenIndex = 0; evenIndex < (dataPointCount/2); evenIndex++)
-            evenDataPoints[evenIndex] = dataPoints[evenIndex*2];
-        ComplexNumber[] evenTransform = transformMatrix(evenDataPoints);
+		//process even points
+		ComplexNumber[] evenDataPoints = new ComplexNumber[dataPointCount/2];
+		for (int evenIndex = 0; evenIndex < (dataPointCount/2); evenIndex++)
+			evenDataPoints[evenIndex] = dataPoints[evenIndex*2];
+		ComplexNumber[] evenTransform = transformMatrix(evenDataPoints);
 
-        //combine
-        ComplexNumber[] completeTransform = new ComplexNumber[dataPointCount];
-        for (int transformIndex = 0; transformIndex < (dataPointCount/2); transformIndex++)
+		ComplexNumber[] completeTransform = new ComplexNumber[dataPointCount];
+		for (int transformIndex = 0; transformIndex < (dataPointCount/2); transformIndex++)
 		{
-            double kth = -2 * Math.PI * transformIndex / dataPointCount;
-            ComplexNumber wk = new ComplexNumber(Math.cos(kth), Math.sin(kth));
-            completeTransform[transformIndex] = evenTransform[transformIndex].add(wk.multiply(oddTransform[transformIndex]));
-            completeTransform[transformIndex+(dataPointCount/2)] = evenTransform[transformIndex].subtract(wk.multiply(oddTransform[transformIndex]));
-        }
-        return completeTransform;
-    }
+			double kth = -2 * Math.PI * transformIndex / dataPointCount;
+			ComplexNumber wk = new ComplexNumber(Math.cos(kth), Math.sin(kth));
+			completeTransform[transformIndex] = evenTransform[transformIndex].add(wk.multiply(oddTransform[transformIndex]));
+			completeTransform[transformIndex+(dataPointCount/2)] = evenTransform[transformIndex].subtract(wk.multiply(oddTransform[transformIndex]));
+		}
+		return completeTransform;
+	}
 
 
-    private static ComplexNumber[] inverseTransformMatrix(ComplexNumber[] transforms)
+	private static ComplexNumber[] inverseTransformMatrix(ComplexNumber[] transforms)
 	{
-        int transformSize = transforms.length;
-		
-        ComplexNumber[] signal = new ComplexNumber[transformSize];
+		int transformSize = transforms.length;
 
-        for (int signalIndex = 0; signalIndex < transformSize; signalIndex++)
-            signal[signalIndex] = transforms[signalIndex].conjugate();
+		ComplexNumber[] signal = new ComplexNumber[transformSize];
 
-        signal = transformMatrix(signal);
+		for (int signalIndex = 0; signalIndex < transformSize; signalIndex++)
+			signal[signalIndex] = transforms[signalIndex].conjugate();
 
-        for (int signalIndex = 0; signalIndex < transformSize; signalIndex++)
-            signal[signalIndex] = signal[signalIndex].conjugate();
+		signal = transformMatrix(signal);
 
-        for (int signalIndex = 0; signalIndex < transformSize; signalIndex++)
-            signal[signalIndex] = signal[signalIndex].multiply(1.0/((double)transformSize));
+		for (int signalIndex = 0; signalIndex < transformSize; signalIndex++)
+			signal[signalIndex] = signal[signalIndex].conjugate();
 
-        return signal;
+		for (int signalIndex = 0; signalIndex < transformSize; signalIndex++)
+			signal[signalIndex] = signal[signalIndex].multiply(1.0/((double)transformSize));
 
-    }
+		return signal;
+	}
 
-    private static ComplexNumber[] circularConvolveMatrix(ComplexNumber[] first, ComplexNumber[] second)
+	private static ComplexNumber[] circularConvolveMatrix(ComplexNumber[] first, ComplexNumber[] second)
 	{
-        if (first.length != second.length)
+		if (first.length != second.length)
 			throw new RuntimeException("first and secondmust have the same number of elements");
 
-        int dataPointsSize = first.length;
+		int dataPointsSize = first.length;
 
-        ComplexNumber[] firstTransformed = transformMatrix(first);
-        ComplexNumber[] secondTransformed = transformMatrix(second);
+		ComplexNumber[] firstTransformed = transformMatrix(first);
+		ComplexNumber[] secondTransformed = transformMatrix(second);
 
-        ComplexNumber[] result = new ComplexNumber[dataPointsSize];
-        for (int dataPointIndex = 0; dataPointIndex < dataPointsSize; dataPointIndex++)
-            result[dataPointIndex] = firstTransformed[dataPointIndex].multiply(secondTransformed[dataPointIndex]);
+		ComplexNumber[] result = new ComplexNumber[dataPointsSize];
+		for (int dataPointIndex = 0; dataPointIndex < dataPointsSize; dataPointIndex++)
+			result[dataPointIndex] = firstTransformed[dataPointIndex].multiply(secondTransformed[dataPointIndex]);
 
-        return inverseTransformMatrix(result);
-    }
+		return inverseTransformMatrix(result);
+	}
 
-    private static ComplexNumber[] linearConvolveMatrix(ComplexNumber[] first, ComplexNumber[] second)
+	private static ComplexNumber[] linearConvolveMatrix(ComplexNumber[] first, ComplexNumber[] second)
 	{
 		ComplexNumber[] firstLinear = Arrays.copyOf(first, first.length*2);
-        for (int firstLinearIndex = first.length; firstLinearIndex < (first.length*2); firstLinearIndex++)
+		for (int firstLinearIndex = first.length; firstLinearIndex < (first.length*2); firstLinearIndex++)
 			firstLinear[firstLinearIndex] = ComplexNumber.ZERO;
 
 		ComplexNumber[] secondLinear = Arrays.copyOf(second, second.length*2);
-        for (int secondLinearIndex = second.length; secondLinearIndex < (second.length*2); secondLinearIndex++)
+		for (int secondLinearIndex = second.length; secondLinearIndex < (second.length*2); secondLinearIndex++)
 			secondLinear[secondLinearIndex] = ComplexNumber.ZERO;
 
-        return circularConvolveMatrix(firstLinear, secondLinear);
-    }
+		return circularConvolveMatrix(firstLinear, secondLinear);
+	}
 }
