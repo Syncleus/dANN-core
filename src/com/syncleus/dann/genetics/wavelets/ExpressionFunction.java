@@ -18,8 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
-import com.syncleus.dann.math.wave.WaveMultidimensionalMathFunction;
-import com.syncleus.dann.math.wave.wavelet.CombinedWaveletMathFunction;
+import com.syncleus.dann.math.wave.WaveMultidimensionalFunction;
+import com.syncleus.dann.math.wave.wavelet.CombinedWaveletFunction;
 import com.syncleus.dann.UnexpectedDannError;
 import com.syncleus.dann.math.*;
 import java.util.*;
@@ -29,8 +29,8 @@ public class ExpressionFunction implements Cloneable
 {
     private final static Random RANDOM = Mutation.getRandom();
     private Set<ReceptorKey> receptors;
-    private List<WaveMultidimensionalMathFunction> waves;
-    private CombinedWaveletMathFunction wavelet;
+    private List<WaveMultidimensionalFunction> waves;
+    private CombinedWaveletFunction wavelet;
 	private final static Logger LOGGER = Logger.getLogger(ExpressionFunction.class);
 
 
@@ -38,18 +38,18 @@ public class ExpressionFunction implements Cloneable
 	public ExpressionFunction(ExpressionFunction copy)
 	{
 		this.receptors = new HashSet<ReceptorKey>(copy.receptors);
-		this.waves = new ArrayList<WaveMultidimensionalMathFunction>(copy.waves);
+		this.waves = new ArrayList<WaveMultidimensionalFunction>(copy.waves);
 		this.wavelet = copy.wavelet;
 	}
 
     public ExpressionFunction(ReceptorKey initialInput)
     {
-		this.waves = new ArrayList<WaveMultidimensionalMathFunction>();
+		this.waves = new ArrayList<WaveMultidimensionalFunction>();
 		this.receptors = new HashSet<ReceptorKey>();
 
         this.receptors.add(initialInput);
 
-        final WaveMultidimensionalMathFunction initialWave = generateNewWave();
+        final WaveMultidimensionalFunction initialWave = generateNewWave();
         this.waves.add(initialWave);
     }
 
@@ -57,7 +57,7 @@ public class ExpressionFunction implements Cloneable
     {
     }
 
-	public CombinedWaveletMathFunction getWaveletMathFunction()
+	public CombinedWaveletFunction getWaveletMathFunction()
 	{
 		return this.wavelet;
 	}
@@ -77,7 +77,7 @@ public class ExpressionFunction implements Cloneable
 
 
 
-    public CombinedWaveletMathFunction getWavelet()
+    public CombinedWaveletFunction getWavelet()
     {
 		this.reconstructWavelet();
 		return this.wavelet.clone();
@@ -125,7 +125,7 @@ public class ExpressionFunction implements Cloneable
 		{
 			final ExpressionFunction copy = (ExpressionFunction) super.clone();
 			copy.receptors = new HashSet<ReceptorKey>(this.receptors);
-			copy.waves = new ArrayList<WaveMultidimensionalMathFunction>(this.waves);
+			copy.waves = new ArrayList<WaveMultidimensionalFunction>(this.waves);
 			copy.wavelet = this.wavelet;
 			return copy;
 		}
@@ -146,9 +146,9 @@ public class ExpressionFunction implements Cloneable
         for(ReceptorKey receptor : this.receptors)
             receptorNames[receptorNamesIndex++] = String.valueOf(receptor.hashCode());
 
-        this.wavelet = new CombinedWaveletMathFunction(receptorNames);
+        this.wavelet = new CombinedWaveletFunction(receptorNames);
 
-        for(WaveMultidimensionalMathFunction wave : this.waves)
+        for(WaveMultidimensionalFunction wave : this.waves)
         {
             this.wavelet.addWave(wave);
         }
@@ -192,7 +192,7 @@ public class ExpressionFunction implements Cloneable
             //delete a random wave
             if((this.waves.size() > 1)&&(RANDOM.nextDouble() < 0.1))
             {
-				final WaveMultidimensionalMathFunction deleteWave = copy.waves.get(RANDOM.nextInt(copy.waves.size()));
+				final WaveMultidimensionalFunction deleteWave = copy.waves.get(RANDOM.nextInt(copy.waves.size()));
 				copy.waves.remove(deleteWave);
             }
             //only delete if there will be atleast one signal left
@@ -213,9 +213,9 @@ public class ExpressionFunction implements Cloneable
 					dimensionNames[dimensionNamesIndex++] = String.valueOf(copyReceptor.hashCode());
 
 				copy.waves.clear();
-				for(WaveMultidimensionalMathFunction wave:this.waves)
+				for(WaveMultidimensionalFunction wave:this.waves)
 				{
-					final WaveMultidimensionalMathFunction newWave = new WaveMultidimensionalMathFunction(dimensionNames);
+					final WaveMultidimensionalFunction newWave = new WaveMultidimensionalFunction(dimensionNames);
 					newWave.setAmplitude(wave.getAmplitude());
 					newWave.setDistribution(wave.getDistribution());
 					newWave.setForm(wave.getForm());
@@ -256,7 +256,7 @@ public class ExpressionFunction implements Cloneable
         if(copy.receptors.size() > this.receptors.size())
         {
             copy.waves.clear();
-            for(WaveMultidimensionalMathFunction wave:this.waves)
+            for(WaveMultidimensionalFunction wave:this.waves)
             {
                 String[] names = new String[wave.getDimensionNames().length + 1];
                 int index = 0;
@@ -264,7 +264,7 @@ public class ExpressionFunction implements Cloneable
                     names[index++] = dimensionName;
                 names[index++] = String.valueOf(newReceptor.hashCode());
 
-                WaveMultidimensionalMathFunction newWave = new WaveMultidimensionalMathFunction(names);
+                WaveMultidimensionalFunction newWave = new WaveMultidimensionalFunction(names);
                 newWave.setAmplitude(wave.getAmplitude());
                 newWave.setDistribution(wave.getDistribution());
                 newWave.setForm(wave.getForm());
@@ -285,13 +285,13 @@ public class ExpressionFunction implements Cloneable
 
 
 
-    private WaveMultidimensionalMathFunction generateNewWave()
+    private WaveMultidimensionalFunction generateNewWave()
     {
         String[] dimensionNames = new String[this.receptors.size()];
         int index = 0;
         for(ReceptorKey receptor : this.receptors)
             dimensionNames[index++] = String.valueOf(receptor.hashCode());
-        WaveMultidimensionalMathFunction newWave = new WaveMultidimensionalMathFunction(dimensionNames);
+        WaveMultidimensionalFunction newWave = new WaveMultidimensionalFunction(dimensionNames);
 
         newWave.setFrequency(RANDOM.nextGaussian() * 0.001);
         newWave.setPhase(RANDOM.nextGaussian() * 10);
@@ -310,14 +310,14 @@ public class ExpressionFunction implements Cloneable
 
 
 
-    private WaveMultidimensionalMathFunction generateRandomWave()
+    private WaveMultidimensionalFunction generateRandomWave()
     {
         if(this.waves.size() > 0)
         {
-            final WaveMultidimensionalMathFunction[] wavesArray = new WaveMultidimensionalMathFunction[this.waves.size()];
+            final WaveMultidimensionalFunction[] wavesArray = new WaveMultidimensionalFunction[this.waves.size()];
             this.waves.toArray(wavesArray);
-            final WaveMultidimensionalMathFunction randomWave = wavesArray[RANDOM.nextInt(wavesArray.length)];
-            final WaveMultidimensionalMathFunction newWave = new WaveMultidimensionalMathFunction(randomWave);
+            final WaveMultidimensionalFunction randomWave = wavesArray[RANDOM.nextInt(wavesArray.length)];
+            final WaveMultidimensionalFunction newWave = new WaveMultidimensionalFunction(randomWave);
 
             if(RANDOM.nextDouble() <= 1.0)
                 newWave.setFrequency(newWave.getFrequency() + ((RANDOM.nextFloat() * 2 - 1) * 0.01));

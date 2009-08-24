@@ -21,7 +21,7 @@ package com.syncleus.dann.genetics.wavelets;
 import com.syncleus.dann.UnexpectedDannError;
 import java.util.*;
 import com.syncleus.dann.genetics.Gene;
-import com.syncleus.dann.math.AbstractMathFunction;
+import com.syncleus.dann.math.AbstractFunction;
 import org.apache.log4j.Logger;
 
 public abstract class AbstractWaveletGene implements Gene, Cloneable
@@ -62,7 +62,7 @@ public abstract class AbstractWaveletGene implements Gene, Cloneable
 		return this.mutability;
 	}
 
-	public final AbstractMathFunction getExpressionActivityMathFunction()
+	public final AbstractFunction getExpressionActivityMathFunction()
 	{
 		return this.expressionFunction.getWaveletMathFunction();
 	}

@@ -17,65 +17,88 @@
  *                                                                             *
  ******************************************************************************/
 package com.syncleus.dann.math.wave;
-
-public class SharpenedWaveMathFunction extends WaveMathFunction
+import com.syncleus.dann.math.*;
+public class WaveFunction extends AbstractFunction implements Cloneable
 {
-	public SharpenedWaveMathFunction(SharpenedWaveMathFunction copy)
+    public WaveFunction()
+    {
+        super(new String[]{"x", "frequency", "amplitude", "phase"});
+    }
+
+	public WaveFunction(WaveFunction copy)
 	{
 		super(copy);
 	}
-	
-    public SharpenedWaveMathFunction()
+    
+    protected WaveFunction(String[] parameterNames)
     {
-        super(new String[]{"form"});
+        super(
+                combineLabels(new String[]{"x", "frequency", "amplitude", "phase"}, parameterNames)
+        );
     }
     
-    public SharpenedWaveMathFunction(String[] additionalParameters)
+    protected void setX(double x)
     {
-        super(combineLabels(new String[]{"form"},additionalParameters));
+        this.setParameter(this.getParameterNameIndex("x"), x);
     }
     
-    public void setForm(double form)
+    protected double getX()
     {
-        this.setParameter(this.getParameterNameIndex("form"), form);
+        return this.getParameter(this.getParameterNameIndex("x"));
     }
     
-    public double getForm()
+    public void setFrequency(double frequency)
     {
-        return this.getParameter(this.getParameterNameIndex("form"));
-    } 
+        this.setParameter(this.getParameterNameIndex("frequency"), frequency);
+    }
+    
+    public double getFrequency()
+    {
+        return this.getParameter(this.getParameterNameIndex("frequency"));
+    }
+    
+    public void setAmplitude(double amplitude)
+    {
+        this.setParameter(this.getParameterNameIndex("amplitude"), amplitude);
+    }
+    
+    public double getAmplitude()
+    {
+        return this.getParameter(this.getParameterNameIndex("amplitude"));
+    }
+    
+    public void setPhase(double phase)
+    {
+        this.setParameter(this.getParameterNameIndex("phase"), phase);
+    }
+    
+    public double getPhase()
+    {
+        return this.getParameter(this.getParameterNameIndex("phase"));
+    }
     
     public double calculate()
     {
-        if( super.calculate() == 0.0)
-            return 0.0;
-        if( this.getAmplitude() == 0.0 )
-            return 0.0;
-        
-        return (super.calculate()/Math.abs(super.calculate())) * Math.abs(Math.pow(Math.abs(super.calculate()/this.getAmplitude()),this.getForm()) * this.getAmplitude() );
+        return Math.sin( (this.getX()+(this.getPhase()/360)) * 2 * Math.PI * this.getFrequency()) * this.getAmplitude();
     }
-
-	@Override
-    public SharpenedWaveMathFunction clone()
+    
+    public WaveFunction clone()
     {
-        SharpenedWaveMathFunction copy = (SharpenedWaveMathFunction) super.clone();
+        WaveFunction copy = (WaveFunction) super.clone();
         copy.setX(this.getX());
         copy.setFrequency(this.getFrequency());
         copy.setPhase(this.getPhase());
         copy.setAmplitude(this.getAmplitude());
-        copy.setForm(this.getForm());
         return copy;
     }
-
-	@Override
+    
     public String toString()
     {
         return this.toString("x");
     }
-
-	@Override
-    public String toString(String xName)
+    
+    String toString(String xName)
     {
-        return "(" + super.toString(xName) + "/|" + super.toString(xName) + "|) * |(|" + super.toString(xName) + ")/amplitude|^form| * amplitude";
+        return "sin( (" + xName + "+(phase/360)) * 2pi * frequency) * amplitude";
     }
 }

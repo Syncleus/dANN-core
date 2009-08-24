@@ -18,14 +18,14 @@
  ******************************************************************************/
 package com.syncleus.dann.math.wave.wavelet;
 import com.syncleus.dann.math.wave.*;
-public class ShapenedWaveletMathFunction extends SharpenedWaveMathFunction
+public class ShapenedWaveletFunction extends SharpenedWaveFunction
 {
     private boolean constantMode = false;
     private double constantValue;
 
 
 
-    public ShapenedWaveletMathFunction(double constantValue)
+    public ShapenedWaveletFunction(double constantValue)
     {
         this();
 
@@ -34,7 +34,7 @@ public class ShapenedWaveletMathFunction extends SharpenedWaveMathFunction
     }
 
 
-	public ShapenedWaveletMathFunction(ShapenedWaveletMathFunction copy)
+	public ShapenedWaveletFunction(ShapenedWaveletFunction copy)
 	{
 		super(copy);
 		this.constantMode = copy.constantMode;
@@ -43,7 +43,7 @@ public class ShapenedWaveletMathFunction extends SharpenedWaveMathFunction
 
 
 
-    public ShapenedWaveletMathFunction()
+    public ShapenedWaveletFunction()
     {
         super(new String[]{"center", "distribution"});
         this.setDistribution(1.0);
@@ -51,7 +51,7 @@ public class ShapenedWaveletMathFunction extends SharpenedWaveMathFunction
 
 
 
-    protected ShapenedWaveletMathFunction(String[] additionalParameters)
+    protected ShapenedWaveletFunction(String[] additionalParameters)
     {
         super(combineLabels(new String[]{"center", "distribution"}, additionalParameters));
         this.setDistribution(1.0);
@@ -110,9 +110,9 @@ public class ShapenedWaveletMathFunction extends SharpenedWaveMathFunction
 
 
 	@Override
-    public ShapenedWaveletMathFunction clone()
+    public ShapenedWaveletFunction clone()
     {
-        ShapenedWaveletMathFunction copy = (ShapenedWaveletMathFunction)super.clone();
+        ShapenedWaveletFunction copy = (ShapenedWaveletFunction)super.clone();
         copy.setX(this.getX());
         copy.setFrequency(this.getFrequency());
         copy.setPhase(this.getPhase());

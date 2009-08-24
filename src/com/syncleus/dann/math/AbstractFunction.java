@@ -19,24 +19,33 @@
 package com.syncleus.dann.math;
 
 import com.syncleus.dann.UnexpectedDannError;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Hashtable;
+import java.util.List;
 import org.apache.log4j.Logger;
 
-public abstract class AbstractMathFunction implements Cloneable
+public abstract class AbstractFunction implements Cloneable, Function
 {
     private double[] parameters;
     private String[] parameterNames;
+	private List<String> paramterNamesList;
     private final Hashtable<String,Integer> indexNames = new Hashtable<String,Integer>();
-	private final static Logger LOGGER = Logger.getLogger(AbstractMathFunction.class);
+	private final static Logger LOGGER = Logger.getLogger(AbstractFunction.class);
 
-	protected AbstractMathFunction(AbstractMathFunction copy)
+	protected AbstractFunction(AbstractFunction copy)
 	{
 		this.parameters = copy.parameters.clone();
 		this.parameterNames = copy.parameterNames.clone();
 		this.indexNames.putAll(copy.indexNames);
+
+		List<String> newNames = new ArrayList<String>();
+		for(String name : this.parameterNames)
+			newNames.add(name);
+		this.paramterNamesList = Collections.unmodifiableList(newNames);
 	}
 
-    protected AbstractMathFunction(String[] parameterNames)
+    protected AbstractFunction(String[] parameterNames)
     {
         if(parameterNames.length <= 0)
             return;
@@ -48,9 +57,9 @@ public abstract class AbstractMathFunction implements Cloneable
             this.indexNames.put(this.parameterNames[index], Integer.valueOf(index));
     }
     
-    public final String[] getParameterNames()
+    public final List<String> getParameterNames()
     {
-        return this.parameterNames.clone();
+        return this.paramterNamesList;
     }
     
     protected static String[] combineLabels(final String[] first, final String[] second)
@@ -114,13 +123,14 @@ public abstract class AbstractMathFunction implements Cloneable
 
 	@Override
 	@SuppressWarnings("unchecked")
-    public AbstractMathFunction clone()
+    public AbstractFunction clone()
 	{
 		try
 		{
-			final AbstractMathFunction copy = (AbstractMathFunction) super.clone();
+			final AbstractFunction copy = (AbstractFunction) super.clone();
 			copy.indexNames.putAll(this.indexNames);
 			copy.parameterNames = this.parameterNames.clone();
+			copy.paramterNamesList = this.paramterNamesList;
 			copy.parameters = this.parameters.clone();
 			return copy;
 		}

@@ -17,16 +17,18 @@
  *                                                                             *
  ******************************************************************************/
 package com.syncleus.dann.math.wave;
-import com.syncleus.dann.math.wave.wavelet.ShapenedWaveletMathFunction;
+
+import com.syncleus.dann.math.wave.wavelet.ShapenedWaveletFunction;
 import com.syncleus.dann.math.*;
-public class WaveMultidimensionalMathFunction extends AbstractMathFunction implements Cloneable
+
+public class WaveMultidimensionalFunction extends AbstractFunction implements Cloneable
 {
     private boolean constantMode = false;
     private double constantValue;
     private String[] dimensionNames = null;
-    private ShapenedWaveletMathFunction wave = new ShapenedWaveletMathFunction();
+    private ShapenedWaveletFunction wave = new ShapenedWaveletFunction();
 
-	public WaveMultidimensionalMathFunction(WaveMultidimensionalMathFunction copy)
+	public WaveMultidimensionalFunction(WaveMultidimensionalFunction copy)
 	{
 		super(copy);
 
@@ -51,7 +53,7 @@ public class WaveMultidimensionalMathFunction extends AbstractMathFunction imple
         this.constantValue = copy.constantValue;
 	}
     
-    public WaveMultidimensionalMathFunction(double constantValue)
+    public WaveMultidimensionalFunction(double constantValue)
     {
         super(new String[]{});
         
@@ -59,7 +61,7 @@ public class WaveMultidimensionalMathFunction extends AbstractMathFunction imple
         this.constantValue = constantValue;
     }
     
-    public WaveMultidimensionalMathFunction(String[] dimensions)
+    public WaveMultidimensionalFunction(String[] dimensions)
     {
         super(combineLabels(appendStrings(dimensions, "center-"), combineLabels(dimensions, new String[]{"distribution", "form", "frequency", "amplitude", "phase"})));
         this.setDistribution(1.0);
@@ -195,9 +197,9 @@ public class WaveMultidimensionalMathFunction extends AbstractMathFunction imple
 
 
 	@Override
-    public WaveMultidimensionalMathFunction clone()
+    public WaveMultidimensionalFunction clone()
     {
-        final WaveMultidimensionalMathFunction copy = (WaveMultidimensionalMathFunction)super.clone();
+        final WaveMultidimensionalFunction copy = (WaveMultidimensionalFunction)super.clone();
 
 		copy.wave = this.wave.clone();
 		copy.dimensionNames = this.dimensionNames.clone();

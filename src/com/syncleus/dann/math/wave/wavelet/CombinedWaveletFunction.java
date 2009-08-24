@@ -23,12 +23,12 @@ import com.syncleus.dann.math.wave.*;
 import com.syncleus.dann.math.*;
 import java.util.*;
 
-public class CombinedWaveletMathFunction extends AbstractMathFunction implements Cloneable
+public class CombinedWaveletFunction extends AbstractFunction implements Cloneable
 {
     private TreeSet<String> dimensions = new TreeSet<String>();
-    private List<WaveMultidimensionalMathFunction> waves = Collections.synchronizedList(new ArrayList<WaveMultidimensionalMathFunction>());
+    private List<WaveMultidimensionalFunction> waves = Collections.synchronizedList(new ArrayList<WaveMultidimensionalFunction>());
 
-    public CombinedWaveletMathFunction(String[] dimensions)
+    public CombinedWaveletFunction(String[] dimensions)
     {
         super(dimensions);
         for(String dimension:dimensions)
@@ -64,7 +64,7 @@ public class CombinedWaveletMathFunction extends AbstractMathFunction implements
         return this.getParameter(this.getParameterNameIndex(dimension));
     }
 
-    public void addWave(WaveMultidimensionalMathFunction wave)
+    public void addWave(WaveMultidimensionalFunction wave)
     {
         this.waves.add(wave);
     }
@@ -74,7 +74,7 @@ public class CombinedWaveletMathFunction extends AbstractMathFunction implements
     public double calculate()
     {
         double waveTotal = 0.0;
-        for(WaveMultidimensionalMathFunction currentWave:this.waves)
+        for(WaveMultidimensionalFunction currentWave:this.waves)
         {
             for(String dimension:this.dimensions)
             {
@@ -90,9 +90,9 @@ public class CombinedWaveletMathFunction extends AbstractMathFunction implements
 
 
 	@Override
-    public CombinedWaveletMathFunction clone()
+    public CombinedWaveletFunction clone()
     {
-        CombinedWaveletMathFunction copy = (CombinedWaveletMathFunction) super.clone();
+        CombinedWaveletFunction copy = (CombinedWaveletFunction) super.clone();
 
         copy.waves.addAll(this.waves);
 		copy.dimensions.addAll(this.dimensions);
@@ -105,11 +105,11 @@ public class CombinedWaveletMathFunction extends AbstractMathFunction implements
     public String toString()
     {
 		StringBuffer equationBuffer =new StringBuffer();
-        WaveMultidimensionalMathFunction[] waveArray = new WaveMultidimensionalMathFunction[this.waves.size()];
+        WaveMultidimensionalFunction[] waveArray = new WaveMultidimensionalFunction[this.waves.size()];
         this.waves.toArray(waveArray);
         for(int waveArrayIndex = 0; waveArrayIndex < waveArray.length; waveArrayIndex++)
         {
-            WaveMultidimensionalMathFunction currentWave = waveArray[waveArrayIndex];
+            WaveMultidimensionalFunction currentWave = waveArray[waveArrayIndex];
             if( waveArrayIndex > 0 )
                 equationBuffer.append(" + ");
             equationBuffer.append(currentWave.toString());
