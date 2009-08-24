@@ -47,9 +47,19 @@ public class ComplexNumber
         return new ComplexNumber(this.realValue + value.realValue, this.imaginaryValue + value.imaginaryValue);
     }
 
+    public final ComplexNumber add(double value)
+	{
+		return this.add(new ComplexNumber(value, 0.0));
+    }
+
     public final ComplexNumber subtract(ComplexNumber value)
 	{
         return new ComplexNumber(this.realValue - value.realValue, this.imaginaryValue - value.imaginaryValue);
+    }
+
+    public final ComplexNumber subtract(double value)
+	{
+        return this.subtract(new ComplexNumber(value, 0.0));
     }
 
     public final ComplexNumber multiply(ComplexNumber value)
@@ -59,7 +69,6 @@ public class ComplexNumber
         return new ComplexNumber(real, imaginary);
     }
 
-    //scalar multiplication
     public final ComplexNumber multiply(double value)
 	{
         return new ComplexNumber(value * realValue, value * imaginaryValue);
@@ -67,14 +76,28 @@ public class ComplexNumber
 	
     public final ComplexNumber divide(ComplexNumber value)
 	{
-        ComplexNumber a = this;
-        return a.multiply(value.reciprocal());
+        return this.multiply(value.reciprocal());
+    }
+
+    public final ComplexNumber divide(double value)
+	{
+        return this.divide(new ComplexNumber(value, 0.0));
     }
 
     public final ComplexNumber exp()
 	{
         return new ComplexNumber(Math.exp(realValue) * Math.cos(imaginaryValue), Math.exp(realValue) * Math.sin(imaginaryValue));
     }
+
+	public final ComplexNumber sqrt()
+	{
+		//The square-root of the complex number (a + i b) is
+		//sqrt(a + i b) = +/- (sqrt(r + a) + i sqrt(r - a) sign(b)) sqrt(2) / 2,
+		//where r = sqrt(a^2 + b^2).
+		double r = Math.sqrt((this.realValue*this.realValue) + (this.imaginaryValue*this.imaginaryValue));
+		ComplexNumber intermediate = new ComplexNumber(Math.sqrt(r + this.realValue), Math.sqrt(r + this.realValue) * Math.signum(this.imaginaryValue));
+		return intermediate.multiply(Math.sqrt(2.0)).divide(2.0);
+	}
 
     public final ComplexNumber sin()
 	{
@@ -145,4 +168,26 @@ public class ComplexNumber
 			return realValue + " - " + -imaginaryValue + "i";
         return realValue + " + " + imaginaryValue + "i";
     }
+
+	public static ComplexNumber rms(ComplexNumber... values)
+	{
+		ComplexNumber rootSum = ComplexNumber.ZERO;
+		for(ComplexNumber value : values)
+			rootSum = rootSum.add(value.multiply(value));
+		return rootSum.divide((double)values.length);
+	}
+
+	public static ComplexNumber sum(ComplexNumber... values)
+	{
+		ComplexNumber complexSum = ComplexNumber.ZERO;
+		for(ComplexNumber value : values)
+			complexSum = complexSum.add(value);
+		return complexSum;
+	}
+
+	public static ComplexNumber mean(ComplexNumber... values)
+	{
+		ComplexNumber complexSum = sum(values);
+		return complexSum.divide((double)values.length);
+	}
 }
