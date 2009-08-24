@@ -19,9 +19,12 @@
 package com.syncleus.dann.math.transform;
 
 import com.syncleus.dann.math.*;
+import com.syncleus.dann.math.ComplexNumber;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.List;
+import java.util.Map.Entry;
 
 public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 {
@@ -232,7 +235,6 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 
         return inverseTransformMatrix(result);
     }
-
 
     private static ComplexNumber[] linearConvolveMatrix(ComplexNumber[] first, ComplexNumber[] second)
 	{
