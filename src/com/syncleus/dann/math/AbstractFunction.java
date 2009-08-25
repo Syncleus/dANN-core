@@ -19,17 +19,18 @@
 package com.syncleus.dann.math;
 
 import com.syncleus.dann.UnexpectedDannError;
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Set;
 import org.apache.log4j.Logger;
 
 public abstract class AbstractFunction implements Cloneable, Function
 {
     private double[] parameters;
     private String[] parameterNames;
-	private List<String> paramterNamesList;
+	private Set<String> paramterNamesList;
     private final Hashtable<String,Integer> indexNames = new Hashtable<String,Integer>();
 	private final static Logger LOGGER = Logger.getLogger(AbstractFunction.class);
 
@@ -39,10 +40,10 @@ public abstract class AbstractFunction implements Cloneable, Function
 		this.parameterNames = copy.parameterNames.clone();
 		this.indexNames.putAll(copy.indexNames);
 
-		List<String> newNames = new ArrayList<String>();
+		Set<String> newNames = new HashSet<String>();
 		for(String name : this.parameterNames)
 			newNames.add(name);
-		this.paramterNamesList = Collections.unmodifiableList(newNames);
+		this.paramterNamesList = Collections.unmodifiableSet(newNames);
 	}
 
     protected AbstractFunction(String[] parameterNames)
@@ -57,7 +58,7 @@ public abstract class AbstractFunction implements Cloneable, Function
             this.indexNames.put(this.parameterNames[index], Integer.valueOf(index));
     }
     
-    public final List<String> getParameterNames()
+    public final Set<String> getParameterNames()
     {
         return this.paramterNamesList;
     }
