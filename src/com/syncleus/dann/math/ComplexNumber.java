@@ -131,8 +131,8 @@ public class ComplexNumber
 	public final ComplexNumber sqrt()
 	{
 		//The square-root of the complex number (a + i b) is
-		//sqrt(a + i b) = +/- (sqrt(r + a) + i sqrt(r - a) sign(b)) sqrt(2) / 2,
-		//where r = sqrt(a^2 + b^2).
+		//sqrt(a + i b) = +/- (sqrt(radius + a) + i sqrt(radius - a) sign(b)) sqrt(2) / 2,
+		//where radius = sqrt(a^2 + b^2).
 		double r = Math.sqrt((this.realValue*this.realValue) + (this.imaginaryValue*this.imaginaryValue));
 		ComplexNumber intermediate = new ComplexNumber(Math.sqrt(r + this.realValue), Math.sqrt(r + this.realValue) * Math.signum(this.imaginaryValue));
 		return intermediate.multiply(Math.sqrt(2.0)).divide(2.0);
@@ -249,6 +249,14 @@ public class ComplexNumber
 			return realValue + " - " + -imaginaryValue + "i";
 		return realValue + " + " + imaginaryValue + "i";
 	}
+
+	public static ComplexNumber polarToComplex(double radius, double theta)
+	{
+		if (radius < 0)
+			throw new IllegalArgumentException("r must be greater than or equal to 0");
+		return new ComplexNumber(Math.cos(theta) * radius, Math.sin(theta) * radius);
+	}
+
 
 	public static ComplexNumber sum(ComplexNumber... values)
 	{
