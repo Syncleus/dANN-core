@@ -29,7 +29,7 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 
 	public CooleyTukeyFastFourierTransformer(int blockSize, int bitrate, int interval)
 	{
-		this.blockSize = blockSize;
+		this.setBlockSize(blockSize);
 		this.bitrate = bitrate;
 		this.interval = interval;
 	}
@@ -86,6 +86,9 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 
 	public void setBlockSize(int blockSize)
 	{
+		final double exponentOf2 = Math.log(blockSize)/Math.log(2.0);
+		if(exponentOf2 != Math.floor(exponentOf2))
+			blockSize = (int) Math.pow(2.0, Math.ceil(exponentOf2));
 		this.blockSize = blockSize;
 	}
 
@@ -125,28 +128,25 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 		return doubleNumbers;
 	}
 
-	private static double[] pad(final double[] signal)
+	private double[] pad(final double[] signal)
 	{
-		final double exponentOf2 = Math.log(signal.length)/Math.log(2.0);
-		if(exponentOf2 != Math.floor(exponentOf2))
-		{
-			final int newSignalSize = (int) Math.pow(2.0, Math.ceil(exponentOf2));
-			return Arrays.copyOf(signal, newSignalSize);
-		}
+		if(signal.length != this.blockSize)
+			return Arrays.copyOf(signal, this.blockSize);
 		return signal;
 	}
 
-	private static ComplexNumber[] pad(final ComplexNumber[] signal)
+	private ComplexNumber[] pad(final ComplexNumber[] signal)
 	{
-		final int signalSize = signal.length;
-		final double exponentOf2 = Math.log(signalSize)/Math.log(2.0);
-		if(exponentOf2 != Math.floor(exponentOf2))
+		if(signal.length < this.blockSize)
 		{
-			final int newSignalSize = (int) Math.pow(2.0, Math.ceil(exponentOf2));
-			ComplexNumber[] paddedSignal = Arrays.copyOf(signal, newSignalSize);
-			for(int index = signalSize; index < newSignalSize; index++)
+			ComplexNumber[] paddedSignal = Arrays.copyOf(signal, this.blockSize);
+			for(int index = signal.length; index < this.blockSize; index++)
 				paddedSignal[index] = ComplexNumber.ZERO;
+			return paddedSignal;
 		}
+		else if(signal.length > this.blockSize)
+			return Arrays.copyOf(signal, this.blockSize);
+		
 		return signal;
 	}
 
