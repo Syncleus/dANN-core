@@ -30,8 +30,8 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 	public CooleyTukeyFastFourierTransformer(int blockSize, int bitrate, int interval)
 	{
 		this.setBlockSize(blockSize);
-		this.bitrate = bitrate;
-		this.interval = interval;
+		this.setBitrate(bitrate);
+		this.setInterval(interval);
 	}
 
 	public DiscreteFourierTransform[] transformBlocks(double[] signal)
