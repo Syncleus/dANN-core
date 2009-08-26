@@ -23,7 +23,7 @@ import com.syncleus.dann.neural.*;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.Map.Entry;
-import com.syncleus.dann.math.Hyperpoint;
+import com.syncleus.dann.math.Vector;
 import org.apache.log4j.Logger;
 import com.syncleus.dann.InterruptedDannRuntimeException;
 import com.syncleus.dann.DannRuntimeException;
@@ -42,10 +42,10 @@ import com.syncleus.dann.UnexpectedDannError;
 public abstract class AbstractSomBrain extends AbstractLocalBrain
 {
 	private int iterationsTrained;
-	private Hyperpoint upperBounds;
-	private Hyperpoint lowerBounds;
+	private Vector upperBounds;
+	private Vector lowerBounds;
 	private final List<SomInputNeuron> inputs = new ArrayList<SomInputNeuron>();
-	private final Hashtable<Hyperpoint, SomNeuron> outputs = new Hashtable<Hyperpoint, SomNeuron>();
+	private final Hashtable<Vector, SomNeuron> outputs = new Hashtable<Vector, SomNeuron>();
 	private final static Logger LOGGER = Logger.getLogger(AbstractSomBrain.class);
 
 
@@ -82,12 +82,12 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	private class TrainNeuron implements Runnable
 	{
 		private final SomNeuron neuron;
-		private final Hyperpoint neuronPoint;
-		private final Hyperpoint bestMatchPoint;
+		private final Vector neuronPoint;
+		private final Vector bestMatchPoint;
 		private final double neighborhoodRadius;
 		private final double learningRate;
 
-		public TrainNeuron(SomNeuron neuron, Hyperpoint neuronPoint, Hyperpoint bestMatchPoint, double neighborhoodRadius, double learningRate)
+		public TrainNeuron(SomNeuron neuron, Vector neuronPoint, Vector bestMatchPoint, double neighborhoodRadius, double learningRate)
 		{
 			this.neuron = neuron;
 			this.neuronPoint = neuronPoint;
@@ -136,13 +136,13 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 		if(dimentionality <= 0)
 			throw new IllegalArgumentException("dimentionality must be greater than 0");
 		
-		this.upperBounds = new Hyperpoint(dimentionality);
-		this.lowerBounds = new Hyperpoint(dimentionality);
+		this.upperBounds = new Vector(dimentionality);
+		this.lowerBounds = new Vector(dimentionality);
 		for(int inputIndex = 0; inputIndex < inputCount; inputIndex++)
 			this.inputs.add(new SomInputNeuron());
 	}
 
-	private void updateBounds(final Hyperpoint position)
+	private void updateBounds(final Vector position)
 	{
 		//make sure we have the proper dimentionality
 		if(position.getDimensions() != this.upperBounds.getDimensions())
@@ -164,13 +164,13 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	 * @param position The position of the new output in the latice.
 	 * @since 2.0
 	 */
-	public void createOutput(final Hyperpoint position)
+	public void createOutput(final Vector position)
 	{
 		//make sure we have the proper dimentionality
 		if(position.getDimensions() != this.getUpperBounds().getDimensions())
 			throw new IllegalArgumentException("Dimentionality mismatch");
 
-		final Hyperpoint positionCopy = new Hyperpoint(position);
+		final Vector positionCopy = new Vector(position);
 
 		//increase the upper bounds if needed
 		this.updateBounds(positionCopy);
@@ -198,11 +198,11 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	 * @return the positions of all the outputs in the output lattice.
 	 * @since 2.0
 	 */
-	public final Set<Hyperpoint> getPositions()
+	public final Set<Vector> getPositions()
 	{
-		final HashSet<Hyperpoint> positions = new HashSet<Hyperpoint>();
-		for(Hyperpoint position : this.outputs.keySet())
-			positions.add(new Hyperpoint(position));
+		final HashSet<Vector> positions = new HashSet<Vector>();
+		for(Vector position : this.outputs.keySet())
+			positions.add(new Vector(position));
 		return Collections.unmodifiableSet(positions);
 	}
 
@@ -217,7 +217,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	 * SomNeuron associated with the given position.
 	 * @since 2.0
 	 */
-	public final double getOutput(final Hyperpoint position)
+	public final double getOutput(final Vector position)
 	{
 		final SomNeuron outputNeuron = this.outputs.get(position);
 		outputNeuron.propagate();
@@ -230,7 +230,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	 *
 	 * @return the BMU for the current input set.
 	 */
-	public final Hyperpoint getBestMatchingUnit()
+	public final Vector getBestMatchingUnit()
 	{
 		return this.getBestMatchingUnit(true);
 	}
@@ -244,24 +244,24 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	 * @return the BMU for the current input set.
 	 * @since 2.0
 	 */
-	public final Hyperpoint getBestMatchingUnit(final boolean train)
+	public final Vector getBestMatchingUnit(final boolean train)
 	{
 		//make sure we have atleast one output
 		if( this.outputs.size() <= 0)
 			throw new IllegalStateException("Must have atleast one output");
 
 		//stick all the neurons in the queue to propogate
-		final HashMap<Hyperpoint, Future<Double>> futureOutput = new HashMap<Hyperpoint, Future<Double>>();
-		for(Entry<Hyperpoint, SomNeuron> entry : this.outputs.entrySet())
+		final HashMap<Vector, Future<Double>> futureOutput = new HashMap<Vector, Future<Double>>();
+		for(Entry<Vector, SomNeuron> entry : this.outputs.entrySet())
 		{
 			final PropagateOutput callable = new PropagateOutput(entry.getValue());
 			futureOutput.put(entry.getKey(), this.getThreadExecutor().submit(callable));
 		}
 
 		//find the best matching unit
-		Hyperpoint bestMatchingUnit = null;
+		Vector bestMatchingUnit = null;
 		double bestError = Double.POSITIVE_INFINITY;
-		for(Entry<Hyperpoint, SomNeuron> entry : this.outputs.entrySet())
+		for(Entry<Vector, SomNeuron> entry : this.outputs.entrySet())
 		{
 			double currentError;
 			try
@@ -294,14 +294,14 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 		return bestMatchingUnit;
 	}
 
-	private void train(final Hyperpoint bestMatchingUnit)
+	private void train(final Vector bestMatchingUnit)
 	{
 		final double neighborhoodRadius = this.neighborhoodRadiusFunction();
 		final double learningRate = this.learningRateFunction();
 
 		//add all the neuron trainingevents to the thread queue
 		final ArrayList<Future> futures = new ArrayList<Future>();
-		for(Entry<Hyperpoint, SomNeuron> entry : this.outputs.entrySet())
+		for(Entry<Vector, SomNeuron> entry : this.outputs.entrySet())
 		{
 			final TrainNeuron runnable = new TrainNeuron(entry.getValue(), entry.getKey(), bestMatchingUnit, neighborhoodRadius, learningRate);
 			futures.add(this.getThreadExecutor().submit(runnable));
@@ -347,7 +347,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	 * @since 2.0
 	 * @return the upperBounds
 	 */
-	protected final Hyperpoint getUpperBounds()
+	protected final Vector getUpperBounds()
 	{
 		return upperBounds;
 	}
@@ -360,7 +360,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	 * @since 2.0
 	 * @return the lowerBounds
 	 */
-	protected final Hyperpoint getLowerBounds()
+	protected final Vector getLowerBounds()
 	{
 		return lowerBounds;
 	}
@@ -411,15 +411,15 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	 * @return the weight vectors of each output in the output lattice
 	 * @since 2.0
 	 */
-	public final Map<Hyperpoint, double[]> getOutputWeightVectors()
+	public final Map<Vector, double[]> getOutputWeightVectors()
 	{
 		//iterate through the output lattice
-		final HashMap<Hyperpoint, double[]> weightVectors = new HashMap<Hyperpoint, double[]>();
-		for(Entry<Hyperpoint,SomNeuron> output : this.outputs.entrySet())
+		final HashMap<Vector, double[]> weightVectors = new HashMap<Vector, double[]>();
+		for(Entry<Vector,SomNeuron> output : this.outputs.entrySet())
 		{
 			final double[] weightVector = new double[this.inputs.size()];
 			final SomNeuron currentNeuron = output.getValue();
-			final Hyperpoint currentPoint = output.getKey();
+			final Vector currentPoint = output.getKey();
 
 			//iterate through the weight vectors of the current neuron
 			for(Synapse source : currentNeuron.getSources())

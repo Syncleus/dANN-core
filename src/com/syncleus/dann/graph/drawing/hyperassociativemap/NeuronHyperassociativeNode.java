@@ -19,7 +19,7 @@
 package com.syncleus.dann.graph.drawing.hyperassociativemap;
 
 import com.syncleus.dann.UnexpectedDannError;
-import com.syncleus.dann.math.Hyperpoint;
+import com.syncleus.dann.math.Vector;
 import com.syncleus.dann.neural.Neuron;
 import java.util.HashSet;
 import org.apache.log4j.Logger;
@@ -64,11 +64,11 @@ public class NeuronHyperassociativeNode extends HyperassociativeNode
 	 *
 	 *
 	 * @param network the map this node will belong to.
-	 * @param location the initial Hyperpoint location of this node.
+	 * @param location the initial Vector location of this node.
 	 * @param backingNeuron the neuron backing this node.
 	 * @since 1.0
 	 */
-    public NeuronHyperassociativeNode(BrainHyperassociativeMap network, Hyperpoint location, Neuron backingNeuron)
+    public NeuronHyperassociativeNode(BrainHyperassociativeMap network, Vector location, Neuron backingNeuron)
     {
         super(network, location);
 

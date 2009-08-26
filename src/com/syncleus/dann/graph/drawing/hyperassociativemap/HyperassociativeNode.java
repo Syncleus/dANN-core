@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.drawing.hyperassociativemap;
 
-import com.syncleus.dann.math.Hyperpoint;
+import com.syncleus.dann.math.Vector;
 import java.io.Serializable;
 import java.util.*;
 
@@ -29,7 +29,7 @@ public class HyperassociativeNode implements Serializable
 
     private AbstractHyperassociativeMap network;
     private Hashtable<HyperassociativeNode, Double> weightedNeighbors = new Hashtable<HyperassociativeNode, Double>();
-    private Hyperpoint location;
+    private Vector location;
     private double equilibriumDistance = 1.0;
     private double learningRate = 0.004;
     private static Random random = new Random();
@@ -80,7 +80,7 @@ public class HyperassociativeNode implements Serializable
         if (network == null)
             throw new IllegalArgumentException("network can not be null!");
 
-        this.location = new Hyperpoint(network.getDimensions());
+        this.location = new Vector(network.getDimensions());
         this.network = network;
     }
 
@@ -95,7 +95,7 @@ public class HyperassociativeNode implements Serializable
 	 * and any nodes it associates with.
 	 * @since 1.0
 	 */
-	public HyperassociativeNode(AbstractHyperassociativeMap network, Hyperpoint location, double learningRate, double equilibriumDistance)
+	public HyperassociativeNode(AbstractHyperassociativeMap network, Vector location, double learningRate, double equilibriumDistance)
 	{
 		this(network, location, learningRate);
 		this.equilibriumDistance = equilibriumDistance;
@@ -110,7 +110,7 @@ public class HyperassociativeNode implements Serializable
 	 * @param learningRate The learning rate for this node.
 	 * @since 1.0
 	 */
-	public HyperassociativeNode(AbstractHyperassociativeMap network, Hyperpoint location, double learningRate)
+	public HyperassociativeNode(AbstractHyperassociativeMap network, Vector location, double learningRate)
 	{
 		this(network, location);
 		this.learningRate = learningRate;
@@ -125,7 +125,7 @@ public class HyperassociativeNode implements Serializable
 	 * @param location The initial location of this node.
 	 * @since 1.0
 	 */
-    public HyperassociativeNode(AbstractHyperassociativeMap network, Hyperpoint location)
+    public HyperassociativeNode(AbstractHyperassociativeMap network, Vector location)
     {
         if (location == null)
             throw new IllegalArgumentException("location can not be null!");
@@ -242,21 +242,21 @@ public class HyperassociativeNode implements Serializable
 
 
 	/**
-	 * Obtains a Hyperpoint with random coordinates for the specified number of
+	 * Obtains a Vector with random coordinates for the specified number of
 	 * dimensions.
 	 *
 	 *
-	 * @param dimensions Number of dimensions for the random Hyperpoint
-	 * @return New random Hyperpoint
+	 * @param dimensions Number of dimensions for the random Vector
+	 * @return New random Vector
 	 * @since 1.0
 	 */
-    public static Hyperpoint randomCoordinates(int dimensions)
+    public static Vector randomCoordinates(int dimensions)
     {
         double[] randomCoords = new double[dimensions];
         for (int randomCoordsIndex = 0; randomCoordsIndex < dimensions; randomCoordsIndex++)
             randomCoords[randomCoordsIndex] = (random.nextDouble() * 2.0) - 1.0;
 
-        return new Hyperpoint(randomCoords);
+        return new Vector(randomCoords);
     }
 
 	// </editor-fold>
@@ -274,10 +274,10 @@ public class HyperassociativeNode implements Serializable
         //calculate equilibrium with neighbors
         Set<HyperassociativeNode> neighbors = this.weightedNeighbors.keySet();
 
-        Hyperpoint compositeVector = new Hyperpoint(this.location.getDimensions());
+        Vector compositeVector = new Vector(this.location.getDimensions());
         for (HyperassociativeNode neighbor : neighbors)
         {
-            Hyperpoint neighborVector = neighbor.location.calculateRelativeTo(this.location);
+            Vector neighborVector = neighbor.location.calculateRelativeTo(this.location);
             double neighborEquilibrium = (equilibriumDistance / this.weightedNeighbors.get(neighbor).doubleValue());
             if (Math.abs(neighborVector.getDistance()) > neighborEquilibrium)
 			{
@@ -301,7 +301,7 @@ public class HyperassociativeNode implements Serializable
         for (HyperassociativeNode node : this.network.getNodes())
             if ((neighbors.contains(node) == false)&&(node != this)&&(node.weightedNeighbors.keySet().contains(this) == false) )
             {
-                Hyperpoint nodeVector = node.location.calculateRelativeTo(this.location);
+                Vector nodeVector = node.location.calculateRelativeTo(this.location);
 				double newDistance = -1.0/Math.pow(nodeVector.getDistance(), 2.0);
 				if(Math.abs(newDistance) > Math.abs(this.equilibriumDistance))
 					newDistance = -1.0 * this.equilibriumDistance;
@@ -322,7 +322,7 @@ public class HyperassociativeNode implements Serializable
 	 * @param center The new origin for this node.
 	 * @since 1.0
 	 */
-	void recenter(Hyperpoint center)
+	void recenter(Vector center)
 	{
 		this.location = this.location.calculateRelativeTo(center);
 	}
@@ -336,15 +336,15 @@ public class HyperassociativeNode implements Serializable
 
 
 	/**
-	 * Gets the current Hyperpoint location for this node.
+	 * Gets the current Vector location for this node.
 	 *
 	 *
-	 * @return The current Hyperpoint location for this node.
+	 * @return The current Vector location for this node.
 	 * @since 1.0
 	 */
-    public Hyperpoint getLocation()
+    public Vector getLocation()
     {
-        return new Hyperpoint(this.location);
+        return new Vector(this.location);
     }
 
 	// </editor-fold>

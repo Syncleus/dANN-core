@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.graph.hyperassociativemap;
 
-import com.syncleus.dann.math.Hyperpoint;
+import com.syncleus.dann.math.Vector;
 import com.syncleus.dann.graph.drawing.hyperassociativemap.*;
 import org.junit.*;
 
@@ -41,7 +41,7 @@ public class TestHyperassociativeNode
 	public void testConstructors()
 	{
 		TestMap testMap = new TestMap(3);
-		Hyperpoint testPoint = new Hyperpoint(3);
+		Vector testPoint = new Vector(3);
 		testMap.addNode(new HyperassociativeNode(testMap, 0.123d, 0.456d));
 		testMap.addNode(new HyperassociativeNode(testMap, testPoint, 0.456d, 0.789d));
 	}
@@ -51,8 +51,8 @@ public class TestHyperassociativeNode
 	{
 		TestMap testMap = new TestMap(3);
 
-		HyperassociativeNode testNode1 = new HyperassociativeNode(testMap, new Hyperpoint(new double[]{1.0d, 2.0d, 3.0d}), 0.1d);
-		HyperassociativeNode testNode2 = new HyperassociativeNode(testMap, new Hyperpoint(new double[]{4.0d, 5.0d, 6.0d}), 0.1d);
+		HyperassociativeNode testNode1 = new HyperassociativeNode(testMap, new Vector(new double[]{1.0d, 2.0d, 3.0d}), 0.1d);
+		HyperassociativeNode testNode2 = new HyperassociativeNode(testMap, new Vector(new double[]{4.0d, 5.0d, 6.0d}), 0.1d);
 		testNode1.associate(testNode2, 1.0d);
 		testNode2.associate(testNode1, 1.0d);
 
@@ -85,8 +85,8 @@ public class TestHyperassociativeNode
 	{
 		TestMap testMap = new TestMap(3);
 
-		HyperassociativeNode testNode1 = new HyperassociativeNode(testMap, new Hyperpoint(new double[]{1.0d, 2.0d, 3.0d}));
-		HyperassociativeNode testNode2 = new HyperassociativeNode(testMap, new Hyperpoint(new double[]{4.0d, 5.0d, 6.0d}));
+		HyperassociativeNode testNode1 = new HyperassociativeNode(testMap, new Vector(new double[]{1.0d, 2.0d, 3.0d}));
+		HyperassociativeNode testNode2 = new HyperassociativeNode(testMap, new Vector(new double[]{4.0d, 5.0d, 6.0d}));
 
 		testNode1.associate(testNode2, 1.0d);
 		testNode2.associate(testNode1, 3.0d);
@@ -122,7 +122,7 @@ public class TestHyperassociativeNode
 	@Test
 	public void testRandomCoordinates()
 	{
-		Hyperpoint randomPoint = HyperassociativeNode.randomCoordinates(3);
+		Vector randomPoint = HyperassociativeNode.randomCoordinates(3);
 
 		Assert.assertTrue("randomPoint dim1 is initialized at 0.0", randomPoint.getCoordinate(1) != 0.0d);
 		Assert.assertTrue("randomPoint dim2 is initialized at 0.0", randomPoint.getCoordinate(2) != 0.0d);

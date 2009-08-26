@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.neural.som;
 
-import com.syncleus.dann.math.Hyperpoint;
+import com.syncleus.dann.math.Vector;
 import com.syncleus.dann.neural.som.brain.ExponentialDecaySomBrain;
 import java.util.Random;
 import org.junit.*;
@@ -45,7 +45,7 @@ public class TestColor
 		//create the output latice
 		for(double x = 0; x < OUTPUT_WIDTH; x++)
 			for(double y = 0; y < OUTPUT_HEIGHT; y++)
-				brain.createOutput(new Hyperpoint(new double[]{x, y}));
+				brain.createOutput(new Vector(new double[]{x, y}));
 
 		//run through random training data
 		for(int iteration = 0; iteration < TRAIN_ITERATIONS; iteration++)
@@ -78,14 +78,14 @@ public class TestColor
 			brain.setInput(1, greenOffset + (random.nextDouble() * blockSize));
 			brain.setInput(2, blueOffset + (random.nextDouble() * blockSize));
 			outText.append("close color1... red:" + brain.getInput(0) + ", green: " +brain.getInput(1) + ", blue" + brain.getInput(2) + "\n");
-			final Hyperpoint color1 = brain.getBestMatchingUnit(true);
+			final Vector color1 = brain.getBestMatchingUnit(true);
 
 			//get the location of the other color within the block
 			brain.setInput(0, redOffset + (random.nextDouble() * blockSize));
 			brain.setInput(1, greenOffset + (random.nextDouble() * blockSize));
 			brain.setInput(2, blueOffset + (random.nextDouble() * blockSize));
 			outText.append("close color2... red:" + brain.getInput(0) + ", green: " +brain.getInput(1) + ", blue" + brain.getInput(2) + "\n");
-			final Hyperpoint color2 = brain.getBestMatchingUnit(true);
+			final Vector color2 = brain.getBestMatchingUnit(true);
 
 			//calculate the distance between these two points
 			outText.append("close color1 point: " + color1 + "\n");
@@ -115,14 +115,14 @@ public class TestColor
 			brain.setInput(1, ( isGreen1Positive ? random.nextDouble() * maxDrift : 1.0 - (random.nextDouble() * maxDrift)));
 			brain.setInput(2, ( isBlue1Positive ? random.nextDouble() * maxDrift : 1.0 - (random.nextDouble() * maxDrift)));
 			outText.append("far color1... red:" + brain.getInput(0) + ", green: " +brain.getInput(1) + ", blue" + brain.getInput(2) + "\n");
-			final Hyperpoint color1 = brain.getBestMatchingUnit(true);
+			final Vector color1 = brain.getBestMatchingUnit(true);
 
 			//get the location of the other color within the block
 			brain.setInput(0, ( isRed1Positive ? 1.0 - (random.nextDouble() * maxDrift) : random.nextDouble() * maxDrift));
 			brain.setInput(1, ( isGreen1Positive ? 1.0 - (random.nextDouble() * maxDrift) : random.nextDouble() * maxDrift));
 			brain.setInput(2, ( isBlue1Positive ? 1.0 - (random.nextDouble() * maxDrift) : random.nextDouble() * maxDrift));
 			outText.append("far color2... red:" + brain.getInput(0) + ", green: " +brain.getInput(1) + ", blue" + brain.getInput(2) + "\n");
-			final Hyperpoint color2 = brain.getBestMatchingUnit(true);
+			final Vector color2 = brain.getBestMatchingUnit(true);
 
 			//calculate the distance between these two points
 			outText.append("far color1 point: " + color1 + "\n");

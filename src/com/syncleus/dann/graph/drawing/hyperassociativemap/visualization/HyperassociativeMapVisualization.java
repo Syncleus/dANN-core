@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.drawing.hyperassociativemap.visualization;
 
-import com.syncleus.dann.math.Hyperpoint;
+import com.syncleus.dann.math.Vector;
 import com.syncleus.dann.graph.drawing.hyperassociativemap.*;
 import com.syncleus.dann.neural.Neuron;
 import com.syncleus.dann.neural.backprop.*;
@@ -44,7 +44,7 @@ public class HyperassociativeMapVisualization extends BranchGroup
 {
     private AbstractHyperassociativeMap map;
     private Hashtable<HyperassociativeNode, TransformGroup> nodeGraphics = new Hashtable<HyperassociativeNode, TransformGroup>();
-    private final Hashtable<HyperassociativeNode, Hyperpoint> oldNodeLocations = new Hashtable<HyperassociativeNode, Hyperpoint>();
+    private final Hashtable<HyperassociativeNode, Vector> oldNodeLocations = new Hashtable<HyperassociativeNode, Vector>();
     private final BranchGroup nestedRoot = new BranchGroup();
 	private float nodeRadius;
 
@@ -124,7 +124,7 @@ public class HyperassociativeMapVisualization extends BranchGroup
 
                 this.nestedRoot.addChild(newVisual);
                 newGraphicalNodes.put(node, newVisual);
-                this.oldNodeLocations.put(node, new Hyperpoint(node.getLocation().getDimensions()));
+                this.oldNodeLocations.put(node, new Vector(node.getLocation().getDimensions()));
             }
             else
             {
@@ -132,8 +132,8 @@ public class HyperassociativeMapVisualization extends BranchGroup
 
                 // Create the transform group node holding the sphere
                 final Transform3D neuronTransform = new Transform3D();
-                final Hyperpoint currentLocation = node.getLocation();
-                final Hyperpoint oldLocation = this.oldNodeLocations.get(node);
+                final Vector currentLocation = node.getLocation();
+                final Vector oldLocation = this.oldNodeLocations.get(node);
                 neuronTransform.set(-1f, new Vector3f((float) oldLocation.getCoordinate(1), (float) oldLocation.getCoordinate(2), (float) oldLocation.getCoordinate(3)));
                 oldVisual.setTransform(neuronTransform);
                 neuronTransform.set(1f, new Vector3f((float) currentLocation.getCoordinate(1), (float) currentLocation.getCoordinate(2), (float) currentLocation.getCoordinate(3)));

@@ -20,7 +20,7 @@ package com.syncleus.dann.graph.drawing.hyperassociativemap;
 
 import java.util.*;
 import java.util.concurrent.*;
-import com.syncleus.dann.math.Hyperpoint;
+import com.syncleus.dann.math.Vector;
 import java.io.Serializable;
 import org.apache.log4j.Logger;
 import com.syncleus.dann.DannRuntimeException;
@@ -49,7 +49,7 @@ public abstract class AbstractHyperassociativeMap implements Serializable
 	private ThreadPoolExecutor threadExecutor;
 	private final static Logger LOGGER = Logger.getLogger(AbstractHyperassociativeMap.class);
 
-	private static class Align implements Callable<Hyperpoint>
+	private static class Align implements Callable<Vector>
 	{
 		private HyperassociativeNode node;
 		private final static Logger LOGGER = Logger.getLogger(Align.class);
@@ -59,7 +59,7 @@ public abstract class AbstractHyperassociativeMap implements Serializable
 			this.node = node;
 		}
 
-		public Hyperpoint call()
+		public Vector call()
 		{
 			try
 			{
@@ -130,23 +130,23 @@ public abstract class AbstractHyperassociativeMap implements Serializable
         return Collections.unmodifiableSet(this.nodes);
     }
 
-	private List<Future<Hyperpoint>> submitFutureAligns()
+	private List<Future<Vector>> submitFutureAligns()
 	{
-		final ArrayList<Future<Hyperpoint>> futures = new ArrayList<Future<Hyperpoint>>();
+		final ArrayList<Future<Vector>> futures = new ArrayList<Future<Vector>>();
 		for(HyperassociativeNode node : this.nodes)
 			futures.add(this.threadExecutor.submit(new Align(node)));
 		return futures;
 	}
 
-	private Hyperpoint waitAndProcessFutures(final List<Future<Hyperpoint>> futures)
+	private Vector waitAndProcessFutures(final List<Future<Vector>> futures)
 	{
 		//wait for all nodes to finish aligning and calculate new center point
-		Hyperpoint pointSum = new Hyperpoint(this.dimensions);
+		Vector pointSum = new Vector(this.dimensions);
 		try
 		{
-			for(Future<Hyperpoint> future : futures)
+			for(Future<Vector> future : futures)
 			{
-				Hyperpoint newPoint = future.get();
+				Vector newPoint = future.get();
 				for(int dimensionIndex = 1; dimensionIndex <= this.dimensions; dimensionIndex++)
 					pointSum = pointSum.setCoordinate(pointSum.getCoordinate(dimensionIndex) + newPoint.getCoordinate(dimensionIndex), dimensionIndex);
 			}
@@ -165,7 +165,7 @@ public abstract class AbstractHyperassociativeMap implements Serializable
 		return pointSum;
 	}
 
-	private void recenterNodes(final Hyperpoint center)
+	private void recenterNodes(final Vector center)
 	{
 		for(HyperassociativeNode node : this.nodes)
 			node.recenter(center);
@@ -180,10 +180,10 @@ public abstract class AbstractHyperassociativeMap implements Serializable
     public void align()
     {
 		//align all nodes in parallel
-		final List<Future<Hyperpoint>> futures = this.submitFutureAligns();
+		final List<Future<Vector>> futures = this.submitFutureAligns();
 
 		//wait for all nodes to finish aligning and calculate new sum of all the points
-		Hyperpoint center = this.waitAndProcessFutures(futures);
+		Vector center = this.waitAndProcessFutures(futures);
 
 		//divide each coordinate of the sum of all the points by the number of
 		//nodes in order to calulate the average point, or cente rof all the

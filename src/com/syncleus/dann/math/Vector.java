@@ -31,20 +31,20 @@ import java.util.List;
  * @since 1.0
  *
  */
-public class Hyperpoint implements Serializable
+public class Vector implements Serializable
 {
     private volatile double[] coordinates;
 	private static final String DIMENSIONS_BELOW_ONE = "dimensions can not be less than or equal to zero";
 
 	/**
-	 * Creates a Hyperpoint at the origin (all coordinates are 0) in the
+	 * Creates a Vector at the origin (all coordinates are 0) in the
 	 * specified number of dimensions
 	 *
 	 *
 	 * @param dimensions number of dimensions of the point
 	 * @since 1.0
 	 */
-    public Hyperpoint(int dimensions)
+    public Vector(int dimensions)
     {
         if(dimensions <= 0)
             throw new IllegalArgumentException(DIMENSIONS_BELOW_ONE);
@@ -60,7 +60,7 @@ public class Hyperpoint implements Serializable
 	 * @param coordinates The initial coordinates for this point.
 	 * @since 1.0
 	 */
-    public Hyperpoint(double[] coordinates)
+    public Vector(double... coordinates)
     {
         if(coordinates == null)
             throw new IllegalArgumentException("coordinates can not be null!");
@@ -79,7 +79,7 @@ public class Hyperpoint implements Serializable
 	 * @param coordinates The initial coordinates for this point.
 	 * @since 1.0
 	 */
-    public Hyperpoint(List<Double> coordinates)
+    public Vector(List<Double> coordinates)
     {
         if(coordinates == null)
             throw new IllegalArgumentException("coordinates can not be null!");
@@ -99,10 +99,10 @@ public class Hyperpoint implements Serializable
 	 * Initializes a new hyperpoint that is a copy of the specified hyperpoint.
 	 *
 	 *
-	 * @param copy the Hyperpoint to copy.
+	 * @param copy the Vector to copy.
 	 * @since 1.0
 	 */
-    public Hyperpoint(Hyperpoint copy)
+    public Vector(Vector copy)
     {
         this.coordinates = (double[]) copy.coordinates.clone();
     }
@@ -128,7 +128,7 @@ public class Hyperpoint implements Serializable
 	 * equal to 0 or more than the number of dimensions.
 	 * @since 1.0
 	 */
-    public Hyperpoint setCoordinate(final double coordinate, final int dimension)
+    public Vector setCoordinate(final double coordinate, final int dimension)
     {
         if(dimension <= 0)
             throw new IllegalArgumentException(DIMENSIONS_BELOW_ONE);
@@ -137,7 +137,7 @@ public class Hyperpoint implements Serializable
 
 		double coords[] = this.coordinates.clone();
 		coords[dimension-1] = coordinate;
-		return new Hyperpoint(coords);
+		return new Vector(coords);
     }
 
 	/**
@@ -170,7 +170,7 @@ public class Hyperpoint implements Serializable
 	 * @param distance The new distance for this vector.
 	 * @since 1.0
 	 */
-    public Hyperpoint setDistance(final double distance)
+    public Vector setDistance(final double distance)
     {
 		final double[] newCoords = (double[]) this.coordinates.clone();
 
@@ -180,7 +180,7 @@ public class Hyperpoint implements Serializable
 		for(int newCoordsIndex = 0; newCoordsIndex < newCoords.length; newCoordsIndex++)
 			newCoords[newCoordsIndex] *= scalar;
 
-		return new Hyperpoint(newCoords);
+		return new Vector(newCoords);
     }
 
 	/**
@@ -196,7 +196,7 @@ public class Hyperpoint implements Serializable
 	 * dimensions.
 	 * @since 1.0
 	 */
-    public Hyperpoint setAngularComponent(final double angle, final int dimension)
+    public Vector setAngularComponent(final double angle, final int dimension)
     {
         if(dimension <= 0)
             throw new IllegalArgumentException(DIMENSIONS_BELOW_ONE);
@@ -227,7 +227,7 @@ public class Hyperpoint implements Serializable
 			newCoords[cartesianDimension-1] = sphericalProducts;
 		}
 
-		return new Hyperpoint(newCoords);
+		return new Vector(newCoords);
     }
 
 	/**
@@ -280,15 +280,53 @@ public class Hyperpoint implements Serializable
 		}
     }
 
+	public double getNorm(int order)
+	{
+		double poweredSum = 0.0;
+		for(double coordinate : this.coordinates)
+			poweredSum += Math.pow(Math.abs(coordinate), order);
+		return Math.pow(poweredSum, 1.0/((double)order));
+	}
+
+	public double getNorm()
+	{
+		return this.getNorm(2);
+	}
+
+	public double getNormInfinity()
+	{
+		double maximum = 0.0;
+		for(double coordinate : this.coordinates)
+			if(maximum < coordinate)
+				maximum = coordinate;
+		return maximum;
+	}
+
+	public Vector normalize()
+	{
+		if( this.isOrigin() )
+			throw new ArithmeticException("cant normalize a 0 vector");
+		double norm = this.getNorm();
+		return this.multiply(1.0 / norm);
+	}
+
+	public boolean isOrigin()
+	{
+		for(double coordinate : this.coordinates)
+			if(coordinate != 0.0)
+				return false;
+		return true;
+	}
+
 	/**
 	 * Recalculates this point using the specified point as its origin.
 	 *
 	 *
 	 * @param absolutePoint The origin to calculate relative to.
-	 * @return The new Hyperpoint resulting from the new origin.
+	 * @return The new Vector resulting from the new origin.
 	 * @since 1.0
 	 */
-    public Hyperpoint calculateRelativeTo(final Hyperpoint absolutePoint)
+    public Vector calculateRelativeTo(final Vector absolutePoint)
     {
         if(absolutePoint == null)
             throw new IllegalArgumentException("absolutePoint can not be null!");
@@ -303,18 +341,20 @@ public class Hyperpoint implements Serializable
         for(int coordIndex = 0; coordIndex < currentCoords.length; coordIndex++)
             relativeCoords[coordIndex] = currentCoords[coordIndex] - absoluteCoords[coordIndex];
         
-        return new Hyperpoint(relativeCoords);
+        return new Vector(relativeCoords);
     }
 
+
+
 	/**
-	 * Adds the specified Hyperpoint to this Hyperpoint.
+	 * Adds the specified Vector to this Vector.
 	 *
 	 *
-	 * @param pointToAdd Hyperpoint to add with this one.
-	 * @return The resulting Hyperpoint after addition.
+	 * @param pointToAdd Vector to add with this one.
+	 * @return The resulting Vector after addition.
 	 * @since 1.0
 	 */
-    public Hyperpoint add(final Hyperpoint pointToAdd)
+    public Vector add(final Vector pointToAdd)
     {
         if(pointToAdd == null)
             throw new IllegalArgumentException("pointToAdd can not be null!");
@@ -330,12 +370,73 @@ public class Hyperpoint implements Serializable
         for(int coordIndex = 0; coordIndex < currentCoords.length; coordIndex++)
             relativeCoords[coordIndex] = currentCoords[coordIndex] + addCoords[coordIndex];
         
-        return new Hyperpoint(relativeCoords);
+        return new Vector(relativeCoords);
     }
+
+    public Vector subtract(final Vector pointToAdd)
+    {
+        if(pointToAdd == null)
+            throw new IllegalArgumentException("pointToAdd can not be null!");
+
+		final double currentCoords[] = this.coordinates.clone();
+		final double addCoords[] = pointToAdd.coordinates.clone();
+
+
+        if(addCoords.length != currentCoords.length)
+            throw new IllegalArgumentException("pointToAdd must have the same dimensions as this point");
+
+		double relativeCoords[] = new double[currentCoords.length];
+        for(int coordIndex = 0; coordIndex < currentCoords.length; coordIndex++)
+            relativeCoords[coordIndex] = currentCoords[coordIndex] - addCoords[coordIndex];
+
+        return new Vector(relativeCoords);
+    }
+
+	public Vector multiply(double scalar)
+	{
+		return this.setDistance(this.getDistance() * scalar);
+	}
+
+	public Vector divide(double scalar)
+	{
+		return this.setDistance(this.getDistance() / scalar);
+	}
+
+	public Vector negate()
+	{
+		return this.multiply(-1.0);
+	}
+
+	public double dotProduct(Vector operand)
+	{
+		if(this.coordinates.length != operand.coordinates.length)
+			throw new IllegalArgumentException("operand must have the same number of dimensions as this vector.");
+
+		double result = 0.0;
+		for(int coordIndex = 0; coordIndex < this.coordinates.length; coordIndex++)
+			result += this.coordinates[coordIndex]*operand.coordinates[coordIndex];
+		return result;
+	}
+
+	public boolean isNaN()
+	{
+		for(double coordinate : this.coordinates)
+			if(Double.isNaN(coordinate))
+				return true;
+		return false;
+	}
+
+	public boolean isInfinite()
+	{
+		for(double coordinate : this.coordinates)
+			if(Double.isInfinite(coordinate))
+				return true;
+		return false;
+	}
 
 
 	/**
-	 * A string representation of this Hyperpoint in cartesian coordinates.
+	 * A string representation of this Vector in cartesian coordinates.
 	 *
 	 *
 	 * @return String representation of this point in cartesian coordinates.
@@ -360,10 +461,10 @@ public class Hyperpoint implements Serializable
 	}
 
 	/**
-	 * A string representation of this Hyperpoint in Hyperspherical coordinates.
+	 * A string representation of this Vector in Hyperspherical coordinates.
 	 *
 	 *
-	 * @return String representation of this Hyperpoint in Hyperspherical
+	 * @return String representation of this Vector in Hyperspherical
 	 * coordinates.
 	 * @since 1.0
 	 */
@@ -409,10 +510,10 @@ public class Hyperpoint implements Serializable
 	@Override
 	public boolean equals(final Object compareWithObject)
 	{
-		if(!(compareWithObject instanceof Hyperpoint))
+		if(!(compareWithObject instanceof Vector))
 			return false;
 
-		final Hyperpoint compareWith = (Hyperpoint) compareWithObject;
+		final Vector compareWith = (Vector) compareWithObject;
 
 		final double currentCoords[] = this.coordinates.clone();
 		final double otherCoords[] = compareWith.coordinates.clone();

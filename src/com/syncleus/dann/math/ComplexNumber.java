@@ -222,6 +222,16 @@ public class ComplexNumber implements Algebraic<ComplexNumber>, Trigonometric<Co
 		return new ComplexNumber(realValue, -imaginaryValue);
 	}
 
+	public boolean isNaN()
+	{
+		return Double.isNaN(this.realValue) || Double.isNaN(this.imaginaryValue);
+	}
+
+	public boolean isInfinite()
+	{
+		return Double.isInfinite(this.realValue) || Double.isInfinite(this.imaginaryValue);
+	}
+
 	public final double getRealValue()
 	{
 		return realValue;
