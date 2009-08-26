@@ -49,16 +49,16 @@ public class TestComplexNumber
 
 		result = valueA.divide(valueB);
 		expected = new ComplexNumber(-0.6216216216216217, 0.7297297297297298);
-		Assert.assertTrue("division failed: " + valueA + " / " + valueB + " = " + result, result.subtract(expected).abs() <0.0001);
+		Assert.assertTrue("division failed: " + valueA + " / " + valueB + " = " + result, result.subtract(expected).absScalar() <0.0001);
 
 		result = valueA.conjugate();
 		expected = new ComplexNumber(-8.0, -2.0);
 		Assert.assertTrue("conjugation failed: conjugate(" + valueA + ") = " + result, result.equals(expected));
 
-		Assert.assertTrue("absolute failed: abs(" + valueA + ") = " + valueA.abs(), (valueA.abs() - 8.246211251235321) < 0.0001);
+		Assert.assertTrue("absolute failed: abs(" + valueA + ") = " + valueA.absScalar(), (valueA.absScalar() - 8.246211251235321) < 0.0001);
 
 		result = valueA.tan();
 		expected = new ComplexNumber(0.010925884335752506, 1.0356479469632376);
-		Assert.assertTrue("conjugation failed: conjugate(" + valueA + ") = " + result, result.subtract(expected).abs() <0.0001);
+		Assert.assertTrue("conjugation failed: conjugate(" + valueA + ") = " + result, result.subtract(expected).absScalar() <0.0001);
 	}
 }

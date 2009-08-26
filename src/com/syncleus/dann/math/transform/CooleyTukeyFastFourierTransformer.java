@@ -124,7 +124,7 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 	{
 		final double[] doubleNumbers = new double[from.length];
 		for(int index = 0; index < from.length; index++)
-			doubleNumbers[index] = from[index].abs();
+			doubleNumbers[index] = from[index].absScalar();
 		return doubleNumbers;
 	}
 

@@ -61,12 +61,12 @@ public class DiscreteFourierTransform
 
 	public double getClosestAmplitude(double frequency)
 	{
-		return this.frequencies.ceilingEntry(frequency).getValue().abs();
+		return this.frequencies.ceilingEntry(frequency).getValue().absScalar();
 	}
 
 	public double getAmplitude(double frequency)
 	{
-		return this.frequencies.get(Double.valueOf(frequency)).abs();
+		return this.frequencies.get(Double.valueOf(frequency)).absScalar();
 	}
 
 	public double getClosestPhase(double frequency)
@@ -89,22 +89,22 @@ public class DiscreteFourierTransform
 
 	public double getBandSum(double startFrequency, double endFrequency)
 	{
-		return ComplexNumber.sum(amplitudes(startFrequency, endFrequency)).abs();
+		return ComplexNumber.sum(amplitudes(startFrequency, endFrequency)).absScalar();
 	}
 
 	public double getBandRms(double startFrequency, double endFrequency)
 	{
-		return Averages.rms(amplitudes(startFrequency, endFrequency)).abs();
+		return Averages.rms(amplitudes(startFrequency, endFrequency)).absScalar();
 	}
 
 	public double getBandMean(double startFrequency, double endFrequency)
 	{
-		return Averages.mean(amplitudes(startFrequency, endFrequency)).abs();
+		return Averages.mean(amplitudes(startFrequency, endFrequency)).absScalar();
 	}
 
 	public double getBandGeometricMean(double startFrequency, double endFrequency)
 	{
-		return Averages.geometricMean(amplitudes(startFrequency, endFrequency)).abs();
+		return Averages.geometricMean(amplitudes(startFrequency, endFrequency)).absScalar();
 	}
 
 	public ComplexNumber[] getTransform()

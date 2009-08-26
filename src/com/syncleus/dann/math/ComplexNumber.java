@@ -20,7 +20,7 @@ package com.syncleus.dann.math;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-public class ComplexNumber
+public class ComplexNumber implements Algebraic<ComplexNumber>
 {
 	public final static ComplexNumber ZERO = new ComplexNumber(0, 0);
 	public final static ComplexNumber I = new ComplexNumber(0, 1);
@@ -30,13 +30,24 @@ public class ComplexNumber
 
 	public ComplexNumber(double real, double imaginary)
 	{
-		realValue = real;
-		imaginaryValue = imaginary;
+		this.realValue = real;
+		this.imaginaryValue = imaginary;
 	}
 
-	public final double abs()
+	public ComplexNumber(double imaginary)
+	{
+		this.realValue = 0.0;
+		this.imaginaryValue = imaginary;
+	}
+
+	public final double absScalar()
 	{
 		return Math.hypot(realValue, imaginaryValue);
+	}
+
+	public final ComplexNumber abs()
+	{
+		return new ComplexNumber(this.absScalar(), 0.0);
 	}
 
 	//Value between -pi and pi
@@ -94,7 +105,7 @@ public class ComplexNumber
 
 	public final ComplexNumber log()
 	{
-		return new ComplexNumber(Math.log(this.abs()), Math.atan2(this.imaginaryValue, this.realValue));
+		return new ComplexNumber(Math.log(this.absScalar()), Math.atan2(this.imaginaryValue, this.realValue));
 	}
 
 	public final ComplexNumber pow(ComplexNumber exponent)
@@ -120,7 +131,7 @@ public class ComplexNumber
 		double inner = this.phase()/n;
 		for (int nIndex = 0; nIndex < n ; nIndex++)
 		{
-			result.add(new ComplexNumber(Math.cos(inner) * Math.pow(this.abs(), 1.0 / n), Math.sin(inner) * Math.pow(this.abs(), 1.0 / n)));
+			result.add(new ComplexNumber(Math.cos(inner) * Math.pow(this.absScalar(), 1.0 / n), Math.sin(inner) * Math.pow(this.absScalar(), 1.0 / n)));
 			inner += 2 * Math.PI / n;
 		}
 
@@ -138,7 +149,7 @@ public class ComplexNumber
 		return intermediate.multiply(Math.sqrt(2.0)).divide(2.0);
 	}
 
-	public ComplexNumber sqrt1z()
+	private ComplexNumber sqrt1Minus()
 	{
 		return (new ComplexNumber(1.0, 0.0)).subtract(this.multiply(this)).sqrt();
 	}
@@ -151,7 +162,7 @@ public class ComplexNumber
 
 	public final ComplexNumber asin()
 	{
-		return sqrt1z().add(this.multiply(ComplexNumber.I)).log().multiply(ComplexNumber.I.negate());
+		return sqrt1Minus().add(this.multiply(ComplexNumber.I)).log().multiply(ComplexNumber.I.negate());
 	}
 
 	public final ComplexNumber sinh()
@@ -166,7 +177,7 @@ public class ComplexNumber
 
 	public final ComplexNumber acos()
 	{
-		return this.add(this.sqrt1z().multiply(ComplexNumber.I)).log().multiply(ComplexNumber.I.negate());
+		return this.add(this.sqrt1Minus().multiply(ComplexNumber.I)).log().multiply(ComplexNumber.I.negate());
 	}
 
 	public final ComplexNumber cosh()
@@ -248,6 +259,31 @@ public class ComplexNumber
 		if( imaginaryValue <  0 )
 			return realValue + " - " + -imaginaryValue + "i";
 		return realValue + " + " + imaginaryValue + "i";
+	}
+
+	public static ComplexNumber scalarToComplex(double scalar)
+	{
+		return new ComplexNumber(scalar, 0.0);
+	}
+
+	public static ComplexNumber scalarToComplex(float scalar)
+	{
+		return new ComplexNumber(scalar, 0.0);
+	}
+
+	public static ComplexNumber scalarToComplex(long scalar)
+	{
+		return new ComplexNumber(scalar, 0.0);
+	}
+
+	public static ComplexNumber scalarToComplex(int scalar)
+	{
+		return new ComplexNumber(scalar, 0.0);
+	}
+
+	public static ComplexNumber scalarToComplex(short scalar)
+	{
+		return new ComplexNumber(scalar, 0.0);
 	}
 
 	public static ComplexNumber polarToComplex(double radius, double theta)
