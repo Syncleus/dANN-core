@@ -20,7 +20,7 @@ package com.syncleus.dann.math;
 
 import java.util.List;
 
-public interface Algebraic<F extends Algebraic> extends Trigonometric<F>
+public interface Algebraic<F extends Algebraic> extends FieldElement<F>
 {
 	F abs();
 	F exp();

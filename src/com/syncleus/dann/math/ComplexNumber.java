@@ -20,7 +20,7 @@ package com.syncleus.dann.math;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-public class ComplexNumber implements Algebraic<ComplexNumber>
+public class ComplexNumber implements Algebraic<ComplexNumber>, Trigonometric<ComplexNumber>
 {
 	public final static ComplexNumber ZERO = new ComplexNumber(0, 0);
 	public final static ComplexNumber I = new ComplexNumber(0, 1);
