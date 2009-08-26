@@ -40,7 +40,7 @@ public class TestCooleyTukeyFastFourierTransformer
         int dataPointCount = 1024;
         double[] dataPoints = generateSignal(frequency, dataPointCount);
 
-		CooleyTukeyFastFourierTransformer transformer = new CooleyTukeyFastFourierTransformer(0, dataPoints.length, 0);
+		CooleyTukeyFastFourierTransformer transformer = new CooleyTukeyFastFourierTransformer(dataPoints.length, dataPoints.length, 1);
         DiscreteFourierTransform transformed = transformer.transform(dataPoints);
 
 		Entry<Double, ComplexNumber> maxEntry = null;
@@ -48,7 +48,7 @@ public class TestCooleyTukeyFastFourierTransformer
 		{
 			if(maxEntry == null)
 				maxEntry = phasorEntry;
-			else if(maxEntry.getValue().abs() < phasorEntry.getValue().abs())
+			else if(maxEntry.getValue().absScalar() < phasorEntry.getValue().absScalar())
 				maxEntry = phasorEntry;
 		}
 
@@ -64,7 +64,7 @@ public class TestCooleyTukeyFastFourierTransformer
 
 
         // FFT of original data
-		CooleyTukeyFastFourierTransformer transformer = new CooleyTukeyFastFourierTransformer(0, dataPoints.length, 0);
+		CooleyTukeyFastFourierTransformer transformer = new CooleyTukeyFastFourierTransformer(dataPoints.length, dataPoints.length, 1);
         DiscreteFourierTransform transformed = transformer.transform(dataPoints);
 
 		double expectedBandPower = 0.0;
