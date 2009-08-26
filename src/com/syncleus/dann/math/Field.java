@@ -18,24 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.math;
 
-public interface Trigonometric<F extends Trigonometric<? extends F>> extends FieldElement<F>
+public interface Field<F extends FieldElement<? extends F>>
 {
-	F sin();
-	F asin();
-	F sinh();
-	F cos();
-	F acos();
-	F cosh();
-	F tan();
-	F atan();
-	F tanh();
-
-	//Field parent methods
-	Field<F> getField();
-	F add(F value);
-	F subtract(F value);
-	F multiply(F value);
-	F divide(F value);
-	F negate();
-	F reciprocal();
+	F getZero();
 }

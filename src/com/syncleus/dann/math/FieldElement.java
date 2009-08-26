@@ -18,8 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.math;
 
-public interface FieldElement<F extends FieldElement>
+public interface FieldElement<F extends FieldElement<? extends F>>
 {
+	Field<F> getField();
 	F add(F value);
 	F subtract(F value);
 	F multiply(F value);

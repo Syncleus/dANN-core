@@ -40,6 +40,11 @@ public class ComplexNumber implements Algebraic<ComplexNumber>, Trigonometric<Co
 		this.imaginaryValue = imaginary;
 	}
 
+	public  Field<ComplexNumber> getField()
+	{
+		return ComplexNumberField.FIELD;
+	}
+
 	public final double absScalar()
 	{
 		return Math.hypot(realValue, imaginaryValue);

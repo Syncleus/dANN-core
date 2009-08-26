@@ -20,7 +20,7 @@ package com.syncleus.dann.math;
 
 import java.util.List;
 
-public interface Algebraic<F extends Algebraic> extends FieldElement<F>
+public interface Algebraic<F extends Algebraic<? extends F>> extends FieldElement<F>
 {
 	F abs();
 	F exp();
@@ -31,20 +31,11 @@ public interface Algebraic<F extends Algebraic> extends FieldElement<F>
 	F conjugate();
 
 	//Field parent methods
+	Field<F> getField();
 	F add(F value);
 	F subtract(F value);
 	F multiply(F value);
 	F divide(F value);
 	F negate();
 	F reciprocal();
-	//Trigonometric parent methods
-	F sin();
-	F asin();
-	F sinh();
-	F cos();
-	F acos();
-	F cosh();
-	F tan();
-	F atan();
-	F tanh();
 }
