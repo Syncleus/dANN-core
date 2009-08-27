@@ -27,8 +27,8 @@ public class FastFourierTransformerInputStream extends InputStream
 {
 	private ObjectInputStream srcStream;
 	private FastFourierTransformer transformer;
-	public int interval;
-	public double[] buffer;
+	private int interval;
+	private double[] buffer;
 
 	public FastFourierTransformerInputStream(InputStream srcStream, FastFourierTransformer transformer, int interval) throws IOException
 	{
