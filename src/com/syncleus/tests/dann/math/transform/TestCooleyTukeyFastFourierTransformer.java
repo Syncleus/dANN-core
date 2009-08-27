@@ -27,18 +27,22 @@ import org.junit.*;
 
 public class TestCooleyTukeyFastFourierTransformer
 {
+	private static final int BLOCK_SIZE = 1024;
+
+	//generates a 1 second signal of the specified size and frequency
 	private static double[] generateSignal(double frequency, int signalSize)
 	{
         double[] dataPoints = new double[signalSize];
         for (int dataPointsIndex = 0; dataPointsIndex < signalSize; dataPointsIndex++)
-			dataPoints[dataPointsIndex] = Math.sin(((double)dataPointsIndex)*(Math.PI * frequency));
+		{
+			dataPoints[dataPointsIndex] = Math.cos(((double)dataPointsIndex)*((Math.PI*2.0) * (frequency/((double)signalSize))));
+		}
 		return dataPoints;
 	}
 
     public boolean checkSingleFrequency(double frequency)
 	{
-        int dataPointCount = 1024;
-        double[] dataPoints = generateSignal(frequency, dataPointCount);
+        double[] dataPoints = generateSignal(frequency, BLOCK_SIZE);
 
 		CooleyTukeyFastFourierTransformer transformer = new CooleyTukeyFastFourierTransformer(dataPoints.length, dataPoints.length);
         DiscreteFourierTransform transformed = transformer.transform(dataPoints);
@@ -52,15 +56,14 @@ public class TestCooleyTukeyFastFourierTransformer
 				maxEntry = phasorEntry;
 		}
 
-		if(Math.abs(maxEntry.getKey() - frequency) > 0.01)
+		if(Math.abs(maxEntry.getKey() - frequency) > 2.0)
 			return false;
 		return true;
     }
 
 	public boolean checkFrequencyRange(double frequency)
 	{
-        int dataPointCount = 1024;
-        double[] dataPoints = generateSignal(frequency, dataPointCount);
+        double[] dataPoints = generateSignal(frequency, BLOCK_SIZE);
 
 
         // FFT of original data
@@ -89,10 +92,12 @@ public class TestCooleyTukeyFastFourierTransformer
 	@Test
 	public void testRanges()
 	{
-		Assert.assertTrue("unexpected dominant frequency range!", checkFrequencyRange(0.5));
+		Assert.assertTrue("unexpected dominant frequency range!", checkFrequencyRange(0.0));
 		Assert.assertTrue("unexpected dominant frequency range!", checkFrequencyRange(0.25));
-		Assert.assertTrue("unexpected dominant frequency range!", checkFrequencyRange(0.125));
-		Assert.assertTrue("unexpected dominant frequency range!", checkFrequencyRange(0.0625));
+		Assert.assertTrue("unexpected dominant frequency range!", checkFrequencyRange(0.5));
+		Assert.assertTrue("unexpected dominant frequency range!", checkFrequencyRange(121.0));
+		Assert.assertTrue("unexpected dominant frequency range!", checkFrequencyRange(128.0));
+		Assert.assertTrue("unexpected dominant frequency range!", checkFrequencyRange(511.95));
 	}
 
 	@Test
@@ -101,8 +106,10 @@ public class TestCooleyTukeyFastFourierTransformer
 		final Random random = new Random();
 		for(int testIndex = 0; testIndex < 1000; testIndex++)
 		{
-			//(0.0-0.09, 0.1-0.19, 0.2-0.29... 0.9-0.99
-			final double frequency = (random.nextDouble() * 0.09) + (((double)random.nextInt(10)/10.0) );
+			//(0.025-0.075, 0.125-0.175, 0.225-0.275... 0.925-0.975
+			double frequency = ((random.nextDouble() * 0.05)+0.025) + (((double)random.nextInt(10)/10.0) );
+			//scale from 0-1 to 0-512
+			frequency *= 512.0;
 			Assert.assertTrue("unexpected random dominant frequency range: " + frequency + "!", checkFrequencyRange(frequency));
 		}
 	}
@@ -110,10 +117,12 @@ public class TestCooleyTukeyFastFourierTransformer
 	@Test
 	public void testFrequencies()
 	{
-		Assert.assertTrue("unexpected dominant frequency!", checkSingleFrequency(0.5));
+		Assert.assertTrue("unexpected dominant frequency!", checkSingleFrequency(0.0));
 		Assert.assertTrue("unexpected dominant frequency!", checkSingleFrequency(0.25));
-		Assert.assertTrue("unexpected dominant frequency!", checkSingleFrequency(0.125));
-		Assert.assertTrue("unexpected dominant frequency!", checkSingleFrequency(0.0625));
+		Assert.assertTrue("unexpected dominant frequency!", checkSingleFrequency(0.50));
+		Assert.assertTrue("unexpected dominant frequency!", checkSingleFrequency(121.0));
+		Assert.assertTrue("unexpected dominant frequency!", checkSingleFrequency(128.0));
+		Assert.assertTrue("unexpected dominant frequency!", checkSingleFrequency(511.95));
 	}
 
 	@Test
@@ -123,7 +132,9 @@ public class TestCooleyTukeyFastFourierTransformer
 		for(int testIndex = 0; testIndex < 1000; testIndex++)
 		{
 			//(0.0-0.09, 0.1-0.19, 0.2-0.29... 0.9-0.99
-			final double frequency = (random.nextDouble() * 0.09) + (((double)random.nextInt(10)/10.0) );
+			double frequency = (random.nextDouble() * 0.09) + (((double)random.nextInt(10)/10.0) );
+			//scale to 0 - 512
+			frequency *= 512.0;
 			Assert.assertTrue("unexpected random dominant frequency: " + frequency + "!", checkSingleFrequency(frequency));
 		}
 	}

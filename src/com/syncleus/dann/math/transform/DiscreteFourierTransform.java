@@ -35,8 +35,7 @@ public class DiscreteFourierTransform
 		final NavigableMap<Double, ComplexNumber> newFrequencies = new TreeMap<Double, ComplexNumber>();
 		for(int index = 0; index < frequencySize; index++)
 		{
-			// frequency = (index/size)/(size/bitrate)
-			Double currentFrequency = Double.valueOf((((double)(index+1))/frequencySize)/(((double)frequencies.length)/((double)bitrate)));
+			Double currentFrequency = Double.valueOf( (((double)(index))/(frequencySize-1.0)) * (((double)bitrate)/2.0) );
 			newFrequencies.put(currentFrequency, frequencies[index]);
 		}
 		this.frequencies = newFrequencies;
