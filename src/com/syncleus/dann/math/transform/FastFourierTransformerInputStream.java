@@ -53,6 +53,64 @@ public class FastFourierTransformerInputStream extends InputStream
 		int doublesAvailible = ( this.buffer != null ? (this.available()/8)+this.buffer.length : this.available()/8 );
 		return doublesAvailible/this.transformer.getBlockSize();
 	}
+
+	public int readTransform(DiscreteFourierTransform[] b, int off, int len) throws IOException
+	{
+		if(b == null)
+			throw new IllegalArgumentException("b must not be null");
+		if(off > b.length)
+			throw new IllegalArgumentException("off is greater than length of b");
+		if(off < 0)
+			throw new IllegalArgumentException("off must be greater than or equal to 0");
+		if(len < 0)
+			throw new IllegalArgumentException("len must be greater than or equal to 0");
+		if((off+len) > b.length)
+			throw new IllegalArgumentException("(off + len) is greater than length of b");
+
+		if(len == 0)
+			return 0;
+
+		if(b.length == 0)
+			return 0;
+
+		if(this.transformsAvailable() <= 1)
+		{
+			b[off] =  this.readTransform();
+			return 1;
+		}
+		else
+		{
+			int bufferSpace = b.length - off;
+			if(bufferSpace > len)
+				bufferSpace = len;
+			int transformCount = ( bufferSpace < this.transformsAvailable() ? bufferSpace : this.transformsAvailable());
+			for(int bIndex = off; bIndex < (transformCount + off); bIndex++)
+				b[bIndex + off] = this.readTransform();
+			return transformCount;
+		}
+	}
+
+	public int readTransform(DiscreteFourierTransform[] b) throws IOException
+	{
+		if(b == null)
+			throw new IllegalArgumentException("b must not be null");
+
+		if(b.length == 0)
+			return 0;
+
+		if(this.transformsAvailable() <= 1)
+		{
+			b[0] =  this.readTransform();
+			return 1;
+		}
+		else
+		{
+			int transformCount = ( b.length < this.transformsAvailable() ? b.length : this.transformsAvailable());
+			for(int bIndex = 0; bIndex < transformCount; bIndex++)
+				b[bIndex] = this.readTransform();
+			return transformCount;
+		}
+	}
 	
 	public DiscreteFourierTransform readTransform() throws IOException
 	{
