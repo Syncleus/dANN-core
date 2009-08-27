@@ -18,6 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.math.transform;
 
+import com.syncleus.dann.UnexpectedDannError;
 import java.io.IOException;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
@@ -70,7 +71,7 @@ public final class Transforms
 		}
 		catch(IOException caughtException)
 		{
-			throw new AssertionError(caughtException);
+			throw new UnexpectedDannError(caughtException);
 		}
 	}
 }
