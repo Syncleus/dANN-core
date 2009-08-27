@@ -50,7 +50,8 @@ public class FastFourierTransformerInputStream extends InputStream
 
 	public int transformsAvailable() throws IOException
 	{
-		return (this.available()/8)/this.transformer.getBlockSize();
+		int doublesAvailible = ( this.buffer != null ? (this.available()/8)+this.buffer.length : this.available()/8 );
+		return doublesAvailible/this.transformer.getBlockSize();
 	}
 	
 	public DiscreteFourierTransform readTransform() throws IOException
@@ -102,12 +103,36 @@ public class FastFourierTransformerInputStream extends InputStream
 	@Override
 	public int available() throws IOException
 	{
-		return ( this.buffer != null ? this.srcStream.available()+(this.buffer.length*4) : this.srcStream.available());
+		return this.srcStream.available();
+	}
+
+	@Override
+	public void mark(int readlimit)
+	{
+		this.srcStream.mark(readlimit);
+	}
+
+	@Override
+	public boolean markSupported()
+	{
+		return this.srcStream.markSupported();
 	}
 
 	public int read() throws IOException
 	{
-		throw new IOException("Can't read single bytes will cause misalignment");
+		return this.srcStream.read();
+	}
+
+	@Override
+	public int read(byte[] b) throws IOException
+	{
+		return this.srcStream.read(b);
+	}
+	
+	@Override
+	public int read(byte[] b, int off, int len) throws IOException
+	{
+		return this.srcStream.read(b, off, len);
 	}
 
 	@Override
@@ -120,5 +145,11 @@ public class FastFourierTransformerInputStream extends InputStream
 	public void reset() throws IOException
 	{
 		this.srcStream.reset();
+	}
+
+	@Override
+	public long skip(long n) throws IOException
+	{
+		return this.srcStream.skip(n);
 	}
 }

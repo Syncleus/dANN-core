@@ -53,7 +53,19 @@ public class SignalOutputStream extends OutputStream
 
 	public void write(int inData) throws IOException
 	{
-		throw new IOException("Can't write single bytes will cause misalignment");
+		this.destStream.write(inData);
+	}
+
+	@Override
+	public void write(byte[] b) throws IOException
+	{
+		this.destStream.write(b);
+	}
+
+	@Override
+	public void write(byte[] b, int off, int len) throws IOException
+	{
+		this.destStream.write(b, off, len);
 	}
 
 	@Override
