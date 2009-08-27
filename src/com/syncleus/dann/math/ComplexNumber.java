@@ -17,11 +17,32 @@
  *                                                                             *
  ******************************************************************************/
 package com.syncleus.dann.math;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 public class ComplexNumber implements Algebraic<ComplexNumber>, Trigonometric<ComplexNumber>
 {
+	public static final class Field implements com.syncleus.dann.math.Field<ComplexNumber>
+	{
+		public final static Field FIELD = new Field();
+
+		private Field()
+		{
+		}
+
+		public ComplexNumber getZero()
+		{
+			return ComplexNumber.ZERO;
+		}
+
+		public ComplexNumber getImaginaryUnit()
+		{
+			return ComplexNumber.I;
+		}
+	}
+
 	public final static ComplexNumber ZERO = new ComplexNumber(0, 0);
 	public final static ComplexNumber I = new ComplexNumber(0, 1);
 
@@ -40,9 +61,9 @@ public class ComplexNumber implements Algebraic<ComplexNumber>, Trigonometric<Co
 		this.imaginaryValue = imaginary;
 	}
 
-	public  Field<ComplexNumber> getField()
+	public com.syncleus.dann.math.Field<ComplexNumber> getField()
 	{
-		return ComplexNumberField.FIELD;
+		return Field.FIELD;
 	}
 
 	public final double absScalar()
