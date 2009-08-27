@@ -17,9 +17,11 @@
  *                                                                             *
  ******************************************************************************/
 package com.syncleus.dann.math.transform;
+
 import java.io.IOException;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
+
 public final class Transforms
 {
 	public static final class StreamPair
