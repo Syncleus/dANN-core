@@ -16,43 +16,59 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.genetics.wavelets;
-
-import com.syncleus.dann.genetics.MutableDouble;
-import java.util.Random;
-
-public final class Mutation
+package com.syncleus.dann.math.transform;
+import java.io.IOException;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
+public final class Transforms
 {
-	private final static Random RANDOM = new Random();
-
-	private Mutation()
+	public static final class StreamPair
 	{
-	}
+		private final FastFourierTransformerInputStream inStream;
+		private final SignalOutputStream outStream;
 
-	public static double mutabilityMutation(double mutability)
-	{
-		double mutabilityMutation = new MutableDouble(0.0).mutate(mutability).doubleValue();
-		if(mutabilityMutation > 0)
-			return mutability + mutabilityMutation;
-		else
+		public StreamPair(FastFourierTransformerInputStream inStream, SignalOutputStream outStream)
 		{
-			double returnValue = mutability - (mutability * (1 - 1/(Math.abs(mutabilityMutation) + 1)));
-			if(returnValue == 0.0)
-				returnValue = Double.MIN_VALUE;
+			if(inStream == null)
+				throw new IllegalArgumentException("inStream can not be null");
+			if(outStream == null)
+				throw new IllegalArgumentException("outStream can not be null");
+			
+			this.inStream = inStream;
+			this.outStream = outStream;
+		}
 
-			return returnValue;
+		public FastFourierTransformerInputStream getInStream()
+		{
+			return this.inStream;
+		}
+
+		public SignalOutputStream getOutStream()
+		{
+			return this.outStream;
 		}
 	}
 
-	public static Random getRandom()
+	private Transforms()
 	{
-		return RANDOM;
 	}
 
-	public static boolean mutationEvent(double mutability)
+	public static StreamPair streamedTransformer(FastFourierTransformer transformer, int interval)
 	{
-		if(Mutation.getRandom().nextDouble() < Math.tanh(Math.abs(mutability)))
-			return true;
-		return false;
+		try
+		{
+			PipedInputStream inPipe = new PipedInputStream();
+			PipedOutputStream outPipe = new PipedOutputStream(inPipe);
+			inPipe.connect(outPipe);
+			
+			FastFourierTransformerInputStream fftInStream = new FastFourierTransformerInputStream(inPipe, transformer, interval);
+			SignalOutputStream signalOutStream = new SignalOutputStream(outPipe);
+
+			return new StreamPair(fftInStream, signalOutStream);
+		}
+		catch(IOException caughtException)
+		{
+			throw new AssertionError(caughtException);
+		}
 	}
 }

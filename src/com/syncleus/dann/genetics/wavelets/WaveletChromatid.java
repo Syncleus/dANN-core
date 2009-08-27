@@ -37,7 +37,7 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 	//Logger used to log debugging information.
 	private final static Logger LOGGER = Logger.getLogger(WaveletChromatid.class);
 	//Random used for all random values.
-	private final static Random RANDOM = Mutation.getRandom();
+	private final static Random RANDOM = Mutations.getRandom();
 
 	//Position of the gene's centromere. This is the origin where chromatid
 	//pairs are joined.
@@ -48,7 +48,7 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 
 	private WaveletChromatid()
 	{
-		mutability = Mutation.getRandom().nextDouble() * 10.0;
+		mutability = Mutations.getRandom().nextDouble() * 10.0;
 	}
 	
 	public WaveletChromatid(WaveletChromatid copy)
@@ -78,7 +78,7 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 		while(newChromatid.sequencedGenes.size() <= 0 )
 			newChromatid.mutate(null);
 
-		while(Mutation.mutationEvent(newChromatid.mutability))
+		while(Mutations.mutationEvent(newChromatid.mutability))
 			newChromatid.mutate(null);
 
 		return newChromatid;
@@ -326,13 +326,13 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 	public void mutate(final Set<AbstractKey> keyPool)
 	{
 		//there is a chance we will add a new gene to the chromatid
-		if(Mutation.mutationEvent(mutability))
+		if(Mutations.mutationEvent(mutability))
 		{
 			//generate the new receptorKey used in the new gene
 			ReceptorKey newReceptorKey = new ReceptorKey(randomKey(keyPool));
 
 			//mutate new receptorKey before using it
-			while(Mutation.mutationEvent(this.mutability))
+			while(Mutations.mutationEvent(this.mutability))
 				newReceptorKey = newReceptorKey.mutate(mutability);
 
 			//create a new gene using the new receptor
@@ -366,7 +366,7 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 			currentGene.mutate(keyPool);
 
 		//mutate the mutability factor.
-		if( Mutation.mutationEvent(mutability) )
-			this.mutability = Mutation.mutabilityMutation(this.mutability);
+		if( Mutations.mutationEvent(mutability) )
+			this.mutability = Mutations.mutabilityMutation(this.mutability);
 	}
 }

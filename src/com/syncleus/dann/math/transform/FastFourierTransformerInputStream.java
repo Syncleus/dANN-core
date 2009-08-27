@@ -148,6 +148,16 @@ public class FastFourierTransformerInputStream extends InputStream
 		return this.transformer.transform(signal);
 	}
 
+	public int getBlockSize()
+	{
+		return this.transformer.getBlockSize();
+	}
+
+	public int getBitrate()
+	{
+		return this.transformer.getBitrate();
+	}
+
 	public int getInterval()
 	{
 		return interval;

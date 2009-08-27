@@ -19,7 +19,7 @@
 package com.syncleus.dann.genetics;
 
 import com.syncleus.dann.UnexpectedDannError;
-import com.syncleus.dann.genetics.wavelets.Mutation;
+import com.syncleus.dann.genetics.wavelets.Mutations;
 import java.util.Random;
 import org.apache.log4j.Logger;
 
@@ -34,7 +34,7 @@ import org.apache.log4j.Logger;
  */
 public abstract class MutableNumber<N extends Number> extends Number implements Cloneable
 {
-	private final static Random RANDOM = Mutation.getRandom();
+	private final static Random RANDOM = Mutations.getRandom();
 	private N number;
 	private final static Logger LOGGER = Logger.getLogger(MutableNumber.class);
 

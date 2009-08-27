@@ -33,7 +33,7 @@ public abstract class AbstractWaveletGene implements Gene, Cloneable
 
 	protected ExpressionFunction expressionFunction;
 	protected HashSet<SignalKeyConcentration> receivingConcentrations;
-	protected final static Random RANDOM = Mutation.getRandom();
+	protected final static Random RANDOM = Mutations.getRandom();
 
 	protected AbstractWaveletGene(ReceptorKey initialReceptor)
 	{
@@ -110,8 +110,8 @@ public abstract class AbstractWaveletGene implements Gene, Cloneable
 		else
 			this.expressionFunction.mutate(mutability);
 
-		if( Mutation.mutationEvent(this.mutability) )
-			this.mutability = Mutation.mutabilityMutation(mutability);
+		if( Mutations.mutationEvent(this.mutability) )
+			this.mutability = Mutations.mutabilityMutation(mutability);
 	}
 
 	@Override

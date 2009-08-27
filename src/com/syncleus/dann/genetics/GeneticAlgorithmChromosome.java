@@ -20,7 +20,7 @@ package com.syncleus.dann.genetics;
 
 import java.util.*;
 import org.apache.log4j.Logger;
-import com.syncleus.dann.genetics.wavelets.Mutation;
+import com.syncleus.dann.genetics.wavelets.Mutations;
 import com.syncleus.dann.UnexpectedDannError;
 
 /**
@@ -35,7 +35,7 @@ import com.syncleus.dann.UnexpectedDannError;
 public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>, Cloneable
 {
 	private Vector<AbstractValueGene> alleles;
-	private final static Random RANDOM = Mutation.getRandom();
+	private final static Random RANDOM = Mutations.getRandom();
 	private final static Logger LOGGER = Logger.getLogger(GeneticAlgorithmChromosome.class);
 
 	private GeneticAlgorithmChromosome()

@@ -27,7 +27,7 @@ public class Chromosome implements Cloneable
 {
 	private WaveletChromatid leftChromatid;
 	private WaveletChromatid rightChromatid;
-	private final static Random RANDOM = Mutation.getRandom();
+	private final static Random RANDOM = Mutations.getRandom();
 	private final static Logger LOGGER = Logger.getLogger(Chromosome.class);
 
 	private double mutability;
@@ -176,13 +176,13 @@ public class Chromosome implements Cloneable
 
 	public void mutate(final Set<AbstractKey> keyPool)
 	{
-		if( Mutation.mutationEvent(mutability) )
+		if( Mutations.mutationEvent(mutability) )
 			this.crossover(this.mutability);
 
 		this.leftChromatid.mutate(keyPool);
 		this.rightChromatid.mutate(keyPool);
 
-		if( Mutation.mutationEvent(this.mutability) )
-			this.mutability = Mutation.mutabilityMutation(this.mutability);
+		if( Mutations.mutationEvent(this.mutability) )
+			this.mutability = Mutations.mutabilityMutation(this.mutability);
 	}
 }

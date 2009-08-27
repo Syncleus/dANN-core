@@ -27,7 +27,7 @@ import org.apache.log4j.Logger;
 
 public class ExpressionFunction implements Cloneable
 {
-    private final static Random RANDOM = Mutation.getRandom();
+    private final static Random RANDOM = Mutations.getRandom();
     private Set<ReceptorKey> receptors;
     private List<WaveMultidimensionalFunction> waves;
     private CombinedWaveletFunction wavelet;

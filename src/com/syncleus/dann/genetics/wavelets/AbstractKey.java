@@ -27,7 +27,7 @@ import com.syncleus.dann.genetics.MutableInteger;
 public abstract class AbstractKey implements Cloneable
 {
 	private HashMap<Integer, Boolean> points;
-	private final static Random RANDOM = Mutation.getRandom();
+	private final static Random RANDOM = Mutations.getRandom();
 	private final static Logger LOGGER = Logger.getLogger(AbstractKey.class);
 
 	protected AbstractKey()

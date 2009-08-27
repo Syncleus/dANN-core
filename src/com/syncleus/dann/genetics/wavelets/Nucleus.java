@@ -32,13 +32,13 @@ public class Nucleus implements Cloneable
 	{
 		this.chromosomes = new ArrayList<Chromosome>();
 
-		this.mutability = Mutation.getRandom().nextDouble() * 10.0;
+		this.mutability = Mutations.getRandom().nextDouble() * 10.0;
 
 		//make sure there is atleast one starting chromosome.
 		this.chromosomes.add(new Chromosome());
 
 		//there is a chance more chromosomes can be created
-		while(Mutation.mutationEvent(mutability))
+		while(Mutations.mutationEvent(mutability))
 			this.chromosomes.add(new Chromosome());
 	}
 
