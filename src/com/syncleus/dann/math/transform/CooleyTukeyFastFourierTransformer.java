@@ -25,27 +25,11 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 {
 	private int blockSize;
 	private int bitrate;
-	private int interval;
 
-	public CooleyTukeyFastFourierTransformer(int blockSize, int bitrate, int interval)
+	public CooleyTukeyFastFourierTransformer(int blockSize, int bitrate)
 	{
 		this.setBlockSize(blockSize);
 		this.setBitrate(bitrate);
-		this.setInterval(interval);
-	}
-
-	public DiscreteFourierTransform[] transformBlocks(double[] signal)
-	{
-		int blockCount = (int) Math.ceil(((double)signal.length)/((double)this.interval));
-		DiscreteFourierTransform[] transforms = new DiscreteFourierTransform[blockCount];
-		for(int signalBlockIndex = 0; signalBlockIndex < blockCount; signalBlockIndex++)
-		{
-			double[] signalBlock = new double[this.blockSize];
-			for(int signalBlockPoint = 0; signalBlockPoint < this.blockSize; signalBlockPoint++)
-				signalBlock[signalBlockPoint] = signal[signalBlockIndex * this.blockSize + signalBlockPoint];
-			transforms[signalBlockIndex] = this.transform(signalBlock);
-		}
-		return transforms;
 	}
 
 	public DiscreteFourierTransform transform(double[] signal)
@@ -100,16 +84,6 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 	public void setBitrate(int bitrate)
 	{
 		this.bitrate = bitrate;
-	}
-
-	public int getInterval()
-	{
-		return interval;
-	}
-
-	public void setInterval(int interval)
-	{
-		this.interval = interval;
 	}
 	
 	private static ComplexNumber[] doubleArrayToComplexArray(final double[] from)

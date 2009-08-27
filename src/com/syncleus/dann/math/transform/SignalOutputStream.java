@@ -18,14 +18,53 @@
  ******************************************************************************/
 package com.syncleus.dann.math.transform;
 
-public interface FastFourierTransformer
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+
+public class SignalOutputStream extends OutputStream
 {
-	DiscreteFourierTransform transform(double[] signal);
-	double[] inverseTransform(DiscreteFourierTransform transform);
-	double[] circularConvolve(double[] first, double[] second);
-	double[] linearConvolve(double[] first, double[] second);
-	int getBlockSize();
-	void setBlockSize(int blockSize);
-	int getBitrate();
-	void setBitrate(int bitrate);
+	private ObjectOutputStream destStream;
+
+	public SignalOutputStream(OutputStream destStream) throws IOException
+	{
+		if(destStream instanceof ObjectOutputStream)
+			this.destStream = (ObjectOutputStream) destStream;
+		else
+			this.destStream = new ObjectOutputStream(destStream);
+	}
+
+	public void writeSignal(double[] signals, int off, int len) throws IOException
+	{
+		for(int signalsIndex = off; signalsIndex < (off+len); signalsIndex++)
+			this.destStream.writeDouble(signals[signalsIndex]);
+	}
+
+	public void writeSignal(double[] signals) throws IOException
+	{
+		for(double signal : signals)
+			this.destStream.writeDouble(signal);
+	}
+
+	public void writeSignal(double signal) throws IOException
+	{
+		this.destStream.writeDouble(signal);
+	}
+
+	public void write(int inData) throws IOException
+	{
+		throw new IOException("Can't write single bytes will cause misalignment");
+	}
+
+	@Override
+	public void flush() throws IOException
+	{
+		this.destStream.flush();
+	}
+
+	@Override
+	public void close() throws IOException
+	{
+		this.destStream.close();
+	}
 }

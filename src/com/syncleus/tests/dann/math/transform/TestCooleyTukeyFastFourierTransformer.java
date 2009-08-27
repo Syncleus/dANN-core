@@ -40,7 +40,7 @@ public class TestCooleyTukeyFastFourierTransformer
         int dataPointCount = 1024;
         double[] dataPoints = generateSignal(frequency, dataPointCount);
 
-		CooleyTukeyFastFourierTransformer transformer = new CooleyTukeyFastFourierTransformer(dataPoints.length, dataPoints.length, 1);
+		CooleyTukeyFastFourierTransformer transformer = new CooleyTukeyFastFourierTransformer(dataPoints.length, dataPoints.length);
         DiscreteFourierTransform transformed = transformer.transform(dataPoints);
 
 		Entry<Double, ComplexNumber> maxEntry = null;
@@ -64,7 +64,7 @@ public class TestCooleyTukeyFastFourierTransformer
 
 
         // FFT of original data
-		CooleyTukeyFastFourierTransformer transformer = new CooleyTukeyFastFourierTransformer(dataPoints.length, dataPoints.length, 1);
+		CooleyTukeyFastFourierTransformer transformer = new CooleyTukeyFastFourierTransformer(dataPoints.length, dataPoints.length);
         DiscreteFourierTransform transformed = transformer.transform(dataPoints);
 
 		double expectedBandPower = 0.0;
