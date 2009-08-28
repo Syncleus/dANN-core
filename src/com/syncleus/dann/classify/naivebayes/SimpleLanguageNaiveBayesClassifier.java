@@ -16,17 +16,18 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.classify;
+package com.syncleus.dann.classify.naivebayes;
 
+import com.syncleus.dann.classify.FeatureExtractor;
+import com.syncleus.dann.dataprocessing.language.BasicWordParser;
 import com.syncleus.dann.dataprocessing.language.WordParser;
-import com.syncleus.dann.dataprocessing.language.stem.StemmingWordParser;
 import java.util.Set;
 
-public class StemmingLanguageClassifier<C> extends SimpleClassifier<String, String, C> implements TrainableLanguageClassifier<C>
+public class SimpleLanguageNaiveBayesClassifier<C> extends SimpleNaiveBayesClassifier<String, String, C> implements TrainableLanguageNaiveBayesClassifier<C>
 {
-	private static class StemmingWordExtractor implements FeatureExtractor<String, String>
+	private static class WordExtractor implements FeatureExtractor<String, String>
 	{
-		private static final WordParser PARSER = new StemmingWordParser();
+		private static final WordParser PARSER = new BasicWordParser();
 
 		public Set<String> getFeatures(String item)
 		{
@@ -34,8 +35,8 @@ public class StemmingLanguageClassifier<C> extends SimpleClassifier<String, Stri
 		}
 	}
 
-	public StemmingLanguageClassifier()
+	public SimpleLanguageNaiveBayesClassifier()
 	{
-		super(new StemmingWordExtractor());
+		super(new WordExtractor());
 	}
 }

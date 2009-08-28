@@ -22,21 +22,26 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
-public class BasicClassifier<I,F,C> implements LearningClassifier<I,F,C>
+public class SimpleClassifier<I,F,C> implements TrainableClassifier<I,F,C>
 {
 	private ClassificationProbability<C> overallCategoryProbability = new ClassificationProbability<C>();
 	private Map<F, ClassificationProbability<C>> featureTree = new FeatureClassificationTree<F,C>();
 	private FeatureExtractor<F,I> extractor;
 
-	public BasicClassifier(FeatureExtractor<F,I> extractor)
+	public SimpleClassifier(FeatureExtractor<F,I> extractor)
 	{
 		this.extractor = extractor;
+	}
+
+	protected FeatureExtractor<F,I> getExtractor()
+	{
+		return this.extractor;
 	}
 
 	public double classificationProbability(F feature, C category)
 	{
 		//return fcount(feature, category) / overallProb
-		int overallProb = this.overallCategoryProbability.getCategoryProbability(category);
+		int overallProb = this.getOverallProbability(category);
 		int featureProb = 0;
 		if( this.featureTree.containsKey(feature) )
 			featureProb = this.featureTree.get(feature).getCategoryProbability(category);
@@ -68,5 +73,15 @@ public class BasicClassifier<I,F,C> implements LearningClassifier<I,F,C>
 		for(F feature : features)
 			this.featureTree.get(feature).incrementCategory(category);
 		this.overallCategoryProbability.incrementCategory(category);
+	}
+
+	protected int getOverallProbability(C category)
+	{
+		return this.overallCategoryProbability.getCategoryProbability(category);
+	}
+
+	protected int getOverallProbabilitySum()
+	{
+		return this.overallCategoryProbability.getProbabilitySum();
 	}
 }

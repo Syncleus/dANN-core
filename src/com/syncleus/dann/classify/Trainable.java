@@ -18,24 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.classify;
 
-import com.syncleus.dann.dataprocessing.language.WordParser;
-import com.syncleus.dann.dataprocessing.language.stem.StemmingWordParser;
-import java.util.Set;
-
-public class StemmingLanguageClassifier<C> extends SimpleClassifier<String, String, C> implements TrainableLanguageClassifier<C>
+public interface Trainable<I,C>
 {
-	private static class StemmingWordExtractor implements FeatureExtractor<String, String>
-	{
-		private static final WordParser PARSER = new StemmingWordParser();
-
-		public Set<String> getFeatures(String item)
-		{
-			return PARSER.getUniqueWords(item);
-		}
-	}
-
-	public StemmingLanguageClassifier()
-	{
-		super(new StemmingWordExtractor());
-	}
+	void train(I item, C category);
 }

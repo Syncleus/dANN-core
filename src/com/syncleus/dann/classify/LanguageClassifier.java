@@ -18,14 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.classify;
 
-import java.util.Set;
-
-public interface LearningClassifier<I,F,C> extends Classifier<F,C>
+public interface LanguageClassifier<C> extends Classifier<String,C>
 {
-	void train(I item, C category);
-
-	//Classifier methods
-	double classificationProbability(F feature, C category);
-	double classificationWeightedProbability(F feature, C category);
-	Set<C> getCategories();
 }
