@@ -41,16 +41,16 @@ public class TestSimpleLanguageFisherClassifier
 		classifier.train("just a filler to waste space", 2);
 
 		//test
-		Assert.assertTrue("Feature had incorrect category!", classifier.classification("Money") == 1);
-		Assert.assertTrue("Feature had incorrect category!", classifier.classification("Fox") == 1);
-		Assert.assertTrue("Feature had incorrect category!", classifier.classification("Nonsense") == 2);
-		Assert.assertTrue("Feature had incorrect category!", classifier.classification("Waste") == 2);
-		Assert.assertTrue("Feature had incorrect category!", classifier.classification("Evil") == 1);
-		Assert.assertTrue("Feature had incorrect category!", classifier.classification("Good") == 2);
+		Assert.assertTrue("Feature had incorrect category!", classifier.featureClassification("Money") == 1);
+		Assert.assertTrue("Feature had incorrect category!", classifier.featureClassification("Fox") == 1);
+		Assert.assertTrue("Feature had incorrect category!", classifier.featureClassification("Nonsense") == 2);
+		Assert.assertTrue("Feature had incorrect category!", classifier.featureClassification("Waste") == 2);
+		Assert.assertTrue("Feature had incorrect category!", classifier.featureClassification("Evil") == 1);
+		Assert.assertTrue("Feature had incorrect category!", classifier.featureClassification("Good") == 2);
 
-		Assert.assertTrue("Item had incorrect category!", classifier.getClassification("Money was here once") == 2);
-		Assert.assertTrue("Item had incorrect category!", classifier.getClassification("Money destroys the quick brown fox!") == 1);
-		Assert.assertTrue("Item had incorrect category!", classifier.getClassification("kills the soul") == 1);
-		Assert.assertTrue("Item had incorrect category!", classifier.getClassification("nonsense is the root of good") == 2);
+		Assert.assertTrue("Item had incorrect category!", classifier.classification("Money was here once") == 2);
+		Assert.assertTrue("Item had incorrect category!", classifier.classification("Money destroys the quick brown fox!") == 1);
+		Assert.assertTrue("Item had incorrect category!", classifier.classification("kills the soul") == 1);
+		Assert.assertTrue("Item had incorrect category!", classifier.classification("nonsense is the root of good") == 2);
 	}
 }

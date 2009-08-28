@@ -20,14 +20,14 @@ package com.syncleus.dann.classify;
 
 import java.util.HashMap;
 
-public class FeatureClassificationTree<F, C> extends HashMap<F, ClassificationProbability<C>>
+public class FeatureClassificationTree<F, C> extends HashMap<F, ClassificationProbabilities<C>>
 {
-	public ClassificationProbability<C> getFeature(F feature)
+	public ClassificationProbabilities<C> getFeature(F feature)
 	{
-		 ClassificationProbability<C> classification = super.get(feature);
+		 ClassificationProbabilities<C> classification = super.get(feature);
 		 if( classification == null )
 		 {
-			 classification = new ClassificationProbability<C>();
+			 classification = new ClassificationProbabilities<C>();
 			 this.put(feature, classification);
 		 }
 		 return classification;

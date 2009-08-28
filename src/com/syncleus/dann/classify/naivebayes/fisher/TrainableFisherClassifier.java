@@ -32,17 +32,17 @@ public interface TrainableFisherClassifier<I,F,C> extends FisherClassifier<I,F,C
 	double getMinimum(C category);
 
 	//NaiveBayesClassifier methods
-	C getClassification(I item, boolean useThreshold);
-	C getClassification(I item);
+	C classification(I item, boolean useThreshold);
+	C classification(I item);
 	Map<C,Double> getCategoryProbabilities(I item);
-	double getCategoryProbability(I item, C category);
+	double classificationProbability(I item, C category);
 	double getCategoryThreshold(C category);
-	void setCategoryThreashold(C category, double threshold);
+	void setCategoryThreshold(C category, double threshold);
 
 	//Classifier methods
-	C classification(F feature);
-	C classificationWeighted(F feature);
-	double classificationProbability(F feature, C category);
-	double classificationWeightedProbability(F feature, C category);
+	C featureClassification(F feature);
+	C featureClassificationWeighted(F feature);
+	double featureClassificationProbability(F feature, C category);
+	double featureClassificationWeightedProbability(F feature, C category);
 	Set<C> getCategories();
 }

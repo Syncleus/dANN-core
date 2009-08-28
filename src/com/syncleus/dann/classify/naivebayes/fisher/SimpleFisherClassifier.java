@@ -47,7 +47,7 @@ public class SimpleFisherClassifier<I,F,C> extends SimpleNaiveBayesClassifier<I,
 	}
 
 	@Override
-	public C getClassification(I item, boolean useThreshold)
+	public C classification(I item, boolean useThreshold)
 	{
 		Map<C,Double> categoryProbabilities = new HashMap<C,Double>();
 
@@ -55,7 +55,7 @@ public class SimpleFisherClassifier<I,F,C> extends SimpleNaiveBayesClassifier<I,
 		double topProbability = 0.0;
 		for(C category : this.getCategories())
 		{
-			double currentProbability = this.getCategoryProbability(item, category);
+			double currentProbability = this.classificationProbability(item, category);
 			categoryProbabilities.put(category, currentProbability);
 			if(topProbability < currentProbability)
 			{
@@ -76,26 +76,26 @@ public class SimpleFisherClassifier<I,F,C> extends SimpleNaiveBayesClassifier<I,
 	}
 
 	@Override
-	public double classificationProbability(F feature, C category)
+	public double featureClassificationProbability(F feature, C category)
 	{
-		double probability = super.classificationProbability(feature, category);
+		double probability = super.featureClassificationProbability(feature, category);
 		if( probability == 0.0 )
 			return 0.0;
 
 		double probabilitySum = 0.0;
 		for(C currentCategory : this.getCategories())
-			probabilitySum += super.classificationProbability(feature, currentCategory);
+			probabilitySum += super.featureClassificationProbability(feature, currentCategory);
 
 		return probability / probabilitySum;
 	}
 
 	@Override
-	public double getCategoryProbability(I item, C category)
+	public double classificationProbability(I item, C category)
 	{
 		Set<F> features = this.getExtractor().getFeatures(item);
 		double probability = 1.0;
 		for(F feature : features)
-			probability *= this.classificationWeightedProbability(feature, category);
+			probability *= this.featureClassificationWeightedProbability(feature, category);
 		probability = (-2.0 * Math.log(probability)) / 2.0;
 
 		double term = Math.exp(-probability);

@@ -22,7 +22,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ClassificationProbability<C>
+public class ClassificationProbabilities<C>
 {
 	private int probabilitySum;
 	private final Map<C, Integer> categoryProbabilityMap = new HashMap<C, Integer>();

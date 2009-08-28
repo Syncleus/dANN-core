@@ -23,9 +23,9 @@ import java.util.Set;
 public interface LanguageClassifier<C> extends Classifier<String,C>
 {
 	//Classifier methods
-	C classification(String feature);
-	C classificationWeighted(String feature);
-	double classificationProbability(String feature, C category);
-	double classificationWeightedProbability(String feature, C category);
+	C featureClassification(String feature);
+	C featureClassificationWeighted(String feature);
+	double featureClassificationProbability(String feature, C category);
+	double featureClassificationWeightedProbability(String feature, C category);
 	Set<C> getCategories();
 }

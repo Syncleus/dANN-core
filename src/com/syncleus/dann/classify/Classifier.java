@@ -22,9 +22,9 @@ import java.util.Set;
 
 public interface Classifier<F,C>
 {
-	C classification(F feature);
-	C classificationWeighted(F feature);
-	double classificationProbability(F feature, C category);
-	double classificationWeightedProbability(F feature, C category);
+	C featureClassification(F feature);
+	C featureClassificationWeighted(F feature);
+	double featureClassificationProbability(F feature, C category);
+	double featureClassificationWeightedProbability(F feature, C category);
 	Set<C> getCategories();
 }

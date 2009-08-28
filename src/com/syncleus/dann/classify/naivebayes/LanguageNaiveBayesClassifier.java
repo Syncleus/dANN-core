@@ -24,17 +24,17 @@ import java.util.Set;
 public interface LanguageNaiveBayesClassifier<C> extends NaiveBayesClassifier<String,String,C>
 {
 	//NaiveBayesClassifier methods
-	C getClassification(String item, boolean useThreshold);
-	C getClassification(String item);
+	C classification(String item, boolean useThreshold);
+	C classification(String item);
 	Map<C,Double> getCategoryProbabilities(String item);
-	double getCategoryProbability(String item, C category);
+	double classificationProbability(String item, C category);
 	double getCategoryThreshold(C category);
-	void setCategoryThreashold(C category, double threshold);
+	void setCategoryThreshold(C category, double threshold);
 
 	//Classifier methods
-	C classification(String feature);
-	C classificationWeighted(String feature);
-	double classificationProbability(String feature, C category);
-	double classificationWeightedProbability(String feature, C category);
+	C featureClassification(String feature);
+	C featureClassificationWeighted(String feature);
+	double featureClassificationProbability(String feature, C category);
+	double featureClassificationWeightedProbability(String feature, C category);
 	Set<C> getCategories();
 }

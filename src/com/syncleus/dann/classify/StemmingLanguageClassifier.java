@@ -39,14 +39,14 @@ public class StemmingLanguageClassifier<C> extends SimpleClassifier<String, Stri
 	}
 
 	@Override
-	public double classificationProbability(String feature, C category)
+	public double featureClassificationProbability(String feature, C category)
 	{
-		return super.classificationProbability(StemmingWordExtractor.PARSER.getUniqueWords(feature).iterator().next(), category);
+		return super.featureClassificationProbability(StemmingWordExtractor.PARSER.getUniqueWords(feature).iterator().next(), category);
 	}
 
 	@Override
-	public double classificationWeightedProbability(String feature, C category)
+	public double featureClassificationWeightedProbability(String feature, C category)
 	{
-		return super.classificationWeightedProbability(StemmingWordExtractor.PARSER.getUniqueWords(feature).iterator().next(), category);
+		return super.featureClassificationWeightedProbability(StemmingWordExtractor.PARSER.getUniqueWords(feature).iterator().next(), category);
 	}
 }

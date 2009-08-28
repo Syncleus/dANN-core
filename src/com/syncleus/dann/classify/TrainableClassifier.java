@@ -26,9 +26,9 @@ public interface TrainableClassifier<I,F,C> extends Classifier<F,C>, Trainable<I
 	void train(I item, C category);
 
 	//Classifier methods
-	C classification(F feature);
-	C classificationWeighted(F feature);
-	double classificationProbability(F feature, C category);
-	double classificationWeightedProbability(F feature, C category);
+	C featureClassification(F feature);
+	C featureClassificationWeighted(F feature);
+	double featureClassificationProbability(F feature, C category);
+	double featureClassificationWeightedProbability(F feature, C category);
 	Set<C> getCategories();
 }

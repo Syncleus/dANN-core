@@ -23,7 +23,7 @@ import java.util.Set;
 
 public class SimpleClassifier<I,F,C> implements TrainableClassifier<I,F,C>
 {
-	private ClassificationProbability<C> overallCategoryProbability = new ClassificationProbability<C>();
+	private ClassificationProbabilities<C> overallCategoryProbability = new ClassificationProbabilities<C>();
 	private FeatureClassificationTree<F,C> featureTree = new FeatureClassificationTree<F,C>();
 	private FeatureExtractor<F,I> extractor;
 
@@ -37,13 +37,13 @@ public class SimpleClassifier<I,F,C> implements TrainableClassifier<I,F,C>
 		return this.extractor;
 	}
 
-	public C classification(F feature)
+	public C featureClassification(F feature)
 	{
 		C topCategory = null;
 		double topProbability = 0.0;
 		for(C category : this.getCategories())
 		{
-			double currentProbability = this.classificationProbability(feature, category);
+			double currentProbability = this.featureClassificationProbability(feature, category);
 			if( topProbability < currentProbability)
 			{
 				topCategory = category;
@@ -53,13 +53,13 @@ public class SimpleClassifier<I,F,C> implements TrainableClassifier<I,F,C>
 		return topCategory;
 	}
 
-	public C classificationWeighted(F feature)
+	public C featureClassificationWeighted(F feature)
 	{
 		C topCategory = null;
 		double topProbability = 0.0;
 		for(C category : this.getCategories())
 		{
-			double currentProbability = this.classificationWeightedProbability(feature, category);
+			double currentProbability = this.featureClassificationWeightedProbability(feature, category);
 			if( topProbability < currentProbability)
 			{
 				topCategory = category;
@@ -70,7 +70,7 @@ public class SimpleClassifier<I,F,C> implements TrainableClassifier<I,F,C>
 	}
 
 
-	public double classificationProbability(F feature, C category)
+	public double featureClassificationProbability(F feature, C category)
 	{
 		int overallProb = this.getOverallProbability(category);
 		int featureProb = 0;
@@ -83,9 +83,9 @@ public class SimpleClassifier<I,F,C> implements TrainableClassifier<I,F,C>
 			return ((double)featureProb) / ((double)overallProb);
 	}
 
-	public double classificationWeightedProbability(F feature, C category)
+	public double featureClassificationWeightedProbability(F feature, C category)
 	{
-		double unweightedProb = this.classificationProbability(feature, category);
+		double unweightedProb = this.featureClassificationProbability(feature, category);
 		double total = 0.0;
 		if( this.featureTree.containsKey(feature) )
 			total = this.featureTree.getFeature(feature).getProbabilitySum();

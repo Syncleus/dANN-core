@@ -43,12 +43,12 @@ public class SimpleNaiveBayesClassifier<I,F,C> extends SimpleClassifier<I,F,C> i
 		return threshold;
 	}
 
-	public void setCategoryThreashold(C category, double threshold)
+	public void setCategoryThreshold(C category, double threshold)
 	{
 		this.categoryThresholds.put(category, threshold);
 	}
 
-	public C getClassification(I item, boolean useThreshold)
+	public C classification(I item, boolean useThreshold)
 	{
 		Map<C,Double> categoryProbabilities = new HashMap<C,Double>();
 
@@ -56,7 +56,7 @@ public class SimpleNaiveBayesClassifier<I,F,C> extends SimpleClassifier<I,F,C> i
 		double topProbability = 0.0;
 		for(C category : this.getCategories())
 		{
-			double currentProbability = this.getCategoryProbability(item, category);
+			double currentProbability = this.classificationProbability(item, category);
 			categoryProbabilities.put(category, currentProbability);
 			if(topProbability < currentProbability)
 			{
@@ -73,25 +73,25 @@ public class SimpleNaiveBayesClassifier<I,F,C> extends SimpleClassifier<I,F,C> i
 		return topCategory;
 	}
 
-	public final C getClassification(I item)
+	public final C classification(I item)
 	{
-		return this.getClassification(item, false);
+		return this.classification(item, false);
 	}
 
 	public Map<C,Double> getCategoryProbabilities(I item)
 	{
 		Map<C,Double> categoryProbabilities = new HashMap<C,Double>();
 		for(C category : this.getCategories())
-			categoryProbabilities.put(category, this.getCategoryProbability(item, category));
+			categoryProbabilities.put(category, this.classificationProbability(item, category));
 		return Collections.unmodifiableMap(categoryProbabilities);
 	}
 
-	public double getCategoryProbability(I item, C category)
+	public double classificationProbability(I item, C category)
 	{
 		double probability = ((double)this.getOverallProbability(category)) / ((double)this.getOverallProbabilitySum());
 		Set<F> features = this.getExtractor().getFeatures(item);
 		for(F feature : features)
-			probability *= this.classificationWeightedProbability(feature, category);
+			probability *= this.featureClassificationWeightedProbability(feature, category);
 		return probability;
 	}
 }

@@ -41,11 +41,11 @@ public class TestSimpleLanguageClassifier
 		classifier.train("just a filler to waste space", 2);
 
 		//test
-		Assert.assertTrue("Feature had incorrect category!", classifier.classification("Money") == 1);
-		Assert.assertTrue("Feature had incorrect category!", classifier.classification("Fox") == 1);
-		Assert.assertTrue("Feature had incorrect category!", classifier.classification("Nonsense") == 2);
-		Assert.assertTrue("Feature had incorrect category!", classifier.classification("Waste") == 2);
-		Assert.assertTrue("Feature had incorrect category!", classifier.classification("Evil") == 1);
-		Assert.assertTrue("Feature had incorrect category!", classifier.classification("Good") == 2);
+		Assert.assertTrue("Feature had incorrect category!", classifier.featureClassification("Money") == 1);
+		Assert.assertTrue("Feature had incorrect category!", classifier.featureClassification("Fox") == 1);
+		Assert.assertTrue("Feature had incorrect category!", classifier.featureClassification("Nonsense") == 2);
+		Assert.assertTrue("Feature had incorrect category!", classifier.featureClassification("Waste") == 2);
+		Assert.assertTrue("Feature had incorrect category!", classifier.featureClassification("Evil") == 1);
+		Assert.assertTrue("Feature had incorrect category!", classifier.featureClassification("Good") == 2);
 	}
 }

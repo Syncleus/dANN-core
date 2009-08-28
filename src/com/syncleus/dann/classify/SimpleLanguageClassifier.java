@@ -40,14 +40,14 @@ public class SimpleLanguageClassifier<C> extends SimpleClassifier<String, String
 	}
 
 	@Override
-	public double classificationProbability(String feature, C category)
+	public double featureClassificationProbability(String feature, C category)
 	{
-		return super.classificationProbability(feature.toLowerCase(), category);
+		return super.featureClassificationProbability(feature.toLowerCase(), category);
 	}
 
 	@Override
-	public double classificationWeightedProbability(String feature, C category)
+	public double featureClassificationWeightedProbability(String feature, C category)
 	{
-		return super.classificationWeightedProbability(feature.toLowerCase(), category);
+		return super.featureClassificationWeightedProbability(feature.toLowerCase(), category);
 	}
 }
