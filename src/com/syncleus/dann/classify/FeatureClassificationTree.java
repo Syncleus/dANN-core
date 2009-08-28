@@ -22,7 +22,7 @@ import java.util.HashMap;
 
 public class FeatureClassificationTree<F, C> extends HashMap<F, ClassificationProbability<C>>
 {
-	public ClassificationProbability<C> get(F feature)
+	public ClassificationProbability<C> getFeature(F feature)
 	{
 		 ClassificationProbability<C> classification = super.get(feature);
 		 if( classification == null )

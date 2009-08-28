@@ -18,6 +18,26 @@
  ******************************************************************************/
 package com.syncleus.dann.classify.naivebayes;
 
+import java.util.Map;
+import java.util.Set;
+
 public interface TrainableLanguageNaiveBayesClassifier<C> extends TrainableNaiveBayesClassifier<String,String,C>, LanguageNaiveBayesClassifier<C>
 {
+	//Trainable methods
+	void train(String item, C category);
+	
+	//NaiveBayesClassifier methods
+	C getClassification(String item, boolean useThreshold);
+	C getClassification(String item);
+	Map<C,Double> getCategoryProbabilities(String item);
+	double getCategoryProbability(String item, C category);
+	double getCategoryThreshold(C category);
+	void setCategoryThreashold(C category, double threshold);
+
+	//Classifier methods
+	C classification(String feature);
+	C classificationWeighted(String feature);
+	double classificationProbability(String feature, C category);
+	double classificationWeightedProbability(String feature, C category);
+	Set<C> getCategories();
 }

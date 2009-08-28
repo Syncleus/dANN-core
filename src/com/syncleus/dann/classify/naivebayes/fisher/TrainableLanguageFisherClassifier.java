@@ -16,14 +16,27 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.classify;
+package com.syncleus.dann.classify.naivebayes.fisher;
 
+import java.util.Map;
 import java.util.Set;
 
-public interface TrainableLanguageClassifier<C> extends TrainableClassifier<String,String,C>, LanguageClassifier<C>
+public interface TrainableLanguageFisherClassifier<C> extends TrainableFisherClassifier<String,String,C>, LanguageFisherClassifier<C>
 {
 	//Trainable methods
 	void train(String item, C category);
+
+	//FisherClassifier methods
+	void setMinimum(C category, double minimum);
+	double getMinimum(C category);
+
+	//NaiveBayesClassifier methods
+	C getClassification(String item, boolean useThreshold);
+	C getClassification(String item);
+	Map<C,Double> getCategoryProbabilities(String item);
+	double getCategoryProbability(String item, C category);
+	double getCategoryThreshold(C category);
+	void setCategoryThreashold(C category, double threshold);
 
 	//Classifier methods
 	C classification(String feature);

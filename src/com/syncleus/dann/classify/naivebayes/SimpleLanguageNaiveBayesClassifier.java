@@ -39,4 +39,16 @@ public class SimpleLanguageNaiveBayesClassifier<C> extends SimpleNaiveBayesClass
 	{
 		super(new WordExtractor());
 	}
+
+	@Override
+	public double classificationProbability(String feature, C category)
+	{
+		return super.classificationProbability(feature.toLowerCase(), category);
+	}
+
+	@Override
+	public double classificationWeightedProbability(String feature, C category)
+	{
+		return super.classificationWeightedProbability(feature.toLowerCase(), category);
+	}
 }

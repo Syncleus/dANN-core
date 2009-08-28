@@ -40,8 +40,10 @@ public class ClassificationProbability<C>
 	public void incrementCategory(C category, int value)
 	{
 		Integer currentProbability = this.categoryProbabilityMap.get(category);
-		if(currentProbability == null)
+		if(currentProbability != null)
 			currentProbability = currentProbability + value;
+		else
+			currentProbability = value;
 		this.categoryProbabilityMap.put(category, currentProbability);
 		this.probabilitySum += value;
 	}

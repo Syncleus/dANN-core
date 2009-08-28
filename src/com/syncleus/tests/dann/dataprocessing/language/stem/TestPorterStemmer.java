@@ -36,5 +36,6 @@ public class TestPorterStemmer
 		Assert.assertTrue("word stem incorrect!", stemmer.stemWord("napping").compareToIgnoreCase("nap") == 0);
 		Assert.assertTrue("word stem incorrect!", stemmer.stemWord("runner").compareToIgnoreCase("runner") == 0);
 		Assert.assertTrue("word stem incorrect!", stemmer.stemWord("hiker").compareToIgnoreCase("hiker") == 0);
+		Assert.assertTrue("word stem incorrect!", stemmer.stemWord("Nonsense").compareToIgnoreCase("Nonsens") == 0);
 	}
 }

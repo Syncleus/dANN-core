@@ -22,6 +22,8 @@ import java.util.Set;
 
 public interface Classifier<F,C>
 {
+	C classification(F feature);
+	C classificationWeighted(F feature);
 	double classificationProbability(F feature, C category);
 	double classificationWeightedProbability(F feature, C category);
 	Set<C> getCategories();

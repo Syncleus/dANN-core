@@ -47,6 +47,8 @@ public class PorterStemmer implements Stemmer
 
 	public String stemWord(String originalWord)
 	{
+		originalWord = originalWord.toLowerCase();
+		
 		this.dirtyBuffer = false;
 		this.bufferSize = originalWord.toCharArray().length;
 		this.buffer = Arrays.copyOf(originalWord.toCharArray(), this.bufferSize);

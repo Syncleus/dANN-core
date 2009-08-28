@@ -27,7 +27,7 @@ public class StemmingLanguageNaiveBayesClassifier<C> extends SimpleNaiveBayesCla
 {
 	private static class StemmingWordExtractor implements FeatureExtractor<String, String>
 	{
-		private static final WordParser PARSER = new StemmingWordParser();
+		public static final WordParser PARSER = new StemmingWordParser();
 
 		public Set<String> getFeatures(String item)
 		{
@@ -38,5 +38,17 @@ public class StemmingLanguageNaiveBayesClassifier<C> extends SimpleNaiveBayesCla
 	public StemmingLanguageNaiveBayesClassifier()
 	{
 		super(new StemmingWordExtractor());
+	}
+
+	@Override
+	public double classificationProbability(String feature, C category)
+	{
+		return super.classificationProbability(StemmingWordExtractor.PARSER.getUniqueWords(feature).iterator().next(), category);
+	}
+
+	@Override
+	public double classificationWeightedProbability(String feature, C category)
+	{
+		return super.classificationWeightedProbability(StemmingWordExtractor.PARSER.getUniqueWords(feature).iterator().next(), category);
 	}
 }

@@ -16,38 +16,37 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.classify.naivebayes;
+package com.syncleus.dann.classify.naivebayes.fisher;
 
-import com.syncleus.dann.classify.SimpleClassifier;
 import com.syncleus.dann.classify.FeatureExtractor;
-import java.util.Collections;
+import com.syncleus.dann.classify.naivebayes.SimpleNaiveBayesClassifier;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-public class SimpleNaiveBayesClassifier<I,F,C> extends SimpleClassifier<I,F,C> implements TrainableNaiveBayesClassifier<I,F,C>
+public class SimpleFisherClassifier<I,F,C> extends SimpleNaiveBayesClassifier<I,F,C> implements FisherClassifier<I,F,C>
 {
-	private final Map<C,Double> categoryThresholds = new HashMap<C,Double>();
+	private Map<C,Double> categoryMinimums = new HashMap<C,Double>();
 
-	public SimpleNaiveBayesClassifier(FeatureExtractor<F,I> extractor)
+	public SimpleFisherClassifier(FeatureExtractor<F,I> extractor)
 	{
 		super(extractor);
 	}
 
-	public double getCategoryThreshold(C category)
+	public void setMinimum(C category, double minimum)
 	{
-		Double threshold = this.categoryThresholds.get(category);
-		if( threshold == null )
-			return 0.0;
-		return threshold;
+		this.categoryMinimums.put(category, minimum);
 	}
 
-	public void setCategoryThreashold(C category, double threshold)
+	public double getMinimum(C category)
 	{
-		this.categoryThresholds.put(category, threshold);
+		if(this.categoryMinimums.containsKey(category))
+			return this.categoryMinimums.get(category);
+		return 0.0;
 	}
 
+	@Override
 	public C getClassification(I item, boolean useThreshold)
 	{
 		Map<C,Double> categoryProbabilities = new HashMap<C,Double>();
@@ -66,32 +65,47 @@ public class SimpleNaiveBayesClassifier<I,F,C> extends SimpleClassifier<I,F,C> i
 		}
 
 		if(useThreshold)
+		{
 			for(Entry<C,Double> probability : categoryProbabilities.entrySet())
-				if( (probability.getKey() != topCategory) && (probability.getValue() * this.categoryThresholds.get(topCategory) > topProbability) )
-					return null;
-
-		return topCategory;
+				if( probability.getValue()  > this.getMinimum(probability.getKey()) )
+					return probability.getKey();
+			return null;
+		}
+		else
+			return topCategory;
 	}
 
-	public final C getClassification(I item)
+	@Override
+	public double classificationProbability(F feature, C category)
 	{
-		return this.getClassification(item, false);
+		double probability = super.classificationProbability(feature, category);
+		if( probability == 0.0 )
+			return 0.0;
+
+		double probabilitySum = 0.0;
+		for(C currentCategory : this.getCategories())
+			probabilitySum += super.classificationProbability(feature, currentCategory);
+
+		return probability / probabilitySum;
 	}
 
-	public Map<C,Double> getCategoryProbabilities(I item)
-	{
-		Map<C,Double> categoryProbabilities = new HashMap<C,Double>();
-		for(C category : this.getCategories())
-			categoryProbabilities.put(category, this.getCategoryProbability(item, category));
-		return Collections.unmodifiableMap(categoryProbabilities);
-	}
-
+	@Override
 	public double getCategoryProbability(I item, C category)
 	{
-		double probability = ((double)this.getOverallProbability(category)) / ((double)this.getOverallProbabilitySum());
 		Set<F> features = this.getExtractor().getFeatures(item);
+		double probability = 1.0;
 		for(F feature : features)
 			probability *= this.classificationWeightedProbability(feature, category);
-		return probability;
+		probability = (-2.0 * Math.log(probability)) / 2.0;
+
+		double term = Math.exp(-probability);
+		double sum = term;
+		for(int i = 1; i < (features.size()*2) / 2;i++)
+		{
+			term *= probability / i;
+			sum += term;
+		}
+
+		return Math.min(sum, 1.0);
 	}
 }

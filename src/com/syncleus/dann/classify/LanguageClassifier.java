@@ -18,6 +18,14 @@
  ******************************************************************************/
 package com.syncleus.dann.classify;
 
+import java.util.Set;
+
 public interface LanguageClassifier<C> extends Classifier<String,C>
 {
+	//Classifier methods
+	C classification(String feature);
+	C classificationWeighted(String feature);
+	double classificationProbability(String feature, C category);
+	double classificationWeightedProbability(String feature, C category);
+	Set<C> getCategories();
 }

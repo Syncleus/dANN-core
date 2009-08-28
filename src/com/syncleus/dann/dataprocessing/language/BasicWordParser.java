@@ -39,7 +39,7 @@ public class BasicWordParser implements WordParser
 		while(matches.find())
 		{
 			String word = matches.group();
-			words.add(word);
+			words.add(word.toLowerCase());
 		}
 
 		return Collections.unmodifiableList(words);

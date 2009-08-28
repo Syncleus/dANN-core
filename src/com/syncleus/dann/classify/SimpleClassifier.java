@@ -19,13 +19,12 @@
 package com.syncleus.dann.classify;
 
 import java.util.Collections;
-import java.util.Map;
 import java.util.Set;
 
 public class SimpleClassifier<I,F,C> implements TrainableClassifier<I,F,C>
 {
 	private ClassificationProbability<C> overallCategoryProbability = new ClassificationProbability<C>();
-	private Map<F, ClassificationProbability<C>> featureTree = new FeatureClassificationTree<F,C>();
+	private FeatureClassificationTree<F,C> featureTree = new FeatureClassificationTree<F,C>();
 	private FeatureExtractor<F,I> extractor;
 
 	public SimpleClassifier(FeatureExtractor<F,I> extractor)
@@ -38,13 +37,45 @@ public class SimpleClassifier<I,F,C> implements TrainableClassifier<I,F,C>
 		return this.extractor;
 	}
 
+	public C classification(F feature)
+	{
+		C topCategory = null;
+		double topProbability = 0.0;
+		for(C category : this.getCategories())
+		{
+			double currentProbability = this.classificationProbability(feature, category);
+			if( topProbability < currentProbability)
+			{
+				topCategory = category;
+				topProbability = currentProbability;
+			}
+		}
+		return topCategory;
+	}
+
+	public C classificationWeighted(F feature)
+	{
+		C topCategory = null;
+		double topProbability = 0.0;
+		for(C category : this.getCategories())
+		{
+			double currentProbability = this.classificationWeightedProbability(feature, category);
+			if( topProbability < currentProbability)
+			{
+				topCategory = category;
+				topProbability = currentProbability;
+			}
+		}
+		return topCategory;
+	}
+
+
 	public double classificationProbability(F feature, C category)
 	{
-		//return fcount(feature, category) / overallProb
 		int overallProb = this.getOverallProbability(category);
 		int featureProb = 0;
 		if( this.featureTree.containsKey(feature) )
-			featureProb = this.featureTree.get(feature).getCategoryProbability(category);
+			featureProb = this.featureTree.getFeature(feature).getCategoryProbability(category);
 
 		if(overallProb == 0)
 			return 0.0;
@@ -57,7 +88,7 @@ public class SimpleClassifier<I,F,C> implements TrainableClassifier<I,F,C>
 		double unweightedProb = this.classificationProbability(feature, category);
 		double total = 0.0;
 		if( this.featureTree.containsKey(feature) )
-			total = this.featureTree.get(feature).getProbabilitySum();
+			total = this.featureTree.getFeature(feature).getProbabilitySum();
 		
 		return ((total * unweightedProb) + 0.5) / (1.0 + total);
 	}
@@ -71,7 +102,7 @@ public class SimpleClassifier<I,F,C> implements TrainableClassifier<I,F,C>
 	{
 		Set<F> features = this.extractor.getFeatures(item);
 		for(F feature : features)
-			this.featureTree.get(feature).incrementCategory(category);
+			this.featureTree.getFeature(feature).incrementCategory(category);
 		this.overallCategoryProbability.incrementCategory(category);
 	}
 

@@ -16,19 +16,39 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.classify;
+package com.syncleus.dann.classify.naivebayes.fisher;
 
+import com.syncleus.dann.classify.FeatureExtractor;
+import com.syncleus.dann.dataprocessing.language.WordParser;
+import com.syncleus.dann.dataprocessing.language.stem.StemmingWordParser;
 import java.util.Set;
 
-public interface TrainableLanguageClassifier<C> extends TrainableClassifier<String,String,C>, LanguageClassifier<C>
+public class StemmingLanguageFisherClassifier<C> extends SimpleFisherClassifier<String,String,C> implements TrainableLanguageFisherClassifier<C>
 {
-	//Trainable methods
-	void train(String item, C category);
+	private static class StemmingWordExtractor implements FeatureExtractor<String, String>
+	{
+		public static final WordParser PARSER = new StemmingWordParser();
 
-	//Classifier methods
-	C classification(String feature);
-	C classificationWeighted(String feature);
-	double classificationProbability(String feature, C category);
-	double classificationWeightedProbability(String feature, C category);
-	Set<C> getCategories();
+		public Set<String> getFeatures(String item)
+		{
+			return PARSER.getUniqueWords(item);
+		}
+	}
+
+	public StemmingLanguageFisherClassifier()
+	{
+		super(new StemmingWordExtractor());
+	}
+
+	@Override
+	public double classificationProbability(String feature, C category)
+	{
+		return super.classificationProbability(StemmingWordExtractor.PARSER.getUniqueWords(feature).iterator().next(), category);
+	}
+
+	@Override
+	public double classificationWeightedProbability(String feature, C category)
+	{
+		return super.classificationWeightedProbability(StemmingWordExtractor.PARSER.getUniqueWords(feature).iterator().next(), category);
+	}
 }

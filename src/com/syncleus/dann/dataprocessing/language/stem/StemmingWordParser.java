@@ -37,22 +37,22 @@ public class StemmingWordParser extends BasicWordParser implements Stemmer
 
 	public String stemWord(String word)
 	{
-		return this.stemmer.stemWord(word);
+		return this.stemmer.stemWord(word.toLowerCase());
 	}
 
 	private List<String> stemList(Collection<String> unstemmed)
 	{
 		List<String> stemmedWords = new ArrayList<String>(unstemmed.size());
 		for(String word:unstemmed)
-			stemmedWords.add(stemmer.stemWord(word));
+			stemmedWords.add(stemmer.stemWord(word.toLowerCase()));
 		return Collections.unmodifiableList(stemmedWords);
 	}
 
 	private Set<String> stemSet(Collection<String> unstemmed)
 	{
 		Set<String> stemmedWords = new HashSet<String>(unstemmed.size());
-		for(String word:unstemmed)
-			stemmedWords.add(stemmer.stemWord(word));
+		for(String word : unstemmed)
+			stemmedWords.add(stemmer.stemWord(word.toLowerCase()));
 		return Collections.unmodifiableSet(stemmedWords);
 	}
 

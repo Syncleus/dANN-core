@@ -18,7 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.classify;
 
-import com.syncleus.dann.dataprocessing.language.WordParser;
 import com.syncleus.dann.dataprocessing.language.stem.StemmingWordParser;
 import java.util.Set;
 
@@ -26,7 +25,7 @@ public class StemmingLanguageClassifier<C> extends SimpleClassifier<String, Stri
 {
 	private static class StemmingWordExtractor implements FeatureExtractor<String, String>
 	{
-		private static final WordParser PARSER = new StemmingWordParser();
+		public static final StemmingWordParser PARSER = new StemmingWordParser();
 
 		public Set<String> getFeatures(String item)
 		{
@@ -37,5 +36,17 @@ public class StemmingLanguageClassifier<C> extends SimpleClassifier<String, Stri
 	public StemmingLanguageClassifier()
 	{
 		super(new StemmingWordExtractor());
+	}
+
+	@Override
+	public double classificationProbability(String feature, C category)
+	{
+		return super.classificationProbability(StemmingWordExtractor.PARSER.getUniqueWords(feature).iterator().next(), category);
+	}
+
+	@Override
+	public double classificationWeightedProbability(String feature, C category)
+	{
+		return super.classificationWeightedProbability(StemmingWordExtractor.PARSER.getUniqueWords(feature).iterator().next(), category);
 	}
 }

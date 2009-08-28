@@ -38,4 +38,16 @@ public class SimpleLanguageClassifier<C> extends SimpleClassifier<String, String
 	{
 		super(new WordExtractor());
 	}
+
+	@Override
+	public double classificationProbability(String feature, C category)
+	{
+		return super.classificationProbability(feature.toLowerCase(), category);
+	}
+
+	@Override
+	public double classificationWeightedProbability(String feature, C category)
+	{
+		return super.classificationWeightedProbability(feature.toLowerCase(), category);
+	}
 }

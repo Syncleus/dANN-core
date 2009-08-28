@@ -16,19 +16,39 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.classify;
+package com.syncleus.dann.classify.naivebayes.fisher;
 
+import com.syncleus.dann.classify.FeatureExtractor;
+import com.syncleus.dann.dataprocessing.language.BasicWordParser;
+import com.syncleus.dann.dataprocessing.language.WordParser;
 import java.util.Set;
 
-public interface TrainableLanguageClassifier<C> extends TrainableClassifier<String,String,C>, LanguageClassifier<C>
+public class SimpleLanguageFisherClassifier<C> extends SimpleFisherClassifier<String, String, C> implements TrainableLanguageFisherClassifier<C>
 {
-	//Trainable methods
-	void train(String item, C category);
+	private static class WordExtractor implements FeatureExtractor<String, String>
+	{
+		private static final WordParser PARSER = new BasicWordParser();
 
-	//Classifier methods
-	C classification(String feature);
-	C classificationWeighted(String feature);
-	double classificationProbability(String feature, C category);
-	double classificationWeightedProbability(String feature, C category);
-	Set<C> getCategories();
+		public Set<String> getFeatures(String item)
+		{
+			return PARSER.getUniqueWords(item);
+		}
+	}
+
+	public SimpleLanguageFisherClassifier()
+	{
+		super(new WordExtractor());
+	}
+
+	@Override
+	public double classificationProbability(String feature, C category)
+	{
+		return super.classificationProbability(feature.toLowerCase(), category);
+	}
+
+	@Override
+	public double classificationWeightedProbability(String feature, C category)
+	{
+		return super.classificationWeightedProbability(feature.toLowerCase(), category);
+	}
 }

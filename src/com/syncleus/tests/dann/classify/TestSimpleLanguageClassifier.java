@@ -16,19 +16,36 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.classify;
+package com.syncleus.tests.dann.classify;
 
-import java.util.Set;
+import com.syncleus.dann.classify.SimpleLanguageClassifier;
+import com.syncleus.dann.classify.TrainableLanguageClassifier;
+import org.junit.*;
 
-public interface TrainableLanguageClassifier<C> extends TrainableClassifier<String,String,C>, LanguageClassifier<C>
+public class TestSimpleLanguageClassifier
 {
-	//Trainable methods
-	void train(String item, C category);
+	@Test
+	public void testClassify()
+	{
+		TrainableLanguageClassifier<Integer> classifier = new SimpleLanguageClassifier<Integer>();
 
-	//Classifier methods
-	C classification(String feature);
-	C classificationWeighted(String feature);
-	double classificationProbability(String feature, C category);
-	double classificationWeightedProbability(String feature, C category);
-	Set<C> getCategories();
+		//train
+		classifier.train("Money is the root of all evil!", 1);
+		classifier.train("Money destroys the soul", 1);
+		classifier.train("Money kills!", 1);
+		classifier.train("The quick brown fox.", 1);
+		classifier.train("Money should be here once", 2);
+		classifier.train("some nonsense to take up space", 2);
+		classifier.train("Even more nonsense cause we can", 2);
+		classifier.train("nonsense is the root of all good", 2);
+		classifier.train("just a filler to waste space", 2);
+
+		//test
+		Assert.assertTrue("Feature had incorrect category!", classifier.classification("Money") == 1);
+		Assert.assertTrue("Feature had incorrect category!", classifier.classification("Fox") == 1);
+		Assert.assertTrue("Feature had incorrect category!", classifier.classification("Nonsense") == 2);
+		Assert.assertTrue("Feature had incorrect category!", classifier.classification("Waste") == 2);
+		Assert.assertTrue("Feature had incorrect category!", classifier.classification("Evil") == 1);
+		Assert.assertTrue("Feature had incorrect category!", classifier.classification("Good") == 2);
+	}
 }
