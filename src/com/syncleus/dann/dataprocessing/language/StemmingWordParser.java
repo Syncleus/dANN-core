@@ -16,67 +16,55 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.math.transform;
+package com.syncleus.dann.dataprocessing.language;
 
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
+import java.util.*;
 
-public class SignalOutputStream extends OutputStream
+public class StemmingWordParser extends BasicWordParser implements Stemmer
 {
-	private ObjectOutputStream destStream;
+	private Stemmer stemmer;
 
-	public SignalOutputStream(OutputStream destStream) throws IOException
+	public StemmingWordParser()
 	{
-		if(destStream instanceof ObjectOutputStream)
-			this.destStream = (ObjectOutputStream) destStream;
-		else
-			this.destStream = new ObjectOutputStream(destStream);
+		this.stemmer = new PorterStemmer();
 	}
 
-	public void writeSignal(double[] signals, int off, int len) throws IOException
+	public StemmingWordParser(Stemmer stemmer)
 	{
-		for(int signalsIndex = off; signalsIndex < (off+len); signalsIndex++)
-			this.destStream.writeDouble(signals[signalsIndex]);
+		this.stemmer = stemmer;
 	}
 
-	public void writeSignal(double[] signals) throws IOException
+	public String stemWord(String word)
 	{
-		for(double signal : signals)
-			this.destStream.writeDouble(signal);
+		return this.stemmer.stemWord(word);
 	}
 
-	public void writeSignal(double signal) throws IOException
+	private List<String> stemList(Collection<String> unstemmed)
 	{
-		this.destStream.writeDouble(signal);
+		List<String> stemmedWords = new ArrayList<String>(unstemmed.size());
+		for(String word:unstemmed)
+			stemmedWords.add(stemmer.stemWord(word));
+		return Collections.unmodifiableList(stemmedWords);
 	}
 
-	public void write(int inData) throws IOException
+	private Set<String> stemSet(Collection<String> unstemmed)
 	{
-		this.destStream.write(inData);
-	}
-
-	@Override
-	public void write(byte[] b) throws IOException
-	{
-		this.destStream.write(b);
+		Set<String> stemmedWords = new HashSet<String>(unstemmed.size());
+		for(String word:unstemmed)
+			stemmedWords.add(stemmer.stemWord(word));
+		return Collections.unmodifiableSet(stemmedWords);
 	}
 
 	@Override
-	public void write(byte[] b, int off, int len) throws IOException
+	public List<String> getWords(String text)
 	{
-		this.destStream.write(b, off, len);
+		return stemList(super.getWords(text));
+
 	}
 
 	@Override
-	public void flush() throws IOException
+	public Set<String> getUniqueWords(String text)
 	{
-		this.destStream.flush();
-	}
-
-	@Override
-	public void close() throws IOException
-	{
-		this.destStream.close();
+		return stemSet(super.getUniqueWords(text));
 	}
 }

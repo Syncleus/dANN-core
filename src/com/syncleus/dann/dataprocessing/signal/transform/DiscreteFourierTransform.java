@@ -16,7 +16,7 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.math.transform;
+package com.syncleus.dann.dataprocessing.signal.transform;
 
 import com.syncleus.dann.math.*;
 import java.util.Collections;

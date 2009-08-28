@@ -16,16 +16,37 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.math.transform;
+package com.syncleus.dann.dataprocessing.language;
 
-public interface FastFourierTransformer
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class BasicWordParser implements WordParser
 {
-	DiscreteFourierTransform transform(double[] signal);
-	double[] inverseTransform(DiscreteFourierTransform transform);
-	double[] circularConvolve(double[] first, double[] second);
-	double[] linearConvolve(double[] first, double[] second);
-	int getBlockSize();
-	void setBlockSize(int blockSize);
-	int getBitrate();
-	void setBitrate(int bitrate);
+	public static final Pattern spacePattern = Pattern.compile("\\w++");
+
+	public List<String> getWords(String text)
+	{
+		List<String> words = new ArrayList<String>();
+
+		text = text.toLowerCase();
+		Matcher matches = spacePattern.matcher(text);
+		while(matches.find())
+		{
+			String word = matches.group();
+			words.add(word);
+		}
+
+		return Collections.unmodifiableList(words);
+	}
+
+	public Set<String> getUniqueWords(String text)
+	{
+		return Collections.unmodifiableSet(new HashSet<String>(this.getWords(text)));
+	}
 }

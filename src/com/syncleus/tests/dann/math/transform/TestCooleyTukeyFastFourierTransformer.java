@@ -19,8 +19,8 @@
 package com.syncleus.tests.dann.math.transform;
 
 import com.syncleus.dann.math.ComplexNumber;
-import com.syncleus.dann.math.transform.CooleyTukeyFastFourierTransformer;
-import com.syncleus.dann.math.transform.DiscreteFourierTransform;
+import com.syncleus.dann.dataprocessing.signal.transform.CooleyTukeyFastFourierTransformer;
+import com.syncleus.dann.dataprocessing.signal.transform.DiscreteFourierTransform;
 import java.util.Map.Entry;
 import java.util.Random;
 import org.junit.*;
