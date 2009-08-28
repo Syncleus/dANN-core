@@ -16,7 +16,7 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.dataprocessing.language;
+package com.syncleus.dann.dataprocessing.language.stem;
 
 import java.util.Arrays;
 

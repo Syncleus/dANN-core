@@ -16,55 +16,26 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.dataprocessing.language;
+package com.syncleus.dann.classify;
 
-import java.util.*;
+import com.syncleus.dann.dataprocessing.language.WordParser;
+import com.syncleus.dann.dataprocessing.language.stem.StemmingWordParser;
+import java.util.Set;
 
-public class StemmingWordParser extends BasicWordParser implements Stemmer
+public class StemmingLanguageClassifier<C> extends BasicClassifier<String, String, C>
 {
-	private Stemmer stemmer;
-
-	public StemmingWordParser()
+	private static class StemmingWordExtractor implements FeatureExtractor<String, String>
 	{
-		this.stemmer = new PorterStemmer();
+		private static final WordParser PARSER = new StemmingWordParser();
+
+		public Set<String> getFeatures(String item)
+		{
+			return PARSER.getUniqueWords(item);
+		}
 	}
 
-	public StemmingWordParser(Stemmer stemmer)
+	public StemmingLanguageClassifier()
 	{
-		this.stemmer = stemmer;
-	}
-
-	public String stemWord(String word)
-	{
-		return this.stemmer.stemWord(word);
-	}
-
-	private List<String> stemList(Collection<String> unstemmed)
-	{
-		List<String> stemmedWords = new ArrayList<String>(unstemmed.size());
-		for(String word:unstemmed)
-			stemmedWords.add(stemmer.stemWord(word));
-		return Collections.unmodifiableList(stemmedWords);
-	}
-
-	private Set<String> stemSet(Collection<String> unstemmed)
-	{
-		Set<String> stemmedWords = new HashSet<String>(unstemmed.size());
-		for(String word:unstemmed)
-			stemmedWords.add(stemmer.stemWord(word));
-		return Collections.unmodifiableSet(stemmedWords);
-	}
-
-	@Override
-	public List<String> getWords(String text)
-	{
-		return stemList(super.getWords(text));
-
-	}
-
-	@Override
-	public Set<String> getUniqueWords(String text)
-	{
-		return stemSet(super.getUniqueWords(text));
+		super(new StemmingWordExtractor());
 	}
 }

@@ -16,25 +16,16 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.tests.dann.dataprocessing.language;
+package com.syncleus.dann.classify;
 
-import com.syncleus.dann.dataprocessing.language.PorterStemmer;
-import com.syncleus.dann.dataprocessing.language.Stemmer;
-import org.junit.*;
+import java.util.Set;
 
-public class TestPorterStemmer
+public interface LearningClassifier<I,F,C> extends Classifier<F,C>
 {
-	@Test
-	public void testWords()
-	{
-		Stemmer stemmer = new PorterStemmer();
-		
-		Assert.assertTrue("word stem incorrect!", stemmer.stemWord("bowling").compareToIgnoreCase("bowl") == 0);
-		Assert.assertTrue("word stem incorrect!", stemmer.stemWord("happiness").compareToIgnoreCase("happi") == 0);
-		Assert.assertTrue("word stem incorrect!", stemmer.stemWord("jeffrey").compareToIgnoreCase("jeffrei") == 0);
-		Assert.assertTrue("word stem incorrect!", stemmer.stemWord("running").compareToIgnoreCase("run") == 0);
-		Assert.assertTrue("word stem incorrect!", stemmer.stemWord("napping").compareToIgnoreCase("nap") == 0);
-		Assert.assertTrue("word stem incorrect!", stemmer.stemWord("runner").compareToIgnoreCase("runner") == 0);
-		Assert.assertTrue("word stem incorrect!", stemmer.stemWord("hiker").compareToIgnoreCase("hiker") == 0);
-	}
+	void train(I item, C category);
+
+	//Classifier methods
+	double classificationProbability(F feature, C category);
+	double classificationWeightedProbability(F feature, C category);
+	Set<C> getCategories();
 }

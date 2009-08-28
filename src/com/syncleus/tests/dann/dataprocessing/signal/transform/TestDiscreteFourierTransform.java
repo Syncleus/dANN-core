@@ -16,7 +16,7 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.tests.dann.math.transform;
+package com.syncleus.tests.dann.dataprocessing.signal.transform;
 
 import com.syncleus.dann.math.ComplexNumber;
 import com.syncleus.dann.dataprocessing.signal.transform.DiscreteFourierTransform;

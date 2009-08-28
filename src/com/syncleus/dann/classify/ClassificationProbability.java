@@ -1,0 +1,62 @@
+/******************************************************************************
+ *                                                                             *
+ *  Copyright: (c) Syncleus, Inc.                                              *
+ *                                                                             *
+ *  You may redistribute and modify this source code under the terms and       *
+ *  conditions of the Open Source Community License - Type C version 1.0       *
+ *  or any later version as published by Syncleus, Inc. at www.syncleus.com.   *
+ *  There should be a copy of the license included with this file. If a copy   *
+ *  of the license is not included you are granted no right to distribute or   *
+ *  otherwise use this file except through a legal and valid license. You      *
+ *  should also contact Syncleus, Inc. at the information below if you cannot  *
+ *  find a license:                                                            *
+ *                                                                             *
+ *  Syncleus, Inc.                                                             *
+ *  2604 South 12th Street                                                     *
+ *  Philadelphia, PA 19148                                                     *
+ *                                                                             *
+ ******************************************************************************/
+package com.syncleus.dann.classify;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+public class ClassificationProbability<C>
+{
+	private int probabilitySum;
+	private final Map<C, Integer> categoryProbabilityMap = new HashMap<C, Integer>();
+
+	public Map<C, Integer> getCategoryProbabilityMap()
+	{
+		return Collections.unmodifiableMap(this.categoryProbabilityMap);
+	}
+
+	public void incrementCategory(C category)
+	{
+		this.incrementCategory(category, 1);
+	}
+
+	public void incrementCategory(C category, int value)
+	{
+		Integer currentProbability = this.categoryProbabilityMap.get(category);
+		if(currentProbability == null)
+			currentProbability = currentProbability + value;
+		this.categoryProbabilityMap.put(category, currentProbability);
+		this.probabilitySum += value;
+	}
+
+	public int getProbabilitySum()
+	{
+		return probabilitySum;
+	}
+
+	public int getCategoryProbability(C category)
+	{
+		Integer probability = this.categoryProbabilityMap.get(category);
+		if(probability == null)
+			return 0;
+		else
+			return probability;
+	}
+}

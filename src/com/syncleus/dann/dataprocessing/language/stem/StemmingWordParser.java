@@ -16,9 +16,56 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.dataprocessing.language;
+package com.syncleus.dann.dataprocessing.language.stem;
 
-public interface Stemmer
+import com.syncleus.dann.dataprocessing.language.*;
+import java.util.*;
+
+public class StemmingWordParser extends BasicWordParser implements Stemmer
 {
-	String stemWord(String word);
+	private Stemmer stemmer;
+
+	public StemmingWordParser()
+	{
+		this.stemmer = new PorterStemmer();
+	}
+
+	public StemmingWordParser(Stemmer stemmer)
+	{
+		this.stemmer = stemmer;
+	}
+
+	public String stemWord(String word)
+	{
+		return this.stemmer.stemWord(word);
+	}
+
+	private List<String> stemList(Collection<String> unstemmed)
+	{
+		List<String> stemmedWords = new ArrayList<String>(unstemmed.size());
+		for(String word:unstemmed)
+			stemmedWords.add(stemmer.stemWord(word));
+		return Collections.unmodifiableList(stemmedWords);
+	}
+
+	private Set<String> stemSet(Collection<String> unstemmed)
+	{
+		Set<String> stemmedWords = new HashSet<String>(unstemmed.size());
+		for(String word:unstemmed)
+			stemmedWords.add(stemmer.stemWord(word));
+		return Collections.unmodifiableSet(stemmedWords);
+	}
+
+	@Override
+	public List<String> getWords(String text)
+	{
+		return stemList(super.getWords(text));
+
+	}
+
+	@Override
+	public Set<String> getUniqueWords(String text)
+	{
+		return stemSet(super.getUniqueWords(text));
+	}
 }
