@@ -17,24 +17,40 @@
  *                                                                             *
  ******************************************************************************/
 package com.syncleus.dann.graph;
-
-public abstract class AbstractBidirectedEdge extends AbstractEdge implements BidirectedEdge
+import java.util.ArrayList;
+import java.util.List;
+public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implements BidirectedEdge<N>
 {
-	private final NodePair<BidirectedNode> nodePair;
+	private final N leftNode;
+	private final N rightNode;
 	private final EndState leftEndState;
 	private final EndState rightEndState;
 
-	protected AbstractBidirectedEdge(BidirectedNode leftNode, EndState leftEndState, BidirectedNode rightNode, EndState rightEndState)
+	protected AbstractBidirectedEdge(N leftNode, EndState leftEndState, N rightNode, EndState rightEndState)
 	{
-		super(leftNode, rightNode);
-		this.nodePair = new NodePair<BidirectedNode>(leftNode, rightNode);
+		super(packNodes(leftNode, rightNode));
+		this.leftNode = leftNode;
+		this.rightNode = rightNode;
 		this.leftEndState = leftEndState;
 		this.rightEndState = rightEndState;
 	}
 
-	public final NodePair<BidirectedNode> getNodePair()
+	private static <N> List<N> packNodes(N leftNode, N rightNode)
 	{
-		return this.nodePair;
+		List<N> pack = new ArrayList<N>();
+		pack.add(leftNode);
+		pack.add(rightNode);
+		return pack;
+	}
+
+	public final N getLeftNode()
+	{
+		return this.leftNode;
+	}
+
+	public final N getRightNode()
+	{
+		return this.rightNode;
 	}
 
 	public final EndState getLeftEndState()

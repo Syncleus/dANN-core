@@ -20,11 +20,11 @@ package com.syncleus.dann.graph;
 
 import java.util.List;
 
-public interface HyperEdge extends Edge
+public interface HyperEdge<N> extends Edge<N>
 {
-	List<HyperNode> getHyperNodes();
 	int getDegree();
 	boolean isSymmetric(HyperEdge symmetricEdge);
+
 	//Parent methods
-	List<Node> getNodes();
+	List<N> getNodes();
 }

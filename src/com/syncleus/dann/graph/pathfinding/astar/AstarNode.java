@@ -18,17 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.pathfinding.astar;
 
-import com.syncleus.dann.graph.AbstractDirectedNode;
-import com.syncleus.dann.graph.DirectedNode;
-import com.syncleus.dann.graph.Node;
-import com.syncleus.dann.graph.WeightedNode;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
-
-public class AstarNode<L> extends AbstractDirectedNode<AstarEdge<L>> implements WeightedNode<AstarEdge<L>>, DirectedNode<AstarEdge<L>>
-{
+public class AstarNode//<L> extends AbstractDirectedNode<AstarEdge<L>> implements WeightedNode<AstarEdge<L>>, DirectedNode<AstarEdge<L>>
+{/*
 	private L label;
 	private double weight;
 	private List<AstarEdge<L>> edges;
@@ -109,5 +101,5 @@ public class AstarNode<L> extends AbstractDirectedNode<AstarEdge<L>> implements 
 			return this.label.equals(compareObject);
 
 		return false;
-	}
+	}*/
 }

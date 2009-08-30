@@ -18,20 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.pathfinding.astar;
 
-import com.syncleus.dann.graph.Edge;
-import com.syncleus.dann.graph.Graph;
-import com.syncleus.dann.graph.Node;
-import com.syncleus.dann.graph.Walk;
-import com.syncleus.dann.graph.WeightedEdge;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-public final class EncapsulatingAstarGraph<G extends Graph<? extends Node<? extends Edge>, ? extends Edge, ? extends Walk>> extends AbstractAstarGraph<Node>
-{
+public final class EncapsulatingAstarGraph//<G extends Graph<? extends Node<? extends Edge>, ? extends Edge, ? extends Walk>> extends AbstractAstarGraph<Node>
+{/*
 	private G encapsulatedGraph;
 	private boolean useGraphWeights = false;
 	private Set<AstarNode<Node>> cachedNodes;
@@ -103,5 +91,5 @@ public final class EncapsulatingAstarGraph<G extends Graph<? extends Node<? exte
 	public Set<AstarNode<Node>> getNodes()
 	{
 		return Collections.unmodifiableSet(cachedNodes);
-	}
+	}*/
 }

@@ -20,7 +20,7 @@ package com.syncleus.dann.graph;
 
 import java.util.List;
 
-public interface Edge
+public interface Edge<N>
 {
-	List<Node> getNodes();
+	List<N> getNodes();
 }

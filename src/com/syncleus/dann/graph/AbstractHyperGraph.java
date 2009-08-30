@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public abstract class AbstractHyperGraph<N extends HyperNode<E>, E extends HyperEdge, W extends HyperWalk<N, E>> extends AbstractGraph<N,E,W> implements HyperGraph<N,E,W>
+public abstract class AbstractHyperGraph<N, E extends HyperEdge<? extends N>, W extends HyperWalk<N, E>> extends AbstractGraph<N,E,W> implements HyperGraph<N,E,W>
 {
 	public boolean isPartial(HyperGraph partialGraph)
 	{

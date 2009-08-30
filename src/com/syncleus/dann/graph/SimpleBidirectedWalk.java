@@ -18,51 +18,17 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public abstract class AbstractDirectedNode<E extends DirectedEdge> extends AbstractBidirectedNode<E> implements DirectedNode<E>
+public class SimpleBidirectedWalk<N, E extends BidirectedEdge<? extends N>> extends SimpleWalk<N,E> implements BidirectedWalk<N,E>
 {
-	@Override
-	public List<E> getTraversableEdges()
+	public SimpleBidirectedWalk(N firstNode, N lastNode, List<E> steps)
 	{
-		return this.getOutEdges();
+		super(firstNode, lastNode, steps);
 	}
 
-	@Override
-	public List<E> getOutEdges()
+	public boolean isSymmetric()
 	{
-		List<E> allEdges = this.getEdges();
-		List<E> outEdges = new ArrayList<E>();
-		for(E edge : allEdges)
-			if(edge.getDirectedNodePair().getSourceNode().equals(this))
-				outEdges.add(edge);
-
-		return Collections.unmodifiableList(outEdges);
-	}
-
-	@Override
-	public List<E> getInEdges()
-	{
-		List<E> allEdges = this.getEdges();
-		List<E> outEdges = new ArrayList<E>();
-		for(E edge : allEdges)
-			if(edge.getDirectedNodePair().getDestinationNode().equals(this))
-				outEdges.add(edge);
-
-		return Collections.unmodifiableList(outEdges);
-	}
-
-	@Override
-	public int getIndegree()
-	{
-		return this.getInEdges().size();
-	}
-
-	@Override
-	public int getOutdegree()
-	{
-		return this.getOutEdges().size();
+		return false;
 	}
 }

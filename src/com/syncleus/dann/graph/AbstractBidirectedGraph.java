@@ -24,10 +24,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public abstract class AbstractBidirectedGraph<N extends BidirectedNode<E>, E extends BidirectedEdge, W extends BidirectedWalk<N, E>> extends AbstractGraph<N,E,W> implements BidirectedGraph<N,E,W>
+public abstract class AbstractBidirectedGraph<N, E extends BidirectedEdge<? extends N>, W extends BidirectedWalk<N, E>> extends AbstractGraph<N,E,W> implements BidirectedGraph<N,E,W>
 {
 	public List<E> getEdges()
 	{
+		return null;
+		/*
 		List<E> allEdges = new ArrayList<E>();
 		Set<N> allNodes = this.getNodes();
 		Set<N> traversedNodes = new HashSet<N>();
@@ -45,7 +47,17 @@ public abstract class AbstractBidirectedGraph<N extends BidirectedNode<E>, E ext
 			traversedNodes.add(node);
 		}
 
-		return Collections.unmodifiableList(allEdges);
+		return Collections.unmodifiableList(allEdges);*/
+	}
+
+	public int getIndegree(N node)
+	{
+		return 0;
+	}
+
+	public int getOutdegree(N node)
+	{
+		return 0;
 	}
 
 	public boolean isStronglyConnected()
@@ -53,7 +65,7 @@ public abstract class AbstractBidirectedGraph<N extends BidirectedNode<E>, E ext
 		return false;
 	}
 
-	public Set<BidirectedGraph> getStrongComponents()
+	public Set<BidirectedGraph<N,E,W>> getStrongComponents()
 	{
 		return null;
 	}
@@ -64,7 +76,7 @@ public abstract class AbstractBidirectedGraph<N extends BidirectedNode<E>, E ext
 	}
 
 	@Override
-	public Set<Graph> getConnectedComponents()
+	public Set<Graph<N,E,W>> getConnectedComponents()
 	{
 		return null;
 	}

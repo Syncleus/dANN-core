@@ -18,23 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.pathfinding.astar;
 
-import com.syncleus.dann.graph.AbstractBidirectedGraph;
-import com.syncleus.dann.graph.DirectedGraph;
-import com.syncleus.dann.graph.WeightedGraph;
-import com.syncleus.dann.graph.Node;
-import com.syncleus.dann.graph.NodePair;
-import com.syncleus.dann.graph.pathfinding.PathFinder;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.PriorityQueue;
-import java.util.Set;
 
-public abstract class AbstractAstarGraph<L> extends AbstractBidirectedGraph<AstarNode<L>,AstarEdge<L>,AstarWalk<L>> implements WeightedGraph<AstarNode<L>,AstarEdge<L>,AstarWalk<L>>, DirectedGraph<AstarNode<L>,AstarEdge<L>,AstarWalk<L>>, PathFinder<AstarNode<L>,AstarWalk<L>>
-{
+public abstract class AbstractAstarGraph//<L> extends AbstractBidirectedGraph<AstarNode<L>,AstarEdge<L>,AstarWalk<L>> implements WeightedGraph<AstarNode<L>,AstarEdge<L>,AstarWalk<L>>, DirectedGraph<AstarNode<L>,AstarEdge<L>,AstarWalk<L>>, PathFinder<AstarNode<L>,AstarWalk<L>>
+{/*
 	private static class PathedStep<L> implements Comparable<PathedStep<L>>
 	{
 		private AstarNode<L> node;
@@ -281,5 +267,5 @@ public abstract class AbstractAstarGraph<L> extends AbstractBidirectedGraph<Asta
 		}
 
 		return new AstarWalk<L>(firstNode, lastNode, steps);
-	}
+	}*/
 }

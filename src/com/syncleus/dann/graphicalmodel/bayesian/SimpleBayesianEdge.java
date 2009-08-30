@@ -16,16 +16,24 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph;
+package com.syncleus.dann.graphicalmodel.bayesian;
 
-import java.util.List;
+import com.syncleus.dann.graph.AbstractDirectedEdge;
 
-public interface HyperNode<E extends HyperEdge> extends Node<E>
+public class SimpleBayesianEdge extends AbstractDirectedEdge<BayesianNode> implements BayesianEdge
 {
-	int getNeighborCount();
-	boolean isSymmetric(E symmetricNode);
-	//Parent methods
-	List<E> getEdges();
-	List<E> getTraversableEdges();
-	int getDegree();
+	public SimpleBayesianEdge(BayesianNode source, BayesianNode destination)
+	{
+		super(source, destination);
+	}
+
+	public Class getStateDeclaringClass()
+	{
+		return this.getSourceNode().getStateDeclaringClass();
+	}
+
+	public Enum getState()
+	{
+		return this.getSourceNode().getState();
+	}
 }

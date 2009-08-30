@@ -21,17 +21,37 @@ package com.syncleus.dann.graph;
 import java.util.List;
 import java.util.Set;
 
-public interface RootedTreeGraph<N extends TreeNode<? extends E>, E extends TreeEdge, W extends TreeWalk<? extends N, ? extends E>> extends TreeGraph<N,E,W>
+public interface RootedTreeGraph<N, E extends DirectedEdge<? extends N>, W extends BidirectedWalk<? extends N, ? extends E>> extends TreeGraph<N,E,W>
 {
-	TreeNode getRoot();
+	N getRoot();
+	
 	//Parent methods
+	boolean isLeaf(N node);
+	boolean isLeaf(E edge);
+
+	List<E> getOutEdges(N node);
+	List<E> getInEdges(N node);
+	int getIndegree(N node);
+	int getOutdegree(N node);
+
+	Set<BidirectedGraph<N,E,W>> getStrongComponents();
+	boolean isStronglyConnected();
+	boolean isPolytree();
+
+	List<E> getEdges(N node);
+	List<E> getTraversableEdges(N node);
+	int getDegree(N node);
+	boolean isConnected(N leftNode, N rightNode);
+	List<N> getNeighbors(N node);
+	List<N> getTraversableNeighbors(N node);
+
 	Set<N> getNodes();
 	List<E> getEdges();
 	boolean isConnected();
-	Set<Graph> getConnectedComponents();
+	Set<Graph<N,E,W>> getConnectedComponents();
 	boolean isMaximalConnected();
-	boolean isCut(Graph subGraph);
-	boolean isCut(Graph subGraph, N begin, N end);
+	boolean isCut(Graph<? extends N, ? extends E, ? extends W> subGraph);
+	boolean isCut(Graph<? extends N, ? extends E, ? extends W> subGraph, N begin, N end);
 	int getNodeConnectivity();
 	int getEdgeConnectivity();
 	int getNodeConnectivity(N begin, N end);
@@ -48,14 +68,11 @@ public interface RootedTreeGraph<N extends TreeNode<? extends E>, E extends Tree
 	boolean isTraversable();
 	boolean isEularian(W walk);
 	boolean isTree();
-	boolean isSubGraph(Graph graph);
-	boolean isKnot(Graph subGraph);
+	boolean isSubGraph(Graph<? extends N, ? extends E, ? extends W> graph);
+	boolean isKnot(Graph<? extends N, ? extends E, ? extends W> subGraph);
 	int getTotalDegree();
 	boolean isMultigraph();
-	boolean isIsomorphic(Graph isomorphicGraph);
-	boolean isHomomorphic(Graph homomorphicGraph);
+	boolean isIsomorphic(Graph<? extends N, ? extends E, ? extends W> isomorphicGraph);
+	boolean isHomomorphic(Graph<? extends N, ? extends E, ? extends W> homomorphicGraph);
 	boolean isRegular();
-	Set<BidirectedGraph> getStrongComponents();
-	boolean isStronglyConnected();
-	boolean isPolytree();
 }

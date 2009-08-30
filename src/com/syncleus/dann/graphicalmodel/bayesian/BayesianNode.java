@@ -16,18 +16,13 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph;
+package com.syncleus.dann.graphicalmodel.bayesian;
 
-import java.util.List;
-
-public interface DirectedNode<E extends DirectedEdge> extends BidirectedNode<E>
+public interface BayesianNode
 {
-	//Parent methods
-	List<E> getEdges();
-	List<E> getTraversableEdges();
-	List<E> getOutEdges();
-	List<E> getInEdges();
-	int getIndegree();
-	int getOutdegree();
-	int getDegree();
+	Class getStateDeclaringClass();
+	void setState(Enum currentState);
+	Enum getState();
+	void learnState();
+	double stateProbability();
 }

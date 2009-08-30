@@ -18,17 +18,42 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public interface TreeNode<E extends TreeEdge> extends BidirectedNode<E>
+public class SimpleHyperWalk<N, E extends HyperEdge<? extends N>> extends AbstractWalk<N,E> implements HyperWalk<N,E>
 {
-	boolean isLeaf();
-	//Parent methods
-	List<E> getEdges();
-	List<E> getTraversableEdges();
-	List<E> getOutEdges();
-	List<E> getInEdges();
-	int getIndegree();
-	int getOutdegree();
-	int getDegree();
+	private final List<E> steps;
+	private final List<N> nodeSteps;
+	private final N firstNode;
+	private final N lastNode;
+
+	public SimpleHyperWalk(N firstNode, N lastNode, List<E> steps, List<N> nodeSteps)
+	{
+		this.steps = Collections.unmodifiableList(new ArrayList<E>(steps));
+		this.nodeSteps = Collections.unmodifiableList(new ArrayList<N>(nodeSteps));
+		this.firstNode = firstNode;
+		this.lastNode = lastNode;
+	}
+
+	public List<E> getSteps()
+	{
+		return this.steps;
+	}
+
+	public List<N> getNodeSteps()
+	{
+		return this.nodeSteps;
+	}
+
+	public N getFirstNode()
+	{
+		return this.firstNode;
+	}
+
+	public N getLastNode()
+	{
+		return this.lastNode;
+	}
 }

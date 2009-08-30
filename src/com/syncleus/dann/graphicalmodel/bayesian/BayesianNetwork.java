@@ -16,22 +16,14 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph;
+package com.syncleus.dann.graphicalmodel.bayesian;
 
+import com.syncleus.dann.graph.BidirectedGraph;
+import com.syncleus.dann.graph.BidirectedWalk;
 import java.util.List;
 
-public interface DirectedWalk<N extends DirectedNode<? extends E>, E extends DirectedEdge> extends BidirectedWalk<N,E>
+public interface BayesianNetwork extends BidirectedGraph<BayesianNode, BayesianEdge, BidirectedWalk<BayesianNode,BayesianEdge> >
 {
-	//Parent methods
-	List<E> getSteps();
-	N getFirstNode();
-	N getLastNode();
-	boolean isClosed();
-	int getLength();
-	boolean isTrail();
-	boolean isTour();
-	boolean isPath();
-	boolean isCycle();
-	boolean isIndependent(Walk walk);
-	boolean isSymmetric();
+	void learnStates();
+	double overallProbability();
 }

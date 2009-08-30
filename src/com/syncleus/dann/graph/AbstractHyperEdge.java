@@ -22,28 +22,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class AbstractHyperEdge extends AbstractEdge implements HyperEdge
+public abstract class AbstractHyperEdge<N> extends AbstractEdge<N> implements HyperEdge<N>
 {
-	private final List<HyperNode> hyperNodes;
-
-	protected AbstractHyperEdge(List<HyperNode> nodes)
+	protected AbstractHyperEdge(List<N> nodes)
 	{
-		super(new ArrayList<Node>(nodes));
-		this.hyperNodes = Collections.unmodifiableList(new ArrayList<HyperNode>(nodes));
+		super(new ArrayList<N>(nodes));
 	}
 
-	protected AbstractHyperEdge(HyperNode... nodes)
+	protected AbstractHyperEdge(N... nodes)
 	{
 		super(nodes);
-		List<HyperNode> newNodes = new ArrayList<HyperNode>();
-		for(HyperNode node : nodes)
+		List<N> newNodes = new ArrayList<N>();
+		for(N node : nodes)
 			newNodes.add(node);
-		this.hyperNodes = Collections.unmodifiableList(newNodes);
-	}
-
-	public List<HyperNode> getHyperNodes()
-	{
-		return this.hyperNodes;
 	}
 
 	public int getDegree()

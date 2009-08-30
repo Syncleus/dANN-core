@@ -20,14 +20,19 @@ package com.syncleus.dann.graph;
 
 import java.util.Set;
 
-public abstract class AbstractGraph<N extends Node<? extends E>, E extends Edge, W extends Walk<? extends N, ? extends E>> implements Graph<N,E,W>
+public abstract class AbstractGraph<N, E extends Edge<? extends N>, W extends Walk<? extends N, ? extends E>> implements Graph<N,E,W>
 {
+	public int getDegree(N node)
+	{
+		return 0;
+	}
+	
 	public boolean isConnected()
 	{
 		return false;
 	}
 
-	public Set<Graph> getConnectedComponents()
+	public Set<Graph<N,E,W>> getConnectedComponents()
 	{
 		return null;
 	}
@@ -37,12 +42,12 @@ public abstract class AbstractGraph<N extends Node<? extends E>, E extends Edge,
 		return false;
 	}
 
-	public boolean isCut(Graph subGraph)
+	public boolean isCut(Graph<? extends N, ? extends E, ? extends W> subGraph)
 	{
 		return false;
 	}
 
-	public boolean isCut(Graph subGraph, N begin, N end)
+	public boolean isCut(Graph<? extends N, ? extends E, ? extends W> subGraph, N begin, N end)
 	{
 		return false;
 	}
@@ -127,12 +132,12 @@ public abstract class AbstractGraph<N extends Node<? extends E>, E extends Edge,
 		return false;
 	}
 
-	public boolean isSubGraph(Graph graph)
+	public boolean isSubGraph(Graph<? extends N, ? extends E, ? extends W> graph)
 	{
 		return false;
 	}
 
-	public boolean isKnot(Graph subGraph)
+	public boolean isKnot(Graph<? extends N, ? extends E, ? extends W> subGraph)
 	{
 		return false;
 	}
@@ -147,12 +152,12 @@ public abstract class AbstractGraph<N extends Node<? extends E>, E extends Edge,
 		return false;
 	}
 
-	public boolean isIsomorphic(Graph isomorphicGraph)
+	public boolean isIsomorphic(Graph<? extends N, ? extends E, ? extends W> isomorphicGraph)
 	{
 		return false;
 	}
 
-	public boolean isHomomorphic(Graph homomorphicGraph)
+	public boolean isHomomorphic(Graph<? extends N, ? extends E, ? extends W> homomorphicGraph)
 	{
 		return false;
 	}

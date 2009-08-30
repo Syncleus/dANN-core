@@ -16,24 +16,43 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph;
+package com.syncleus.dann.graphicalmodel.bayesian;
 
-import java.util.List;
-
-public abstract class AbstractHyperNode<E extends HyperEdge> extends AbstractNode<E> implements HyperNode<E>
+public class SimpleBayesianNetwork extends AbstractBayesianNetwork
 {
-	public List<E> getTraversableEdges()
+	@Override
+	public boolean connect(BayesianNode source, BayesianNode destination)
 	{
-		return this.getEdges();
+		return super.connect(source, destination);
 	}
 
-	public int getNeighborCount()
+	@Override
+	public boolean disconnect(BayesianNode source, BayesianNode destination)
 	{
-		return 0;
+		return super.disconnect(source, destination);
 	}
 
-	public boolean isSymmetric(HyperNode symmetricNode)
+	@Override
+	protected boolean add(BayesianNode node)
 	{
-		return false;
+		return super.add(node);
+	}
+
+	@Override
+	protected boolean add(BayesianEdge edge)
+	{
+		return super.add(edge);
+	}
+
+	@Override
+	protected boolean remove(BayesianNode node)
+	{
+		return super.remove(node);
+	}
+
+	@Override
+	public boolean remove(BayesianEdge edge)
+	{
+		return super.remove(edge);
 	}
 }

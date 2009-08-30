@@ -18,10 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.pathfinding;
 
-import com.syncleus.dann.graph.Node;
 import com.syncleus.dann.graph.Walk;
 
-public interface PathFinder<N extends Node, W extends Walk>
+public interface PathFinder<N, W extends Walk>
 {
 	W getBestPath(N begin, N end);
 	boolean isReachable(N begin, N end);

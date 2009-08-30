@@ -21,19 +21,32 @@ package com.syncleus.dann.graph;
 import java.util.List;
 import java.util.Set;
 
-public interface BidirectedGraph<N extends BidirectedNode<? extends E>, E extends BidirectedEdge, W extends BidirectedWalk<? extends N, ? extends E>> extends Graph<N,E,W>
+public interface BidirectedGraph<N, E extends BidirectedEdge<? extends N>, W extends BidirectedWalk<? extends N, ? extends E>> extends Graph<N,E,W>
 {
-	Set<BidirectedGraph> getStrongComponents();
+	List<E> getOutEdges(N node);
+	List<E> getInEdges(N node);
+	int getIndegree(N node);
+	int getOutdegree(N node);
+
+	Set<BidirectedGraph<N,E,W>> getStrongComponents();
 	boolean isStronglyConnected();
 	boolean isPolytree();
+
 	//Parent methods
+	List<E> getEdges(N node);
+	List<E> getTraversableEdges(N node);
+	int getDegree(N node);
+	boolean isConnected(N leftNode, N rightNode);
+	List<N> getNeighbors(N node);
+	List<N> getTraversableNeighbors(N node);
+
 	Set<N> getNodes();
 	List<E> getEdges();
 	boolean isConnected();
-	Set<Graph> getConnectedComponents();
+	Set<Graph<N,E,W>> getConnectedComponents();
 	boolean isMaximalConnected();
-	boolean isCut(Graph subGraph);
-	boolean isCut(Graph subGraph, N begin, N end);
+	boolean isCut(Graph<? extends N, ? extends E, ? extends W> subGraph);
+	boolean isCut(Graph<? extends N, ? extends E, ? extends W> subGraph, N begin, N end);
 	int getNodeConnectivity();
 	int getEdgeConnectivity();
 	int getNodeConnectivity(N begin, N end);
@@ -50,11 +63,11 @@ public interface BidirectedGraph<N extends BidirectedNode<? extends E>, E extend
 	boolean isTraversable();
 	boolean isEularian(W walk);
 	boolean isTree();
-	boolean isSubGraph(Graph graph);
-	boolean isKnot(Graph subGraph);
+	boolean isSubGraph(Graph<? extends N, ? extends E, ? extends W> graph);
+	boolean isKnot(Graph<? extends N, ? extends E, ? extends W> subGraph);
 	int getTotalDegree();
 	boolean isMultigraph();
-	boolean isIsomorphic(Graph isomorphicGraph);
-	boolean isHomomorphic(Graph homomorphicGraph);
+	boolean isIsomorphic(Graph<? extends N, ? extends E, ? extends W> isomorphicGraph);
+	boolean isHomomorphic(Graph<? extends N, ? extends E, ? extends W> homomorphicGraph);
 	boolean isRegular();
 }

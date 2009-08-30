@@ -20,15 +20,15 @@ package com.syncleus.dann.graph;
 
 import java.util.List;
 
-public interface BidirectedEdge extends Edge
+public interface BidirectedEdge<N> extends Edge<N>
 {
 	public enum EndState
 	{
 		Outward, Inward, None;
 	};
 
-	List<Node> getNodes();
-	NodePair<BidirectedNode> getNodePair();
+	N getLeftNode();
+	N getRightNode();
 	EndState getLeftEndState();
 	EndState getRightEndState();
 	boolean isIntroverted();
@@ -38,4 +38,7 @@ public interface BidirectedEdge extends Edge
 	boolean isLooseEdge();
 	boolean isOrdinaryEdge();
 	boolean isLoop();
+
+	//parent methods
+	List<N> getNodes();
 }

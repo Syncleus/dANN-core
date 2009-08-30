@@ -20,9 +20,10 @@ package com.syncleus.dann.graph;
 
 import java.util.List;
 
-public interface HyperWalk<N extends HyperNode<? extends E>, E extends HyperEdge> extends Walk<N,E>
+public interface HyperWalk<N, E extends HyperEdge<? extends N>> extends Walk<N,E>
 {
 	List<N> getNodeSteps();
+
 	//Parent methods
 	List<E> getSteps();
 	N getFirstNode();

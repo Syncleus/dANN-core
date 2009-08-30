@@ -18,15 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.pathfinding.astar;
 
-import com.syncleus.dann.graph.AbstractBidirectedWalk;
-import com.syncleus.dann.graph.DirectedWalk;
-import com.syncleus.dann.graph.WeightedWalk;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-public class AstarWalk<L> extends AbstractBidirectedWalk<AstarNode<L>,AstarEdge<L>> implements WeightedWalk<AstarNode<L>,AstarEdge<L>>, DirectedWalk<AstarNode<L>,AstarEdge<L>>
-{
+public class AstarWalk//<L> extends SimpleBidirectedWalk<AstarNode<L>,AstarEdge<L>> implements WeightedWalk<AstarNode<L>,AstarEdge<L>>, DirectedWalk<AstarNode<L>,AstarEdge<L>>
+{/*
 	private List<AstarEdge<L>> steps;
 	private AstarNode<L> firstNode;
 	private AstarNode<L> lastNode;
@@ -79,5 +72,5 @@ public class AstarWalk<L> extends AbstractBidirectedWalk<AstarNode<L>,AstarEdge<
 	public Number getWeight()
 	{
 		return Double.valueOf(this.getAstarWeight());
-	}
+	}*/
 }

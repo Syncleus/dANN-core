@@ -18,19 +18,21 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public abstract class AbstractDirectedEdge extends AbstractBidirectedEdge implements DirectedEdge
+public abstract class AbstractDirectedEdge<N> extends AbstractBidirectedEdge<N> implements DirectedEdge<N>
 {
-	private final DirectedNodePair<DirectedNode> directedNodePair;
-
-	protected AbstractDirectedEdge(DirectedNode source, DirectedNode destination)
+	protected AbstractDirectedEdge(N source, N destination)
 	{
 		super(source, EndState.Inward, destination, EndState.Outward);
-		this.directedNodePair = new DirectedNodePair<DirectedNode>(source, destination);
 	}
 
-	public DirectedNodePair<DirectedNode> getDirectedNodePair()
+	public N getSourceNode()
 	{
-		return this.directedNodePair;
+		return this.getLeftNode();
+	}
+
+	public N getDestinationNode()
+	{
+		return this.getRightNode();
 	}
 
 	@Override

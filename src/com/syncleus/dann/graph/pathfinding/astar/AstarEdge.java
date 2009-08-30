@@ -18,17 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.pathfinding.astar;
 
-import com.syncleus.dann.graph.AbstractDirectedEdge;
-import com.syncleus.dann.graph.DirectedEdge;
-import com.syncleus.dann.graph.DirectedNodePair;
-import com.syncleus.dann.graph.WeightedEdge;
-import com.syncleus.dann.graph.WeightedNode;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-public class AstarEdge<L> extends AbstractDirectedEdge implements WeightedEdge, DirectedEdge
+public class AstarEdge//<L> extends AbstractDirectedEdge implements WeightedEdge, DirectedEdge
 {
+	/*
 	private final double weight;
 	private final DirectedNodePair<AstarNode<L>> pair;
 	private final List<WeightedNode> weightedNodes;
@@ -80,5 +72,5 @@ public class AstarEdge<L> extends AbstractDirectedEdge implements WeightedEdge, 
 			return true;
 		
 		return false;
-	}
+	}*/
 }
