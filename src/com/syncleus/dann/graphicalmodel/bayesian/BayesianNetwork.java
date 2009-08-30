@@ -20,10 +20,11 @@ package com.syncleus.dann.graphicalmodel.bayesian;
 
 import com.syncleus.dann.graph.BidirectedGraph;
 import com.syncleus.dann.graph.BidirectedWalk;
-import java.util.List;
+import java.util.Set;
 
 public interface BayesianNetwork extends BidirectedGraph<BayesianNode, BayesianEdge, BidirectedWalk<BayesianNode,BayesianEdge> >
 {
 	void learnStates();
-	double overallProbability();
+	double jointProbability();
+	double conditionalProbability(Set<BayesianNode> goals, Set<BayesianNode> influences);
 }

@@ -21,13 +21,14 @@ package com.syncleus.dann.graphicalmodel.bayesian;
 import com.syncleus.dann.graph.AbstractBidirectedGraph;
 import com.syncleus.dann.graph.BidirectedWalk;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public abstract class AbstractBayesianNetwork extends AbstractBidirectedGraph<BayesianNode, BayesianEdge, BidirectedWalk<BayesianNode,BayesianEdge>>
+public abstract class AbstractBayesianNetwork extends AbstractBidirectedGraph<BayesianNode, BayesianEdge, BidirectedWalk<BayesianNode,BayesianEdge>> implements BayesianNetwork
 {
 	protected static class NodeConnectivity extends HashMap<BayesianNode,Set<BayesianEdge>>
 	{
@@ -216,7 +217,63 @@ public abstract class AbstractBayesianNetwork extends AbstractBidirectedGraph<Ba
 			node.learnState();
 	}
 
-	public double overallProbability()
+	public double conditionalProbability(Set<BayesianNode> goals, Set<BayesianNode> influences)
+	{
+		List<BayesianNode> varyingNodes = new ArrayList<BayesianNode>(this.nodes);
+
+		//calculate denominator
+		varyingNodes.removeAll(influences);
+		resetNodeStates(varyingNodes);
+		double denominator = 0.0;
+		do
+		{
+			denominator += this.jointProbability();
+		} while(!incrementNodeStates(varyingNodes));
+
+		//calculate numerator
+		varyingNodes.removeAll(goals);
+		resetNodeStates(varyingNodes);
+		double numerator = 0.0;
+		do
+		{
+			numerator += this.jointProbability();
+		} while(!incrementNodeStates(varyingNodes));
+
+		//all done
+		return numerator / denominator;
+	}
+
+	private static void resetNodeStates(List<BayesianNode> incNodes)
+	{
+		for(BayesianNode incNode : incNodes)
+			incNode.setState((Enum)(incNode.getStateDeclaringClass().getEnumConstants())[0]);
+	}
+
+	private static boolean incrementNodeStates(List<BayesianNode> incNodes)
+	{
+		for(BayesianNode incNode : incNodes)
+			if( !incrementNodeState(incNode) )
+				return false;
+		return true;
+	}
+
+	private static boolean incrementNodeState(BayesianNode incNode)
+	{
+		List enumTypes = Arrays.asList(incNode.getStateDeclaringClass().getEnumConstants());
+		int currentEnumIndex = enumTypes.indexOf(incNode.getState());
+		if((currentEnumIndex+1) >= enumTypes.size())
+		{
+			incNode.setState((Enum)enumTypes.get(0));
+			return true;
+		}
+		else
+		{
+			incNode.setState((Enum)enumTypes.get(currentEnumIndex+1));
+			return false;
+		}
+	}
+
+	public double jointProbability()
 	{
 		double probabilityProduct = 1.0;
 		for(BayesianNode node : this.nodes)
