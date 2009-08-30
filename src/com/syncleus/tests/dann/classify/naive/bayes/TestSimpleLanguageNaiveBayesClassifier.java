@@ -16,18 +16,18 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.tests.dann.classify.naivebayes.fisher;
+package com.syncleus.tests.dann.classify.naive.bayes;
 
-import com.syncleus.dann.classify.naive.bayes.fisher.StemmingLanguageFisherClassifier;
-import com.syncleus.dann.classify.naive.bayes.fisher.TrainableLanguageFisherClassifier;
+import com.syncleus.dann.classify.naive.bayes.SimpleLanguageNaiveBayesClassifier;
+import com.syncleus.dann.classify.naive.bayes.TrainableLanguageNaiveBayesClassifier;
 import org.junit.*;
 
-public class TestStemmingLanguageFisherClassifier
+public class TestSimpleLanguageNaiveBayesClassifier
 {
 	@Test
 	public void testClassify()
 	{
-		TrainableLanguageFisherClassifier<Integer> classifier = new StemmingLanguageFisherClassifier<Integer>();
+		TrainableLanguageNaiveBayesClassifier<Integer> classifier = new SimpleLanguageNaiveBayesClassifier<Integer>();
 
 		//train
 		classifier.train("Money is the root of all evil!", 1);

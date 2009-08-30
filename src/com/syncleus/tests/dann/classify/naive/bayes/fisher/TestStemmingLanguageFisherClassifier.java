@@ -16,18 +16,18 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.tests.dann.classify;
+package com.syncleus.tests.dann.classify.naive.bayes.fisher;
 
-import com.syncleus.dann.classify.naive.StemmingLanguageNaiveClassifier;
-import com.syncleus.dann.classify.naive.TrainableLanguageNaiveClassifier;
+import com.syncleus.dann.classify.naive.bayes.fisher.StemmingLanguageFisherClassifier;
+import com.syncleus.dann.classify.naive.bayes.fisher.TrainableLanguageFisherClassifier;
 import org.junit.*;
 
-public class TestStemmingLanguageClassifier
+public class TestStemmingLanguageFisherClassifier
 {
 	@Test
 	public void testClassify()
 	{
-		TrainableLanguageNaiveClassifier<Integer> classifier = new StemmingLanguageNaiveClassifier<Integer>();
+		TrainableLanguageFisherClassifier<Integer> classifier = new StemmingLanguageFisherClassifier<Integer>();
 
 		//train
 		classifier.train("Money is the root of all evil!", 1);
@@ -37,7 +37,7 @@ public class TestStemmingLanguageClassifier
 		classifier.train("Money should be here once", 2);
 		classifier.train("some nonsense to take up space", 2);
 		classifier.train("Even more nonsense cause we can", 2);
-		classifier.train("nonsense is the root of all good", 2);
+		classifier.train("nonsense was the root of all good", 2);
 		classifier.train("just a filler to waste space", 2);
 
 		//test
@@ -47,5 +47,10 @@ public class TestStemmingLanguageClassifier
 		Assert.assertTrue("Feature had incorrect category!", classifier.featureClassification("Waste") == 2);
 		Assert.assertTrue("Feature had incorrect category!", classifier.featureClassification("Evil") == 1);
 		Assert.assertTrue("Feature had incorrect category!", classifier.featureClassification("Good") == 2);
+
+		Assert.assertTrue("Item had incorrect category!", classifier.classification("Money was here once") == 2);
+		Assert.assertTrue("Item had incorrect category!", classifier.classification("Money destroys the quick brown fox!") == 1);
+		Assert.assertTrue("Item had incorrect category!", classifier.classification("kills the soul") == 1);
+		Assert.assertTrue("Item had incorrect category!", classifier.classification("nonsense is the root of good") == 2);
 	}
 }

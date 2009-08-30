@@ -16,7 +16,7 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.tests.dann.classify.naivebayes.fisher;
+package com.syncleus.tests.dann.classify.naive.bayes.fisher;
 
 import com.syncleus.dann.classify.naive.bayes.fisher.SimpleLanguageFisherClassifier;
 import com.syncleus.dann.classify.naive.bayes.fisher.TrainableLanguageFisherClassifier;

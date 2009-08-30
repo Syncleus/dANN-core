@@ -16,18 +16,18 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.tests.dann.classify;
+package com.syncleus.tests.dann.classify.naive;
 
-import com.syncleus.dann.classify.naive.SimpleLanguageNaiveClassifier;
+import com.syncleus.dann.classify.naive.StemmingLanguageNaiveClassifier;
 import com.syncleus.dann.classify.naive.TrainableLanguageNaiveClassifier;
 import org.junit.*;
 
-public class TestSimpleLanguageClassifier
+public class TestStemmingLanguageClassifier
 {
 	@Test
 	public void testClassify()
 	{
-		TrainableLanguageNaiveClassifier<Integer> classifier = new SimpleLanguageNaiveClassifier<Integer>();
+		TrainableLanguageNaiveClassifier<Integer> classifier = new StemmingLanguageNaiveClassifier<Integer>();
 
 		//train
 		classifier.train("Money is the root of all evil!", 1);
