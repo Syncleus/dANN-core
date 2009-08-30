@@ -16,18 +16,20 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.classify;
+package com.syncleus.dann.classify.naive;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
-public class SimpleClassifier<I,F,C> implements TrainableClassifier<I,F,C>
+public class SimpleNaiveClassifier<I,F,C> implements TrainableNaiveClassifier<I,F,C>
 {
 	private ClassificationProbabilities<C> overallCategoryProbability = new ClassificationProbabilities<C>();
 	private FeatureClassificationTree<F,C> featureTree = new FeatureClassificationTree<F,C>();
 	private FeatureExtractor<F,I> extractor;
 
-	public SimpleClassifier(FeatureExtractor<F,I> extractor)
+	public SimpleNaiveClassifier(FeatureExtractor<F,I> extractor)
 	{
 		this.extractor = extractor;
 	}
@@ -35,6 +37,55 @@ public class SimpleClassifier<I,F,C> implements TrainableClassifier<I,F,C>
 	protected FeatureExtractor<F,I> getExtractor()
 	{
 		return this.extractor;
+	}
+
+	public C classification(I item)
+	{
+		Set<F> features = this.extractor.getFeatures(item);
+		Map<C,Double> categoryProbabilities = new HashMap<C,Double>();
+		C topCategory = null;
+		double topProbability = 0.0;
+		for(F feature : features)
+		{
+			C currentCategory = this.featureClassification(feature);
+			Double newProbability = categoryProbabilities.get(currentCategory);
+			if( newProbability == null )
+				newProbability = Double.valueOf(1.0);
+			else
+				newProbability++;
+			categoryProbabilities.put(currentCategory, newProbability);
+
+			if(newProbability >= topProbability)
+			{
+				topProbability = newProbability;
+				topCategory = currentCategory;
+			}
+		}
+
+		return topCategory;
+	}
+
+	public Map<C,Double> getCategoryProbabilities(I item)
+	{
+		Set<F> features = this.extractor.getFeatures(item);
+		Map<C,Double> categoryProbabilities = new HashMap<C,Double>();
+		for(F feature : features)
+		{
+			C currentCategory = this.featureClassification(feature);
+			Double newProbability = categoryProbabilities.get(currentCategory);
+			if( newProbability == null )
+				newProbability = Double.valueOf(1.0);
+			else
+				newProbability++;
+			categoryProbabilities.put(currentCategory, newProbability);
+		}
+
+		return categoryProbabilities;
+	}
+
+	public double classificationProbability(I item, C category)
+	{
+		return this.getCategoryProbabilities(item).get(category).doubleValue();
 	}
 
 	public C featureClassification(F feature)

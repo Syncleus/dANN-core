@@ -16,29 +16,20 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.classify.naivebayes.fisher;
+package com.syncleus.dann.classify.naive;
 
-import java.util.Map;
+import com.syncleus.dann.classify.*;
 import java.util.Set;
 
-public interface LanguageFisherClassifier<C> extends FisherClassifier<String,String,C>
+public interface TrainableNaiveClassifier<I,F,C> extends NaiveClassifier<I,F,C>, TrainableClassifier<I,C>
 {
-	//FisherClassifier methods
-	void setMinimum(C category, double minimum);
-	double getMinimum(C category);
+	//Trainable methods
+	void train(I item, C category);
 
-	//NaiveBayesClassifier methods
-	C classification(String item, boolean useThreshold);
-	C classification(String item);
-	Map<C,Double> getCategoryProbabilities(String item);
-	double classificationProbability(String item, C category);
-	double getCategoryThreshold(C category);
-	void setCategoryThreshold(C category, double threshold);
-
-	//Classifier methods
-	C featureClassification(String feature);
-	C featureClassificationWeighted(String feature);
-	double featureClassificationProbability(String feature, C category);
-	double featureClassificationWeightedProbability(String feature, C category);
+	//NaiveClassifier methods
+	C featureClassification(F feature);
+	C featureClassificationWeighted(F feature);
+	double featureClassificationProbability(F feature, C category);
+	double featureClassificationWeightedProbability(F feature, C category);
 	Set<C> getCategories();
 }

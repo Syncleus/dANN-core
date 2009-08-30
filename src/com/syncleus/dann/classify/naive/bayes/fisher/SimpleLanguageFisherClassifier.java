@@ -16,25 +16,39 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.classify.naivebayes;
+package com.syncleus.dann.classify.naive.bayes.fisher;
 
-import java.util.Map;
+import com.syncleus.dann.classify.naive.FeatureExtractor;
+import com.syncleus.dann.dataprocessing.language.BasicWordParser;
+import com.syncleus.dann.dataprocessing.language.WordParser;
 import java.util.Set;
 
-public interface LanguageNaiveBayesClassifier<C> extends NaiveBayesClassifier<String,String,C>
+public class SimpleLanguageFisherClassifier<C> extends SimpleFisherClassifier<String, String, C> implements TrainableLanguageFisherClassifier<C>
 {
-	//NaiveBayesClassifier methods
-	C classification(String item, boolean useThreshold);
-	C classification(String item);
-	Map<C,Double> getCategoryProbabilities(String item);
-	double classificationProbability(String item, C category);
-	double getCategoryThreshold(C category);
-	void setCategoryThreshold(C category, double threshold);
+	private static class WordExtractor implements FeatureExtractor<String, String>
+	{
+		private static final WordParser PARSER = new BasicWordParser();
 
-	//Classifier methods
-	C featureClassification(String feature);
-	C featureClassificationWeighted(String feature);
-	double featureClassificationProbability(String feature, C category);
-	double featureClassificationWeightedProbability(String feature, C category);
-	Set<C> getCategories();
+		public Set<String> getFeatures(String item)
+		{
+			return PARSER.getUniqueWords(item);
+		}
+	}
+
+	public SimpleLanguageFisherClassifier()
+	{
+		super(new WordExtractor());
+	}
+
+	@Override
+	public double featureClassificationProbability(String feature, C category)
+	{
+		return super.featureClassificationProbability(feature.toLowerCase(), category);
+	}
+
+	@Override
+	public double featureClassificationWeightedProbability(String feature, C category)
+	{
+		return super.featureClassificationWeightedProbability(feature.toLowerCase(), category);
+	}
 }

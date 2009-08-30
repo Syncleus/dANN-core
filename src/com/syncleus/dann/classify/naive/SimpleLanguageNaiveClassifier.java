@@ -16,18 +16,17 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.classify.naivebayes.fisher;
+package com.syncleus.dann.classify.naive;
 
-import com.syncleus.dann.classify.FeatureExtractor;
+import com.syncleus.dann.dataprocessing.language.BasicWordParser;
 import com.syncleus.dann.dataprocessing.language.WordParser;
-import com.syncleus.dann.dataprocessing.language.stem.StemmingWordParser;
 import java.util.Set;
 
-public class StemmingLanguageFisherClassifier<C> extends SimpleFisherClassifier<String,String,C> implements TrainableLanguageFisherClassifier<C>
+public class SimpleLanguageNaiveClassifier<C> extends SimpleNaiveClassifier<String, String, C> implements TrainableLanguageNaiveClassifier<C>
 {
-	private static class StemmingWordExtractor implements FeatureExtractor<String, String>
+	private static class WordExtractor implements FeatureExtractor<String, String>
 	{
-		public static final WordParser PARSER = new StemmingWordParser();
+		private static final WordParser PARSER = new BasicWordParser();
 
 		public Set<String> getFeatures(String item)
 		{
@@ -35,20 +34,20 @@ public class StemmingLanguageFisherClassifier<C> extends SimpleFisherClassifier<
 		}
 	}
 
-	public StemmingLanguageFisherClassifier()
+	public SimpleLanguageNaiveClassifier()
 	{
-		super(new StemmingWordExtractor());
+		super(new WordExtractor());
 	}
 
 	@Override
 	public double featureClassificationProbability(String feature, C category)
 	{
-		return super.featureClassificationProbability(StemmingWordExtractor.PARSER.getUniqueWords(feature).iterator().next(), category);
+		return super.featureClassificationProbability(feature.toLowerCase(), category);
 	}
 
 	@Override
 	public double featureClassificationWeightedProbability(String feature, C category)
 	{
-		return super.featureClassificationWeightedProbability(StemmingWordExtractor.PARSER.getUniqueWords(feature).iterator().next(), category);
+		return super.featureClassificationWeightedProbability(feature.toLowerCase(), category);
 	}
 }

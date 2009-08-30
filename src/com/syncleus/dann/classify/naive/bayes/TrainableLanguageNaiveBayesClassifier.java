@@ -16,14 +16,23 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.classify;
+package com.syncleus.dann.classify.naive.bayes;
 
+import java.util.Map;
 import java.util.Set;
 
-public interface TrainableLanguageClassifier<C> extends TrainableClassifier<String,String,C>, LanguageClassifier<C>
+public interface TrainableLanguageNaiveBayesClassifier<C> extends TrainableNaiveBayesClassifier<String,String,C>, LanguageNaiveBayesClassifier<C>
 {
 	//Trainable methods
 	void train(String item, C category);
+	
+	//NaiveBayesClassifier methods
+	C classification(String item, boolean useThreshold);
+	C classification(String item);
+	Map<C,Double> getCategoryProbabilities(String item);
+	double classificationProbability(String item, C category);
+	double getCategoryThreshold(C category);
+	void setCategoryThreshold(C category, double threshold);
 
 	//Classifier methods
 	C featureClassification(String feature);

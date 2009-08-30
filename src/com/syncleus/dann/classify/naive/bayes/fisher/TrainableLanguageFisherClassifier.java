@@ -16,37 +16,32 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.classify;
+package com.syncleus.dann.classify.naive.bayes.fisher;
 
-import com.syncleus.dann.dataprocessing.language.stem.StemmingWordParser;
+import java.util.Map;
 import java.util.Set;
 
-public class StemmingLanguageClassifier<C> extends SimpleClassifier<String, String, C> implements TrainableLanguageClassifier<C>
+public interface TrainableLanguageFisherClassifier<C> extends TrainableFisherClassifier<String,String,C>, LanguageFisherClassifier<C>
 {
-	private static class StemmingWordExtractor implements FeatureExtractor<String, String>
-	{
-		public static final StemmingWordParser PARSER = new StemmingWordParser();
+	//Trainable methods
+	void train(String item, C category);
 
-		public Set<String> getFeatures(String item)
-		{
-			return PARSER.getUniqueWords(item);
-		}
-	}
+	//FisherClassifier methods
+	void setMinimum(C category, double minimum);
+	double getMinimum(C category);
 
-	public StemmingLanguageClassifier()
-	{
-		super(new StemmingWordExtractor());
-	}
+	//NaiveBayesClassifier methods
+	C classification(String item, boolean useThreshold);
+	C classification(String item);
+	Map<C,Double> getCategoryProbabilities(String item);
+	double classificationProbability(String item, C category);
+	double getCategoryThreshold(C category);
+	void setCategoryThreshold(C category, double threshold);
 
-	@Override
-	public double featureClassificationProbability(String feature, C category)
-	{
-		return super.featureClassificationProbability(StemmingWordExtractor.PARSER.getUniqueWords(feature).iterator().next(), category);
-	}
-
-	@Override
-	public double featureClassificationWeightedProbability(String feature, C category)
-	{
-		return super.featureClassificationWeightedProbability(StemmingWordExtractor.PARSER.getUniqueWords(feature).iterator().next(), category);
-	}
+	//Classifier methods
+	C featureClassification(String feature);
+	C featureClassificationWeighted(String feature);
+	double featureClassificationProbability(String feature, C category);
+	double featureClassificationWeightedProbability(String feature, C category);
+	Set<C> getCategories();
 }

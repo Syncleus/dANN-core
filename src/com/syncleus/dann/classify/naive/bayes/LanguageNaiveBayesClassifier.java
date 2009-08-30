@@ -16,39 +16,25 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.classify.naivebayes;
+package com.syncleus.dann.classify.naive.bayes;
 
-import com.syncleus.dann.classify.FeatureExtractor;
-import com.syncleus.dann.dataprocessing.language.BasicWordParser;
-import com.syncleus.dann.dataprocessing.language.WordParser;
+import java.util.Map;
 import java.util.Set;
 
-public class SimpleLanguageNaiveBayesClassifier<C> extends SimpleNaiveBayesClassifier<String, String, C> implements TrainableLanguageNaiveBayesClassifier<C>
+public interface LanguageNaiveBayesClassifier<C> extends NaiveBayesClassifier<String,String,C>
 {
-	private static class WordExtractor implements FeatureExtractor<String, String>
-	{
-		private static final WordParser PARSER = new BasicWordParser();
+	//NaiveBayesClassifier methods
+	C classification(String item, boolean useThreshold);
+	C classification(String item);
+	Map<C,Double> getCategoryProbabilities(String item);
+	double classificationProbability(String item, C category);
+	double getCategoryThreshold(C category);
+	void setCategoryThreshold(C category, double threshold);
 
-		public Set<String> getFeatures(String item)
-		{
-			return PARSER.getUniqueWords(item);
-		}
-	}
-
-	public SimpleLanguageNaiveBayesClassifier()
-	{
-		super(new WordExtractor());
-	}
-
-	@Override
-	public double featureClassificationProbability(String feature, C category)
-	{
-		return super.featureClassificationProbability(feature.toLowerCase(), category);
-	}
-
-	@Override
-	public double featureClassificationWeightedProbability(String feature, C category)
-	{
-		return super.featureClassificationWeightedProbability(feature.toLowerCase(), category);
-	}
+	//Classifier methods
+	C featureClassification(String feature);
+	C featureClassificationWeighted(String feature);
+	double featureClassificationProbability(String feature, C category);
+	double featureClassificationWeightedProbability(String feature, C category);
+	Set<C> getCategories();
 }

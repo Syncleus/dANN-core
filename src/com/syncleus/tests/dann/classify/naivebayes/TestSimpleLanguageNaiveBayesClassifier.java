@@ -18,8 +18,8 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.classify.naivebayes;
 
-import com.syncleus.dann.classify.naivebayes.SimpleLanguageNaiveBayesClassifier;
-import com.syncleus.dann.classify.naivebayes.TrainableLanguageNaiveBayesClassifier;
+import com.syncleus.dann.classify.naive.bayes.SimpleLanguageNaiveBayesClassifier;
+import com.syncleus.dann.classify.naive.bayes.TrainableLanguageNaiveBayesClassifier;
 import org.junit.*;
 
 public class TestSimpleLanguageNaiveBayesClassifier

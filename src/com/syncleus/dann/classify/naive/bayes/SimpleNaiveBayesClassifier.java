@@ -16,17 +16,17 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.classify.naivebayes;
+package com.syncleus.dann.classify.naive.bayes;
 
-import com.syncleus.dann.classify.SimpleClassifier;
-import com.syncleus.dann.classify.FeatureExtractor;
+import com.syncleus.dann.classify.naive.SimpleNaiveClassifier;
+import com.syncleus.dann.classify.naive.FeatureExtractor;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-public class SimpleNaiveBayesClassifier<I,F,C> extends SimpleClassifier<I,F,C> implements TrainableNaiveBayesClassifier<I,F,C>
+public class SimpleNaiveBayesClassifier<I,F,C> extends SimpleNaiveClassifier<I,F,C> implements TrainableNaiveBayesClassifier<I,F,C>
 {
 	private final Map<C,Double> categoryThresholds = new HashMap<C,Double>();
 

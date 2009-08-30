@@ -16,25 +16,49 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.classify.naivebayes;
+package com.syncleus.dann.classify.naive;
 
-import com.syncleus.dann.classify.Classifier;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
-public interface NaiveBayesClassifier<I,F,C> extends Classifier<F,C>
+public class ClassificationProbabilities<C>
 {
-	C classification(I item, boolean useThreshold);
-	C classification(I item);
-	Map<C,Double> getCategoryProbabilities(I item);
-	double classificationProbability(I item, C category);
-	double getCategoryThreshold(C category);
-	void setCategoryThreshold(C category, double threshold);
+	private int probabilitySum;
+	private final Map<C, Integer> categoryProbabilityMap = new HashMap<C, Integer>();
 
-	//Classifier methods
-	C featureClassification(F feature);
-	C featureClassificationWeighted(F feature);
-	double featureClassificationProbability(F feature, C category);
-	double featureClassificationWeightedProbability(F feature, C category);
-	Set<C> getCategories();
+	public Map<C, Integer> getCategoryProbabilityMap()
+	{
+		return Collections.unmodifiableMap(this.categoryProbabilityMap);
+	}
+
+	public void incrementCategory(C category)
+	{
+		this.incrementCategory(category, 1);
+	}
+
+	public void incrementCategory(C category, int value)
+	{
+		Integer currentProbability = this.categoryProbabilityMap.get(category);
+		if(currentProbability != null)
+			currentProbability = currentProbability + value;
+		else
+			currentProbability = value;
+		this.categoryProbabilityMap.put(category, currentProbability);
+		this.probabilitySum += value;
+	}
+
+	public int getProbabilitySum()
+	{
+		return probabilitySum;
+	}
+
+	public int getCategoryProbability(C category)
+	{
+		Integer probability = this.categoryProbabilityMap.get(category);
+		if(probability == null)
+			return 0;
+		else
+			return probability;
+	}
 }

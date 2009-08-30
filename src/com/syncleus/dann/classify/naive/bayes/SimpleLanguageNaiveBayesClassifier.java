@@ -16,14 +16,14 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.classify.naivebayes.fisher;
+package com.syncleus.dann.classify.naive.bayes;
 
-import com.syncleus.dann.classify.FeatureExtractor;
+import com.syncleus.dann.classify.naive.FeatureExtractor;
 import com.syncleus.dann.dataprocessing.language.BasicWordParser;
 import com.syncleus.dann.dataprocessing.language.WordParser;
 import java.util.Set;
 
-public class SimpleLanguageFisherClassifier<C> extends SimpleFisherClassifier<String, String, C> implements TrainableLanguageFisherClassifier<C>
+public class SimpleLanguageNaiveBayesClassifier<C> extends SimpleNaiveBayesClassifier<String, String, C> implements TrainableLanguageNaiveBayesClassifier<C>
 {
 	private static class WordExtractor implements FeatureExtractor<String, String>
 	{
@@ -35,7 +35,7 @@ public class SimpleLanguageFisherClassifier<C> extends SimpleFisherClassifier<St
 		}
 	}
 
-	public SimpleLanguageFisherClassifier()
+	public SimpleLanguageNaiveBayesClassifier()
 	{
 		super(new WordExtractor());
 	}

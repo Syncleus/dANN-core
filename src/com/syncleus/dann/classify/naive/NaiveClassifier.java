@@ -16,20 +16,22 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.classify;
+package com.syncleus.dann.classify.naive;
 
-import java.util.HashMap;
+import com.syncleus.dann.classify.Classifier;
+import java.util.Map;
+import java.util.Set;
 
-public class FeatureClassificationTree<F, C> extends HashMap<F, ClassificationProbabilities<C>>
+public interface NaiveClassifier<I,F,C> extends Classifier<I,C>
 {
-	public ClassificationProbabilities<C> getFeature(F feature)
-	{
-		 ClassificationProbabilities<C> classification = super.get(feature);
-		 if( classification == null )
-		 {
-			 classification = new ClassificationProbabilities<C>();
-			 this.put(feature, classification);
-		 }
-		 return classification;
-	}
+	C featureClassification(F feature);
+	C featureClassificationWeighted(F feature);
+	double featureClassificationProbability(F feature, C category);
+	double featureClassificationWeightedProbability(F feature, C category);
+
+	//parent methods
+	C classification(I item);
+	Map<C,Double> getCategoryProbabilities(I item);
+	double classificationProbability(I item, C category);
+	Set<C> getCategories();
 }

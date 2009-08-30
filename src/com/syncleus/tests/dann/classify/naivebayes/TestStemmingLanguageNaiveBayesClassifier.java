@@ -18,8 +18,8 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.classify.naivebayes;
 
-import com.syncleus.dann.classify.naivebayes.StemmingLanguageNaiveBayesClassifier;
-import com.syncleus.dann.classify.naivebayes.TrainableLanguageNaiveBayesClassifier;
+import com.syncleus.dann.classify.naive.bayes.StemmingLanguageNaiveBayesClassifier;
+import com.syncleus.dann.classify.naive.bayes.TrainableLanguageNaiveBayesClassifier;
 import org.junit.*;
 
 public class TestStemmingLanguageNaiveBayesClassifier

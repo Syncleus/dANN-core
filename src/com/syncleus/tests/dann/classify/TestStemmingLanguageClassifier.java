@@ -18,8 +18,8 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.classify;
 
-import com.syncleus.dann.classify.StemmingLanguageClassifier;
-import com.syncleus.dann.classify.TrainableLanguageClassifier;
+import com.syncleus.dann.classify.naive.StemmingLanguageNaiveClassifier;
+import com.syncleus.dann.classify.naive.TrainableLanguageNaiveClassifier;
 import org.junit.*;
 
 public class TestStemmingLanguageClassifier
@@ -27,7 +27,7 @@ public class TestStemmingLanguageClassifier
 	@Test
 	public void testClassify()
 	{
-		TrainableLanguageClassifier<Integer> classifier = new StemmingLanguageClassifier<Integer>();
+		TrainableLanguageNaiveClassifier<Integer> classifier = new StemmingLanguageNaiveClassifier<Integer>();
 
 		//train
 		classifier.train("Money is the root of all evil!", 1);

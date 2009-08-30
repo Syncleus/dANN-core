@@ -16,10 +16,10 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.classify.naivebayes.fisher;
+package com.syncleus.dann.classify.naive.bayes.fisher;
 
-import com.syncleus.dann.classify.FeatureExtractor;
-import com.syncleus.dann.classify.naivebayes.SimpleNaiveBayesClassifier;
+import com.syncleus.dann.classify.naive.FeatureExtractor;
+import com.syncleus.dann.classify.naive.bayes.SimpleNaiveBayesClassifier;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;

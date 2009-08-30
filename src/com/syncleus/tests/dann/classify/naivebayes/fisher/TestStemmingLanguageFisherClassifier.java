@@ -18,8 +18,8 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.classify.naivebayes.fisher;
 
-import com.syncleus.dann.classify.naivebayes.fisher.StemmingLanguageFisherClassifier;
-import com.syncleus.dann.classify.naivebayes.fisher.TrainableLanguageFisherClassifier;
+import com.syncleus.dann.classify.naive.bayes.fisher.StemmingLanguageFisherClassifier;
+import com.syncleus.dann.classify.naive.bayes.fisher.TrainableLanguageFisherClassifier;
 import org.junit.*;
 
 public class TestStemmingLanguageFisherClassifier

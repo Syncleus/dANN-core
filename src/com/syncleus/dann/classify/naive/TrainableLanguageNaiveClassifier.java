@@ -16,39 +16,19 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.classify.naivebayes;
+package com.syncleus.dann.classify.naive;
 
-import com.syncleus.dann.classify.FeatureExtractor;
-import com.syncleus.dann.dataprocessing.language.WordParser;
-import com.syncleus.dann.dataprocessing.language.stem.StemmingWordParser;
 import java.util.Set;
 
-public class StemmingLanguageNaiveBayesClassifier<C> extends SimpleNaiveBayesClassifier<String, String, C> implements TrainableLanguageNaiveBayesClassifier<C>
+public interface TrainableLanguageNaiveClassifier<C> extends TrainableNaiveClassifier<String,String,C>, LanguageNaiveClassifier<C>
 {
-	private static class StemmingWordExtractor implements FeatureExtractor<String, String>
-	{
-		public static final WordParser PARSER = new StemmingWordParser();
+	//Trainable methods
+	void train(String item, C category);
 
-		public Set<String> getFeatures(String item)
-		{
-			return PARSER.getUniqueWords(item);
-		}
-	}
-
-	public StemmingLanguageNaiveBayesClassifier()
-	{
-		super(new StemmingWordExtractor());
-	}
-
-	@Override
-	public double featureClassificationProbability(String feature, C category)
-	{
-		return super.featureClassificationProbability(StemmingWordExtractor.PARSER.getUniqueWords(feature).iterator().next(), category);
-	}
-
-	@Override
-	public double featureClassificationWeightedProbability(String feature, C category)
-	{
-		return super.featureClassificationWeightedProbability(StemmingWordExtractor.PARSER.getUniqueWords(feature).iterator().next(), category);
-	}
+	//Classifier methods
+	C featureClassification(String feature);
+	C featureClassificationWeighted(String feature);
+	double featureClassificationProbability(String feature, C category);
+	double featureClassificationWeightedProbability(String feature, C category);
+	Set<C> getCategories();
 }

@@ -16,38 +16,11 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.classify;
+package com.syncleus.dann.classify.naive;
 
-import com.syncleus.dann.dataprocessing.language.BasicWordParser;
-import com.syncleus.dann.dataprocessing.language.WordParser;
 import java.util.Set;
 
-public class SimpleLanguageClassifier<C> extends SimpleClassifier<String, String, C> implements TrainableLanguageClassifier<C>
+public interface FeatureExtractor<F, I>
 {
-	private static class WordExtractor implements FeatureExtractor<String, String>
-	{
-		private static final WordParser PARSER = new BasicWordParser();
-
-		public Set<String> getFeatures(String item)
-		{
-			return PARSER.getUniqueWords(item);
-		}
-	}
-
-	public SimpleLanguageClassifier()
-	{
-		super(new WordExtractor());
-	}
-
-	@Override
-	public double featureClassificationProbability(String feature, C category)
-	{
-		return super.featureClassificationProbability(feature.toLowerCase(), category);
-	}
-
-	@Override
-	public double featureClassificationWeightedProbability(String feature, C category)
-	{
-		return super.featureClassificationWeightedProbability(feature.toLowerCase(), category);
-	}
+	Set<F> getFeatures(I item);
 }

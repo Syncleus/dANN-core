@@ -16,49 +16,29 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.classify;
+package com.syncleus.dann.classify.naive.bayes;
 
-import java.util.Collections;
-import java.util.HashMap;
+import com.syncleus.dann.classify.TrainableClassifier;
 import java.util.Map;
+import java.util.Set;
 
-public class ClassificationProbabilities<C>
+public interface TrainableNaiveBayesClassifier<I,F,C> extends NaiveBayesClassifier<I,F,C>, TrainableClassifier<I,C>
 {
-	private int probabilitySum;
-	private final Map<C, Integer> categoryProbabilityMap = new HashMap<C, Integer>();
+	//Trainable methods
+	void train(I item, C category);
 
-	public Map<C, Integer> getCategoryProbabilityMap()
-	{
-		return Collections.unmodifiableMap(this.categoryProbabilityMap);
-	}
+	//NaiveBayesClassifier methods
+	C classification(I item, boolean useThreshold);
+	C classification(I item);
+	Map<C,Double> getCategoryProbabilities(I item);
+	double classificationProbability(I item, C category);
+	double getCategoryThreshold(C category);
+	void setCategoryThreshold(C category, double threshold);
 
-	public void incrementCategory(C category)
-	{
-		this.incrementCategory(category, 1);
-	}
-
-	public void incrementCategory(C category, int value)
-	{
-		Integer currentProbability = this.categoryProbabilityMap.get(category);
-		if(currentProbability != null)
-			currentProbability = currentProbability + value;
-		else
-			currentProbability = value;
-		this.categoryProbabilityMap.put(category, currentProbability);
-		this.probabilitySum += value;
-	}
-
-	public int getProbabilitySum()
-	{
-		return probabilitySum;
-	}
-
-	public int getCategoryProbability(C category)
-	{
-		Integer probability = this.categoryProbabilityMap.get(category);
-		if(probability == null)
-			return 0;
-		else
-			return probability;
-	}
+	//Classifier methods
+	C featureClassification(F feature);
+	C featureClassificationWeighted(F feature);
+	double featureClassificationProbability(F feature, C category);
+	double featureClassificationWeightedProbability(F feature, C category);
+	Set<C> getCategories();
 }

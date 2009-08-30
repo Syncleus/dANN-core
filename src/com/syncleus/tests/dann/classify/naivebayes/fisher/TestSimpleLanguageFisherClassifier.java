@@ -18,8 +18,8 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.classify.naivebayes.fisher;
 
-import com.syncleus.dann.classify.naivebayes.fisher.SimpleLanguageFisherClassifier;
-import com.syncleus.dann.classify.naivebayes.fisher.TrainableLanguageFisherClassifier;
+import com.syncleus.dann.classify.naive.bayes.fisher.SimpleLanguageFisherClassifier;
+import com.syncleus.dann.classify.naive.bayes.fisher.TrainableLanguageFisherClassifier;
 import org.junit.*;
 
 public class TestSimpleLanguageFisherClassifier

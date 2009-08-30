@@ -18,8 +18,8 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.classify;
 
-import com.syncleus.dann.classify.SimpleLanguageClassifier;
-import com.syncleus.dann.classify.TrainableLanguageClassifier;
+import com.syncleus.dann.classify.naive.SimpleLanguageNaiveClassifier;
+import com.syncleus.dann.classify.naive.TrainableLanguageNaiveClassifier;
 import org.junit.*;
 
 public class TestSimpleLanguageClassifier
@@ -27,7 +27,7 @@ public class TestSimpleLanguageClassifier
 	@Test
 	public void testClassify()
 	{
-		TrainableLanguageClassifier<Integer> classifier = new SimpleLanguageClassifier<Integer>();
+		TrainableLanguageNaiveClassifier<Integer> classifier = new SimpleLanguageNaiveClassifier<Integer>();
 
 		//train
 		classifier.train("Money is the root of all evil!", 1);

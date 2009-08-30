@@ -16,28 +16,39 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.classify.naivebayes;
+package com.syncleus.dann.classify.naive.bayes;
 
-import java.util.Map;
+import com.syncleus.dann.classify.naive.FeatureExtractor;
+import com.syncleus.dann.dataprocessing.language.WordParser;
+import com.syncleus.dann.dataprocessing.language.stem.StemmingWordParser;
 import java.util.Set;
 
-public interface TrainableLanguageNaiveBayesClassifier<C> extends TrainableNaiveBayesClassifier<String,String,C>, LanguageNaiveBayesClassifier<C>
+public class StemmingLanguageNaiveBayesClassifier<C> extends SimpleNaiveBayesClassifier<String, String, C> implements TrainableLanguageNaiveBayesClassifier<C>
 {
-	//Trainable methods
-	void train(String item, C category);
-	
-	//NaiveBayesClassifier methods
-	C classification(String item, boolean useThreshold);
-	C classification(String item);
-	Map<C,Double> getCategoryProbabilities(String item);
-	double classificationProbability(String item, C category);
-	double getCategoryThreshold(C category);
-	void setCategoryThreshold(C category, double threshold);
+	private static class StemmingWordExtractor implements FeatureExtractor<String, String>
+	{
+		public static final WordParser PARSER = new StemmingWordParser();
 
-	//Classifier methods
-	C featureClassification(String feature);
-	C featureClassificationWeighted(String feature);
-	double featureClassificationProbability(String feature, C category);
-	double featureClassificationWeightedProbability(String feature, C category);
-	Set<C> getCategories();
+		public Set<String> getFeatures(String item)
+		{
+			return PARSER.getUniqueWords(item);
+		}
+	}
+
+	public StemmingLanguageNaiveBayesClassifier()
+	{
+		super(new StemmingWordExtractor());
+	}
+
+	@Override
+	public double featureClassificationProbability(String feature, C category)
+	{
+		return super.featureClassificationProbability(StemmingWordExtractor.PARSER.getUniqueWords(feature).iterator().next(), category);
+	}
+
+	@Override
+	public double featureClassificationWeightedProbability(String feature, C category)
+	{
+		return super.featureClassificationWeightedProbability(StemmingWordExtractor.PARSER.getUniqueWords(feature).iterator().next(), category);
+	}
 }
