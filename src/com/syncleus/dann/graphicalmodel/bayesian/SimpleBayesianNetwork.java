@@ -33,19 +33,19 @@ public class SimpleBayesianNetwork extends AbstractBayesianNetwork
 	}
 
 	@Override
-	protected boolean add(BayesianNode node)
+	public boolean add(BayesianNode node)
 	{
 		return super.add(node);
 	}
 
 	@Override
-	protected boolean add(BayesianEdge edge)
+	public boolean add(BayesianEdge edge)
 	{
 		return super.add(edge);
 	}
 
 	@Override
-	protected boolean remove(BayesianNode node)
+	public boolean remove(BayesianNode node)
 	{
 		return super.remove(node);
 	}

@@ -72,7 +72,7 @@ public class SimpleBayesianNode implements BayesianNode
 		this.updateInfluence();
 
 		StateEvidence stateEvidence = this.evidence.get(this.getInputStates());
-		return stateEvidence.getPercentage(this.getState());
+		return (stateEvidence != null ? stateEvidence.getPercentage(this.getState()) : 0.0 );
 	}
 
 	private Map<BayesianNode,Enum> getInputStates()
@@ -95,13 +95,21 @@ public class SimpleBayesianNode implements BayesianNode
 		return Collections.unmodifiableSet( inNodes );
 	}
 
-	private void updateInfluence()
+	private boolean updateInfluence()
 	{
 		Set<BayesianNode> currentInfluences = this.getInfluencingNodes();
-		if((this.evidence == null)&&(currentInfluences.size() > 0))
+		if(this.evidence == null)
+		{
 			this.evidence = new EvidenceMap(currentInfluences);
+			return true;
+		}
 		else
 			if( !currentInfluences.equals(this.evidence.getInfluencingNodes()) )
+			{
 				this.evidence = new EvidenceMap(currentInfluences);
+				return true;
+			}
+
+		return false;
 	}
 }

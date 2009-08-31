@@ -217,26 +217,38 @@ public abstract class AbstractBayesianNetwork extends AbstractBidirectedGraph<Ba
 			node.learnState();
 	}
 
+	public double jointProbability()
+	{
+		double probabilityProduct = 1.0;
+		for(BayesianNode node : this.nodes)
+			probabilityProduct *= node.stateProbability();
+//		System.out.println("joint prob: " + probabilityProduct);
+		return probabilityProduct;
+	}
+
 	public double conditionalProbability(Set<BayesianNode> goals, Set<BayesianNode> influences)
 	{
 		List<BayesianNode> varyingNodes = new ArrayList<BayesianNode>(this.nodes);
 
-		//calculate denominator
-		varyingNodes.removeAll(influences);
-		resetNodeStates(varyingNodes);
-		double denominator = 0.0;
-		do
-		{
-			denominator += this.jointProbability();
-		} while(!incrementNodeStates(varyingNodes));
-
 		//calculate numerator
+		varyingNodes = new ArrayList<BayesianNode>(this.nodes);
+		varyingNodes.removeAll(influences);
 		varyingNodes.removeAll(goals);
 		resetNodeStates(varyingNodes);
 		double numerator = 0.0;
 		do
 		{
 			numerator += this.jointProbability();
+		} while(!incrementNodeStates(varyingNodes));
+
+		//calculate denominator
+		varyingNodes = new ArrayList<BayesianNode>(this.nodes);
+		varyingNodes.removeAll(influences);
+		resetNodeStates(varyingNodes);
+		double denominator = 0.0;
+		do
+		{
+			denominator += this.jointProbability();
 		} while(!incrementNodeStates(varyingNodes));
 
 		//all done
@@ -271,13 +283,5 @@ public abstract class AbstractBayesianNetwork extends AbstractBidirectedGraph<Ba
 			incNode.setState((Enum)enumTypes.get(currentEnumIndex+1));
 			return false;
 		}
-	}
-
-	public double jointProbability()
-	{
-		double probabilityProduct = 1.0;
-		for(BayesianNode node : this.nodes)
-			probabilityProduct *= node.stateProbability();
-		return probabilityProduct;
 	}
 }

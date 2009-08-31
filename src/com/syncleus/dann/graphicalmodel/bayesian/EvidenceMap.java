@@ -43,7 +43,16 @@ public class EvidenceMap extends HashMap<Map<BayesianNode,Enum>,StateEvidence>
 
 	public Set<BayesianNode> getInfluencingNodes()
 	{
-		return Collections.unmodifiableSet(this.influencingNodes);
+		return this.influencingNodes;
+	}
+
+	public int incrementState(Set<BayesianNode> influences, Enum state)
+	{
+		Map<BayesianNode,Enum> influenceMap = new HashMap<BayesianNode,Enum>();
+		for(BayesianNode influence : influences)
+			influenceMap.put(influence, influence.getState());
+		
+		return this.incrementState(influenceMap, state);
 	}
 
 	public int incrementState(Map<BayesianNode,Enum> influence, Enum state)
@@ -61,7 +70,8 @@ public class EvidenceMap extends HashMap<Map<BayesianNode,Enum>,StateEvidence>
 		if(evidence == null)
 			evidence = Integer.valueOf(1);
 		else
-			evidence = Integer.valueOf(evidence++);
+			evidence = Integer.valueOf(evidence + 1);
+
 		stateEvidence.put(state, evidence);
 
 		return evidence;
@@ -74,6 +84,54 @@ public class EvidenceMap extends HashMap<Map<BayesianNode,Enum>,StateEvidence>
 		for(Entry<BayesianNode,Enum> entry : influencingStates.entrySet())
 			if(entry.getKey().getStateDeclaringClass() != entry.getValue().getDeclaringClass())
 				throw new IllegalArgumentException ("influencing node and incluencing state dont have matching enum types");
+	}
+
+	@Override
+	public boolean containsKey(Object keyObj)
+	{
+		if(keyObj instanceof Set)
+		{
+			Set key = (Set) keyObj;
+
+			Map<BayesianNode,Enum> newKey = new HashMap<BayesianNode,Enum>();
+			for(Object nodeObj : key)
+			{
+				if(nodeObj instanceof BayesianNode)
+				{
+					BayesianNode node = (BayesianNode) nodeObj;
+					newKey.put(node, node.getState());
+				}
+				else
+					return super.containsKey(keyObj);
+			}
+			return super.containsKey(newKey);
+		}
+
+		return super.containsKey(keyObj);
+	}
+
+	@Override
+	public StateEvidence get(Object keyObj)
+	{
+		if(keyObj instanceof Set)
+		{
+			Set key = (Set) keyObj;
+
+			Map<BayesianNode,Enum> newKey = new HashMap<BayesianNode,Enum>();
+			for(Object nodeObj : key)
+			{
+				if(nodeObj instanceof BayesianNode)
+				{
+					BayesianNode node = (BayesianNode) nodeObj;
+					newKey.put(node, node.getState());
+				}
+				else
+					return super.get(keyObj);
+			}
+			return super.get(newKey);
+		}
+
+		return super.get(keyObj);
 	}
 
 	@Override

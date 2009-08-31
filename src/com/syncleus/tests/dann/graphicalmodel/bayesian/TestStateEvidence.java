@@ -16,52 +16,27 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graphicalmodel.bayesian;
+package com.syncleus.tests.dann.graphicalmodel.bayesian;
 
-import java.util.HashMap;
+import com.syncleus.dann.graphicalmodel.bayesian.StateEvidence;
 import java.util.Map;
-import java.util.Map.Entry;
+import org.junit.*;
 
-public class StateEvidence extends HashMap<Enum,Integer>
+public class TestStateEvidence
 {
-	private long totalEvidence;
-
-	public long getTotalEvidence()
+	private static enum TestEnum
 	{
-		return this.totalEvidence;
+		TOP,BOTTOM;
 	}
 
-	public double getPercentage(Enum key)
+	@Test
+	public void testPercentage()
 	{
-		Integer stateEvidence = this.get(key);
-		if( stateEvidence != null)
-			return this.get(key).doubleValue() / ((double)this.totalEvidence);
-		else
-			return 0.0;
-	}
-
-	@Override
-	public Integer put(Enum key, Integer value)
-	{
-		Integer old = super.put(key,value);
-		if(old != null)
-			this.totalEvidence -= old;
-		this.totalEvidence += value;
-
-		return old;
-	}
-
-	@Override
-	public void putAll(Map<? extends Enum,? extends Integer> map)
-	{
-		Map<Enum,Integer> oldMap = new HashMap<Enum,Integer>(this);
-		super.putAll(map);
-
-		for(Entry<? extends Enum,? extends Integer> entry : map.entrySet())
-		{
-			Integer oldEvidence = oldMap.get(entry.getKey());
-			Integer newEvidence = this.get(entry.getKey());
-			this.totalEvidence = (this.totalEvidence - oldEvidence) + newEvidence;
-		}
+		StateEvidence evidence = new StateEvidence();
+		Map<Enum,Integer> evidenceMap = evidence;
+		evidenceMap.put(TestEnum.TOP, 700);
+		evidenceMap.put(TestEnum.BOTTOM, 300);
+		Assert.assertTrue("top percentage: " + evidence.getPercentage(TestEnum.TOP), Math.abs(evidence.getPercentage(TestEnum.TOP) - 0.7) < 0.0001);
+		Assert.assertTrue("bottom percentage: " + evidence.getPercentage(TestEnum.BOTTOM), Math.abs(evidence.getPercentage(TestEnum.BOTTOM) - 0.3) < 0.0001);
 	}
 }
