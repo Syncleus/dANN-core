@@ -86,7 +86,7 @@ public class SimpleBayesianNode implements BayesianNode
 		return inStates;
 	}
 
-	private Set<BayesianNode> getInfluencingNodes()
+	protected Set<BayesianNode> getInfluencingNodes()
 	{
 		List<BayesianEdge> inEdges = this.network.getInEdges(this);
 		Set<BayesianNode> inNodes = new HashSet<BayesianNode>();
