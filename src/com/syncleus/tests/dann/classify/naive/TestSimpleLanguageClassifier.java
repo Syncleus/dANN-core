@@ -47,5 +47,10 @@ public class TestSimpleLanguageClassifier
 		Assert.assertTrue("Feature had incorrect category!", classifier.featureClassification("Waste") == 2);
 		Assert.assertTrue("Feature had incorrect category!", classifier.featureClassification("Evil") == 1);
 		Assert.assertTrue("Feature had incorrect category!", classifier.featureClassification("Good") == 2);
+
+		Assert.assertTrue("Item had incorrect category!", classifier.classification("Money was here once") == 2);
+		Assert.assertTrue("Item had incorrect category!", classifier.classification("Money destroys the quick brown fox!") == 1);
+		Assert.assertTrue("Item had incorrect category!", classifier.classification("kills the soul") == 1);
+		Assert.assertTrue("Item had incorrect category!", classifier.classification("nonsense is the root of good") == 1);
 	}
 }
