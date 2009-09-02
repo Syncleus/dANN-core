@@ -38,16 +38,16 @@ public class TestEvidenceMap
 	public void testOverall()
 	{
 		SimpleBayesianNetwork network = new SimpleBayesianNetwork();
-		BayesianNode<Enum> influence1 = new SimpleBayesianNode<Enum>(TestEnum.FALSE, network);
-		BayesianNode<Enum> influence2 = new SimpleBayesianNode<Enum>(TestEnum.FALSE, network);
-		BayesianNode<Enum> influence3 = new SimpleBayesianNode<Enum>(TestEnum.FALSE, network);
+		BayesianNode<TestEnum> influence1 = new SimpleBayesianNode<TestEnum>(TestEnum.FALSE, network);
+		BayesianNode<TestEnum> influence2 = new SimpleBayesianNode<TestEnum>(TestEnum.FALSE, network);
+		BayesianNode<TestEnum> influence3 = new SimpleBayesianNode<TestEnum>(TestEnum.FALSE, network);
 
 		Set<BayesianNode> nodes = new HashSet<BayesianNode>();
 		nodes.add(influence1);
 		nodes.add(influence2);
 		nodes.add(influence3);
 
-		EvidenceMap<Enum> evidence = new EvidenceMap<Enum>(nodes);
+		EvidenceMap<TestEnum> evidence = new EvidenceMap<TestEnum>(nodes);
 
 		//train some values
 		influence1.setState(TestEnum.TRUE);
@@ -118,7 +118,7 @@ public class TestEvidenceMap
 		influence1.setState(TestEnum.FALSE);
 		influence2.setState(TestEnum.FALSE);
 		influence3.setState(TestEnum.FALSE);
-		StateEvidence<Enum> stateEvidence = evidence.get(nodes);
+		StateEvidence<TestEnum> stateEvidence = evidence.get(nodes);
 		Assert.assertTrue("incorrect percentage!", Math.abs(stateEvidence.getPercentage(TestEnum.TRUE) - 0.75) < 0.0001);
 		Assert.assertTrue("incorrect percentage!", Math.abs(stateEvidence.getPercentage(TestEnum.FALSE) - 0.25) < 0.0001);
 		Assert.assertTrue("incorrect total evidence!", stateEvidence.getTotalEvidence() == 4);

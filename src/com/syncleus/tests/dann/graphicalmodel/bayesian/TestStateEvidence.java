@@ -32,8 +32,8 @@ public class TestStateEvidence
 	@Test
 	public void testPercentage()
 	{
-		StateEvidence<Enum> evidence = new StateEvidence<Enum>();
-		Map<Enum,Integer> evidenceMap = evidence;
+		StateEvidence<TestEnum> evidence = new StateEvidence<TestEnum>();
+		Map<TestEnum,Integer> evidenceMap = evidence;
 		evidenceMap.put(TestEnum.TOP, 700);
 		evidenceMap.put(TestEnum.BOTTOM, 300);
 		Assert.assertTrue("top percentage: " + evidence.getPercentage(TestEnum.TOP), Math.abs(evidence.getPercentage(TestEnum.TOP) - 0.7) < 0.0001);

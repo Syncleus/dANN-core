@@ -53,12 +53,12 @@ public class TestSicknessBayesianNetwork
 	private SimpleBayesianNetwork network = new SimpleBayesianNetwork();
 
 	//create nodes
-	private BayesianNode<Enum> season = new SimpleBayesianNode<Enum>(SeasonState.WINTER, network);
-	private BayesianNode<Enum> age = new SimpleBayesianNode<Enum>(AgeState.BABY, network);
-	private BayesianNode<Enum> stuffyNose = new SimpleBayesianNode<Enum>(BooleanState.TRUE, network);
-	private BayesianNode<Enum> fever = new SimpleBayesianNode<Enum>(FeverState.HOT, network);
-	private BayesianNode<Enum> tired = new SimpleBayesianNode<Enum>(BooleanState.FALSE, network);
-	private BayesianNode<Enum> sick = new SimpleBayesianNode<Enum>(BooleanState.FALSE, network);
+	private BayesianNode<SeasonState> season = new SimpleBayesianNode<SeasonState>(SeasonState.WINTER, network);
+	private BayesianNode<AgeState> age = new SimpleBayesianNode<AgeState>(AgeState.BABY, network);
+	private BayesianNode<BooleanState> stuffyNose = new SimpleBayesianNode<BooleanState>(BooleanState.TRUE, network);
+	private BayesianNode<FeverState> fever = new SimpleBayesianNode<FeverState>(FeverState.HOT, network);
+	private BayesianNode<BooleanState> tired = new SimpleBayesianNode<BooleanState>(BooleanState.FALSE, network);
+	private BayesianNode<BooleanState> sick = new SimpleBayesianNode<BooleanState>(BooleanState.FALSE, network);
 
 	@Test
 	public void testOverall()

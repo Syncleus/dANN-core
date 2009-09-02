@@ -31,7 +31,7 @@ public class TestSimpleBayesianNode
 	public void testSingleNode()
 	{
 		SimpleBayesianNetwork network = new SimpleBayesianNetwork();
-		BayesianNode<Enum> testNode = new SimpleBayesianNode<Enum>(SimpleEnum.TRUE, network);
+		BayesianNode<SimpleEnum> testNode = new SimpleBayesianNode<SimpleEnum>(SimpleEnum.TRUE, network);
 
 		network.add(testNode);
 
@@ -57,8 +57,8 @@ public class TestSimpleBayesianNode
 	public void testDependentNode()
 	{
 		SimpleBayesianNetwork network = new SimpleBayesianNetwork();
-		BayesianNode<Enum> parentNode = new SimpleBayesianNode<Enum>(SimpleEnum.TRUE, network);
-		BayesianNode<Enum> childNode = new SimpleBayesianNode<Enum>(SimpleEnum.TRUE, network);
+		BayesianNode<SimpleEnum> parentNode = new SimpleBayesianNode<SimpleEnum>(SimpleEnum.TRUE, network);
+		BayesianNode<SimpleEnum> childNode = new SimpleBayesianNode<SimpleEnum>(SimpleEnum.TRUE, network);
 
 		network.add(parentNode);
 		network.add(childNode);
