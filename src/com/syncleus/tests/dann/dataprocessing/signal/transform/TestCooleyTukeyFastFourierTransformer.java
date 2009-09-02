@@ -21,6 +21,7 @@ package com.syncleus.tests.dann.dataprocessing.signal.transform;
 import com.syncleus.dann.math.ComplexNumber;
 import com.syncleus.dann.dataprocessing.signal.transform.CooleyTukeyFastFourierTransformer;
 import com.syncleus.dann.dataprocessing.signal.transform.DiscreteFourierTransform;
+import com.syncleus.dann.dataprocessing.signal.transform.FastFourierTransformer;
 import java.util.Map.Entry;
 import java.util.Random;
 import org.junit.*;
@@ -67,7 +68,7 @@ public class TestCooleyTukeyFastFourierTransformer
 
 
         // FFT of original data
-		CooleyTukeyFastFourierTransformer transformer = new CooleyTukeyFastFourierTransformer(dataPoints.length, dataPoints.length);
+		FastFourierTransformer transformer = new CooleyTukeyFastFourierTransformer(dataPoints.length, dataPoints.length);
         DiscreteFourierTransform transformed = transformer.transform(dataPoints);
 
 		double expectedBandPower = 0.0;

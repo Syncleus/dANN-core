@@ -133,7 +133,7 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 	}
  
 
-	private static ComplexNumber[] transformMatrix(ComplexNumber[] dataPoints)
+	public static ComplexNumber[] transformMatrix(ComplexNumber[] dataPoints)
 	{
 		int dataPointCount = dataPoints.length;
 		if(!isPowerOf2(dataPointCount))
@@ -166,7 +166,7 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 	}
 
 
-	private static ComplexNumber[] inverseTransformMatrix(ComplexNumber[] transforms)
+	public static ComplexNumber[] inverseTransformMatrix(ComplexNumber[] transforms)
 	{
 		int transformSize = transforms.length;
 
@@ -186,7 +186,7 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 		return signal;
 	}
 
-	private static ComplexNumber[] circularConvolveMatrix(ComplexNumber[] first, ComplexNumber[] second)
+	public static ComplexNumber[] circularConvolveMatrix(ComplexNumber[] first, ComplexNumber[] second)
 	{
 		if (first.length != second.length)
 			throw new RuntimeException("first and secondmust have the same number of elements");
@@ -203,7 +203,7 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 		return inverseTransformMatrix(result);
 	}
 
-	private static ComplexNumber[] linearConvolveMatrix(ComplexNumber[] first, ComplexNumber[] second)
+	public static ComplexNumber[] linearConvolveMatrix(ComplexNumber[] first, ComplexNumber[] second)
 	{
 		ComplexNumber[] firstLinear = Arrays.copyOf(first, first.length*2);
 		for (int firstLinearIndex = first.length; firstLinearIndex < (first.length*2); firstLinearIndex++)

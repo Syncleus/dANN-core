@@ -32,15 +32,26 @@ public class DiscreteFourierTransform
 	public DiscreteFourierTransform(final ComplexNumber[] frequencies, final int bitrate)
 	{
 		final double frequencySize = ((double)frequencies.length)/2.0;
+		final double frequencyStep = frequencyResolution(frequencies.length, bitrate);
 		final NavigableMap<Double, ComplexNumber> newFrequencies = new TreeMap<Double, ComplexNumber>();
-		for(int index = 0; index < frequencySize; index++)
+		for(int index = 0; index <= frequencySize; index++)
 		{
-			Double currentFrequency = Double.valueOf( (((double)(index))/(frequencySize-1.0)) * (((double)bitrate)/2.0) );
+			Double currentFrequency = ((double)index) * frequencyStep;
 			newFrequencies.put(currentFrequency, frequencies[index]);
 		}
 		this.frequencies = newFrequencies;
 
 		this.transform = frequencies.clone();
+	}
+
+	public static double upperFrequency(final int bitrate)
+	{
+		return ((double)bitrate)/2.0;
+	}
+
+	public static double frequencyResolution(final int blockSize, final int bitrate)
+	{
+		return upperFrequency(bitrate) / (((double)blockSize)/2.0);
 	}
 
 	public double getClosestFrequency(double frequency)
