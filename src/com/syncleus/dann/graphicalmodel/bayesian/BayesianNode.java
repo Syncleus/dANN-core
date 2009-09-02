@@ -18,11 +18,13 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.bayesian;
 
-public interface BayesianNode
+import java.util.Set;
+
+public interface BayesianNode<S>
 {
-	Class getStateDeclaringClass();
-	void setState(Enum currentState);
-	Enum getState();
+	Set<S> getLearnedStates();
+	void setState(S currentState);
+	S getState();
 	void learnState();
 	double stateProbability();
 }

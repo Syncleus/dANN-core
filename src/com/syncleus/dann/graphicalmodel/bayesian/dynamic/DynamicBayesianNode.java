@@ -21,10 +21,10 @@ package com.syncleus.dann.graphicalmodel.bayesian.dynamic;
 import com.syncleus.dann.graphicalmodel.bayesian.BayesianNode;
 import java.util.List;
 
-public interface DynamicBayesianNode extends BayesianNode
+public interface DynamicBayesianNode<S> extends BayesianNode<S>
 {
 	int getStateHistoryCapacity();
-	List<Enum> getStateHistory();
-	void setStateHistory(List<Enum> history);
+	List<S> getStateHistory();
+	void setStateHistory(List<S> history);
 	void learnState(boolean updateHistory);
 }

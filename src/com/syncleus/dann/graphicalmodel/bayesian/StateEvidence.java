@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class StateEvidence extends HashMap<Enum,Integer>
+public class StateEvidence<S> extends HashMap<S,Integer>
 {
 	private long totalEvidence;
 
@@ -31,7 +31,7 @@ public class StateEvidence extends HashMap<Enum,Integer>
 		return this.totalEvidence;
 	}
 
-	public double getPercentage(Enum key)
+	public double getPercentage(S key)
 	{
 		Integer stateEvidence = this.get(key);
 		if( stateEvidence != null)
@@ -41,7 +41,7 @@ public class StateEvidence extends HashMap<Enum,Integer>
 	}
 
 	@Override
-	public Integer put(Enum key, Integer value)
+	public Integer put(S key, Integer value)
 	{
 		Integer old = super.put(key,value);
 		if(old != null)
@@ -52,12 +52,12 @@ public class StateEvidence extends HashMap<Enum,Integer>
 	}
 
 	@Override
-	public void putAll(Map<? extends Enum,? extends Integer> map)
+	public void putAll(Map<? extends S,? extends Integer> map)
 	{
-		Map<Enum,Integer> oldMap = new HashMap<Enum,Integer>(this);
+		Map<S,Integer> oldMap = new HashMap<S,Integer>(this);
 		super.putAll(map);
 
-		for(Entry<? extends Enum,? extends Integer> entry : map.entrySet())
+		for(Entry<? extends S,? extends Integer> entry : map.entrySet())
 		{
 			Integer oldEvidence = oldMap.get(entry.getKey());
 			Integer newEvidence = this.get(entry.getKey());

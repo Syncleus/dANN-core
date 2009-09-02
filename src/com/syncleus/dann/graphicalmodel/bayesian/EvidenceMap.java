@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-public class EvidenceMap extends HashMap<Map<BayesianNode,Enum>,StateEvidence>
+public class EvidenceMap<S> extends HashMap<Map<BayesianNode,Object>,StateEvidence<S>>
 {
 	private final Set<BayesianNode> influencingNodes;
 
@@ -46,23 +46,23 @@ public class EvidenceMap extends HashMap<Map<BayesianNode,Enum>,StateEvidence>
 		return this.influencingNodes;
 	}
 
-	public int incrementState(Set<BayesianNode> influences, Enum state)
+	public int incrementState(Set<BayesianNode> influences, S state)
 	{
-		Map<BayesianNode,Enum> influenceMap = new HashMap<BayesianNode,Enum>();
+		Map<BayesianNode,Object> influenceMap = new HashMap<BayesianNode,Object>();
 		for(BayesianNode influence : influences)
 			influenceMap.put(influence, influence.getState());
 		
 		return this.incrementState(influenceMap, state);
 	}
 
-	public int incrementState(Map<BayesianNode,Enum> influence, Enum state)
+	public int incrementState(Map<BayesianNode,Object> influence, S state)
 	{
 		this.verifyInfluencingStates(influence);
 
-		StateEvidence stateEvidence = this.get(influence);
+		StateEvidence<S> stateEvidence = this.get(influence);
 		if(stateEvidence == null)
 		{
-			stateEvidence = new StateEvidence();
+			stateEvidence = new StateEvidence<S>();
 			this.put(influence, stateEvidence);
 		}
 
@@ -77,13 +77,10 @@ public class EvidenceMap extends HashMap<Map<BayesianNode,Enum>,StateEvidence>
 		return evidence;
 	}
 
-	private void verifyInfluencingStates(Map<BayesianNode,Enum> influencingStates)
+	private void verifyInfluencingStates(Map<BayesianNode,Object> influencingStates)
 	{
 		if(! influencingStates.keySet().equals(this.influencingNodes))
 			throw new IllegalArgumentException ("wrong number of influencing nodes");
-		for(Entry<BayesianNode,Enum> entry : influencingStates.entrySet())
-			if(entry.getKey().getStateDeclaringClass() != entry.getValue().getDeclaringClass())
-				throw new IllegalArgumentException ("influencing node and incluencing state dont have matching enum types");
 	}
 
 	@Override
@@ -93,7 +90,7 @@ public class EvidenceMap extends HashMap<Map<BayesianNode,Enum>,StateEvidence>
 		{
 			Set key = (Set) keyObj;
 
-			Map<BayesianNode,Enum> newKey = new HashMap<BayesianNode,Enum>();
+			Map<BayesianNode,Object> newKey = new HashMap<BayesianNode,Object>();
 			for(Object nodeObj : key)
 			{
 				if(nodeObj instanceof BayesianNode)
@@ -111,13 +108,13 @@ public class EvidenceMap extends HashMap<Map<BayesianNode,Enum>,StateEvidence>
 	}
 
 	@Override
-	public StateEvidence get(Object keyObj)
+	public StateEvidence<S> get(Object keyObj)
 	{
 		if(keyObj instanceof Set)
 		{
 			Set key = (Set) keyObj;
 
-			Map<BayesianNode,Enum> newKey = new HashMap<BayesianNode,Enum>();
+			Map<BayesianNode,Object> newKey = new HashMap<BayesianNode,Object>();
 			for(Object nodeObj : key)
 			{
 				if(nodeObj instanceof BayesianNode)
@@ -135,7 +132,7 @@ public class EvidenceMap extends HashMap<Map<BayesianNode,Enum>,StateEvidence>
 	}
 
 	@Override
-	public StateEvidence put(Map<BayesianNode,Enum> key, StateEvidence value)
+	public StateEvidence<S> put(Map<BayesianNode,Object> key, StateEvidence<S> value)
 	{
 		this.verifyInfluencingStates(key);
 
@@ -143,9 +140,9 @@ public class EvidenceMap extends HashMap<Map<BayesianNode,Enum>,StateEvidence>
 	}
 
 	@Override
-	public void putAll(Map<? extends Map<BayesianNode,Enum>,? extends StateEvidence> map)
+	public void putAll(Map<? extends Map<BayesianNode,Object>,? extends StateEvidence<S>> map)
 	{
-		for(Map<BayesianNode,Enum> inputStates : map.keySet())
+		for(Map<BayesianNode,Object> inputStates : map.keySet())
 			this.verifyInfluencingStates(inputStates);
 		super.putAll(map);
 	}

@@ -24,8 +24,7 @@ import java.util.List;
 
 public interface BayesianEdge extends DirectedEdge<BayesianNode>
 {
-	Class getStateDeclaringClass();
-	Enum getState();
+	Object getState();
 	
 	//Parent methods
 	List<BayesianNode> getNodes();

@@ -27,12 +27,7 @@ public class SimpleBayesianEdge extends AbstractDirectedEdge<BayesianNode> imple
 		super(source, destination);
 	}
 
-	public Class getStateDeclaringClass()
-	{
-		return this.getSourceNode().getStateDeclaringClass();
-	}
-
-	public Enum getState()
+	public Object getState()
 	{
 		return this.getSourceNode().getState();
 	}

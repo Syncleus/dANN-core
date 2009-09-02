@@ -32,7 +32,7 @@ public class TestStateEvidence
 	@Test
 	public void testPercentage()
 	{
-		StateEvidence evidence = new StateEvidence();
+		StateEvidence<Enum> evidence = new StateEvidence<Enum>();
 		Map<Enum,Integer> evidenceMap = evidence;
 		evidenceMap.put(TestEnum.TOP, 700);
 		evidenceMap.put(TestEnum.BOTTOM, 300);

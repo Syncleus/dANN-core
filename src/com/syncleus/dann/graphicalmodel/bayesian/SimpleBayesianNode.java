@@ -25,13 +25,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class SimpleBayesianNode implements BayesianNode
+public class SimpleBayesianNode<S> implements BayesianNode<S>
 {
-	private EvidenceMap evidence;
-	private Enum state;
+	private EvidenceMap<S> evidence;
+	private S state;
+	private Set<S> learnedStates;
 	private BayesianNetwork network;
 
-	public SimpleBayesianNode(Enum initialState, BayesianNetwork network)
+	public SimpleBayesianNode(S initialState, BayesianNetwork network)
 	{
 		if(initialState == null)
 			throw new IllegalArgumentException("initialState can not be null");
@@ -40,14 +41,10 @@ public class SimpleBayesianNode implements BayesianNode
 		
 		this.state = initialState;
 		this.network = network;
+		this.learnedStates = new HashSet<S>();
 	}
 
-	public Class getStateDeclaringClass()
-	{
-		return state.getDeclaringClass();
-	}
-
-	public void setState(Enum newState)
+	public void setState(S newState)
 	{
 		if(newState == null)
 			throw new IllegalArgumentException("newState can not be null");
@@ -55,9 +52,14 @@ public class SimpleBayesianNode implements BayesianNode
 		this.state = newState;
 	}
 
-	public Enum getState()
+	public S getState()
 	{
 		return this.state;
+	}
+
+	public Set<S> getLearnedStates()
+	{
+		return Collections.unmodifiableSet(this.learnedStates);
 	}
 
 	public void learnState()
@@ -65,19 +67,20 @@ public class SimpleBayesianNode implements BayesianNode
 		this.updateInfluence();
 
 		this.evidence.incrementState(this.getInputStates(),this.getState());
+		this.learnedStates.add(this.state);
 	}
 
 	public double stateProbability()
 	{
 		this.updateInfluence();
 
-		StateEvidence stateEvidence = this.evidence.get(this.getInputStates());
+		StateEvidence<S> stateEvidence = this.evidence.get(this.getInputStates());
 		return (stateEvidence != null ? stateEvidence.getPercentage(this.getState()) : 0.0 );
 	}
 
-	private Map<BayesianNode,Enum> getInputStates()
+	private Map<BayesianNode,Object> getInputStates()
 	{
-		Map<BayesianNode,Enum> inStates = new HashMap<BayesianNode,Enum>();
+		Map<BayesianNode,Object> inStates = new HashMap<BayesianNode,Object>();
 
 		List<BayesianEdge> inEdges = this.network.getInEdges(this);
 		for(BayesianEdge inEdge : inEdges)
@@ -100,13 +103,15 @@ public class SimpleBayesianNode implements BayesianNode
 		Set<BayesianNode> currentInfluences = this.getInfluencingNodes();
 		if(this.evidence == null)
 		{
-			this.evidence = new EvidenceMap(currentInfluences);
+			this.evidence = new EvidenceMap<S>(currentInfluences);
+			this.learnedStates.clear();
 			return true;
 		}
 		else
 			if( !currentInfluences.equals(this.evidence.getInfluencingNodes()) )
 			{
-				this.evidence = new EvidenceMap(currentInfluences);
+				this.evidence = new EvidenceMap<S>(currentInfluences);
+				this.learnedStates.clear();
 				return true;
 			}
 

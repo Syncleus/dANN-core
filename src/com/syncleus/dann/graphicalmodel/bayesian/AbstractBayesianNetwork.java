@@ -222,7 +222,6 @@ public abstract class AbstractBayesianNetwork extends AbstractBidirectedGraph<Ba
 		double probabilityProduct = 1.0;
 		for(BayesianNode node : this.nodes)
 			probabilityProduct *= node.stateProbability();
-//		System.out.println("joint prob: " + probabilityProduct);
 		return probabilityProduct;
 	}
 
@@ -255,10 +254,11 @@ public abstract class AbstractBayesianNetwork extends AbstractBidirectedGraph<Ba
 		return numerator / denominator;
 	}
 
+	@SuppressWarnings("unchecked")
 	private static void resetNodeStates(List<BayesianNode> incNodes)
 	{
 		for(BayesianNode incNode : incNodes)
-			incNode.setState((Enum)(incNode.getStateDeclaringClass().getEnumConstants())[0]);
+			incNode.setState((incNode.getLearnedStates().toArray())[0]);
 	}
 
 	private static boolean incrementNodeStates(List<BayesianNode> incNodes)
@@ -269,18 +269,19 @@ public abstract class AbstractBayesianNetwork extends AbstractBidirectedGraph<Ba
 		return true;
 	}
 
+	@SuppressWarnings("unchecked")
 	private static boolean incrementNodeState(BayesianNode incNode)
 	{
-		List enumTypes = Arrays.asList(incNode.getStateDeclaringClass().getEnumConstants());
-		int currentEnumIndex = enumTypes.indexOf(incNode.getState());
-		if((currentEnumIndex+1) >= enumTypes.size())
+		List stateTypes = Arrays.asList(incNode.getLearnedStates().toArray());
+		int currentStateIndex = stateTypes.indexOf(incNode.getState());
+		if((currentStateIndex+1) >= stateTypes.size())
 		{
-			incNode.setState((Enum)enumTypes.get(0));
+			incNode.setState(stateTypes.get(0));
 			return true;
 		}
 		else
 		{
-			incNode.setState((Enum)enumTypes.get(currentEnumIndex+1));
+			incNode.setState(stateTypes.get(currentStateIndex+1));
 			return false;
 		}
 	}
