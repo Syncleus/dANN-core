@@ -24,6 +24,21 @@ import org.junit.*;
 
 public class TestSynapse
 {
+	private class TestBrain extends AbstractLocalBrain
+	{
+		@Override
+		public boolean add(Neuron newNeuron)
+		{
+			return super.add(newNeuron);
+		}
+
+		@Override
+		public boolean connect(Neuron source, Neuron destination)
+		{
+			return super.connect(source, destination);
+		}
+	}
+
 	private static final double INITIAL_WEIGHT = 0.01;
 	private static final double TEST_INPUT = 2.0;
 	private static final double TEST_WEIGHT = 3.0;
@@ -31,16 +46,18 @@ public class TestSynapse
 	@Test
 	public void testAccessors()
 	{
-		BackpropNeuron sourceNeuron = new BackpropNeuron();
-		BackpropNeuron destinationNeuron = new BackpropNeuron();
+		TestBrain brain = new TestBrain();
 
-		Synapse testSynapse = new Synapse(sourceNeuron, destinationNeuron, INITIAL_WEIGHT);
+		BackpropNeuron sourceNeuron = new BackpropNeuron(brain);
+		BackpropNeuron destinationNeuron = new BackpropNeuron(brain);
+
+		SimpleSynapse testSynapse = new SimpleSynapse(sourceNeuron, destinationNeuron, INITIAL_WEIGHT);
 
 		testSynapse.setInput(TEST_INPUT);
 		Assert.assertTrue(testSynapse.getInput() == TEST_INPUT);
 		testSynapse.setWeight(TEST_WEIGHT);
 		Assert.assertTrue(testSynapse.getWeight() == TEST_WEIGHT);
-		Assert.assertTrue(testSynapse.getSource() == sourceNeuron);
-		Assert.assertTrue(testSynapse.getDestination() == destinationNeuron);
+		Assert.assertTrue(testSynapse.getSourceNode() == sourceNeuron);
+		Assert.assertTrue(testSynapse.getDestinationNode() == destinationNeuron);
 	}
 }

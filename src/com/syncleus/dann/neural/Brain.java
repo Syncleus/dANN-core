@@ -18,6 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.neural;
 
+import com.syncleus.dann.graph.BidirectedGraph;
+import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.TreeGraph;
+import com.syncleus.dann.graph.WeightedBidirectedWalk;
 import java.util.*;
 
 /**
@@ -31,7 +35,7 @@ import java.util.*;
  * @since 1.0
  *
  */
-public interface Brain
+public interface Brain extends BidirectedGraph<Neuron, Synapse, WeightedBidirectedWalk<Neuron,Synapse>>
 {
 	/**
 	 * Obtains all InputNeurons contained within the brain.
@@ -63,5 +67,53 @@ public interface Brain
 	 * @return An unmodifiable Set of all Neurons.
 	 * @since 1.0
 	 */
-    public abstract Set<Neuron> getNeurons();
+    public abstract Set<Neuron> getNodes();
+
+	
+	//Parent methods
+	List<Synapse> getOutEdges(Neuron node);
+	List<Synapse> getInEdges(Neuron node);
+	int getIndegree(Neuron node);
+	int getOutdegree(Neuron node);
+
+	Set<BidirectedGraph<Neuron, Synapse, WeightedBidirectedWalk<Neuron,Synapse>>> getStrongComponents();
+	boolean isStronglyConnected();
+	boolean isPolytree();
+
+	List<Synapse> getEdges(Neuron node);
+	List<Synapse> getTraversableEdges(Neuron node);
+	int getDegree(Neuron node);
+	boolean isConnected(Neuron leftNode, Neuron rightNode);
+	List<Neuron> getNeighbors(Neuron node);
+	List<Neuron> getTraversableNeighbors(Neuron node);
+
+	List<Synapse> getEdges();
+	boolean isConnected();
+	Set<Graph<Neuron, Synapse, WeightedBidirectedWalk<Neuron,Synapse>>> getConnectedComponents();
+	boolean isMaximalConnected();
+	boolean isCut(Graph<? extends Neuron, ? extends Synapse, ? extends WeightedBidirectedWalk<Neuron,Synapse>> subGraph);
+	boolean isCut(Graph<? extends Neuron, ? extends Synapse, ? extends WeightedBidirectedWalk<Neuron,Synapse>> subGraph, Neuron begin, Neuron end);
+	int getNodeConnectivity();
+	int getEdgeConnectivity();
+	int getNodeConnectivity(Neuron begin, Neuron end);
+	int getEdgeConnectivity(Neuron begin, Neuron end);
+	boolean isCompleteGraph();
+	int getOrder();
+	int getCycleCount();
+	boolean isPancyclic();
+	int getGirth();
+	int getCircumference();
+	boolean isTraceable();
+	boolean isSpanning(WeightedBidirectedWalk<Neuron,Synapse> walk);
+	boolean isSpanning(TreeGraph graph);
+	boolean isTraversable();
+	boolean isEularian(WeightedBidirectedWalk<Neuron,Synapse> walk);
+	boolean isTree();
+	boolean isSubGraph(Graph<? extends Neuron, ? extends Synapse, ? extends WeightedBidirectedWalk<Neuron,Synapse>> graph);
+	boolean isKnot(Graph<? extends Neuron, ? extends Synapse, ? extends WeightedBidirectedWalk<Neuron,Synapse>> subGraph);
+	int getTotalDegree();
+	boolean isMultigraph();
+	boolean isIsomorphic(Graph<? extends Neuron, ? extends Synapse, ? extends WeightedBidirectedWalk<Neuron,Synapse>> isomorphicGraph);
+	boolean isHomomorphic(Graph<? extends Neuron, ? extends Synapse, ? extends WeightedBidirectedWalk<Neuron,Synapse>> homomorphicGraph);
+	boolean isRegular();
 }

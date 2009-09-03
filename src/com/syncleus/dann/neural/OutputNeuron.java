@@ -29,7 +29,7 @@ package com.syncleus.dann.neural;
  * @since 1.0
  *
  */
-public interface OutputNeuron<SN extends AbstractNeuron, DN extends AbstractNeuron> extends Neuron<SN, DN>
+public interface OutputNeuron extends Neuron
 {
 	/**
 	 * Obtains the current output for this neuron.

@@ -107,7 +107,7 @@ public class NeuronHyperassociativeNode extends HyperassociativeNode
         HashSet<Neuron> neurons = new HashSet<Neuron>();
 		try
 		{
-			neurons.addAll(this.neuron.getNeighbors());
+			neurons.addAll(this.getNetwork().getBrain().getNeighbors(this.neuron));
 		}
 		catch(ClassCastException caughtException)
 		{

@@ -26,6 +26,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public abstract class AbstractBayesianNetwork extends AbstractBidirectedGraph<BayesianNode, BayesianEdge, BidirectedWalk<BayesianNode,BayesianEdge>> implements BayesianNetwork
@@ -38,10 +39,10 @@ public abstract class AbstractBayesianNetwork extends AbstractBidirectedGraph<Ba
 			Set<BayesianEdge> edges = super.get(keyObject);
 			if(keyObject instanceof BayesianNode)
 			{
-				BayesianNode key = (BayesianNode) keyObject;
 				if(edges == null)
 				{
 					edges = new HashSet<BayesianEdge>();
+					BayesianNode key = (BayesianNode) keyObject;
 					super.put(key, edges);
 				}
 			}
@@ -51,8 +52,8 @@ public abstract class AbstractBayesianNetwork extends AbstractBidirectedGraph<Ba
 
 	private final Set<BayesianNode> nodes = new HashSet<BayesianNode>();
 	private final Set<BayesianEdge> edges = new HashSet<BayesianEdge>();
-	private final NodeConnectivity outMap = new NodeConnectivity();
-	private final NodeConnectivity inMap = new NodeConnectivity();
+	private final Map<BayesianNode,Set<BayesianEdge>> outMap = new NodeConnectivity();
+	private final Map<BayesianNode,Set<BayesianEdge>> inMap = new NodeConnectivity();
 
 	protected boolean connect(BayesianNode source, BayesianNode destination)
 	{
@@ -87,9 +88,7 @@ public abstract class AbstractBayesianNetwork extends AbstractBidirectedGraph<Ba
 		if( node == null )
 			throw new IllegalArgumentException("node can not be null");
 
-		if( this.nodes.add(node) )
-			return true;
-		return false;
+		return this.nodes.add(node);
 	}
 
 	protected boolean add(BayesianEdge edge)

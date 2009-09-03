@@ -19,6 +19,7 @@
 package com.syncleus.dann.neural.backprop.brain;
 
 import com.syncleus.dann.*;
+import com.syncleus.dann.neural.NeuronGroup;
 import com.syncleus.dann.neural.backprop.*;
 import java.util.*;
 import java.util.concurrent.*;
@@ -27,7 +28,7 @@ import org.apache.log4j.Logger;
 public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
 {
 	private boolean initialized = false;
-	private final List<BackpropNeuronGroup> neuronLayers = new ArrayList<BackpropNeuronGroup>();
+	private final List<NeuronGroup<BackpropNeuron>> neuronLayers = new ArrayList<NeuronGroup<BackpropNeuron>>();
 	private int layerCount;
 	private final static Logger LOGGER = Logger.getLogger(AbstractFeedforwardBrain.class);
 
@@ -132,13 +133,13 @@ public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
 		int currentLayerCount = 0;
 		for(int neuronCount : neuronsPerLayer)
 		{
-			final BackpropNeuronGroup currentGroup = new BackpropNeuronGroup();
+			final NeuronGroup<BackpropNeuron> currentGroup = new NeuronGroup<BackpropNeuron>();
 			for(int neuronIndex = 0; neuronIndex < neuronCount; neuronIndex++)
 			{
 				final BackpropNeuron currentNeuron = this.createNeuron(currentLayerCount, neuronIndex);
 
 				currentGroup.add(currentNeuron);
-				this.addNeuron(currentNeuron);
+				this.add(currentNeuron);
 			}
 
 			this.getNeuronLayers().add(currentGroup);
@@ -155,7 +156,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
 	 * @return the neuronLayers for children to use for connection.
 	 * @since 2.0
 	 */
-	protected final List<BackpropNeuronGroup> getNeuronLayers()
+	protected final List<NeuronGroup<BackpropNeuron>> getNeuronLayers()
 	{
 		return neuronLayers;
 	}
@@ -176,7 +177,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
 		//step forward through all the layers, except the last (output)
 		for(int layerIndex = 0; layerIndex < (this.neuronLayers.size()); layerIndex++)
 		{
-			final BackpropNeuronGroup layer = this.neuronLayers.get(layerIndex);
+			final NeuronGroup<BackpropNeuron> layer = this.neuronLayers.get(layerIndex);
 			final Set<BackpropNeuron> layerNeurons = layer.getChildrenNeuronsRecursivly();
 
 			//begin processing all neurons in one layer simultaniously
@@ -212,7 +213,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
 		//step backwards through all the layers, except the first.
 		for(int layerIndex = (this.neuronLayers.size()-1); layerIndex >= 0 ; layerIndex--)
 		{
-			final BackpropNeuronGroup layer = this.neuronLayers.get(layerIndex);
+			final NeuronGroup<BackpropNeuron> layer = this.neuronLayers.get(layerIndex);
 			final Set<BackpropNeuron> layerNeurons = layer.getChildrenNeuronsRecursivly();
 
 			//begin processing all neurons in one layer simultaniously

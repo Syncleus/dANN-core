@@ -18,21 +18,38 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.neural;
 
-import com.syncleus.dann.neural.InvalidConnectionTypeDannException;
 import com.syncleus.dann.neural.NeuronGroup;
-import com.syncleus.dann.*;
+import com.syncleus.dann.neural.AbstractLocalBrain;
+import com.syncleus.dann.neural.Neuron;
 import com.syncleus.dann.neural.backprop.BackpropNeuron;
 import org.junit.*;
 
 public class TestNeuronGroup
 {
+	private class TestBrain extends AbstractLocalBrain
+	{
+		@Override
+		public boolean add(Neuron newNeuron)
+		{
+			return super.add(newNeuron);
+		}
+
+		@Override
+		public boolean connect(Neuron source, Neuron destination)
+		{
+			return super.connect(source, destination);
+		}
+	}
+
 	@Test
 	public void testCollection()
 	{
+		TestBrain brain = new TestBrain();
+
 		NeuronGroup<BackpropNeuron> newGroup = new NeuronGroup<BackpropNeuron>();
 		NeuronGroup<BackpropNeuron> subGroup = new NeuronGroup<BackpropNeuron>();
-		BackpropNeuron newNeuron = new BackpropNeuron();
-		BackpropNeuron subNeuron = new BackpropNeuron();
+		BackpropNeuron newNeuron = new BackpropNeuron(brain);
+		BackpropNeuron subNeuron = new BackpropNeuron(brain);
 
 		subGroup.add(subNeuron);
 		newGroup.add(subGroup);
@@ -41,29 +58,5 @@ public class TestNeuronGroup
 		Assert.assertTrue(newGroup.getChildrenNeurons().contains(newNeuron));
 		Assert.assertTrue(newGroup.getChildrenNeuronGroups().contains(subGroup));
 		Assert.assertTrue(newGroup.getChildrenNeuronsRecursivly().contains(subNeuron));
-	}
-
-	@Test
-	public void testConnecting() throws InvalidConnectionTypeDannException
-	{
-		NeuronGroup<BackpropNeuron> firstGroup = new NeuronGroup<BackpropNeuron>();
-		for(int neuronIndex = 0; neuronIndex < 10; neuronIndex++)
-			firstGroup.add(new BackpropNeuron());
-		NeuronGroup<BackpropNeuron> secondGroup = new NeuronGroup<BackpropNeuron>();
-		for(int neuronIndex = 0; neuronIndex < 10; neuronIndex++)
-				secondGroup.add(new BackpropNeuron());
-		BackpropNeuron lastNeuron = new BackpropNeuron();
-
-		firstGroup.connectAllTo(secondGroup);
-		secondGroup.connectAllTo(lastNeuron);
-
-		firstGroup.disconnectAllDestinations();
-		secondGroup.disconnectAllSources();
-
-		firstGroup.connectAllTo(secondGroup);
-		secondGroup.connectAllTo(lastNeuron);
-
-		firstGroup.disconnectAll();
-		secondGroup.disconnectAll();
 	}
 }

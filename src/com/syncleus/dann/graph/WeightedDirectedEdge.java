@@ -16,64 +16,29 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.neural.som;
+package com.syncleus.dann.graph;
 
-import com.syncleus.dann.neural.*;
-import com.syncleus.dann.neural.activation.IdentityActivationFunction;
+import java.util.List;
 
-/**
- * An input neuron for a SOM network. It essentialy just propgates the input
- * unchanged to the next layer.
- *
- * @author Syncleus, Inc.
- * @since 2.0
- */
-public class SomInputNeuron extends AbstractNeuron implements InputNeuron
+public interface WeightedDirectedEdge<N> extends DirectedEdge<N>, Weighted
 {
-	private double input;
-	private static final IdentityActivationFunction ACTIVATION_FUNCTION = new IdentityActivationFunction();
+	double getWeight();
 
-	/**
-	 * Creates a default SomInputNeuron using an IdentityActivationFunction
-	 *
-	 * @since 2.0
-	 */
-	public SomInputNeuron(Brain brain)
-	{
-		super(brain, ACTIVATION_FUNCTION);
-	}
+	//Parent methods
+	N getSourceNode();
+	N getDestinationNode();
 
-	/**
-	 * Propogates the input to all connected SomNeurons.
-	 * 
-	 * @since 2.0
-	 */
-	@Override
-	public void propagate()
-	{
-		this.activity = this.input;
-		this.setOutput(this.activity);
-	}
+	List<N> getNodes();
 
-	/**
-	 * Sets the current input for this neuron.
-	 *
-	 * @since 2.0
-	 * @param inputToSet The new input value you want to set.
-	 */
-	public void setInput(double inputToSet)
-	{
-		this.input = inputToSet;
-	}
-
-	/**
-	 * Gets the current input.
-	 *
-	 * @return the current input.
-	 * @since 2.0
-	 */
-	public double getInput()
-	{
-		return this.input;
-	}
+	N getLeftNode();
+	N getRightNode();
+	EndState getLeftEndState();
+	EndState getRightEndState();
+	boolean isIntroverted();
+	boolean isExtraverted();
+	boolean isDirected();
+	boolean isHalfEdge();
+	boolean isLooseEdge();
+	boolean isOrdinaryEdge();
+	boolean isLoop();
 }

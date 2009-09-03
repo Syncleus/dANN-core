@@ -30,7 +30,7 @@ import com.syncleus.dann.neural.activation.*;
  * @since 1.0
  * @see com.syncleus.dann.neural.backprop.InputBackpropNeuron
  */
-public class OutputBackpropNeuron extends BackpropNeuron implements OutputNeuron<AbstractNeuron, BackpropNeuron>
+public class OutputBackpropNeuron extends BackpropNeuron implements OutputNeuron
 {
     /**
      * holds the value for the current training set.
@@ -46,9 +46,9 @@ public class OutputBackpropNeuron extends BackpropNeuron implements OutputNeuron
      *
      * @since 1.0
      */
-    public OutputBackpropNeuron()
+    public OutputBackpropNeuron(Brain brain)
     {
-        super();
+        super(brain);
     }
     
     /**
@@ -59,9 +59,9 @@ public class OutputBackpropNeuron extends BackpropNeuron implements OutputNeuron
 	 * @param activationFunction The activation function to use.
      * @since 1.0
      */
-    public OutputBackpropNeuron(ActivationFunction activationFunction)
+    public OutputBackpropNeuron(Brain brain, ActivationFunction activationFunction)
     {
-        super(activationFunction);
+        super(brain, activationFunction);
     }
 
 	/**
@@ -71,9 +71,9 @@ public class OutputBackpropNeuron extends BackpropNeuron implements OutputNeuron
 	 * @param learningRate The learning rate for this neuron.
 	 * @since 1.0
 	 */
-	public OutputBackpropNeuron(double learningRate)
+	public OutputBackpropNeuron(Brain brain, double learningRate)
 	{
-		super(learningRate);
+		super(brain, learningRate);
 	}
 
 	/**
@@ -85,9 +85,9 @@ public class OutputBackpropNeuron extends BackpropNeuron implements OutputNeuron
 	 * @param learningRate The learning rate for this neuron.
 	 * @since 1.0
 	 */
-	public OutputBackpropNeuron(ActivationFunction activationFunction, double learningRate)
+	public OutputBackpropNeuron(Brain brain, ActivationFunction activationFunction, double learningRate)
 	{
-		super(activationFunction, learningRate);
+		super(brain, activationFunction, learningRate);
 	}
 
 
@@ -117,28 +117,12 @@ public class OutputBackpropNeuron extends BackpropNeuron implements OutputNeuron
     protected void calculateDeltaTrain()
     {
         this.deltaTrain = 0;
-        for (Synapse currentSynapse : super.destinations)
+        for (Synapse currentSynapse : super.getBrain().getOutEdges(this))
 			this.deltaTrain += (currentSynapse.getWeight() * this.deltaTrainDestinations.get(currentSynapse).doubleValue());
 
         this.deltaTrain += (this.desired - this.getOutput());
 
         this.deltaTrain *= super.activateDerivitive();
-    }
-
-	/**
-	 * Connects this Neuron to the specified Neuron.
-	 *
-	 *
-	 * @param outUnit The Neuron to connect to.
-	 * @throws com.syncleus.dann.InvalidConnectionTypeDannException The
-	 * specified neuron to connect to is not valid.
-	 * @return newly created Synapse.
-	 * @since 1.0
-	 */
-	@Override
-    public Synapse connectTo(BackpropNeuron outUnit) throws InvalidConnectionTypeDannException
-    {
-        throw new InvalidConnectionTypeDannException("Can not connect from a OutputNeuron");
     }
 
 	/**

@@ -18,6 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.neural.backprop.brain;
 
+import com.syncleus.dann.neural.NeuronGroup;
+import com.syncleus.dann.neural.backprop.BackpropNeuron;
 import java.util.concurrent.ThreadPoolExecutor;
 
 public abstract class AbstractFullyConnectedFeedforwardBrain extends AbstractFeedforwardBrain
@@ -53,6 +55,12 @@ public abstract class AbstractFullyConnectedFeedforwardBrain extends AbstractFee
 		//iterate through all layers (except the last) and connect it to the
 		//next layer
 		for(int layerIndex = 0; layerIndex < (this.getLayerCount() - 1); layerIndex++)
-			this.getNeuronLayers().get(layerIndex).connectAllTo(this.getNeuronLayers().get(layerIndex + 1));
+		{
+			NeuronGroup<BackpropNeuron> sourceLayer = this.getNeuronLayers().get(layerIndex);
+			NeuronGroup<BackpropNeuron> destinationLayer = this.getNeuronLayers().get(layerIndex + 1);
+			for(BackpropNeuron sourceNeuron : sourceLayer.getChildrenNeuronsRecursivly())
+				for(BackpropNeuron destinationNeruon : destinationLayer.getChildrenNeuronsRecursivly())
+					this.connect(sourceNeuron, destinationNeruon);
+		}
 	}
 }

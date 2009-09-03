@@ -16,64 +16,26 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.neural.som;
+package com.syncleus.dann.graph;
 
-import com.syncleus.dann.neural.*;
-import com.syncleus.dann.neural.activation.IdentityActivationFunction;
+import java.util.List;
 
-/**
- * An input neuron for a SOM network. It essentialy just propgates the input
- * unchanged to the next layer.
- *
- * @author Syncleus, Inc.
- * @since 2.0
- */
-public class SomInputNeuron extends AbstractNeuron implements InputNeuron
+public class SimpleWeightedBidirectedWalk<N, E extends WeightedBidirectedEdge<? extends N>> extends SimpleBidirectedWalk<N,E> implements WeightedBidirectedWalk<N,E>
 {
-	private double input;
-	private static final IdentityActivationFunction ACTIVATION_FUNCTION = new IdentityActivationFunction();
+	private final double totalWeight;
 
-	/**
-	 * Creates a default SomInputNeuron using an IdentityActivationFunction
-	 *
-	 * @since 2.0
-	 */
-	public SomInputNeuron(Brain brain)
+	public SimpleWeightedBidirectedWalk(N firstNode, N lastNode, List<E> steps)
 	{
-		super(brain, ACTIVATION_FUNCTION);
+		super(firstNode,lastNode,steps);
+
+		double newTotalWeight = 0.0;
+		for(E step : this.getSteps())
+			newTotalWeight += step.getWeight();
+		this.totalWeight = newTotalWeight;
 	}
 
-	/**
-	 * Propogates the input to all connected SomNeurons.
-	 * 
-	 * @since 2.0
-	 */
-	@Override
-	public void propagate()
+	public double getWeight()
 	{
-		this.activity = this.input;
-		this.setOutput(this.activity);
-	}
-
-	/**
-	 * Sets the current input for this neuron.
-	 *
-	 * @since 2.0
-	 * @param inputToSet The new input value you want to set.
-	 */
-	public void setInput(double inputToSet)
-	{
-		this.input = inputToSet;
-	}
-
-	/**
-	 * Gets the current input.
-	 *
-	 * @return the current input.
-	 * @since 2.0
-	 */
-	public double getInput()
-	{
-		return this.input;
+		return this.totalWeight;
 	}
 }

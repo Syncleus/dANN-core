@@ -16,64 +16,22 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.neural.som;
+package com.syncleus.dann.graph;
 
-import com.syncleus.dann.neural.*;
-import com.syncleus.dann.neural.activation.IdentityActivationFunction;
+import java.util.List;
 
-/**
- * An input neuron for a SOM network. It essentialy just propgates the input
- * unchanged to the next layer.
- *
- * @author Syncleus, Inc.
- * @since 2.0
- */
-public class SomInputNeuron extends AbstractNeuron implements InputNeuron
+public interface WeightedBidirectedWalk<N, E extends BidirectedEdge<? extends N>> extends BidirectedWalk<N,E>, Weighted
 {
-	private double input;
-	private static final IdentityActivationFunction ACTIVATION_FUNCTION = new IdentityActivationFunction();
-
-	/**
-	 * Creates a default SomInputNeuron using an IdentityActivationFunction
-	 *
-	 * @since 2.0
-	 */
-	public SomInputNeuron(Brain brain)
-	{
-		super(brain, ACTIVATION_FUNCTION);
-	}
-
-	/**
-	 * Propogates the input to all connected SomNeurons.
-	 * 
-	 * @since 2.0
-	 */
-	@Override
-	public void propagate()
-	{
-		this.activity = this.input;
-		this.setOutput(this.activity);
-	}
-
-	/**
-	 * Sets the current input for this neuron.
-	 *
-	 * @since 2.0
-	 * @param inputToSet The new input value you want to set.
-	 */
-	public void setInput(double inputToSet)
-	{
-		this.input = inputToSet;
-	}
-
-	/**
-	 * Gets the current input.
-	 *
-	 * @return the current input.
-	 * @since 2.0
-	 */
-	public double getInput()
-	{
-		return this.input;
-	}
+	//Parent methods
+	List<E> getSteps();
+	N getFirstNode();
+	N getLastNode();
+	boolean isClosed();
+	int getLength();
+	boolean isTrail();
+	boolean isTour();
+	boolean isPath();
+	boolean isCycle();
+	boolean isIndependent(Walk walk);
+	boolean isSymmetric();
 }

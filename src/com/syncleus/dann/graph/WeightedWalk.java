@@ -20,7 +20,7 @@ package com.syncleus.dann.graph;
 
 import java.util.List;
 
-public interface WeightedWalk<N, E extends WeightedEdge<? extends N>> extends Walk<N,E>
+public interface WeightedWalk<N, E extends WeightedEdge<? extends N>> extends Walk<N,E>, Weighted
 {
 	double getWeight();
 

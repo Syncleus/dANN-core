@@ -72,10 +72,10 @@ public class FullyConnectedFeedforwardBrain extends AbstractFullyConnectedFeedfo
 	protected BackpropNeuron createNeuron(int layer, int index)
 	{
 		if( layer == 0 )
-			return new InputBackpropNeuron(this.activationFunction, this.learningRate);
+			return new InputBackpropNeuron(this, this.activationFunction, this.learningRate);
 		else if(layer >= (this.getLayerCount() - 1))
-			return new OutputBackpropNeuron(this.activationFunction, this.learningRate);
+			return new OutputBackpropNeuron(this, this.activationFunction, this.learningRate);
 		else
-			return new BackpropNeuron(this.activationFunction, this.learningRate);
+			return new BackpropNeuron(this, this.activationFunction, this.learningRate);
 	}
 }

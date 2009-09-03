@@ -121,54 +121,6 @@ public class NeuronGroup<N extends AbstractNeuron> implements java.io.Serializab
 
 
     /**
-     * Connects all the NetworkNodes in this layer recursivly to all the
-     * NetworkNodes in another layer.
-	 *
-     *
-     * @since 1.0
-     * @param toConnectTo This is the layer the neurons will be connecting
-     * 	to.
-     */
-	@SuppressWarnings("unchecked")
-    public void connectAllTo(N toConnectTo) throws InvalidConnectionTypeDannException
-    {
-		for (N currentChild : this.childrenNeurons)
-			currentChild.connectTo(toConnectTo);
-		for(NeuronGroup currentChild : this.childrenNeuronGroups)
-			currentChild.connectAllTo(toConnectTo);
-    }
-
-	/**
-	 * Connects all the Neurons in this group, as well as children groups
-	 * recursivly to all the neurons in the specified NeuronGroup, also
-	 * recurisvly.
-	 *
-	 *
-	 * @param toConnectTo The NeuronGroup to connect to.
-	 * @throws com.syncleus.dann.InvalidConnectionTypeDannException Thrown if
-	 * any of the neurons can not connect due to invalid types.
-	 * @since 1.0
-	 */
-	@SuppressWarnings("unchecked")
-	public void connectAllTo(NeuronGroup<? extends N> toConnectTo) throws InvalidConnectionTypeDannException
-	{
-		for (N currentChild : this.childrenNeurons)
-		{
-			Set<? extends N> toConnectToChildren = toConnectTo.getChildrenNeuronsRecursivly();
-			for (N currentOut : toConnectToChildren)
-				currentChild.connectTo(currentOut);
-		}
-		for(NeuronGroup currentChild : this.childrenNeuronGroups)
-		{
-			Set<? extends N> toConnectToChildren = toConnectTo.getChildrenNeuronsRecursivly();
-			for (N currentOut : toConnectToChildren)
-				currentChild.connectAllTo(currentOut);
-		}
-	}
-
-
-
-    /**
      * Obtains all the Neurons directly owned by this NeuronGroup.
      * @since 1.0
      */
@@ -202,49 +154,6 @@ public class NeuronGroup<N extends AbstractNeuron> implements java.io.Serializab
 			returnList.addAll(currentChild.getChildrenNeuronsRecursivly());
 
         return Collections.unmodifiableSet(returnList);
-    }
-
-
-
-    /**
-     * Causes the NetworkNode to disconnect all outgoing connections.<BR>
-     *
-     * @since 1.0
-     * @see com.syncleus.dann.neural.NeuronGroup#disconnectAllSources
-     * @see com.syncleus.dann.neural.NeuronGroup#disconnectAll
-     */
-    public void disconnectAllDestinations()
-    {
-        for (N currentChild : this.getChildrenNeuronsRecursivly())
-            currentChild.disconnectAllDestinations();
-    }
-
-
-
-    /**
-     * Causes the NetworkNode to disconnect all incomming connections.<BR>
-     *
-     * @since 1.0
-     * @see com.syncleus.dann.neural.NeuronGroup#disconnectAllDestinations
-     * @see com.syncleus.dann.neural.NeuronGroup#disconnectAll
-     */
-    public void disconnectAllSources()
-    {
-        for (N currentChild : this.getChildrenNeuronsRecursivly())
-            currentChild.disconnectAllSources();
-    }
-
-    /**
-     * Causes the NetworkNode to disconnect all connections.<BR>
-     *
-     * @since 1.0
-     * @see com.syncleus.dann.neural.NeuronGroup#disconnectAllSources
-     * @see com.syncleus.dann.neural.NeuronGroup#disconnectAllDestinations
-     */
-    public void disconnectAll()
-    {
-        this.disconnectAllDestinations();
-        this.disconnectAllSources();
     }
     // </editor-fold>
 }

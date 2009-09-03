@@ -28,7 +28,7 @@ import com.syncleus.dann.neural.activation.SqrtActivationFunction;
  * @author Syncleus, Inc.
  * @since 2.0
  */
-public class SomNeuron extends AbstractNeuron<AbstractNeuron, AbstractNeuron> implements OutputNeuron<AbstractNeuron, AbstractNeuron>
+public class SomNeuron extends AbstractNeuron implements OutputNeuron
 {
 	private final static SqrtActivationFunction ACTIVATION_FUNCTION = new SqrtActivationFunction();
 
@@ -37,9 +37,9 @@ public class SomNeuron extends AbstractNeuron<AbstractNeuron, AbstractNeuron> im
 	 *
 	 * @since 2.0
 	 */
-	public SomNeuron()
+	public SomNeuron(Brain brain)
 	{
-		super(ACTIVATION_FUNCTION);
+		super(brain, ACTIVATION_FUNCTION);
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class SomNeuron extends AbstractNeuron<AbstractNeuron, AbstractNeuron> im
 	 */
 	public void train(double learningRate, double neighborhoodAdjustment)
 	{
-		for(Synapse source : this.getSources())
+		for(Synapse source : this.getBrain().getInEdges(this))
 			source.setWeight( source.getWeight() + (learningRate * neighborhoodAdjustment * (source.getInput() - source.getWeight())) );
 	}
 
@@ -64,7 +64,7 @@ public class SomNeuron extends AbstractNeuron<AbstractNeuron, AbstractNeuron> im
     {
         //calculate the current input activity
         activity = 0;
-        for (Synapse currentSynapse : this.getSources())
+        for (Synapse currentSynapse : this.getBrain().getInEdges(this))
             activity += Math.pow(currentSynapse.getInput() - currentSynapse.getWeight(), 2.0);
         //Add the bias to the activity
         super.activity = activity;

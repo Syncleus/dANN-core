@@ -18,7 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.neural;
 
-import com.syncleus.dann.UnexpectedDannError;
 import java.util.*;
 import com.syncleus.dann.neural.activation.ActivationFunction;
 import com.syncleus.dann.neural.activation.HyperbolicTangentActivationFunction;
@@ -36,7 +35,7 @@ import org.apache.log4j.Logger;
  * @since 1.0
  *
  */
-public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends AbstractNeuron> implements Neuron<SN, DN>
+public abstract class AbstractNeuron implements Neuron
 {
     // <editor-fold defaultstate="collapsed" desc="Attributes">
 
@@ -64,21 +63,6 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
      */
     protected double biasWeight;
 
-    /**
-     * An array list of all the synapses that this neuron is currently
-     * connection out to.
-     *
-     * @since 1.0
-     */
-    protected final Set<Synapse> destinations = new HashSet<Synapse>();
-
-	/**
-     * All the synapses currently connecting into this neuron
-     *
-     * @since 1.0
-     */
-    private final Set<Synapse> sources = new HashSet<Synapse>();
-
 	/**
 	 * The current activation function used by this neuron. This is used to
 	 * calculate the output from the activity.
@@ -93,9 +77,16 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
 	 * @since 1.0
 	 */
 	protected static final Random RANDOM = new Random();
+
+	private final Brain brain;
 	
 	private final static HyperbolicTangentActivationFunction DEFAULT_ACTIVATION_FUNCTION = new HyperbolicTangentActivationFunction();
 	private final static Logger LOGGER = Logger.getLogger(AbstractNeuron.class);
+
+	protected Brain getBrain()
+	{
+		return this.brain;
+	}
 
     // </editor-fold>
 
@@ -108,8 +99,12 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
      *
      * @since 1.0
      */
-    public AbstractNeuron()
+    public AbstractNeuron(Brain brain)
     {
+		if( brain == null)
+			throw new IllegalArgumentException("brain can not be null");
+
+		this.brain = brain;
         this.biasWeight = ((RANDOM.nextDouble() * 2.0) - 1.0) / 1000.0;
         this.activationFunction = DEFAULT_ACTIVATION_FUNCTION;
     }
@@ -125,323 +120,16 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
 	 * output fromt he neuron's activity.
 	 * @since 1.0
 	 */
-    public AbstractNeuron(ActivationFunction activationFunction)
+    public AbstractNeuron(Brain brain, ActivationFunction activationFunction)
     {
+		if( brain == null)
+			throw new IllegalArgumentException("brain can not be null");
         if (activationFunction == null)
             throw new IllegalArgumentException("activationFunction can not be null");
 
-
-        this.biasWeight = ((this.RANDOM.nextDouble() * 2.0) - 1.0) / 1000.0;
+		this.brain = brain;
+        this.biasWeight = ((RANDOM.nextDouble() * 2.0) - 1.0) / 1000.0;
         this.activationFunction = activationFunction;
-    }
-
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Topology Manipulation">
-
-    /**
-     * This method is called internally, between Neurons, to
-     * facilitate the connection process.<BR>
-     *
-     * @since 1.0
-     * @param inSynapse The synapse to connect from.
-     * @see com.syncleus.dann.neural.Neuron#connectTo
-     */
-    public void connectFrom(final Synapse inSynapse) throws InvalidConnectionTypeDannException
-    {
-        //make sure you arent already connected fromt his neuron
-
-        //add the synapse to the source list
-        this.sources.add(inSynapse);
-    }
-
-    /**
-     * This method is called externally to connect to another Neuron.
-	 *
-     *
-     * @since 1.0
-     * @param outUnit The Neuron to connect to.
-	 * @throws com.syncleus.dann.InvalidConnectionTypeDannException Not
-	 * thrown, but children are allowed to throw this exception.
-     * @see com.syncleus.dann.neural.NeuronImpl#connectFrom
-     */
-    public Synapse connectTo(final DN outUnit) throws InvalidConnectionTypeDannException
-    {
-        //make sure you arent already connected to the neuron
-        if (outUnit == null)
-            throw new IllegalArgumentException("outUnit can not be null!");
-
-        //connect to the neuron
-        final Synapse newSynapse = new Synapse(this, outUnit, ((this.RANDOM.nextDouble() * 2.0) - 1.0) / 10000.0);
-        this.destinations.add(newSynapse);
-        outUnit.connectFrom(newSynapse);
-
-		return newSynapse;
-    }
-
-    /**
-     * Causes the Neuron to disconnect all connections.
-	 *
-     *
-     * @since 1.0
-     * @see com.syncleus.dann.neural.Neuron#disconnectAllSources
-     * @see com.syncleus.dann.neural.Neuron#disconnectAllDestinations
-     */
-    public void disconnectAll()
-    {
-        this.disconnectAllDestinations();
-        this.disconnectAllSources();
-    }
-
-
-
-    /**
-     * Causes the Neuron to disconnect all outgoing connections.
-	 *
-     *
-     * @since 1.0
-     * @see com.syncleus.dann.neural.Neuron#disconnectAllSources
-     * @see com.syncleus.dann.neural.Neuron#disconnectAll
-     */
-    public void disconnectAllDestinations()
-    {
-		final Synapse[] destinationsArray = new Synapse[this.destinations.size()];
-		this.destinations.toArray(destinationsArray);
-		
-        for (Synapse currentDestination : destinationsArray)
-		{
-            try
-            {
-                this.disconnectDestination(currentDestination);
-            }
-            catch (SynapseNotConnectedDannException caught)
-            {
-                LOGGER.error("Received an unexpected exception, this should not ever happen", caught);
-                throw new UnexpectedDannError("Unexpected Runtime Exception", caught);
-            }
-		}
-    }
-
-
-
-    /**
-     * Causes the Neuron to disconnect all incomming connections.
-	 *
-     *
-     * @since 1.0
-     * @see com.syncleus.dann.neural.Neuron#disconnectAllDestinations
-     * @see com.syncleus.dann.neural.Neuron#disconnectAll
-     */
-    public void disconnectAllSources()
-    {
-		final Synapse[] sourcesArray = new Synapse[this.sources.size()];
-		this.sources.toArray(sourcesArray);
-		
-        for (Synapse currentSource : sourcesArray)
-		{
-            try
-            {
-                this.disconnectSource(currentSource);
-            }
-            catch (SynapseNotConnectedDannException caught)
-            {
-                LOGGER.error("Received an unexpected exception, this should not ever happen", caught);
-                throw new UnexpectedDannError("Unexpected Runtime Exception: ", caught);
-            }
-		}
-    }
-
-
-
-    /**
-     * Disconnects from a perticular outgoing connection.
-	 *
-     *
-     * @since 1.0
-     * @param outSynapse The outgoing synapse to disconnect from.
-     * @see com.syncleus.dann.neural.NeuronImpl#removeSource
-	 * @throws SynapseNotConnectedException Thrown if the specified synapse isnt
-	 * currently connected.
-     */
-    public void disconnectDestination(final Synapse outSynapse) throws SynapseNotConnectedDannException
-    {
-        if (this instanceof OutputNeuron)
-            throw new IllegalArgumentException("Can not disconnect a destination for a OutputNeuron");
-
-        if (!this.destinations.remove(outSynapse))
-            throw new SynapseNotConnectedDannException("can not disconnect destination, does not exist.");
-
-        try
-        {
-            if (outSynapse.getDestination() != null)
-                outSynapse.getDestination().removeSource(outSynapse);
-        }
-        catch (SynapseDoesNotExistDannException caughtException)
-        {
-			LOGGER.error("Incorrect state, a synapse was partially connected");
-            throw new SynapseNotConnectedDannException("can not disconnect destination, this shouldnt happen because it was partially connected.", caughtException);
-        }
-    }
-
-
-
-    /**
-     * Disconnects from a perticular incomming connection.
-	 *
-     *
-     * @since 1.0
-     * @param inSynapse The incomming synapse to disconnect from.
-     * @see com.syncleus.dann.neural.NeuronImpl#removeDestination
-	 * @throws SynapseNotConnectedException Thrown if the specified synapse isnt
-	 * currently connected.
-     */
-    public void disconnectSource(final Synapse inSynapse) throws SynapseNotConnectedDannException
-    {
-        if (this instanceof InputNeuron)
-            throw new IllegalArgumentException("Can not disconnect a source for a InputNeuron");
-
-        if (!this.sources.remove(inSynapse))
-            throw new SynapseNotConnectedDannException("can not disconnect source, does not exist.");
-
-        try
-        {
-            if (inSynapse.getSource() != null)
-                inSynapse.getSource().removeDestination(inSynapse);
-        }
-        catch (SynapseDoesNotExistDannException caughtException)
-        {
-			LOGGER.error("Incorrect state, a synapse was partially connected");
-            throw new SynapseNotConnectedDannException("can not disconnect source, this should never happen, it was partially connected.", caughtException);
-        }
-    }
-
-
-
-    /**
-     * Called internally to facilitate the removal of a connection.
-	 *
-     *
-     * @since 1.0
-     * @param outSynapse The incomming synapse to remove from memory.
-     * @see com.syncleus.dann.neural.Neuron#disconnectSource
-     */
-    protected void removeDestination(final Synapse outSynapse) throws SynapseDoesNotExistDannException
-    {
-        if (this instanceof OutputNeuron)
-            throw new IllegalArgumentException("Can not remove a destination for a OutputNeuron");
-
-        if (!this.destinations.remove(outSynapse))
-            throw new SynapseDoesNotExistDannException("Can not remove destination, does not exist.");
-    }
-
-
-
-    /**
-     * Called internally to facilitate the removal of a connection.<BR>
-     *
-     * @since 1.0
-     * @param inSynapse The incomming synapse to remove from memory.<BR>
-     * @see com.syncleus.dann.neural.Neuron#disconnectDestination
-     */
-    protected void removeSource(final Synapse inSynapse) throws SynapseDoesNotExistDannException
-    {
-        if (this instanceof InputNeuron)
-            throw new IllegalArgumentException("Can not disconnect a source for a InputNeuron");
-
-        if (!this.sources.remove(inSynapse))
-            throw new SynapseDoesNotExistDannException("Can not remove destination, does not exist.");
-    }
-
-
-
-	/**
-	 * Gets all the destination Synapses this neuron's output is connected to.
-	 *
-	 *
-	 * @return An unmodifiable Set of destination Synapses
-	 * @since 1.0
-	 */
-    public Set<Synapse> getDestinations()
-    {
-        return Collections.unmodifiableSet(this.destinations);
-    }
-
-
-
-	/**
-	 * Gets all the Neurons that either connect to, or are connected from, this
-	 * Neuron.
-	 *
-	 *
-	 * @return An unmodifiable Set of source and destination Neurons.
-	 * @since 1.0
-	 */
-    public Set<Neuron> getNeighbors()
-    {
-        final HashSet<Neuron> neighbors = new HashSet<Neuron>();
-        for (Synapse source : this.getSources())
-            neighbors.add(source.getSource());
-        for (Synapse destination : this.getDestinations())
-            neighbors.add(destination.getDestination());
-
-        return Collections.unmodifiableSet(neighbors);
-    }
-
-
-
-	/**
-	 * Get all the source Neuron's connecting to this Neuron.
-	 *
-	 *
-	 * @return An unmodifiable Set of source Neurons.
-	 * @since 1.0
-	 */
-	@SuppressWarnings("unchecked")
-    public Set<SN> getSourceNeighbors()
-    {
-        final HashSet<SN> neighbors = new HashSet<SN>();
-		try
-		{
-			for (Synapse sourceSynapse : this.getSources())
-				neighbors.add((SN)sourceSynapse.getSource());
-		}
-		catch(ClassCastException caughtException)
-		{
-			throw new UnexpectedDannError("unexpected class cash exception when getting sourced", caughtException);
-		}
-
-        return Collections.unmodifiableSet(neighbors);
-    }
-
-
-
-	/**
-	 * Get all the destination Neuron's this Neuron connects to.
-	 *
-	 *
-	 * @return An unmodifiable Set of destination Neurons.
-	 * @since 1.0
-	 */
-	@SuppressWarnings("unchecked")
-    public Set<DN> getDestinationNeighbors()
-    {
-        final HashSet<DN> neighbors = new HashSet<DN>();
-        for (Synapse destination : this.getDestinations())
-            neighbors.add((DN)destination.getDestination());
-
-        return Collections.unmodifiableSet(neighbors);
-    }
-
-	/**
-	 * Gets all the source Synapses connected to this neuron.
-	 *
-	 *
-	 * @return An unmodifiable Set of source Synapses
-	 * @since 1.0
-	 */
-    public Set<Synapse> getSources()
-    {
-        return Collections.unmodifiableSet(sources);
     }
 
     // </editor-fold>
@@ -460,7 +148,7 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
     {
         this.output = newOutput;
 
-        for (Synapse current : this.destinations)
+        for (Synapse current : this.getBrain().getOutEdges(this))
             current.setInput(newOutput);
     }
 
@@ -525,7 +213,7 @@ public abstract class AbstractNeuron<SN extends AbstractNeuron, DN extends Abstr
     {
         //calculate the current input activity
         this.activity = 0;
-        for (Synapse currentSynapse : this.getSources())
+        for (Synapse currentSynapse : this.brain.getInEdges(this))
             this.activity += currentSynapse.getInput() * currentSynapse.getWeight();
         //Add the bias to the activity
         this.activity += this.biasWeight;

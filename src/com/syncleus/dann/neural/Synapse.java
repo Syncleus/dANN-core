@@ -17,157 +17,33 @@
  *                                                                             *
  ******************************************************************************/
 package com.syncleus.dann.neural;
+import com.syncleus.dann.graph.BidirectedEdge.EndState;
+import com.syncleus.dann.graph.WeightedDirectedEdge;
+import java.util.List;
 
-/**
- * The synapse acts as a bridge between connected neurons. It is also where the
- * connection weights are stores and manipulated.
- * 
- *
- * @author Syncleus, Inc.
- * @since 1.0
- *
- * @see com.syncleus.dann.neural.Neuron
- */
-public class Synapse implements java.io.Serializable
+public interface Synapse extends WeightedDirectedEdge<Neuron>
 {
-    // <editor-fold defaultstate="collapsed" desc="Attributes">
+	double getInput();
+	void setInput(double input);
+	void setWeight(double weight);
+	
+	//Parent methods
+	double getWeight();
 
-    /**
-     * The outgoing neuron connection.
-     *
-     * @since 1.0
-     */
-    private AbstractNeuron destination;
+	Neuron getSourceNode();
+	Neuron getDestinationNode();
 
-    /**
-     * The incomming neuron connection.
-     *
-     * @since 1.0
-     */
-    private AbstractNeuron source;
+	List<Neuron> getNodes();
 
-    /**
-     * The current weight of the synapse.
-     *
-     * @since 1.0
-     */
-    private double weight;
-
-    /**
-     * The current output of the synapse.
-     *
-     * @since 1.0
-     */
-    private double output;
-
-    /**
-     * The current input from the synapse.
-     *
-     * @since 1.0
-     */
-    private double input;
-
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Constructors">
-
-    /**
-     * Creates a new instance of Synapse
-	 *
-     *
-     * @since 1.0
-     * @param sourceToSet The incomming neuron connection.
-     * @param destinationToSet The outgoing neuron connection.
-     * @param initialWeight The initial weight of the synapse
-     */
-    public Synapse(AbstractNeuron sourceToSet, AbstractNeuron destinationToSet, double initialWeight)
-    {
-        this.destination = destinationToSet;
-        this.source = sourceToSet;
-        this.weight = initialWeight;
-    }
-
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Link Traversal">
-
-    /**
-     * Obtains the incomming neuron.
-	 *
-     *
-     * @since 1.0
-     * @return The source neuron.
-     */
-    public AbstractNeuron getSource()
-    {
-        return this.source;
-    }
-
-
-
-    /**
-     * Obtains the outgoing neuron.
-	 *
-     *
-     * @since 1.0
-     * @return The destination neuron.
-     */
-    public AbstractNeuron getDestination()
-    {
-        return this.destination;
-    }
-
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Propogation">
-
-
-    /**
-     * Set the current input for the synapse.
-	 *
-     *
-     * @since 1.0
-     * @param newInput The new input value to set.
-     */
-    public void setInput(double newInput)
-    {
-        this.input = newInput;
-    }
-
-	/**
-	 * Set the weight of the synapse.
-	 *
-	 *
-	 * @param newWeight new weight for the synapse.
-	 * @since 1.0
-	 */
-	public void setWeight(double newWeight)
-	{
-		this.weight = newWeight;
-	}
-
-	/**
-	 * Get the weight of the synapse.
-	 *
-	 *
-	 * @return The current weight of the synapse.
-	 * @since 1.0
-	 */
-    public double getWeight()
-    {
-        return weight;
-    }
-
-	/**
-	 * Get the current input of the synapse.
-	 *
-	 *
-	 * @return The current input of the synapse.
-	 * @since 1.0
-	 */
-	public double getInput()
-	{
-		return input;
-	}
-	// </editor-fold>
+	Neuron getLeftNode();
+	Neuron getRightNode();
+	EndState getLeftEndState();
+	EndState getRightEndState();
+	boolean isIntroverted();
+	boolean isExtraverted();
+	boolean isDirected();
+	boolean isHalfEdge();
+	boolean isLooseEdge();
+	boolean isOrdinaryEdge();
+	boolean isLoop();
 }

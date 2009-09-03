@@ -30,7 +30,7 @@ import com.syncleus.dann.neural.activation.*;
  * @since 1.0
  *
  */
-public class InputBackpropNeuron extends BackpropNeuron implements InputNeuron<AbstractNeuron, BackpropNeuron>
+public class InputBackpropNeuron extends BackpropNeuron implements InputNeuron
 {
     /**
      * Holds the current input value for this neuron
@@ -48,9 +48,9 @@ public class InputBackpropNeuron extends BackpropNeuron implements InputNeuron<A
      *
      * @since 1.0
      */
-    public InputBackpropNeuron()
+    public InputBackpropNeuron(Brain brain)
     {
-        super();
+        super(brain);
     }
 
     /**
@@ -60,9 +60,9 @@ public class InputBackpropNeuron extends BackpropNeuron implements InputNeuron<A
      *
      * @since 1.0
      */
-    public InputBackpropNeuron(ActivationFunction activationFunction)
+    public InputBackpropNeuron(Brain brain, ActivationFunction activationFunction)
     {
-        super(activationFunction);
+        super(brain, activationFunction);
     }
 
 	/**
@@ -72,9 +72,9 @@ public class InputBackpropNeuron extends BackpropNeuron implements InputNeuron<A
 	 * @param learningRate The learning rate for this neuron.
 	 * @since 1.0
 	 */
-	public InputBackpropNeuron(double learningRate)
+	public InputBackpropNeuron(Brain brain, double learningRate)
 	{
-		super(learningRate);
+		super(brain, learningRate);
 	}
 
 	/**
@@ -86,9 +86,9 @@ public class InputBackpropNeuron extends BackpropNeuron implements InputNeuron<A
 	 * @param learningRate The learning rate to use.
 	 * @since 1.0
 	 */
-	public InputBackpropNeuron(ActivationFunction activationFunction, double learningRate)
+	public InputBackpropNeuron(Brain brain, ActivationFunction activationFunction, double learningRate)
 	{
-		super(activationFunction, learningRate);
+		super(brain, activationFunction, learningRate);
 	}
 
 
@@ -134,20 +134,5 @@ public class InputBackpropNeuron extends BackpropNeuron implements InputNeuron<A
     public void backPropagate()
     {
         this.calculateDeltaTrain();
-    }
-
-    /**
-     * This method is called internally, between Neurons, to
-     * facilitate the connection process.
-	 *
-     *
-     * @since 1.0
-     * @param inSynapse The synapse to connect from.
-     * @see com.syncleus.dann.neural.Neuron#connectTo
-     */
-	@Override
-    public void connectFrom(Synapse inSynapse) throws InvalidConnectionTypeDannException
-    {
-        throw new InvalidConnectionTypeDannException("Can not connect a neuron to an InputNeuron");
     }
 }

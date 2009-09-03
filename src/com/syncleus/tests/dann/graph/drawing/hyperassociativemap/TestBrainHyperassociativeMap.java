@@ -28,9 +28,16 @@ public class TestBrainHyperassociativeMap
 {
 	private class TestBrain extends AbstractLocalBrain
 	{
-		public void addNeuron(Neuron newNeuron)
+		@Override
+		public boolean add(Neuron newNeuron)
 		{
-			super.addNeuron(newNeuron);
+			return super.add(newNeuron);
+		}
+
+		@Override
+		public boolean connect(Neuron source, Neuron destination)
+		{
+			return super.connect(source, destination);
 		}
 	}
 
@@ -52,13 +59,13 @@ public class TestBrainHyperassociativeMap
 	{
 		TestBrain testBrain = new TestBrain();
 
-		BackpropNeuron neuron1 = new BackpropNeuron();
-		BackpropNeuron neuron2 = new BackpropNeuron();
+		BackpropNeuron neuron1 = new BackpropNeuron(testBrain);
+		BackpropNeuron neuron2 = new BackpropNeuron(testBrain);
 
-		neuron1.connectTo(neuron2);
+		testBrain.add(neuron1);
+		testBrain.add(neuron2);
 
-		testBrain.addNeuron(neuron1);
-		testBrain.addNeuron(neuron2);
+		testBrain.connect(neuron1, neuron2);
 
 		TestMap testMap = new TestMap(testBrain, 3);
 		testMap.refresh();

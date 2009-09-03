@@ -139,7 +139,11 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 		this.upperBounds = new Vector(dimentionality);
 		this.lowerBounds = new Vector(dimentionality);
 		for(int inputIndex = 0; inputIndex < inputCount; inputIndex++)
-			this.inputs.add(new SomInputNeuron());
+		{
+			SomInputNeuron newNeuron = new SomInputNeuron(this);
+			this.inputs.add(newNeuron);
+			super.add(newNeuron);
+		}
 	}
 
 	private void updateBounds(final Vector position)
@@ -176,14 +180,15 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 		this.updateBounds(positionCopy);
 
 		//create and add the new output neuron
-		final SomNeuron outputNeuron = new SomNeuron();
+		final SomNeuron outputNeuron = new SomNeuron(this);
 		this.outputs.put(positionCopy, outputNeuron);
+		this.add(outputNeuron);
 
 		//connect all inputs to the new neuron
 		try
 		{
 			for(SomInputNeuron input : inputs)
-				input.connectTo(outputNeuron);
+				this.connect(input, outputNeuron);
 		}
 		catch(InvalidConnectionTypeDannException caught)
 		{
@@ -422,9 +427,9 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 			final Vector currentPoint = output.getKey();
 
 			//iterate through the weight vectors of the current neuron
-			for(Synapse source : currentNeuron.getSources())
+			for(Synapse source : this.getInEdges(currentNeuron))
 			{
-				final int sourceIndex = this.inputs.indexOf(source.getSource());
+				final int sourceIndex = this.inputs.indexOf(source.getSourceNode());
 				weightVector[sourceIndex] = source.getWeight();
 			}
 

@@ -33,9 +33,9 @@ import java.util.Hashtable;
  * @author Syncleus, Inc.
  * @since 1.0
  *
- * @see com.syncleus.dann.neural.Synapse
+ * @see com.syncleus.dann.neural.SimpleSynapse
  */
-public class BackpropNeuron extends AbstractNeuron<AbstractNeuron, BackpropNeuron>
+public class BackpropNeuron extends AbstractNeuron//<AbstractNeuron, BackpropNeuron>
 {
     // <editor-fold defaultstate="collapsed" desc="Attributes">
 
@@ -69,9 +69,9 @@ public class BackpropNeuron extends AbstractNeuron<AbstractNeuron, BackpropNeuro
      *
      * @since 1.0
      */
-    public BackpropNeuron()
+    public BackpropNeuron(Brain brain)
     {
-		super();
+		super(brain);
     }
 
 
@@ -84,9 +84,9 @@ public class BackpropNeuron extends AbstractNeuron<AbstractNeuron, BackpropNeuro
 	 * @param activationFunction The Neuron's activation function.
 	 * @since 1.0
 	 */
-    public BackpropNeuron(ActivationFunction activationFunction)
+    public BackpropNeuron(Brain brain, ActivationFunction activationFunction)
     {
-        super(activationFunction);
+        super(brain, activationFunction);
     }
 
 
@@ -98,9 +98,9 @@ public class BackpropNeuron extends AbstractNeuron<AbstractNeuron, BackpropNeuro
 	 * @param learningRate learning rate of this neuron.
 	 * @since 1.0
 	 */
-	public BackpropNeuron(double learningRate)
+	public BackpropNeuron(Brain brain, double learningRate)
 	{
-		super();
+		super(brain);
 		this.learningRate = learningRate;
 	}
 
@@ -112,9 +112,9 @@ public class BackpropNeuron extends AbstractNeuron<AbstractNeuron, BackpropNeuro
 	 * @param activationFunction Activation function for this neuron.
 	 * @param learningRate Learning rate for this neuron.
 	 */
-	public BackpropNeuron(ActivationFunction activationFunction, double learningRate)
+	public BackpropNeuron(Brain brain, ActivationFunction activationFunction, double learningRate)
 	{
-		super(activationFunction);
+		super(brain, activationFunction);
 		this.learningRate = learningRate;
 	}
 
@@ -131,11 +131,11 @@ public class BackpropNeuron extends AbstractNeuron<AbstractNeuron, BackpropNeuro
 	 * @throws com.syncleus.dann.InvalidConnectionTypeDannException Not
 	 * thrown, but children are allowed to throw this exception.
      * @see com.syncleus.dann.neural.NeuronImpl#connectFrom
-     */
+     *
 	@Override
-    public Synapse connectTo(BackpropNeuron outUnit) throws InvalidConnectionTypeDannException
+    public SimpleSynapse connectTo(BackpropNeuron outUnit) throws InvalidConnectionTypeDannException
     {
-		Synapse outSynapse = super.connectTo(outUnit);
+		SimpleSynapse outSynapse = super.connectTo(outUnit);
 		this.deltaTrainDestinations.put(outSynapse, Double.valueOf(0.0));
 		return outSynapse;
     }
@@ -147,9 +147,9 @@ public class BackpropNeuron extends AbstractNeuron<AbstractNeuron, BackpropNeuro
      * @since 1.0
      * @param outSynapse The incomming synapse to remove from memory.
      * @see com.syncleus.dann.neural.Neuron#disconnectSource
-     */
+     *
 	@Override
-	protected void removeDestination(Synapse outSynapse) throws SynapseDoesNotExistDannException
+	protected void removeDestination(SimpleSynapse outSynapse) throws SynapseDoesNotExistDannException
 	{
 		super.removeDestination(outSynapse);
 		this.deltaTrainDestinations.remove(outSynapse);
@@ -164,13 +164,13 @@ public class BackpropNeuron extends AbstractNeuron<AbstractNeuron, BackpropNeuro
      * @see com.syncleus.dann.neural.NeuronImpl#removeSource
 	 * @throws SynapseNotConnectedException Thrown if the specified synapse isnt
 	 * currently connected.
-     */
+     *
 	@Override
-	public void disconnectDestination(Synapse outSynapse) throws SynapseNotConnectedDannException
+	public void disconnectDestination(SimpleSynapse outSynapse) throws SynapseNotConnectedDannException
 	{
 		super.disconnectDestination(outSynapse);
 		this.deltaTrainDestinations.remove(outSynapse);
-	}
+	}*/
 
 	// </editor-fold>
 
@@ -187,9 +187,9 @@ public class BackpropNeuron extends AbstractNeuron<AbstractNeuron, BackpropNeuro
         this.calculateDeltaTrain();
 
         //step thru source synapses and make them learn their new weight.
-        for (Synapse currentSynapse : this.getSources())
+        for (Synapse currentSynapse : this.getBrain().getInEdges(this))
 		{
-			AbstractNeuron sourceNeuron = currentSynapse.getSource();
+			Neuron sourceNeuron = currentSynapse.getSourceNode();
 			if(sourceNeuron instanceof BackpropNeuron)
 			{
 				BackpropNeuron sourceBackpropNeuron = (BackpropNeuron) sourceNeuron;
@@ -216,7 +216,7 @@ public class BackpropNeuron extends AbstractNeuron<AbstractNeuron, BackpropNeuro
     protected void calculateDeltaTrain()
     {
         this.deltaTrain = 0;
-        for (Synapse currentSynapse : this.destinations)
+        for (Synapse currentSynapse : this.getBrain().getOutEdges(this))
             this.deltaTrain += (currentSynapse.getWeight() * this.deltaTrainDestinations.get(currentSynapse).doubleValue());
         this.deltaTrain *= this.activateDerivitive();
     }

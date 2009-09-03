@@ -62,6 +62,11 @@ public class BrainHyperassociativeMap extends AbstractHyperassociativeMap
 		this.refresh();
     }
 
+	public AbstractLocalBrain getBrain()
+	{
+		return this.brain;
+	}
+
 
 
 	/**
@@ -76,7 +81,7 @@ public class BrainHyperassociativeMap extends AbstractHyperassociativeMap
         this.nodes.clear();
         this.neurons.clear();
 
-        Set<Neuron> brainNeurons = this.brain.getNeurons();
+        Set<Neuron> brainNeurons = this.brain.getNodes();
         for (Neuron neuron : brainNeurons)
         {
             NeuronHyperassociativeNode node = new NeuronHyperassociativeNode(this, neuron);

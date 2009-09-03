@@ -26,70 +26,38 @@ import java.util.Random;
 import java.util.Set;
 import org.junit.*;
 
-public class TestSicknessBayesianNetwork
+public class TestSimpleSicknessBayesianNetwork
 {
 	private static enum BooleanState
 	{
 		TRUE,FALSE;
 	}
 
-	private static enum SeasonState
-	{
-		WINTER,SUMMER,SPRING,FALL;
-	}
-
-	private static enum AgeState
-	{
-		BABY,CHILD,TEENAGER,ADULT,SENIOR;
-	}
-
 	private static enum FeverState
 	{
 		LOW,NONE,WARM,HOT
 	}
-	
+
 	private static Random RANDOM = new Random();
 
 	private SimpleBayesianNetwork network = new SimpleBayesianNetwork();
 
 	//create nodes
-	private BayesianNode<SeasonState> season = new SimpleBayesianNode<SeasonState>(SeasonState.WINTER, network);
-	private BayesianNode<AgeState> age = new SimpleBayesianNode<AgeState>(AgeState.BABY, network);
-	private BayesianNode<BooleanState> stuffyNose = new SimpleBayesianNode<BooleanState>(BooleanState.TRUE, network);
 	private BayesianNode<FeverState> fever = new SimpleBayesianNode<FeverState>(FeverState.HOT, network);
-	private BayesianNode<BooleanState> tired = new SimpleBayesianNode<BooleanState>(BooleanState.FALSE, network);
 	private BayesianNode<BooleanState> sick = new SimpleBayesianNode<BooleanState>(BooleanState.FALSE, network);
 
 	@Test
 	public void testOverall()
 	{
 		//add nodes
-		network.add(season);
-		network.add(age);
-		network.add(stuffyNose);
 		network.add(fever);
-		network.add(tired);
 		network.add(sick);
 
 		//connect nodes
-		network.connect(season, stuffyNose);
-		network.connect(season, fever);
-		network.connect(season, tired);
-		network.connect(season, sick);
-		network.connect(age, stuffyNose);
-		network.connect(age, fever);
-		network.connect(age, tired);
-		network.connect(age, sick);
-		network.connect(tired, fever);
-		network.connect(tired, stuffyNose);
-		network.connect(tired, sick);
-		network.connect(stuffyNose, fever);
-		network.connect(stuffyNose, sick);
 		network.connect(fever, sick);
 
 		//let the network learn
-		for(int sampleCount = 0; sampleCount < 10000; sampleCount++)
-			this.sampleState();
+		this.sampleState();
 
 		//lets check some probabilities
 		Set<BayesianNode> goals = new HashSet<BayesianNode>();
@@ -112,19 +80,6 @@ public class TestSicknessBayesianNetwork
 
 	private void sampleState()
 	{
-		SeasonState seasonState = (SeasonState.values())[RANDOM.nextInt(SeasonState.values().length)];
-		season.setState(seasonState);
-
-		AgeState ageState = (AgeState.values())[RANDOM.nextInt(AgeState.values().length)];
-		age.setState(ageState);
-
-		BooleanState noseState = (BooleanState.values())[RANDOM.nextInt(BooleanState.values().length)];
-		stuffyNose.setState(noseState);
-
-		BooleanState tiredState = (BooleanState.values())[RANDOM.nextInt(BooleanState.values().length)];
-		tired.setState(tiredState);
-
-		
 		fever.setState(FeverState.NONE);
 		sick.setState(BooleanState.FALSE);
 		network.learnStates();
