@@ -486,7 +486,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	 */
 	public double norm2Double()
 	{
-		return (new SingularValueDecomposition(this).norm2());
+		return (new SingularValueDecomposition(this).norm2Double());
 	}
 
 	public RealNumber norm2()
@@ -856,7 +856,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	 */
 	public double cond()
 	{
-		return new SingularValueDecomposition(this).cond();
+		return new SingularValueDecomposition(this).norm2ConditionDouble();
 	}
 
 	/** SimpleRealMatrix trace.

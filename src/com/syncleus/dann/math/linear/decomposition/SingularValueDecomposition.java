@@ -23,7 +23,11 @@
  */
 package com.syncleus.dann.math.linear.decomposition;
 
+import com.syncleus.dann.math.RealNumber;
 import com.syncleus.dann.math.linear.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /** Singular Value Decomposition.
 <P>
@@ -38,30 +42,27 @@ The singular value decompostion always exists, so the constructor will
 never fail.  The matrix condition number and the effective numerical
 rank can be computed from this decomposition.
  */
-public class SingularValueDecomposition implements java.io.Serializable
+public class SingularValueDecomposition implements java.io.Serializable, Decomposition<RealMatrix>
 {
-
-	/* ------------------------
-	Class variables
-	 * ------------------------ */
 	/** Arrays for internal storage of U and V.
 	@serial internal storage of U.
 	@serial internal storage of V.
 	 */
 	private double[][] U,  V;
+//	private RealMatrix leftMatrix;
+//	private RealMatrix rightMatrix;
+
 	/** Array for internal storage of singular values.
 	@serial internal storage of singular values.
 	 */
 	private double[] s;
+
 	/** Row and column dimensions.
 	@serial row dimension.
 	@serial column dimension.
 	 */
 	private int m,  n;
 
-	/* ------------------------
-	Constructor
-	 * ------------------------ */
 	/** Construct the singular value decomposition
 	@param A    Rectangular matrix
 	@return     Structure to access U, S and V.
@@ -489,39 +490,39 @@ public class SingularValueDecomposition implements java.io.Serializable
 		}
 	}
 
-	/* ------------------------
-	Public Methods
-	 * ------------------------ */
 	/** Return the left singular vectors
 	@return     U
 	 */
-	public SimpleRealMatrix getU()
+	public RealMatrix getLeftSingularMatrix()
 	{
 //		return new SimpleRealMatrix(U, m, Math.min(m + 1, n));
-		return new SimpleRealMatrix(U);
+		return new SimpleRealMatrix(U).getSubmatrix(0, m, 0, Math.min(m + 1, n));
 	}
 
 	/** Return the right singular vectors
 	@return     V
 	 */
-	public SimpleRealMatrix getV()
+	public RealMatrix getRightSingularMatrix()
 	{
 //		return new SimpleRealMatrix(V, n, n);
-		return new SimpleRealMatrix(V);
+		return new SimpleRealMatrix(V).getSubmatrix(0, n, 0, n);
 	}
 
 	/** Return the one-dimensional array of singular values
 	@return     diagonal of S.
 	 */
-	public double[] getSingularValues()
+	public List<RealNumber> getSingularValues()
 	{
-		return s;
+		List<RealNumber> singularValues = new ArrayList<RealNumber>(this.s.length);
+		for(double singularValue : this.s)
+			singularValues.add(new RealNumber(singularValue));
+		return Collections.unmodifiableList(singularValues);
 	}
 
 	/** Return the diagonal matrix of singular values
 	@return     S
 	 */
-	public SimpleRealMatrix getS()
+	public RealMatrix getMatrix()
 	{
 //		SimpleRealMatrix X = new SimpleRealMatrix(n, n);
 //		double[][] S = X.getArray();
@@ -538,17 +539,27 @@ public class SingularValueDecomposition implements java.io.Serializable
 	/** Two norm
 	@return     max(S)
 	 */
-	public double norm2()
+	public double norm2Double()
 	{
 		return s[0];
+	}
+
+	public RealNumber norm2()
+	{
+		return new RealNumber(this.norm2Double());
 	}
 
 	/** Two norm condition number
 	@return     max(S)/min(S)
 	 */
-	public double cond()
+	public double norm2ConditionDouble()
 	{
 		return s[0] / s[Math.min(m, n) - 1];
+	}
+
+	public RealNumber norm2Condition()
+	{
+		return new RealNumber(this.norm2ConditionDouble());
 	}
 
 	/** Effective numerical matrix rank
