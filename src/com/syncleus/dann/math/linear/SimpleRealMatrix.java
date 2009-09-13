@@ -24,9 +24,11 @@
 package com.syncleus.dann.math.linear;
 
 import com.syncleus.dann.math.RealNumber;
-import com.syncleus.dann.math.linear.decomposition.QRDecomposition;
+import com.syncleus.dann.math.linear.decomposition.DoolittleLuDecomposition;
+import com.syncleus.dann.math.linear.decomposition.HouseholderQrDecomposition;
+import com.syncleus.dann.math.linear.decomposition.QrDecomposition;
 import com.syncleus.dann.math.linear.decomposition.SingularValueDecomposition;
-import com.syncleus.dann.math.linear.decomposition.LUDecomposition;
+import com.syncleus.dann.math.linear.decomposition.StewartSingularValueDecomposition;
 import java.io.Serializable;
 
 /**
@@ -158,9 +160,25 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 		return RealNumber.ZERO.getField();
 	}
 
-	/* ------------------------
-	Public Methods
-	 * ------------------------ */
+	public boolean isSquare()
+	{
+		if(this.getWidth() != this.getHeight())
+			return false;
+		return true;
+	}
+
+	public boolean isSymmetric()
+	{
+		if(!this.isSquare())
+			return false;
+
+		for(int j = 0; j < this.getWidth(); j++)
+			for(int i = 0; i < this.getWidth(); i++)
+				if(matrixElements[i][j] != matrixElements[j][i])
+					return false;
+		return true;
+	}
+
 	/** Construct a matrix from a copy of a 2-D array.
 	@param matrixElements    Two-dimensional array of doubles.
 	@exception  IllegalArgumentException All rows must have the same length
@@ -486,7 +504,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	 */
 	public double norm2Double()
 	{
-		return (new SingularValueDecomposition(this).norm2Double());
+		return (new StewartSingularValueDecomposition(this).norm2Double());
 	}
 
 	public RealNumber norm2()
@@ -815,7 +833,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	 */
 	public RealMatrix solve(RealMatrix operand)
 	{
-		return (height == width ? (new LUDecomposition<RealMatrix,RealNumber>(this)).solve(operand) : (new QRDecomposition<RealMatrix,RealNumber>(this)).solve(operand));
+		return (height == width ? (new DoolittleLuDecomposition<RealMatrix,RealNumber>(this)).solve(operand) : (new HouseholderQrDecomposition<RealMatrix,RealNumber>(this)).solve(operand));
 	}
 
 	/** Solve resultMatrix*matrixElements = operand, which is also matrixElements'*resultMatrix' = operand'
@@ -840,7 +858,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	 */
 	public double getDeterminant()
 	{
-		return new LUDecomposition<RealMatrix,RealNumber>(this).getDeterminant().getValue();
+		return new DoolittleLuDecomposition<RealMatrix,RealNumber>(this).getDeterminant().getValue();
 	}
 
 	/** SimpleRealMatrix rank
@@ -848,7 +866,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	 */
 	public int rank()
 	{
-		return new SingularValueDecomposition(this).rank();
+		return new StewartSingularValueDecomposition(this).rank();
 	}
 
 	/** SimpleRealMatrix condition (2 norm)
@@ -856,7 +874,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	 */
 	public double cond()
 	{
-		return new SingularValueDecomposition(this).norm2ConditionDouble();
+		return new StewartSingularValueDecomposition(this).norm2ConditionDouble();
 	}
 
 	/** SimpleRealMatrix trace.

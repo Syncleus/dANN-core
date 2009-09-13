@@ -27,6 +27,9 @@ public interface Matrix<M extends Matrix<? extends M, ? extends F>, F extends Fi
 
 	M blank();
 
+	boolean isSymmetric();
+	boolean isSquare();
+
 	F get(int i, int j);
 	M set(int i, int j, F s);
 	int getWidth();

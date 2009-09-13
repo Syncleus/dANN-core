@@ -18,26 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.math.linear.decomposition;
 
-import com.syncleus.dann.math.OrderedAlgebraic;
-import com.syncleus.dann.math.linear.*;
+import com.syncleus.dann.math.linear.RealMatrix;
 
-/** matrixToDecomposeElements Decomposition.
-<P>
-For an height-by-width matrix matrixToDecompose with height >= width, the matrixToDecomposeElements decomposition is an height-by-width
-unit lower triangular matrix lowerTriangularFactor, an width-by-width upper triangular matrix U,
-and a permutation vector pivot of length height so that matrixToDecompose(pivot,:) = lowerTriangularFactor*U.
-If height < width, then lowerTriangularFactor is height-by-height and U is height-by-width.
-<P>
-The matrixToDecomposeElements decompostion with pivoting always exists, even if the matrix is
-singular, so the constructor will never fail.  The primary use of the
-matrixToDecomposeElements decomposition is in the solution of square systems of simultaneous
-linear equations.  This will fail if isNonsingular() returns false.
- */
-public interface LuDecomposition<M extends Matrix<M, F>, F extends OrderedAlgebraic<F>> extends java.io.Serializable, SolvableDecomposition<M>
+public interface HessenbergDecomposition extends Decomposition<RealMatrix>
 {
-	F getDeterminant();
-	M getLowerTriangularFactor();
-	M getUpperTriangularFactor();
-	boolean isNonsingular();
-	int[] getPivot();
+	RealMatrix getHessenbergMatrix();
+	RealMatrix getMatrix();
 }
