@@ -64,7 +64,7 @@ SimpleRealMatrix matrixElements = new SimpleRealMatrix(packedMatrixElements);
 SimpleRealMatrix b = SimpleRealMatrix.random(3,1);
 SimpleRealMatrix x = matrixElements.solve(b);
 SimpleRealMatrix heightIndexes = matrixElements.multiply(x).subtract(b);
-double rnorm = heightIndexes.normInf();
+double rnorm = heightIndexes.normInfinite();
 </PRE></DD>
 </DL>
 
@@ -463,7 +463,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	/** One norm
 	@return    maximum column sum.
 	 */
-	public double norm1()
+	public double norm1Double()
 	{
 		double f = 0;
 		for(int j = 0; j < width; j++)
@@ -476,18 +476,28 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 		return f;
 	}
 
+	public RealNumber norm1()
+	{
+		return new RealNumber(this.norm1Double());
+	}
+
 	/** Two norm
 	@return    maximum singular value.
 	 */
-	public double norm2()
+	public double norm2Double()
 	{
 		return (new SingularValueDecomposition(this).norm2());
+	}
+
+	public RealNumber norm2()
+	{
+		return new RealNumber(this.norm2Double());
 	}
 
 	/** Infinity norm
 	@return    maximum row sum.
 	 */
-	public double normInf()
+	public double normInfiniteDouble()
 	{
 		double f = 0;
 		for(int i = 0; i < height; i++)
@@ -498,6 +508,11 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 			f = Math.max(f, s);
 		}
 		return f;
+	}
+
+	public RealNumber normInfinite()
+	{
+		return new RealNumber(this.normInfiniteDouble());
 	}
 
 	/** Frobenius norm
@@ -800,7 +815,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	 */
 	public RealMatrix solve(RealMatrix operand)
 	{
-		return (height == width ? (new LUDecomposition<RealMatrix,RealNumber>(this)).solve((SimpleRealMatrix)operand) : (new QRDecomposition(this)).solve((SimpleRealMatrix)operand));
+		return (height == width ? (new LUDecomposition<RealMatrix,RealNumber>(this)).solve(operand) : (new QRDecomposition<RealMatrix,RealNumber>(this)).solve(operand));
 	}
 
 	/** Solve resultMatrix*matrixElements = operand, which is also matrixElements'*resultMatrix' = operand'

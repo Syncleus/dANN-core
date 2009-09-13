@@ -18,20 +18,11 @@
  ******************************************************************************/
 package com.syncleus.dann.math.linear;
 
-import com.syncleus.dann.math.RealNumber;
+import com.syncleus.dann.math.OrderedFieldElement;
 
-public interface RealMatrix extends OrderedMatrix<RealMatrix, RealNumber>
+public interface OrderedMatrix<M extends OrderedMatrix<? extends M, ? extends F>, F extends OrderedFieldElement<? extends F>> extends Matrix<M, F>
 {
-	com.syncleus.dann.math.OrderedField<RealNumber> getElementField();
-
-	double getDouble(int i, int j);
-	double[][] toDoubleArray();
-	double getDeterminant();
-
-	RealMatrix multiplyEquals(double value);
-	
-	RealMatrix add(double value);
-	RealMatrix subtract(double value);
-	RealMatrix multiply(double value);
-	RealMatrix divide(double value);
+	F norm1();
+	F norm2();
+	F normInfinite();
 }

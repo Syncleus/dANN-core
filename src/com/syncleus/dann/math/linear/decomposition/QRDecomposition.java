@@ -23,13 +23,17 @@
  */
 package com.syncleus.dann.math.linear.decomposition;
 
+import com.syncleus.dann.math.OrderedAlgebraic;
 import com.syncleus.dann.math.linear.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /** QR Decomposition.
 <P>
-For an m-by-n matrix A with m >= n, the QR decomposition is an m-by-n
-orthogonal matrix Q and an n-by-n upper triangular matrix R so that
-A = Q*R.
+For an m-by-n matrix matrixToDecompose with m >= n, the QR decomposition is an m-by-n
+orthogonal matrix factor and an n-by-n upper triangular matrix factor so that
+matrixToDecompose = factor*factor.
 <P>
 The QR decompostion always exists, even if the matrix does not have
 full rank, so the constructor will never fail.  The primary use of the
@@ -37,83 +41,93 @@ QR decomposition is in the least squares solution of nonsquare systems
 of simultaneous linear equations.  This will fail if isFullRank()
 returns false.
  */
-public class QRDecomposition implements java.io.Serializable
+public class QRDecomposition<M extends Matrix<M, F>, F extends OrderedAlgebraic<F>> implements java.io.Serializable, SolvableDecomposition<M>
 {
-
-	/* ------------------------
-	Class variables
-	 * ------------------------ */
 	/** Array for internal storage of decomposition.
 	@serial internal array storage.
 	 */
-	private double[][] QR;
+	private M matrix;
+
 	/** Row and column dimensions.
 	@serial column dimension.
 	@serial row dimension.
 	 */
-	private int m,  n;
-	/** Array for internal storage of diagonal of R.
-	@serial diagonal of R.
-	 */
-	private double[] Rdiag;
+//	private int m,  n;
 
-	/* ------------------------
-	Constructor
-	 * ------------------------ */
-	/** QR Decomposition, computed by Householder reflections.
-	@param A    Rectangular matrix
-	@return     Structure to access R and the Householder vectors and compute Q.
+	/** Array for internal storage of diagonal of factor.
+	@serial diagonal of factor.
 	 */
-	public QRDecomposition(SimpleRealMatrix A)
+	private List<F> rDiagonal;
+
+	/** QR Decomposition, computed by Householder reflections.
+	@param matrixToDecompose    Rectangular matrix
+	@return     Structure to access factor and the Householder vectors and compute factor.
+	 */
+	public QRDecomposition(M matrixToDecompose)
 	{
 		// Initialize.
-		QR = A.toDoubleArray();
-		m = A.getHeight();
-		n = A.getWidth();
-		Rdiag = new double[n];
+//		QR = matrixToDecompose.toDoubleArray();
+//		m = matrixToDecompose.getHeight();
+//		n = matrixToDecompose.getWidth();
+//		Rdiag = new double[n];
+		this.matrix = matrixToDecompose;
+		this.rDiagonal = new ArrayList<F>(this.getWidth());
+		this.rDiagonal.addAll(Collections.nCopies(this.getWidth(), this.matrix.getElementField().getZero()));
 
 		// Main loop.
-		for(int k = 0; k < n; k++)
+		for(int k = 0; k < this.getWidth(); k++)
 		{
 			// Compute 2-norm of k-th column without under/overflow.
-			double nrm = 0;
-			for(int i = k; i < m; i++)
-				nrm = Math.hypot(nrm, QR[i][k]);
+			F nrm = this.matrix.getElementField().getZero();
+			for(int i = k; i < this.getHeight(); i++)
+				nrm = nrm.hypot(this.matrix.get(i,k));
 
-			if(nrm != 0.0)
+			if(!nrm.equals(this.matrix.getElementField().getZero()))
 			{
 				// Form k-th Householder vector.
-				if(QR[k][k] < 0)
-					nrm = -nrm;
-				for(int i = k; i < m; i++)
-					QR[i][k] /= nrm;
-				QR[k][k] += 1.0;
+				if(this.matrix.get(k,k).compareTo(this.matrix.getElementField().getZero()) < 0)
+					nrm = nrm.negate();
+				for(int i = k; i < this.getHeight(); i++)
+					this.matrix = this.matrix.set(i, k, this.matrix.get(i,k).divide(nrm));
+				this.matrix = this.matrix.set(k,k, this.matrix.get(k, k).add(this.matrix.getElementField().getOne()));
 
 				// Apply transformation to remaining columns.
-				for(int j = k + 1; j < n; j++)
+				for(int j = k + 1; j < this.getWidth(); j++)
 				{
-					double s = 0.0;
-					for(int i = k; i < m; i++)
-						s += QR[i][k] * QR[i][j];
-					s = -s / QR[k][k];
-					for(int i = k; i < m; i++)
-						QR[i][j] += s * QR[i][k];
+					F s = this.matrix.getElementField().getZero();
+					for(int i = k; i < this.getHeight(); i++)
+						s = s.add(this.matrix.get(i,k).multiply(this.matrix.get(i,j)));
+					s = s.negate().divide(this.matrix.get(k,k));
+					for(int i = k; i < this.getHeight(); i++)
+						this.matrix = this.matrix.set(i, j, this.matrix.get(i,j).add(s.multiply(this.matrix.get(i,k))));
 				}
 			}
-			Rdiag[k] = -nrm;
+			this.rDiagonal.set(k, nrm.negate());
 		}
 	}
 
-	/* ------------------------
-	Public Methods
-	 * ------------------------ */
+	public M getMatrix()
+	{
+		return this.matrix;
+	}
+
+	public int getHeight()
+	{
+		return this.matrix.getHeight();
+	}
+
+	public int getWidth()
+	{
+		return this.matrix.getWidth();
+	}
+
 	/** Is the matrix full rank?
-	@return     true if R, and hence A, has full rank.
+	@return     true if factor, and hence matrixToDecompose, has full rank.
 	 */
 	public boolean isFullRank()
 	{
-		for(int j = 0; j < n; j++)
-			if(Rdiag[j] == 0)
+		for(int j = 0; j < this.getWidth(); j++)
+			if(this.rDiagonal.get(j).equals(this.matrix.getElementField().getZero()))
 				return false;
 		return true;
 	}
@@ -121,103 +135,110 @@ public class QRDecomposition implements java.io.Serializable
 	/** Return the Householder vectors
 	@return     Lower trapezoidal matrix whose columns define the reflections
 	 */
-	public SimpleRealMatrix getH()
+	public M getHouseholderMatrix()
 	{
 //		SimpleRealMatrix X = new SimpleRealMatrix(m, n);
-//		double[][] H = X.getArray();
-		double[][] H = new double[m][n];
-		for(int i = 0; i < m; i++)
-			for(int j = 0; j < n; j++)
+//		double[][] householderMatrix = X.getArray();
+//		double[][] householderMatrix = new double[this.getHeight()][this.getWidth()];
+		M householderMatrix = this.matrix.blank();
+		for(int i = 0; i < this.getHeight(); i++)
+			for(int j = 0; j < this.getWidth(); j++)
 				if(i >= j)
-					H[i][j] = QR[i][j];
-				else
-					H[i][j] = 0.0;
-		return new SimpleRealMatrix(H);
+					householderMatrix = householderMatrix.set(i, j, this.matrix.get(i,j));
+//				else
+//					householderMatrix[i][j] = 0.0;
+//		return new SimpleRealMatrix(householderMatrix);
+		return householderMatrix;
 	}
 
 	/** Return the upper triangular factor
-	@return     R
+	@return     factor
 	 */
-	public SimpleRealMatrix getR()
+	public M getUpperTriangularFactor()
 	{
 //		SimpleRealMatrix X = new SimpleRealMatrix(n, n);
-//		double[][] R = X.getArray();
-		double[][] R = new double[n][n];
-		for(int i = 0; i < n; i++)
-			for(int j = 0; j < n; j++)
+//		double[][] factor = X.getArray();
+//		double[][] factor = new double[this.getWidth()][this.getWidth()];
+		M factor = this.matrix.blank();
+		for(int i = 0; i < this.getWidth(); i++)
+			for(int j = 0; j < this.getWidth(); j++)
 				if(i < j)
-					R[i][j] = QR[i][j];
+					factor = factor.set(i, j, this.matrix.get(i,j));
 				else if(i == j)
-					R[i][j] = Rdiag[i];
-				else
-					R[i][j] = 0.0;
-		return new SimpleRealMatrix(R);
+					factor = factor.set(i, j, this.rDiagonal.get(i));
+//				else
+//					factor[i][j] = 0.0;
+//		return new SimpleRealMatrix(factor);
+		return factor;
 	}
 
 	/** Generate and return the (economy-sized) orthogonal factor
-	@return     Q
+	@return     factor
 	 */
-	public SimpleRealMatrix getQ()
+	public M getOrthogonalFactor()
 	{
 //		SimpleRealMatrix X = new SimpleRealMatrix(m, n);
-//		double[][] Q = X.getArray();
-		double[][] Q = new double[m][n];
-		for(int k = n - 1; k >= 0; k--)
+//		double[][] factor = X.getArray();
+//		double[][] factor = new double[this.getHeight()][this.getWidth()];
+		M factor = this.matrix.blank();
+		for(int k = this.getWidth() - 1; k >= 0; k--)
 		{
-			for(int i = 0; i < m; i++)
-				Q[i][k] = 0.0;
-			Q[k][k] = 1.0;
-			for(int j = k; j < n; j++)
-				if(QR[k][k] != 0)
+			for(int i = 0; i < this.getHeight(); i++)
+				factor = factor.set(i, k, this.matrix.getElementField().getZero());
+			factor = factor.set(k, k, this.matrix.getElementField().getOne());
+			for(int j = k; j < this.getWidth(); j++)
+				if(!this.matrix.get(k,k).equals(this.matrix.getElementField().getOne()))
 				{
-					double s = 0.0;
-					for(int i = k; i < m; i++)
-						s += QR[i][k] * Q[i][j];
-					s = -s / QR[k][k];
-					for(int i = k; i < m; i++)
-						Q[i][j] += s * QR[i][k];
+					F s = this.matrix.getElementField().getZero();
+					for(int i = k; i < this.getHeight(); i++)
+						s = s.add(this.matrix.get(i,k).multiply(factor.get(i,j)));
+					s = s.negate().divide(this.matrix.get(k,k));
+					for(int i = k; i < this.getHeight(); i++)
+						factor = factor.set(i, j, factor.get(i,j).add(s.multiply(this.matrix.get(i,k))));
 				}
 		}
-		return new SimpleRealMatrix(Q);
+		return factor;
 	}
 
-	/** Least squares solution of A*X = B
-	@param B    A SimpleRealMatrix with as many rows as A and any number of columns.
-	@return     X that minimizes the two norm of Q*R*X-B.
+	/** Least squares solution of matrixToDecompose*X = solutionMatrix
+	@param solutionMatrix    matrixToDecompose SimpleRealMatrix with as many rows as matrixToDecompose and any number of columns.
+	@return     X that minimizes the two norm of factor*factor*X-solutionMatrix.
 	@exception  IllegalArgumentException  SimpleRealMatrix row dimensions must agree.
 	@exception  RuntimeException  SimpleRealMatrix is rank deficient.
 	 */
-	public SimpleRealMatrix solve(SimpleRealMatrix B)
+	public M solve(M solutionMatrix)
 	{
-		if(B.getHeight() != m)
+		if(solutionMatrix.getHeight() != this.getHeight())
 			throw new IllegalArgumentException("Matrix row dimensions must agree.");
 		if(!this.isFullRank())
 			throw new RuntimeException("Matrix is rank deficient.");
 
 		// Copy right hand side
-		int nx = B.getWidth();
-		double[][] X = B.toDoubleArray();
+		int nx = solutionMatrix.getWidth();
+//		double[][] X = solutionMatrix.toDoubleArray();
+		M solved = solutionMatrix;
 
-		// Compute Y = transpose(Q)*B
-		for(int k = 0; k < n; k++)
+		// Compute Y = transpose(factor)*solutionMatrix
+		for(int k = 0; k < this.getWidth(); k++)
 			for(int j = 0; j < nx; j++)
 			{
-				double s = 0.0;
-				for(int i = k; i < m; i++)
-					s += QR[i][k] * X[i][j];
-				s = -s / QR[k][k];
-				for(int i = k; i < m; i++)
-					X[i][j] += s * QR[i][k];
+				F s = this.matrix.getElementField().getZero();
+				for(int i = k; i < this.getHeight(); i++)
+					s = s.add(this.matrix.get(i,k).multiply(solved.get(i,j)));
+				s = s.negate().divide(this.matrix.get(k,k));
+				for(int i = k; i < this.getHeight(); i++)
+					solved = solved.set(i, j, solved.get(i,j).add(s.multiply(this.matrix.get(i,k))));
 			}
-		// Solve R*X = Y;
-		for(int k = n - 1; k >= 0; k--)
+		// Solve factor*X = Y;
+		for(int k = this.getWidth() - 1; k >= 0; k--)
 		{
 			for(int j = 0; j < nx; j++)
-				X[k][j] /= Rdiag[k];
+				solved = solved.set(k, j, solved.get(k,j).divide(this.rDiagonal.get(k)));
 			for(int i = 0; i < k; i++)
 				for(int j = 0; j < nx; j++)
-					X[i][j] -= X[k][j] * QR[i][k];
+					solved = solved.set(i, j, solved.get(i,j).subtract(solved.get(k,j).multiply(this.matrix.get(i,k))));
 		}
-		return (SimpleRealMatrix) (new SimpleRealMatrix(X)).getSubmatrix(0, n - 1, 0, nx - 1);
+		
+		return solved.getSubmatrix(0, this.getWidth() - 1, 0, nx - 1);
 	}
 }
