@@ -18,15 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.math;
 
-public interface Trigonometric<F extends Trigonometric<? extends F>> extends FieldElement<F>
+public interface OrderedFieldElement<F extends OrderedFieldElement<? extends F>> extends FieldElement<F>, Comparable<F>
 {
-	F sin();
-	F asin();
-	F sinh();
-	F cos();
-	F acos();
-	F cosh();
-	F tan();
-	F atan();
-	F tanh();
+	OrderedField<F> getField();
+	F max(F value);
+	F min(F value);
 }

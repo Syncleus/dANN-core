@@ -28,14 +28,5 @@ public interface Algebraic<F extends Algebraic<? extends F>> extends FieldElemen
 	F pow(F exponent);
 	List<F> root(int n);
 	F sqrt();
-	F conjugate();
-
-	//Field parent methods
-	Field<F> getField();
-	F add(F value);
-	F subtract(F value);
-	F multiply(F value);
-	F divide(F value);
-	F negate();
-	F reciprocal();
+	F hypot(F operand);
 }

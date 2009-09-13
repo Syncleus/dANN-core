@@ -22,9 +22,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ComplexNumber implements Algebraic<ComplexNumber>, Trigonometric<ComplexNumber>
+public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 {
-	public static final class Field implements com.syncleus.dann.math.Field<ComplexNumber>
+	public static final class Field implements com.syncleus.dann.math.OrderedField<ComplexNumber>
 	{
 		public final static Field FIELD = new Field();
 
@@ -37,12 +37,18 @@ public class ComplexNumber implements Algebraic<ComplexNumber>, Trigonometric<Co
 			return ComplexNumber.ZERO;
 		}
 
+		public ComplexNumber getOne()
+		{
+			return ComplexNumber.ONE;
+		}
+
 		public ComplexNumber getImaginaryUnit()
 		{
 			return ComplexNumber.I;
 		}
 	}
 
+	public final static ComplexNumber ONE = new ComplexNumber(1, 0);
 	public final static ComplexNumber ZERO = new ComplexNumber(0, 0);
 	public final static ComplexNumber I = new ComplexNumber(0, 1);
 
@@ -178,6 +184,11 @@ public class ComplexNumber implements Algebraic<ComplexNumber>, Trigonometric<Co
 	private ComplexNumber sqrt1Minus()
 	{
 		return (new ComplexNumber(1.0, 0.0)).subtract(this.multiply(this)).sqrt();
+	}
+
+	public ComplexNumber hypot(ComplexNumber operand)
+	{
+		return this.pow(2.0).add(operand.pow(2.0)).sqrt();
 	}
 
 

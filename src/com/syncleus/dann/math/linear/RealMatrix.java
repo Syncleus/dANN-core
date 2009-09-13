@@ -16,17 +16,22 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.math;
+package com.syncleus.dann.math.linear;
 
-public interface Trigonometric<F extends Trigonometric<? extends F>> extends FieldElement<F>
+import com.syncleus.dann.math.RealNumber;
+
+public interface RealMatrix extends Matrix<RealMatrix, RealNumber>
 {
-	F sin();
-	F asin();
-	F sinh();
-	F cos();
-	F acos();
-	F cosh();
-	F tan();
-	F atan();
-	F tanh();
+	com.syncleus.dann.math.OrderedField<RealNumber> getElementField();
+
+	double getDouble(int i, int j);
+	double[][] toDoubleArray();
+	double getDeterminant();
+
+	RealMatrix multiplyEquals(double value);
+	
+	RealMatrix add(double value);
+	RealMatrix subtract(double value);
+	RealMatrix multiply(double value);
+	RealMatrix divide(double value);
 }

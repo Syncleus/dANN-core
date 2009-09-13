@@ -18,15 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.math;
 
-public interface Trigonometric<F extends Trigonometric<? extends F>> extends FieldElement<F>
+public interface OrderedAlgebraic<F extends OrderedAlgebraic<? extends F>> extends Algebraic<F>, OrderedFieldElement<F>
 {
-	F sin();
-	F asin();
-	F sinh();
-	F cos();
-	F acos();
-	F cosh();
-	F tan();
-	F atan();
-	F tanh();
 }

@@ -38,8 +38,6 @@ public class TestSimpleSicknessBayesianNetwork
 		LOW,NONE,WARM,HOT
 	}
 
-	private static Random RANDOM = new Random();
-
 	private SimpleBayesianNetwork network = new SimpleBayesianNetwork();
 
 	//create nodes

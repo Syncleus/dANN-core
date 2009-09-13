@@ -16,17 +16,12 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.math;
+package com.syncleus.dann.math.linear.decomposition;
 
-public interface Trigonometric<F extends Trigonometric<? extends F>> extends FieldElement<F>
+import com.syncleus.dann.math.FieldElement;
+import com.syncleus.dann.math.linear.Matrix;
+
+public interface SolvableDecomposition<M extends Matrix<M,? extends FieldElement<?>>> extends Decomposition<M>
 {
-	F sin();
-	F asin();
-	F sinh();
-	F cos();
-	F acos();
-	F cosh();
-	F tan();
-	F atan();
-	F tanh();
+	M solve(M solutionMatrix);
 }
