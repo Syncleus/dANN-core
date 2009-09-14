@@ -16,13 +16,14 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph.pathfinding.dijkstra;
+package com.syncleus.dann.graph.pathfinding.astar;
 
 import com.syncleus.dann.graph.Edge;
 import com.syncleus.dann.graph.Graph;
 import com.syncleus.dann.graph.SimpleWalk;
 import com.syncleus.dann.graph.Weighted;
 import com.syncleus.dann.graph.WeightedWalk;
+import com.syncleus.dann.graph.pathfinding.HeuristicPathCost;
 import com.syncleus.dann.graph.pathfinding.PathFinder;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,13 +33,13 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
-public class DijkstraPathFinder<G extends Graph<N, ? extends Edge<N>, ?>, N> implements PathFinder<N,WeightedWalk>
+public class AstarPathFinder<G extends Graph<N, ? extends Edge<N>, ?>, N> implements PathFinder<N,WeightedWalk>
 {
-	private final class DijkstraWeightedWalk extends SimpleWalk<N,Edge<N>> implements WeightedWalk<N,Edge<N>>
+	private final class AstarWeightedWalk extends SimpleWalk<N,Edge<N>> implements WeightedWalk<N,Edge<N>>
 	{
 		private final double totalWeight;
 
-		public DijkstraWeightedWalk(N firstNode, N lastNode, List<Edge<N>> edges, List<PathedStep> steps)
+		public AstarWeightedWalk(N firstNode, N lastNode, List<Edge<N>> edges, List<PathedStep> steps)
 		{
 			super(firstNode,lastNode,edges);
 
@@ -57,15 +58,19 @@ public class DijkstraPathFinder<G extends Graph<N, ? extends Edge<N>, ?>, N> imp
 	private final class PathedStep implements Comparable<PathedStep>
 	{
 		private N node;
+		private N goalNode;
 		private PathedStep parent;
 		private Edge<N> parentEdge;
 		private double cachedPathWeight;
 
-		public PathedStep(N node)
+		public PathedStep(N node, N goalNode)
 		{
 			if( node == null )
 				throw new IllegalArgumentException("node can not be null");
+			if( goalNode == null )
+				throw new IllegalArgumentException("goalNode can not be null");
 
+			this.goalNode = goalNode;
 			this.node = node;
 		}
 
@@ -118,6 +123,16 @@ public class DijkstraPathFinder<G extends Graph<N, ? extends Edge<N>, ?>, N> imp
 			return cachedPathWeight;
 		}
 
+		public double getHeuristicCostToGoal()
+		{
+			return heuristicPathCost.getHeuristicPathCost(this.node, this.goalNode);
+		}
+
+		public double getHeuristicOverallCost()
+		{
+			return this.getCachedPathWeight() + this.getHeuristicCostToGoal();
+		}
+
 		@Override
 		public boolean equals(Object compareToObj)
 		{
@@ -138,9 +153,9 @@ public class DijkstraPathFinder<G extends Graph<N, ? extends Edge<N>, ?>, N> imp
 		{
 			//the natural ordering is inverse cause the smallest path weight is
 			//the best weight.
-			if(this.getCachedPathWeight() < compareWith.getCachedPathWeight())
+			if(this.getHeuristicOverallCost() < compareWith.getHeuristicOverallCost())
 				return 1;
-			else if(this.getCachedPathWeight() > compareWith.getCachedPathWeight())
+			else if(this.getHeuristicOverallCost() > compareWith.getHeuristicOverallCost())
 				return -1;
 			else
 				return 0;
@@ -153,14 +168,19 @@ public class DijkstraPathFinder<G extends Graph<N, ? extends Edge<N>, ?>, N> imp
 	}
 
 
-	
-	private G graph;
 
-	public DijkstraPathFinder(G graph)
+	private G graph;
+	private HeuristicPathCost<N> heuristicPathCost;
+
+	public AstarPathFinder(G graph, HeuristicPathCost<N> heuristicPathCost)
 	{
 		if( graph == null )
 			throw new IllegalArgumentException("graph can not be null");
+		if( heuristicPathCost  == null )
+			throw new IllegalArgumentException("heuristicPathCost can not be null");
+
 		this.graph = graph;
+		this.heuristicPathCost = heuristicPathCost;
 	}
 
 	public WeightedWalk getBestPath(N begin, N end)
@@ -176,7 +196,7 @@ public class DijkstraPathFinder<G extends Graph<N, ? extends Edge<N>, ?>, N> imp
 		//solution
 		Map<N, PathedStep> nodeStepMapping = new HashMap<N, PathedStep>();
 		PriorityQueue<PathedStep> candidateSteps = new PriorityQueue<PathedStep>();
-		PathedStep beginStep = new PathedStep(begin);
+		PathedStep beginStep = new PathedStep(begin, end);
 		nodeStepMapping.put(begin, beginStep);
 		candidateSteps.add(beginStep);
 
@@ -202,7 +222,7 @@ public class DijkstraPathFinder<G extends Graph<N, ? extends Edge<N>, ?>, N> imp
 						neighborStep = nodeStepMapping.get(neighborNode);
 					else
 					{
-						neighborStep = new PathedStep(neighborNode);
+						neighborStep = new PathedStep(neighborNode, end);
 						nodeStepMapping.put(neighborNode, neighborStep);
 					}
 
@@ -250,6 +270,6 @@ public class DijkstraPathFinder<G extends Graph<N, ? extends Edge<N>, ?>, N> imp
 			currentStep = currentStep.getParent();
 		}
 
-		return new DijkstraWeightedWalk(firstNode, lastNode, edges, steps);
+		return new AstarWeightedWalk(firstNode, lastNode, edges, steps);
 	}
 }
