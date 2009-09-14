@@ -18,16 +18,14 @@
  ******************************************************************************/
 
 /*
- * Derived from Public-Domain source as indicated at
- * http://math.nist.gov/javanumerics/jama/ as of 9/13/2009.
- */
+** Derived from Public-Domain source as indicated at
+** http://math.nist.gov/javanumerics/jama/ as of 9/13/2009.
+*/
 package com.syncleus.dann.math.linear;
 
 import com.syncleus.dann.math.RealNumber;
 import com.syncleus.dann.math.linear.decomposition.DoolittleLuDecomposition;
 import com.syncleus.dann.math.linear.decomposition.HouseholderQrDecomposition;
-import com.syncleus.dann.math.linear.decomposition.QrDecomposition;
-import com.syncleus.dann.math.linear.decomposition.SingularValueDecomposition;
 import com.syncleus.dann.math.linear.decomposition.StewartSingularValueDecomposition;
 import java.io.Serializable;
 

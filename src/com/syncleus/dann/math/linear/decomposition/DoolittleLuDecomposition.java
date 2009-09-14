@@ -18,9 +18,9 @@
  ******************************************************************************/
 
 /*
- * Derived from Public-Domain source as indicated at
- * http://math.nist.gov/javanumerics/jama/ as of 9/13/2009.
- */
+** Derived from Public-Domain source as indicated at
+** http://math.nist.gov/javanumerics/jama/ as of 9/13/2009.
+*/
 package com.syncleus.dann.math.linear.decomposition;
 
 import com.syncleus.dann.math.OrderedAlgebraic;

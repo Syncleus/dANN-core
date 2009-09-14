@@ -18,9 +18,9 @@
  ******************************************************************************/
 
 /*
- * Derived from Public-Domain source as indicated at
- * http://math.nist.gov/javanumerics/jama/ as of 9/13/2009.
- */
+** Derived from Public-Domain source as indicated at
+** http://math.nist.gov/javanumerics/jama/ as of 9/13/2009.
+*/
 package com.syncleus.dann.math.linear.decomposition;
 
 import com.syncleus.dann.math.RealNumber;
@@ -115,7 +115,6 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 				{
 
 					// Apply the transformation.
-
 					double t = 0;
 					for(int i = k; i < m; i++)
 						t += A[i][k] * A[i][j];
@@ -126,7 +125,6 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 
 				// Place the k-th row of A into e for the
 				// subsequent calculation of the row transformation.
-
 				e[j] = A[k][j];
 			}
 			if(wantu & (k < nct))
@@ -189,7 +187,6 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 		e[p - 1] = 0.0;
 
 		// If required, generate U.
-
 		if(wantu)
 		{
 			for(int j = nct; j < nu; j++)
@@ -225,7 +222,6 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 		}
 
 		// If required, generate V.
-
 		if(wantv)
 			for(int k = n - 1; k >= 0; k--)
 			{
@@ -245,7 +241,6 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 			}
 
 		// Main iteration loop for the singular values.
-
 		int pp = p - 1;
 		int iter = 0;
 		double eps = Math.pow(2.0, -52.0);
@@ -307,12 +302,10 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 			k++;
 
 			// Perform the task indicated by kase.
-
 			switch(kase)
 			{
 
 			// Deflate negligible s(p).
-
 			case 1:
 				{
 					double f = e[p - 2];
@@ -340,7 +333,6 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 				break;
 
 			// Split at negligible s(k).
-
 			case 2:
 				{
 					double f = e[k - 1];
@@ -365,7 +357,6 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 				break;
 
 			// Perform one qr step.
-
 			case 3:
 				{
 
@@ -393,7 +384,6 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 					double g = sk * ek;
 
 					// Chase zeros.
-
 					for(int j = k; j < p - 1; j++)
 					{
 						double t = Math.hypot(f, g);
@@ -434,12 +424,9 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 				break;
 
 			// Convergence.
-
 			case 4:
 				{
-
 					// Make the singular values positive.
-
 					if(s[k] <= 0.0)
 					{
 						s[k] = (s[k] < 0.0 ? -s[k] : 0.0);
@@ -449,7 +436,6 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 					}
 
 					// Order the singular values.
-
 					while(k < pp)
 					{
 						if(s[k] >= s[k + 1])
@@ -486,7 +472,6 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 	 */
 	public RealMatrix getLeftSingularMatrix()
 	{
-//		return new SimpleRealMatrix(U, m, Math.min(m + 1, n));
 		return new SimpleRealMatrix(U).getSubmatrix(0, m, 0, Math.min(m + 1, n));
 	}
 
@@ -495,7 +480,6 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 	 */
 	public RealMatrix getRightSingularMatrix()
 	{
-//		return new SimpleRealMatrix(V, n, n);
 		return new SimpleRealMatrix(V).getSubmatrix(0, n, 0, n);
 	}
 
@@ -515,8 +499,6 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 	 */
 	public RealMatrix getMatrix()
 	{
-//		SimpleRealMatrix X = new SimpleRealMatrix(n, n);
-//		double[][] S = X.getArray();
 		double[][] S = new double[n][n];
 		for(int i = 0; i < n; i++)
 		{

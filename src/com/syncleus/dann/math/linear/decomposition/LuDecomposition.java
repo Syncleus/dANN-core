@@ -16,51 +16,28 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.math.linear;
+package com.syncleus.dann.math.linear.decomposition;
 
-import com.syncleus.dann.math.FieldElement;
+import com.syncleus.dann.math.OrderedAlgebraic;
+import com.syncleus.dann.math.linear.*;
 
-public interface Matrix<M extends Matrix<? extends M, ? extends F>, F extends FieldElement<? extends F>> //extends Algebraic<F>
+/** matrixToDecomposeElements Decomposition.
+<P>
+For an height-by-width matrix matrixToDecompose with height >= width, the matrixToDecomposeElements decomposition is an height-by-width
+unit lower triangular matrix lowerTriangularFactor, an width-by-width upper triangular matrix U,
+and a permutation vector pivot of length height so that matrixToDecompose(pivot,:) = lowerTriangularFactor*U.
+If height < width, then lowerTriangularFactor is height-by-height and U is height-by-width.
+<P>
+The matrixToDecomposeElements decompostion with pivoting always exists, even if the matrix is
+singular, so the constructor will never fail.  The primary use of the
+matrixToDecomposeElements decomposition is in the solution of square systems of simultaneous
+linear equations.  This will fail if isNonsingular() returns false.
+ */
+public interface LuDecomposition<M extends Matrix<M, F>, F extends OrderedAlgebraic<F>> extends java.io.Serializable, SolvableDecomposition<M>
 {
-	com.syncleus.dann.math.Field<F> getElementField();
-
-	M blank();
-
-	boolean isSymmetric();
-	boolean isSquare();
-
-	F get(int i, int j);
-	M set(int i, int j, F s);
-	int getWidth();
-	int getHeight();
-	M transpose();
-	M solve(M operand);
-	M solveTranspose(M operand);
-	F[][] toArray();
-
-	M getSubmatrix(int heightStart, int heightEnd, int widthStart, int widthEnd);
-	M getSubmatrix(int[] heightIndexes, int[] widthIndexes);
-	M getSubmatrix(int heightStart, int heightEnd, int[] widthIndexes);
-	M getSubmatrix(int[] heightIndexes, int widthStart, int widthEnd);
-
-	M arrayLeftDivide(M operand);
-	M arrayLeftDivideEquals(M operand);
-	M arrayRightDivide(M operand);
-	M arrayRightDivideEquals(M operand);
-	M arrayTimes(M operand);
-	M arrayTimesEquals(M operand);
-
-	M addEquals(M value);
-	M subtractEquals(M value);
-	M multiplyEquals(F value);
-	M add(F value);
-	M subtract(F value);
-	M multiply(F value);
-	M divide(F value);
-
-	M add(M value);
-	M subtract(M value);
-	M multiply(M value);
-	M negate();
-	M reciprocal();
+	F getDeterminant();
+	M getLowerTriangularFactor();
+	M getUpperTriangularFactor();
+	boolean isNonsingular();
+	int[] getPivot();
 }

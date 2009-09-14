@@ -16,6 +16,11 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
+
+/*
+** Derived from Public-Domain source as indicated at
+** http://math.nist.gov/javanumerics/jama/ as of 9/13/2009.
+*/
 package com.syncleus.dann.math.linear.decomposition;
 
 import com.syncleus.dann.math.OrderedAlgebraic;
@@ -29,10 +34,6 @@ public class CholeskyCroutCholeskyDecomposition<M extends Matrix<M, F>, F extend
 	 */
 	private boolean isSpd;
 
-	/** Cholesky algorithm for symmetric and positive definite matrix.
-	@param  A   Square, symmetric matrix.
-	@return     Structure to access L and isSpd flag.
-	 */
 	/** Right Triangular Cholesky Decomposition.
 	<P>
 	For a symmetric, positive definite matrix A, the Right Cholesky
@@ -41,10 +42,8 @@ public class CholeskyCroutCholeskyDecomposition<M extends Matrix<M, F>, F extend
 	algorithm used in LINPACK and MATLAB.  In Java, we suspect a row oriented,
 	lower triangular decomposition is faster.  We have temporarily included
 	this constructor here until timing experiments confirm this suspicion.
-	 */
-	/** Array for internal storage of right triangular decomposition. **/
-//   private transient double[][] R;
-	/** Cholesky algorithm for symmetric and positive definite matrix.
+
+	Cholesky algorithm for symmetric and positive definite matrix.
 	@param  A           Square, symmetric matrix.
 	@param  rightflag   Actual value ignored.
 	@return             Structure to access R and isspd flag.
@@ -54,10 +53,7 @@ public class CholeskyCroutCholeskyDecomposition<M extends Matrix<M, F>, F extend
 		// Initialize.
 		M newMatrix = matrixToDecompose;
 
-//		double[][] A = matrixToDecompose.getArray();
-//		n = matrixToDecompose.getColumnDimension();
-//		R = new double[n][n];
-		isSpd = true; //(matrixToDecompose.getWidth() == newMatrix.getWidth());
+		isSpd = true;
 		// Main loop.
 		for(int j = 0; j < matrixToDecompose.getWidth(); j++)
 		{

@@ -15,52 +15,27 @@
  *  2604 South 12th Street                                                     *
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
- ******************************************************************************/
-package com.syncleus.dann.math.linear;
+ ******************************************************************************/package com.syncleus.dann.math.linear.decomposition;
 
-import com.syncleus.dann.math.FieldElement;
+import com.syncleus.dann.math.OrderedAlgebraic;
+import com.syncleus.dann.math.linear.*;
 
-public interface Matrix<M extends Matrix<? extends M, ? extends F>, F extends FieldElement<? extends F>> //extends Algebraic<F>
+/** QR Decomposition.
+<P>
+For an m-by-n matrix matrixToDecompose with m >= n, the QR decomposition is an m-by-n
+orthogonal matrix factor and an n-by-n upper triangular matrix factor so that
+matrixToDecompose = factor*factor.
+<P>
+The QR decompostion always exists, even if the matrix does not have
+full rank, so the constructor will never fail.  The primary use of the
+QR decomposition is in the least squares solution of nonsquare systems
+of simultaneous linear equations.  This will fail if isFullRank()
+returns false.
+ */
+public interface QrDecomposition<M extends Matrix<M, F>, F extends OrderedAlgebraic<F>> extends SolvableDecomposition<M>
 {
-	com.syncleus.dann.math.Field<F> getElementField();
-
-	M blank();
-
-	boolean isSymmetric();
-	boolean isSquare();
-
-	F get(int i, int j);
-	M set(int i, int j, F s);
-	int getWidth();
-	int getHeight();
-	M transpose();
-	M solve(M operand);
-	M solveTranspose(M operand);
-	F[][] toArray();
-
-	M getSubmatrix(int heightStart, int heightEnd, int widthStart, int widthEnd);
-	M getSubmatrix(int[] heightIndexes, int[] widthIndexes);
-	M getSubmatrix(int heightStart, int heightEnd, int[] widthIndexes);
-	M getSubmatrix(int[] heightIndexes, int widthStart, int widthEnd);
-
-	M arrayLeftDivide(M operand);
-	M arrayLeftDivideEquals(M operand);
-	M arrayRightDivide(M operand);
-	M arrayRightDivideEquals(M operand);
-	M arrayTimes(M operand);
-	M arrayTimesEquals(M operand);
-
-	M addEquals(M value);
-	M subtractEquals(M value);
-	M multiplyEquals(F value);
-	M add(F value);
-	M subtract(F value);
-	M multiply(F value);
-	M divide(F value);
-
-	M add(M value);
-	M subtract(M value);
-	M multiply(M value);
-	M negate();
-	M reciprocal();
+	M getHouseholderMatrix();
+	M getOrthogonalFactor();
+	M getUpperTriangularFactor();
+	boolean isFullRank();
 }

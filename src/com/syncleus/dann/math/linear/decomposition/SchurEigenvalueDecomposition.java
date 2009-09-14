@@ -147,13 +147,11 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 		}
 
 		// Outer loop over eigenvalue index
-
 		int iter = 0;
 		while(n >= low)
 		{
 
 			// Look for single small sub-diagonal element
-
 			int l = n;
 			while(l > low)
 			{
@@ -167,7 +165,6 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 
 			// Check for convergence
 			// One root found
-
 			if(l == n)
 			{
 				H[n][n] = H[n][n] + exshift;
@@ -177,7 +174,6 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 				iter = 0;
 
 			// Two roots found
-
 			}
 			else if(l == n - 1)
 			{
@@ -190,7 +186,6 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 				x = H[n][n];
 
 				// Real pair
-
 				if(q >= 0)
 				{
 					if(p >= 0)
@@ -212,7 +207,6 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 					q = q / r;
 
 					// Row modification
-
 					for(int j = n - 1; j < nn; j++)
 					{
 						z = H[n - 1][j];
@@ -221,7 +215,6 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 					}
 
 					// Column modification
-
 					for(int i = 0; i <= n; i++)
 					{
 						z = H[i][n - 1];
@@ -230,7 +223,6 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 					}
 
 					// Accumulate transformations
-
 					for(int i = low; i <= high; i++)
 					{
 						z = V[i][n - 1];
@@ -239,7 +231,6 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 					}
 
 				// Complex pair
-
 				}
 				else
 				{
@@ -252,13 +243,10 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 				iter = 0;
 
 			// No convergence yet
-
 			}
 			else
 			{
-
 				// Form shift
-
 				x = H[n][n];
 				y = 0.0;
 				w = 0.0;
@@ -302,7 +290,6 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 				iter = iter + 1;   // (Could check iteration count here.)
 
 				// Look for two consecutive small sub-diagonal elements
-
 				int m = n - 2;
 				while(m >= l)
 				{
@@ -333,7 +320,6 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 				}
 
 				// Double QR step involving rows l:n and columns m:n
-
 				for(int k = m; k <= n - 1; k++)
 				{
 					boolean notlast = (k != n - 1);
@@ -369,7 +355,6 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 						r = r / p;
 
 						// Row modification
-
 						for(int j = k; j < nn; j++)
 						{
 							p = H[k][j] + q * H[k + 1][j];
@@ -383,7 +368,6 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 						}
 
 						// Column modification
-
 						for(int i = 0; i <= Math.min(n, k + 3); i++)
 						{
 							p = x * H[i][k] + y * H[i][k + 1];
@@ -397,7 +381,6 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 						}
 
 						// Accumulate transformations
-
 						for(int i = low; i <= high; i++)
 						{
 							p = x * V[i][k] + y * V[i][k + 1];
@@ -415,7 +398,6 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 		}  // while (n >= low)
 
 		// Backsubstitute to find vectors of upper triangular form
-
 		if(norm == 0.0)
 			return;
 
@@ -425,7 +407,6 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 			q = e[n];
 
 			// Real vector
-
 			if(q == 0)
 			{
 				int l = n;
@@ -463,7 +444,6 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 						}
 
 						// Overflow control
-
 						t = Math.abs(H[i][n]);
 						if((eps * t) * t > 1)
 							for(int j = i; j <= n; j++)
@@ -472,14 +452,12 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 				}
 
 			// Complex vector
-
 			}
 			else if(q < 0)
 			{
 				int l = n - 1;
 
 				// Last vector component imaginary so matrix is triangular
-
 				if(Math.abs(H[n][n - 1]) > Math.abs(H[n - 1][n]))
 				{
 					H[n - 1][n - 1] = q / H[n][n - 1];
@@ -522,9 +500,7 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 						}
 						else
 						{
-
 							// Solve complex equations
-
 							x = H[i][i + 1];
 							y = H[i + 1][i];
 							vr = (d[i] - p) * (d[i] - p) + e[i] * e[i] - q * q;
@@ -549,7 +525,6 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 						}
 
 						// Overflow control
-
 						t = Math.max(Math.abs(H[i][n - 1]), Math.abs(H[i][n]));
 						if((eps * t) * t > 1)
 							for(int j = i; j <= n; j++)
@@ -563,14 +538,12 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 		}
 
 		// Vectors of isolated roots
-
 		for(int i = 0; i < nn; i++)
 			if(i < low | i > high)
 				for(int j = i; j < nn; j++)
 					V[i][j] = H[i][j];
 
 		// Back transformation to get eigenvectors of original matrix
-
 		for(int j = nn - 1; j >= low; j--)
 			for(int i = low; i <= high; i++)
 			{
@@ -627,8 +600,6 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 		for(int valueIndex = 0; valueIndex < d.length; valueIndex++)
 			e[valueIndex] = this.imaginaryEigenvalues.get(valueIndex).getValue();
 
-//		Matrix X = new Matrix(n, n);
-//		double[][] D = X.getArray();
 		double[][] D = new double[n][n];
 		for(int i = 0; i < n; i++)
 		{
