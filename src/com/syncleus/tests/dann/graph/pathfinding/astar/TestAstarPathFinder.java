@@ -16,17 +16,18 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.tests.dann.graph.pathfinding.dijkstra;
+package com.syncleus.tests.dann.graph.pathfinding.astar;
 
 import com.syncleus.dann.graph.BidirectedEdge;
 import com.syncleus.dann.graph.WeightedWalk;
-import com.syncleus.dann.graph.pathfinding.dijkstra.DijkstraPathFinder;
+import com.syncleus.dann.graph.pathfinding.HeuristicPathCost;
+import com.syncleus.dann.graph.pathfinding.astar.AstarPathFinder;
 import com.syncleus.tests.dann.graph.pathfinding.Grid;
 import com.syncleus.tests.dann.graph.pathfinding.GridNode;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class TestDijkstraPathFinder
+public class TestAstarPathFinder
 {
 	private static final double INF = Double.POSITIVE_INFINITY;
 	private static final double[][] HARD_GRID =
@@ -69,6 +70,24 @@ public class TestDijkstraPathFinder
 		{2,7},{2,6},{3,6},{4,6},{5,6},{5,5},{6,5},{7,5},{7,6},{7,7}
 	};
 
+	private static class DistanceHeuristic implements HeuristicPathCost<GridNode>
+	{
+		public double getHeuristicPathCost(GridNode begin, GridNode end)
+		{
+			return begin.calculateRelativeTo(end).getDistance();
+		}
+
+		public boolean isOptimistic()
+		{
+			return true;
+		}
+
+		public boolean isConsistent()
+		{
+			return true;
+		}
+	}
+
 	private static boolean checkNode(GridNode node, int[] coords)
 	{
 		return ( (node.getX() == coords[0])&&(node.getY() == coords[1]) );
@@ -93,18 +112,18 @@ public class TestDijkstraPathFinder
 
 		return true;
 	}
-	
+
 	@Test
 	public void testHardGrid()
 	{
 		Grid hardGrid = new Grid(HARD_GRID);
-		DijkstraPathFinder<Grid, GridNode, BidirectedEdge<GridNode>> pathFinder = new DijkstraPathFinder<Grid, GridNode, BidirectedEdge<GridNode>>(hardGrid);
+		AstarPathFinder<Grid, GridNode, BidirectedEdge<GridNode>> pathFinder = new AstarPathFinder<Grid, GridNode, BidirectedEdge<GridNode>>(hardGrid, new DistanceHeuristic());
 
 		GridNode startNode = hardGrid.getNode(HARD_GRID_START[0], HARD_GRID_START[1]);
 		GridNode endNode = hardGrid.getNode(HARD_GRID_END[0], HARD_GRID_END[1]);
 
 		WeightedWalk<GridNode, BidirectedEdge<GridNode>> path = pathFinder.getBestPath(startNode, endNode);
-		
+
 		Assert.assertTrue("incorrect path found!", checkSolution(path, HARD_GRID_SOLUTION));
 	}
 
@@ -112,7 +131,7 @@ public class TestDijkstraPathFinder
 	public void testInfinityGrid()
 	{
 		Grid infinityGrid = new Grid(EASY_GRID);
-		DijkstraPathFinder<Grid, GridNode, BidirectedEdge<GridNode>> pathFinder = new DijkstraPathFinder<Grid, GridNode, BidirectedEdge<GridNode>>(infinityGrid);
+		AstarPathFinder<Grid, GridNode, BidirectedEdge<GridNode>> pathFinder = new AstarPathFinder<Grid, GridNode, BidirectedEdge<GridNode>>(infinityGrid, new DistanceHeuristic());
 
 		GridNode startNode = infinityGrid.getNode(EASY_GRID_START[0], EASY_GRID_START[1]);
 		GridNode endNode = infinityGrid.getNode(EASY_GRID_END[0], EASY_GRID_END[1]);
@@ -122,4 +141,3 @@ public class TestDijkstraPathFinder
 		Assert.assertTrue("incorrect path found!", checkSolution(path, EASY_GRID_SOLUTION));
 	}
 }
-
