@@ -31,6 +31,16 @@ public class DijkstraPathFinder<G extends Graph<N, ? extends Edge<N>, ?>, N> ext
 		{
 			return 0.0;
 		}
+
+		public boolean isOptimistic()
+		{
+			return true;
+		}
+
+		public boolean isConsistent()
+		{
+			return true;
+		}
 	}
 
 	public DijkstraPathFinder(G graph)

@@ -178,6 +178,11 @@ public class AstarPathFinder<G extends Graph<N, ? extends Edge<N>, ?>, N> implem
 			throw new IllegalArgumentException("graph can not be null");
 		if( heuristicPathCost  == null )
 			throw new IllegalArgumentException("heuristicPathCost can not be null");
+		if( !heuristicPathCost.isOptimistic() )
+			throw new IllegalArgumentException("heuristicPathCost must be admissible");
+//		Does the heuristic need to be consistent?
+//		if( !heuristicPathCost.isConsistent() )
+//			throw new IllegalArgumentException("This implementation requires a consistent heuristic");
 
 		this.graph = graph;
 		this.heuristicPathCost = heuristicPathCost;

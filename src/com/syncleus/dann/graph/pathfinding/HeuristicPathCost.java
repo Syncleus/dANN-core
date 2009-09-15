@@ -21,4 +21,6 @@ package com.syncleus.dann.graph.pathfinding;
 public interface HeuristicPathCost<N>
 {
 	double getHeuristicPathCost(N begin, N end);
+	boolean isOptimistic();
+	boolean isConsistent();
 }
