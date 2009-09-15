@@ -16,11 +16,11 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.tests.dann.graph.pathfinding.dijkstra;
+package com.syncleus.tests.dann.graph.pathfinding;
 
 import com.syncleus.dann.graph.BidirectedEdge;
 import com.syncleus.dann.graph.WeightedWalk;
-import com.syncleus.dann.graph.pathfinding.dijkstra.DijkstraPathFinder;
+import com.syncleus.dann.graph.pathfinding.DijkstraPathFinder;
 import com.syncleus.tests.dann.graph.pathfinding.Grid;
 import com.syncleus.tests.dann.graph.pathfinding.GridNode;
 import org.junit.Assert;
