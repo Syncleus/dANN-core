@@ -182,6 +182,15 @@ public abstract class AbstractBayesianNetwork extends AbstractBidirectedGraph<Ba
 		return Collections.emptyList();
 	}
 
+	public int getIndegree(BayesianNode node)
+	{
+		return this.inMap.get(node).size();
+	}
+
+	public int getOutdegree(BayesianNode node)
+	{
+		return this.outMap.get(node).size();
+	}
 
 	public boolean isConnected(BayesianNode leftNode, BayesianNode rightNode)
 	{

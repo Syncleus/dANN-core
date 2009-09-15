@@ -18,9 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.bayesian;
 
-import com.syncleus.dann.graph.AbstractDirectedEdge;
+import com.syncleus.dann.graph.SimpleDirectedEdge;
 
-public class SimpleBayesianEdge extends AbstractDirectedEdge<BayesianNode> implements BayesianEdge
+public class SimpleBayesianEdge extends SimpleDirectedEdge<BayesianNode> implements BayesianEdge
 {
 	public SimpleBayesianEdge(BayesianNode source, BayesianNode destination)
 	{

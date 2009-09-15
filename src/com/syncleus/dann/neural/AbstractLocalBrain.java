@@ -326,6 +326,16 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedGraph<Neuron,
 		return Collections.emptyList();
 	}
 
+	public int getIndegree(Neuron node)
+	{
+		return this.inMap.get(node).size();
+	}
+
+	public int getOutdegree(Neuron node)
+	{
+		return this.outMap.get(node).size();
+	}
+
 
 	public boolean isConnected(Neuron leftNode, Neuron rightNode)
 	{

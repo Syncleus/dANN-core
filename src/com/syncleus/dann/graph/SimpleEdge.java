@@ -22,16 +22,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class AbstractEdge<N> implements Edge<N>
+public class SimpleEdge<N> implements Edge<N>
 {
 	private final List<N> nodes;
 
-	protected AbstractEdge(List<N> nodes)
+	protected SimpleEdge(List<N> nodes)
 	{
 		this.nodes = Collections.unmodifiableList(new ArrayList<N>(nodes));
 	}
 
-	protected AbstractEdge(N... nodes)
+	protected SimpleEdge(N... nodes)
 	{
 		List<N> newNodes = new ArrayList<N>();
 		for(N node : nodes)

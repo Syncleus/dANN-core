@@ -18,15 +18,15 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.List;
 import java.util.Set;
 
 public abstract class AbstractBidirectedGraph<N, E extends BidirectedEdge<? extends N>, W extends BidirectedWalk<N, E>> extends AbstractGraph<N,E,W> implements BidirectedGraph<N,E,W>
 {
+	/*
 	public List<E> getEdges()
 	{
-		return null;
-		/*
+//		return null;
+
 		List<E> allEdges = new ArrayList<E>();
 		Set<N> allNodes = this.getNodes();
 		Set<N> traversedNodes = new HashSet<N>();
@@ -44,7 +44,7 @@ public abstract class AbstractBidirectedGraph<N, E extends BidirectedEdge<? exte
 			traversedNodes.add(node);
 		}
 
-		return Collections.unmodifiableList(allEdges);*/
+		return Collections.unmodifiableList(allEdges);
 	}
 
 	public int getIndegree(N node)
@@ -55,7 +55,7 @@ public abstract class AbstractBidirectedGraph<N, E extends BidirectedEdge<? exte
 	public int getOutdegree(N node)
 	{
 		return 0;
-	}
+	}*/
 
 	public boolean isStronglyConnected()
 	{

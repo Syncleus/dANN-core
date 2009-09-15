@@ -18,32 +18,56 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-public abstract class AbstractHyperEdge<N> extends AbstractEdge<N> implements HyperEdge<N>
+public class SimpleDirectedEdge<N> extends SimpleBidirectedEdge<N> implements DirectedEdge<N>
 {
-	protected AbstractHyperEdge(List<N> nodes)
+	protected SimpleDirectedEdge(N source, N destination)
 	{
-		super(new ArrayList<N>(nodes));
+		super(source, EndState.Inward, destination, EndState.Outward);
 	}
 
-	protected AbstractHyperEdge(N... nodes)
+	public N getSourceNode()
 	{
-		super(nodes);
-		List<N> newNodes = new ArrayList<N>();
-		for(N node : nodes)
-			newNodes.add(node);
+		return this.getLeftNode();
 	}
 
-	public int getDegree()
+	public N getDestinationNode()
 	{
-		return 0;
+		return this.getRightNode();
 	}
 
-	public boolean isSymmetric(HyperEdge symmetricEdge)
+	@Override
+	public boolean isIntroverted()
 	{
 		return false;
+	}
+
+	@Override
+	public boolean isExtraverted()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isDirected()
+	{
+		return true;
+	}
+
+	@Override
+	public boolean isHalfEdge()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isLooseEdge()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isOrdinaryEdge()
+	{
+		return true;
 	}
 }

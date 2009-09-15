@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.neural;
 
-import com.syncleus.dann.graph.AbstractDirectedEdge;
+import com.syncleus.dann.graph.SimpleDirectedEdge;
 
 /**
  * The synapse acts as a bridge between connected neurons. It is also where the
@@ -30,7 +30,7 @@ import com.syncleus.dann.graph.AbstractDirectedEdge;
  *
  * @see com.syncleus.dann.neural.Neuron
  */
-public class SimpleSynapse extends AbstractDirectedEdge<Neuron> implements Synapse, java.io.Serializable
+public class SimpleSynapse extends SimpleDirectedEdge<Neuron> implements Synapse, java.io.Serializable
 {
     // <editor-fold defaultstate="collapsed" desc="Attributes">
 
