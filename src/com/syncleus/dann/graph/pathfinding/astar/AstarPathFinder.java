@@ -81,6 +81,10 @@ public class AstarPathFinder<G extends Graph<N, E, ?>, N, E extends Edge<N>> imp
 				throw new IllegalArgumentException("newParentEdge can not be null");
 			if( ! newParentEdge.getNodes().contains(newParent.getNode()))
 				throw new IllegalArgumentException("newParentEdge must connect to new Parent");
+			if( (newParentEdge instanceof Weighted)&&( ((Weighted)newParentEdge).getWeight() < 0.0) )
+				throw new IllegalArgumentException("edge weight can not be negative");
+			if( (this.node instanceof Weighted)&&( ((Weighted)this.node).getWeight() < 0.0) )
+				throw new IllegalArgumentException("this.node weight can not be negative");
 
 			boolean parentHasEdge = false;
 			for( Edge<N> edge : graph.getTraversableEdges(this.node) )
@@ -206,7 +210,7 @@ public class AstarPathFinder<G extends Graph<N, E, ?>, N, E extends Edge<N>> imp
 		nodeStepMapping.put(begin, beginStep);
 		candidateSteps.add(beginStep);
 
-		//all nodes that have been closed cannolonger be traversed
+		//all nodes that have been closed can no longer be traversed
 		Set<PathedStep> closedSteps = new HashSet<PathedStep>();
 
 		//lets iterate through each step from the begining
