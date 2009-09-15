@@ -109,22 +109,22 @@ public class Grid extends AbstractBidirectedGraph<GridNode, BidirectedEdge<GridN
 
 	public List<BidirectedEdge<GridNode>> getOutEdges(GridNode node)
 	{
-		return this.getEdges();
+		return this.getEdges(node);
 	}
 
 	public List<BidirectedEdge<GridNode>> getInEdges(GridNode node)
 	{
-		return this.getEdges();
+		return this.getEdges(node);
 	}
 
 	public int getIndegree(GridNode node)
 	{
-		return this.getEdges().size();
+		return this.getInEdges(node).size();
 	}
 
 	public int getOutdegree(GridNode node)
 	{
-		return this.getEdges().size();
+		return this.getOutEdges(node).size();
 	}
 
 	public boolean isConnected(GridNode leftNode, GridNode rightNode)

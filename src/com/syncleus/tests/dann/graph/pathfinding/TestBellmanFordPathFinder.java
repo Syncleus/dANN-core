@@ -19,13 +19,13 @@
 package com.syncleus.tests.dann.graph.pathfinding;
 
 import com.syncleus.dann.graph.BidirectedEdge;
-import com.syncleus.dann.graph.WeightedWalk;
-import com.syncleus.dann.graph.pathfinding.HeuristicPathCost;
-import com.syncleus.dann.graph.pathfinding.AstarPathFinder;
+import com.syncleus.dann.graph.DirectedEdge;
+import com.syncleus.dann.graph.WeightedBidirectedWalk;
+import com.syncleus.dann.graph.pathfinding.BellmanFordPathFinder;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class TestAstarPathFinder
+public class TestBellmanFordPathFinder
 {
 	private static final double INF = Double.POSITIVE_INFINITY;
 	private static final double[][] HARD_GRID =
@@ -37,7 +37,7 @@ public class TestAstarPathFinder
 		{1.0,	10.0,	INF,	1.0,	INF,	INF,	INF,	INF},
 		{1.0,	INF,	INF,	INF,	INF,	1.0,	1.0,	1.0},
 		{1.0,	INF,	1.0,	1.0,	1.0,	1.0,	INF,	1.0},
-		{1.0,	1.0,	1.0,	INF,	INF,	4.0,	1.0,	1.0}
+		{1.0,	1.0,	1.0,	INF,	INF,	10.0,	1.0,	1.0}
 	};
 	private static final int[] HARD_GRID_START = {1,0};
 	private static final int[] HARD_GRID_END = {7,7};
@@ -68,30 +68,12 @@ public class TestAstarPathFinder
 		{2,7},{2,6},{3,6},{4,6},{5,6},{5,5},{6,5},{7,5},{7,6},{7,7}
 	};
 
-	private static class DistanceHeuristic implements HeuristicPathCost<GridNode>
-	{
-		public double getHeuristicPathCost(GridNode begin, GridNode end)
-		{
-			return begin.calculateRelativeTo(end).getDistance();
-		}
-
-		public boolean isOptimistic()
-		{
-			return true;
-		}
-
-		public boolean isConsistent()
-		{
-			return true;
-		}
-	}
-
 	private static boolean checkNode(GridNode node, int[] coords)
 	{
 		return ( (node.getX() == coords[0])&&(node.getY() == coords[1]) );
 	}
 
-	private static boolean checkSolution(WeightedWalk<GridNode, BidirectedEdge<GridNode>> path, int[][] solution)
+	private static boolean checkSolution(WeightedBidirectedWalk<GridNode, DirectedEdge<GridNode>> path, int[][] solution)
 	{
 		int solutionIndex = 0;
 		GridNode lastNode = path.getFirstNode();
@@ -114,13 +96,13 @@ public class TestAstarPathFinder
 	@Test
 	public void testHardGrid()
 	{
-		Grid hardGrid = new Grid(HARD_GRID);
-		AstarPathFinder<Grid, GridNode, BidirectedEdge<GridNode>> pathFinder = new AstarPathFinder<Grid, GridNode, BidirectedEdge<GridNode>>(hardGrid, new DistanceHeuristic());
+		DirectedGrid hardGrid = new DirectedGrid(HARD_GRID);
+		BellmanFordPathFinder<DirectedGrid, GridNode, DirectedEdge<GridNode>> pathFinder = new BellmanFordPathFinder<DirectedGrid, GridNode, DirectedEdge<GridNode>>(hardGrid);
 
 		GridNode startNode = hardGrid.getNode(HARD_GRID_START[0], HARD_GRID_START[1]);
 		GridNode endNode = hardGrid.getNode(HARD_GRID_END[0], HARD_GRID_END[1]);
 
-		WeightedWalk<GridNode, BidirectedEdge<GridNode>> path = pathFinder.getBestPath(startNode, endNode);
+		WeightedBidirectedWalk<GridNode, DirectedEdge<GridNode>> path = pathFinder.getBestPath(startNode, endNode);
 
 		Assert.assertTrue("incorrect path found!", checkSolution(path, HARD_GRID_SOLUTION));
 	}
@@ -128,13 +110,13 @@ public class TestAstarPathFinder
 	@Test
 	public void testInfinityGrid()
 	{
-		Grid infinityGrid = new Grid(EASY_GRID);
-		AstarPathFinder<Grid, GridNode, BidirectedEdge<GridNode>> pathFinder = new AstarPathFinder<Grid, GridNode, BidirectedEdge<GridNode>>(infinityGrid, new DistanceHeuristic());
+		DirectedGrid infinityGrid = new DirectedGrid(EASY_GRID);
+		BellmanFordPathFinder<DirectedGrid, GridNode, DirectedEdge<GridNode>> pathFinder = new BellmanFordPathFinder<DirectedGrid, GridNode, DirectedEdge<GridNode>>(infinityGrid);
 
 		GridNode startNode = infinityGrid.getNode(EASY_GRID_START[0], EASY_GRID_START[1]);
 		GridNode endNode = infinityGrid.getNode(EASY_GRID_END[0], EASY_GRID_END[1]);
 
-		WeightedWalk<GridNode, BidirectedEdge<GridNode>> path = pathFinder.getBestPath(startNode, endNode);
+		WeightedBidirectedWalk<GridNode, DirectedEdge<GridNode>> path = pathFinder.getBestPath(startNode, endNode);
 
 		Assert.assertTrue("incorrect path found!", checkSolution(path, EASY_GRID_SOLUTION));
 	}
