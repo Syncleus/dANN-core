@@ -33,20 +33,17 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
-public class AstarPathFinder<G extends Graph<N, ? extends Edge<N>, ?>, N> implements PathFinder<N,WeightedWalk>
+public class AstarPathFinder<G extends Graph<N, E, ?>, N, E extends Edge<N>> implements PathFinder<N,E,WeightedWalk<N,E>>
 {
-	private final class AstarWeightedWalk extends SimpleWalk<N,Edge<N>> implements WeightedWalk<N,Edge<N>>
+	private final class AstarWeightedWalk extends SimpleWalk<N,E> implements WeightedWalk<N,E>
 	{
 		private final double totalWeight;
 
-		public AstarWeightedWalk(N firstNode, N lastNode, List<Edge<N>> edges, List<PathedStep> steps)
+		public AstarWeightedWalk(N firstNode, N lastNode, List<E> edges, double weight)
 		{
 			super(firstNode,lastNode,edges);
 
-			double newTotalWeight = 0.0;
-			for(PathedStep step : steps)
-				newTotalWeight += step.getCachedPathWeight();
-			this.totalWeight = newTotalWeight;
+			this.totalWeight = weight;
 		}
 
 		public double getWeight()
@@ -60,7 +57,7 @@ public class AstarPathFinder<G extends Graph<N, ? extends Edge<N>, ?>, N> implem
 		private N node;
 		private N goalNode;
 		private PathedStep parent;
-		private Edge<N> parentEdge;
+		private E parentEdge;
 		private double cachedPathWeight;
 
 		public PathedStep(N node, N goalNode)
@@ -74,7 +71,7 @@ public class AstarPathFinder<G extends Graph<N, ? extends Edge<N>, ?>, N> implem
 			this.node = node;
 		}
 
-		public boolean updateParent(PathedStep newParent, Edge<N> newParentEdge)
+		public boolean updateParent(PathedStep newParent, E newParentEdge)
 		{
 			if( newParent == null )
 				throw new IllegalArgumentException("newParent can not be null");
@@ -96,12 +93,16 @@ public class AstarPathFinder<G extends Graph<N, ? extends Edge<N>, ?>, N> implem
 			if(!parentHasEdge)
 				throw new IllegalArgumentException("newParent is not connected to this node");
 
-			final double edgeWeight = (newParentEdge instanceof Weighted ? ((Weighted)newParentEdge).getWeight() : 1.0);
-			if((this.parent == null) || ( newParent.getCachedPathWeight() + edgeWeight < this.getCachedPathWeight()))
+			double newWeight = (newParentEdge instanceof Weighted ? ((Weighted)newParentEdge).getWeight() : 0.0);
+			if(this.node instanceof Weighted)
+				newWeight += ((Weighted)this.node).getWeight();
+			else
+				newWeight += 1.0;
+			if((this.parent == null) || ( newParent.getCachedPathWeight() + newWeight < this.getCachedPathWeight()))
 			{
 				this.parent = newParent;
 				this.parentEdge = newParentEdge;
-				this.cachedPathWeight = newParent.getCachedPathWeight() + edgeWeight;
+				this.cachedPathWeight = newParent.getCachedPathWeight() + newWeight;
 				return true;
 			}
 			else
@@ -154,14 +155,14 @@ public class AstarPathFinder<G extends Graph<N, ? extends Edge<N>, ?>, N> implem
 			//the natural ordering is inverse cause the smallest path weight is
 			//the best weight.
 			if(this.getHeuristicOverallCost() < compareWith.getHeuristicOverallCost())
-				return 1;
-			else if(this.getHeuristicOverallCost() > compareWith.getHeuristicOverallCost())
 				return -1;
+			else if(this.getHeuristicOverallCost() > compareWith.getHeuristicOverallCost())
+				return 1;
 			else
 				return 0;
 		}
 
-		public Edge<N> getParentEdge()
+		public E getParentEdge()
 		{
 			return parentEdge;
 		}
@@ -188,7 +189,7 @@ public class AstarPathFinder<G extends Graph<N, ? extends Edge<N>, ?>, N> implem
 		this.heuristicPathCost = heuristicPathCost;
 	}
 
-	public WeightedWalk getBestPath(N begin, N end)
+	public WeightedWalk<N,E> getBestPath(N begin, N end)
 	{
 		if(begin == null)
 			throw new IllegalArgumentException("begin can not be null");
@@ -215,7 +216,7 @@ public class AstarPathFinder<G extends Graph<N, ? extends Edge<N>, ?>, N> implem
 			if( currentStep.getNode().equals(end) )
 				return pathedStepToWalk(currentStep);
 
-			for(Edge<N> edge : this.graph.getTraversableEdges(currentStep.node))
+			for(E edge : this.graph.getTraversableEdges(currentStep.node))
 			{
 				for(N neighborNode : edge.getNodes())
 				{
@@ -231,11 +232,14 @@ public class AstarPathFinder<G extends Graph<N, ? extends Edge<N>, ?>, N> implem
 						nodeStepMapping.put(neighborNode, neighborStep);
 					}
 
-					if(!closedSteps.contains(neighborStep))
-						candidateSteps.add(neighborStep);
-
 					if(!neighborNode.equals(begin))
 						neighborStep.updateParent(currentStep, edge);
+
+					if(!closedSteps.contains(neighborStep))
+					{
+						candidateSteps.remove(neighborStep);
+						candidateSteps.add(neighborStep);
+					}
 				}
 			}
 
@@ -259,9 +263,9 @@ public class AstarPathFinder<G extends Graph<N, ? extends Edge<N>, ?>, N> implem
 		return false;
 	}
 
-	private WeightedWalk pathedStepToWalk(PathedStep endPathedStep)
+	private WeightedWalk<N,E> pathedStepToWalk(PathedStep endPathedStep)
 	{
-		List<Edge<N>> edges = new ArrayList<Edge<N>>();
+		List<E> edges = new ArrayList<E>();
 		List<PathedStep> steps = new ArrayList<PathedStep>();
 		N lastNode = endPathedStep.getNode();
 		N firstNode = endPathedStep.getNode();
@@ -270,11 +274,12 @@ public class AstarPathFinder<G extends Graph<N, ? extends Edge<N>, ?>, N> implem
 		while(currentStep != null)
 		{
 			firstNode = currentStep.getNode();
-			edges.add(0, currentStep.getParentEdge());
+			if(currentStep.getParentEdge() != null)
+				edges.add(0, currentStep.getParentEdge());
 			steps.add(currentStep);
 			currentStep = currentStep.getParent();
 		}
 
-		return new AstarWeightedWalk(firstNode, lastNode, edges, steps);
+		return new AstarWeightedWalk(firstNode, lastNode, edges, endPathedStep.getCachedPathWeight());
 	}
 }

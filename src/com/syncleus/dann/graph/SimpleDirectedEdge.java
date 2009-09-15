@@ -20,7 +20,7 @@ package com.syncleus.dann.graph;
 
 public class SimpleDirectedEdge<N> extends SimpleBidirectedEdge<N> implements DirectedEdge<N>
 {
-	protected SimpleDirectedEdge(N source, N destination)
+	public SimpleDirectedEdge(N source, N destination)
 	{
 		super(source, EndState.Inward, destination, EndState.Outward);
 	}

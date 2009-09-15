@@ -18,28 +18,46 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.Set;
-
-public abstract class AbstractBidirectedGraph<N, E extends BidirectedEdge<? extends N>, W extends BidirectedWalk<N, E>> extends AbstractGraph<N,E,W> implements BidirectedGraph<N,E,W>
+public class SimpleUndirectedEdge<N> extends SimpleBidirectedEdge<N>
 {
-	public boolean isStronglyConnected()
+	public SimpleUndirectedEdge(N leftNode, N rightNode)
 	{
-		return false;
+		super(leftNode, EndState.None, rightNode, EndState.None);
 	}
 
-	public Set<BidirectedGraph<N,E,W>> getStrongComponents()
-	{
-		return null;
-	}
-
-	public boolean isPolytree()
+	@Override
+	public boolean isIntroverted()
 	{
 		return false;
 	}
 
 	@Override
-	public Set<Graph<N,E,W>> getConnectedComponents()
+	public boolean isExtraverted()
 	{
-		return null;
+		return false;
+	}
+
+	@Override
+	public boolean isDirected()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isHalfEdge()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isLooseEdge()
+	{
+		return true;
+	}
+
+	@Override
+	public boolean isOrdinaryEdge()
+	{
+		return false;
 	}
 }

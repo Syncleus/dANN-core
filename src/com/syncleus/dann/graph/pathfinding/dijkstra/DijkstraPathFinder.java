@@ -23,7 +23,7 @@ import com.syncleus.dann.graph.Graph;
 import com.syncleus.dann.graph.pathfinding.HeuristicPathCost;
 import com.syncleus.dann.graph.pathfinding.astar.AstarPathFinder;
 
-public class DijkstraPathFinder<G extends Graph<N, ? extends Edge<N>, ?>, N> extends AstarPathFinder<G,N>
+public class DijkstraPathFinder<G extends Graph<N, E, ?>, N, E extends Edge<N>> extends AstarPathFinder<G,N,E>
 {
 	public final static class ZeroHeuristicPathCost<N> implements HeuristicPathCost<N>
 	{

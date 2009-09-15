@@ -30,6 +30,15 @@ public class SimpleWalk<N, E extends Edge<? extends N>> extends AbstractWalk<N,E
 
 	public SimpleWalk(N firstNode, N lastNode, List<E> steps)
 	{
+		if(firstNode == null)
+			throw new IllegalArgumentException("firstNode can not be null");
+		if(lastNode == null)
+			throw new IllegalArgumentException("lastNode can not be null");
+		if(steps == null)
+			throw new IllegalArgumentException("steps can not be null");
+		if(steps.contains(null))
+			throw new IllegalArgumentException("steps can not contain a null");
+		
 		this.steps = Collections.unmodifiableList(new ArrayList<E>(steps));
 		this.firstNode = firstNode;
 		this.lastNode = lastNode;

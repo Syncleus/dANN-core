@@ -23,12 +23,12 @@ import java.util.List;
 
 public class SimpleHyperEdge<N> extends SimpleEdge<N> implements HyperEdge<N>
 {
-	protected SimpleHyperEdge(List<N> nodes)
+	public SimpleHyperEdge(List<N> nodes)
 	{
 		super(new ArrayList<N>(nodes));
 	}
 
-	protected SimpleHyperEdge(N... nodes)
+	public SimpleHyperEdge(N... nodes)
 	{
 		super(nodes);
 		List<N> newNodes = new ArrayList<N>();

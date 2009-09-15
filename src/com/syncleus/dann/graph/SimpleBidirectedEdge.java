@@ -28,7 +28,7 @@ public class SimpleBidirectedEdge<N> extends SimpleEdge<N> implements Bidirected
 	private final EndState leftEndState;
 	private final EndState rightEndState;
 
-	protected SimpleBidirectedEdge(N leftNode, EndState leftEndState, N rightNode, EndState rightEndState)
+	public SimpleBidirectedEdge(N leftNode, EndState leftEndState, N rightNode, EndState rightEndState)
 	{
 		super(packNodes(leftNode, rightNode));
 		this.leftNode = leftNode;

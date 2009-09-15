@@ -16,30 +16,49 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph;
+package com.syncleus.tests.dann.graph.pathfinding;
 
-import java.util.Set;
+import com.syncleus.dann.graph.Weighted;
+import com.syncleus.dann.math.Vector;
 
-public abstract class AbstractBidirectedGraph<N, E extends BidirectedEdge<? extends N>, W extends BidirectedWalk<N, E>> extends AbstractGraph<N,E,W> implements BidirectedGraph<N,E,W>
+public class GridNode extends Vector implements Weighted
 {
-	public boolean isStronglyConnected()
+	private double weight;
+
+	public GridNode(int x, int y, double weight)
 	{
-		return false;
+		super((double)x, (double)y);
+		this.weight = weight;
 	}
 
-	public Set<BidirectedGraph<N,E,W>> getStrongComponents()
+	public double getWeight()
 	{
-		return null;
+		return this.weight;
 	}
 
-	public boolean isPolytree()
+	public int getX()
 	{
-		return false;
+		return (int) this.getCoordinate(1);
+	}
+
+	public int getY()
+	{
+		return (int) this.getCoordinate(2);
 	}
 
 	@Override
-	public Set<Graph<N,E,W>> getConnectedComponents()
+	public int hashCode()
 	{
-		return null;
+		return (this.getX()*this.getY()) + this.getY();
+	}
+
+	@Override
+	public boolean equals(Object compareToObj)
+	{
+		if(!(compareToObj instanceof GridNode))
+			return false;
+
+		GridNode compareTo = (GridNode) compareToObj;
+		return ((compareTo.getX() == this.getX())&&(compareTo.getY() == this.getY()));
 	}
 }

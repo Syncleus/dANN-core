@@ -26,12 +26,12 @@ public class SimpleEdge<N> implements Edge<N>
 {
 	private final List<N> nodes;
 
-	protected SimpleEdge(List<N> nodes)
+	public SimpleEdge(List<N> nodes)
 	{
 		this.nodes = Collections.unmodifiableList(new ArrayList<N>(nodes));
 	}
 
-	protected SimpleEdge(N... nodes)
+	public SimpleEdge(N... nodes)
 	{
 		List<N> newNodes = new ArrayList<N>();
 		for(N node : nodes)
