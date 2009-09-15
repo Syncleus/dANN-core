@@ -200,7 +200,6 @@ public class BellmanFordPathFinder<G extends BidirectedGraph<N, E, ?>, N, E exte
 			if( edge.getDestinationNode() == begin )
 				continue;
 			
-//			double edgeWeight = (edge instanceof Weighted ? ((Weighted)edge).getWeight() : 1.0);
 			PathedStep sourcePathedStep = pathedSteps.get(edge.getSourceNode());
 			PathedStep destinationPathedStep = pathedSteps.get(edge.getDestinationNode());
 			assert (( sourcePathedStep != null )&&( destinationPathedStep != null ));
