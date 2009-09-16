@@ -16,27 +16,30 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph.pathfinding;
+package com.syncleus.dann.graph.search.pathfinding;
 
-import com.syncleus.dann.graph.BidirectedGraph;
-import com.syncleus.dann.graph.DirectedEdge;
 import com.syncleus.dann.graph.Edge;
-import com.syncleus.dann.graph.SimpleBidirectedWalk;
+import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.SimpleWalk;
 import com.syncleus.dann.graph.Weighted;
-import com.syncleus.dann.graph.WeightedBidirectedWalk;
+import com.syncleus.dann.graph.WeightedWalk;
+import com.syncleus.dann.graph.search.pathfinding.HeuristicPathCost;
+import com.syncleus.dann.graph.search.pathfinding.PathFinder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Set;
 
-public class BellmanFordPathFinder<G extends BidirectedGraph<N, E, ?>, N, E extends DirectedEdge<N>> implements PathFinder<N,E,WeightedBidirectedWalk<N,E>>
+public class AstarPathFinder<G extends Graph<N, E, ?>, N, E extends Edge<N>> implements PathFinder<N,E,WeightedWalk<N,E>>
 {
-	private final class DumbWeightedWalk extends SimpleBidirectedWalk<N,E> implements WeightedBidirectedWalk<N,E>
+	private final class AstarWeightedWalk extends SimpleWalk<N,E> implements WeightedWalk<N,E>
 	{
 		private final double totalWeight;
 
-		public DumbWeightedWalk(N firstNode, N lastNode, List<E> edges, double weight)
+		public AstarWeightedWalk(N firstNode, N lastNode, List<E> edges, double weight)
 		{
 			super(firstNode,lastNode,edges);
 
@@ -52,17 +55,20 @@ public class BellmanFordPathFinder<G extends BidirectedGraph<N, E, ?>, N, E exte
 	private final class PathedStep implements Comparable<PathedStep>
 	{
 		private N node;
+		private N goalNode;
 		private PathedStep parent;
 		private E parentEdge;
 		private double cachedPathWeight;
 
-		public PathedStep(N node, double initialWeight)
+		public PathedStep(N node, N goalNode)
 		{
 			if( node == null )
 				throw new IllegalArgumentException("node can not be null");
+			if( goalNode == null )
+				throw new IllegalArgumentException("goalNode can not be null");
 
+			this.goalNode = goalNode;
 			this.node = node;
-			this.cachedPathWeight = initialWeight;
 		}
 
 		public boolean updateParent(PathedStep newParent, E newParentEdge)
@@ -75,6 +81,10 @@ public class BellmanFordPathFinder<G extends BidirectedGraph<N, E, ?>, N, E exte
 				throw new IllegalArgumentException("newParentEdge can not be null");
 			if( ! newParentEdge.getNodes().contains(newParent.getNode()))
 				throw new IllegalArgumentException("newParentEdge must connect to new Parent");
+			if( (newParentEdge instanceof Weighted)&&( ((Weighted)newParentEdge).getWeight() < 0.0) )
+				throw new IllegalArgumentException("edge weight can not be negative");
+			if( (this.node instanceof Weighted)&&( ((Weighted)this.node).getWeight() < 0.0) )
+				throw new IllegalArgumentException("this.node weight can not be negative");
 
 			boolean parentHasEdge = false;
 			for( Edge<N> edge : graph.getTraversableEdges(this.node) )
@@ -87,9 +97,11 @@ public class BellmanFordPathFinder<G extends BidirectedGraph<N, E, ?>, N, E exte
 			if(!parentHasEdge)
 				throw new IllegalArgumentException("newParent is not connected to this node");
 
-			double newWeight = (newParentEdge instanceof Weighted ? ((Weighted)newParentEdge).getWeight() : 1.0);
+			double newWeight = (newParentEdge instanceof Weighted ? ((Weighted)newParentEdge).getWeight() : 0.0);
 			if(this.node instanceof Weighted)
 				newWeight += ((Weighted)this.node).getWeight();
+			else
+				newWeight += 1.0;
 			if((this.parent == null) || ( newParent.getCachedPathWeight() + newWeight < this.getCachedPathWeight()))
 			{
 				this.parent = newParent;
@@ -116,6 +128,16 @@ public class BellmanFordPathFinder<G extends BidirectedGraph<N, E, ?>, N, E exte
 			return cachedPathWeight;
 		}
 
+		public double getHeuristicCostToGoal()
+		{
+			return heuristicPathCost.getHeuristicPathCost(this.node, this.goalNode);
+		}
+
+		public double getHeuristicOverallCost()
+		{
+			return this.getCachedPathWeight() + this.getHeuristicCostToGoal();
+		}
+
 		@Override
 		public boolean equals(Object compareToObj)
 		{
@@ -136,9 +158,9 @@ public class BellmanFordPathFinder<G extends BidirectedGraph<N, E, ?>, N, E exte
 		{
 			//the natural ordering is inverse cause the smallest path weight is
 			//the best weight.
-			if(this.getCachedPathWeight() < compareWith.getCachedPathWeight())
+			if(this.getHeuristicOverallCost() < compareWith.getHeuristicOverallCost())
 				return -1;
-			else if(this.getCachedPathWeight() > compareWith.getCachedPathWeight())
+			else if(this.getHeuristicOverallCost() > compareWith.getHeuristicOverallCost())
 				return 1;
 			else
 				return 0;
@@ -150,83 +172,98 @@ public class BellmanFordPathFinder<G extends BidirectedGraph<N, E, ?>, N, E exte
 		}
 	}
 
-	private G graph;
 
-	public BellmanFordPathFinder(G graph)
+
+	private G graph;
+	private HeuristicPathCost<N> heuristicPathCost;
+
+	public AstarPathFinder(G graph, HeuristicPathCost<N> heuristicPathCost)
 	{
 		if( graph == null )
 			throw new IllegalArgumentException("graph can not be null");
-		if( graph.isMultigraph() )
-			throw new IllegalArgumentException("graph can not be a multigraph");
+		if( heuristicPathCost  == null )
+			throw new IllegalArgumentException("heuristicPathCost can not be null");
+		if( !heuristicPathCost.isOptimistic() )
+			throw new IllegalArgumentException("heuristicPathCost must be admissible");
+//		Does the heuristic need to be consistent?
+//		if( !heuristicPathCost.isConsistent() )
+//			throw new IllegalArgumentException("This implementation requires a consistent heuristic");
 
 		this.graph = graph;
+		this.heuristicPathCost = heuristicPathCost;
 	}
 
-	public WeightedBidirectedWalk<N,E> getBestPath(N begin, N end)
+	public WeightedWalk<N,E> getBestPath(N begin, N end)
 	{
-		Set<N> nodes = this.graph.getNodes();
-		List<E> edges = this.graph.getEdges();
+		if(begin == null)
+			throw new IllegalArgumentException("begin can not be null");
+		if(end == null)
+			throw new IllegalArgumentException("end can not be null");
+		if(begin.equals(end))
+			throw new IllegalArgumentException("begin can not be equal to end");
 
-		Map<N,PathedStep> pathedSteps = new HashMap<N,PathedStep>(nodes.size());
+		//initalize candidate nodes queue containing potential edges as a
+		//solution
+		Map<N, PathedStep> nodeStepMapping = new HashMap<N, PathedStep>();
+		PriorityQueue<PathedStep> candidateSteps = new PriorityQueue<PathedStep>();
+		PathedStep beginStep = new PathedStep(begin, end);
+		nodeStepMapping.put(begin, beginStep);
+		candidateSteps.add(beginStep);
 
-		//relax edges
-		for(int lcv = 0; lcv < (nodes.size() - 1); lcv++)
+		//all nodes that have been closed can no longer be traversed
+		Set<PathedStep> closedSteps = new HashSet<PathedStep>();
+
+		//lets iterate through each step from the begining
+		while(!candidateSteps.isEmpty())
 		{
-			for(E edge : edges)
+			PathedStep currentStep = candidateSteps.poll();
+			if( currentStep.getNode().equals(end) )
+				return pathedStepToWalk(currentStep);
+
+			for(E edge : this.graph.getTraversableEdges(currentStep.node))
 			{
-				if( edge.getDestinationNode() == begin )
-					continue;
-
-				PathedStep sourcePathedStep = pathedSteps.get(edge.getSourceNode());
-				if( sourcePathedStep == null )
+				for(N neighborNode : edge.getNodes())
 				{
-					sourcePathedStep = new PathedStep(edge.getSourceNode(), (edge.getSourceNode().equals(begin) ? 0.0 : Double.POSITIVE_INFINITY));
-					pathedSteps.put(edge.getSourceNode(), sourcePathedStep);
-				}
-				PathedStep destinationPathedStep = pathedSteps.get(edge.getDestinationNode());
-				if( destinationPathedStep == null )
-				{
-					destinationPathedStep = new PathedStep(edge.getDestinationNode(), Double.POSITIVE_INFINITY);
-					pathedSteps.put(edge.getDestinationNode(), destinationPathedStep);
-				}
+					if(neighborNode.equals(currentStep.node))
+						continue;
 
-				destinationPathedStep.updateParent(sourcePathedStep, edge);
+					PathedStep neighborStep;
+					if(nodeStepMapping.containsKey(neighborNode))
+						neighborStep = nodeStepMapping.get(neighborNode);
+					else
+					{
+						neighborStep = new PathedStep(neighborNode, end);
+						nodeStepMapping.put(neighborNode, neighborStep);
+					}
+
+					if(!neighborNode.equals(begin))
+						neighborStep.updateParent(currentStep, edge);
+
+					if(!closedSteps.contains(neighborStep))
+					{
+						candidateSteps.remove(neighborStep);
+						candidateSteps.add(neighborStep);
+					}
+				}
 			}
+
+			closedSteps.add(currentStep);
 		}
 
-		//check for negative cycles
-		for(E edge : edges)
-		{
-			if( edge.getDestinationNode() == begin )
-				continue;
-			
-			PathedStep sourcePathedStep = pathedSteps.get(edge.getSourceNode());
-			PathedStep destinationPathedStep = pathedSteps.get(edge.getDestinationNode());
-			assert (( sourcePathedStep != null )&&( destinationPathedStep != null ));
-
-			if(destinationPathedStep.updateParent(sourcePathedStep, edge))
-				throw new NegativeWeightCycleException("negative-weight cycle found in graph");
-		}
-
-		//construct a walk from the end node
-		PathedStep endPathedStep = pathedSteps.get(end);
-		PathedStep beginPathedStep = pathedSteps.get(begin);
-		assert ((endPathedStep != null)&&(beginPathedStep != null));
-
-		return this.pathedStepToWalk(beginPathedStep, endPathedStep);
+		return null;
 	}
 
 	public boolean isReachable(N begin, N end)
 	{
-		return ( this.getBestPath(begin, end) != null);
+		return (this.getBestPath(begin, end) != null);
 	}
 
 	public boolean isConnected(N begin, N end)
 	{
-		return ( this.getBestPath(begin, end) != null);
+		return (this.getBestPath(begin, end) != null);
 	}
 
-	private WeightedBidirectedWalk<N,E> pathedStepToWalk(PathedStep beginPathedStep, PathedStep endPathedStep)
+	private WeightedWalk<N,E> pathedStepToWalk(PathedStep endPathedStep)
 	{
 		List<E> edges = new ArrayList<E>();
 		List<PathedStep> steps = new ArrayList<PathedStep>();
@@ -243,6 +280,6 @@ public class BellmanFordPathFinder<G extends BidirectedGraph<N, E, ?>, N, E exte
 			currentStep = currentStep.getParent();
 		}
 
-		return new DumbWeightedWalk(firstNode, lastNode, edges, endPathedStep.getCachedPathWeight());
+		return new AstarWeightedWalk(firstNode, lastNode, edges, endPathedStep.getCachedPathWeight());
 	}
 }

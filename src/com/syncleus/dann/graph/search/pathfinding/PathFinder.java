@@ -16,11 +16,14 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph.pathfinding;
+package com.syncleus.dann.graph.search.pathfinding;
 
-public interface HeuristicPathCost<N>
+import com.syncleus.dann.graph.Edge;
+import com.syncleus.dann.graph.Walk;
+
+public interface PathFinder<N, E extends Edge<N>, W extends Walk<N,E>>
 {
-	double getHeuristicPathCost(N begin, N end);
-	boolean isOptimistic();
-	boolean isConsistent();
+	W getBestPath(N begin, N end);
+	boolean isReachable(N begin, N end);
+	boolean isConnected(N begin, N end);
 }

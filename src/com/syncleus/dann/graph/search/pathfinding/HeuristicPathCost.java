@@ -16,56 +16,11 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph.pathfinding;
-import com.syncleus.dann.DannRuntimeException;
-public class NegativeWeightCycleException extends DannRuntimeException
+package com.syncleus.dann.graph.search.pathfinding;
+
+public interface HeuristicPathCost<N>
 {
-	/**
-	 * Creates a blank default exception.
-	 *
-	 *
-	 * @since 2.0
-	 */
-	public NegativeWeightCycleException()
-	{
-	}
-
-	/**
-	 * Creates an exception with a message describing the cause.
-	 *
-	 *
-	 * @param msg A string describing the cause of the exception
-	 * @since 2.0
-	 */
-	public NegativeWeightCycleException(String msg)
-	{
-		super(msg);
-	}
-
-	/**
-	 * Creates an exception with a message describing the cause as well as the
-	 * throwable which caused this exception to be thrown.
-	 *
-	 *
-	 * @param msg A string describing the cause of the exception
-	 * @param cause The throwable which caused this exception
-	 * @since 2.0
-	 */
-	public NegativeWeightCycleException(String msg, Throwable cause)
-	{
-		super(msg, cause);
-	}
-
-	/**
-	 * Creates an exception containing the throwable which caused this exception
-	 * to be thrown.
-	 *
-	 *
-	 * @param cause The throwable which caused this exception
-	 * @since 2.0
-	 */
-	public NegativeWeightCycleException(Throwable cause)
-	{
-		super(cause);
-	}
+	double getHeuristicPathCost(N begin, N end);
+	boolean isOptimistic();
+	boolean isConsistent();
 }

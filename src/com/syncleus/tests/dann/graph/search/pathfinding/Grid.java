@@ -16,7 +16,7 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.tests.dann.graph.pathfinding;
+package com.syncleus.tests.dann.graph.search.pathfinding;
 
 import com.syncleus.dann.graph.AbstractBidirectedGraph;
 import com.syncleus.dann.graph.BidirectedEdge;

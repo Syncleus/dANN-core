@@ -16,12 +16,12 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph.pathfinding;
+package com.syncleus.dann.graph.search.pathfinding;
 
 import com.syncleus.dann.graph.Edge;
 import com.syncleus.dann.graph.Graph;
-import com.syncleus.dann.graph.pathfinding.HeuristicPathCost;
-import com.syncleus.dann.graph.pathfinding.AstarPathFinder;
+import com.syncleus.dann.graph.search.pathfinding.HeuristicPathCost;
+import com.syncleus.dann.graph.search.pathfinding.AstarPathFinder;
 
 public class DijkstraPathFinder<G extends Graph<N, E, ?>, N, E extends Edge<N>> extends AstarPathFinder<G,N,E>
 {

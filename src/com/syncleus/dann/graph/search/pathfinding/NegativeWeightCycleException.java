@@ -16,14 +16,56 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph.pathfinding;
-
-import com.syncleus.dann.graph.Edge;
-import com.syncleus.dann.graph.Walk;
-
-public interface PathFinder<N, E extends Edge<N>, W extends Walk<N,E>>
+package com.syncleus.dann.graph.search.pathfinding;
+import com.syncleus.dann.DannRuntimeException;
+public class NegativeWeightCycleException extends DannRuntimeException
 {
-	W getBestPath(N begin, N end);
-	boolean isReachable(N begin, N end);
-	boolean isConnected(N begin, N end);
+	/**
+	 * Creates a blank default exception.
+	 *
+	 *
+	 * @since 2.0
+	 */
+	public NegativeWeightCycleException()
+	{
+	}
+
+	/**
+	 * Creates an exception with a message describing the cause.
+	 *
+	 *
+	 * @param msg A string describing the cause of the exception
+	 * @since 2.0
+	 */
+	public NegativeWeightCycleException(String msg)
+	{
+		super(msg);
+	}
+
+	/**
+	 * Creates an exception with a message describing the cause as well as the
+	 * throwable which caused this exception to be thrown.
+	 *
+	 *
+	 * @param msg A string describing the cause of the exception
+	 * @param cause The throwable which caused this exception
+	 * @since 2.0
+	 */
+	public NegativeWeightCycleException(String msg, Throwable cause)
+	{
+		super(msg, cause);
+	}
+
+	/**
+	 * Creates an exception containing the throwable which caused this exception
+	 * to be thrown.
+	 *
+	 *
+	 * @param cause The throwable which caused this exception
+	 * @since 2.0
+	 */
+	public NegativeWeightCycleException(Throwable cause)
+	{
+		super(cause);
+	}
 }
