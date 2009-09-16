@@ -16,7 +16,7 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph.search.optimization;
+package com.syncleus.dann.graph.search;
 
 public interface LocalSearch<N>
 {

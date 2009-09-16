@@ -18,6 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.search.optimization;
 
+import com.syncleus.dann.graph.search.LocalSearch;
 import com.syncleus.dann.graph.Graph;
 import com.syncleus.dann.graph.Weighted;
 
