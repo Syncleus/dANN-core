@@ -20,17 +20,12 @@ package com.syncleus.tests.dann.graph.search.optimization;
 
 import com.syncleus.tests.dann.graph.search.Grid;
 import com.syncleus.tests.dann.graph.search.GridNode;
-import com.syncleus.dann.graph.BidirectedEdge;
-import com.syncleus.dann.graph.WeightedWalk;
 import com.syncleus.dann.graph.search.optimization.HillClimbingLocalSearch;
-import com.syncleus.dann.graph.search.pathfinding.DijkstraPathFinder;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class TestHillClimbingLocalSearch
 {
-	private static final double INF = Double.POSITIVE_INFINITY;
-
 	private static final double[][] EASY_GRID =
 	{
 		{93.0,	94.0,	95.0,	96.0,	97.0,	98.9,	97.0,	96.0},
