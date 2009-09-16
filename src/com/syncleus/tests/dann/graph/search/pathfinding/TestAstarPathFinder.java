@@ -18,6 +18,8 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.graph.search.pathfinding;
 
+import com.syncleus.tests.dann.graph.search.Grid;
+import com.syncleus.tests.dann.graph.search.GridNode;
 import com.syncleus.dann.graph.BidirectedEdge;
 import com.syncleus.dann.graph.WeightedWalk;
 import com.syncleus.dann.graph.search.pathfinding.HeuristicPathCost;

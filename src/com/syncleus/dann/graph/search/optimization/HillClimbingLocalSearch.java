@@ -16,49 +16,43 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.tests.dann.graph.search.pathfinding;
+package com.syncleus.dann.graph.search.optimization;
 
+import com.syncleus.dann.graph.Graph;
 import com.syncleus.dann.graph.Weighted;
-import com.syncleus.dann.math.Vector;
 
-public class GridNode extends Vector implements Weighted
+public class HillClimbingLocalSearch<G extends Graph<N, ?, ?>, N extends Weighted> implements LocalSearch<N>
 {
-	private double weight;
+	private G graph;
 
-	public GridNode(int x, int y, double weight)
+	public HillClimbingLocalSearch(G graph)
 	{
-		super((double)x, (double)y);
-		this.weight = weight;
+		if( graph == null )
+			throw new IllegalArgumentException("graph can not be null");
+		this.graph = graph;
 	}
 
-	public double getWeight()
+	public N search(N startNode)
 	{
-		return this.weight;
-	}
+		if( startNode == null )
+			throw new IllegalArgumentException("startNode can not be null");
 
-	public int getX()
-	{
-		return (int) this.getCoordinate(1);
-	}
+		N currentNode = startNode;
+		do
+		{
+			N nextNode = null;
+			for(N neighbor : graph.getTraversableNeighbors(currentNode))
+			{
+				if((nextNode == null)||(neighbor.getWeight() > nextNode.getWeight()))
+					nextNode = neighbor;
+			}
 
-	public int getY()
-	{
-		return (int) this.getCoordinate(2);
-	}
+			if((nextNode == null)||(currentNode.getWeight() > nextNode.getWeight()))
+				return currentNode;
 
-	@Override
-	public int hashCode()
-	{
-		return (this.getX()*this.getY()) + this.getY();
-	}
+			currentNode = nextNode;
+		} while(currentNode != startNode);
 
-	@Override
-	public boolean equals(Object compareToObj)
-	{
-		if(!(compareToObj instanceof GridNode))
-			return false;
-
-		GridNode compareTo = (GridNode) compareToObj;
-		return ((compareTo.getX() == this.getX())&&(compareTo.getY() == this.getY()));
+		return null;
 	}
 }

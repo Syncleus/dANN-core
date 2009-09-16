@@ -23,8 +23,6 @@ import com.syncleus.dann.graph.Graph;
 import com.syncleus.dann.graph.SimpleWalk;
 import com.syncleus.dann.graph.Weighted;
 import com.syncleus.dann.graph.WeightedWalk;
-import com.syncleus.dann.graph.search.pathfinding.HeuristicPathCost;
-import com.syncleus.dann.graph.search.pathfinding.PathFinder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
