@@ -16,52 +16,15 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.math.linear;
+package com.syncleus.dann.math.statistics;
 
-import com.syncleus.dann.math.FieldElement;
+import java.util.Set;
 
-public interface Matrix<M extends Matrix<? extends M, ? extends F>, F extends FieldElement<? extends F>> //extends Algebraic<F>
+public interface MarkovChainEvidence<S>
 {
-	com.syncleus.dann.math.Field<F> getElementField();
-
-	M blank();
-	M flip();
-
-	boolean isSymmetric();
-	boolean isSquare();
-
-	F get(int i, int j);
-	M set(int i, int j, F s);
-	int getWidth();
-	int getHeight();
-	M transpose();
-	M solve(M operand);
-	M solveTranspose(M operand);
-	F[][] toArray();
-
-	M getSubmatrix(int heightStart, int heightEnd, int widthStart, int widthEnd);
-	M getSubmatrix(int[] heightIndexes, int[] widthIndexes);
-	M getSubmatrix(int heightStart, int heightEnd, int[] widthIndexes);
-	M getSubmatrix(int[] heightIndexes, int widthStart, int widthEnd);
-
-	M arrayLeftDivide(M operand);
-	M arrayLeftDivideEquals(M operand);
-	M arrayRightDivide(M operand);
-	M arrayRightDivideEquals(M operand);
-	M arrayTimes(M operand);
-	M arrayTimesEquals(M operand);
-
-	M addEquals(M value);
-	M subtractEquals(M value);
-	M multiplyEquals(F value);
-	M add(F value);
-	M subtract(F value);
-	M multiply(F value);
-	M divide(F value);
-
-	M add(M value);
-	M subtract(M value);
-	M multiply(M value);
-	M negate();
-	M reciprocal();
+	void newChain();
+	void learnStep(S state);
+	Set<S> getObservedStates();
+	int getOrder();
+	MarkovChain getMarkovChain();
 }

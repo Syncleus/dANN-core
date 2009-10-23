@@ -16,52 +16,27 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.math.linear;
+package com.syncleus.dann.math.statistics;
 
-import com.syncleus.dann.math.FieldElement;
-
-public interface Matrix<M extends Matrix<? extends M, ? extends F>, F extends FieldElement<? extends F>> //extends Algebraic<F>
+public abstract class AbstractMarkovChain<S> implements MarkovChain<S>
 {
-	com.syncleus.dann.math.Field<F> getElementField();
+	public S generateTransition()
+	{
+		return this.generateTransition(true);
+	}
 
-	M blank();
-	M flip();
+	public S getCurrentState()
+	{
+		return this.getStateHistory().get(0);
+	}
 
-	boolean isSymmetric();
-	boolean isSquare();
+	public double getProbability(S futureState, int steps)
+	{
+		return this.getProbability(steps).get(futureState).doubleValue();
+	}
 
-	F get(int i, int j);
-	M set(int i, int j, F s);
-	int getWidth();
-	int getHeight();
-	M transpose();
-	M solve(M operand);
-	M solveTranspose(M operand);
-	F[][] toArray();
-
-	M getSubmatrix(int heightStart, int heightEnd, int widthStart, int widthEnd);
-	M getSubmatrix(int[] heightIndexes, int[] widthIndexes);
-	M getSubmatrix(int heightStart, int heightEnd, int[] widthIndexes);
-	M getSubmatrix(int[] heightIndexes, int widthStart, int widthEnd);
-
-	M arrayLeftDivide(M operand);
-	M arrayLeftDivideEquals(M operand);
-	M arrayRightDivide(M operand);
-	M arrayRightDivideEquals(M operand);
-	M arrayTimes(M operand);
-	M arrayTimesEquals(M operand);
-
-	M addEquals(M value);
-	M subtractEquals(M value);
-	M multiplyEquals(F value);
-	M add(F value);
-	M subtract(F value);
-	M multiply(F value);
-	M divide(F value);
-
-	M add(M value);
-	M subtract(M value);
-	M multiply(M value);
-	M negate();
-	M reciprocal();
+	public double getSteadyStateProbability(S futureState)
+	{
+		return this.getSteadyStateProbability().get(futureState).doubleValue();
+	}
 }

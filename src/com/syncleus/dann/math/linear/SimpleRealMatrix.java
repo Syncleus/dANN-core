@@ -289,6 +289,15 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 		return new SimpleRealMatrix(this.height, this.width);
 	}
 
+	public RealMatrix flip()
+	{
+		double[][] flippedSolution = new double[this.getWidth()][this.getHeight()];
+		for(int heightIndex = 0; heightIndex < this.getHeight(); heightIndex++)
+			for(int widthIndex = 0; widthIndex < this.getWidth(); widthIndex++)
+				flippedSolution[widthIndex][heightIndex] = this.matrixElements[heightIndex][widthIndex];
+		return new SimpleRealMatrix(flippedSolution);
+	}
+
 	/** Get a submatrix.
 	@param heightStart   Initial row index
 	@param heightEnd   Final row index
@@ -908,12 +917,17 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	 */
 	public static RealMatrix identity(int height, int width)
 	{
+		final double[][] identityValues = new double[height][width];
+		for(int index = 0; index < (height < width ? height : width); index++)
+			identityValues[index][index] = 1.0;
+		return new SimpleRealMatrix(identityValues);
+		/*
 		SimpleRealMatrix A = new SimpleRealMatrix(height, width);
 		double[][] X = A.matrixElements;
 		for(int i = 0; i < height; i++)
 			for(int j = 0; j < width; j++)
 				X[i][j] = (i == j ? 1.0 : 0.0);
-		return A;
+		return A;*/
 	}
 
 	/** Check if size(matrixElements) == size(operand) **/
