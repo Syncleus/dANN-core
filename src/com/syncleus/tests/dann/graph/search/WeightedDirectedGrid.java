@@ -22,6 +22,9 @@ import com.syncleus.dann.graph.AbstractBidirectedGraph;
 import com.syncleus.dann.graph.BidirectedWalk;
 import com.syncleus.dann.graph.DirectedEdge;
 import com.syncleus.dann.graph.SimpleDirectedEdge;
+import com.syncleus.dann.graph.SimpleWeightedDirectedEdge;
+import com.syncleus.dann.graph.WeightedBidirectedWalk;
+import com.syncleus.dann.graph.WeightedDirectedEdge;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -30,17 +33,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class DirectedGrid extends AbstractBidirectedGraph<GridNode, DirectedEdge<GridNode>, BidirectedWalk<GridNode, DirectedEdge<GridNode>>>
+public class WeightedDirectedGrid extends AbstractBidirectedGraph<GridNode, WeightedDirectedEdge<GridNode>, WeightedBidirectedWalk<GridNode, WeightedDirectedEdge<GridNode>>>
 {
 	final private GridNode[][] nodes;
 	final private Set<GridNode> nodeSet = new HashSet<GridNode>();
-	final private Set<DirectedEdge<GridNode>> edges = new HashSet<DirectedEdge<GridNode>>();
-	final private Map<GridNode, Set<DirectedEdge<GridNode>>> outNeighborEdges = new HashMap<GridNode, Set<DirectedEdge<GridNode>>>();
+	final private Set<WeightedDirectedEdge<GridNode>> edges = new HashSet<WeightedDirectedEdge<GridNode>>();
+	final private Map<GridNode, Set<WeightedDirectedEdge<GridNode>>> outNeighborEdges = new HashMap<GridNode, Set<WeightedDirectedEdge<GridNode>>>();
 	final private Map<GridNode, Set<GridNode>> outNeighborNodes = new HashMap<GridNode, Set<GridNode>>();
-	final private Map<GridNode, Set<DirectedEdge<GridNode>>> inNeighborEdges = new HashMap<GridNode, Set<DirectedEdge<GridNode>>>();
+	final private Map<GridNode, Set<WeightedDirectedEdge<GridNode>>> inNeighborEdges = new HashMap<GridNode, Set<WeightedDirectedEdge<GridNode>>>();
 	final private Map<GridNode, Set<GridNode>> inNeighborNodes = new HashMap<GridNode, Set<GridNode>>();
 
-	public DirectedGrid(double[][] nodeWeights)
+	public WeightedDirectedGrid(double[][] nodeWeights)
 	{
 		this.nodes = new GridNode[nodeWeights.length][nodeWeights[0].length];
 
@@ -50,9 +53,9 @@ public class DirectedGrid extends AbstractBidirectedGraph<GridNode, DirectedEdge
 			{
 				nodes[y][x] = new GridNode(x,y, nodeWeights[y][x]);
 				this.nodeSet.add(nodes[y][x]);
-				this.inNeighborEdges.put(nodes[y][x], new HashSet<DirectedEdge<GridNode>>());
+				this.inNeighborEdges.put(nodes[y][x], new HashSet<WeightedDirectedEdge<GridNode>>());
 				this.inNeighborNodes.put(nodes[y][x], new HashSet<GridNode>());
-				this.outNeighborEdges.put(nodes[y][x], new HashSet<DirectedEdge<GridNode>>());
+				this.outNeighborEdges.put(nodes[y][x], new HashSet<WeightedDirectedEdge<GridNode>>());
 				this.outNeighborNodes.put(nodes[y][x], new HashSet<GridNode>());
 			}
 
@@ -63,14 +66,14 @@ public class DirectedGrid extends AbstractBidirectedGraph<GridNode, DirectedEdge
 				//connect to the right
 				if( x < nodes[0].length - 1)
 				{
-					SimpleDirectedEdge<GridNode> newEdge = new SimpleDirectedEdge<GridNode>(nodes[y][x], nodes[y][x+1]);
+					SimpleWeightedDirectedEdge<GridNode> newEdge = new SimpleWeightedDirectedEdge<GridNode>(nodes[y][x], nodes[y][x+1], nodes[y][x+1].getWeight());
 					this.edges.add(newEdge);
 					this.outNeighborEdges.get(nodes[y][x]).add(newEdge);
 					this.inNeighborEdges.get(nodes[y][x+1]).add(newEdge);
 					this.outNeighborNodes.get(nodes[y][x]).add(nodes[y][x+1]);
 					this.inNeighborNodes.get(nodes[y][x+1]).add(nodes[y][x]);
 
-					newEdge = new SimpleDirectedEdge<GridNode>(nodes[y][x+1], nodes[y][x]);
+					newEdge = new SimpleWeightedDirectedEdge<GridNode>(nodes[y][x+1], nodes[y][x], nodes[y][x].getWeight());
 					this.edges.add(newEdge);
 					this.inNeighborEdges.get(nodes[y][x]).add(newEdge);
 					this.outNeighborEdges.get(nodes[y][x+1]).add(newEdge);
@@ -80,14 +83,14 @@ public class DirectedGrid extends AbstractBidirectedGraph<GridNode, DirectedEdge
 				//connect to the bottom
 				if( y < nodes.length - 1)
 				{
-					SimpleDirectedEdge<GridNode> newEdge = new SimpleDirectedEdge<GridNode>(nodes[y][x], nodes[y+1][x]);
+					SimpleWeightedDirectedEdge<GridNode> newEdge = new SimpleWeightedDirectedEdge<GridNode>(nodes[y][x], nodes[y+1][x], nodes[y+1][x].getWeight());
 					this.edges.add(newEdge);
 					this.outNeighborEdges.get(nodes[y][x]).add(newEdge);
 					this.inNeighborEdges.get(nodes[y+1][x]).add(newEdge);
 					this.outNeighborNodes.get(nodes[y][x]).add(nodes[y+1][x]);
 					this.inNeighborNodes.get(nodes[y+1][x]).add(nodes[y][x]);
 
-					newEdge = new SimpleDirectedEdge<GridNode>(nodes[y+1][x], nodes[y][x]);
+					newEdge = new SimpleWeightedDirectedEdge<GridNode>(nodes[y+1][x], nodes[y][x], nodes[y][x].getWeight());
 					this.edges.add(newEdge);
 					this.inNeighborEdges.get(nodes[y][x]).add(newEdge);
 					this.outNeighborEdges.get(nodes[y+1][x]).add(newEdge);
@@ -110,32 +113,32 @@ public class DirectedGrid extends AbstractBidirectedGraph<GridNode, DirectedEdge
 	}
 
 	@Override
-	public List<DirectedEdge<GridNode>> getEdges()
+	public List<WeightedDirectedEdge<GridNode>> getEdges()
 	{
-		return Collections.unmodifiableList(new ArrayList<DirectedEdge<GridNode>>(this.edges));
+		return Collections.unmodifiableList(new ArrayList<WeightedDirectedEdge<GridNode>>(this.edges));
 	}
 
-	public List<DirectedEdge<GridNode>> getEdges(GridNode node)
+	public List<WeightedDirectedEdge<GridNode>> getEdges(GridNode node)
 	{
-		ArrayList<DirectedEdge<GridNode>> newEdges = new ArrayList<DirectedEdge<GridNode>>(this.inNeighborEdges.get(node));
+		ArrayList<WeightedDirectedEdge<GridNode>> newEdges = new ArrayList<WeightedDirectedEdge<GridNode>>(this.inNeighborEdges.get(node));
 		newEdges.addAll(this.outNeighborEdges.get(node));
 		return Collections.unmodifiableList(newEdges);
 	}
 
-	public List<DirectedEdge<GridNode>> getTraversableEdges(GridNode node)
+	public List<WeightedDirectedEdge<GridNode>> getTraversableEdges(GridNode node)
 	{
-		ArrayList<DirectedEdge<GridNode>> newEdges = new ArrayList<DirectedEdge<GridNode>>(this.outNeighborEdges.get(node));
+		ArrayList<WeightedDirectedEdge<GridNode>> newEdges = new ArrayList<WeightedDirectedEdge<GridNode>>(this.outNeighborEdges.get(node));
 		return Collections.unmodifiableList(newEdges);
 	}
 
-	public List<DirectedEdge<GridNode>> getOutEdges(GridNode node)
+	public List<WeightedDirectedEdge<GridNode>> getOutEdges(GridNode node)
 	{
 		return this.getTraversableEdges(node);
 	}
 
-	public List<DirectedEdge<GridNode>> getInEdges(GridNode node)
+	public List<WeightedDirectedEdge<GridNode>> getInEdges(GridNode node)
 	{
-		ArrayList<DirectedEdge<GridNode>> newEdges = new ArrayList<DirectedEdge<GridNode>>(this.inNeighborEdges.get(node));
+		ArrayList<WeightedDirectedEdge<GridNode>> newEdges = new ArrayList<WeightedDirectedEdge<GridNode>>(this.inNeighborEdges.get(node));
 		return Collections.unmodifiableList(newEdges);
 	}
 

@@ -77,12 +77,14 @@ public class BellmanFordPathFinder<G extends BidirectedGraph<N, E, ?>, N, E exte
 				throw new IllegalArgumentException("newParentEdge must connect to new Parent");
 
 			boolean parentHasEdge = false;
-			for( Edge<N> edge : graph.getTraversableEdges(this.node) )
+			for( Edge<N> edge : graph.getEdges(this.node) )
+			{
 				if(edge.getNodes().contains(newParent.getNode()))
 				{
 					parentHasEdge = true;
 					break;
 				}
+			}
 
 			if(!parentHasEdge)
 				throw new IllegalArgumentException("newParent is not connected to this node");
@@ -148,9 +150,17 @@ public class BellmanFordPathFinder<G extends BidirectedGraph<N, E, ?>, N, E exte
 		{
 			return parentEdge;
 		}
+
+		@Override
+		public String toString()
+		{
+			return this.node.toString();
+		}
 	}
 
 	private G graph;
+	Map<N,PathedStep> pathedSteps;
+	N begin;
 
 	public BellmanFordPathFinder(G graph)
 	{
@@ -164,10 +174,28 @@ public class BellmanFordPathFinder<G extends BidirectedGraph<N, E, ?>, N, E exte
 
 	public WeightedBidirectedWalk<N,E> getBestPath(N begin, N end)
 	{
+		return this.getBestPath(begin, end, true);
+	}
+
+	public WeightedBidirectedWalk<N,E> getBestPath(N begin, N end, boolean refresh)
+	{
+		if((refresh)||(this.pathedSteps == null)||(!begin.equals(this.begin)))
+			this.calculateSteps(begin);
+
+		//construct a walk from the end node
+		PathedStep endPathedStep = pathedSteps.get(end);
+		PathedStep beginPathedStep = pathedSteps.get(begin);
+		assert ((endPathedStep != null)&&(beginPathedStep != null));
+
+		return this.pathedStepToWalk(endPathedStep);
+	}
+
+	public void calculateSteps(N begin)
+	{
 		Set<N> nodes = this.graph.getNodes();
 		List<E> edges = this.graph.getEdges();
 
-		Map<N,PathedStep> pathedSteps = new HashMap<N,PathedStep>(nodes.size());
+		pathedSteps = new HashMap<N,PathedStep>(nodes.size());
 
 		//relax edges
 		for(int lcv = 0; lcv < (nodes.size() - 1); lcv++)
@@ -207,13 +235,6 @@ public class BellmanFordPathFinder<G extends BidirectedGraph<N, E, ?>, N, E exte
 			if(destinationPathedStep.updateParent(sourcePathedStep, edge))
 				throw new NegativeWeightCycleException("negative-weight cycle found in graph");
 		}
-
-		//construct a walk from the end node
-		PathedStep endPathedStep = pathedSteps.get(end);
-		PathedStep beginPathedStep = pathedSteps.get(begin);
-		assert ((endPathedStep != null)&&(beginPathedStep != null));
-
-		return this.pathedStepToWalk(beginPathedStep, endPathedStep);
 	}
 
 	public boolean isReachable(N begin, N end)
@@ -226,7 +247,7 @@ public class BellmanFordPathFinder<G extends BidirectedGraph<N, E, ?>, N, E exte
 		return ( this.getBestPath(begin, end) != null);
 	}
 
-	private WeightedBidirectedWalk<N,E> pathedStepToWalk(PathedStep beginPathedStep, PathedStep endPathedStep)
+	private WeightedBidirectedWalk<N,E> pathedStepToWalk(PathedStep endPathedStep)
 	{
 		List<E> edges = new ArrayList<E>();
 		List<PathedStep> steps = new ArrayList<PathedStep>();

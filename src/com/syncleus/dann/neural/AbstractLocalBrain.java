@@ -126,6 +126,8 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedGraph<Neuron,
 
 		if( this.neurons.add(newNeuron) )
 		{
+			this.outMap.put(newNeuron, new HashSet<Synapse>());
+			this.inMap.put(newNeuron, new HashSet<Synapse>());
 			if (newNeuron instanceof OutputNeuron)
 				this.outputNeurons.add((OutputNeuron) newNeuron);
 			if (newNeuron instanceof InputNeuron)
@@ -156,6 +158,8 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedGraph<Neuron,
 
 		for(Neuron newNeuron : newNeurons)
 		{
+			this.outMap.put(newNeuron, new HashSet<Synapse>());
+			this.inMap.put(newNeuron, new HashSet<Synapse>());
 			if (newNeuron instanceof OutputNeuron)
 				this.outputNeurons.add((OutputNeuron) newNeuron);
 			if (newNeuron instanceof InputNeuron)

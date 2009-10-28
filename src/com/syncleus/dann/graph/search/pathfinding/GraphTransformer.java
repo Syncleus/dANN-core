@@ -16,29 +16,11 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph;
+package com.syncleus.dann.graph.search.pathfinding;
 
-import java.util.List;
+import com.syncleus.dann.graph.Graph;
 
-public interface BidirectedEdge<N> extends Edge<N>
+public interface GraphTransformer<G extends Graph>
 {
-	public enum EndState
-	{
-		OUTWARD, INWARD, NONE;
-	};
-
-	N getLeftNode();
-	N getRightNode();
-	EndState getLeftEndState();
-	EndState getRightEndState();
-	boolean isIntroverted();
-	boolean isExtraverted();
-	boolean isDirected();
-	boolean isHalfEdge();
-	boolean isLooseEdge();
-	boolean isOrdinaryEdge();
-	boolean isLoop();
-
-	//parent methods
-	List<N> getNodes();
+	G transform(G original);
 }

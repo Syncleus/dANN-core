@@ -22,7 +22,7 @@ public class SimpleDirectedEdge<N> extends SimpleBidirectedEdge<N> implements Di
 {
 	public SimpleDirectedEdge(N source, N destination)
 	{
-		super(source, EndState.Inward, destination, EndState.Outward);
+		super(source, EndState.INWARD, destination, EndState.OUTWARD);
 	}
 
 	public N getSourceNode()
@@ -69,5 +69,11 @@ public class SimpleDirectedEdge<N> extends SimpleBidirectedEdge<N> implements Di
 	public boolean isOrdinaryEdge()
 	{
 		return true;
+	}
+
+	@Override
+	public String toString()
+	{
+		return this.getSourceNode() + "->" + this.getDestinationNode();
 	}
 }

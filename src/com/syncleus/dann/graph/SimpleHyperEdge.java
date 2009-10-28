@@ -31,9 +31,6 @@ public class SimpleHyperEdge<N> extends SimpleEdge<N> implements HyperEdge<N>
 	public SimpleHyperEdge(N... nodes)
 	{
 		super(nodes);
-		List<N> newNodes = new ArrayList<N>();
-		for(N node : nodes)
-			newNodes.add(node);
 	}
 
 	public int getDegree()

@@ -22,7 +22,7 @@ public class SimpleUndirectedEdge<N> extends SimpleBidirectedEdge<N>
 {
 	public SimpleUndirectedEdge(N leftNode, N rightNode)
 	{
-		super(leftNode, EndState.None, rightNode, EndState.None);
+		super(leftNode, EndState.NONE, rightNode, EndState.NONE);
 	}
 
 	@Override

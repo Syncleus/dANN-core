@@ -43,4 +43,37 @@ public class SimpleEdge<N> implements Edge<N>
 	{
 		return this.nodes;
 	}
+
+	@Override
+	public boolean equals(Object compareToObj)
+	{
+		if(!(compareToObj instanceof Edge))
+			return false;
+		Edge compareTo = (Edge) compareToObj;
+		return (compareTo.getNodes().equals(this.nodes))&&
+			(this.nodes.equals(compareTo.getNodes()));
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int hash = 0;
+		for(N node : this.nodes)
+			hash += node.hashCode();
+		return hash;
+	}
+
+	@Override
+	public String toString()
+	{
+		StringBuffer outString = null;
+		for(N node : this.nodes)
+		{
+			if(outString == null)
+				outString = new StringBuffer(node.toString());
+			else
+				outString.append(":" + node);
+		}
+		return outString.toString();
+	}
 }

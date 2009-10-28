@@ -67,39 +67,39 @@ public class SimpleBidirectedEdge<N> extends SimpleEdge<N> implements Bidirected
 
 	public boolean isIntroverted()
 	{
-		if( (this.getRightEndState() == EndState.Inward) && (this.getLeftEndState() == EndState.Inward) )
+		if( (this.getRightEndState() == EndState.INWARD) && (this.getLeftEndState() == EndState.INWARD) )
 			return true;
 		return false;
 	}
 
 	public boolean isExtraverted()
 	{
-		if( (this.getRightEndState() == EndState.Outward) && (this.getLeftEndState() == EndState.Outward) )
+		if( (this.getRightEndState() == EndState.OUTWARD) && (this.getLeftEndState() == EndState.OUTWARD) )
 			return true;
 		return false;
 	}
 
 	public boolean isDirected()
 	{
-		if( (this.getRightEndState() == EndState.Inward) && (this.getLeftEndState() == EndState.Outward) )
+		if( (this.getRightEndState() == EndState.INWARD) && (this.getLeftEndState() == EndState.OUTWARD) )
 			return true;
-		else if( (this.getRightEndState() == EndState.Outward) && (this.getLeftEndState() == EndState.Inward) )
+		else if( (this.getRightEndState() == EndState.OUTWARD) && (this.getLeftEndState() == EndState.INWARD) )
 			return true;
 		return false;
 	}
 
 	public boolean isHalfEdge()
 	{
-		if( (this.getRightEndState() == EndState.None) && (this.getLeftEndState() != EndState.None) )
+		if( (this.getRightEndState() == EndState.NONE) && (this.getLeftEndState() != EndState.NONE) )
 			return true;
-		else if( (this.getRightEndState() != EndState.None) && (this.getLeftEndState() == EndState.None) )
+		else if( (this.getRightEndState() != EndState.NONE) && (this.getLeftEndState() == EndState.NONE) )
 			return true;
 		return false;
 	}
 
 	public boolean isLooseEdge()
 	{
-		if( (this.getRightEndState() == EndState.None) && (this.getLeftEndState() == EndState.None) )
+		if( (this.getRightEndState() == EndState.NONE) && (this.getLeftEndState() == EndState.NONE) )
 			return true;
 		return false;
 	}
@@ -116,5 +116,63 @@ public class SimpleBidirectedEdge<N> extends SimpleEdge<N> implements Bidirected
 		if(this.getLeftEndState().equals(this.getRightEndState()))
 			return true;
 		return false;
+	}
+
+	@Override
+	public boolean equals(Object compareToObj)
+	{
+		if(!(compareToObj instanceof BidirectedEdge))
+			return false;
+		BidirectedEdge compareTo = (BidirectedEdge) compareToObj;
+		return
+			(
+				(compareTo.getLeftNode().equals(this.getLeftNode()))&&
+				(compareTo.getRightNode().equals(this.getRightNode()))&&
+				(compareTo.getLeftEndState().equals(this.getLeftEndState()))&&
+				(compareTo.getRightEndState().equals(this.getRightEndState()))
+			)||
+			(
+				(compareTo.getLeftNode().equals(this.getRightNode()))&&
+				(compareTo.getRightNode().equals(this.getLeftNode()))&&
+				(compareTo.getLeftEndState().equals(this.getRightEndState()))&&
+				(compareTo.getRightEndState().equals(this.getLeftEndState()))
+			);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int leftNodeHash = this.leftNode.hashCode();
+		int rightNodeHash = this.rightNode.hashCode();
+		int leftStateHash = this.leftEndState.hashCode();
+		int rightStateHash = this.rightEndState.hashCode();
+		return
+			leftNodeHash +
+			(leftNodeHash * leftStateHash) +
+			rightNodeHash +
+			(rightNodeHash * rightStateHash);
+	}
+
+	@Override
+	public String toString()
+	{
+		return this.leftNode.toString() +
+			endStateToString(this.leftEndState, true) +
+			"-" +
+			endStateToString(this.rightEndState, false) +
+			this.rightNode;
+	}
+
+	private static String endStateToString(EndState state, boolean isLeft)
+	{
+		switch(state)
+		{
+		case INWARD:
+			return (isLeft ? ">" : "<");
+		case OUTWARD:
+			return (isLeft ? "<" : ">");
+		default:
+			return "";
+		}
 	}
 }
