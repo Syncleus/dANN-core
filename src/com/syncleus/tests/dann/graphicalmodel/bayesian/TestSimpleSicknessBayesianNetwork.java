@@ -22,7 +22,6 @@ import com.syncleus.dann.graphicalmodel.bayesian.BayesianNode;
 import com.syncleus.dann.graphicalmodel.bayesian.SimpleBayesianNetwork;
 import com.syncleus.dann.graphicalmodel.bayesian.SimpleBayesianNode;
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 import org.junit.*;
 
