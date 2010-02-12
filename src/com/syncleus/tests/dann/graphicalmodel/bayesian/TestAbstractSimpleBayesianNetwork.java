@@ -124,9 +124,10 @@ public class TestAbstractSimpleBayesianNetwork {
         double aPercent = n.getPercentage(ThreeState.A);
         double bPercent = n.getPercentage(ThreeState.B);
         double cPercent = n.getPercentage(ThreeState.C);
-        System.out.println("3 state: " + aPercent + " " + bPercent + " " + cPercent);
+        //System.out.println("3 state: " + aPercent + " " + bPercent + " " + cPercent);
 
-        //Assert.assertTrue("incorrect true/false distribution: "+ truePercent + ":" + falsePercent, (truePercent == 0.5) && (falsePercent == 0.5));
+        boolean condition = (aPercent==1.0) && (bPercent==0.5) && (cPercent==0.0);
+        Assert.assertTrue("incorrect a/b/c distribution", condition);
     }
 
     @Test public void testTwoState75() {
@@ -194,7 +195,8 @@ public class TestAbstractSimpleBayesianNetwork {
         double hotPercentage = n.getPercentage(FeverState.HOT);
 
         boolean condition = (nonePercentage < lowPercentage) && (lowPercentage < warmPercentage) && (warmPercentage < hotPercentage);
-        System.out.println("fever to sickness mapping! " + nonePercentage + " < " + lowPercentage + " < " + warmPercentage + " < " + hotPercentage);
+        
+        //System.out.println("fever to sickness mapping! " + nonePercentage + " < " + lowPercentage + " < " + warmPercentage + " < " + hotPercentage);
         Assert.assertTrue("incorrect fever to sickness mapping! " + nonePercentage + " < " + lowPercentage + " < " + warmPercentage + " < " + hotPercentage, condition);
     }
 }
