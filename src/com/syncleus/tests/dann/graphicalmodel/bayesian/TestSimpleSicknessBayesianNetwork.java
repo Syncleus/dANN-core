@@ -22,11 +22,13 @@ import com.syncleus.dann.graphicalmodel.bayesian.BayesianNode;
 import com.syncleus.dann.graphicalmodel.bayesian.SimpleBayesianNetwork;
 import com.syncleus.dann.graphicalmodel.bayesian.SimpleBayesianNode;
 import java.util.HashSet;
-import java.util.Set;
 import org.junit.*;
 
 public class TestSimpleSicknessBayesianNetwork
 {
+    private HashSet<BayesianNode> goals;
+    private HashSet<BayesianNode> influences;
+
 	private static enum BooleanState
 	{
 		TRUE,FALSE;
@@ -57,88 +59,61 @@ public class TestSimpleSicknessBayesianNetwork
 		this.sampleState();
 
 		//lets check some probabilities
-		Set<BayesianNode> goals = new HashSet<BayesianNode>();
+		goals = new HashSet<BayesianNode>();
 		goals.add(sick);
-		Set<BayesianNode> influences = new HashSet<BayesianNode>();
+		influences = new HashSet<BayesianNode>();
 		influences.add(fever);
-		sick.setState(BooleanState.TRUE);
 
-		fever.setState(FeverState.LOW);
-		double lowPercentage = network.conditionalProbability(goals, influences);
-		fever.setState(FeverState.NONE);
-		double nonePercentage = network.conditionalProbability(goals, influences);
-		fever.setState(FeverState.WARM);
-		double warmPercentage = network.conditionalProbability(goals, influences);
-		fever.setState(FeverState.HOT);
-		double hotPercentage = network.conditionalProbability(goals, influences);
+		double nonePercentage = getPercentage(FeverState.NONE);
+		double lowPercentage = getPercentage(FeverState.LOW);
+		double warmPercentage = getPercentage(FeverState.WARM);
+		double hotPercentage = getPercentage(FeverState.HOT);
 
-		Assert.assertTrue("incorrect fever to sickness mapping! " + nonePercentage + " < " + lowPercentage + " < " + warmPercentage + " < " + hotPercentage, (nonePercentage < lowPercentage) && (lowPercentage < warmPercentage) && (warmPercentage < hotPercentage) );
+        boolean condition = (nonePercentage < lowPercentage) && (lowPercentage < warmPercentage) && (warmPercentage < hotPercentage);
+        Assert.assertTrue("incorrect fever to sickness mapping! " + nonePercentage + " < " + lowPercentage + " < " + warmPercentage + " < " + hotPercentage, condition );
 	}
+
+    protected double getPercentage(FeverState s) {
+        fever.setState(s);
+        return network.conditionalProbability(goals, influences);
+    }
+
+    protected void learnThat(FeverState fs, BooleanState bs) {
+		fever.setState(fs);
+		sick.setState(bs);
+		network.learnStates();
+    }
 
 	private void sampleState()
 	{
-		fever.setState(FeverState.NONE);
-		sick.setState(BooleanState.FALSE);
-		network.learnStates();
-		fever.setState(FeverState.NONE);
-		sick.setState(BooleanState.FALSE);
-		network.learnStates();
-		fever.setState(FeverState.NONE);
-		sick.setState(BooleanState.FALSE);
-		network.learnStates();
-		fever.setState(FeverState.NONE);
-		sick.setState(BooleanState.FALSE);
-		network.learnStates();
-		fever.setState(FeverState.NONE);
-		sick.setState(BooleanState.TRUE);
-		network.learnStates();
+        learnThat(FeverState.NONE, BooleanState.FALSE);
+        learnThat(FeverState.NONE, BooleanState.FALSE);
+        learnThat(FeverState.NONE, BooleanState.FALSE);
+        learnThat(FeverState.NONE, BooleanState.FALSE);
 
-		fever.setState(FeverState.LOW);
-		sick.setState(BooleanState.FALSE);
-		network.learnStates();
-		fever.setState(FeverState.LOW);
-		sick.setState(BooleanState.FALSE);
-		network.learnStates();
-		fever.setState(FeverState.LOW);
-		sick.setState(BooleanState.FALSE);
-		network.learnStates();
-		fever.setState(FeverState.LOW);
-		sick.setState(BooleanState.TRUE);
-		network.learnStates();
-		fever.setState(FeverState.LOW);
-		sick.setState(BooleanState.TRUE);
-		network.learnStates();
+        learnThat(FeverState.NONE, BooleanState.TRUE);
 
-		fever.setState(FeverState.WARM);
-		sick.setState(BooleanState.FALSE);
-		network.learnStates();
-		fever.setState(FeverState.WARM);
-		sick.setState(BooleanState.FALSE);
-		network.learnStates();
-		fever.setState(FeverState.WARM);
-		sick.setState(BooleanState.TRUE);
-		network.learnStates();
-		fever.setState(FeverState.WARM);
-		sick.setState(BooleanState.TRUE);
-		network.learnStates();
-		fever.setState(FeverState.WARM);
-		sick.setState(BooleanState.TRUE);
-		network.learnStates();
+        learnThat(FeverState.LOW, BooleanState.FALSE);
+        learnThat(FeverState.LOW, BooleanState.FALSE);
+        learnThat(FeverState.LOW, BooleanState.FALSE);
 
-		fever.setState(FeverState.HOT);
-		sick.setState(BooleanState.FALSE);
-		network.learnStates();
-		fever.setState(FeverState.HOT);
-		sick.setState(BooleanState.TRUE);
-		network.learnStates();
-		fever.setState(FeverState.HOT);
-		sick.setState(BooleanState.TRUE);
-		network.learnStates();
-		fever.setState(FeverState.HOT);
-		sick.setState(BooleanState.TRUE);
-		network.learnStates();
-		fever.setState(FeverState.HOT);
-		sick.setState(BooleanState.TRUE);
-		network.learnStates();
+        learnThat(FeverState.LOW, BooleanState.TRUE);
+        learnThat(FeverState.LOW, BooleanState.TRUE);
+
+        learnThat(FeverState.WARM, BooleanState.FALSE);
+        learnThat(FeverState.WARM, BooleanState.FALSE);
+
+        learnThat(FeverState.WARM, BooleanState.TRUE);
+        learnThat(FeverState.WARM, BooleanState.TRUE);
+
+        learnThat(FeverState.WARM, BooleanState.TRUE);
+
+        learnThat(FeverState.HOT, BooleanState.FALSE);
+
+        learnThat(FeverState.HOT, BooleanState.TRUE);
+        learnThat(FeverState.HOT, BooleanState.TRUE);
+        learnThat(FeverState.HOT, BooleanState.TRUE);
+        learnThat(FeverState.HOT, BooleanState.TRUE);
+
 	}
 }
