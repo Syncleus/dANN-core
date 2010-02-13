@@ -61,6 +61,23 @@ public class TestSicknessBayesianNetwork
 	private BayesianNode<BooleanState> sick = new SimpleBayesianNode<BooleanState>(BooleanState.FALSE, network);
 
 	@Test
+	public void testOverallRepeated()
+	{
+		for(int i = 0; i < 10; i++)
+		{
+			testOverall();
+			
+			this.network = new SimpleBayesianNetwork();
+			this.season = new SimpleBayesianNode<SeasonState>(SeasonState.WINTER, network);
+			this.age = new SimpleBayesianNode<AgeState>(AgeState.BABY, network);
+			this.stuffyNose = new SimpleBayesianNode<BooleanState>(BooleanState.TRUE, network);
+			this.fever = new SimpleBayesianNode<FeverState>(FeverState.HOT, network);
+			this.tired = new SimpleBayesianNode<BooleanState>(BooleanState.FALSE, network);
+			this.sick = new SimpleBayesianNode<BooleanState>(BooleanState.FALSE, network);
+		}
+	}
+	
+	@Test
 	public void testOverall()
 	{
 		//add nodes

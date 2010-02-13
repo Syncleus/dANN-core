@@ -93,8 +93,16 @@ public class TestSimpleBooleanNetwork {
         }
     }
 
+    @Test
+	public void testTwoState50Repeated()
+	{
+		for(int iteration = 0; iteration < 1000; iteration++)
+			testTwoState50();
+	}
 
-    @Test public void testTwoState50() {
+    @Test
+	public void testTwoState50()
+	{
         SimpleBooleanNetwork<TwoState> n = new SimpleBooleanNetwork<TwoState>(TwoState.B);
         {
             n.learn(TwoState.A, true);
@@ -111,7 +119,16 @@ public class TestSimpleBooleanNetwork {
         Assert.assertTrue("incorrect true/false distribution: "+ truePercent + ":" + falsePercent, (truePercent == 0.5) && (falsePercent == 0.5));
     }
 
-    @Test public void testThreeStateBalanced() {
+    @Test
+	public void testThreeStateBalancedRepeated()
+	{
+		for(int iteration = 0; iteration < 1000; iteration++)
+			testThreeStateBalanced();
+	}
+
+    @Test
+	public void testThreeStateBalanced()
+	{
         SimpleBooleanNetwork<ThreeState> n = new SimpleBooleanNetwork<ThreeState>(ThreeState.A);
         {
             n.learn(ThreeState.A, true);
@@ -134,7 +151,16 @@ public class TestSimpleBooleanNetwork {
         Assert.assertTrue("incorrect a/b/c distribution", condition);
     }
 
-    @Test public void testTwoState75() {
+    @Test
+	public void testTwoState75Repeated()
+	{
+		for(int iteration = 0; iteration < 1000; iteration++)
+			testTwoState75();
+	}
+
+    @Test
+	public void testTwoState75()
+	{
         SimpleBooleanNetwork<TwoState> n = new SimpleBooleanNetwork<TwoState>(TwoState.B);
         {
             n.learn(TwoState.A, true);
@@ -155,7 +181,16 @@ public class TestSimpleBooleanNetwork {
         Assert.assertTrue("incorrect true/false distribution: "+ truePercent + ":" + falsePercent, (truePercent == 0.75) && (falsePercent == 0.25));
     }
 
-    @Test public void testFeverState() {
+    @Test
+	public void testFeverStateRepeated()
+	{
+		for(int iteration = 0; iteration < 1000; iteration++)
+			testFeverState();
+	}
+
+    @Test
+	public void testFeverState()
+	{
 
         SimpleBooleanNetwork<FeverState> n = new SimpleBooleanNetwork<FeverState>(FeverState.HOT);
         {
