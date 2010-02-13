@@ -24,35 +24,46 @@ import com.syncleus.dann.graphicalmodel.bayesian.SimpleBayesianNode;
 import java.util.HashSet;
 import org.junit.*;
 
-public class TestAbstractSimpleBayesianNetwork {
+public class TestSimpleBooleanNetwork {
 
     public static enum BooleanState {
-
         TRUE, FALSE;
     }
 
-    public static class SimpleBooleanNetwork<I> {
+    private static enum TwoState {
+        A, B;
+    }
+
+    private static enum ThreeState {
+        A, B, C
+    }
+
+    /** a four-state profile */
+    private static enum FeverState {
+        LOW, NONE, WARM, HOT
+    }
+
+    public static class SimpleBooleanNetwork<I> extends SimpleBayesianNetwork {
 
         private HashSet<BayesianNode> goals;
         private HashSet<BayesianNode> influences;
-        private final SimpleBayesianNetwork network;
         //create nodes
         private final BayesianNode<I> influence;
         private final BayesianNode<BooleanState> goal;
 
         public SimpleBooleanNetwork(I initialState) {
-            network = new SimpleBayesianNetwork();
-            influence = new SimpleBayesianNode<I>(initialState, network);
-            goal = new SimpleBayesianNode<BooleanState>(BooleanState.FALSE, network);
+            super();
+            influence = new SimpleBayesianNode<I>(initialState, this);
+            goal = new SimpleBayesianNode<BooleanState>(BooleanState.FALSE, this);
             goals = new HashSet<BayesianNode>();
             influences = new HashSet<BayesianNode>();
 
             //add nodes
-            network.add(influence);
-            network.add(goal);
+            add(influence);
+            add(goal);
 
             //connect nodes
-            network.connect(influence, goal);
+            connect(influence, goal);
 
             goals.add(influence);
             influences.add(goal);
@@ -69,40 +80,33 @@ public class TestAbstractSimpleBayesianNetwork {
 
         public double getPercentage(I s) {
             influence.setState(s);
-            return network.conditionalProbability(goals, influences);
+            return conditionalProbability(goals, influences);
+        }
+        public void learn(I i, boolean b) {
+            learn(i, b ? BooleanState.TRUE : BooleanState.FALSE);
         }
 
-        public void learnThat(I i, BooleanState bs) {
+        public void learn(I i, BooleanState bs) {
             influence.setState(i);
             goal.setState(bs);
-            network.learnStates();
+            learnStates();
         }
     }
 
-    private static enum TwoState {
-        TRUE, FALSE
-    }
-    private static enum ThreeState {
-        A, B, C
-    }
-
-    private static enum FeverState {
-        LOW, NONE, WARM, HOT
-    }
 
     @Test public void testTwoState50() {
-        SimpleBooleanNetwork<TwoState> n = new SimpleBooleanNetwork<TwoState>(TwoState.FALSE);
+        SimpleBooleanNetwork<TwoState> n = new SimpleBooleanNetwork<TwoState>(TwoState.B);
         {
-            n.learnThat(TwoState.TRUE, BooleanState.TRUE);
-            n.learnThat(TwoState.TRUE, BooleanState.FALSE);  //::
+            n.learn(TwoState.A, true);
+            n.learn(TwoState.A, false);  //::
 
-            n.learnThat(TwoState.FALSE, BooleanState.FALSE);
-            n.learnThat(TwoState.FALSE, BooleanState.TRUE);  //::
+            n.learn(TwoState.B, false);
+            n.learn(TwoState.B, true);  //::
         }
         n.getGoal().setState(BooleanState.TRUE);
 
-        double truePercent = n.getPercentage(TwoState.TRUE);
-        double falsePercent = n.getPercentage(TwoState.FALSE);
+        double truePercent = n.getPercentage(TwoState.A);
+        double falsePercent = n.getPercentage(TwoState.B);
 
         Assert.assertTrue("incorrect true/false distribution: "+ truePercent + ":" + falsePercent, (truePercent == 0.5) && (falsePercent == 0.5));
     }
@@ -110,14 +114,14 @@ public class TestAbstractSimpleBayesianNetwork {
     @Test public void testThreeStateBalanced() {
         SimpleBooleanNetwork<ThreeState> n = new SimpleBooleanNetwork<ThreeState>(ThreeState.A);
         {
-            n.learnThat(ThreeState.A, BooleanState.TRUE);
-            n.learnThat(ThreeState.A, BooleanState.TRUE);
+            n.learn(ThreeState.A, true);
+            n.learn(ThreeState.A, true);
 
-            n.learnThat(ThreeState.B, BooleanState.TRUE);
-            n.learnThat(ThreeState.B, BooleanState.FALSE);
+            n.learn(ThreeState.B, true);
+            n.learn(ThreeState.B, false);
 
-            n.learnThat(ThreeState.C, BooleanState.FALSE);
-            n.learnThat(ThreeState.C, BooleanState.FALSE);
+            n.learn(ThreeState.C, false);
+            n.learn(ThreeState.C, false);
         }
         n.getGoal().setState(BooleanState.TRUE);
 
@@ -131,22 +135,22 @@ public class TestAbstractSimpleBayesianNetwork {
     }
 
     @Test public void testTwoState75() {
-        SimpleBooleanNetwork<TwoState> n = new SimpleBooleanNetwork<TwoState>(TwoState.FALSE);
+        SimpleBooleanNetwork<TwoState> n = new SimpleBooleanNetwork<TwoState>(TwoState.B);
         {
-            n.learnThat(TwoState.TRUE, BooleanState.TRUE);
-            n.learnThat(TwoState.TRUE, BooleanState.TRUE);
-            n.learnThat(TwoState.TRUE, BooleanState.TRUE);
-            n.learnThat(TwoState.TRUE, BooleanState.FALSE);  //::
+            n.learn(TwoState.A, true);
+            n.learn(TwoState.A, true);
+            n.learn(TwoState.A, true);
+            n.learn(TwoState.A, false);  //::
 
-            n.learnThat(TwoState.FALSE, BooleanState.FALSE);
-            n.learnThat(TwoState.FALSE, BooleanState.FALSE);
-            n.learnThat(TwoState.FALSE, BooleanState.FALSE);
-            n.learnThat(TwoState.FALSE, BooleanState.TRUE);  //::
+            n.learn(TwoState.B, false);
+            n.learn(TwoState.B, false);
+            n.learn(TwoState.B, false);
+            n.learn(TwoState.B, true);  //::
         }
         n.getGoal().setState(BooleanState.TRUE);
 
-        double truePercent = n.getPercentage(TwoState.TRUE);
-        double falsePercent = n.getPercentage(TwoState.FALSE);
+        double truePercent = n.getPercentage(TwoState.A);
+        double falsePercent = n.getPercentage(TwoState.B);
 
         Assert.assertTrue("incorrect true/false distribution: "+ truePercent + ":" + falsePercent, (truePercent == 0.75) && (falsePercent == 0.25));
     }
@@ -156,34 +160,34 @@ public class TestAbstractSimpleBayesianNetwork {
         SimpleBooleanNetwork<FeverState> n = new SimpleBooleanNetwork<FeverState>(FeverState.HOT);
         {
 
-            n.learnThat(FeverState.NONE, BooleanState.FALSE);
-            n.learnThat(FeverState.NONE, BooleanState.FALSE);
-            n.learnThat(FeverState.NONE, BooleanState.FALSE);
-            n.learnThat(FeverState.NONE, BooleanState.FALSE);
+            n.learn(FeverState.NONE, false);
+            n.learn(FeverState.NONE, false);
+            n.learn(FeverState.NONE, false);
+            n.learn(FeverState.NONE, false);
 
-            n.learnThat(FeverState.NONE, BooleanState.TRUE);
+            n.learn(FeverState.NONE, true);
 
-            n.learnThat(FeverState.LOW, BooleanState.FALSE);
-            n.learnThat(FeverState.LOW, BooleanState.FALSE);
-            n.learnThat(FeverState.LOW, BooleanState.FALSE);
+            n.learn(FeverState.LOW, false);
+            n.learn(FeverState.LOW, false);
+            n.learn(FeverState.LOW, false);
 
-            n.learnThat(FeverState.LOW, BooleanState.TRUE);
-            n.learnThat(FeverState.LOW, BooleanState.TRUE);
+            n.learn(FeverState.LOW, true);
+            n.learn(FeverState.LOW, true);
 
-            n.learnThat(FeverState.WARM, BooleanState.FALSE);
-            n.learnThat(FeverState.WARM, BooleanState.FALSE);
+            n.learn(FeverState.WARM, false);
+            n.learn(FeverState.WARM, false);
 
-            n.learnThat(FeverState.WARM, BooleanState.TRUE);
-            n.learnThat(FeverState.WARM, BooleanState.TRUE);
+            n.learn(FeverState.WARM, true);
+            n.learn(FeverState.WARM, true);
 
-            n.learnThat(FeverState.WARM, BooleanState.TRUE);
+            n.learn(FeverState.WARM, true);
 
-            n.learnThat(FeverState.HOT, BooleanState.FALSE);
+            n.learn(FeverState.HOT, false);
 
-            n.learnThat(FeverState.HOT, BooleanState.TRUE);
-            n.learnThat(FeverState.HOT, BooleanState.TRUE);
-            n.learnThat(FeverState.HOT, BooleanState.TRUE);
-            n.learnThat(FeverState.HOT, BooleanState.TRUE);
+            n.learn(FeverState.HOT, true);
+            n.learn(FeverState.HOT, true);
+            n.learn(FeverState.HOT, true);
+            n.learn(FeverState.HOT, true);
         }
 
         n.getGoal().setState(BooleanState.TRUE);
