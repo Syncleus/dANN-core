@@ -72,8 +72,8 @@ public class TestSimpleBooleanNetwork
 			//connect nodes
 			connect(influence, goal);
 
-			goals.add(influence);
-			influences.add(goal);
+			goals.add(goal);
+			influences.add(influence);
 
 		}
 
@@ -90,7 +90,7 @@ public class TestSimpleBooleanNetwork
 		public double getPercentage(I influenceState)
 		{
 			influence.setState(influenceState);
-			return conditionalProbability(goals, influences);
+			return this.conditionalProbability(goals, influences);
 		}
 
 		public void learn(I influenceState, boolean goalState)
