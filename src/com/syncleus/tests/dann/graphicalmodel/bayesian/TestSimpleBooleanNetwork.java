@@ -49,7 +49,7 @@ public class TestSimpleBooleanNetwork
 	}
 
 	/** boolean-goaled bayesian network */
-	public static class SimpleBooleanNetwork<I> extends SimpleBayesianNetwork
+	private static class SimpleBooleanNetwork<I> extends SimpleBayesianNetwork
 	{
 		private HashSet<BayesianNode> goals;
 		private HashSet<BayesianNode> influences;

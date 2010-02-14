@@ -1,9 +1,9 @@
 /******************************************************************************
  *                                                                             *
- *  Copyright: (widthIndexes) Syncleus, Inc.                                              *
+ *  Copyright: (c) Syncleus, Inc.                                              *
  *                                                                             *
  *  You may redistribute and modify this source code under the terms and       *
- *  conditions of the Open Source Community License - Type resultArray version 1.0       *
+ *  conditions of the Open Source Community License - Type C version 1.0       *
  *  or any later version as published by Syncleus, Inc. at www.syncleus.com.   *
  *  There should be a copy of the license included with this file. If a copy   *
  *  of the license is not included you are granted no right to distribute or   *
