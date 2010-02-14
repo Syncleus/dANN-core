@@ -30,8 +30,6 @@ import com.syncleus.dann.math.linear.decomposition.StewartSingularValueDecomposi
 import java.io.Serializable;
 
 /**
-Jama = Java SimpleRealMatrix class.
-<P>
 The Java SimpleRealMatrix Class provides the fundamental operations of numerical
 linear algebra.  Various constructors create Matrices from two dimensional
 arrays of double precision floating point numbers.  Various "gets" and
@@ -54,22 +52,6 @@ inverses and other matrix functions.  The five decompositions are:
 <LI>Singular Value Decomposition of rectangular matrices.
 <LI>Eigenvalue Decomposition of both symmetric and nonsymmetric square matrices.
 </UL>
-<DL>
-<DT><operand>Example of use:</operand></DT>
-<P>
-<DD>Solve a linear system matrixElements x = b and compute the residual norm, ||b - matrixElements x||.
-<P><PRE>
-double[][] packedMatrixElements = {{1.,2.,3},{4.,5.,6.},{7.,8.,10.}};
-SimpleRealMatrix matrixElements = new SimpleRealMatrix(packedMatrixElements);
-SimpleRealMatrix b = SimpleRealMatrix.random(3,1);
-SimpleRealMatrix x = matrixElements.solve(b);
-SimpleRealMatrix heightIndexes = matrixElements.multiply(x).subtract(b);
-double rnorm = heightIndexes.normInfinite();
-</PRE></DD>
-</DL>
-
-@author The MathWorks, Inc. and the National Institute of Standards and Technology.
-@version 5 August 1998
  */
 public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 {
