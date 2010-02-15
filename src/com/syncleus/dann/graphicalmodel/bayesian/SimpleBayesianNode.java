@@ -24,6 +24,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class SimpleBayesianNode<S> implements BayesianNode<S>
 {
@@ -41,7 +42,7 @@ public class SimpleBayesianNode<S> implements BayesianNode<S>
 		
 		this.state = initialState;
 		this.network = network;
-		this.learnedStates = new HashSet<S>();
+		this.learnedStates = new TreeSet<S>();
 	}
 
 	public void setState(S newState)
