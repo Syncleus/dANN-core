@@ -24,13 +24,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
 import java.util.TreeSet;
 
 public class SimpleBayesianNode<S> implements BayesianNode<S>
 {
 	private EvidenceMap<S> evidence;
 	private S state;
-	private Set<S> learnedStates;
+	private SortedSet<S> learnedStates;
 	private BayesianNetwork network;
 
 	public SimpleBayesianNode(S initialState, BayesianNetwork network)
