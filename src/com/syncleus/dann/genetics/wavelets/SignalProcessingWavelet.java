@@ -364,7 +364,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
             if(random.nextDouble() < 0.1)
             {
                 //only delet eif there will be atleast one signal left
-                if(this.signals.size() > 1)
+                if(copy.signals.size() > 1)
                 {
                     SignalConcentration[] signals = new SignalConcentration[copy.signals.size()];
                     copy.signals.toArray(signals);
@@ -580,7 +580,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
             return newWave;
         }
 
-        return null;
+        return this.generateNewWave();
     }
 
 
