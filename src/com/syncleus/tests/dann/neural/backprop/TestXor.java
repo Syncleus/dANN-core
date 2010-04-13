@@ -44,6 +44,8 @@ public class TestXor
 	private InputNeuron inputC = null;
 	private OutputBackpropNeuron output = null;
 	private FullyConnectedFeedforwardBrain brain = null;
+	private final static int TRAINING_CYCLES = 1000;
+	private final static double LEARNING_RATE = 0.0175;
 
 
 
@@ -51,10 +53,9 @@ public class TestXor
 	public void testXor() throws DannException
 	{
 		//Adjust the learning rate
-		final double learningRate = 0.0175;
 		final ActivationFunction activationFunction = new SineActivationFunction();
 
-		this.brain = new FullyConnectedFeedforwardBrain(new int[]{3, 3, 1}, learningRate, activationFunction);
+		this.brain = new FullyConnectedFeedforwardBrain(new int[]{3, 3, 1}, LEARNING_RATE, activationFunction);
 		final ArrayList<InputNeuron> inputs = new ArrayList<InputNeuron>(this.brain.getInputNeurons());
 		this.inputA = inputs.get(0);
 		this.inputB = inputs.get(1);
@@ -62,8 +63,7 @@ public class TestXor
 		final ArrayList<OutputNeuron> outputs = new ArrayList<OutputNeuron>(this.brain.getOutputNeurons());
 		this.output = (OutputBackpropNeuron) outputs.get(0);
 
-		final int cycles = 250;
-		train(cycles);
+		train(TRAINING_CYCLES);
 
 		checkOutput();
 	}

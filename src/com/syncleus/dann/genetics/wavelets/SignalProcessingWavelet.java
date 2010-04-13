@@ -354,7 +354,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
             if(random.nextDouble() < 0.1)
             {
                 //only delete if there will be atleast one wave left
-                if(this.waves.size() > 1)
+                if(copy.waves.size() > 1)
                 {
                     WaveMultidimensionalFunction deleteWave = copy.waves.get(this.random.nextInt(copy.waves.size()));
                     copy.waves.remove(deleteWave);

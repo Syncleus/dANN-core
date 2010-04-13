@@ -53,9 +53,6 @@ public class TestSignalProcessingWavelet
 			}
         }
 
-//        System.out.println("The current equation contains " + processor.getWaveCount() + " waves:");
-//        System.out.println(processor.toString());
-
         processor.preTick();
         processor.tick();
 	}
