@@ -21,7 +21,6 @@ package com.syncleus.dann.genetics.wavelets;
 import com.syncleus.dann.math.wave.WaveMultidimensionalFunction;
 import com.syncleus.dann.math.wave.wavelet.CombinedWaveletFunction;
 import com.syncleus.dann.UnexpectedDannError;
-import com.syncleus.dann.math.*;
 import java.util.*;
 import org.apache.log4j.Logger;
 
