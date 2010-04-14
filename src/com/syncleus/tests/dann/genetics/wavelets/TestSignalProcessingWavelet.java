@@ -117,6 +117,8 @@ public class TestSignalProcessingWavelet
 
 	private static SignalProcessingWavelet mutateXor(SignalProcessingWavelet processor, GlobalSignalConcentration xAxis, GlobalSignalConcentration yAxis) throws CloneNotSupportedException
 	{
+		//mutate until there are atleast 2 input signals and 1 output signal, 3 total
+		//there will always be exactly 1 output signal
 		do
 		{
 			for(int mutationIndex = 0; mutationIndex < Math.abs(RANDOM.nextGaussian() * 5); mutationIndex++ )
@@ -132,7 +134,7 @@ public class TestSignalProcessingWavelet
 
 	private static double checkXorFitness(Function xorAttempt) throws CloneNotSupportedException
 	{
-//		System.out.println("number of xorAttempt parameters: " + xorAttempt.getParameterCount());
+		//testing against xor at 4 points only (0,0 0,1 1,0 1,1)
 		xorAttempt.setParameter(0, 0.0);
 		xorAttempt.setParameter(1, 0.0);
 		double result00 = xorAttempt.calculate();
