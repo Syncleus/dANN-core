@@ -76,7 +76,7 @@ public class TestKeys
 			final SignalKey signal = new SignalKey(FAILURE_SIGNALS[index]);
 			final ReceptorKey receptor = new ReceptorKey(FAILURE_RECEPTORS[index]);
 
-			Assert.assertTrue("signal at index " + index + " was incorrectly able to bind. Signal: " + signal + ", Receptor: " + receptor, receptor.binds(signal));
+			Assert.assertTrue("signal at index " + index + " was incorrectly able to bind. Signal: " + signal + ", Receptor: " + receptor, !receptor.binds(signal));
 		}
 	}
 }
