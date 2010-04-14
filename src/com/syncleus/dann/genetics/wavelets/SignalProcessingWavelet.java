@@ -20,7 +20,6 @@ package com.syncleus.dann.genetics.wavelets;
 
 import com.syncleus.dann.math.wave.WaveMultidimensionalFunction;
 import com.syncleus.dann.math.wave.wavelet.CombinedWaveletFunction;
-import com.syncleus.dann.math.*;
 import java.io.Serializable;
 import java.util.*;
 

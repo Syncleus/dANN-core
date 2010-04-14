@@ -38,7 +38,33 @@ public abstract class AbstractKey implements Cloneable
 
 	protected AbstractKey(Map<Integer, Boolean> points)
 	{
+		if(points.isEmpty())
+			throw new IllegalArgumentException("points must have atleast one entry");
+
 		this.points = new HashMap<Integer, Boolean>(points);
+	}
+
+	protected AbstractKey(String keyString)
+	{
+		this.points = new HashMap<Integer, Boolean>();
+
+		final char[] keyChars = keyString.toCharArray();
+		int index = 0;
+		for(char keyChar : keyChars)
+		{
+			if((keyChar != '1')&&(keyChar != '0')&&(keyChar != 'x'))
+				throw new IllegalArgumentException("eyString is only allowed to contain the following characters: 1, 0, x");
+
+			if(keyChar == '1')
+				this.points.put(index, Boolean.TRUE);
+			else if(keyChar == '0')
+				this.points.put(index, Boolean.FALSE);
+
+			index++;
+		}
+
+		if(this.points.isEmpty())
+			throw new IllegalArgumentException("string must contain atleast one 1, or 0 point");
 	}
 
 	protected AbstractKey(AbstractKey copy)
@@ -73,6 +99,32 @@ public abstract class AbstractKey implements Cloneable
 	public boolean equals(Object compareWith)
 	{
 		return this.points.equals(compareWith);
+	}
+
+	@Override
+	public String toString()
+	{
+		final SortedSet<Integer> orderedIndexes = new TreeSet<Integer>(this.points.keySet());
+
+		final Integer lowIndex = orderedIndexes.first();
+		final Integer highIndex = orderedIndexes.last();
+
+		final StringBuilder outBuilder = new StringBuilder();
+		for(Integer index = lowIndex; index <= highIndex; index++)
+		{
+			if(orderedIndexes.contains(index))
+			{
+				final boolean indexPoint = this.points.get(index);
+				if(indexPoint)
+					outBuilder.append('1');
+				else
+					outBuilder.append('0');
+			}
+			else
+				outBuilder.append('x');
+		}
+
+		return outBuilder.toString();
 	}
 	
 	@Override

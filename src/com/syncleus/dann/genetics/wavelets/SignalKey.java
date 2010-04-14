@@ -18,6 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
+import java.util.Map;
+
 public class SignalKey extends AbstractKey implements Cloneable
 {
 	public SignalKey()
@@ -28,6 +30,16 @@ public class SignalKey extends AbstractKey implements Cloneable
 	public SignalKey(AbstractKey copy)
 	{
 		super(copy);
+	}
+
+	public SignalKey(Map<Integer, Boolean> points)
+	{
+		super(points);
+	}
+
+	public SignalKey(String keyString)
+	{
+		super(keyString);
 	}
 
 	@Override

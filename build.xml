@@ -297,6 +297,13 @@
 		<antcall target="build"/>
 	</target>
 
+	<target name="test-all">
+		<antcall target="clean"/>
+		<antcall target="compile"/>
+		<antcall target="build"/>
+		<antcall target="tests-nocoverage"/>
+	</target>
+
 	<target name="all">
 		<antcall target="clean"/>
 		<antcall target="javadoc"/>

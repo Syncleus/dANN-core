@@ -18,6 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
+import java.util.Map;
 import java.util.Map.Entry;
 
 public class ReceptorKey extends AbstractKey implements Cloneable
@@ -31,14 +32,24 @@ public class ReceptorKey extends AbstractKey implements Cloneable
 	{
 		super(copy);
 	}
-	
-	public boolean binds(SignalKey binding)
+
+	public ReceptorKey(Map<Integer, Boolean> points)
 	{
-		if(binding.getPoints().size() < this.getPoints().size())
+		super(points);
+	}
+
+	public ReceptorKey(String keyString)
+	{
+		super(keyString);
+	}
+	
+	public boolean binds(SignalKey signal)
+	{
+		if(signal.getPoints().size() < this.getPoints().size())
 			return false;
 
 		boolean matching;
-		for(Integer offsetPoint : binding.getPoints().keySet())
+		for(Integer offsetPoint : signal.getPoints().keySet())
 		{
 			matching = true;
 			Integer offset = null;
@@ -47,7 +58,7 @@ public class ReceptorKey extends AbstractKey implements Cloneable
 				if (offset == null)
 					offset = offsetPoint - point.getKey();
 
-				Boolean bindingValue = binding.getPoints().get(point.getKey() + offset);
+				Boolean bindingValue = signal.getPoints().get(point.getKey() + offset);
 				if(bindingValue == null)
 				{
 					matching = false;
