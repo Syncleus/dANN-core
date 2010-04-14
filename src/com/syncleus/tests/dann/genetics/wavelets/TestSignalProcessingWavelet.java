@@ -149,12 +149,14 @@ public class TestSignalProcessingWavelet
 		xorAttempt.setParameter(1, 1.0);
 		double result11 = xorAttempt.calculate();
 
+		//calculates the whole number portion of the fitness, should be between -4 and +4
 		int fitnessWhole =
 			(result00 < 0.0 ? 1 : 0) +
 			(result10 > 0.0 ? 1 : 0) +
 			(result01 > 0.0 ? 1 : 0) +
 			(result11 < 0.0 ? 1 : 0);
 
+		//calculates the decimal portion of the fitness , should be >= 0 and < 1
 		double fitnessFine =
 			Math.tanh(-1.0 * result00) +
 			Math.tanh(result10) +
