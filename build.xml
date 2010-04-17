@@ -264,30 +264,41 @@
         <nbprofiledirect>
             <classpath>
 				<pathelement location="build/jar/dann.jar"/>
+				<pathelement location="build/jar/dann-tests.jar"/>
 				<pathelement location="lib/testing/junit-4.6.jar"/>
 				<pathelement location="lib/log4j-1.2.15.jar"/>
 				<pathelement location="lib/j3dcore.jar"/>
 				<pathelement location="lib/freehep-j3d.jar"/>
 				<pathelement location="lib/j3dutils.jar"/>
 				<pathelement location="lib/vecmath.jar"/>
-                <path location="../java_dann_examples/build/jar/dann_examples.jar"/>
+                <!--path location="../java_dann_examples/build/jar/dann_examples.jar"/-->
             </classpath>
         </nbprofiledirect>
-        <java fork="true" classname="com.syncleus.core.dann.examples.Main">
+        <java fork="true" classname="com.syncleus.tests.dann.InteractiveTests">
             <jvmarg value="${profiler.info.jvmargs.agent}"/>
-            <jvmarg value="-Xmx512m" />
             <classpath>
 				<pathelement location="build/jar/dann.jar"/>
+				<pathelement location="build/jar/dann-tests.jar"/>
 				<pathelement location="lib/testing/junit-4.6.jar"/>
 				<pathelement location="lib/log4j-1.2.15.jar"/>
 				<pathelement location="lib/j3dcore.jar"/>
 				<pathelement location="lib/freehep-j3d.jar"/>
 				<pathelement location="lib/j3dutils.jar"/>
 				<pathelement location="lib/vecmath.jar"/>
-                <path location="../java_dann_examples/build/jar/dann_examples.jar"/>
             </classpath>
         </java>
     </target>
+
+
+	<target name="test-interactive">
+        <java fork="true" classname="com.syncleus.tests.dann.InteractiveTests">
+            <classpath>
+                <fileset dir="lib" includes="**/*.jar"/>
+                <path location="build/jar/dann.jar"/>
+				<path location="build/jar/dann-tests.jar"/>
+            </classpath>
+        </java>
+	</target>
 
 
 

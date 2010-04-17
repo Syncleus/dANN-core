@@ -93,10 +93,6 @@ public class CombinedWaveletFunction extends AbstractFunction implements Cloneab
     public CombinedWaveletFunction clone()
     {
         CombinedWaveletFunction copy = (CombinedWaveletFunction) super.clone();
-
-        copy.waves.addAll(this.waves);
-		copy.dimensions.addAll(this.dimensions);
-
         return copy;
     }
 

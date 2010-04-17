@@ -29,6 +29,11 @@ import java.util.TreeMap;
 public class TestSignalProcessingWavelet
 {
 	private static final Random RANDOM = new Random();
+	private static final int POPULATION_SIZE = 20;
+	private static final int EXTINCTION_SIZE = 3;
+	private static final int GENERATIONS = 100;
+	private static final int XOR_MUTATION_COUNT = 100;
+	private static final double XOR_MUTABILITY = 10000.0;
 
 	@Test
 	public void testMutations() throws CloneNotSupportedException
@@ -64,55 +69,46 @@ public class TestSignalProcessingWavelet
 		final GlobalSignalConcentration xAxis = new GlobalSignalConcentration();
 		final GlobalSignalConcentration yAxis = new GlobalSignalConcentration();
 		final GlobalSignalConcentration output = new GlobalSignalConcentration();
-		while(population.size() < 100)
+		while(population.size() < POPULATION_SIZE)
 		{
 			SignalProcessingWavelet processor = new SignalProcessingWavelet(xAxis, output);
 			processor = mutateXor(processor, xAxis, yAxis);
-			System.out.println("initialization processor wave count: " + processor.getWaveCount());
-			System.out.println("initialization processor signal count: " + processor.getSignals().size());
 
 			processor.preTick();
 			processor.tick();
-			final double initialFitness = checkXorFitness(processor.getWavelet());
-			System.out.println("initialization fitness: " + initialFitness);
+			final double initialFitness = checkXorFitness(processor.getWavelet(), processor.getWaveCount());
 			
 			population.put(initialFitness, processor);
-			System.out.println("initialization population size: " + population.size());
 		}
 
 		//run through several generations
-		for(int generationIndex = 0; generationIndex < 1000; generationIndex++)
+		for(int generationIndex = 0; generationIndex < GENERATIONS; generationIndex++)
 		{
-			//fill off all but the top 10 performing members
-			while(population.size() > 10)
-			{
+			//check if we reached the goal prematurely.
+			if(population.lastKey() >= 4.0)
+				break;
+			
+			//fill off all but the top EXTINCTION_SIZE performing members
+			while(population.size() > EXTINCTION_SIZE)
 				population.pollFirstEntry();
-				System.out.println("extinction population size: " + population.size());
-			}
 
-			//repopulate to 100 members
+			//repopulate to POPULATION_SIZE members
 			ArrayList<SignalProcessingWavelet> populationArray = new ArrayList<SignalProcessingWavelet>(population.values());
-			while(population.size() < 100)
+			while(population.size() < POPULATION_SIZE)
 			{
 				SignalProcessingWavelet processor = populationArray.get(RANDOM.nextInt(populationArray.size()));
-				System.out.println("generation processor pre wave count: " + processor.getWaveCount());
-				System.out.println("generation processor pre signal count: " + processor.getSignals().size());
 				processor = mutateXor(processor, xAxis, yAxis);
-				System.out.println("generation processor post wave count: " + processor.getWaveCount());
-				System.out.println("generation processor post signal count: " + processor.getSignals().size());
 
 				processor.preTick();
 				processor.tick();
-				final double initialFitness = checkXorFitness(processor.getWavelet());
-				System.out.println("generation fitness: " + initialFitness);
+				final double initialFitness = checkXorFitness(processor.getWavelet(), processor.getWaveCount());
 
 				population.put(initialFitness, processor);
-				System.out.println("generation population size: " + population.size());
 			}
 		}
 
 		final double bestFitness = population.lastKey();
-		System.out.println("best final fitness: " + bestFitness);
+		Assert.assertTrue("did not successfully match XOR truth table: fitness: " + bestFitness, bestFitness >= 4.0);
 	}
 
 	private static SignalProcessingWavelet mutateXor(SignalProcessingWavelet processor, GlobalSignalConcentration xAxis, GlobalSignalConcentration yAxis) throws CloneNotSupportedException
@@ -121,50 +117,50 @@ public class TestSignalProcessingWavelet
 		//there will always be exactly 1 output signal
 		do
 		{
-			for(int mutationIndex = 0; mutationIndex < Math.abs(RANDOM.nextGaussian() * 5); mutationIndex++ )
-				processor = processor.mutate(Math.abs(RANDOM.nextGaussian() * 2.0), xAxis);
-			for(int mutationIndex = 0; mutationIndex < Math.abs(RANDOM.nextGaussian() * 5); mutationIndex++ )
-				processor = processor.mutate(Math.abs(RANDOM.nextGaussian() * 2.0), yAxis);
-			for(int mutationIndex = 0; mutationIndex < Math.abs(RANDOM.nextGaussian() * 5); mutationIndex++ )
-				processor = processor.mutate(Math.abs(RANDOM.nextGaussian() * 2.0));
+			for(int mutationIndex = 0; mutationIndex < XOR_MUTATION_COUNT; mutationIndex++ )
+			{
+				processor = processor.mutate(XOR_MUTABILITY, xAxis);
+//			for(int mutationIndex = 0; mutationIndex < 100; mutationIndex++ )
+				processor = processor.mutate(XOR_MUTABILITY, yAxis);
+//			for(int mutationIndex = 0; mutationIndex < 100; mutationIndex++ )
+				processor = processor.mutate(XOR_MUTABILITY);
+			}
 		} while( processor.getSignals().size() < 3 );
 
 		return processor;
 	}
 
-	private static double checkXorFitness(Function xorAttempt) throws CloneNotSupportedException
+	private static double checkXorFitness(Function xorAttempt, int waveCount) throws CloneNotSupportedException
 	{
+		if(waveCount <= 0)
+			throw new IllegalArgumentException("waveCount must be >0");
+		
 		//testing against xor at 4 points only (0,0 0,1 1,0 1,1)
 		xorAttempt.setParameter(0, 0.0);
 		xorAttempt.setParameter(1, 0.0);
-		double result00 = xorAttempt.calculate();
+		final double result00 = xorAttempt.calculate();
 
 		xorAttempt.setParameter(0, 1.0);
 		xorAttempt.setParameter(1, 0.0);
-		double result10 = xorAttempt.calculate();
+		final double result10 = xorAttempt.calculate();
 
 		xorAttempt.setParameter(0, 0.0);
 		xorAttempt.setParameter(1, 1.0);
-		double result01 = xorAttempt.calculate();
+		final double result01 = xorAttempt.calculate();
 
 		xorAttempt.setParameter(0, 1.0);
 		xorAttempt.setParameter(1, 1.0);
-		double result11 = xorAttempt.calculate();
+		final double result11 = xorAttempt.calculate();
 
 		//calculates the whole number portion of the fitness, should be between -4 and +4
-		int fitnessWhole =
+		final int fitnessWhole =
 			(result00 < 0.0 ? 1 : 0) +
 			(result10 > 0.0 ? 1 : 0) +
 			(result01 > 0.0 ? 1 : 0) +
 			(result11 < 0.0 ? 1 : 0);
 
 		//calculates the decimal portion of the fitness , should be >= 0 and < 1
-		double fitnessFine =
-			Math.tanh(-1.0 * result00) +
-			Math.tanh(result10) +
-			Math.tanh(result01) +
-			Math.tanh(-1.0 * result11);
-		fitnessFine /= 4.0;
+		final double fitnessFine = 1.0 - Math.tanh(waveCount);
 
 		return ((double)fitnessWhole) + fitnessFine;
 	}
