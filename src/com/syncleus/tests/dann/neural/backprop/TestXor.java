@@ -46,6 +46,7 @@ public class TestXor
 	private FullyConnectedFeedforwardBrain brain = null;
 	private final static int TRAINING_CYCLES = 1000;
 	private final static double LEARNING_RATE = 0.0175;
+	private final static int[] TOPOLOGY = {3, 3, 1};
 
 
 
@@ -55,7 +56,7 @@ public class TestXor
 		//Adjust the learning rate
 		final ActivationFunction activationFunction = new SineActivationFunction();
 
-		this.brain = new FullyConnectedFeedforwardBrain(new int[]{3, 3, 1}, LEARNING_RATE, activationFunction);
+		this.brain = new FullyConnectedFeedforwardBrain(TOPOLOGY, LEARNING_RATE, activationFunction);
 		final ArrayList<InputNeuron> inputs = new ArrayList<InputNeuron>(this.brain.getInputNeurons());
 		this.inputA = inputs.get(0);
 		this.inputB = inputs.get(1);
