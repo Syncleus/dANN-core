@@ -21,6 +21,9 @@ package com.syncleus.tests.dann;
 import java.io.*;
 import java.util.*;
 import java.lang.reflect.*;
+import org.junit.runner.JUnitCore;
+import org.junit.runner.Request;
+import org.junit.runner.Result;
 
 public class InteractiveTests
 {
@@ -149,9 +152,16 @@ public class InteractiveTests
 			final Method test = InteractiveTests.selectTest(tests);
 			final Class testClass = test.getDeclaringClass();
 
-			//construct using the default constructor then invoke the test point
-			final Object testClassInstance = testClass.newInstance();
-			test.invoke(testClassInstance, new Object[]{});
+			//run unit test
+			final JUnitCore jUnit = new JUnitCore();
+			final Request testRequest = Request.method(testClass, test.getName());
+			System.out.println("Running " + testClass + "." + test.getName());
+			Result testResult = jUnit.run(testRequest);
+			if( testResult.wasSuccessful() )
+				System.out.print("Successful: ");
+			else
+				System.out.print("Failure: ");
+			System.out.println(((double)testResult.getRunTime())/1000.0 + " sec");
 		}
 		catch(Throwable caughtException)
 		{
