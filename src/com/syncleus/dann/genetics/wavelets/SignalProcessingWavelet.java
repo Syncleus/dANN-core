@@ -26,104 +26,10 @@ import java.util.*;
 public class SignalProcessingWavelet implements Comparable<SignalProcessingWavelet>, Cloneable
 {
 	// <editor-fold defaultstate="collapsed" desc="internal class">
-	public static class UniqueId implements Comparable<UniqueId>, Serializable
-	{
-		private Random rand = new Random();
-		private byte[] uniqueData = null;
-
-
-
-		public UniqueId(int size)
-		{
-			this.uniqueData = new byte[size];
-			rand.nextBytes(this.uniqueData);
-		}
-
-
-
-		public int hashCode()
-		{
-			int dataIndex = 0;
-			int hash = 0;
-			while(dataIndex < this.uniqueData.length)
-			{
-				int intBlock = 0;
-				for(int blockIndex = 0;blockIndex < 4;blockIndex++)
-				{
-					if(dataIndex < this.uniqueData.length)
-						intBlock += this.uniqueData[dataIndex] << blockIndex;
-					else
-						break;
-
-					dataIndex++;
-				}
-
-				hash ^= intBlock;
-			}
-
-			return hash;
-		}
-
-
-
-		public int compareTo(UniqueId compareWith)
-		{
-			return this.toString().compareTo(compareWith.toString());
-		}
-
-
-
-		public boolean equals(Object compareWithObj)
-		{
-			if(!(compareWithObj instanceof UniqueId))
-				return false;
-
-			UniqueId compareWith = (UniqueId)compareWithObj;
-
-			if(this.compareTo(compareWith) != 0)
-				return false;
-
-			return true;
-		}
-
-
-
-		public String toString()
-		{
-			StringBuffer dataBuffer = new StringBuffer();
-			for(int dataIndex = (this.uniqueData.length - 1);dataIndex >= 0;dataIndex--)
-			{
-				long currentData = convertByteToUnsignedLong(this.uniqueData[dataIndex]);
-				String newHex = Long.toHexString(currentData);
-				while(newHex.length() < 2)
-					newHex = "0" + newHex;
-				dataBuffer.append(newHex);
-			}
-
-			return dataBuffer.toString().toUpperCase();
-		}
-
-		/*
-		 * A better solution to the convert* methods needs to be found.
-		 */
-
-
-		private long convertByteToUnsignedLong(byte signedByte)
-		{
-			long unsignedLong = signedByte;
-			if(unsignedLong < 0)
-				unsignedLong += 256;
-
-			return unsignedLong;
-		}
-	}
-	// </editor-fold>
-
-	// <editor-fold defaultstate="collapsed" desc="internal class">
 	public static abstract class SignalConcentration implements Comparable<SignalConcentration>
 	{
 		private double value = 0.0;
-		private UniqueId id = new UniqueId(32);
+		private long id = RANDOM.nextLong();
 
 		public SignalConcentration()
 		{
@@ -151,14 +57,32 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 			this.value = newValue;
 		}
 
-		public UniqueId getId()
+		public long getId()
 		{
 			return this.id;
 		}
 
 		public int compareTo(SignalConcentration compareWith)
 		{
-			return this.getId().compareTo(compareWith.getId());
+			return (this.id < compareWith.id ? -1 : (this.id > compareWith.id ? 1 : 0));
+		}
+
+		@Override
+		public int hashCode()
+		{
+			return (int) this.id;
+		}
+
+		@Override
+		public boolean equals(Object compareWith)
+		{
+			if(compareWith instanceof SignalConcentration)
+			{
+				SignalConcentration signalCompare = (SignalConcentration) compareWith;
+				if(signalCompare.id == this.id)
+					return true;
+			}
+			return false;
 		}
 	}
 	// </editor-fold>
@@ -177,11 +101,11 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 	}
 	// </editor-fold>
 	
-    private UniqueId id = null;
+    private long id;
     private SignalConcentration output;
     private double currentOutput = 0.0;
     private static final Random RANDOM = new Random();
-    private TreeSet<SignalConcentration> signals = new TreeSet<SignalConcentration>();
+    private Set<SignalConcentration> signals = new HashSet<SignalConcentration>();
     private ArrayList<WaveMultidimensionalFunction> waves = new ArrayList<WaveMultidimensionalFunction>();
     private CombinedWaveletFunction wavelet;
 
@@ -198,7 +122,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 
 //        this.cell = cell;
 
-        this.id = new UniqueId(64);
+        this.id = RANDOM.nextLong();
     }
 
 
@@ -228,13 +152,21 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 
     public int compareTo(SignalProcessingWavelet compareWith)
     {
-        return compareWith.id.compareTo(this.id);
+//        return compareWith.id.compareTo(this.id);
+		if(this.id < compareWith.id)
+			return -1;
+		else if(this.id > compareWith.id)
+			return 1;
+		return 0;
     }
 
 	@Override
 	public boolean equals(Object compareWithObject)
 	{
-		return this.id.equals(compareWithObject);
+//		return this.id.equals(compareWithObject);
+		if( compareWithObject instanceof SignalProcessingWavelet)
+			return (this.id == ((SignalProcessingWavelet)compareWithObject).id);
+		return false;
 	}
 
 	@Override
@@ -259,7 +191,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 
         for(SignalConcentration signal:this.signals)
         {
-            this.wavelet.setParameter(this.wavelet.getParameterNameIndex(signal.getId().toString()), signal.getValue());
+            this.wavelet.setParameter(this.wavelet.getParameterNameIndex(signal.getId() + ""), signal.getValue());
         }
 
         double newOutput = this.wavelet.calculate();
@@ -300,7 +232,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
         int signalNamesIndex = 0;
         for(SignalConcentration dimension:this.signals)
         {
-            signalNames[signalNamesIndex++] = dimension.getId().toString();
+            signalNames[signalNamesIndex++] = dimension.getId() + "";
         }
 
         this.wavelet = new CombinedWaveletFunction(signalNames);
@@ -340,13 +272,13 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
                 //Signal newSignal = this.getRandomSignal();
                 //return this.mutate(newSignal);
                 copy.waves.add(this.generateRandomWave());
-                copy.id = new UniqueId(64);
+                copy.id = RANDOM.nextLong();
             }
             //make a RANDOM new wave
             if(RANDOM.nextDouble() < 0.1)
             {
                 copy.waves.add(this.generateNewWave());
-                copy.id = new UniqueId(64);
+                copy.id = RANDOM.nextLong();
             }
             //delete a RANDOM wave
             if(RANDOM.nextDouble() < 0.1)
@@ -377,7 +309,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
                     int dimensionNamesIndex = 0;
                     for(SignalConcentration copySignal:copySignals)
                     {
-                        dimensionNames[dimensionNamesIndex++] = copySignal.getId().toString();
+                        dimensionNames[dimensionNamesIndex++] = copySignal.getId() + "";
                     }
 
                     copy.waves.clear();
@@ -431,7 +363,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
                 {
                     names[index++] = dimensionName;
                 }
-                names[index++] = newSignal.getId().toString();
+                names[index++] = newSignal.getId() + "";
 
                 WaveMultidimensionalFunction newWave = new WaveMultidimensionalFunction(names);
                 newWave.setAmplitude(wave.getAmplitude());
@@ -449,7 +381,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
             }
         }
 
-        copy.id = new UniqueId(64);
+        copy.id = RANDOM.nextLong();
         return copy.mutate(1.0);
     }
 
@@ -513,7 +445,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
         int index = 0;
         for(SignalConcentration dimension:this.signals)
         {
-            dimensionNames[index++] = dimension.getId().toString();
+            dimensionNames[index++] = dimension.getId() + "";
         }
         WaveMultidimensionalFunction newWave = new WaveMultidimensionalFunction(dimensionNames);
 
