@@ -47,11 +47,11 @@ public class PorterStemmer implements Stemmer
 
 	public String stemWord(String originalWord)
 	{
-		originalWord = originalWord.toLowerCase();
+		final String originalWordLowerCase = originalWord.toLowerCase();
 		
 		this.dirtyBuffer = false;
-		this.bufferSize = originalWord.toCharArray().length;
-		this.buffer = Arrays.copyOf(originalWord.toCharArray(), this.bufferSize);
+		this.bufferSize = originalWordLowerCase.toCharArray().length;
+		this.buffer = Arrays.copyOf(originalWordLowerCase.toCharArray(), this.bufferSize);
 
 		stemStartIndex = 0;
 		wordEndIndex = bufferSize - 1;
@@ -72,7 +72,7 @@ public class PorterStemmer implements Stemmer
 		if( dirtyBuffer )
 			return new String(this.buffer, 0, this.bufferSize);
 		else
-			return originalWord;
+			return originalWordLowerCase;
 	}
 
 	private boolean isConsonant(int i)

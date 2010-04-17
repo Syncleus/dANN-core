@@ -81,7 +81,7 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 		schurReduction();
 	}
 
-	public int getDimensionSize()
+	final public int getDimensionSize()
 	{
 		return this.matrix.getHeight();
 	}

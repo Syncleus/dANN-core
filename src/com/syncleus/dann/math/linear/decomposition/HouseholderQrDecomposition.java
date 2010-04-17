@@ -96,17 +96,17 @@ public class HouseholderQrDecomposition<M extends Matrix<M, F>, F extends Ordere
 		}
 	}
 
-	public M getMatrix()
+	final public M getMatrix()
 	{
 		return this.matrix;
 	}
 
-	public int getHeight()
+	final public int getHeight()
 	{
 		return this.matrix.getHeight();
 	}
 
-	public int getWidth()
+	final public int getWidth()
 	{
 		return this.matrix.getWidth();
 	}

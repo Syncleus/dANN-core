@@ -34,8 +34,8 @@ public class BasicWordParser implements WordParser
 	{
 		List<String> words = new ArrayList<String>();
 
-		text = text.toLowerCase();
-		Matcher matches = spacePattern.matcher(text);
+		final String textLowerCase = text.toLowerCase();
+		Matcher matches = spacePattern.matcher(textLowerCase);
 		while(matches.find())
 		{
 			String word = matches.group();

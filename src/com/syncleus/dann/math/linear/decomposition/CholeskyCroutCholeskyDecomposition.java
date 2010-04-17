@@ -110,8 +110,9 @@ public class CholeskyCroutCholeskyDecomposition<M extends Matrix<M, F>, F extend
 	@exception  IllegalArgumentException  SimpleRealMatrix row dimensions must agree.
 	@exception  RuntimeException  SimpleRealMatrix is not symmetric positive definite.
 	 */
-	public M solve(M solutionMatrix)
+	public M solve(M matrixToSolve)
 	{
+		M solutionMatrix = matrixToSolve;
 		if(solutionMatrix.getHeight() != this.matrix.getHeight())
 			throw new IllegalArgumentException("Matrix row dimensions must agree.");
 		if(!isSpd)

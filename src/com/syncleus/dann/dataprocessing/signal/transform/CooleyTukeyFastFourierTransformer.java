@@ -40,8 +40,8 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 
 	public DiscreteFourierTransform transform(double[] signal)
 	{
-		signal = pad(signal);
-		ComplexNumber[] frequencyDomain = transformMatrix(doubleArrayToComplexArray(signal));
+		final double[] signalPadded = pad(signal);
+		ComplexNumber[] frequencyDomain = transformMatrix(doubleArrayToComplexArray(signalPadded));
 		return new DiscreteFourierTransform(frequencyDomain,getBitrate());
 	}
 

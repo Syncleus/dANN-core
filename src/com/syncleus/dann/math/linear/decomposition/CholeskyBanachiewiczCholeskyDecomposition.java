@@ -101,6 +101,7 @@ public class CholeskyBanachiewiczCholeskyDecomposition<M extends Matrix<M, F>, F
 	 */
 	public M solve(M solutionMatrix)
 	{
+		M solvedMatrix = solutionMatrix;
 		if(solutionMatrix.getHeight() != this.matrix.getHeight())
 			throw new IllegalArgumentException("Matrix row dimensions must agree.");
 		if(!isSpd)
@@ -108,23 +109,23 @@ public class CholeskyBanachiewiczCholeskyDecomposition<M extends Matrix<M, F>, F
 
 		// Solve L*Y = solutionMatrix;
 		for(int k = 0; k < this.matrix.getHeight(); k++)
-			for(int j = 0; j < solutionMatrix.getWidth(); j++)
+			for(int j = 0; j < solvedMatrix.getWidth(); j++)
 			{
 				for(int i = 0; i < k; i++)
-					solutionMatrix = solutionMatrix.set(k, j, solutionMatrix.get(k,j).subtract(solutionMatrix.get(i,j).multiply(this.matrix.get(k,i))));
-				solutionMatrix = solutionMatrix.set(k, j, solutionMatrix.get(k,j).divide(this.matrix.get(k,k)));
+					solvedMatrix = solvedMatrix.set(k, j, solvedMatrix.get(k,j).subtract(solvedMatrix.get(i,j).multiply(this.matrix.get(k,i))));
+				solvedMatrix = solvedMatrix.set(k, j, solvedMatrix.get(k,j).divide(this.matrix.get(k,k)));
 			}
 
 		// Solve L'*X = Y;
 		for(int k = this.matrix.getHeight() - 1; k >= 0; k--)
-			for(int j = 0; j < solutionMatrix.getWidth(); j++)
+			for(int j = 0; j < solvedMatrix.getWidth(); j++)
 			{
 				for(int i = k + 1; i < this.matrix.getHeight(); i++)
-					solutionMatrix = solutionMatrix.set(k,j, solutionMatrix.get(k,j).subtract(solutionMatrix.get(i,j).multiply(this.matrix.get(i,k))));
-				solutionMatrix = solutionMatrix.set(k,j, solutionMatrix.get(k,j).divide(this.matrix.get(k,k)));
+					solvedMatrix = solvedMatrix.set(k,j, solvedMatrix.get(k,j).subtract(solvedMatrix.get(i,j).multiply(this.matrix.get(i,k))));
+				solvedMatrix = solvedMatrix.set(k,j, solvedMatrix.get(k,j).divide(this.matrix.get(k,k)));
 			}
 
 
-		return solutionMatrix;
+		return solvedMatrix;
 	}
 }

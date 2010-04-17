@@ -122,17 +122,18 @@ public class TestSignalProcessingWavelet
 	{
 		//mutate until there are atleast 2 input signals and 1 output signal, 3 total
 		//there will always be exactly 1 output signal
+		SignalProcessingWavelet mutatedProcessor = processor;
 		do
 		{
 			for(int mutationIndex = 0; mutationIndex < XOR_MUTATION_COUNT; mutationIndex++ )
 			{
-				processor = processor.mutate(XOR_MUTABILITY, xAxis);
-				processor = processor.mutate(XOR_MUTABILITY, yAxis);
-				processor = processor.mutate(XOR_MUTABILITY);
+				mutatedProcessor = mutatedProcessor.mutate(XOR_MUTABILITY, xAxis);
+				mutatedProcessor = mutatedProcessor.mutate(XOR_MUTABILITY, yAxis);
+				mutatedProcessor = mutatedProcessor.mutate(XOR_MUTABILITY);
 			}
-		} while( processor.getSignals().size() < 3 );
+		} while( mutatedProcessor.getSignals().size() < 3 );
 
-		return processor;
+		return mutatedProcessor;
 	}
 
 	private static double checkXorFitness(Function xorAttempt, int waveCount) throws CloneNotSupportedException
