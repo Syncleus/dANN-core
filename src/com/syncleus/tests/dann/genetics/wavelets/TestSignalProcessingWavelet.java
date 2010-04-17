@@ -31,7 +31,7 @@ public class TestSignalProcessingWavelet
 	private static final Random RANDOM = new Random();
 	private static final int POPULATION_SIZE = 20;
 	private static final int EXTINCTION_SIZE = 5;
-	private static final int GENERATIONS = 300;
+	private static final int GENERATIONS = 500;
 	private static final int XOR_MUTATION_COUNT = 100;
 	private static final double XOR_MUTABILITY = 10000.0;
 
@@ -61,7 +61,14 @@ public class TestSignalProcessingWavelet
 	}
 
 	@Test
-	public void testXorEvolve() throws CloneNotSupportedException
+	public void testXorEvolves() throws CloneNotSupportedException
+	{
+		for(int testIndex = 0; testIndex < 20; testIndex++)
+			this.testXorEvolveOnce();
+	}
+
+	@Test
+	public void testXorEvolveOnce() throws CloneNotSupportedException
 	{
 		final TreeMap<Double, SignalProcessingWavelet> population = new TreeMap<Double, SignalProcessingWavelet>();
 
@@ -120,9 +127,7 @@ public class TestSignalProcessingWavelet
 			for(int mutationIndex = 0; mutationIndex < XOR_MUTATION_COUNT; mutationIndex++ )
 			{
 				processor = processor.mutate(XOR_MUTABILITY, xAxis);
-//			for(int mutationIndex = 0; mutationIndex < 100; mutationIndex++ )
 				processor = processor.mutate(XOR_MUTABILITY, yAxis);
-//			for(int mutationIndex = 0; mutationIndex < 100; mutationIndex++ )
 				processor = processor.mutate(XOR_MUTABILITY);
 			}
 		} while( processor.getSignals().size() < 3 );
