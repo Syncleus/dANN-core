@@ -18,16 +18,15 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.graph.drawing.hyperassociativemap;
 
-import com.syncleus.dann.graph.drawing.hyperassociativemap.HyperassociativeNode;
 import org.junit.*;
 
 public class TestLayeredLoopMap
 {
-	private static LayeredHyperassociativeMap testMap = null;
+	private static LayeredHyperassociativeMap testMap;
 
 	@BeforeClass public static void alignMap()
 	{
-		testMap = new LayeredHyperassociativeMap(32);
+		testMap = new LayeredHyperassociativeMap(10);
 
 		//align the testMap
 		for(int alignCount = 0; alignCount<100; alignCount++)
@@ -42,7 +41,7 @@ public class TestLayeredLoopMap
 	@Test
 	public void testLayeredLoopAverage()
 	{
-		HyperassociativeNode[][] nodes = testMap.getLayers();
+		SimpleNode[][] nodes = testMap.getGraph().getNodeInLayers();
 
 		//find the farthest nodes in layer 1 and 2
 		double adjacentTotal = 0.0;
@@ -51,22 +50,22 @@ public class TestLayeredLoopMap
 		double seperatedComponents = 0.0;
 		for(int primaryLayerIndex = 0; primaryLayerIndex < nodes[0].length; primaryLayerIndex++)
 		{
-			HyperassociativeNode currentPrimaryLayerNode = nodes[0][primaryLayerIndex];
+			SimpleNode currentPrimaryLayerNode = nodes[0][primaryLayerIndex];
 
 			for(int adjacentLayerIndex = 0; adjacentLayerIndex < nodes[1].length; adjacentLayerIndex++)
 			{
-				HyperassociativeNode currentAdjacentLayerNode = nodes[1][adjacentLayerIndex];
-				double currentDistance = currentPrimaryLayerNode.getLocation().calculateRelativeTo(currentAdjacentLayerNode.getLocation()).getDistance();
+				SimpleNode currentAdjacentLayerNode = nodes[1][adjacentLayerIndex];
+				double currentDistance = testMap.getCoordinates().get(currentPrimaryLayerNode).calculateRelativeTo(testMap.getCoordinates().get(currentAdjacentLayerNode)).getDistance();
 
 				adjacentTotal += currentDistance;
 				adjacentComponents++;
 			}
 
 
-			for(int seperatedLayerIndex = 0; seperatedLayerIndex < nodes[16].length; seperatedLayerIndex++)
+			for(int seperatedLayerIndex = 0; seperatedLayerIndex < nodes[nodes.length-1].length; seperatedLayerIndex++)
 			{
-				HyperassociativeNode currentSeperatedLayerNode = nodes[16][seperatedLayerIndex];
-				double currentDistance = currentPrimaryLayerNode.getLocation().calculateRelativeTo(currentSeperatedLayerNode.getLocation()).getDistance();
+				SimpleNode currentSeperatedLayerNode = nodes[nodes.length-1][seperatedLayerIndex];
+				double currentDistance = testMap.getCoordinates().get(currentPrimaryLayerNode).calculateRelativeTo(testMap.getCoordinates().get(currentSeperatedLayerNode)).getDistance();
 
 				seperatedTotal += currentDistance;
 				seperatedComponents++;

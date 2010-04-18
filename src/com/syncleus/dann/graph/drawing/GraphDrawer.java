@@ -16,18 +16,18 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.tests.dann.graph.drawing.hyperassociativemap;
+package com.syncleus.dann.graph.drawing;
 
-import com.syncleus.dann.graph.BidirectedEdge;
-import com.syncleus.dann.graph.BidirectedWalk;
-import com.syncleus.dann.graph.drawing.hyperassociativemap.*;
+import com.syncleus.dann.graph.*;
+import com.syncleus.dann.math.Vector;
+import java.util.Map;
 
-public class LayeredHyperassociativeMap extends HyperassociativeMap<SimpleGraph, SimpleNode, BidirectedEdge<SimpleNode>, BidirectedWalk<SimpleNode, BidirectedEdge<SimpleNode>>>
+public interface GraphDrawer<G extends Graph<N, E, W>, N, E extends Edge<? extends N>, W extends Walk<? extends N, ? extends E>>
 {
-    private static final int NODES_PER_LAYER = 16;
-    
-    LayeredHyperassociativeMap(int layers)
-    {
-		super(new SimpleGraph(layers,NODES_PER_LAYER), 3);
-    }
+	public G getGraph();
+	public boolean isAlignable();
+	public boolean isAligned();
+	public void align();
+	public int getDimensions();
+	public Map<N, Vector> getCoordinates();
 }

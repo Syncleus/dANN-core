@@ -18,18 +18,18 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.drawing.hyperassociativemap.visualization;
 
-import com.syncleus.dann.math.Vector;
-import com.syncleus.dann.graph.drawing.hyperassociativemap.*;
-import com.syncleus.dann.neural.Neuron;
-import com.syncleus.dann.neural.backprop.*;
-import com.sun.j3d.utils.geometry.*;
-import com.sun.j3d.utils.image.TextureLoader;
-import java.awt.image.BufferedImage;
-import java.util.Set;
 import javax.media.j3d.*;
 import javax.vecmath.*;
 import java.awt.*;
-import java.util.Hashtable;
+import com.syncleus.dann.neural.backprop.*;
+import com.sun.j3d.utils.geometry.*;
+import com.syncleus.dann.graph.*;
+import java.util.*;
+import com.syncleus.dann.math.Vector;
+import com.syncleus.dann.neural.Neuron;
+import com.sun.j3d.utils.image.TextureLoader;
+import com.syncleus.dann.graph.drawing.GraphDrawer;
+import java.awt.image.BufferedImage;
 
 
 /**
@@ -40,41 +40,41 @@ import java.util.Hashtable;
  * @since 1.0
  *
  */
-public class HyperassociativeMapVisualization extends BranchGroup
+public class HyperassociativeMapVisualization<D extends GraphDrawer<G, N, E, W>, G extends Graph<N, E, W>, N, E extends Edge<? extends N>, W extends Walk<? extends N, ? extends E>> extends BranchGroup
 {
-    private AbstractHyperassociativeMap map;
-    private Hashtable<HyperassociativeNode, TransformGroup> nodeGraphics = new Hashtable<HyperassociativeNode, TransformGroup>();
-    private final Hashtable<HyperassociativeNode, Vector> oldNodeLocations = new Hashtable<HyperassociativeNode, Vector>();
+    private D drawer;
+    private Map<N, TransformGroup> nodeGraphics = new HashMap<N, TransformGroup>();
+    private final Map<N, Vector> oldNodeLocations = new HashMap<N, Vector>();
     private final BranchGroup nestedRoot = new BranchGroup();
 	private float nodeRadius;
 
 
 
 	/**
-	 * Initializes a new visualization to represent the specified map.
+	 * Initializes a new visualization to represent the specified drawer.
 	 *
 	 *
-	 * @param map The map to represent by this BranchGroup
+	 * @param drawer The drawer to represent by this BranchGroup
 	 * @since 1.0
 	 */
-    public HyperassociativeMapVisualization(AbstractHyperassociativeMap map)
+    public HyperassociativeMapVisualization(D map)
     {
 		this(map, 0.01F);
     }
 
 	/**
-	 * Initializes a new visualization to represent the specified map and with
+	 * Initializes a new visualization to represent the specified drawer and with
 	 * nodes of the specified radius.
 	 *
 	 *
-	 * @param map The map to represent by this BranchGroup
+	 * @param drawer The drawer to represent by this BranchGroup
 	 * @param nodeRadius The radius of the spheres representing each node.
 	 * @since 1.0
 	 */
-	public HyperassociativeMapVisualization(AbstractHyperassociativeMap map, float nodeRadius)
+	public HyperassociativeMapVisualization(D map, float nodeRadius)
 	{
 		this.nodeRadius = nodeRadius;
-        this.map = map;
+        this.drawer = map;
 
         this.setCapability(BranchGroup.ALLOW_CHILDREN_WRITE);
         this.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND);
@@ -89,7 +89,7 @@ public class HyperassociativeMapVisualization extends BranchGroup
 
 
 	/**
-	 * Gets all the latest locations from the map and refreshes the graphical
+	 * Gets all the latest locations from the drawer and refreshes the graphical
 	 * representation accordingly.
 	 *
 	 *
@@ -99,23 +99,24 @@ public class HyperassociativeMapVisualization extends BranchGroup
     {
 
         boolean childrenRemoved = false;
+		
+        final Hashtable<N, TransformGroup> newGraphicalNodes = new Hashtable<N, TransformGroup>();
+		final Map<N, Vector> coordinates = this.drawer.getCoordinates();
 
-        final Hashtable<HyperassociativeNode, TransformGroup> newGraphicalNodes = new Hashtable<HyperassociativeNode, TransformGroup>();
-
-        final Set<HyperassociativeNode> nodes = this.map.getNodes();
-        for (HyperassociativeNode node : nodes)
+        final Set<N> nodes = this.drawer.getGraph().getNodes();
+        for (N node : nodes)
             if (!this.nodeGraphics.containsKey(node))
             {
                 Color neuronColor = Color.GRAY;
-                if (node instanceof NeuronHyperassociativeNode)
+                if (node instanceof Neuron)
                 {
-                    final Neuron neuron = ((NeuronHyperassociativeNode) node).getNeuron();
+                    final Neuron neuron = ((Neuron) node);
                     if (neuron instanceof OutputBackpropNeuron)
                         neuronColor = Color.RED;
                     else if (neuron instanceof InputBackpropNeuron)
                         neuronColor = Color.BLUE;
                 }
-                final TransformGroup newVisual = this.createNeuronSphere("", "", neuronColor, (float) node.getLocation().getCoordinate(1), (float) node.getLocation().getCoordinate(2), (float) node.getLocation().getCoordinate(3), this.nodeRadius);
+                final TransformGroup newVisual = this.createNeuronSphere("", "", neuronColor, (float) coordinates.get(node).getCoordinate(1), (float) coordinates.get(node).getCoordinate(2), (float) coordinates.get(node).getCoordinate(3), this.nodeRadius);
                 if(!childrenRemoved)
                 {
                     this.removeAllChildren();
@@ -124,7 +125,7 @@ public class HyperassociativeMapVisualization extends BranchGroup
 
                 this.nestedRoot.addChild(newVisual);
                 newGraphicalNodes.put(node, newVisual);
-                this.oldNodeLocations.put(node, new Vector(node.getLocation().getDimensions()));
+                this.oldNodeLocations.put(node, new Vector(coordinates.get(node).getDimensions()));
             }
             else
             {
@@ -132,7 +133,7 @@ public class HyperassociativeMapVisualization extends BranchGroup
 
                 // Create the transform group node holding the sphere
                 final Transform3D neuronTransform = new Transform3D();
-                final Vector currentLocation = node.getLocation();
+                final Vector currentLocation = coordinates.get(node);
                 final Vector oldLocation = this.oldNodeLocations.get(node);
                 neuronTransform.set(-1f, new Vector3f((float) oldLocation.getCoordinate(1), (float) oldLocation.getCoordinate(2), (float) oldLocation.getCoordinate(3)));
                 oldVisual.setTransform(neuronTransform);
@@ -144,7 +145,7 @@ public class HyperassociativeMapVisualization extends BranchGroup
             }
 
         //remove any stale nodes
-        for (HyperassociativeNode node : this.nodeGraphics.keySet())
+        for (N node : this.nodeGraphics.keySet())
         {
             this.nestedRoot.removeChild(this.nodeGraphics.get(node));
             this.oldNodeLocations.remove(node);
@@ -272,14 +273,14 @@ public class HyperassociativeMapVisualization extends BranchGroup
 
 
 	/**
-	 * Gets the map this class is representing
+	 * Gets the drawer this class is representing
 	 *
 	 *
-	 * @return The map this class is representing.
+	 * @return The drawer this class is representing.
 	 * @since 1.0
 	 */
-    AbstractHyperassociativeMap getMap()
+    GraphDrawer getMap()
     {
-        return map;
+        return drawer;
     }
 }

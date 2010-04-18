@@ -460,7 +460,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
         {
             newWave.setCenter(dimensionName, newWave.getCenter(dimensionName) + ((RANDOM.nextFloat() * 2 - 1) * 100));
         }
-        newWave.setDistribution(RANDOM.nextFloat() * 100);
+        newWave.setDistribution((RANDOM.nextDouble() * 100.0) + Double.MIN_VALUE);
 
         return newWave;
     }
