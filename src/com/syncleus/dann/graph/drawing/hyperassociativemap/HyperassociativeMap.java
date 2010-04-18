@@ -156,11 +156,16 @@ public class HyperassociativeMap<G extends Graph<N, E, W>, N, E extends Edge<? e
 			this.coordinates.put(node, this.coordinates.get(node).calculateRelativeTo(center));
 	}
 
-	private Vector align(N nodeToAlign)
+	Set<N> getNeighbors(N nodeToQuery)
+	{
+		return new HashSet<N>(this.graph.getNeighbors(nodeToQuery));
+	}
+
+	final private Vector align(N nodeToAlign)
 	{
         //calculate equilibrium with neighbors
 		final Vector location = this.coordinates.get(nodeToAlign);
-		final Set<N> neighbors = new HashSet<N>(this.graph.getNeighbors(nodeToAlign));
+		final Set<N> neighbors = this.getNeighbors(nodeToAlign);
 
         Vector compositeVector = new Vector(location.getDimensions());
         for(N neighbor : neighbors)
