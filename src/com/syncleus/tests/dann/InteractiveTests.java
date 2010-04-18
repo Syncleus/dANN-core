@@ -21,12 +21,13 @@ package com.syncleus.tests.dann;
 import java.io.*;
 import java.util.*;
 import java.lang.reflect.*;
-import org.junit.runner.JUnitCore;
-import org.junit.runner.Request;
-import org.junit.runner.Result;
+import org.junit.runner.*;
+import java.lang.annotation.Annotation;
 
 public class InteractiveTests
 {
+	private static final Class<? extends Annotation> TEST_ANNOTATION = org.junit.Test.class;
+
 	private static class ClassComparator implements Comparator<Class>
 	{
 		public int compare(Class first, Class second)
@@ -71,6 +72,14 @@ public class InteractiveTests
 		}
 	}
 
+	private static boolean isTestClass(Class testClass)
+	{
+		for(Method currentMethod : testClass.getDeclaredMethods())
+			if(currentMethod.isAnnotationPresent(TEST_ANNOTATION))
+				return true;
+		return false;
+	}
+
 	private static Map<Class, Set<Method>> getTestPoints()
 	{
 		final Map<Class, Set<Method>> testPoints = new TreeMap<Class, Set<Method>>(new ClassComparator());
@@ -88,7 +97,7 @@ public class InteractiveTests
 			final String fullClassString = packageClass.toString();
 			final int classNameIndex = fullClassString.lastIndexOf(".") + 1;
 			final String classString = fullClassString.substring(classNameIndex);
-			if((!classString.contains("$")) && (classString.startsWith("Test")) )
+			if((!classString.contains("$")) && (InteractiveTests.isTestClass(packageClass)))
 			{
 				//check to make sure there is a default constructor
 				boolean hasDefaultContructor = false;
@@ -104,7 +113,7 @@ public class InteractiveTests
 				final Method[] packageClassMethods = packageClass.getDeclaredMethods();
 				for(Method packageClassMethod : packageClassMethods)
 				{
-					if(packageClassMethod.getName().startsWith("test"))
+					if(packageClassMethod.isAnnotationPresent(TEST_ANNOTATION))
 						testMethods.add(packageClassMethod);
 				}
 			}
