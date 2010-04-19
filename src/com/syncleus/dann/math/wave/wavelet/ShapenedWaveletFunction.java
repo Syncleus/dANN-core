@@ -112,17 +112,7 @@ public class ShapenedWaveletFunction extends SharpenedWaveFunction
 	@Override
     public ShapenedWaveletFunction clone()
     {
-        ShapenedWaveletFunction copy = (ShapenedWaveletFunction)super.clone();
-        copy.setX(this.getX());
-        copy.setFrequency(this.getFrequency());
-        copy.setPhase(this.getPhase());
-        copy.setAmplitude(this.getAmplitude());
-        copy.setForm(this.getForm());
-        copy.setCenter(this.getCenter());
-        copy.setDistribution(this.getDistribution());
-        copy.constantMode = this.constantMode;
-        copy.constantValue = this.constantValue;
-        return copy;
+		return (ShapenedWaveletFunction)super.clone();
     }
 
 	@Override

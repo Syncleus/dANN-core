@@ -49,7 +49,7 @@ public class PromoterGene extends AbstractWaveletGene implements Cloneable
 	{
 		PromoterGene copy = (PromoterGene) super.clone();
 
-		copy.targetDistance = this.targetDistance;
+		copy.targetDistance = this.targetDistance.clone();
 
 		return copy;
 	}

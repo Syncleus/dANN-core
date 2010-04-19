@@ -19,48 +19,40 @@
 package com.syncleus.dann.math;
 
 import com.syncleus.dann.UnexpectedDannError;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Set;
 import org.apache.log4j.Logger;
+import java.util.*;
 
 public abstract class AbstractFunction implements Cloneable, Function
 {
     private double[] parameters;
-    private String[] parameterNames;
-	private Set<String> paramterNamesList;
-    private final Hashtable<String,Integer> indexNames = new Hashtable<String,Integer>();
+    private final String[] parameterNames;
+    private final Map<String,Integer> indexNames;
 	private final static Logger LOGGER = Logger.getLogger(AbstractFunction.class);
 
 	protected AbstractFunction(AbstractFunction copy)
 	{
 		this.parameters = copy.parameters.clone();
-		this.parameterNames = copy.parameterNames.clone();
-		this.indexNames.putAll(copy.indexNames);
-
-		Set<String> newNames = new HashSet<String>();
-		for(String name : this.parameterNames)
-			newNames.add(name);
-		this.paramterNamesList = Collections.unmodifiableSet(newNames);
+		this.parameterNames = copy.parameterNames;
+		this.indexNames = copy.indexNames;
 	}
 
     protected AbstractFunction(String[] parameterNames)
     {
         if(parameterNames.length <= 0)
+		{
+			this.indexNames = new Hashtable<String,Integer>();
+			this.parameters = null;
+			this.parameterNames = null;
             return;
+		}
         
         this.parameters = new double[parameterNames.length];
         this.parameterNames = parameterNames.clone();
-        
+
+		Map<String,Integer> newIndexNames = new HashMap<String,Integer>();
         for(int index = 0; index < this.parameterNames.length; index++)
-            this.indexNames.put(this.parameterNames[index], Integer.valueOf(index));
-    }
-    
-    public final Set<String> getParameterNames()
-    {
-        return this.paramterNamesList;
+            newIndexNames.put(this.parameterNames[index], Integer.valueOf(index));
+		this.indexNames = Collections.unmodifiableMap(newIndexNames);
     }
     
     protected static String[] combineLabels(final String[] first, final String[] second)
@@ -128,10 +120,7 @@ public abstract class AbstractFunction implements Cloneable, Function
 	{
 		try
 		{
-			final AbstractFunction copy = (AbstractFunction) super.clone();
-			copy.indexNames.putAll(this.indexNames);
-			copy.parameterNames = this.parameterNames.clone();
-			copy.paramterNamesList = this.paramterNamesList;
+			AbstractFunction copy = (AbstractFunction) super.clone();
 			copy.parameters = this.parameters.clone();
 			return copy;
 		}
@@ -143,5 +132,6 @@ public abstract class AbstractFunction implements Cloneable, Function
 	}
 
     public abstract double calculate();
+	@Override
     public abstract String toString();
 }

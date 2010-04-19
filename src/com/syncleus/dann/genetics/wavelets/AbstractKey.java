@@ -26,14 +26,15 @@ import com.syncleus.dann.genetics.MutableInteger;
 
 public abstract class AbstractKey implements Cloneable
 {
-	private HashMap<Integer, Boolean> points;
+	private Map<Integer, Boolean> points;
 	private final static Random RANDOM = Mutations.getRandom();
 	private final static Logger LOGGER = Logger.getLogger(AbstractKey.class);
 
 	protected AbstractKey()
 	{
-		this.points = new HashMap<Integer, Boolean>();
-		this.points.put(Integer.valueOf(RANDOM.nextInt()), RANDOM.nextBoolean());
+		HashMap<Integer, Boolean> newPoints = new HashMap<Integer, Boolean>();
+		newPoints.put(Integer.valueOf(RANDOM.nextInt()), RANDOM.nextBoolean());
+		this.points = Collections.unmodifiableMap(newPoints);
 	}
 
 	protected AbstractKey(Map<Integer, Boolean> points)
@@ -41,12 +42,12 @@ public abstract class AbstractKey implements Cloneable
 		if(points.isEmpty())
 			throw new IllegalArgumentException("points must have atleast one entry");
 
-		this.points = new HashMap<Integer, Boolean>(points);
+		this.points = Collections.unmodifiableMap(new HashMap<Integer, Boolean>(points));
 	}
 
 	protected AbstractKey(String keyString)
 	{
-		this.points = new HashMap<Integer, Boolean>();
+		HashMap<Integer, Boolean> newPoints = new HashMap<Integer, Boolean>();
 
 		final char[] keyChars = keyString.toCharArray();
 		int index = 0;
@@ -56,15 +57,17 @@ public abstract class AbstractKey implements Cloneable
 				throw new IllegalArgumentException("eyString is only allowed to contain the following characters: 1, 0, x");
 
 			if(keyChar == '1')
-				this.points.put(index, Boolean.TRUE);
+				newPoints.put(index, Boolean.TRUE);
 			else if(keyChar == '0')
-				this.points.put(index, Boolean.FALSE);
+				newPoints.put(index, Boolean.FALSE);
 
 			index++;
 		}
 
-		if(this.points.isEmpty())
+		if(newPoints.isEmpty())
 			throw new IllegalArgumentException("string must contain atleast one 1, or 0 point");
+
+		this.points = Collections.unmodifiableMap(newPoints);
 	}
 
 	protected AbstractKey(AbstractKey copy)
@@ -74,19 +77,7 @@ public abstract class AbstractKey implements Cloneable
 
 	protected Map<Integer, Boolean> getPoints()
 	{
-		return Collections.unmodifiableMap(points);
-	}
-	
-	protected void internalMutate(double deviation)
-	{
-		Integer[] pointsArray = new Integer[this.points.size()];
-		this.points.keySet().toArray(pointsArray);
-		
-		MutableInteger point = new MutableInteger(pointsArray[RANDOM.nextInt(pointsArray.length)]);
-		if(RANDOM.nextBoolean())
-			this.points.put(point.mutate(deviation).getNumber(), RANDOM.nextBoolean());
-		else
-			this.points.remove(point.getNumber());
+		return this.points;
 	}
 
 	@Override
@@ -143,5 +134,20 @@ public abstract class AbstractKey implements Cloneable
 		}
 	}
 
-	public abstract AbstractKey mutate(double deviation);
+	public AbstractKey mutate(double deviation)
+	{
+		Integer[] pointsArray = new Integer[this.points.size()];
+		this.points.keySet().toArray(pointsArray);
+
+		MutableInteger point = new MutableInteger(pointsArray[RANDOM.nextInt(pointsArray.length)]);
+		final Map<Integer, Boolean> newPoints = new HashMap(this.points);
+		if(RANDOM.nextBoolean())
+			newPoints.put(point.mutate(deviation).getNumber(), RANDOM.nextBoolean());
+		else
+			newPoints.remove(point.getNumber());
+
+		AbstractKey copy = (AbstractKey) this.clone();
+		copy.points = Collections.unmodifiableMap(newPoints);
+		return copy;
+	}
 }

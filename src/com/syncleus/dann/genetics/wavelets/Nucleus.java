@@ -24,7 +24,7 @@ import org.apache.log4j.Logger;
 
 public class Nucleus implements Cloneable
 {
-	private ArrayList<Chromosome> chromosomes;
+	private List<Chromosome> chromosomes;
 	private double mutability;
 	private final static Logger LOGGER = Logger.getLogger(Nucleus.class);
 
@@ -83,7 +83,7 @@ public class Nucleus implements Cloneable
 			Nucleus copy = (Nucleus) super.clone();
 			copy.chromosomes = new ArrayList<Chromosome>();
 			for(Chromosome chromosome : this.chromosomes)
-				copy.chromosomes.add(new Chromosome(chromosome));
+				copy.chromosomes.add(chromosome.clone());
 			return copy;
 		}
 		catch(CloneNotSupportedException caught)

@@ -124,8 +124,11 @@ public class ExpressionFunction implements Cloneable
 		{
 			final ExpressionFunction copy = (ExpressionFunction) super.clone();
 			copy.receptors = new HashSet<ReceptorKey>(this.receptors);
-			copy.waves = new ArrayList<WaveMultidimensionalFunction>(this.waves);
-			copy.wavelet = this.wavelet;
+			List<WaveMultidimensionalFunction> newWaves = new ArrayList<WaveMultidimensionalFunction>();
+			for(WaveMultidimensionalFunction wave : this.waves)
+				newWaves.add(wave.clone());
+			copy.waves = newWaves;
+			copy.wavelet = this.wavelet.clone();
 			return copy;
 		}
 		catch(CloneNotSupportedException caught)

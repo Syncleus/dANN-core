@@ -18,10 +18,11 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
+import com.syncleus.dann.UnexpectedDannError;
 import com.syncleus.dann.math.wave.WaveMultidimensionalFunction;
 import com.syncleus.dann.math.wave.wavelet.CombinedWaveletFunction;
-import java.io.Serializable;
 import java.util.*;
+import org.apache.log4j.Logger;
 
 public class SignalProcessingWavelet implements Comparable<SignalProcessingWavelet>, Cloneable
 {
@@ -106,8 +107,9 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
     private double currentOutput = 0.0;
     private static final Random RANDOM = new Random();
     private Set<SignalConcentration> signals = new HashSet<SignalConcentration>();
-    private ArrayList<WaveMultidimensionalFunction> waves = new ArrayList<WaveMultidimensionalFunction>();
+    private List<WaveMultidimensionalFunction> waves = new ArrayList<WaveMultidimensionalFunction>();
     private CombinedWaveletFunction wavelet;
+	private final static Logger LOGGER = Logger.getLogger(SignalProcessingWavelet.class);
 
 
 
@@ -211,16 +213,24 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 
 
 	@Override
-    public SignalProcessingWavelet clone() throws CloneNotSupportedException
+    public SignalProcessingWavelet clone()
     {
-        SignalProcessingWavelet copy = (SignalProcessingWavelet) super.clone();
-        copy.signals = new TreeSet<SignalConcentration>(this.signals);
-        copy.waves = new ArrayList<WaveMultidimensionalFunction>(this.waves);
-
-        copy.output = this.output;
-        copy.wavelet = (this.wavelet == null ? null : this.wavelet.clone());
-        copy.id = this.id;
-        return copy;
+		try
+		{
+			SignalProcessingWavelet copy = (SignalProcessingWavelet) super.clone();
+			copy.signals = new TreeSet<SignalConcentration>(this.signals);
+			List<WaveMultidimensionalFunction> newWaves = new ArrayList<WaveMultidimensionalFunction>();
+			for(WaveMultidimensionalFunction wave : this.waves)
+				newWaves.add(wave.clone());
+			copy.waves = newWaves;
+			copy.wavelet = (this.wavelet == null ? null : this.wavelet.clone());
+			return copy;
+		}
+		catch(CloneNotSupportedException caught)
+		{
+			LOGGER.error("CloneNotSupportedException caught but not expected!", caught);
+			throw new UnexpectedDannError("CloneNotSupportedException caught but not expected", caught);
+		}
     }
 
 
@@ -259,7 +269,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
      * 
      * @return New mutated wavelet
      */
-    public SignalProcessingWavelet mutate(double deviation) throws CloneNotSupportedException
+    public SignalProcessingWavelet mutate(double deviation)
     {
         SignalProcessingWavelet copy = this.clone();
 
@@ -348,7 +358,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
      * @param newSignal The new signal to incorperate.
      * @return New mutated wavelet
      */
-    public SignalProcessingWavelet mutate(double deviation, SignalConcentration newSignal) throws CloneNotSupportedException
+    public SignalProcessingWavelet mutate(double deviation, SignalConcentration newSignal)
     {
         SignalProcessingWavelet copy = this.clone();
         copy.signals.add(newSignal);

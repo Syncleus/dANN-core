@@ -30,7 +30,7 @@ public class TestSignalProcessingWavelet
 {
 	private static final Random RANDOM = new Random();
 	private static final int POPULATION_SIZE = 20;
-	private static final int EXTINCTION_SIZE = 5;
+	private static final int EXTINCTION_SIZE = 10;
 	private static final int GENERATIONS = 500;
 	private static final int XOR_MUTATION_COUNT = 100;
 	private static final double XOR_MUTABILITY = 10000.0;
@@ -43,7 +43,7 @@ public class TestSignalProcessingWavelet
 	}
 
 	@Test
-	public void testMutationOnce() throws CloneNotSupportedException
+	public void testMutationOnce()
 	{
         GlobalSignalConcentration xAxis = new GlobalSignalConcentration();
         GlobalSignalConcentration yAxis = new GlobalSignalConcentration();
@@ -61,14 +61,14 @@ public class TestSignalProcessingWavelet
 	}
 
 	@Test
-	public void testXorEvolves() throws CloneNotSupportedException
+	public void testXorEvolves()
 	{
-		for(int testIndex = 0; testIndex < 20; testIndex++)
+		for(int testIndex = 0; testIndex < 5; testIndex++)
 			this.testXorEvolveOnce();
 	}
 
 	@Test
-	public void testXorEvolveOnce() throws CloneNotSupportedException
+	public void testXorEvolveOnce()
 	{
 		final TreeMap<Double, SignalProcessingWavelet> population = new TreeMap<Double, SignalProcessingWavelet>();
 
@@ -103,7 +103,11 @@ public class TestSignalProcessingWavelet
 			ArrayList<SignalProcessingWavelet> populationArray = new ArrayList<SignalProcessingWavelet>(population.values());
 			while(population.size() < POPULATION_SIZE)
 			{
-				SignalProcessingWavelet processor = populationArray.get(RANDOM.nextInt(populationArray.size()));
+				SignalProcessingWavelet processor;
+				if(RANDOM.nextFloat() < 0.5)
+					processor = populationArray.get(RANDOM.nextInt(populationArray.size()));
+				else
+					processor = new SignalProcessingWavelet(xAxis, output);
 				processor = mutateXor(processor, xAxis, yAxis);
 
 				processor.preTick();
@@ -118,7 +122,7 @@ public class TestSignalProcessingWavelet
 		Assert.assertTrue("did not successfully match XOR truth table: fitness: " + bestFitness, bestFitness >= 4.0);
 	}
 
-	private static SignalProcessingWavelet mutateXor(SignalProcessingWavelet processor, GlobalSignalConcentration xAxis, GlobalSignalConcentration yAxis) throws CloneNotSupportedException
+	private static SignalProcessingWavelet mutateXor(SignalProcessingWavelet processor, GlobalSignalConcentration xAxis, GlobalSignalConcentration yAxis)
 	{
 		//mutate until there are atleast 2 input signals and 1 output signal, 3 total
 		//there will always be exactly 1 output signal
@@ -136,7 +140,7 @@ public class TestSignalProcessingWavelet
 		return mutatedProcessor;
 	}
 
-	private static double checkXorFitness(Function xorAttempt, int waveCount) throws CloneNotSupportedException
+	private static double checkXorFitness(Function xorAttempt, int waveCount)
 	{
 		if(waveCount <= 0)
 			throw new IllegalArgumentException("waveCount must be >0");

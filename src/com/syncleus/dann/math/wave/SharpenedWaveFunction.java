@@ -44,7 +44,8 @@ public class SharpenedWaveFunction extends WaveFunction
     {
         return this.getParameter(this.getParameterNameIndex("form"));
     } 
-    
+
+	@Override
     public double calculate()
     {
         if( super.calculate() == 0.0)
@@ -58,13 +59,7 @@ public class SharpenedWaveFunction extends WaveFunction
 	@Override
     public SharpenedWaveFunction clone()
     {
-        SharpenedWaveFunction copy = (SharpenedWaveFunction) super.clone();
-        copy.setX(this.getX());
-        copy.setFrequency(this.getFrequency());
-        copy.setPhase(this.getPhase());
-        copy.setAmplitude(this.getAmplitude());
-        copy.setForm(this.getForm());
-        return copy;
+		return (SharpenedWaveFunction) super.clone();
     }
 
 	@Override

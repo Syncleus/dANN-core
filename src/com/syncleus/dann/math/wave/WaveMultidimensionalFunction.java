@@ -203,8 +203,6 @@ public class WaveMultidimensionalFunction extends AbstractFunction implements Cl
 
 		copy.wave = this.wave.clone();
 		copy.dimensionNames = this.dimensionNames.clone();
-        copy.constantMode = this.constantMode;
-        copy.constantValue = this.constantValue;
 
         return copy;
     }

@@ -48,11 +48,9 @@ public class SignalKey extends AbstractKey implements Cloneable
 		return (SignalKey) super.clone();
 	}
 
+	@Override
 	public SignalKey mutate(double deviation)
 	{
-		SignalKey copy = this.clone();
-		copy.internalMutate(deviation);
-
-		return copy;
+		return (SignalKey) super.mutate(deviation);
 	}
 }

@@ -25,7 +25,7 @@ import java.util.*;
 
 public class CombinedWaveletFunction extends AbstractFunction implements Cloneable
 {
-    private TreeSet<String> dimensions = new TreeSet<String>();
+    private Set<String> dimensions = new TreeSet<String>();
     private List<WaveMultidimensionalFunction> waves = Collections.synchronizedList(new ArrayList<WaveMultidimensionalFunction>());
 
     public CombinedWaveletFunction(String[] dimensions)
@@ -93,6 +93,8 @@ public class CombinedWaveletFunction extends AbstractFunction implements Cloneab
     public CombinedWaveletFunction clone()
     {
         CombinedWaveletFunction copy = (CombinedWaveletFunction) super.clone();
+		copy.dimensions = new TreeSet<String>(this.dimensions);
+		copy.waves = new ArrayList<WaveMultidimensionalFunction>(this.waves);
         return copy;
     }
 

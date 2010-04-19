@@ -81,15 +81,11 @@ public class WaveFunction extends AbstractFunction implements Cloneable
     {
         return Math.sin( (this.getX()+(this.getPhase()/360)) * 2 * Math.PI * this.getFrequency()) * this.getAmplitude();
     }
-    
+
+	@Override
     public WaveFunction clone()
     {
-        WaveFunction copy = (WaveFunction) super.clone();
-        copy.setX(this.getX());
-        copy.setFrequency(this.getFrequency());
-        copy.setPhase(this.getPhase());
-        copy.setAmplitude(this.getAmplitude());
-        return copy;
+		return (WaveFunction) super.clone();
     }
     
     public String toString()

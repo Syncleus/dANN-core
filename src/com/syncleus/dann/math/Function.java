@@ -18,11 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.math;
 
-import java.util.Set;
-
 public interface Function
 {
-    Set<String> getParameterNames();
     void setParameter(final int parameterIndex, final double value);
 	void setParameter(final String parameterName, final double value);
     double getParameter(final int parameterIndex);

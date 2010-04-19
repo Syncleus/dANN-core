@@ -32,7 +32,7 @@ public abstract class AbstractWaveletGene implements Gene, Cloneable
 	private final static Logger LOGGER = Logger.getLogger(AbstractWaveletGene.class);
 
 	protected ExpressionFunction expressionFunction;
-	protected HashSet<SignalKeyConcentration> receivingConcentrations;
+	protected Set<SignalKeyConcentration> receivingConcentrations;
 	protected final static Random RANDOM = Mutations.getRandom();
 
 	protected AbstractWaveletGene(ReceptorKey initialReceptor)
@@ -123,7 +123,7 @@ public abstract class AbstractWaveletGene implements Gene, Cloneable
 
 			copy.currentActivity = this.currentActivity;
 			copy.pendingActivity = this.pendingActivity;
-			copy.expressionFunction = this.expressionFunction;
+			copy.expressionFunction = this.expressionFunction.clone();
 			copy.mutability = this.mutability;
 			copy.receivingConcentrations = new HashSet<SignalKeyConcentration>(this.receivingConcentrations);
 

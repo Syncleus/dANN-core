@@ -162,8 +162,8 @@ public class Chromosome implements Cloneable
 		try
 		{
 			final Chromosome copy = (Chromosome) super.clone();
-			copy.leftChromatid = new WaveletChromatid(this.leftChromatid);
-			copy.rightChromatid = new WaveletChromatid(this.rightChromatid);
+			copy.leftChromatid = this.leftChromatid.clone();
+			copy.rightChromatid = this.rightChromatid.clone();
 			copy.mutability = this.mutability;
 			return copy;
 		}
