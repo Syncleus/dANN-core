@@ -25,6 +25,7 @@ import com.syncleus.dann.math.Function;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.TreeMap;
+import org.apache.log4j.Logger;
 
 public class TestSignalProcessingWavelet
 {
@@ -34,12 +35,18 @@ public class TestSignalProcessingWavelet
 	private static final int GENERATIONS = 500;
 	private static final int XOR_MUTATION_COUNT = 100;
 	private static final double XOR_MUTABILITY = 10000.0;
+	private static final int TEST_MUTATIONS_REPEATS = 100;
+	private static final int TEST_XOR_REPEATS = 5;
+	private final static Logger LOGGER = Logger.getLogger(TestSignalProcessingWavelet.class);
 
 	@Test
 	public void testMutations() throws CloneNotSupportedException
 	{
-		for(int testCount = 0; testCount < 100; testCount++)
+		for(int testCount = 0; testCount < TEST_MUTATIONS_REPEATS; testCount++)
+		{
+			LOGGER.info("performing testMutations test #" + testCount);
 			testMutationOnce();
+		}
 	}
 
 	@Test
@@ -63,8 +70,11 @@ public class TestSignalProcessingWavelet
 	@Test
 	public void testXorEvolves()
 	{
-		for(int testIndex = 0; testIndex < 5; testIndex++)
+		for(int testIndex = 0; testIndex < TEST_XOR_REPEATS; testIndex++)
+		{
+			LOGGER.info("performing testXorEvolves test #" + testIndex);
 			this.testXorEvolveOnce();
+		}
 	}
 
 	@Test
@@ -73,6 +83,7 @@ public class TestSignalProcessingWavelet
 		final TreeMap<Double, SignalProcessingWavelet> population = new TreeMap<Double, SignalProcessingWavelet>();
 
 		//initialize the population
+		LOGGER.info("Initializing population");
 		final GlobalSignalConcentration xAxis = new GlobalSignalConcentration();
 		final GlobalSignalConcentration yAxis = new GlobalSignalConcentration();
 		final GlobalSignalConcentration output = new GlobalSignalConcentration();
@@ -86,11 +97,14 @@ public class TestSignalProcessingWavelet
 			final double initialFitness = checkXorFitness(processor.getWavelet(), processor.getWaveCount());
 			
 			population.put(initialFitness, processor);
+
+			LOGGER.debug("Initialized " + population.size() + " members, last members fitness: " + initialFitness);
 		}
 
 		//run through several generations
 		for(int generationIndex = 0; generationIndex < GENERATIONS; generationIndex++)
 		{
+			LOGGER.info("Begining generation " + generationIndex + ", current fitness: " + population.lastKey());
 			//check if we reached the goal prematurely.
 			if(population.lastKey() >= 4.0)
 				break;

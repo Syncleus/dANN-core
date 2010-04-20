@@ -18,18 +18,19 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
+import java.util.List;
 import java.util.Set;
 
-public abstract class AbstractBidirectedGraph<N, E extends BidirectedEdge<? extends N>, W extends BidirectedWalk<N, E>> extends AbstractGraph<N,E,W> implements BidirectedGraph<N,E,W>
+public abstract class AbstractBidirectedGraph<N, E extends BidirectedEdge<? extends N>, W extends BidirectedWalk<? extends N, ? extends E>> extends AbstractGraph<N,E,W> implements BidirectedGraph<N,E,W>
 {
 	public boolean isStronglyConnected()
 	{
-		return false;
+		return this.isConnected();
 	}
 
-	public Set<BidirectedGraph<N,E,W>> getStrongComponents()
+	public boolean isWeaklyConnected()
 	{
-		return null;
+		return false;
 	}
 
 	public boolean isPolytree()
@@ -41,5 +42,20 @@ public abstract class AbstractBidirectedGraph<N, E extends BidirectedEdge<? exte
 	public Set<Graph<N,E,W>> getConnectedComponents()
 	{
 		return null;
+	}
+
+	@Override
+	public int getDegree(N node)
+	{
+		List<E> adjacentEdges = this.getEdges(node);
+		int degree = 0;
+		for(E adjacentEdge : adjacentEdges)
+		{
+			if(adjacentEdge.isLoop())
+				degree += 2;
+			else
+				degree++;
+		}
+		return degree;
 	}
 }

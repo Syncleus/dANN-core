@@ -21,8 +21,8 @@ package com.syncleus.dann.genetics.wavelets;
 import com.syncleus.dann.UnexpectedDannError;
 import com.syncleus.dann.math.wave.WaveMultidimensionalFunction;
 import com.syncleus.dann.math.wave.wavelet.CombinedWaveletFunction;
-import java.util.*;
 import org.apache.log4j.Logger;
+import java.util.*;
 
 public class SignalProcessingWavelet implements Comparable<SignalProcessingWavelet>, Cloneable
 {
@@ -112,7 +112,6 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 	private final static Logger LOGGER = Logger.getLogger(SignalProcessingWavelet.class);
 
 
-
     public SignalProcessingWavelet(SignalConcentration initialInput, SignalConcentration initialOutput)
     {
         this.output = initialOutput;
@@ -121,8 +120,6 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 
         WaveMultidimensionalFunction initialWave = generateNewWave();
         this.waves.add(initialWave);
-
-//        this.cell = cell;
 
         this.id = RANDOM.nextLong();
     }
@@ -154,7 +151,6 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 
     public int compareTo(SignalProcessingWavelet compareWith)
     {
-//        return compareWith.id.compareTo(this.id);
 		if(this.id < compareWith.id)
 			return -1;
 		else if(this.id > compareWith.id)
@@ -165,7 +161,6 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 	@Override
 	public boolean equals(Object compareWithObject)
 	{
-//		return this.id.equals(compareWithObject);
 		if( compareWithObject instanceof SignalProcessingWavelet)
 			return (this.id == ((SignalProcessingWavelet)compareWithObject).id);
 		return false;
@@ -198,8 +193,6 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 
         double newOutput = this.wavelet.calculate();
 
-        //this.output.setValue(this.output.getValue() + newOutput);
-        // this.output.setValue(this.output.getValue() + (-1 * this.currentOutput) + newOutput);
         this.currentOutput = newOutput;
     }
 

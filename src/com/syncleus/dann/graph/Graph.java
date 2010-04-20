@@ -18,8 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public interface Graph<N, E extends Edge<? extends N>, W extends Walk<? extends N, ? extends E>>
 {
@@ -36,14 +35,22 @@ public interface Graph<N, E extends Edge<? extends N>, W extends Walk<? extends 
 	//attributes/properties
 	boolean isConnected();
 	Set<Graph<N,E,W>> getConnectedComponents();
-	boolean isMaximalConnected();
-	boolean isCut(Graph<? extends N, ? extends E, ? extends W> subGraph);
-	boolean isCut(Graph<? extends N, ? extends E, ? extends W> subGraph, N begin, N end);
+	boolean isMaximalSubgraph(Graph<? extends N, ? extends E, ? extends W> subgraph);
+	boolean isCut(Set<? extends N> nodes, List<? extends E> edges);
+	boolean isCut(Set<? extends N> nodes);
+	boolean isCut(List<? extends E> edges);
+	boolean isCut(N nodes);
+	boolean isCut(E edges);
+	boolean isCut(Set<? extends N> nodes, List<? extends E> edges, N begin, N end);
+	boolean isCut(Set<? extends N> nodes, N begin, N end);
+	boolean isCut(List<? extends E> edges, N begin, N end);
+	boolean isCut(N nodes, N begin, N end);
+	boolean isCut(E edges, N begin, N end);
 	int getNodeConnectivity();
 	int getEdgeConnectivity();
 	int getNodeConnectivity(N begin, N end);
 	int getEdgeConnectivity(N begin, N end);
-	boolean isCompleteGraph();
+	boolean isComplete();
 	int getOrder();
 	int getCycleCount();
 	boolean isPancyclic();

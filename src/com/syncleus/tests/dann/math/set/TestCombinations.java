@@ -16,44 +16,37 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.neural;
+package com.syncleus.tests.dann.math.set;
 
-import com.syncleus.dann.graph.BidirectedGraph;
-import com.syncleus.dann.graph.Graph;
-import com.syncleus.dann.graph.TreeGraph;
-import com.syncleus.dann.graph.WeightedBidirectedWalk;
+import org.junit.*;
 import java.util.*;
+import com.syncleus.dann.math.set.Combinations;
+import org.apache.log4j.Logger;
 
-/**
- * Represents a single artificial brain typically belonging to a single
- * artificial organism. It will contain a set of input and output neurons which
- * corelates to a specific dataset pattern.<br/>
- * <br/>
- * This class is abstract and must be extended in order to be used.
- *
- * @author Syncleus, Inc.
- * @since 1.0
- *
- */
-public interface Brain extends BidirectedGraph<Neuron, Synapse, WeightedBidirectedWalk<Neuron,Synapse>>
+public class TestCombinations
 {
-	/**
-	 * Obtains all InputNeurons contained within the brain.
-	 *
-	 *
-	 * @return An unmodifiable Set of InputNeurons.
-	 * @since 1.0
-	 */
-    public abstract Set<InputNeuron> getInputNeurons();
+	private final static Logger LOGGER = Logger.getLogger(TestCombinations.class);
+	private final static String SUPER_SET = "1234";
+	private final static int COMBINATION_COUNT = 14;
 
+	@Test
+	public void testStringCombinations()
+	{
+		LOGGER.info("Generating combinations for: " + SUPER_SET);
+		char[] lettersArray = SUPER_SET.toCharArray();
+		List<Character> letters = new ArrayList<Character>();
+		for(char letter : lettersArray)
+			letters.add(Character.valueOf(letter));
 
+		Set<List<Character>> combinations = Combinations.everyCombination(letters);
+		for(List<Character> combination : combinations)
+		{
+			StringBuilder combinationString = new StringBuilder();
+			for(Character combinationChar : combination)
+				combinationString.append(combinationChar);
+			LOGGER.info("Combination Generated: " + combinationString);
+		}
 
-	/**
-	 * Obtains all OutputNeurons contained within the brain.
-	 *
-	 *
-	 * @return An unmodifiable Set of OutputNeurons
-	 * @since 1.0
-	 */
-    public abstract Set<OutputNeuron> getOutputNeurons();
+		Assert.assertTrue("Wrong number of combinations: " + combinations.size(), combinations.size() == COMBINATION_COUNT);
+	}
 }

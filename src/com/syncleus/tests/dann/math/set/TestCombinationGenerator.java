@@ -16,44 +16,17 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.neural;
+package com.syncleus.tests.dann.math.set;
 
-import com.syncleus.dann.graph.BidirectedGraph;
-import com.syncleus.dann.graph.Graph;
-import com.syncleus.dann.graph.TreeGraph;
-import com.syncleus.dann.graph.WeightedBidirectedWalk;
-import java.util.*;
+import com.syncleus.dann.math.set.CombinationGenerator;
+import org.junit.*;
 
-/**
- * Represents a single artificial brain typically belonging to a single
- * artificial organism. It will contain a set of input and output neurons which
- * corelates to a specific dataset pattern.<br/>
- * <br/>
- * This class is abstract and must be extended in order to be used.
- *
- * @author Syncleus, Inc.
- * @since 1.0
- *
- */
-public interface Brain extends BidirectedGraph<Neuron, Synapse, WeightedBidirectedWalk<Neuron,Synapse>>
+public class TestCombinationGenerator
 {
-	/**
-	 * Obtains all InputNeurons contained within the brain.
-	 *
-	 *
-	 * @return An unmodifiable Set of InputNeurons.
-	 * @since 1.0
-	 */
-    public abstract Set<InputNeuron> getInputNeurons();
-
-
-
-	/**
-	 * Obtains all OutputNeurons contained within the brain.
-	 *
-	 *
-	 * @return An unmodifiable Set of OutputNeurons
-	 * @since 1.0
-	 */
-    public abstract Set<OutputNeuron> getOutputNeurons();
+	@Test
+	public void testPatternCount()
+	{
+		CombinationGenerator generator = new CombinationGenerator(5, 3);
+		Assert.assertTrue("Generator produced incorrect nuber of combinations: " + generator.getTotal(), generator.getTotal().intValue() == 10);
+	}
 }

@@ -18,18 +18,30 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.Set;
+import com.syncleus.dann.math.set.Combinations;
+import java.util.*;
 
 public abstract class AbstractGraph<N, E extends Edge<? extends N>, W extends Walk<? extends N, ? extends E>> implements Graph<N,E,W>
 {
 	public int getDegree(N node)
 	{
-		return 0;
+		List<E> adjacentEdges = this.getEdges(node);
+		int degree = 0;
+		for(E adjacentEdge : adjacentEdges)
+			for(N adjacentNode : adjacentEdge.getNodes())
+				if(adjacentNode == node)
+					degree++;
+		return degree;
 	}
 	
 	public boolean isConnected()
 	{
-		return false;
+		Set<N> nodes = this.getNodes();
+		for(N fromNode : nodes)
+			for(N toNode : nodes)
+				if((toNode != fromNode)&&(!this.isConnected(toNode, fromNode)))
+					return false;
+		return true;
 	}
 
 	public Set<Graph<N,E,W>> getConnectedComponents()
@@ -37,29 +49,132 @@ public abstract class AbstractGraph<N, E extends Edge<? extends N>, W extends Wa
 		return null;
 	}
 
-	public boolean isMaximalConnected()
+	public boolean isMaximalSubgraph(Graph<? extends N, ? extends E, ? extends W> subgraph)
 	{
-		return false;
+		if( !this.isSubGraph(subgraph))
+			return false;
+
+		//find all edges in the parent graph, but not in the subgraph
+		final List<E> exclusiveParentEdges = this.getEdges();
+		final List<? extends E> subedges = subgraph.getEdges();
+		exclusiveParentEdges.removeAll(subedges);
+
+		//check to make sure none of the edges exclusive to the parent graph
+		//connect to any of the nodes in the subgraph.
+		final Set<? extends N> subnodes = subgraph.getNodes();
+		for(E exclusiveParentEdge : exclusiveParentEdges)
+			for(N exclusiveParentNode : exclusiveParentEdge.getNodes())
+				if(subnodes.contains(exclusiveParentNode))
+					return false;
+
+		//passed all the tests, must be maximal
+		return true;
 	}
 
-	public boolean isCut(Graph<? extends N, ? extends E, ? extends W> subGraph)
+	private SimpleGraph deleteFromGraph(Set<? extends N> nodes, List<? extends E> edges)
 	{
-		return false;
+		//remove the nodes
+		final Set cutNodes = this.getNodes();
+		cutNodes.removeAll(nodes);
+
+		//remove the edges
+		final List<Edge> cutEdges = new ArrayList<Edge>(this.getEdges());
+		for(E edge : edges)
+			cutEdges.remove(edge);
+
+		//remove any remaining edges which connect to removed nodes
+		//also replace edges that have one removed node but still have
+		//2 or more remaining nodes with a new edge.
+		final List<Edge> removeEdges = new ArrayList();
+		final List<Edge> addEdges = new ArrayList();
+		for(Edge cutEdge : cutEdges)
+		{
+			final List<? extends N> cutEdgeNeighbors = cutEdge.getNodes();
+			cutEdgeNeighbors.removeAll(cutNodes);
+			if( cutEdgeNeighbors.size() != cutEdge.getNodes().size())
+				removeEdges.add(cutEdge);
+			if( cutEdgeNeighbors.size() > 1)
+				addEdges.add(new SimpleEdge(cutEdgeNeighbors));
+		}
+		for(Edge removeEdge : removeEdges)
+			cutEdges.remove(removeEdge);
+		cutEdges.addAll(addEdges);
+
+		//check if a graph fromt he new set of edges and nodes is still
+		//connected
+		return new SimpleGraph(cutNodes, cutEdges);
 	}
 
-	public boolean isCut(Graph<? extends N, ? extends E, ? extends W> subGraph, N begin, N end)
+	public boolean isCut(Set<? extends N> nodes, List<? extends E> edges)
 	{
-		return false;
+		return this.deleteFromGraph(nodes, edges).isConnected();
+	}
+
+	public boolean isCut(Set<? extends N> nodes, List<? extends E> edges, N begin, N end)
+	{
+		return this.deleteFromGraph(nodes, edges).isConnected(begin, end);
+	}
+
+	public boolean isCut(Set<? extends N> nodes)
+	{
+		return this.isCut(nodes, new ArrayList<E>());
+	}
+
+	public boolean isCut(List<? extends E> edges)
+	{
+		return this.isCut(new HashSet<N>(), edges);
+	}
+
+	public boolean isCut(N node)
+	{
+		return this.isCut(Collections.singleton(node), new ArrayList<E>());
+	}
+
+	public boolean isCut(E edge)
+	{
+		return this.isCut(new HashSet<N>(), Collections.singletonList(edge));
+	}
+
+	public boolean isCut(Set<? extends N> nodes, N begin, N end)
+	{
+		return this.isCut(nodes, new ArrayList<E>(), begin, end);
+	}
+
+	public boolean isCut(List<? extends E> edges, N begin, N end)
+	{
+		return this.isCut(new HashSet<N>(), edges, begin, end);
+	}
+
+	public boolean isCut(N node, N begin, N end)
+	{
+		return this.isCut(Collections.singleton(node), new ArrayList<E>(), begin, end);
+	}
+
+	public boolean isCut(E edge, N begin, N end)
+	{
+		return this.isCut(new HashSet<N>(), Collections.singletonList(edge), begin, end);
 	}
 
 	public int getNodeConnectivity()
 	{
-		return 0;
+		final Set<Set<N>> combinations = Combinations.everyCombination(this.getNodes());
+		final SortedSet<Set<N>> sortedCombinations = new TreeSet<Set<N>>(new SizeComparator());
+		sortedCombinations.addAll(combinations);
+		for(Set<N> cutNodes : combinations)
+			if(this.isCut(cutNodes))
+				return cutNodes.size();
+		return this.getNodes().size();
 	}
 
 	public int getEdgeConnectivity()
 	{
-		return 0;
+		final Set<List<E>> combinations = Combinations.everyCombination(this.getEdges());
+		final SortedSet<List<E>> sortedCombinations = new TreeSet<List<E>>(new SizeComparator());
+		sortedCombinations.addAll(combinations);
+		for(List<E> cutEdges : combinations)
+			if(this.isCut(cutEdges))
+				return cutEdges.size();
+		return this.getEdges().size();
 	}
 
 	public int getNodeConnectivity(N begin, N end)
@@ -72,7 +187,7 @@ public abstract class AbstractGraph<N, E extends Edge<? extends N>, W extends Wa
 		return 0;
 	}
 
-	public boolean isCompleteGraph()
+	public boolean isComplete()
 	{
 		return false;
 	}
@@ -132,9 +247,21 @@ public abstract class AbstractGraph<N, E extends Edge<? extends N>, W extends Wa
 		return false;
 	}
 
-	public boolean isSubGraph(Graph<? extends N, ? extends E, ? extends W> graph)
+	public boolean isSubGraph(Graph<? extends N, ? extends E, ? extends W> subgraph)
 	{
-		return false;
+		Set<N> nodes = this.getNodes();
+		Set<? extends N> subnodes = subgraph.getNodes();
+		for(N subnode : subnodes)
+			if( !nodes.contains(subnode) )
+				return false;
+
+		List<E> edges = this.getEdges();
+		List<? extends E> subedges = subgraph.getEdges();
+		for(E subedge : subedges)
+			if( !edges.contains(subedge))
+				return false;
+
+		return true;
 	}
 
 	public boolean isKnot(Graph<? extends N, ? extends E, ? extends W> subGraph)
@@ -165,5 +292,31 @@ public abstract class AbstractGraph<N, E extends Edge<? extends N>, W extends Wa
 	public boolean isRegular()
 	{
 		return false;
+	}
+
+	private static class SizeComparator<O> implements Comparator<Collection>
+	{
+		public int compare(Collection first, Collection second)
+		{
+			if(first.size() < second.size())
+				return -1;
+			else if(first.size() > second.size())
+				return 1;
+			return 0;
+		}
+
+		@Override
+		public boolean equals(Object compareWith)
+		{
+			if(compareWith instanceof SizeComparator)
+				return true;
+			return false;
+		}
+
+		@Override
+		public int hashCode()
+		{
+			return super.hashCode();
+		}
 	}
 }

@@ -93,6 +93,8 @@
 		<javac destdir="build/classes" classpathref="classpath" debug="true" excludes="com/syncleus/tests/**" srcdir="src">
 			<compilerarg value="-Xlint:unchecked"/>
 		</javac>
+		<copy file="log4j.properties" todir="build/classes/"/>
+
 
 		<mkdir dir="build/tests/classes"/>
 		<javac destdir="build/tests/classes" classpathref="classpath" debug="true" srcdir="src">
