@@ -179,22 +179,39 @@ public abstract class AbstractGraph<N, E extends Edge<? extends N>, W extends Wa
 
 	public int getNodeConnectivity(N begin, N end)
 	{
-		return 0;
+		final Set<Set<N>> combinations = Combinations.everyCombination(this.getNodes());
+		final SortedSet<Set<N>> sortedCombinations = new TreeSet<Set<N>>(new SizeComparator());
+		sortedCombinations.addAll(combinations);
+		for(Set<N> cutNodes : combinations)
+			if(this.isCut(cutNodes, begin, end))
+				return cutNodes.size();
+		return this.getNodes().size();
 	}
 
 	public int getEdgeConnectivity(N begin, N end)
 	{
-		return 0;
+		final Set<List<E>> combinations = Combinations.everyCombination(this.getEdges());
+		final SortedSet<List<E>> sortedCombinations = new TreeSet<List<E>>(new SizeComparator());
+		sortedCombinations.addAll(combinations);
+		for(List<E> cutEdges : combinations)
+			if(this.isCut(cutEdges, begin, end))
+				return cutEdges.size();
+		return this.getEdges().size();
 	}
 
 	public boolean isComplete()
 	{
-		return false;
+		for(N startNode : this.getNodes())
+			for(N endNode : this.getNodes())
+				if(!startNode.equals(endNode))
+					if(!this.getTraversableNeighbors(startNode).contains(endNode))
+						return false;
+		return true;
 	}
 
 	public int getOrder()
 	{
-		return 0;
+		return this.getNodes().size();
 	}
 
 	public int getCycleCount()
