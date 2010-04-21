@@ -23,14 +23,12 @@ import com.syncleus.dann.graph.cycle.*;
 import java.util.*;
 import org.junit.*;
 
-public class TestColoredDepthFirstSearchDetector
+public class TestDepthFirstSearchCounter
 {
 	@Test
 	public void testDirectedNoCycles()
 	{
 		Set<Object> nodes = new HashSet<Object>();
-		Object centerNode = new Object();
-		nodes.add(centerNode);
 		Object topNode = new Object();
 		nodes.add(topNode);
 		Object leftNode = new Object();
@@ -39,50 +37,54 @@ public class TestColoredDepthFirstSearchDetector
 		nodes.add(rightNode);
 
 		Set<DirectedEdge<Object>> edges = new HashSet<DirectedEdge<Object>>();
-		DirectedEdge<Object> centerTopEdge = new SimpleDirectedEdge<Object>(centerNode, topNode);
-		edges.add(centerTopEdge);
-		DirectedEdge<Object> centerLeftEdge = new SimpleDirectedEdge<Object>(centerNode, leftNode);
-		edges.add(centerLeftEdge);
-		DirectedEdge<Object> centerRightEdge = new SimpleDirectedEdge<Object>(centerNode, rightNode);
-		edges.add(centerRightEdge);
+		DirectedEdge<Object> topRightEdge = new SimpleDirectedEdge<Object>(topNode, rightNode);
+		edges.add(topRightEdge);
+		DirectedEdge<Object> rightLeftEdge = new SimpleDirectedEdge<Object>(rightNode, leftNode);
+		edges.add(rightLeftEdge);
+		DirectedEdge<Object> topLeftEdge = new SimpleDirectedEdge<Object>(topNode, leftNode);
+		edges.add(topLeftEdge);
 
 		BidirectedGraph<Object, DirectedEdge<Object>, BidirectedWalk<Object, DirectedEdge<Object>>> graph = new SimpleDirectedGraph<Object, DirectedEdge<Object>, BidirectedWalk<Object, DirectedEdge<Object>>>(nodes, edges);
 
-		CycleDetector detector = new ColoredDepthFirstSearchDetector();
-		Assert.assertFalse("cycle detected when there should be none.", detector.hasCycle(graph));
+		CycleFinder counter = new ExtensiveDepthFirstSearchCycleFinder();
+		Assert.assertTrue("Cycles detected when there should be none: " + counter.cycleCount(graph), counter.cycleCount(graph) == 0);
 	}
 
 	@Test
 	public void testDirectedWithCycles()
 	{
 		Set<Object> nodes = new HashSet<Object>();
-		Object centerNode = new Object();
-		nodes.add(centerNode);
+		Object tippyTopNode = new Object();
+		nodes.add(tippyTopNode);
 		Object topNode = new Object();
 		nodes.add(topNode);
 		Object leftNode = new Object();
 		nodes.add(leftNode);
 		Object rightNode = new Object();
 		nodes.add(rightNode);
+		Object bottomNode = new Object();
+		nodes.add(bottomNode);
 
 		Set<DirectedEdge<Object>> edges = new HashSet<DirectedEdge<Object>>();
-		DirectedEdge<Object> centerTopEdge = new SimpleDirectedEdge<Object>(centerNode, topNode);
-		edges.add(centerTopEdge);
-		DirectedEdge<Object> centerLeftEdge = new SimpleDirectedEdge<Object>(centerNode, leftNode);
-		edges.add(centerLeftEdge);
-		DirectedEdge<Object> centerRightEdge = new SimpleDirectedEdge<Object>(centerNode, rightNode);
-		edges.add(centerRightEdge);
-		DirectedEdge<Object> topRightEdge = new SimpleDirectedEdge<Object>(topNode, rightNode);
-		edges.add(topRightEdge);
-		DirectedEdge<Object> rightLeftEdge = new SimpleDirectedEdge<Object>(rightNode, leftNode);
-		edges.add(rightLeftEdge);
+		DirectedEdge<Object> bottomLeftEdge = new SimpleDirectedEdge<Object>(bottomNode, leftNode);
+		edges.add(bottomLeftEdge);
+		DirectedEdge<Object> letRightEdge = new SimpleDirectedEdge<Object>(leftNode, rightNode);
+		edges.add(letRightEdge);
+		DirectedEdge<Object> rightBottomEdge = new SimpleDirectedEdge<Object>(rightNode, bottomNode);
+		edges.add(rightBottomEdge);
 		DirectedEdge<Object> leftTopEdge = new SimpleDirectedEdge<Object>(leftNode, topNode);
 		edges.add(leftTopEdge);
+		DirectedEdge<Object> topRightEdge = new SimpleDirectedEdge<Object>(topNode, rightNode);
+		edges.add(topRightEdge);
+		DirectedEdge<Object> leftTippyTopEdge = new SimpleDirectedEdge<Object>(leftNode, tippyTopNode);
+		edges.add(leftTippyTopEdge);
+		DirectedEdge<Object> tippyTopRightEdge = new SimpleDirectedEdge<Object>(tippyTopNode, rightNode);
+		edges.add(tippyTopRightEdge);
 
 		BidirectedGraph<Object, DirectedEdge<Object>, BidirectedWalk<Object, DirectedEdge<Object>>> graph = new SimpleDirectedGraph<Object, DirectedEdge<Object>, BidirectedWalk<Object, DirectedEdge<Object>>>(nodes, edges);
 
-		CycleDetector detector = new ColoredDepthFirstSearchDetector();
-		Assert.assertTrue("cycle not detected when there should be one.", detector.hasCycle(graph));
+		CycleFinder counter = new ExtensiveDepthFirstSearchCycleFinder();
+		Assert.assertTrue("incorrect number of cycles detected. Expected 3, got: " + counter.cycleCount(graph), counter.cycleCount(graph) == 3);
 	}
 
 	@Test
@@ -108,16 +110,16 @@ public class TestColoredDepthFirstSearchDetector
 
 		Graph<Object, BidirectedEdge<Object>, BidirectedWalk<Object, BidirectedEdge<Object>>> graph = new SimpleGraph<Object, BidirectedEdge<Object>, BidirectedWalk<Object, BidirectedEdge<Object>>>(nodes, edges);
 
-		CycleDetector detector = new ColoredDepthFirstSearchDetector();
-		Assert.assertFalse("cycle detected when there should be none.", detector.hasCycle(graph));
+		CycleFinder counter = new ExtensiveDepthFirstSearchCycleFinder();
+		Assert.assertTrue("Cycles detected when there should be none: " + counter.cycleCount(graph), counter.cycleCount(graph) == 0);
 	}
 
 	@Test
 	public void testUndirectedWithCycles()
 	{
 		Set<Object> nodes = new HashSet<Object>();
-		Object centerNode = new Object();
-		nodes.add(centerNode);
+		Object bottomNode = new Object();
+		nodes.add(bottomNode);
 		Object topNode = new Object();
 		nodes.add(topNode);
 		Object leftNode = new Object();
@@ -126,12 +128,10 @@ public class TestColoredDepthFirstSearchDetector
 		nodes.add(rightNode);
 
 		Set<BidirectedEdge<Object>> edges = new HashSet<BidirectedEdge<Object>>();
-		BidirectedEdge<Object> centerTopEdge = new SimpleUndirectedEdge<Object>(centerNode, topNode);
-		edges.add(centerTopEdge);
-		BidirectedEdge<Object> centerLeftEdge = new SimpleUndirectedEdge<Object>(centerNode, leftNode);
-		edges.add(centerLeftEdge);
-		BidirectedEdge<Object> centerRightEdge = new SimpleUndirectedEdge<Object>(centerNode, rightNode);
-		edges.add(centerRightEdge);
+		BidirectedEdge<Object> rightBottomEdge = new SimpleUndirectedEdge<Object>(rightNode, bottomNode);
+		edges.add(rightBottomEdge);
+		BidirectedEdge<Object> bottomLeftEdge = new SimpleUndirectedEdge<Object>(bottomNode, leftNode);
+		edges.add(bottomLeftEdge);
 		BidirectedEdge<Object> topRightEdge = new SimpleUndirectedEdge<Object>(topNode, rightNode);
 		edges.add(topRightEdge);
 		BidirectedEdge<Object> rightLeftEdge = new SimpleUndirectedEdge<Object>(rightNode, leftNode);
@@ -141,8 +141,8 @@ public class TestColoredDepthFirstSearchDetector
 
 		Graph<Object, BidirectedEdge<Object>, BidirectedWalk<Object, BidirectedEdge<Object>>> graph = new SimpleGraph<Object, BidirectedEdge<Object>, BidirectedWalk<Object, BidirectedEdge<Object>>>(nodes, edges);
 
-		CycleDetector detector = new ColoredDepthFirstSearchDetector();
-		Assert.assertTrue("cycle not detected when there should be one.", detector.hasCycle(graph));
+		CycleFinder counter = new ExtensiveDepthFirstSearchCycleFinder();
+		Assert.assertTrue("incorrect number of cycles detected. Expected 3, got: " + counter.cycleCount(graph), counter.cycleCount(graph) == 3);
 	}
 
 	@Test
@@ -170,7 +170,7 @@ public class TestColoredDepthFirstSearchDetector
 
 		Graph<Object, BidirectedEdge<Object>, BidirectedWalk<Object, BidirectedEdge<Object>>> graph = new SimpleGraph<Object, BidirectedEdge<Object>, BidirectedWalk<Object, BidirectedEdge<Object>>>(nodes, edges);
 
-		CycleDetector detector = new ColoredDepthFirstSearchDetector();
-		Assert.assertTrue("cycle not detected when there should be one.", detector.hasCycle(graph));
+		CycleFinder counter = new ExtensiveDepthFirstSearchCycleFinder();
+		Assert.assertTrue("incorrect number of cycles detected. Expected 1, got: " + counter.cycleCount(graph), counter.cycleCount(graph) == 1);
 	}
 }

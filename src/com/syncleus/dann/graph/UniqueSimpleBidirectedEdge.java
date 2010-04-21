@@ -18,43 +18,45 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-public class SimpleEdge<N> implements Edge<N>
+public class UniqueSimpleBidirectedEdge<N> extends SimpleBidirectedEdge<N>
 {
-	private final List<N> nodes;
-
-	public SimpleEdge(List<N> nodes)
+	public UniqueSimpleBidirectedEdge(N leftNode, EndState leftEndState, N rightNode, EndState rightEndState)
 	{
-		this.nodes = Collections.unmodifiableList(new ArrayList<N>(nodes));
-	}
-
-	public SimpleEdge(N... nodes)
-	{
-		List<N> newNodes = new ArrayList<N>();
-		for(N node : nodes)
-			newNodes.add(node);
-		this.nodes = Collections.unmodifiableList(newNodes);
-	}
-
-	public final List<N> getNodes()
-	{
-		return this.nodes;
+		super(leftNode, leftEndState, rightNode, rightEndState);
 	}
 
 	@Override
-	public String toString()
+	public boolean equals(Object compareToObj)
 	{
-		StringBuffer outString = null;
-		for(N node : this.nodes)
-		{
-			if(outString == null)
-				outString = new StringBuffer(node.toString());
-			else
-				outString.append(":" + node);
-		}
-		return outString.toString();
+		if(!(compareToObj instanceof BidirectedEdge))
+			return false;
+		BidirectedEdge compareTo = (BidirectedEdge) compareToObj;
+		return
+			(
+				(compareTo.getLeftNode().equals(this.getLeftNode()))&&
+				(compareTo.getRightNode().equals(this.getRightNode()))&&
+				(compareTo.getLeftEndState().equals(this.getLeftEndState()))&&
+				(compareTo.getRightEndState().equals(this.getRightEndState()))
+			)||
+			(
+				(compareTo.getLeftNode().equals(this.getRightNode()))&&
+				(compareTo.getRightNode().equals(this.getLeftNode()))&&
+				(compareTo.getLeftEndState().equals(this.getRightEndState()))&&
+				(compareTo.getRightEndState().equals(this.getLeftEndState()))
+			);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int leftNodeHash = this.getLeftNode().hashCode();
+		int rightNodeHash = this.getRightNode().hashCode();
+		int leftStateHash = this.getLeftEndState().hashCode();
+		int rightStateHash = this.getRightEndState().hashCode();
+		return
+			leftNodeHash +
+			(leftNodeHash * leftStateHash) +
+			rightNodeHash +
+			(rightNodeHash * rightStateHash);
 	}
 }

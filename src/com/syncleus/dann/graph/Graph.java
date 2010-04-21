@@ -24,9 +24,9 @@ public interface Graph<N, E extends Edge<? extends N>, W extends Walk<? extends 
 {
 	//connectivity
 	Set<N> getNodes();
-	List<E> getEdges();
-	List<E> getEdges(N node);
-	List<E> getTraversableEdges(N node);
+	Set<E> getEdges();
+	Set<E> getEdges(N node);
+	Set<E> getTraversableEdges(N node);
 	int getDegree(N node);
 	boolean isConnected(N leftNode, N rightNode);
 	List<N> getNeighbors(N node);
@@ -36,16 +36,14 @@ public interface Graph<N, E extends Edge<? extends N>, W extends Walk<? extends 
 	boolean isConnected();
 	Set<Graph<N,E,W>> getConnectedComponents();
 	boolean isMaximalSubgraph(Graph<? extends N, ? extends E, ? extends W> subgraph);
-	boolean isCut(Set<? extends N> nodes, List<? extends E> edges);
-	boolean isCut(Set<? extends N> nodes);
-	boolean isCut(List<? extends E> edges);
+	boolean isCut(Set<? extends N> nodes, Set<? extends E> edges);
+	boolean isCut(Set<? extends E> edges);
 	boolean isCut(N nodes);
 	boolean isCut(E edges);
-	boolean isCut(Set<? extends N> nodes, List<? extends E> edges, N begin, N end);
-	boolean isCut(Set<? extends N> nodes, N begin, N end);
-	boolean isCut(List<? extends E> edges, N begin, N end);
-	boolean isCut(N nodes, N begin, N end);
-	boolean isCut(E edges, N begin, N end);
+	boolean isCut(Set<? extends N> nodes, Set<? extends E> edges, N begin, N end);
+	boolean isCut(Set<? extends E> edges, N begin, N end);
+	boolean isCut(N node, N begin, N end);
+	boolean isCut(E edge, N begin, N end);
 	int getNodeConnectivity();
 	int getEdgeConnectivity();
 	int getNodeConnectivity(N begin, N end);

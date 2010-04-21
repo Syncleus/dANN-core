@@ -110,33 +110,33 @@ public class DirectedGrid extends AbstractBidirectedGraph<GridNode, DirectedEdge
 	}
 
 	@Override
-	public List<DirectedEdge<GridNode>> getEdges()
+	public Set<DirectedEdge<GridNode>> getEdges()
 	{
-		return Collections.unmodifiableList(new ArrayList<DirectedEdge<GridNode>>(this.edges));
+		return Collections.unmodifiableSet(this.edges);
 	}
 
-	public List<DirectedEdge<GridNode>> getEdges(GridNode node)
+	public Set<DirectedEdge<GridNode>> getEdges(GridNode node)
 	{
-		ArrayList<DirectedEdge<GridNode>> newEdges = new ArrayList<DirectedEdge<GridNode>>(this.inNeighborEdges.get(node));
+		Set<DirectedEdge<GridNode>> newEdges = new HashSet<DirectedEdge<GridNode>>(this.inNeighborEdges.get(node));
 		newEdges.addAll(this.outNeighborEdges.get(node));
-		return Collections.unmodifiableList(newEdges);
+		return Collections.unmodifiableSet(newEdges);
 	}
 
-	public List<DirectedEdge<GridNode>> getTraversableEdges(GridNode node)
+	public Set<DirectedEdge<GridNode>> getTraversableEdges(GridNode node)
 	{
-		ArrayList<DirectedEdge<GridNode>> newEdges = new ArrayList<DirectedEdge<GridNode>>(this.outNeighborEdges.get(node));
-		return Collections.unmodifiableList(newEdges);
+		Set<DirectedEdge<GridNode>> newEdges = new HashSet<DirectedEdge<GridNode>>(this.outNeighborEdges.get(node));
+		return Collections.unmodifiableSet(newEdges);
 	}
 
-	public List<DirectedEdge<GridNode>> getOutEdges(GridNode node)
+	public Set<DirectedEdge<GridNode>> getOutEdges(GridNode node)
 	{
 		return this.getTraversableEdges(node);
 	}
 
-	public List<DirectedEdge<GridNode>> getInEdges(GridNode node)
+	public Set<DirectedEdge<GridNode>> getInEdges(GridNode node)
 	{
-		ArrayList<DirectedEdge<GridNode>> newEdges = new ArrayList<DirectedEdge<GridNode>>(this.inNeighborEdges.get(node));
-		return Collections.unmodifiableList(newEdges);
+		Set<DirectedEdge<GridNode>> newEdges = new HashSet<DirectedEdge<GridNode>>(this.inNeighborEdges.get(node));
+		return Collections.unmodifiableSet(newEdges);
 	}
 
 	public int getIndegree(GridNode node)

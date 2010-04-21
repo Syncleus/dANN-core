@@ -193,7 +193,7 @@ public class BellmanFordPathFinder<G extends BidirectedGraph<N, E, ?>, N, E exte
 	public void calculateSteps(N begin)
 	{
 		Set<N> nodes = this.graph.getNodes();
-		List<E> edges = this.graph.getEdges();
+		Set<E> edges = this.graph.getEdges();
 
 		pathedSteps = new HashMap<N,PathedStep>(nodes.size());
 

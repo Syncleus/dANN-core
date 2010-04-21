@@ -23,14 +23,14 @@ import java.util.*;
 public class SimpleDirectedGraph<N, E extends DirectedEdge<? extends N>, W extends BidirectedWalk<? extends N, ? extends E>> extends AbstractBidirectedGraph<N,E,W>
 {
 	final private Set<N> nodes;
-	final private List<E> edges;
-	final private Map<N, List<E>> neighborEdges = new HashMap<N, List<E>>();
-	final private Map<N, Set<N>> neighborNodes = new HashMap<N, Set<N>>();
+	final private Set<E> edges;
+	final private Map<N, Set<E>> neighborEdges = new HashMap<N, Set<E>>();
+	final private Map<N, List<N>> neighborNodes = new HashMap<N, List<N>>();
 
-	public SimpleDirectedGraph(Set<? extends N> nodes, List<? extends E> edges)
+	public SimpleDirectedGraph(Set<? extends N> nodes, Set<? extends E> edges)
 	{
 		this.nodes = new HashSet<N>(nodes);
-		this.edges = new ArrayList<E>(edges);
+		this.edges = new HashSet<E>(edges);
 		for(E edge : edges)
 		{
 			final List<? extends N> edgeNodes = edge.getNodes();
@@ -39,18 +39,18 @@ public class SimpleDirectedGraph<N, E extends DirectedEdge<? extends N>, W exten
 				if(!this.nodes.contains(edgeNodes.get(startNodeIndex)))
 					throw new IllegalArgumentException("A node that is an end point in one of the edges was not in the nodes list");
 
-				List<E> startNeighborEdges = this.neighborEdges.get(edgeNodes.get(startNodeIndex));
+				Set<E> startNeighborEdges = this.neighborEdges.get(edgeNodes.get(startNodeIndex));
 				if( startNeighborEdges == null )
 				{
-					startNeighborEdges = new ArrayList<E>();
+					startNeighborEdges = new HashSet<E>();
 					this.neighborEdges.put(edgeNodes.get(startNodeIndex), startNeighborEdges);
 				}
 				startNeighborEdges.add(edge);
 
-				Set<N> startNeighborNodes = this.neighborNodes.get(edgeNodes.get(startNodeIndex));
+				List<N> startNeighborNodes = this.neighborNodes.get(edgeNodes.get(startNodeIndex));
 				if( startNeighborNodes == null )
 				{
-					startNeighborNodes = new HashSet<N>();
+					startNeighborNodes = new ArrayList<N>();
 					this.neighborNodes.put(edgeNodes.get(startNodeIndex), startNeighborNodes);
 				}
 
@@ -71,37 +71,37 @@ public class SimpleDirectedGraph<N, E extends DirectedEdge<? extends N>, W exten
 	}
 
 	@Override
-	public List<E> getEdges()
+	public Set<E> getEdges()
 	{
-		return Collections.unmodifiableList(new ArrayList<E>(this.edges));
+		return Collections.unmodifiableSet(this.edges);
 	}
 
-	public List<E> getEdges(N node)
+	public Set<E> getEdges(N node)
 	{
-		return Collections.unmodifiableList(new ArrayList<E>(this.neighborEdges.get(node)));
+		return Collections.unmodifiableSet(this.neighborEdges.get(node));
 	}
 
-	public List<E> getTraversableEdges(N node)
+	public Set<E> getTraversableEdges(N node)
 	{
-		final List<E> traversableEdges = new ArrayList<E>();
+		final Set<E> traversableEdges = new HashSet<E>();
 		for(E edge : edges)
 			if(edge.getSourceNode() == node)
 				traversableEdges.add(edge);
-		return Collections.unmodifiableList(traversableEdges);
+		return Collections.unmodifiableSet(traversableEdges);
 	}
 
-	public List<E> getOutEdges(N node)
+	public Set<E> getOutEdges(N node)
 	{
 		return this.getTraversableEdges(node);
 	}
 
-	public List<E> getInEdges(N node)
+	public Set<E> getInEdges(N node)
 	{
-		final List<E> inEdges = new ArrayList<E>();
+		final Set<E> inEdges = new HashSet<E>();
 		for(E edge : edges)
 			if(edge.getDestinationNode() == node)
 				inEdges.add(edge);
-		return Collections.unmodifiableList(inEdges);
+		return Collections.unmodifiableSet(inEdges);
 	}
 
 	public int getIndegree(N node)
@@ -121,12 +121,12 @@ public class SimpleDirectedGraph<N, E extends DirectedEdge<? extends N>, W exten
 
 	public List<N> getNeighbors(N node)
 	{
-		return Collections.unmodifiableList(new ArrayList<N>(this.neighborNodes.get(node)));
+		return Collections.unmodifiableList(this.neighborNodes.get(node));
 	}
 
 	public List<N> getTraversableNeighbors(N node)
 	{
-		List<E> traversableEdges = this.getTraversableEdges(node);
+		Set<E> traversableEdges = this.getTraversableEdges(node);
 		List<N> traversableNeighbors = new ArrayList<N>();
 		for(E traversableEdge : traversableEdges)
 			traversableNeighbors.add(traversableEdge.getDestinationNode());

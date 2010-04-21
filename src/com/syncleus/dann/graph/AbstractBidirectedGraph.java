@@ -18,7 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.List;
 import java.util.Set;
 
 public abstract class AbstractBidirectedGraph<N, E extends BidirectedEdge<? extends N>, W extends BidirectedWalk<? extends N, ? extends E>> extends AbstractGraph<N,E,W> implements BidirectedGraph<N,E,W>
@@ -47,7 +46,7 @@ public abstract class AbstractBidirectedGraph<N, E extends BidirectedEdge<? exte
 	@Override
 	public int getDegree(N node)
 	{
-		List<E> adjacentEdges = this.getEdges(node);
+		Set<E> adjacentEdges = this.getEdges(node);
 		int degree = 0;
 		for(E adjacentEdge : adjacentEdges)
 		{

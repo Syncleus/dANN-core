@@ -18,16 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.bayesian;
 
-import com.syncleus.dann.graph.AbstractBidirectedGraph;
-import com.syncleus.dann.graph.BidirectedWalk;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import com.syncleus.dann.graph.*;
+import java.util.*;
 
 public abstract class AbstractBayesianNetwork extends AbstractBidirectedGraph<BayesianNode, BayesianEdge, BidirectedWalk<BayesianNode,BayesianEdge>> implements BayesianNetwork
 {
@@ -148,38 +140,38 @@ public abstract class AbstractBayesianNetwork extends AbstractBidirectedGraph<Ba
 	}
 
 	@Override
-	public List<BayesianEdge> getEdges()
+	public Set<BayesianEdge> getEdges()
 	{
-		return Collections.unmodifiableList(new ArrayList<BayesianEdge>(this.edges));
+		return Collections.unmodifiableSet(this.edges);
 	}
 
-	public List<BayesianEdge> getEdges(BayesianNode node)
+	public Set<BayesianEdge> getEdges(BayesianNode node)
 	{
-		List<BayesianEdge> nodeEdges = new ArrayList<BayesianEdge>();
+		Set<BayesianEdge> nodeEdges = new HashSet<BayesianEdge>();
 		if( this.outMap.containsKey(node) )
 			nodeEdges.addAll( this.outMap.get(node) );
 		if( this.inMap.containsKey(node) )
 			nodeEdges.addAll( this.inMap.get(node) );
-		return Collections.unmodifiableList(nodeEdges);
+		return Collections.unmodifiableSet(nodeEdges);
 	}
 
-	public List<BayesianEdge> getTraversableEdges(BayesianNode node)
+	public Set<BayesianEdge> getTraversableEdges(BayesianNode node)
 	{
 		return this.getOutEdges(node);
 	}
 
-	public List<BayesianEdge> getOutEdges(BayesianNode node)
+	public Set<BayesianEdge> getOutEdges(BayesianNode node)
 	{
 		if( this.outMap.containsKey(node) )
-			 return Collections.unmodifiableList( new ArrayList<BayesianEdge>(this.outMap.get(node)) );
-		return Collections.emptyList();
+			 return Collections.unmodifiableSet( this.outMap.get(node) );
+		return Collections.emptySet();
 	}
 
-	public List<BayesianEdge> getInEdges(BayesianNode node)
+	public Set<BayesianEdge> getInEdges(BayesianNode node)
 	{
 		if( this.inMap.containsKey(node) )
-			 return Collections.unmodifiableList( new ArrayList<BayesianEdge>(this.inMap.get(node)) );
-		return Collections.emptyList();
+			 return Collections.unmodifiableSet( this.inMap.get(node) );
+		return Collections.emptySet();
 	}
 
 	public int getIndegree(BayesianNode node)
@@ -203,7 +195,7 @@ public abstract class AbstractBayesianNetwork extends AbstractBidirectedGraph<Ba
 
 	public List<BayesianNode> getNeighbors(BayesianNode node)
 	{
-		List<BayesianEdge> nodeEdges = this.getEdges(node);
+		Set<BayesianEdge> nodeEdges = this.getEdges(node);
 		List<BayesianNode> neighbors = new ArrayList<BayesianNode>();
 		for(BayesianEdge nodeEdge : nodeEdges)
 			neighbors.add( (nodeEdge.getLeftNode().equals(node) ? nodeEdge.getRightNode() : nodeEdge.getLeftNode() ) );
@@ -212,7 +204,7 @@ public abstract class AbstractBayesianNetwork extends AbstractBidirectedGraph<Ba
 
 	public List<BayesianNode> getTraversableNeighbors(BayesianNode node)
 	{
-		List<BayesianEdge> nodeEdges = this.getOutEdges(node);
+		Set<BayesianEdge> nodeEdges = this.getOutEdges(node);
 		List<BayesianNode> neighbors = new ArrayList<BayesianNode>();
 		for(BayesianEdge nodeEdge : nodeEdges)
 			neighbors.add( (nodeEdge.getLeftNode().equals(node) ? nodeEdge.getRightNode() : nodeEdge.getLeftNode() ) );

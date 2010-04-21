@@ -18,14 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.bayesian;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 public class SimpleBayesianNode<S> implements BayesianNode<S>
 {
@@ -84,7 +77,7 @@ public class SimpleBayesianNode<S> implements BayesianNode<S>
 	{
 		Map<BayesianNode,Object> inStates = new HashMap<BayesianNode,Object>();
 
-		List<BayesianEdge> inEdges = this.network.getInEdges(this);
+		Set<BayesianEdge> inEdges = this.network.getInEdges(this);
 		for(BayesianEdge inEdge : inEdges)
 			inStates.put(inEdge.getSourceNode(), inEdge.getSourceNode().getState());
 		
@@ -93,7 +86,7 @@ public class SimpleBayesianNode<S> implements BayesianNode<S>
 
 	protected Set<BayesianNode> getInfluencingNodes()
 	{
-		List<BayesianEdge> inEdges = this.network.getInEdges(this);
+		Set<BayesianEdge> inEdges = this.network.getInEdges(this);
 		Set<BayesianNode> inNodes = new HashSet<BayesianNode>();
 		for(BayesianEdge inEdge : inEdges)
 			inNodes.add( (inEdge.getLeftNode().equals(this) ? inEdge.getRightNode() : inEdge.getLeftNode()) );

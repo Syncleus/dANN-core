@@ -18,43 +18,36 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class SimpleEdge<N> implements Edge<N>
+public class UniqueSimpleEdge<N> extends SimpleEdge<N>
 {
-	private final List<N> nodes;
-
-	public SimpleEdge(List<N> nodes)
+	public UniqueSimpleEdge(List<N> nodes)
 	{
-		this.nodes = Collections.unmodifiableList(new ArrayList<N>(nodes));
+		super(nodes);
 	}
 
-	public SimpleEdge(N... nodes)
+	public UniqueSimpleEdge(N... nodes)
 	{
-		List<N> newNodes = new ArrayList<N>();
-		for(N node : nodes)
-			newNodes.add(node);
-		this.nodes = Collections.unmodifiableList(newNodes);
-	}
-
-	public final List<N> getNodes()
-	{
-		return this.nodes;
+		super(nodes);
 	}
 
 	@Override
-	public String toString()
+	public boolean equals(Object compareToObj)
 	{
-		StringBuffer outString = null;
-		for(N node : this.nodes)
-		{
-			if(outString == null)
-				outString = new StringBuffer(node.toString());
-			else
-				outString.append(":" + node);
-		}
-		return outString.toString();
+		if(!(compareToObj instanceof Edge))
+			return false;
+		Edge compareTo = (Edge) compareToObj;
+		return (compareTo.getNodes().equals(this.getNodes()))&&
+			(this.getNodes().equals(compareTo.getNodes()));
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int hash = 0;
+		for(N node : this.getNodes())
+			hash += node.hashCode();
+		return hash;
 	}
 }

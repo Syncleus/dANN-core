@@ -18,9 +18,12 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.cycle;
 
+import com.syncleus.dann.graph.*;
 import com.syncleus.dann.graph.Graph;
+import java.util.Set;
 
-public interface CycleCounter extends CycleDetector
+public interface CycleFinder extends CycleDetector
 {
-	int cycleCount(Graph<?,?,?> graph);
+	int cycleCount(Graph graph);
+	Set<Set<Edge>> find(Graph graph);
 }

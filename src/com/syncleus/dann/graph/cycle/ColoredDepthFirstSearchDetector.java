@@ -18,13 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.cycle;
 
-import com.syncleus.dann.graph.Edge;
-import com.syncleus.dann.graph.Graph;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import com.syncleus.dann.graph.*;
+import java.util.*;
 
 public class ColoredDepthFirstSearchDetector implements CycleDetector
 {
@@ -34,7 +29,7 @@ public class ColoredDepthFirstSearchDetector implements CycleDetector
 		//white, false for grey, true for black.
 		final Map<Object, Boolean> colorMap = new HashMap<Object, Boolean>();
 
-		List<Edge> traversedEdges = new ArrayList<Edge>();
+		Set<Edge> traversedEdges = new HashSet<Edge>();
 
 		for(Object node : graph.getNodes())
 			if(!colorMap.containsKey(node))
@@ -44,12 +39,11 @@ public class ColoredDepthFirstSearchDetector implements CycleDetector
 		return false;
 	}
 
-	private static boolean visit(Graph graph, Map<Object, Boolean> colorMap, List<Edge> traversedEdges, Object node)
+	private static boolean visit(Graph graph, Map<Object, Boolean> colorMap, Set<Edge> traversedEdges, Object node)
 	{
 		colorMap.put(node, Boolean.FALSE);
 
-		List<Edge> traversableEdges = graph.getTraversableEdges(node);
-//		for(Object neighborNode : graph.getTraversableNeighbors(node))
+		Set<Edge> traversableEdges = graph.getTraversableEdges(node);
 		for(Edge neighborEdge : traversableEdges)
 		{
 			if(!traversed(traversedEdges, neighborEdge))
@@ -71,7 +65,7 @@ public class ColoredDepthFirstSearchDetector implements CycleDetector
 		return false;
 	}
 
-	private static boolean traversed(List<Edge> traversedEdges, Edge edge)
+	private static boolean traversed(Set<Edge> traversedEdges, Edge edge)
 	{
 		for(Edge traversedEdge : traversedEdges)
 			if(traversedEdge == edge)

@@ -79,27 +79,27 @@ public class SimpleGraph extends AbstractBidirectedGraph<SimpleNode, BidirectedE
 	}
 
 	@Override
-	public List<BidirectedEdge<SimpleNode>> getEdges()
+	public Set<BidirectedEdge<SimpleNode>> getEdges()
 	{
-		return Collections.unmodifiableList(new ArrayList<BidirectedEdge<SimpleNode>>(this.edges));
+		return Collections.unmodifiableSet(this.edges);
 	}
 
-	public List<BidirectedEdge<SimpleNode>> getEdges(SimpleNode node)
+	public Set<BidirectedEdge<SimpleNode>> getEdges(SimpleNode node)
 	{
-		return Collections.unmodifiableList(new ArrayList<BidirectedEdge<SimpleNode>>(this.neighborEdges.get(node)));
+		return Collections.unmodifiableSet(this.neighborEdges.get(node));
 	}
 
-	public List<BidirectedEdge<SimpleNode>> getTraversableEdges(SimpleNode node)
-	{
-		return this.getEdges(node);
-	}
-
-	public List<BidirectedEdge<SimpleNode>> getOutEdges(SimpleNode node)
+	public Set<BidirectedEdge<SimpleNode>> getTraversableEdges(SimpleNode node)
 	{
 		return this.getEdges(node);
 	}
 
-	public List<BidirectedEdge<SimpleNode>> getInEdges(SimpleNode node)
+	public Set<BidirectedEdge<SimpleNode>> getOutEdges(SimpleNode node)
+	{
+		return this.getEdges(node);
+	}
+
+	public Set<BidirectedEdge<SimpleNode>> getInEdges(SimpleNode node)
 	{
 		return this.getEdges(node);
 	}

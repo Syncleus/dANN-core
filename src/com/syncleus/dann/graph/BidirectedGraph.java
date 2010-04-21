@@ -22,8 +22,8 @@ import java.util.*;
 
 public interface BidirectedGraph<N, E extends BidirectedEdge<? extends N>, W extends BidirectedWalk<? extends N, ? extends E>> extends Graph<N,E,W>
 {
-	List<E> getOutEdges(N node);
-	List<E> getInEdges(N node);
+	Set<E> getOutEdges(N node);
+	Set<E> getInEdges(N node);
 	int getIndegree(N node);
 	int getOutdegree(N node);
 

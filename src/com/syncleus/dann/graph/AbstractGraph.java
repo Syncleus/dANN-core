@@ -25,7 +25,7 @@ public abstract class AbstractGraph<N, E extends Edge<? extends N>, W extends Wa
 {
 	public int getDegree(N node)
 	{
-		List<E> adjacentEdges = this.getEdges(node);
+		Set<E> adjacentEdges = this.getEdges(node);
 		int degree = 0;
 		for(E adjacentEdge : adjacentEdges)
 			for(N adjacentNode : adjacentEdge.getNodes())
@@ -55,8 +55,8 @@ public abstract class AbstractGraph<N, E extends Edge<? extends N>, W extends Wa
 			return false;
 
 		//find all edges in the parent graph, but not in the subgraph
-		final List<E> exclusiveParentEdges = this.getEdges();
-		final List<? extends E> subedges = subgraph.getEdges();
+		final Set<E> exclusiveParentEdges = this.getEdges();
+		final Set<? extends E> subedges = subgraph.getEdges();
 		exclusiveParentEdges.removeAll(subedges);
 
 		//check to make sure none of the edges exclusive to the parent graph
@@ -71,22 +71,22 @@ public abstract class AbstractGraph<N, E extends Edge<? extends N>, W extends Wa
 		return true;
 	}
 
-	private SimpleGraph deleteFromGraph(Set<? extends N> nodes, List<? extends E> edges)
+	private SimpleGraph deleteFromGraph(Set<? extends N> nodes, Set<? extends E> edges)
 	{
 		//remove the nodes
 		final Set cutNodes = this.getNodes();
 		cutNodes.removeAll(nodes);
 
 		//remove the edges
-		final List<Edge> cutEdges = new ArrayList<Edge>(this.getEdges());
+		final Set<Edge> cutEdges = new HashSet<Edge>(this.getEdges());
 		for(E edge : edges)
 			cutEdges.remove(edge);
 
 		//remove any remaining edges which connect to removed nodes
 		//also replace edges that have one removed node but still have
 		//2 or more remaining nodes with a new edge.
-		final List<Edge> removeEdges = new ArrayList();
-		final List<Edge> addEdges = new ArrayList();
+		final Set<Edge> removeEdges = new HashSet();
+		final Set<Edge> addEdges = new HashSet();
 		for(Edge cutEdge : cutEdges)
 		{
 			final List<? extends N> cutEdgeNeighbors = cutEdge.getNodes();
@@ -105,54 +105,44 @@ public abstract class AbstractGraph<N, E extends Edge<? extends N>, W extends Wa
 		return new SimpleGraph(cutNodes, cutEdges);
 	}
 
-	public boolean isCut(Set<? extends N> nodes, List<? extends E> edges)
+	public boolean isCut(Set<? extends N> nodes, Set<? extends E> edges)
 	{
 		return this.deleteFromGraph(nodes, edges).isConnected();
 	}
 
-	public boolean isCut(Set<? extends N> nodes, List<? extends E> edges, N begin, N end)
+	public boolean isCut(Set<? extends N> nodes, Set<? extends E> edges, N begin, N end)
 	{
 		return this.deleteFromGraph(nodes, edges).isConnected(begin, end);
 	}
 
-	public boolean isCut(Set<? extends N> nodes)
+	public boolean isCut(Set<? extends E> edges)
 	{
-		return this.isCut(nodes, new ArrayList<E>());
-	}
-
-	public boolean isCut(List<? extends E> edges)
-	{
-		return this.isCut(new HashSet<N>(), edges);
+		return this.isCut(Collections.EMPTY_SET, edges);
 	}
 
 	public boolean isCut(N node)
 	{
-		return this.isCut(Collections.singleton(node), new ArrayList<E>());
+		return this.isCut(Collections.singleton(node), Collections.EMPTY_SET);
 	}
 
 	public boolean isCut(E edge)
 	{
-		return this.isCut(new HashSet<N>(), Collections.singletonList(edge));
+		return this.isCut(Collections.EMPTY_SET, Collections.singleton(edge));
 	}
 
-	public boolean isCut(Set<? extends N> nodes, N begin, N end)
+	public boolean isCut(Set<? extends E> edges, N begin, N end)
 	{
-		return this.isCut(nodes, new ArrayList<E>(), begin, end);
-	}
-
-	public boolean isCut(List<? extends E> edges, N begin, N end)
-	{
-		return this.isCut(new HashSet<N>(), edges, begin, end);
+		return this.isCut(Collections.EMPTY_SET, edges, begin, end);
 	}
 
 	public boolean isCut(N node, N begin, N end)
 	{
-		return this.isCut(Collections.singleton(node), new ArrayList<E>(), begin, end);
+		return this.isCut(Collections.singleton(node), Collections.EMPTY_SET, begin, end);
 	}
 
 	public boolean isCut(E edge, N begin, N end)
 	{
-		return this.isCut(new HashSet<N>(), Collections.singletonList(edge), begin, end);
+		return this.isCut(Collections.EMPTY_SET, Collections.singleton(edge), begin, end);
 	}
 
 	public int getNodeConnectivity()
@@ -161,17 +151,17 @@ public abstract class AbstractGraph<N, E extends Edge<? extends N>, W extends Wa
 		final SortedSet<Set<N>> sortedCombinations = new TreeSet<Set<N>>(new SizeComparator());
 		sortedCombinations.addAll(combinations);
 		for(Set<N> cutNodes : combinations)
-			if(this.isCut(cutNodes))
+			if(this.isCut(cutNodes, Collections.EMPTY_SET))
 				return cutNodes.size();
 		return this.getNodes().size();
 	}
 
 	public int getEdgeConnectivity()
 	{
-		final Set<List<E>> combinations = Combinations.everyCombination(this.getEdges());
-		final SortedSet<List<E>> sortedCombinations = new TreeSet<List<E>>(new SizeComparator());
+		final Set<Set<E>> combinations = Combinations.everyCombination(this.getEdges());
+		final SortedSet<Set<E>> sortedCombinations = new TreeSet<Set<E>>(new SizeComparator());
 		sortedCombinations.addAll(combinations);
-		for(List<E> cutEdges : combinations)
+		for(Set<E> cutEdges : combinations)
 			if(this.isCut(cutEdges))
 				return cutEdges.size();
 		return this.getEdges().size();
@@ -183,17 +173,17 @@ public abstract class AbstractGraph<N, E extends Edge<? extends N>, W extends Wa
 		final SortedSet<Set<N>> sortedCombinations = new TreeSet<Set<N>>(new SizeComparator());
 		sortedCombinations.addAll(combinations);
 		for(Set<N> cutNodes : combinations)
-			if(this.isCut(cutNodes, begin, end))
+			if(this.isCut(cutNodes, Collections.EMPTY_SET, begin, end))
 				return cutNodes.size();
 		return this.getNodes().size();
 	}
 
 	public int getEdgeConnectivity(N begin, N end)
 	{
-		final Set<List<E>> combinations = Combinations.everyCombination(this.getEdges());
-		final SortedSet<List<E>> sortedCombinations = new TreeSet<List<E>>(new SizeComparator());
+		final Set<Set<E>> combinations = Combinations.everyCombination(this.getEdges());
+		final SortedSet<Set<E>> sortedCombinations = new TreeSet<Set<E>>(new SizeComparator());
 		sortedCombinations.addAll(combinations);
-		for(List<E> cutEdges : combinations)
+		for(Set<E> cutEdges : combinations)
 			if(this.isCut(cutEdges, begin, end))
 				return cutEdges.size();
 		return this.getEdges().size();
@@ -272,8 +262,8 @@ public abstract class AbstractGraph<N, E extends Edge<? extends N>, W extends Wa
 			if( !nodes.contains(subnode) )
 				return false;
 
-		List<E> edges = this.getEdges();
-		List<? extends E> subedges = subgraph.getEdges();
+		Set<E> edges = this.getEdges();
+		Set<? extends E> subedges = subgraph.getEdges();
 		for(E subedge : subedges)
 			if( !edges.contains(subedge))
 				return false;

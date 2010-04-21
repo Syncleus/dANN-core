@@ -18,20 +18,8 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.graph.search;
 
-import com.syncleus.dann.graph.AbstractBidirectedGraph;
-import com.syncleus.dann.graph.BidirectedWalk;
-import com.syncleus.dann.graph.DirectedEdge;
-import com.syncleus.dann.graph.SimpleDirectedEdge;
-import com.syncleus.dann.graph.SimpleWeightedDirectedEdge;
-import com.syncleus.dann.graph.WeightedBidirectedWalk;
-import com.syncleus.dann.graph.WeightedDirectedEdge;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import com.syncleus.dann.graph.*;
+import java.util.*;
 
 public class WeightedDirectedGrid extends AbstractBidirectedGraph<GridNode, WeightedDirectedEdge<GridNode>, WeightedBidirectedWalk<GridNode, WeightedDirectedEdge<GridNode>>>
 {
@@ -113,33 +101,33 @@ public class WeightedDirectedGrid extends AbstractBidirectedGraph<GridNode, Weig
 	}
 
 	@Override
-	public List<WeightedDirectedEdge<GridNode>> getEdges()
+	public Set<WeightedDirectedEdge<GridNode>> getEdges()
 	{
-		return Collections.unmodifiableList(new ArrayList<WeightedDirectedEdge<GridNode>>(this.edges));
+		return Collections.unmodifiableSet(this.edges);
 	}
 
-	public List<WeightedDirectedEdge<GridNode>> getEdges(GridNode node)
+	public Set<WeightedDirectedEdge<GridNode>> getEdges(GridNode node)
 	{
-		ArrayList<WeightedDirectedEdge<GridNode>> newEdges = new ArrayList<WeightedDirectedEdge<GridNode>>(this.inNeighborEdges.get(node));
+		Set<WeightedDirectedEdge<GridNode>> newEdges = new HashSet<WeightedDirectedEdge<GridNode>>(this.inNeighborEdges.get(node));
 		newEdges.addAll(this.outNeighborEdges.get(node));
-		return Collections.unmodifiableList(newEdges);
+		return Collections.unmodifiableSet(newEdges);
 	}
 
-	public List<WeightedDirectedEdge<GridNode>> getTraversableEdges(GridNode node)
+	public Set<WeightedDirectedEdge<GridNode>> getTraversableEdges(GridNode node)
 	{
-		ArrayList<WeightedDirectedEdge<GridNode>> newEdges = new ArrayList<WeightedDirectedEdge<GridNode>>(this.outNeighborEdges.get(node));
-		return Collections.unmodifiableList(newEdges);
+		Set<WeightedDirectedEdge<GridNode>> newEdges = new HashSet<WeightedDirectedEdge<GridNode>>(this.outNeighborEdges.get(node));
+		return Collections.unmodifiableSet(newEdges);
 	}
 
-	public List<WeightedDirectedEdge<GridNode>> getOutEdges(GridNode node)
+	public Set<WeightedDirectedEdge<GridNode>> getOutEdges(GridNode node)
 	{
 		return this.getTraversableEdges(node);
 	}
 
-	public List<WeightedDirectedEdge<GridNode>> getInEdges(GridNode node)
+	public Set<WeightedDirectedEdge<GridNode>> getInEdges(GridNode node)
 	{
-		ArrayList<WeightedDirectedEdge<GridNode>> newEdges = new ArrayList<WeightedDirectedEdge<GridNode>>(this.inNeighborEdges.get(node));
-		return Collections.unmodifiableList(newEdges);
+		Set<WeightedDirectedEdge<GridNode>> newEdges = new HashSet<WeightedDirectedEdge<GridNode>>(this.inNeighborEdges.get(node));
+		return Collections.unmodifiableSet(newEdges);
 	}
 
 	public int getIndegree(GridNode node)

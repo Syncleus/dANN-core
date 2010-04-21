@@ -18,17 +18,8 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.graph.search;
 
-import com.syncleus.dann.graph.AbstractBidirectedGraph;
-import com.syncleus.dann.graph.BidirectedEdge;
-import com.syncleus.dann.graph.BidirectedWalk;
-import com.syncleus.dann.graph.SimpleUndirectedEdge;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import com.syncleus.dann.graph.*;
+import java.util.*;
 
 public class Grid extends AbstractBidirectedGraph<GridNode, BidirectedEdge<GridNode>, BidirectedWalk<GridNode, BidirectedEdge<GridNode>>>
 {
@@ -92,27 +83,27 @@ public class Grid extends AbstractBidirectedGraph<GridNode, BidirectedEdge<GridN
 	}
 
 	@Override
-	public List<BidirectedEdge<GridNode>> getEdges()
+	public Set<BidirectedEdge<GridNode>> getEdges()
 	{
-		return Collections.unmodifiableList(new ArrayList<BidirectedEdge<GridNode>>(this.edges));
+		return Collections.unmodifiableSet(this.edges);
 	}
 
-	public List<BidirectedEdge<GridNode>> getEdges(GridNode node)
+	public Set<BidirectedEdge<GridNode>> getEdges(GridNode node)
 	{
-		return Collections.unmodifiableList(new ArrayList<BidirectedEdge<GridNode>>(this.neighborEdges.get(node)));
+		return Collections.unmodifiableSet(this.neighborEdges.get(node));
 	}
 
-	public List<BidirectedEdge<GridNode>> getTraversableEdges(GridNode node)
-	{
-		return this.getEdges(node);
-	}
-
-	public List<BidirectedEdge<GridNode>> getOutEdges(GridNode node)
+	public Set<BidirectedEdge<GridNode>> getTraversableEdges(GridNode node)
 	{
 		return this.getEdges(node);
 	}
 
-	public List<BidirectedEdge<GridNode>> getInEdges(GridNode node)
+	public Set<BidirectedEdge<GridNode>> getOutEdges(GridNode node)
+	{
+		return this.getEdges(node);
+	}
+
+	public Set<BidirectedEdge<GridNode>> getInEdges(GridNode node)
 	{
 		return this.getEdges(node);
 	}

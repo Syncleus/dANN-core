@@ -23,14 +23,14 @@ import java.util.*;
 public class SimpleGraph<N, E extends Edge<? extends N>, W extends Walk<? extends N, ? extends E>> extends AbstractGraph<N, E, W>
 {
 	final private Set<N> nodes;
-	final private List<E> edges;
-	final private Map<N, List<E>> neighborEdges = new HashMap<N, List<E>>();
-	final private Map<N, Set<N>> neighborNodes = new HashMap<N, Set<N>>();
+	final private Set<E> edges;
+	final private Map<N, Set<E>> neighborEdges = new HashMap<N, Set<E>>();
+	final private Map<N, List<N>> neighborNodes = new HashMap<N, List<N>>();
 
-	public SimpleGraph(Set<? extends N> nodes, List<? extends E> edges)
+	public SimpleGraph(Set<? extends N> nodes, Set<? extends E> edges)
 	{
 		this.nodes = new HashSet<N>(nodes);
-		this.edges = new ArrayList<E>(edges);
+		this.edges = new HashSet<E>(edges);
 		for(E edge : edges)
 		{
 			final List<? extends N> edgeNodes = edge.getNodes();
@@ -39,18 +39,18 @@ public class SimpleGraph<N, E extends Edge<? extends N>, W extends Walk<? extend
 				if(!this.nodes.contains(edgeNodes.get(startNodeIndex)))
 					throw new IllegalArgumentException("A node that is an end point in one of the edges was not in the nodes list");
 
-				List<E> startNeighborEdges = this.neighborEdges.get(edgeNodes.get(startNodeIndex));
+				Set<E> startNeighborEdges = this.neighborEdges.get(edgeNodes.get(startNodeIndex));
 				if( startNeighborEdges == null )
 				{
-					startNeighborEdges = new ArrayList<E>();
+					startNeighborEdges = new HashSet<E>();
 					this.neighborEdges.put(edgeNodes.get(startNodeIndex), startNeighborEdges);
 				}
 				startNeighborEdges.add(edge);
 
-				Set<N> startNeighborNodes = this.neighborNodes.get(edgeNodes.get(startNodeIndex));
+				List<N> startNeighborNodes = this.neighborNodes.get(edgeNodes.get(startNodeIndex));
 				if( startNeighborNodes == null )
 				{
-					startNeighborNodes = new HashSet<N>();
+					startNeighborNodes = new ArrayList<N>();
 					this.neighborNodes.put(edgeNodes.get(startNodeIndex), startNeighborNodes);
 				}
 				
@@ -71,29 +71,32 @@ public class SimpleGraph<N, E extends Edge<? extends N>, W extends Walk<? extend
 	}
 
 	@Override
-	public List<E> getEdges()
+	public Set<E> getEdges()
 	{
-		return Collections.unmodifiableList(new ArrayList<E>(this.edges));
+		return Collections.unmodifiableSet(this.edges);
 	}
 
-	public List<E> getEdges(N node)
+	public Set<E> getEdges(N node)
 	{
-		return Collections.unmodifiableList(new ArrayList<E>(this.neighborEdges.get(node)));
+		if(this.neighborEdges.containsKey(node))
+			return Collections.unmodifiableSet(this.neighborEdges.get(node));
+		else
+			return Collections.EMPTY_SET;
 	}
 
-	public List<E> getTraversableEdges(N node)
+	public Set<E> getTraversableEdges(N node)
 	{
 		return this.getEdges(node);
 	}
 
-	public List<E> getOutEdges(N node)
+	public Set<E> getOutEdges(N node)
 	{
 		return this.getTraversableEdges(node);
 	}
 
-	public List<E> getInEdges(N node)
+	public Set<E> getInEdges(N node)
 	{
-		return Collections.unmodifiableList(this.getEdges(node));
+		return Collections.unmodifiableSet(this.getEdges(node));
 	}
 
 	public int getIndegree(N node)
