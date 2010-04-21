@@ -288,9 +288,16 @@ public abstract class AbstractGraph<N, E extends Edge<? extends N>, W extends Wa
 		return false;
 	}
 
-	public int getTotalDegree()
+	public int getMinimumDegree()
 	{
-		return 0;
+		if(this.getNodes().size() == 0)
+			throw new IllegalStateException("This graph has no nodes!");
+		
+		int minimumDegree = Integer.MAX_VALUE;
+		for(N node : this.getNodes())
+			if(this.getDegree(node) < minimumDegree)
+				minimumDegree = this.getDegree(node);
+		return minimumDegree;
 	}
 
 	public boolean isMultigraph()
@@ -310,7 +317,34 @@ public abstract class AbstractGraph<N, E extends Edge<? extends N>, W extends Wa
 
 	public boolean isRegular()
 	{
-		return false;
+		int degree = -1;
+		for(N node : this.getNodes())
+		{
+			if(degree == -1)
+				degree = this.getDegree(node);
+			else
+				if(degree != this.getDegree(node))
+					return false;
+		}
+		return true;
+	}
+
+	public int getRegularDegree()
+	{
+		int degree = -1;
+		for(N node : this.getNodes())
+		{
+			if(degree == -1)
+				degree = this.getDegree(node);
+			else
+				if(degree != this.getDegree(node))
+					return -1;
+		}
+
+		if(degree == -1)
+			throw new IllegalStateException("This graph has no nodes!");
+
+		return degree;
 	}
 
 	private static class SizeComparator<O> implements Comparator<Collection>

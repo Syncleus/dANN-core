@@ -63,9 +63,10 @@ public interface Graph<N, E extends Edge<? extends N>, W extends Walk<? extends 
 	boolean isTree();
 	boolean isSubGraph(Graph<? extends N, ? extends E, ? extends W> graph);
 	boolean isKnot(Graph<? extends N, ? extends E, ? extends W> subGraph);
-	int getTotalDegree();
+	int getMinimumDegree();
 	boolean isMultigraph();
 	boolean isIsomorphic(Graph<? extends N, ? extends E, ? extends W> isomorphicGraph);
 	boolean isHomomorphic(Graph<? extends N, ? extends E, ? extends W> homomorphicGraph);
 	boolean isRegular();
+	int getRegularDegree();
 }
