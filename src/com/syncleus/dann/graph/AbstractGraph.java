@@ -18,6 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
+import com.syncleus.dann.graph.cycle.CycleFinder;
+import com.syncleus.dann.graph.cycle.ExtensiveDepthFirstSearchCycleFinder;
 import com.syncleus.dann.math.set.Combinations;
 import java.util.*;
 
@@ -206,22 +208,32 @@ public abstract class AbstractGraph<N, E extends Edge<? extends N>, W extends Wa
 
 	public int getCycleCount()
 	{
-		return 0;
+		CycleFinder finder = new ExtensiveDepthFirstSearchCycleFinder();
+		return finder.cycleCount(this);
 	}
 
 	public boolean isPancyclic()
 	{
-		return false;
+		CycleFinder finder = new ExtensiveDepthFirstSearchCycleFinder();
+		return finder.isPancyclic(this);
+	}
+
+	public boolean isUnicyclic()
+	{
+		CycleFinder finder = new ExtensiveDepthFirstSearchCycleFinder();
+		return finder.isUnicyclic(this);
 	}
 
 	public int getGirth()
 	{
-		return 0;
+		CycleFinder finder = new ExtensiveDepthFirstSearchCycleFinder();
+		return finder.girth(this);
 	}
 
 	public int getCircumference()
 	{
-		return 0;
+		CycleFinder finder = new ExtensiveDepthFirstSearchCycleFinder();
+		return finder.circumference(this);
 	}
 
 	public boolean isTraceable()
@@ -251,7 +263,7 @@ public abstract class AbstractGraph<N, E extends Edge<? extends N>, W extends Wa
 
 	public boolean isTree()
 	{
-		return false;
+		return (this.getCycleCount() == 0);
 	}
 
 	public boolean isSubGraph(Graph<? extends N, ? extends E, ? extends W> subgraph)

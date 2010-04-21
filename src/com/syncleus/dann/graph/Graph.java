@@ -52,6 +52,7 @@ public interface Graph<N, E extends Edge<? extends N>, W extends Walk<? extends 
 	int getOrder();
 	int getCycleCount();
 	boolean isPancyclic();
+	boolean isUnicyclic();
 	int getGirth();
 	int getCircumference();
 	boolean isTraceable();

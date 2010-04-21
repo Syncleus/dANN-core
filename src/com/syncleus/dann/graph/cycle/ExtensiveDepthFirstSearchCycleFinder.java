@@ -23,9 +23,54 @@ import java.util.*;
 
 public class ExtensiveDepthFirstSearchCycleFinder extends ColoredDepthFirstSearchDetector implements CycleFinder
 {
+	public boolean isPancyclic(Graph graph)
+	{
+		final int graphOrder = graph.getOrder();
+		Set<Set<Edge>> cycles = this.find(graph);
+		SortedSet<Set<Edge>> sortedCycles = new TreeSet<Set<Edge>>(new SizeComparator<Set<Edge>>());
+		sortedCycles.addAll(cycles);
+
+		int neededCycleSize = 3;
+		for(Set<Edge> sortedCycle : sortedCycles)
+		{
+			int currentCycleSize = sortedCycle.size();
+			if(currentCycleSize == neededCycleSize)
+			{
+				if(currentCycleSize == graphOrder)
+					return true;
+				else
+					neededCycleSize++;
+			}
+			else if(currentCycleSize > neededCycleSize)
+				return false;
+		}
+		return false;
+	}
+
+	public boolean isUnicyclic(Graph graph)
+	{
+		return (this.find(graph).size() == 1);
+	}
+
 	public int cycleCount(Graph graph)
 	{
 		return this.find(graph).size();
+	}
+
+	public int girth(Graph graph)
+	{
+		Set<Set<Edge>> cycles = this.find(graph);
+		SortedSet<Set<Edge>> sortedCycles = new TreeSet<Set<Edge>>(new SizeComparator<Set<Edge>>());
+		sortedCycles.addAll(cycles);
+		return sortedCycles.first().size();
+	}
+
+	public int circumference(Graph graph)
+	{
+		Set<Set<Edge>> cycles = this.find(graph);
+		SortedSet<Set<Edge>> sortedCycles = new TreeSet<Set<Edge>>(new SizeComparator<Set<Edge>>());
+		sortedCycles.addAll(cycles);
+		return sortedCycles.last().size();
 	}
 
 	public Set<Set<Edge>> find(Graph graph)
@@ -104,5 +149,31 @@ public class ExtensiveDepthFirstSearchCycleFinder extends ColoredDepthFirstSearc
 
 		parentNodes.pop();
 		parentEdges.pop();
+	}
+
+	private static class SizeComparator<O> implements Comparator<Collection>
+	{
+		public int compare(Collection first, Collection second)
+		{
+			if(first.size() < second.size())
+				return -1;
+			else if(first.size() > second.size())
+				return 1;
+			return 0;
+		}
+
+		@Override
+		public boolean equals(Object compareWith)
+		{
+			if(compareWith instanceof SizeComparator)
+				return true;
+			return false;
+		}
+
+		@Override
+		public int hashCode()
+		{
+			return super.hashCode();
+		}
 	}
 }

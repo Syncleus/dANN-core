@@ -26,4 +26,8 @@ public interface CycleFinder extends CycleDetector
 {
 	int cycleCount(Graph graph);
 	Set<Set<Edge>> find(Graph graph);
+	boolean isPancyclic(Graph graph);
+	boolean isUnicyclic(Graph graph);
+	int girth(Graph graph);
+	int circumference(Graph graph);
 }
