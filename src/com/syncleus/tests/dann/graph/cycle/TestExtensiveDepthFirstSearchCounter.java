@@ -23,7 +23,7 @@ import com.syncleus.dann.graph.cycle.*;
 import java.util.*;
 import org.junit.*;
 
-public class TestDepthFirstSearchCounter
+public class TestExtensiveDepthFirstSearchCounter
 {
 	@Test
 	public void testDirectedNoCycles()

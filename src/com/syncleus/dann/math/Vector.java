@@ -515,8 +515,8 @@ public class Vector implements Serializable
 
 		final Vector compareWith = (Vector) compareWithObject;
 
-		final double currentCoords[] = this.coordinates.clone();
-		final double otherCoords[] = compareWith.coordinates.clone();
+		final double currentCoords[] = this.coordinates;
+		final double otherCoords[] = compareWith.coordinates;
 
 		if(currentCoords.length != otherCoords.length)
 			return false;

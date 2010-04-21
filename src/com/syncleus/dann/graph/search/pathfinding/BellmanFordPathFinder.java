@@ -65,30 +65,8 @@ public class BellmanFordPathFinder<G extends BidirectedGraph<N, E, ?>, N, E exte
 			this.cachedPathWeight = initialWeight;
 		}
 
-		public boolean updateParent(PathedStep newParent, E newParentEdge)
+		private boolean updateParent(PathedStep newParent, E newParentEdge)
 		{
-			if( newParent == null )
-				throw new IllegalArgumentException("newParent can not be null");
-			if( newParent.equals(this))
-				throw new IllegalArgumentException("newParent can not be this node");
-			if( newParentEdge == null)
-				throw new IllegalArgumentException("newParentEdge can not be null");
-			if( ! newParentEdge.getNodes().contains(newParent.getNode()))
-				throw new IllegalArgumentException("newParentEdge must connect to new Parent");
-
-			boolean parentHasEdge = false;
-			for( Edge<N> edge : graph.getEdges(this.node) )
-			{
-				if(edge.getNodes().contains(newParent.getNode()))
-				{
-					parentHasEdge = true;
-					break;
-				}
-			}
-
-			if(!parentHasEdge)
-				throw new IllegalArgumentException("newParent is not connected to this node");
-
 			double newWeight = (newParentEdge instanceof Weighted ? ((Weighted)newParentEdge).getWeight() : 1.0);
 			if(this.node instanceof Weighted)
 				newWeight += ((Weighted)this.node).getWeight();
