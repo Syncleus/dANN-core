@@ -18,13 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.mst;
 
-import com.syncleus.dann.graph.BidirectedGraph;
-import com.syncleus.dann.graph.DirectedEdge;
-import com.syncleus.dann.graph.Edge;
-import com.syncleus.dann.graph.Graph;
-import com.syncleus.dann.graph.Weighted;
-import com.syncleus.dann.graph.topological.SimpleTopologicalSorter;
-import com.syncleus.dann.graph.topological.TopologicalSorter;
+import com.syncleus.dann.graph.*;
+import com.syncleus.dann.graph.topological.*;
 import java.util.*;
 import java.util.Map.Entry;
 
