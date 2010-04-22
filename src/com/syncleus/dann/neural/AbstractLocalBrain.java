@@ -18,13 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.neural;
 
-import com.syncleus.dann.graph.AbstractBidirectedGraph;
-import com.syncleus.dann.graph.WeightedBidirectedWalk;
-import java.io.Serializable;
 import java.util.*;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
+import com.syncleus.dann.graph.AbstractBidirectedGraph;
+import java.io.Serializable;
 
 /**
  * Represents a single artificial brain typically belonging to a single
@@ -37,7 +34,7 @@ import java.util.concurrent.TimeUnit;
  * @since 1.0
  *
  */
-public abstract class AbstractLocalBrain extends AbstractBidirectedGraph<Neuron, Synapse, WeightedBidirectedWalk<Neuron,Synapse>> implements Brain, Serializable
+public abstract class AbstractLocalBrain extends AbstractBidirectedGraph<Neuron, Synapse> implements Brain, Serializable
 {
 	protected static class NodeConnectivity extends HashMap<Neuron,Set<Synapse>>
 	{

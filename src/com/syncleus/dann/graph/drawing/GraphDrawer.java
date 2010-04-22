@@ -22,7 +22,7 @@ import com.syncleus.dann.graph.*;
 import com.syncleus.dann.math.Vector;
 import java.util.Map;
 
-public interface GraphDrawer<G extends Graph<N, E, W>, N, E extends Edge<? extends N>, W extends Walk<? extends N, ? extends E>>
+public interface GraphDrawer<G extends Graph<N, ?>, N>
 {
 	public G getGraph();
 	public boolean isAlignable();

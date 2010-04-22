@@ -20,7 +20,7 @@ package com.syncleus.dann.graph;
 
 import java.util.*;
 
-public interface BidirectedGraph<N, E extends BidirectedEdge<? extends N>, W extends BidirectedWalk<? extends N, ? extends E>> extends Graph<N,E,W>
+public interface BidirectedGraph<N, E extends BidirectedEdge<? extends N>> extends Graph<N,E>
 {
 	Set<E> getOutEdges(N node);
 	Set<E> getInEdges(N node);

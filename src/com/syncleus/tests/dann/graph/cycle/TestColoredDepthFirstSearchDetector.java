@@ -46,7 +46,7 @@ public class TestColoredDepthFirstSearchDetector
 		DirectedEdge<Object> centerRightEdge = new SimpleDirectedEdge<Object>(centerNode, rightNode);
 		edges.add(centerRightEdge);
 
-		BidirectedGraph<Object, DirectedEdge<Object>, BidirectedWalk<Object, DirectedEdge<Object>>> graph = new SimpleDirectedGraph<Object, DirectedEdge<Object>, BidirectedWalk<Object, DirectedEdge<Object>>>(nodes, edges);
+		BidirectedGraph<Object, DirectedEdge<Object>> graph = new SimpleDirectedGraph<Object, DirectedEdge<Object>>(nodes, edges);
 
 		CycleDetector detector = new ColoredDepthFirstSearchDetector();
 		Assert.assertFalse("cycle detected when there should be none.", detector.hasCycle(graph));
@@ -79,7 +79,7 @@ public class TestColoredDepthFirstSearchDetector
 		DirectedEdge<Object> leftTopEdge = new SimpleDirectedEdge<Object>(leftNode, topNode);
 		edges.add(leftTopEdge);
 
-		BidirectedGraph<Object, DirectedEdge<Object>, BidirectedWalk<Object, DirectedEdge<Object>>> graph = new SimpleDirectedGraph<Object, DirectedEdge<Object>, BidirectedWalk<Object, DirectedEdge<Object>>>(nodes, edges);
+		BidirectedGraph<Object, DirectedEdge<Object>> graph = new SimpleDirectedGraph<Object, DirectedEdge<Object>>(nodes, edges);
 
 		CycleDetector detector = new ColoredDepthFirstSearchDetector();
 		Assert.assertTrue("cycle not detected when there should be one.", detector.hasCycle(graph));
@@ -106,7 +106,7 @@ public class TestColoredDepthFirstSearchDetector
 		BidirectedEdge<Object> centerRightEdge = new SimpleUndirectedEdge<Object>(centerNode, rightNode);
 		edges.add(centerRightEdge);
 
-		Graph<Object, BidirectedEdge<Object>, BidirectedWalk<Object, BidirectedEdge<Object>>> graph = new SimpleGraph<Object, BidirectedEdge<Object>, BidirectedWalk<Object, BidirectedEdge<Object>>>(nodes, edges);
+		Graph<Object, BidirectedEdge<Object>> graph = new SimpleGraph<Object, BidirectedEdge<Object>>(nodes, edges);
 
 		CycleDetector detector = new ColoredDepthFirstSearchDetector();
 		Assert.assertFalse("cycle detected when there should be none.", detector.hasCycle(graph));
@@ -139,7 +139,7 @@ public class TestColoredDepthFirstSearchDetector
 		BidirectedEdge<Object> leftTopEdge = new SimpleUndirectedEdge<Object>(leftNode, topNode);
 		edges.add(leftTopEdge);
 
-		Graph<Object, BidirectedEdge<Object>, BidirectedWalk<Object, BidirectedEdge<Object>>> graph = new SimpleGraph<Object, BidirectedEdge<Object>, BidirectedWalk<Object, BidirectedEdge<Object>>>(nodes, edges);
+		Graph<Object, BidirectedEdge<Object>> graph = new SimpleGraph<Object, BidirectedEdge<Object>>(nodes, edges);
 
 		CycleDetector detector = new ColoredDepthFirstSearchDetector();
 		Assert.assertTrue("cycle not detected when there should be one.", detector.hasCycle(graph));
@@ -168,7 +168,7 @@ public class TestColoredDepthFirstSearchDetector
 		BidirectedEdge<Object> centerRightEdge2 = new SimpleUndirectedEdge<Object>(centerNode, rightNode);
 		edges.add(centerRightEdge2);
 
-		Graph<Object, BidirectedEdge<Object>, BidirectedWalk<Object, BidirectedEdge<Object>>> graph = new SimpleGraph<Object, BidirectedEdge<Object>, BidirectedWalk<Object, BidirectedEdge<Object>>>(nodes, edges);
+		Graph<Object, BidirectedEdge<Object>> graph = new SimpleGraph<Object, BidirectedEdge<Object>>(nodes, edges);
 
 		CycleDetector detector = new ColoredDepthFirstSearchDetector();
 		Assert.assertTrue("cycle not detected when there should be one.", detector.hasCycle(graph));

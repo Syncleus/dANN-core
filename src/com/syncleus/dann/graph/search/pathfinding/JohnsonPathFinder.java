@@ -23,11 +23,11 @@ import java.util.List;
 
 public class JohnsonPathFinder<N, E extends WeightedDirectedEdge<N>> implements PathFinder<N,WeightedDirectedEdge<N>>
 {
-	private BidirectedGraph<N,E,?> graph;
+	private BidirectedGraph<N,E> graph;
 	private final static Object BLANK_NODE = new Object();
 	private final JohnsonGraphTransformer TRANSFORMER = new JohnsonGraphTransformer(BLANK_NODE);
 
-	public JohnsonPathFinder(BidirectedGraph<N,E,?> graph)
+	public JohnsonPathFinder(BidirectedGraph<N,E> graph)
 	{
 		if(graph == null)
 			throw new IllegalArgumentException("graph can not be null");

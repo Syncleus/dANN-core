@@ -21,9 +21,9 @@ package com.syncleus.dann.graph.search.pathfinding;
 import com.syncleus.dann.graph.*;
 import java.util.*;
 
-public class JohnsonGraphTransformer<N> implements GraphTransformer<BidirectedGraph<N, ? extends WeightedDirectedEdge<N>, ?>>
+public class JohnsonGraphTransformer<N> implements GraphTransformer<BidirectedGraph<N, ? extends WeightedDirectedEdge<N>>>
 {
-	private class SimpleGraph extends AbstractBidirectedGraph<N, WeightedDirectedEdge<N>, WeightedBidirectedWalk<N, WeightedDirectedEdge<N>>>
+	private class SimpleGraph extends AbstractBidirectedGraph<N, WeightedDirectedEdge<N>>
 	{
 		private Set<N> nodes = new HashSet<N>();
 
@@ -31,7 +31,7 @@ public class JohnsonGraphTransformer<N> implements GraphTransformer<BidirectedGr
 		private final Map<N,Set<WeightedDirectedEdge<N>>> outEdges = new HashMap<N,Set<WeightedDirectedEdge<N>>>();
 		private final Map<N,Set<WeightedDirectedEdge<N>>> inEdges = new HashMap<N,Set<WeightedDirectedEdge<N>>>();
 
-		public SimpleGraph(Graph<N,? extends WeightedDirectedEdge<N>,?> graphToCopy)
+		public SimpleGraph(Graph<N,? extends WeightedDirectedEdge<N>> graphToCopy)
 		{
 			this.nodes.addAll(graphToCopy.getNodes());
 			this.edges.addAll(graphToCopy.getEdges());
@@ -230,7 +230,7 @@ public class JohnsonGraphTransformer<N> implements GraphTransformer<BidirectedGr
 		this.blankNode = blankNode;
 	}
 
-	private boolean containsInfinite(Graph<N,?,?> original)
+	private boolean containsInfinite(Graph<N,?> original)
 	{
 		for(Edge edge : original.getEdges())
 			if(edge instanceof Weighted)
@@ -239,7 +239,7 @@ public class JohnsonGraphTransformer<N> implements GraphTransformer<BidirectedGr
 		return false;
 	}
 
-	public BidirectedGraph<N, WeightedDirectedEdge<N>, WeightedBidirectedWalk<N, WeightedDirectedEdge<N>>> transform(BidirectedGraph<N,? extends WeightedDirectedEdge<N>,?> original)
+	public BidirectedGraph<N, WeightedDirectedEdge<N>> transform(BidirectedGraph<N,? extends WeightedDirectedEdge<N>> original)
 	{
 		if(original == null)
 			throw new IllegalArgumentException("original can not be null");

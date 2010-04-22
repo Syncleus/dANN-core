@@ -18,10 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.neural.backprop.brain;
 
+import com.syncleus.dann.neural.backprop.*;
 import com.syncleus.dann.neural.activation.ActivationFunction;
-import com.syncleus.dann.neural.backprop.BackpropNeuron;
-import com.syncleus.dann.neural.backprop.InputBackpropNeuron;
-import com.syncleus.dann.neural.backprop.OutputBackpropNeuron;
 import java.util.concurrent.ThreadPoolExecutor;
 
 public class FullyConnectedFeedforwardBrain extends AbstractFullyConnectedFeedforwardBrain

@@ -21,7 +21,7 @@ package com.syncleus.dann.graphicalmodel.bayesian;
 import com.syncleus.dann.graph.*;
 import java.util.*;
 
-public abstract class AbstractBayesianNetwork extends AbstractBidirectedGraph<BayesianNode, BayesianEdge, BidirectedWalk<BayesianNode,BayesianEdge>> implements BayesianNetwork
+public abstract class AbstractBayesianNetwork extends AbstractBidirectedGraph<BayesianNode, BayesianEdge> implements BayesianNetwork
 {
 	protected static class NodeConnectivity extends HashMap<BayesianNode,Set<BayesianEdge>>
 	{

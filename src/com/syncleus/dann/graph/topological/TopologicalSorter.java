@@ -23,5 +23,5 @@ import java.util.List;
 
 public interface TopologicalSorter<N>
 {
-	List<N> sort(BidirectedGraph<? extends N,? extends DirectedEdge<? extends N>,?> graph);
+	List<N> sort(BidirectedGraph<? extends N,? extends DirectedEdge<? extends N>> graph);
 }

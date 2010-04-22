@@ -18,17 +18,11 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.drawing.hyperassociativemap;
 
-import com.syncleus.dann.graph.WeightedBidirectedWalk;
-import com.syncleus.dann.neural.Brain;
-import com.syncleus.dann.neural.InputNeuron;
-import com.syncleus.dann.neural.Neuron;
-import com.syncleus.dann.neural.OutputNeuron;
-import com.syncleus.dann.neural.Synapse;
-import java.util.HashSet;
-import java.util.Set;
+import com.syncleus.dann.neural.*;
+import java.util.*;
 import java.util.concurrent.ThreadPoolExecutor;
 
-public class BrainHyperassociativeMap extends HyperassociativeMap<Brain, Neuron, Synapse, WeightedBidirectedWalk<Neuron,Synapse>>
+public class BrainHyperassociativeMap extends HyperassociativeMap<Brain, Neuron>
 {
 	public BrainHyperassociativeMap(Brain graph, int dimensions, ThreadPoolExecutor threadExecutor)
 	{

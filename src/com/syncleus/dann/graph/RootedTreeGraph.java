@@ -18,10 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.List;
-import java.util.Set;
-
-public interface RootedTreeGraph<N, E extends DirectedEdge<? extends N>, W extends BidirectedWalk<? extends N, ? extends E>> extends TreeGraph<N,E,W>
+public interface RootedTreeGraph<N, E extends DirectedEdge<? extends N>> extends TreeGraph<N,E>
 {
 	N getRoot();
 }

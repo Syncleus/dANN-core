@@ -23,5 +23,5 @@ import java.util.Set;
 
 public interface MinimumSpanningTreeFinder<E extends Edge<?>>
 {
-	Set<E> findMinimumSpanningTree(Graph<?, ? extends E,?> graph);
+	Set<E> findMinimumSpanningTree(Graph<?, ? extends E> graph);
 }

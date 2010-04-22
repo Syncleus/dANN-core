@@ -40,7 +40,7 @@ import java.awt.image.BufferedImage;
  * @since 1.0
  *
  */
-public class HyperassociativeMapVisualization<D extends GraphDrawer<G, N, E, W>, G extends Graph<N, E, W>, N, E extends Edge<? extends N>, W extends Walk<? extends N, ? extends E>> extends BranchGroup
+public class HyperassociativeMapVisualization<D extends GraphDrawer<G, N>, G extends Graph<N, E>, N, E extends Edge<? extends N>> extends BranchGroup
 {
     private D drawer;
     private Map<N, TransformGroup> nodeGraphics = new HashMap<N, TransformGroup>();

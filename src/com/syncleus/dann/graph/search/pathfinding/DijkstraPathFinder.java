@@ -40,7 +40,7 @@ public class DijkstraPathFinder<N, E extends Edge<N>> extends AstarPathFinder<N,
 		}
 	}
 
-	public DijkstraPathFinder(Graph<N,E,?> graph)
+	public DijkstraPathFinder(Graph<N,E> graph)
 	{
 		super(graph, new ZeroHeuristicPathCost<N>());
 	}

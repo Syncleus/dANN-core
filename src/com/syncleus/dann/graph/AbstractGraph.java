@@ -23,7 +23,7 @@ import com.syncleus.dann.graph.cycle.ExhaustiveDepthFirstSearchCycleFinder;
 import com.syncleus.dann.math.set.Combinations;
 import java.util.*;
 
-public abstract class AbstractGraph<N, E extends Edge<? extends N>, W extends Walk<? extends N, ? extends E>> implements Graph<N,E,W>
+public abstract class AbstractGraph<N, E extends Edge<? extends N>> implements Graph<N,E>
 {
 	public int getDegree(N node)
 	{
@@ -70,12 +70,12 @@ public abstract class AbstractGraph<N, E extends Edge<? extends N>, W extends Wa
 		return false;
 	}
 
-	public Set<Graph<N,E,W>> getConnectedComponents()
+	public Set<Graph<N,E>> getConnectedComponents()
 	{
 		return null;
 	}
 
-	public boolean isMaximalSubgraph(Graph<? extends N, ? extends E, ? extends W> subgraph)
+	public boolean isMaximalSubgraph(Graph<? extends N, ? extends E> subgraph)
 	{
 		if( !this.isSubGraph(subgraph))
 			return false;
@@ -265,11 +265,6 @@ public abstract class AbstractGraph<N, E extends Edge<? extends N>, W extends Wa
 		return false;
 	}
 
-	public boolean isSpanning(W walk)
-	{
-		return false;
-	}
-
 	public boolean isSpanning(TreeGraph graph)
 	{
 		return false;
@@ -280,17 +275,12 @@ public abstract class AbstractGraph<N, E extends Edge<? extends N>, W extends Wa
 		return false;
 	}
 
-	public boolean isEularian(W walk)
-	{
-		return false;
-	}
-
 	public boolean isTree()
 	{
 		return (this.getCycleCount() == 0);
 	}
 
-	public boolean isSubGraph(Graph<? extends N, ? extends E, ? extends W> subgraph)
+	public boolean isSubGraph(Graph<? extends N, ? extends E> subgraph)
 	{
 		Set<N> nodes = this.getNodes();
 		Set<? extends N> subnodes = subgraph.getNodes();
@@ -307,7 +297,7 @@ public abstract class AbstractGraph<N, E extends Edge<? extends N>, W extends Wa
 		return true;
 	}
 
-	public boolean isKnot(Graph<? extends N, ? extends E, ? extends W> subGraph)
+	public boolean isKnot(Graph<? extends N, ? extends E> subGraph)
 	{
 		return false;
 	}
@@ -329,12 +319,12 @@ public abstract class AbstractGraph<N, E extends Edge<? extends N>, W extends Wa
 		return false;
 	}
 
-	public boolean isIsomorphic(Graph<? extends N, ? extends E, ? extends W> isomorphicGraph)
+	public boolean isIsomorphic(Graph<? extends N, ? extends E> isomorphicGraph)
 	{
 		return false;
 	}
 
-	public boolean isHomomorphic(Graph<? extends N, ? extends E, ? extends W> homomorphicGraph)
+	public boolean isHomomorphic(Graph<? extends N, ? extends E> homomorphicGraph)
 	{
 		return false;
 	}

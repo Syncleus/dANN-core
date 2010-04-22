@@ -146,10 +146,10 @@ public class AstarPathFinder<N, E extends Edge<N>> implements PathFinder<N,E>
 
 
 
-	private Graph<N, E, ?> graph;
+	private Graph<N, E> graph;
 	private HeuristicPathCost<N> heuristicPathCost;
 
-	public AstarPathFinder(Graph<N, E, ?> graph, HeuristicPathCost<N> heuristicPathCost)
+	public AstarPathFinder(Graph<N, E> graph, HeuristicPathCost<N> heuristicPathCost)
 	{
 		if( graph == null )
 			throw new IllegalArgumentException("graph can not be null");

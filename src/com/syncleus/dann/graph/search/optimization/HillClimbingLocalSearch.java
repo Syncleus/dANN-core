@@ -22,7 +22,7 @@ import com.syncleus.dann.graph.search.LocalSearch;
 import com.syncleus.dann.graph.Graph;
 import com.syncleus.dann.graph.Weighted;
 
-public class HillClimbingLocalSearch<G extends Graph<N, ?, ?>, N extends Weighted> implements LocalSearch<N>
+public class HillClimbingLocalSearch<G extends Graph<N, ?>, N extends Weighted> implements LocalSearch<N>
 {
 	private G graph;
 

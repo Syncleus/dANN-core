@@ -18,7 +18,6 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.graph.drawing.hyperassociativemap;
 
-import com.syncleus.dann.graph.WeightedBidirectedWalk;
 import com.syncleus.dann.graph.drawing.hyperassociativemap.*;
 import com.syncleus.dann.neural.*;
 import com.syncleus.dann.neural.backprop.*;
@@ -41,17 +40,12 @@ public class TestHyperassociativeMap
 		}
 	}
 
-	private class TestMap extends HyperassociativeMap<AbstractLocalBrain, Neuron, Synapse, WeightedBidirectedWalk<Neuron,Synapse>>
+	private class TestMap extends HyperassociativeMap<AbstractLocalBrain, Neuron>
 	{
 		public TestMap(AbstractLocalBrain brain, int dimensions)
 		{
 			super(brain, dimensions);
 		}
-
-//		public Hashtable<Neuron, NeuronHyperassociativeNode> getNeurons()
-//		{
-//			return this.neurons;
-//		}
 	}
 
 	@Test

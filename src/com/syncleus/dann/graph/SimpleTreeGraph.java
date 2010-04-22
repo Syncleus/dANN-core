@@ -20,7 +20,7 @@ package com.syncleus.dann.graph;
 
 import java.util.*;
 
-public class SimpleTreeGraph<N, E extends BidirectedEdge<? extends N>, W extends BidirectedWalk<? extends N, ? extends E>> extends AbstractTreeGraph<N,E,W>
+public class SimpleTreeGraph<N, E extends BidirectedEdge<? extends N>> extends AbstractTreeGraph<N,E>
 {
 	final private Set<N> nodes;
 	final private Set<E> edges;

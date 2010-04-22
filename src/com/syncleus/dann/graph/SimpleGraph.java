@@ -18,12 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.search.pathfinding.BellmanFordPathFinder;
-import com.syncleus.dann.graph.search.pathfinding.DijkstraPathFinder;
-import com.syncleus.dann.graph.search.pathfinding.PathFinder;
 import java.util.*;
 
-public class SimpleGraph<N, E extends Edge<? extends N>, W extends Walk<? extends N, ? extends E>> extends AbstractGraph<N, E, W>
+public class SimpleGraph<N, E extends Edge<? extends N>> extends AbstractGraph<N, E>
 {
 	final private Set<N> nodes;
 	final private Set<E> edges;

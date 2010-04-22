@@ -23,11 +23,11 @@ import java.util.*;
 
 public class FloydWarshallPathFinder<N, E extends Edge<N>> implements PathFinder<N,E>
 {
-	private Graph<N, E, ?> graph;
+	private Graph<N, E> graph;
 	private Map<N, Map<N, Double>> walkWeight;
 	private Map<N, Map<N, N>> nextNode;
 
-	public FloydWarshallPathFinder(Graph<N, E, ?> graph)
+	public FloydWarshallPathFinder(Graph<N, E> graph)
 	{
 		this.graph = graph;
 

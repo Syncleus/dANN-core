@@ -44,7 +44,7 @@ public class TestExhaustiveDepthFirstSearchFinder
 		DirectedEdge<Object> topLeftEdge = new SimpleDirectedEdge<Object>(topNode, leftNode);
 		edges.add(topLeftEdge);
 
-		BidirectedGraph<Object, DirectedEdge<Object>, BidirectedWalk<Object, DirectedEdge<Object>>> graph = new SimpleDirectedGraph<Object, DirectedEdge<Object>, BidirectedWalk<Object, DirectedEdge<Object>>>(nodes, edges);
+		BidirectedGraph<Object, DirectedEdge<Object>> graph = new SimpleDirectedGraph<Object, DirectedEdge<Object>>(nodes, edges);
 
 		CycleFinder counter = new ExhaustiveDepthFirstSearchCycleFinder();
 		Assert.assertTrue("Cycles detected when there should be none: " + counter.cycleCount(graph), counter.cycleCount(graph) == 0);
@@ -81,7 +81,7 @@ public class TestExhaustiveDepthFirstSearchFinder
 		DirectedEdge<Object> tippyTopRightEdge = new SimpleDirectedEdge<Object>(tippyTopNode, rightNode);
 		edges.add(tippyTopRightEdge);
 
-		BidirectedGraph<Object, DirectedEdge<Object>, BidirectedWalk<Object, DirectedEdge<Object>>> graph = new SimpleDirectedGraph<Object, DirectedEdge<Object>, BidirectedWalk<Object, DirectedEdge<Object>>>(nodes, edges);
+		BidirectedGraph<Object, DirectedEdge<Object>> graph = new SimpleDirectedGraph<Object, DirectedEdge<Object>>(nodes, edges);
 
 		CycleFinder counter = new ExhaustiveDepthFirstSearchCycleFinder();
 		Assert.assertTrue("incorrect number of cycles detected. Expected 3, got: " + counter.cycleCount(graph), counter.cycleCount(graph) == 3);
@@ -108,7 +108,7 @@ public class TestExhaustiveDepthFirstSearchFinder
 		BidirectedEdge<Object> centerRightEdge = new SimpleUndirectedEdge<Object>(centerNode, rightNode);
 		edges.add(centerRightEdge);
 
-		Graph<Object, BidirectedEdge<Object>, BidirectedWalk<Object, BidirectedEdge<Object>>> graph = new SimpleGraph<Object, BidirectedEdge<Object>, BidirectedWalk<Object, BidirectedEdge<Object>>>(nodes, edges);
+		Graph<Object, BidirectedEdge<Object>> graph = new SimpleGraph<Object, BidirectedEdge<Object>>(nodes, edges);
 
 		CycleFinder counter = new ExhaustiveDepthFirstSearchCycleFinder();
 		Assert.assertTrue("Cycles detected when there should be none: " + counter.cycleCount(graph), counter.cycleCount(graph) == 0);
@@ -139,7 +139,7 @@ public class TestExhaustiveDepthFirstSearchFinder
 		BidirectedEdge<Object> leftTopEdge = new SimpleUndirectedEdge<Object>(leftNode, topNode);
 		edges.add(leftTopEdge);
 
-		Graph<Object, BidirectedEdge<Object>, BidirectedWalk<Object, BidirectedEdge<Object>>> graph = new SimpleGraph<Object, BidirectedEdge<Object>, BidirectedWalk<Object, BidirectedEdge<Object>>>(nodes, edges);
+		Graph<Object, BidirectedEdge<Object>> graph = new SimpleGraph<Object, BidirectedEdge<Object>>(nodes, edges);
 
 		CycleFinder counter = new ExhaustiveDepthFirstSearchCycleFinder();
 		Assert.assertTrue("incorrect number of cycles detected. Expected 3, got: " + counter.cycleCount(graph), counter.cycleCount(graph) == 3);
@@ -168,7 +168,7 @@ public class TestExhaustiveDepthFirstSearchFinder
 		BidirectedEdge<Object> centerRightEdge2 = new SimpleUndirectedEdge<Object>(centerNode, rightNode);
 		edges.add(centerRightEdge2);
 
-		Graph<Object, BidirectedEdge<Object>, BidirectedWalk<Object, BidirectedEdge<Object>>> graph = new SimpleGraph<Object, BidirectedEdge<Object>, BidirectedWalk<Object, BidirectedEdge<Object>>>(nodes, edges);
+		Graph<Object, BidirectedEdge<Object>> graph = new SimpleGraph<Object, BidirectedEdge<Object>>(nodes, edges);
 
 		CycleFinder counter = new ExhaustiveDepthFirstSearchCycleFinder();
 		Assert.assertTrue("incorrect number of cycles detected. Expected 1, got: " + counter.cycleCount(graph), counter.cycleCount(graph) == 1);

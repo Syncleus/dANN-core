@@ -23,7 +23,7 @@ import java.util.*;
 
 public class KruskalMinimumSpanningTreeFinder<E extends Edge<?>> implements MinimumSpanningTreeFinder<E>
 {
-	public Set<E> findMinimumSpanningTree(Graph<?, ? extends E,?> graph)
+	public Set<E> findMinimumSpanningTree(Graph<?, ? extends E> graph)
 	{
 		final Set<Set<?>> componentNodeSets = new HashSet<Set<?>>();
 		for(Object node : graph.getNodes())

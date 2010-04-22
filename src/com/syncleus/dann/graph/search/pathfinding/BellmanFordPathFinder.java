@@ -110,11 +110,11 @@ public class BellmanFordPathFinder<N, E extends DirectedEdge<N>> implements Path
 		}
 	}
 
-	private Graph<N, E, ?> graph;
+	private Graph<N, E> graph;
 	Map<N,PathedStep> pathedSteps;
 	N begin;
 
-	public BellmanFordPathFinder(Graph<N, E, ?> graph)
+	public BellmanFordPathFinder(Graph<N, E> graph)
 	{
 		if( graph == null )
 			throw new IllegalArgumentException("graph can not be null");

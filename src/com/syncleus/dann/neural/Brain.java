@@ -18,10 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.neural;
 
-import com.syncleus.dann.graph.BidirectedGraph;
-import com.syncleus.dann.graph.Graph;
-import com.syncleus.dann.graph.TreeGraph;
-import com.syncleus.dann.graph.WeightedBidirectedWalk;
+import com.syncleus.dann.graph.*;
 import java.util.*;
 
 /**
@@ -35,7 +32,7 @@ import java.util.*;
  * @since 1.0
  *
  */
-public interface Brain extends BidirectedGraph<Neuron, Synapse, WeightedBidirectedWalk<Neuron,Synapse>>
+public interface Brain extends BidirectedGraph<Neuron, Synapse>
 {
 	/**
 	 * Obtains all InputNeurons contained within the brain.

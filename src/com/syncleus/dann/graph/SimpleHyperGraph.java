@@ -20,7 +20,7 @@ package com.syncleus.dann.graph;
 
 import java.util.*;
 
-public class SimpleHyperGraph<N, E extends HyperEdge<? extends N>, W extends HyperWalk<? extends N, ? extends E>> extends AbstractHyperGraph<N,E,W>
+public class SimpleHyperGraph<N, E extends HyperEdge<? extends N>> extends AbstractHyperGraph<N,E>
 {
 	final private Set<N> nodes;
 	final private Set<E> edges;

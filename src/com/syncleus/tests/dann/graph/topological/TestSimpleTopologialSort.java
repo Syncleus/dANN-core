@@ -50,7 +50,7 @@ public class TestSimpleTopologialSort
 		DirectedEdge<Object> centerRightEdge = new SimpleDirectedEdge<Object>(centerNode, rightNode);
 		edges.add(centerRightEdge);
 
-		BidirectedGraph<Object, DirectedEdge<Object>, BidirectedWalk<Object, DirectedEdge<Object>>> graph = new SimpleDirectedGraph<Object, DirectedEdge<Object>, BidirectedWalk<Object, DirectedEdge<Object>>>(nodes, edges);
+		BidirectedGraph<Object, DirectedEdge<Object>> graph = new SimpleDirectedGraph<Object, DirectedEdge<Object>>(nodes, edges);
 
 		TopologicalSorter<Object> sorter = new SimpleTopologicalSorter<Object>();
 		List<Object> sortedNodes = sorter.sort(graph);

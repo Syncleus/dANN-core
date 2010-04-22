@@ -19,7 +19,7 @@
 package com.syncleus.dann.graph;
 
 
-public interface HyperGraph<N, E extends HyperEdge<? extends N>, W extends HyperWalk<? extends N, ? extends E>> extends Graph<N,E,W>
+public interface HyperGraph<N, E extends HyperEdge<? extends N>> extends Graph<N,E>
 {
 	int getNeighborCount(N node);
 	boolean isSymmetric(N firstNode, N secondNode);

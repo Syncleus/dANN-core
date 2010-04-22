@@ -18,19 +18,10 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.graph.search;
 
-import com.syncleus.dann.graph.AbstractBidirectedGraph;
-import com.syncleus.dann.graph.BidirectedWalk;
-import com.syncleus.dann.graph.DirectedEdge;
-import com.syncleus.dann.graph.SimpleDirectedEdge;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import com.syncleus.dann.graph.*;
+import java.util.*;
 
-public class DirectedGrid extends AbstractBidirectedGraph<GridNode, DirectedEdge<GridNode>, BidirectedWalk<GridNode, DirectedEdge<GridNode>>>
+public class DirectedGrid extends AbstractBidirectedGraph<GridNode, DirectedEdge<GridNode>>
 {
 	final private GridNode[][] nodes;
 	final private Set<GridNode> nodeSet = new HashSet<GridNode>();

@@ -18,29 +18,15 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.drawing.hyperassociativemap;
 
-import com.syncleus.dann.DannRuntimeException;
-import com.syncleus.dann.InterruptedDannRuntimeException;
-import com.syncleus.dann.UnexpectedDannError;
+import com.syncleus.dann.*;
 import com.syncleus.dann.graph.*;
+import java.util.*;
+import java.util.concurrent.*;
+import org.apache.log4j.Logger;
 import com.syncleus.dann.graph.drawing.GraphDrawer;
 import com.syncleus.dann.math.Vector;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-import org.apache.log4j.Logger;
 
-public class HyperassociativeMap<G extends Graph<N, E, W>, N, E extends Edge<? extends N>, W extends Walk<? extends N, ? extends E>> implements GraphDrawer<G,N,E,W>
+public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawer<G,N>
 {
 	private final G graph;
 	private final int dimensions;

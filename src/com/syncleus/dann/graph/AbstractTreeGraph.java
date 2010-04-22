@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public abstract class AbstractTreeGraph<N, E extends BidirectedEdge<? extends N>, W extends BidirectedWalk<? extends N, ? extends E>> extends AbstractBidirectedGraph<N,E,W> implements TreeGraph<N,E,W>
+public abstract class AbstractTreeGraph<N, E extends BidirectedEdge<? extends N>> extends AbstractBidirectedGraph<N,E> implements TreeGraph<N,E>
 {
 	public boolean isLeaf(N node)
 	{

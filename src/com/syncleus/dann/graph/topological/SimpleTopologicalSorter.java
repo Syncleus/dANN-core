@@ -23,7 +23,7 @@ import java.util.*;
 
 public class SimpleTopologicalSorter<N> implements TopologicalSorter<N>
 {
-	public List<N> sort(BidirectedGraph<? extends N,? extends DirectedEdge<? extends N>,?> graph)
+	public List<N> sort(BidirectedGraph<? extends N,? extends DirectedEdge<? extends N>> graph)
 	{
 		//initialize data structures
 		final Set<N> nodes = new HashSet<N>(graph.getNodes());

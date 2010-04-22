@@ -21,7 +21,7 @@ package com.syncleus.tests.dann.graph.search;
 import com.syncleus.dann.graph.*;
 import java.util.*;
 
-public class WeightedDirectedGrid extends AbstractBidirectedGraph<GridNode, WeightedDirectedEdge<GridNode>, WeightedBidirectedWalk<GridNode, WeightedDirectedEdge<GridNode>>>
+public class WeightedDirectedGrid extends AbstractBidirectedGraph<GridNode, WeightedDirectedEdge<GridNode>>
 {
 	final private GridNode[][] nodes;
 	final private Set<GridNode> nodeSet = new HashSet<GridNode>();
