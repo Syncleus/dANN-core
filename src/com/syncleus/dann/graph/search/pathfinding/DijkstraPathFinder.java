@@ -18,10 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.search.pathfinding;
 
-import com.syncleus.dann.graph.Edge;
-import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.*;
 
-public class DijkstraPathFinder<G extends Graph<N, E, ?>, N, E extends Edge<N>> extends AstarPathFinder<G,N,E>
+public class DijkstraPathFinder<N, E extends Edge<N>> extends AstarPathFinder<N,E>
 {
 	public final static class ZeroHeuristicPathCost<N> implements HeuristicPathCost<N>
 	{
@@ -41,7 +40,7 @@ public class DijkstraPathFinder<G extends Graph<N, E, ?>, N, E extends Edge<N>> 
 		}
 	}
 
-	public DijkstraPathFinder(G graph)
+	public DijkstraPathFinder(Graph<N,E,?> graph)
 	{
 		super(graph, new ZeroHeuristicPathCost<N>());
 	}

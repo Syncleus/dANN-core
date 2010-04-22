@@ -18,38 +18,11 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.search.pathfinding;
 
-import com.syncleus.dann.graph.Edge;
-import com.syncleus.dann.graph.Graph;
-import com.syncleus.dann.graph.SimpleWalk;
-import com.syncleus.dann.graph.Weighted;
-import com.syncleus.dann.graph.WeightedWalk;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.PriorityQueue;
-import java.util.Set;
+import com.syncleus.dann.graph.*;
+import java.util.*;
 
-public class AstarPathFinder<G extends Graph<N, E, ?>, N, E extends Edge<N>> implements PathFinder<N,E,WeightedWalk<N,E>>
+public class AstarPathFinder<N, E extends Edge<N>> implements PathFinder<N,E>
 {
-	private final class AstarWeightedWalk extends SimpleWalk<N,E> implements WeightedWalk<N,E>
-	{
-		private final double totalWeight;
-
-		public AstarWeightedWalk(N firstNode, N lastNode, List<E> edges, double weight)
-		{
-			super(firstNode,lastNode,edges);
-
-			this.totalWeight = weight;
-		}
-
-		public double getWeight()
-		{
-			return this.totalWeight;
-		}
-	}
-
 	private final class PathedStep implements Comparable<PathedStep>
 	{
 		private N node;
@@ -71,6 +44,7 @@ public class AstarPathFinder<G extends Graph<N, E, ?>, N, E extends Edge<N>> imp
 
 		public boolean updateParent(PathedStep newParent, E newParentEdge)
 		{
+			// TODO : remove this junk
 			if( newParent == null )
 				throw new IllegalArgumentException("newParent can not be null");
 			if( newParent.equals(this))
@@ -172,10 +146,10 @@ public class AstarPathFinder<G extends Graph<N, E, ?>, N, E extends Edge<N>> imp
 
 
 
-	private G graph;
+	private Graph<N, E, ?> graph;
 	private HeuristicPathCost<N> heuristicPathCost;
 
-	public AstarPathFinder(G graph, HeuristicPathCost<N> heuristicPathCost)
+	public AstarPathFinder(Graph<N, E, ?> graph, HeuristicPathCost<N> heuristicPathCost)
 	{
 		if( graph == null )
 			throw new IllegalArgumentException("graph can not be null");
@@ -183,7 +157,7 @@ public class AstarPathFinder<G extends Graph<N, E, ?>, N, E extends Edge<N>> imp
 			throw new IllegalArgumentException("heuristicPathCost can not be null");
 		if( !heuristicPathCost.isOptimistic() )
 			throw new IllegalArgumentException("heuristicPathCost must be admissible");
-//		Does the heuristic need to be consistent?
+//		TODO : Does the heuristic need to be consistent?
 //		if( !heuristicPathCost.isConsistent() )
 //			throw new IllegalArgumentException("This implementation requires a consistent heuristic");
 
@@ -191,7 +165,7 @@ public class AstarPathFinder<G extends Graph<N, E, ?>, N, E extends Edge<N>> imp
 		this.heuristicPathCost = heuristicPathCost;
 	}
 
-	public WeightedWalk<N,E> getBestPath(N begin, N end)
+	public List<E> getBestPath(N begin, N end)
 	{
 		if(begin == null)
 			throw new IllegalArgumentException("begin can not be null");
@@ -261,23 +235,18 @@ public class AstarPathFinder<G extends Graph<N, E, ?>, N, E extends Edge<N>> imp
 		return (this.getBestPath(begin, end) != null);
 	}
 
-	private WeightedWalk<N,E> pathedStepToWalk(PathedStep endPathedStep)
+	private List<E> pathedStepToWalk(PathedStep endPathedStep)
 	{
 		List<E> edges = new ArrayList<E>();
-		List<PathedStep> steps = new ArrayList<PathedStep>();
-		N lastNode = endPathedStep.getNode();
-		N firstNode = endPathedStep.getNode();
 
 		PathedStep currentStep = endPathedStep;
 		while(currentStep != null)
 		{
-			firstNode = currentStep.getNode();
 			if(currentStep.getParentEdge() != null)
 				edges.add(0, currentStep.getParentEdge());
-			steps.add(currentStep);
 			currentStep = currentStep.getParent();
 		}
 
-		return new AstarWeightedWalk(firstNode, lastNode, edges, endPathedStep.getCachedPathWeight());
+		return edges;
 	}
 }

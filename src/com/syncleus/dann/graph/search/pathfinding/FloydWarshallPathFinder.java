@@ -18,41 +18,16 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.search.pathfinding;
 
-import com.syncleus.dann.graph.Edge;
-import com.syncleus.dann.graph.Graph;
-import com.syncleus.dann.graph.SimpleWalk;
-import com.syncleus.dann.graph.Weighted;
-import com.syncleus.dann.graph.WeightedEdge;
-import com.syncleus.dann.graph.WeightedWalk;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.syncleus.dann.graph.*;
+import java.util.*;
 
-public class FloydWarshallPathFinder<G extends Graph<N, E, ?>, N, E extends Edge<N>> implements PathFinder<N,E,WeightedWalk<N,E>>
+public class FloydWarshallPathFinder<N, E extends Edge<N>> implements PathFinder<N,E>
 {
-	private final class DumbWeightedWalk extends SimpleWalk<N,E> implements WeightedWalk<N,E>
-	{
-		private final double totalWeight;
-
-		public DumbWeightedWalk(N firstNode, N lastNode, List<E> edges, double weight)
-		{
-			super(firstNode,lastNode,edges);
-
-			this.totalWeight = weight;
-		}
-
-		public double getWeight()
-		{
-			return this.totalWeight;
-		}
-	}
-
-	private G graph;
+	private Graph<N, E, ?> graph;
 	private Map<N, Map<N, Double>> walkWeight;
 	private Map<N, Map<N, N>> nextNode;
 
-	public FloydWarshallPathFinder(G graph)
+	public FloydWarshallPathFinder(Graph<N, E, ?> graph)
 	{
 		this.graph = graph;
 
@@ -111,7 +86,7 @@ public class FloydWarshallPathFinder<G extends Graph<N, E, ?>, N, E extends Edge
 				}
 	}
 
-	public WeightedWalk<N,E> getBestPath(N begin, N end)
+	public List<E> getBestPath(N begin, N end)
 	{
 		List<N> nodePath = getIntermediatePath(begin, end);
 		if(nodePath.size() < 2)
@@ -152,7 +127,7 @@ public class FloydWarshallPathFinder<G extends Graph<N, E, ?>, N, E extends Edge
 				overallWeight += ((Weighted)toNode).getWeight();
 		}
 
-		return new DumbWeightedWalk(begin, end, edgePath, overallWeight);
+		return edgePath;
 	}
 
 	private List<N> getIntermediatePath(N begin, N end)

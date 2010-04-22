@@ -18,37 +18,11 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.search.pathfinding;
 
-import com.syncleus.dann.graph.BidirectedGraph;
-import com.syncleus.dann.graph.DirectedEdge;
-import com.syncleus.dann.graph.Edge;
-import com.syncleus.dann.graph.SimpleBidirectedWalk;
-import com.syncleus.dann.graph.Weighted;
-import com.syncleus.dann.graph.WeightedBidirectedWalk;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import com.syncleus.dann.graph.*;
+import java.util.*;
 
-public class BellmanFordPathFinder<G extends BidirectedGraph<? extends N, ? extends E, ?>, N, E extends DirectedEdge<? extends N>> implements PathFinder<N,E,WeightedBidirectedWalk<N,E>>
+public class BellmanFordPathFinder<N, E extends DirectedEdge<N>> implements PathFinder<N,E>
 {
-	private final class DumbWeightedWalk extends SimpleBidirectedWalk<N,E> implements WeightedBidirectedWalk<N,E>
-	{
-		private final double totalWeight;
-
-		public DumbWeightedWalk(N firstNode, N lastNode, List<E> edges, double weight)
-		{
-			super(firstNode,lastNode,edges);
-
-			this.totalWeight = weight;
-		}
-
-		public double getWeight()
-		{
-			return this.totalWeight;
-		}
-	}
-
 	private final class PathedStep implements Comparable<PathedStep>
 	{
 		private N node;
@@ -136,11 +110,11 @@ public class BellmanFordPathFinder<G extends BidirectedGraph<? extends N, ? exte
 		}
 	}
 
-	private G graph;
+	private Graph<N, E, ?> graph;
 	Map<N,PathedStep> pathedSteps;
 	N begin;
 
-	public BellmanFordPathFinder(G graph)
+	public BellmanFordPathFinder(Graph<N, E, ?> graph)
 	{
 		if( graph == null )
 			throw new IllegalArgumentException("graph can not be null");
@@ -150,12 +124,12 @@ public class BellmanFordPathFinder<G extends BidirectedGraph<? extends N, ? exte
 		this.graph = graph;
 	}
 
-	public WeightedBidirectedWalk<N,E> getBestPath(N begin, N end)
+	public List<E> getBestPath(N begin, N end)
 	{
 		return this.getBestPath(begin, end, true);
 	}
 
-	public WeightedBidirectedWalk<N,E> getBestPath(N begin, N end, boolean refresh)
+	public List<E> getBestPath(N begin, N end, boolean refresh)
 	{
 		if((refresh)||(this.pathedSteps == null)||(!begin.equals(this.begin)))
 			this.calculateSteps(begin);
@@ -225,23 +199,18 @@ public class BellmanFordPathFinder<G extends BidirectedGraph<? extends N, ? exte
 		return ( this.getBestPath(begin, end) != null);
 	}
 
-	private WeightedBidirectedWalk<N,E> pathedStepToWalk(PathedStep endPathedStep)
+	private List<E> pathedStepToWalk(PathedStep endPathedStep)
 	{
 		List<E> edges = new ArrayList<E>();
-		List<PathedStep> steps = new ArrayList<PathedStep>();
-		N lastNode = endPathedStep.getNode();
-		N firstNode = endPathedStep.getNode();
 
 		PathedStep currentStep = endPathedStep;
 		while(currentStep != null)
 		{
-			firstNode = currentStep.getNode();
 			if(currentStep.getParentEdge() != null)
 				edges.add(0, currentStep.getParentEdge());
-			steps.add(currentStep);
 			currentStep = currentStep.getParent();
 		}
 
-		return new DumbWeightedWalk(firstNode, lastNode, edges, endPathedStep.getCachedPathWeight());
+		return edges;
 	}
 }

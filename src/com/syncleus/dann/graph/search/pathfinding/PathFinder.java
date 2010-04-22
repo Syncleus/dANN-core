@@ -19,11 +19,11 @@
 package com.syncleus.dann.graph.search.pathfinding;
 
 import com.syncleus.dann.graph.Edge;
-import com.syncleus.dann.graph.Walk;
+import java.util.List;
 
-public interface PathFinder<N, E extends Edge<? extends N>, W extends Walk<? extends N, ? extends E>>
+public interface PathFinder<N, E extends Edge<? extends N>>
 {
-	W getBestPath(N begin, N end);
+	List<E> getBestPath(N begin, N end);
 	boolean isReachable(N begin, N end);
 	boolean isConnected(N begin, N end);
 }
