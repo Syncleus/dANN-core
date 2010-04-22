@@ -25,9 +25,9 @@ import java.util.*;
 import org.junit.*;
 import org.apache.log4j.Logger;
 
-public class TestKruskalMinimumSpanningTreeFinder
+public class TestPrimMinimumSpanningTreeFinder
 {
-	private final static Logger LOGGER = Logger.getLogger(TestKruskalMinimumSpanningTreeFinder.class);
+	private final static Logger LOGGER = Logger.getLogger(TestPrimMinimumSpanningTreeFinder.class);
 
 	@Test
 	public void testUndirected()
@@ -58,7 +58,7 @@ public class TestKruskalMinimumSpanningTreeFinder
 
 		Graph<Object, BidirectedEdge<Object>> graph = new SimpleGraph<Object, BidirectedEdge<Object>>(nodes, edges);
 
-		MinimumSpanningTreeFinder finder = new KruskalMinimumSpanningTreeFinder();
+		MinimumSpanningTreeFinder finder = new PrimMinimumSpanningTreeFinder();
 		Set<BidirectedEdge<Object>> mstEdges = finder.findMinimumSpanningTree(graph);
 		TreeGraph<Object, BidirectedEdge<Object>> mst = new SimpleTreeGraph<Object, BidirectedEdge<Object>>(graph.getNodes(), mstEdges);
 
