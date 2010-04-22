@@ -9,7 +9,7 @@
  *  of the license is not included you are granted no right to distribute or   *
  *  otherwise use this file except through a legal and valid license. You      *
  *  should also contact Syncleus, Inc. at the information below if you cannot  *
- *  find a license:                                                            *
+ *  findCycles a license:                                                            *
  *                                                                             *
  *  Syncleus, Inc.                                                             *
  *  2604 South 12th Street                                                     *
@@ -23,7 +23,7 @@ import com.syncleus.dann.graph.cycle.*;
 import java.util.*;
 import org.junit.*;
 
-public class TestExtensiveDepthFirstSearchCounter
+public class TestExhaustiveDepthFirstSearchFinder
 {
 	@Test
 	public void testDirectedNoCycles()
@@ -46,7 +46,7 @@ public class TestExtensiveDepthFirstSearchCounter
 
 		BidirectedGraph<Object, DirectedEdge<Object>, BidirectedWalk<Object, DirectedEdge<Object>>> graph = new SimpleDirectedGraph<Object, DirectedEdge<Object>, BidirectedWalk<Object, DirectedEdge<Object>>>(nodes, edges);
 
-		CycleFinder counter = new ExtensiveDepthFirstSearchCycleFinder();
+		CycleFinder counter = new ExhaustiveDepthFirstSearchCycleFinder();
 		Assert.assertTrue("Cycles detected when there should be none: " + counter.cycleCount(graph), counter.cycleCount(graph) == 0);
 	}
 
@@ -83,7 +83,7 @@ public class TestExtensiveDepthFirstSearchCounter
 
 		BidirectedGraph<Object, DirectedEdge<Object>, BidirectedWalk<Object, DirectedEdge<Object>>> graph = new SimpleDirectedGraph<Object, DirectedEdge<Object>, BidirectedWalk<Object, DirectedEdge<Object>>>(nodes, edges);
 
-		CycleFinder counter = new ExtensiveDepthFirstSearchCycleFinder();
+		CycleFinder counter = new ExhaustiveDepthFirstSearchCycleFinder();
 		Assert.assertTrue("incorrect number of cycles detected. Expected 3, got: " + counter.cycleCount(graph), counter.cycleCount(graph) == 3);
 	}
 
@@ -110,7 +110,7 @@ public class TestExtensiveDepthFirstSearchCounter
 
 		Graph<Object, BidirectedEdge<Object>, BidirectedWalk<Object, BidirectedEdge<Object>>> graph = new SimpleGraph<Object, BidirectedEdge<Object>, BidirectedWalk<Object, BidirectedEdge<Object>>>(nodes, edges);
 
-		CycleFinder counter = new ExtensiveDepthFirstSearchCycleFinder();
+		CycleFinder counter = new ExhaustiveDepthFirstSearchCycleFinder();
 		Assert.assertTrue("Cycles detected when there should be none: " + counter.cycleCount(graph), counter.cycleCount(graph) == 0);
 	}
 
@@ -141,7 +141,7 @@ public class TestExtensiveDepthFirstSearchCounter
 
 		Graph<Object, BidirectedEdge<Object>, BidirectedWalk<Object, BidirectedEdge<Object>>> graph = new SimpleGraph<Object, BidirectedEdge<Object>, BidirectedWalk<Object, BidirectedEdge<Object>>>(nodes, edges);
 
-		CycleFinder counter = new ExtensiveDepthFirstSearchCycleFinder();
+		CycleFinder counter = new ExhaustiveDepthFirstSearchCycleFinder();
 		Assert.assertTrue("incorrect number of cycles detected. Expected 3, got: " + counter.cycleCount(graph), counter.cycleCount(graph) == 3);
 	}
 
@@ -170,7 +170,7 @@ public class TestExtensiveDepthFirstSearchCounter
 
 		Graph<Object, BidirectedEdge<Object>, BidirectedWalk<Object, BidirectedEdge<Object>>> graph = new SimpleGraph<Object, BidirectedEdge<Object>, BidirectedWalk<Object, BidirectedEdge<Object>>>(nodes, edges);
 
-		CycleFinder counter = new ExtensiveDepthFirstSearchCycleFinder();
+		CycleFinder counter = new ExhaustiveDepthFirstSearchCycleFinder();
 		Assert.assertTrue("incorrect number of cycles detected. Expected 1, got: " + counter.cycleCount(graph), counter.cycleCount(graph) == 1);
 	}
 }

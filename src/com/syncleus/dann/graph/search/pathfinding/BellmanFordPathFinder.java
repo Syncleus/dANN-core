@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class BellmanFordPathFinder<G extends BidirectedGraph<N, E, ?>, N, E extends DirectedEdge<N>> implements PathFinder<N,E,WeightedBidirectedWalk<N,E>>
+public class BellmanFordPathFinder<G extends BidirectedGraph<? extends N, ? extends E, ?>, N, E extends DirectedEdge<? extends N>> implements PathFinder<N,E,WeightedBidirectedWalk<N,E>>
 {
 	private final class DumbWeightedWalk extends SimpleBidirectedWalk<N,E> implements WeightedBidirectedWalk<N,E>
 	{
@@ -170,8 +170,8 @@ public class BellmanFordPathFinder<G extends BidirectedGraph<N, E, ?>, N, E exte
 
 	public void calculateSteps(N begin)
 	{
-		Set<N> nodes = this.graph.getNodes();
-		Set<E> edges = this.graph.getEdges();
+		Set<? extends N> nodes = this.graph.getNodes();
+		Set<? extends E> edges = this.graph.getEdges();
 
 		pathedSteps = new HashMap<N,PathedStep>(nodes.size());
 

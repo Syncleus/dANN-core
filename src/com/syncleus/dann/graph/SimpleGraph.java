@@ -18,6 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
+import com.syncleus.dann.graph.search.pathfinding.BellmanFordPathFinder;
+import com.syncleus.dann.graph.search.pathfinding.DijkstraPathFinder;
+import com.syncleus.dann.graph.search.pathfinding.PathFinder;
 import java.util.*;
 
 public class SimpleGraph<N, E extends Edge<? extends N>, W extends Walk<? extends N, ? extends E>> extends AbstractGraph<N, E, W>
@@ -107,11 +110,6 @@ public class SimpleGraph<N, E extends Edge<? extends N>, W extends Walk<? extend
 	public int getOutdegree(N node)
 	{
 		return this.getOutEdges(node).size();
-	}
-
-	public boolean isConnected(N leftNode, N rightNode)
-	{
-		return this.neighborNodes.get(leftNode).contains(rightNode);
 	}
 
 	public List<N> getNeighbors(N node)

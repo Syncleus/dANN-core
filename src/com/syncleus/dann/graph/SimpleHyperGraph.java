@@ -106,11 +106,6 @@ public class SimpleHyperGraph<N, E extends HyperEdge<? extends N>, W extends Hyp
 		return this.getOutEdges(node).size();
 	}
 
-	public boolean isConnected(N leftNode, N rightNode)
-	{
-		return this.neighborNodes.get(leftNode).contains(rightNode);
-	}
-
 	public List<N> getNeighbors(N node)
 	{
 		return Collections.unmodifiableList(this.neighborNodes.get(node));

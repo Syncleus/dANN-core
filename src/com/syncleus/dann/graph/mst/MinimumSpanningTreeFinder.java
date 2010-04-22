@@ -9,25 +9,19 @@
  *  of the license is not included you are granted no right to distribute or   *
  *  otherwise use this file except through a legal and valid license. You      *
  *  should also contact Syncleus, Inc. at the information below if you cannot  *
- *  findCycles a license:                                                            *
+ *  find a license:                                                            *
  *                                                                             *
  *  Syncleus, Inc.                                                             *
  *  2604 South 12th Street                                                     *
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph.cycle;
+package com.syncleus.dann.graph.mst;
 
 import com.syncleus.dann.graph.*;
-import com.syncleus.dann.graph.Graph;
 import java.util.Set;
 
-public interface CycleFinder extends CycleDetector
+public interface MinimumSpanningTreeFinder<E extends Edge<?>>
 {
-	int cycleCount(Graph graph);
-	Set<Set<Edge>> findCycles(Graph graph);
-	boolean isPancyclic(Graph graph);
-	boolean isUnicyclic(Graph graph);
-	int girth(Graph graph);
-	int circumference(Graph graph);
+	Set<E> findMinimumSpanningTree(Graph<?, ? extends E,?> graph);
 }

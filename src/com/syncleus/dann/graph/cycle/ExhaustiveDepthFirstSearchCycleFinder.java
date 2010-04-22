@@ -9,7 +9,7 @@
  *  of the license is not included you are granted no right to distribute or   *
  *  otherwise use this file except through a legal and valid license. You      *
  *  should also contact Syncleus, Inc. at the information below if you cannot  *
- *  find a license:                                                            *
+ *  findCycles a license:                                                            *
  *                                                                             *
  *  Syncleus, Inc.                                                             *
  *  2604 South 12th Street                                                     *
@@ -21,12 +21,12 @@ package com.syncleus.dann.graph.cycle;
 import com.syncleus.dann.graph.*;
 import java.util.*;
 
-public class ExtensiveDepthFirstSearchCycleFinder extends ColoredDepthFirstSearchDetector implements CycleFinder
+public class ExhaustiveDepthFirstSearchCycleFinder extends ColoredDepthFirstSearchDetector implements CycleFinder
 {
 	public boolean isPancyclic(Graph graph)
 	{
 		final int graphOrder = graph.getOrder();
-		Set<Set<Edge>> cycles = this.find(graph);
+		Set<Set<Edge>> cycles = this.findCycles(graph);
 		SortedSet<Set<Edge>> sortedCycles = new TreeSet<Set<Edge>>(new SizeComparator<Set<Edge>>());
 		sortedCycles.addAll(cycles);
 
@@ -49,17 +49,17 @@ public class ExtensiveDepthFirstSearchCycleFinder extends ColoredDepthFirstSearc
 
 	public boolean isUnicyclic(Graph graph)
 	{
-		return (this.find(graph).size() == 1);
+		return (this.findCycles(graph).size() == 1);
 	}
 
 	public int cycleCount(Graph graph)
 	{
-		return this.find(graph).size();
+		return this.findCycles(graph).size();
 	}
 
 	public int girth(Graph graph)
 	{
-		Set<Set<Edge>> cycles = this.find(graph);
+		Set<Set<Edge>> cycles = this.findCycles(graph);
 		SortedSet<Set<Edge>> sortedCycles = new TreeSet<Set<Edge>>(new SizeComparator<Set<Edge>>());
 		sortedCycles.addAll(cycles);
 		return sortedCycles.first().size();
@@ -67,13 +67,13 @@ public class ExtensiveDepthFirstSearchCycleFinder extends ColoredDepthFirstSearc
 
 	public int circumference(Graph graph)
 	{
-		Set<Set<Edge>> cycles = this.find(graph);
+		Set<Set<Edge>> cycles = this.findCycles(graph);
 		SortedSet<Set<Edge>> sortedCycles = new TreeSet<Set<Edge>>(new SizeComparator<Set<Edge>>());
 		sortedCycles.addAll(cycles);
 		return sortedCycles.last().size();
 	}
 
-	public Set<Set<Edge>> find(Graph graph)
+	public Set<Set<Edge>> findCycles(Graph graph)
 	{
 		final Set<Object> untouchedNodes = new HashSet<Object>(graph.getNodes());
 		final Set<Set<Edge>> cycles = new HashSet<Set<Edge>>();
@@ -81,7 +81,7 @@ public class ExtensiveDepthFirstSearchCycleFinder extends ColoredDepthFirstSearc
 		{
 			Object startingNode = untouchedNodes.toArray()[0];
 			untouchedNodes.remove(startingNode);
-			ExtensiveDepthFirstSearchCycleFinder.cyclesFromStart(graph, untouchedNodes, cycles, startingNode);
+			ExhaustiveDepthFirstSearchCycleFinder.cyclesFromStart(graph, untouchedNodes, cycles, startingNode);
 		}
 		return cycles;
 	}

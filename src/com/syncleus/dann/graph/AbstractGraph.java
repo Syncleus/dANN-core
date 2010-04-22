@@ -9,7 +9,7 @@
  *  of the license is not included you are granted no right to distribute or   *
  *  otherwise use this file except through a legal and valid license. You      *
  *  should also contact Syncleus, Inc. at the information below if you cannot  *
- *  find a license:                                                            *
+ *  findCycles a license:                                                            *
  *                                                                             *
  *  Syncleus, Inc.                                                             *
  *  2604 South 12th Street                                                     *
@@ -19,7 +19,7 @@
 package com.syncleus.dann.graph;
 
 import com.syncleus.dann.graph.cycle.CycleFinder;
-import com.syncleus.dann.graph.cycle.ExtensiveDepthFirstSearchCycleFinder;
+import com.syncleus.dann.graph.cycle.ExhaustiveDepthFirstSearchCycleFinder;
 import com.syncleus.dann.math.set.Combinations;
 import java.util.*;
 
@@ -46,6 +46,30 @@ public abstract class AbstractGraph<N, E extends Edge<? extends N>, W extends Wa
 		return true;
 	}
 
+	public boolean isConnected(N leftNode, N rightNode)
+	{
+		Set<N> visited = new HashSet<N>();
+		visited.add(leftNode);
+
+		Set<N> toVisit = new HashSet<N>();
+		toVisit.addAll(this.getTraversableNeighbors(leftNode));
+
+		while(!toVisit.isEmpty())
+		{
+			N node = (N) toVisit.toArray()[0];
+			if(node.equals(rightNode))
+				return true;
+
+			visited.add(node);
+			toVisit.remove(node);
+
+			toVisit.addAll(this.getTraversableNeighbors(node));
+			toVisit.removeAll(visited);
+		}
+
+		return false;
+	}
+
 	public Set<Graph<N,E,W>> getConnectedComponents()
 	{
 		return null;
@@ -56,8 +80,8 @@ public abstract class AbstractGraph<N, E extends Edge<? extends N>, W extends Wa
 		if( !this.isSubGraph(subgraph))
 			return false;
 
-		//find all edges in the parent graph, but not in the subgraph
-		final Set<E> exclusiveParentEdges = this.getEdges();
+		//findCycles all edges in the parent graph, but not in the subgraph
+		final Set<E> exclusiveParentEdges = new HashSet<E>(this.getEdges());
 		final Set<? extends E> subedges = subgraph.getEdges();
 		exclusiveParentEdges.removeAll(subedges);
 
@@ -208,31 +232,31 @@ public abstract class AbstractGraph<N, E extends Edge<? extends N>, W extends Wa
 
 	public int getCycleCount()
 	{
-		CycleFinder finder = new ExtensiveDepthFirstSearchCycleFinder();
+		CycleFinder finder = new ExhaustiveDepthFirstSearchCycleFinder();
 		return finder.cycleCount(this);
 	}
 
 	public boolean isPancyclic()
 	{
-		CycleFinder finder = new ExtensiveDepthFirstSearchCycleFinder();
+		CycleFinder finder = new ExhaustiveDepthFirstSearchCycleFinder();
 		return finder.isPancyclic(this);
 	}
 
 	public boolean isUnicyclic()
 	{
-		CycleFinder finder = new ExtensiveDepthFirstSearchCycleFinder();
+		CycleFinder finder = new ExhaustiveDepthFirstSearchCycleFinder();
 		return finder.isUnicyclic(this);
 	}
 
 	public int getGirth()
 	{
-		CycleFinder finder = new ExtensiveDepthFirstSearchCycleFinder();
+		CycleFinder finder = new ExhaustiveDepthFirstSearchCycleFinder();
 		return finder.girth(this);
 	}
 
 	public int getCircumference()
 	{
-		CycleFinder finder = new ExtensiveDepthFirstSearchCycleFinder();
+		CycleFinder finder = new ExhaustiveDepthFirstSearchCycleFinder();
 		return finder.circumference(this);
 	}
 
