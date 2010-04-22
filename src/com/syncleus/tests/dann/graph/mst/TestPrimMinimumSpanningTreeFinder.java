@@ -58,7 +58,7 @@ public class TestPrimMinimumSpanningTreeFinder
 
 		Graph<Object, BidirectedEdge<Object>> graph = new SimpleGraph<Object, BidirectedEdge<Object>>(nodes, edges);
 
-		MinimumSpanningTreeFinder finder = new PrimMinimumSpanningTreeFinder();
+		RootedMinimumSpanningTreeFinder<BidirectedEdge<Object>> finder = new PrimMinimumSpanningTreeFinder<BidirectedEdge<Object>>();
 		Set<BidirectedEdge<Object>> mstEdges = finder.findMinimumSpanningTree(graph);
 		TreeGraph<Object, BidirectedEdge<Object>> mst = new SimpleTreeGraph<Object, BidirectedEdge<Object>>(graph.getNodes(), mstEdges);
 

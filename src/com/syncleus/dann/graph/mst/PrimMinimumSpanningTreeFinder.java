@@ -28,7 +28,7 @@ import com.syncleus.dann.graph.topological.TopologicalSorter;
 import java.util.*;
 import java.util.Map.Entry;
 
-public class PrimMinimumSpanningTreeFinder<E extends Edge<?>> implements MinimumSpanningTreeFinder<E>
+public class PrimMinimumSpanningTreeFinder<E extends Edge<?>> implements RootedMinimumSpanningTreeFinder<E>
 {
 	public Set<E> findMinimumSpanningTree(Graph<?, ? extends E> graph)
 	{
@@ -56,7 +56,7 @@ public class PrimMinimumSpanningTreeFinder<E extends Edge<?>> implements Minimum
 		return this.primCalculate((Graph)graph, startNode);
 	}
 
-	public Set<E> findMinimumSpanningTree(Graph<?, ? extends E> graph, Object startNode)
+	public <N> Set<E> findMinimumSpanningTree(Graph<N, ? extends E> graph, N startNode)
 	{
 		return primCalculate((Graph)graph, startNode);
 	}
