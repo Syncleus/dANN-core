@@ -22,13 +22,67 @@ import java.util.*;
 
 public interface Graph<N, E extends Edge<N>>
 {
-	//connectivity
+	/**
+	 * Get a set of all Nodes in the graph.
+	 * @return An unmodifiable set of all nodes in the graph.
+	 */
 	Set<N> getNodes();
+
+	/**
+	 * A set of all edges in the graph. Two edges in the set, and in the graph
+	 * map have the same end points unless equals of the edges being used
+	 * contradicts this.
+	 *
+	 * @return An unmodifiable set of a all edges in the graph.
+	 */
 	Set<E> getEdges();
+
+	/**
+	 * Get a set of all edges which have node as an end point. You may not be
+	 * able to traverse from node across all of these edges. If you only want
+	 * edges you can traverse then see getTraversableEdges. Throws an
+	 * IllegalArgumentException if node is not in the graph.
+	 *
+	 * @see getTraversableEdges(N node)
+	 * @param node the end point for all edges to retrieve.
+	 * @return An unmodifiable set of all edges that has node as an end point.
+	 */
 	Set<E> getEdges(N node);
+
+	/**
+	 * Get a set of all edges which you can traverse from node. Of course node
+	 * will always be an end point for each edge returned. Throws an
+	 * IllegalArgumentException if node is not in the graph.
+	 *
+	 * @param node edges returned will be traversable from this node.
+	 * @return An unmodifiable set of all edges that can be traversed from node.
+	 */
 	Set<E> getTraversableEdges(N node);
+
+	/**
+	 * The total degree of the specified node. This is essentially the number
+	 * of edges which has node as an end point. This will always be equal to
+	 * getEdges().size(). Throws an IllegalArgumentException if node is not
+	 * in the graph.
+	 *
+	 * @see getEdges()
+	 * @param node A node in the graph
+	 * @return the degree of the node.
+	 */
 	int getDegree(N node);
-	boolean isConnected(N leftNode, N rightNode);
+
+	/**
+	 * Determines if there is a path between from the firstNode to the lastNode.
+	 * Graphs do not need to be directed or undirected, another words there may
+	 * be a path from firstNode to lastNode even if there is no path from
+	 * lastNode to firstNode. Both nodes must be present in the graph or else
+	 * an InvalidArgumentException will be thrown.
+	 *
+	 * @param firstNode begining node to find a path from.
+	 * @param lastNode eding node to find a path to.
+	 * @return true if a path exists, false otherwise.
+	 */
+	boolean isConnected(N firstNode, N lastNode);
 	List<N> getNeighbors(N node);
 	List<N> getTraversableNeighbors(N node);
 
