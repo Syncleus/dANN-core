@@ -43,7 +43,7 @@ public interface Graph<N, E extends Edge<N>>
 	 * edges you can traverse then see getTraversableEdges. Throws an
 	 * IllegalArgumentException if node is not in the graph.
 	 *
-	 * @see getTraversableEdges(N node)
+	 * @see Graph#getTraversableEdges
 	 * @param node the end point for all edges to retrieve.
 	 * @return An unmodifiable set of all edges that has node as an end point.
 	 */
@@ -65,7 +65,7 @@ public interface Graph<N, E extends Edge<N>>
 	 * getEdges().size(). Throws an IllegalArgumentException if node is not
 	 * in the graph.
 	 *
-	 * @see getEdges()
+	 * @see Graph#getEdges()
 	 * @param node A node in the graph
 	 * @return the degree of the node.
 	 */

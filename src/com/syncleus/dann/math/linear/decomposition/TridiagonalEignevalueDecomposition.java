@@ -51,15 +51,18 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 	 */
 	private List<RealNumber> realEigenvalues,  imaginaryEigenvalues;
 
-	/** Array for internal storage of eigenvectors.
-	@serial internal storage of eigenvectors.
+	/**
+	 * Array for internal storage of eigenvectors.
+	 * @serial internal storage of eigenvectors.
 	 */
 	private RealMatrix matrix;
 
 
-	/** Check for symmetry, then construct the eigenvalue decomposition
-	@param matrixToDecomposeElements    Square matrix
-	@return     Structure to access D and matrixElements.
+	/**
+	 * Check for symmetry, then construct the eigenvalue decomposition. Gives
+	 * access to D and matrixElements.
+	 *
+	 * @param matrixToDecompose Elements Square matrix
 	 */
 	public TridiagonalEignevalueDecomposition(RealMatrix matrixToDecompose)
 	{

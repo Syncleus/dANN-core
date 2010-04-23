@@ -196,7 +196,7 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>,
 	 * Gets the number of genes in the chromosome.
 	 *
 	 * @return the number of genes in the chromosome.
-	 * @snce 2.0
+	 * @since 2.0
 	 */
 	public final int getGeneCount()
 	{

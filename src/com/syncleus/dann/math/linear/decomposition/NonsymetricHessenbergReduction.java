@@ -33,14 +33,17 @@ public class NonsymetricHessenbergReduction implements java.io.Serializable, Hes
 	 */
 	private RealMatrix matrix;
 
-	/** Array for internal storage of nonsymmetric Hessenberg form.
-	@serial internal storage of nonsymmetric Hessenberg form.
+	/**
+	 * Array for internal storage of nonsymmetric Hessenberg form.
+	 * @serial internal storage of nonsymmetric Hessenberg form.
 	 */
 	private RealMatrix hessenbergMatrix;
 
-	/** Check for symmetry, then construct the eigenvalue decomposition
-	@param matrixToDecomposeElements    Square matrix
-	@return     Structure to access D and matrixElements.
+	/**
+	 * Check for symmetry, then construct the eigenvalue decomposition. Gives
+	 * access to D and matrixElements.
+	 *
+	 * @param matrixToDecompose Elements Square matrix
 	 */
 	public NonsymetricHessenbergReduction(RealMatrix matrixToDecompose)
 	{

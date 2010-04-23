@@ -63,17 +63,18 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 	 */
 	private int m,  n;
 
-	/** Construct the singular value decomposition
-	@param A    Rectangular matrix
-	@return     Structure to access U, S and V.
+	/**
+	 * Construct the singular value decomposition
+	 * 
+	 * @param matrix Rectangular matrix. Gives access to U, S and V.
 	 */
-	public StewartSingularValueDecomposition(RealMatrix Arg)
+	public StewartSingularValueDecomposition(RealMatrix matrix)
 	{
 		// Derived from LINPACK code.
 		// Initialize.
-		double[][] A = Arg.toDoubleArray();
-		m = Arg.getHeight();
-		n = Arg.getWidth();
+		double[][] A = matrix.toDoubleArray();
+		m = matrix.getHeight();
+		n = matrix.getWidth();
 
 		int nu = Math.min(m, n);
 		s = new double[Math.min(m + 1, n)];

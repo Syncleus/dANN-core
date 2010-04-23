@@ -51,9 +51,11 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 	private transient RealNumber cdivr,  cdivi;
 
 
-	/** Check for symmetry, then construct the eigenvalue decomposition
-	@param matrixToDecomposeElements    Square matrix
-	@return     Structure to access D and matrixElements.
+	/**
+	 * Check for symmetry, then construct the eigenvalue decomposition. Gives
+	 * access to D and matrixElements.
+	 * 
+	 * @param matrixToDecompose Elements Square matrix
 	 */
 	public SchurEigenvalueDecomposition(RealMatrix matrixToDecompose)
 	{

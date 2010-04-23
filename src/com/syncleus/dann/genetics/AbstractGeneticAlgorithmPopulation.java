@@ -78,8 +78,6 @@ public abstract class AbstractGeneticAlgorithmPopulation
 	 * Creates a new population with an initial population consisting of the
 	 * specified chromosomes and with the given Genetic Algorithm parameters.
 	 *
-	 * @param initialChromosomes The initial chromosomes for the first
-	 * generation of the population.
 	 * @param mutationDeviation The deviation used when mutating each chromosome
 	 * in the population.
 	 * @param crossoverPercentage The percentage change crossover will take
@@ -97,8 +95,6 @@ public abstract class AbstractGeneticAlgorithmPopulation
 	 * Creates a new population with an initial population consisting of the
 	 * specified chromosomes and with the given Genetic Algorithm parameters.
 	 *
-	 * @param initialChromosomes The initial chromosomes for the first
-	 * generation of the population.
 	 * @param mutationDeviation The deviation used when mutating each chromosome
 	 * in the population.
 	 * @param crossoverPercentage The percentage change crossover will take

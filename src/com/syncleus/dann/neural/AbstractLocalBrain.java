@@ -222,7 +222,7 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedGraph<Neuron,
 	 * the collection of neurons it does not disconnect it from other neurons.
 	 *
 	 * 
-	 * @param remove The neuron to remove.
+	 * @param removeNeuron The neuron to remove.
 	 * @since 1.0
 	 */
     protected boolean remove(Neuron removeNeuron)

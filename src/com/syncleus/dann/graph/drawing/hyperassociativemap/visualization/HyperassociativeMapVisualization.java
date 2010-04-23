@@ -54,7 +54,7 @@ public class HyperassociativeMapVisualization<D extends GraphDrawer<G, N>, G ext
 	 * Initializes a new visualization to represent the specified drawer.
 	 *
 	 *
-	 * @param drawer The drawer to represent by this BranchGroup
+	 * @param map The drawer to represent by this BranchGroup
 	 * @since 1.0
 	 */
     public HyperassociativeMapVisualization(D map)
@@ -67,7 +67,7 @@ public class HyperassociativeMapVisualization<D extends GraphDrawer<G, N>, G ext
 	 * nodes of the specified radius.
 	 *
 	 *
-	 * @param drawer The drawer to represent by this BranchGroup
+	 * @param map The drawer to represent by this BranchGroup
 	 * @param nodeRadius The radius of the spheres representing each node.
 	 * @since 1.0
 	 */

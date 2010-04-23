@@ -45,8 +45,7 @@ public class CholeskyBanachiewiczCholeskyDecomposition<M extends Matrix<M, F>, F
 	private boolean isSpd;
 
 	/** Cholesky algorithm for symmetric and positive definite matrix.
-	@param  A   Square, symmetric matrix.
-	@return     Structure to access L and isSpd flag.
+	 *  @param matrix Square, symmetric matrix.
 	 */
 	public CholeskyBanachiewiczCholeskyDecomposition(M matrix)
 	{

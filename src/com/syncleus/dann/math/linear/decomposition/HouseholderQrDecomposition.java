@@ -53,9 +53,11 @@ public class HouseholderQrDecomposition<M extends Matrix<M, F>, F extends Ordere
 	 */
 	private List<F> rDiagonal;
 
-	/** QR Decomposition, computed by Householder reflections.
-	@param matrixToDecompose    Rectangular matrix
-	@return     Structure to access factor and the Householder vectors and compute factor.
+	/**
+	 * QR Decomposition, computed by Householder reflections. gives access to
+	 * factor and the Householder vectors and compute factor.
+	 *
+	 * @param matrixToDecompose Rectangular matrix
 	 */
 	public HouseholderQrDecomposition(M matrixToDecompose)
 	{

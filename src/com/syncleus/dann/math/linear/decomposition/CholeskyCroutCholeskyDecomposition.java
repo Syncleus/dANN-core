@@ -34,19 +34,20 @@ public class CholeskyCroutCholeskyDecomposition<M extends Matrix<M, F>, F extend
 	 */
 	private boolean isSpd;
 
-	/** Right Triangular Cholesky Decomposition.
-	<P>
-	For a symmetric, positive definite matrix A, the Right Cholesky
-	decomposition is an upper triangular matrix R so that A = R'*R.
-	This constructor computes R with the Fortran inspired column oriented
-	algorithm used in LINPACK and MATLAB.  In Java, we suspect a row oriented,
-	lower triangular decomposition is faster.  We have temporarily included
-	this constructor here until timing experiments confirm this suspicion.
-
-	Cholesky algorithm for symmetric and positive definite matrix.
-	@param  A           Square, symmetric matrix.
-	@param  rightflag   Actual value ignored.
-	@return             Structure to access R and isspd flag.
+	/** 
+	 * Right Triangular Cholesky Decomposition.
+	 *
+	 * Cholesky algorithm for symmetric and positive definite matrix.
+	 *
+	 * For a symmetric, positive definite matrix A, the Right Cholesky
+	 * decomposition is an upper triangular matrix R so that A = R'*R.
+	 * This constructor computes R with the Fortran inspired column oriented
+	 * algorithm used in LINPACK and MATLAB.  In Java, we suspect a row oriented,
+	 * lower triangular decomposition is faster.  We have temporarily included
+	 * this constructor here until timing experiments confirm this suspicion.
+	 *
+	 * @param matrixToDecompose Square, symmetric matrix.
+	 * @param rightflag Actual value ignored.
 	 */
 	public CholeskyCroutCholeskyDecomposition(M matrixToDecompose, int rightflag)
 	{
@@ -104,11 +105,14 @@ public class CholeskyCroutCholeskyDecomposition<M extends Matrix<M, F>, F extend
 		return this.matrix;
 	}
 
-	/** Solve A*X = solutionMatrix
-	@param  solutionMatrix   A SimpleRealMatrix with as many rows as A and any number of columns.
-	@return     X so that L*L'*X = solutionMatrix
-	@exception  IllegalArgumentException  SimpleRealMatrix row dimensions must agree.
-	@exception  RuntimeException  SimpleRealMatrix is not symmetric positive definite.
+	/**
+	 * Solve A*X = solutionMatrix
+	 *
+	 * @param  matrixToSolve A SimpleRealMatrix with as many rows as A and any
+	 * number of columns.
+	 * @return X so that L*L'*X = matrixToSolve
+	 * @exception IllegalArgumentException  SimpleRealMatrix row dimensions must
+	 * agree or SimpleRealMatrix is not symmetric positive definite.
 	 */
 	public M solve(M matrixToSolve)
 	{
@@ -116,7 +120,7 @@ public class CholeskyCroutCholeskyDecomposition<M extends Matrix<M, F>, F extend
 		if(solutionMatrix.getHeight() != this.matrix.getHeight())
 			throw new IllegalArgumentException("Matrix row dimensions must agree.");
 		if(!isSpd)
-			throw new RuntimeException("Matrix is not symmetric positive definite.");
+			throw new IllegalArgumentException("Matrix is not symmetric positive definite.");
 
 		// Solve L*Y = solutionMatrix;
 		for(int k = 0; k < this.matrix.getHeight(); k++)

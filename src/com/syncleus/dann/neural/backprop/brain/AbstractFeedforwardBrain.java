@@ -95,10 +95,6 @@ public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
 	/**
 	 * Uses the given threadExecutor for executing tasks.
 	 *
-	 * @param neuronsPerLayer an array of the count of neurons in each layer.
-	 * Each element of the array represents the count of neurons for that
-	 * particular layer. the first layer (index 0) is the inputlayer, the last
-	 * layer (length - 1) is the output layer.
 	 * @param threadExecutor executor to use for executing tasks.
 	 * @since 2.0
 	 */
@@ -111,10 +107,6 @@ public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
 	 * Default constructor initializes a default threadExecutor based on the
 	 * number of processors.
 	 *
-	 * @param neuronsPerLayer an array of the count of neurons in each layer.
-	 * Each element of the array represents the count of neurons for that
-	 * particular layer. the first layer (index 0) is the inputlayer, the last
-	 * layer (length - 1) is the output layer.
 	 * @since 2.0
 	 */
 	public AbstractFeedforwardBrain()

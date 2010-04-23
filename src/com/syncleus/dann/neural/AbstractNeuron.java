@@ -30,8 +30,6 @@ import org.apache.log4j.Logger;
  *
  *
  * @author Syncleus, Inc.
- * @param <SN> Source Neurons allowed to connect to this Neuron.
- * @param <DN> Destination Neurons this Neuron is allowed to connect to.
  * @since 1.0
  *
  */
@@ -195,7 +193,7 @@ public abstract class AbstractNeuron implements Neuron
      *
      * @since 1.0
      * @return the derivative output of the activationFunction
-     * @see com.syncleus.dann.neural.NeuronImpl#activationFunction
+     * @see com.syncleus.dann.neural.AbstractNeuron#activationFunction
      */
     protected final double activateDerivitive()
     {

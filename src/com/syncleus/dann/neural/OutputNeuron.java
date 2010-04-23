@@ -24,8 +24,6 @@ package com.syncleus.dann.neural;
  *
  *
  * @author Syncleus, Inc.
- * @param <SN> The type of Neuron allowed to connect to this Neuron.
- * @param <DN> The type of Neuron this Neuron is allowed to connect to.
  * @since 1.0
  *
  */

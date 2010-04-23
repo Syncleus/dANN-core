@@ -44,7 +44,7 @@ public class BackpropNeuron extends AbstractNeuron//<AbstractNeuron, BackpropNeu
      * inputs. It is essentially the reverse of the activity value.
      *
      * @since 1.0
-     * @see com.syncleus.dann.neural.NeuronImpl#activity
+     * @see com.syncleus.dann.neural.AbstractNeuron#activity
      */
     protected double deltaTrain = 0;
 
@@ -53,7 +53,6 @@ public class BackpropNeuron extends AbstractNeuron//<AbstractNeuron, BackpropNeu
 	/**
 	 * A hashtable which contains the current delta train for each of the
 	 * destination synapses.
-	 *
 	 *
 	 * @since 1.0
 	 */
@@ -66,7 +65,6 @@ public class BackpropNeuron extends AbstractNeuron//<AbstractNeuron, BackpropNeu
     /**
      * Creates a new default instance of BackpropNeuron
 	 *
-     *
      * @since 1.0
      */
     public BackpropNeuron(Brain brain)
@@ -79,7 +77,6 @@ public class BackpropNeuron extends AbstractNeuron//<AbstractNeuron, BackpropNeu
 	/**
 	 * Creates a new instance of BackpropNeuron with the specified activation
 	 * function.
-	 *
 	 *
 	 * @param activationFunction The Neuron's activation function.
 	 * @since 1.0
@@ -94,7 +91,6 @@ public class BackpropNeuron extends AbstractNeuron//<AbstractNeuron, BackpropNeu
 	 * Creates a new instance of a BackpropNeuron using the default activation
 	 * function with the specified learning rate.
 	 *
-	 *
 	 * @param learningRate learning rate of this neuron.
 	 * @since 1.0
 	 */
@@ -108,7 +104,6 @@ public class BackpropNeuron extends AbstractNeuron//<AbstractNeuron, BackpropNeu
 	 * Creates a new instance of a BackpropNeuron with the specified activtion
 	 * function and learning rate.
 	 *
-	 *
 	 * @param activationFunction Activation function for this neuron.
 	 * @param learningRate Learning rate for this neuron.
 	 */
@@ -120,66 +115,11 @@ public class BackpropNeuron extends AbstractNeuron//<AbstractNeuron, BackpropNeu
 
     // </editor-fold>
 
-    // <editor-fold defaultstate="collapsed" desc="Topology Manipulation">
-
-    /**
-     * This method is called externally to connect to another BackpropNeuron.
-	 *
-     *
-     * @since 1.0
-     * @param outUnit The BackpropNeuron to connect to.
-	 * @throws com.syncleus.dann.InvalidConnectionTypeDannException Not
-	 * thrown, but children are allowed to throw this exception.
-     * @see com.syncleus.dann.neural.NeuronImpl#connectFrom
-     *
-	@Override
-    public SimpleSynapse connectTo(BackpropNeuron outUnit) throws InvalidConnectionTypeDannException
-    {
-		SimpleSynapse outSynapse = super.connectTo(outUnit);
-		this.deltaTrainDestinations.put(outSynapse, Double.valueOf(0.0));
-		return outSynapse;
-    }
-
-    /**
-     * Called internally to facilitate the removal of a connection.
-	 *
-     *
-     * @since 1.0
-     * @param outSynapse The incomming synapse to remove from memory.
-     * @see com.syncleus.dann.neural.Neuron#disconnectSource
-     *
-	@Override
-	protected void removeDestination(SimpleSynapse outSynapse) throws SynapseDoesNotExistDannException
-	{
-		super.removeDestination(outSynapse);
-		this.deltaTrainDestinations.remove(outSynapse);
-	}
-
-    /**
-     * Disconnects from a perticular outgoing connection.
-	 *
-     *
-     * @since 1.0
-     * @param outSynapse The outgoing synapse to disconnect from.
-     * @see com.syncleus.dann.neural.NeuronImpl#removeSource
-	 * @throws SynapseNotConnectedException Thrown if the specified synapse isnt
-	 * currently connected.
-     *
-	@Override
-	public void disconnectDestination(SimpleSynapse outSynapse) throws SynapseNotConnectedDannException
-	{
-		super.disconnectDestination(outSynapse);
-		this.deltaTrainDestinations.remove(outSynapse);
-	}*/
-
-	// </editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="Propogation">
 
     /**
      * Backpropogates the training data to all the incomming synapses.
 	 *
-     *
      * @since 1.0
      */
     public void backPropagate()
@@ -209,7 +149,6 @@ public class BackpropNeuron extends AbstractNeuron//<AbstractNeuron, BackpropNeu
     /**
      * Calculates the Delta Train based on all the destination synapses
 	 *
-     *
      * @since 1.0
      * @see com.syncleus.dann.neural.backprop.BackpropNeuron#backPropagate
      */
@@ -225,7 +164,6 @@ public class BackpropNeuron extends AbstractNeuron//<AbstractNeuron, BackpropNeu
 
 	/**
 	 * Gets the current delta train of the neuron.
-	 *
 	 *
 	 * @return The delta train of the neuron.
 	 * @since 1.0

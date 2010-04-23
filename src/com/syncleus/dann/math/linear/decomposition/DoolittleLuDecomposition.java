@@ -60,9 +60,11 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 	 */
 	private int[] pivot;
 
-	/** matrixToDecomposeElements Decomposition
-	@param  matrixToDecompose   Rectangular matrix
-	@return     Structure to access lowerTriangularFactor, U and pivot.
+	/**
+	 * matrixToDecompose Elements Decomposition. Structure to access
+	 * lowerTriangularFactor, U and pivot.
+	 *
+	 * @param  matrixToDecompose Rectangular matrix
 	 */
 	public DoolittleLuDecomposition(M matrixToDecompose)
 	{

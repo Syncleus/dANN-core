@@ -27,8 +27,6 @@ import java.io.Serializable;
  *
  *
  * @author Syncleus, Inc.
- * @param <SN> Source Neurons allowed to connect to this Neuron.
- * @param <DN> Destination Neurons this Neuron is allowed to connect to.
  * @since 1.0
  *
  */
