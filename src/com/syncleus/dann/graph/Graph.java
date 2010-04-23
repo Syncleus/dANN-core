@@ -113,7 +113,8 @@ public interface Graph<N, E extends Edge<N>>
 
 	/**
 	 * If there is atleast one path from every Node in the graph to any other
-	 * node in the graph then true, false otherwise.
+	 * node in the graph then true, false otherwise. This is analogus with
+	 * Strongly connected.
 	 *
 	 * @return true if the graph is connected, false otherwise.
 	 */
