@@ -29,8 +29,8 @@ public interface Graph<N, E extends Edge<N>>
 	Set<N> getNodes();
 
 	/**
-	 * A set of all edges in the graph. Two edges in the set, and in the graph
-	 * map have the same end points unless equals of the edges being used
+	 * Get a set of all edges in the graph. Two edges in the set, and in the
+	 * graph map have the same end points unless equals of the edges being used
 	 * contradicts this.
 	 *
 	 * @return An unmodifiable set of a all edges in the graph.
@@ -72,8 +72,8 @@ public interface Graph<N, E extends Edge<N>>
 	int getDegree(N node);
 
 	/**
-	 * Determines if there is a path between from the firstNode to the lastNode.
-	 * Graphs do not need to be directed or undirected, another words there may
+	 * Determines if there is a path from the firstNode to the lastNode. Graphs
+	 * do not need to be directed or undirected, another words there may
 	 * be a path from firstNode to lastNode even if there is no path from
 	 * lastNode to firstNode. Both nodes must be present in the graph or else
 	 * an InvalidArgumentException will be thrown.
@@ -83,10 +83,40 @@ public interface Graph<N, E extends Edge<N>>
 	 * @return true if a path exists, false otherwise.
 	 */
 	boolean isConnected(N firstNode, N lastNode);
+
+	/**
+	 * Get a list of all nodes adjacent to node. All edges connected to this
+	 * node has its other end points added to the list returned. node itself
+	 * will appear in the list once for every loop. If there are multiple edges
+	 * connecting node with a particular end point it will appear multiple
+	 * times in the list, once for each hop to the end point.
+	 *
+	 * @param node A node currently in the graph.
+	 * @return A list of all nodes adjacent to node, empty set if the node has
+	 * no edges.
+	 */
 	List<N> getNeighbors(N node);
+
+	/**
+	 * Get a list of all reachable nodes adjacent to node. All edges connected
+	 * to node and is traversable from node will have its destination node(s)
+	 * added to the returned list. node itself will appear in the list once for
+	 * every loop. If there are multiple edges connecting node with a particular
+	 * end point then the end point will appear multiple times in the list, once
+	 * for each hop to the end point.
+	 *
+	 * @param node A node curretly in the graph.
+	 * @return A list of all nodes adjacent to node and traversable from node,
+	 * empty set if the node has no edges.
+	 */
 	List<N> getTraversableNeighbors(N node);
 
-	//attributes/properties
+	/**
+	 * If there is atleast one path from every Node in the graph to any other
+	 * node in the graph then true, false otherwise.
+	 *
+	 * @return true if the graph is connected, false otherwise.
+	 */
 	boolean isConnected();
 	Set<Graph<N,E>> getConnectedComponents();
 	boolean isMaximalSubgraph(Graph<N,E> subgraph);
