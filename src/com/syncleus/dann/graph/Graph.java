@@ -30,8 +30,8 @@ public interface Graph<N, E extends Edge<N>>
 
 	/**
 	 * Get a set of all edges in the graph. Two edges in the set, and in the
-	 * graph map have the same end points unless equals of the edges being used
-	 * contradicts this.
+	 * graph, may have the same end points unless equals in the edges used by
+	 * this graph restrict that possiblity.
 	 *
 	 * @return An unmodifiable set of a all edges in the graph.
 	 */
@@ -176,14 +176,89 @@ public interface Graph<N, E extends Edge<N>>
 	 * with a single end point then that edge will also be removed.
 	 *
 	 * @param node node to remove when checking for a cut.
-	 * @return true if the nodeis a cut node, False otherwise.
+	 * @return true if the node is a cut node, False otherwise.
 	 */
 	boolean isCut(N node);
-	
+
+	/**
+	 * Determines if edge forms a cut. It is a cut if by removing the specified
+	 * edge the number of maximally connected components is increased.
+	 *
+	 * @param edge edge to remove when checking for a cut.
+	 * @return true if the edge is a cut edge, False otherwise.
+	 */
 	boolean isCut(E edge);
+
+	/**
+	 * Determines if the set of nodes and edges form a cut between begin and end
+	 * nodes. They are a cut if by removing all the specified nodes and edges
+	 * there is no longer a path between begin and end. Its important to note
+	 * that when removing a node that node will also be removed as an end point
+	 * from all edges. If as a result a edge is left with a single end point
+	 * then that edge will also be removed even if it isnt speciically listed in
+	 * edges.
+	 *
+	 * @param nodes set of nodes to remove when checking for a cut.
+	 * @param edges set of edges to remove when checking for a cut.
+	 * @param begin any node in the graph with a path to end.
+	 * @param end any node in the graph with a path from begin
+	 * @return true if the nodes and edges form a cut between begin and end,
+	 * false otherwise.
+	 * @throws IllegalArgumentException if any of nodes, edges, begin, or end
+	 * are not in this graph or begin and end have no path between them before
+	 * the cut.
+	 */
 	boolean isCut(Set<N> nodes, Set<E> edges, N begin, N end);
+
+	/**
+	 * Determines if the set of edges form a cut between begin and end
+	 * nodes. They are a cut if by removing all the specified edges
+	 * there is no longer a path between begin and end.
+	 *
+	 * @param edges set of edges to remove when checking for a cut.
+	 * @param begin any node in the graph with a path to end.
+	 * @param end any node in the graph with a path from begin
+	 * @return true if the edges form a cut between begin and end, false
+	 * otherwise.
+	 * @throws IllegalArgumentException if any of nodes, edges, begin, or end
+	 * are not in this graph or begin and end have no path between them before
+	 * the cut.
+	 */
 	boolean isCut(Set<E> edges, N begin, N end);
+
+	/**
+	 * Determines if the node is a cut node between begin and end nodes. It is
+	 * a cut if by removing the specified node there is no longer a path between
+	 * begin and end. Its important to note that when removing the node that
+	 * node will also be removed as an end point from all edges. If as a result
+	 * a edge is left with a single end point then that edge will also be
+	 * removed even if it isnt speciically listed in edges.
+	 *
+	 * @param node node to remove when checking for a cut.
+	 * @param begin any node in the graph with a path to end.
+	 * @param end any node in the graph with a path from begin
+	 * @return true if the node forms a cut between begin and end, false
+	 * otherwise.
+	 * @throws IllegalArgumentException if any of nodes, edges, begin, or end
+	 * are not in this graph or begin and end have no path between them before
+	 * the cut.
+	 */
 	boolean isCut(N node, N begin, N end);
+
+	/**
+	 * Determines if the edge is a cut edge between begin and end nodes. It is
+	 * a cut if by removing the specified edge there is no longer a path between
+	 * begin and end.
+	 *
+	 * @param edge edge to remove when checking for a cut.
+	 * @param begin any node in the graph with a path to end.
+	 * @param end any node in the graph with a path from begin
+	 * @return true if the edge forms a cut between begin and end, false
+	 * otherwise.
+	 * @throws IllegalArgumentException if any of nodes, edges, begin, or end
+	 * are not in this graph or begin and end have no path between them before
+	 * the cut.
+	 */
 	boolean isCut(E edge, N begin, N end);
 	int getNodeConnectivity();
 	int getEdgeConnectivity();
