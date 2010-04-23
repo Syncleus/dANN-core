@@ -21,7 +21,7 @@ package com.syncleus.dann.graph.mst;
 import com.syncleus.dann.graph.*;
 import java.util.Set;
 
-public interface RootedMinimumSpanningTreeFinder<E extends Edge<?>> extends MinimumSpanningTreeFinder<E>
+public interface RootedMinimumSpanningTreeFinder<N, E extends Edge<N>> extends MinimumSpanningTreeFinder<N,E>
 {
-	<N> Set<E> findMinimumSpanningTree(Graph<N, ? extends E> graph, N startNode);
+	Set<E> findMinimumSpanningTree(Graph<N,E> graph, N startNode);
 }

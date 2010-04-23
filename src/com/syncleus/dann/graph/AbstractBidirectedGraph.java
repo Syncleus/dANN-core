@@ -20,7 +20,7 @@ package com.syncleus.dann.graph;
 
 import java.util.Set;
 
-public abstract class AbstractBidirectedGraph<N, E extends BidirectedEdge<? extends N>> extends AbstractGraph<N,E> implements BidirectedGraph<N,E>
+public abstract class AbstractBidirectedGraph<N, E extends BidirectedEdge<N>> extends AbstractGraph<N,E> implements BidirectedGraph<N,E>
 {
 	public boolean isStronglyConnected()
 	{

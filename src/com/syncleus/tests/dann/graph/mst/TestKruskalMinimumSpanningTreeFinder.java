@@ -58,7 +58,7 @@ public class TestKruskalMinimumSpanningTreeFinder
 
 		Graph<Object, BidirectedEdge<Object>> graph = new SimpleGraph<Object, BidirectedEdge<Object>>(nodes, edges);
 
-		MinimumSpanningTreeFinder<BidirectedEdge<Object>> finder = new KruskalMinimumSpanningTreeFinder<BidirectedEdge<Object>>();
+		MinimumSpanningTreeFinder<Object, BidirectedEdge<Object>> finder = new KruskalMinimumSpanningTreeFinder<Object, BidirectedEdge<Object>>();
 		Set<BidirectedEdge<Object>> mstEdges = finder.findMinimumSpanningTree(graph);
 		TreeGraph<Object, BidirectedEdge<Object>> mst = new SimpleTreeGraph<Object, BidirectedEdge<Object>>(graph.getNodes(), mstEdges);
 

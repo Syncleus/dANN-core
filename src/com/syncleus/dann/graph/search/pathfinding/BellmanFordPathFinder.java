@@ -118,8 +118,6 @@ public class BellmanFordPathFinder<N, E extends DirectedEdge<N>> implements Path
 	{
 		if( graph == null )
 			throw new IllegalArgumentException("graph can not be null");
-		if( graph.isMultigraph() )
-			throw new IllegalArgumentException("graph can not be a multigraph");
 
 		this.graph = graph;
 	}

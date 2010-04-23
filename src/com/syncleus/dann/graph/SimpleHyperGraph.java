@@ -20,14 +20,14 @@ package com.syncleus.dann.graph;
 
 import java.util.*;
 
-public class SimpleHyperGraph<N, E extends HyperEdge<? extends N>> extends AbstractHyperGraph<N,E>
+public class SimpleHyperGraph<N, E extends HyperEdge<N>> extends AbstractHyperGraph<N,E>
 {
 	final private Set<N> nodes;
 	final private Set<E> edges;
 	final private Map<N, Set<E>> neighborEdges = new HashMap<N, Set<E>>();
 	final private Map<N, List<N>> neighborNodes = new HashMap<N, List<N>>();
 
-	public SimpleHyperGraph(Set<? extends N> nodes, Set<? extends E> edges)
+	public SimpleHyperGraph(Set<N> nodes, Set<E> edges)
 	{
 		this.nodes = new HashSet<N>(nodes);
 		this.edges = new HashSet<E>(edges);

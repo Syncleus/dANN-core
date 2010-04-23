@@ -23,9 +23,9 @@ import com.syncleus.dann.graph.topological.*;
 import java.util.*;
 import java.util.Map.Entry;
 
-public class PrimMinimumSpanningTreeFinder<E extends Edge<?>> implements RootedMinimumSpanningTreeFinder<E>
+public class PrimMinimumSpanningTreeFinder<N,E extends Edge<N>> implements RootedMinimumSpanningTreeFinder<N,E>
 {
-	public Set<E> findMinimumSpanningTree(Graph<?, ? extends E> graph)
+	public Set<E> findMinimumSpanningTree(Graph<N,E> graph)
 	{
 		boolean isDirected = false;
 		if( graph instanceof BidirectedGraph )
@@ -36,39 +36,39 @@ public class PrimMinimumSpanningTreeFinder<E extends Edge<?>> implements RootedM
 					isDirected = false;
 		}
 
-		Object startNode;
+		N startNode;
 		if( isDirected )
 		{
-			TopologicalSorter<Object> sorter = new SimpleTopologicalSorter<Object>();
-			List<Object> sortedNodes = sorter.sort((BidirectedGraph)graph);
+			TopologicalSorter<N> sorter = new SimpleTopologicalSorter<N>();
+			List<N> sortedNodes = sorter.sort((BidirectedGraph)graph);
 			startNode = sortedNodes.get(0);
 		}
 		else
 		{
-			startNode = graph.getNodes().toArray()[0];
+			startNode = (N) graph.getNodes().toArray()[0];
 		}
 
 		return this.primCalculate((Graph)graph, startNode);
 	}
 
-	public <N> Set<E> findMinimumSpanningTree(Graph<N, ? extends E> graph, N startNode)
+	public Set<E> findMinimumSpanningTree(Graph<N,E> graph, N startNode)
 	{
 		return primCalculate((Graph)graph, startNode);
 	}
 
-	private Set<E> primCalculate(Graph<Object, E> graph, Object startNode)
+	private Set<E> primCalculate(Graph<N,E> graph, N startNode)
 	{
 		Set<E> mst = new HashSet<E>();
 		PrimMap primMap = new PrimMap();
-		for(Object node : graph.getNodes())
+		for(N node : graph.getNodes())
 			primMap.put(node, null);
 
-		Object currentNode = null;
+		N currentNode = null;
 		while(!primMap.isEmpty())
 		{
 			if(currentNode != null)
 			{
-				Entry<Object,E> currentEntry = primMap.pop();
+				Entry<N,E> currentEntry = primMap.pop();
 				currentNode = currentEntry.getKey();
 				mst.add(currentEntry.getValue());
 			}
@@ -81,10 +81,10 @@ public class PrimMinimumSpanningTreeFinder<E extends Edge<?>> implements RootedM
 			Set<E> neighborEdges = graph.getTraversableEdges(currentNode);
 			for(E neighborEdge : neighborEdges)
 			{
-				List<Object> neighborNodes = new ArrayList<Object>(neighborEdge.getNodes());
+				List<N> neighborNodes = new ArrayList<N>(neighborEdge.getNodes());
 				//remove all occurance of currentNode, not just the first
 				while( neighborNodes.remove(currentNode) ){}
-				for(Object neighborNode : neighborNodes)
+				for(N neighborNode : neighborNodes)
 				{
 					if(primMap.containsKey(neighborNode))
 					{
@@ -100,24 +100,24 @@ public class PrimMinimumSpanningTreeFinder<E extends Edge<?>> implements RootedM
 		return mst;
 	}
 
-	private class PrimMap extends HashMap<Object,E>
+	private class PrimMap extends HashMap<N,E>
 	{
-		final Queue<Entry<Object,E>> weightedNodes = new PriorityQueue<Entry<Object,E>>(10, new EntryCompare());
+		final Queue<Entry<N,E>> weightedNodes = new PriorityQueue<Entry<N,E>>(10, new EntryCompare());
 
 		public void resort()
 		{
 			weightedNodes.clear();
-			for(Entry<Object,E> entry : this.entrySet())
+			for(Entry<N,E> entry : this.entrySet())
 				weightedNodes.add(entry);
 		}
 
-		public double getWeight(Object node)
+		public double getWeight(N node)
 		{
 			E edge = this.get(node);
 			return edgeToWeight(edge);
 		}
 
-		public boolean isLess(Object node, E edge)
+		public boolean isLess(N node, E edge)
 		{
 			if(edge == null)
 				throw new IllegalArgumentException("edge can not be null");
@@ -136,17 +136,17 @@ public class PrimMinimumSpanningTreeFinder<E extends Edge<?>> implements RootedM
 				return 0;
 		}
 
-		public Entry<Object,E> pop()
+		public Entry<N,E> pop()
 		{
-			Entry<Object,E> poped = weightedNodes.poll();
+			Entry<N,E> poped = weightedNodes.poll();
 			if(poped != null)
 				this.remove(poped.getKey());
 			return poped;
 		}
 
-		private class EntryCompare implements Comparator<Entry<Object,E>>
+		private class EntryCompare implements Comparator<Entry<N,E>>
 		{
-			public int compare(Entry<Object,E> first, Entry<Object,E> second)
+			public int compare(Entry<N,E> first, Entry<N,E> second)
 			{
 				double firstWeight = 0;
 				if(first.getValue() == null)

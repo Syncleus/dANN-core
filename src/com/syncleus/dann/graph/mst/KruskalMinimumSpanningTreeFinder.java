@@ -21,12 +21,12 @@ package com.syncleus.dann.graph.mst;
 import com.syncleus.dann.graph.*;
 import java.util.*;
 
-public class KruskalMinimumSpanningTreeFinder<E extends Edge<?>> implements MinimumSpanningTreeFinder<E>
+public class KruskalMinimumSpanningTreeFinder<N, E extends Edge<N>> implements MinimumSpanningTreeFinder<N,E>
 {
-	public Set<E> findMinimumSpanningTree(Graph<?, ? extends E> graph)
+	public Set<E> findMinimumSpanningTree(Graph<N,E> graph)
 	{
-		final Set<Set<?>> componentNodeSets = new HashSet<Set<?>>();
-		for(Object node : graph.getNodes())
+		final Set<Set<N>> componentNodeSets = new HashSet<Set<N>>();
+		for(N node : graph.getNodes())
 			componentNodeSets.add(Collections.singleton(node));
 		final Queue<E> edgeQueue = new PriorityQueue<E>(graph.getEdges().size(), new WeightComparator<E>());
 		edgeQueue.addAll(graph.getEdges());
@@ -41,10 +41,10 @@ public class KruskalMinimumSpanningTreeFinder<E extends Edge<?>> implements Mini
 			if( queuedEdge == null )
 				throw new IllegalArgumentException("There is no spanning tree!");
 			
-			Set<Set<?>> setContainingEndNodes = new HashSet<Set<?>>();
-			for(Set<?> component : componentNodeSets)
+			Set<Set<N>> setContainingEndNodes = new HashSet<Set<N>>();
+			for(Set<N> component : componentNodeSets)
 			{
-				for(Object endNode : queuedEdge.getNodes())
+				for(N endNode : queuedEdge.getNodes())
 				{
 					if( component.contains(endNode) )
 						setContainingEndNodes.add(component);

@@ -20,20 +20,20 @@ package com.syncleus.dann.graph;
 
 import java.util.*;
 
-public class SimpleDirectedGraph<N, E extends DirectedEdge<? extends N>> extends AbstractBidirectedGraph<N,E>
+public class SimpleDirectedGraph<N, E extends DirectedEdge<N>> extends AbstractBidirectedGraph<N,E>
 {
 	final private Set<N> nodes;
 	final private Set<E> edges;
 	final private Map<N, Set<E>> neighborEdges = new HashMap<N, Set<E>>();
 	final private Map<N, List<N>> neighborNodes = new HashMap<N, List<N>>();
 
-	public SimpleDirectedGraph(Set<? extends N> nodes, Set<? extends E> edges)
+	public SimpleDirectedGraph(Set<N> nodes, Set<E> edges)
 	{
 		this.nodes = new HashSet<N>(nodes);
 		this.edges = new HashSet<E>(edges);
 		for(E edge : edges)
 		{
-			final List<? extends N> edgeNodes = edge.getNodes();
+			final List<N> edgeNodes = edge.getNodes();
 			for(int startNodeIndex = 0; startNodeIndex < edgeNodes.size(); startNodeIndex++)
 			{
 				if(!this.nodes.contains(edgeNodes.get(startNodeIndex)))

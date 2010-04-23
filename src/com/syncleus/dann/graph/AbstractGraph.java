@@ -23,7 +23,7 @@ import com.syncleus.dann.graph.cycle.ExhaustiveDepthFirstSearchCycleFinder;
 import com.syncleus.dann.math.set.Combinations;
 import java.util.*;
 
-public abstract class AbstractGraph<N, E extends Edge<? extends N>> implements Graph<N,E>
+public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 {
 	public int getDegree(N node)
 	{
@@ -75,7 +75,7 @@ public abstract class AbstractGraph<N, E extends Edge<? extends N>> implements G
 		return null;
 	}
 
-	public boolean isMaximalSubgraph(Graph<? extends N, ? extends E> subgraph)
+	public boolean isMaximalSubgraph(Graph<N,E> subgraph)
 	{
 		if( !this.isSubGraph(subgraph))
 			return false;
@@ -97,7 +97,7 @@ public abstract class AbstractGraph<N, E extends Edge<? extends N>> implements G
 		return true;
 	}
 
-	private SimpleGraph deleteFromGraph(Set<? extends N> nodes, Set<? extends E> edges)
+	private SimpleGraph deleteFromGraph(Set<N> nodes, Set<E> edges)
 	{
 		//remove the nodes
 		final Set cutNodes = this.getNodes();
@@ -131,17 +131,17 @@ public abstract class AbstractGraph<N, E extends Edge<? extends N>> implements G
 		return new SimpleGraph(cutNodes, cutEdges);
 	}
 
-	public boolean isCut(Set<? extends N> nodes, Set<? extends E> edges)
+	public boolean isCut(Set<N> nodes, Set<E> edges)
 	{
 		return this.deleteFromGraph(nodes, edges).isConnected();
 	}
 
-	public boolean isCut(Set<? extends N> nodes, Set<? extends E> edges, N begin, N end)
+	public boolean isCut(Set<N> nodes, Set<E> edges, N begin, N end)
 	{
 		return this.deleteFromGraph(nodes, edges).isConnected(begin, end);
 	}
 
-	public boolean isCut(Set<? extends E> edges)
+	public boolean isCut(Set<E> edges)
 	{
 		return this.isCut(Collections.EMPTY_SET, edges);
 	}
@@ -156,7 +156,7 @@ public abstract class AbstractGraph<N, E extends Edge<? extends N>> implements G
 		return this.isCut(Collections.EMPTY_SET, Collections.singleton(edge));
 	}
 
-	public boolean isCut(Set<? extends E> edges, N begin, N end)
+	public boolean isCut(Set<E> edges, N begin, N end)
 	{
 		return this.isCut(Collections.EMPTY_SET, edges, begin, end);
 	}
@@ -280,7 +280,7 @@ public abstract class AbstractGraph<N, E extends Edge<? extends N>> implements G
 		return (this.getCycleCount() == 0);
 	}
 
-	public boolean isSubGraph(Graph<? extends N, ? extends E> subgraph)
+	public boolean isSubGraph(Graph<N,E> subgraph)
 	{
 		Set<N> nodes = this.getNodes();
 		Set<? extends N> subnodes = subgraph.getNodes();
@@ -297,7 +297,7 @@ public abstract class AbstractGraph<N, E extends Edge<? extends N>> implements G
 		return true;
 	}
 
-	public boolean isKnot(Graph<? extends N, ? extends E> subGraph)
+	public boolean isKnot(Graph<N,E> subGraph)
 	{
 		return false;
 	}
@@ -314,19 +314,49 @@ public abstract class AbstractGraph<N, E extends Edge<? extends N>> implements G
 		return minimumDegree;
 	}
 
-	public boolean isMultigraph()
+	public boolean isMultigraph(boolean includeLoops)
+	{
+		if(includeLoops)
+		{
+			if(this.isSimple())
+				return false;
+			return true;
+		}
+
+		for(N currentNode : this.getNodes())
+		{
+			List<N> neighbors = new ArrayList<N>(this.getNeighbors(currentNode));
+			while( neighbors.remove(currentNode) )
+			{
+				//do nothing, just remove all instances of the currentNode
+			}
+			Set<N> uniqueNeighbors = new HashSet<N>(neighbors);
+			if(neighbors.size() > uniqueNeighbors.size())
+				return true;
+		}
+		return false;
+	}
+
+	public boolean isIsomorphic(Graph<N,E> isomorphicGraph)
+	{
+		return (this.isHomomorphic(isomorphicGraph) && isomorphicGraph.isHomomorphic(this));
+	}
+
+	public boolean isHomomorphic(Graph<N,E> homomorphicGraph)
 	{
 		return false;
 	}
 
-	public boolean isIsomorphic(Graph<? extends N, ? extends E> isomorphicGraph)
+	public boolean isSimple()
 	{
-		return false;
-	}
-
-	public boolean isHomomorphic(Graph<? extends N, ? extends E> homomorphicGraph)
-	{
-		return false;
+		for(N currentNode : this.getNodes())
+		{
+			List<N> neighbors = this.getNeighbors(currentNode);
+			Set<N> uniqueNeighbors = new HashSet<N>(neighbors);
+			if(neighbors.size() > uniqueNeighbors.size())
+				return false;
+		}
+		return true;
 	}
 
 	public boolean isRegular()

@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface TreeGraph<N, E extends BidirectedEdge<? extends N>> extends BidirectedGraph<N,E>
+public interface TreeGraph<N, E extends BidirectedEdge<N>> extends BidirectedGraph<N,E>
 {
 	boolean isLeaf(N node);
 	boolean isLeaf(E edge);

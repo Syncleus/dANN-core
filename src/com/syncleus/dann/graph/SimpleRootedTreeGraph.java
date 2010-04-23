@@ -20,7 +20,7 @@ package com.syncleus.dann.graph;
 
 import java.util.*;
 
-public class SimpleRootedTreeGraph<N, E extends DirectedEdge<? extends N>> extends AbstractRootedTreeGraph<N,E>
+public class SimpleRootedTreeGraph<N, E extends DirectedEdge<N>> extends AbstractRootedTreeGraph<N,E>
 {
 	final private Set<N> nodes;
 	final private Set<E> edges;
@@ -33,7 +33,7 @@ public class SimpleRootedTreeGraph<N, E extends DirectedEdge<? extends N>> exten
 		this.edges = new HashSet<E>(edges);
 		for(E edge : edges)
 		{
-			final List<? extends N> edgeNodes = edge.getNodes();
+			final List<N> edgeNodes = edge.getNodes();
 			for(int startNodeIndex = 0; startNodeIndex < edgeNodes.size(); startNodeIndex++)
 			{
 				if(!this.nodes.contains(edgeNodes.get(startNodeIndex)))

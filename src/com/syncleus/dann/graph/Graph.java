@@ -20,7 +20,7 @@ package com.syncleus.dann.graph;
 
 import java.util.*;
 
-public interface Graph<N, E extends Edge<? extends N>>
+public interface Graph<N, E extends Edge<N>>
 {
 	//connectivity
 	Set<N> getNodes();
@@ -35,13 +35,13 @@ public interface Graph<N, E extends Edge<? extends N>>
 	//attributes/properties
 	boolean isConnected();
 	Set<Graph<N,E>> getConnectedComponents();
-	boolean isMaximalSubgraph(Graph<? extends N, ? extends E> subgraph);
-	boolean isCut(Set<? extends N> nodes, Set<? extends E> edges);
-	boolean isCut(Set<? extends E> edges);
+	boolean isMaximalSubgraph(Graph<N,E> subgraph);
+	boolean isCut(Set<N> nodes, Set<E> edges);
+	boolean isCut(Set<E> edges);
 	boolean isCut(N nodes);
 	boolean isCut(E edges);
-	boolean isCut(Set<? extends N> nodes, Set<? extends E> edges, N begin, N end);
-	boolean isCut(Set<? extends E> edges, N begin, N end);
+	boolean isCut(Set<N> nodes, Set<E> edges, N begin, N end);
+	boolean isCut(Set<E> edges, N begin, N end);
 	boolean isCut(N node, N begin, N end);
 	boolean isCut(E edge, N begin, N end);
 	int getNodeConnectivity();
@@ -59,12 +59,13 @@ public interface Graph<N, E extends Edge<? extends N>>
 	boolean isSpanning(TreeGraph graph);
 	boolean isTraversable();
 	boolean isTree();
-	boolean isSubGraph(Graph<? extends N, ? extends E> graph);
-	boolean isKnot(Graph<? extends N, ? extends E> subGraph);
+	boolean isSubGraph(Graph<N,E> graph);
+	boolean isKnot(Graph<N,E> subGraph);
 	int getMinimumDegree();
-	boolean isMultigraph();
-	boolean isIsomorphic(Graph<? extends N, ? extends E> isomorphicGraph);
-	boolean isHomomorphic(Graph<? extends N, ? extends E> homomorphicGraph);
+	boolean isMultigraph(boolean includeLoops);
+	boolean isIsomorphic(Graph<N,E> isomorphicGraph);
+	boolean isHomomorphic(Graph<N,E> homomorphicGraph);
 	boolean isRegular();
 	int getRegularDegree();
+	boolean isSimple();
 }

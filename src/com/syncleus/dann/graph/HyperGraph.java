@@ -19,16 +19,16 @@
 package com.syncleus.dann.graph;
 
 
-public interface HyperGraph<N, E extends HyperEdge<? extends N>> extends Graph<N,E>
+public interface HyperGraph<N, E extends HyperEdge<N>> extends Graph<N,E>
 {
 	int getNeighborCount(N node);
 	boolean isSymmetric(N firstNode, N secondNode);
 	boolean isSymmetric(E firstEdge, E secondEdge);
 
-	boolean isPartial(HyperGraph partialGraph);
-	boolean isDual(HyperGraph dualGraph);
-	boolean isHost(HyperGraph hostGraph);
-	boolean isPrimal(Graph primalGraph);
+	boolean isPartial(HyperGraph<N,E> partialGraph);
+	boolean isDual(HyperGraph<N,E> dualGraph);
+	boolean isHost(HyperGraph<N,E> hostGraph);
+	boolean isPrimal(Graph<N,? extends Edge<N>> primalGraph);
 	boolean isUniform();
 	boolean isSymmetric();
 	boolean isVertexSymmetric();

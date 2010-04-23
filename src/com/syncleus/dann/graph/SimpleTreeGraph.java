@@ -20,20 +20,20 @@ package com.syncleus.dann.graph;
 
 import java.util.*;
 
-public class SimpleTreeGraph<N, E extends BidirectedEdge<? extends N>> extends AbstractTreeGraph<N,E>
+public class SimpleTreeGraph<N, E extends BidirectedEdge<N>> extends AbstractTreeGraph<N,E>
 {
 	final private Set<N> nodes;
 	final private Set<E> edges;
 	final private Map<N, Set<E>> neighborEdges = new HashMap<N, Set<E>>();
 	final private Map<N, List<N>> neighborNodes = new HashMap<N, List<N>>();
 
-	public SimpleTreeGraph(Set<? extends N> nodes, Set<? extends E> edges)
+	public SimpleTreeGraph(Set<N> nodes, Set<E> edges)
 	{
 		this.nodes = new HashSet<N>(nodes);
 		this.edges = new HashSet<E>(edges);
 		for(E edge : edges)
 		{
-			final List<? extends N> edgeNodes = edge.getNodes();
+			final List<N> edgeNodes = edge.getNodes();
 			for(int startNodeIndex = 0; startNodeIndex < edgeNodes.size(); startNodeIndex++)
 			{
 				if(!this.nodes.contains(edgeNodes.get(startNodeIndex)))
