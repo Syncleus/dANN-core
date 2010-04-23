@@ -344,7 +344,31 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 
 	public boolean isHomomorphic(Graph<N,E> homomorphicGraph)
 	{
-		return false;
+		Set<N> uncheckedNodes = new HashSet<N>(this.getNodes());
+		Set<N> homomorphicNodes = homomorphicGraph.getNodes();
+
+		while(!uncheckedNodes.isEmpty())
+		{
+			N currentNode = (N) uncheckedNodes.toArray()[0];
+			uncheckedNodes.remove(currentNode);
+
+			List<N> neighborNodes = this.getNeighbors(currentNode);
+			if(!neighborNodes.isEmpty())
+				if(!homomorphicNodes.contains(currentNode))
+					return false;
+			for(N neighborNode : neighborNodes )
+			{
+				if(uncheckedNodes.contains(neighborNode))
+				{
+					if( !homomorphicNodes.contains(neighborNode) )
+						return false;
+					if( !homomorphicGraph.getNeighbors(currentNode).contains(neighborNode))
+						return false;
+				}
+			}
+		}
+
+		return true;
 	}
 
 	public boolean isSimple()
