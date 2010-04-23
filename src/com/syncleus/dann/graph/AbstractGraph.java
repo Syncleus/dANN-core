@@ -260,18 +260,10 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 		return finder.circumference(this);
 	}
 
-	public boolean isTraceable()
+	public boolean isSpanning(TreeGraph<N,?> graph)
 	{
-		return false;
-	}
-
-	public boolean isSpanning(TreeGraph graph)
-	{
-		return false;
-	}
-
-	public boolean isTraversable()
-	{
+		if(this.getNodes().containsAll(graph.getNodes()))
+			return true;
 		return false;
 	}
 
@@ -295,11 +287,6 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 				return false;
 
 		return true;
-	}
-
-	public boolean isKnot(Graph<N,E> subGraph)
-	{
-		return false;
 	}
 
 	public int getMinimumDegree()

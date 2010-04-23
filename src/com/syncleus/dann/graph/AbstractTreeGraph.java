@@ -20,6 +20,8 @@ package com.syncleus.dann.graph;
 
 public abstract class AbstractTreeGraph<N, E extends BidirectedEdge<N>> extends AbstractBidirectedGraph<N,E> implements TreeGraph<N,E>
 {
+	// TODO restrict tree's to only maximally connected trees
+	
 	public boolean isLeaf(N node)
 	{
 		return (this.getDegree(node) == 1);

@@ -30,4 +30,5 @@ public interface BidirectedGraph<N, E extends BidirectedEdge<N>> extends Graph<N
 	boolean isStronglyConnected();
 	boolean isWeaklyConnected();
 	boolean isPolytree();
+	boolean isKnot();
 }

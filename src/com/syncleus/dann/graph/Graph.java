@@ -55,12 +55,9 @@ public interface Graph<N, E extends Edge<N>>
 	boolean isUnicyclic();
 	int getGirth();
 	int getCircumference();
-	boolean isTraceable();
-	boolean isSpanning(TreeGraph graph);
-	boolean isTraversable();
+	boolean isSpanning(TreeGraph<N,?> graph);
 	boolean isTree();
 	boolean isSubGraph(Graph<N,E> graph);
-	boolean isKnot(Graph<N,E> subGraph);
 	int getMinimumDegree();
 	boolean isMultigraph(boolean includeLoops);
 	boolean isIsomorphic(Graph<N,E> isomorphicGraph);
