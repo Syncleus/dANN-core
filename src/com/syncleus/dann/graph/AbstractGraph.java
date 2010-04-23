@@ -70,8 +70,9 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 		return false;
 	}
 
-	public Set<Graph<N,E>> getConnectedComponents()
+	public Set<Graph<N,E>> getMaximallyConnectedComponents()
 	{
+		// TODO fill this in
 		return null;
 	}
 

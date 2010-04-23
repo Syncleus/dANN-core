@@ -32,7 +32,7 @@ public interface BidirectedGraph<N, E extends BidirectedEdge<N>> extends Graph<N
 	 * node in the graph, treating all edges as undirected edges, then true,
 	 * false otherwise.
 	 *
-	 * @See Graph#isConnected
+	 * @see Graph#isConnected
 	 * @return true if the graph is connected, false otherwise.
 	 */
 	boolean isWeaklyConnected();

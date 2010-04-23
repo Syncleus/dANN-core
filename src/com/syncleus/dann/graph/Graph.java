@@ -119,12 +119,68 @@ public interface Graph<N, E extends Edge<N>>
 	 * @return true if the graph is connected, false otherwise.
 	 */
 	boolean isConnected();
-	Set<Graph<N,E>> getConnectedComponents();
+
+	/**
+	 * Obtains a set of all Maximally connected componets in the graph. A
+	 * subgraph is maximally connected if every node in the subgraph has every
+	 * edge from the parent graph that is connected to one of the nodes in the
+	 * subgraph along with every node that is an end point of one of these
+	 * edges.
+	 *
+	 * @return a unmodifiable set of all the maximally connected components.
+	 */
+	Set<Graph<N,E>> getMaximallyConnectedComponents();
+
+	/**
+	 * Determines if the subgraph is a maximally connected component. A
+	 * subgraph is maximally connected if every node in the subgraph has every
+	 * edge from the parent graph that is connected to one of the nodes in the
+	 * subgraph along with every node that is an end point of one of these
+	 * edges.
+	 *
+	 * @param subgraph A subgraph of this graph.
+	 * @return true if the subgraph is a maximally connected component of this
+	 * graph. False otherwise.
+	 */
 	boolean isMaximalSubgraph(Graph<N,E> subgraph);
+
+	/**
+	 * Determines if the set of nodes and edges form a cut. They are a cut
+	 * if by removing all the specified nodes and edges the number of maximally
+	 * connected components is increased. Its important to note that when
+	 * removing a node that node will also be removed as an end point from all
+	 * edges. If as a result a edge is left with a single end point then that
+	 * edge will also be removed even if it isnt speciically listed in edges.
+	 *
+	 * @param nodes set of nodes to remove when checking for a cut.
+	 * @param edges set of edges to remove when checking for a cut.
+	 * @return true if the nodes and edges form a cut, false otherwise.
+	 */
 	boolean isCut(Set<N> nodes, Set<E> edges);
+
+	/**
+	 * Determines if the set of edges form a cut. They are a cut
+	 * if by removing all the specified edges the number of maximally
+	 * connected components is increased.
+	 *
+	 * @param edges set of edges to remove when checking for a cut.
+	 * @return true if the edges form a cut, false otherwise.
+	 */
 	boolean isCut(Set<E> edges);
-	boolean isCut(N nodes);
-	boolean isCut(E edges);
+
+	/**
+	 * Determines if node forms a cut. It is a cut if by removing the specified
+	 * node the number of maximally connected components is increased. Its
+	 * important to note that when removing a node that node will also be
+	 * removed as an end point from all edges. If as a result a edge is left
+	 * with a single end point then that edge will also be removed.
+	 *
+	 * @param node node to remove when checking for a cut.
+	 * @return true if the nodeis a cut node, False otherwise.
+	 */
+	boolean isCut(N node);
+	
+	boolean isCut(E edge);
 	boolean isCut(Set<N> nodes, Set<E> edges, N begin, N end);
 	boolean isCut(Set<E> edges, N begin, N end);
 	boolean isCut(N node, N begin, N end);

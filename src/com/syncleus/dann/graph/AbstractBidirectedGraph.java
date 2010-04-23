@@ -44,7 +44,7 @@ public abstract class AbstractBidirectedGraph<N, E extends BidirectedEdge<N>> ex
 	}
 
 	@Override
-	public Set<Graph<N,E>> getConnectedComponents()
+	public Set<Graph<N,E>> getMaximallyConnectedComponents()
 	{
 		return null;
 	}
