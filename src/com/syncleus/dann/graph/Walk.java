@@ -9,25 +9,25 @@
  *  of the license is not included you are granted no right to distribute or   *
  *  otherwise use this file except through a legal and valid license. You      *
  *  should also contact Syncleus, Inc. at the information below if you cannot  *
- *  findCycles a license:                                                            *
+ *  find a license:                                                            *
  *                                                                             *
  *  Syncleus, Inc.                                                             *
  *  2604 South 12th Street                                                     *
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph.cycle;
+package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.*;
-import com.syncleus.dann.graph.Graph;
-import java.util.Set;
+import java.util.List;
 
-public interface CycleFinder<N, E extends Edge<N>> extends CycleDetector
+public interface Walk<N, E extends Edge<N>>
 {
-	int cycleCount(Graph<N,E> graph);
-	Set<Cycle<N,E>> findCycles(Graph<N,E> graph);
-	boolean isPancyclic(Graph<N,E> graph);
-	boolean isUnicyclic(Graph<N,E> graph);
-	int girth(Graph<N,E> graph);
-	int circumference(Graph<N,E> graph);
+	List<E> getSteps();
+	List<N> getNodeSteps();
+	boolean isClosed();
+	int getLength();
+	boolean isTrail();
+	boolean isTour();
+	double getWeight();
+	boolean hasChildCycles();
 }

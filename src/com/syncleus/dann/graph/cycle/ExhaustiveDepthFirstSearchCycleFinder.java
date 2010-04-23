@@ -21,19 +21,19 @@ package com.syncleus.dann.graph.cycle;
 import com.syncleus.dann.graph.*;
 import java.util.*;
 
-public class ExhaustiveDepthFirstSearchCycleFinder extends ColoredDepthFirstSearchDetector implements CycleFinder
+public class ExhaustiveDepthFirstSearchCycleFinder<N, E extends Edge<N>> extends ColoredDepthFirstSearchDetector implements CycleFinder<N,E>
 {
-	public boolean isPancyclic(Graph graph)
+	public boolean isPancyclic(Graph<N,E> graph)
 	{
 		final int graphOrder = graph.getOrder();
-		Set<Set<Edge>> cycles = this.findCycles(graph);
-		SortedSet<Set<Edge>> sortedCycles = new TreeSet<Set<Edge>>(new SizeComparator<Set<Edge>>());
+		Set<Cycle<N,E>> cycles = this.findCycles(graph);
+		SortedSet<Cycle<N,E>> sortedCycles = new TreeSet<Cycle<N,E>>(new CycleLengthComparator<N,E>());
 		sortedCycles.addAll(cycles);
 
 		int neededCycleSize = 3;
-		for(Set<Edge> sortedCycle : sortedCycles)
+		for(Cycle<N,E> sortedCycle : sortedCycles)
 		{
-			int currentCycleSize = sortedCycle.size();
+			int currentCycleSize = sortedCycle.getLength();
 			if(currentCycleSize == neededCycleSize)
 			{
 				if(currentCycleSize == graphOrder)
@@ -47,74 +47,74 @@ public class ExhaustiveDepthFirstSearchCycleFinder extends ColoredDepthFirstSear
 		return false;
 	}
 
-	public boolean isUnicyclic(Graph graph)
+	public boolean isUnicyclic(Graph<N,E> graph)
 	{
 		return (this.findCycles(graph).size() == 1);
 	}
 
-	public int cycleCount(Graph graph)
+	public int cycleCount(Graph<N,E> graph)
 	{
 		return this.findCycles(graph).size();
 	}
 
-	public int girth(Graph graph)
+	public int girth(Graph<N,E> graph)
 	{
-		Set<Set<Edge>> cycles = this.findCycles(graph);
-		SortedSet<Set<Edge>> sortedCycles = new TreeSet<Set<Edge>>(new SizeComparator<Set<Edge>>());
+		Set<Cycle<N,E>> cycles = this.findCycles(graph);
+		SortedSet<Cycle<N,E>> sortedCycles = new TreeSet<Cycle<N,E>>(new CycleLengthComparator<N,E>());
 		sortedCycles.addAll(cycles);
-		return sortedCycles.first().size();
+		return sortedCycles.first().getLength();
 	}
 
-	public int circumference(Graph graph)
+	public int circumference(Graph<N,E> graph)
 	{
-		Set<Set<Edge>> cycles = this.findCycles(graph);
-		SortedSet<Set<Edge>> sortedCycles = new TreeSet<Set<Edge>>(new SizeComparator<Set<Edge>>());
+		Set<Cycle<N,E>> cycles = this.findCycles(graph);
+		SortedSet<Cycle<N,E>> sortedCycles = new TreeSet<Cycle<N,E>>(new CycleLengthComparator<N,E>());
 		sortedCycles.addAll(cycles);
-		return sortedCycles.last().size();
+		return sortedCycles.last().getLength();
 	}
 
-	public Set<Set<Edge>> findCycles(Graph graph)
+	public Set<Cycle<N,E>> findCycles(Graph<N,E> graph)
 	{
-		final Set<Object> untouchedNodes = new HashSet<Object>(graph.getNodes());
-		final Set<Set<Edge>> cycles = new HashSet<Set<Edge>>();
+		final Set<N> untouchedNodes = new HashSet<N>(graph.getNodes());
+		final Set<Cycle<N,E>> cycles = new HashSet<Cycle<N,E>>();
 		while(!untouchedNodes.isEmpty())
 		{
-			Object startingNode = untouchedNodes.toArray()[0];
+			N startingNode = (N) untouchedNodes.toArray()[0];
 			untouchedNodes.remove(startingNode);
-			ExhaustiveDepthFirstSearchCycleFinder.cyclesFromStart(graph, untouchedNodes, cycles, startingNode);
+			ExhaustiveDepthFirstSearchCycleFinder.<N,E>cyclesFromStart(graph, untouchedNodes, cycles, startingNode);
 		}
 		return cycles;
 	}
 
-	private static void cyclesFromStart(Graph graph, Set<Object> untouchedNodes, Set<Set<Edge>> cycles, Object startNode)
+	private static <N,E extends Edge<N>> void cyclesFromStart(Graph<N,E> graph, Set<N> untouchedNodes, Set<Cycle<N,E>> cycles, N startNode)
 	{
-		Stack<Object> parentNodes = new Stack<Object>();
-		Stack<Edge> parentEdges = new Stack<Edge>();
+		Stack<N> parentNodes = new Stack<N>();
+		Stack<E> parentEdges = new Stack<E>();
 
-		traverse(graph, untouchedNodes, cycles, parentNodes, parentEdges, null, startNode);
+		ExhaustiveDepthFirstSearchCycleFinder.<N,E>traverse(graph, untouchedNodes, cycles, parentNodes, parentEdges, null, startNode);
 	}
 	
-	private static List<Object> neighborsFromEdge(Edge edge, Object sourceNode)
+	private static <N,E extends Edge<N>> List<N> neighborsFromEdge(E edge, N sourceNode)
 	{
-		List<Object> destinations = new ArrayList<Object>(edge.getNodes());
+		List<N> destinations = new ArrayList<N>(edge.getNodes());
 		destinations.remove(sourceNode);
 		return destinations;
 	}
 
-	private static void traverse(Graph graph, Set<Object> untouchedNodes, Set<Set<Edge>> cycles, Stack<Object> parentNodes, Stack<Edge> parentEdges, Edge lastEdge, Object currentNode)
+	private static <N,E extends Edge<N>> void traverse(Graph<N,E> graph, Set<N> untouchedNodes, Set<Cycle<N,E>> cycles, Stack<N> parentNodes, Stack<E> parentEdges, E lastEdge, N currentNode)
 	{
 		untouchedNodes.remove(currentNode);
 		parentNodes.push(currentNode);
 		parentEdges.push(lastEdge);
 
-		List<Edge> unexploredPaths = new ArrayList<Edge>(graph.getTraversableEdges(currentNode));
+		List<E> unexploredPaths = new ArrayList<E>(graph.getTraversableEdges(currentNode));
 		if( lastEdge != null)
 			unexploredPaths.remove(lastEdge);
 		int cyclesFound = 0;
 
-		for(Edge unexploredPath : unexploredPaths)
+		for(E unexploredPath : unexploredPaths)
 		{
-			for(Object neighborNode : neighborsFromEdge(unexploredPath, currentNode))
+			for(N neighborNode : neighborsFromEdge(unexploredPath, currentNode))
 			{
 				if(!parentNodes.contains(neighborNode))
 				{
@@ -122,26 +122,32 @@ public class ExhaustiveDepthFirstSearchCycleFinder extends ColoredDepthFirstSear
 				}
 				else
 				{
-					List<Object> parentNodesCopy = new ArrayList<Object>(parentNodes);
-					List<Edge> parentEdgesCopy = new ArrayList<Edge>(parentEdges);
-					Set<Edge> cycle = new HashSet<Edge>();
-					cycle.add(unexploredPath);
+					List<N> parentNodesCopy = new ArrayList<N>(parentNodes);
+					List<E> parentEdgesCopy = new ArrayList<E>(parentEdges);
+					List<E> cycleEdges = new ArrayList<E>();
+					List<N> cycleNodes = new ArrayList<N>();
+					cycleEdges.add(unexploredPath);
+					cycleNodes.add(neighborNode);
 
-					Object currentCycleNode = parentNodesCopy.get(parentNodesCopy.size()-1);
+					N currentCycleNode = parentNodesCopy.get(parentNodesCopy.size()-1);
+					cycleNodes.add(currentCycleNode);
 					parentNodesCopy.remove(currentCycleNode);
 					while(currentCycleNode != neighborNode)
 					{
 						currentCycleNode = parentNodesCopy.get(parentNodesCopy.size()-1);
 						parentNodesCopy.remove(currentCycleNode);
 
-						Edge currentCycleEdge = parentEdgesCopy.get(parentEdgesCopy.size()-1);
+						E currentCycleEdge = parentEdgesCopy.get(parentEdgesCopy.size()-1);
 						parentEdgesCopy.remove(currentCycleEdge);
 
 						if((currentCycleEdge != null))
-							cycle.add(currentCycleEdge);
+						{
+							cycleEdges.add(currentCycleEdge);
+							cycleNodes.add(currentCycleNode);
+						}
 					}
 
-					cycles.add(cycle);
+					cycles.add(new SimpleCycle<N,E>(cycleEdges, cycleNodes));
 					cyclesFound++;
 				}
 			}
@@ -151,13 +157,13 @@ public class ExhaustiveDepthFirstSearchCycleFinder extends ColoredDepthFirstSear
 		parentEdges.pop();
 	}
 
-	private static class SizeComparator<O> implements Comparator<Collection>
+	private static class CycleLengthComparator<N, E extends Edge<N>> implements Comparator<Cycle<N,E>>
 	{
-		public int compare(Collection first, Collection second)
+		public int compare(Cycle<N,E> first, Cycle<N,E> second)
 		{
-			if(first.size() < second.size())
+			if(first.getLength() < second.getLength())
 				return -1;
-			else if(first.size() > second.size())
+			else if(first.getLength() > second.getLength())
 				return 1;
 			return 0;
 		}
@@ -165,7 +171,7 @@ public class ExhaustiveDepthFirstSearchCycleFinder extends ColoredDepthFirstSear
 		@Override
 		public boolean equals(Object compareWith)
 		{
-			if(compareWith instanceof SizeComparator)
+			if(compareWith instanceof CycleLengthComparator)
 				return true;
 			return false;
 		}

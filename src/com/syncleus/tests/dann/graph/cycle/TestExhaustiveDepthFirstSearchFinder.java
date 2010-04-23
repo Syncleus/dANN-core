@@ -21,19 +21,22 @@ package com.syncleus.tests.dann.graph.cycle;
 import com.syncleus.dann.graph.*;
 import com.syncleus.dann.graph.cycle.*;
 import java.util.*;
+import org.apache.log4j.Logger;
 import org.junit.*;
 
 public class TestExhaustiveDepthFirstSearchFinder
 {
+	private final static Logger LOGGER = Logger.getLogger(TestExhaustiveDepthFirstSearchFinder.class);
+
 	@Test
 	public void testDirectedNoCycles()
 	{
 		Set<Object> nodes = new HashSet<Object>();
-		Object topNode = new Object();
+		Object topNode = "topNode";
 		nodes.add(topNode);
-		Object leftNode = new Object();
+		Object leftNode = "leftNode";
 		nodes.add(leftNode);
-		Object rightNode = new Object();
+		Object rightNode = "rightNode";
 		nodes.add(rightNode);
 
 		Set<DirectedEdge<Object>> edges = new HashSet<DirectedEdge<Object>>();
@@ -46,23 +49,26 @@ public class TestExhaustiveDepthFirstSearchFinder
 
 		BidirectedGraph<Object, DirectedEdge<Object>> graph = new SimpleDirectedGraph<Object, DirectedEdge<Object>>(nodes, edges);
 
-		CycleFinder counter = new ExhaustiveDepthFirstSearchCycleFinder();
-		Assert.assertTrue("Cycles detected when there should be none: " + counter.cycleCount(graph), counter.cycleCount(graph) == 0);
+		CycleFinder finder = new ExhaustiveDepthFirstSearchCycleFinder();
+		LOGGER.info("cycles: ");
+		for(Object cycle: finder.findCycles(graph))
+			LOGGER.info(cycle);
+		Assert.assertTrue("Cycles detected when there should be none: " + finder.cycleCount(graph), finder.cycleCount(graph) == 0);
 	}
 
 	@Test
 	public void testDirectedWithCycles()
 	{
 		Set<Object> nodes = new HashSet<Object>();
-		Object tippyTopNode = new Object();
+		Object tippyTopNode = "tippyTopNode";
 		nodes.add(tippyTopNode);
-		Object topNode = new Object();
+		Object topNode = "topNode";
 		nodes.add(topNode);
-		Object leftNode = new Object();
+		Object leftNode = "leftNode";
 		nodes.add(leftNode);
-		Object rightNode = new Object();
+		Object rightNode = "RightNode";
 		nodes.add(rightNode);
-		Object bottomNode = new Object();
+		Object bottomNode = "bottomNode";
 		nodes.add(bottomNode);
 
 		Set<DirectedEdge<Object>> edges = new HashSet<DirectedEdge<Object>>();
@@ -83,21 +89,24 @@ public class TestExhaustiveDepthFirstSearchFinder
 
 		BidirectedGraph<Object, DirectedEdge<Object>> graph = new SimpleDirectedGraph<Object, DirectedEdge<Object>>(nodes, edges);
 
-		CycleFinder counter = new ExhaustiveDepthFirstSearchCycleFinder();
-		Assert.assertTrue("incorrect number of cycles detected. Expected 3, got: " + counter.cycleCount(graph), counter.cycleCount(graph) == 3);
+		CycleFinder finder = new ExhaustiveDepthFirstSearchCycleFinder();
+		LOGGER.info("cycles: ");
+		for(Object cycle: finder.findCycles(graph))
+			LOGGER.info(cycle);
+		Assert.assertTrue("incorrect number of cycles detected. Expected 3, got: " + finder.cycleCount(graph), finder.cycleCount(graph) == 3);
 	}
 
 	@Test
 	public void testUndirectedNoCycles()
 	{
 		Set<Object> nodes = new HashSet<Object>();
-		Object centerNode = new Object();
+		Object centerNode = "centerNode";
 		nodes.add(centerNode);
-		Object topNode = new Object();
+		Object topNode = "topNode";
 		nodes.add(topNode);
-		Object leftNode = new Object();
+		Object leftNode = "leftNode";
 		nodes.add(leftNode);
-		Object rightNode = new Object();
+		Object rightNode = "rightNode";
 		nodes.add(rightNode);
 
 		Set<BidirectedEdge<Object>> edges = new HashSet<BidirectedEdge<Object>>();
@@ -110,21 +119,24 @@ public class TestExhaustiveDepthFirstSearchFinder
 
 		Graph<Object, BidirectedEdge<Object>> graph = new SimpleGraph<Object, BidirectedEdge<Object>>(nodes, edges);
 
-		CycleFinder counter = new ExhaustiveDepthFirstSearchCycleFinder();
-		Assert.assertTrue("Cycles detected when there should be none: " + counter.cycleCount(graph), counter.cycleCount(graph) == 0);
+		CycleFinder finder = new ExhaustiveDepthFirstSearchCycleFinder();
+		LOGGER.info("cycles: ");
+		for(Object cycle: finder.findCycles(graph))
+			LOGGER.info(cycle);
+		Assert.assertTrue("Cycles detected when there should be none: " + finder.cycleCount(graph), finder.cycleCount(graph) == 0);
 	}
 
 	@Test
 	public void testUndirectedWithCycles()
 	{
 		Set<Object> nodes = new HashSet<Object>();
-		Object bottomNode = new Object();
+		Object bottomNode = "bottomNode";
 		nodes.add(bottomNode);
-		Object topNode = new Object();
+		Object topNode = "topNode";
 		nodes.add(topNode);
-		Object leftNode = new Object();
+		Object leftNode = "leftNode";
 		nodes.add(leftNode);
-		Object rightNode = new Object();
+		Object rightNode = "rightNode";
 		nodes.add(rightNode);
 
 		Set<BidirectedEdge<Object>> edges = new HashSet<BidirectedEdge<Object>>();
@@ -141,21 +153,24 @@ public class TestExhaustiveDepthFirstSearchFinder
 
 		Graph<Object, BidirectedEdge<Object>> graph = new SimpleGraph<Object, BidirectedEdge<Object>>(nodes, edges);
 
-		CycleFinder counter = new ExhaustiveDepthFirstSearchCycleFinder();
-		Assert.assertTrue("incorrect number of cycles detected. Expected 3, got: " + counter.cycleCount(graph), counter.cycleCount(graph) == 3);
+		CycleFinder finder = new ExhaustiveDepthFirstSearchCycleFinder();
+		LOGGER.info("cycles: ");
+		for(Object cycle: finder.findCycles(graph))
+			LOGGER.info(cycle);
+		Assert.assertTrue("incorrect number of cycles detected. Expected 3, got: " + finder.cycleCount(graph), finder.cycleCount(graph) == 3);
 	}
 
 	@Test
 	public void testUndirectedWithDoubleEdgeCycles()
 	{
 		Set<Object> nodes = new HashSet<Object>();
-		Object centerNode = new Object();
+		Object centerNode = "centerNode";
 		nodes.add(centerNode);
-		Object topNode = new Object();
+		Object topNode = "topNode";
 		nodes.add(topNode);
-		Object leftNode = new Object();
+		Object leftNode = "leftNode";
 		nodes.add(leftNode);
-		Object rightNode = new Object();
+		Object rightNode = "rightNode";
 		nodes.add(rightNode);
 
 		Set<BidirectedEdge<Object>> edges = new HashSet<BidirectedEdge<Object>>();
@@ -170,7 +185,10 @@ public class TestExhaustiveDepthFirstSearchFinder
 
 		Graph<Object, BidirectedEdge<Object>> graph = new SimpleGraph<Object, BidirectedEdge<Object>>(nodes, edges);
 
-		CycleFinder counter = new ExhaustiveDepthFirstSearchCycleFinder();
-		Assert.assertTrue("incorrect number of cycles detected. Expected 1, got: " + counter.cycleCount(graph), counter.cycleCount(graph) == 1);
+		CycleFinder finder = new ExhaustiveDepthFirstSearchCycleFinder();
+		LOGGER.info("cycles: ");
+		for(Object cycle: finder.findCycles(graph))
+			LOGGER.info(cycle);
+		Assert.assertTrue("incorrect number of cycles detected. Expected 1, got: " + finder.cycleCount(graph), finder.cycleCount(graph) == 1);
 	}
 }

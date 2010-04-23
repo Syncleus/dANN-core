@@ -9,25 +9,50 @@
  *  of the license is not included you are granted no right to distribute or   *
  *  otherwise use this file except through a legal and valid license. You      *
  *  should also contact Syncleus, Inc. at the information below if you cannot  *
- *  findCycles a license:                                                            *
+ *  find a license:                                                            *
  *                                                                             *
  *  Syncleus, Inc.                                                             *
  *  2604 South 12th Street                                                     *
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph.cycle;
+package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.*;
-import com.syncleus.dann.graph.Graph;
-import java.util.Set;
+import java.util.*;
 
-public interface CycleFinder<N, E extends Edge<N>> extends CycleDetector
+public class SimpleWalk<N, E extends Edge<N>> extends AbstractWalk<N,E>
 {
-	int cycleCount(Graph<N,E> graph);
-	Set<Cycle<N,E>> findCycles(Graph<N,E> graph);
-	boolean isPancyclic(Graph<N,E> graph);
-	boolean isUnicyclic(Graph<N,E> graph);
-	int girth(Graph<N,E> graph);
-	int circumference(Graph<N,E> graph);
+	private final List<E> steps;
+	private final List<N> nodeSteps;
+	private final double totalWeight;
+
+	public SimpleWalk(List<E> steps, List<N> nodeSteps, double defaultWeight)
+	{
+		if( !this.verify(nodeSteps, steps) )
+			throw new IllegalArgumentException("Steps and nodeSteps is not consistent with a walk");
+
+		this.steps = Collections.unmodifiableList(new ArrayList<E>(steps));
+		this.nodeSteps = Collections.unmodifiableList(new ArrayList<N>(nodeSteps));
+		this.totalWeight = calculateWeight(defaultWeight);
+	}
+
+	public SimpleWalk(List<E> steps, List<N> nodeSteps)
+	{
+		this(steps, nodeSteps, 0.0);
+	}
+
+	final public List<E> getSteps()
+	{
+		return this.steps;
+	}
+
+	final public List<N> getNodeSteps()
+	{
+		return this.nodeSteps;
+	}
+
+	final public double getWeight()
+	{
+		return this.totalWeight;
+	}
 }

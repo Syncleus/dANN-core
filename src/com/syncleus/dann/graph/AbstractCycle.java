@@ -9,25 +9,50 @@
  *  of the license is not included you are granted no right to distribute or   *
  *  otherwise use this file except through a legal and valid license. You      *
  *  should also contact Syncleus, Inc. at the information below if you cannot  *
- *  findCycles a license:                                                            *
+ *  find a license:                                                            *
  *                                                                             *
  *  Syncleus, Inc.                                                             *
  *  2604 South 12th Street                                                     *
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph.cycle;
+package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.*;
-import com.syncleus.dann.graph.Graph;
-import java.util.Set;
+import java.util.List;
 
-public interface CycleFinder<N, E extends Edge<N>> extends CycleDetector
+public abstract class AbstractCycle<N, E extends Edge<N>> extends AbstractWalk<N,E> implements Cycle<N,E>
 {
-	int cycleCount(Graph<N,E> graph);
-	Set<Cycle<N,E>> findCycles(Graph<N,E> graph);
-	boolean isPancyclic(Graph<N,E> graph);
-	boolean isUnicyclic(Graph<N,E> graph);
-	int girth(Graph<N,E> graph);
-	int circumference(Graph<N,E> graph);
+	@Override
+	protected boolean verify(List<N> nodeSteps, List<E> edgeSteps)
+	{
+		if( (super.verify(nodeSteps, edgeSteps)) && (AbstractCycle.verifyUtility(nodeSteps, edgeSteps)) )
+			return true;
+		return false;
+	}
+
+	static <N, E extends Edge<? extends N>> boolean verifyUtility(List<N> nodeSteps, List<E> edgeSteps)
+	{
+		if(nodeSteps.size()<2)
+			throw new IllegalArgumentException("Wrong number of nodes or steps");
+		if(!nodeSteps.get(0).equals(nodeSteps.get(nodeSteps.size()-1)))
+			return false;
+
+		return true;
+	}
+
+	public boolean isOddCycle()
+	{
+		return isOddCycle(this);
+	}
+
+	static boolean isOddCycle(Cycle cycle)
+	{
+		return (cycle.getSteps().size()%2 == 1);
+	}
+
+	@Override
+	public boolean isCycle()
+	{
+		return true;
+	}
 }
