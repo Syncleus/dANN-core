@@ -26,16 +26,6 @@ public interface BidirectedGraph<N, E extends BidirectedEdge<N>> extends Graph<N
 	Set<E> getInEdges(N node);
 	int getIndegree(N node);
 	int getOutdegree(N node);
-
-	/**
-	 * If there is atleast one path from every Node in the graph to any other
-	 * node in the graph, treating all edges as undirected edges, then true,
-	 * false otherwise.
-	 *
-	 * @see Graph#isConnected
-	 * @return true if the graph is connected, false otherwise.
-	 */
-	boolean isWeaklyConnected();
 	boolean isPolytree();
 	boolean isKnot();
 }

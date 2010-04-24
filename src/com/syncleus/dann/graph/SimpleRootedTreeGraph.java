@@ -119,7 +119,7 @@ public class SimpleRootedTreeGraph<N, E extends DirectedEdge<N>> extends Abstrac
 		return Collections.unmodifiableList(this.neighborNodes.get(node));
 	}
 
-	public List<N> getTraversableNeighbors(N node)
+	public List<N> getTraversableNodes(N node)
 	{
 		Set<E> traversableEdges = this.getTraversableEdges(node);
 		List<N> traversableNeighbors = new ArrayList<N>();

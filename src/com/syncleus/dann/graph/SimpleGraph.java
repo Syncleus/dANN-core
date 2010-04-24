@@ -114,7 +114,7 @@ public class SimpleGraph<N, E extends Edge<N>> extends AbstractGraph<N, E>
 		return Collections.unmodifiableList(new ArrayList<N>(this.neighborNodes.get(node)));
 	}
 
-	public List<N> getTraversableNeighbors(N node)
+	public List<N> getTraversableNodes(N node)
 	{
 		return this.getAdjacentNodes(node);
 	}

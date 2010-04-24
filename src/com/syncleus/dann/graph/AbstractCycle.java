@@ -20,6 +20,9 @@ package com.syncleus.dann.graph;
 
 import java.util.List;
 
+// TODO refine the verify and equals method to match a cycles definition of
+// unique. i.e. no repeat in nodes or edges, sequence matters but starting point doesnt.
+
 public abstract class AbstractCycle<N, E extends Edge<N>> extends AbstractWalk<N,E> implements Cycle<N,E>
 {
 	@Override

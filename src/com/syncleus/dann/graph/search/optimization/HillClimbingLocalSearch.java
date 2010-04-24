@@ -42,7 +42,7 @@ public class HillClimbingLocalSearch<G extends Graph<N, ?>, N extends Weighted> 
 		do
 		{
 			N nextNode = null;
-			for(N neighbor : graph.getTraversableNeighbors(currentNode))
+			for(N neighbor : graph.getTraversableNodes(currentNode))
 			{
 				if((nextNode == null)||(neighbor.getWeight() > nextNode.getWeight()))
 					nextNode = neighbor;

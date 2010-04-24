@@ -22,11 +22,6 @@ import java.util.Set;
 
 public abstract class AbstractBidirectedGraph<N, E extends BidirectedEdge<N>> extends AbstractGraph<N,E> implements BidirectedGraph<N,E>
 {
-	public boolean isWeaklyConnected()
-	{
-		return false;
-	}
-
 	public boolean isPolytree()
 	{
 		return false;

@@ -114,7 +114,7 @@ public class SimpleGraph extends AbstractBidirectedGraph<SimpleNode, BidirectedE
 		return this.getOutEdges(node).size();
 	}
 
-	public boolean isConnected(SimpleNode leftNode, SimpleNode rightNode)
+	public boolean isStronglyConnected(SimpleNode leftNode, SimpleNode rightNode)
 	{
 		return this.neighborNodes.get(leftNode).contains(rightNode);
 	}
@@ -124,7 +124,7 @@ public class SimpleGraph extends AbstractBidirectedGraph<SimpleNode, BidirectedE
 		return Collections.unmodifiableList(new ArrayList<SimpleNode>(this.neighborNodes.get(node)));
 	}
 
-	public List<SimpleNode> getTraversableNeighbors(SimpleNode node)
+	public List<SimpleNode> getTraversableNodes(SimpleNode node)
 	{
 		return this.getAdjacentNodes(node);
 	}

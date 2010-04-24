@@ -36,23 +36,36 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 		return degree;
 	}
 	
-	public boolean isConnected()
+	public boolean isStronglyConnected()
 	{
 		Set<N> nodes = this.getNodes();
 		for(N fromNode : nodes)
 			for(N toNode : nodes)
-				if((toNode != fromNode)&&(!this.isConnected(toNode, fromNode)))
+				if((toNode != fromNode)&&(!this.isStronglyConnected(toNode, fromNode)))
 					return false;
 		return true;
 	}
 
-	public boolean isConnected(N leftNode, N rightNode)
+	public boolean isWeaklyConnected()
+	{
+		List<N> remainingNodes = new ArrayList<N>(this.getNodes());
+		while(remainingNodes.size() >= 2)
+		{
+			N fromNode = remainingNodes.get(0);
+			for(N toNode : remainingNodes)
+				if((toNode != fromNode)&&(!this.isWeaklyConnected(toNode, fromNode)))
+					return false;
+		}
+		return true;
+	}
+
+	public boolean isWeaklyConnected(N leftNode, N rightNode)
 	{
 		Set<N> visited = new HashSet<N>();
 		visited.add(leftNode);
 
 		Set<N> toVisit = new HashSet<N>();
-		toVisit.addAll(this.getTraversableNeighbors(leftNode));
+		toVisit.addAll(this.getAdjacentNodes(leftNode));
 
 		while(!toVisit.isEmpty())
 		{
@@ -63,7 +76,31 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 			visited.add(node);
 			toVisit.remove(node);
 
-			toVisit.addAll(this.getTraversableNeighbors(node));
+			toVisit.addAll(this.getAdjacentNodes(node));
+			toVisit.removeAll(visited);
+		}
+
+		return false;
+	}
+
+	public boolean isStronglyConnected(N leftNode, N rightNode)
+	{
+		Set<N> visited = new HashSet<N>();
+		visited.add(leftNode);
+
+		Set<N> toVisit = new HashSet<N>();
+		toVisit.addAll(this.getTraversableNodes(leftNode));
+
+		while(!toVisit.isEmpty())
+		{
+			N node = (N) toVisit.toArray()[0];
+			if(node.equals(rightNode))
+				return true;
+
+			visited.add(node);
+			toVisit.remove(node);
+
+			toVisit.addAll(this.getTraversableNodes(node));
 			toVisit.removeAll(visited);
 		}
 
@@ -134,12 +171,12 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 
 	public boolean isCut(Set<N> nodes, Set<E> edges)
 	{
-		return this.deleteFromGraph(nodes, edges).isConnected();
+		return this.deleteFromGraph(nodes, edges).isStronglyConnected();
 	}
 
 	public boolean isCut(Set<N> nodes, Set<E> edges, N begin, N end)
 	{
-		return this.deleteFromGraph(nodes, edges).isConnected(begin, end);
+		return this.deleteFromGraph(nodes, edges).isStronglyConnected(begin, end);
 	}
 
 	public boolean isCut(Set<E> edges)
@@ -252,6 +289,12 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 		return finder.isUnicyclic(this);
 	}
 
+	public boolean isAcyclic()
+	{
+		CycleFinder finder = new ExhaustiveDepthFirstSearchCycleFinder();
+		return !finder.hasCycle(this);
+	}
+
 	public int getGirth()
 	{
 		CycleFinder finder = new ExhaustiveDepthFirstSearchCycleFinder();
@@ -273,7 +316,7 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 
 	public boolean isTree()
 	{
-		return (this.getCycleCount() == 0);
+		return ((this.isWeaklyConnected())&&(this.isAcyclic()));
 	}
 
 	public boolean isSubGraph(Graph<N,E> subgraph)

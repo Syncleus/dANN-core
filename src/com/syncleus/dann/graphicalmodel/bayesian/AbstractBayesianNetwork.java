@@ -184,7 +184,7 @@ public abstract class AbstractBayesianNetwork extends AbstractBidirectedGraph<Ba
 		return this.outMap.get(node).size();
 	}
 
-	public boolean isConnected(BayesianNode leftNode, BayesianNode rightNode)
+	public boolean isStronglyConnected(BayesianNode leftNode, BayesianNode rightNode)
 	{
 		if( this.edges.contains(new SimpleBayesianEdge(leftNode, rightNode)) )
 			return true;
@@ -202,7 +202,7 @@ public abstract class AbstractBayesianNetwork extends AbstractBidirectedGraph<Ba
 		return Collections.unmodifiableList(neighbors);
 	}
 
-	public List<BayesianNode> getTraversableNeighbors(BayesianNode node)
+	public List<BayesianNode> getTraversableNodes(BayesianNode node)
 	{
 		Set<BayesianEdge> nodeEdges = this.getOutEdges(node);
 		List<BayesianNode> neighbors = new ArrayList<BayesianNode>();

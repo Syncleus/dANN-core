@@ -213,7 +213,7 @@ public class JohnsonGraphTransformer<N> implements GraphTransformer<BidirectedGr
 			return Collections.unmodifiableList(neighbors);
 		}
 
-		public List<N> getTraversableNeighbors(N node)
+		public List<N> getTraversableNodes(N node)
 		{
 			Set<WeightedDirectedEdge<N>> nodeEdges = this.getOutEdges(node);
 			List<N> neighbors = new ArrayList<N>();

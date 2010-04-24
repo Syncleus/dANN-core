@@ -338,7 +338,7 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedGraph<Neuron,
 	}
 
 
-	public boolean isConnected(Neuron leftNode, Neuron rightNode)
+	public boolean isStronglyConnected(Neuron leftNode, Neuron rightNode)
 	{
 		Set<Synapse> outSet = this.getOutEdges(leftNode);
 		Set<Synapse> inSet = this.getInEdges(rightNode);
@@ -357,7 +357,7 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedGraph<Neuron,
 		return Collections.unmodifiableList(neighbors);
 	}
 
-	public List<Neuron> getTraversableNeighbors(Neuron node)
+	public List<Neuron> getTraversableNodes(Neuron node)
 	{
 		Set<Synapse> nodeSynapses = this.getOutEdges(node);
 		List<Neuron> neighbors = new ArrayList<Neuron>();

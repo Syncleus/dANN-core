@@ -118,7 +118,7 @@ public class Grid extends AbstractBidirectedGraph<GridNode, BidirectedEdge<GridN
 		return this.getOutEdges(node).size();
 	}
 
-	public boolean isConnected(GridNode leftNode, GridNode rightNode)
+	public boolean isStronglyConnected(GridNode leftNode, GridNode rightNode)
 	{
 		return this.neighborNodes.get(leftNode).contains(rightNode);
 	}
@@ -128,7 +128,7 @@ public class Grid extends AbstractBidirectedGraph<GridNode, BidirectedEdge<GridN
 		return Collections.unmodifiableList(new ArrayList<GridNode>(this.neighborNodes.get(node)));
 	}
 
-	public List<GridNode> getTraversableNeighbors(GridNode node)
+	public List<GridNode> getTraversableNodes(GridNode node)
 	{
 		return this.getAdjacentNodes(node);
 	}

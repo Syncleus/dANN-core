@@ -119,7 +119,7 @@ public class SimpleDirectedGraph<N, E extends DirectedEdge<N>> extends AbstractB
 		return Collections.unmodifiableList(this.neighborNodes.get(node));
 	}
 
-	public List<N> getTraversableNeighbors(N node)
+	public List<N> getTraversableNodes(N node)
 	{
 		Set<E> traversableEdges = this.getTraversableEdges(node);
 		List<N> traversableNeighbors = new ArrayList<N>();

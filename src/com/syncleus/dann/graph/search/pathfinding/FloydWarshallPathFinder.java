@@ -48,7 +48,7 @@ public class FloydWarshallPathFinder<N, E extends Edge<N>> implements PathFinder
 
 				if( nodeX.equals(nodeY) )
 					initialWeight = 0.0;
-				else if(this.graph.getTraversableNeighbors(nodeX).contains(nodeY))
+				else if(this.graph.getTraversableNodes(nodeX).contains(nodeY))
 				{
 					E connectedEdge = null;
 					for(E edge : this.graph.getTraversableEdges(nodeX))

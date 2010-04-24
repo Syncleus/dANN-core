@@ -111,7 +111,7 @@ public class SimpleTreeGraph<N, E extends BidirectedEdge<N>> extends AbstractTre
 		return Collections.unmodifiableList(this.neighborNodes.get(node));
 	}
 
-	public List<N> getTraversableNeighbors(N node)
+	public List<N> getTraversableNodes(N node)
 	{
 		return this.getAdjacentNodes(node);
 	}

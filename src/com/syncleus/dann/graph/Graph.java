@@ -76,7 +76,7 @@ public interface Graph<N, E extends Edge<N>>
 	 * @return A list of all nodes adjacent to the specified node and
 	 * traversable from the spevified node, empty set if the node has no edges.
 	 */
-	List<N> getTraversableNeighbors(N node);
+	List<N> getTraversableNodes(N node);
 
 	/**
 	 * Get a set of all edges which you can traverse from node. Of course node
@@ -101,26 +101,50 @@ public interface Graph<N, E extends Edge<N>>
 	int getDegree(N node);
 
 	/**
-	 * Determines if there is a path from the firstNode to the lastNode. Graphs
-	 * do not need to be directed or undirected, another words there may
-	 * be a path from firstNode to lastNode even if there is no path from
-	 * lastNode to firstNode. Both nodes must be present in the graph or else
+	 * Determines if there is a path from the firstNode to the lastNode. There
+	 * may be a path from firstNode to lastNode even if there is no path from
+	 * lastNode to firstNode. This is because it only checks if there is a
+	 * traversable path. Both nodes must be present in the graph or else
 	 * an InvalidArgumentException will be thrown.
 	 *
 	 * @param firstNode begining node to find a path from.
 	 * @param lastNode eding node to find a path to.
 	 * @return true if a path exists, false otherwise.
 	 */
-	boolean isConnected(N firstNode, N lastNode);
+	boolean isStronglyConnected(N firstNode, N lastNode);
 
 	/**
 	 * If there is atleast one path from every Node in the graph to any other
-	 * node in the graph then true, false otherwise. This is analogus with
-	 * Strongly connected.
+	 * node in the graph then true, false otherwise. There must be a traversable
+	 * path, not just a series of adjacency.
 	 *
 	 * @return true if the graph is connected, false otherwise.
 	 */
-	boolean isConnected();
+	boolean isStronglyConnected();
+
+	/**
+	 * Determines if there is a path between the firstNode and the lastNode. If
+	 * this returns true then reversing the arguments will also return true.
+	 * This is because you only need to form a path between the specified nodes
+	 * as if the graph were undirected.
+	 *
+	 * @throws IllegalArgumentException if either of the specified nodes is not
+	 * in the graph.
+	 * @param firstNode begining node to find a path from.
+	 * @param lastNode eding node to find a path to.
+	 * @return true if a path exists, false otherwise.
+	 */
+	boolean isWeaklyConnected(N firstNode, N lastNode);
+
+	/**
+	 * If there is atleast one path from every Node in the graph to any other
+	 * node in the graph, treating all edges as undirected edges, then true,
+	 * false otherwise.
+	 *
+	 * @see Graph#isStronglyConnected
+	 * @return true if the graph is connected, false otherwise.
+	 */
+	boolean isWeaklyConnected();
 
 	/**
 	 * Obtains a set of all Maximally connected componets in the graph. A
@@ -323,18 +347,39 @@ public interface Graph<N, E extends Edge<N>>
 	int getEdgeConnectivity(N begin, N end);
 
 	/**
-	 * A simple graph where every node is connected by an edge to every node
-	 * (adjacent). Not every node needs to have an edge that can be traversed to
-	 * every other node so long as an edge exists.
+	 * Check if graph is complete, another words a simple graph where every node
+	 * is connected by an edge to every node (adjacent). Not every node needs to
+	 * have an edge that can be traversed to every other node so long as an edge
+	 * exists.
 	 *
 	 * @return true if this is a simple graph where every node is connected by
 	 * an edge to every other node(adjacent).
 	 */
 	boolean isComplete();
+
+	/**
+	 * Gets the order of the graph, this is the same as the number of nodes in
+	 * the graph.
+	 *
+	 * @return The order of the graph.
+	 */
 	int getOrder();
+
+	/**
+	 * Calculates the number of cylces int he graph. A cycle is any walk that
+	 * starts and ends on the same node and does not repeat any nodes or edges.
+	 * Two cycles are considered the same if they contain the sequence of nodes
+	 * and edges even if their starting point is different. In fact cycles do
+	 * not have a non-arbitrary starting and ending point. If this returns 0
+	 * then isAcyclic will be true. If this returns 1 then isUnicyclic will be
+	 * true. If this returns >1 then isPancyclic will be true.
+	 *
+	 * @return The number of cycles in the graph, 0 if the graph is acyclic.
+	 */
 	int getCycleCount();
 	boolean isPancyclic();
 	boolean isUnicyclic();
+	boolean isAcyclic();
 	int getGirth();
 	int getCircumference();
 	boolean isSpanning(TreeGraph<N,?> graph);

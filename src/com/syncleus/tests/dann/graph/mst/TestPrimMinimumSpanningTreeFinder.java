@@ -68,11 +68,11 @@ public class TestPrimMinimumSpanningTreeFinder
 
 		CycleDetector detector = new ColoredDepthFirstSearchDetector();
 		LOGGER.info("mst is cyclic: " + detector.hasCycle(mst));
-		LOGGER.info("mst is connected: " + mst.isConnected());
+		LOGGER.info("mst is connected: " + mst.isStronglyConnected());
 		LOGGER.info("mst is contains all nodes: " + mst.getNodes().containsAll(graph.getNodes()));
 
 		Assert.assertTrue("mst was not acyclic", !detector.hasCycle(mst));
-		Assert.assertTrue("mst was not connected", mst.isConnected());
+		Assert.assertTrue("mst was not connected", mst.isStronglyConnected());
 		Assert.assertTrue("mst did not contain all the nodes of the paret graph", mst.getNodes().containsAll(graph.getNodes()));
 	}
 }

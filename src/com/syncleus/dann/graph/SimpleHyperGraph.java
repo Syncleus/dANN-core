@@ -111,7 +111,7 @@ public class SimpleHyperGraph<N, E extends HyperEdge<N>> extends AbstractHyperGr
 		return Collections.unmodifiableList(this.neighborNodes.get(node));
 	}
 
-	public List<N> getTraversableNeighbors(N node)
+	public List<N> getTraversableNodes(N node)
 	{
 		return this.getAdjacentNodes(node);
 	}
