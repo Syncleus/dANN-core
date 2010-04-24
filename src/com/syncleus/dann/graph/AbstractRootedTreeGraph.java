@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public abstract class AbstractRootedTreeGraph<N, E extends DirectedEdge<N>> extends AbstractTreeGraph<N,E> implements RootedTreeGraph<N,E>
+public abstract class AbstractRootedTreeGraph<N, E extends BidirectedEdge<N>> extends AbstractTreeGraph<N,E> implements RootedTreeGraph<N,E>
 {
 	public N getRoot()
 	{

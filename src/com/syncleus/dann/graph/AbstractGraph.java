@@ -316,7 +316,13 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 
 	public boolean isTree()
 	{
-		return ((this.isWeaklyConnected())&&(this.isAcyclic()));
+		return ((this.isWeaklyConnected())&&(this.isAcyclic())&&(this.isSimple()));
+	}
+
+	public boolean isForest()
+	{
+		// TODO fill this in
+		return false;
 	}
 
 	public boolean isSubGraph(Graph<N,E> subgraph)

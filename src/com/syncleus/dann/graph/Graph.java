@@ -484,7 +484,18 @@ public interface Graph<N, E extends Edge<N>>
 	 * @since 2.0
 	 */
 	boolean isSpanningTree(Graph<N,E> graph);
+
+	/**
+	 * Determines if this graph is weakly connected, acyclic, and simple,
+	 * another words a Tree. Some rooted tree's are directed trees, however
+	 * not all directed tree's are rooted.
+	 * 
+	 * @return true if this graph is weakly connected, acyclic, and simple,
+	 * another words a Tree.
+	 * @since 2.0
+	 */
 	boolean isTree();
+	boolean isForest();
 	boolean isSubGraph(Graph<N,E> graph);
 	int getMinimumDegree();
 	boolean isMultigraph(boolean includeLoops);
