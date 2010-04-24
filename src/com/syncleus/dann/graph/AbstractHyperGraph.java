@@ -20,27 +20,17 @@ package com.syncleus.dann.graph;
 
 public abstract class AbstractHyperGraph<N, E extends HyperEdge<N>> extends AbstractGraph<N,E> implements HyperGraph<N,E>
 {
-	public int getNeighborCount(N node)
+	public int getRank()
 	{
-		return 0;
+		return -1;
 	}
-
-	public boolean isSymmetric(N firstNode, N secondNode)
+	
+	public BidirectedGraph<N,DirectedEdge<N>> getPrimal()
 	{
-		return false;
-	}
-
-	public boolean isSymmetric(E firstEdge, E secondEdge)
-	{
-		return false;
+		return null;
 	}
 
 	public boolean isPartial(HyperGraph<N,E> partialGraph)
-	{
-		return false;
-	}
-
-	public boolean isDual(HyperGraph<N,E> dualGraph)
 	{
 		return false;
 	}
@@ -50,29 +40,8 @@ public abstract class AbstractHyperGraph<N, E extends HyperEdge<N>> extends Abst
 		return false;
 	}
 
-	public boolean isPrimal(Graph<N,? extends Edge<N>> primalGraph)
-	{
-		return false;
-	}
-
 	public boolean isUniform()
 	{
 		return false;
 	}
-
-	public boolean isSymmetric()
-	{
-		return false;
-	}
-
-	public boolean isVertexSymmetric()
-	{
-		return false;
-	}
-
-	public boolean isEdgeSymmetric()
-	{
-		return false;
-	}
-	
 }

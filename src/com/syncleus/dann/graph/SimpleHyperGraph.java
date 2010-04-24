@@ -91,26 +91,6 @@ public class SimpleHyperGraph<N, E extends HyperEdge<N>> extends AbstractHyperGr
 		return this.getAdjacentEdges(node);
 	}
 
-	public Set<E> getOutEdges(N node)
-	{
-		return this.getTraversableEdges(node);
-	}
-
-	public Set<E> getInEdges(N node)
-	{
-		return this.getAdjacentEdges(node);
-	}
-
-	public int getIndegree(N node)
-	{
-		return this.getInEdges(node).size();
-	}
-
-	public int getOutdegree(N node)
-	{
-		return this.getOutEdges(node).size();
-	}
-
 	public List<N> getAdjacentNodes(N node)
 	{
 		return Collections.unmodifiableList(this.neighborNodes.get(node));
