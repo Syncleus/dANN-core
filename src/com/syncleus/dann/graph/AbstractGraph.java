@@ -307,11 +307,11 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 		return finder.circumference(this);
 	}
 
-	public boolean isSpanning(TreeGraph<N,?> graph)
+	public boolean isSpanningTree(Graph<N,E> graph)
 	{
-		if(this.getNodes().containsAll(graph.getNodes()))
-			return true;
-		return false;
+		return ((this.getNodes().containsAll(graph.getNodes())) &&
+			(graph.isWeaklyConnected()) &&
+			(graph.isAcyclic()));
 	}
 
 	public boolean isTree()

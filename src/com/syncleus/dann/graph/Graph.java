@@ -23,9 +23,10 @@ import java.util.*;
 /**
  * Represents a graph as a collection of nodes connected by edges. A graph does
  * not need to contain any nodes or edges however if there is atleast one edge
- * then there must be atleast one node. Each edge must have 2 or more nodes it
- * connects, however they do not need to be different nodes. The implementation
- * defines if and how a graph can be traversed across nodes and edges.
+ * then there must be atleast one node. There can, however, be one or more nodes
+ * with no edges present. Each edge must have 2 or more nodes it connects,
+ * however they do not need to be different nodes. The implementation defines
+ * if and how a graph can be traversed across nodes and edges.
  *
  * @author Jeffrey Phillips Freeman
  * @param <N> The class represenging a node.
@@ -423,7 +424,7 @@ public interface Graph<N, E extends Edge<N>>
 	/**
 	 * Determines if there is a cycle of every possible length in the graph, not
 	 * including lengths less than 3, and that the graph is simple. Therefore
-	 * the graph need not have any loops. Returns true if the order of the graph
+	 * the graph can not have any loops. Returns true if the order of the graph
 	 * is less than 3. Returns false if the graph is not simple.
 	 *
 	 * @return true there is a cycle of every possible length in the graph, not
@@ -431,11 +432,58 @@ public interface Graph<N, E extends Edge<N>>
 	 * @since 2.0
 	 */
 	boolean isPancyclic();
+
+	/**
+	 * Determines if this is a simple graph with exactly one cycle. Since the
+	 * graph must be simple it can not have any loops.
+	 *
+	 * @return true there is exactly one cycle and the graph is simple, false
+	 * otherwise.
+	 * @since 2.0
+	 */
 	boolean isUnicyclic();
+
+	/**
+	 * Determines if the graph contains no cycles or loops. Since the graph need
+	 * not be a simple graph the graph can have multiple edges between nodes
+	 * however there can not be loops if it is to qualify as acyclic.
+	 *
+	 * @return true if there are no cycles or loops, false otherwise.
+	 * @since 2.0
+	 */
 	boolean isAcyclic();
+
+	/**
+	 * Finds the length of the shortest cycle in the graph, -1 if the graph is
+	 * acyclic. If the graph contains any loops this should return 0.
+	 *
+	 * @return The length of the shortest cycle in the graph, -1 if the graph is
+	 * acyclic.
+	 * @since 2.0
+	 */
 	int getGirth();
+
+	/**
+	 * Finds the length of the longest cycle in the graph, -1 if the graph is
+	 * acyclic.
+	 *
+	 * @return The length of the longest cycle in the graph, -1 if the graph is
+	 * acyclic.
+	 * @since 2.0
+	 */
 	int getCircumference();
-	boolean isSpanning(TreeGraph<N,?> graph);
+
+	/**
+	 * Determines if the specified graph is a spanning tree of this graph. This
+	 * will return true if the specified graph contains all the nodes from this
+	 * graph, is weakly connected, and is acyclic, otherwise it returns false.
+	 *
+	 * @param graph graph to check if it is a spanning tree of this.
+	 * @return true if the specified graph contains all the nodes from this
+	 * graph, is weakly connected, and is acyclic, otherwise it returns false.
+	 * @since 2.0
+	 */
+	boolean isSpanningTree(Graph<N,E> graph);
 	boolean isTree();
 	boolean isSubGraph(Graph<N,E> graph);
 	int getMinimumDegree();
