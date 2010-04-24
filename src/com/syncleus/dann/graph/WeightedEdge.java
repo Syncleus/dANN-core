@@ -18,12 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.List;
-
 public interface WeightedEdge<N> extends Edge<N>, Weighted
 {
-	double getWeight();
-	
-	//Parent methods
-	List<N> getNodes();
 }

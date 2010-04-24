@@ -18,24 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.List;
-
 public interface WeightedBidirectedEdge<N> extends BidirectedEdge<N>, Weighted
 {
-	double getWeight();
-
-	//parent methods
-	List<N> getNodes();
-	
-	N getLeftNode();
-	N getRightNode();
-	EndState getLeftEndState();
-	EndState getRightEndState();
-	boolean isIntroverted();
-	boolean isExtraverted();
-	boolean isDirected();
-	boolean isHalfEdge();
-	boolean isLooseEdge();
-	boolean isOrdinaryEdge();
-	boolean isLoop();
 }

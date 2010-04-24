@@ -31,7 +31,7 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 		int degree = 0;
 		for(E adjacentEdge : adjacentEdges)
 			for(N adjacentNode : adjacentEdge.getNodes())
-				if(adjacentNode == node)
+				if(adjacentNode.equals(node))
 					degree++;
 		return degree;
 	}
@@ -354,15 +354,8 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 		return minimumDegree;
 	}
 
-	public boolean isMultigraph(boolean includeLoops)
+	public boolean isMultigraph()
 	{
-		if(includeLoops)
-		{
-			if(this.isSimple())
-				return false;
-			return true;
-		}
-
 		for(N currentNode : this.getNodes())
 		{
 			List<N> neighbors = new ArrayList<N>(this.getAdjacentNodes(currentNode));
@@ -453,6 +446,57 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 			throw new IllegalStateException("This graph has no nodes!");
 
 		return degree;
+	}
+
+	public int getMultiplicity()
+	{
+		int multiplicity = 0;
+		for(E edge : this.getEdges())
+		{
+			int edgeMultiplicity = this.getMultiplicity(edge);
+			if(edgeMultiplicity > multiplicity)
+				multiplicity = edgeMultiplicity;
+		}
+		return multiplicity;
+	}
+
+	public int getMultiplicity(E edge)
+	{
+		int multiplicity = 0;
+		final List<N> edgeNodes = edge.getNodes();
+		final Set<E> potentialMultiples = this.getAdjacentEdges(edge.getNodes().get(0));
+		for( E potentialMultiple : potentialMultiples)
+		{
+			if(potentialMultiple.equals(edge))
+				continue;
+			List<N> potentialNodes = new ArrayList<N>(potentialMultiple.getNodes());
+			if(potentialNodes.size() != edgeNodes.size())
+				continue;
+			for(N edgeNode : edgeNodes)
+				potentialNodes.remove(edgeNode);
+			if(potentialNodes.isEmpty())
+				multiplicity++;
+		}
+		return multiplicity;
+	}
+
+	public boolean isMultiple(E edge)
+	{
+		final List<N> edgeNodes = edge.getNodes();
+		final Set<E> potentialMultiples = this.getAdjacentEdges(edge.getNodes().get(0));
+		for( E potentialMultiple : potentialMultiples)
+		{
+			if(potentialMultiple.equals(edge))
+				continue;
+			List<N> potentialNodes = new ArrayList<N>(potentialMultiple.getNodes());
+			if(potentialNodes.size() != edgeNodes.size())
+				continue;
+			for(N edgeNode : edgeNodes)
+				potentialNodes.remove(edgeNode);
+			if(potentialNodes.isEmpty())
+				return true;
+		}
+		return false;
 	}
 
 	private static class SizeComparator<O> implements Comparator<Collection>

@@ -24,7 +24,4 @@ public interface HyperEdge<N> extends Edge<N>
 {
 	int getDegree();
 	boolean isSymmetric(HyperEdge symmetricEdge);
-
-	//Parent methods
-	List<N> getNodes();
 }

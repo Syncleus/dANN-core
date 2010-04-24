@@ -38,7 +38,4 @@ public interface BidirectedEdge<N> extends Edge<N>
 	boolean isLooseEdge();
 	boolean isOrdinaryEdge();
 	boolean isLoop();
-
-	//parent methods
-	List<N> getNodes();
 }

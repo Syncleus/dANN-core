@@ -495,13 +495,98 @@ public interface Graph<N, E extends Edge<N>>
 	 * @since 2.0
 	 */
 	boolean isTree();
+
+	/**
+	 * Determined if this graph contains maximally connected components which
+	 * are all Trees. If this grap is itself a tree this returns true.
+	 *
+	 * @return true if this graph contains maximally connected components which
+	 * are all Trees.
+	 * @since 2.0
+	 */
 	boolean isForest();
+
+	/**
+	 * Determines if the specified graph only contains nodes and edges that are
+	 * also present in this graph. If graph is empty then this will always
+	 * return true.
+	 *
+	 * @param graph
+	 * @return true if the specified graph only contains nodes and edges that are
+	 * also present in this graph.
+	 * @since 2.0
+	 */
 	boolean isSubGraph(Graph<N,E> graph);
+
+	/**
+	 * Determines the smallest degree of all the nodes present in the graph. The
+	 * graph must contain atleast one node.
+	 *
+	 * @throws IllegalStateException thrown if there are no nodes in the graph.
+	 * @return the smallest degree of all the nodes present in the graph.
+	 * @since 2.0
+	 */
 	int getMinimumDegree();
-	boolean isMultigraph(boolean includeLoops);
+
+	/**
+	 * Determines the regular degree if there is one, if all nodes are the same
+	 * degree return their degree, if they have varying degrees then return -1.
+	 * There must be atleast one node in the graph.
+	 *
+	 * @throws IllegalStateException thrown if there are no nodes in the graph.
+	 * @return the regular degree of the graph if there is one, -1 otherwise.
+	 * @since 2.0
+	 */
+	int getRegularDegree();
+
+	/**
+	 * Determines if the edge is the only edge with its particular set of end
+	 * point nodes, false if unique, true if not. If there is another edge in
+	 * the graph with the exact same set of nodes, no more and no less, then
+	 * returns true, otherwise false.
+	 *
+	 * @throws IllegalArgumentException if the specified edge is not present in
+	 * the graph.
+	 * @param edge the edge to check if it is multiple.
+	 * @return true if there is another edge in the graph with the exact same
+	 * set of nodes.
+	 * @since 2.0
+	 */
+	boolean isMultiple(E edge);
+
+	/**
+	 * Calculates the number of edges in the graph with the exact set of end
+	 * nodes as the specified edge, not including the specified edge itself.
+	 *
+	 * @throws IllegalArgumentException if the specified edge is not present in
+	 * the graph.
+	 * @param edge the edge of which the multiplicity is to be calculated.
+	 * @return the number of edges in the graph with the exact set of end
+	 * nodes as the specified edge, not including the specified edge itself.
+	 * @since 2.0
+	 */
+	int getMultiplicity(E edge);
+
+	/**
+	 * Determined the largest multiplicty of any node in the graph and return
+	 * it. Returns 0 if there are no edges.
+	 *
+	 * @return the largest multiplicty of any node in the graph and return
+	 * it.
+	 * @since 2.0
+	 */
+	int getMultiplicity();
+
+	/**
+	 * Determins if this graph has multiplicity greater than 0, but no loops.
+	 * If there are no edges it returns false.
+	 *
+	 * @return true if this graph has multiplicity greater than 0, but no loops.
+	 * @since 2.0
+	 */
+	boolean isMultigraph();
 	boolean isIsomorphic(Graph<N,E> isomorphicGraph);
 	boolean isHomomorphic(Graph<N,E> homomorphicGraph);
 	boolean isRegular();
-	int getRegularDegree();
 	boolean isSimple();
 }
