@@ -52,7 +52,7 @@ public class ExhaustiveDepthFirstSearchCycleFinder<N, E extends Edge<N>> extends
 
 	public boolean isUnicyclic(Graph<N,E> graph)
 	{
-		return (this.findCycles(graph).size() == 1);
+		return ((this.findCycles(graph).size() == 1)&&(graph.isSimple()));
 	}
 
 	public int cycleCount(Graph<N,E> graph)
