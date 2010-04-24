@@ -30,7 +30,7 @@ import java.io.Serializable;
  * <br/>
  * This class is abstract and must be extended in order to be used.
  *
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  * @since 1.0
  *
  */

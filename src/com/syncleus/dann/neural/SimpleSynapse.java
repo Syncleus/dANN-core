@@ -25,7 +25,7 @@ import com.syncleus.dann.graph.SimpleDirectedEdge;
  * connection weights are stores and manipulated.
  * 
  *
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  * @since 1.0
  *
  * @see com.syncleus.dann.neural.Neuron

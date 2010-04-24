@@ -22,7 +22,7 @@ package com.syncleus.dann.genetics;
  * This is a MutableNumber backed by a Byte. It is essentially a byte
  * implementing mutable.
  *
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  * @since 2.0
  *
  */

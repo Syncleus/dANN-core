@@ -35,7 +35,7 @@ import org.junit.*;
  * returns false (-1) if none all of its inputs are false or if more then one
  * of its inputs are true.
  *
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  */
 public class TestXor
 {

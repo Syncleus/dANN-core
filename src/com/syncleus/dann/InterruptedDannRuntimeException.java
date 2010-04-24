@@ -22,7 +22,7 @@ package com.syncleus.dann;
  *This exception signifes that execution could not complete because the thread
  * was interrupted.
  *
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  * @since 2.0
  */
 public class InterruptedDannRuntimeException extends DannRuntimeException

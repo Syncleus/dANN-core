@@ -26,7 +26,7 @@ import java.io.Serializable;
  * All neurons will connect to other neurons as well as be able to disconnect.
  *
  *
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  * @since 1.0
  *
  */

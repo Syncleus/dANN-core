@@ -28,7 +28,7 @@ import com.syncleus.dann.UnexpectedDannError;
  * Genetic Algorithms a Chromotid is called a Chromosome. Since this is Genetic
  * Algorithm based it only contains ValueGenes.
  *
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  * @since 2.0
  *
  */

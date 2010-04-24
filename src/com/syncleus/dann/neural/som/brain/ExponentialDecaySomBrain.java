@@ -22,7 +22,7 @@ package com.syncleus.dann.neural.som.brain;
  * A SomBrain which uses exponential decay over time for the neighboorhood
  * radius, neighboorhood function, and learning rate.
  *
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  * @since 2.0
  */
 public class ExponentialDecaySomBrain extends AbstractSomBrain

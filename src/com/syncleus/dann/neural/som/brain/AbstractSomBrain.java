@@ -36,7 +36,7 @@ import com.syncleus.dann.UnexpectedDannError;
  * neighborhood and learning rate as abstract. These methods can be implemented
  * in several ways to alow for different types of SOM networks.
  *
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  * @since 2.0
  */
 public abstract class AbstractSomBrain extends AbstractLocalBrain

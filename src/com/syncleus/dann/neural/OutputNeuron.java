@@ -23,7 +23,7 @@ package com.syncleus.dann.neural;
  * output data from the brain after processing.
  *
  *
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  * @since 1.0
  *
  */

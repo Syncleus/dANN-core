@@ -22,7 +22,7 @@ package com.syncleus.dann.neural.activation;
  * An implementation of an activation function using a sine function.
  *
  *
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  * @since 1.0
  *
  */

@@ -31,7 +31,7 @@ import com.syncleus.dann.UnexpectedDannError;
  * member of the population. This class handles each generation of the
  * population.
  *
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  * @since 2.0
  */
 public abstract class AbstractGeneticAlgorithmPopulation

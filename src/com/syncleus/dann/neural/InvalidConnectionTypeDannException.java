@@ -23,7 +23,7 @@ import com.syncleus.dann.*;
  * invalid.
  *
  * 
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  * @since 1.0
  *
  */

@@ -23,7 +23,7 @@ package com.syncleus.dann.genetics;
  * activity of a ValueGene remains constant and only changes through mutation.
  * This ValueGene is backed by a MutableDouble and its range will be the same.
  *
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  * @since 2.0
  *
  */

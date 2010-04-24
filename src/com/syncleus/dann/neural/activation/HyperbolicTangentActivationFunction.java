@@ -23,7 +23,7 @@ package com.syncleus.dann.neural.activation;
  * function.
  *
  *
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  * @since 1.0
  *
  */

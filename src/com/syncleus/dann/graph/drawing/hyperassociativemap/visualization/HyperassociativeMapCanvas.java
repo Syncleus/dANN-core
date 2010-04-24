@@ -30,7 +30,7 @@ import java.awt.GraphicsConfiguration;
  * A Canvas3D specifically for displaying a HyperassociativeMap.
  *
  *
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  * @since 1.0
  *
  */

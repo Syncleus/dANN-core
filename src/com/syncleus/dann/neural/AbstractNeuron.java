@@ -29,7 +29,7 @@ import org.apache.log4j.Logger;
  * function handling.
  *
  *
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  * @since 1.0
  *
  */

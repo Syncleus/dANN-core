@@ -23,7 +23,7 @@ package com.syncleus.dann;
  * or inherit from it.
  *
  *
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  * @since 1.0
  *
  */

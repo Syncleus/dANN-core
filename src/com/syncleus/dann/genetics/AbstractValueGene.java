@@ -27,7 +27,7 @@ import org.apache.log4j.Logger;
  * These are the only type of gene used in basic Genetic Algorithms.
  *
  * @param <N> The MutableNumber type used to back the value of this gene.
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  * @since 2.0
  *
  */

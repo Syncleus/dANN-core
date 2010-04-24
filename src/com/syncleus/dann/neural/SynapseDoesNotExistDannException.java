@@ -23,7 +23,7 @@ import com.syncleus.dann.*;
  * This indicates that a required synapse does not exist.
  *
  *
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  * @since 1.0
  *
  */

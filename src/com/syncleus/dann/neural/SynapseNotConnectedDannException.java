@@ -22,7 +22,7 @@ import com.syncleus.dann.*;
  * This means a synapse is not a connected synpase.
  *
  *
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  * @since 1.0
  *
  */

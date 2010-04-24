@@ -22,7 +22,7 @@ package com.syncleus.dann.neural.activation;
  * This activation function always returns the current activity.
  *
  * @since 2.0
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  */
 public class IdentityActivationFunction implements ActivationFunction
 {

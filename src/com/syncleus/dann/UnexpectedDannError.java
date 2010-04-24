@@ -22,7 +22,7 @@ package com.syncleus.dann;
  * This error indicates the program behaved in an unexpected way that was
  * considered impossible.
  *
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  * @since 2.0
  */
 public class UnexpectedDannError extends DannError

@@ -27,7 +27,7 @@ import org.apache.log4j.Logger;
  * An abstract class representing a gene which expresses a constant value
  * which only changes through mutation.
  *
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  * @param <N> The type of number backing the Gene.
  * @since 2.0
  *

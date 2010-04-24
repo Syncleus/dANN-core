@@ -25,7 +25,7 @@ import java.util.*;
  * is only one half of a chromosome which contains a pair of matching
  * chromatid. Typically only Chromatid are used, not chromosomes.
  *
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  * @param <G> The type of Gene this Chromatid may contain.
  * @since 2.0
  *

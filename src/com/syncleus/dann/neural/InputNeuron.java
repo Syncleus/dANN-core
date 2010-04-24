@@ -23,7 +23,7 @@ package com.syncleus.dann.neural;
  * you to input data into the brain for processing.
  *
  *
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  * @since 1.0
  *
  */

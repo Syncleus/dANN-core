@@ -28,7 +28,7 @@ import java.util.Set;
  * A special NetworkNode which can contain other NetworkNodes as children.
  * 
  *
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  * @since 1.0
  */
 public class NeuronGroup<N extends AbstractNeuron> implements java.io.Serializable

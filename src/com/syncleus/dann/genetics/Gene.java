@@ -22,7 +22,7 @@ package com.syncleus.dann.genetics;
  * Represents a Gene which can mutate and expresses some activity. All New
  * types of Gene's will inherit from this class.
  *
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  * @since 2.0
  *
  */

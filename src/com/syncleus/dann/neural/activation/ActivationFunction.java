@@ -23,7 +23,7 @@ package com.syncleus.dann.neural.activation;
  * derivative. This is used in propogating as well as backpropogating activity.
  *
  *
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  * @since 1.0
  *
  */

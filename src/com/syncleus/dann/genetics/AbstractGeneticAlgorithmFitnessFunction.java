@@ -24,7 +24,7 @@ package com.syncleus.dann.genetics;
  * represented by its natural ordering through implementation of the Comparable
  * interface.
  *
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  * @since 2.0
  */
 public abstract class AbstractGeneticAlgorithmFitnessFunction<E extends AbstractGeneticAlgorithmFitnessFunction> implements Comparable<E>

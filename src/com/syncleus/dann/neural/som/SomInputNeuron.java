@@ -25,7 +25,7 @@ import com.syncleus.dann.neural.activation.IdentityActivationFunction;
  * An input neuron for a SOM network. It essentialy just propgates the input
  * unchanged to the next layer.
  *
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  * @since 2.0
  */
 public class SomInputNeuron extends AbstractNeuron implements InputNeuron

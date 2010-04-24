@@ -22,7 +22,7 @@ package com.syncleus.dann;
  * All dANN specific runtime exceptions that are thrown will either be a
  * DannRuntimeException or inherit from it.
  *
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  * @since 2.0
  *
  */

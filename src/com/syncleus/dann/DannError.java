@@ -22,7 +22,7 @@ package com.syncleus.dann;
  * All dANN specific errors that are thrown will either be a DannError
  * or inherit from it.
  *
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  * @since 2.0
  */
 public class DannError extends Error

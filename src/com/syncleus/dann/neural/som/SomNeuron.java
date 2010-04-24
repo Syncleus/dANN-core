@@ -25,7 +25,7 @@ import com.syncleus.dann.neural.activation.SqrtActivationFunction;
  * A Som Nearon will calculate its euclidean distance to the input vector as
  * its output.
  *
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  * @since 2.0
  */
 public class SomNeuron extends AbstractNeuron implements OutputNeuron

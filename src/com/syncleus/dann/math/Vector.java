@@ -27,7 +27,7 @@ import java.util.List;
  * is thread safe.
  *
  *
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  * @since 1.0
  *
  */

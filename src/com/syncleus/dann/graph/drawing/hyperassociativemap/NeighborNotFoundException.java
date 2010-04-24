@@ -24,7 +24,7 @@ import com.syncleus.dann.*;
  * An exception thrown to indicate that no neighbor nodes currently exist.
  *
  *
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  * @since 1.0
  *
  */

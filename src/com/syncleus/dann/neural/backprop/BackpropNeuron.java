@@ -30,7 +30,7 @@ import java.util.Hashtable;
  * Neurons in the same way.
  *
  *
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  * @since 1.0
  *
  * @see com.syncleus.dann.neural.SimpleSynapse

@@ -36,7 +36,7 @@ import java.awt.image.BufferedImage;
  * A BranchGroup representing a HyperAssociativeMap
  *
  *
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  * @since 1.0
  *
  */

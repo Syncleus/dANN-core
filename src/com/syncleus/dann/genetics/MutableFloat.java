@@ -22,7 +22,7 @@ package com.syncleus.dann.genetics;
  * This is a MutableNumber backed by a Float. It essentially just allows the
  * number to mutate
  *
- * @author Syncleus, Inc.
+ * @author Jeffrey Phillips Freeman
  * @since 2.0
  *
  */
