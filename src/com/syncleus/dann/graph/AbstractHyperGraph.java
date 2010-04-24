@@ -25,7 +25,7 @@ public abstract class AbstractHyperGraph<N, E extends HyperEdge<N>> extends Abst
 		return -1;
 	}
 	
-	public BidirectedGraph<N,DirectedEdge<N>> getPrimal()
+	public BidirectedGraph<N,BidirectedEdge<N>> getPrimal()
 	{
 		return null;
 	}
