@@ -144,7 +144,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 
 	Set<N> getNeighbors(N nodeToQuery)
 	{
-		return new HashSet<N>(this.graph.getNeighbors(nodeToQuery));
+		return new HashSet<N>(this.graph.getAdjacentNodes(nodeToQuery));
 	}
 
 	final private Vector align(N nodeToAlign)
@@ -177,7 +177,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 
         //calculate repulsion with all non-neighbors
         for (N node : this.graph.getNodes())
-            if ((neighbors.contains(node) == false)&&(node != nodeToAlign)&&(this.graph.getNeighbors(node).contains(nodeToAlign) == false) )
+            if ((neighbors.contains(node) == false)&&(node != nodeToAlign)&&(this.graph.getAdjacentNodes(node).contains(nodeToAlign) == false) )
             {
                 Vector nodeVector = this.coordinates.get(node).calculateRelativeTo(location);
 				double newDistance = -1.0/Math.pow(nodeVector.getDistance(), 2.0);

@@ -76,7 +76,7 @@ public class SimpleGraph<N, E extends Edge<N>> extends AbstractGraph<N, E>
 		return Collections.unmodifiableSet(this.edges);
 	}
 
-	public Set<E> getEdges(N node)
+	public Set<E> getAdjacentEdges(N node)
 	{
 		if(this.neighborEdges.containsKey(node))
 			return Collections.unmodifiableSet(this.neighborEdges.get(node));
@@ -86,7 +86,7 @@ public class SimpleGraph<N, E extends Edge<N>> extends AbstractGraph<N, E>
 
 	public Set<E> getTraversableEdges(N node)
 	{
-		return this.getEdges(node);
+		return this.getAdjacentEdges(node);
 	}
 
 	public Set<E> getOutEdges(N node)
@@ -96,7 +96,7 @@ public class SimpleGraph<N, E extends Edge<N>> extends AbstractGraph<N, E>
 
 	public Set<E> getInEdges(N node)
 	{
-		return Collections.unmodifiableSet(this.getEdges(node));
+		return Collections.unmodifiableSet(this.getAdjacentEdges(node));
 	}
 
 	public int getIndegree(N node)
@@ -109,13 +109,13 @@ public class SimpleGraph<N, E extends Edge<N>> extends AbstractGraph<N, E>
 		return this.getOutEdges(node).size();
 	}
 
-	public List<N> getNeighbors(N node)
+	public List<N> getAdjacentNodes(N node)
 	{
 		return Collections.unmodifiableList(new ArrayList<N>(this.neighborNodes.get(node)));
 	}
 
 	public List<N> getTraversableNeighbors(N node)
 	{
-		return this.getNeighbors(node);
+		return this.getAdjacentNodes(node);
 	}
 }

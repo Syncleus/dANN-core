@@ -298,7 +298,7 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedGraph<Neuron,
 		return Collections.unmodifiableSet(this.synapses);
 	}
 
-	public Set<Synapse> getEdges(Neuron node)
+	public Set<Synapse> getAdjacentEdges(Neuron node)
 	{
 		Set<Synapse> nodeSynapses = new HashSet<Synapse>();
 		if( this.outMap.containsKey(node) )
@@ -348,9 +348,9 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedGraph<Neuron,
 		return ( !jointSet.isEmpty() );
 	}
 
-	public List<Neuron> getNeighbors(Neuron node)
+	public List<Neuron> getAdjacentNodes(Neuron node)
 	{
-		Set<Synapse> nodeSynapses = this.getEdges(node);
+		Set<Synapse> nodeSynapses = this.getAdjacentEdges(node);
 		List<Neuron> neighbors = new ArrayList<Neuron>();
 		for(Synapse nodeSynapse : nodeSynapses)
 			neighbors.add( (nodeSynapse.getLeftNode().equals(node) ? nodeSynapse.getRightNode() : nodeSynapse.getLeftNode() ) );

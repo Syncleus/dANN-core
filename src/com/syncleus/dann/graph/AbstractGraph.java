@@ -27,7 +27,7 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 {
 	public int getDegree(N node)
 	{
-		Set<E> adjacentEdges = this.getEdges(node);
+		Set<E> adjacentEdges = this.getAdjacentEdges(node);
 		int degree = 0;
 		for(E adjacentEdge : adjacentEdges)
 			for(N adjacentNode : adjacentEdge.getNodes())
@@ -218,10 +218,13 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 
 	public boolean isComplete()
 	{
+		if(!this.isSimple())
+			return false;
+		
 		for(N startNode : this.getNodes())
 			for(N endNode : this.getNodes())
 				if(!startNode.equals(endNode))
-					if(!this.getTraversableNeighbors(startNode).contains(endNode))
+					if(!this.getAdjacentNodes(startNode).contains(endNode))
 						return false;
 		return true;
 	}
@@ -313,7 +316,7 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 
 		for(N currentNode : this.getNodes())
 		{
-			List<N> neighbors = new ArrayList<N>(this.getNeighbors(currentNode));
+			List<N> neighbors = new ArrayList<N>(this.getAdjacentNodes(currentNode));
 			while( neighbors.remove(currentNode) )
 			{
 				//do nothing, just remove all instances of the currentNode
@@ -340,7 +343,7 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 			N currentNode = (N) uncheckedNodes.toArray()[0];
 			uncheckedNodes.remove(currentNode);
 
-			List<N> neighborNodes = this.getNeighbors(currentNode);
+			List<N> neighborNodes = this.getAdjacentNodes(currentNode);
 			if(!neighborNodes.isEmpty())
 				if(!homomorphicNodes.contains(currentNode))
 					return false;
@@ -350,7 +353,7 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 				{
 					if( !homomorphicNodes.contains(neighborNode) )
 						return false;
-					if( !homomorphicGraph.getNeighbors(currentNode).contains(neighborNode))
+					if( !homomorphicGraph.getAdjacentNodes(currentNode).contains(neighborNode))
 						return false;
 				}
 			}
@@ -363,7 +366,7 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 	{
 		for(N currentNode : this.getNodes())
 		{
-			List<N> neighbors = this.getNeighbors(currentNode);
+			List<N> neighbors = this.getAdjacentNodes(currentNode);
 			Set<N> uniqueNeighbors = new HashSet<N>(neighbors);
 			if(neighbors.size() > uniqueNeighbors.size())
 				return false;

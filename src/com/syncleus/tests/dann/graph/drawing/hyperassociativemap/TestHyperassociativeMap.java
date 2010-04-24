@@ -68,7 +68,7 @@ public class TestHyperassociativeMap
 		Assert.assertTrue("neuron2 is not in the map", testMap.getGraph().getNodes().contains(neuron2));
 
 
-		Assert.assertTrue("neuron1 is not associated to neuron2", testMap.getGraph().getNeighbors(neuron1).contains(neuron2));
-		Assert.assertTrue("neuron2 is not associated to neuron1", testMap.getGraph().getNeighbors(neuron2).contains(neuron1));
+		Assert.assertTrue("neuron1 is not associated to neuron2", testMap.getGraph().getAdjacentNodes(neuron1).contains(neuron2));
+		Assert.assertTrue("neuron2 is not associated to neuron1", testMap.getGraph().getAdjacentNodes(neuron2).contains(neuron1));
 	}
 }

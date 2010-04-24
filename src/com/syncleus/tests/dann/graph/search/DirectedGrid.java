@@ -106,7 +106,7 @@ public class DirectedGrid extends AbstractBidirectedGraph<GridNode, DirectedEdge
 		return Collections.unmodifiableSet(this.edges);
 	}
 
-	public Set<DirectedEdge<GridNode>> getEdges(GridNode node)
+	public Set<DirectedEdge<GridNode>> getAdjacentEdges(GridNode node)
 	{
 		Set<DirectedEdge<GridNode>> newEdges = new HashSet<DirectedEdge<GridNode>>(this.inNeighborEdges.get(node));
 		newEdges.addAll(this.outNeighborEdges.get(node));
@@ -142,10 +142,10 @@ public class DirectedGrid extends AbstractBidirectedGraph<GridNode, DirectedEdge
 
 	public boolean isConnected(GridNode leftNode, GridNode rightNode)
 	{
-		return this.getNeighbors(leftNode).contains(rightNode);
+		return this.getAdjacentNodes(leftNode).contains(rightNode);
 	}
 
-	public List<GridNode> getNeighbors(GridNode node)
+	public List<GridNode> getAdjacentNodes(GridNode node)
 	{
 		ArrayList<GridNode> newNeighbors = new ArrayList<GridNode>(this.inNeighborNodes.get(node));
 		newNeighbors.addAll(this.outNeighborNodes.get(node));

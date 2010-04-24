@@ -145,7 +145,7 @@ public abstract class AbstractBayesianNetwork extends AbstractBidirectedGraph<Ba
 		return Collections.unmodifiableSet(this.edges);
 	}
 
-	public Set<BayesianEdge> getEdges(BayesianNode node)
+	public Set<BayesianEdge> getAdjacentEdges(BayesianNode node)
 	{
 		Set<BayesianEdge> nodeEdges = new HashSet<BayesianEdge>();
 		if( this.outMap.containsKey(node) )
@@ -193,9 +193,9 @@ public abstract class AbstractBayesianNetwork extends AbstractBidirectedGraph<Ba
 		return false;
 	}
 
-	public List<BayesianNode> getNeighbors(BayesianNode node)
+	public List<BayesianNode> getAdjacentNodes(BayesianNode node)
 	{
-		Set<BayesianEdge> nodeEdges = this.getEdges(node);
+		Set<BayesianEdge> nodeEdges = this.getAdjacentEdges(node);
 		List<BayesianNode> neighbors = new ArrayList<BayesianNode>();
 		for(BayesianEdge nodeEdge : nodeEdges)
 			neighbors.add( (nodeEdge.getLeftNode().equals(node) ? nodeEdge.getRightNode() : nodeEdge.getLeftNode() ) );

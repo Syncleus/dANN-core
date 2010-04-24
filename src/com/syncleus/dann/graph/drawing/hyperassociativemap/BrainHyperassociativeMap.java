@@ -37,7 +37,7 @@ public class BrainHyperassociativeMap extends HyperassociativeMap<Brain, Neuron>
 	@Override
 	Set<Neuron> getNeighbors(Neuron nodeToQuery)
 	{
-		final Set<Neuron> associations = new HashSet<Neuron>(this.getGraph().getNeighbors(nodeToQuery));
+		final Set<Neuron> associations = new HashSet<Neuron>(this.getGraph().getAdjacentNodes(nodeToQuery));
 		if(nodeToQuery instanceof InputNeuron)
 			associations.addAll(this.getGraph().getInputNeurons());
 		else if(nodeToQuery instanceof OutputNeuron)

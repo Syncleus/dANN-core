@@ -52,7 +52,7 @@ public abstract class AbstractBidirectedGraph<N, E extends BidirectedEdge<N>> ex
 	@Override
 	public int getDegree(N node)
 	{
-		Set<E> adjacentEdges = this.getEdges(node);
+		Set<E> adjacentEdges = this.getAdjacentEdges(node);
 		int degree = 0;
 		for(E adjacentEdge : adjacentEdges)
 		{

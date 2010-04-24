@@ -106,7 +106,7 @@ public class WeightedDirectedGrid extends AbstractBidirectedGraph<GridNode, Weig
 		return Collections.unmodifiableSet(this.edges);
 	}
 
-	public Set<WeightedDirectedEdge<GridNode>> getEdges(GridNode node)
+	public Set<WeightedDirectedEdge<GridNode>> getAdjacentEdges(GridNode node)
 	{
 		Set<WeightedDirectedEdge<GridNode>> newEdges = new HashSet<WeightedDirectedEdge<GridNode>>(this.inNeighborEdges.get(node));
 		newEdges.addAll(this.outNeighborEdges.get(node));
@@ -142,10 +142,10 @@ public class WeightedDirectedGrid extends AbstractBidirectedGraph<GridNode, Weig
 
 	public boolean isConnected(GridNode leftNode, GridNode rightNode)
 	{
-		return this.getNeighbors(leftNode).contains(rightNode);
+		return this.getAdjacentNodes(leftNode).contains(rightNode);
 	}
 
-	public List<GridNode> getNeighbors(GridNode node)
+	public List<GridNode> getAdjacentNodes(GridNode node)
 	{
 		ArrayList<GridNode> newNeighbors = new ArrayList<GridNode>(this.inNeighborNodes.get(node));
 		newNeighbors.addAll(this.outNeighborNodes.get(node));

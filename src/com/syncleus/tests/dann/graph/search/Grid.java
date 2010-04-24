@@ -88,24 +88,24 @@ public class Grid extends AbstractBidirectedGraph<GridNode, BidirectedEdge<GridN
 		return Collections.unmodifiableSet(this.edges);
 	}
 
-	public Set<BidirectedEdge<GridNode>> getEdges(GridNode node)
+	public Set<BidirectedEdge<GridNode>> getAdjacentEdges(GridNode node)
 	{
 		return Collections.unmodifiableSet(this.neighborEdges.get(node));
 	}
 
 	public Set<BidirectedEdge<GridNode>> getTraversableEdges(GridNode node)
 	{
-		return this.getEdges(node);
+		return this.getAdjacentEdges(node);
 	}
 
 	public Set<BidirectedEdge<GridNode>> getOutEdges(GridNode node)
 	{
-		return this.getEdges(node);
+		return this.getAdjacentEdges(node);
 	}
 
 	public Set<BidirectedEdge<GridNode>> getInEdges(GridNode node)
 	{
-		return this.getEdges(node);
+		return this.getAdjacentEdges(node);
 	}
 
 	public int getIndegree(GridNode node)
@@ -123,13 +123,13 @@ public class Grid extends AbstractBidirectedGraph<GridNode, BidirectedEdge<GridN
 		return this.neighborNodes.get(leftNode).contains(rightNode);
 	}
 
-	public List<GridNode> getNeighbors(GridNode node)
+	public List<GridNode> getAdjacentNodes(GridNode node)
 	{
 		return Collections.unmodifiableList(new ArrayList<GridNode>(this.neighborNodes.get(node)));
 	}
 
 	public List<GridNode> getTraversableNeighbors(GridNode node)
 	{
-		return this.getNeighbors(node);
+		return this.getAdjacentNodes(node);
 	}
 }

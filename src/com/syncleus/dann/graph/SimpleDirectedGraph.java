@@ -76,7 +76,7 @@ public class SimpleDirectedGraph<N, E extends DirectedEdge<N>> extends AbstractB
 		return Collections.unmodifiableSet(this.edges);
 	}
 
-	public Set<E> getEdges(N node)
+	public Set<E> getAdjacentEdges(N node)
 	{
 		return Collections.unmodifiableSet(this.neighborEdges.get(node));
 	}
@@ -114,7 +114,7 @@ public class SimpleDirectedGraph<N, E extends DirectedEdge<N>> extends AbstractB
 		return this.getOutEdges(node).size();
 	}
 
-	public List<N> getNeighbors(N node)
+	public List<N> getAdjacentNodes(N node)
 	{
 		return Collections.unmodifiableList(this.neighborNodes.get(node));
 	}

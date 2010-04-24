@@ -76,14 +76,14 @@ public class SimpleTreeGraph<N, E extends BidirectedEdge<N>> extends AbstractTre
 		return Collections.unmodifiableSet(this.edges);
 	}
 
-	public Set<E> getEdges(N node)
+	public Set<E> getAdjacentEdges(N node)
 	{
 		return Collections.unmodifiableSet(this.neighborEdges.get(node));
 	}
 
 	public Set<E> getTraversableEdges(N node)
 	{
-		return this.getEdges(node);
+		return this.getAdjacentEdges(node);
 	}
 
 	public Set<E> getOutEdges(N node)
@@ -93,7 +93,7 @@ public class SimpleTreeGraph<N, E extends BidirectedEdge<N>> extends AbstractTre
 
 	public Set<E> getInEdges(N node)
 	{
-		return this.getEdges(node);
+		return this.getAdjacentEdges(node);
 	}
 
 	public int getIndegree(N node)
@@ -106,13 +106,13 @@ public class SimpleTreeGraph<N, E extends BidirectedEdge<N>> extends AbstractTre
 		return this.getOutEdges(node).size();
 	}
 
-	public List<N> getNeighbors(N node)
+	public List<N> getAdjacentNodes(N node)
 	{
 		return Collections.unmodifiableList(this.neighborNodes.get(node));
 	}
 
 	public List<N> getTraversableNeighbors(N node)
 	{
-		return this.getNeighbors(node);
+		return this.getAdjacentNodes(node);
 	}
 }

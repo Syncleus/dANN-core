@@ -84,24 +84,24 @@ public class SimpleGraph extends AbstractBidirectedGraph<SimpleNode, BidirectedE
 		return Collections.unmodifiableSet(this.edges);
 	}
 
-	public Set<BidirectedEdge<SimpleNode>> getEdges(SimpleNode node)
+	public Set<BidirectedEdge<SimpleNode>> getAdjacentEdges(SimpleNode node)
 	{
 		return Collections.unmodifiableSet(this.neighborEdges.get(node));
 	}
 
 	public Set<BidirectedEdge<SimpleNode>> getTraversableEdges(SimpleNode node)
 	{
-		return this.getEdges(node);
+		return this.getAdjacentEdges(node);
 	}
 
 	public Set<BidirectedEdge<SimpleNode>> getOutEdges(SimpleNode node)
 	{
-		return this.getEdges(node);
+		return this.getAdjacentEdges(node);
 	}
 
 	public Set<BidirectedEdge<SimpleNode>> getInEdges(SimpleNode node)
 	{
-		return this.getEdges(node);
+		return this.getAdjacentEdges(node);
 	}
 
 	public int getIndegree(SimpleNode node)
@@ -119,13 +119,13 @@ public class SimpleGraph extends AbstractBidirectedGraph<SimpleNode, BidirectedE
 		return this.neighborNodes.get(leftNode).contains(rightNode);
 	}
 
-	public List<SimpleNode> getNeighbors(SimpleNode node)
+	public List<SimpleNode> getAdjacentNodes(SimpleNode node)
 	{
 		return Collections.unmodifiableList(new ArrayList<SimpleNode>(this.neighborNodes.get(node)));
 	}
 
 	public List<SimpleNode> getTraversableNeighbors(SimpleNode node)
 	{
-		return this.getNeighbors(node);
+		return this.getAdjacentNodes(node);
 	}
 }

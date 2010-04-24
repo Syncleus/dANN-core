@@ -165,7 +165,7 @@ public class JohnsonGraphTransformer<N> implements GraphTransformer<BidirectedGr
 			return Collections.unmodifiableSet(this.edges);
 		}
 
-		public Set<WeightedDirectedEdge<N>> getEdges(N node)
+		public Set<WeightedDirectedEdge<N>> getAdjacentEdges(N node)
 		{
 			Set<WeightedDirectedEdge<N>> nodeSynapses = new HashSet<WeightedDirectedEdge<N>>();
 			if( this.outEdges.containsKey(node) )
@@ -204,9 +204,9 @@ public class JohnsonGraphTransformer<N> implements GraphTransformer<BidirectedGr
 			return this.outEdges.get(node).size();
 		}
 
-		public List<N> getNeighbors(N node)
+		public List<N> getAdjacentNodes(N node)
 		{
-			Set<WeightedDirectedEdge<N>> nodeEdges = this.getEdges(node);
+			Set<WeightedDirectedEdge<N>> nodeEdges = this.getAdjacentEdges(node);
 			List<N> neighbors = new ArrayList<N>();
 			for(WeightedDirectedEdge<N> nodeEdge : nodeEdges)
 				neighbors.add( (nodeEdge.getLeftNode().equals(node) ? nodeEdge.getRightNode() : nodeEdge.getLeftNode() ) );
