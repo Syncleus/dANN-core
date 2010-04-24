@@ -27,6 +27,11 @@ public class SimpleDirectedGraph<N, E extends DirectedEdge<N>> extends AbstractB
 	final private Map<N, Set<E>> neighborEdges = new HashMap<N, Set<E>>();
 	final private Map<N, List<N>> neighborNodes = new HashMap<N, List<N>>();
 
+	public SimpleDirectedGraph(Graph<N,E> copyGraph)
+	{
+		this(copyGraph.getNodes(), copyGraph.getEdges());
+	}
+
 	public SimpleDirectedGraph(Set<N> nodes, Set<E> edges)
 	{
 		this.nodes = new HashSet<N>(nodes);

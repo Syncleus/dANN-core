@@ -27,6 +27,11 @@ public class SimpleTreeGraph<N, E extends BidirectedEdge<N>> extends AbstractTre
 	final private Map<N, Set<E>> neighborEdges = new HashMap<N, Set<E>>();
 	final private Map<N, List<N>> neighborNodes = new HashMap<N, List<N>>();
 
+	public SimpleTreeGraph(Graph<N,E> copyGraph)
+	{
+		this(copyGraph.getNodes(), copyGraph.getEdges());
+	}
+
 	public SimpleTreeGraph(Set<N> nodes, Set<E> edges)
 	{
 		this.nodes = new HashSet<N>(nodes);

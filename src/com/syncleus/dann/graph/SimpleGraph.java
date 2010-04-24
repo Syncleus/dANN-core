@@ -27,6 +27,11 @@ public class SimpleGraph<N, E extends Edge<N>> extends AbstractGraph<N, E>
 	final private Map<N, Set<E>> neighborEdges = new HashMap<N, Set<E>>();
 	final private Map<N, List<N>> neighborNodes = new HashMap<N, List<N>>();
 
+	public SimpleGraph(Graph<N,E> copyGraph)
+	{
+		this(copyGraph.getNodes(), copyGraph.getEdges());
+	}
+
 	public SimpleGraph(Set<N> nodes, Set<E> edges)
 	{
 		this.nodes = new HashSet<N>(nodes);

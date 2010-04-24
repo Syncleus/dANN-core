@@ -17,6 +17,7 @@
  *                                                                             *
  ******************************************************************************/
 package com.syncleus.dann.neural;
+
 import com.syncleus.dann.graph.BidirectedEdge.EndState;
 import com.syncleus.dann.graph.WeightedDirectedEdge;
 import java.util.List;

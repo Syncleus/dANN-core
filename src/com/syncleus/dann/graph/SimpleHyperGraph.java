@@ -27,6 +27,11 @@ public class SimpleHyperGraph<N, E extends HyperEdge<N>> extends AbstractHyperGr
 	final private Map<N, Set<E>> neighborEdges = new HashMap<N, Set<E>>();
 	final private Map<N, List<N>> neighborNodes = new HashMap<N, List<N>>();
 
+	public SimpleHyperGraph(Graph<N,E> copyGraph)
+	{
+		this(copyGraph.getNodes(), copyGraph.getEdges());
+	}
+
 	public SimpleHyperGraph(Set<N> nodes, Set<E> edges)
 	{
 		this.nodes = new HashSet<N>(nodes);

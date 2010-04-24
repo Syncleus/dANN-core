@@ -173,10 +173,9 @@ public interface Graph<N, E extends Edge<N>>
 
 	/**
 	 * Obtains a set of all Maximally connected componets in the graph. A
-	 * subgraph is maximally connected if every node in the subgraph has every
-	 * edge from the parent graph that is connected to one of the nodes in the
-	 * subgraph along with every node that is an end point of one of these
-	 * edges.
+	 * subgraph is a maximally connected component if it is a weakly connected
+	 * subgraph of this graph and to which no vertex can be added from this
+	 * graph and still be weakly connected. 
 	 *
 	 * @return a unmodifiable set of all the maximally connected components.
 	 * @since 2.0
