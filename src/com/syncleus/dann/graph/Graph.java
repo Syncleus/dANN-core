@@ -20,11 +20,25 @@ package com.syncleus.dann.graph;
 
 import java.util.*;
 
+/**
+ * Represents a graph as a collection of nodes connected by edges. A graph does
+ * not need to contain any nodes or edges however if there is atleast one edge
+ * then there must be atleast one node. Each edge must have 2 or more nodes it
+ * connects, however they do not need to be different nodes. The implementation
+ * defines if and how a graph can be traversed across nodes and edges.
+ *
+ * @author Jeffrey Phillips Freeman
+ * @param <N> The class represenging a node.
+ * @param <E> The edge used to connect nodes.
+ * @since 2.0
+ */
 public interface Graph<N, E extends Edge<N>>
 {
 	/**
 	 * Get a set of all Nodes in the graph.
+	 *
 	 * @return An unmodifiable set of all nodes in the graph.
+	 * @since 2.0
 	 */
 	Set<N> getNodes();
 
@@ -34,6 +48,7 @@ public interface Graph<N, E extends Edge<N>>
 	 * this graph restrict that possiblity.
 	 *
 	 * @return An unmodifiable set of a all edges in the graph.
+	 * @since 2.0
 	 */
 	Set<E> getEdges();
 
@@ -48,6 +63,7 @@ public interface Graph<N, E extends Edge<N>>
 	 * @param node The whose neighbors are to be returned.
 	 * @return A list of all nodes adjacent to the specified node, empty set if
 	 * the node has no edges.
+	 * @since 2.0
 	 */
 	List<N> getAdjacentNodes(N node);
 
@@ -61,6 +77,7 @@ public interface Graph<N, E extends Edge<N>>
 	 * @see Graph#getTraversableEdges
 	 * @param node the end point for all edges to retrieve.
 	 * @return An unmodifiable set of all edges that has node as an end point.
+	 * @since 2.0
 	 */
 	Set<E> getAdjacentEdges(N node);
 
@@ -75,6 +92,7 @@ public interface Graph<N, E extends Edge<N>>
 	 * @param node The whose traversable neighbors are to be returned.
 	 * @return A list of all nodes adjacent to the specified node and
 	 * traversable from the spevified node, empty set if the node has no edges.
+	 * @since 2.0
 	 */
 	List<N> getTraversableNodes(N node);
 
@@ -85,6 +103,7 @@ public interface Graph<N, E extends Edge<N>>
 	 *
 	 * @param node edges returned will be traversable from this node.
 	 * @return An unmodifiable set of all edges that can be traversed from node.
+	 * @since 2.0
 	 */
 	Set<E> getTraversableEdges(N node);
 
@@ -97,6 +116,7 @@ public interface Graph<N, E extends Edge<N>>
 	 * @see Graph#getAdjacentEdges
 	 * @param node The node whose degree is to be returned
 	 * @return the degree of the specified node.
+	 * @since 2.0
 	 */
 	int getDegree(N node);
 
@@ -110,6 +130,7 @@ public interface Graph<N, E extends Edge<N>>
 	 * @param firstNode begining node to find a path from.
 	 * @param lastNode eding node to find a path to.
 	 * @return true if a path exists, false otherwise.
+	 * @since 2.0
 	 */
 	boolean isStronglyConnected(N firstNode, N lastNode);
 
@@ -119,6 +140,7 @@ public interface Graph<N, E extends Edge<N>>
 	 * path, not just a series of adjacency.
 	 *
 	 * @return true if the graph is connected, false otherwise.
+	 * @since 2.0
 	 */
 	boolean isStronglyConnected();
 
@@ -133,6 +155,7 @@ public interface Graph<N, E extends Edge<N>>
 	 * @param firstNode begining node to find a path from.
 	 * @param lastNode eding node to find a path to.
 	 * @return true if a path exists, false otherwise.
+	 * @since 2.0
 	 */
 	boolean isWeaklyConnected(N firstNode, N lastNode);
 
@@ -143,6 +166,7 @@ public interface Graph<N, E extends Edge<N>>
 	 *
 	 * @see Graph#isStronglyConnected
 	 * @return true if the graph is connected, false otherwise.
+	 * @since 2.0
 	 */
 	boolean isWeaklyConnected();
 
@@ -154,6 +178,7 @@ public interface Graph<N, E extends Edge<N>>
 	 * edges.
 	 *
 	 * @return a unmodifiable set of all the maximally connected components.
+	 * @since 2.0
 	 */
 	Set<Graph<N,E>> getMaximallyConnectedComponents();
 
@@ -168,6 +193,7 @@ public interface Graph<N, E extends Edge<N>>
 	 * connected.
 	 * @return true if the subgraph is a maximally connected component of this
 	 * graph. False otherwise.
+	 * @since 2.0
 	 */
 	boolean isMaximalSubgraph(Graph<N,E> subgraph);
 
@@ -182,6 +208,7 @@ public interface Graph<N, E extends Edge<N>>
 	 * @param nodes set of nodes to remove when checking for a cut.
 	 * @param edges set of edges to remove when checking for a cut.
 	 * @return true if the nodes and edges form a cut, false otherwise.
+	 * @since 2.0
 	 */
 	boolean isCut(Set<N> nodes, Set<E> edges);
 
@@ -192,6 +219,7 @@ public interface Graph<N, E extends Edge<N>>
 	 *
 	 * @param edges set of edges to remove when checking for a cut.
 	 * @return true if the edges form a cut, false otherwise.
+	 * @since 2.0
 	 */
 	boolean isCut(Set<E> edges);
 
@@ -204,6 +232,7 @@ public interface Graph<N, E extends Edge<N>>
 	 *
 	 * @param node node to remove when checking for a cut.
 	 * @return true if the node is a cut node, False otherwise.
+	 * @since 2.0
 	 */
 	boolean isCut(N node);
 
@@ -213,6 +242,7 @@ public interface Graph<N, E extends Edge<N>>
 	 *
 	 * @param edge edge to remove when checking for a cut.
 	 * @return true if the edge is a cut edge, False otherwise.
+	 * @since 2.0
 	 */
 	boolean isCut(E edge);
 
@@ -234,6 +264,7 @@ public interface Graph<N, E extends Edge<N>>
 	 * @throws IllegalArgumentException if any of nodes, edges, begin, or end
 	 * are not in this graph or begin and end have no path between them before
 	 * the cut.
+	 * @since 2.0
 	 */
 	boolean isCut(Set<N> nodes, Set<E> edges, N begin, N end);
 
@@ -250,6 +281,7 @@ public interface Graph<N, E extends Edge<N>>
 	 * @throws IllegalArgumentException if any of nodes, edges, begin, or end
 	 * are not in this graph or begin and end have no path between them before
 	 * the cut.
+	 * @since 2.0
 	 */
 	boolean isCut(Set<E> edges, N begin, N end);
 
@@ -269,6 +301,7 @@ public interface Graph<N, E extends Edge<N>>
 	 * @throws IllegalArgumentException if any of nodes, edges, begin, or end
 	 * are not in this graph or begin and end have no path between them before
 	 * the cut.
+	 * @since 2.0
 	 */
 	boolean isCut(N node, N begin, N end);
 
@@ -285,6 +318,7 @@ public interface Graph<N, E extends Edge<N>>
 	 * @throws IllegalArgumentException if any of nodes, edges, begin, or end
 	 * are not in this graph or begin and end have no path between them before
 	 * the cut.
+	 * @since 2.0
 	 */
 	boolean isCut(E edge, N begin, N end);
 
@@ -299,6 +333,7 @@ public interface Graph<N, E extends Edge<N>>
 	 *
 	 * @return The minimum number of nodes that must be removed from the graph
 	 * in order to form a cut.
+	 * @since 2.0
 	 */
 	int getNodeConnectivity();
 
@@ -310,6 +345,7 @@ public interface Graph<N, E extends Edge<N>>
 	 *
 	 * @return The minimum number of edges that must be removed from the graph
 	 * in order to form a cut.
+	 * @since 2.0
 	 */
 	int getEdgeConnectivity();
 
@@ -328,6 +364,7 @@ public interface Graph<N, E extends Edge<N>>
 	 * graph.
 	 * @return The minimum number of nodes that must be removed from the graph
 	 * in order to form a cut between the specified nodes.
+	 * @since 2.0
 	 */
 	int getNodeConnectivity(N begin, N end);
 
@@ -343,6 +380,7 @@ public interface Graph<N, E extends Edge<N>>
 	 * graph.
 	 * @return The minimum number of edges that must be removed from the graph
 	 * in order to form a cut between the specified nodes.
+	 * @since 2.0
 	 */
 	int getEdgeConnectivity(N begin, N end);
 
@@ -354,6 +392,7 @@ public interface Graph<N, E extends Edge<N>>
 	 *
 	 * @return true if this is a simple graph where every node is connected by
 	 * an edge to every other node(adjacent).
+	 * @since 2.0
 	 */
 	boolean isComplete();
 
@@ -362,6 +401,7 @@ public interface Graph<N, E extends Edge<N>>
 	 * the graph.
 	 *
 	 * @return The order of the graph.
+	 * @since 2.0
 	 */
 	int getOrder();
 
@@ -375,6 +415,7 @@ public interface Graph<N, E extends Edge<N>>
 	 * true. If this returns >1 then isPancyclic will be true.
 	 *
 	 * @return The number of cycles in the graph, 0 if the graph is acyclic.
+	 * @since 2.0
 	 */
 	int getCycleCount();
 	boolean isPancyclic();
