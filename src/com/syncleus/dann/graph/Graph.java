@@ -135,7 +135,7 @@ public interface Graph<N, E extends Edge<N>>
 	boolean isStronglyConnected(N firstNode, N lastNode);
 
 	/**
-	 * If there is atleast one path from every Node in the graph to any other
+	 * If there is atleast one path from every node in the graph to any other
 	 * node in the graph then true, false otherwise. There must be a traversable
 	 * path, not just a series of adjacency.
 	 *
@@ -160,7 +160,7 @@ public interface Graph<N, E extends Edge<N>>
 	boolean isWeaklyConnected(N firstNode, N lastNode);
 
 	/**
-	 * If there is atleast one path from every Node in the graph to any other
+	 * If there is atleast one path from every node in the graph to any other
 	 * node in the graph, treating all edges as undirected edges, then true,
 	 * false otherwise.
 	 *
@@ -412,12 +412,24 @@ public interface Graph<N, E extends Edge<N>>
 	 * and edges even if their starting point is different. In fact cycles do
 	 * not have a non-arbitrary starting and ending point. If this returns 0
 	 * then isAcyclic will be true. If this returns 1 then isUnicyclic will be
-	 * true. If this returns >1 then isPancyclic will be true.
+	 * true.
 	 *
-	 * @return The number of cycles in the graph, 0 if the graph is acyclic.
+	 * @return The number of cycles in the graph, 0 if the graph is acyclic, 1
+	 * if unicyclic.
 	 * @since 2.0
 	 */
 	int getCycleCount();
+
+	/**
+	 * Determines if there is a cycle of every possible length in the graph, not
+	 * including lengths less than 3, and that the graph is simple. Therefore
+	 * the graph need not have any loops. Returns true if the order of the graph
+	 * is less than 3. Returns false if the graph is not simple.
+	 *
+	 * @return true there is a cycle of every possible length in the graph, not
+	 * including lengths less than 3, and that the graph is simple.
+	 * @since 2.0
+	 */
 	boolean isPancyclic();
 	boolean isUnicyclic();
 	boolean isAcyclic();

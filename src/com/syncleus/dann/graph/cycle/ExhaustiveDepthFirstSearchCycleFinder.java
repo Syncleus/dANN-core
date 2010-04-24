@@ -25,6 +25,9 @@ public class ExhaustiveDepthFirstSearchCycleFinder<N, E extends Edge<N>> extends
 {
 	public boolean isPancyclic(Graph<N,E> graph)
 	{
+		if(!graph.isSimple())
+			return false;
+		
 		final int graphOrder = graph.getOrder();
 		Set<Cycle<N,E>> cycles = this.findCycles(graph);
 		SortedSet<Cycle<N,E>> sortedCycles = new TreeSet<Cycle<N,E>>(new CycleLengthComparator<N,E>());
