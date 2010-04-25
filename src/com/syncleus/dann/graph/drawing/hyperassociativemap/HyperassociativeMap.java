@@ -49,20 +49,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 
 		public Vector call()
 		{
-			try
-			{
-				return align(this.node);
-			}
-			catch(Exception caught)
-			{
-				LOGGER.error("Throwable was caught by Align", caught);
-				throw new DannRuntimeException("Throwable was caught by Align", caught);
-			}
-			catch(Error caught)
-			{
-				LOGGER.error("Throwable was caught by Align", caught);
-				throw new Error("Throwable was caught by Align", caught);
-			}
+			return align(this.node);
 		}
 	}
 
@@ -123,7 +110,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 		catch(InterruptedException caught)
 		{
 			LOGGER.warn("waitAndProcessFutures was unexpectidy interupted", caught);
-			throw new InterruptedDannRuntimeException("Unexpected interuption. Get should block indefinately", caught);
+			throw new UnexpectedInterruptedException("Unexpected interuption. Get should block indefinately", caught);
 		}
 
 		//divide each coordinate of the sum of all the points by the number of

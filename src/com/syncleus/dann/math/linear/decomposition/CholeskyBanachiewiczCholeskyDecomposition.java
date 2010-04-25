@@ -102,9 +102,9 @@ public class CholeskyBanachiewiczCholeskyDecomposition<M extends Matrix<M, F>, F
 	{
 		M solvedMatrix = solutionMatrix;
 		if(solutionMatrix.getHeight() != this.matrix.getHeight())
-			throw new IllegalArgumentException("Matrix row dimensions must agree.");
+			throw new IllegalArgumentException("solutionMatrix row dimensions must agree.");
 		if(!isSpd)
-			throw new RuntimeException("Matrix is not symmetric positive definite.");
+			throw new ArithmeticException("this is not symmetric positive definite.");
 
 		// Solve L*Y = solutionMatrix;
 		for(int k = 0; k < this.matrix.getHeight(); k++)

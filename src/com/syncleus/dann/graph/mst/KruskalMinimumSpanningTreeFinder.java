@@ -39,7 +39,7 @@ public class KruskalMinimumSpanningTreeFinder<N, E extends Edge<N>> implements M
 			//of the next edge
 			E queuedEdge = edgeQueue.poll();
 			if( queuedEdge == null )
-				throw new IllegalArgumentException("There is no spanning tree!");
+				return null;
 			
 			Set<Set<N>> setContainingEndNodes = new HashSet<Set<N>>();
 			for(Set<N> component : componentNodeSets)

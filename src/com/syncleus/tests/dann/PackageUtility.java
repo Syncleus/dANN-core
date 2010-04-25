@@ -1,12 +1,16 @@
 package com.syncleus.tests.dann;
 
+import com.syncleus.dann.DannError;
 import java.net.URL;
 import java.util.jar.*;
 import java.util.*;
 import java.io.*;
+import org.apache.log4j.Logger;
 
 public abstract class PackageUtility
 {
+	private final static Logger LOGGER = Logger.getLogger(PackageUtility.class);
+
 	public static Class[] getClasses(String pkgName) throws ClassNotFoundException
 	{
 		ArrayList<Class> classes = new ArrayList<Class>();
@@ -16,10 +20,7 @@ public abstract class PackageUtility
 		try
 		{
 			ClassLoader cld = Thread.currentThread().getContextClassLoader();
-			if (cld == null)
-			{
-				throw new ClassNotFoundException("Can't get class loader.");
-			}
+			assert (cld != null);
 
 			pkgPath = pkgName.replace('.', '/');
 			URL resource = cld.getResource(pkgPath);
@@ -63,10 +64,15 @@ public abstract class PackageUtility
 			{
 				return PackageUtility.getClasses(jarPath, pkgName);
 			}
-			catch(Exception caughtException)
+			catch(FileNotFoundException caughtException)
 			{
-				caughtException.printStackTrace();
-				throw new InternalError("Unexpected internal error!");
+				LOGGER.error("Can not figure out the location of the jar: " + jarPath + " " + pkgName, caughtException);
+				throw new DannError("Can not figure out the location of the jar: " + jarPath + " " + pkgName, caughtException);
+			}
+			catch(IOException caughtException)
+			{
+				LOGGER.error("IO error when opening jar: " + jarPath + " " + pkgName, caughtException);
+				throw new DannError("IO error when opening jar: " + jarPath + " " + pkgName, caughtException);
 			}
 		}
 	}
@@ -96,7 +102,7 @@ public abstract class PackageUtility
 				}
 				catch(ClassNotFoundException caughtException)
 				{
-					throw new IOException("class not found, do you have the right jar file?");
+					throw new FileNotFoundException("class not found, do you have the right jar file?");
 				}
 			}
 		}

@@ -186,9 +186,9 @@ public class HouseholderQrDecomposition<M extends Matrix<M, F>, F extends Ordere
 	public M solve(M solutionMatrix)
 	{
 		if(solutionMatrix.getHeight() != this.getHeight())
-			throw new IllegalArgumentException("Matrix row dimensions must agree.");
+			throw new IllegalArgumentException("solutionMatrix row dimensions must agree.");
 		if(!this.isFullRank())
-			throw new RuntimeException("Matrix is rank deficient.");
+			throw new ArithmeticException("Matrix is rank deficient.");
 
 		// Copy right hand side
 		int nx = solutionMatrix.getWidth();

@@ -199,7 +199,7 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 	public F getDeterminant()
 	{
 		if(this.getHeight() != this.getWidth())
-			throw new IllegalArgumentException("Matrix must be square.");
+			throw new ArithmeticException("Matrix must be square.");
 		F determinant;
 		if(pivotSign > 0)
 			determinant = this.matrix.getElementField().getOne();
@@ -221,9 +221,9 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 	public M solve(M solutionMatrix)
 	{
 		if(solutionMatrix.getHeight() != this.getHeight())
-			throw new IllegalArgumentException("Matrix row dimensions must agree.");
+			throw new IllegalArgumentException("solutionMatrix row dimensions must agree.");
 		if(!this.isNonsingular())
-			throw new RuntimeException("Matrix is singular.");
+			throw new ArithmeticException("Matrix is singular.");
 
 		// Copy right hand side with pivoting
 		int nx = solutionMatrix.getWidth();

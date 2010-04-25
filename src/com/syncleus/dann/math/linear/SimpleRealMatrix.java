@@ -378,16 +378,9 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	 */
 	public void setMatrix(int heightStart, int heightEnd, int widthStart, int widthEnd, SimpleRealMatrix fillMatrix)
 	{
-		try
-		{
-			for(int i = heightStart; i <= heightEnd; i++)
-				for(int j = widthStart; j <= widthEnd; j++)
-					matrixElements[i][j] = fillMatrix.getDouble(i - heightStart, j - widthStart);
-		}
-		catch(ArrayIndexOutOfBoundsException e)
-		{
-			throw new ArrayIndexOutOfBoundsException("Submatrix indices");
-		}
+		for(int i = heightStart; i <= heightEnd; i++)
+			for(int j = widthStart; j <= widthEnd; j++)
+				matrixElements[i][j] = fillMatrix.getDouble(i - heightStart, j - widthStart);
 	}
 
 	/**
@@ -400,16 +393,9 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	 */
 	public void setMatrix(int[] heightIndexes, int[] widthIndexes, SimpleRealMatrix fillMatrix)
 	{
-		try
-		{
-			for(int i = 0; i < heightIndexes.length; i++)
-				for(int j = 0; j < widthIndexes.length; j++)
-					matrixElements[heightIndexes[i]][widthIndexes[j]] = fillMatrix.getDouble(i, j);
-		}
-		catch(ArrayIndexOutOfBoundsException e)
-		{
-			throw new ArrayIndexOutOfBoundsException("Submatrix indices");
-		}
+		for(int i = 0; i < heightIndexes.length; i++)
+			for(int j = 0; j < widthIndexes.length; j++)
+				matrixElements[heightIndexes[i]][widthIndexes[j]] = fillMatrix.getDouble(i, j);
 	}
 
 	/**
@@ -423,16 +409,9 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	 */
 	public void setMatrix(int[] heightIndexes, int widthStart, int widthEnd, SimpleRealMatrix fillMatrix)
 	{
-		try
-		{
-			for(int i = 0; i < heightIndexes.length; i++)
-				for(int j = widthStart; j <= widthEnd; j++)
-					matrixElements[heightIndexes[i]][j] = fillMatrix.getDouble(i, j - widthStart);
-		}
-		catch(ArrayIndexOutOfBoundsException e)
-		{
-			throw new ArrayIndexOutOfBoundsException("Submatrix indices");
-		}
+		for(int i = 0; i < heightIndexes.length; i++)
+			for(int j = widthStart; j <= widthEnd; j++)
+				matrixElements[heightIndexes[i]][j] = fillMatrix.getDouble(i, j - widthStart);
 	}
 
 	/**
@@ -446,16 +425,9 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	 */
 	public void setMatrix(int heightStart, int heightEnd, int[] widthIndexes, SimpleRealMatrix fillMatrix)
 	{
-		try
-		{
-			for(int i = heightStart; i <= heightEnd; i++)
-				for(int j = 0; j < widthIndexes.length; j++)
-					matrixElements[i][widthIndexes[j]] = fillMatrix.getDouble(i - heightStart, j);
-		}
-		catch(ArrayIndexOutOfBoundsException e)
-		{
-			throw new ArrayIndexOutOfBoundsException("Submatrix indices");
-		}
+		for(int i = heightStart; i <= heightEnd; i++)
+			for(int j = 0; j < widthIndexes.length; j++)
+				matrixElements[i][widthIndexes[j]] = fillMatrix.getDouble(i - heightStart, j);
 	}
 
 	/** SimpleRealMatrix transpose.
@@ -463,8 +435,6 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	 */
 	public RealMatrix transpose()
 	{
-//		SimpleRealMatrix newSimpleMatrix = new SimpleRealMatrix(width, height);
-//		double[][] transposedMatrix = newSimpleMatrix.getArray();
 		double[][] transposedMatrix = new double[width][height];
 		for(int heightIndex = 0; heightIndex < height; heightIndex++)
 			for(int widthIndex = 0; widthIndex < width; widthIndex++)

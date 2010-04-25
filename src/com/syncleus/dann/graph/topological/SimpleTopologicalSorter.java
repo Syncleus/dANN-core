@@ -80,7 +80,7 @@ public class SimpleTopologicalSorter<N> implements TopologicalSorter<N>
 				}
 			}
 			if( preNodeCount <= nodes.size() )
-				throw new IllegalArgumentException("graph is cyclic, topological sort only works on acyclic graphs");
+				return null;
 		}
 
 		return topologicalNodes;

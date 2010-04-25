@@ -19,20 +19,20 @@
 package com.syncleus.dann;
 
 /**
- *This exception signifes that execution could not complete because the thread
+ * This exception signifes that execution could not complete because the thread
  * was interrupted.
  *
  * @author Jeffrey Phillips Freeman
  * @since 2.0
  */
-public class InterruptedDannRuntimeException extends DannRuntimeException
+public class UnexpectedInterruptedException extends DannRuntimeException
 {
 	/**
 	 * Creates a blank default exception.
 	 *
 	 * @since 2.0
 	 */
-	public InterruptedDannRuntimeException()
+	public UnexpectedInterruptedException()
 	{
 	}
 
@@ -43,7 +43,7 @@ public class InterruptedDannRuntimeException extends DannRuntimeException
 	 * @param msg A string describing the cause of the exception
 	 * @since 2.0
 	 */
-	public InterruptedDannRuntimeException(String msg)
+	public UnexpectedInterruptedException(String msg)
 	{
 		super(msg);
 	}
@@ -57,7 +57,7 @@ public class InterruptedDannRuntimeException extends DannRuntimeException
 	 * @param cause The throwable which caused this exception
 	 * @since 2.0
 	 */
-	public InterruptedDannRuntimeException(String msg, Throwable cause)
+	public UnexpectedInterruptedException(String msg, Throwable cause)
 	{
 		super(msg, cause);
 	}
@@ -70,7 +70,7 @@ public class InterruptedDannRuntimeException extends DannRuntimeException
 	 * @param cause The throwable which caused this exception
 	 * @since 2.0
 	 */
-	public InterruptedDannRuntimeException(Throwable cause)
+	public UnexpectedInterruptedException(Throwable cause)
 	{
 		super(cause);
 	}

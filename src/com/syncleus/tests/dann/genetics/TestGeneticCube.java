@@ -68,7 +68,7 @@ public class TestGeneticCube
 		public int compareTo(AbstractGeneticAlgorithmFitnessFunction baseCompareWith)
 		{
 			if(!(baseCompareWith instanceof VolumeAreaCubeFitness))
-				throw new ClassCastException("Can only compare with VolumeAreaCubeFitness");
+				throw new IllegalArgumentException("Can only compare with VolumeAreaCubeFitness");
 
 			VolumeAreaCubeFitness compareWith = (VolumeAreaCubeFitness) baseCompareWith;
 

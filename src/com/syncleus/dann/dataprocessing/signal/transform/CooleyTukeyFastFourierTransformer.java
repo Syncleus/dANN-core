@@ -195,7 +195,7 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 	public static ComplexNumber[] circularConvolveMatrix(ComplexNumber[] first, ComplexNumber[] second)
 	{
 		if (first.length != second.length)
-			throw new RuntimeException("first and secondmust have the same number of elements");
+			throw new IllegalArgumentException("first and second must have the same number of elements");
 
 		int dataPointsSize = first.length;
 

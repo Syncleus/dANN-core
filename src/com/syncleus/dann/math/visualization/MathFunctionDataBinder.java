@@ -99,8 +99,7 @@ public final class MathFunctionDataBinder implements Binned2DData
 		this.maxZ = newZMax;
 		this.minZ = newZMin;
         
-        if( Float.isNaN(this.maxZ) || Float.isNaN(this.minZ))
-            throw new IllegalArgumentException("z does not deviate, nothing to plot!");
+        assert ( (!Float.isNaN(this.maxZ)) && (!Float.isNaN(this.minZ)) );
     }
 
 

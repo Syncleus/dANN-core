@@ -22,7 +22,7 @@ import java.util.*;
 import java.util.concurrent.*;
 import org.apache.log4j.Logger;
 import com.syncleus.dann.DannRuntimeException;
-import com.syncleus.dann.InterruptedDannRuntimeException;
+import com.syncleus.dann.UnexpectedInterruptedException;
 import com.syncleus.dann.UnexpectedDannError;
 
 /**
@@ -57,20 +57,7 @@ public abstract class AbstractGeneticAlgorithmPopulation
 
 		public void run()
 		{
-			try
-			{
-				this.fitnessFunction.process();
-			}
-			catch(Exception caught)
-			{
-				LOGGER.error("A throwable was caught!", caught);
-				throw new DannRuntimeException("Throwable caught: " + caught, caught);
-			}
-			catch(Error caught)
-			{
-				LOGGER.error("A throwable was caught!", caught);
-				throw new Error("Throwable caught: " + caught, caught);
-			}
+			this.fitnessFunction.process();
 		}
 	}
 
@@ -137,7 +124,7 @@ public abstract class AbstractGeneticAlgorithmPopulation
 		catch(InterruptedException caught)
 		{
 			LOGGER.warn("Unexpected execution exception thrown from within Process(fitnessFunction)", caught);
-			throw new InterruptedDannRuntimeException("Unexpected execution exception. Get should block indefinately", caught);
+			throw new UnexpectedInterruptedException("Unexpected execution exception. Get should block indefinately", caught);
 		}
 		catch(ExecutionException caught)
 		{

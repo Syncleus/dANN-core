@@ -54,7 +54,7 @@ public abstract class AbstractKey implements Cloneable
 		for(char keyChar : keyChars)
 		{
 			if((keyChar != '1')&&(keyChar != '0')&&(keyChar != 'x'))
-				throw new IllegalArgumentException("eyString is only allowed to contain the following characters: 1, 0, x");
+				throw new IllegalArgumentException("keyString is only allowed to contain the following characters: 1, 0, x");
 
 			if(keyChar == '1')
 				newPoints.put(index, Boolean.TRUE);

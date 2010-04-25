@@ -46,20 +46,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
 
 		public void run()
 		{
-			try
-			{
-				this.neuron.propagate();
-			}
-			catch(Exception caught)
-			{
-				LOGGER.error("Throwable caught!", caught);
-				throw new DannRuntimeException("Throwable exception caught in Propagate", caught);
-			}
-			catch(Error caught)
-			{
-				LOGGER.error("Throwable caught!", caught);
-				throw new Error("Throwable exception caught in Propagate", caught);
-			}
+			this.neuron.propagate();
 		}
 	}
 
@@ -75,20 +62,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
 
 		public void run()
 		{
-			try
-			{
-				this.neuron.backPropagate();
-			}
-			catch(Exception caught)
-			{
-				LOGGER.error("Throwable caught!", caught);
-				throw new DannRuntimeException("Throwable exception caught in Propagate", caught);
-			}
-			catch(Error caught)
-			{
-				LOGGER.error("Throwable caught!", caught);
-				throw new DannRuntimeException("Throwable exception caught in Propagate", caught);
-			}
+			this.neuron.backPropagate();
 		}
 	}
 
@@ -186,7 +160,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
 			catch(InterruptedException caught)
 			{
 				LOGGER.warn("Propagate was unexpectidy interupted", caught);
-				throw new InterruptedDannRuntimeException("Unexpected interuption. Get should block indefinately", caught);
+				throw new UnexpectedInterruptedException("Unexpected interuption. Get should block indefinately", caught);
 			}
 			catch(ExecutionException caught)
 			{
@@ -222,7 +196,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
 			catch(InterruptedException caught)
 			{
 				LOGGER.warn("BackPropagate was unexpectidy interupted", caught);
-				throw new InterruptedDannRuntimeException("Unexpected interuption. Get should block indefinately", caught);
+				throw new UnexpectedInterruptedException("Unexpected interuption. Get should block indefinately", caught);
 			}
 			catch(ExecutionException caught)
 			{
