@@ -185,16 +185,8 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 		this.add(outputNeuron);
 
 		//connect all inputs to the new neuron
-		try
-		{
-			for(SomInputNeuron input : inputs)
-				this.connect(input, outputNeuron);
-		}
-		catch(InvalidConnectionTypeDannException caught)
-		{
-			LOGGER.error("An error was caught that wasnt expected", caught);
-			throw new UnexpectedDannError("unexpected InvalidConnectionTypeDannException", caught);
-		}
+		for(SomInputNeuron input : inputs)
+			this.connect(input, outputNeuron);
 	}
 
 	/**

@@ -312,11 +312,7 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 				else
 					keyIndex--;
 			}
-			if(randomKey == null)
-			{
-				LOGGER.error("randomKey was null which shouldnt be possible");
-				throw new UnexpectedDannError("randomKey was unexpectidly null");
-			}
+			assert randomKey != null;
 			return new ReceptorKey(randomKey);
 		}
 
