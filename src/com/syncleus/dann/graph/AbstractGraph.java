@@ -499,6 +499,18 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 		return false;
 	}
 
+	public boolean isKnot(Set<N> knotedNodes)
+	{
+		// TODO fill this in
+		return false;
+	}
+
+	public boolean isKnot(Set<N> knotedNodes, Set<E> knotedEdges)
+	{
+		// TODO fill this in
+		return false;
+	}
+
 	private static class SizeComparator<O> implements Comparator<Collection>
 	{
 		public int compare(Collection first, Collection second)

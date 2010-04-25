@@ -27,17 +27,6 @@ public abstract class AbstractBidirectedGraph<N, E extends BidirectedEdge<N>> ex
 		return false;
 	}
 
-	public boolean isKnot()
-	{
-		for(N node : this.getNodes())
-			if( this.getOutdegree(node) < 1)
-				return false;
-		for(E edge : this.getEdges())
-			if(edge.isLoop())
-				return false;
-		return true;
-	}
-
 	@Override
 	public Set<Graph<N,E>> getMaximallyConnectedComponents()
 	{
