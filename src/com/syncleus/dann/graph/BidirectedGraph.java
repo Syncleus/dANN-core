@@ -42,6 +42,7 @@ public interface BidirectedGraph<N, E extends BidirectedEdge<N>> extends Graph<N
 	 * combination of out edges and in edges will usually result in all the
 	 * adacent edges for a node this is not strictly required.
 	 *
+	 * @throws IllegalArgumentException if node does not exist in the graph.
 	 * @param node The source node the returned edges will traverse from.
 	 * @return an unmodifiable set of all edges which traverse from the specified
 	 * node.
@@ -54,6 +55,7 @@ public interface BidirectedGraph<N, E extends BidirectedEdge<N>> extends Graph<N
 	 * combination of out edges and in edges will usually result in all the
 	 * adacent edges for a node this is not strictly required.
 	 *
+	 * @throws IllegalArgumentException if node does not exist in the graph.
 	 * @param node The destination node the returned edges will traverse to.
 	 * @return an unmodifiable set of all edges which traverse to the specified
 	 * node.
@@ -66,6 +68,7 @@ public interface BidirectedGraph<N, E extends BidirectedEdge<N>> extends Graph<N
 	 * combination of out edges and in edges will usually result in all the
 	 * adacent edges for a node this is not strictly required.
 	 *
+	 * @throws IllegalArgumentException if node does not exist in the graph.
 	 * @param node The source node the returned edges will traverse from.
 	 * @return count of all edges which traverse from the specified node.
 	 * @since 2.0
@@ -77,6 +80,7 @@ public interface BidirectedGraph<N, E extends BidirectedEdge<N>> extends Graph<N
 	 * combination of out edges and in edges will usually result in all the
 	 * adacent edges for a node this is not strictly required.
 	 *
+	 * @throws IllegalArgumentException if node does not exist in the graph.
 	 * @param node The destination node the edges counted will traverse to.
 	 * @return count of all edges which traverse to the specified node.
 	 * @since 2.0

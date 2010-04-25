@@ -656,6 +656,8 @@ public interface Graph<N, E extends Edge<N>>
 	 * is not a maximally connected component of the graph it is weakly
 	 * connected amongst itself.
 	 *
+	 * @throws IllegalArgumentException if any of the specified nodes or edges
+	 * are not in the graph.
 	 * @param knotedNodes A set of nodes to check if they form a knot.
 	 * @return true if the specified nodes can be traversed to from outside of the
 	 * set, and once the set is entered there is no path to traverse outside of
@@ -674,6 +676,8 @@ public interface Graph<N, E extends Edge<N>>
 	 * It is important to note that while the knot is not a maximally connected
 	 * component of the graph it is weakly connected amongst itself.
 	 *
+	 * @throws IllegalArgumentException if any of the specified nodes are not
+	 * in the graph.
 	 * @param knotedNodes A set of nodes to check if they form a knot.
 	 * @return true if the specified nodes can be traversed to from outside of the
 	 * set, and once the set is entered there is no path to traverse outside of

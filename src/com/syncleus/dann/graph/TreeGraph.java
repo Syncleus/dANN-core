@@ -38,6 +38,7 @@ public interface TreeGraph<N, E extends BidirectedEdge<N>> extends BidirectedGra
 	 * not counted. returns false if the node has no edges or has no incomming
 	 * edges.
 	 *
+	 * @throws IllegalArgumentException if node does not exist in the graph.
 	 * @param node the node to check if it is a leaf.
 	 * @return true if the specified node has exactly one incomming traversable
 	 * edge, and no outgoing traversable edges.
