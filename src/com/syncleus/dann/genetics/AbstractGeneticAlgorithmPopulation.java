@@ -136,8 +136,8 @@ public abstract class AbstractGeneticAlgorithmPopulation
 		}
 		catch(InterruptedException caught)
 		{
-			LOGGER.error("Unexpected interuption of Process(fitnessFunction)", caught);
-			throw new InterruptedDannRuntimeException("Unexpected interuption. Get should block indefinately", caught);
+			LOGGER.warn("Unexpected execution exception thrown from within Process(fitnessFunction)", caught);
+			throw new InterruptedDannRuntimeException("Unexpected execution exception. Get should block indefinately", caught);
 		}
 		catch(ExecutionException caught)
 		{

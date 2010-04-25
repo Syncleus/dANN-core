@@ -115,7 +115,16 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 		final List<Future<Vector>> futures = this.submitFutureAligns();
 
 		//wait for all nodes to finish aligning and calculate new sum of all the points
-		Vector center = this.waitAndProcessFutures(futures);
+		Vector center;
+		try
+		{
+			center = this.waitAndProcessFutures(futures);
+		}
+		catch(InterruptedException caught)
+		{
+			LOGGER.warn("waitAndProcessFutures was unexpectidy interupted", caught);
+			throw new InterruptedDannRuntimeException("Unexpected interuption. Get should block indefinately", caught);
+		}
 
 		//divide each coordinate of the sum of all the points by the number of
 		//nodes in order to calulate the average point, or center of all the
@@ -226,7 +235,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 		return futures;
 	}
 
-	private Vector waitAndProcessFutures(final List<Future<Vector>> futures)
+	private Vector waitAndProcessFutures(final List<Future<Vector>> futures) throws InterruptedException
 	{
 		//wait for all nodes to finish aligning and calculate new center point
 		Vector pointSum = new Vector(this.dimensions);
@@ -238,11 +247,6 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 				for(int dimensionIndex = 1; dimensionIndex <= this.dimensions; dimensionIndex++)
 					pointSum = pointSum.setCoordinate(pointSum.getCoordinate(dimensionIndex) + newPoint.getCoordinate(dimensionIndex), dimensionIndex);
 			}
-		}
-		catch(InterruptedException caught)
-		{
-			LOGGER.error("Align was unexpectidy interupted", caught);
-			throw new InterruptedDannRuntimeException("Unexpected interuption. Get should block indefinately", caught);
 		}
 		catch(ExecutionException caught)
 		{

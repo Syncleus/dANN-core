@@ -185,7 +185,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
 			}
 			catch(InterruptedException caught)
 			{
-				LOGGER.error("Propagate was unexpectidy interupted", caught);
+				LOGGER.warn("Propagate was unexpectidy interupted", caught);
 				throw new InterruptedDannRuntimeException("Unexpected interuption. Get should block indefinately", caught);
 			}
 			catch(ExecutionException caught)
@@ -221,7 +221,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
 			}
 			catch(InterruptedException caught)
 			{
-				LOGGER.error("BackPropagate was unexpectidy interupted", caught);
+				LOGGER.warn("BackPropagate was unexpectidy interupted", caught);
 				throw new InterruptedDannRuntimeException("Unexpected interuption. Get should block indefinately", caught);
 			}
 			catch(ExecutionException caught)

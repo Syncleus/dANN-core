@@ -275,7 +275,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 			}
 			catch(InterruptedException caught)
 			{
-				LOGGER.error("PropagateOutput was unexpectidy interupted", caught);
+				LOGGER.warn("PropagateOutput was unexpectidy interupted", caught);
 				throw new InterruptedDannRuntimeException("Unexpected interuption. Get should block indefinately", caught);
 			}
 			catch(ExecutionException caught)
@@ -320,7 +320,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 		}
 		catch(InterruptedException caught)
 		{
-			LOGGER.error("PropagateOutput was unexpectidy interupted", caught);
+			LOGGER.warn("PropagateOutput was unexpectidy interupted", caught);
 			throw new InterruptedDannRuntimeException("Unexpected interuption. Get should block indefinately", caught);
 		}
 		catch(ExecutionException caught)
