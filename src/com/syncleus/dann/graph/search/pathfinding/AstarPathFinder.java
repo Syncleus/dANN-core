@@ -42,33 +42,8 @@ public class AstarPathFinder<N, E extends Edge<N>> implements PathFinder<N,E>
 			this.node = node;
 		}
 
-		public boolean updateParent(PathedStep newParent, E newParentEdge)
+		private boolean updateParent(PathedStep newParent, E newParentEdge)
 		{
-			// TODO : remove this junk
-			if( newParent == null )
-				throw new IllegalArgumentException("newParent can not be null");
-			if( newParent.equals(this))
-				throw new IllegalArgumentException("newParent can not be this node");
-			if( newParentEdge == null)
-				throw new IllegalArgumentException("newParentEdge can not be null");
-			if( ! newParentEdge.getNodes().contains(newParent.getNode()))
-				throw new IllegalArgumentException("newParentEdge must connect to new Parent");
-			if( (newParentEdge instanceof Weighted)&&( ((Weighted)newParentEdge).getWeight() < 0.0) )
-				throw new IllegalArgumentException("edge weight can not be negative");
-			if( (this.node instanceof Weighted)&&( ((Weighted)this.node).getWeight() < 0.0) )
-				throw new IllegalArgumentException("this.node weight can not be negative");
-
-			boolean parentHasEdge = false;
-			for( Edge<N> edge : graph.getTraversableEdges(this.node) )
-				if(edge.getNodes().contains(newParent.getNode()))
-				{
-					parentHasEdge = true;
-					break;
-				}
-
-			if(!parentHasEdge)
-				throw new IllegalArgumentException("newParent is not connected to this node");
-
 			double newWeight = (newParentEdge instanceof Weighted ? ((Weighted)newParentEdge).getWeight() : 0.0);
 			if(this.node instanceof Weighted)
 				newWeight += ((Weighted)this.node).getWeight();
