@@ -36,7 +36,7 @@ import java.util.*;
 public interface Graph<N, E extends Edge<N>>
 {
 	/**
-	 * Get a set of all Nodes in the graph.
+	 * Get a set of all nodes in the graph.
 	 *
 	 * @return An unmodifiable set of all nodes in the graph.
 	 * @since 2.0
@@ -406,7 +406,7 @@ public interface Graph<N, E extends Edge<N>>
 	int getOrder();
 
 	/**
-	 * Calculates the number of cylces int he graph. A cycle is any walk that
+	 * Calculates the number of cylces in the graph. A cycle is any walk that
 	 * starts and ends on the same node and does not repeat any nodes or edges.
 	 * Two cycles are considered the same if they contain the sequence of nodes
 	 * and edges even if their starting point is different. In fact cycles do
@@ -608,10 +608,10 @@ public interface Graph<N, E extends Edge<N>>
 	 * nodes as this graph and every pair of nodes that are adjacent in this
 	 * graph are adjacent in the specified graph. Unlike isIsomorphic this is a
 	 * one way comparison, so while every adjacent pair of nodes in this graph
-	 * must be present int he specified graph, there may be adjacenct nodes in
+	 * must be present in the specified graph, there may be adjacenct nodes in
 	 * the specified graph that are not adjacent in this graph. That also means
 	 * the specified graph may have nodes that dont exist in this graph, but
-	 * every node in this graph must exist int he specified graph. If there are
+	 * every node in this graph must exist in the specified graph. If there are
 	 * no edges and/or there are no nodes in both graphs then they are
 	 * homomorphic.
 	 *
