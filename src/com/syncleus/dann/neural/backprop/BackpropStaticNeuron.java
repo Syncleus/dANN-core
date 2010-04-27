@@ -20,7 +20,6 @@ package com.syncleus.dann.neural.backprop;
 
 import com.syncleus.dann.neural.Brain;
 import com.syncleus.dann.neural.StaticNeuron;
-import com.syncleus.dann.neural.Synapse;
 
 public class BackpropStaticNeuron extends StaticNeuron implements BackpropNeuron
 {
@@ -31,7 +30,5 @@ public class BackpropStaticNeuron extends StaticNeuron implements BackpropNeuron
 
 	public void backPropagate()
 	{
-		if(this.getBrain().getIndegree(this) > 0)
-			throw new IllegalStateException("BackpropStaticNeuron can not have inputs");
 	}
 }

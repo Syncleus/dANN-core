@@ -44,7 +44,7 @@ public class TestXor
 	private InputNeuron inputC = null;
 	private OutputBackpropNeuron output = null;
 	private FullyConnectedFeedforwardBrain brain = null;
-	private final static int TRAINING_CYCLES = 1000;
+	private final static int TRAINING_CYCLES = 10000;
 	private final static double LEARNING_RATE = 0.0175;
 	private final static int[] TOPOLOGY = {3, 3, 1};
 

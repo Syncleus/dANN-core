@@ -18,33 +18,11 @@
  ******************************************************************************/
 package com.syncleus.dann.neural;
 
-import com.syncleus.dann.graph.BidirectedEdge.EndState;
 import com.syncleus.dann.graph.WeightedDirectedEdge;
-import java.util.List;
 
 public interface Synapse extends WeightedDirectedEdge<Neuron>
 {
 	double getInput();
 	void setInput(double input);
 	void setWeight(double weight);
-	
-	//Parent methods
-	double getWeight();
-
-	Neuron getSourceNode();
-	Neuron getDestinationNode();
-
-	List<Neuron> getNodes();
-
-	Neuron getLeftNode();
-	Neuron getRightNode();
-	EndState getLeftEndState();
-	EndState getRightEndState();
-	boolean isIntroverted();
-	boolean isExtraverted();
-	boolean isDirected();
-	boolean isHalfEdge();
-	boolean isLooseEdge();
-	boolean isOrdinaryEdge();
-	boolean isLoop();
 }

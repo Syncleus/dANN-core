@@ -37,11 +37,6 @@ public class InputBackpropNeuron extends SimpleInputNeuron implements BackpropNe
         super(brain);
     }
 
-    public InputBackpropNeuron(Brain brain, ActivationFunction activationFunction)
-    {
-        super(brain, activationFunction);
-    }
-
 	@Override
     public void backPropagate()
     {

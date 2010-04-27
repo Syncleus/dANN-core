@@ -18,26 +18,13 @@
  ******************************************************************************/
 package com.syncleus.dann.neural;
 
-import com.syncleus.dann.neural.activation.ActivationFunction;
-import com.syncleus.dann.neural.activation.IdentityActivationFunction;
-
 public class SimpleInputNeuron extends AbstractNeuron implements InputNeuron
 {
-	private final static ActivationFunction IDENTITY_ACTIVATION_FUNCTION = new IdentityActivationFunction();
-	private final ActivationFunction activationFunction;
     private double input = 0.0;
-	private double output = 0.0;
 
     public SimpleInputNeuron(Brain brain)
     {
         super(brain);
-		this.activationFunction = IDENTITY_ACTIVATION_FUNCTION;
-    }
-
-    public SimpleInputNeuron(Brain brain, ActivationFunction activationFunction)
-    {
-        super(brain);
-		this.activationFunction = activationFunction;
     }
 
     public void setInput(double inputToSet)
@@ -53,19 +40,15 @@ public class SimpleInputNeuron extends AbstractNeuron implements InputNeuron
 		return this.input;
 	}
 
-	public double getOutput()
+	protected double getOutput()
 	{
-		return this.output;
+		return this.input;
 	}
 
 	@Override
     public void propagate()
     {
-		if(this.getBrain().getIndegree(this) > 0)
-			throw new IllegalStateException("An input neuron can not have inputs");
-
-		this.output = this.activationFunction.activate(this.input);
         for (Synapse current : this.getBrain().getTraversableEdges(this))
-            current.setInput(output);
+            current.setInput(this.input);
     }
 }
