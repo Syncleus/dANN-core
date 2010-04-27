@@ -21,15 +21,14 @@ package com.syncleus.dann.graph.drawing.hyperassociativemap.visualization;
 import javax.media.j3d.*;
 import javax.vecmath.*;
 import java.awt.*;
-import com.syncleus.dann.neural.backprop.*;
 import com.sun.j3d.utils.geometry.*;
 import com.syncleus.dann.graph.*;
 import java.util.*;
+import com.syncleus.dann.neural.*;
+import java.awt.image.BufferedImage;
 import com.syncleus.dann.math.Vector;
-import com.syncleus.dann.neural.Neuron;
 import com.sun.j3d.utils.image.TextureLoader;
 import com.syncleus.dann.graph.drawing.GraphDrawer;
-import java.awt.image.BufferedImage;
 
 
 /**
@@ -111,10 +110,12 @@ public class HyperassociativeMapVisualization<D extends GraphDrawer<G, N>, G ext
                 if (node instanceof Neuron)
                 {
                     final Neuron neuron = ((Neuron) node);
-                    if (neuron instanceof OutputBackpropNeuron)
+                    if (neuron instanceof OutputNeuron)
                         neuronColor = Color.RED;
-                    else if (neuron instanceof InputBackpropNeuron)
+                    else if (neuron instanceof InputNeuron)
                         neuronColor = Color.BLUE;
+					else if (neuron instanceof StaticNeuron)
+						neuronColor = Color.YELLOW;
                 }
                 final TransformGroup newVisual = this.createNeuronSphere("", "", neuronColor, (float) coordinates.get(node).getCoordinate(1), (float) coordinates.get(node).getCoordinate(2), (float) coordinates.get(node).getCoordinate(3), this.nodeRadius);
                 if(!childrenRemoved)
