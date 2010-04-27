@@ -23,116 +23,28 @@ import com.syncleus.dann.neural.activation.*;
 
 
 /**
- * This is a special type of BackpropNeuron that receives input.
+ * This is a special type of SimpleBackpropNeuron that receives input.
  *
  *
  * @author Jeffrey Phillips Freeman
  * @since 1.0
  *
  */
-public class InputBackpropNeuron extends BackpropNeuron implements InputNeuron
+public class InputBackpropNeuron extends SimpleInputNeuron implements BackpropNeuron, InputNeuron
 {
-    /**
-     * Holds the current input value for this neuron
-	 *
-     *
-     * @since 1.0
-     */
-    protected double input;
-
-
-
-    /**
-     * Creates a new instance of InputBackpropNeuron
-	 *
-     *
-     * @since 1.0
-     */
     public InputBackpropNeuron(Brain brain)
     {
         super(brain);
     }
 
-    /**
-     * Creates a new instance of InputBackpropNeuron that uses the specified
-	 * activation function.
-	 *
-     *
-     * @since 1.0
-     */
     public InputBackpropNeuron(Brain brain, ActivationFunction activationFunction)
     {
         super(brain, activationFunction);
     }
 
-	/**
-	 * Creates a new instance of this class with the specified learning rate.
-	 *
-	 *
-	 * @param learningRate The learning rate for this neuron.
-	 * @since 1.0
-	 */
-	public InputBackpropNeuron(Brain brain, double learningRate)
-	{
-		super(brain, learningRate);
-	}
-
-	/**
-	 * Creates a new instance of this class with the specified activation
-	 * function and learning rate.
-	 *
-	 *
-	 * @param activationFunction The activation function to use.
-	 * @param learningRate The learning rate to use.
-	 * @since 1.0
-	 */
-	public InputBackpropNeuron(Brain brain, ActivationFunction activationFunction, double learningRate)
-	{
-		super(brain, activationFunction, learningRate);
-	}
-
-
-    /**
-     * This method sets the current input on the neuron.
-	 *
-     *
-     * @since 1.0
-     * @param inputToSet The value to set the current input to.
-     */
-    public void setInput(double inputToSet)
-    {
-        if( Math.abs(inputToSet) > 1.0 )
-            throw new IllegalArgumentException("InputToSet must be between -1 and +1");
-        
-        this.input = inputToSet;
-    }
-
-
-
-    /**
-     * Refreshes the output of the neuron based on the current input
-	 * 
-     *
-     * @since 1.0
-     */
-	@Override
-    public void propagate()
-    {
-        this.setOutput(this.input);
-    }
-    
-
-	/**
-	 * Back propogates and learns from the destination neurons. This should
-	 * be called successivly from the output neurons back towards the input
-	 * neurons on all BackpropNeurons.
-	 *
-	 *
-	 * @since 1.0
-	 */
 	@Override
     public void backPropagate()
     {
-        this.calculateDeltaTrain();
+        //Do nothing, this is an input neuron.
     }
 }

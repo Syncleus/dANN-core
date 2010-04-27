@@ -53,8 +53,8 @@ public class TestHyperassociativeMap
 	{
 		TestBrain testBrain = new TestBrain();
 
-		BackpropNeuron neuron1 = new BackpropNeuron(testBrain);
-		BackpropNeuron neuron2 = new BackpropNeuron(testBrain);
+		SimpleBackpropNeuron neuron1 = new SimpleBackpropNeuron(testBrain);
+		SimpleBackpropNeuron neuron2 = new SimpleBackpropNeuron(testBrain);
 
 		testBrain.add(neuron1);
 		testBrain.add(neuron2);

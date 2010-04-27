@@ -18,6 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.neural;
 
+import com.syncleus.dann.UnexpectedDannError;
 import java.util.*;
 import java.util.concurrent.*;
 import com.syncleus.dann.graph.AbstractBidirectedGraph;
@@ -41,7 +42,9 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedGraph<Neuron,
 		@Override
 		public Set<Synapse> get(Object keyObject)
 		{
-			Set<Synapse> edges = super.get(keyObject);
+			if(!(keyObject instanceof Neuron))
+				throw new UnexpectedDannError("keyObject was not a Neuron");
+			Set<Synapse> edges = super.get((Neuron)keyObject);
 			if(keyObject instanceof Neuron)
 			{
 				if(edges == null)

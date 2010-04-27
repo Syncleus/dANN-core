@@ -16,64 +16,22 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.neural.som;
+package com.syncleus.dann.neural.backprop;
 
-import com.syncleus.dann.neural.*;
-import com.syncleus.dann.neural.activation.IdentityActivationFunction;
+import com.syncleus.dann.neural.Brain;
+import com.syncleus.dann.neural.StaticNeuron;
+import com.syncleus.dann.neural.Synapse;
 
-/**
- * An input neuron for a SOM network. It essentialy just propgates the input
- * unchanged to the next layer.
- *
- * @author Jeffrey Phillips Freeman
- * @since 2.0
- */
-public class SomInputNeuron extends AbstractNeuron implements InputNeuron
+public class BackpropStaticNeuron extends StaticNeuron implements BackpropNeuron
 {
-	private double input;
-	private static final IdentityActivationFunction ACTIVATION_FUNCTION = new IdentityActivationFunction();
-
-	/**
-	 * Creates a default SomInputNeuron using an IdentityActivationFunction
-	 *
-	 * @since 2.0
-	 */
-	public SomInputNeuron(Brain brain)
+	public BackpropStaticNeuron(Brain brain, double constantOutput)
 	{
-		super(brain, ACTIVATION_FUNCTION);
+		super(brain, constantOutput);
 	}
 
-	/**
-	 * Propogates the input to all connected SomNeurons.
-	 * 
-	 * @since 2.0
-	 */
-	@Override
-	public void propagate()
+	public void backPropagate()
 	{
-		this.activity = this.input;
-		this.setOutput(this.activity);
-	}
-
-	/**
-	 * Sets the current input for this neuron.
-	 *
-	 * @since 2.0
-	 * @param inputToSet The new input value you want to set.
-	 */
-	public void setInput(double inputToSet)
-	{
-		this.input = inputToSet;
-	}
-
-	/**
-	 * Gets the current input.
-	 *
-	 * @return the current input.
-	 * @since 2.0
-	 */
-	public double getInput()
-	{
-		return this.input;
+		if(this.getBrain().getIndegree(this) > 0)
+			throw new IllegalStateException("BackpropStaticNeuron can not have inputs");
 	}
 }

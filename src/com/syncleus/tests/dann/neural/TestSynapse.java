@@ -48,8 +48,8 @@ public class TestSynapse
 	{
 		TestBrain brain = new TestBrain();
 
-		BackpropNeuron sourceNeuron = new BackpropNeuron(brain);
-		BackpropNeuron destinationNeuron = new BackpropNeuron(brain);
+		SimpleBackpropNeuron sourceNeuron = new SimpleBackpropNeuron(brain);
+		SimpleBackpropNeuron destinationNeuron = new SimpleBackpropNeuron(brain);
 
 		SimpleSynapse testSynapse = new SimpleSynapse(sourceNeuron, destinationNeuron, INITIAL_WEIGHT);
 

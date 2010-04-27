@@ -64,16 +64,16 @@ public class FullyConnectedFeedforwardBrain extends AbstractFullyConnectedFeedfo
 	 * @param layer the currrent layer index for which we are creating the
 	 * neuron.
 	 * @param index The index of the new neuron within the layer.
-	 * @return The new BackpropNeuron to be added to the current layer.
+	 * @return The new SimpleBackpropNeuron to be added to the current layer.
 	 * @since 2.0
 	 */
 	protected BackpropNeuron createNeuron(int layer, int index)
 	{
 		if( layer == 0 )
-			return new InputBackpropNeuron(this, this.activationFunction, this.learningRate);
+			return new InputBackpropNeuron(this);
 		else if(layer >= (this.getLayerCount() - 1))
 			return new OutputBackpropNeuron(this, this.activationFunction, this.learningRate);
 		else
-			return new BackpropNeuron(this, this.activationFunction, this.learningRate);
+			return new SimpleBackpropNeuron(this, this.activationFunction, this.learningRate);
 	}
 }

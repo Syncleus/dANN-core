@@ -36,4 +36,5 @@ public interface InputNeuron extends Neuron
 	 * @param inputToSet The new input value you want to set.
 	 */
 	public void setInput(double inputToSet);
+	public double getInput();
 }

@@ -20,10 +20,12 @@ package com.syncleus.dann.neural.backprop.brain;
 
 import com.syncleus.dann.neural.NeuronGroup;
 import com.syncleus.dann.neural.backprop.BackpropNeuron;
+import com.syncleus.dann.neural.backprop.BackpropStaticNeuron;
 import java.util.concurrent.ThreadPoolExecutor;
 
 public abstract class AbstractFullyConnectedFeedforwardBrain extends AbstractFeedforwardBrain
 {
+	private final boolean hasBias;
 	/**
 	 * Uses the given threadExecutor for executing tasks.
 	 *
@@ -33,6 +35,13 @@ public abstract class AbstractFullyConnectedFeedforwardBrain extends AbstractFee
 	protected AbstractFullyConnectedFeedforwardBrain(ThreadPoolExecutor threadExecutor)
 	{
 		super(threadExecutor);
+		this.hasBias = true;
+	}
+
+	protected AbstractFullyConnectedFeedforwardBrain(ThreadPoolExecutor threadExecutor, boolean hasBias)
+	{
+		super(threadExecutor);
+		this.hasBias = hasBias;
 	}
 
 	/**
@@ -44,6 +53,13 @@ public abstract class AbstractFullyConnectedFeedforwardBrain extends AbstractFee
 	protected AbstractFullyConnectedFeedforwardBrain()
 	{
 		super();
+		this.hasBias = true;
+	}
+
+	protected AbstractFullyConnectedFeedforwardBrain(boolean hasBias)
+	{
+		super();
+		this.hasBias = hasBias;
 	}
 
 	@Override
@@ -56,11 +72,29 @@ public abstract class AbstractFullyConnectedFeedforwardBrain extends AbstractFee
 		//next layer
 		for(int layerIndex = 0; layerIndex < (this.getLayerCount() - 1); layerIndex++)
 		{
-			NeuronGroup<BackpropNeuron> sourceLayer = this.getNeuronLayers().get(layerIndex);
-			NeuronGroup<BackpropNeuron> destinationLayer = this.getNeuronLayers().get(layerIndex + 1);
+			NeuronGroup<BackpropNeuron> sourceLayer = this.getEditableLayers().get(layerIndex);
+			NeuronGroup<BackpropNeuron> destinationLayer = this.getEditableLayers().get(layerIndex + 1);
 			for(BackpropNeuron sourceNeuron : sourceLayer.getChildrenNeuronsRecursivly())
 				for(BackpropNeuron destinationNeruon : destinationLayer.getChildrenNeuronsRecursivly())
 					this.connect(sourceNeuron, destinationNeruon);
+		}
+
+		//create and connect biases
+		for(int layerIndex = 1; layerIndex < this.getLayerCount(); layerIndex++)
+		{
+			for(BackpropNeuron destinationNeuron : this.getEditableLayers().get(layerIndex).getChildrenNeuronsRecursivly())
+			{
+				if( hasBias )
+				{
+					//create the bias neuron and add it
+					BackpropNeuron biasNeuron = new BackpropStaticNeuron(this, 1.0);
+					this.getEditableLayers().get(layerIndex - 1).add(biasNeuron);
+					this.add(biasNeuron);
+
+					//connect the new bias neuron to its destination neuron
+					this.connect(biasNeuron, destinationNeuron);
+				}
+			}
 		}
 	}
 }

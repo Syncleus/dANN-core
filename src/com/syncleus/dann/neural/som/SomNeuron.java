@@ -18,70 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.neural.som;
 
-import com.syncleus.dann.neural.*;
-import com.syncleus.dann.neural.activation.SqrtActivationFunction;
+import com.syncleus.dann.neural.OutputNeuron;
 
-/**
- * A Som Nearon will calculate its euclidean distance to the input vector as
- * its output.
- *
- * @author Jeffrey Phillips Freeman
- * @since 2.0
- */
-public class SomNeuron extends AbstractNeuron implements OutputNeuron
+public interface SomNeuron extends OutputNeuron
 {
-	private final static SqrtActivationFunction ACTIVATION_FUNCTION = new SqrtActivationFunction();
-
-	/**
-	 * Creates a default SomNeuron.
-	 *
-	 * @since 2.0
-	 */
-	public SomNeuron(Brain brain)
-	{
-		super(brain, ACTIVATION_FUNCTION);
-	}
-
-	/**
-	 * Trains the neuron to be closer to the input vector according to the
-	 * specefied parameters.
-	 *
-	 * @since 2.0
-	 */
-	public void train(double learningRate, double neighborhoodAdjustment)
-	{
-		for(Synapse source : this.getBrain().getInEdges(this))
-			source.setWeight( source.getWeight() + (learningRate * neighborhoodAdjustment * (source.getInput() - source.getWeight())) );
-	}
-
-    /**
-     * Propogates all the inputs to determine to caculate the output.
-	 *
-	 * @since 2.0
-     */
-	@Override
-    public void propagate()
-    {
-        //calculate the current input activity
-        activity = 0;
-        for (Synapse currentSynapse : this.getBrain().getInEdges(this))
-            activity += Math.pow(currentSynapse.getInput() - currentSynapse.getWeight(), 2.0);
-        //Add the bias to the activity
-        super.activity = activity;
-
-        //calculate the activity function and set the result as the output
-        this.setOutput(this.activate());
-    }
-
-	/**
-	 * Obtains the current output for this neuron.
-	 *
-	 * @since 2.0
-	 * @return The current output of the neuron.
-	 */
-	@Override
-	public double getOutput()
-	{
-		return super.getOutput();
-	}
+	void train(double learningRate, double neighborhoodAdjustment);
 }

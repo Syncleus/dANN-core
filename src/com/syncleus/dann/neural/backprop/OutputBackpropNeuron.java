@@ -30,7 +30,7 @@ import com.syncleus.dann.neural.activation.*;
  * @since 1.0
  * @see com.syncleus.dann.neural.backprop.InputBackpropNeuron
  */
-public class OutputBackpropNeuron extends BackpropNeuron implements OutputNeuron
+public class OutputBackpropNeuron extends SimpleBackpropNeuron implements OutputNeuron
 {
     /**
      * holds the value for the current training set.
@@ -111,7 +111,7 @@ public class OutputBackpropNeuron extends BackpropNeuron implements OutputNeuron
 	 *
      *
      * @since 1.0
-     * @see com.syncleus.dann.neural.backprop.BackpropNeuron#backPropagate
+     * @see com.syncleus.dann.neural.backprop.SimpleBackpropNeuron#backPropagate
      */
 	@Override
     protected void calculateDeltaTrain()

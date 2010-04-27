@@ -19,13 +19,14 @@
 package com.syncleus.dann.neural.backprop.brain;
 
 import com.syncleus.dann.*;
+import com.syncleus.dann.neural.AbstractLocalBrain;
 import com.syncleus.dann.neural.NeuronGroup;
 import com.syncleus.dann.neural.backprop.*;
 import java.util.*;
 import java.util.concurrent.*;
 import org.apache.log4j.Logger;
 
-public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
+public abstract class AbstractFeedforwardBrain extends AbstractLocalBrain implements FeedforwardBackpropBrain
 {
 	private boolean initialized = false;
 	private final List<NeuronGroup<BackpropNeuron>> neuronLayers = new ArrayList<NeuronGroup<BackpropNeuron>>();
@@ -108,7 +109,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
 				this.add(currentNeuron);
 			}
 
-			this.getNeuronLayers().add(currentGroup);
+			this.getEditableLayers().add(currentGroup);
 
 			currentLayerCount++;
 		}
@@ -122,9 +123,22 @@ public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
 	 * @return the neuronLayers for children to use for connection.
 	 * @since 2.0
 	 */
-	protected final List<NeuronGroup<BackpropNeuron>> getNeuronLayers()
+	protected final List<NeuronGroup<BackpropNeuron>> getEditableLayers()
 	{
-		return neuronLayers;
+		return this.neuronLayers;
+	}
+
+	public final List<Set<BackpropNeuron>> getLayers()
+	{
+		List<Set<BackpropNeuron>> layerList = new ArrayList<Set<BackpropNeuron>>();
+		for(NeuronGroup<BackpropNeuron> layerGroup : this.getEditableLayers())
+		{
+			Set<BackpropNeuron> layer = new HashSet<BackpropNeuron>();
+			for(BackpropNeuron layerNeuron : layer)
+				layer.add(layerNeuron);
+			layerList.add(Collections.unmodifiableSet(layer));
+		}
+		return Collections.unmodifiableList(layerList);
 	}
 
 	/**
@@ -214,7 +228,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractBackpropBrain
 	 * @param layer the currrent layer index for which we are creating the
 	 * neuron.
 	 * @param index The index of the new neuron within the layer.
-	 * @return The new BackpropNeuron to be added to the current layer.
+	 * @return The new SimpleBackpropNeuron to be added to the current layer.
 	 * @since 2.0
 	 */
 	protected abstract BackpropNeuron createNeuron(int layer, int index);

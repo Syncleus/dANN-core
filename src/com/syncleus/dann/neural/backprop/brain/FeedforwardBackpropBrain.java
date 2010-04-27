@@ -16,47 +16,13 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.tests.dann.neural;
+package com.syncleus.dann.neural.backprop.brain;
 
-import com.syncleus.dann.neural.NeuronGroup;
-import com.syncleus.dann.neural.AbstractLocalBrain;
-import com.syncleus.dann.neural.Neuron;
-import com.syncleus.dann.neural.backprop.SimpleBackpropNeuron;
-import org.junit.*;
+import com.syncleus.dann.neural.backprop.BackpropNeuron;
+import java.util.*;
 
-public class TestNeuronGroup
+public interface FeedforwardBackpropBrain extends BackpropBrain
 {
-	private class TestBrain extends AbstractLocalBrain
-	{
-		@Override
-		public boolean add(Neuron newNeuron)
-		{
-			return super.add(newNeuron);
-		}
-
-		@Override
-		public boolean connect(Neuron source, Neuron destination)
-		{
-			return super.connect(source, destination);
-		}
-	}
-
-	@Test
-	public void testCollection()
-	{
-		TestBrain brain = new TestBrain();
-
-		NeuronGroup<SimpleBackpropNeuron> newGroup = new NeuronGroup<SimpleBackpropNeuron>();
-		NeuronGroup<SimpleBackpropNeuron> subGroup = new NeuronGroup<SimpleBackpropNeuron>();
-		SimpleBackpropNeuron newNeuron = new SimpleBackpropNeuron(brain);
-		SimpleBackpropNeuron subNeuron = new SimpleBackpropNeuron(brain);
-
-		subGroup.add(subNeuron);
-		newGroup.add(subGroup);
-		newGroup.add(newNeuron);
-
-		Assert.assertTrue(newGroup.getChildrenNeurons().contains(newNeuron));
-		Assert.assertTrue(newGroup.getChildrenNeuronGroups().contains(subGroup));
-		Assert.assertTrue(newGroup.getChildrenNeuronsRecursivly().contains(subNeuron));
-	}
+	int getLayerCount();
+	List<Set<BackpropNeuron>> getLayers();
 }

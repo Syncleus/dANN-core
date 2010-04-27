@@ -16,47 +16,56 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.tests.dann.neural;
+package com.syncleus.dann.neural;
 
-import com.syncleus.dann.neural.NeuronGroup;
-import com.syncleus.dann.neural.AbstractLocalBrain;
-import com.syncleus.dann.neural.Neuron;
-import com.syncleus.dann.neural.backprop.SimpleBackpropNeuron;
-import org.junit.*;
+import com.syncleus.dann.neural.activation.ActivationFunction;
+import com.syncleus.dann.neural.activation.IdentityActivationFunction;
 
-public class TestNeuronGroup
+public class SimpleInputNeuron extends AbstractNeuron implements InputNeuron
 {
-	private class TestBrain extends AbstractLocalBrain
-	{
-		@Override
-		public boolean add(Neuron newNeuron)
-		{
-			return super.add(newNeuron);
-		}
+	private final static ActivationFunction IDENTITY_ACTIVATION_FUNCTION = new IdentityActivationFunction();
+	private final ActivationFunction activationFunction;
+    private double input = 0.0;
+	private double output = 0.0;
 
-		@Override
-		public boolean connect(Neuron source, Neuron destination)
-		{
-			return super.connect(source, destination);
-		}
+    public SimpleInputNeuron(Brain brain)
+    {
+        super(brain);
+		this.activationFunction = IDENTITY_ACTIVATION_FUNCTION;
+    }
+
+    public SimpleInputNeuron(Brain brain, ActivationFunction activationFunction)
+    {
+        super(brain);
+		this.activationFunction = activationFunction;
+    }
+
+    public void setInput(double inputToSet)
+    {
+        if( Math.abs(inputToSet) > 1.0 )
+            throw new IllegalArgumentException("InputToSet must be between -1 and +1");
+
+        this.input = inputToSet;
+    }
+
+	public double getInput()
+	{
+		return this.input;
 	}
 
-	@Test
-	public void testCollection()
+	public double getOutput()
 	{
-		TestBrain brain = new TestBrain();
-
-		NeuronGroup<SimpleBackpropNeuron> newGroup = new NeuronGroup<SimpleBackpropNeuron>();
-		NeuronGroup<SimpleBackpropNeuron> subGroup = new NeuronGroup<SimpleBackpropNeuron>();
-		SimpleBackpropNeuron newNeuron = new SimpleBackpropNeuron(brain);
-		SimpleBackpropNeuron subNeuron = new SimpleBackpropNeuron(brain);
-
-		subGroup.add(subNeuron);
-		newGroup.add(subGroup);
-		newGroup.add(newNeuron);
-
-		Assert.assertTrue(newGroup.getChildrenNeurons().contains(newNeuron));
-		Assert.assertTrue(newGroup.getChildrenNeuronGroups().contains(subGroup));
-		Assert.assertTrue(newGroup.getChildrenNeuronsRecursivly().contains(subNeuron));
+		return this.output;
 	}
+
+	@Override
+    public void propagate()
+    {
+		if(this.getBrain().getIndegree(this) > 0)
+			throw new IllegalStateException("An input neuron can not have inputs");
+
+		this.output = this.activationFunction.activate(this.input);
+        for (Synapse current : this.getBrain().getTraversableEdges(this))
+            current.setInput(output);
+    }
 }

@@ -16,35 +16,26 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.neural.backprop.brain;
+package com.syncleus.dann.neural;
 
-import com.syncleus.dann.neural.AbstractLocalBrain;
-import java.util.concurrent.ThreadPoolExecutor;
-
-public abstract class AbstractBackpropBrain extends AbstractLocalBrain
+public class StaticNeuron extends AbstractNeuron
 {
-	/**
-	 * Uses the given threadExecutor for executing tasks.
-	 *
-	 * @param threadExecutor executor to use for executing tasks.
-	 * @since 2.0
-	 */
-	public AbstractBackpropBrain(ThreadPoolExecutor threadExecutor)
+	private final double output;
+
+	public StaticNeuron(Brain brain, double constantOutput)
 	{
-		super(threadExecutor);
+		super(brain);
+		this.output = constantOutput;
 	}
 
-	/**
-	 * Default constructor initializes a default threadExecutor based on the
-	 * number of processors.
-	 *
-	 * @since 2.0
-	 */
-	public AbstractBackpropBrain()
+	public void propagate()
 	{
-		super();
+        for (Synapse current : this.getBrain().getTraversableEdges(this))
+            current.setInput(this.output);
 	}
 
-	public abstract void propagate();
-	public abstract void backPropagate();
+	protected double getOutput()
+	{
+		return this.output;
+	}
 }
