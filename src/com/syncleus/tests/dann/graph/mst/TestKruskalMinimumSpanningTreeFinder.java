@@ -75,4 +75,58 @@ public class TestKruskalMinimumSpanningTreeFinder
 		Assert.assertTrue("mst was not connected", mst.isStronglyConnected());
 		Assert.assertTrue("mst did not contain all the nodes of the paret graph", mst.getNodes().containsAll(graph.getNodes()));
 	}
+
+	@Test
+	public void testLinkedUndirected()
+	{
+		Set<Object> nodes = new LinkedHashSet<Object>();
+		Object centerNode = "centerNode";
+		nodes.add(centerNode);
+		Object leftNode = "leftNode";
+		nodes.add(leftNode);
+		Object topNode = "topNode";
+		nodes.add(topNode);
+		Object rightNode = "rightNode";
+		nodes.add(rightNode);
+
+		Set<BidirectedEdge<Object>> edges = new LinkedHashSet<BidirectedEdge<Object>>();
+		BidirectedEdge<Object> centerRightEdge = new SimpleUndirectedEdge<Object>(centerNode, rightNode);
+		edges.add(centerRightEdge);
+		BidirectedEdge<Object> rightLeftEdge = new SimpleUndirectedEdge<Object>(rightNode, leftNode);
+		edges.add(rightLeftEdge);
+		BidirectedEdge<Object> topRightEdge = new SimpleUndirectedEdge<Object>(topNode, rightNode);
+		edges.add(topRightEdge);
+		BidirectedEdge<Object> centerTopEdge = new SimpleUndirectedEdge<Object>(centerNode, topNode);
+		edges.add(centerTopEdge);
+		BidirectedEdge<Object> centerLeftEdge = new SimpleUndirectedEdge<Object>(centerNode, leftNode);
+		edges.add(centerLeftEdge);
+		BidirectedEdge<Object> leftTopEdge = new SimpleUndirectedEdge<Object>(leftNode, topNode);
+		edges.add(leftTopEdge);
+
+		Graph<Object, BidirectedEdge<Object>> graph = new LinkedGraph<Object, BidirectedEdge<Object>>(nodes, edges);
+
+		MinimumSpanningTreeFinder<Object, BidirectedEdge<Object>> finder = new KruskalMinimumSpanningTreeFinder<Object, BidirectedEdge<Object>>();
+		Set<BidirectedEdge<Object>> mstEdges = finder.findMinimumSpanningTree(graph);
+		TreeGraph<Object, BidirectedEdge<Object>> mst = new SimpleTreeGraph<Object, BidirectedEdge<Object>>(graph.getNodes(), mstEdges);
+
+		LOGGER.info("Linkedgraph objects:");
+		for(Object node : nodes)
+			LOGGER.info(node);
+		LOGGER.info("Linkedgraph edges:");
+		for(Edge edge : edges)
+			LOGGER.info(edge);
+
+		LOGGER.info("Linked mst edges:");
+		for(Edge edge : mst.getEdges())
+			LOGGER.info(edge);
+
+		CycleDetector detector = new ColoredDepthFirstSearchDetector();
+		LOGGER.info("Linked mst is cyclic: " + detector.hasCycle(mst));
+		LOGGER.info("Linked mst is connected: " + mst.isStronglyConnected());
+		LOGGER.info("Linked mst is contains all nodes: " + mst.getNodes().containsAll(graph.getNodes()));
+
+		Assert.assertTrue("Linked mst was not acyclic", !detector.hasCycle(mst));
+		Assert.assertTrue("Linked mst was not connected", mst.isStronglyConnected());
+		Assert.assertTrue("Linked mst did not contain all the nodes of the paret graph", mst.getNodes().containsAll(graph.getNodes()));
+	}
 }
