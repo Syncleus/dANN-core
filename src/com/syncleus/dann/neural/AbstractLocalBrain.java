@@ -37,7 +37,7 @@ import java.io.Serializable;
  */
 public abstract class AbstractLocalBrain extends AbstractBidirectedGraph<Neuron, Synapse> implements Brain, Serializable
 {
-	protected static class NodeConnectivity extends HashMap<Neuron,Set<Synapse>>
+	private static class NodeConnectivity extends HashMap<Neuron,Set<Synapse>>
 	{
 		@Override
 		public Set<Synapse> get(Object keyObject)
@@ -45,14 +45,11 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedGraph<Neuron,
 			if(!(keyObject instanceof Neuron))
 				throw new UnexpectedDannError("keyObject was not a Neuron");
 			Set<Synapse> edges = super.get((Neuron)keyObject);
-			if(keyObject instanceof Neuron)
+			if( edges == null )
 			{
-				if(edges == null)
-				{
-					edges = new HashSet<Synapse>();
-					Neuron key = (Neuron) keyObject;
-					super.put(key, edges);
-				}
+				edges = new HashSet<Synapse>();
+				Neuron key = (Neuron) keyObject;
+				super.put(key, edges);
 			}
 			return edges;
 		}
@@ -309,6 +306,14 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedGraph<Neuron,
 		if( this.inMap.containsKey(node) )
 			nodeSynapses.addAll( this.inMap.get(node) );
 		return Collections.unmodifiableSet(nodeSynapses);
+	}
+
+	@Override
+	public Set<Synapse> getTraversableEdges(Neuron node)
+	{
+		if( this.inMap.containsKey(node) )
+			 return Collections.unmodifiableSet( this.outMap.get(node) );
+		return Collections.emptySet();
 	}
 
 	public Set<Synapse> getInEdges(Neuron node)
