@@ -35,6 +35,7 @@ public class Vector implements Serializable
 {
     private volatile double[] coordinates;
 	private static final String DIMENSIONS_BELOW_ONE = "dimensions can not be less than or equal to zero";
+	private Double distanceCache = null;
 
 	/**
 	 * Creates a Vector at the origin (all coordinates are 0) in the
@@ -172,7 +173,8 @@ public class Vector implements Serializable
 	 */
     public Vector setDistance(final double distance)
     {
-		final double[] newCoords = (double[]) this.coordinates.clone();
+		Vector newVector = new Vector(this.coordinates);
+		final double[] newCoords = newVector.coordinates;
 
 		final double oldDistance = this.getDistance();
 		final double scalar = distance/oldDistance;
@@ -180,7 +182,7 @@ public class Vector implements Serializable
 		for(int newCoordsIndex = 0; newCoordsIndex < newCoords.length; newCoordsIndex++)
 			newCoords[newCoordsIndex] *= scalar;
 
-		return new Vector(newCoords);
+		return newVector;
     }
 
 	/**
@@ -241,11 +243,15 @@ public class Vector implements Serializable
 	 */
     public double getDistance()
     {
-		final double currentCoords[] = this.coordinates.clone();
-        double squaredSum = 0.0;
-        for(double coordinate : currentCoords)
-            squaredSum += Math.pow(coordinate,2);
-        return Math.sqrt(squaredSum);
+		if(this.distanceCache == null)
+		{
+			final double currentCoords[] = this.coordinates.clone();
+			double squaredSum = 0.0;
+			for(double coordinate : currentCoords)
+				squaredSum += Math.pow(coordinate,2);
+			this.distanceCache = Math.sqrt(squaredSum);
+		}
+		return this.distanceCache;
     }
 
 	/**

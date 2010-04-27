@@ -20,12 +20,12 @@ package com.syncleus.tests.dann.graph.drawing.hyperassociativemap;
 
 import com.syncleus.dann.graph.drawing.hyperassociativemap.*;
 
-public class LayeredHyperassociativeMap extends HyperassociativeMap<SimpleGraph, SimpleNode>
+public class LayeredHyperassociativeMap extends HyperassociativeMap<SimpleUndirectedGraph, SimpleNode>
 {
     private static final int NODES_PER_LAYER = 16;
     
     LayeredHyperassociativeMap(int layers)
     {
-		super(new SimpleGraph(layers,NODES_PER_LAYER), 3);
+		super(new SimpleUndirectedGraph(layers,NODES_PER_LAYER), 3);
     }
 }

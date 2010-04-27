@@ -134,7 +134,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractLocalBrain implem
 		for(NeuronGroup<BackpropNeuron> layerGroup : this.getEditableLayers())
 		{
 			Set<BackpropNeuron> layer = new HashSet<BackpropNeuron>();
-			for(BackpropNeuron layerNeuron : layer)
+			for(BackpropNeuron layerNeuron : layerGroup.getChildrenNeuronsRecursivly())
 				layer.add(layerNeuron);
 			layerList.add(Collections.unmodifiableSet(layer));
 		}

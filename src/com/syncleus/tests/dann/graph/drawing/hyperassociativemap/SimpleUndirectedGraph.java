@@ -21,15 +21,15 @@ package com.syncleus.tests.dann.graph.drawing.hyperassociativemap;
 import com.syncleus.dann.graph.*;
 import java.util.*;
 
-public class SimpleGraph extends AbstractBidirectedGraph<SimpleNode, BidirectedEdge<SimpleNode>>
+public class SimpleUndirectedGraph extends AbstractBidirectedGraph<SimpleNode, BidirectedEdge<SimpleNode>>
 {
 	final private SimpleNode[][] nodes;
 	final private Set<SimpleNode> nodeSet = new HashSet<SimpleNode>();
 	final private Set<BidirectedEdge<SimpleNode>> edges = new HashSet<BidirectedEdge<SimpleNode>>();
 	final private Map<SimpleNode, Set<BidirectedEdge<SimpleNode>>> neighborEdges = new HashMap<SimpleNode, Set<BidirectedEdge<SimpleNode>>>();
-	final private Map<SimpleNode, Set<SimpleNode>> neighborNodes = new HashMap<SimpleNode, Set<SimpleNode>>();
+	final private Map<SimpleNode, List<SimpleNode>> neighborNodes = new HashMap<SimpleNode, List<SimpleNode>>();
 
-	public SimpleGraph(int layers, int nodesPerLayer)
+	public SimpleUndirectedGraph(int layers, int nodesPerLayer)
 	{
 		this.nodes = new SimpleNode[layers][nodesPerLayer];
 
@@ -41,7 +41,7 @@ public class SimpleGraph extends AbstractBidirectedGraph<SimpleNode, BidirectedE
 				nodes[layerIndex][nodeIndex] = new SimpleNode(layerIndex);
 				this.nodeSet.add(nodes[layerIndex][nodeIndex]);
 				this.neighborEdges.put(nodes[layerIndex][nodeIndex], new HashSet<BidirectedEdge<SimpleNode>>());
-				this.neighborNodes.put(nodes[layerIndex][nodeIndex], new HashSet<SimpleNode>());
+				this.neighborNodes.put(nodes[layerIndex][nodeIndex], new ArrayList<SimpleNode>());
 			}
 		}
 
@@ -89,16 +89,6 @@ public class SimpleGraph extends AbstractBidirectedGraph<SimpleNode, BidirectedE
 		return Collections.unmodifiableSet(this.neighborEdges.get(node));
 	}
 
-	public Set<BidirectedEdge<SimpleNode>> getTraversableEdges(SimpleNode node)
-	{
-		return this.getAdjacentEdges(node);
-	}
-
-	public Set<BidirectedEdge<SimpleNode>> getOutEdges(SimpleNode node)
-	{
-		return this.getAdjacentEdges(node);
-	}
-
 	public Set<BidirectedEdge<SimpleNode>> getInEdges(SimpleNode node)
 	{
 		return this.getAdjacentEdges(node);
@@ -111,21 +101,11 @@ public class SimpleGraph extends AbstractBidirectedGraph<SimpleNode, BidirectedE
 
 	public int getOutdegree(SimpleNode node)
 	{
-		return this.getOutEdges(node).size();
-	}
-
-	public boolean isStronglyConnected(SimpleNode leftNode, SimpleNode rightNode)
-	{
-		return this.neighborNodes.get(leftNode).contains(rightNode);
+		return this.getTraversableEdges(node).size();
 	}
 
 	public List<SimpleNode> getAdjacentNodes(SimpleNode node)
 	{
-		return Collections.unmodifiableList(new ArrayList<SimpleNode>(this.neighborNodes.get(node)));
-	}
-
-	public List<SimpleNode> getTraversableNodes(SimpleNode node)
-	{
-		return this.getAdjacentNodes(node);
+		return Collections.unmodifiableList(this.neighborNodes.get(node));
 	}
 }

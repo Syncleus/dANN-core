@@ -37,6 +37,8 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 
 	private final static double EQUILIBRIUM_DISTANCE = 1.0;
 	private final static double LEARING_RATE = 0.004;
+	private final static double REPULSIVE_WEAKNESS = 2.0;
+	private final static double ATTRACTION_STRENGTH = 4.0;
 
 	private class Align implements Callable<Vector>
 	{
@@ -155,7 +157,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
             Vector neighborVector = this.coordinates.get(neighbor).calculateRelativeTo(location);
             if (Math.abs(neighborVector.getDistance()) > EQUILIBRIUM_DISTANCE)
 			{
-				double newDistance = Math.pow(Math.abs(neighborVector.getDistance()) - EQUILIBRIUM_DISTANCE, 2.0);
+				double newDistance = Math.pow(Math.abs(neighborVector.getDistance()) - EQUILIBRIUM_DISTANCE, ATTRACTION_STRENGTH);
 				if(Math.abs(newDistance) > Math.abs(Math.abs(neighborVector.getDistance()) - EQUILIBRIUM_DISTANCE))
 					newDistance = Math.abs(Math.abs(neighborVector.getDistance()) - EQUILIBRIUM_DISTANCE);
                 neighborVector = neighborVector.setDistance(Math.signum(neighborVector.getDistance()) * newDistance);
@@ -176,9 +178,9 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
             if ((neighbors.contains(node) == false)&&(node != nodeToAlign)&&(this.graph.getAdjacentNodes(node).contains(nodeToAlign) == false) )
             {
                 Vector nodeVector = this.coordinates.get(node).calculateRelativeTo(location);
-				double newDistance = -1.0/Math.pow(nodeVector.getDistance(), 2.0);
+				double newDistance = -1.0/Math.pow(nodeVector.getDistance(), REPULSIVE_WEAKNESS);
 				if(Math.abs(newDistance) > Math.abs(EQUILIBRIUM_DISTANCE))
-					newDistance = -1.0 * this.EQUILIBRIUM_DISTANCE;
+					newDistance = -1.0 * EQUILIBRIUM_DISTANCE;
                 nodeVector = nodeVector.setDistance(newDistance);
 
                 compositeVector = compositeVector.add(nodeVector);
