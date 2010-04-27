@@ -47,7 +47,10 @@ public class KruskalMinimumSpanningTreeFinder<N, E extends Edge<N>> implements M
 				for(N endNode : queuedEdge.getNodes())
 				{
 					if( component.contains(endNode) )
+					{
 						setContainingEndNodes.add(component);
+						continue;
+					}
 				}
 			}
 
