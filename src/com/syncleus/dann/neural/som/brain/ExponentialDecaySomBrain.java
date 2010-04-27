@@ -27,8 +27,8 @@ package com.syncleus.dann.neural.som.brain;
  */
 public class ExponentialDecaySomBrain extends AbstractSomBrain
 {
-	private int iterationsToConverge;
-	private double initialLearningRate;
+	private final int iterationsToConverge;
+	private final double initialLearningRate;
 
 	public ExponentialDecaySomBrain(int inputCount, int dimentionality, int iterationsToConverge, double initialLearningRate)
 	{

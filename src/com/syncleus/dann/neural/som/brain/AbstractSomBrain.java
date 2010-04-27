@@ -26,7 +26,6 @@ import java.util.Map.Entry;
 import com.syncleus.dann.math.Vector;
 import org.apache.log4j.Logger;
 import com.syncleus.dann.UnexpectedInterruptedException;
-import com.syncleus.dann.DannRuntimeException;
 import com.syncleus.dann.UnexpectedDannError;
 
 
@@ -44,8 +43,9 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	private int iterationsTrained;
 	private Vector upperBounds;
 	private Vector lowerBounds;
-	private final List<InputNeuron> inputs = new ArrayList<InputNeuron>();
-	private final Hashtable<Vector, SimpleSomNeuron> outputs = new Hashtable<Vector, SimpleSomNeuron>();
+	private final List<InputNeuron> inputs;
+	private final Map<Vector, SimpleSomNeuron> outputs = new HashMap<Vector, SimpleSomNeuron>();
+
 	private final static Logger LOGGER = Logger.getLogger(AbstractSomBrain.class);
 
 
@@ -112,12 +112,14 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 		
 		this.upperBounds = new Vector(dimentionality);
 		this.lowerBounds = new Vector(dimentionality);
+		List<InputNeuron> newInputs = new ArrayList<InputNeuron>();
 		for(int inputIndex = 0; inputIndex < inputCount; inputIndex++)
 		{
 			InputNeuron newNeuron = new SimpleInputNeuron(this);
-			this.inputs.add(newNeuron);
+			newInputs.add(newNeuron);
 			super.add(newNeuron);
 		}
+		this.inputs = Collections.unmodifiableList(newInputs);
 	}
 
 	private void updateBounds(final Vector position)
@@ -148,14 +150,12 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 		if(position.getDimensions() != this.getUpperBounds().getDimensions())
 			throw new IllegalArgumentException("Dimentionality mismatch");
 
-		final Vector positionCopy = new Vector(position);
-
 		//increase the upper bounds if needed
-		this.updateBounds(positionCopy);
+		this.updateBounds(position);
 
 		//create and add the new output neuron
 		final SimpleSomNeuron outputNeuron = new SimpleSomNeuron(this);
-		this.outputs.put(positionCopy, outputNeuron);
+		this.outputs.put(position, outputNeuron);
 		this.add(outputNeuron);
 
 		//connect all inputs to the new neuron
@@ -180,8 +180,9 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	/**
 	 * Gets the current output at the specified position in the output lattice
 	 * if the position doesnt have a SimpleSomNeuron associated with it then it
-	 * returns null.
+	 * throws an exception.
 	 *
+	 * @throws IllegalArgumentException if position doesnt exist.
 	 * @param position position in the output latice of the output you wish to
 	 * retreive.
 	 * @return The value of the specified SimpleSomNeuron, or null if there is no
@@ -191,6 +192,9 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	public final double getOutput(final Vector position)
 	{
 		final SimpleSomNeuron outputNeuron = this.outputs.get(position);
+		if( outputNeuron == null )
+			throw new IllegalArgumentException("position does not exist");
+
 		outputNeuron.propagate();
 		return outputNeuron.getOutput();
 	}
