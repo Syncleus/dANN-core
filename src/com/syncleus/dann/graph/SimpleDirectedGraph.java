@@ -86,20 +86,6 @@ public class SimpleDirectedGraph<N, E extends DirectedEdge<N>> extends AbstractB
 		return Collections.unmodifiableSet(this.neighborEdges.get(node));
 	}
 
-	public Set<E> getTraversableEdges(N node)
-	{
-		final Set<E> traversableEdges = new HashSet<E>();
-		for(E edge : edges)
-			if(edge.getSourceNode() == node)
-				traversableEdges.add(edge);
-		return Collections.unmodifiableSet(traversableEdges);
-	}
-
-	public Set<E> getOutEdges(N node)
-	{
-		return this.getTraversableEdges(node);
-	}
-
 	public Set<E> getInEdges(N node)
 	{
 		final Set<E> inEdges = new HashSet<E>();
@@ -116,20 +102,11 @@ public class SimpleDirectedGraph<N, E extends DirectedEdge<N>> extends AbstractB
 
 	public int getOutdegree(N node)
 	{
-		return this.getOutEdges(node).size();
+		return this.getTraversableEdges(node).size();
 	}
 
 	public List<N> getAdjacentNodes(N node)
 	{
 		return Collections.unmodifiableList(this.neighborNodes.get(node));
-	}
-
-	public List<N> getTraversableNodes(N node)
-	{
-		Set<E> traversableEdges = this.getTraversableEdges(node);
-		List<N> traversableNeighbors = new ArrayList<N>();
-		for(E traversableEdge : traversableEdges)
-			traversableNeighbors.add(traversableEdge.getDestinationNode());
-		return Collections.unmodifiableList(traversableNeighbors);
 	}
 }

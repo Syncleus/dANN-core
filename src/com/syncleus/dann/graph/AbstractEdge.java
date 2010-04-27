@@ -18,19 +18,46 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public class SimpleWeightedBidirectedEdge<N> extends SimpleBidirectedEdge<N> implements WeightedBidirectedEdge<N>
+import java.util.*;
+
+public abstract class AbstractEdge<N> implements Edge<N>
 {
-	private final double weight;
+	private final List<N> nodes;
 
-	public SimpleWeightedBidirectedEdge(N leftNode, EndState leftEndState, N rightNode, EndState rightEndState, double weight)
+	protected AbstractEdge(List<N> nodes)
 	{
-		super(leftNode, leftEndState, rightNode, rightEndState);
-
-		this.weight = weight;
+		this.nodes = Collections.unmodifiableList(new ArrayList<N>(nodes));
 	}
 
-	public double getWeight()
+	protected AbstractEdge(N... nodes)
 	{
-		return this.weight;
+		List<N> newNodes = new ArrayList<N>();
+		for(N node : nodes)
+			newNodes.add(node);
+		this.nodes = Collections.unmodifiableList(newNodes);
+	}
+
+	public boolean isTraversable(N node)
+	{
+		return (! this.getTraversableNodes(node).isEmpty());
+	}
+
+	public final List<N> getNodes()
+	{
+		return this.nodes;
+	}
+
+	@Override
+	public String toString()
+	{
+		StringBuffer outString = null;
+		for(N node : this.nodes)
+		{
+			if(outString == null)
+				outString = new StringBuffer(node.toString());
+			else
+				outString.append(":" + node);
+		}
+		return outString.toString();
 	}
 }

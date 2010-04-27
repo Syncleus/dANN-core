@@ -38,22 +38,9 @@ import java.util.Set;
 public interface BidirectedGraph<N, E extends BidirectedEdge<N>> extends Graph<N,E>
 {
 	/**
-	 * Get all edges which traverse from the specified node. While the
-	 * combination of out edges and in edges will usually result in all the
-	 * adacent edges for a node this is not strictly required.
-	 *
-	 * @throws IllegalArgumentException if node does not exist in the graph.
-	 * @param node The source node the returned edges will traverse from.
-	 * @return an unmodifiable set of all edges which traverse from the specified
-	 * node.
-	 * @since 2.0
-	 */
-	Set<E> getOutEdges(N node);
-
-	/**
 	 * Get all edges which traverse to the specified node. While the
 	 * combination of out edges and in edges will usually result in all the
-	 * adacent edges for a node this is not strictly required.
+	 * adjacent edges for a node this is not strictly required.
 	 *
 	 * @throws IllegalArgumentException if node does not exist in the graph.
 	 * @param node The destination node the returned edges will traverse to.
@@ -66,7 +53,7 @@ public interface BidirectedGraph<N, E extends BidirectedEdge<N>> extends Graph<N
 	/**
 	 * Count all edges which traverse from the specified node. While the
 	 * combination of out edges and in edges will usually result in all the
-	 * adacent edges for a node this is not strictly required.
+	 * adjacent edges for a node this is not strictly required.
 	 *
 	 * @throws IllegalArgumentException if node does not exist in the graph.
 	 * @param node The source node the returned edges will traverse from.
@@ -78,7 +65,7 @@ public interface BidirectedGraph<N, E extends BidirectedEdge<N>> extends Graph<N
 	/**
 	 * Count all edges which traverse to the specified node. While the
 	 * combination of out edges and in edges will usually result in all the
-	 * adacent edges for a node this is not strictly required.
+	 * adjacent edges for a node this is not strictly required.
 	 *
 	 * @throws IllegalArgumentException if node does not exist in the graph.
 	 * @param node The destination node the edges counted will traverse to.

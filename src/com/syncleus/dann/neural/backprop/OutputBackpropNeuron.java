@@ -117,7 +117,7 @@ public class OutputBackpropNeuron extends BackpropNeuron implements OutputNeuron
     protected void calculateDeltaTrain()
     {
         this.deltaTrain = 0;
-        for (Synapse currentSynapse : super.getBrain().getOutEdges(this))
+        for (Synapse currentSynapse : super.getBrain().getTraversableEdges(this))
 			this.deltaTrain += (currentSynapse.getWeight() * this.deltaTrainDestinations.get(currentSynapse).doubleValue());
 
         this.deltaTrain += (this.desired - this.getOutput());

@@ -18,9 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public class UniqueSimpleBidirectedEdge<N> extends SimpleBidirectedEdge<N>
+public abstract class AbstractUniqueBidirectedEdge<N> extends AbstractBidirectedEdge<N>
 {
-	public UniqueSimpleBidirectedEdge(N leftNode, EndState leftEndState, N rightNode, EndState rightEndState)
+	protected AbstractUniqueBidirectedEdge(N leftNode, EndState leftEndState, N rightNode, EndState rightEndState)
 	{
 		super(leftNode, leftEndState, rightNode, rightEndState);
 	}

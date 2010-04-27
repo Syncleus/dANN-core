@@ -18,74 +18,19 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.*;
-
-public class SimpleDirectedEdge<N> extends AbstractBidirectedEdge<N> implements DirectedEdge<N>
+public abstract class AbstractWeightedBidirectedEdge<N> extends AbstractBidirectedEdge<N> implements WeightedBidirectedEdge<N>
 {
-	public SimpleDirectedEdge(N source, N destination)
+	private final double weight;
+
+	protected AbstractWeightedBidirectedEdge(N leftNode, EndState leftEndState, N rightNode, EndState rightEndState, double weight)
 	{
-		super(source, EndState.INWARD, destination, EndState.OUTWARD);
+		super(leftNode, leftEndState, rightNode, rightEndState);
+
+		this.weight = weight;
 	}
 
-	public N getSourceNode()
+	public double getWeight()
 	{
-		return this.getLeftNode();
-	}
-
-	public N getDestinationNode()
-	{
-		return this.getRightNode();
-	}
-
-	public List<N> getTraversableNodes(N node)
-	{
-		if( this.getSourceNode().equals(node) )
-			return Collections.singletonList(this.getDestinationNode());
-		else if( this.getDestinationNode().equals(node) )
-			return Collections.emptyList();
-		else
-			throw new IllegalArgumentException("node is not one of the end points!");
-	}
-
-	@Override
-	public boolean isIntroverted()
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isExtraverted()
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isDirected()
-	{
-		return true;
-	}
-
-	@Override
-	public boolean isHalfEdge()
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isLooseEdge()
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isOrdinaryEdge()
-	{
-		return true;
-	}
-
-	@Override
-	public String toString()
-	{
-		return this.getSourceNode() + "->" + this.getDestinationNode();
+		return this.weight;
 	}
 }

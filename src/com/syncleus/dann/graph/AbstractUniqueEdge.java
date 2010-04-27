@@ -20,24 +20,34 @@ package com.syncleus.dann.graph;
 
 import java.util.List;
 
-public class SimpleWeightedEdge<N> extends SimpleEdge<N> implements WeightedEdge<N>
+public abstract class AbstractUniqueEdge<N> extends AbstractEdge<N>
 {
-	private final double weight;
-
-	public SimpleWeightedEdge(List<N> nodes, double weight)
+	protected AbstractUniqueEdge(List<N> nodes)
 	{
 		super(nodes);
-		this.weight = weight;
 	}
 
-	public SimpleWeightedEdge(double weight, N... nodes)
+	protected AbstractUniqueEdge(N... nodes)
 	{
 		super(nodes);
-		this.weight = weight;
 	}
 
-	public double getWeight()
+	@Override
+	public boolean equals(Object compareToObj)
 	{
-		return this.weight;
+		if(!(compareToObj instanceof Edge))
+			return false;
+		Edge compareTo = (Edge) compareToObj;
+		return (compareTo.getNodes().equals(this.getNodes()))&&
+			(this.getNodes().equals(compareTo.getNodes()));
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int hash = 0;
+		for(N node : this.getNodes())
+			hash += node.hashCode();
+		return hash;
 	}
 }

@@ -146,7 +146,7 @@ public abstract class AbstractNeuron implements Neuron
     {
         this.output = newOutput;
 
-        for (Synapse current : this.getBrain().getOutEdges(this))
+        for (Synapse current : this.getBrain().getTraversableEdges(this))
             current.setInput(newOutput);
     }
 

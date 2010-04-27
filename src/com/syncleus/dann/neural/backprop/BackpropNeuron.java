@@ -155,7 +155,7 @@ public class BackpropNeuron extends AbstractNeuron//<AbstractNeuron, BackpropNeu
     protected void calculateDeltaTrain()
     {
         this.deltaTrain = 0;
-        for (Synapse currentSynapse : this.getBrain().getOutEdges(this))
+        for (Synapse currentSynapse : this.getBrain().getTraversableEdges(this))
             this.deltaTrain += (currentSynapse.getWeight() * this.deltaTrainDestinations.get(currentSynapse).doubleValue());
         this.deltaTrain *= this.activateDerivitive();
     }

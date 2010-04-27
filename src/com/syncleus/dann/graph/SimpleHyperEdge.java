@@ -18,10 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-public class SimpleHyperEdge<N> extends SimpleEdge<N> implements HyperEdge<N>
+public class SimpleHyperEdge<N> extends AbstractEdge<N> implements HyperEdge<N>
 {
 	public SimpleHyperEdge(List<N> nodes)
 	{
@@ -31,6 +30,14 @@ public class SimpleHyperEdge<N> extends SimpleEdge<N> implements HyperEdge<N>
 	public SimpleHyperEdge(N... nodes)
 	{
 		super(nodes);
+	}
+
+	public List<N> getTraversableNodes(N node)
+	{
+		List<N> traversableNodes = new ArrayList<N>(this.getNodes());
+		if( !traversableNodes.remove(node) )
+			throw new IllegalArgumentException("node is not one of the end points!");
+		return Collections.unmodifiableList(traversableNodes);
 	}
 
 	public int getDegree()

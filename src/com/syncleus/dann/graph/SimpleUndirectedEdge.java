@@ -18,11 +18,23 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public class SimpleUndirectedEdge<N> extends SimpleBidirectedEdge<N>
+import java.util.*;
+
+public class SimpleUndirectedEdge<N> extends AbstractBidirectedEdge<N>
 {
 	public SimpleUndirectedEdge(N leftNode, N rightNode)
 	{
 		super(leftNode, EndState.NONE, rightNode, EndState.NONE);
+	}
+
+	public List<N> getTraversableNodes(N node)
+	{
+		if( this.getLeftNode().equals(node) )
+			return Collections.singletonList(this.getRightNode());
+		else if( this.getRightNode().equals(node) )
+			return Collections.singletonList(this.getLeftNode());
+		else
+			throw new IllegalArgumentException("node is not one of the end points!");
 	}
 
 	@Override

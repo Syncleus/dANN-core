@@ -18,43 +18,26 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class SimpleEdge<N> implements Edge<N>
+public abstract class AbstractWeightedEdge<N> extends AbstractEdge<N> implements WeightedEdge<N>
 {
-	private final List<N> nodes;
+	private final double weight;
 
-	public SimpleEdge(List<N> nodes)
+	protected AbstractWeightedEdge(List<N> nodes, double weight)
 	{
-		this.nodes = Collections.unmodifiableList(new ArrayList<N>(nodes));
+		super(nodes);
+		this.weight = weight;
 	}
 
-	public SimpleEdge(N... nodes)
+	protected AbstractWeightedEdge(double weight, N... nodes)
 	{
-		List<N> newNodes = new ArrayList<N>();
-		for(N node : nodes)
-			newNodes.add(node);
-		this.nodes = Collections.unmodifiableList(newNodes);
+		super(nodes);
+		this.weight = weight;
 	}
 
-	public final List<N> getNodes()
+	public double getWeight()
 	{
-		return this.nodes;
-	}
-
-	@Override
-	public String toString()
-	{
-		StringBuffer outString = null;
-		for(N node : this.nodes)
-		{
-			if(outString == null)
-				outString = new StringBuffer(node.toString());
-			else
-				outString.append(":" + node);
-		}
-		return outString.toString();
+		return this.weight;
 	}
 }

@@ -25,6 +25,23 @@ import java.util.*;
 
 public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 {
+	public List<N> getTraversableNodes(N node)
+	{
+		List<N> traversableNodes = new ArrayList<N>();
+		for(E adjacentEdge : this.getAdjacentEdges(node))
+			traversableNodes.addAll(adjacentEdge.getTraversableNodes(node));
+		return Collections.unmodifiableList(traversableNodes);
+	}
+
+	public Set<E> getTraversableEdges(N node)
+	{
+		Set<E> traversableEdges = new HashSet<E>();
+		for(E adjacentEdge : this.getAdjacentEdges(node))
+			if(adjacentEdge.isTraversable(node))
+				traversableEdges.add(adjacentEdge);
+		return Collections.unmodifiableSet(traversableEdges);
+	}
+	
 	public int getDegree(N node)
 	{
 		Set<E> adjacentEdges = this.getAdjacentEdges(node);
@@ -158,7 +175,8 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 			if( cutEdgeNeighbors.size() != cutEdge.getNodes().size())
 				removeEdges.add(cutEdge);
 			if( cutEdgeNeighbors.size() > 1)
-				addEdges.add(new SimpleEdge(cutEdgeNeighbors));
+				// TODO instead of SimpleHyperEdge implement clone or something
+				addEdges.add(new SimpleHyperEdge(cutEdgeNeighbors));
 		}
 		for(Edge removeEdge : removeEdges)
 			cutEdges.remove(removeEdge);

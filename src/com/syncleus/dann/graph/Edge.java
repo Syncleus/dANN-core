@@ -23,4 +23,6 @@ import java.util.List;
 public interface Edge<N>
 {
 	List<N> getNodes();
+	List<N> getTraversableNodes(N node);
+	boolean isTraversable(N node);
 }

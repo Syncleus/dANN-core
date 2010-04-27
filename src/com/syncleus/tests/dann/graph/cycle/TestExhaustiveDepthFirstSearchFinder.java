@@ -50,7 +50,7 @@ public class TestExhaustiveDepthFirstSearchFinder
 		BidirectedGraph<Object, DirectedEdge<Object>> graph = new SimpleDirectedGraph<Object, DirectedEdge<Object>>(nodes, edges);
 
 		CycleFinder finder = new ExhaustiveDepthFirstSearchCycleFinder();
-		LOGGER.info("cycles: ");
+		LOGGER.info("testDirectedNoCycles cycles: ");
 		for(Object cycle: finder.findCycles(graph))
 			LOGGER.info(cycle);
 		Assert.assertTrue("Cycles detected when there should be none: " + finder.cycleCount(graph), finder.cycleCount(graph) == 0);
@@ -90,7 +90,7 @@ public class TestExhaustiveDepthFirstSearchFinder
 		BidirectedGraph<Object, DirectedEdge<Object>> graph = new SimpleDirectedGraph<Object, DirectedEdge<Object>>(nodes, edges);
 
 		CycleFinder finder = new ExhaustiveDepthFirstSearchCycleFinder();
-		LOGGER.info("cycles: ");
+		LOGGER.info("testDirectedWithCycles cycles: ");
 		for(Object cycle: finder.findCycles(graph))
 			LOGGER.info(cycle);
 		Assert.assertTrue("incorrect number of cycles detected. Expected 3, got: " + finder.cycleCount(graph), finder.cycleCount(graph) == 3);
@@ -120,7 +120,7 @@ public class TestExhaustiveDepthFirstSearchFinder
 		Graph<Object, BidirectedEdge<Object>> graph = new SimpleGraph<Object, BidirectedEdge<Object>>(nodes, edges);
 
 		CycleFinder finder = new ExhaustiveDepthFirstSearchCycleFinder();
-		LOGGER.info("cycles: ");
+		LOGGER.info("testUndirectedNoCycles cycles: ");
 		for(Object cycle: finder.findCycles(graph))
 			LOGGER.info(cycle);
 		Assert.assertTrue("Cycles detected when there should be none: " + finder.cycleCount(graph), finder.cycleCount(graph) == 0);
@@ -154,7 +154,7 @@ public class TestExhaustiveDepthFirstSearchFinder
 		Graph<Object, BidirectedEdge<Object>> graph = new SimpleGraph<Object, BidirectedEdge<Object>>(nodes, edges);
 
 		CycleFinder finder = new ExhaustiveDepthFirstSearchCycleFinder();
-		LOGGER.info("cycles: ");
+		LOGGER.info("testUndirectedWithCycles cycles: ");
 		for(Object cycle: finder.findCycles(graph))
 			LOGGER.info(cycle);
 		Assert.assertTrue("incorrect number of cycles detected. Expected 3, got: " + finder.cycleCount(graph), finder.cycleCount(graph) == 3);
@@ -186,7 +186,7 @@ public class TestExhaustiveDepthFirstSearchFinder
 		Graph<Object, BidirectedEdge<Object>> graph = new SimpleGraph<Object, BidirectedEdge<Object>>(nodes, edges);
 
 		CycleFinder finder = new ExhaustiveDepthFirstSearchCycleFinder();
-		LOGGER.info("cycles: ");
+		LOGGER.info("testUndirectedWithDoubleEdgeCycles cycles: ");
 		for(Object cycle: finder.findCycles(graph))
 			LOGGER.info(cycle);
 		Assert.assertTrue("incorrect number of cycles detected. Expected 1, got: " + finder.cycleCount(graph), finder.cycleCount(graph) == 1);
