@@ -33,7 +33,7 @@ public class TestSignalProcessingWavelet
 	private static final int POPULATION_SIZE = 100;
 	private static final int EXTINCTION_SIZE = 90;
 	private static final int GENERATIONS = 50000;
-	private static final double XOR_MUTABILITY = 10.0;
+	private static final double XOR_MUTABILITY = 100.0;
 	private static final int TEST_MUTATIONS_REPEATS = 100;
 	private static final int TEST_XOR_REPEATS = 50;
 	private final static Logger LOGGER = Logger.getLogger(TestSignalProcessingWavelet.class);
