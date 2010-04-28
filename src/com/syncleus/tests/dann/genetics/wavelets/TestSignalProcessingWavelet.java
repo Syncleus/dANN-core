@@ -88,7 +88,7 @@ public class TestSignalProcessingWavelet
 		final GlobalSignalConcentration xAxis = new GlobalSignalConcentration();
 		final GlobalSignalConcentration yAxis = new GlobalSignalConcentration();
 		final GlobalSignalConcentration output = new GlobalSignalConcentration();
-		while(population.size() < POPULATION_SIZE)
+		while((population.size() < POPULATION_SIZE) && ((population.isEmpty() ? 0.0 : population.lastKey()) < 4.0))
 		{
 			SignalProcessingWavelet processor = new SignalProcessingWavelet(xAxis, output);
 			processor = mutateXor(processor, xAxis, yAxis);
@@ -104,12 +104,9 @@ public class TestSignalProcessingWavelet
 
 		//run through several generations
 		LOGGER.info("population initalized, proceeding with generations");
-		for(int generationIndex = 0; generationIndex < GENERATIONS; generationIndex++)
+		for(int generationIndex = 0; (generationIndex < GENERATIONS) && (population.lastKey() < 4.0); generationIndex++)
 		{
 			LOGGER.debug("Begining generation " + generationIndex + ", current fitness: " + population.lastKey());
-			//check if we reached the goal prematurely.
-			if(population.lastKey() >= 4.0)
-				break;
 			
 			//fill off all but the top EXTINCTION_SIZE performing members
 			while(population.size() > EXTINCTION_SIZE)
