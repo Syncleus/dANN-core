@@ -297,7 +297,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
             //10% to delete a signal
 			else
             {
-                //only delet eif there will be atleast one signal left
+                //only delete if there will be atleast one signal left
                 if(copy.signals.size() > 1)
                 {
                     SignalConcentration[] signals = new SignalConcentration[copy.signals.size()];

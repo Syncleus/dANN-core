@@ -33,7 +33,6 @@ public class TestSignalProcessingWavelet
 	private static final int POPULATION_SIZE = 20;
 	private static final int EXTINCTION_SIZE = 10;
 	private static final int GENERATIONS = 5000;
-	private static final int XOR_MUTATION_COUNT = 1;
 	private static final double XOR_MUTABILITY = 10000.0;
 	private static final int TEST_MUTATIONS_REPEATS = 100;
 	private static final int TEST_XOR_REPEATS = 50;
@@ -93,8 +92,6 @@ public class TestSignalProcessingWavelet
 			SignalProcessingWavelet processor = new SignalProcessingWavelet(xAxis, output);
 			processor = mutateXor(processor, xAxis, yAxis);
 
-			processor.preTick();
-			processor.tick();
 			final double initialFitness = checkXorFitness(processor.getWavelet(), processor.getWaveCount());
 			
 			population.put(initialFitness, processor);
@@ -123,8 +120,6 @@ public class TestSignalProcessingWavelet
 					processor = new SignalProcessingWavelet(xAxis, output);
 				processor = mutateXor(processor, xAxis, yAxis);
 
-				processor.preTick();
-				processor.tick();
 				final double initialFitness = checkXorFitness(processor.getWavelet(), processor.getWaveCount());
 
 				population.put(initialFitness, processor);
@@ -142,12 +137,9 @@ public class TestSignalProcessingWavelet
 		SignalProcessingWavelet mutatedProcessor = processor;
 		do
 		{
-			for(int mutationIndex = 0; mutationIndex < XOR_MUTATION_COUNT; mutationIndex++ )
-			{
-				mutatedProcessor = mutatedProcessor.mutate(XOR_MUTABILITY, xAxis);
-				mutatedProcessor = mutatedProcessor.mutate(XOR_MUTABILITY, yAxis);
-				mutatedProcessor = mutatedProcessor.mutate(XOR_MUTABILITY);
-			}
+			mutatedProcessor = mutatedProcessor.mutate(XOR_MUTABILITY, xAxis);
+			mutatedProcessor = mutatedProcessor.mutate(XOR_MUTABILITY, yAxis);
+			mutatedProcessor = mutatedProcessor.mutate(XOR_MUTABILITY);
 		} while( mutatedProcessor.getSignals().size() < 3 );
 
 		return mutatedProcessor;
