@@ -34,7 +34,7 @@ public class TestSignalProcessingWavelet
 	private static final int EXTINCTION_SIZE = 90;
 	private static final int GENERATIONS = 50000;
 	private static final double XOR_MUTABILITY = 100.0;
-	private static final int TEST_MUTATIONS_REPEATS = 100;
+	private static final int TEST_MUTATIONS_REPEATS = 1000;
 	private static final int TEST_XOR_REPEATS = 50;
 	private final static Logger LOGGER = Logger.getLogger(TestSignalProcessingWavelet.class);
 
@@ -55,12 +55,9 @@ public class TestSignalProcessingWavelet
         GlobalSignalConcentration yAxis = new GlobalSignalConcentration();
         GlobalSignalConcentration output = new GlobalSignalConcentration();
         SignalProcessingWavelet processor = new SignalProcessingWavelet(xAxis, output);
-        for(int index = 0;index < 500 ;index++)
-        {
-			processor = processor.mutate(1.0, xAxis);
-			processor = processor.mutate(1.0, yAxis);
-			processor = processor.mutate(1.0);
-        }
+		processor = processor.mutate(1.0, xAxis);
+		processor = processor.mutate(1.0, yAxis);
+		processor = processor.mutate(1.0);
 
         processor.preTick();
         processor.tick();
