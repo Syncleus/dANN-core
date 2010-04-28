@@ -265,6 +265,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
     public SignalProcessingWavelet mutate(double deviation)
     {
         SignalProcessingWavelet copy = this.clone();
+		copy.id = RANDOM.nextLong();
 
         while(RANDOM.nextFloat() < 0.1)
         {
@@ -353,6 +354,9 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
      */
     public SignalProcessingWavelet mutate(double deviation, SignalConcentration newSignal)
     {
+		if( this.signals.contains(newSignal) )
+			return this.mutate(deviation);
+
         SignalProcessingWavelet copy = this.clone();
         copy.signals.add(newSignal);
         if(copy.signals.size() > this.signals.size())
