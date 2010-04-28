@@ -483,6 +483,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
             WaveMultidimensionalFunction randomWave = wavesArray[RANDOM.nextInt(wavesArray.length)];
 			WaveMultidimensionalFunction newWave = randomWave.clone();
 
+			// TODO clean this up
             if(RANDOM.nextDouble() <= 1.0)
             {
                 newWave.setFrequency(newWave.getFrequency() + ((RANDOM.nextFloat() * 2.0 - 1.0) * deviation* 0.01));

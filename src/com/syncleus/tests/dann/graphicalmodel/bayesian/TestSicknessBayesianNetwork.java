@@ -18,12 +18,8 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.graphicalmodel.bayesian;
 
-import com.syncleus.dann.graphicalmodel.bayesian.BayesianNode;
-import com.syncleus.dann.graphicalmodel.bayesian.SimpleBayesianNetwork;
-import com.syncleus.dann.graphicalmodel.bayesian.SimpleBayesianNode;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
+import com.syncleus.dann.graphicalmodel.bayesian.*;
+import java.util.*;
 import org.junit.*;
 
 public class TestSicknessBayesianNetwork
@@ -105,7 +101,7 @@ public class TestSicknessBayesianNetwork
 		network.connect(fever, sick);
 
 		//let the network learn
-		for(int sampleCount = 0; sampleCount < 10000; sampleCount++)
+		for(int sampleCount = 0; sampleCount < 10; sampleCount++)
 			this.sampleState();
 
 		//lets check some probabilities
