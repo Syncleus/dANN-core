@@ -22,11 +22,13 @@ import java.io.*;
 import java.util.*;
 import java.lang.reflect.*;
 import org.junit.runner.*;
+import org.apache.log4j.*;
 import java.lang.annotation.Annotation;
 
 public class InteractiveTests
 {
 	private static final Class<? extends Annotation> TEST_ANNOTATION = org.junit.Test.class;
+	private final static Logger LOGGER = Logger.getLogger(InteractiveTests.class);
 
 	private static class ClassComparator implements Comparator<Class>
 	{
@@ -157,6 +159,14 @@ public class InteractiveTests
 	{
 		try
 		{
+			Properties logProperties = new Properties();
+			logProperties.setProperty("log4j.rootLogger", "all,console");
+			logProperties.setProperty("log4j.appender.console", "org.apache.log4j.ConsoleAppender");
+			logProperties.setProperty("log4j.appender.console.Target", "System.out");
+			logProperties.setProperty("log4j.appender.console.layout", "org.apache.log4j.PatternLayout");
+			logProperties.setProperty("log4j.appender.console.Threshold", "info");
+			PropertyConfigurator.configure(logProperties);
+
 			final Map<Class, Set<Method>> tests = InteractiveTests.getTestPoints();
 			final Method test = InteractiveTests.selectTest(tests);
 			final Class testClass = test.getDeclaringClass();
