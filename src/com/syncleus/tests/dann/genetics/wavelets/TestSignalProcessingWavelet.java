@@ -32,7 +32,7 @@ public class TestSignalProcessingWavelet
 	private static final Random RANDOM = new Random();
 	private static final int POPULATION_SIZE = 20;
 	private static final int EXTINCTION_SIZE = 10;
-	private static final int GENERATIONS = 500;
+	private static final int GENERATIONS = 5000;
 	private static final int XOR_MUTATION_COUNT = 1;
 	private static final double XOR_MUTABILITY = 10000.0;
 	private static final int TEST_MUTATIONS_REPEATS = 100;

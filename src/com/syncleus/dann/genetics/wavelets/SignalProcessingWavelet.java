@@ -269,23 +269,23 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 
         do
         {
-
-            //add a mutated copy of an existing wave
-            if(RANDOM.nextDouble() < 0.1)
+			float roll = RANDOM.nextFloat();
+			//60% chance to add a mutated copy of an existing wave
+            if(roll < 0.2)
             {
                 //Signal newSignal = this.getRandomSignal();
                 //return this.mutate(newSignal);
                 copy.waves.add(this.generateRandomWave());
                 copy.id = RANDOM.nextLong();
             }
-            //make a RANDOM new wave
-            if(RANDOM.nextDouble() < 0.1)
+            //20% to make a RANDOM new wave
+			else if(roll < 0.8)
             {
                 copy.waves.add(this.generateNewWave());
                 copy.id = RANDOM.nextLong();
             }
-            //delete a RANDOM wave
-            if(RANDOM.nextDouble() < 0.1)
+            //10% to delete a RANDOM wave
+			else if(roll < 0.9)
             {
                 //only delete if there will be atleast one wave left
                 if(copy.waves.size() > 1)
@@ -294,8 +294,8 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
                     copy.waves.remove(deleteWave);
                 }
             }
-            //delete a signal
-            if(RANDOM.nextDouble() < 0.1)
+            //10% to delete a signal
+			else
             {
                 //only delet eif there will be atleast one signal left
                 if(copy.signals.size() > 1)
