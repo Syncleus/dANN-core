@@ -32,7 +32,7 @@ public class TestSignalProcessingWavelet
 	private static final Random RANDOM = new Random();
 	private static final int POPULATION_SIZE = 100;
 	private static final int EXTINCTION_SIZE = 90;
-	private static final int GENERATIONS = 5000;
+	private static final int GENERATIONS = 50000;
 	private static final double XOR_MUTABILITY = 10000.0;
 	private static final int TEST_MUTATIONS_REPEATS = 100;
 	private static final int TEST_XOR_REPEATS = 50;
@@ -101,7 +101,8 @@ public class TestSignalProcessingWavelet
 
 		//run through several generations
 		LOGGER.info("population initalized, proceeding with generations");
-		for(int generationIndex = 0; (generationIndex < GENERATIONS) && (population.lastKey() < 4.0); generationIndex++)
+		int generationIndex;
+		for(generationIndex = 0; (generationIndex < GENERATIONS) && (population.lastKey() < 4.0); generationIndex++)
 		{
 			LOGGER.debug("Begining generation " + generationIndex + ", current fitness: " + population.lastKey());
 			
@@ -127,6 +128,10 @@ public class TestSignalProcessingWavelet
 		}
 
 		final double bestFitness = population.lastKey();
+
+		LOGGER.info("evolution completed in " + generationIndex + " generations.");
+		if( bestFitness < 4.0)
+			LOGGER.warn("did not successfully match XOR truth table: fitness: " + bestFitness);
 		Assert.assertTrue("did not successfully match XOR truth table: fitness: " + bestFitness, bestFitness >= 4.0);
 	}
 
