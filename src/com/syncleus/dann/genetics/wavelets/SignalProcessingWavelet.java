@@ -267,7 +267,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
         SignalProcessingWavelet copy = this.clone();
 		copy.id = RANDOM.nextLong();
 
-        while(RANDOM.nextFloat() < 0.1)
+        do
         {
 
             //add a mutated copy of an existing wave
@@ -335,7 +335,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
                     }
                 }
             }
-        }
+        } while(RANDOM.nextFloat() < 0.1);
 
         return copy;
     }

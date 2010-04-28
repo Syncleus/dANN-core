@@ -33,10 +33,10 @@ public class TestSignalProcessingWavelet
 	private static final int POPULATION_SIZE = 20;
 	private static final int EXTINCTION_SIZE = 10;
 	private static final int GENERATIONS = 500;
-	private static final int XOR_MUTATION_COUNT = 100;
+	private static final int XOR_MUTATION_COUNT = 1;
 	private static final double XOR_MUTABILITY = 10000.0;
 	private static final int TEST_MUTATIONS_REPEATS = 100;
-	private static final int TEST_XOR_REPEATS = 5;
+	private static final int TEST_XOR_REPEATS = 50;
 	private final static Logger LOGGER = Logger.getLogger(TestSignalProcessingWavelet.class);
 
 	@Test
@@ -80,6 +80,7 @@ public class TestSignalProcessingWavelet
 	@Test
 	public void testXorEvolveOnce()
 	{
+		LOGGER.info("begining testXorEvolveOnce");
 		final TreeMap<Double, SignalProcessingWavelet> population = new TreeMap<Double, SignalProcessingWavelet>();
 
 		//initialize the population
@@ -102,9 +103,10 @@ public class TestSignalProcessingWavelet
 		}
 
 		//run through several generations
+		LOGGER.info("population initalized, proceeding with generations");
 		for(int generationIndex = 0; generationIndex < GENERATIONS; generationIndex++)
 		{
-			LOGGER.info("Begining generation " + generationIndex + ", current fitness: " + population.lastKey());
+			LOGGER.debug("Begining generation " + generationIndex + ", current fitness: " + population.lastKey());
 			//check if we reached the goal prematurely.
 			if(population.lastKey() >= 4.0)
 				break;
