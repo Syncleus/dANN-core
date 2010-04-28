@@ -30,8 +30,8 @@ import org.apache.log4j.Logger;
 public class TestSignalProcessingWavelet
 {
 	private static final Random RANDOM = new Random();
-	private static final int POPULATION_SIZE = 20;
-	private static final int EXTINCTION_SIZE = 10;
+	private static final int POPULATION_SIZE = 100;
+	private static final int EXTINCTION_SIZE = 90;
 	private static final int GENERATIONS = 5000;
 	private static final double XOR_MUTABILITY = 10000.0;
 	private static final int TEST_MUTATIONS_REPEATS = 100;
@@ -176,7 +176,8 @@ public class TestSignalProcessingWavelet
 
 		//calculates the decimal portion of the fitness , should be >= 0 and < 1
 		final double fitnessFine = 1.0 - Math.tanh(waveCount);
+		final double fitnessSuperFine = Math.abs((double)xorAttempt.hashCode())/((double)Integer.MAX_VALUE);
 
-		return ((double)fitnessWhole) + fitnessFine;
+		return ((double)fitnessWhole) + (fitnessFine*0.99999) + (fitnessSuperFine*0.00001);
 	}
 }
