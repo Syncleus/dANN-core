@@ -73,7 +73,7 @@ public class TestJohnsonPathFinder
 		return ( (node.getX() == coords[0])&&(node.getY() == coords[1]) );
 	}
 
-	private static boolean checkSolution(GridNode start, List<DirectedEdge<GridNode>> path, int[][] solution)
+	private static boolean checkSolution(GridNode start, List<WeightedDirectedEdge<GridNode>> path, int[][] solution)
 	{
 		int solutionIndex = 0;
 		GridNode lastNode = start;
@@ -98,12 +98,12 @@ public class TestJohnsonPathFinder
 	public void testHardGrid()
 	{
 		WeightedDirectedGrid hardGrid = new WeightedDirectedGrid(HARD_GRID);
-		JohnsonPathFinder pathFinder = new JohnsonPathFinder(hardGrid);
+		JohnsonPathFinder<GridNode, WeightedDirectedEdge<GridNode>> pathFinder = new JohnsonPathFinder<GridNode, WeightedDirectedEdge<GridNode>>(hardGrid);
 
 		GridNode startNode = hardGrid.getNode(HARD_GRID_START[0], HARD_GRID_START[1]);
 		GridNode endNode = hardGrid.getNode(HARD_GRID_END[0], HARD_GRID_END[1]);
 
-		List<DirectedEdge<GridNode>> path = pathFinder.getBestPath(startNode, endNode);
+		List<WeightedDirectedEdge<GridNode>> path = pathFinder.getBestPath(startNode, endNode);
 
 		Assert.assertTrue("incorrect path found!", checkSolution(startNode, path, HARD_GRID_SOLUTION));
 	}
@@ -112,12 +112,12 @@ public class TestJohnsonPathFinder
 	public void testInfinityGrid()
 	{
 		WeightedDirectedGrid infinityGrid = new WeightedDirectedGrid(EASY_GRID);
-		JohnsonPathFinder pathFinder = new JohnsonPathFinder(infinityGrid);
+		JohnsonPathFinder<GridNode, WeightedDirectedEdge<GridNode>> pathFinder = new JohnsonPathFinder<GridNode, WeightedDirectedEdge<GridNode>>(infinityGrid);
 
 		GridNode startNode = infinityGrid.getNode(EASY_GRID_START[0], EASY_GRID_START[1]);
 		GridNode endNode = infinityGrid.getNode(EASY_GRID_END[0], EASY_GRID_END[1]);
 
-		List<DirectedEdge<GridNode>> path = pathFinder.getBestPath(startNode, endNode);
+		List<WeightedDirectedEdge<GridNode>> path = pathFinder.getBestPath(startNode, endNode);
 
 		Assert.assertTrue("incorrect path found!", checkSolution(startNode, path, EASY_GRID_SOLUTION));
 	}

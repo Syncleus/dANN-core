@@ -49,7 +49,7 @@ public class TestExhaustiveDepthFirstSearchFinder
 
 		BidirectedGraph<Object, DirectedEdge<Object>> graph = new SimpleDirectedGraph<Object, DirectedEdge<Object>>(nodes, edges);
 
-		CycleFinder finder = new ExhaustiveDepthFirstSearchCycleFinder();
+		CycleFinder<Object, DirectedEdge<Object>> finder = new ExhaustiveDepthFirstSearchCycleFinder<Object, DirectedEdge<Object>>();
 		LOGGER.info("testDirectedNoCycles cycles: ");
 		for(Object cycle: finder.findCycles(graph))
 			LOGGER.info(cycle);
@@ -89,7 +89,7 @@ public class TestExhaustiveDepthFirstSearchFinder
 
 		BidirectedGraph<Object, DirectedEdge<Object>> graph = new SimpleDirectedGraph<Object, DirectedEdge<Object>>(nodes, edges);
 
-		CycleFinder finder = new ExhaustiveDepthFirstSearchCycleFinder();
+		CycleFinder<Object, DirectedEdge<Object>> finder = new ExhaustiveDepthFirstSearchCycleFinder<Object, DirectedEdge<Object>>();
 		LOGGER.info("testDirectedWithCycles cycles: ");
 		for(Object cycle: finder.findCycles(graph))
 			LOGGER.info(cycle);
@@ -119,7 +119,7 @@ public class TestExhaustiveDepthFirstSearchFinder
 
 		Graph<Object, BidirectedEdge<Object>> graph = new SimpleGraph<Object, BidirectedEdge<Object>>(nodes, edges);
 
-		CycleFinder finder = new ExhaustiveDepthFirstSearchCycleFinder();
+		CycleFinder<Object, BidirectedEdge<Object>> finder = new ExhaustiveDepthFirstSearchCycleFinder<Object, BidirectedEdge<Object>>();
 		LOGGER.info("testUndirectedNoCycles cycles: ");
 		for(Object cycle: finder.findCycles(graph))
 			LOGGER.info(cycle);
@@ -153,7 +153,7 @@ public class TestExhaustiveDepthFirstSearchFinder
 
 		Graph<Object, BidirectedEdge<Object>> graph = new SimpleGraph<Object, BidirectedEdge<Object>>(nodes, edges);
 
-		CycleFinder finder = new ExhaustiveDepthFirstSearchCycleFinder();
+		CycleFinder<Object, BidirectedEdge<Object>> finder = new ExhaustiveDepthFirstSearchCycleFinder<Object, BidirectedEdge<Object>>();
 		LOGGER.info("testUndirectedWithCycles cycles: ");
 		for(Object cycle: finder.findCycles(graph))
 			LOGGER.info(cycle);
@@ -185,7 +185,7 @@ public class TestExhaustiveDepthFirstSearchFinder
 
 		Graph<Object, BidirectedEdge<Object>> graph = new SimpleGraph<Object, BidirectedEdge<Object>>(nodes, edges);
 
-		CycleFinder finder = new ExhaustiveDepthFirstSearchCycleFinder();
+		CycleFinder<Object, BidirectedEdge<Object>> finder = new ExhaustiveDepthFirstSearchCycleFinder<Object, BidirectedEdge<Object>>();
 		LOGGER.info("testUndirectedWithDoubleEdgeCycles cycles: ");
 		for(Object cycle: finder.findCycles(graph))
 			LOGGER.info(cycle);
