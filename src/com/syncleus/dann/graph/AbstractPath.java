@@ -45,10 +45,10 @@ public abstract class AbstractPath<N, E extends Edge<N>> extends AbstractWalk<N,
 		return isChain(this);
 	}
 
-	static boolean isChain(Path path)
+	protected static <N, E extends Edge<N>> boolean isChain(Path<N,E> path)
 	{
-		Set uniqueNodes = new HashSet(path.getNodeSteps());
-		Set uniqueEdges = new HashSet(path.getSteps());
+		Set<N> uniqueNodes = new HashSet<N>(path.getNodeSteps());
+		Set<E> uniqueEdges = new HashSet<E>(path.getSteps());
 		if( uniqueNodes.size() < path.getNodeSteps().size())
 			return false;
 		if( uniqueEdges.size() < path.getSteps().size())

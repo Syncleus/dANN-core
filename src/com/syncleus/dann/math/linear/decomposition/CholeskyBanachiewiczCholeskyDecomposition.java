@@ -37,6 +37,8 @@ be queried by the isSpd() method.
  */
 public class CholeskyBanachiewiczCholeskyDecomposition<M extends Matrix<M, F>, F extends OrderedAlgebraic<F>> implements CholeskyDecomposition<M,F>
 {
+	private static final long serialVersionUID = 3272683691654431613L;
+	
 	private final M matrix;
 
 	/** Symmetric and positive definite flag.

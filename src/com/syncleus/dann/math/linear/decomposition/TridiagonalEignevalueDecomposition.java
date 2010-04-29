@@ -46,6 +46,8 @@ matrixToDecomposeElements = matrixElements*D*inverse(matrixElements) depends upo
  **/
 public class TridiagonalEignevalueDecomposition implements java.io.Serializable, EigenvalueDecomposition
 {
+	private static final long serialVersionUID = -2744929707931588713L;
+	
 	/** Arrays for internal storage of eigenvalues.
 	@serial internal storage of eigenvalues.
 	 */

@@ -32,6 +32,8 @@ import java.util.List;
 
 public class SchurEigenvalueDecomposition implements java.io.Serializable, EigenvalueDecomposition
 {
+	private static final long serialVersionUID = -2044063442141081048L;
+	
 	/** Arrays for internal storage of eigenvalues.
 	@serial internal storage of eigenvalues.
 	 */

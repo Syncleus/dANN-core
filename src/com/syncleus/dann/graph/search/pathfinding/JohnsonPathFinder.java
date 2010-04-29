@@ -25,6 +25,7 @@ public class JohnsonPathFinder<N, E extends WeightedDirectedEdge<N>> implements 
 {
 	private BidirectedGraph<N,E> graph;
 	private final static Object BLANK_NODE = new Object();
+	// TODO stop using the non-generic form
 	private final JohnsonGraphTransformer TRANSFORMER = new JohnsonGraphTransformer(BLANK_NODE);
 
 	public JohnsonPathFinder(BidirectedGraph<N,E> graph)
@@ -37,13 +38,13 @@ public class JohnsonPathFinder<N, E extends WeightedDirectedEdge<N>> implements 
 	public List<WeightedDirectedEdge<N>> getBestPath(N begin, N end)
 	{
 		BidirectedGraph johnsonGraph = TRANSFORMER.transform(this.graph);
-		DijkstraPathFinder pathFinder = new DijkstraPathFinder(johnsonGraph);
-		List pathWalk = pathFinder.getBestPath(begin, end);
+		DijkstraPathFinder<N,WeightedDirectedEdge<N>> pathFinder = new DijkstraPathFinder<N,WeightedDirectedEdge<N>>(johnsonGraph);
+		List<WeightedDirectedEdge<N>> pathWalk = pathFinder.getBestPath(begin, end);
 
 		if(pathWalk == null)
 			return null;
 
-		return (List<WeightedDirectedEdge<N>>) pathWalk;
+		return pathWalk;
 	}
 
 	public boolean isReachable(N begin, N end)

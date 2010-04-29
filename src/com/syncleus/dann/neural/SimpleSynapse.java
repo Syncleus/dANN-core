@@ -34,6 +34,8 @@ public class SimpleSynapse extends SimpleDirectedEdge<Neuron> implements Synapse
 {
     // <editor-fold defaultstate="collapsed" desc="Attributes">
 
+	private static final long serialVersionUID = -7939448149356677295L;
+	
     /**
      * The current weight of the synapse.
      *

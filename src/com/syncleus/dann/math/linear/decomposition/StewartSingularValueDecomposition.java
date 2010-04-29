@@ -46,6 +46,8 @@ c
  */
 public class StewartSingularValueDecomposition implements java.io.Serializable, SingularValueDecomposition
 {
+	private static final long serialVersionUID = 325638354441525023L;
+	
 	/** Arrays for internal storage of U and V.
 	@serial internal storage of U.
 	@serial internal storage of V.

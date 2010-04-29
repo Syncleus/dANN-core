@@ -25,6 +25,8 @@ public abstract class AbstractBayesianNetwork extends AbstractBidirectedGraph<Ba
 {
 	protected static class NodeConnectivity extends HashMap<BayesianNode,Set<BayesianEdge>>
 	{
+		private static final long serialVersionUID = -3068604309573134643L;
+		
 		@Override
 		public Set<BayesianEdge> get(Object keyObject)
 		{

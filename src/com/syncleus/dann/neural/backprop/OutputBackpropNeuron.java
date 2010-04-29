@@ -32,6 +32,8 @@ import com.syncleus.dann.neural.activation.*;
  */
 public class OutputBackpropNeuron extends SimpleBackpropNeuron implements OutputNeuron
 {
+	private static final long serialVersionUID = -4643866124019076672L;
+	
     /**
      * holds the value for the current training set.
      *

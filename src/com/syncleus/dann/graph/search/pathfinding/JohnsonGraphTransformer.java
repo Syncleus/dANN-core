@@ -175,12 +175,8 @@ public class JohnsonGraphTransformer<N> implements GraphTransformer<BidirectedGr
 			return Collections.unmodifiableSet(nodeSynapses);
 		}
 
+		@Override
 		public Set<WeightedDirectedEdge<N>> getTraversableEdges(N node)
-		{
-			return this.getOutEdges(node);
-		}
-
-		public Set<WeightedDirectedEdge<N>> getOutEdges(N node)
 		{
 			if( this.outEdges.containsKey(node) )
 				 return Collections.unmodifiableSet( this.outEdges.get(node) );
@@ -213,12 +209,13 @@ public class JohnsonGraphTransformer<N> implements GraphTransformer<BidirectedGr
 			return Collections.unmodifiableList(neighbors);
 		}
 
+		@Override
 		public List<N> getTraversableNodes(N node)
 		{
-			Set<WeightedDirectedEdge<N>> nodeEdges = this.getOutEdges(node);
+			Set<WeightedDirectedEdge<N>> adjacentOutEdges = this.getTraversableEdges(node);
 			List<N> neighbors = new ArrayList<N>();
-			for(WeightedDirectedEdge<N> nodeEdge : nodeEdges)
-				neighbors.add( (nodeEdge.getLeftNode().equals(node) ? nodeEdge.getRightNode() : nodeEdge.getLeftNode() ) );
+			for(WeightedDirectedEdge<N> outEdge : adjacentOutEdges)
+				neighbors.add( outEdge.getDestinationNode() );
 			return Collections.unmodifiableList(neighbors);
 		}
 	}

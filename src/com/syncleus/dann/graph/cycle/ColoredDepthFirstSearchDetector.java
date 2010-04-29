@@ -23,15 +23,15 @@ import java.util.*;
 
 public class ColoredDepthFirstSearchDetector implements CycleDetector
 {
-	public boolean hasCycle(Graph graph)
+	public <N, E extends Edge<N>> boolean hasCycle(Graph<N,E> graph)
 	{
 		//A map of the current Node colors. Key is the node, value is null for
 		//white, false for grey, true for black.
-		final Map<Object, Boolean> colorMap = new HashMap<Object, Boolean>();
+		final Map<N, Boolean> colorMap = new HashMap<N, Boolean>();
 
-		Set<Edge> traversedEdges = new HashSet<Edge>();
+		Set<E> traversedEdges = new HashSet<E>();
 
-		for(Object node : graph.getNodes())
+		for(N node : graph.getNodes())
 			if(!colorMap.containsKey(node))
 				if( visit(graph, colorMap, traversedEdges, node) )
 					return true;
@@ -39,19 +39,19 @@ public class ColoredDepthFirstSearchDetector implements CycleDetector
 		return false;
 	}
 
-	private static boolean visit(Graph graph, Map<Object, Boolean> colorMap, Set<Edge> traversedEdges, Object node)
+	private static <N, E extends Edge<N>> boolean visit(Graph<N,E> graph, Map<N, Boolean> colorMap, Set<E> traversedEdges, N node)
 	{
 		colorMap.put(node, Boolean.FALSE);
 
-		Set<Edge> traversableEdges = graph.getTraversableEdges(node);
-		for(Edge neighborEdge : traversableEdges)
+		Set<E> traversableEdges = graph.getTraversableEdges(node);
+		for(E neighborEdge : traversableEdges)
 		{
-			if(!traversed(traversedEdges, neighborEdge))
+			if(!ColoredDepthFirstSearchDetector.<E>traversed(traversedEdges, neighborEdge))
 			{
 				traversedEdges.add(neighborEdge);
-				List<Object> neighborNodes = new ArrayList<Object>(neighborEdge.getNodes());
+				List<N> neighborNodes = new ArrayList<N>(neighborEdge.getNodes());
 				neighborNodes.remove(node);
-				for(Object neighborNode : neighborNodes)
+				for(N neighborNode : neighborNodes)
 				{
 					if(colorMap.get(neighborNode) == Boolean.FALSE)
 						return true;
@@ -65,9 +65,9 @@ public class ColoredDepthFirstSearchDetector implements CycleDetector
 		return false;
 	}
 
-	private static boolean traversed(Set<Edge> traversedEdges, Edge edge)
+	private static <E extends Edge> boolean traversed(Set<E> traversedEdges, E edge)
 	{
-		for(Edge traversedEdge : traversedEdges)
+		for(E traversedEdge : traversedEdges)
 			if(traversedEdge == edge)
 				return true;
 		return false;

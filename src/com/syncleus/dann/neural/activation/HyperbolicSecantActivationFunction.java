@@ -29,6 +29,8 @@ package com.syncleus.dann.neural.activation;
  */
 public class HyperbolicSecantActivationFunction implements ActivationFunction
 {
+	private static final long serialVersionUID = 8019090788123142702L;
+	
 	/**
 	 * The hyperbolic secant activation function.
 	 *

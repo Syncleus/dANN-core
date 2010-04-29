@@ -39,6 +39,8 @@ public class SimpleBackpropNeuron extends AbstractActivationNeuron implements Ba
 {
     // <editor-fold defaultstate="collapsed" desc="Attributes">
 
+	private static final long serialVersionUID = 85919762906996765L;
+
     /**
      * This represents the net effect of all the training data from all the
      * inputs. It is essentially the reverse of the activity value.

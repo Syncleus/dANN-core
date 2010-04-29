@@ -25,6 +25,7 @@ import java.util.Map.Entry;
 
 public class PrimMinimumSpanningTreeFinder<N,E extends Edge<N>> implements RootedMinimumSpanningTreeFinder<N,E>
 {
+	@SuppressWarnings("unchecked")
 	public Set<E> findMinimumSpanningTree(Graph<N,E> graph)
 	{
 		boolean isDirected = false;
@@ -45,15 +46,15 @@ public class PrimMinimumSpanningTreeFinder<N,E extends Edge<N>> implements Roote
 		}
 		else
 		{
-			startNode = (N) graph.getNodes().toArray()[0];
+			startNode = graph.getNodes().iterator().next();
 		}
 
-		return this.primCalculate((Graph)graph, startNode);
+		return this.primCalculate(graph, startNode);
 	}
 
 	public Set<E> findMinimumSpanningTree(Graph<N,E> graph, N startNode)
 	{
-		return primCalculate((Graph)graph, startNode);
+		return primCalculate(graph, startNode);
 	}
 
 	private Set<E> primCalculate(Graph<N,E> graph, N startNode)
@@ -102,7 +103,9 @@ public class PrimMinimumSpanningTreeFinder<N,E extends Edge<N>> implements Roote
 
 	private class PrimMap extends HashMap<N,E>
 	{
-		final Queue<Entry<N,E>> weightedNodes = new PriorityQueue<Entry<N,E>>(10, new EntryCompare());
+		private static final long serialVersionUID = 6345120112273301259L;
+
+		private final Queue<Entry<N,E>> weightedNodes = new PriorityQueue<Entry<N,E>>(10, new EntryCompare());
 
 		public void resort()
 		{

@@ -39,6 +39,8 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedGraph<Neuron,
 {
 	private static class NodeConnectivity extends HashMap<Neuron,Set<Synapse>>
 	{
+		private static final long serialVersionUID = -2956514569529162804L;
+		
 		@Override
 		public Set<Synapse> get(Object keyObject)
 		{
@@ -54,6 +56,8 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedGraph<Neuron,
 			return edges;
 		}
 	}
+
+	private static final long serialVersionUID = -7626975911198443367L;
 
     private Set<Neuron> neurons = new HashSet<Neuron>();
     private Set<OutputNeuron> outputNeurons = new HashSet<OutputNeuron>();

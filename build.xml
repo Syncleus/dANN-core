@@ -123,7 +123,7 @@
 		<mkdir dir="build/tests/classes"/>
 		<javac destdir="build/tests/classes" classpathref="classpath" debug="true" srcdir="src">
 			<include name="com/syncleus/tests/**"/>
-			<compilerarg value="-Xlint:unchecked"/>
+			<compilerarg value="-Xlint"/>
 		</javac>
 		<delete dir="build/tests/classes/com/syncleus/dann"/>
 

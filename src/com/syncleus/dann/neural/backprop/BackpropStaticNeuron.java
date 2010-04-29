@@ -23,6 +23,8 @@ import com.syncleus.dann.neural.StaticNeuron;
 
 public class BackpropStaticNeuron extends StaticNeuron implements BackpropNeuron
 {
+	private static final long serialVersionUID = -958292142062664899L;
+	
 	public BackpropStaticNeuron(Brain brain, double constantOutput)
 	{
 		super(brain, constantOutput);

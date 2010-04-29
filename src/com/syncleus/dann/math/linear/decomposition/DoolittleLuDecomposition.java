@@ -43,6 +43,8 @@ linear equations.  This will fail if isNonsingular() returns false.
  */
 public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedAlgebraic<F>> implements java.io.Serializable, LuDecomposition<M,F>
 {
+	private static final long serialVersionUID = -7096672949387816785L;
+	
 	/** Array for internal storage of decomposition.
 	@serial internal array storage.
 	 */

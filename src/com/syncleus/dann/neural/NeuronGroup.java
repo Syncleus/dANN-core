@@ -18,10 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.neural;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 
 /**
@@ -33,6 +30,8 @@ import java.util.Set;
  */
 public class NeuronGroup<N extends Neuron> implements java.io.Serializable
 {
+	private static final long serialVersionUID = -7251026401945117794L;
+	
     // <editor-fold defaultstate="collapsed" desc="Attributes">
     /**
      * This contains all the neurons considered to be a part of this layer. Any

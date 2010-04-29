@@ -112,9 +112,7 @@ public abstract class AbstractValueGene<N extends MutableNumber> implements Gene
 	{
 		try
 		{
-			AbstractValueGene copy = (AbstractValueGene) super.clone();
-			copy.value = (N) this.value;
-			return copy;
+			return (AbstractValueGene) super.clone();
 		}
 		catch(CloneNotSupportedException caught)
 		{

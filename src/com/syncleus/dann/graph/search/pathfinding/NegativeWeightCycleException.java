@@ -17,9 +17,13 @@
  *                                                                             *
  ******************************************************************************/
 package com.syncleus.dann.graph.search.pathfinding;
+
 import com.syncleus.dann.DannRuntimeException;
+
 public class NegativeWeightCycleException extends DannRuntimeException
 {
+	private static final long serialVersionUID = -3399414912478441842L;
+	
 	/**
 	 * Creates a blank default exception.
 	 *

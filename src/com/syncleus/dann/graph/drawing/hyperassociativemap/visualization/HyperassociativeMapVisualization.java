@@ -39,7 +39,7 @@ import com.syncleus.dann.graph.drawing.GraphDrawer;
  * @since 1.0
  *
  */
-public class HyperassociativeMapVisualization<D extends GraphDrawer<G, N>, G extends Graph<N, E>, N, E extends Edge<N>> extends BranchGroup
+public class HyperassociativeMapVisualization<D extends GraphDrawer<G, N>, G extends Graph<N, ?>, N> extends BranchGroup
 {
     private D drawer;
     private Map<N, TransformGroup> nodeGraphics = new HashMap<N, TransformGroup>();

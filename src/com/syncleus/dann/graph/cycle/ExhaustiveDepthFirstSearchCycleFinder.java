@@ -82,7 +82,7 @@ public class ExhaustiveDepthFirstSearchCycleFinder<N, E extends Edge<N>> extends
 		final Set<Cycle<N,E>> cycles = new HashSet<Cycle<N,E>>();
 		while(!untouchedNodes.isEmpty())
 		{
-			N startingNode = (N) untouchedNodes.toArray()[0];
+			N startingNode = untouchedNodes.iterator().next();
 			untouchedNodes.remove(startingNode);
 			ExhaustiveDepthFirstSearchCycleFinder.<N,E>cyclesFromStart(graph, untouchedNodes, cycles, startingNode);
 		}

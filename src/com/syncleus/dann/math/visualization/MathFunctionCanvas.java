@@ -23,6 +23,8 @@ import org.freehep.j3d.plot.*;
 
 public class MathFunctionCanvas extends SurfacePlot
 {
+	private static final long serialVersionUID = -6107827702991178553L;
+	
 	private Function function;
 	private int xIndex;
 	private int yIndex;

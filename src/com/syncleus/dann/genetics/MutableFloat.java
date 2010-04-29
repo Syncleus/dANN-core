@@ -28,6 +28,8 @@ package com.syncleus.dann.genetics;
  */
 public class MutableFloat extends MutableNumber<Float> implements Comparable<MutableFloat>, Cloneable
 {
+	private static final long serialVersionUID = 3985002065460583625L;
+	
 	/**
 	 * Initializes a new instance of this class with the specified value.
 	 *

@@ -24,6 +24,8 @@ import java.util.Map.Entry;
 
 public class StateEvidence<S> extends HashMap<S,Integer>
 {
+	private static final long serialVersionUID = 4276706788994272957L;
+	
 	private long totalEvidence;
 
 	public long getTotalEvidence()

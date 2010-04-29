@@ -24,6 +24,8 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 public class FullyConnectedFeedforwardBrain extends AbstractFullyConnectedFeedforwardBrain
 {
+	private static final long serialVersionUID = 3666884827880527998L;
+	
 	private double learningRate;
 	private ActivationFunction activationFunction;
 

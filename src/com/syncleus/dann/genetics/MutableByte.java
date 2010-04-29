@@ -28,6 +28,8 @@ package com.syncleus.dann.genetics;
  */
 public class MutableByte extends MutableNumber<Byte> implements Comparable<MutableByte>, Cloneable
 {
+	private static final long serialVersionUID = 9080091896193186756L;
+	
 	/**
 	 * Initializes a new instance of this class with the specified value.
 	 *

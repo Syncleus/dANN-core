@@ -26,6 +26,8 @@ package com.syncleus.dann.neural.activation;
  */
 public class SqrtActivationFunction implements ActivationFunction
 {
+	private static final long serialVersionUID = -7384243647996712000L;
+	
 	/**
 	 * The activation function.
 	 *

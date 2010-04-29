@@ -27,6 +27,8 @@ package com.syncleus.dann.neural.som.brain;
  */
 public class ExponentialDecaySomBrain extends AbstractSomBrain
 {
+	private static final long serialVersionUID = 4523396585666912034L;
+	
 	private final int iterationsToConverge;
 	private final double initialLearningRate;
 

@@ -17,6 +17,7 @@
  *                                                                             *
  ******************************************************************************/
 package com.syncleus.dann.neural;
+
 import com.syncleus.dann.*;
 
 /**
@@ -29,6 +30,8 @@ import com.syncleus.dann.*;
  */
 public class SynapseDoesNotExistDannException extends DannException
 {
+	private static final long serialVersionUID = 1454119896780185614L;
+	
 	/**
 	 * Creates a blank default exception.
 	 *

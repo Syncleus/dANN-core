@@ -86,7 +86,7 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 
 		while(!toVisit.isEmpty())
 		{
-			N node = (N) toVisit.toArray()[0];
+			N node = toVisit.iterator().next();
 			if(node.equals(rightNode))
 				return true;
 
@@ -110,7 +110,7 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 
 		while(!toVisit.isEmpty())
 		{
-			N node = (N) toVisit.toArray()[0];
+			N node = toVisit.iterator().next();
 			if(node.equals(rightNode))
 				return true;
 
@@ -152,39 +152,39 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 		return true;
 	}
 
-	private SimpleGraph deleteFromGraph(Set<N> nodes, Set<E> edges)
+	private SimpleGraph<N,Edge<N>> deleteFromGraph(Set<N> nodes, Set<E> edges)
 	{
 		//remove the nodes
-		final Set cutNodes = this.getNodes();
+		final Set<N> cutNodes = this.getNodes();
 		cutNodes.removeAll(nodes);
 
 		//remove the edges
-		final Set<Edge> cutEdges = new HashSet<Edge>(this.getEdges());
+		final Set<Edge<N>> cutEdges = new HashSet<Edge<N>>(this.getEdges());
 		for(E edge : edges)
 			cutEdges.remove(edge);
 
 		//remove any remaining edges which connect to removed nodes
 		//also replace edges that have one removed node but still have
 		//2 or more remaining nodes with a new edge.
-		final Set<Edge> removeEdges = new HashSet();
-		final Set<Edge> addEdges = new HashSet();
-		for(Edge cutEdge : cutEdges)
+		final Set<Edge<N>> removeEdges = new HashSet<Edge<N>>();
+		final Set<Edge<N>> addEdges = new HashSet<Edge<N>>();
+		for(Edge<N> cutEdge : cutEdges)
 		{
-			final List<? extends N> cutEdgeNeighbors = cutEdge.getNodes();
+			final List<N> cutEdgeNeighbors = cutEdge.getNodes();
 			cutEdgeNeighbors.removeAll(cutNodes);
 			if( cutEdgeNeighbors.size() != cutEdge.getNodes().size())
 				removeEdges.add(cutEdge);
 			if( cutEdgeNeighbors.size() > 1)
 				// TODO instead of SimpleHyperEdge implement clone or something
-				addEdges.add(new SimpleHyperEdge(cutEdgeNeighbors));
+				addEdges.add(new SimpleHyperEdge<N>(cutEdgeNeighbors));
 		}
-		for(Edge removeEdge : removeEdges)
+		for(Edge<N> removeEdge : removeEdges)
 			cutEdges.remove(removeEdge);
 		cutEdges.addAll(addEdges);
 
 		//check if a graph fromt he new set of edges and nodes is still
 		//connected
-		return new SimpleGraph(cutNodes, cutEdges);
+		return new SimpleGraph<N,Edge<N>>(cutNodes, cutEdges);
 	}
 
 	public boolean isCut(Set<N> nodes, Set<E> edges)
@@ -199,32 +199,32 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 
 	public boolean isCut(Set<E> edges)
 	{
-		return this.isCut(Collections.EMPTY_SET, edges);
+		return this.isCut(Collections.<N>emptySet(), edges);
 	}
 
 	public boolean isCut(N node)
 	{
-		return this.isCut(Collections.singleton(node), Collections.EMPTY_SET);
+		return this.isCut(Collections.singleton(node), Collections.<E>emptySet());
 	}
 
 	public boolean isCut(E edge)
 	{
-		return this.isCut(Collections.EMPTY_SET, Collections.singleton(edge));
+		return this.isCut(Collections.<N>emptySet(), Collections.singleton(edge));
 	}
 
 	public boolean isCut(Set<E> edges, N begin, N end)
 	{
-		return this.isCut(Collections.EMPTY_SET, edges, begin, end);
+		return this.isCut(Collections.<N>emptySet(), edges, begin, end);
 	}
 
 	public boolean isCut(N node, N begin, N end)
 	{
-		return this.isCut(Collections.singleton(node), Collections.EMPTY_SET, begin, end);
+		return this.isCut(Collections.singleton(node), Collections.<E>emptySet(), begin, end);
 	}
 
 	public boolean isCut(E edge, N begin, N end)
 	{
-		return this.isCut(Collections.EMPTY_SET, Collections.singleton(edge), begin, end);
+		return this.isCut(Collections.<N>emptySet(), Collections.singleton(edge), begin, end);
 	}
 
 	public int getNodeConnectivity()
@@ -233,7 +233,7 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 		final SortedSet<Set<N>> sortedCombinations = new TreeSet<Set<N>>(new SizeComparator());
 		sortedCombinations.addAll(combinations);
 		for(Set<N> cutNodes : combinations)
-			if(this.isCut(cutNodes, Collections.EMPTY_SET))
+			if(this.isCut(cutNodes, Collections.<E>emptySet()))
 				return cutNodes.size();
 		return this.getNodes().size();
 	}
@@ -255,7 +255,7 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 		final SortedSet<Set<N>> sortedCombinations = new TreeSet<Set<N>>(new SizeComparator());
 		sortedCombinations.addAll(combinations);
 		for(Set<N> cutNodes : combinations)
-			if(this.isCut(cutNodes, Collections.EMPTY_SET, begin, end))
+			if(this.isCut(cutNodes, Collections.<E>emptySet(), begin, end))
 				return cutNodes.size();
 		return this.getNodes().size();
 	}
@@ -291,19 +291,19 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 
 	public int getCycleCount()
 	{
-		CycleFinder finder = new ExhaustiveDepthFirstSearchCycleFinder();
+		CycleFinder<N,E> finder = new ExhaustiveDepthFirstSearchCycleFinder<N,E>();
 		return finder.cycleCount(this);
 	}
 
 	public boolean isPancyclic()
 	{
-		CycleFinder finder = new ExhaustiveDepthFirstSearchCycleFinder();
+		CycleFinder<N,E> finder = new ExhaustiveDepthFirstSearchCycleFinder<N,E>();
 		return finder.isPancyclic(this);
 	}
 
 	public boolean isUnicyclic()
 	{
-		CycleFinder finder = new ExhaustiveDepthFirstSearchCycleFinder();
+		CycleFinder<N,E> finder = new ExhaustiveDepthFirstSearchCycleFinder<N,E>();
 		return finder.isUnicyclic(this);
 	}
 
@@ -315,13 +315,13 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 
 	public int getGirth()
 	{
-		CycleFinder finder = new ExhaustiveDepthFirstSearchCycleFinder();
+		CycleFinder<N,E> finder = new ExhaustiveDepthFirstSearchCycleFinder<N,E>();
 		return finder.girth(this);
 	}
 
 	public int getCircumference()
 	{
-		CycleFinder finder = new ExhaustiveDepthFirstSearchCycleFinder();
+		CycleFinder<N,E> finder = new ExhaustiveDepthFirstSearchCycleFinder<N,E>();
 		return finder.circumference(this);
 	}
 
@@ -400,7 +400,7 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 
 		while(!uncheckedNodes.isEmpty())
 		{
-			N currentNode = (N) uncheckedNodes.toArray()[0];
+			N currentNode = uncheckedNodes.iterator().next();
 			uncheckedNodes.remove(currentNode);
 
 			List<N> neighborNodes = this.getAdjacentNodes(currentNode);
@@ -529,7 +529,7 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 		return false;
 	}
 
-	private static class SizeComparator<O> implements Comparator<Collection>
+	private static class SizeComparator implements Comparator<Collection>
 	{
 		public int compare(Collection first, Collection second)
 		{

@@ -18,12 +18,12 @@
  ******************************************************************************/
 package com.syncleus.dann.math;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class RealNumber extends Number implements OrderedTrigonometricAlgebraic<RealNumber>
 {
+	private static final long serialVersionUID = -1417799779268676071L;
+	
 	public static final class Field implements com.syncleus.dann.math.OrderedField<RealNumber>
 	{
 		public final static Field FIELD = new Field();

@@ -18,15 +18,12 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.bayesian;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
+import java.util.*;
 
 public class EvidenceMap<S> extends HashMap<Map<BayesianNode,Object>,StateEvidence<S>>
 {
+	private static final long serialVersionUID = 5956089319330421885L;
+	
 	private final Set<BayesianNode> influencingNodes;
 
 	public EvidenceMap(final Set<BayesianNode> influencingNodes)

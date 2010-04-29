@@ -20,6 +20,8 @@ package com.syncleus.dann.neural;
 
 public class SimpleInputNeuron extends AbstractNeuron implements InputNeuron
 {
+	private static final long serialVersionUID = 4397150011892747140L;
+	
     private double input = 0.0;
 
     public SimpleInputNeuron(Brain brain)

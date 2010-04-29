@@ -24,9 +24,7 @@
 package com.syncleus.dann.math.linear;
 
 import com.syncleus.dann.math.RealNumber;
-import com.syncleus.dann.math.linear.decomposition.DoolittleLuDecomposition;
-import com.syncleus.dann.math.linear.decomposition.HouseholderQrDecomposition;
-import com.syncleus.dann.math.linear.decomposition.StewartSingularValueDecomposition;
+import com.syncleus.dann.math.linear.decomposition.*;
 import java.io.Serializable;
 
 /**
@@ -55,6 +53,8 @@ inverses and other matrix functions.  The five decompositions are:
  */
 public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 {
+	private static final long serialVersionUID = 7930693107191691804L;
+
 	/** Array for internal storage of elements.
 	@serial internal array storage.
 	 */

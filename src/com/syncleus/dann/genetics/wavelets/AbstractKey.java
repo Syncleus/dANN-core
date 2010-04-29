@@ -140,13 +140,13 @@ public abstract class AbstractKey implements Cloneable
 		this.points.keySet().toArray(pointsArray);
 
 		MutableInteger point = new MutableInteger(pointsArray[RANDOM.nextInt(pointsArray.length)]);
-		final Map<Integer, Boolean> newPoints = new HashMap(this.points);
+		final Map<Integer, Boolean> newPoints = new HashMap<Integer, Boolean>(this.points);
 		if(RANDOM.nextBoolean())
 			newPoints.put(point.mutate(deviation).getNumber(), RANDOM.nextBoolean());
 		else
 			newPoints.remove(point.getNumber());
 
-		AbstractKey copy = (AbstractKey) this.clone();
+		AbstractKey copy = this.clone();
 		copy.points = Collections.unmodifiableMap(newPoints);
 		return copy;
 	}

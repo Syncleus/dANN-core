@@ -32,6 +32,8 @@ import com.syncleus.dann.neural.activation.*;
  */
 public class InputBackpropNeuron extends SimpleInputNeuron implements BackpropNeuron, InputNeuron
 {
+	private static final long serialVersionUID = -5476983544332917618L;
+	
     public InputBackpropNeuron(Brain brain)
     {
         super(brain);

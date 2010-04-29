@@ -43,6 +43,8 @@ returns false.
  */
 public class HouseholderQrDecomposition<M extends Matrix<M, F>, F extends OrderedAlgebraic<F>> implements java.io.Serializable, QrDecomposition<M,F>
 {
+	private static final long serialVersionUID = -2181312959012242588L;
+	
 	/** Array for internal storage of decomposition.
 	@serial internal array storage.
 	 */

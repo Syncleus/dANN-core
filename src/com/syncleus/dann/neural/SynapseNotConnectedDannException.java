@@ -28,6 +28,8 @@ import com.syncleus.dann.*;
  */
 public class SynapseNotConnectedDannException extends DannException
 {
+	private static final long serialVersionUID = 6281989867214769559L;
+	
 	/**
 	 * Creates a blank default exception.
 	 *

@@ -22,6 +22,8 @@ import java.util.HashMap;
 
 public class FeatureClassificationTree<F, C> extends HashMap<F, ClassificationProbabilities<C>>
 {
+	private static final long serialVersionUID = 4301941319736756428L;
+	
 	public ClassificationProbabilities<C> getFeature(F feature)
 	{
 		 ClassificationProbabilities<C> classification = super.get(feature);

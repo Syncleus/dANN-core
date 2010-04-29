@@ -28,6 +28,8 @@ import com.syncleus.dann.math.linear.SimpleRealMatrix;
 
 public class NonsymetricHessenbergReduction implements java.io.Serializable, HessenbergDecomposition
 {
+	private static final long serialVersionUID = 9001289842017174236L;
+	
 	/** Array for internal storage of eigenvectors.
 	@serial internal storage of eigenvectors.
 	 */

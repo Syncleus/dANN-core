@@ -86,7 +86,7 @@ public class SimpleGraph<N, E extends Edge<N>> extends AbstractGraph<N, E>
 		if(this.neighborEdges.containsKey(node))
 			return Collections.unmodifiableSet(this.neighborEdges.get(node));
 		else
-			return Collections.EMPTY_SET;
+			return Collections.<E>emptySet();
 	}
 
 	public List<N> getAdjacentNodes(N node)

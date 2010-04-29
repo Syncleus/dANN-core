@@ -126,20 +126,22 @@ public abstract class AbstractWalk<N, E extends Edge<N>> implements Walk<N,E>
 	@Override
 	public int hashCode()
 	{
-		Set uniqueNodes = new HashSet(this.getNodeSteps());
-		Set uniqueEdges = new HashSet(this.getSteps());
+		Set<N> uniqueNodes = new HashSet<N>(this.getNodeSteps());
+		Set<E> uniqueEdges = new HashSet<E>(this.getSteps());
 		return (uniqueNodes.hashCode() + uniqueEdges.hashCode()) * uniqueEdges.hashCode();
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public boolean equals(Object object)
 	{
-		if(!(object instanceof Walk))
+		if(object.getClass() != this.getClass())
 			return false;
+
 		Walk walk = (Walk)object;
 
-		Set uniqueNodes = new HashSet(this.getNodeSteps());
-		Set uniqueEdges = new HashSet(this.getSteps());
+		Set uniqueNodes = new HashSet<N>(this.getNodeSteps());
+		Set uniqueEdges = new HashSet<E>(this.getSteps());
 
 		Set otherUniqueNodes = new HashSet(walk.getNodeSteps());
 		Set otherUniqueEdges = new HashSet(walk.getSteps());

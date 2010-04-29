@@ -28,6 +28,8 @@ import com.syncleus.dann.math.linear.Matrix;
 
 public class CholeskyCroutCholeskyDecomposition<M extends Matrix<M, F>, F extends OrderedAlgebraic<F>> implements CholeskyDecomposition<M,F>
 {
+	private static final long serialVersionUID = 7049307071684305093L;
+
 	private final M matrix;
 	/** Symmetric and positive definite flag.
 	@serial is symmetric and positive definite flag.

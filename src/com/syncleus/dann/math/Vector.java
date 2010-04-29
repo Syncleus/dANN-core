@@ -33,6 +33,8 @@ import java.util.List;
  */
 public class Vector implements Serializable
 {
+	private static final long serialVersionUID = -1488734312355605257L;
+	
     private volatile double[] coordinates;
 	private static final String DIMENSIONS_BELOW_ONE = "dimensions can not be less than or equal to zero";
 	private Double distanceCache = null;
@@ -69,7 +71,7 @@ public class Vector implements Serializable
         if(coordinates.length <= 0)
             throw new IllegalArgumentException("coordinates must have atleast one member, 0 dimensions isnt valid!");
 
-		this.coordinates = (double[]) coordinates.clone();
+		this.coordinates = coordinates.clone();
     }
 
 	/**
@@ -105,7 +107,7 @@ public class Vector implements Serializable
 	 */
     public Vector(Vector copy)
     {
-        this.coordinates = (double[]) copy.coordinates.clone();
+        this.coordinates = copy.coordinates.clone();
     }
 
 	/**
@@ -205,7 +207,8 @@ public class Vector implements Serializable
         if((dimension-1) > this.coordinates.length)
             throw new IllegalArgumentException("dimensions is larger than the dimensionality (minus 1) of this point");
 
-		double[] newCoords = (double[]) this.coordinates.clone();
+		Vector newVector = new Vector(this);
+		double[] newCoords = newVector.coordinates;
 		for(int cartesianDimension = 1; cartesianDimension <= this.getDimensions(); cartesianDimension++)
 		{
 			double sphericalProducts = this.getDistance();
@@ -229,7 +232,7 @@ public class Vector implements Serializable
 			newCoords[cartesianDimension-1] = sphericalProducts;
 		}
 
-		return new Vector(newCoords);
+		return newVector;
     }
 
 	/**

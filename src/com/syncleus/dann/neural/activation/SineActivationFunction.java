@@ -28,6 +28,8 @@ package com.syncleus.dann.neural.activation;
  */
 public class SineActivationFunction implements ActivationFunction
 {
+	private static final long serialVersionUID = 2091753528152343897L;
+	
 	/**
 	 * The sine activation function.
 	 *

@@ -29,6 +29,8 @@ package com.syncleus.dann;
  */
 public class DannException extends Exception
 {
+	private static final long serialVersionUID = -2030134384547494280L;
+	
 	/**
 	 * Creates a blank default exception.
 	 *

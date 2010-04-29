@@ -17,6 +17,7 @@
  *                                                                             *
  ******************************************************************************/
 package com.syncleus.dann.neural;
+
 import com.syncleus.dann.*;
 /**
  * An exception thrown to indicate two neurons trying to be connected are
@@ -29,6 +30,8 @@ import com.syncleus.dann.*;
  */
 public class InvalidConnectionTypeDannException extends DannRuntimeException
 {
+	private static final long serialVersionUID = -2042929829459488405L;
+	
 	/**
 	 * Creates a blank default exception.
 	 *

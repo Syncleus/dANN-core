@@ -27,6 +27,8 @@ package com.syncleus.dann;
  */
 public class UnexpectedInterruptedException extends DannRuntimeException
 {
+	private static final long serialVersionUID = 2794065661732660210L;
+	
 	/**
 	 * Creates a blank default exception.
 	 *

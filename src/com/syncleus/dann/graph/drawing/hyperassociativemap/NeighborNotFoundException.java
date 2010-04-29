@@ -30,6 +30,8 @@ import com.syncleus.dann.*;
  */
 public class NeighborNotFoundException extends DannException
 {
+	private static final long serialVersionUID = -2456894263798776928L;
+	
 	/**
 	 * Creates a blank default exception.
 	 *
