@@ -23,18 +23,18 @@ import java.util.*;
 
 public class JohnsonGraphTransformer<N> implements GraphTransformer<BidirectedGraph<N, ? extends WeightedDirectedEdge<N>>>
 {
-	private class SimpleGraph extends AbstractBidirectedGraph<N, WeightedDirectedEdge<N>>
+	private static class SimpleGraph<N> extends AbstractBidirectedGraph<N,WeightedDirectedEdge<N>>
 	{
-		private Set<N> nodes = new HashSet<N>();
+		private Set<N> nodes;
 
-		private final Set<WeightedDirectedEdge<N>> edges = new HashSet<WeightedDirectedEdge<N>>();
+		private final Set<WeightedDirectedEdge<N>> edges;
 		private final Map<N,Set<WeightedDirectedEdge<N>>> outEdges = new HashMap<N,Set<WeightedDirectedEdge<N>>>();
 		private final Map<N,Set<WeightedDirectedEdge<N>>> inEdges = new HashMap<N,Set<WeightedDirectedEdge<N>>>();
 
-		public SimpleGraph(Graph<N,? extends WeightedDirectedEdge<N>> graphToCopy)
+		public SimpleGraph(Set<N> nodes, Set<WeightedDirectedEdge<N>> edges)
 		{
-			this.nodes.addAll(graphToCopy.getNodes());
-			this.edges.addAll(graphToCopy.getEdges());
+			this.nodes  = nodes;
+			this.edges = edges;
 
 			for(WeightedDirectedEdge<N> edge : this.edges)
 			{
@@ -219,13 +219,8 @@ public class JohnsonGraphTransformer<N> implements GraphTransformer<BidirectedGr
 			return Collections.unmodifiableList(neighbors);
 		}
 	}
-	
-	private N blankNode;
 
-	public JohnsonGraphTransformer(N blankNode)
-	{
-		this.blankNode = blankNode;
-	}
+	private static final Object blankNode = new Object();
 
 	private boolean containsInfinite(Graph<N,?> original)
 	{
@@ -236,24 +231,27 @@ public class JohnsonGraphTransformer<N> implements GraphTransformer<BidirectedGr
 		return false;
 	}
 
+	@SuppressWarnings("unchecked")
 	public BidirectedGraph<N, WeightedDirectedEdge<N>> transform(BidirectedGraph<N,? extends WeightedDirectedEdge<N>> original)
 	{
 		if(original == null)
 			throw new IllegalArgumentException("original can not be null");
-		if(original.getNodes().contains(this.blankNode))
-			throw new IllegalArgumentException("original can not contain blankNode");
 		if(containsInfinite(original))
 			throw new IllegalArgumentException("original cannot contain infinite weights");
 
-		SimpleGraph copyGraph = new SimpleGraph(original);
-		Set<N> originalNodes = copyGraph.getNodes();
+		Set<WeightedDirectedEdge<Object>> originalEdges = new HashSet<WeightedDirectedEdge<Object>>();
+		for(WeightedDirectedEdge<N> originalEdge : original.getEdges())
+			originalEdges.add((WeightedDirectedEdge<Object>)originalEdge);
+		SimpleGraph<Object> copyGraph = new SimpleGraph<Object>(new HashSet<Object>(original.getNodes()), originalEdges );
+
+		Set<Object> originalNodes = copyGraph.getNodes();
 		copyGraph.add(blankNode);
-		for(N originalNode : originalNodes)
+		for(Object originalNode : originalNodes)
 			copyGraph.connect(blankNode, originalNode, 0.0);
 
-		BellmanFordPathFinder<N, WeightedDirectedEdge<N>> pathFinder = new BellmanFordPathFinder<N, WeightedDirectedEdge<N>>(copyGraph);
+		BellmanFordPathFinder<Object, WeightedDirectedEdge<Object>> pathFinder = new BellmanFordPathFinder<Object, WeightedDirectedEdge<Object>>(copyGraph);
 
-		SimpleGraph johnsonGraph = new SimpleGraph(original);
+		SimpleGraph johnsonGraph = new SimpleGraph(original.getNodes(), new HashSet<WeightedDirectedEdge<N>>(original.getEdges()));
 		List<WeightedDirectedEdge<N>> edges = new ArrayList<WeightedDirectedEdge<N>>(johnsonGraph.getEdges());
 		for(WeightedDirectedEdge<N> edge : edges)
 		{
@@ -265,10 +263,10 @@ public class JohnsonGraphTransformer<N> implements GraphTransformer<BidirectedGr
 		return johnsonGraph;
 	}
 
-	private double getPathWeight(List<WeightedDirectedEdge<N>> path)
+	private double getPathWeight(List<WeightedDirectedEdge<Object>> path)
 	{
 		double weight = 0.0;
-		for(WeightedDirectedEdge<N> node : path)
+		for(WeightedDirectedEdge<Object> node : path)
 			weight += node.getWeight();
 		return weight;
 	}

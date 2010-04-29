@@ -21,13 +21,10 @@ package com.syncleus.dann.graph.search.pathfinding;
 import com.syncleus.dann.graph.*;
 import java.util.List;
 
-@SuppressWarnings("unchecked")
 public class JohnsonPathFinder<N, E extends WeightedDirectedEdge<N>> implements PathFinder<N,WeightedDirectedEdge<N>>
 {
 	private BidirectedGraph<N,E> graph;
-	private final static Object BLANK_NODE = new Object();
-	// TODO stop using the non-generic form
-	private final JohnsonGraphTransformer TRANSFORMER = new JohnsonGraphTransformer(BLANK_NODE);
+	private final JohnsonGraphTransformer<N> TRANSFORMER = new JohnsonGraphTransformer<N>();
 
 	public JohnsonPathFinder(BidirectedGraph<N,E> graph)
 	{
@@ -38,7 +35,7 @@ public class JohnsonPathFinder<N, E extends WeightedDirectedEdge<N>> implements 
 
 	public List<WeightedDirectedEdge<N>> getBestPath(N begin, N end)
 	{
-		BidirectedGraph johnsonGraph = TRANSFORMER.transform(this.graph);
+		BidirectedGraph<N,WeightedDirectedEdge<N>> johnsonGraph = TRANSFORMER.transform(this.graph);
 		DijkstraPathFinder<N,WeightedDirectedEdge<N>> pathFinder = new DijkstraPathFinder<N,WeightedDirectedEdge<N>>(johnsonGraph);
 		List<WeightedDirectedEdge<N>> pathWalk = pathFinder.getBestPath(begin, end);
 
