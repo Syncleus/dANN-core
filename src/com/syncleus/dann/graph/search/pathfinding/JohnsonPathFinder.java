@@ -21,6 +21,7 @@ package com.syncleus.dann.graph.search.pathfinding;
 import com.syncleus.dann.graph.*;
 import java.util.List;
 
+@SuppressWarnings("unchecked")
 public class JohnsonPathFinder<N, E extends WeightedDirectedEdge<N>> implements PathFinder<N,WeightedDirectedEdge<N>>
 {
 	private BidirectedGraph<N,E> graph;
