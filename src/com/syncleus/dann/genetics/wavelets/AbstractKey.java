@@ -89,7 +89,9 @@ public abstract class AbstractKey implements Cloneable
 	@Override
 	public boolean equals(Object compareWith)
 	{
-		return this.points.equals(compareWith);
+		if(this.getClass() == compareWith.getClass())
+			return this.points.equals(((AbstractKey)compareWith).points);
+		return false;
 	}
 
 	@Override
