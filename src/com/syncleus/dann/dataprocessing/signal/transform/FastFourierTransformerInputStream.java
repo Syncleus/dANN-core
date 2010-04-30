@@ -117,11 +117,16 @@ public class FastFourierTransformerInputStream extends InputStream
 
 		//make sure the buffer contains atleast one block, if not fill it. copy
 		//block to signal
-		final double[] signal = Arrays.copyOf(this.buffer, this.transformer.getBlockSize());
+		final double[] signal;
+		if(this.buffer == null)
+			signal = new double[this.transformer.getBlockSize()];
+		else
+			signal = Arrays.copyOf(this.buffer, this.transformer.getBlockSize());
+
 		if((this.buffer == null)||(this.buffer.length <= this.transformer.getBlockSize()))
 		{
 			//signal = Arrays.copyOf(this.buffer, this.transformer.getBlockSize());
-			for(int signalIndex = this.buffer.length; signalIndex < signal.length; signalIndex++)
+			for(int signalIndex = (this.buffer == null ? 0 : this.buffer.length); signalIndex < signal.length; signalIndex++)
 				signal[signalIndex] = this.srcStream.readDouble();
 			this.buffer = signal;
 		}

@@ -114,7 +114,7 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 			}
 			for(int j = k + 1; j < n; j++)
 			{
-				if((k < nct) & (s[k] != 0.0))
+				if((k < nct) && (s[k] != 0.0))
 				{
 
 					// Apply the transformation.
@@ -154,7 +154,7 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 					e[k + 1] += 1.0;
 				}
 				e[k] = -e[k];
-				if((k + 1 < m) & (e[k] != 0.0))
+				if((k + 1 < m) && (e[k] != 0.0))
 				{
 					// Apply the transformation.
 					for(int i = k + 1; i < m; i++)
@@ -228,7 +228,7 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 		if(wantv)
 			for(int k = n - 1; k >= 0; k--)
 			{
-				if((k < nrt) & (e[k] != 0.0))
+				if((k < nrt) && (e[k] != 0.0))
 					for(int j = k + 1; j < nu; j++)
 					{
 						double t = 0;

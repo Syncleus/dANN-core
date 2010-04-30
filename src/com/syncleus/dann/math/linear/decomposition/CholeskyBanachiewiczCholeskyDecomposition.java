@@ -66,10 +66,10 @@ public class CholeskyBanachiewiczCholeskyDecomposition<M extends Matrix<M, F>, F
 				s = (matrix.get(j,k).subtract(s)).divide(newMatrix.get(k,k));
 				newMatrix = newMatrix.set(j,k,s);
 				d = d.add(s.multiply(s));
-				isSpd = isSpd & (matrix.get(k,j) == matrix.get(j,k));
+				isSpd = isSpd && (matrix.get(k,j) == matrix.get(j,k));
 			}
 			d = matrix.get(j,j).subtract(d);
-			isSpd = isSpd & (d.compareTo(newMatrix.getElementField().getZero()) > 0);
+			isSpd = isSpd && (d.compareTo(newMatrix.getElementField().getZero()) > 0);
 			newMatrix = newMatrix.set(j, j, d.max(newMatrix.getElementField().getZero()).sqrt());
 			for(int k = j + 1; k < matrix.getHeight(); k++)
 				newMatrix = newMatrix.set(j,k,newMatrix.getElementField().getZero());
