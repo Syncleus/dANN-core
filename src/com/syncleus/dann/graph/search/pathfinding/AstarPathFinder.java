@@ -88,6 +88,9 @@ public class AstarPathFinder<N, E extends Edge<N>> implements PathFinder<N,E>
 		@Override
 		public boolean equals(Object compareToObj)
 		{
+			if(compareToObj == null)
+				return false;
+			
 			if(!(compareToObj.getClass().isInstance(this)))
 				return false;
 

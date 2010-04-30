@@ -19,6 +19,7 @@
 package com.syncleus.dann.graph.mst;
 
 import com.syncleus.dann.graph.*;
+import java.io.Serializable;
 import java.util.*;
 
 public class KruskalMinimumSpanningTreeFinder<N, E extends Edge<N>> implements MinimumSpanningTreeFinder<N,E>
@@ -73,8 +74,10 @@ public class KruskalMinimumSpanningTreeFinder<N, E extends Edge<N>> implements M
 		return mstEdges;
 	}
 
-	private static class WeightComparator<E> implements Comparator<E>
+	private static class WeightComparator<E> implements Comparator<E>, Serializable
 	{
+		private static final long serialVersionUID = 4497530556915589495L;
+		
 		public int compare(E first, E second)
 		{
 			double firstWeight = 0;

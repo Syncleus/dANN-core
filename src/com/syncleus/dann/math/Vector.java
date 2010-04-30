@@ -35,7 +35,7 @@ public class Vector implements Serializable
 {
 	private static final long serialVersionUID = -1488734312355605257L;
 	
-    private volatile double[] coordinates;
+    private final double[] coordinates;
 	private static final String DIMENSIONS_BELOW_ONE = "dimensions can not be less than or equal to zero";
 	private Double distanceCache = null;
 

@@ -19,6 +19,7 @@
 package com.syncleus.dann.graph.cycle;
 
 import com.syncleus.dann.graph.*;
+import java.io.Serializable;
 import java.util.*;
 
 public class ExhaustiveDepthFirstSearchCycleFinder<N, E extends Edge<N>> extends ColoredDepthFirstSearchDetector implements CycleFinder<N,E>
@@ -160,8 +161,10 @@ public class ExhaustiveDepthFirstSearchCycleFinder<N, E extends Edge<N>> extends
 		parentEdges.pop();
 	}
 
-	private static class CycleLengthComparator<N, E extends Edge<N>> implements Comparator<Cycle<N,E>>
+	private static class CycleLengthComparator<N, E extends Edge<N>> implements Comparator<Cycle<N,E>>, Serializable
 	{
+		private static final long serialVersionUID = 5175815460016788908L;
+		
 		public int compare(Cycle<N,E> first, Cycle<N,E> second)
 		{
 			if(first.getLength() < second.getLength())

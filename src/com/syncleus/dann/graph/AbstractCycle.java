@@ -50,7 +50,7 @@ public abstract class AbstractCycle<N, E extends Edge<N>> extends AbstractWalk<N
 
 	static boolean isOddCycle(Cycle cycle)
 	{
-		return (cycle.getSteps().size()%2 == 1);
+		return (cycle.getSteps().size()%2 != 0);
 	}
 
 	@Override

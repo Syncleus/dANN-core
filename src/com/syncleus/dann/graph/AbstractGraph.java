@@ -21,6 +21,7 @@ package com.syncleus.dann.graph;
 import com.syncleus.dann.graph.cycle.CycleFinder;
 import com.syncleus.dann.graph.cycle.ExhaustiveDepthFirstSearchCycleFinder;
 import com.syncleus.dann.math.set.Combinations;
+import java.io.Serializable;
 import java.util.*;
 
 public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
@@ -529,8 +530,10 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 		return false;
 	}
 
-	private static class SizeComparator implements Comparator<Collection>
+	private static class SizeComparator implements Comparator<Collection>, Serializable
 	{
+		private static final long serialVersionUID = -4454396728238585057L;
+
 		public int compare(Collection first, Collection second)
 		{
 			if(first.size() < second.size())

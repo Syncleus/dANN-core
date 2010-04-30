@@ -23,9 +23,12 @@
 */
 package com.syncleus.dann.math.linear;
 
+import com.syncleus.dann.UnexpectedDannError;
 import com.syncleus.dann.math.RealNumber;
 import com.syncleus.dann.math.linear.decomposition.*;
 import java.io.Serializable;
+import java.util.Arrays;
+import org.apache.log4j.Logger;
 
 /**
 The Java SimpleRealMatrix Class provides the fundamental operations of numerical
@@ -54,11 +57,12 @@ inverses and other matrix functions.  The five decompositions are:
 public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 {
 	private static final long serialVersionUID = 7930693107191691804L;
+	private final static Logger LOGGER = Logger.getLogger(SimpleRealMatrix.class);
 
 	/** Array for internal storage of elements.
 	@serial internal array storage.
 	 */
-	private final double[][] matrixElements;
+	private double[][] matrixElements;
 	/** Row and column dimensions.
 	@serial row dimension.
 	@serial column dimension.
@@ -103,10 +107,13 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	{
 		width = matrixElements[0].length;
 		height = matrixElements.length;
-		for(int heightIndex = 0; heightIndex < matrixElements.length; heightIndex++)
+		this.matrixElements = new double[height][];
+		for(int heightIndex = 0; heightIndex < height; heightIndex++)
+		{
 			if(matrixElements[heightIndex].length != width)
 				throw new IllegalArgumentException("All rows must have the same length.");
-		this.matrixElements = matrixElements.clone();
+			this.matrixElements[heightIndex] = Arrays.copyOf(matrixElements[heightIndex], width);
+		}
 	}
 
 	/** Construct a matrix from a one-dimensional packed array
@@ -169,9 +176,21 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	/** Clone the SimpleRealMatrix object.
 	 */
 	@Override
-	public Object clone()
+	public SimpleRealMatrix clone()
 	{
-		return this.copy();
+		try
+		{
+			SimpleRealMatrix copy = (SimpleRealMatrix) super.clone();
+			copy.matrixElements = new double[height][];
+			for(int heightIndex = 0; heightIndex < height; heightIndex++)
+				copy.matrixElements[heightIndex] = this.matrixElements[heightIndex].clone();
+			return copy;
+		}
+		catch(CloneNotSupportedException caught)
+		{
+			LOGGER.error("could not clone SimpleRealMatrix!", caught);
+			throw new UnexpectedDannError("could not clone!", caught);
+		}
 	}
 
 	public RealNumber[][] toArray()

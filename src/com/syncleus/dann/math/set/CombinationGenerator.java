@@ -5,11 +5,11 @@
  *  You may redistribute and modify this source code under the terms and       *
  *  conditions of the Open Source Community License - Type C version 1.0       *
  *  or any later version as published by Syncleus, Inc. at www.syncleus.com.   *
- *  There should be currentCombination copy of the license included with this file. If currentCombination copy   *
+ *  There should be a copy of the license included with this file. If a copy   *
  *  of the license is not included you are granted no right to distribute or   *
- *  otherwise use this file except through currentCombination legal and valid license. You      *
+ *  otherwise use this file except through a legal and valid license. You      *
  *  should also contact Syncleus, Inc. at the information below if you cannot  *
- *  find currentCombination license:                                                            *
+ *  find a license:                                                            *
  *                                                                             *
  *  Syncleus, Inc.                                                             *
  *  2604 South 12th Street                                                     *
@@ -106,7 +106,7 @@ public class CombinationGenerator
 		if(numLeft.equals(total))
 		{
 			numLeft = numLeft.subtract(BigInteger.ONE);
-			return currentCombination;
+			return currentCombination.clone();
 		}
 
 		int i = combinationSize - 1;
@@ -117,6 +117,6 @@ public class CombinationGenerator
 			currentCombination[j] = currentCombination[i] + j - i;
 
 		numLeft = numLeft.subtract(BigInteger.ONE);
-		return currentCombination;
+		return currentCombination.clone();
 	}
 }

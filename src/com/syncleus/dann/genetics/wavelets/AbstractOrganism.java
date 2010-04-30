@@ -18,11 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
-import java.util.HashSet;
-
 public abstract class AbstractOrganism
 {
-	private HashSet<Cell> cells;
+//	private HashSet<Cell> cells;
 
 	public abstract AbstractOrganism mate(AbstractOrganism partner);
 }

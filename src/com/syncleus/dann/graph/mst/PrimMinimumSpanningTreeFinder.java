@@ -20,6 +20,7 @@ package com.syncleus.dann.graph.mst;
 
 import com.syncleus.dann.graph.*;
 import com.syncleus.dann.graph.topological.*;
+import java.io.Serializable;
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -147,8 +148,10 @@ public class PrimMinimumSpanningTreeFinder<N,E extends Edge<N>> implements Roote
 			return poped;
 		}
 
-		private class EntryCompare implements Comparator<Entry<N,E>>
+		private class EntryCompare implements Comparator<Entry<N,E>>, Serializable
 		{
+			private static final long serialVersionUID = -4356537864223227850L;
+			
 			public int compare(Entry<N,E> first, Entry<N,E> second)
 			{
 				double firstWeight = 0;
