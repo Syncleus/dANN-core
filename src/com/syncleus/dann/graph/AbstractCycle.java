@@ -26,14 +26,14 @@ import java.util.List;
 public abstract class AbstractCycle<N, E extends Edge<N>> extends AbstractWalk<N,E> implements Cycle<N,E>
 {
 	@Override
-	protected boolean verify(List<N> nodeSteps, List<E> edgeSteps)
+	protected boolean verify(final List<N> nodeSteps, final List<E> edgeSteps)
 	{
 		if( (super.verify(nodeSteps, edgeSteps)) && (AbstractCycle.verifyUtility(nodeSteps, edgeSteps)) )
 			return true;
 		return false;
 	}
 
-	static <N, E extends Edge<? extends N>> boolean verifyUtility(List<N> nodeSteps, List<E> edgeSteps)
+	static <N, E extends Edge<? extends N>> boolean verifyUtility(final List<N> nodeSteps, final List<E> edgeSteps)
 	{
 		if(nodeSteps.size()<2)
 			throw new IllegalArgumentException("Wrong number of nodes or steps");
@@ -48,7 +48,7 @@ public abstract class AbstractCycle<N, E extends Edge<N>> extends AbstractWalk<N
 		return isOddCycle(this);
 	}
 
-	static boolean isOddCycle(Cycle cycle)
+	static boolean isOddCycle(final Cycle cycle)
 	{
 		return (cycle.getSteps().size()%2 != 0);
 	}

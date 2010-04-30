@@ -24,12 +24,12 @@ public class SimpleUndirectedEdge<N> extends AbstractBidirectedEdge<N>
 {
 	private static final long serialVersionUID = -7729189071866403594L;
 	
-	public SimpleUndirectedEdge(N leftNode, N rightNode)
+	public SimpleUndirectedEdge(final N leftNode, final N rightNode)
 	{
 		super(leftNode, EndState.NONE, rightNode, EndState.NONE);
 	}
 
-	public List<N> getTraversableNodes(N node)
+	public List<N> getTraversableNodes(final N node)
 	{
 		if( this.getLeftNode().equals(node) )
 			return Collections.singletonList(this.getRightNode());

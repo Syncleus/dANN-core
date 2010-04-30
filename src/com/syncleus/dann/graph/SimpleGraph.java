@@ -29,12 +29,12 @@ public class SimpleGraph<N, E extends Edge<N>> extends AbstractGraph<N, E>
 	final private Map<N, Set<E>> neighborEdges = new HashMap<N, Set<E>>();
 	final private Map<N, List<N>> neighborNodes = new HashMap<N, List<N>>();
 
-	public SimpleGraph(Graph<N,E> copyGraph)
+	public SimpleGraph(final Graph<N,E> copyGraph)
 	{
 		this(copyGraph.getNodes(), copyGraph.getEdges());
 	}
 
-	public SimpleGraph(Set<N> nodes, Set<E> edges)
+	public SimpleGraph(final Set<N> nodes, final Set<E> edges)
 	{
 		this.nodes = new HashSet<N>(nodes);
 		this.edges = new HashSet<E>(edges);
@@ -83,7 +83,7 @@ public class SimpleGraph<N, E extends Edge<N>> extends AbstractGraph<N, E>
 		return Collections.unmodifiableSet(this.edges);
 	}
 
-	public Set<E> getAdjacentEdges(N node)
+	public Set<E> getAdjacentEdges(final N node)
 	{
 		if(this.neighborEdges.containsKey(node))
 			return Collections.unmodifiableSet(this.neighborEdges.get(node));
@@ -91,7 +91,7 @@ public class SimpleGraph<N, E extends Edge<N>> extends AbstractGraph<N, E>
 			return Collections.<E>emptySet();
 	}
 
-	public List<N> getAdjacentNodes(N node)
+	public List<N> getAdjacentNodes(final N node)
 	{
 		return Collections.unmodifiableList(new ArrayList<N>(this.neighborNodes.get(node)));
 	}

@@ -24,7 +24,7 @@ public class SimpleWeightedUndirectedEdge<N> extends SimpleUndirectedEdge<N> imp
 	
 	private final double weight;
 
-	public SimpleWeightedUndirectedEdge(N left, N right, double weight)
+	public SimpleWeightedUndirectedEdge(final N left, final N right, final double weight)
 	{
 		super(left, right);
 		this.weight = weight;

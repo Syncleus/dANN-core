@@ -27,18 +27,19 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implemen
 	private final EndState leftEndState;
 	private final EndState rightEndState;
 
-	protected AbstractBidirectedEdge(N leftNode, EndState leftEndState, N rightNode, EndState rightEndState)
+	protected AbstractBidirectedEdge(final N leftNode, final EndState leftEndState, final N rightNode, final EndState rightEndState)
 	{
 		super(packNodes(leftNode, rightNode));
+
 		this.leftNode = leftNode;
 		this.rightNode = rightNode;
 		this.leftEndState = leftEndState;
 		this.rightEndState = rightEndState;
 	}
 
-	private static <N> List<N> packNodes(N leftNode, N rightNode)
+	private static <N> List<N> packNodes(final N leftNode, final N rightNode)
 	{
-		List<N> pack = new ArrayList<N>();
+		final List<N> pack = new ArrayList<N>();
 		pack.add(leftNode);
 		pack.add(rightNode);
 		return pack;
@@ -127,7 +128,7 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implemen
 			this.rightNode;
 	}
 
-	private static String endStateToString(EndState state, boolean isLeft)
+	private static String endStateToString(final EndState state, final boolean isLeft)
 	{
 		switch(state)
 		{

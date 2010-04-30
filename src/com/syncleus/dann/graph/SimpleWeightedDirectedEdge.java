@@ -24,7 +24,7 @@ public class SimpleWeightedDirectedEdge<N> extends SimpleDirectedEdge<N> impleme
 	
 	private final double weight;
 
-	public SimpleWeightedDirectedEdge(N source, N destination, double weight)
+	public SimpleWeightedDirectedEdge(final N source, final N destination, final double weight)
 	{
 		super(source, destination);
 		this.weight = weight;

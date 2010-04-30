@@ -22,22 +22,22 @@ import java.util.*;
 
 public class SimpleCycle<N, E extends Edge<N>> extends SimpleWalk<N,E> implements Cycle<N,E>
 {
-	public SimpleCycle(List<E> steps, List<N> nodes, double defaultWeight)
+	public SimpleCycle(final List<E> steps, final List<N> nodes, final double defaultWeight)
 	{
 		super(steps, nodes, defaultWeight);
 	}
 
-	public SimpleCycle(List<E> steps, double defaultWeight)
+	public SimpleCycle(final List<E> steps, final double defaultWeight)
 	{
 		this(steps, SimpleCycle.<N,E>edgeToNodeSteps(steps), defaultWeight);
 	}
 
-	public SimpleCycle(List<E> steps, List<N> nodes)
+	public SimpleCycle(final List<E> steps, final List<N> nodes)
 	{
 		super(steps, nodes, 0.0);
 	}
 
-	public SimpleCycle(List<E> steps)
+	public SimpleCycle(final List<E> steps)
 	{
 		this(steps, SimpleCycle.<N,E>edgeToNodeSteps(steps), 0.0);
 	}
@@ -58,7 +58,7 @@ public class SimpleCycle<N, E extends Edge<N>> extends SimpleWalk<N,E> implement
 	}
 
 	@Override
-	protected boolean verify(List<N> nodeSteps, List<E> edgeSteps)
+	protected boolean verify(final List<N> nodeSteps, final List<E> edgeSteps)
 	{
 		if( (super.verify(nodeSteps, edgeSteps)) && (AbstractCycle.verifyUtility(nodeSteps, edgeSteps)) )
 			return true;
@@ -74,7 +74,7 @@ public class SimpleCycle<N, E extends Edge<N>> extends SimpleWalk<N,E> implement
 		if(steps.size() < 1)
 			throw new IllegalArgumentException("steps can not be empty");
 
-		List<N> newNodeSteps = new ArrayList<N>();
+		final List<N> newNodeSteps = new ArrayList<N>();
 		N nextNodeStep = SimpleCycle.<N,E>startNodeFromSteps(steps);
 		for(E edgeStep : steps)
 		{
@@ -83,7 +83,7 @@ public class SimpleCycle<N, E extends Edge<N>> extends SimpleWalk<N,E> implement
 
 			newNodeSteps.add(nextNodeStep);
 
-			List<N> nextNodes = new ArrayList<N>(edgeStep.getNodes());
+			final List<N> nextNodes = new ArrayList<N>(edgeStep.getNodes());
 			nextNodes.remove(nextNodeStep);
 			nextNodeStep = nextNodes.get(0);
 		}
@@ -98,9 +98,9 @@ public class SimpleCycle<N, E extends Edge<N>> extends SimpleWalk<N,E> implement
 	}
 
 	@Override
-	protected double calculateWeight(double defaultWeight)
+	protected double calculateWeight(final double defaultWeight)
 	{
-		N startNode = this.getNodeSteps().get(0);
+		final N startNode = this.getNodeSteps().get(0);
 		double endNodeWeight = 0.0;
 		if(startNode instanceof Weighted)
 			endNodeWeight = ((Weighted)startNode).getWeight();

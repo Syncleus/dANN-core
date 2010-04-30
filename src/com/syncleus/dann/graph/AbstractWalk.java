@@ -18,13 +18,12 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.cycle.CycleFinder;
-import com.syncleus.dann.graph.cycle.ExhaustiveDepthFirstSearchCycleFinder;
+import com.syncleus.dann.graph.cycle.*;
 import java.util.*;
 
 public abstract class AbstractWalk<N, E extends Edge<N>> implements Walk<N,E>
 {
-	protected boolean verify(List<N> nodeSteps, List<E> edgeSteps)
+	protected boolean verify(final List<N> nodeSteps, final List<E> edgeSteps)
 	{
 		if(edgeSteps == null)
 			throw new IllegalArgumentException("steps can not be null");
@@ -65,7 +64,7 @@ public abstract class AbstractWalk<N, E extends Edge<N>> implements Walk<N,E>
 
 	public boolean isTrail()
 	{
-		Set<E> edgeSet = new HashSet<E>(this.getSteps());
+		final Set<E> edgeSet = new HashSet<E>(this.getSteps());
 		if(edgeSet.size() < this.getSteps().size())
 			return false;
 		return true;
@@ -87,23 +86,19 @@ public abstract class AbstractWalk<N, E extends Edge<N>> implements Walk<N,E>
 
 	public boolean hasChildCycles()
 	{
-		Graph<N,E> graph = new SimpleGraph<N,E>(new HashSet<N>(this.getNodeSteps()), new HashSet<E>(this.getSteps()));
-		CycleFinder<N,E> finder = new ExhaustiveDepthFirstSearchCycleFinder<N,E>();
+		final Graph<N,E> graph = new SimpleGraph<N,E>(new HashSet<N>(this.getNodeSteps()), new HashSet<E>(this.getSteps()));
+		final CycleFinder<N,E> finder = new ExhaustiveDepthFirstSearchCycleFinder<N,E>();
 		if(this.isCycle())
-		{
 			if( finder.cycleCount(graph) > 1)
 				return true;
-		}
 		else
-		{
 			if( finder.hasCycle(graph) )
 				return true;
-		}
 
 		return false;
 	}
 
-	protected double calculateWeight(double defaultWeight)
+	protected double calculateWeight(final double defaultWeight)
 	{
 		double newTotalWeight = 0.0;
 		for(E step : this.getSteps())
@@ -126,14 +121,14 @@ public abstract class AbstractWalk<N, E extends Edge<N>> implements Walk<N,E>
 	@Override
 	public int hashCode()
 	{
-		Set<N> uniqueNodes = new HashSet<N>(this.getNodeSteps());
-		Set<E> uniqueEdges = new HashSet<E>(this.getSteps());
+		final Set<N> uniqueNodes = new HashSet<N>(this.getNodeSteps());
+		final Set<E> uniqueEdges = new HashSet<E>(this.getSteps());
 		return (uniqueNodes.hashCode() + uniqueEdges.hashCode()) * uniqueEdges.hashCode();
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public boolean equals(Object object)
+	public boolean equals(final Object object)
 	{
 		if(object == null)
 			return false;
@@ -141,13 +136,13 @@ public abstract class AbstractWalk<N, E extends Edge<N>> implements Walk<N,E>
 		if(object.getClass() != this.getClass())
 			return false;
 
-		Walk walk = (Walk)object;
+		final Walk walk = (Walk)object;
 
-		Set uniqueNodes = new HashSet<N>(this.getNodeSteps());
-		Set uniqueEdges = new HashSet<E>(this.getSteps());
+		final Set uniqueNodes = new HashSet<N>(this.getNodeSteps());
+		final Set uniqueEdges = new HashSet<E>(this.getSteps());
 
-		Set otherUniqueNodes = new HashSet(walk.getNodeSteps());
-		Set otherUniqueEdges = new HashSet(walk.getSteps());
+		final Set otherUniqueNodes = new HashSet(walk.getNodeSteps());
+		final Set otherUniqueEdges = new HashSet(walk.getSteps());
 
 		if( !(uniqueNodes.equals(otherUniqueNodes)) )
 			return false;

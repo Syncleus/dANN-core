@@ -22,22 +22,26 @@ import java.util.List;
 
 public abstract class AbstractUniqueEdge<N> extends AbstractEdge<N>
 {
-	protected AbstractUniqueEdge(List<N> nodes)
+	protected AbstractUniqueEdge(final List<N> nodes)
 	{
 		super(nodes);
 	}
 
-	protected AbstractUniqueEdge(N... nodes)
+	protected AbstractUniqueEdge(final N... nodes)
 	{
 		super(nodes);
 	}
 
 	@Override
-	public boolean equals(Object compareToObj)
+	public boolean equals(final Object compareToObj)
 	{
+		if(compareToObj == null)
+			return false;
+
 		if(!(compareToObj instanceof Edge))
 			return false;
-		Edge compareTo = (Edge) compareToObj;
+
+		final Edge compareTo = (Edge) compareToObj;
 		return (compareTo.getNodes().equals(this.getNodes()))&&
 			(this.getNodes().equals(compareTo.getNodes()));
 	}

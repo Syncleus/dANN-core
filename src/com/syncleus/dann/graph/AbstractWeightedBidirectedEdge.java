@@ -22,7 +22,7 @@ public abstract class AbstractWeightedBidirectedEdge<N> extends AbstractBidirect
 {
 	private final double weight;
 
-	protected AbstractWeightedBidirectedEdge(N leftNode, EndState leftEndState, N rightNode, EndState rightEndState, double weight)
+	protected AbstractWeightedBidirectedEdge(final N leftNode, final EndState leftEndState, final N rightNode, final EndState rightEndState, final double weight)
 	{
 		super(leftNode, leftEndState, rightNode, rightEndState);
 

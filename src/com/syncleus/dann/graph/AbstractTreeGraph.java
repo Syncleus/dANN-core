@@ -22,12 +22,12 @@ public abstract class AbstractTreeGraph<N, E extends BidirectedEdge<N>> extends 
 {
 	// TODO restrict tree's to only maximally connected trees
 	
-	public boolean isLeaf(N node)
+	public boolean isLeaf(final N node)
 	{
 		return (this.getDegree(node) == 1);
 	}
 
-	public boolean isLeaf(E edge)
+	public boolean isLeaf(final E edge)
 	{
 		for(N node : edge.getNodes())
 			if(this.isLeaf(node))

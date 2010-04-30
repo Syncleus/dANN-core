@@ -26,7 +26,7 @@ public class SimpleWalk<N, E extends Edge<N>> extends AbstractWalk<N,E>
 	private final List<N> nodeSteps;
 	private final double totalWeight;
 
-	public SimpleWalk(List<E> steps, List<N> nodeSteps, double defaultWeight)
+	public SimpleWalk(final List<E> steps, final List<N> nodeSteps, final double defaultWeight)
 	{
 		if( !this.verify(nodeSteps, steps) )
 			throw new IllegalArgumentException("Steps and nodeSteps is not consistent with a walk");
@@ -36,7 +36,7 @@ public class SimpleWalk<N, E extends Edge<N>> extends AbstractWalk<N,E>
 		this.totalWeight = calculateWeight(defaultWeight);
 	}
 
-	public SimpleWalk(List<E> steps, List<N> nodeSteps)
+	public SimpleWalk(final List<E> steps, final List<N> nodeSteps)
 	{
 		this(steps, nodeSteps, 0.0);
 	}

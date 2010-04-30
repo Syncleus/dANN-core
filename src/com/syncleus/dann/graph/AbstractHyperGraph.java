@@ -30,12 +30,12 @@ public abstract class AbstractHyperGraph<N, E extends HyperEdge<N>> extends Abst
 		return null;
 	}
 
-	public boolean isPartial(HyperGraph<N,E> partialGraph)
+	public boolean isPartial(final HyperGraph<N,E> partialGraph)
 	{
 		return false;
 	}
 
-	public boolean isHost(HyperGraph<N,E> hostGraph)
+	public boolean isHost(final HyperGraph<N,E> hostGraph)
 	{
 		return false;
 	}

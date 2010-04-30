@@ -25,7 +25,7 @@ public class SimplePath<N, E extends Edge<N>> extends SimpleWalk<N,E> implements
 	private final N firstNode;
 	private final N lastNode;
 	
-	public SimplePath(N firstNode, N lastNode, List<E> steps, List<N> nodeSteps, double defaultWeight)
+	public SimplePath(final N firstNode, final N lastNode, final List<E> steps, final List<N> nodeSteps, final double defaultWeight)
 	{
 		super(steps, nodeSteps, defaultWeight);
 
@@ -42,7 +42,7 @@ public class SimplePath<N, E extends Edge<N>> extends SimpleWalk<N,E> implements
 		this.lastNode = lastNode;
 	}
 
-	public SimplePath(N firstNode, N lastNode, List<E> steps, List<N> nodeSteps)
+	public SimplePath(final N firstNode, final N lastNode, final List<E> steps, final List<N> nodeSteps)
 	{
 		this(firstNode, lastNode, steps, nodeSteps, 0.0);
 	}
@@ -58,7 +58,7 @@ public class SimplePath<N, E extends Edge<N>> extends SimpleWalk<N,E> implements
 		if(steps.size() < 1)
 			throw new IllegalArgumentException("steps can not be empty");
 
-		List<N> newNodeSteps = new ArrayList<N>();
+		final List<N> newNodeSteps = new ArrayList<N>();
 		N nextNodeStep = firstNode;
 		for(E edgeStep : steps)
 		{
@@ -67,7 +67,7 @@ public class SimplePath<N, E extends Edge<N>> extends SimpleWalk<N,E> implements
 
 			newNodeSteps.add(nextNodeStep);
 
-			List<N> nextNodes = new ArrayList<N>(edgeStep.getNodes());
+			final List<N> nextNodes = new ArrayList<N>(edgeStep.getNodes());
 			nextNodes.remove(nextNodeStep);
 			nextNodeStep = nextNodes.get(0);
 		}
@@ -76,25 +76,25 @@ public class SimplePath<N, E extends Edge<N>> extends SimpleWalk<N,E> implements
 		return newNodeSteps;
 	}
 
-	public SimplePath(N firstNode, N lastNode, List<E> steps, double defaultWeight)
+	public SimplePath(final N firstNode, final N lastNode, final List<E> steps, final double defaultWeight)
 	{
 		this(firstNode, lastNode, steps, SimplePath.<N,E>edgeToNodeSteps(firstNode, steps), defaultWeight);
 	}
 
-	public SimplePath(N firstNode, N lastNode, List<E> steps)
+	public SimplePath(final N firstNode, final N lastNode, final List<E> steps)
 	{
 		this(firstNode, lastNode, steps, 0.0);
 	}
 
 	@Override
-	protected boolean verify(List<N> nodeSteps, List<E> edgeSteps)
+	protected boolean verify(final List<N> nodeSteps, final List<E> edgeSteps)
 	{
 		if( (super.verify(nodeSteps, edgeSteps)) && (AbstractPath.verifyUtility(nodeSteps, edgeSteps)) )
 			return true;
 		return false;
 	}
 
-	public boolean isIndependent(Path<N,E> path)
+	public boolean isIndependent(final Path<N,E> path)
 	{
 		return AbstractPath.isIndependentUtility(this, path);
 	}
@@ -127,10 +127,14 @@ public class SimplePath<N, E extends Edge<N>> extends SimpleWalk<N,E> implements
 	}
 
 	@Override
-	public boolean equals(Object object)
+	public boolean equals(final Object object)
 	{
+		if(object == null)
+			return false;
+
 		if(!(object instanceof Path))
 			return false;
+		
 		return AbstractPath.equalsUtility(this, object);
 	}
 }

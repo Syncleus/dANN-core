@@ -18,34 +18,33 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.cycle.CycleFinder;
-import com.syncleus.dann.graph.cycle.ExhaustiveDepthFirstSearchCycleFinder;
+import com.syncleus.dann.graph.cycle.*;
+import java.util.*;
 import com.syncleus.dann.math.set.Combinations;
 import java.io.Serializable;
-import java.util.*;
 
 public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 {
-	public List<N> getTraversableNodes(N node)
+	public List<N> getTraversableNodes(final N node)
 	{
-		List<N> traversableNodes = new ArrayList<N>();
+		final List<N> traversableNodes = new ArrayList<N>();
 		for(E adjacentEdge : this.getAdjacentEdges(node))
 			traversableNodes.addAll(adjacentEdge.getTraversableNodes(node));
 		return Collections.unmodifiableList(traversableNodes);
 	}
 
-	public Set<E> getTraversableEdges(N node)
+	public Set<E> getTraversableEdges(final N node)
 	{
-		Set<E> traversableEdges = new HashSet<E>();
+		final Set<E> traversableEdges = new HashSet<E>();
 		for(E adjacentEdge : this.getAdjacentEdges(node))
 			if(adjacentEdge.isTraversable(node))
 				traversableEdges.add(adjacentEdge);
 		return Collections.unmodifiableSet(traversableEdges);
 	}
 	
-	public int getDegree(N node)
+	public int getDegree(final N node)
 	{
-		Set<E> adjacentEdges = this.getAdjacentEdges(node);
+		final Set<E> adjacentEdges = this.getAdjacentEdges(node);
 		int degree = 0;
 		for(E adjacentEdge : adjacentEdges)
 			for(N adjacentNode : adjacentEdge.getNodes())
@@ -56,7 +55,7 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 	
 	public boolean isStronglyConnected()
 	{
-		Set<N> nodes = this.getNodes();
+		final Set<N> nodes = this.getNodes();
 		for(N fromNode : nodes)
 			for(N toNode : nodes)
 				if((toNode != fromNode)&&(!this.isStronglyConnected(toNode, fromNode)))
@@ -66,10 +65,10 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 
 	public boolean isWeaklyConnected()
 	{
-		List<N> remainingNodes = new ArrayList<N>(this.getNodes());
+		final List<N> remainingNodes = new ArrayList<N>(this.getNodes());
 		while(remainingNodes.size() >= 2)
 		{
-			N fromNode = remainingNodes.get(0);
+			final N fromNode = remainingNodes.get(0);
 			for(N toNode : remainingNodes)
 				if((toNode != fromNode)&&(!this.isWeaklyConnected(toNode, fromNode)))
 					return false;
@@ -77,17 +76,17 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 		return true;
 	}
 
-	public boolean isWeaklyConnected(N leftNode, N rightNode)
+	public boolean isWeaklyConnected(final N leftNode, final N rightNode)
 	{
-		Set<N> visited = new HashSet<N>();
+		final Set<N> visited = new HashSet<N>();
 		visited.add(leftNode);
 
-		Set<N> toVisit = new HashSet<N>();
+		final Set<N> toVisit = new HashSet<N>();
 		toVisit.addAll(this.getAdjacentNodes(leftNode));
 
 		while(!toVisit.isEmpty())
 		{
-			N node = toVisit.iterator().next();
+			final N node = toVisit.iterator().next();
 			if(node.equals(rightNode))
 				return true;
 
@@ -101,17 +100,17 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 		return false;
 	}
 
-	public boolean isStronglyConnected(N leftNode, N rightNode)
+	public boolean isStronglyConnected(final N leftNode, final N rightNode)
 	{
-		Set<N> visited = new HashSet<N>();
+		final Set<N> visited = new HashSet<N>();
 		visited.add(leftNode);
 
-		Set<N> toVisit = new HashSet<N>();
+		final Set<N> toVisit = new HashSet<N>();
 		toVisit.addAll(this.getTraversableNodes(leftNode));
 
 		while(!toVisit.isEmpty())
 		{
-			N node = toVisit.iterator().next();
+			final N node = toVisit.iterator().next();
 			if(node.equals(rightNode))
 				return true;
 
@@ -131,7 +130,7 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 		return null;
 	}
 
-	public boolean isMaximalSubgraph(Graph<N,E> subgraph)
+	public boolean isMaximalSubgraph(final Graph<N,E> subgraph)
 	{
 		if( !this.isSubGraph(subgraph))
 			return false;
@@ -153,7 +152,7 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 		return true;
 	}
 
-	private SimpleGraph<N,Edge<N>> deleteFromGraph(Set<N> nodes, Set<E> edges)
+	private SimpleGraph<N,Edge<N>> deleteFromGraph(final Set<N> nodes, final Set<E> edges)
 	{
 		//remove the nodes
 		final Set<N> cutNodes = this.getNodes();
@@ -188,42 +187,42 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 		return new SimpleGraph<N,Edge<N>>(cutNodes, cutEdges);
 	}
 
-	public boolean isCut(Set<N> nodes, Set<E> edges)
+	public boolean isCut(final Set<N> nodes, final Set<E> edges)
 	{
 		return this.deleteFromGraph(nodes, edges).isStronglyConnected();
 	}
 
-	public boolean isCut(Set<N> nodes, Set<E> edges, N begin, N end)
+	public boolean isCut(final Set<N> nodes, final Set<E> edges, final N begin, final N end)
 	{
 		return this.deleteFromGraph(nodes, edges).isStronglyConnected(begin, end);
 	}
 
-	public boolean isCut(Set<E> edges)
+	public boolean isCut(final Set<E> edges)
 	{
 		return this.isCut(Collections.<N>emptySet(), edges);
 	}
 
-	public boolean isCut(N node)
+	public boolean isCut(final N node)
 	{
 		return this.isCut(Collections.singleton(node), Collections.<E>emptySet());
 	}
 
-	public boolean isCut(E edge)
+	public boolean isCut(final E edge)
 	{
 		return this.isCut(Collections.<N>emptySet(), Collections.singleton(edge));
 	}
 
-	public boolean isCut(Set<E> edges, N begin, N end)
+	public boolean isCut(final Set<E> edges, final N begin, final N end)
 	{
 		return this.isCut(Collections.<N>emptySet(), edges, begin, end);
 	}
 
-	public boolean isCut(N node, N begin, N end)
+	public boolean isCut(final N node, final N begin, final N end)
 	{
 		return this.isCut(Collections.singleton(node), Collections.<E>emptySet(), begin, end);
 	}
 
-	public boolean isCut(E edge, N begin, N end)
+	public boolean isCut(final E edge, final N begin, final N end)
 	{
 		return this.isCut(Collections.<N>emptySet(), Collections.singleton(edge), begin, end);
 	}
@@ -250,7 +249,7 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 		return this.getEdges().size();
 	}
 
-	public int getNodeConnectivity(N begin, N end)
+	public int getNodeConnectivity(final N begin, final N end)
 	{
 		final Set<Set<N>> combinations = Combinations.everyCombination(this.getNodes());
 		final SortedSet<Set<N>> sortedCombinations = new TreeSet<Set<N>>(new SizeComparator());
@@ -261,7 +260,7 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 		return this.getNodes().size();
 	}
 
-	public int getEdgeConnectivity(N begin, N end)
+	public int getEdgeConnectivity(final N begin, final N end)
 	{
 		final Set<Set<E>> combinations = Combinations.everyCombination(this.getEdges());
 		final SortedSet<Set<E>> sortedCombinations = new TreeSet<Set<E>>(new SizeComparator());
@@ -292,41 +291,41 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 
 	public int getCycleCount()
 	{
-		CycleFinder<N,E> finder = new ExhaustiveDepthFirstSearchCycleFinder<N,E>();
+		final CycleFinder<N,E> finder = new ExhaustiveDepthFirstSearchCycleFinder<N,E>();
 		return finder.cycleCount(this);
 	}
 
 	public boolean isPancyclic()
 	{
-		CycleFinder<N,E> finder = new ExhaustiveDepthFirstSearchCycleFinder<N,E>();
+		final CycleFinder<N,E> finder = new ExhaustiveDepthFirstSearchCycleFinder<N,E>();
 		return finder.isPancyclic(this);
 	}
 
 	public boolean isUnicyclic()
 	{
-		CycleFinder<N,E> finder = new ExhaustiveDepthFirstSearchCycleFinder<N,E>();
+		final CycleFinder<N,E> finder = new ExhaustiveDepthFirstSearchCycleFinder<N,E>();
 		return finder.isUnicyclic(this);
 	}
 
 	public boolean isAcyclic()
 	{
-		CycleFinder finder = new ExhaustiveDepthFirstSearchCycleFinder();
+		final CycleFinder finder = new ExhaustiveDepthFirstSearchCycleFinder();
 		return !finder.hasCycle(this);
 	}
 
 	public int getGirth()
 	{
-		CycleFinder<N,E> finder = new ExhaustiveDepthFirstSearchCycleFinder<N,E>();
+		final CycleFinder<N,E> finder = new ExhaustiveDepthFirstSearchCycleFinder<N,E>();
 		return finder.girth(this);
 	}
 
 	public int getCircumference()
 	{
-		CycleFinder<N,E> finder = new ExhaustiveDepthFirstSearchCycleFinder<N,E>();
+		final CycleFinder<N,E> finder = new ExhaustiveDepthFirstSearchCycleFinder<N,E>();
 		return finder.circumference(this);
 	}
 
-	public boolean isSpanningTree(Graph<N,E> graph)
+	public boolean isSpanningTree(final Graph<N,E> graph)
 	{
 		return ((this.getNodes().containsAll(graph.getNodes())) &&
 			(graph.isWeaklyConnected()) &&
@@ -344,16 +343,16 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 		return false;
 	}
 
-	public boolean isSubGraph(Graph<N,E> subgraph)
+	public boolean isSubGraph(final Graph<N,E> subgraph)
 	{
-		Set<N> nodes = this.getNodes();
-		Set<? extends N> subnodes = subgraph.getNodes();
+		final Set<N> nodes = this.getNodes();
+		final Set<N> subnodes = subgraph.getNodes();
 		for(N subnode : subnodes)
 			if( !nodes.contains(subnode) )
 				return false;
 
-		Set<E> edges = this.getEdges();
-		Set<? extends E> subedges = subgraph.getEdges();
+		final Set<E> edges = this.getEdges();
+		final Set<E> subedges = subgraph.getEdges();
 		for(E subedge : subedges)
 			if( !edges.contains(subedge))
 				return false;
@@ -377,34 +376,34 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 	{
 		for(N currentNode : this.getNodes())
 		{
-			List<N> neighbors = new ArrayList<N>(this.getAdjacentNodes(currentNode));
+			final List<N> neighbors = new ArrayList<N>(this.getAdjacentNodes(currentNode));
 			while( neighbors.remove(currentNode) )
 			{
 				//do nothing, just remove all instances of the currentNode
 			}
-			Set<N> uniqueNeighbors = new HashSet<N>(neighbors);
+			final Set<N> uniqueNeighbors = new HashSet<N>(neighbors);
 			if(neighbors.size() > uniqueNeighbors.size())
 				return true;
 		}
 		return false;
 	}
 
-	public boolean isIsomorphic(Graph<N,E> isomorphicGraph)
+	public boolean isIsomorphic(final Graph<N,E> isomorphicGraph)
 	{
 		return (this.isHomomorphic(isomorphicGraph) && isomorphicGraph.isHomomorphic(this));
 	}
 
-	public boolean isHomomorphic(Graph<N,E> homomorphicGraph)
+	public boolean isHomomorphic(final Graph<N,E> homomorphicGraph)
 	{
-		Set<N> uncheckedNodes = new HashSet<N>(this.getNodes());
-		Set<N> homomorphicNodes = homomorphicGraph.getNodes();
+		final Set<N> uncheckedNodes = new HashSet<N>(this.getNodes());
+		final Set<N> homomorphicNodes = homomorphicGraph.getNodes();
 
 		while(!uncheckedNodes.isEmpty())
 		{
-			N currentNode = uncheckedNodes.iterator().next();
+			final N currentNode = uncheckedNodes.iterator().next();
 			uncheckedNodes.remove(currentNode);
 
-			List<N> neighborNodes = this.getAdjacentNodes(currentNode);
+			final List<N> neighborNodes = this.getAdjacentNodes(currentNode);
 			if(!neighborNodes.isEmpty())
 				if(!homomorphicNodes.contains(currentNode))
 					return false;
@@ -427,8 +426,8 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 	{
 		for(N currentNode : this.getNodes())
 		{
-			List<N> neighbors = this.getAdjacentNodes(currentNode);
-			Set<N> uniqueNeighbors = new HashSet<N>(neighbors);
+			final List<N> neighbors = this.getAdjacentNodes(currentNode);
+			final Set<N> uniqueNeighbors = new HashSet<N>(neighbors);
 			if(neighbors.size() > uniqueNeighbors.size())
 				return false;
 		}
@@ -472,14 +471,14 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 		int multiplicity = 0;
 		for(E edge : this.getEdges())
 		{
-			int edgeMultiplicity = this.getMultiplicity(edge);
+			final int edgeMultiplicity = this.getMultiplicity(edge);
 			if(edgeMultiplicity > multiplicity)
 				multiplicity = edgeMultiplicity;
 		}
 		return multiplicity;
 	}
 
-	public int getMultiplicity(E edge)
+	public int getMultiplicity(final E edge)
 	{
 		int multiplicity = 0;
 		final List<N> edgeNodes = edge.getNodes();
@@ -488,7 +487,7 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 		{
 			if(potentialMultiple.equals(edge))
 				continue;
-			List<N> potentialNodes = new ArrayList<N>(potentialMultiple.getNodes());
+			final List<N> potentialNodes = new ArrayList<N>(potentialMultiple.getNodes());
 			if(potentialNodes.size() != edgeNodes.size())
 				continue;
 			for(N edgeNode : edgeNodes)
@@ -499,7 +498,7 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 		return multiplicity;
 	}
 
-	public boolean isMultiple(E edge)
+	public boolean isMultiple(final E edge)
 	{
 		final List<N> edgeNodes = edge.getNodes();
 		final Set<E> potentialMultiples = this.getAdjacentEdges(edge.getNodes().get(0));
@@ -507,7 +506,7 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 		{
 			if(potentialMultiple.equals(edge))
 				continue;
-			List<N> potentialNodes = new ArrayList<N>(potentialMultiple.getNodes());
+			final List<N> potentialNodes = new ArrayList<N>(potentialMultiple.getNodes());
 			if(potentialNodes.size() != edgeNodes.size())
 				continue;
 			for(N edgeNode : edgeNodes)
@@ -518,13 +517,13 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 		return false;
 	}
 
-	public boolean isKnot(Set<N> knotedNodes)
+	public boolean isKnot(final Set<N> knotedNodes)
 	{
 		// TODO fill this in
 		return false;
 	}
 
-	public boolean isKnot(Set<N> knotedNodes, Set<E> knotedEdges)
+	public boolean isKnot(final Set<N> knotedNodes, final Set<E> knotedEdges)
 	{
 		// TODO fill this in
 		return false;
@@ -534,7 +533,7 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 	{
 		private static final long serialVersionUID = -4454396728238585057L;
 
-		public int compare(Collection first, Collection second)
+		public int compare(final Collection first, final Collection second)
 		{
 			if(first.size() < second.size())
 				return -1;
@@ -544,10 +543,14 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 		}
 
 		@Override
-		public boolean equals(Object compareWith)
+		public boolean equals(final Object compareWith)
 		{
+			if(compareWith == null)
+				return false;
+
 			if(compareWith instanceof SizeComparator)
 				return true;
+			
 			return false;
 		}
 

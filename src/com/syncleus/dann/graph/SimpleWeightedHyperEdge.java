@@ -26,7 +26,7 @@ public class SimpleWeightedHyperEdge<N> extends SimpleHyperEdge<N> implements We
 	
 	private final double weight;
 
-	public SimpleWeightedHyperEdge(List<N> nodes, double weight)
+	public SimpleWeightedHyperEdge(final List<N> nodes, final double weight)
 	{
 		super(nodes);
 		this.weight = weight;

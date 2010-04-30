@@ -29,12 +29,12 @@ public class SimpleDirectedGraph<N, E extends DirectedEdge<N>> extends AbstractB
 	final private Map<N, Set<E>> neighborEdges = new HashMap<N, Set<E>>();
 	final private Map<N, List<N>> neighborNodes = new HashMap<N, List<N>>();
 
-	public SimpleDirectedGraph(Graph<N,E> copyGraph)
+	public SimpleDirectedGraph(final Graph<N,E> copyGraph)
 	{
 		this(copyGraph.getNodes(), copyGraph.getEdges());
 	}
 
-	public SimpleDirectedGraph(Set<N> nodes, Set<E> edges)
+	public SimpleDirectedGraph(final Set<N> nodes, final Set<E> edges)
 	{
 		this.nodes = new HashSet<N>(nodes);
 		this.edges = new HashSet<E>(edges);
@@ -83,12 +83,12 @@ public class SimpleDirectedGraph<N, E extends DirectedEdge<N>> extends AbstractB
 		return Collections.unmodifiableSet(this.edges);
 	}
 
-	public Set<E> getAdjacentEdges(N node)
+	public Set<E> getAdjacentEdges(final N node)
 	{
 		return Collections.unmodifiableSet(this.neighborEdges.get(node));
 	}
 
-	public Set<E> getInEdges(N node)
+	public Set<E> getInEdges(final N node)
 	{
 		final Set<E> inEdges = new HashSet<E>();
 		for(E edge : edges)
@@ -97,17 +97,17 @@ public class SimpleDirectedGraph<N, E extends DirectedEdge<N>> extends AbstractB
 		return Collections.unmodifiableSet(inEdges);
 	}
 
-	public int getIndegree(N node)
+	public int getIndegree(final N node)
 	{
 		return this.getInEdges(node).size();
 	}
 
-	public int getOutdegree(N node)
+	public int getOutdegree(final N node)
 	{
 		return this.getTraversableEdges(node).size();
 	}
 
-	public List<N> getAdjacentNodes(N node)
+	public List<N> getAdjacentNodes(final N node)
 	{
 		return Collections.unmodifiableList(this.neighborNodes.get(node));
 	}

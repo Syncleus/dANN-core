@@ -24,13 +24,13 @@ public abstract class AbstractWeightedEdge<N> extends AbstractEdge<N> implements
 {
 	private final double weight;
 
-	protected AbstractWeightedEdge(List<N> nodes, double weight)
+	protected AbstractWeightedEdge(final List<N> nodes, final double weight)
 	{
 		super(nodes);
 		this.weight = weight;
 	}
 
-	protected AbstractWeightedEdge(double weight, N... nodes)
+	protected AbstractWeightedEdge(final double weight, N... nodes)
 	{
 		super(nodes);
 		this.weight = weight;

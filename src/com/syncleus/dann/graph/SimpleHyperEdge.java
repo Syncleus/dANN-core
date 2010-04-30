@@ -24,19 +24,19 @@ public class SimpleHyperEdge<N> extends AbstractEdge<N> implements HyperEdge<N>
 {
 	private static final long serialVersionUID = -3657973823101515199L;
 	
-	public SimpleHyperEdge(List<N> nodes)
+	public SimpleHyperEdge(final List<N> nodes)
 	{
 		super(new ArrayList<N>(nodes));
 	}
 
-	public SimpleHyperEdge(N... nodes)
+	public SimpleHyperEdge(final N... nodes)
 	{
 		super(nodes);
 	}
 
-	public List<N> getTraversableNodes(N node)
+	public List<N> getTraversableNodes(final N node)
 	{
-		List<N> traversableNodes = new ArrayList<N>(this.getNodes());
+		final List<N> traversableNodes = new ArrayList<N>(this.getNodes());
 		if( !traversableNodes.remove(node) )
 			throw new IllegalArgumentException("node is not one of the end points!");
 		return Collections.unmodifiableList(traversableNodes);
@@ -47,7 +47,7 @@ public class SimpleHyperEdge<N> extends AbstractEdge<N> implements HyperEdge<N>
 		return 0;
 	}
 
-	public boolean isSymmetric(HyperEdge symmetricEdge)
+	public boolean isSymmetric(final HyperEdge symmetricEdge)
 	{
 		return false;
 	}

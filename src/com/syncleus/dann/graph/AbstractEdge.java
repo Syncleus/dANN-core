@@ -18,26 +18,27 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
+import java.io.StringWriter;
 import java.util.*;
 
 public abstract class AbstractEdge<N> implements Edge<N>
 {
 	private final List<N> nodes;
 
-	protected AbstractEdge(List<N> nodes)
+	protected AbstractEdge(final List<N> nodes)
 	{
 		this.nodes = Collections.unmodifiableList(new ArrayList<N>(nodes));
 	}
 
-	protected AbstractEdge(N... nodes)
+	protected AbstractEdge(final N... nodes)
 	{
-		List<N> newNodes = new ArrayList<N>();
+		final List<N> newNodes = new ArrayList<N>();
 		for(N node : nodes)
 			newNodes.add(node);
 		this.nodes = Collections.unmodifiableList(newNodes);
 	}
 
-	public boolean isTraversable(N node)
+	public boolean isTraversable(final N node)
 	{
 		return (! this.getTraversableNodes(node).isEmpty());
 	}
@@ -50,11 +51,11 @@ public abstract class AbstractEdge<N> implements Edge<N>
 	@Override
 	public String toString()
 	{
-		StringBuffer outString = null;
+		StringBuilder outString = null;
 		for(N node : this.nodes)
 		{
 			if(outString == null)
-				outString = new StringBuffer(node.toString());
+				outString = new StringBuilder(node.toString());
 			else
 				outString.append(":" + node);
 		}

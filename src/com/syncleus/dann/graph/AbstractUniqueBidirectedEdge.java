@@ -20,17 +20,21 @@ package com.syncleus.dann.graph;
 
 public abstract class AbstractUniqueBidirectedEdge<N> extends AbstractBidirectedEdge<N>
 {
-	protected AbstractUniqueBidirectedEdge(N leftNode, EndState leftEndState, N rightNode, EndState rightEndState)
+	protected AbstractUniqueBidirectedEdge(final N leftNode, final EndState leftEndState, final N rightNode, final EndState rightEndState)
 	{
 		super(leftNode, leftEndState, rightNode, rightEndState);
 	}
 
 	@Override
-	public boolean equals(Object compareToObj)
+	public boolean equals(final Object compareToObj)
 	{
+		if(compareToObj == null)
+			return false;
+
 		if(!(compareToObj instanceof BidirectedEdge))
 			return false;
-		BidirectedEdge compareTo = (BidirectedEdge) compareToObj;
+
+		final BidirectedEdge compareTo = (BidirectedEdge) compareToObj;
 		return
 			(
 				(compareTo.getLeftNode().equals(this.getLeftNode()))&&
@@ -49,10 +53,10 @@ public abstract class AbstractUniqueBidirectedEdge<N> extends AbstractBidirected
 	@Override
 	public int hashCode()
 	{
-		int leftNodeHash = this.getLeftNode().hashCode();
-		int rightNodeHash = this.getRightNode().hashCode();
-		int leftStateHash = this.getLeftEndState().hashCode();
-		int rightStateHash = this.getRightEndState().hashCode();
+		final int leftNodeHash = this.getLeftNode().hashCode();
+		final int rightNodeHash = this.getRightNode().hashCode();
+		final int leftStateHash = this.getLeftEndState().hashCode();
+		final int rightStateHash = this.getRightEndState().hashCode();
 		return
 			leftNodeHash +
 			(leftNodeHash * leftStateHash) +
