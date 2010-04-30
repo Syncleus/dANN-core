@@ -25,6 +25,8 @@ public class JohnsonGraphTransformer<N> implements GraphTransformer<BidirectedGr
 {
 	private static class SimpleGraph<N> extends AbstractBidirectedGraph<N,WeightedDirectedEdge<N>>
 	{
+		private static final long serialVersionUID = 6277394757261733780L;
+		
 		private Set<N> nodes;
 
 		private final Set<WeightedDirectedEdge<N>> edges;

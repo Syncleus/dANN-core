@@ -22,6 +22,8 @@ import com.syncleus.dann.graph.SimpleDirectedEdge;
 
 public class SimpleBayesianEdge extends SimpleDirectedEdge<BayesianNode> implements BayesianEdge
 {
+	private static final long serialVersionUID = 5817768183659411136L;
+	
 	public SimpleBayesianEdge(BayesianNode source, BayesianNode destination)
 	{
 		super(source, destination);

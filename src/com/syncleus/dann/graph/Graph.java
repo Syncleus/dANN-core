@@ -18,6 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -33,7 +34,7 @@ import java.util.*;
  * @param <E> The edge used to connect nodes.
  * @since 2.0
  */
-public interface Graph<N, E extends Edge<N>>
+public interface Graph<N, E extends Edge<N>> extends Serializable
 {
 	/**
 	 * Get a set of all nodes in the graph.

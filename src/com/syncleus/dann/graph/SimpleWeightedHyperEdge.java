@@ -22,6 +22,8 @@ import java.util.List;
 
 public class SimpleWeightedHyperEdge<N> extends SimpleHyperEdge<N> implements WeightedEdge<N>
 {
+	private static final long serialVersionUID = 2622882478754498808L;
+	
 	private final double weight;
 
 	public SimpleWeightedHyperEdge(List<N> nodes, double weight)

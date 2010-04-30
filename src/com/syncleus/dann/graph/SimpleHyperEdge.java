@@ -22,6 +22,8 @@ import java.util.*;
 
 public class SimpleHyperEdge<N> extends AbstractEdge<N> implements HyperEdge<N>
 {
+	private static final long serialVersionUID = -3657973823101515199L;
+	
 	public SimpleHyperEdge(List<N> nodes)
 	{
 		super(new ArrayList<N>(nodes));

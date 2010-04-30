@@ -22,6 +22,8 @@ import java.util.*;
 
 public class SimpleDirectedEdge<N> extends AbstractBidirectedEdge<N> implements DirectedEdge<N>
 {
+	private static final long serialVersionUID = -7589242369886611386L;
+	
 	public SimpleDirectedEdge(N source, N destination)
 	{
 		super(source, EndState.INWARD, destination, EndState.OUTWARD);

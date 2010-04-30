@@ -22,6 +22,8 @@ import java.util.*;
 
 public class SimpleGraph<N, E extends Edge<N>> extends AbstractGraph<N, E>
 {
+	private static final long serialVersionUID = -2280425133666367243L;
+	
 	final private Set<N> nodes;
 	final private Set<E> edges;
 	final private Map<N, Set<E>> neighborEdges = new HashMap<N, Set<E>>();

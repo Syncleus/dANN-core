@@ -22,6 +22,8 @@ import java.util.*;
 
 public class SimpleHyperGraph<N, E extends HyperEdge<N>> extends AbstractHyperGraph<N,E>
 {
+	private static final long serialVersionUID = 8503954045220921240L;
+	
 	final private Set<N> nodes;
 	final private Set<E> edges;
 	final private Map<N, Set<E>> neighborEdges = new HashMap<N, Set<E>>();

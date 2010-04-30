@@ -22,6 +22,8 @@ import java.util.*;
 
 public class SimpleTreeGraph<N, E extends BidirectedEdge<N>> extends AbstractTreeGraph<N,E>
 {
+	private static final long serialVersionUID = -7193318700735007603L;
+	
 	final private Set<N> nodes;
 	final private Set<E> edges;
 	final private Map<N, Set<E>> neighborEdges = new HashMap<N, Set<E>>();

@@ -20,6 +20,8 @@ package com.syncleus.dann.graphicalmodel.bayesian;
 
 public class SimpleBayesianNetwork extends AbstractBayesianNetwork
 {
+	private static final long serialVersionUID = -7951102585507791756L;
+	
 	@Override
 	public boolean connect(BayesianNode source, BayesianNode destination)
 	{

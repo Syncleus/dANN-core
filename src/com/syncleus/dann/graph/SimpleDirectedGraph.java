@@ -22,6 +22,8 @@ import java.util.*;
 
 public class SimpleDirectedGraph<N, E extends DirectedEdge<N>> extends AbstractBidirectedGraph<N,E>
 {
+	private static final long serialVersionUID = -4588563094809496900L;
+	
 	final private Set<N> nodes;
 	final private Set<E> edges;
 	final private Map<N, Set<E>> neighborEdges = new HashMap<N, Set<E>>();

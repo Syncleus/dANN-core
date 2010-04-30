@@ -22,6 +22,8 @@ import java.util.*;
 
 public class SimpleUndirectedEdge<N> extends AbstractBidirectedEdge<N>
 {
+	private static final long serialVersionUID = -7729189071866403594L;
+	
 	public SimpleUndirectedEdge(N leftNode, N rightNode)
 	{
 		super(leftNode, EndState.NONE, rightNode, EndState.NONE);

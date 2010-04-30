@@ -23,6 +23,8 @@ import com.syncleus.dann.graphicalmodel.bayesian.SimpleBayesianNetwork;
 
 public class SimpleDynamicBayesianNetwork extends SimpleBayesianNetwork implements DynamicBayesianNetwork
 {
+	private static final long serialVersionUID = -77853282202899240L;
+	
 	public void learnStates(boolean updateHistory)
 	{
 		for(BayesianNode node : this.getNodes())

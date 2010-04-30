@@ -18,9 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
+import java.io.Serializable;
 import java.util.List;
 
-public interface Edge<N>
+public interface Edge<N> extends Serializable
 {
 	List<N> getNodes();
 	List<N> getTraversableNodes(N node);

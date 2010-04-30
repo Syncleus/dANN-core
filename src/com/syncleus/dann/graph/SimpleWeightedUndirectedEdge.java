@@ -20,6 +20,8 @@ package com.syncleus.dann.graph;
 
 public class SimpleWeightedUndirectedEdge<N> extends SimpleUndirectedEdge<N> implements WeightedBidirectedEdge<N>
 {
+	private static final long serialVersionUID = 4622255810663472765L;
+	
 	private final double weight;
 
 	public SimpleWeightedUndirectedEdge(N left, N right, double weight)
