@@ -28,14 +28,11 @@ import java.math.BigInteger;
 public class CombinationGenerator
 {
 	private int[] currentCombination;
-	private int setSize;
-	private int combinationSize;
+	private final int setSize;
+	private final int combinationSize;
 	private BigInteger numLeft;
 	private BigInteger total;
 
-	//------------
-	// Constructor
-	//------------
 	public CombinationGenerator(int setSize, int combinationSize)
 	{
 		if(combinationSize > setSize)
@@ -52,43 +49,28 @@ public class CombinationGenerator
 		reset();
 	}
 
-	//------
-	// Reset
-	//------
-	public void reset()
+	public final void reset()
 	{
 		for(int i = 0; i < currentCombination.length; i++)
 			currentCombination[i] = i;
 		numLeft = new BigInteger(total.toString());
 	}
 
-	//------------------------------------------------
-	// Return number of combinations not yet generated
-	//------------------------------------------------
 	public BigInteger getRemaining()
 	{
 		return numLeft;
 	}
 
-	//-----------------------------
-	// Are there more combinations?
-	//-----------------------------
 	public boolean hasMore()
 	{
 		return numLeft.compareTo(BigInteger.ZERO) == 1;
 	}
 
-	//------------------------------------
-	// Return total number of combinations
-	//------------------------------------
 	public BigInteger getTotal()
 	{
 		return total;
 	}
 
-	//------------------
-	// Compute factorial
-	//------------------
 	private static BigInteger getFactorial(int n)
 	{
 		BigInteger fact = BigInteger.ONE;
@@ -97,9 +79,6 @@ public class CombinationGenerator
 		return fact;
 	}
 
-	//--------------------------------------------------------
-	// Generate next combination (algorithm from Rosen p. 286)
-	//--------------------------------------------------------
 	public int[] getNext()
 	{
 

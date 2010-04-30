@@ -32,18 +32,18 @@ public class ClassificationProbabilities<C>
 		return Collections.unmodifiableMap(this.categoryProbabilityMap);
 	}
 
-	public void incrementCategory(C category)
+	public void incrementCategory(final C category)
 	{
 		this.incrementCategory(category, 1);
 	}
 
-	public void incrementCategory(C category, int value)
+	public void incrementCategory(final C category, final int value)
 	{
 		Integer currentProbability = this.categoryProbabilityMap.get(category);
-		if(currentProbability != null)
-			currentProbability = currentProbability + value;
-		else
+		if(currentProbability == null)
 			currentProbability = value;
+		else
+			currentProbability = currentProbability + value;
 		this.categoryProbabilityMap.put(category, currentProbability);
 		this.probabilitySum += value;
 	}
@@ -53,9 +53,9 @@ public class ClassificationProbabilities<C>
 		return probabilitySum;
 	}
 
-	public int getCategoryProbability(C category)
+	public int getCategoryProbability(final C category)
 	{
-		Integer probability = this.categoryProbabilityMap.get(category);
+		final Integer probability = this.categoryProbabilityMap.get(category);
 		if(probability == null)
 			return 0;
 		else

@@ -24,7 +24,7 @@ public class FeatureClassificationTree<F, C> extends HashMap<F, ClassificationPr
 {
 	private static final long serialVersionUID = 4301941319736756428L;
 	
-	public ClassificationProbabilities<C> getFeature(F feature)
+	public ClassificationProbabilities<C> getFeature(final F feature)
 	{
 		 ClassificationProbabilities<C> classification = super.get(feature);
 		 if( classification == null )

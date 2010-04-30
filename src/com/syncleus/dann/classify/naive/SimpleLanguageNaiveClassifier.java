@@ -18,9 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.classify.naive;
 
-import com.syncleus.dann.dataprocessing.language.BasicWordParser;
-import com.syncleus.dann.dataprocessing.language.WordParser;
-import java.util.Set;
+import com.syncleus.dann.dataprocessing.language.*;
+import java.util.*;
 
 public class SimpleLanguageNaiveClassifier<C> extends SimpleNaiveClassifier<String, String, C> implements TrainableLanguageNaiveClassifier<C>
 {
@@ -28,7 +27,7 @@ public class SimpleLanguageNaiveClassifier<C> extends SimpleNaiveClassifier<Stri
 	{
 		private static final WordParser PARSER = new BasicWordParser();
 
-		public Set<String> getFeatures(String item)
+		public Set<String> getFeatures(final String item)
 		{
 			return PARSER.getUniqueWords(item);
 		}
@@ -40,14 +39,14 @@ public class SimpleLanguageNaiveClassifier<C> extends SimpleNaiveClassifier<Stri
 	}
 
 	@Override
-	public double featureClassificationProbability(String feature, C category)
+	public double featureClassificationProbability(final String feature, final C category)
 	{
-		return super.featureClassificationProbability(feature.toLowerCase(), category);
+		return super.featureClassificationProbability(feature.toLowerCase(Locale.ENGLISH), category);
 	}
 
 	@Override
-	public double featureClassificationWeightedProbability(String feature, C category)
+	public double featureClassificationWeightedProbability(final String feature, final C category)
 	{
-		return super.featureClassificationWeightedProbability(feature.toLowerCase(), category);
+		return super.featureClassificationWeightedProbability(feature.toLowerCase(Locale.ENGLISH), category);
 	}
 }

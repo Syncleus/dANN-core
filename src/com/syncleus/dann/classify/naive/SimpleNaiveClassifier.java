@@ -25,11 +25,11 @@ import java.util.Set;
 
 public class SimpleNaiveClassifier<I,F,C> implements TrainableNaiveClassifier<I,F,C>
 {
-	private ClassificationProbabilities<C> overallCategoryProbability = new ClassificationProbabilities<C>();
-	private FeatureClassificationTree<F,C> featureTree = new FeatureClassificationTree<F,C>();
-	private FeatureExtractor<F,I> extractor;
+	private final ClassificationProbabilities<C> overallCategoryProbability = new ClassificationProbabilities<C>();
+	private final FeatureClassificationTree<F,C> featureTree = new FeatureClassificationTree<F,C>();
+	private final FeatureExtractor<F,I> extractor;
 
-	public SimpleNaiveClassifier(FeatureExtractor<F,I> extractor)
+	public SimpleNaiveClassifier(final FeatureExtractor<F,I> extractor)
 	{
 		this.extractor = extractor;
 	}
@@ -39,7 +39,7 @@ public class SimpleNaiveClassifier<I,F,C> implements TrainableNaiveClassifier<I,
 		return this.extractor;
 	}
 
-	public C classification(I item)
+	public C classification(final I item)
 	{
 		Set<F> features = this.extractor.getFeatures(item);
 		Map<C,Double> categoryProbabilities = new HashMap<C,Double>();
@@ -65,7 +65,7 @@ public class SimpleNaiveClassifier<I,F,C> implements TrainableNaiveClassifier<I,
 		return topCategory;
 	}
 
-	public Map<C,Double> getCategoryProbabilities(I item)
+	public Map<C,Double> getCategoryProbabilities(final I item)
 	{
 		Set<F> features = this.extractor.getFeatures(item);
 		Map<C,Double> categoryProbabilities = new HashMap<C,Double>();
@@ -83,12 +83,12 @@ public class SimpleNaiveClassifier<I,F,C> implements TrainableNaiveClassifier<I,
 		return categoryProbabilities;
 	}
 
-	public double classificationProbability(I item, C category)
+	public double classificationProbability(final I item, final C category)
 	{
 		return this.getCategoryProbabilities(item).get(category).doubleValue();
 	}
 
-	public C featureClassification(F feature)
+	public C featureClassification(final F feature)
 	{
 		C topCategory = null;
 		double topProbability = 0.0;
@@ -104,7 +104,7 @@ public class SimpleNaiveClassifier<I,F,C> implements TrainableNaiveClassifier<I,
 		return topCategory;
 	}
 
-	public C featureClassificationWeighted(F feature)
+	public C featureClassificationWeighted(final F feature)
 	{
 		C topCategory = null;
 		double topProbability = 0.0;
@@ -121,7 +121,7 @@ public class SimpleNaiveClassifier<I,F,C> implements TrainableNaiveClassifier<I,
 	}
 
 
-	public double featureClassificationProbability(F feature, C category)
+	public double featureClassificationProbability(final F feature, final C category)
 	{
 		int overallProb = this.getOverallProbability(category);
 		int featureProb = 0;
@@ -134,7 +134,7 @@ public class SimpleNaiveClassifier<I,F,C> implements TrainableNaiveClassifier<I,
 			return ((double)featureProb) / ((double)overallProb);
 	}
 
-	public double featureClassificationWeightedProbability(F feature, C category)
+	public double featureClassificationWeightedProbability(final F feature, final C category)
 	{
 		double unweightedProb = this.featureClassificationProbability(feature, category);
 		double total = 0.0;
@@ -149,7 +149,7 @@ public class SimpleNaiveClassifier<I,F,C> implements TrainableNaiveClassifier<I,
 		return Collections.unmodifiableSet(this.overallCategoryProbability.getCategoryProbabilityMap().keySet());
 	}
 
-	public void train(I item, C category)
+	public void train(final I item, final C category)
 	{
 		Set<F> features = this.extractor.getFeatures(item);
 		for(F feature : features)
@@ -157,7 +157,7 @@ public class SimpleNaiveClassifier<I,F,C> implements TrainableNaiveClassifier<I,
 		this.overallCategoryProbability.incrementCategory(category);
 	}
 
-	protected int getOverallProbability(C category)
+	protected int getOverallProbability(final C category)
 	{
 		return this.overallCategoryProbability.getCategoryProbability(category);
 	}

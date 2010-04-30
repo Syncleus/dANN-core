@@ -19,8 +19,8 @@
 package com.syncleus.dann.graph.drawing.hyperassociativemap;
 
 import com.syncleus.dann.neural.*;
-import com.syncleus.dann.neural.backprop.BackpropNeuron;
 import java.util.*;
+import com.syncleus.dann.neural.backprop.BackpropNeuron;
 import com.syncleus.dann.neural.backprop.brain.FeedforwardBackpropBrain;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -65,43 +65,24 @@ public class LayeredBrainHyperassociativeMap extends HyperassociativeMap<Feedfor
 
 		final Set<Neuron> associations = new HashSet<Neuron>(this.getGraph().getAdjacentNodes(neuronToQuery));
 
-//		if(nodeToQuery instanceof InputNeuron)
-//			associations.addAll(this.getGraph().getInputNeurons());
-//		else if(nodeToQuery instanceof OutputNeuron)
-//			associations.addAll(this.getGraph().getOutputNeurons());
-//		else
-//		{
-			for(Set<BackpropNeuron> layer : this.getGraph().getLayers())
+		for(Set<BackpropNeuron> layer : this.getGraph().getLayers())
+		{
+			if(layer.contains(neuronToQuery))
 			{
-//				System.out.println("iterating through a layer, size: " + layer.size());
-				if(layer.contains(neuronToQuery))
+				for(BackpropNeuron layerNeuron : layer)
 				{
-//					System.out.println("passes contains");
-					for(BackpropNeuron layerNeuron : layer)
-					{
-						if( (neuronToQuery instanceof StaticNeuron) && (layerNeuron instanceof StaticNeuron) )
-						{
-							associations.add(layerNeuron);
-//							System.out.println(neuronToQuery + " associating with " + layerNeuron);
-						}
-						else if( (!(neuronToQuery instanceof StaticNeuron)) && (!(layerNeuron instanceof StaticNeuron)) )
-						{
-							associations.add(layerNeuron);
-//							System.out.println(neuronToQuery + " associating with " + layerNeuron);
-						}
-					}
+					if( (neuronToQuery instanceof StaticNeuron) && (layerNeuron instanceof StaticNeuron) )
+						associations.add(layerNeuron);
+					else if( (!(neuronToQuery instanceof StaticNeuron)) && (!(layerNeuron instanceof StaticNeuron)) )
+						associations.add(layerNeuron);
 				}
 			}
-//		}
+		}
 		associations.remove(nodeToQuery);
 
 		if(this.cached)
 			this.neighbors.put(neuronToQuery, associations);
 
-		if(associations.size() <= 1)
-			System.out.println("Oh no an association of 1!");
-//		if( this.getGraph().getLayers().size() != 3)
-//			System.out.println("number of layers is wrong: " + this.getGraph().getLayers().size());
 		return associations;
 	}
 }

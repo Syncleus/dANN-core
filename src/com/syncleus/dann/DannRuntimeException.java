@@ -24,7 +24,6 @@ package com.syncleus.dann;
  *
  * @author Jeffrey Phillips Freeman
  * @since 2.0
- *
  */
 public class DannRuntimeException extends RuntimeException
 {
@@ -33,16 +32,15 @@ public class DannRuntimeException extends RuntimeException
 	/**
 	 * Creates a blank default exception.
 	 *
-	 *
 	 * @since 2.0
 	 */
 	public DannRuntimeException()
 	{
+		super();
 	}
 
 	/**
 	 * Creates an exception with a message describing the cause.
-	 *
 	 *
 	 * @param msg A string describing the cause of the exception
 	 * @since 2.0
@@ -56,7 +54,6 @@ public class DannRuntimeException extends RuntimeException
 	 * Creates an exception with a message describing the cause as well as the
 	 * throwable which caused this exception to be thrown.
 	 *
-	 *
 	 * @param msg A string describing the cause of the exception
 	 * @param cause The throwable which caused this exception
 	 * @since 2.0
@@ -69,7 +66,6 @@ public class DannRuntimeException extends RuntimeException
 	/**
 	 * Creates an exception containing the throwable which caused this exception
 	 * to be thrown.
-	 *
 	 *
 	 * @param cause The throwable which caused this exception
 	 * @since 2.0

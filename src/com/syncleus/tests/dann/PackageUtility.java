@@ -1,11 +1,11 @@
 package com.syncleus.tests.dann;
 
-import com.syncleus.dann.DannError;
 import java.net.URL;
 import java.util.jar.*;
 import java.util.*;
 import java.io.*;
 import org.apache.log4j.Logger;
+import com.syncleus.dann.DannError;
 
 public abstract class PackageUtility
 {
@@ -24,32 +24,26 @@ public abstract class PackageUtility
 
 			pkgPath = pkgName.replace('.', '/');
 			URL resource = cld.getResource(pkgPath);
-			if (resource == null)
-			{
+			if(resource == null)
 				throw new ClassNotFoundException("No resource for " + pkgPath);
-			}
 			directory = new File(resource.getFile());
 		}
-		catch (NullPointerException x)
+		catch(NullPointerException x)
 		{
 			throw new ClassNotFoundException(pkgName + " (" + directory + ") does not appear to be a valid package");
 		}
-		
-		
-		if (directory.exists())
+
+
+		if(directory.exists())
 		{
 			// Get the list of the files contained in the package
 			String[] files = directory.list();
-			for (int i = 0; i < files.length; i++)
-			{
+			for(int i = 0; i < files.length; i++)
 				// we are only interested in .class files
-				if (files[i].endsWith(".class"))
-				{
+				if(files[i].endsWith(".class"))
 					// removes the .class extension
 					classes.add(Class.forName(pkgName + '.' + files[i].substring(0, files[i].length() - 6)));
-				}
-			}
-			
+
 			Class[] classesA = new Class[classes.size()];
 			classes.toArray(classesA);
 			return classesA;
@@ -76,24 +70,22 @@ public abstract class PackageUtility
 			}
 		}
 	}
-	
-	public static Class[] getClasses(String jarName, String packageName) throws FileNotFoundException, IOException
+
+	public static Class[] getClasses(final String jarName, final String packageName) throws FileNotFoundException, IOException
 	{
 		ArrayList<Class> classes = new ArrayList<Class>();
-		
-		packageName = packageName.replaceAll("\\." , "/");
-		
+
+		final String cleanedPackageName = packageName.replaceAll("\\.", "/");
+
 		JarInputStream jarFile = new JarInputStream(new FileInputStream(jarName));
 		JarEntry jarEntry;
 
 		while(true)
 		{
-			jarEntry=jarFile.getNextJarEntry();
+			jarEntry = jarFile.getNextJarEntry();
 			if(jarEntry == null)
-			{
 				break;
-			}
-			if((jarEntry.getName().startsWith(packageName)) && (jarEntry.getName().endsWith(".class")) )
+			if((jarEntry.getName().startsWith(cleanedPackageName)) && (jarEntry.getName().endsWith(".class")))
 			{
 				String classFileName = jarEntry.getName().replaceAll("/", "\\.");
 				try
@@ -106,7 +98,7 @@ public abstract class PackageUtility
 				}
 			}
 		}
-		
+
 		Class[] classesRet = new Class[classes.size()];
 		classes.toArray(classesRet);
 		return classesRet;

@@ -78,7 +78,7 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 	{
 		final double exponentOf2 = Math.log(blockSize)/Math.log(2.0);
 		if ( Math.abs(exponentOf2 - Math.floor(exponentOf2)) > .0000000001 )
-			blockSize = (int) Math.pow(2.0, Math.ceil(exponentOf2));
+			this.blockSize = (int) Math.pow(2.0, Math.ceil(exponentOf2));
 		this.blockSize = blockSize;
 	}
 

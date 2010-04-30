@@ -32,16 +32,15 @@ public class DannError extends Error
 	/**
 	 * Creates a blank default exception.
 	 *
-	 *
 	 * @since 2.0
 	 */
 	public DannError()
 	{
+		super();
 	}
 
 	/**
 	 * Creates an error with a message describing the cause.
-	 *
 	 *
 	 * @param msg A string describing the cause of the error
 	 * @since 2.0
@@ -55,7 +54,6 @@ public class DannError extends Error
 	 * Creates an error with a message describing the cause as well as the
 	 * throwable which caused this exception to be thrown.
 	 *
-	 *
 	 * @param msg A string describing the cause of the exception
 	 * @param cause The throwable which caused this exception
 	 * @since 2.0
@@ -68,7 +66,6 @@ public class DannError extends Error
 	/**
 	 * Creates an error containing the throwable which caused this exception
 	 * to be thrown.
-	 *
 	 *
 	 * @param cause The throwable which caused this exception
 	 * @since 2.0
