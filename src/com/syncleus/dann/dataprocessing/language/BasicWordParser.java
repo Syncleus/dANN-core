@@ -18,34 +18,29 @@
  ******************************************************************************/
 package com.syncleus.dann.dataprocessing.language;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.*;
+import java.util.regex.*;
 
 public class BasicWordParser implements WordParser
 {
 	public static final Pattern spacePattern = Pattern.compile("\\w++");
 
-	public List<String> getWords(String text)
+	public List<String> getWords(final String text)
 	{
-		List<String> words = new ArrayList<String>();
+		final List<String> words = new ArrayList<String>();
 
 		final String textLowerCase = text.toLowerCase();
-		Matcher matches = spacePattern.matcher(textLowerCase);
+		final Matcher matches = spacePattern.matcher(textLowerCase);
 		while(matches.find())
 		{
-			String word = matches.group();
+			final String word = matches.group();
 			words.add(word.toLowerCase());
 		}
 
 		return Collections.unmodifiableList(words);
 	}
 
-	public Set<String> getUniqueWords(String text)
+	public Set<String> getUniqueWords(final String text)
 	{
 		return Collections.unmodifiableSet(new HashSet<String>(this.getWords(text)));
 	}

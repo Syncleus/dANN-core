@@ -18,8 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.dataprocessing.language;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public interface WordParser
 {

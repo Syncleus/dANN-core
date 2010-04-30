@@ -19,10 +19,7 @@
 package com.syncleus.dann.dataprocessing.signal.transform;
 
 import com.syncleus.dann.math.*;
-import java.util.Collections;
-import java.util.NavigableMap;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.*;
 
 public class DiscreteFourierTransform
 {
@@ -36,7 +33,7 @@ public class DiscreteFourierTransform
 		final NavigableMap<Double, ComplexNumber> newFrequencies = new TreeMap<Double, ComplexNumber>();
 		for(int index = 0; index <= frequencySize; index++)
 		{
-			Double currentFrequency = ((double)index) * frequencyStep;
+			final Double currentFrequency = ((double)index) * frequencyStep;
 			newFrequencies.put(currentFrequency, frequencies[index]);
 		}
 		this.frequencies = newFrequencies;
@@ -54,65 +51,65 @@ public class DiscreteFourierTransform
 		return upperFrequency(bitrate) / (((double)blockSize)/2.0);
 	}
 
-	public double getClosestFrequency(double frequency)
+	public double getClosestFrequency(final double frequency)
 	{
 		return this.frequencies.ceilingEntry(frequency).getKey().doubleValue();
 	}
 
-	public ComplexNumber getClosestPhasor(double frequency)
+	public ComplexNumber getClosestPhasor(final double frequency)
 	{
 		return this.frequencies.ceilingEntry(frequency).getValue();
 	}
 
-	public ComplexNumber getPhasor(double frequency)
+	public ComplexNumber getPhasor(final double frequency)
 	{
 		return this.frequencies.get(Double.valueOf(frequency));
 	}
 
-	public double getClosestAmplitude(double frequency)
+	public double getClosestAmplitude(final double frequency)
 	{
 		return this.frequencies.ceilingEntry(frequency).getValue().absScalar();
 	}
 
-	public double getAmplitude(double frequency)
+	public double getAmplitude(final double frequency)
 	{
 		return this.frequencies.get(Double.valueOf(frequency)).absScalar();
 	}
 
-	public double getClosestPhase(double frequency)
+	public double getClosestPhase(final double frequency)
 	{
 		return this.frequencies.ceilingEntry(frequency).getValue().phase();
 	}
 
-	public double getPhase(double frequency)
+	public double getPhase(final double frequency)
 	{
 		return this.frequencies.get(Double.valueOf(frequency)).phase();
 	}
 
-	private ComplexNumber[] amplitudes(double startFrequency, double endFrequency)
+	private ComplexNumber[] amplitudes(final double startFrequency, final double endFrequency)
 	{
 		final NavigableMap<Double, ComplexNumber> subFrequencies = this.frequencies.subMap(startFrequency, true, endFrequency, true);
-		ComplexNumber[] amplitudes = new ComplexNumber[subFrequencies.size()];
+		final ComplexNumber[] amplitudes = new ComplexNumber[subFrequencies.size()];
 		subFrequencies.values().toArray(amplitudes);
 		return amplitudes;
 	}
 
-	public double getBandSum(double startFrequency, double endFrequency)
+	public double getBandSum(final double startFrequency, final double endFrequency)
 	{
 		return ComplexNumber.sum(amplitudes(startFrequency, endFrequency)).absScalar();
 	}
 
-	public double getBandRms(double startFrequency, double endFrequency)
+	public double getBandRms(final double startFrequency, final double endFrequency)
 	{
 		return Averages.rms(amplitudes(startFrequency, endFrequency)).absScalar();
 	}
 
-	public double getBandMean(double startFrequency, double endFrequency)
+	public double getBandMean(final double startFrequency, final double endFrequency)
 	{
 		return Averages.mean(amplitudes(startFrequency, endFrequency)).absScalar();
 	}
 
-	public double getBandGeometricMean(double startFrequency, double endFrequency)
+	public double getBandGeometricMean(final double startFrequency, final double endFrequency)
 	{
 		return Averages.geometricMean(amplitudes(startFrequency, endFrequency)).absScalar();
 	}

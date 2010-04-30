@@ -32,40 +32,40 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 	private int blockSize;
 	private int bitrate;
 
-	public CooleyTukeyFastFourierTransformer(int blockSize, int bitrate)
+	public CooleyTukeyFastFourierTransformer(final int blockSize, final int bitrate)
 	{
 		this.setBlockSize(blockSize);
 		this.setBitrate(bitrate);
 	}
 
-	public DiscreteFourierTransform transform(double[] signal)
+	public DiscreteFourierTransform transform(final double[] signal)
 	{
 		final double[] signalPadded = pad(signal);
-		ComplexNumber[] frequencyDomain = transformMatrix(doubleArrayToComplexArray(signalPadded));
+		final ComplexNumber[] frequencyDomain = transformMatrix(doubleArrayToComplexArray(signalPadded));
 		return new DiscreteFourierTransform(frequencyDomain,getBitrate());
 	}
 
-	public double[] inverseTransform(DiscreteFourierTransform transform)
+	public double[] inverseTransform(final DiscreteFourierTransform transform)
 	{
-		ComplexNumber[] complexSignal = inverseTransformMatrix(pad(transform.getTransform()));
+		final ComplexNumber[] complexSignal = inverseTransformMatrix(pad(transform.getTransform()));
 		return complexArrayToDoubleArray(complexSignal);
 	}
 
-	public double[] circularConvolve(double[] first, double[] second)
+	public double[] circularConvolve(final double[] first, final double[] second)
 	{
-		ComplexNumber[] firstComplex = pad(doubleArrayToComplexArray(first));
-		ComplexNumber[] secondComplex = pad(doubleArrayToComplexArray(second));
+		final ComplexNumber[] firstComplex = pad(doubleArrayToComplexArray(first));
+		final ComplexNumber[] secondComplex = pad(doubleArrayToComplexArray(second));
 
-		ComplexNumber[] resultComplex = circularConvolveMatrix(firstComplex, secondComplex);
+		final ComplexNumber[] resultComplex = circularConvolveMatrix(firstComplex, secondComplex);
 		return complexArrayToDoubleArray(resultComplex);
 	}
 
-	public double[] linearConvolve(double[] first, double[] second)
+	public double[] linearConvolve(final double[] first, final double[] second)
 	{
-		ComplexNumber[] firstComplex = pad(doubleArrayToComplexArray(first));
-		ComplexNumber[] secondComplex = pad(doubleArrayToComplexArray(second));
+		final ComplexNumber[] firstComplex = pad(doubleArrayToComplexArray(first));
+		final ComplexNumber[] secondComplex = pad(doubleArrayToComplexArray(second));
 
-		ComplexNumber[] resultComplex = linearConvolveMatrix(firstComplex, secondComplex);
+		final ComplexNumber[] resultComplex = linearConvolveMatrix(firstComplex, secondComplex);
 		return complexArrayToDoubleArray(resultComplex);
 	}
 
@@ -74,7 +74,7 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 		return blockSize;
 	}
 
-	public void setBlockSize(int blockSize)
+	public void setBlockSize(final int blockSize)
 	{
 		final double exponentOf2 = Math.log(blockSize)/Math.log(2.0);
 		if ( Math.abs(exponentOf2 - Math.floor(exponentOf2)) > .0000000001 )
@@ -87,7 +87,7 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 		return bitrate;
 	}
 
-	public void setBitrate(int bitrate)
+	public void setBitrate(final int bitrate)
 	{
 		this.bitrate = bitrate;
 	}
@@ -119,7 +119,7 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 	{
 		if(signal.length < this.blockSize)
 		{
-			ComplexNumber[] paddedSignal = Arrays.copyOf(signal, this.blockSize);
+			final ComplexNumber[] paddedSignal = Arrays.copyOf(signal, this.blockSize);
 			for(int index = signal.length; index < this.blockSize; index++)
 				paddedSignal[index] = ComplexNumber.ZERO;
 			return paddedSignal;
@@ -130,7 +130,7 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 		return signal;
 	}
 
-	private static boolean isPowerOf2(int value)
+	private static boolean isPowerOf2(final int value)
 	{
 		final double exponentOf2 = Math.log(value)/Math.log(2.0);
 		if ( Math.abs(exponentOf2 - Math.floor(exponentOf2)) > .0000000001 )
@@ -139,9 +139,9 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 	}
  
 
-	public static ComplexNumber[] transformMatrix(ComplexNumber[] dataPoints)
+	public static ComplexNumber[] transformMatrix(final ComplexNumber[] dataPoints)
 	{
-		int dataPointCount = dataPoints.length;
+		final int dataPointCount = dataPoints.length;
 		if(!isPowerOf2(dataPointCount))
 			throw new IllegalArgumentException("dataPoints size is not a power of 2");
 
@@ -149,22 +149,22 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 			return new ComplexNumber[]{ dataPoints[0] };
 
 		//process odd points
-		ComplexNumber[] oddDataPoints  = new ComplexNumber[dataPointCount/2];
+		final ComplexNumber[] oddDataPoints  = new ComplexNumber[dataPointCount/2];
 		for (int oddIndex = 0; oddIndex < (dataPointCount/2); oddIndex++)
 			oddDataPoints[oddIndex] = dataPoints[2*oddIndex + 1];
-		ComplexNumber[] oddTransform = transformMatrix(oddDataPoints);
+		final ComplexNumber[] oddTransform = transformMatrix(oddDataPoints);
 
 		//process even points
-		ComplexNumber[] evenDataPoints = new ComplexNumber[dataPointCount/2];
+		final ComplexNumber[] evenDataPoints = new ComplexNumber[dataPointCount/2];
 		for (int evenIndex = 0; evenIndex < (dataPointCount/2); evenIndex++)
 			evenDataPoints[evenIndex] = dataPoints[evenIndex*2];
-		ComplexNumber[] evenTransform = transformMatrix(evenDataPoints);
+		final ComplexNumber[] evenTransform = transformMatrix(evenDataPoints);
 
-		ComplexNumber[] completeTransform = new ComplexNumber[dataPointCount];
+		final ComplexNumber[] completeTransform = new ComplexNumber[dataPointCount];
 		for (int transformIndex = 0; transformIndex < (dataPointCount/2); transformIndex++)
 		{
-			double kth = -2 * Math.PI * transformIndex / dataPointCount;
-			ComplexNumber wk = new ComplexNumber(Math.cos(kth), Math.sin(kth));
+			final double kth = -2 * Math.PI * transformIndex / dataPointCount;
+			final ComplexNumber wk = new ComplexNumber(Math.cos(kth), Math.sin(kth));
 			completeTransform[transformIndex] = evenTransform[transformIndex].add(wk.multiply(oddTransform[transformIndex]));
 			completeTransform[transformIndex+(dataPointCount/2)] = evenTransform[transformIndex].subtract(wk.multiply(oddTransform[transformIndex]));
 		}
@@ -172,7 +172,7 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 	}
 
 
-	public static ComplexNumber[] inverseTransformMatrix(ComplexNumber[] transforms)
+	public static ComplexNumber[] inverseTransformMatrix(final ComplexNumber[] transforms)
 	{
 		int transformSize = transforms.length;
 
@@ -192,30 +192,30 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 		return signal;
 	}
 
-	public static ComplexNumber[] circularConvolveMatrix(ComplexNumber[] first, ComplexNumber[] second)
+	public static ComplexNumber[] circularConvolveMatrix(final ComplexNumber[] first, final ComplexNumber[] second)
 	{
 		if (first.length != second.length)
 			throw new IllegalArgumentException("first and second must have the same number of elements");
 
-		int dataPointsSize = first.length;
+		final int dataPointsSize = first.length;
 
-		ComplexNumber[] firstTransformed = transformMatrix(first);
-		ComplexNumber[] secondTransformed = transformMatrix(second);
+		final ComplexNumber[] firstTransformed = transformMatrix(first);
+		final ComplexNumber[] secondTransformed = transformMatrix(second);
 
-		ComplexNumber[] result = new ComplexNumber[dataPointsSize];
+		final ComplexNumber[] result = new ComplexNumber[dataPointsSize];
 		for (int dataPointIndex = 0; dataPointIndex < dataPointsSize; dataPointIndex++)
 			result[dataPointIndex] = firstTransformed[dataPointIndex].multiply(secondTransformed[dataPointIndex]);
 
 		return inverseTransformMatrix(result);
 	}
 
-	public static ComplexNumber[] linearConvolveMatrix(ComplexNumber[] first, ComplexNumber[] second)
+	public static ComplexNumber[] linearConvolveMatrix(final ComplexNumber[] first, final ComplexNumber[] second)
 	{
-		ComplexNumber[] firstLinear = Arrays.copyOf(first, first.length*2);
+		final ComplexNumber[] firstLinear = Arrays.copyOf(first, first.length*2);
 		for (int firstLinearIndex = first.length; firstLinearIndex < (first.length*2); firstLinearIndex++)
 			firstLinear[firstLinearIndex] = ComplexNumber.ZERO;
 
-		ComplexNumber[] secondLinear = Arrays.copyOf(second, second.length*2);
+		final ComplexNumber[] secondLinear = Arrays.copyOf(second, second.length*2);
 		for (int secondLinearIndex = second.length; secondLinearIndex < (second.length*2); secondLinearIndex++)
 			secondLinear[secondLinearIndex] = ComplexNumber.ZERO;
 

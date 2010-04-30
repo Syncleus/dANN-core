@@ -18,28 +18,26 @@
  ******************************************************************************/
 package com.syncleus.dann.classify.naive.bayes.fisher;
 
+import java.util.*;
 import com.syncleus.dann.classify.naive.FeatureExtractor;
 import com.syncleus.dann.classify.naive.bayes.SimpleNaiveBayesClassifier;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 public class SimpleFisherClassifier<I,F,C> extends SimpleNaiveBayesClassifier<I,F,C> implements FisherClassifier<I,F,C>
 {
-	private Map<C,Double> categoryMinimums = new HashMap<C,Double>();
+	final private Map<C,Double> categoryMinimums = new HashMap<C,Double>();
 
-	public SimpleFisherClassifier(FeatureExtractor<F,I> extractor)
+	public SimpleFisherClassifier(final FeatureExtractor<F,I> extractor)
 	{
 		super(extractor);
 	}
 
-	public void setMinimum(C category, double minimum)
+	public void setMinimum(final C category, final double minimum)
 	{
 		this.categoryMinimums.put(category, minimum);
 	}
 
-	public double getMinimum(C category)
+	public double getMinimum(final C category)
 	{
 		if(this.categoryMinimums.containsKey(category))
 			return this.categoryMinimums.get(category);
@@ -47,15 +45,15 @@ public class SimpleFisherClassifier<I,F,C> extends SimpleNaiveBayesClassifier<I,
 	}
 
 	@Override
-	public C classification(I item, boolean useThreshold)
+	public C classification(final I item, final boolean useThreshold)
 	{
-		Map<C,Double> categoryProbabilities = new HashMap<C,Double>();
+		final Map<C,Double> categoryProbabilities = new HashMap<C,Double>();
 
 		C topCategory = null;
 		double topProbability = 0.0;
 		for(C category : this.getCategories())
 		{
-			double currentProbability = this.classificationProbability(item, category);
+			final double currentProbability = this.classificationProbability(item, category);
 			categoryProbabilities.put(category, currentProbability);
 			if(topProbability < currentProbability)
 			{
@@ -76,9 +74,9 @@ public class SimpleFisherClassifier<I,F,C> extends SimpleNaiveBayesClassifier<I,
 	}
 
 	@Override
-	public double featureClassificationProbability(F feature, C category)
+	public double featureClassificationProbability(final F feature, final C category)
 	{
-		double probability = super.featureClassificationProbability(feature, category);
+		final double probability = super.featureClassificationProbability(feature, category);
 		if( probability == 0.0 )
 			return 0.0;
 
@@ -90,9 +88,9 @@ public class SimpleFisherClassifier<I,F,C> extends SimpleNaiveBayesClassifier<I,
 	}
 
 	@Override
-	public double classificationProbability(I item, C category)
+	public double classificationProbability(final I item, final C category)
 	{
-		Set<F> features = this.getExtractor().getFeatures(item);
+		final Set<F> features = this.getExtractor().getFeatures(item);
 		double probability = 1.0;
 		for(F feature : features)
 			probability *= this.featureClassificationWeightedProbability(feature, category);

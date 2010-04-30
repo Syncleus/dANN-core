@@ -18,45 +18,41 @@
  ******************************************************************************/
 package com.syncleus.dann.classify.naive.bayes;
 
-import com.syncleus.dann.classify.naive.SimpleNaiveClassifier;
-import com.syncleus.dann.classify.naive.FeatureExtractor;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import com.syncleus.dann.classify.naive.*;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
 public class SimpleNaiveBayesClassifier<I,F,C> extends SimpleNaiveClassifier<I,F,C> implements TrainableNaiveBayesClassifier<I,F,C>
 {
 	private final Map<C,Double> categoryThresholds = new HashMap<C,Double>();
 
-	public SimpleNaiveBayesClassifier(FeatureExtractor<F,I> extractor)
+	public SimpleNaiveBayesClassifier(final FeatureExtractor<F,I> extractor)
 	{
 		super(extractor);
 	}
 
-	public double getCategoryThreshold(C category)
+	public double getCategoryThreshold(final C category)
 	{
-		Double threshold = this.categoryThresholds.get(category);
+		final Double threshold = this.categoryThresholds.get(category);
 		if( threshold == null )
 			return 0.0;
 		return threshold;
 	}
 
-	public void setCategoryThreshold(C category, double threshold)
+	public void setCategoryThreshold(final C category, final double threshold)
 	{
 		this.categoryThresholds.put(category, threshold);
 	}
 
-	public C classification(I item, boolean useThreshold)
+	public C classification(final I item, final boolean useThreshold)
 	{
-		Map<C,Double> categoryProbabilities = new HashMap<C,Double>();
+		final Map<C,Double> categoryProbabilities = new HashMap<C,Double>();
 
 		C topCategory = null;
 		double topProbability = 0.0;
 		for(C category : this.getCategories())
 		{
-			double currentProbability = this.classificationProbability(item, category);
+			final double currentProbability = this.classificationProbability(item, category);
 			categoryProbabilities.put(category, currentProbability);
 			if(topProbability < currentProbability)
 			{
@@ -73,23 +69,26 @@ public class SimpleNaiveBayesClassifier<I,F,C> extends SimpleNaiveClassifier<I,F
 		return topCategory;
 	}
 
-	public final C classification(I item)
+	@Override
+	public final C classification(final I item)
 	{
 		return this.classification(item, false);
 	}
 
-	public Map<C,Double> getCategoryProbabilities(I item)
+	@Override
+	public Map<C,Double> getCategoryProbabilities(final I item)
 	{
-		Map<C,Double> categoryProbabilities = new HashMap<C,Double>();
+		final Map<C,Double> categoryProbabilities = new HashMap<C,Double>();
 		for(C category : this.getCategories())
 			categoryProbabilities.put(category, this.classificationProbability(item, category));
 		return Collections.unmodifiableMap(categoryProbabilities);
 	}
 
+	@Override
 	public double classificationProbability(I item, C category)
 	{
 		double probability = ((double)this.getOverallProbability(category)) / ((double)this.getOverallProbabilitySum());
-		Set<F> features = this.getExtractor().getFeatures(item);
+		final Set<F> features = this.getExtractor().getFeatures(item);
 		for(F feature : features)
 			probability *= this.featureClassificationWeightedProbability(feature, category);
 		return probability;

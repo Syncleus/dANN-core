@@ -18,19 +18,17 @@
  ******************************************************************************/
 package com.syncleus.dann.dataprocessing.signal.transform;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
+import java.io.*;
 import java.util.Arrays;
 
 public class FastFourierTransformerInputStream extends InputStream
 {
-	private ObjectInputStream srcStream;
-	private FastFourierTransformer transformer;
+	private final ObjectInputStream srcStream;
+	private final FastFourierTransformer transformer;
 	private int interval;
 	private double[] buffer;
 
-	public FastFourierTransformerInputStream(InputStream srcStream, FastFourierTransformer transformer, int interval) throws IOException
+	public FastFourierTransformerInputStream(final InputStream srcStream, final FastFourierTransformer transformer, final int interval) throws IOException
 	{
 		if(srcStream == null)
 			throw new IllegalArgumentException("srcStream can not be null");
@@ -50,11 +48,11 @@ public class FastFourierTransformerInputStream extends InputStream
 
 	public int transformsAvailable() throws IOException
 	{
-		int doublesAvailible = ( this.buffer != null ? (this.available()/8)+this.buffer.length : this.available()/8 );
+		final int doublesAvailible = ( this.buffer != null ? (this.available()/8)+this.buffer.length : this.available()/8 );
 		return doublesAvailible/this.transformer.getBlockSize();
 	}
 
-	public int readTransform(DiscreteFourierTransform[] b, int off, int len) throws IOException
+	public int readTransform(final DiscreteFourierTransform[] b, final int off, final int len) throws IOException
 	{
 		if(b == null)
 			throw new IllegalArgumentException("b must not be null");
@@ -83,14 +81,14 @@ public class FastFourierTransformerInputStream extends InputStream
 			int bufferSpace = b.length - off;
 			if(bufferSpace > len)
 				bufferSpace = len;
-			int transformCount = ( bufferSpace < this.transformsAvailable() ? bufferSpace : this.transformsAvailable());
+			final int transformCount = ( bufferSpace < this.transformsAvailable() ? bufferSpace : this.transformsAvailable());
 			for(int bIndex = off; bIndex < (transformCount + off); bIndex++)
 				b[bIndex + off] = this.readTransform();
 			return transformCount;
 		}
 	}
 
-	public int readTransform(DiscreteFourierTransform[] b) throws IOException
+	public int readTransform(final DiscreteFourierTransform[] b) throws IOException
 	{
 		if(b == null)
 			throw new IllegalArgumentException("b must not be null");
@@ -105,7 +103,7 @@ public class FastFourierTransformerInputStream extends InputStream
 		}
 		else
 		{
-			int transformCount = ( b.length < this.transformsAvailable() ? b.length : this.transformsAvailable());
+			final int transformCount = ( b.length < this.transformsAvailable() ? b.length : this.transformsAvailable());
 			for(int bIndex = 0; bIndex < transformCount; bIndex++)
 				b[bIndex] = this.readTransform();
 			return transformCount;
@@ -168,7 +166,7 @@ public class FastFourierTransformerInputStream extends InputStream
 		return interval;
 	}
 
-	public void setInterval(int interval)
+	public void setInterval(final int interval)
 	{
 		this.interval = interval;
 	}
@@ -180,7 +178,7 @@ public class FastFourierTransformerInputStream extends InputStream
 	}
 
 	@Override
-	public void mark(int readlimit)
+	public void mark(final int readlimit)
 	{
 		this.srcStream.mark(readlimit);
 	}
@@ -197,13 +195,13 @@ public class FastFourierTransformerInputStream extends InputStream
 	}
 
 	@Override
-	public int read(byte[] b) throws IOException
+	public int read(final byte[] b) throws IOException
 	{
 		return this.srcStream.read(b);
 	}
 	
 	@Override
-	public int read(byte[] b, int off, int len) throws IOException
+	public int read(final byte[] b, final int off, final int len) throws IOException
 	{
 		return this.srcStream.read(b, off, len);
 	}
@@ -221,7 +219,7 @@ public class FastFourierTransformerInputStream extends InputStream
 	}
 
 	@Override
-	public long skip(long n) throws IOException
+	public long skip(final long n) throws IOException
 	{
 		return this.srcStream.skip(n);
 	}

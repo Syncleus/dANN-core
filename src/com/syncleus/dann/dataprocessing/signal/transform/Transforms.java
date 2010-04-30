@@ -20,9 +20,7 @@ package com.syncleus.dann.dataprocessing.signal.transform;
 
 import com.syncleus.dann.dataprocessing.signal.SignalOutputStream;
 import com.syncleus.dann.UnexpectedDannError;
-import java.io.IOException;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
+import java.io.*;
 
 public final class Transforms
 {
@@ -31,7 +29,7 @@ public final class Transforms
 		private final FastFourierTransformerInputStream inStream;
 		private final SignalOutputStream outStream;
 
-		public StreamPair(FastFourierTransformerInputStream inStream, SignalOutputStream outStream)
+		public StreamPair(final FastFourierTransformerInputStream inStream, final SignalOutputStream outStream)
 		{
 			if(inStream == null)
 				throw new IllegalArgumentException("inStream can not be null");
@@ -57,16 +55,16 @@ public final class Transforms
 	{
 	}
 
-	public static StreamPair streamedTransformer(FastFourierTransformer transformer, int interval)
+	public static StreamPair streamedTransformer(final FastFourierTransformer transformer, final int interval)
 	{
 		try
 		{
-			PipedInputStream inPipe = new PipedInputStream();
-			PipedOutputStream outPipe = new PipedOutputStream(inPipe);
+			final PipedInputStream inPipe = new PipedInputStream();
+			final PipedOutputStream outPipe = new PipedOutputStream(inPipe);
 			inPipe.connect(outPipe);
 			
-			FastFourierTransformerInputStream fftInStream = new FastFourierTransformerInputStream(inPipe, transformer, interval);
-			SignalOutputStream signalOutStream = new SignalOutputStream(outPipe);
+			final FastFourierTransformerInputStream fftInStream = new FastFourierTransformerInputStream(inPipe, transformer, interval);
+			final SignalOutputStream signalOutStream = new SignalOutputStream(outPipe);
 
 			return new StreamPair(fftInStream, signalOutStream);
 		}

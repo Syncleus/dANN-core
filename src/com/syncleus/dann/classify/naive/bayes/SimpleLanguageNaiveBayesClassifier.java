@@ -18,9 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.classify.naive.bayes;
 
+import com.syncleus.dann.dataprocessing.language.*;
 import com.syncleus.dann.classify.naive.FeatureExtractor;
-import com.syncleus.dann.dataprocessing.language.BasicWordParser;
-import com.syncleus.dann.dataprocessing.language.WordParser;
 import java.util.Set;
 
 public class SimpleLanguageNaiveBayesClassifier<C> extends SimpleNaiveBayesClassifier<String, String, C> implements TrainableLanguageNaiveBayesClassifier<C>
@@ -29,7 +28,7 @@ public class SimpleLanguageNaiveBayesClassifier<C> extends SimpleNaiveBayesClass
 	{
 		private static final WordParser PARSER = new BasicWordParser();
 
-		public Set<String> getFeatures(String item)
+		public Set<String> getFeatures(final String item)
 		{
 			return PARSER.getUniqueWords(item);
 		}
@@ -41,13 +40,13 @@ public class SimpleLanguageNaiveBayesClassifier<C> extends SimpleNaiveBayesClass
 	}
 
 	@Override
-	public double featureClassificationProbability(String feature, C category)
+	public double featureClassificationProbability(final String feature, final C category)
 	{
 		return super.featureClassificationProbability(feature.toLowerCase(), category);
 	}
 
 	@Override
-	public double featureClassificationWeightedProbability(String feature, C category)
+	public double featureClassificationWeightedProbability(final String feature, final C category)
 	{
 		return super.featureClassificationWeightedProbability(feature.toLowerCase(), category);
 	}

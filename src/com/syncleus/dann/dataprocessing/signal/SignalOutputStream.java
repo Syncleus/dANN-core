@@ -18,15 +18,13 @@
  ******************************************************************************/
 package com.syncleus.dann.dataprocessing.signal;
 
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
+import java.io.*;
 
 public class SignalOutputStream extends OutputStream
 {
-	private ObjectOutputStream destStream;
+	private final ObjectOutputStream destStream;
 
-	public SignalOutputStream(OutputStream destStream) throws IOException
+	public SignalOutputStream(final OutputStream destStream) throws IOException
 	{
 		if(destStream instanceof ObjectOutputStream)
 			this.destStream = (ObjectOutputStream) destStream;
@@ -34,36 +32,36 @@ public class SignalOutputStream extends OutputStream
 			this.destStream = new ObjectOutputStream(destStream);
 	}
 
-	public void writeSignal(double[] signals, int off, int len) throws IOException
+	public void writeSignal(final double[] signals, final int off, final int len) throws IOException
 	{
 		for(int signalsIndex = off; signalsIndex < (off+len); signalsIndex++)
 			this.destStream.writeDouble(signals[signalsIndex]);
 	}
 
-	public void writeSignal(double[] signals) throws IOException
+	public void writeSignal(final double[] signals) throws IOException
 	{
 		for(double signal : signals)
 			this.destStream.writeDouble(signal);
 	}
 
-	public void writeSignal(double signal) throws IOException
+	public void writeSignal(final double signal) throws IOException
 	{
 		this.destStream.writeDouble(signal);
 	}
 
-	public void write(int inData) throws IOException
+	public void write(final int inData) throws IOException
 	{
 		this.destStream.write(inData);
 	}
 
 	@Override
-	public void write(byte[] b) throws IOException
+	public void write(final byte[] b) throws IOException
 	{
 		this.destStream.write(b);
 	}
 
 	@Override
-	public void write(byte[] b, int off, int len) throws IOException
+	public void write(final byte[] b, final int off, final int len) throws IOException
 	{
 		this.destStream.write(b, off, len);
 	}

@@ -23,48 +23,48 @@ import java.util.*;
 
 public class StemmingWordParser extends BasicWordParser implements Stemmer
 {
-	private Stemmer stemmer;
+	private final Stemmer stemmer;
 
 	public StemmingWordParser()
 	{
 		this.stemmer = new PorterStemmer();
 	}
 
-	public StemmingWordParser(Stemmer stemmer)
+	public StemmingWordParser(final Stemmer stemmer)
 	{
 		this.stemmer = stemmer;
 	}
 
-	public String stemWord(String word)
+	public String stemWord(final String word)
 	{
 		return this.stemmer.stemWord(word.toLowerCase());
 	}
 
-	private List<String> stemList(Collection<String> unstemmed)
+	private List<String> stemList(final Collection<String> unstemmed)
 	{
-		List<String> stemmedWords = new ArrayList<String>(unstemmed.size());
+		final List<String> stemmedWords = new ArrayList<String>(unstemmed.size());
 		for(String word:unstemmed)
 			stemmedWords.add(stemmer.stemWord(word.toLowerCase()));
 		return Collections.unmodifiableList(stemmedWords);
 	}
 
-	private Set<String> stemSet(Collection<String> unstemmed)
+	private Set<String> stemSet(final Collection<String> unstemmed)
 	{
-		Set<String> stemmedWords = new HashSet<String>(unstemmed.size());
+		final Set<String> stemmedWords = new HashSet<String>(unstemmed.size());
 		for(String word : unstemmed)
 			stemmedWords.add(stemmer.stemWord(word.toLowerCase()));
 		return Collections.unmodifiableSet(stemmedWords);
 	}
 
 	@Override
-	public List<String> getWords(String text)
+	public List<String> getWords(final String text)
 	{
 		return stemList(super.getWords(text));
 
 	}
 
 	@Override
-	public Set<String> getUniqueWords(String text)
+	public Set<String> getUniqueWords(final String text)
 	{
 		return stemSet(super.getUniqueWords(text));
 	}

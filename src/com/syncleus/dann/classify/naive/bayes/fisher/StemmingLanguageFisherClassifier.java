@@ -29,7 +29,7 @@ public class StemmingLanguageFisherClassifier<C> extends SimpleFisherClassifier<
 	{
 		public static final WordParser PARSER = new StemmingWordParser();
 
-		public Set<String> getFeatures(String item)
+		public Set<String> getFeatures(final String item)
 		{
 			return PARSER.getUniqueWords(item);
 		}
@@ -41,13 +41,13 @@ public class StemmingLanguageFisherClassifier<C> extends SimpleFisherClassifier<
 	}
 
 	@Override
-	public double featureClassificationProbability(String feature, C category)
+	public double featureClassificationProbability(final String feature, final C category)
 	{
 		return super.featureClassificationProbability(StemmingWordExtractor.PARSER.getUniqueWords(feature).iterator().next(), category);
 	}
 
 	@Override
-	public double featureClassificationWeightedProbability(String feature, C category)
+	public double featureClassificationWeightedProbability(final String feature, final C category)
 	{
 		return super.featureClassificationWeightedProbability(StemmingWordExtractor.PARSER.getUniqueWords(feature).iterator().next(), category);
 	}
