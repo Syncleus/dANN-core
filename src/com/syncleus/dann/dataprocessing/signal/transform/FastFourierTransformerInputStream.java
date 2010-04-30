@@ -148,7 +148,7 @@ public class FastFourierTransformerInputStream extends InputStream
 		}
 
 		if(signalsToRemove > 0)
-			this.srcStream.skip(signalsToRemove);
+			assert this.srcStream.skip(signalsToRemove) == signalsToRemove;
 
 		return this.transformer.transform(signal);
 	}
