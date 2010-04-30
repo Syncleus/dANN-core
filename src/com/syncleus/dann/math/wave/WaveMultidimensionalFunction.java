@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.math.wave;
 
-import com.syncleus.dann.math.wave.wavelet.ShapenedWaveletFunction;
+import com.syncleus.dann.math.wave.wavelet.SharpenedWaveletFunction;
 import com.syncleus.dann.math.*;
 
 public class WaveMultidimensionalFunction extends AbstractFunction implements Cloneable
@@ -26,31 +26,15 @@ public class WaveMultidimensionalFunction extends AbstractFunction implements Cl
     private boolean constantMode = false;
     private double constantValue;
     private String[] dimensionNames = null;
-    private ShapenedWaveletFunction wave = new ShapenedWaveletFunction();
+    private SharpenedWaveletFunction wave;
 
 	public WaveMultidimensionalFunction(WaveMultidimensionalFunction copy)
 	{
 		super(copy);
-
-		copy.dimensionNames = this.dimensionNames.clone();
-        copy.constantMode = this.constantMode;
-        copy.constantValue = this.constantValue;
-
-		
-        this.setFrequency(copy.getFrequency());
-        this.setPhase(copy.getPhase());
-        this.setAmplitude(copy.getAmplitude());
-        this.setForm(copy.getForm());
-        this.setDistribution(copy.getDistribution());
-        for(String dimensionName : copy.dimensionNames )
-        {
-            final double dimensionValue = copy.getDimension(dimensionName);
-            final double centerValue = copy.getCenter(dimensionName);
-            this.setDimension(dimensionName, dimensionValue);
-            this.setCenter(dimensionName, centerValue);
-        }
-        this.constantMode = copy.constantMode;
-        this.constantValue = copy.constantValue;
+		this.dimensionNames = (copy.dimensionNames == null ? null : copy.dimensionNames.clone());
+		this.constantMode = copy.constantMode;
+		this.constantValue = copy.constantValue;
+		this.wave = new SharpenedWaveletFunction(copy.wave);
 	}
     
     public WaveMultidimensionalFunction(double constantValue)
@@ -59,13 +43,15 @@ public class WaveMultidimensionalFunction extends AbstractFunction implements Cl
         
         this.constantMode = true;
         this.constantValue = constantValue;
+		this.wave = new SharpenedWaveletFunction();
     }
     
     public WaveMultidimensionalFunction(String[] dimensions)
     {
         super(combineLabels(appendStrings(dimensions, "center-"), combineLabels(dimensions, new String[]{"distribution", "form", "frequency", "amplitude", "phase"})));
-        this.setDistribution(1.0);
         this.dimensionNames = dimensions.clone();
+		this.wave = new SharpenedWaveletFunction();
+		this.setDistribution(1.0);
     }
     
     public String[] getDimensions()

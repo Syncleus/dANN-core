@@ -24,7 +24,8 @@ public class TestLayeredLoopMap
 {
 	private static LayeredHyperassociativeMap testMap;
 
-	@BeforeClass public static void alignMap()
+	@BeforeClass
+	public static void alignMap()
 	{
 		testMap = new LayeredHyperassociativeMap(10);
 
@@ -33,7 +34,8 @@ public class TestLayeredLoopMap
 			testMap.align();
 	}
 
-	@AfterClass public static void cleanMap()
+	@AfterClass
+	public static void cleanMap()
 	{
 		testMap = null;
 	}
