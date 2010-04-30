@@ -36,7 +36,7 @@ public class MutableDouble extends MutableNumber<Double> implements Comparable<M
 	 * @param value The value of this number.
 	 * @since 2.0
 	 */
-	public MutableDouble(double value)
+	public MutableDouble(final double value)
 	{
 		super(Double.valueOf(value));
 	}
@@ -48,7 +48,7 @@ public class MutableDouble extends MutableNumber<Double> implements Comparable<M
 	 * @param s A string representing the value of this number.
 	 * @since 2.0
 	 */
-	public MutableDouble(String s)
+	public MutableDouble(final String s)
 	{
 		super(Double.valueOf(s));
 	}
@@ -60,7 +60,7 @@ public class MutableDouble extends MutableNumber<Double> implements Comparable<M
 	 * @param value The value to copy
 	 * @since 2.0
 	 */
-	public MutableDouble(Double value)
+	public MutableDouble(final Double value)
 	{
 		super(value);
 	}
@@ -89,9 +89,9 @@ public class MutableDouble extends MutableNumber<Double> implements Comparable<M
 	 * @return A copy of the current object with potential mutations.
 	 * @since 2.0
 	 */
-	public MutableDouble mutate(double deviation)
+	public MutableDouble mutate(final double deviation)
 	{
-		double distributedRand = MutableNumber.getDistributedRandom(deviation);
+		final double distributedRand = MutableNumber.getDistributedRandom(deviation);
 
 		double result = this.getNumber().doubleValue() + distributedRand;
 
@@ -114,7 +114,7 @@ public class MutableDouble extends MutableNumber<Double> implements Comparable<M
 	 * @return the natural ordering of the backed number.
 	 * @since 2.0
 	 */
-	public int compareTo(MutableDouble compareWith)
+	public int compareTo(final MutableDouble compareWith)
 	{
 		return this.getNumber().compareTo(compareWith.getNumber());
 	}

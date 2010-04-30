@@ -45,7 +45,7 @@ public class ByteValueGene extends AbstractValueGene<MutableByte> implements Clo
 	 * @param value The value for this gene.
 	 * @since 2.0
 	 */
-	public ByteValueGene(byte value)
+	public ByteValueGene(final byte value)
 	{
 		super(new MutableByte(value));
 	}
@@ -56,7 +56,7 @@ public class ByteValueGene extends AbstractValueGene<MutableByte> implements Clo
 	 * @param value The value for this gene.
 	 * @since 2.0
 	 */
-	public ByteValueGene(Byte value)
+	public ByteValueGene(final Byte value)
 	{
 		super(new MutableByte(value));
 	}
@@ -67,7 +67,7 @@ public class ByteValueGene extends AbstractValueGene<MutableByte> implements Clo
 	 * @param value The value for this gene.
 	 * @since 2.0
 	 */
-	public ByteValueGene(MutableByte value)
+	public ByteValueGene(final MutableByte value)
 	{
 		super(value);
 	}
@@ -79,7 +79,7 @@ public class ByteValueGene extends AbstractValueGene<MutableByte> implements Clo
 	 * @param copyGene The value to copy.
 	 * @since 2.0
 	 */
-	public ByteValueGene(ByteValueGene copyGene)
+	public ByteValueGene(final ByteValueGene copyGene)
 	{
 		super(copyGene);
 	}
@@ -106,9 +106,9 @@ public class ByteValueGene extends AbstractValueGene<MutableByte> implements Clo
 	 * @return A copy of the current object with potential mutations.
 	 * @since 2.0
 	 */
-	public ByteValueGene mutate(double deviation)
+	public ByteValueGene mutate(final double deviation)
 	{
-		ByteValueGene copy = this.clone();
+		final ByteValueGene copy = this.clone();
 		copy.internalMutate(deviation);
 
 		return copy;

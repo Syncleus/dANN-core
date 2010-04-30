@@ -45,7 +45,7 @@ public class LongValueGene extends AbstractValueGene<MutableLong> implements Clo
 	 * @param value The value for this gene.
 	 * @since 2.0
 	 */
-	public LongValueGene(long value)
+	public LongValueGene(final long value)
 	{
 		super(new MutableLong(value));
 	}
@@ -56,7 +56,7 @@ public class LongValueGene extends AbstractValueGene<MutableLong> implements Clo
 	 * @param value The value for this gene.
 	 * @since 2.0
 	 */
-	public LongValueGene(Long value)
+	public LongValueGene(final Long value)
 	{
 		super(new MutableLong(value));
 	}
@@ -67,7 +67,7 @@ public class LongValueGene extends AbstractValueGene<MutableLong> implements Clo
 	 * @param value The value for this gene.
 	 * @since 2.0
 	 */
-	public LongValueGene(MutableLong value)
+	public LongValueGene(final MutableLong value)
 	{
 		super(value);
 	}
@@ -79,7 +79,7 @@ public class LongValueGene extends AbstractValueGene<MutableLong> implements Clo
 	 * @param copyGene The value to copy.
 	 * @since 2.0
 	 */
-	public LongValueGene(LongValueGene copyGene)
+	public LongValueGene(final LongValueGene copyGene)
 	{
 		super(copyGene);
 	}
@@ -106,9 +106,9 @@ public class LongValueGene extends AbstractValueGene<MutableLong> implements Clo
 	 * @return A copy of the current object with potential mutations.
 	 * @since 2.0
 	 */
-	public LongValueGene mutate(double deviation)
+	public LongValueGene mutate(final double deviation)
 	{
-		LongValueGene copy = this.clone();
+		final LongValueGene copy = this.clone();
 		copy.internalMutate(deviation);
 
 		return copy;

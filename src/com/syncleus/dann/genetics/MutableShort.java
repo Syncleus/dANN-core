@@ -36,7 +36,7 @@ public class MutableShort extends MutableNumber< Short> implements Comparable<Mu
 	 * @param value The value of this number.
 	 * @since 2.0
 	 */
-	public MutableShort(short value)
+	public MutableShort(final short value)
 	{
 		super(Short.valueOf(value));
 	}
@@ -48,7 +48,7 @@ public class MutableShort extends MutableNumber< Short> implements Comparable<Mu
 	 * @param s A string representing the value of this number.
 	 * @since 2.0
 	 */
-	public MutableShort(String s)
+	public MutableShort(final String s)
 	{
 		super(Short.valueOf(s));
 	}
@@ -60,7 +60,7 @@ public class MutableShort extends MutableNumber< Short> implements Comparable<Mu
 	 * @param value The value to copy
 	 * @since 2.0
 	 */
-	public MutableShort(Short value)
+	public MutableShort(final Short value)
 	{
 		super(value);
 	}
@@ -89,16 +89,16 @@ public class MutableShort extends MutableNumber< Short> implements Comparable<Mu
 	 * @return A copy of the current object with potential mutations.
 	 * @since 2.0
 	 */
-	public MutableShort mutate(double deviation)
+	public MutableShort mutate(final double deviation)
 	{
-		double doubleDistributed = MutableNumber.getDistributedRandom(deviation);
+		final double doubleDistributed = MutableNumber.getDistributedRandom(deviation);
 		short distributedRand = (short) doubleDistributed;
 		if(doubleDistributed > Short.MAX_VALUE)
 			distributedRand = Short.MAX_VALUE;
 		else if(doubleDistributed < Short.MIN_VALUE)
 			distributedRand = Short.MIN_VALUE;
 
-		short result = (short)(this.getNumber().shortValue() + distributedRand);
+		final short result = (short)(this.getNumber().shortValue() + distributedRand);
 
 		if(( distributedRand > 0)&&( result < this.getNumber().shortValue()))
 			return new MutableShort(Short.MAX_VALUE);
@@ -116,7 +116,7 @@ public class MutableShort extends MutableNumber< Short> implements Comparable<Mu
 	 * @return the natural ordering of the backed number.
 	 * @since 2.0
 	 */
-	public int compareTo(MutableShort compareWith)
+	public int compareTo(final MutableShort compareWith)
 	{
 		return this.getNumber().compareTo(compareWith.getNumber());
 	}

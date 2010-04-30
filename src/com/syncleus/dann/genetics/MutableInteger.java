@@ -36,7 +36,7 @@ public class MutableInteger extends MutableNumber<Integer> implements Comparable
 	 * @param value The value of this number.
 	 * @since 2.0
 	 */
-	public MutableInteger(int value)
+	public MutableInteger(final int value)
 	{
 		super(Integer.valueOf(value));
 	}
@@ -48,7 +48,7 @@ public class MutableInteger extends MutableNumber<Integer> implements Comparable
 	 * @param s A string representing the value of this number.
 	 * @since 2.0
 	 */
-	public MutableInteger(String s)
+	public MutableInteger(final String s)
 	{
 		super(Integer.valueOf(s));
 	}
@@ -60,7 +60,7 @@ public class MutableInteger extends MutableNumber<Integer> implements Comparable
 	 * @param value The value to copy
 	 * @since 2.0
 	 */
-	public MutableInteger(Integer value)
+	public MutableInteger(final Integer value)
 	{
 		super(value);
 	}
@@ -89,16 +89,16 @@ public class MutableInteger extends MutableNumber<Integer> implements Comparable
 	 * @return A copy of the current object with potential mutations.
 	 * @since 2.0
 	 */
-	public MutableInteger mutate(double deviation)
+	public MutableInteger mutate(final double deviation)
 	{
-		double doubleDistributed = MutableNumber.getDistributedRandom(deviation);
+		final double doubleDistributed = MutableNumber.getDistributedRandom(deviation);
 		int distributedRand = (int) doubleDistributed;
 		if(doubleDistributed > Integer.MAX_VALUE)
 			distributedRand = Integer.MAX_VALUE;
 		else if(doubleDistributed < Integer.MIN_VALUE)
 			distributedRand = Integer.MIN_VALUE;
 
-		int result = this.getNumber().intValue() + distributedRand;
+		final int result = this.getNumber().intValue() + distributedRand;
 
 		if(( distributedRand > 0)&&( result < this.getNumber().intValue()))
 			return new MutableInteger(Integer.MAX_VALUE);
@@ -116,7 +116,7 @@ public class MutableInteger extends MutableNumber<Integer> implements Comparable
 	 * @return the natural ordering of the backed number.
 	 * @since 2.0
 	 */
-	public int compareTo(MutableInteger compareWith)
+	public int compareTo(final MutableInteger compareWith)
 	{
 		return this.getNumber().compareTo(compareWith.getNumber());
 	}

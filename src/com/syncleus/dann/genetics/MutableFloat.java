@@ -36,7 +36,7 @@ public class MutableFloat extends MutableNumber<Float> implements Comparable<Mut
 	 * @param value The value of this number.
 	 * @since 2.0
 	 */
-	public MutableFloat(float value)
+	public MutableFloat(final float value)
 	{
 		super(Float.valueOf(value));
 	}
@@ -48,7 +48,7 @@ public class MutableFloat extends MutableNumber<Float> implements Comparable<Mut
 	 * @param s A string representing the value of this number.
 	 * @since 2.0
 	 */
-	public MutableFloat(String s)
+	public MutableFloat(final String s)
 	{
 		super(Float.valueOf(s));
 	}
@@ -60,7 +60,7 @@ public class MutableFloat extends MutableNumber<Float> implements Comparable<Mut
 	 * @param value The value to copy
 	 * @since 2.0
 	 */
-	public MutableFloat(Float value)
+	public MutableFloat(final Float value)
 	{
 		super(value);
 	}
@@ -89,16 +89,16 @@ public class MutableFloat extends MutableNumber<Float> implements Comparable<Mut
 	 * @return A copy of the current object with potential mutations.
 	 * @since 2.0
 	 */
-	public MutableFloat mutate(double deviation)
+	public MutableFloat mutate(final double deviation)
 	{
-		double doubleDistributed = MutableNumber.getDistributedRandom(deviation);
+		final double doubleDistributed = MutableNumber.getDistributedRandom(deviation);
 		float distributedRand = (float) doubleDistributed;
 		if(doubleDistributed > Float.MAX_VALUE)
 			distributedRand = Float.MAX_VALUE;
 		else if(doubleDistributed < (Float.MAX_VALUE * -1f))
 			distributedRand = Float.MAX_VALUE * -1f;
 
-		float result = this.getNumber().floatValue() + distributedRand;
+		final float result = this.getNumber().floatValue() + distributedRand;
 
 		if(( distributedRand > 0f)&&( result < this.getNumber().floatValue()))
 			return new MutableFloat(Float.MAX_VALUE);
@@ -116,7 +116,7 @@ public class MutableFloat extends MutableNumber<Float> implements Comparable<Mut
 	 * @return the natural ordering of the backed number.
 	 * @since 2.0
 	 */
-	public int compareTo(MutableFloat compareWith)
+	public int compareTo(final MutableFloat compareWith)
 	{
 		return this.getNumber().compareTo(compareWith.getNumber());
 	}

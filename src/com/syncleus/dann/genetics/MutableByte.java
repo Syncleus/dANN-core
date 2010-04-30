@@ -36,7 +36,7 @@ public class MutableByte extends MutableNumber<Byte> implements Comparable<Mutab
 	 * @param value The value of this number.
 	 * @since 2.0
 	 */
-	public MutableByte(byte value)
+	public MutableByte(final byte value)
 	{
 		super(Byte.valueOf(value));
 	}
@@ -48,7 +48,7 @@ public class MutableByte extends MutableNumber<Byte> implements Comparable<Mutab
 	 * @param s A string representing the value of this number.
 	 * @since 2.0
 	 */
-	public MutableByte(String s)
+	public MutableByte(final String s)
 	{
 		super(Byte.valueOf(s));
 	}
@@ -60,7 +60,7 @@ public class MutableByte extends MutableNumber<Byte> implements Comparable<Mutab
 	 * @param value The value to copy
 	 * @since 2.0
 	 */
-	public MutableByte(Byte value)
+	public MutableByte(final Byte value)
 	{
 		super(value);
 	}
@@ -89,16 +89,16 @@ public class MutableByte extends MutableNumber<Byte> implements Comparable<Mutab
 	 * @return A copy of the current object with potential mutations.
 	 * @since 2.0
 	 */
-	public MutableByte mutate(double deviation)
+	public MutableByte mutate(final double deviation)
 	{
-		double doubleDistributed = MutableNumber.getDistributedRandom(deviation);
+		final double doubleDistributed = MutableNumber.getDistributedRandom(deviation);
 		byte distributedRand = (byte) doubleDistributed;
 		if(doubleDistributed > Byte.MAX_VALUE)
 			distributedRand = Byte.MAX_VALUE;
 		else if(doubleDistributed < Byte.MIN_VALUE)
 			distributedRand = Byte.MIN_VALUE;
 
-		byte result = (byte) (this.getNumber().byteValue() + distributedRand);
+		final byte result = (byte) (this.getNumber().byteValue() + distributedRand);
 
 		if(( distributedRand > 0)&&( result < this.getNumber().byteValue()))
 			return new MutableByte(Byte.MAX_VALUE);
@@ -116,7 +116,7 @@ public class MutableByte extends MutableNumber<Byte> implements Comparable<Mutab
 	 * @return the natural ordering of the backed number.
 	 * @since 2.0
 	 */
-	public int compareTo(MutableByte compareWith)
+	public int compareTo(final MutableByte compareWith)
 	{
 		return this.getNumber().compareTo(compareWith.getNumber());
 	}

@@ -45,7 +45,7 @@ public class IntegerValueGene extends AbstractValueGene<MutableInteger> implemen
 	 * @param value The value for this gene.
 	 * @since 2.0
 	 */
-	public IntegerValueGene(int value)
+	public IntegerValueGene(final int value)
 	{
 		super(new MutableInteger(value));
 	}
@@ -56,7 +56,7 @@ public class IntegerValueGene extends AbstractValueGene<MutableInteger> implemen
 	 * @param value The value for this gene.
 	 * @since 2.0
 	 */
-	public IntegerValueGene(Integer value)
+	public IntegerValueGene(final Integer value)
 	{
 		super(new MutableInteger(value));
 	}
@@ -67,7 +67,7 @@ public class IntegerValueGene extends AbstractValueGene<MutableInteger> implemen
 	 * @param value The value for this gene.
 	 * @since 2.0
 	 */
-	public IntegerValueGene(MutableInteger value)
+	public IntegerValueGene(final MutableInteger value)
 	{
 		super(value);
 	}
@@ -79,7 +79,7 @@ public class IntegerValueGene extends AbstractValueGene<MutableInteger> implemen
 	 * @param copyGene The value to copy.
 	 * @since 2.0
 	 */
-	public IntegerValueGene(IntegerValueGene copyGene)
+	public IntegerValueGene(final IntegerValueGene copyGene)
 	{
 		super(copyGene);
 	}
@@ -106,9 +106,9 @@ public class IntegerValueGene extends AbstractValueGene<MutableInteger> implemen
 	 * @return A copy of the current object with potential mutations.
 	 * @since 2.0
 	 */
-	public IntegerValueGene mutate(double deviation)
+	public IntegerValueGene mutate(final double deviation)
 	{
-		IntegerValueGene copy = this.clone();
+		final IntegerValueGene copy = this.clone();
 		copy.internalMutate(deviation);
 
 		return copy;

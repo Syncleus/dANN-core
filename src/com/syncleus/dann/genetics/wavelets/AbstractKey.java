@@ -18,11 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
-
-import com.syncleus.dann.UnexpectedDannError;
 import java.util.*;
 import org.apache.log4j.Logger;
 import com.syncleus.dann.genetics.MutableInteger;
+import com.syncleus.dann.UnexpectedDannError;
 
 public abstract class AbstractKey implements Cloneable
 {
@@ -32,12 +31,12 @@ public abstract class AbstractKey implements Cloneable
 
 	protected AbstractKey()
 	{
-		HashMap<Integer, Boolean> newPoints = new HashMap<Integer, Boolean>();
+		final HashMap<Integer, Boolean> newPoints = new HashMap<Integer, Boolean>();
 		newPoints.put(Integer.valueOf(RANDOM.nextInt()), RANDOM.nextBoolean());
 		this.points = Collections.unmodifiableMap(newPoints);
 	}
 
-	protected AbstractKey(Map<Integer, Boolean> points)
+	protected AbstractKey(final Map<Integer, Boolean> points)
 	{
 		if(points.isEmpty())
 			throw new IllegalArgumentException("points must have atleast one entry");
@@ -45,9 +44,9 @@ public abstract class AbstractKey implements Cloneable
 		this.points = Collections.unmodifiableMap(new HashMap<Integer, Boolean>(points));
 	}
 
-	protected AbstractKey(String keyString)
+	protected AbstractKey(final String keyString)
 	{
-		HashMap<Integer, Boolean> newPoints = new HashMap<Integer, Boolean>();
+		final HashMap<Integer, Boolean> newPoints = new HashMap<Integer, Boolean>();
 
 		final char[] keyChars = keyString.toCharArray();
 		int index = 0;
@@ -70,7 +69,7 @@ public abstract class AbstractKey implements Cloneable
 		this.points = Collections.unmodifiableMap(newPoints);
 	}
 
-	protected AbstractKey(AbstractKey copy)
+	protected AbstractKey(final AbstractKey copy)
 	{
 		this.points = copy.points;
 	}
@@ -128,7 +127,7 @@ public abstract class AbstractKey implements Cloneable
 	{
 		try
 		{
-			AbstractKey copy = (AbstractKey) super.clone();
+			final AbstractKey copy = (AbstractKey) super.clone();
 			copy.points = this.points;
 			return copy;
 		}
@@ -139,19 +138,19 @@ public abstract class AbstractKey implements Cloneable
 		}
 	}
 
-	public AbstractKey mutate(double deviation)
+	public AbstractKey mutate(final double deviation)
 	{
-		Integer[] pointsArray = new Integer[this.points.size()];
+		final Integer[] pointsArray = new Integer[this.points.size()];
 		this.points.keySet().toArray(pointsArray);
 
-		MutableInteger point = new MutableInteger(pointsArray[RANDOM.nextInt(pointsArray.length)]);
+		final MutableInteger point = new MutableInteger(pointsArray[RANDOM.nextInt(pointsArray.length)]);
 		final Map<Integer, Boolean> newPoints = new HashMap<Integer, Boolean>(this.points);
 		if(RANDOM.nextBoolean())
 			newPoints.put(point.mutate(deviation).getNumber(), RANDOM.nextBoolean());
 		else
 			newPoints.remove(point.getNumber());
 
-		AbstractKey copy = this.clone();
+		final AbstractKey copy = this.clone();
 		copy.points = Collections.unmodifiableMap(newPoints);
 		return copy;
 	}

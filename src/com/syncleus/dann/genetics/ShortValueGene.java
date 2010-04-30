@@ -45,7 +45,7 @@ public class ShortValueGene extends AbstractValueGene<MutableShort> implements C
 	 * @param value The value for this gene.
 	 * @since 2.0
 	 */
-	public ShortValueGene(short value)
+	public ShortValueGene(final short value)
 	{
 		super(new MutableShort(value));
 	}
@@ -56,7 +56,7 @@ public class ShortValueGene extends AbstractValueGene<MutableShort> implements C
 	 * @param value The value for this gene.
 	 * @since 2.0
 	 */
-	public ShortValueGene(Short value)
+	public ShortValueGene(final Short value)
 	{
 		super(new MutableShort(value));
 	}
@@ -67,7 +67,7 @@ public class ShortValueGene extends AbstractValueGene<MutableShort> implements C
 	 * @param value The value for this gene.
 	 * @since 2.0
 	 */
-	public ShortValueGene(MutableShort value)
+	public ShortValueGene(final MutableShort value)
 	{
 		super(value);
 	}
@@ -79,7 +79,7 @@ public class ShortValueGene extends AbstractValueGene<MutableShort> implements C
 	 * @param copyGene The value to copy.
 	 * @since 2.0
 	 */
-	public ShortValueGene(ShortValueGene copyGene)
+	public ShortValueGene(final ShortValueGene copyGene)
 	{
 		super(copyGene);
 	}
@@ -106,9 +106,9 @@ public class ShortValueGene extends AbstractValueGene<MutableShort> implements C
 	 * @return A copy of the current object with potential mutations.
 	 * @since 2.0
 	 */
-	public ShortValueGene mutate(double deviation)
+	public ShortValueGene mutate(final double deviation)
 	{
-		ShortValueGene copy = this.clone();
+		final ShortValueGene copy = this.clone();
 		copy.internalMutate(deviation);
 
 		return copy;

@@ -36,7 +36,7 @@ public class MutableLong extends MutableNumber<Long> implements Comparable<Mutab
 	 * @param value The value of this number.
 	 * @since 2.0
 	 */
-	public MutableLong(long value)
+	public MutableLong(final long value)
 	{
 		super(Long.valueOf(value));
 	}
@@ -48,7 +48,7 @@ public class MutableLong extends MutableNumber<Long> implements Comparable<Mutab
 	 * @param s A string representing the value of this number.
 	 * @since 2.0
 	 */
-	public MutableLong(String s)
+	public MutableLong(final String s)
 	{
 		super(Long.valueOf(s));
 	}
@@ -60,7 +60,7 @@ public class MutableLong extends MutableNumber<Long> implements Comparable<Mutab
 	 * @param value The value to copy
 	 * @since 2.0
 	 */
-	public MutableLong(Long value)
+	public MutableLong(final Long value)
 	{
 		super(value);
 	}
@@ -89,16 +89,16 @@ public class MutableLong extends MutableNumber<Long> implements Comparable<Mutab
 	 * @return A copy of the current object with potential mutations.
 	 * @since 2.0
 	 */
-	public MutableLong mutate(double deviation)
+	public MutableLong mutate(final double deviation)
 	{
-		double doubleDistributed = MutableNumber.getDistributedRandom(deviation);
+		final double doubleDistributed = MutableNumber.getDistributedRandom(deviation);
 		long distributedRand = (long) doubleDistributed;
 		if(doubleDistributed > Long.MAX_VALUE)
 			distributedRand = Long.MAX_VALUE;
 		else if(doubleDistributed < Long.MIN_VALUE)
 			distributedRand = Long.MIN_VALUE;
 
-		long result = this.getNumber().longValue() + distributedRand;
+		final long result = this.getNumber().longValue() + distributedRand;
 
 		if(( distributedRand > 0)&&( result < this.getNumber().longValue()))
 			return new MutableLong(Long.MAX_VALUE);
@@ -116,7 +116,7 @@ public class MutableLong extends MutableNumber<Long> implements Comparable<Mutab
 	 * @return the natural ordering of the backed number.
 	 * @since 2.0
 	 */
-	public int compareTo(MutableLong compareWith)
+	public int compareTo(final MutableLong compareWith)
 	{
 		return this.getNumber().compareTo(compareWith.getNumber());
 	}

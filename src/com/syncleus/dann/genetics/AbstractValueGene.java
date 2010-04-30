@@ -43,7 +43,7 @@ public abstract class AbstractValueGene<N extends MutableNumber> implements Gene
 	 * @param value MutableNumber to back the ValueGene with.
 	 * @since 2.0
 	 */
-	protected AbstractValueGene(N value)
+	protected AbstractValueGene(final N value)
 	{
 		this.value = value;
 	}
@@ -55,7 +55,7 @@ public abstract class AbstractValueGene<N extends MutableNumber> implements Gene
 	 * @param copyValueGene ValueGene to copy.
 	 * @since 2.0
 	 */
-	protected AbstractValueGene(AbstractValueGene<N> copyValueGene)
+	protected AbstractValueGene(final AbstractValueGene<N> copyValueGene)
 	{
 		this.value = copyValueGene.value;
 	}
@@ -93,7 +93,7 @@ public abstract class AbstractValueGene<N extends MutableNumber> implements Gene
 	 * @since 2.0
 	 */
 	@SuppressWarnings("unchecked")
-	protected void internalMutate(double deviation)
+	protected void internalMutate(final double deviation)
 	{
 		this.value = (N) this.value.mutate(deviation);
 	}

@@ -21,7 +21,6 @@ package com.syncleus.dann.genetics;
 import java.util.*;
 import java.util.concurrent.*;
 import org.apache.log4j.Logger;
-import com.syncleus.dann.DannRuntimeException;
 import com.syncleus.dann.UnexpectedInterruptedException;
 import com.syncleus.dann.UnexpectedDannError;
 
@@ -50,7 +49,7 @@ public abstract class AbstractGeneticAlgorithmPopulation
 		private final AbstractGeneticAlgorithmFitnessFunction fitnessFunction;
 		private final static Logger LOGGER = Logger.getLogger(Process.class);
 
-		public Process(AbstractGeneticAlgorithmFitnessFunction fitnessFunction)
+		public Process(final AbstractGeneticAlgorithmFitnessFunction fitnessFunction)
 		{
 			this.fitnessFunction = fitnessFunction;
 		}
@@ -73,7 +72,7 @@ public abstract class AbstractGeneticAlgorithmPopulation
 	 * each generation.
 	 * @since 2.0
 	 */
-	public AbstractGeneticAlgorithmPopulation(double mutationDeviation, double crossoverPercentage, double dieOffPercentage)
+	public AbstractGeneticAlgorithmPopulation(final double mutationDeviation, final double crossoverPercentage, final double dieOffPercentage)
 	{
 		this(mutationDeviation, crossoverPercentage, dieOffPercentage, new ThreadPoolExecutor(Runtime.getRuntime().availableProcessors(), Runtime.getRuntime().availableProcessors()*5, 20, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>()));
 	}
@@ -90,7 +89,7 @@ public abstract class AbstractGeneticAlgorithmPopulation
 	 * each generation.
 	 * @since 2.0
 	 */
-	public AbstractGeneticAlgorithmPopulation(double mutationDeviation, double crossoverPercentage, double dieOffPercentage, ThreadPoolExecutor threadExecutor)
+	public AbstractGeneticAlgorithmPopulation(final double mutationDeviation, final double crossoverPercentage, final double dieOffPercentage, final ThreadPoolExecutor threadExecutor)
 	{
 		this.population  = new TreeSet<AbstractGeneticAlgorithmFitnessFunction>();
 		this.mutationDeviation = mutationDeviation;
@@ -148,9 +147,7 @@ public abstract class AbstractGeneticAlgorithmPopulation
 	{
 		final HashSet<GeneticAlgorithmChromosome> chromosomes = new HashSet<GeneticAlgorithmChromosome>();
 		for(AbstractGeneticAlgorithmFitnessFunction member : population)
-		{
 			chromosomes.add(member.getChromosome());
-		}
 
 		return Collections.unmodifiableSet(chromosomes);
 	}

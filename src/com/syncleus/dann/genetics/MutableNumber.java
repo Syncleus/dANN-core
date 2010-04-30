@@ -44,7 +44,7 @@ public abstract class MutableNumber<N extends Number> extends Number implements 
 	 * @param number The number to back this MutableNumber
 	 * @since 2.0
 	 */
-	protected MutableNumber(N number)
+	protected MutableNumber(final N number)
 	{
 		this.number = number;
 	}
@@ -57,9 +57,9 @@ public abstract class MutableNumber<N extends Number> extends Number implements 
 	 * @return Random double with the appropriate distribution.
 	 * @since 2.0
 	 */
-	static protected double getDistributedRandom(double deviation)
+	static protected double getDistributedRandom(final double deviation)
 	{
-		double normalRand = (MutableNumber.RANDOM.nextDouble() * 2.0) - 1.0;
+		final double normalRand = (MutableNumber.RANDOM.nextDouble() * 2.0) - 1.0;
 		return atanh(normalRand) * Math.abs(deviation);
 	}
 
@@ -169,7 +169,13 @@ public abstract class MutableNumber<N extends Number> extends Number implements 
 	@Override
 	public final boolean equals(Object compareWith)
 	{
-		return this.number.equals(compareWith);
+		if(compareWith == null)
+			return true;
+
+		if(compareWith instanceof MutableNumber)
+			return this.number.equals(((MutableNumber)compareWith).number);
+		else
+			return false;
 	}
 
 	/**
@@ -198,7 +204,7 @@ public abstract class MutableNumber<N extends Number> extends Number implements 
 	{
 		try
 		{
-			MutableNumber<N> copy = (MutableNumber<N>) super.clone();
+			final MutableNumber<N> copy = (MutableNumber<N>) super.clone();
 			copy.number = this.number;
 			return copy;
 		}

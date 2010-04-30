@@ -45,7 +45,7 @@ public class DoubleValueGene extends AbstractValueGene<MutableDouble> implements
 	 * @param value The value for this gene.
 	 * @since 2.0
 	 */
-	public DoubleValueGene(double value)
+	public DoubleValueGene(final double value)
 	{
 		super(new MutableDouble(value));
 	}
@@ -56,7 +56,7 @@ public class DoubleValueGene extends AbstractValueGene<MutableDouble> implements
 	 * @param value The value for this gene.
 	 * @since 2.0
 	 */
-	public DoubleValueGene(Double value)
+	public DoubleValueGene(final Double value)
 	{
 		super(new MutableDouble(value));
 	}
@@ -67,7 +67,7 @@ public class DoubleValueGene extends AbstractValueGene<MutableDouble> implements
 	 * @param value The value for this gene.
 	 * @since 2.0
 	 */
-	public DoubleValueGene(MutableDouble value)
+	public DoubleValueGene(final MutableDouble value)
 	{
 		super(value);
 	}
@@ -79,7 +79,7 @@ public class DoubleValueGene extends AbstractValueGene<MutableDouble> implements
 	 * @param copyGene The value to copy.
 	 * @since 2.0
 	 */
-	public DoubleValueGene(DoubleValueGene copyGene)
+	public DoubleValueGene(final DoubleValueGene copyGene)
 	{
 		super(copyGene);
 	}
@@ -106,7 +106,7 @@ public class DoubleValueGene extends AbstractValueGene<MutableDouble> implements
 	 * @return A copy of the current object with potential mutations.
 	 * @since 2.0
 	 */
-	public DoubleValueGene mutate(double deviation)
+	public DoubleValueGene mutate(final double deviation)
 	{
 		DoubleValueGene copy = this.clone();
 		copy.internalMutate(deviation);

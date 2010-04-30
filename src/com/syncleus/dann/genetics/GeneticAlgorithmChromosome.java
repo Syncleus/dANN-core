@@ -50,7 +50,7 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>,
 	 * @param copy The object to copy.
 	 * @since 2.0
 	 */
-	public GeneticAlgorithmChromosome(GeneticAlgorithmChromosome copy)
+	public GeneticAlgorithmChromosome(final GeneticAlgorithmChromosome copy)
 	{
 		this.alleles = new Vector<AbstractValueGene>(copy.alleles);
 	}
@@ -63,14 +63,12 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>,
 	 * @param geneCount The number of genes to create in this chromosome.
 	 * @since 2.0
 	 */
-	public GeneticAlgorithmChromosome(int geneCount)
+	public GeneticAlgorithmChromosome(final int geneCount)
 	{
 		this();
 
 		while(this.alleles.size() < geneCount)
-		{
 			this.alleles.add(new DoubleValueGene());
-		}
 	}
 
 	/**
@@ -84,14 +82,12 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>,
 	 * initial values for this object's genes.
 	 * @since 2.0
 	 */
-	public GeneticAlgorithmChromosome(int geneCount, double maxDeviation)
+	public GeneticAlgorithmChromosome(final int geneCount, final double maxDeviation)
 	{
 		this();
 
 		while(this.alleles.size() < geneCount)
-		{
 			this.alleles.add(new DoubleValueGene(((RANDOM.nextDouble()*2d)-1d) * maxDeviation));
-		}
 	}
 
 	/**
@@ -115,7 +111,7 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>,
 	 * point
 	 * @return A List of the genetic segment crossing over.
 	 */
-	public List<AbstractValueGene> crossover(int point)
+	public List<AbstractValueGene> crossover(final int point)
 	{
 		if(point <= 0)
 			throw new IllegalArgumentException("point must be positive");
@@ -134,7 +130,7 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>,
 	 * @since 2.0
 	 * @see com.syncleus.dann.genetics.Chromatid#crossover(int)
 	 */
-	public void crossover(List<AbstractValueGene> geneticSegment, int point)
+	public void crossover(final List<AbstractValueGene> geneticSegment, final int point)
 	{
 		if(point <= 0)
 			throw new IllegalArgumentException("point must be positive");
@@ -159,7 +155,7 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>,
 	{
 		try
 		{
-			GeneticAlgorithmChromosome copy = (GeneticAlgorithmChromosome) super.clone();
+			final GeneticAlgorithmChromosome copy = (GeneticAlgorithmChromosome) super.clone();
 			copy.alleles = new Vector<AbstractValueGene>(this.alleles);
 			return copy;
 		}
@@ -181,14 +177,12 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>,
 	 * @return A copy of the current object with potential mutations.
 	 * @since 2.0
 	 */
-	public GeneticAlgorithmChromosome mutate(double deviation)
+	public GeneticAlgorithmChromosome mutate(final double deviation)
 	{
-		GeneticAlgorithmChromosome mutated = this.clone();
+		final GeneticAlgorithmChromosome mutated = this.clone();
 		mutated.alleles.clear();
 		for(AbstractValueGene allele : this.alleles)
-		{
 			mutated.alleles.add(allele.mutate(deviation));
-		}
 		return mutated;
 	}
 

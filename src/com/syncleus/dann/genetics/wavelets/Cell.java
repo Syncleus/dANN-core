@@ -23,10 +23,10 @@ import java.util.Set;
 
 public class Cell
 {
-	private HashSet<SignalKeyConcentration> localConcentrations;
-	private Nucleus nucleus;
+	private final HashSet<SignalKeyConcentration> localConcentrations;
+	private final Nucleus nucleus;
 
-	public Cell(Cell copy)
+	public Cell(final Cell copy)
 	{
 		this.nucleus = new Nucleus(copy.nucleus);
 		this.localConcentrations  = new HashSet<SignalKeyConcentration>(copy.localConcentrations);
@@ -37,10 +37,10 @@ public class Cell
 		this.nucleus = new Nucleus();
 		this.localConcentrations = new HashSet<SignalKeyConcentration>();
 
-		Set<SignalKey> localSignals = this.nucleus.getExpressedSignals(false);
+		final Set<SignalKey> localSignals = this.nucleus.getExpressedSignals(false);
 		for(SignalKey localSignal : localSignals)
 		{
-			SignalKeyConcentration newConcentration = new SignalKeyConcentration(localSignal);
+			final SignalKeyConcentration newConcentration = new SignalKeyConcentration(localSignal);
 			this.localConcentrations.add(newConcentration);
 			this.nucleus.bind(newConcentration, false);
 		}

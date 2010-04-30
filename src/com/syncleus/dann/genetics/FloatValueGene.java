@@ -45,7 +45,7 @@ public class FloatValueGene extends AbstractValueGene<MutableFloat> implements C
 	 * @param value The value for this gene.
 	 * @since 2.0
 	 */
-	public FloatValueGene(float value)
+	public FloatValueGene(final float value)
 	{
 		super(new MutableFloat(value));
 	}
@@ -56,7 +56,7 @@ public class FloatValueGene extends AbstractValueGene<MutableFloat> implements C
 	 * @param value The value for this gene.
 	 * @since 2.0
 	 */
-	public FloatValueGene(Float value)
+	public FloatValueGene(final Float value)
 	{
 		super(new MutableFloat(value));
 	}
@@ -67,7 +67,7 @@ public class FloatValueGene extends AbstractValueGene<MutableFloat> implements C
 	 * @param value The value for this gene.
 	 * @since 2.0
 	 */
-	public FloatValueGene(MutableFloat value)
+	public FloatValueGene(final MutableFloat value)
 	{
 		super(value);
 	}
@@ -79,7 +79,7 @@ public class FloatValueGene extends AbstractValueGene<MutableFloat> implements C
 	 * @param copyGene The value to copy.
 	 * @since 2.0
 	 */
-	public FloatValueGene(FloatValueGene copyGene)
+	public FloatValueGene(final FloatValueGene copyGene)
 	{
 		super(copyGene);
 	}
@@ -106,9 +106,9 @@ public class FloatValueGene extends AbstractValueGene<MutableFloat> implements C
 	 * @return A copy of the current object with potential mutations.
 	 * @since 2.0
 	 */
-	public FloatValueGene mutate(double deviation)
+	public FloatValueGene mutate(final double deviation)
 	{
-		FloatValueGene copy = this.clone();
+		final FloatValueGene copy = this.clone();
 		copy.internalMutate(deviation);
 
 		return copy;
