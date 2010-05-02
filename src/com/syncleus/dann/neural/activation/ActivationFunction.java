@@ -38,7 +38,7 @@ public interface ActivationFunction extends java.io.Serializable
 	 * between 1 and -1 or 1 and 0. However this bound range is not required.
 	 * @since 1.0
 	 */
-    public double activate(double activity);
+    double activate(double activity);
 
 	/**
 	 * The derivative of the activation function.
@@ -48,5 +48,9 @@ public interface ActivationFunction extends java.io.Serializable
 	 * @return The result of the derivative of the activation function.
 	 * @since 1.0
 	 */
-    public double activateDerivative(double activity);
+    double activateDerivative(double activity);
+
+	boolean isBound();
+	double getUpperLimit();
+	double getLowerLimit();
 }

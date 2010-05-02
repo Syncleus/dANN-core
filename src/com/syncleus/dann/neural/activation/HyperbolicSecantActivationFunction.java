@@ -30,6 +30,8 @@ package com.syncleus.dann.neural.activation;
 public class HyperbolicSecantActivationFunction implements ActivationFunction
 {
 	private static final long serialVersionUID = 8019090788123142702L;
+	private final static double UPPER_LIMIT = 1.0;
+	private final static double LOWER_LIMIT = 0.0;
 	
 	/**
 	 * The hyperbolic secant activation function.
@@ -58,4 +60,19 @@ public class HyperbolicSecantActivationFunction implements ActivationFunction
     {
         return -1.0 * Math.tanh(activity) * this.activate(activity);
     }
+
+	public boolean isBound()
+	{
+		return true;
+	}
+
+	public double getUpperLimit()
+	{
+		return UPPER_LIMIT;
+	}
+
+	public double getLowerLimit()
+	{
+		return LOWER_LIMIT;
+	}
 }

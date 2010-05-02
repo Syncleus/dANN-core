@@ -19,6 +19,7 @@
 package com.syncleus.dann.neural;
 
 import com.syncleus.dann.graph.SimpleDirectedEdge;
+import java.util.Random;
 
 /**
  * The synapse acts as a bridge between connected neurons. It is also where the
@@ -44,18 +45,13 @@ public class SimpleSynapse extends SimpleDirectedEdge<Neuron> implements Synapse
     private double weight;
 
     /**
-     * The current output of the synapse.
-     *
-     * @since 1.0
-     */
-    private double output;
-
-    /**
      * The current input from the synapse.
      *
      * @since 1.0
      */
     private double input;
+
+	private Random RANDOM = new Random();
 
     // </editor-fold>
 
@@ -63,7 +59,6 @@ public class SimpleSynapse extends SimpleDirectedEdge<Neuron> implements Synapse
 
     /**
      * Creates a new instance of SimpleSynapse
-	 *
      *
      * @since 1.0
      * @param sourceToSet The incomming neuron connection.
@@ -75,6 +70,21 @@ public class SimpleSynapse extends SimpleDirectedEdge<Neuron> implements Synapse
 		super(sourceToSet, destinationToSet);
 
         this.weight = initialWeight;
+    }
+
+    /**
+     * Creates a new instance of SimpleSynapse
+     *
+     * @since 1.0
+     * @param sourceToSet The incomming neuron connection.
+     * @param destinationToSet The outgoing neuron connection.
+     * @param initialWeight The initial weight of the synapse
+     */
+    public SimpleSynapse(Neuron sourceToSet, Neuron destinationToSet)
+    {
+		super(sourceToSet, destinationToSet);
+
+        this.weight = ((RANDOM.nextDouble() * 2.0) - 1.0) / 10000.0;
     }
 
     // </editor-fold>
