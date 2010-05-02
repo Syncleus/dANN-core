@@ -16,36 +16,44 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.genetics;
+package com.syncleus.tests.dann.genetics;
 
-/**
- * Represents a Gene which can mutate and expresses some activity. All New
- * types of Gene's will inherit from this class.
- *
- * @author Jeffrey Phillips Freeman
- * @since 2.0
- *
- */
-public interface Gene extends Cloneable
+import com.syncleus.dann.genetics.*;
+import org.junit.Assert;
+import org.junit.Test;
+
+public class TestFloatValueGene
 {
-	/**
-	 * All children of this class should override this method and return
-	 * their own class type even if it is abstract. It should return a copy
-	 * without any mutation.
-	 *
-	 * @return an exact copy of this object.
-	 * @since 2.0
-	 */
-	Gene clone();
+	@Test
+	public void testConstructors()
+	{
+		ValueGene test = new FloatValueGene(939810231.0f);
+		Assert.assertTrue("value constructor failed", Math.abs(test.getValue().getNumber().floatValue() - 939810231.0f) < 1000);
 
-	/**
-	 * The current expression activity. The meaning of this value depends on the
-	 * type of gene and the genetic system being used.
-	 *
-	 * @return The current expression activity.
-	 * @since 2.0
-	 */
-	double expressionActivity();
+		test = new FloatValueGene(new MutableFloat(202320342.0f));
+		Assert.assertTrue("MutableFloat value constructor failed", Math.abs(test.getValue().getNumber().floatValue() - 202320342.0f) < 1000);
 
-	// TODO put mutate method here
+		test = new FloatValueGene(Float.valueOf(826493937.0f));
+		Assert.assertTrue("Number value constructor failed", Math.abs(test.getValue().getNumber().floatValue() - 826493937.0f) < 1000);
+
+		test = new FloatValueGene();
+		Assert.assertTrue("default constructor failed", test.getValue().getNumber().floatValue() == 0.0);
+	}
+
+	@Test
+	public void testMutation()
+	{
+		ValueGene center = new FloatValueGene(0.0f);
+
+		float averageSum = 0.0f;
+		float testCount;
+		for(testCount = 0.0f; testCount < 1000; testCount++)
+		{
+			averageSum += center.mutate(1.0).getValue().floatValue();
+		}
+
+		float average = averageSum / testCount;
+
+		Assert.assertTrue("average deviation is more than 1.0", average < 1.0f);
+	}
 }

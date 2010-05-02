@@ -16,36 +16,44 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.genetics;
+package com.syncleus.tests.dann.genetics;
 
-/**
- * Represents a Gene which can mutate and expresses some activity. All New
- * types of Gene's will inherit from this class.
- *
- * @author Jeffrey Phillips Freeman
- * @since 2.0
- *
- */
-public interface Gene extends Cloneable
+import com.syncleus.dann.genetics.*;
+import org.junit.Assert;
+import org.junit.Test;
+
+public class TestLongValueGene
 {
-	/**
-	 * All children of this class should override this method and return
-	 * their own class type even if it is abstract. It should return a copy
-	 * without any mutation.
-	 *
-	 * @return an exact copy of this object.
-	 * @since 2.0
-	 */
-	Gene clone();
+	@Test
+	public void testConstructors()
+	{
+		ValueGene test = new LongValueGene(78101237423l);
+		Assert.assertTrue("value constructor failed", test.getValue().getNumber().longValue() == 78101237423l);
 
-	/**
-	 * The current expression activity. The meaning of this value depends on the
-	 * type of gene and the genetic system being used.
-	 *
-	 * @return The current expression activity.
-	 * @since 2.0
-	 */
-	double expressionActivity();
+		test = new LongValueGene(new MutableLong(78101237423l));
+		Assert.assertTrue("MutableByte value constructor failed", test.getValue().getNumber().longValue() == 78101237423l);
 
-	// TODO put mutate method here
+		test = new LongValueGene(Long.valueOf(78101237423l));
+		Assert.assertTrue("Number value constructor failed", test.getValue().getNumber().longValue() == 78101237423l);
+
+		test = new LongValueGene();
+		Assert.assertTrue("default constructor failed", test.getValue().getNumber().longValue() == 0l);
+	}
+
+	@Test
+	public void testMutation()
+	{
+		ValueGene center = new LongValueGene(0l);
+
+		long averageSum = 0;
+		long testCount;
+		for(testCount = 0; testCount < 1000; testCount++)
+		{
+			averageSum += center.mutate(100.0).getValue().byteValue();
+		}
+
+		double average = averageSum / testCount;
+
+		Assert.assertTrue("average deviation is more than 100.0", average < 100.0);
+	}
 }

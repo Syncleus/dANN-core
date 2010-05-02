@@ -16,36 +16,44 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.genetics;
+package com.syncleus.tests.dann.genetics;
 
-/**
- * Represents a Gene which can mutate and expresses some activity. All New
- * types of Gene's will inherit from this class.
- *
- * @author Jeffrey Phillips Freeman
- * @since 2.0
- *
- */
-public interface Gene extends Cloneable
+import com.syncleus.dann.genetics.*;
+import org.junit.Assert;
+import org.junit.Test;
+
+public class TestDoubleValueGene
 {
-	/**
-	 * All children of this class should override this method and return
-	 * their own class type even if it is abstract. It should return a copy
-	 * without any mutation.
-	 *
-	 * @return an exact copy of this object.
-	 * @since 2.0
-	 */
-	Gene clone();
+	@Test
+	public void testConstructors()
+	{
+		ValueGene test = new DoubleValueGene(93947810231.0);
+		Assert.assertTrue("value constructor failed", Math.abs(test.getValue().getNumber().doubleValue() - 93947810231.0) < 1000);
 
-	/**
-	 * The current expression activity. The meaning of this value depends on the
-	 * type of gene and the genetic system being used.
-	 *
-	 * @return The current expression activity.
-	 * @since 2.0
-	 */
-	double expressionActivity();
+		test = new DoubleValueGene(new MutableDouble(20237420342.0));
+		Assert.assertTrue("MutableDouble value constructor failed", Math.abs(test.getValue().getNumber().doubleValue() - 20237420342.0) < 1000);
 
-	// TODO put mutate method here
+		test = new DoubleValueGene(Double.valueOf(82649173937.0));
+		Assert.assertTrue("Number value constructor failed", Math.abs(test.getValue().getNumber().doubleValue() - 82649173937.0) < 1000);
+
+		test = new DoubleValueGene();
+		Assert.assertTrue("default constructor failed", test.getValue().getNumber().doubleValue() == 0.0);
+	}
+
+	@Test
+	public void testMutation()
+	{
+		ValueGene center = new DoubleValueGene(0.0);
+
+		double averageSum = 0.0;
+		double testCount;
+		for(testCount = 0.0; testCount < 1000; testCount++)
+		{
+			averageSum += center.mutate(1.0).getValue().doubleValue();
+		}
+
+		double average = averageSum / testCount;
+
+		Assert.assertTrue("average deviation is more than 1.0", average < 1.0);
+	}
 }

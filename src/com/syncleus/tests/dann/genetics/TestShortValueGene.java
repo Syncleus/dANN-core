@@ -16,36 +16,44 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.genetics;
+package com.syncleus.tests.dann.genetics;
 
-/**
- * Represents a Gene which can mutate and expresses some activity. All New
- * types of Gene's will inherit from this class.
- *
- * @author Jeffrey Phillips Freeman
- * @since 2.0
- *
- */
-public interface Gene extends Cloneable
+import com.syncleus.dann.genetics.*;
+import org.junit.Assert;
+import org.junit.Test;
+
+public class TestShortValueGene
 {
-	/**
-	 * All children of this class should override this method and return
-	 * their own class type even if it is abstract. It should return a copy
-	 * without any mutation.
-	 *
-	 * @return an exact copy of this object.
-	 * @since 2.0
-	 */
-	Gene clone();
+	@Test
+	public void testConstructors()
+	{
+		ValueGene test = new ShortValueGene((short)123);
+		Assert.assertTrue("value constructor failed", test.getValue().getNumber().shortValue() == 123);
 
-	/**
-	 * The current expression activity. The meaning of this value depends on the
-	 * type of gene and the genetic system being used.
-	 *
-	 * @return The current expression activity.
-	 * @since 2.0
-	 */
-	double expressionActivity();
+		test = new ShortValueGene(new MutableShort((short)57));
+		Assert.assertTrue("MutableByte value constructor failed", test.getValue().getNumber().shortValue() == 57);
 
-	// TODO put mutate method here
+		test = new ShortValueGene(Short.valueOf((short)83));
+		Assert.assertTrue("Number value constructor failed", test.getValue().getNumber().shortValue() == 83);
+
+		test = new ShortValueGene();
+		Assert.assertTrue("default constructor failed", test.getValue().getNumber().shortValue() == 0);
+	}
+
+	@Test
+	public void testMutation()
+	{
+		ValueGene center = new ShortValueGene((short)0);
+
+		short averageSum = 0;
+		int testCount;
+		for(testCount = 0; testCount < 1000; testCount++)
+		{
+			averageSum += center.mutate(10).getValue().shortValue();
+		}
+
+		double average = averageSum / testCount;
+
+		Assert.assertTrue("average deviation is more than 10.0", average < 10.0);
+	}
 }
