@@ -73,7 +73,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractLocalBrain implem
 	 * @param threadExecutor executor to use for executing tasks.
 	 * @since 2.0
 	 */
-	public AbstractFeedforwardBrain(ThreadPoolExecutor threadExecutor)
+	public AbstractFeedforwardBrain(ExecutorService threadExecutor)
 	{
 		super(threadExecutor);
 	}
@@ -160,27 +160,33 @@ public abstract class AbstractFeedforwardBrain extends AbstractLocalBrain implem
 			final NeuronGroup<BackpropNeuron> layer = this.neuronLayers.get(layerIndex);
 			final Set<BackpropNeuron> layerNeurons = layer.getChildrenNeuronsRecursivly();
 
-			//begin processing all neurons in one layer simultaniously
-			final ArrayList<Future> futures = new ArrayList<Future>();
-			for(BackpropNeuron neuron : layerNeurons)
-				futures.add(this.getThreadExecutor().submit(new Propagate(neuron)));
+			if(this.getThreadExecutor() != null)
+			{
+				//begin processing all neurons in one layer simultaniously
+				final ArrayList<Future> futures = new ArrayList<Future>();
+				for(BackpropNeuron neuron : layerNeurons)
+					futures.add(this.getThreadExecutor().submit(new Propagate(neuron)));
 
-			//wait until all neurons have propogated
-			try
-			{
-				for(Future future : futures)
-					future.get();
+				//wait until all neurons have propogated
+				try
+				{
+					for(Future future : futures)
+						future.get();
+				}
+				catch(InterruptedException caught)
+				{
+					LOGGER.warn("Propagate was unexpectidy interupted", caught);
+					throw new UnexpectedInterruptedException("Unexpected interuption. Get should block indefinately", caught);
+				}
+				catch(ExecutionException caught)
+				{
+					LOGGER.error("Propagate had an unexcepted problem executing.", caught);
+					throw new UnexpectedDannError("Unexpected execution exception. Get should block indefinately", caught);
+				}
 			}
-			catch(InterruptedException caught)
-			{
-				LOGGER.warn("Propagate was unexpectidy interupted", caught);
-				throw new UnexpectedInterruptedException("Unexpected interuption. Get should block indefinately", caught);
-			}
-			catch(ExecutionException caught)
-			{
-				LOGGER.error("Propagate had an unexcepted problem executing.", caught);
-				throw new UnexpectedDannError("Unexpected execution exception. Get should block indefinately", caught);
-			}
+			else
+				for(BackpropNeuron neuron : layerNeurons)
+					neuron.propagate();
 
 		}
 	}
@@ -196,28 +202,33 @@ public abstract class AbstractFeedforwardBrain extends AbstractLocalBrain implem
 			final NeuronGroup<BackpropNeuron> layer = this.neuronLayers.get(layerIndex);
 			final Set<BackpropNeuron> layerNeurons = layer.getChildrenNeuronsRecursivly();
 
-			//begin processing all neurons in one layer simultaniously
-			final ArrayList<Future> futures = new ArrayList<Future>();
-			for(BackpropNeuron neuron : layerNeurons)
-				futures.add(this.getThreadExecutor().submit(new BackPropagate(neuron)));
+			if(this.getThreadExecutor() != null)
+			{
+				//begin processing all neurons in one layer simultaniously
+				final ArrayList<Future> futures = new ArrayList<Future>();
+				for(BackpropNeuron neuron : layerNeurons)
+					futures.add(this.getThreadExecutor().submit(new BackPropagate(neuron)));
 
-			//wait until all neurons have backPropogated
-			try
-			{
-				for(Future future : futures)
-					future.get();
+				//wait until all neurons have backPropogated
+				try
+				{
+					for(Future future : futures)
+						future.get();
+				}
+				catch(InterruptedException caught)
+				{
+					LOGGER.warn("BackPropagate was unexpectidy interupted", caught);
+					throw new UnexpectedInterruptedException("Unexpected interuption. Get should block indefinately", caught);
+				}
+				catch(ExecutionException caught)
+				{
+					LOGGER.error("BackPropagate had an unexcepted problem executing.", caught);
+					throw new UnexpectedDannError("Unexpected execution exception. Get should block indefinately", caught);
+				}
 			}
-			catch(InterruptedException caught)
-			{
-				LOGGER.warn("BackPropagate was unexpectidy interupted", caught);
-				throw new UnexpectedInterruptedException("Unexpected interuption. Get should block indefinately", caught);
-			}
-			catch(ExecutionException caught)
-			{
-				LOGGER.error("BackPropagate had an unexcepted problem executing.", caught);
-				throw new UnexpectedDannError("Unexpected execution exception. Get should block indefinately", caught);
-			}
-
+			else
+				for(BackpropNeuron neuron : layerNeurons)
+					neuron.backPropagate();
 		}
 	}
 

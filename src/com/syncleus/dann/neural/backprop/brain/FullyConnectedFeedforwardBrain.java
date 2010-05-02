@@ -20,7 +20,7 @@ package com.syncleus.dann.neural.backprop.brain;
 
 import com.syncleus.dann.neural.backprop.*;
 import com.syncleus.dann.neural.activation.ActivationFunction;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.ExecutorService;
 
 public class FullyConnectedFeedforwardBrain extends AbstractFullyConnectedFeedforwardBrain
 {
@@ -35,7 +35,7 @@ public class FullyConnectedFeedforwardBrain extends AbstractFullyConnectedFeedfo
 	 * @param threadExecutor executor to use for executing tasks.
 	 * @since 2.0
 	 */
-	public FullyConnectedFeedforwardBrain(int neuronsPerLayer[], ThreadPoolExecutor threadExecutor, double learningRate, ActivationFunction activationFunction)
+	public FullyConnectedFeedforwardBrain(int neuronsPerLayer[], double learningRate, ActivationFunction activationFunction, ExecutorService threadExecutor)
 	{
 		super(threadExecutor);
 		this.learningRate = learningRate;

@@ -30,7 +30,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 {
 	private final G graph;
 	private final int dimensions;
-	private final ThreadPoolExecutor threadExecutor;
+	private final ExecutorService threadExecutor;
 	private final static Logger LOGGER = Logger.getLogger(HyperassociativeMap.class);
 	private final Map<N, Vector> coordinates = Collections.synchronizedMap(new HashMap<N, Vector>());
 	private final static Random RANDOM = new Random();
@@ -55,8 +55,13 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 		}
 	}
 
-	public HyperassociativeMap(G graph, int dimensions, ThreadPoolExecutor threadExecutor)
+	public HyperassociativeMap(G graph, int dimensions, ExecutorService threadExecutor)
 	{
+		if(graph == null)
+			throw new IllegalArgumentException("Graph can not be null");
+		if(dimensions <= 0)
+			throw new IllegalArgumentException("dimensions must be 1 or more");
+		
 		this.graph = graph;
 		this.dimensions = dimensions;
 		this.threadExecutor = threadExecutor;
@@ -68,7 +73,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 
 	public HyperassociativeMap(G graph, int dimensions)
 	{
-		this(graph, dimensions, new ThreadPoolExecutor(Runtime.getRuntime().availableProcessors(), Runtime.getRuntime().availableProcessors()*5, 20, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>()));
+		this(graph, dimensions, null);
 	}
 
 	public G getGraph()
@@ -100,20 +105,25 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 		this.coordinates.clear();
 		this.coordinates.putAll(newCoordinates);
 
-		//align all nodes in parallel
-		final List<Future<Vector>> futures = this.submitFutureAligns();
-
-		//wait for all nodes to finish aligning and calculate new sum of all the points
 		Vector center;
-		try
+		if(this.threadExecutor != null)
 		{
-			center = this.waitAndProcessFutures(futures);
+			//align all nodes in parallel
+			final List<Future<Vector>> futures = this.submitFutureAligns();
+
+			//wait for all nodes to finish aligning and calculate new sum of all the points
+			try
+			{
+				center = this.waitAndProcessFutures(futures);
+			}
+			catch(InterruptedException caught)
+			{
+				LOGGER.warn("waitAndProcessFutures was unexpectidy interupted", caught);
+				throw new UnexpectedInterruptedException("Unexpected interuption. Get should block indefinately", caught);
+			}
 		}
-		catch(InterruptedException caught)
-		{
-			LOGGER.warn("waitAndProcessFutures was unexpectidy interupted", caught);
-			throw new UnexpectedInterruptedException("Unexpected interuption. Get should block indefinately", caught);
-		}
+		else
+			center = this.processLocally();
 
 		//divide each coordinate of the sum of all the points by the number of
 		//nodes in order to calulate the average point, or center of all the
@@ -222,6 +232,18 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 		for(N node : this.graph.getNodes())
 			futures.add(this.threadExecutor.submit(new Align(node)));
 		return futures;
+	}
+
+	private Vector processLocally()
+	{
+		Vector pointSum = new Vector(this.dimensions);
+		for(N node : this.graph.getNodes())
+		{
+			Vector newPoint = this.align(node);
+			for(int dimensionIndex = 1; dimensionIndex <= this.dimensions; dimensionIndex++)
+				pointSum = pointSum.setCoordinate(pointSum.getCoordinate(dimensionIndex) + newPoint.getCoordinate(dimensionIndex), dimensionIndex);
+		}
+		return pointSum;
 	}
 
 	private Vector waitAndProcessFutures(final List<Future<Vector>> futures) throws InterruptedException

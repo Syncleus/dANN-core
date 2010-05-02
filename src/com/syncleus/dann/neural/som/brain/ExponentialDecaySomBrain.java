@@ -17,7 +17,7 @@
  *                                                                             *
  ******************************************************************************/
 package com.syncleus.dann.neural.som.brain;
-
+import java.util.concurrent.ExecutorService;
 /**
  * A SomBrain which uses exponential decay over time for the neighboorhood
  * radius, neighboorhood function, and learning rate.
@@ -32,11 +32,16 @@ public class ExponentialDecaySomBrain extends AbstractSomBrain
 	private final int iterationsToConverge;
 	private final double initialLearningRate;
 
-	public ExponentialDecaySomBrain(int inputCount, int dimentionality, int iterationsToConverge, double initialLearningRate)
+	public ExponentialDecaySomBrain(int inputCount, int dimentionality, int iterationsToConverge, double initialLearningRate, ExecutorService executor)
 	{
-		super(inputCount, dimentionality);
+		super(inputCount, dimentionality, executor);
 		this.iterationsToConverge = iterationsToConverge;
 		this.initialLearningRate = initialLearningRate;
+	}
+
+	public ExponentialDecaySomBrain(int inputCount, int dimentionality, int iterationsToConverge, double initialLearningRate)
+	{
+		this(inputCount, dimentionality, iterationsToConverge, initialLearningRate, null);
 	}
 
 	private double getIntialRadius()

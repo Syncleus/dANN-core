@@ -22,21 +22,21 @@ import com.syncleus.dann.neural.*;
 import java.util.*;
 import com.syncleus.dann.neural.backprop.BackpropNeuron;
 import com.syncleus.dann.neural.backprop.brain.FeedforwardBackpropBrain;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.ExecutorService;
 
 public class LayeredBrainHyperassociativeMap extends HyperassociativeMap<FeedforwardBackpropBrain, Neuron>
 {
 	private final boolean cached;
 	private final Map<BackpropNeuron, Set<Neuron>> neighbors;
 
-	public LayeredBrainHyperassociativeMap(FeedforwardBackpropBrain graph, int dimensions, ThreadPoolExecutor threadExecutor, boolean cache)
+	public LayeredBrainHyperassociativeMap(FeedforwardBackpropBrain graph, int dimensions, ExecutorService threadExecutor, boolean cache)
 	{
 		super(graph, dimensions, threadExecutor);
 		cached = cache;
 		neighbors = new HashMap<BackpropNeuron, Set<Neuron>>();
 	}
 
-	public LayeredBrainHyperassociativeMap(FeedforwardBackpropBrain graph, int dimensions, ThreadPoolExecutor threadExecutor)
+	public LayeredBrainHyperassociativeMap(FeedforwardBackpropBrain graph, int dimensions, ExecutorService threadExecutor)
 	{
 		this(graph, dimensions, threadExecutor, true);
 	}

@@ -19,13 +19,14 @@
 package com.syncleus.tests.dann.graph.drawing.hyperassociativemap;
 
 import com.syncleus.dann.graph.drawing.hyperassociativemap.*;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class LayeredHyperassociativeMap extends HyperassociativeMap<SimpleUndirectedGraph, SimpleNode>
 {
     private static final int NODES_PER_LAYER = 16;
     
-    LayeredHyperassociativeMap(int layers)
+    LayeredHyperassociativeMap(int layers, ThreadPoolExecutor executor)
     {
-		super(new SimpleUndirectedGraph(layers,NODES_PER_LAYER), 3);
+		super(new SimpleUndirectedGraph(layers,NODES_PER_LAYER), 3, executor);
     }
 }

@@ -21,7 +21,7 @@ package com.syncleus.dann.neural.backprop.brain;
 import com.syncleus.dann.neural.NeuronGroup;
 import com.syncleus.dann.neural.backprop.BackpropNeuron;
 import com.syncleus.dann.neural.backprop.BackpropStaticNeuron;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.ExecutorService;
 
 public abstract class AbstractFullyConnectedFeedforwardBrain extends AbstractFeedforwardBrain
 {
@@ -32,13 +32,13 @@ public abstract class AbstractFullyConnectedFeedforwardBrain extends AbstractFee
 	 * @param threadExecutor executor to use for executing tasks.
 	 * @since 2.0
 	 */
-	protected AbstractFullyConnectedFeedforwardBrain(ThreadPoolExecutor threadExecutor)
+	protected AbstractFullyConnectedFeedforwardBrain(ExecutorService threadExecutor)
 	{
 		super(threadExecutor);
 		this.hasBias = true;
 	}
 
-	protected AbstractFullyConnectedFeedforwardBrain(ThreadPoolExecutor threadExecutor, boolean hasBias)
+	protected AbstractFullyConnectedFeedforwardBrain(ExecutorService threadExecutor, boolean hasBias)
 	{
 		super(threadExecutor);
 		this.hasBias = hasBias;

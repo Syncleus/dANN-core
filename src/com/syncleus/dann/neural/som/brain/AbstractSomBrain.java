@@ -105,6 +105,24 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	 */
 	protected AbstractSomBrain(int inputCount, int dimentionality)
 	{
+		this(inputCount, dimentionality, null);
+	}
+
+	/**
+	 * Called by chidren classes to instantiate a basic SomBrain with the given
+	 * number of inputs and with an output lattice of the given number of
+	 * dimensions.
+	 *
+	 * @param inputCount The number of inputs
+	 * @param dimentionality The number of dimensions of the output lattice
+	 * @param executor ThreadPoolExecutor to use when executing parallel
+	 * functionality.
+	 * @since 2.0
+	 */
+	protected AbstractSomBrain(int inputCount, int dimentionality, ExecutorService executor)
+	{
+		super(executor);
+
 		if( inputCount <= 0 )
 			throw new IllegalArgumentException("input count must be greater than 0");
 		if(dimentionality <= 0)
@@ -225,41 +243,61 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 		if( this.outputs.size() <= 0)
 			throw new IllegalStateException("Must have atleast one output");
 
-		//stick all the neurons in the queue to propogate
-		final HashMap<Vector, Future<Double>> futureOutput = new HashMap<Vector, Future<Double>>();
-		for(Entry<Vector, SimpleSomNeuron> entry : this.outputs.entrySet())
-		{
-			final PropagateOutput callable = new PropagateOutput(entry.getValue());
-			futureOutput.put(entry.getKey(), this.getThreadExecutor().submit(callable));
-		}
-
-		//find the best matching unit
 		Vector bestMatchingUnit = null;
-		double bestError = Double.POSITIVE_INFINITY;
-		for(Entry<Vector, SimpleSomNeuron> entry : this.outputs.entrySet())
+		double bestMatch = Double.POSITIVE_INFINITY;
+		if( this.getThreadExecutor() != null)
 		{
-			double currentError;
-			try
+			//stick all the neurons in the queue to propogate
+			final Map<Vector, Future<Double>> futureOutput = new HashMap<Vector, Future<Double>>();
+			for(Entry<Vector, SimpleSomNeuron> entry : this.outputs.entrySet())
 			{
-				currentError = futureOutput.get(entry.getKey()).get().doubleValue();
-			}
-			catch(InterruptedException caught)
-			{
-				LOGGER.warn("PropagateOutput was unexpectidy interupted", caught);
-				throw new UnexpectedInterruptedException("Unexpected interuption. Get should block indefinately", caught);
-			}
-			catch(ExecutionException caught)
-			{
-				LOGGER.error("PropagateOutput was had an unexcepted problem executing.", caught);
-				throw new UnexpectedDannError("Unexpected execution exception. Get should block indefinately", caught);
+				final PropagateOutput callable = new PropagateOutput(entry.getValue());
+				futureOutput.put(entry.getKey(), this.getThreadExecutor().submit(callable));
 			}
 
-			if(bestMatchingUnit == null)
-				bestMatchingUnit = entry.getKey();
-			else if(currentError < bestError)
+			//find the best matching unit
+			for(Entry<Vector, SimpleSomNeuron> entry : this.outputs.entrySet())
 			{
-				bestMatchingUnit = entry.getKey();
-				bestError = currentError;
+				double output;
+				try
+				{
+					output = futureOutput.get(entry.getKey()).get().doubleValue();
+				}
+				catch(InterruptedException caught)
+				{
+					LOGGER.warn("PropagateOutput was unexpectidy interupted", caught);
+					throw new UnexpectedInterruptedException("Unexpected interuption. Get should block indefinately", caught);
+				}
+				catch(ExecutionException caught)
+				{
+					LOGGER.error("PropagateOutput was had an unexcepted problem executing.", caught);
+					throw new UnexpectedDannError("Unexpected execution exception. Get should block indefinately", caught);
+				}
+
+				if(bestMatchingUnit == null)
+					bestMatchingUnit = entry.getKey();
+				else if(output < bestMatch)
+				{
+					bestMatchingUnit = entry.getKey();
+					bestMatch = output;
+				}
+			}
+		}
+		else
+		{
+			for(Entry<Vector, SimpleSomNeuron> entry : this.outputs.entrySet())
+			{
+				SimpleSomNeuron neuron = entry.getValue();
+				neuron.propagate();
+				double output = neuron.getOutput();
+
+				if(bestMatchingUnit == null)
+					bestMatchingUnit = entry.getKey();
+				else if(output < bestMatch)
+				{
+					bestMatchingUnit = entry.getKey();
+					bestMatch = output;
+				}
 			}
 		}
 
@@ -274,29 +312,40 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 		final double neighborhoodRadius = this.neighborhoodRadiusFunction();
 		final double learningRate = this.learningRateFunction();
 
-		//add all the neuron trainingevents to the thread queue
-		final ArrayList<Future> futures = new ArrayList<Future>();
-		for(Entry<Vector, SimpleSomNeuron> entry : this.outputs.entrySet())
+		if(this.getThreadExecutor() != null)
 		{
-			final TrainNeuron runnable = new TrainNeuron(entry.getValue(), entry.getKey(), bestMatchingUnit, neighborhoodRadius, learningRate);
-			futures.add(this.getThreadExecutor().submit(runnable));
-		}
+			//add all the neuron trainingevents to the thread queue
+			final ArrayList<Future> futures = new ArrayList<Future>();
+			for(Entry<Vector, SimpleSomNeuron> entry : this.outputs.entrySet())
+			{
+				final TrainNeuron runnable = new TrainNeuron(entry.getValue(), entry.getKey(), bestMatchingUnit, neighborhoodRadius, learningRate);
+				futures.add(this.getThreadExecutor().submit(runnable));
+			}
 
-		//wait until all neurons are trained
-		try
-		{
-			for(Future future : futures)
-				future.get();
+			//wait until all neurons are trained
+			try
+			{
+				for(Future future : futures)
+					future.get();
+			}
+			catch(InterruptedException caught)
+			{
+				LOGGER.warn("PropagateOutput was unexpectidy interupted", caught);
+				throw new UnexpectedInterruptedException("Unexpected interuption. Get should block indefinately", caught);
+			}
+			catch(ExecutionException caught)
+			{
+				LOGGER.error("PropagateOutput had an unexpected problem executing.", caught);
+				throw new UnexpectedDannError("Unexpected execution exception. Get should block indefinately", caught);
+			}
 		}
-		catch(InterruptedException caught)
+		else
 		{
-			LOGGER.warn("PropagateOutput was unexpectidy interupted", caught);
-			throw new UnexpectedInterruptedException("Unexpected interuption. Get should block indefinately", caught);
-		}
-		catch(ExecutionException caught)
-		{
-			LOGGER.error("PropagateOutput had an unexpected problem executing.", caught);
-			throw new UnexpectedDannError("Unexpected execution exception. Get should block indefinately", caught);
+			for(Entry<Vector, SimpleSomNeuron> entry : this.outputs.entrySet())
+			{
+				final TrainNeuron runnable = new TrainNeuron(entry.getValue(), entry.getKey(), bestMatchingUnit, neighborhoodRadius, learningRate);
+				runnable.run();
+			}
 		}
 
 		this.iterationsTrained++;

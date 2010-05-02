@@ -21,6 +21,9 @@ package com.syncleus.tests.dann.graph.drawing.hyperassociativemap;
 import com.syncleus.dann.graph.drawing.hyperassociativemap.*;
 import com.syncleus.dann.neural.*;
 import com.syncleus.dann.neural.backprop.*;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import org.junit.*;
 
 public class TestHyperassociativeMap
@@ -42,9 +45,9 @@ public class TestHyperassociativeMap
 
 	private class TestMap extends HyperassociativeMap<AbstractLocalBrain, Neuron>
 	{
-		public TestMap(AbstractLocalBrain brain, int dimensions)
+		public TestMap(AbstractLocalBrain brain, int dimensions, ThreadPoolExecutor executor)
 		{
-			super(brain, dimensions);
+			super(brain, dimensions, executor);
 		}
 	}
 
@@ -61,14 +64,23 @@ public class TestHyperassociativeMap
 
 		testBrain.connect(neuron1, neuron2);
 
-		TestMap testMap = new TestMap(testBrain, 3);
-		testMap.align();
+		TestMap testMap;
+		final int cores = Runtime.getRuntime().availableProcessors();
+		ThreadPoolExecutor executer = new ThreadPoolExecutor(cores+1, cores*2, 20, TimeUnit.SECONDS, new LinkedBlockingQueue());
+		try
+		{
+			testMap = new TestMap(testBrain, 3, executer);
+			testMap.align();
 
-		Assert.assertTrue("neuron1 is not in the map", testMap.getGraph().getNodes().contains(neuron1));
-		Assert.assertTrue("neuron2 is not in the map", testMap.getGraph().getNodes().contains(neuron2));
+			Assert.assertTrue("neuron1 is not in the map", testMap.getGraph().getNodes().contains(neuron1));
+			Assert.assertTrue("neuron2 is not in the map", testMap.getGraph().getNodes().contains(neuron2));
 
-
-		Assert.assertTrue("neuron1 is not associated to neuron2", testMap.getGraph().getAdjacentNodes(neuron1).contains(neuron2));
-		Assert.assertTrue("neuron2 is not associated to neuron1", testMap.getGraph().getAdjacentNodes(neuron2).contains(neuron1));
+			Assert.assertTrue("neuron1 is not associated to neuron2", testMap.getGraph().getAdjacentNodes(neuron1).contains(neuron2));
+			Assert.assertTrue("neuron2 is not associated to neuron1", testMap.getGraph().getAdjacentNodes(neuron2).contains(neuron1));
+		}
+		finally
+		{
+			executer.shutdown();
+		}
 	}
 }

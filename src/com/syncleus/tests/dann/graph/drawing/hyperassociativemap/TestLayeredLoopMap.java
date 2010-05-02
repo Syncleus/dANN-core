@@ -18,16 +18,22 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.graph.drawing.hyperassociativemap;
 
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import org.junit.*;
 
 public class TestLayeredLoopMap
 {
 	private static LayeredHyperassociativeMap testMap;
 
+	private static final int cores = Runtime.getRuntime().availableProcessors();
+	private static final ThreadPoolExecutor executor = new ThreadPoolExecutor(cores+1, cores*2, 20, TimeUnit.SECONDS, new LinkedBlockingQueue());
+
 	@BeforeClass
 	public static void alignMap()
 	{
-		testMap = new LayeredHyperassociativeMap(10);
+		testMap = new LayeredHyperassociativeMap(10, executor);
 
 		//align the testMap
 		for(int alignCount = 0; alignCount<100; alignCount++)
@@ -38,6 +44,7 @@ public class TestLayeredLoopMap
 	public static void cleanMap()
 	{
 		testMap = null;
+		executor.shutdown();
 	}
 
 	@Test

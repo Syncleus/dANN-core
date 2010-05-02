@@ -69,7 +69,7 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedGraph<Neuron,
 
 	private static final Random RANDOM = new Random();
 
-	private ThreadPoolExecutor threadExecutor;
+	private final ExecutorService threadExecutor;
 
 
 	/**
@@ -78,7 +78,7 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedGraph<Neuron,
 	 * @param threadExecutor executor to use for executing tasks.
 	 * @since 2.0
 	 */
-	public AbstractLocalBrain(ThreadPoolExecutor threadExecutor)
+	public AbstractLocalBrain(ExecutorService threadExecutor)
 	{
 		this.threadExecutor = threadExecutor;
 	}
@@ -91,7 +91,7 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedGraph<Neuron,
 	 */
 	public AbstractLocalBrain()
 	{
-		this.threadExecutor = new ThreadPoolExecutor(Runtime.getRuntime().availableProcessors(), Runtime.getRuntime().availableProcessors()*5, 20, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
+		this.threadExecutor = null;
 	}
 
 	protected boolean add(Synapse newSynapse)
@@ -364,7 +364,7 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedGraph<Neuron,
 	 * @return the threadExecutor used to execute processes.
 	 * @since 2.0
 	 */
-	protected ThreadPoolExecutor getThreadExecutor()
+	protected ExecutorService getThreadExecutor()
 	{
 		return threadExecutor;
 	}

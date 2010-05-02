@@ -27,6 +27,9 @@ import com.syncleus.dann.neural.activation.SineActivationFunction;
 import com.syncleus.dann.neural.backprop.*;
 import com.syncleus.dann.neural.backprop.brain.FullyConnectedFeedforwardBrain;
 import java.util.ArrayList;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import org.junit.*;
 
 /**
@@ -56,17 +59,26 @@ public class TestXor
 		//Adjust the learning rate
 		final ActivationFunction activationFunction = new SineActivationFunction();
 
-		this.brain = new FullyConnectedFeedforwardBrain(TOPOLOGY, LEARNING_RATE, activationFunction);
-		final ArrayList<InputNeuron> inputs = new ArrayList<InputNeuron>(this.brain.getInputNeurons());
-		this.inputA = inputs.get(0);
-		this.inputB = inputs.get(1);
-		this.inputC = inputs.get(2);
-		final ArrayList<OutputNeuron> outputs = new ArrayList<OutputNeuron>(this.brain.getOutputNeurons());
-		this.output = (OutputBackpropNeuron) outputs.get(0);
+		final int cores = Runtime.getRuntime().availableProcessors();
+		ThreadPoolExecutor executor = new ThreadPoolExecutor(cores+1, cores*2, 20, TimeUnit.SECONDS, new LinkedBlockingQueue());
+		try
+		{
+			this.brain = new FullyConnectedFeedforwardBrain(TOPOLOGY, LEARNING_RATE, activationFunction, executor);
+			final ArrayList<InputNeuron> inputs = new ArrayList<InputNeuron>(this.brain.getInputNeurons());
+			this.inputA = inputs.get(0);
+			this.inputB = inputs.get(1);
+			this.inputC = inputs.get(2);
+			final ArrayList<OutputNeuron> outputs = new ArrayList<OutputNeuron>(this.brain.getOutputNeurons());
+			this.output = (OutputBackpropNeuron) outputs.get(0);
 
-		train(TRAINING_CYCLES);
+			train(TRAINING_CYCLES);
 
-		checkOutput();
+			checkOutput();
+		}
+		finally
+		{
+			executor.shutdown();
+		}
 	}
 
 	private void propogateOutput()
