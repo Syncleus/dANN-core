@@ -36,7 +36,7 @@ public class TestLayeredLoopMap
 			final LayeredHyperassociativeMap testMap = new LayeredHyperassociativeMap(10, executor);
 
 			//align the testMap
-			for(int alignCount = 0; alignCount<100; alignCount++)
+			for(int alignCount = 0; alignCount<10; alignCount++)
 				testMap.align();
 
 			SimpleNode[][] nodes = testMap.getGraph().getNodeInLayers();
