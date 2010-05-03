@@ -36,7 +36,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 	private final static Random RANDOM = new Random();
 
 	private final static double EQUILIBRIUM_DISTANCE = 1.0;
-	private double LEARNING_RATE = 0.04;
+	private double learningRate = 0.04;
 	private final static double REPULSIVE_WEAKNESS = 2.0;
 	private final static double ATTRACTION_STRENGTH = 4.0;
 
@@ -170,7 +170,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 				double newDistance = Math.pow(Math.abs(neighborVector.getDistance()) - EQUILIBRIUM_DISTANCE, ATTRACTION_STRENGTH);
 				if(Math.abs(newDistance) > Math.abs(Math.abs(neighborVector.getDistance()) - EQUILIBRIUM_DISTANCE))
 					newDistance = Math.copySign(Math.abs(Math.abs(neighborVector.getDistance()) - EQUILIBRIUM_DISTANCE), newDistance);
-				newDistance *= LEARNING_RATE;
+				newDistance *= learningRate;
                 neighborVector = neighborVector.setDistance(Math.signum(neighborVector.getDistance()) * newDistance);
 			}
             else
@@ -178,7 +178,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 				double newDistance = -1.0 * atanh((EQUILIBRIUM_DISTANCE - Math.abs(neighborVector.getDistance())) / EQUILIBRIUM_DISTANCE);
 				if( Math.abs(newDistance) > Math.abs(EQUILIBRIUM_DISTANCE - Math.abs(neighborVector.getDistance())))
 					newDistance = -1.0 * (EQUILIBRIUM_DISTANCE - Math.abs(neighborVector.getDistance()));
-				newDistance *= LEARNING_RATE;
+				newDistance *= learningRate;
                 neighborVector = neighborVector.setDistance(Math.signum(neighborVector.getDistance()) * newDistance);
 			}
 
@@ -194,7 +194,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 				if(Math.abs(newDistance) > Math.abs(EQUILIBRIUM_DISTANCE))
 					newDistance = Math.copySign(EQUILIBRIUM_DISTANCE, newDistance);
 
-				newDistance *= LEARNING_RATE;
+				newDistance *= learningRate;
                 nodeVector = nodeVector.setDistance(newDistance);
 
                 compositeVector = compositeVector.add(nodeVector);
@@ -204,7 +204,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 		Vector oldLocation = this.coordinates.get(nodeToAlign);
 		double moveDistance = Math.abs(newLocation.calculateRelativeTo(oldLocation).getDistance());
 		if(moveDistance > EQUILIBRIUM_DISTANCE*3.0)
-			this.LEARNING_RATE *= 0.9;
+			this.learningRate *= 0.9;
         this.coordinates.put(nodeToAlign, newLocation);
 		return newLocation;
 	}
@@ -250,7 +250,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 				pointSum = pointSum.setCoordinate(pointSum.getCoordinate(dimensionIndex) + newPoint.getCoordinate(dimensionIndex), dimensionIndex);
 		}
 
-		this.LEARNING_RATE *= 0.99;
+		this.learningRate *= 0.99;
 		return pointSum;
 	}
 
@@ -273,7 +273,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 			throw new UnexpectedDannError("Unexpected execution exception. Get should block indefinately", caught);
 		}
 		
-		this.LEARNING_RATE *= 0.99;
+		this.learningRate *= 0.99;
 
 		return pointSum;
 	}
