@@ -35,10 +35,15 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 	private final Map<N, Vector> coordinates = Collections.synchronizedMap(new HashMap<N, Vector>());
 	private final static Random RANDOM = new Random();
 
+	private double learningRate = 0.4;
+	private double maxMovement = 0.0;
+	private double totalMovement = 0.0;
+	private double acceptableDistanceFactor = 0.75;
+
 	private final static double EQUILIBRIUM_DISTANCE = 1.0;
-	private double learningRate = 0.04;
 	private final static double REPULSIVE_WEAKNESS = 2.0;
 	private final static double ATTRACTION_STRENGTH = 4.0;
+
 
 	private class Align implements Callable<Vector>
 	{
@@ -83,12 +88,20 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 
 	public boolean isAlignable()
 	{
-		return false;
+		return true;
 	}
 
 	public boolean isAligned()
 	{
-		return false;
+		if(this.isAlignable())
+			return ((this.maxMovement < 0.005 * EQUILIBRIUM_DISTANCE) && (this.maxMovement > 0.0));
+		else
+			return false;
+	}
+
+	private double getAverageMovement()
+	{
+		return this.totalMovement / ((double) this.getGraph().getOrder());
 	}
 
 	public void align()
@@ -105,6 +118,8 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 		this.coordinates.clear();
 		this.coordinates.putAll(newCoordinates);
 
+		this.totalMovement = 0.0;
+		this.maxMovement = 0.0;
 		Vector center;
 		if(this.threadExecutor != null)
 		{
@@ -124,6 +139,8 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 		}
 		else
 			center = this.processLocally();
+
+		LOGGER.debug("maxMove: " + this.maxMovement + ", Average Move: " + this.getAverageMovement());
 
 		//divide each coordinate of the sum of all the points by the number of
 		//nodes in order to calulate the average point, or center of all the
@@ -203,8 +220,29 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 		Vector newLocation = location.add(compositeVector);
 		Vector oldLocation = this.coordinates.get(nodeToAlign);
 		double moveDistance = Math.abs(newLocation.calculateRelativeTo(oldLocation).getDistance());
-		if(moveDistance > EQUILIBRIUM_DISTANCE*3.0)
-			this.learningRate *= 0.9;
+
+		if(moveDistance > EQUILIBRIUM_DISTANCE*this.acceptableDistanceFactor)
+		{
+			double newLearningRate = ((EQUILIBRIUM_DISTANCE*this.acceptableDistanceFactor)/moveDistance);
+			if(newLearningRate < this.learningRate)
+			{
+				this.learningRate = newLearningRate;
+				LOGGER.debug("learning rate: " + this.learningRate);
+			}
+			else
+			{
+				this.learningRate *= 0.9;
+				LOGGER.debug("learning rate: " + this.learningRate);
+			}
+
+			newLocation = oldLocation;
+			moveDistance = 0.0;
+		}
+
+		if(moveDistance > this.maxMovement)
+			this.maxMovement = moveDistance;
+		this.totalMovement += moveDistance;
+		
         this.coordinates.put(nodeToAlign, newLocation);
 		return newLocation;
 	}
@@ -249,8 +287,15 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 			for(int dimensionIndex = 1; dimensionIndex <= this.dimensions; dimensionIndex++)
 				pointSum = pointSum.setCoordinate(pointSum.getCoordinate(dimensionIndex) + newPoint.getCoordinate(dimensionIndex), dimensionIndex);
 		}
+		
+		if(this.learningRate * 1.01 < 0.4)
+		{
+			if(this.getAverageMovement() < (EQUILIBRIUM_DISTANCE * this.acceptableDistanceFactor * 0.1))
+				this.acceptableDistanceFactor *= 0.9;
 
-		this.learningRate *= 0.99;
+			this.learningRate *= 1.01;
+			LOGGER.debug("learning rate: " + this.learningRate + ", acceptableDistanceFactor: " + this.acceptableDistanceFactor);
+		}
 		return pointSum;
 	}
 
@@ -273,7 +318,14 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 			throw new UnexpectedDannError("Unexpected execution exception. Get should block indefinately", caught);
 		}
 		
-		this.learningRate *= 0.99;
+		if(this.learningRate * 1.01 < 0.4)
+		{
+			if(this.getAverageMovement() < (EQUILIBRIUM_DISTANCE * this.acceptableDistanceFactor * 0.1))
+				this.acceptableDistanceFactor = this.maxMovement*2.0;
+			
+			this.learningRate *= 1.01;
+			LOGGER.debug("learning rate: " + this.learningRate + ", acceptableDistanceFactor: " + this.acceptableDistanceFactor);
+		}
 
 		return pointSum;
 	}
