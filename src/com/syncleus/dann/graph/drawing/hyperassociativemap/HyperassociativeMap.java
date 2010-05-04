@@ -34,7 +34,8 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 	private final static Logger LOGGER = Logger.getLogger(HyperassociativeMap.class);
 	private Map<N, Vector> coordinates = Collections.synchronizedMap(new HashMap<N, Vector>());
 	private final static Random RANDOM = new Random();
-	private final double equilibriumDistance;
+
+	private double equilibriumDistance;
 
 	private double learningRate = 0.4;
 	private double maxMovement = 0.0;
@@ -97,13 +98,27 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 		return this.graph;
 	}
 
-	public void reset()
+	public double getEquilibriumDistance()
+	{
+		return this.equilibriumDistance;
+	}
+
+	public void setEquilibriumDistance(final double newEquilbirumDistance)
+	{
+		this.equilibriumDistance = newEquilbirumDistance;
+	}
+
+	public void resetLearning()
 	{
 		this.learningRate = 0.4;
 		this.maxMovement = 0.0;
 		this.totalMovement = 0.0;
 		this.acceptableDistanceFactor = 0.75;
+	}
 
+	public void reset()
+	{
+		this.resetLearning();
 		//randomize all nodes
 		for(N node : this.coordinates.keySet())
 			this.coordinates.put(node, randomCoordinates(this.dimensions));
