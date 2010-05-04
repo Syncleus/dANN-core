@@ -30,4 +30,5 @@ public interface GraphDrawer<G extends Graph<N, ?>, N>
 	public void align();
 	public int getDimensions();
 	public Map<N, Vector> getCoordinates();
+	public void reset();
 }

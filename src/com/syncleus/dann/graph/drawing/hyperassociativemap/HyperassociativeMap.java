@@ -32,7 +32,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 	private final int dimensions;
 	private final ExecutorService threadExecutor;
 	private final static Logger LOGGER = Logger.getLogger(HyperassociativeMap.class);
-	private final Map<N, Vector> coordinates = Collections.synchronizedMap(new HashMap<N, Vector>());
+	private Map<N, Vector> coordinates = Collections.synchronizedMap(new HashMap<N, Vector>());
 	private final static Random RANDOM = new Random();
 	private final double equilibriumDistance;
 
@@ -97,6 +97,18 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 		return this.graph;
 	}
 
+	public void reset()
+	{
+		this.learningRate = 0.4;
+		this.maxMovement = 0.0;
+		this.totalMovement = 0.0;
+		this.acceptableDistanceFactor = 0.75;
+
+		//randomize all nodes
+		for(N node : this.coordinates.keySet())
+			this.coordinates.put(node, randomCoordinates(this.dimensions));
+	}
+
 	public boolean isAlignable()
 	{
 		return true;
@@ -118,16 +130,18 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 	public void align()
 	{
 		//refresh all nodes
-		final Map<N, Vector> newCoordinates = new HashMap<N,Vector>();
-		for(N node : this.graph.getNodes())
+		if(!this.coordinates.keySet().equals(this.graph.getNodes()))
 		{
-			if( this.coordinates.containsKey(node) )
-				newCoordinates.put(node, this.coordinates.get(node));
-			else
-				newCoordinates.put(node, randomCoordinates(this.dimensions));
+			final Map<N, Vector> newCoordinates = new HashMap<N,Vector>();
+			for(N node : this.graph.getNodes())
+			{
+				if( this.coordinates.containsKey(node) )
+					newCoordinates.put(node, this.coordinates.get(node));
+				else
+					newCoordinates.put(node, randomCoordinates(this.dimensions));
+			}
+			this.coordinates = Collections.synchronizedMap(newCoordinates);
 		}
-		this.coordinates.clear();
-		this.coordinates.putAll(newCoordinates);
 
 		this.totalMovement = 0.0;
 		this.maxMovement = 0.0;
