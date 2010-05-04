@@ -34,13 +34,13 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 	private final static Logger LOGGER = Logger.getLogger(HyperassociativeMap.class);
 	private final Map<N, Vector> coordinates = Collections.synchronizedMap(new HashMap<N, Vector>());
 	private final static Random RANDOM = new Random();
+	private final double equilibriumDistance;
 
 	private double learningRate = 0.4;
 	private double maxMovement = 0.0;
 	private double totalMovement = 0.0;
 	private double acceptableDistanceFactor = 0.75;
 
-	private final static double EQUILIBRIUM_DISTANCE = 1.0;
 	private final static double REPULSIVE_WEAKNESS = 2.0;
 	private final static double ATTRACTION_STRENGTH = 4.0;
 
@@ -60,7 +60,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 		}
 	}
 
-	public HyperassociativeMap(G graph, int dimensions, ExecutorService threadExecutor)
+	public HyperassociativeMap(G graph, int dimensions, double equilibriumDistance, ExecutorService threadExecutor)
 	{
 		if(graph == null)
 			throw new IllegalArgumentException("Graph can not be null");
@@ -70,15 +70,26 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 		this.graph = graph;
 		this.dimensions = dimensions;
 		this.threadExecutor = threadExecutor;
+		this.equilibriumDistance = equilibriumDistance;
 
 		//refresh all nodes
 		for(N node : this.graph.getNodes())
 			this.coordinates.put(node, randomCoordinates(this.dimensions));
 	}
 
+	public HyperassociativeMap(G graph, int dimensions, ExecutorService threadExecutor)
+	{
+		this(graph, dimensions, 1.0, threadExecutor);
+	}
+
+	public HyperassociativeMap(G graph, int dimensions, double equilibriumDistance)
+	{
+		this(graph, dimensions, equilibriumDistance, null);
+	}
+
 	public HyperassociativeMap(G graph, int dimensions)
 	{
-		this(graph, dimensions, null);
+		this(graph, dimensions, 1.0, null);
 	}
 
 	public G getGraph()
@@ -94,7 +105,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 	public boolean isAligned()
 	{
 		if(this.isAlignable())
-			return ((this.maxMovement < 0.005 * EQUILIBRIUM_DISTANCE) && (this.maxMovement > 0.0));
+			return ((this.maxMovement < 0.005 * equilibriumDistance) && (this.maxMovement > 0.0));
 		else
 			return false;
 	}
@@ -182,19 +193,19 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
         for(N neighbor : neighbors)
         {
             Vector neighborVector = this.coordinates.get(neighbor).calculateRelativeTo(location);
-            if (Math.abs(neighborVector.getDistance()) > EQUILIBRIUM_DISTANCE)
+            if (Math.abs(neighborVector.getDistance()) > equilibriumDistance)
 			{
-				double newDistance = Math.pow(Math.abs(neighborVector.getDistance()) - EQUILIBRIUM_DISTANCE, ATTRACTION_STRENGTH);
-				if(Math.abs(newDistance) > Math.abs(Math.abs(neighborVector.getDistance()) - EQUILIBRIUM_DISTANCE))
-					newDistance = Math.copySign(Math.abs(Math.abs(neighborVector.getDistance()) - EQUILIBRIUM_DISTANCE), newDistance);
+				double newDistance = Math.pow(Math.abs(neighborVector.getDistance()) - equilibriumDistance, ATTRACTION_STRENGTH);
+				if(Math.abs(newDistance) > Math.abs(Math.abs(neighborVector.getDistance()) - equilibriumDistance))
+					newDistance = Math.copySign(Math.abs(Math.abs(neighborVector.getDistance()) - equilibriumDistance), newDistance);
 				newDistance *= learningRate;
                 neighborVector = neighborVector.setDistance(Math.signum(neighborVector.getDistance()) * newDistance);
 			}
             else
 			{
-				double newDistance = -1.0 * atanh((EQUILIBRIUM_DISTANCE - Math.abs(neighborVector.getDistance())) / EQUILIBRIUM_DISTANCE);
-				if( Math.abs(newDistance) > Math.abs(EQUILIBRIUM_DISTANCE - Math.abs(neighborVector.getDistance())))
-					newDistance = -1.0 * (EQUILIBRIUM_DISTANCE - Math.abs(neighborVector.getDistance()));
+				double newDistance = -1.0 * atanh((equilibriumDistance - Math.abs(neighborVector.getDistance())) / equilibriumDistance);
+				if( Math.abs(newDistance) > Math.abs(equilibriumDistance - Math.abs(neighborVector.getDistance())))
+					newDistance = -1.0 * (equilibriumDistance - Math.abs(neighborVector.getDistance()));
 				newDistance *= learningRate;
                 neighborVector = neighborVector.setDistance(Math.signum(neighborVector.getDistance()) * newDistance);
 			}
@@ -208,8 +219,8 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
             {
                 Vector nodeVector = this.coordinates.get(node).calculateRelativeTo(location);
 				double newDistance = -1.0/Math.pow(nodeVector.getDistance(), REPULSIVE_WEAKNESS);
-				if(Math.abs(newDistance) > Math.abs(EQUILIBRIUM_DISTANCE))
-					newDistance = Math.copySign(EQUILIBRIUM_DISTANCE, newDistance);
+				if(Math.abs(newDistance) > Math.abs(equilibriumDistance))
+					newDistance = Math.copySign(equilibriumDistance, newDistance);
 
 				newDistance *= learningRate;
                 nodeVector = nodeVector.setDistance(newDistance);
@@ -221,9 +232,9 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 		Vector oldLocation = this.coordinates.get(nodeToAlign);
 		double moveDistance = Math.abs(newLocation.calculateRelativeTo(oldLocation).getDistance());
 
-		if(moveDistance > EQUILIBRIUM_DISTANCE*this.acceptableDistanceFactor)
+		if(moveDistance > equilibriumDistance*this.acceptableDistanceFactor)
 		{
-			double newLearningRate = ((EQUILIBRIUM_DISTANCE*this.acceptableDistanceFactor)/moveDistance);
+			double newLearningRate = ((equilibriumDistance*this.acceptableDistanceFactor)/moveDistance);
 			if(newLearningRate < this.learningRate)
 			{
 				this.learningRate = newLearningRate;
@@ -290,7 +301,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 		
 		if(this.learningRate * 1.01 < 0.4)
 		{
-			if(this.getAverageMovement() < (EQUILIBRIUM_DISTANCE * this.acceptableDistanceFactor * 0.1))
+			if(this.getAverageMovement() < (equilibriumDistance * this.acceptableDistanceFactor * 0.1))
 				this.acceptableDistanceFactor *= 0.9;
 
 			this.learningRate *= 1.01;
@@ -320,7 +331,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 		
 		if(this.learningRate * 1.01 < 0.4)
 		{
-			if(this.getAverageMovement() < (EQUILIBRIUM_DISTANCE * this.acceptableDistanceFactor * 0.1))
+			if(this.getAverageMovement() < (equilibriumDistance * this.acceptableDistanceFactor * 0.1))
 				this.acceptableDistanceFactor = this.maxMovement*2.0;
 			
 			this.learningRate *= 1.01;

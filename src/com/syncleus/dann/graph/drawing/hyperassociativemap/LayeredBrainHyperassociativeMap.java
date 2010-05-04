@@ -29,28 +29,46 @@ public class LayeredBrainHyperassociativeMap extends HyperassociativeMap<Feedfor
 	private final boolean cached;
 	private final Map<BackpropNeuron, Set<Neuron>> neighbors;
 
-	public LayeredBrainHyperassociativeMap(FeedforwardBackpropBrain graph, int dimensions, ExecutorService threadExecutor, boolean cache)
+	public LayeredBrainHyperassociativeMap(FeedforwardBackpropBrain graph, int dimensions, double equilibriumDistance, ExecutorService threadExecutor, boolean cache)
 	{
-		super(graph, dimensions, threadExecutor);
+		super(graph, dimensions, equilibriumDistance, threadExecutor);
 		cached = cache;
 		neighbors = new HashMap<BackpropNeuron, Set<Neuron>>();
 	}
 
-	public LayeredBrainHyperassociativeMap(FeedforwardBackpropBrain graph, int dimensions, ExecutorService threadExecutor)
+	public LayeredBrainHyperassociativeMap(FeedforwardBackpropBrain graph, int dimensions, ExecutorService threadExecutor, boolean cache)
 	{
-		this(graph, dimensions, threadExecutor, true);
+		this(graph, dimensions, 1.0, threadExecutor, cache);
+	}
+
+	public LayeredBrainHyperassociativeMap(FeedforwardBackpropBrain graph, int dimensions, double equilibriumDistance, boolean cache)
+	{
+		this(graph, dimensions, equilibriumDistance, null, cache);
 	}
 
 	public LayeredBrainHyperassociativeMap(FeedforwardBackpropBrain graph, int dimensions, boolean cache)
 	{
-		super(graph, dimensions);
-		cached = cache;
-		neighbors = new HashMap<BackpropNeuron, Set<Neuron>>();
+		this(graph, dimensions, 1.0, null, cache);
+	}
+
+	public LayeredBrainHyperassociativeMap(FeedforwardBackpropBrain graph, int dimensions, double equilibriumDistance, ExecutorService threadExecutor)
+	{
+		this(graph, dimensions, equilibriumDistance, threadExecutor, true);
+	}
+
+	public LayeredBrainHyperassociativeMap(FeedforwardBackpropBrain graph, int dimensions, ExecutorService threadExecutor)
+	{
+		this(graph, dimensions, 1.0, threadExecutor, true);
+	}
+
+	public LayeredBrainHyperassociativeMap(FeedforwardBackpropBrain graph, int dimensions, double equilibriumDistance)
+	{
+		this(graph, dimensions, equilibriumDistance, null, true);
 	}
 
 	public LayeredBrainHyperassociativeMap(FeedforwardBackpropBrain graph, int dimensions)
 	{
-		this(graph, dimensions, true);
+		this(graph, dimensions, 1.0, null, true);
 	}
 
 	@Override

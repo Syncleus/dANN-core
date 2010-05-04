@@ -24,14 +24,24 @@ import java.util.concurrent.ExecutorService;
 
 public class BrainHyperassociativeMap extends HyperassociativeMap<Brain, Neuron>
 {
+	public BrainHyperassociativeMap(Brain graph, int dimensions, double equilibriumDistance, ExecutorService threadExecutor)
+	{
+		super(graph, dimensions, equilibriumDistance, threadExecutor);
+	}
+
 	public BrainHyperassociativeMap(Brain graph, int dimensions, ExecutorService threadExecutor)
 	{
-		super(graph, dimensions, threadExecutor);
+		super(graph, dimensions, 1.0, threadExecutor);
+	}
+
+	public BrainHyperassociativeMap(Brain graph, int dimensions, double equilibriumDistance)
+	{
+		super(graph, dimensions, equilibriumDistance, null);
 	}
 
 	public BrainHyperassociativeMap(Brain graph, int dimensions)
 	{
-		super(graph, dimensions);
+		super(graph, dimensions, 1.0, null);
 	}
 
 	@Override
