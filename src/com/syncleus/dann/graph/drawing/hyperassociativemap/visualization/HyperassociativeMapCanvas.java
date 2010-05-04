@@ -38,6 +38,7 @@ import java.awt.GraphicsConfiguration;
 public class HyperassociativeMapCanvas<G extends Graph<N, ?>, N> extends Canvas3D
 {
 	private static final long serialVersionUID = -2387160322569579373L;
+	private final HyperassociativeMap<G,N> map;
     private HyperassociativeMapVisualization<HyperassociativeMap<G,N>,G,N> mapVisual;
 
 	/**
@@ -100,6 +101,7 @@ public class HyperassociativeMapCanvas<G extends Graph<N, ?>, N> extends Canvas3
         super(configuration);
         
 
+		this.map = map;
         final BranchGroup root = createRoot();
 
         this.mapVisual = new HyperassociativeMapVisualization<HyperassociativeMap<G,N>,G,N>(map, nodeRadius);
@@ -123,6 +125,12 @@ public class HyperassociativeMapCanvas<G extends Graph<N, ?>, N> extends Canvas3
         mouseOrbital.setSchedulingBounds(new BoundingSphere(new Point3d(0.0, 0.0, 0.0), Double.POSITIVE_INFINITY));
         universe.getViewingPlatform().setViewPlatformBehavior(mouseOrbital);
     }
+
+
+	public HyperassociativeMap<G,N> getHyperassociativeMap()
+	{
+		return this.map;
+	}
     
 
 	/**

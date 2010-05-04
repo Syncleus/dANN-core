@@ -24,34 +24,56 @@ import java.util.concurrent.ExecutorService;
 
 public class BrainHyperassociativeMap extends HyperassociativeMap<Brain, Neuron>
 {
+	public BrainHyperassociativeMap(Brain graph, int dimensions, double equilibriumDistance, boolean useWeights, ExecutorService threadExecutor)
+	{
+		super(graph, dimensions, equilibriumDistance, useWeights, threadExecutor);
+	}
+
+	public BrainHyperassociativeMap(Brain graph, int dimensions, boolean useWeights, ExecutorService threadExecutor)
+	{
+		super(graph, dimensions, 1.0, useWeights, threadExecutor);
+	}
+
+	public BrainHyperassociativeMap(Brain graph, int dimensions, double equilibriumDistance, boolean useWeights)
+	{
+		super(graph, dimensions, equilibriumDistance, useWeights, null);
+	}
+
+	public BrainHyperassociativeMap(Brain graph, int dimensions, boolean useWeights)
+	{
+		super(graph, dimensions, 1.0, useWeights, null);
+	}
+
 	public BrainHyperassociativeMap(Brain graph, int dimensions, double equilibriumDistance, ExecutorService threadExecutor)
 	{
-		super(graph, dimensions, equilibriumDistance, threadExecutor);
+		super(graph, dimensions, equilibriumDistance, true, threadExecutor);
 	}
 
 	public BrainHyperassociativeMap(Brain graph, int dimensions, ExecutorService threadExecutor)
 	{
-		super(graph, dimensions, 1.0, threadExecutor);
+		super(graph, dimensions, 1.0, true, threadExecutor);
 	}
 
 	public BrainHyperassociativeMap(Brain graph, int dimensions, double equilibriumDistance)
 	{
-		super(graph, dimensions, equilibriumDistance, null);
+		super(graph, dimensions, equilibriumDistance, true, null);
 	}
 
 	public BrainHyperassociativeMap(Brain graph, int dimensions)
 	{
-		super(graph, dimensions, 1.0, null);
+		super(graph, dimensions, 1.0, true, null);
 	}
 
 	@Override
-	Set<Neuron> getNeighbors(Neuron nodeToQuery)
+	Map<Neuron, Double> getNeighbors(Neuron nodeToQuery)
 	{
-		final Set<Neuron> associations = new HashSet<Neuron>(this.getGraph().getAdjacentNodes(nodeToQuery));
+		final Map<Neuron, Double> associations = super.getNeighbors(nodeToQuery);
 		if(nodeToQuery instanceof InputNeuron)
-			associations.addAll(this.getGraph().getInputNeurons());
+			for(InputNeuron neuron : this.getGraph().getInputNeurons())
+				associations.put(neuron, this.getEquilibriumDistance());
 		else if(nodeToQuery instanceof OutputNeuron)
-			associations.addAll(this.getGraph().getOutputNeurons());
+			for(OutputNeuron neuron : this.getGraph().getOutputNeurons())
+				associations.put(neuron, this.getEquilibriumDistance());
 		associations.remove(nodeToQuery);
 
 		return associations;

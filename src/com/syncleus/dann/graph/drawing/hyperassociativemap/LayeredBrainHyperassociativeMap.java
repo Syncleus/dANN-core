@@ -27,52 +27,52 @@ import java.util.concurrent.ExecutorService;
 public class LayeredBrainHyperassociativeMap extends HyperassociativeMap<FeedforwardBackpropBrain, Neuron>
 {
 	private final boolean cached;
-	private final Map<BackpropNeuron, Set<Neuron>> neighbors;
+	private final Map<BackpropNeuron, Map<Neuron, Double>> neighbors;
 
-	public LayeredBrainHyperassociativeMap(FeedforwardBackpropBrain graph, int dimensions, double equilibriumDistance, ExecutorService threadExecutor, boolean cache)
+	public LayeredBrainHyperassociativeMap(FeedforwardBackpropBrain graph, int dimensions, double equilibriumDistance, boolean useWeights, ExecutorService threadExecutor, boolean cache)
 	{
-		super(graph, dimensions, equilibriumDistance, threadExecutor);
+		super(graph, dimensions, equilibriumDistance, useWeights, threadExecutor);
 		cached = cache;
-		neighbors = new HashMap<BackpropNeuron, Set<Neuron>>();
+		neighbors = new HashMap<BackpropNeuron, Map<Neuron, Double>>();
 	}
 
 	public LayeredBrainHyperassociativeMap(FeedforwardBackpropBrain graph, int dimensions, ExecutorService threadExecutor, boolean cache)
 	{
-		this(graph, dimensions, 1.0, threadExecutor, cache);
+		this(graph, dimensions, 1.0, true, threadExecutor, cache);
 	}
 
-	public LayeredBrainHyperassociativeMap(FeedforwardBackpropBrain graph, int dimensions, double equilibriumDistance, boolean cache)
+	public LayeredBrainHyperassociativeMap(FeedforwardBackpropBrain graph, int dimensions, double equilibriumDistance, boolean useWeights, boolean cache)
 	{
-		this(graph, dimensions, equilibriumDistance, null, cache);
+		this(graph, dimensions, equilibriumDistance, useWeights, null, cache);
 	}
 
 	public LayeredBrainHyperassociativeMap(FeedforwardBackpropBrain graph, int dimensions, boolean cache)
 	{
-		this(graph, dimensions, 1.0, null, cache);
+		this(graph, dimensions, 1.0, true, null, cache);
 	}
 
-	public LayeredBrainHyperassociativeMap(FeedforwardBackpropBrain graph, int dimensions, double equilibriumDistance, ExecutorService threadExecutor)
+	public LayeredBrainHyperassociativeMap(FeedforwardBackpropBrain graph, int dimensions, double equilibriumDistance, boolean useWeights, ExecutorService threadExecutor)
 	{
-		this(graph, dimensions, equilibriumDistance, threadExecutor, true);
+		this(graph, dimensions, equilibriumDistance, useWeights, threadExecutor, true);
 	}
 
 	public LayeredBrainHyperassociativeMap(FeedforwardBackpropBrain graph, int dimensions, ExecutorService threadExecutor)
 	{
-		this(graph, dimensions, 1.0, threadExecutor, true);
+		this(graph, dimensions, 1.0, true, threadExecutor, true);
 	}
 
-	public LayeredBrainHyperassociativeMap(FeedforwardBackpropBrain graph, int dimensions, double equilibriumDistance)
+	public LayeredBrainHyperassociativeMap(FeedforwardBackpropBrain graph, int dimensions, double equilibriumDistance, boolean useWeights)
 	{
-		this(graph, dimensions, equilibriumDistance, null, true);
+		this(graph, dimensions, equilibriumDistance, useWeights, null, true);
 	}
 
 	public LayeredBrainHyperassociativeMap(FeedforwardBackpropBrain graph, int dimensions)
 	{
-		this(graph, dimensions, 1.0, null, true);
+		this(graph, dimensions, 1.0, true, null, true);
 	}
 
 	@Override
-	Set<Neuron> getNeighbors(Neuron nodeToQuery)
+	Map<Neuron, Double> getNeighbors(Neuron nodeToQuery)
 	{
 		if(!(nodeToQuery instanceof BackpropNeuron))
 			throw new IllegalArgumentException("nodeToQuery must be BackpropNeuron");
@@ -81,8 +81,17 @@ public class LayeredBrainHyperassociativeMap extends HyperassociativeMap<Feedfor
 		if( (this.cached) && (this.neighbors.containsKey(neuronToQuery)) )
 			return this.neighbors.get(neuronToQuery);
 
-		final Set<Neuron> associations = new HashSet<Neuron>(this.getGraph().getAdjacentNodes(neuronToQuery));
+		//populate initial associations based off edges
+		final Map<Neuron, Double> associations = new HashMap<Neuron, Double>();
+		for(Synapse neighborEdge : this.getGraph().getAdjacentEdges(nodeToQuery))
+		{
+			Double currentWeight = (this.isUsingWeights() ? neighborEdge.getWeight() : this.getEquilibriumDistance() );
+			for(Neuron neighbor : neighborEdge.getNodes())
+				if( !neighbor.equals(nodeToQuery) )
+					associations.put(neighbor, currentWeight);
+		}
 
+		//add aditional associations per layer.
 		for(Set<BackpropNeuron> layer : this.getGraph().getLayers())
 		{
 			if(layer.contains(neuronToQuery))
@@ -90,9 +99,9 @@ public class LayeredBrainHyperassociativeMap extends HyperassociativeMap<Feedfor
 				for(BackpropNeuron layerNeuron : layer)
 				{
 					if( (neuronToQuery instanceof StaticNeuron) && (layerNeuron instanceof StaticNeuron) )
-						associations.add(layerNeuron);
+						associations.put(layerNeuron, this.getEquilibriumDistance());
 					else if( (!(neuronToQuery instanceof StaticNeuron)) && (!(layerNeuron instanceof StaticNeuron)) )
-						associations.add(layerNeuron);
+						associations.put(layerNeuron, this.getEquilibriumDistance());
 				}
 			}
 		}
