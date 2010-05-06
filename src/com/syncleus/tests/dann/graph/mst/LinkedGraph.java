@@ -21,7 +21,7 @@ package com.syncleus.tests.dann.graph.mst;
 import com.syncleus.dann.graph.*;
 import java.util.*;
 
-public class LinkedGraph<N, E extends Edge<N>> extends AbstractGraph<N, E>
+public class LinkedGraph<N, E extends Edge<N>> extends AbstractAdjacencyGraph<N, E>
 {
 	final private Set<N> nodes;
 	final private Set<E> edges;

@@ -20,11 +20,11 @@ package com.syncleus.dann.graphicalmodel.bayesian;
 
 import com.syncleus.dann.graph.ImmutableDirectedEdge;
 
-public class SimpleBayesianEdge extends ImmutableDirectedEdge<BayesianNode> implements BayesianEdge
+public class SimpleBayesianEdge<N extends BayesianNode> extends ImmutableDirectedEdge<N> implements BayesianEdge<N>
 {
 	private static final long serialVersionUID = 5817768183659411136L;
 	
-	public SimpleBayesianEdge(BayesianNode source, BayesianNode destination)
+	public SimpleBayesianEdge(N source, N destination)
 	{
 		super(source, destination);
 	}

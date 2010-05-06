@@ -21,7 +21,7 @@ package com.syncleus.tests.dann.graph.search;
 import com.syncleus.dann.graph.*;
 import java.util.*;
 
-public class DirectedGrid extends AbstractBidirectedGraph<GridNode, DirectedEdge<GridNode>>
+public class DirectedGrid extends AbstractBidirectedAdjacencyGraph<GridNode, DirectedEdge<GridNode>>
 {
 	final private GridNode[][] nodes;
 	final private Set<GridNode> nodeSet = new HashSet<GridNode>();

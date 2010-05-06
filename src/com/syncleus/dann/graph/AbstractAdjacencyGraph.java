@@ -22,9 +22,98 @@ import com.syncleus.dann.graph.cycle.*;
 import java.util.*;
 import com.syncleus.dann.math.set.Combinations;
 import java.io.Serializable;
+import java.util.Map.Entry;
+import org.apache.log4j.Logger;
+import com.syncleus.dann.UnexpectedDannError;
 
-public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
+public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Graph<N,E>
 {
+	private final static Logger LOGGER = Logger.getLogger(AbstractAdjacencyGraph.class);
+	
+	private Set<E> edges;
+	private Map<N, Set<E>> adjacentEdges = new HashMap<N, Set<E>>();
+	private Map<N, List<N>> adjacentNodes = new HashMap<N, List<N>>();
+
+	protected AbstractAdjacencyGraph()
+	{
+		this.edges = new HashSet<E>();
+	}
+
+	protected AbstractAdjacencyGraph(final Graph<N,E> copyGraph)
+	{
+		this(copyGraph.getNodes(), copyGraph.getEdges());
+	}
+
+	protected AbstractAdjacencyGraph(final Set<N> nodes, final Set<E> edges)
+	{
+		this.edges = new HashSet<E>(edges);
+
+		for(N node : nodes)
+		{
+			this.adjacentNodes.put(node, new ArrayList<N>());
+			this.adjacentEdges.put(node, new HashSet<E>());
+		}
+
+		for(E edge : edges)
+		{
+			final List<N> edgeNodes = edge.getNodes();
+			for(int startNodeIndex = 0; startNodeIndex < edgeNodes.size(); startNodeIndex++)
+			{
+				N edgeNode = edgeNodes.get(startNodeIndex);
+
+				if(!nodes.contains(edgeNode))
+					throw new IllegalArgumentException("A node that is an end point in one of the edges was not in the nodes list");
+
+				this.adjacentEdges.get(edgeNode).add(edge);
+
+				for(int endNodeIndex = 0; endNodeIndex < edgeNodes.size(); endNodeIndex++)
+				{
+					if(startNodeIndex != endNodeIndex)
+						this.adjacentNodes.get(edgeNode).add(edgeNodes.get(endNodeIndex));
+				}
+			}
+		}
+	}
+
+	protected Set<E> getInternalEdges()
+	{
+		return this.edges;
+	}
+
+	protected Map<N, Set<E>> getInternalAdjacencyEdges()
+	{
+		return this.adjacentEdges;
+	}
+
+	protected Map<N, List<N>> getInternalAdjacencyNodes()
+	{
+		return this.adjacentNodes;
+	}
+
+	public Set<N> getNodes()
+	{
+		return Collections.unmodifiableSet(this.adjacentEdges.keySet());
+	}
+
+	@Override
+	public Set<E> getEdges()
+	{
+		return Collections.unmodifiableSet(this.edges);
+	}
+
+	public Set<E> getAdjacentEdges(final N node)
+	{
+		if(this.adjacentEdges.containsKey(node))
+			return Collections.unmodifiableSet(this.adjacentEdges.get(node));
+		else
+			return Collections.<E>emptySet();
+	}
+
+	public List<N> getAdjacentNodes(final N node)
+	{
+		return Collections.unmodifiableList(new ArrayList<N>(this.adjacentNodes.get(node)));
+	}
+
 	public List<N> getTraversableNodes(final N node)
 	{
 		final List<N> traversableNodes = new ArrayList<N>();
@@ -152,7 +241,7 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 		return true;
 	}
 
-	private ImmutableGraph<N,Edge<N>> deleteFromGraph(final Set<N> nodes, final Set<E> edges)
+	private ImmutableAdjacencyGraph<N,Edge<N>> deleteFromGraph(final Set<N> nodes, final Set<E> edges)
 	{
 		//remove the nodes
 		final Set<N> cutNodes = this.getNodes();
@@ -184,7 +273,7 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 
 		//check if a graph fromt he new set of edges and nodes is still
 		//connected
-		return new ImmutableGraph<N,Edge<N>>(cutNodes, cutEdges);
+		return new ImmutableAdjacencyGraph<N,Edge<N>>(cutNodes, cutEdges);
 	}
 
 	public boolean isCut(final Set<N> nodes, final Set<E> edges)
@@ -527,6 +616,87 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 	{
 		// TODO fill this in
 		return false;
+	}
+
+	public AbstractAdjacencyGraph<N,E> cloneAdd(E newEdge)
+	{
+		if(newEdge == null)
+			throw new IllegalArgumentException("newEdge can not be null");
+		if(!this.getNodes().containsAll(newEdge.getNodes()))
+			throw new IllegalArgumentException("newEdge has a node as an end point that is not part of the graph");
+
+		Set<E> newEdges = new HashSet<E>(this.edges);
+		if(newEdges.add(newEdge))
+		{
+			Map<N,Set<E>> newAdjacentEdges = new HashMap<N, Set<E>>();
+			for(Entry<N, Set<E>> neighborEdgeEntry : this.adjacentEdges.entrySet())
+				newAdjacentEdges.put(neighborEdgeEntry.getKey(), new HashSet<E>(neighborEdgeEntry.getValue()));
+			Map<N,List<N>> newAdjacentNodes = new HashMap<N, List<N>>();
+			for(Entry<N, List<N>> neighborNodeEntry : this.adjacentNodes.entrySet())
+				newAdjacentNodes.put(neighborNodeEntry.getKey(), new ArrayList<N>(neighborNodeEntry.getValue()));
+
+			for(N currentNode : newEdge.getNodes())
+			{
+				newAdjacentEdges.get(currentNode).add(newEdge);
+
+				List<N> currentAdjacentNodes = new ArrayList<N>(newEdge.getNodes());
+				currentAdjacentNodes.remove(currentNode);
+				for(N currentAdjacentNode : currentAdjacentNodes)
+					newAdjacentNodes.get(currentNode).add(currentAdjacentNode);
+			}
+
+			AbstractAdjacencyGraph<N,E> copy = (AbstractAdjacencyGraph<N,E>) this.clone();
+			copy.edges = newEdges;
+			copy.adjacentEdges = newAdjacentEdges;
+			copy.adjacentNodes = newAdjacentNodes;
+			return copy;
+		}
+
+		return null;
+	}
+
+	public AbstractAdjacencyGraph<N,E> cloneAdd(N newNode)
+	{
+		// TODO fill this in
+		return null;
+	}
+
+	public AbstractAdjacencyGraph<N,E> cloneAdd(Set<N> newNodes, Set<E> newEdges)
+	{
+		// TODO fill this in
+		return null;
+	}
+
+	public AbstractAdjacencyGraph<N,E> cloneRemove(E edgeToRemove)
+	{
+		// TODO fill this in
+		return null;
+	}
+
+	public AbstractAdjacencyGraph<N,E> cloneRemove(N nodeToRemove)
+	{
+		// TODO fill this in
+		return null;
+	}
+
+	public AbstractAdjacencyGraph<N,E> cloneRemove(Set<N> deleteNodes, Set<E> deleteEdges)
+	{
+		// TODO fill this in
+		return null;
+	}
+
+	@Override
+	public AbstractAdjacencyGraph<N,E> clone()
+	{
+		try
+		{
+			return (AbstractAdjacencyGraph<N,E>) super.clone();
+		}
+		catch(CloneNotSupportedException caught)
+		{
+			LOGGER.error("Unexpectidly could not clone Graph.", caught);
+			throw new UnexpectedDannError("Unexpectidly could not clone graph", caught);
+		}
 	}
 
 	private static class SizeComparator implements Comparator<Collection>, Serializable

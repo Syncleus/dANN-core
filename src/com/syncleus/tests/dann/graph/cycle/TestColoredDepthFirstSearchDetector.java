@@ -46,7 +46,7 @@ public class TestColoredDepthFirstSearchDetector
 		DirectedEdge<Object> centerRightEdge = new ImmutableDirectedEdge<Object>(centerNode, rightNode);
 		edges.add(centerRightEdge);
 
-		BidirectedGraph<Object, DirectedEdge<Object>> graph = new ImmutableDirectedGraph<Object, DirectedEdge<Object>>(nodes, edges);
+		BidirectedGraph<Object, DirectedEdge<Object>> graph = new ImmutableDirectedAdjacencyGraph<Object, DirectedEdge<Object>>(nodes, edges);
 
 		CycleDetector detector = new ColoredDepthFirstSearchDetector();
 		Assert.assertFalse("cycle detected when there should be none.", detector.hasCycle(graph));
@@ -79,7 +79,7 @@ public class TestColoredDepthFirstSearchDetector
 		DirectedEdge<Object> leftTopEdge = new ImmutableDirectedEdge<Object>(leftNode, topNode);
 		edges.add(leftTopEdge);
 
-		BidirectedGraph<Object, DirectedEdge<Object>> graph = new ImmutableDirectedGraph<Object, DirectedEdge<Object>>(nodes, edges);
+		BidirectedGraph<Object, DirectedEdge<Object>> graph = new ImmutableDirectedAdjacencyGraph<Object, DirectedEdge<Object>>(nodes, edges);
 
 		CycleDetector detector = new ColoredDepthFirstSearchDetector();
 		Assert.assertTrue("cycle not detected when there should be one.", detector.hasCycle(graph));
@@ -106,7 +106,7 @@ public class TestColoredDepthFirstSearchDetector
 		BidirectedEdge<Object> centerRightEdge = new ImmutableUndirectedEdge<Object>(centerNode, rightNode);
 		edges.add(centerRightEdge);
 
-		Graph<Object, BidirectedEdge<Object>> graph = new ImmutableGraph<Object, BidirectedEdge<Object>>(nodes, edges);
+		Graph<Object, BidirectedEdge<Object>> graph = new ImmutableAdjacencyGraph<Object, BidirectedEdge<Object>>(nodes, edges);
 
 		CycleDetector detector = new ColoredDepthFirstSearchDetector();
 		Assert.assertFalse("cycle detected when there should be none.", detector.hasCycle(graph));
@@ -139,7 +139,7 @@ public class TestColoredDepthFirstSearchDetector
 		BidirectedEdge<Object> leftTopEdge = new ImmutableUndirectedEdge<Object>(leftNode, topNode);
 		edges.add(leftTopEdge);
 
-		Graph<Object, BidirectedEdge<Object>> graph = new ImmutableGraph<Object, BidirectedEdge<Object>>(nodes, edges);
+		Graph<Object, BidirectedEdge<Object>> graph = new ImmutableAdjacencyGraph<Object, BidirectedEdge<Object>>(nodes, edges);
 
 		CycleDetector detector = new ColoredDepthFirstSearchDetector();
 		Assert.assertTrue("cycle not detected when there should be one.", detector.hasCycle(graph));
@@ -168,7 +168,7 @@ public class TestColoredDepthFirstSearchDetector
 		BidirectedEdge<Object> centerRightEdge2 = new ImmutableUndirectedEdge<Object>(centerNode, rightNode);
 		edges.add(centerRightEdge2);
 
-		Graph<Object, BidirectedEdge<Object>> graph = new ImmutableGraph<Object, BidirectedEdge<Object>>(nodes, edges);
+		Graph<Object, BidirectedEdge<Object>> graph = new ImmutableAdjacencyGraph<Object, BidirectedEdge<Object>>(nodes, edges);
 
 		CycleDetector detector = new ColoredDepthFirstSearchDetector();
 		Assert.assertTrue("cycle not detected when there should be one.", detector.hasCycle(graph));

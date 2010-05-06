@@ -21,8 +21,10 @@ package com.syncleus.dann.neural;
 import com.syncleus.dann.UnexpectedDannError;
 import java.util.*;
 import java.util.concurrent.*;
-import com.syncleus.dann.graph.AbstractBidirectedGraph;
+import com.syncleus.dann.graph.AbstractBidirectedAdjacencyGraph;
 import java.io.Serializable;
+
+// TODO refactor this to be a generic following the patern of its parent classes.
 
 /**
  * Represents a single artificial brain typically belonging to a single
@@ -35,7 +37,7 @@ import java.io.Serializable;
  * @since 1.0
  *
  */
-public abstract class AbstractLocalBrain extends AbstractBidirectedGraph<Neuron, Synapse> implements Brain, Serializable
+public abstract class AbstractLocalBrain extends AbstractBidirectedAdjacencyGraph<Neuron, Synapse> implements Brain, Serializable
 {
 	private static class NodeConnectivity extends HashMap<Neuron,Set<Synapse>>
 	{

@@ -18,6 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
+import java.util.Set;
+
 /**
  * A type of graph where each edge has 2 or more end points and is undirected
  * so each edge can be traversed from any end point of the edge to any end

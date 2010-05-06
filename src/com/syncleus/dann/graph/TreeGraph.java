@@ -18,6 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
+import java.util.Set;
+
 /**
  * A type of graph consisting of bidirected edges that is weakly connected,
  * acyclic, and simple.

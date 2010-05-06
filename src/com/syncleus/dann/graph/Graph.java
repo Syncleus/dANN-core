@@ -21,6 +21,8 @@ package com.syncleus.dann.graph;
 import java.io.Serializable;
 import java.util.*;
 
+// TODO consider making all nodes extend from a connectable interface so you can embed other graphs as nodes if they too are connectable.
+
 /**
  * Represents a graph as a collection of nodes connected by edges. A graph does
  * not need to contain any nodes or edges however if there is atleast one edge
@@ -34,7 +36,7 @@ import java.util.*;
  * @param <E> The edge used to connect nodes.
  * @since 2.0
  */
-public interface Graph<N, E extends Edge<N>> extends Serializable
+public interface Graph<N, E extends Edge<N>> extends Serializable, Cloneable
 {
 	/**
 	 * Get a set of all nodes in the graph.
@@ -686,4 +688,65 @@ public interface Graph<N, E extends Edge<N>> extends Serializable
 	 * @since 2.0
 	 */
 	boolean isKnot(Set<N> knotedNodes);
+
+	/**
+	 * Adds the specified edge to a clone of this class.
+	 *
+	 * @param newEdge the edge to add to the cloned graph.
+	 * @return a clone of this graph with the specified edge added to it. null
+	 * if the edge already exists.
+	 * @since 2.0
+	 */
+	Graph<N,E> cloneAdd(E newEdge);
+
+	/**
+	 * Adds the specified node to a clone of this class.
+	 *
+	 * @param newNode the node to add to the cloned graph.
+	 * @return a clone of this graph with the specified node added to it.
+	 * @since 2.0
+	 */
+	Graph<N,E> cloneAdd(N newNode);
+
+	/**
+	 * Adds the specified nodes and edges to a clone of this class.
+	 *
+	 * @param newNodes the nodes to add to the cloned graph.
+	 * @param newEdges the edges to add to the cloned graph.
+	 * @return a clone of this graph with the specified nodes and edges
+	 * added to it.
+	 * @since 2.0
+	 */
+	Graph<N,E> cloneAdd(Set<N> newNodes, Set<E> newEdges);
+	
+	/**
+	 * Removed the specified edge from a clone of this class.
+	 *
+	 * @param edgeToRemove the edge to remove from the cloned graph.
+	 * @return a clone of this graph with the specified edge removed to it.
+	 * @since 2.0
+	 */
+	Graph<N,E> cloneRemove(E edgeToRemove);
+
+	/**
+	 * Removed the specified edge to a clone of this class.
+	 *
+	 * @param nodeToRemove the edge to remove from the cloned graph.
+	 * @return a clone of this graph with the specified edge removed from it.
+	 * @since 2.0
+	 */
+	Graph<N,E> cloneRemove(N nodeToRemove);
+
+	/**
+	 * Removed the specified nodes and edges from a clone of this class.
+	 *
+	 * @param deleteNodes the nodes to remove from the cloned graph.
+	 * @param deleteEdges the edges to remove from the cloned graph.
+	 * @return a clone of this graph with the specified nodes and edges
+	 * removed from it.
+	 * @since 2.0
+	 */
+	Graph<N,E> cloneRemove(Set<N> deleteNodes, Set<E> deleteEdges);
+
+	Graph<N,E> clone();
 }

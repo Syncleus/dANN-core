@@ -52,6 +52,28 @@ public class ImmutableHyperEdge<N> extends AbstractEdge<N> implements HyperEdge<
 		return false;
 	}
 
+	public ImmutableHyperEdge<N> connect(N node)
+	{
+		if(node == null)
+			throw new IllegalArgumentException("node can not be null", new NullPointerException());
+		if(this.getNodes().contains(node))
+			throw new IllegalArgumentException("node is already connected");
+
+		return (ImmutableHyperEdge<N>) this.add(node);
+	}
+
+	public ImmutableHyperEdge<N> connect(List<N> nodes)
+	{
+		if(nodes == null)
+			throw new IllegalArgumentException("node can not be null", new NullPointerException());
+
+		for(N node : nodes)
+			if(this.getNodes().contains(node))
+				throw new IllegalArgumentException("node is already connected");
+
+		return (ImmutableHyperEdge<N>) this.add(nodes);
+	}
+
 	public ImmutableHyperEdge<N> disconnect(N node)
 	{
 		if(node == null)

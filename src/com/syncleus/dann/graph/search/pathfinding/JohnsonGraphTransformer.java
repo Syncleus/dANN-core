@@ -45,7 +45,7 @@ public class JohnsonGraphTransformer<N> implements GraphTransformer<BidirectedGr
 		Set<WeightedDirectedEdge<Object>> originalEdges = new HashSet<WeightedDirectedEdge<Object>>();
 		for(WeightedDirectedEdge<N> originalEdge : original.getEdges())
 			originalEdges.add((WeightedDirectedEdge<Object>)originalEdge);
-		SimpleMutableDirectedGraph<Object, WeightedDirectedEdge<Object>> copyGraph = new SimpleMutableDirectedGraph<Object, WeightedDirectedEdge<Object>>(new HashSet<Object>(original.getNodes()), originalEdges );
+		MutableDirectedAdjacencyGraph<Object, WeightedDirectedEdge<Object>> copyGraph = new MutableDirectedAdjacencyGraph<Object, WeightedDirectedEdge<Object>>(new HashSet<Object>(original.getNodes()), originalEdges );
 
 		Set<Object> originalNodes = copyGraph.getNodes();
 		copyGraph.add(blankNode);
@@ -54,7 +54,7 @@ public class JohnsonGraphTransformer<N> implements GraphTransformer<BidirectedGr
 
 		BellmanFordPathFinder<Object, WeightedDirectedEdge<Object>> pathFinder = new BellmanFordPathFinder<Object, WeightedDirectedEdge<Object>>(copyGraph);
 
-		SimpleMutableDirectedGraph johnsonGraph = new SimpleMutableDirectedGraph(original.getNodes(), new HashSet<WeightedDirectedEdge<N>>(original.getEdges()));
+		MutableDirectedAdjacencyGraph johnsonGraph = new MutableDirectedAdjacencyGraph(original.getNodes(), new HashSet<WeightedDirectedEdge<N>>(original.getEdges()));
 		List<WeightedDirectedEdge<N>> edges = new ArrayList<WeightedDirectedEdge<N>>(johnsonGraph.getEdges());
 		for(WeightedDirectedEdge<N> edge : edges)
 		{

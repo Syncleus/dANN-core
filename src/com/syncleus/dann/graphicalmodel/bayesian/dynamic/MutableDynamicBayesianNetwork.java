@@ -16,45 +16,11 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graphicalmodel.bayesian;
+package com.syncleus.dann.graphicalmodel.bayesian.dynamic;
 
-public class SimpleBayesianNetwork extends AbstractBayesianNetwork
+import com.syncleus.dann.graph.MutableGraph;
+import com.syncleus.dann.graphicalmodel.bayesian.BayesianEdge;
+
+public interface MutableDynamicBayesianNetwork<N extends DynamicBayesianNode, E extends BayesianEdge<N>> extends DynamicBayesianNetwork<N,E>, MutableGraph<N, E>
 {
-	private static final long serialVersionUID = -7951102585507791756L;
-	
-	@Override
-	public boolean connect(BayesianNode source, BayesianNode destination)
-	{
-		return super.connect(source, destination);
-	}
-
-	@Override
-	public boolean disconnect(BayesianNode source, BayesianNode destination)
-	{
-		return super.disconnect(source, destination);
-	}
-
-	@Override
-	public boolean add(BayesianNode node)
-	{
-		return super.add(node);
-	}
-
-	@Override
-	public boolean add(BayesianEdge edge)
-	{
-		return super.add(edge);
-	}
-
-	@Override
-	public boolean remove(BayesianNode node)
-	{
-		return super.remove(node);
-	}
-
-	@Override
-	public boolean remove(BayesianEdge edge)
-	{
-		return super.remove(edge);
-	}
 }

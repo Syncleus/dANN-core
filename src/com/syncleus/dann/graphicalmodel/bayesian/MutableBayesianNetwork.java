@@ -16,22 +16,10 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph;
+package com.syncleus.dann.graphicalmodel.bayesian;
 
-public abstract class AbstractTreeGraph<N, E extends BidirectedEdge<N>> extends AbstractBidirectedGraph<N,E> implements TreeGraph<N,E>
+import com.syncleus.dann.graph.MutableGraph;
+
+public interface MutableBayesianNetwork<N extends BayesianNode, E extends BayesianEdge<N>> extends BayesianNetwork<N,E>, MutableGraph<N,E>
 {
-	// TODO restrict tree's to only maximally connected trees
-	
-	public boolean isLeaf(final N node)
-	{
-		return (this.getDegree(node) == 1);
-	}
-
-	public boolean isLeaf(final E edge)
-	{
-		for(N node : edge.getNodes())
-			if(this.isLeaf(node))
-				return true;
-		return false;
-	}
 }

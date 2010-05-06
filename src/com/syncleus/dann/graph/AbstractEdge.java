@@ -24,8 +24,8 @@ import org.apache.log4j.Logger;
 
 public abstract class AbstractEdge<N> implements Edge<N>
 {
-	private List<N> nodes;
 	private final static Logger LOGGER = Logger.getLogger(AbstractEdge.class);
+	private List<N> nodes;
 
 	protected AbstractEdge(final List<N> nodes)
 	{
@@ -40,10 +40,36 @@ public abstract class AbstractEdge<N> implements Edge<N>
 		this.nodes = Collections.unmodifiableList(newNodes);
 	}
 
+	protected AbstractEdge<N> add(N node)
+	{
+		if(node == null)
+			throw new IllegalArgumentException("node can not be null");
+
+		List<N> newNodes = new ArrayList<N>(this.nodes);
+		newNodes.add(node);
+
+		AbstractEdge<N> copy = this.clone();
+		copy.nodes = Collections.unmodifiableList(newNodes);
+		return copy;
+	}
+
+	protected AbstractEdge<N> add(List<N> nodes)
+	{
+		if(nodes == null)
+			throw new IllegalArgumentException("node can not be null");
+
+		List<N> newNodes = new ArrayList<N>(this.nodes);
+		newNodes.addAll(nodes);
+
+		AbstractEdge<N> copy = this.clone();
+		copy.nodes = Collections.unmodifiableList(newNodes);
+		return copy;
+	}
+
 	protected AbstractEdge<N> remove(N node)
 	{
 		if(node == null)
-			throw new IllegalArgumentException("node can not be null", new NullPointerException());
+			throw new IllegalArgumentException("node can not be null");
 		if(!this.getNodes().contains(node))
 			throw new IllegalArgumentException("is not an endpoint");
 
@@ -61,7 +87,7 @@ public abstract class AbstractEdge<N> implements Edge<N>
 	protected AbstractEdge<N> remove(List<N> nodes)
 	{
 		if(nodes == null)
-			throw new IllegalArgumentException("nodes can not be null", new NullPointerException());
+			throw new IllegalArgumentException("nodes can not be null");
 		if(!this.getNodes().containsAll(nodes))
 			throw new IllegalArgumentException("nodes do not contain all valid end points");
 

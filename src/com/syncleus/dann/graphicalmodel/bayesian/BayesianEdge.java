@@ -22,17 +22,17 @@ import com.syncleus.dann.graph.BidirectedEdge.EndState;
 import com.syncleus.dann.graph.DirectedEdge;
 import java.util.List;
 
-public interface BayesianEdge extends DirectedEdge<BayesianNode>
+public interface BayesianEdge<N extends BayesianNode> extends DirectedEdge<N>
 {
 	Object getState();
 	
 	//Parent methods
-	List<BayesianNode> getNodes();
-	BayesianNode getSourceNode();
-	BayesianNode getDestinationNode();
+	List<N> getNodes();
+	N getSourceNode();
+	N getDestinationNode();
 
-	BayesianNode getLeftNode();
-	BayesianNode getRightNode();
+	N getLeftNode();
+	N getRightNode();
 	EndState getLeftEndState();
 	EndState getRightEndState();
 	boolean isIntroverted();

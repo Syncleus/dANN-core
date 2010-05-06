@@ -18,8 +18,25 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public abstract class AbstractHyperGraph<N, E extends HyperEdge<N>> extends AbstractGraph<N,E> implements HyperGraph<N,E>
+import java.util.Set;
+
+public abstract class AbstractHyperAdjacencyGraph<N, E extends HyperEdge<N>> extends AbstractAdjacencyGraph<N,E> implements HyperGraph<N,E>
 {
+	protected AbstractHyperAdjacencyGraph()
+	{
+		super();
+	}
+
+	protected AbstractHyperAdjacencyGraph(final Graph<N,E> copyGraph)
+	{
+		super(copyGraph.getNodes(), copyGraph.getEdges());
+	}
+
+	protected AbstractHyperAdjacencyGraph(final Set<N> nodes, final Set<E> edges)
+	{
+		super(nodes, edges);
+	}
+
 	public int getRank()
 	{
 		return -1;
@@ -43,5 +60,47 @@ public abstract class AbstractHyperGraph<N, E extends HyperEdge<N>> extends Abst
 	public boolean isUniform()
 	{
 		return false;
+	}
+
+	@Override
+	public AbstractHyperAdjacencyGraph<N,E> cloneAdd(E newEdge)
+	{
+		return (AbstractHyperAdjacencyGraph<N,E>) super.cloneAdd(newEdge);
+	}
+
+	@Override
+	public AbstractHyperAdjacencyGraph<N,E> cloneAdd(N newNode)
+	{
+		return (AbstractHyperAdjacencyGraph<N,E>) super.cloneAdd(newNode);
+	}
+
+	@Override
+	public AbstractHyperAdjacencyGraph<N,E> cloneAdd(Set<N> newNodes, Set<E> newEdges)
+	{
+		return (AbstractHyperAdjacencyGraph<N,E>) super.cloneAdd(newNodes, newEdges);
+	}
+
+	@Override
+	public AbstractHyperAdjacencyGraph<N,E> cloneRemove(E edgeToRemove)
+	{
+		return (AbstractHyperAdjacencyGraph<N,E>) super.cloneRemove(edgeToRemove);
+	}
+
+	@Override
+	public AbstractHyperAdjacencyGraph<N,E> cloneRemove(N nodeToRemove)
+	{
+		return (AbstractHyperAdjacencyGraph<N,E>) super.cloneRemove(nodeToRemove);
+	}
+
+	@Override
+	public AbstractHyperAdjacencyGraph<N,E> cloneRemove(Set<N> deleteNodes, Set<E> deleteEdges)
+	{
+		return (AbstractHyperAdjacencyGraph<N,E>) super.cloneRemove(deleteNodes, deleteEdges);
+	}
+
+	@Override
+	public AbstractHyperAdjacencyGraph<N,E> clone()
+	{
+		return (AbstractHyperAdjacencyGraph<N,E>) super.clone();
 	}
 }

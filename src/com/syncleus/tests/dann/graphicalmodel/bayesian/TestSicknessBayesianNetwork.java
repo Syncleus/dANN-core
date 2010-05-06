@@ -46,7 +46,7 @@ public class TestSicknessBayesianNetwork
 	
 	private static Random RANDOM = new Random();
 
-	private SimpleBayesianNetwork network = new SimpleBayesianNetwork();
+	private MutableBayesianAdjacencyNetwork network = new MutableBayesianAdjacencyNetwork();
 
 	//create nodes
 	private BayesianNode<SeasonState> season = new SimpleBayesianNode<SeasonState>(SeasonState.WINTER, network);
@@ -63,7 +63,7 @@ public class TestSicknessBayesianNetwork
 		{
 			testOverall();
 			
-			this.network = new SimpleBayesianNetwork();
+			this.network = new MutableBayesianAdjacencyNetwork();
 			this.season = new SimpleBayesianNode<SeasonState>(SeasonState.WINTER, network);
 			this.age = new SimpleBayesianNode<AgeState>(AgeState.BABY, network);
 			this.stuffyNose = new SimpleBayesianNode<BooleanState>(BooleanState.TRUE, network);
@@ -85,20 +85,20 @@ public class TestSicknessBayesianNetwork
 		network.add(sick);
 
 		//connect nodes
-		network.connect(season, stuffyNose);
-		network.connect(season, fever);
-		network.connect(season, tired);
-		network.connect(season, sick);
-		network.connect(age, stuffyNose);
-		network.connect(age, fever);
-		network.connect(age, tired);
-		network.connect(age, sick);
-		network.connect(tired, fever);
-		network.connect(tired, stuffyNose);
-		network.connect(tired, sick);
-		network.connect(stuffyNose, fever);
-		network.connect(stuffyNose, sick);
-		network.connect(fever, sick);
+		network.add(new SimpleBayesianEdge<BayesianNode>(season, stuffyNose));
+		network.add(new SimpleBayesianEdge<BayesianNode>(season, fever));
+		network.add(new SimpleBayesianEdge<BayesianNode>(season, tired));
+		network.add(new SimpleBayesianEdge<BayesianNode>(season, sick));
+		network.add(new SimpleBayesianEdge<BayesianNode>(age, stuffyNose));
+		network.add(new SimpleBayesianEdge<BayesianNode>(age, fever));
+		network.add(new SimpleBayesianEdge<BayesianNode>(age, tired));
+		network.add(new SimpleBayesianEdge<BayesianNode>(age, sick));
+		network.add(new SimpleBayesianEdge<BayesianNode>(tired, fever));
+		network.add(new SimpleBayesianEdge<BayesianNode>(tired, stuffyNose));
+		network.add(new SimpleBayesianEdge<BayesianNode>(tired, sick));
+		network.add(new SimpleBayesianEdge<BayesianNode>(stuffyNose, fever));
+		network.add(new SimpleBayesianEdge<BayesianNode>(stuffyNose, sick));
+		network.add(new SimpleBayesianEdge<BayesianNode>(fever, sick));
 
 		//let the network learn
 		for(int sampleCount = 0; sampleCount < 10; sampleCount++)

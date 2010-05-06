@@ -20,7 +20,7 @@ package com.syncleus.tests.dann.graphicalmodel.bayesian;
 
 import com.syncleus.dann.graphicalmodel.bayesian.BayesianNode;
 import com.syncleus.dann.graphicalmodel.bayesian.EvidenceMap;
-import com.syncleus.dann.graphicalmodel.bayesian.SimpleBayesianNetwork;
+import com.syncleus.dann.graphicalmodel.bayesian.MutableBayesianAdjacencyNetwork;
 import com.syncleus.dann.graphicalmodel.bayesian.SimpleBayesianNode;
 import com.syncleus.dann.graphicalmodel.bayesian.StateEvidence;
 import java.util.HashSet;
@@ -37,7 +37,7 @@ public class TestEvidenceMap
 	@Test
 	public void testOverall()
 	{
-		SimpleBayesianNetwork network = new SimpleBayesianNetwork();
+		MutableBayesianAdjacencyNetwork network = new MutableBayesianAdjacencyNetwork();
 		BayesianNode<TestEnum> influence1 = new SimpleBayesianNode<TestEnum>(TestEnum.FALSE, network);
 		BayesianNode<TestEnum> influence2 = new SimpleBayesianNode<TestEnum>(TestEnum.FALSE, network);
 		BayesianNode<TestEnum> influence3 = new SimpleBayesianNode<TestEnum>(TestEnum.FALSE, network);

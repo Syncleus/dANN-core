@@ -20,42 +20,21 @@ package com.syncleus.dann.graph;
 
 import java.util.*;
 
-public class SimpleMutableHyperGraph<N, E extends HyperEdge<N>>  extends AbstractHyperGraph<N, E> implements MutableHyperGraph<N,E>
+public class MutableHyperAdjacencyGraph<N, E extends HyperEdge<N>>  extends AbstractHyperAdjacencyGraph<N, E> implements MutableHyperGraph<N,E>
 {
-	private final Set<E> edges;
-
-	private final Map<N, List<N>> adjacentNodes = new HashMap<N, List<N>>();
-	private final Map<N, Set<E>> adjacentEdges = new HashMap<N, Set<E>>();
-
-	public SimpleMutableHyperGraph(Set<N> nodes, Set<E> edges)
+	public MutableHyperAdjacencyGraph()
 	{
-		this.edges = new HashSet<E>(edges);
+		super();
+	}
 
-		for(N node : nodes)
-		{
-			this.adjacentNodes.put(node, new ArrayList<N>());
-			this.adjacentEdges.put(node, new HashSet<E>());
-		}
+	public MutableHyperAdjacencyGraph(final Graph<N,E> copyGraph)
+	{
+		super(copyGraph);
+	}
 
-		for(E edge : edges)
-		{
-			final List<N> edgeNodes = edge.getNodes();
-			for(int startNodeIndex = 0; startNodeIndex < edgeNodes.size(); startNodeIndex++)
-			{
-				N edgeNode = edgeNodes.get(startNodeIndex);
-
-				if(!nodes.contains(edgeNode))
-					throw new IllegalArgumentException("A node that is an end point in one of the edges was not in the nodes list");
-
-				this.adjacentEdges.get(edgeNode).add(edge);
-
-				for(int endNodeIndex = 0; endNodeIndex < edgeNodes.size(); endNodeIndex++)
-				{
-					if(startNodeIndex != endNodeIndex)
-						this.adjacentNodes.get(edgeNode).add(edgeNodes.get(endNodeIndex));
-				}
-			}
-		}
+	public MutableHyperAdjacencyGraph(final Set<N> nodes, final Set<E> edges)
+	{
+		super(nodes, edges);
 	}
 
 	public boolean add(E newEdge)
@@ -65,16 +44,16 @@ public class SimpleMutableHyperGraph<N, E extends HyperEdge<N>>  extends Abstrac
 		if(!this.getNodes().containsAll(newEdge.getNodes()))
 			throw new IllegalArgumentException("newEdge has a node as an end point that is not part of the graph");
 
-		if(this.edges.add(newEdge))
+		if(this.getInternalEdges().add(newEdge))
 		{
 			for(N currentNode : newEdge.getNodes())
 			{
-				this.adjacentEdges.get(currentNode).add(newEdge);
+				this.getInternalAdjacencyEdges().get(currentNode).add(newEdge);
 
 				List<N> newAdjacentNodes = new ArrayList<N>(newEdge.getNodes());
 				newAdjacentNodes.remove(currentNode);
 				for(N newAdjacentNode : newAdjacentNodes)
-					this.adjacentNodes.get(currentNode).add(newAdjacentNode);
+					this.getInternalAdjacencyNodes().get(currentNode).add(newAdjacentNode);
 			}
 			return true;
 		}
@@ -90,8 +69,8 @@ public class SimpleMutableHyperGraph<N, E extends HyperEdge<N>>  extends Abstrac
 		if(this.getNodes().contains(newNode))
 			return false;
 
-		this.adjacentEdges.put(newNode, new HashSet<E>());
-		this.adjacentNodes.put(newNode, new ArrayList<N>());
+		this.getInternalAdjacencyEdges().put(newNode, new HashSet<E>());
+		this.getInternalAdjacencyNodes().put(newNode, new ArrayList<N>());
 		return true;
 	}
 
@@ -100,17 +79,17 @@ public class SimpleMutableHyperGraph<N, E extends HyperEdge<N>>  extends Abstrac
 		if(edgeToRemove == null)
 			throw new IllegalArgumentException("removeSynapse can not be null");
 
-		if(!this.edges.remove(edgeToRemove))
+		if(!this.getInternalEdges().remove(edgeToRemove))
 			return false;
 
 		for(N removeNode : edgeToRemove.getNodes())
 		{
-			this.adjacentEdges.get(removeNode).remove(edgeToRemove);
+			this.getInternalAdjacencyEdges().get(removeNode).remove(edgeToRemove);
 
 			List<N> removeAdjacentNodes = new ArrayList<N>(edgeToRemove.getNodes());
 			removeAdjacentNodes.remove(removeNode);
 			for(N removeAdjacentNode : removeAdjacentNodes)
-				this.adjacentNodes.get(removeNode).remove(removeAdjacentNode);
+				this.getInternalAdjacencyNodes().get(removeNode).remove(removeAdjacentNode);
 		}
 		return true;
 	}
@@ -123,7 +102,7 @@ public class SimpleMutableHyperGraph<N, E extends HyperEdge<N>>  extends Abstrac
 		if(!this.getNodes().contains(nodeToRemove))
 			return false;
 
-		Set<E> removeEdges = this.adjacentEdges.get(nodeToRemove);
+		Set<E> removeEdges = this.getInternalAdjacencyEdges().get(nodeToRemove);
 
 		//remove all the edges
 		for(E removeEdge : removeEdges)
@@ -145,39 +124,51 @@ public class SimpleMutableHyperGraph<N, E extends HyperEdge<N>>  extends Abstrac
 			this.add(newEdge);
 
 		//remove the node itself
-		this.adjacentEdges.remove(nodeToRemove);
-		this.adjacentNodes.remove(nodeToRemove);
+		this.getInternalAdjacencyEdges().remove(nodeToRemove);
+		this.getInternalAdjacencyNodes().remove(nodeToRemove);
 
 		return true;
 	}
 
-	public Set<N> getNodes()
+	@Override
+	public MutableHyperAdjacencyGraph<N,E> cloneAdd(E newEdge)
 	{
-		return Collections.unmodifiableSet(this.adjacentNodes.keySet());
+		return (MutableHyperAdjacencyGraph<N,E>) super.cloneAdd(newEdge);
 	}
 
-	public Set<E> getEdges()
+	@Override
+	public MutableHyperAdjacencyGraph<N,E> cloneAdd(N newNode)
 	{
-		return Collections.unmodifiableSet(this.edges);
+		return (MutableHyperAdjacencyGraph<N,E>) super.cloneAdd(newNode);
 	}
 
-	public Set<E> getAdjacentEdges(N node)
+	@Override
+	public MutableHyperAdjacencyGraph<N,E> cloneAdd(Set<N> newNodes, Set<E> newEdges)
 	{
-		if(node == null)
-			throw new IllegalArgumentException("node can not be null", new NullPointerException());
-		if(!this.getNodes().contains(node))
-			throw new IllegalArgumentException("node is not part of this graph");
-
-		return Collections.unmodifiableSet(this.adjacentEdges.get(node));
+		return (MutableHyperAdjacencyGraph<N,E>) super.cloneAdd(newNodes, newEdges);
 	}
 
-	public List<N> getAdjacentNodes(N node)
+	@Override
+	public MutableHyperAdjacencyGraph<N,E> cloneRemove(E edgeToRemove)
 	{
-		if(node == null)
-			throw new IllegalArgumentException("node can not be null", new NullPointerException());
-		if(!this.getNodes().contains(node))
-			throw new IllegalArgumentException("node is not part of this graph");
+		return (MutableHyperAdjacencyGraph<N,E>) super.cloneRemove(edgeToRemove);
+	}
 
-		return Collections.unmodifiableList(this.adjacentNodes.get(node));
+	@Override
+	public MutableHyperAdjacencyGraph<N,E> cloneRemove(N nodeToRemove)
+	{
+		return (MutableHyperAdjacencyGraph<N,E>) super.cloneRemove(nodeToRemove);
+	}
+
+	@Override
+	public MutableHyperAdjacencyGraph<N,E> cloneRemove(Set<N> deleteNodes, Set<E> deleteEdges)
+	{
+		return (MutableHyperAdjacencyGraph<N,E>) super.cloneRemove(deleteNodes, deleteEdges);
+	}
+
+	@Override
+	public MutableHyperAdjacencyGraph<N,E> clone()
+	{
+		return (MutableHyperAdjacencyGraph<N,E>) super.clone();
 	}
 }

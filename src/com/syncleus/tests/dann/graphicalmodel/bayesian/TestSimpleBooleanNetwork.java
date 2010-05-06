@@ -18,8 +18,10 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.graphicalmodel.bayesian;
 
+import com.syncleus.dann.graphicalmodel.bayesian.BayesianEdge;
 import com.syncleus.dann.graphicalmodel.bayesian.BayesianNode;
-import com.syncleus.dann.graphicalmodel.bayesian.SimpleBayesianNetwork;
+import com.syncleus.dann.graphicalmodel.bayesian.MutableBayesianAdjacencyNetwork;
+import com.syncleus.dann.graphicalmodel.bayesian.SimpleBayesianEdge;
 import com.syncleus.dann.graphicalmodel.bayesian.SimpleBayesianNode;
 import java.util.HashSet;
 import org.junit.*;
@@ -49,7 +51,7 @@ public class TestSimpleBooleanNetwork
 	}
 
 	/** boolean-goaled bayesian network */
-	private static class SimpleBooleanNetwork<I> extends SimpleBayesianNetwork
+	private static class SimpleBooleanNetwork<I> extends MutableBayesianAdjacencyNetwork
 	{
 		private HashSet<BayesianNode> goals;
 		private HashSet<BayesianNode> influences;
@@ -70,7 +72,8 @@ public class TestSimpleBooleanNetwork
 			add(goal);
 
 			//connect nodes
-			connect(influence, goal);
+			BayesianEdge<BayesianNode> testEdge = new SimpleBayesianEdge<BayesianNode>(influence, goal);
+			this.add(testEdge);
 
 			goals.add(goal);
 			influences.add(influence);

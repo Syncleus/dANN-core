@@ -18,8 +18,10 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.graphicalmodel.bayesian;
 
+import com.syncleus.dann.graphicalmodel.bayesian.BayesianEdge;
 import com.syncleus.dann.graphicalmodel.bayesian.BayesianNode;
-import com.syncleus.dann.graphicalmodel.bayesian.SimpleBayesianNetwork;
+import com.syncleus.dann.graphicalmodel.bayesian.MutableBayesianAdjacencyNetwork;
+import com.syncleus.dann.graphicalmodel.bayesian.SimpleBayesianEdge;
 import com.syncleus.dann.graphicalmodel.bayesian.SimpleBayesianNode;
 import java.util.HashSet;
 import java.util.Set;
@@ -32,14 +34,15 @@ public class TestSimpleBayesianNetwork
 	@Test
 	public void testDependentNode()
 	{
-		SimpleBayesianNetwork network = new SimpleBayesianNetwork();
+		MutableBayesianAdjacencyNetwork network = new MutableBayesianAdjacencyNetwork();
 		BayesianNode<SimpleEnum> parentNode = new SimpleBayesianNode<SimpleEnum>(SimpleEnum.TRUE, network);
 		BayesianNode<SimpleEnum> childNode = new SimpleBayesianNode<SimpleEnum>(SimpleEnum.TRUE, network);
 
 		network.add(parentNode);
 		network.add(childNode);
 
-		network.connect(parentNode, childNode);
+		BayesianEdge<BayesianNode> testEdge = new SimpleBayesianEdge<BayesianNode>(parentNode, childNode);
+		network.add(testEdge);
 
 		parentNode.setState(SimpleEnum.TRUE);
 		childNode.setState(SimpleEnum.FALSE);

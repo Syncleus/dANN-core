@@ -18,9 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.bayesian.dynamic;
 
+import com.syncleus.dann.graphicalmodel.bayesian.BayesianEdge;
 import com.syncleus.dann.graphicalmodel.bayesian.BayesianNetwork;
 
-public interface DynamicBayesianNetwork extends BayesianNetwork
+public interface DynamicBayesianNetwork<N extends DynamicBayesianNode, E extends BayesianEdge<N>> extends BayesianNetwork<N,E>
 {
 	void learnStates(boolean updateHistory);
 }
