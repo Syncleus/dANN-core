@@ -20,7 +20,7 @@ package com.syncleus.dann.graph;
 
 import java.util.*;
 
-public class SimpleHyperGraph<N, E extends HyperEdge<N>> extends AbstractHyperGraph<N,E>
+public class ImmutableHyperGraph<N, E extends HyperEdge<N>> extends AbstractHyperGraph<N,E>
 {
 	private static final long serialVersionUID = 8503954045220921240L;
 	
@@ -29,12 +29,12 @@ public class SimpleHyperGraph<N, E extends HyperEdge<N>> extends AbstractHyperGr
 	final private Map<N, Set<E>> neighborEdges = new HashMap<N, Set<E>>();
 	final private Map<N, List<N>> neighborNodes = new HashMap<N, List<N>>();
 
-	public SimpleHyperGraph(final Graph<N,E> copyGraph)
+	public ImmutableHyperGraph(final Graph<N,E> copyGraph)
 	{
 		this(copyGraph.getNodes(), copyGraph.getEdges());
 	}
 
-	public SimpleHyperGraph(final Set<N> nodes, final Set<E> edges)
+	public ImmutableHyperGraph(final Set<N> nodes, final Set<E> edges)
 	{
 		this.nodes = new HashSet<N>(nodes);
 		this.edges = new HashSet<E>(edges);

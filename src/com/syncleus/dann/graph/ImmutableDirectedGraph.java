@@ -20,21 +20,21 @@ package com.syncleus.dann.graph;
 
 import java.util.*;
 
-public class SimpleTreeGraph<N, E extends BidirectedEdge<N>> extends AbstractTreeGraph<N,E>
+public class ImmutableDirectedGraph<N, E extends DirectedEdge<N>> extends AbstractBidirectedGraph<N,E>
 {
-	private static final long serialVersionUID = -7193318700735007603L;
+	private static final long serialVersionUID = -4588563094809496900L;
 	
 	final private Set<N> nodes;
 	final private Set<E> edges;
 	final private Map<N, Set<E>> neighborEdges = new HashMap<N, Set<E>>();
 	final private Map<N, List<N>> neighborNodes = new HashMap<N, List<N>>();
 
-	public SimpleTreeGraph(final Graph<N,E> copyGraph)
+	public ImmutableDirectedGraph(final Graph<N,E> copyGraph)
 	{
 		this(copyGraph.getNodes(), copyGraph.getEdges());
 	}
 
-	public SimpleTreeGraph(final Set<N> nodes, final Set<E> edges)
+	public ImmutableDirectedGraph(final Set<N> nodes, final Set<E> edges)
 	{
 		this.nodes = new HashSet<N>(nodes);
 		this.edges = new HashSet<E>(edges);
@@ -90,7 +90,11 @@ public class SimpleTreeGraph<N, E extends BidirectedEdge<N>> extends AbstractTre
 
 	public Set<E> getInEdges(final N node)
 	{
-		return this.getAdjacentEdges(node);
+		final Set<E> inEdges = new HashSet<E>();
+		for(E edge : edges)
+			if(edge.getDestinationNode() == node)
+				inEdges.add(edge);
+		return Collections.unmodifiableSet(inEdges);
 	}
 
 	public int getIndegree(final N node)

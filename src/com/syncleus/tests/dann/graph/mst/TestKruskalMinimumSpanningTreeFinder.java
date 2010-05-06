@@ -43,24 +43,24 @@ public class TestKruskalMinimumSpanningTreeFinder
 		nodes.add(rightNode);
 
 		Set<BidirectedEdge<Object>> edges = new HashSet<BidirectedEdge<Object>>();
-		BidirectedEdge<Object> centerTopEdge = new SimpleUndirectedEdge<Object>(centerNode, topNode);
+		BidirectedEdge<Object> centerTopEdge = new ImmutableUndirectedEdge<Object>(centerNode, topNode);
 		edges.add(centerTopEdge);
-		BidirectedEdge<Object> centerLeftEdge = new SimpleUndirectedEdge<Object>(centerNode, leftNode);
+		BidirectedEdge<Object> centerLeftEdge = new ImmutableUndirectedEdge<Object>(centerNode, leftNode);
 		edges.add(centerLeftEdge);
-		BidirectedEdge<Object> centerRightEdge = new SimpleUndirectedEdge<Object>(centerNode, rightNode);
+		BidirectedEdge<Object> centerRightEdge = new ImmutableUndirectedEdge<Object>(centerNode, rightNode);
 		edges.add(centerRightEdge);
-		BidirectedEdge<Object> topRightEdge = new SimpleUndirectedEdge<Object>(topNode, rightNode);
+		BidirectedEdge<Object> topRightEdge = new ImmutableUndirectedEdge<Object>(topNode, rightNode);
 		edges.add(topRightEdge);
-		BidirectedEdge<Object> rightLeftEdge = new SimpleUndirectedEdge<Object>(rightNode, leftNode);
+		BidirectedEdge<Object> rightLeftEdge = new ImmutableUndirectedEdge<Object>(rightNode, leftNode);
 		edges.add(rightLeftEdge);
-		BidirectedEdge<Object> leftTopEdge = new SimpleUndirectedEdge<Object>(leftNode, topNode);
+		BidirectedEdge<Object> leftTopEdge = new ImmutableUndirectedEdge<Object>(leftNode, topNode);
 		edges.add(leftTopEdge);
 
-		Graph<Object, BidirectedEdge<Object>> graph = new SimpleGraph<Object, BidirectedEdge<Object>>(nodes, edges);
+		Graph<Object, BidirectedEdge<Object>> graph = new ImmutableGraph<Object, BidirectedEdge<Object>>(nodes, edges);
 
 		MinimumSpanningTreeFinder<Object, BidirectedEdge<Object>> finder = new KruskalMinimumSpanningTreeFinder<Object, BidirectedEdge<Object>>();
 		Set<BidirectedEdge<Object>> mstEdges = finder.findMinimumSpanningTree(graph);
-		TreeGraph<Object, BidirectedEdge<Object>> mst = new SimpleTreeGraph<Object, BidirectedEdge<Object>>(graph.getNodes(), mstEdges);
+		TreeGraph<Object, BidirectedEdge<Object>> mst = new ImmutableTreeGraph<Object, BidirectedEdge<Object>>(graph.getNodes(), mstEdges);
 
 		LOGGER.info("mst edges:");
 		for(Edge edge : mst.getEdges())
@@ -90,24 +90,24 @@ public class TestKruskalMinimumSpanningTreeFinder
 		nodes.add(rightNode);
 
 		Set<BidirectedEdge<Object>> edges = new LinkedHashSet<BidirectedEdge<Object>>();
-		BidirectedEdge<Object> centerRightEdge = new SimpleUndirectedEdge<Object>(centerNode, rightNode);
+		BidirectedEdge<Object> centerRightEdge = new ImmutableUndirectedEdge<Object>(centerNode, rightNode);
 		edges.add(centerRightEdge);
-		BidirectedEdge<Object> rightLeftEdge = new SimpleUndirectedEdge<Object>(rightNode, leftNode);
+		BidirectedEdge<Object> rightLeftEdge = new ImmutableUndirectedEdge<Object>(rightNode, leftNode);
 		edges.add(rightLeftEdge);
-		BidirectedEdge<Object> topRightEdge = new SimpleUndirectedEdge<Object>(topNode, rightNode);
+		BidirectedEdge<Object> topRightEdge = new ImmutableUndirectedEdge<Object>(topNode, rightNode);
 		edges.add(topRightEdge);
-		BidirectedEdge<Object> centerTopEdge = new SimpleUndirectedEdge<Object>(centerNode, topNode);
+		BidirectedEdge<Object> centerTopEdge = new ImmutableUndirectedEdge<Object>(centerNode, topNode);
 		edges.add(centerTopEdge);
-		BidirectedEdge<Object> centerLeftEdge = new SimpleUndirectedEdge<Object>(centerNode, leftNode);
+		BidirectedEdge<Object> centerLeftEdge = new ImmutableUndirectedEdge<Object>(centerNode, leftNode);
 		edges.add(centerLeftEdge);
-		BidirectedEdge<Object> leftTopEdge = new SimpleUndirectedEdge<Object>(leftNode, topNode);
+		BidirectedEdge<Object> leftTopEdge = new ImmutableUndirectedEdge<Object>(leftNode, topNode);
 		edges.add(leftTopEdge);
 
 		Graph<Object, BidirectedEdge<Object>> graph = new LinkedGraph<Object, BidirectedEdge<Object>>(nodes, edges);
 
 		MinimumSpanningTreeFinder<Object, BidirectedEdge<Object>> finder = new KruskalMinimumSpanningTreeFinder<Object, BidirectedEdge<Object>>();
 		Set<BidirectedEdge<Object>> mstEdges = finder.findMinimumSpanningTree(graph);
-		TreeGraph<Object, BidirectedEdge<Object>> mst = new SimpleTreeGraph<Object, BidirectedEdge<Object>>(graph.getNodes(), mstEdges);
+		TreeGraph<Object, BidirectedEdge<Object>> mst = new ImmutableTreeGraph<Object, BidirectedEdge<Object>>(graph.getNodes(), mstEdges);
 
 		LOGGER.info("Linkedgraph objects:");
 		for(Object node : nodes)

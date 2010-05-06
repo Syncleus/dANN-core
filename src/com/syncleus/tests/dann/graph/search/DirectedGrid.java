@@ -54,14 +54,14 @@ public class DirectedGrid extends AbstractBidirectedGraph<GridNode, DirectedEdge
 				//connect to the right
 				if( x < nodes[0].length - 1)
 				{
-					SimpleDirectedEdge<GridNode> newEdge = new SimpleDirectedEdge<GridNode>(nodes[y][x], nodes[y][x+1]);
+					ImmutableDirectedEdge<GridNode> newEdge = new ImmutableDirectedEdge<GridNode>(nodes[y][x], nodes[y][x+1]);
 					this.edges.add(newEdge);
 					this.outNeighborEdges.get(nodes[y][x]).add(newEdge);
 					this.inNeighborEdges.get(nodes[y][x+1]).add(newEdge);
 					this.outNeighborNodes.get(nodes[y][x]).add(nodes[y][x+1]);
 					this.inNeighborNodes.get(nodes[y][x+1]).add(nodes[y][x]);
 
-					newEdge = new SimpleDirectedEdge<GridNode>(nodes[y][x+1], nodes[y][x]);
+					newEdge = new ImmutableDirectedEdge<GridNode>(nodes[y][x+1], nodes[y][x]);
 					this.edges.add(newEdge);
 					this.inNeighborEdges.get(nodes[y][x]).add(newEdge);
 					this.outNeighborEdges.get(nodes[y][x+1]).add(newEdge);
@@ -71,14 +71,14 @@ public class DirectedGrid extends AbstractBidirectedGraph<GridNode, DirectedEdge
 				//connect to the bottom
 				if( y < nodes.length - 1)
 				{
-					SimpleDirectedEdge<GridNode> newEdge = new SimpleDirectedEdge<GridNode>(nodes[y][x], nodes[y+1][x]);
+					ImmutableDirectedEdge<GridNode> newEdge = new ImmutableDirectedEdge<GridNode>(nodes[y][x], nodes[y+1][x]);
 					this.edges.add(newEdge);
 					this.outNeighborEdges.get(nodes[y][x]).add(newEdge);
 					this.inNeighborEdges.get(nodes[y+1][x]).add(newEdge);
 					this.outNeighborNodes.get(nodes[y][x]).add(nodes[y+1][x]);
 					this.inNeighborNodes.get(nodes[y+1][x]).add(nodes[y][x]);
 
-					newEdge = new SimpleDirectedEdge<GridNode>(nodes[y+1][x], nodes[y][x]);
+					newEdge = new ImmutableDirectedEdge<GridNode>(nodes[y+1][x], nodes[y][x]);
 					this.edges.add(newEdge);
 					this.inNeighborEdges.get(nodes[y][x]).add(newEdge);
 					this.outNeighborEdges.get(nodes[y+1][x]).add(newEdge);

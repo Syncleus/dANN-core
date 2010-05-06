@@ -21,9 +21,22 @@ package com.syncleus.dann.graph;
 import java.io.Serializable;
 import java.util.List;
 
-public interface Edge<N> extends Serializable
+public interface Edge<N> extends Serializable, Cloneable
 {
 	List<N> getNodes();
 	List<N> getTraversableNodes(N node);
 	boolean isTraversable(N node);
+
+	/**
+	 * returns an edge with the specified node disconnected, null if the entire
+	 * edge should be deleted as a result of removing the specified node.
+	 *
+	 * @param node node to remove from the returned edge.
+	 * @return an edge with the specified node disconnected, null if the entire
+	 * edge should be deleted as a result of removing the specified node.
+	 * @since 2.0
+	 */
+	Edge<N> disconnect(N node);
+	Edge<N> disconnect(List<N> node);
+	Edge<N> clone();
 }

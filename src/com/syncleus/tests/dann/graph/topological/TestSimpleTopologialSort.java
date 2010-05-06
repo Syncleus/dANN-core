@@ -41,16 +41,16 @@ public class TestSimpleTopologialSort
 		nodes.add(rightNode);
 
 		Set<DirectedEdge<Object>> edges = new HashSet<DirectedEdge<Object>>();
-		DirectedEdge<Object> centerTopEdge = new SimpleDirectedEdge<Object>(centerNode, topNode);
+		DirectedEdge<Object> centerTopEdge = new ImmutableDirectedEdge<Object>(centerNode, topNode);
 		edges.add(centerTopEdge);
-		DirectedEdge<Object> centerLeftEdge = new SimpleDirectedEdge<Object>(centerNode, leftNode);
+		DirectedEdge<Object> centerLeftEdge = new ImmutableDirectedEdge<Object>(centerNode, leftNode);
 		edges.add(centerLeftEdge);
-		DirectedEdge<Object> leftLeftiestEdge = new SimpleDirectedEdge<Object>(leftNode, leftiestNode);
+		DirectedEdge<Object> leftLeftiestEdge = new ImmutableDirectedEdge<Object>(leftNode, leftiestNode);
 		edges.add(leftLeftiestEdge);
-		DirectedEdge<Object> centerRightEdge = new SimpleDirectedEdge<Object>(centerNode, rightNode);
+		DirectedEdge<Object> centerRightEdge = new ImmutableDirectedEdge<Object>(centerNode, rightNode);
 		edges.add(centerRightEdge);
 
-		BidirectedGraph<Object, DirectedEdge<Object>> graph = new SimpleDirectedGraph<Object, DirectedEdge<Object>>(nodes, edges);
+		BidirectedGraph<Object, DirectedEdge<Object>> graph = new ImmutableDirectedGraph<Object, DirectedEdge<Object>>(nodes, edges);
 
 		TopologicalSorter<Object> sorter = new SimpleTopologicalSorter<Object>();
 		List<Object> sortedNodes = sorter.sort(graph);

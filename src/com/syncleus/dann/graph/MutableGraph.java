@@ -18,76 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.*;
-
-public class SimpleDirectedEdge<N> extends AbstractBidirectedEdge<N> implements DirectedEdge<N>
+public interface MutableGraph<N, E extends Edge<N>> extends Graph<N, E>
 {
-	private static final long serialVersionUID = -7589242369886611386L;
-	
-	public SimpleDirectedEdge(final N source, final N destination)
-	{
-		super(source, EndState.INWARD, destination, EndState.OUTWARD);
-	}
-
-	public N getSourceNode()
-	{
-		return this.getLeftNode();
-	}
-
-	public N getDestinationNode()
-	{
-		return this.getRightNode();
-	}
-
-	public List<N> getTraversableNodes(final N node)
-	{
-		if( this.getSourceNode().equals(node) )
-			return Collections.singletonList(this.getDestinationNode());
-		else if( this.getDestinationNode().equals(node) )
-			return Collections.emptyList();
-		else
-			throw new IllegalArgumentException("node is not one of the end points!");
-	}
-
-	@Override
-	public boolean isIntroverted()
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isExtraverted()
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isDirected()
-	{
-		return true;
-	}
-
-	@Override
-	public boolean isHalfEdge()
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isLooseEdge()
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isOrdinaryEdge()
-	{
-		return true;
-	}
-
-	@Override
-	public String toString()
-	{
-		return this.getSourceNode() + "->" + this.getDestinationNode();
-	}
+	boolean add(E newEdge);
+	boolean add(N newNode);
+	boolean remove(E edgeToRemove);
+	boolean remove(N nodeToRemove);
 }

@@ -51,7 +51,7 @@ public class SimpleUndirectedGraph extends AbstractBidirectedGraph<SimpleNode, B
 			{
 				for(int nodeIndex2 = 0; nodeIndex2 < nodesPerLayer; nodeIndex2++)
 				{
-					SimpleUndirectedEdge<SimpleNode> newEdge = new SimpleUndirectedEdge<SimpleNode>(nodes[layerIndex][nodeIndex], nodes[layerIndex+1][nodeIndex2]);
+					ImmutableUndirectedEdge<SimpleNode> newEdge = new ImmutableUndirectedEdge<SimpleNode>(nodes[layerIndex][nodeIndex], nodes[layerIndex+1][nodeIndex2]);
 					this.edges.add(newEdge);
 					this.neighborEdges.get(nodes[layerIndex][nodeIndex]).add(newEdge);
 					this.neighborNodes.get(nodes[layerIndex][nodeIndex]).add(nodes[layerIndex+1][nodeIndex2]);

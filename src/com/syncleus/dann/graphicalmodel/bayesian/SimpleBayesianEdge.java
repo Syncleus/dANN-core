@@ -18,9 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.bayesian;
 
-import com.syncleus.dann.graph.SimpleDirectedEdge;
+import com.syncleus.dann.graph.ImmutableDirectedEdge;
 
-public class SimpleBayesianEdge extends SimpleDirectedEdge<BayesianNode> implements BayesianEdge
+public class SimpleBayesianEdge extends ImmutableDirectedEdge<BayesianNode> implements BayesianEdge
 {
 	private static final long serialVersionUID = 5817768183659411136L;
 	

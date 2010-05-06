@@ -18,32 +18,63 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.List;
+import java.util.*;
 
-public abstract class AbstractWeightedEdge<N> extends AbstractEdge<N> implements WeightedEdge<N>
+public class ImmutableHyperEdge<N> extends AbstractEdge<N> implements HyperEdge<N>
 {
-	private final double weight;
-
-	protected AbstractWeightedEdge(final List<N> nodes, final double weight)
+	private static final long serialVersionUID = -3657973823101515199L;
+	
+	public ImmutableHyperEdge(final List<N> nodes)
 	{
 		super(nodes);
-		this.weight = weight;
 	}
 
-	protected AbstractWeightedEdge(final double weight, N... nodes)
+	public ImmutableHyperEdge(final N... nodes)
 	{
 		super(nodes);
-		this.weight = weight;
 	}
 
-	public double getWeight()
+	public List<N> getTraversableNodes(final N node)
 	{
-		return this.weight;
+		final List<N> traversableNodes = new ArrayList<N>(this.getNodes());
+		if( !traversableNodes.remove(node) )
+			throw new IllegalArgumentException("node is not one of the end points!");
+		return Collections.unmodifiableList(traversableNodes);
+	}
+
+	public int getDegree()
+	{
+		return 0;
+	}
+
+	public boolean isSymmetric(final HyperEdge symmetricEdge)
+	{
+		return false;
+	}
+
+	public ImmutableHyperEdge<N> disconnect(N node)
+	{
+		if(node == null)
+			throw new IllegalArgumentException("node can not be null", new NullPointerException());
+		if(!this.getNodes().contains(node))
+			throw new IllegalArgumentException("node is not currently connected to");
+
+		return (ImmutableHyperEdge<N>) this.remove(node);
+	}
+
+	public ImmutableHyperEdge<N> disconnect(List<N> nodes)
+	{
+		if(nodes == null)
+			throw new IllegalArgumentException("node can not be null", new NullPointerException());
+		if(!this.getNodes().containsAll(nodes))
+			throw new IllegalArgumentException("node is not currently connected to");
+
+		return (ImmutableHyperEdge<N>) this.remove(nodes);
 	}
 
 	@Override
-	public AbstractWeightedEdge<N> clone()
+	public ImmutableHyperEdge<N> clone()
 	{
-		return (AbstractWeightedEdge<N>) super.clone();
+		return (ImmutableHyperEdge<N>) super.clone();
 	}
 }

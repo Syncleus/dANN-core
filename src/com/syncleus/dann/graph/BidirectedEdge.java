@@ -17,7 +17,6 @@
  *                                                                             *
  ******************************************************************************/
 package com.syncleus.dann.graph;
-
 import java.util.List;
 
 public interface BidirectedEdge<N> extends Edge<N>
@@ -38,4 +37,7 @@ public interface BidirectedEdge<N> extends Edge<N>
 	boolean isLooseEdge();
 	boolean isOrdinaryEdge();
 	boolean isLoop();
+	BidirectedEdge<N> disconnect(N node);
+	BidirectedEdge<N> disconnect(List<N> node);
+	BidirectedEdge<N> clone();
 }

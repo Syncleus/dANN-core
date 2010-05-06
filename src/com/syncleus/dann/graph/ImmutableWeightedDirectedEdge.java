@@ -17,38 +17,49 @@
  *                                                                             *
  ******************************************************************************/
 package com.syncleus.dann.graph;
-
-import java.util.*;
-
-public class SimpleHyperEdge<N> extends AbstractEdge<N> implements HyperEdge<N>
+import java.util.List;
+public class ImmutableWeightedDirectedEdge<N> extends ImmutableDirectedEdge<N> implements WeightedDirectedEdge<N>
 {
-	private static final long serialVersionUID = -3657973823101515199L;
+	private static final long serialVersionUID = -6843921044147012645L;
 	
-	public SimpleHyperEdge(final List<N> nodes)
+	private final double weight;
+
+	public ImmutableWeightedDirectedEdge(final N source, final N destination, final double weight)
 	{
-		super(new ArrayList<N>(nodes));
+		super(source, destination);
+		this.weight = weight;
 	}
 
-	public SimpleHyperEdge(final N... nodes)
+	public double getWeight()
 	{
-		super(nodes);
+		return this.weight;
 	}
 
-	public List<N> getTraversableNodes(final N node)
+	@Override
+	public SimpleWeightedDirectedEdge<N> disconnect(N node)
 	{
-		final List<N> traversableNodes = new ArrayList<N>(this.getNodes());
-		if( !traversableNodes.remove(node) )
-			throw new IllegalArgumentException("node is not one of the end points!");
-		return Collections.unmodifiableList(traversableNodes);
+		if(node == null)
+			throw new IllegalArgumentException("node can not be null", new NullPointerException());
+		if(!this.getNodes().contains(node))
+			throw new IllegalArgumentException("node is not currently connected to");
+
+		return (SimpleWeightedDirectedEdge<N>) this.remove(node);
 	}
 
-	public int getDegree()
+	@Override
+	public SimpleWeightedDirectedEdge<N> disconnect(List<N> nodes)
 	{
-		return 0;
+		if(nodes == null)
+			throw new IllegalArgumentException("node can not be null", new NullPointerException());
+		if(!this.getNodes().containsAll(nodes))
+			throw new IllegalArgumentException("node is not currently connected to");
+
+		return (SimpleWeightedDirectedEdge<N>) this.remove(nodes);
 	}
 
-	public boolean isSymmetric(final HyperEdge symmetricEdge)
+	@Override
+	public SimpleWeightedDirectedEdge<N> clone()
 	{
-		return false;
+		return (SimpleWeightedDirectedEdge<N>) super.clone();
 	}
 }

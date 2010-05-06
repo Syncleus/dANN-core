@@ -140,4 +140,10 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implemen
 			return "";
 		}
 	}
+
+	@Override
+	public AbstractBidirectedEdge<N> clone()
+	{
+		return (AbstractBidirectedEdge<N>) super.clone();
+	}
 }

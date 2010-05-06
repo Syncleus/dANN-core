@@ -18,55 +18,102 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.List;
+import java.util.*;
 
-public class SimpleWeightedHyperEdge<N> extends ImmutableHyperEdge<N> implements WeightedEdge<N>, MutableWeighted
+public class ImmutableDirectedEdge<N> extends AbstractBidirectedEdge<N> implements DirectedEdge<N>
 {
-	private static final long serialVersionUID = 2622882478754498808L;
+	private static final long serialVersionUID = -7589242369886611386L;
 	
-	private double weight;
-
-	public SimpleWeightedHyperEdge(final List<N> nodes, final double weight)
+	public ImmutableDirectedEdge(final N source, final N destination)
 	{
-		super(nodes);
-		this.weight = weight;
+		super(source, EndState.INWARD, destination, EndState.OUTWARD);
 	}
 
-	public double getWeight()
+	public N getSourceNode()
 	{
-		return this.weight;
+		return this.getLeftNode();
 	}
 
-	public void setWeight(double newWeight)
+	public N getDestinationNode()
 	{
-		this.weight = newWeight;
+		return this.getRightNode();
+	}
+
+	public List<N> getTraversableNodes(final N node)
+	{
+		if( this.getSourceNode().equals(node) )
+			return Collections.singletonList(this.getDestinationNode());
+		else if( this.getDestinationNode().equals(node) )
+			return Collections.emptyList();
+		else
+			throw new IllegalArgumentException("node is not one of the end points!");
 	}
 
 	@Override
-	public SimpleWeightedHyperEdge<N> disconnect(N node)
+	public boolean isIntroverted()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isExtraverted()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isDirected()
+	{
+		return true;
+	}
+
+	@Override
+	public boolean isHalfEdge()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isLooseEdge()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isOrdinaryEdge()
+	{
+		return true;
+	}
+
+	@Override
+	public String toString()
+	{
+		return this.getSourceNode() + "->" + this.getDestinationNode();
+	}
+
+	public ImmutableDirectedEdge<N> disconnect(N node)
 	{
 		if(node == null)
 			throw new IllegalArgumentException("node can not be null", new NullPointerException());
 		if(!this.getNodes().contains(node))
 			throw new IllegalArgumentException("node is not currently connected to");
 
-		return (SimpleWeightedHyperEdge<N>) this.remove(node);
+		return (ImmutableDirectedEdge<N>) this.remove(node);
 	}
 
-	@Override
-	public SimpleWeightedHyperEdge<N> disconnect(List<N> nodes)
+	public ImmutableDirectedEdge<N> disconnect(List<N> nodes)
 	{
 		if(nodes == null)
 			throw new IllegalArgumentException("node can not be null", new NullPointerException());
 		if(!this.getNodes().containsAll(nodes))
 			throw new IllegalArgumentException("node is not currently connected to");
 
-		return (SimpleWeightedHyperEdge<N>) this.remove(nodes);
+		return (ImmutableDirectedEdge<N>) this.remove(nodes);
 	}
 
 	@Override
-	public SimpleWeightedHyperEdge<N> clone()
+	public ImmutableDirectedEdge<N> clone()
 	{
-		return (SimpleWeightedHyperEdge<N>) super.clone();
+		return (ImmutableDirectedEdge<N>) super.clone();
 	}
 }

@@ -17,61 +17,49 @@
  *                                                                             *
  ******************************************************************************/
 package com.syncleus.dann.graph;
-
-import java.util.*;
-
-public class SimpleUndirectedEdge<N> extends AbstractBidirectedEdge<N>
+import java.util.List;
+public class ImmutableWeightedUndirectedEdge<N> extends ImmutableUndirectedEdge<N> implements WeightedBidirectedEdge<N>
 {
-	private static final long serialVersionUID = -7729189071866403594L;
+	private static final long serialVersionUID = 4622255810663472765L;
 	
-	public SimpleUndirectedEdge(final N leftNode, final N rightNode)
+	private final double weight;
+
+	public ImmutableWeightedUndirectedEdge(final N left, final N right, final double weight)
 	{
-		super(leftNode, EndState.NONE, rightNode, EndState.NONE);
+		super(left, right);
+		this.weight = weight;
 	}
 
-	public List<N> getTraversableNodes(final N node)
+	public double getWeight()
 	{
-		if( this.getLeftNode().equals(node) )
-			return Collections.singletonList(this.getRightNode());
-		else if( this.getRightNode().equals(node) )
-			return Collections.singletonList(this.getLeftNode());
-		else
-			throw new IllegalArgumentException("node is not one of the end points!");
-	}
-
-	@Override
-	public boolean isIntroverted()
-	{
-		return false;
+		return this.weight;
 	}
 
 	@Override
-	public boolean isExtraverted()
+	public SimpleWeightedUndirectedEdge<N> disconnect(N node)
 	{
-		return false;
+		if(node == null)
+			throw new IllegalArgumentException("node can not be null", new NullPointerException());
+		if(!this.getNodes().contains(node))
+			throw new IllegalArgumentException("node is not currently connected to");
+
+		return (SimpleWeightedUndirectedEdge<N>) this.remove(node);
 	}
 
 	@Override
-	public boolean isDirected()
+	public SimpleWeightedUndirectedEdge<N> disconnect(List<N> nodes)
 	{
-		return false;
+		if(nodes == null)
+			throw new IllegalArgumentException("node can not be null", new NullPointerException());
+		if(!this.getNodes().containsAll(nodes))
+			throw new IllegalArgumentException("node is not currently connected to");
+
+		return (SimpleWeightedUndirectedEdge<N>) this.remove(nodes);
 	}
 
 	@Override
-	public boolean isHalfEdge()
+	public SimpleWeightedUndirectedEdge<N> clone()
 	{
-		return false;
-	}
-
-	@Override
-	public boolean isLooseEdge()
-	{
-		return true;
-	}
-
-	@Override
-	public boolean isOrdinaryEdge()
-	{
-		return false;
+		return (SimpleWeightedUndirectedEdge<N>) super.clone();
 	}
 }

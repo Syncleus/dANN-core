@@ -18,32 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.List;
-
-public abstract class AbstractWeightedEdge<N> extends AbstractEdge<N> implements WeightedEdge<N>
+public interface MutableWeighted extends Weighted
 {
-	private final double weight;
-
-	protected AbstractWeightedEdge(final List<N> nodes, final double weight)
-	{
-		super(nodes);
-		this.weight = weight;
-	}
-
-	protected AbstractWeightedEdge(final double weight, N... nodes)
-	{
-		super(nodes);
-		this.weight = weight;
-	}
-
-	public double getWeight()
-	{
-		return this.weight;
-	}
-
-	@Override
-	public AbstractWeightedEdge<N> clone()
-	{
-		return (AbstractWeightedEdge<N>) super.clone();
-	}
+	void setWeight(double newWeight);
 }

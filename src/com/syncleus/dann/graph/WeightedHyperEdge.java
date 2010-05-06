@@ -18,6 +18,11 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface WeightedHyperEdge<N> extends HyperEdge<N>, WeightedEdge<N>
+import java.util.List;
+
+public interface WeightedHyperEdge<N> extends HyperEdge<N>, Weighted
 {
+	WeightedHyperEdge<N> disconnect(N node);
+	WeightedHyperEdge<N> disconnect(List<N> node);
+	WeightedHyperEdge<N> clone();
 }

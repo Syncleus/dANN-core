@@ -50,7 +50,7 @@ public class Grid extends AbstractBidirectedGraph<GridNode, BidirectedEdge<GridN
 				//connect to the right
 				if( x < nodes[0].length - 1)
 				{
-					SimpleUndirectedEdge<GridNode> newEdge = new SimpleUndirectedEdge<GridNode>(nodes[y][x], nodes[y][x+1]);
+					ImmutableUndirectedEdge<GridNode> newEdge = new ImmutableUndirectedEdge<GridNode>(nodes[y][x], nodes[y][x+1]);
 					this.edges.add(newEdge);
 					this.neighborEdges.get(nodes[y][x]).add(newEdge);
 					this.neighborEdges.get(nodes[y][x+1]).add(newEdge);
@@ -60,7 +60,7 @@ public class Grid extends AbstractBidirectedGraph<GridNode, BidirectedEdge<GridN
 				//connect to the bottom
 				if( y < nodes.length - 1)
 				{
-					SimpleUndirectedEdge<GridNode> newEdge = new SimpleUndirectedEdge<GridNode>(nodes[y][x], nodes[y+1][x]);
+					ImmutableUndirectedEdge<GridNode> newEdge = new ImmutableUndirectedEdge<GridNode>(nodes[y][x], nodes[y+1][x]);
 					this.edges.add(newEdge);
 					this.neighborEdges.get(nodes[y][x]).add(newEdge);
 					this.neighborEdges.get(nodes[y+1][x]).add(newEdge);

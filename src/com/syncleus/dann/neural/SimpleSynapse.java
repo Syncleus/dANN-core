@@ -18,7 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.neural;
 
-import com.syncleus.dann.graph.SimpleDirectedEdge;
+import com.syncleus.dann.graph.ImmutableDirectedEdge;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -31,7 +32,7 @@ import java.util.Random;
  *
  * @see com.syncleus.dann.neural.Neuron
  */
-public class SimpleSynapse extends SimpleDirectedEdge<Neuron> implements Synapse, java.io.Serializable
+public class SimpleSynapse extends ImmutableDirectedEdge<Neuron> implements Synapse, java.io.Serializable
 {
     // <editor-fold defaultstate="collapsed" desc="Attributes">
 
@@ -52,10 +53,6 @@ public class SimpleSynapse extends SimpleDirectedEdge<Neuron> implements Synapse
     private double input;
 
 	private Random RANDOM = new Random();
-
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Constructors">
 
     /**
      * Creates a new instance of SimpleSynapse
@@ -86,11 +83,6 @@ public class SimpleSynapse extends SimpleDirectedEdge<Neuron> implements Synapse
 
         this.weight = ((RANDOM.nextDouble() * 2.0) - 1.0) / 10000.0;
     }
-
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Propogation">
-
 
     /**
      * Set the current input for the synapse.
@@ -139,5 +131,32 @@ public class SimpleSynapse extends SimpleDirectedEdge<Neuron> implements Synapse
 	{
 		return input;
 	}
-	// </editor-fold>
+
+	@Override
+	public SimpleSynapse disconnect(Neuron node)
+	{
+		if(node == null)
+			throw new IllegalArgumentException("node can not be null", new NullPointerException());
+		if(!this.getNodes().contains(node))
+			throw new IllegalArgumentException("node is not currently connected to");
+
+		return (SimpleSynapse) this.remove(node);
+	}
+
+	@Override
+	public SimpleSynapse disconnect(List<Neuron> nodes)
+	{
+		if(nodes == null)
+			throw new IllegalArgumentException("node can not be null", new NullPointerException());
+		if(!this.getNodes().containsAll(nodes))
+			throw new IllegalArgumentException("node is not currently connected to");
+
+		return (SimpleSynapse) this.remove(nodes);
+	}
+
+	@Override
+	public SimpleSynapse clone()
+	{
+		return (SimpleSynapse) super.clone();
+	}
 }

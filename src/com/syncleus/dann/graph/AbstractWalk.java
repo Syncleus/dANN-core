@@ -86,7 +86,7 @@ public abstract class AbstractWalk<N, E extends Edge<N>> implements Walk<N,E>
 
 	public boolean hasChildCycles()
 	{
-		final Graph<N,E> graph = new SimpleGraph<N,E>(new HashSet<N>(this.getNodeSteps()), new HashSet<E>(this.getSteps()));
+		final Graph<N,E> graph = new ImmutableGraph<N,E>(new HashSet<N>(this.getNodeSteps()), new HashSet<E>(this.getSteps()));
 		final CycleFinder<N,E> finder = new ExhaustiveDepthFirstSearchCycleFinder<N,E>();
 		if(this.isCycle())
 			if( finder.cycleCount(graph) > 1)

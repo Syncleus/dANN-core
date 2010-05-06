@@ -18,12 +18,14 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.io.StringWriter;
+import com.syncleus.dann.UnexpectedDannError;
 import java.util.*;
+import org.apache.log4j.Logger;
 
 public abstract class AbstractEdge<N> implements Edge<N>
 {
-	private final List<N> nodes;
+	private List<N> nodes;
+	private final static Logger LOGGER = Logger.getLogger(AbstractEdge.class);
 
 	protected AbstractEdge(final List<N> nodes)
 	{
@@ -36,6 +38,43 @@ public abstract class AbstractEdge<N> implements Edge<N>
 		for(N node : nodes)
 			newNodes.add(node);
 		this.nodes = Collections.unmodifiableList(newNodes);
+	}
+
+	protected AbstractEdge<N> remove(N node)
+	{
+		if(node == null)
+			throw new IllegalArgumentException("node can not be null", new NullPointerException());
+		if(!this.getNodes().contains(node))
+			throw new IllegalArgumentException("is not an endpoint");
+
+		List<N> newNodes = new ArrayList<N>(this.nodes);
+		newNodes.remove(node);
+
+		if( newNodes.size() <= 1 )
+			return null;
+
+		AbstractEdge<N> copy = this.clone();
+		copy.nodes = Collections.unmodifiableList(newNodes);
+		return copy;
+	}
+
+	protected AbstractEdge<N> remove(List<N> nodes)
+	{
+		if(nodes == null)
+			throw new IllegalArgumentException("nodes can not be null", new NullPointerException());
+		if(!this.getNodes().containsAll(nodes))
+			throw new IllegalArgumentException("nodes do not contain all valid end points");
+
+		List<N> newNodes = new ArrayList<N>(this.nodes);
+		for(N node : nodes)
+			newNodes.remove(node);
+
+		if( newNodes.size() <= 1 )
+			return null;
+
+		AbstractEdge<N> copy = this.clone();
+		copy.nodes = Collections.unmodifiableList(newNodes);
+		return copy;
 	}
 
 	public boolean isTraversable(final N node)
@@ -60,5 +99,19 @@ public abstract class AbstractEdge<N> implements Edge<N>
 				outString.append(":" + node);
 		}
 		return outString.toString();
+	}
+
+	@Override
+	public AbstractEdge<N> clone()
+	{
+		try
+		{
+			return (AbstractEdge<N>) super.clone();
+		}
+		catch(CloneNotSupportedException caught)
+		{
+			LOGGER.error("Edge was unexpectidly not cloneable", caught);
+			throw new UnexpectedDannError("Edge was unexpectidly not cloneable");
+		}
 	}
 }

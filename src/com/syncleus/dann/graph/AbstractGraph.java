@@ -152,7 +152,7 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 		return true;
 	}
 
-	private SimpleGraph<N,Edge<N>> deleteFromGraph(final Set<N> nodes, final Set<E> edges)
+	private ImmutableGraph<N,Edge<N>> deleteFromGraph(final Set<N> nodes, final Set<E> edges)
 	{
 		//remove the nodes
 		final Set<N> cutNodes = this.getNodes();
@@ -175,8 +175,8 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 			if( cutEdgeNeighbors.size() != cutEdge.getNodes().size())
 				removeEdges.add(cutEdge);
 			if( cutEdgeNeighbors.size() > 1)
-				// TODO instead of SimpleHyperEdge implement clone or something
-				addEdges.add(new SimpleHyperEdge<N>(cutEdgeNeighbors));
+				// TODO instead of ImmutableHyperEdge implement clone or something
+				addEdges.add(new ImmutableHyperEdge<N>(cutEdgeNeighbors));
 		}
 		for(Edge<N> removeEdge : removeEdges)
 			cutEdges.remove(removeEdge);
@@ -184,7 +184,7 @@ public abstract class AbstractGraph<N, E extends Edge<N>> implements Graph<N,E>
 
 		//check if a graph fromt he new set of edges and nodes is still
 		//connected
-		return new SimpleGraph<N,Edge<N>>(cutNodes, cutEdges);
+		return new ImmutableGraph<N,Edge<N>>(cutNodes, cutEdges);
 	}
 
 	public boolean isCut(final Set<N> nodes, final Set<E> edges)

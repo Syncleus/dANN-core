@@ -20,7 +20,7 @@ package com.syncleus.dann.graph;
 
 import java.util.*;
 
-public class SimpleGraph<N, E extends Edge<N>> extends AbstractGraph<N, E>
+public class ImmutableGraph<N, E extends Edge<N>> extends AbstractGraph<N, E>
 {
 	private static final long serialVersionUID = -2280425133666367243L;
 	
@@ -29,12 +29,12 @@ public class SimpleGraph<N, E extends Edge<N>> extends AbstractGraph<N, E>
 	final private Map<N, Set<E>> neighborEdges = new HashMap<N, Set<E>>();
 	final private Map<N, List<N>> neighborNodes = new HashMap<N, List<N>>();
 
-	public SimpleGraph(final Graph<N,E> copyGraph)
+	public ImmutableGraph(final Graph<N,E> copyGraph)
 	{
 		this(copyGraph.getNodes(), copyGraph.getEdges());
 	}
 
-	public SimpleGraph(final Set<N> nodes, final Set<E> edges)
+	public ImmutableGraph(final Set<N> nodes, final Set<E> edges)
 	{
 		this.nodes = new HashSet<N>(nodes);
 		this.edges = new HashSet<E>(edges);

@@ -17,12 +17,12 @@
  *                                                                             *
  ******************************************************************************/
 package com.syncleus.dann.graph;
-
-public class SimpleWeightedDirectedEdge<N> extends SimpleDirectedEdge<N> implements WeightedDirectedEdge<N>
+import java.util.List;
+public class SimpleWeightedDirectedEdge<N> extends ImmutableDirectedEdge<N> implements WeightedDirectedEdge<N>, MutableWeighted
 {
 	private static final long serialVersionUID = -6843921044147012645L;
 	
-	private final double weight;
+	private double weight;
 
 	public SimpleWeightedDirectedEdge(final N source, final N destination, final double weight)
 	{
@@ -33,5 +33,38 @@ public class SimpleWeightedDirectedEdge<N> extends SimpleDirectedEdge<N> impleme
 	public double getWeight()
 	{
 		return this.weight;
+	}
+
+	public void setWeight(double newWeight)
+	{
+		this.weight = newWeight;
+	}
+
+	@Override
+	public SimpleWeightedDirectedEdge<N> disconnect(N node)
+	{
+		if(node == null)
+			throw new IllegalArgumentException("node can not be null", new NullPointerException());
+		if(!this.getNodes().contains(node))
+			throw new IllegalArgumentException("node is not currently connected to");
+
+		return (SimpleWeightedDirectedEdge<N>) this.remove(node);
+	}
+
+	@Override
+	public SimpleWeightedDirectedEdge<N> disconnect(List<N> nodes)
+	{
+		if(nodes == null)
+			throw new IllegalArgumentException("node can not be null", new NullPointerException());
+		if(!this.getNodes().containsAll(nodes))
+			throw new IllegalArgumentException("node is not currently connected to");
+
+		return (SimpleWeightedDirectedEdge<N>) this.remove(nodes);
+	}
+
+	@Override
+	public SimpleWeightedDirectedEdge<N> clone()
+	{
+		return (SimpleWeightedDirectedEdge<N>) super.clone();
 	}
 }

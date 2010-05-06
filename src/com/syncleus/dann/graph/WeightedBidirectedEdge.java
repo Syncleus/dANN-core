@@ -17,7 +17,10 @@
  *                                                                             *
  ******************************************************************************/
 package com.syncleus.dann.graph;
-
+import java.util.List;
 public interface WeightedBidirectedEdge<N> extends BidirectedEdge<N>, Weighted
 {
+	WeightedBidirectedEdge<N> disconnect(N node);
+	WeightedBidirectedEdge<N> disconnect(List<N> node);
+	WeightedBidirectedEdge<N> clone();
 }
