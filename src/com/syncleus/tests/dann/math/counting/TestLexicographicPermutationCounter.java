@@ -20,23 +20,56 @@ package com.syncleus.tests.dann.math.counting;
 
 import com.syncleus.dann.math.counting.Counter;
 import com.syncleus.dann.math.counting.PermutationCounter;
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Test;
 
-public class TestPermutationCounter
+public class TestLexicographicPermutationCounter
 {
 	@Test
 	public void testPermutationCount()
 	{
 		Counter generator = new PermutationCounter(3, 2);
 		Assert.assertTrue("Generator produced incorrect number of permutations, expected 6, received: " + generator.getTotal(), generator.getTotal().intValue() == 6);
+		int count = 0;
+		while(generator.hasMore())
+		{
+			int[] next = generator.getNext();
+			if(next != null)
+				count++;
+		}
+		Assert.assertTrue("Generator produced incorrect number of permutations, expected 6, received: " + count, count == 6);
 
 		generator = new PermutationCounter(3, 3);
 		Assert.assertTrue("Generator produced incorrect number of permutations, expected 6, received: " + generator.getTotal(), generator.getTotal().intValue() == 6);
+		count = 0;
+		while(generator.hasMore())
+		{
+			int[] next = generator.getNext();
+			if(next != null)
+				count++;
+		}
+		Assert.assertTrue("Generator produced incorrect number of permutations, expected 6, received: " + count, count == 6);
 
 		generator = new PermutationCounter(3, 0);
 		Assert.assertTrue("Generator produced incorrect number of permutations, expected 0, received: " + generator.getTotal(), generator.getTotal().intValue() == 0);
+		count = 0;
+		while(generator.hasMore())
+		{
+			int[] next = generator.getNext();
+			if(next != null)
+				count++;
+		}
+		Assert.assertTrue("Generator produced incorrect number of permutations, expected 0, received: " + count, count == 0);
 
 		generator = new PermutationCounter(0, 0);
 		Assert.assertTrue("Generator produced incorrect number of permutations, expected 0, received: " + generator.getTotal(), generator.getTotal().intValue() == 0);
+		count = 0;
+		while(generator.hasMore())
+		{
+			int[] next = generator.getNext();
+			if(next != null)
+				count++;
+		}
+		Assert.assertTrue("Generator produced incorrect number of permutations, expected 0, received: " + count, count == 0);
 	}
 }
