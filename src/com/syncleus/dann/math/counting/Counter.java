@@ -16,17 +16,15 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.tests.dann.math.set;
+package com.syncleus.dann.math.counting;
 
-import com.syncleus.dann.math.set.CombinationGenerator;
-import org.junit.*;
+import java.math.BigInteger;
 
-public class TestCombinationGenerator
+public interface Counter
 {
-	@Test
-	public void testPatternCount()
-	{
-		CombinationGenerator generator = new CombinationGenerator(5, 3);
-		Assert.assertTrue("Generator produced incorrect nuber of combinations: " + generator.getTotal(), generator.getTotal().intValue() == 10);
-	}
+	void reset();
+	BigInteger getRemaining();
+	boolean hasMore();
+	BigInteger getTotal();
+	int[] getNext();
 }

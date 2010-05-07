@@ -21,19 +21,19 @@
  ** Derived from Public-Domain source as indicated at
  ** http://www.merriampark.com/comb.htm as of 4/20/2010.
  */
-package com.syncleus.dann.math.set;
+package com.syncleus.dann.math.counting;
 
 import java.math.BigInteger;
 
-public class CombinationGenerator
+public class CombinationCounter implements Counter
 {
 	private int[] currentCombination;
 	private final int setSize;
 	private final int combinationSize;
-	private BigInteger numLeft;
+	private BigInteger remaining;
 	private BigInteger total;
 
-	public CombinationGenerator(int setSize, int combinationSize)
+	public CombinationCounter(int setSize, int combinationSize)
 	{
 		if(combinationSize > setSize)
 			throw new IllegalArgumentException();
@@ -53,17 +53,17 @@ public class CombinationGenerator
 	{
 		for(int i = 0; i < currentCombination.length; i++)
 			currentCombination[i] = i;
-		numLeft = new BigInteger(total.toString());
+		remaining = new BigInteger(total.toString());
 	}
 
 	public BigInteger getRemaining()
 	{
-		return numLeft;
+		return remaining;
 	}
 
 	public boolean hasMore()
 	{
-		return numLeft.compareTo(BigInteger.ZERO) == 1;
+		return remaining.compareTo(BigInteger.ZERO) == 1;
 	}
 
 	public BigInteger getTotal()
@@ -79,12 +79,15 @@ public class CombinationGenerator
 		return fact;
 	}
 
+  //--------------------------------------------------------
+  // Generate next combination (algorithm from Rosen p. 286)
+  //--------------------------------------------------------
 	public int[] getNext()
 	{
 
-		if(numLeft.equals(total))
+		if(remaining.equals(total))
 		{
-			numLeft = numLeft.subtract(BigInteger.ONE);
+			remaining = remaining.subtract(BigInteger.ONE);
 			return currentCombination.clone();
 		}
 
@@ -95,7 +98,7 @@ public class CombinationGenerator
 		for(int j = i + 1; j < combinationSize; j++)
 			currentCombination[j] = currentCombination[i] + j - i;
 
-		numLeft = numLeft.subtract(BigInteger.ONE);
+		remaining = remaining.subtract(BigInteger.ONE);
 		return currentCombination.clone();
 	}
 }

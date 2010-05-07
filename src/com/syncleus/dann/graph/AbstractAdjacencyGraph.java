@@ -20,7 +20,7 @@ package com.syncleus.dann.graph;
 
 import com.syncleus.dann.graph.cycle.*;
 import java.util.*;
-import com.syncleus.dann.math.set.Combinations;
+import com.syncleus.dann.math.counting.Counters;
 import java.io.Serializable;
 import java.util.Map.Entry;
 import org.apache.log4j.Logger;
@@ -318,7 +318,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 
 	public int getNodeConnectivity()
 	{
-		final Set<Set<N>> combinations = Combinations.everyCombination(this.getNodes());
+		final Set<Set<N>> combinations = Counters.everyCombination(this.getNodes());
 		final SortedSet<Set<N>> sortedCombinations = new TreeSet<Set<N>>(new SizeComparator());
 		sortedCombinations.addAll(combinations);
 		for(Set<N> cutNodes : combinations)
@@ -329,7 +329,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 
 	public int getEdgeConnectivity()
 	{
-		final Set<Set<E>> combinations = Combinations.everyCombination(this.getEdges());
+		final Set<Set<E>> combinations = Counters.everyCombination(this.getEdges());
 		final SortedSet<Set<E>> sortedCombinations = new TreeSet<Set<E>>(new SizeComparator());
 		sortedCombinations.addAll(combinations);
 		for(Set<E> cutEdges : combinations)
@@ -340,7 +340,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 
 	public int getNodeConnectivity(final N begin, final N end)
 	{
-		final Set<Set<N>> combinations = Combinations.everyCombination(this.getNodes());
+		final Set<Set<N>> combinations = Counters.everyCombination(this.getNodes());
 		final SortedSet<Set<N>> sortedCombinations = new TreeSet<Set<N>>(new SizeComparator());
 		sortedCombinations.addAll(combinations);
 		for(Set<N> cutNodes : combinations)
@@ -351,7 +351,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 
 	public int getEdgeConnectivity(final N begin, final N end)
 	{
-		final Set<Set<E>> combinations = Combinations.everyCombination(this.getEdges());
+		final Set<Set<E>> combinations = Counters.everyCombination(this.getEdges());
 		final SortedSet<Set<E>> sortedCombinations = new TreeSet<Set<E>>(new SizeComparator());
 		sortedCombinations.addAll(combinations);
 		for(Set<E> cutEdges : combinations)

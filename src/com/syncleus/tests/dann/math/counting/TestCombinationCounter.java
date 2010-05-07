@@ -16,37 +16,17 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.tests.dann.math.set;
+package com.syncleus.tests.dann.math.counting;
 
+import com.syncleus.dann.math.counting.CombinationCounter;
 import org.junit.*;
-import java.util.*;
-import com.syncleus.dann.math.set.Combinations;
-import org.apache.log4j.Logger;
 
-public class TestCombinations
+public class TestCombinationCounter
 {
-	private final static Logger LOGGER = Logger.getLogger(TestCombinations.class);
-	private final static String SUPER_SET = "1234";
-	private final static int COMBINATION_COUNT = 14;
-
 	@Test
-	public void testStringCombinations()
+	public void testCombinationCount()
 	{
-		LOGGER.info("Generating combinations for: " + SUPER_SET);
-		char[] lettersArray = SUPER_SET.toCharArray();
-		List<Character> letters = new ArrayList<Character>();
-		for(char letter : lettersArray)
-			letters.add(Character.valueOf(letter));
-
-		Set<List<Character>> combinations = Combinations.everyCombination(letters);
-		for(List<Character> combination : combinations)
-		{
-			StringBuilder combinationString = new StringBuilder();
-			for(Character combinationChar : combination)
-				combinationString.append(combinationChar);
-			LOGGER.info("Combination Generated: " + combinationString);
-		}
-
-		Assert.assertTrue("Wrong number of combinations: " + combinations.size(), combinations.size() == COMBINATION_COUNT);
+		CombinationCounter generator = new CombinationCounter(5, 3);
+		Assert.assertTrue("Generator produced incorrect nuber of combinations: " + generator.getTotal(), generator.getTotal().intValue() == 10);
 	}
 }
