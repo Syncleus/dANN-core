@@ -36,16 +36,19 @@ public class CombinationCounter implements Counter
 	public CombinationCounter(int setSize, int combinationSize)
 	{
 		if(combinationSize > setSize)
-			throw new IllegalArgumentException();
-		if(setSize < 1)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("combinationSize can not be larger than setSize");
+		if(setSize < 0)
+			throw new IllegalArgumentException("setSize can not be negative");
+		if(combinationSize < 0)
+			throw new IllegalArgumentException("combinationSize can not be negative");
+
 		this.setSize = setSize;
 		this.combinationSize = combinationSize;
 		currentCombination = new int[combinationSize];
 		BigInteger nFact = getFactorial(setSize);
 		BigInteger rFact = getFactorial(combinationSize);
 		BigInteger nminusrFact = getFactorial(setSize - combinationSize);
-		total = nFact.divide(rFact.multiply(nminusrFact));
+		total = (setSize == 0 || combinationSize == 0 ? BigInteger.ZERO : nFact.divide(rFact.multiply(nminusrFact)));
 		reset();
 	}
 

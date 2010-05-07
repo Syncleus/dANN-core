@@ -5,11 +5,11 @@
  *  You may redistribute and modify this source code under the terms and       *
  *  conditions of the Open Source Community License - Type C version 1.0       *
  *  or any later version as published by Syncleus, Inc. at www.syncleus.com.   *
- *  There should be a copy of the license included with this file. If a copy   *
+ *  There should be permutation copy of the license included with this file. If permutation copy   *
  *  of the license is not included you are granted no right to distribute or   *
- *  otherwise use this file except through a legal and valid license. You      *
+ *  otherwise use this file except through permutation legal and valid license. You      *
  *  should also contact Syncleus, Inc. at the information below if you cannot  *
- *  find a license:                                                            *
+ *  find permutation license:                                                            *
  *                                                                             *
  *  Syncleus, Inc.                                                             *
  *  2604 South 12th Street                                                     *
@@ -27,32 +27,64 @@ import java.math.BigInteger;
 
 public class PermutationCounter implements Counter
 {
-	private int[] a;
+	private final int setSize;
+	private final int permutationSize;
+	private final BigInteger permutationsPerCombination;
+	private final Counter combinations;
+	private final int[] permutation;
+	private final BigInteger total;
+
+	private int[] combination;
+	private BigInteger combinationPermutationsRemaining;
 	private BigInteger remaining;
-	private BigInteger total;
+
+	public PermutationCounter(int permutationSize)
+	{
+		this(permutationSize, permutationSize);
+	}
 
 	//-----------------------------------------------------------
-	// Constructor. WARNING: Don't make length too large.
-	// Recall that the number of permutations is length!
-	// which can be very large, even when length is as small as 20 --
+	// Constructor. WARNING: Don't make permutationSize too large.
+	// Recall that the number of permutations is permutationSize!
+	// which can be very large, even when permutationSize is as small as 20 --
 	// 20! = 2,432,902,008,176,640,000 and
-	// 21! is too big to fit into a Java long, which is
+	// 21! is too big to fit into permutation Java long, which is
 	// why we use BigInteger instead.
 	//----------------------------------------------------------
-	public PermutationCounter(int length)
+	public PermutationCounter(int setSize, int permutationSize)
 	{
-		if(length < 1)
-			throw new IllegalArgumentException("Min 1");
-		a = new int[length];
-		total = getFactorial(length);
+		if(permutationSize > setSize)
+			throw new IllegalArgumentException("permutationSize can not be larger than setSize");
+		if(permutationSize < 0)
+			throw new IllegalArgumentException("permutation size must be larger than 0");
+		if(setSize < 0)
+			throw new IllegalArgumentException("setSize must be greater than 0");
+
+		this.setSize = setSize;
+		this.permutationSize = permutationSize;
+		this.combinations = new CombinationCounter(setSize, permutationSize);
+
+		this.permutation = new int[permutationSize];
+		this.permutationsPerCombination = getFactorial(permutationSize);
+		this.total = (permutationSize == 0 || setSize == 0 ? BigInteger.ZERO : this.combinations.getTotal().multiply(this.permutationsPerCombination));
+		
 		reset();
 	}
 
 	public void reset()
 	{
-		for(int i = 0; i < a.length; i++)
-			a[i] = i;
-		remaining = new BigInteger(total.toString());
+		this.resetPermutations();
+
+		this.combinations.reset();
+		this.remaining = total;
+		this.combination = this.combinations.getNext();
+	}
+
+	private void resetPermutations()
+	{
+		for(int i = 0; i < permutation.length; i++)
+			permutation[i] = i;
+		this.combinationPermutationsRemaining = this.permutationsPerCombination;
 	}
 
 	public BigInteger getRemaining()
@@ -78,55 +110,84 @@ public class PermutationCounter implements Counter
 		return fact;
 	}
 
+	private int[] permutateCombination(int[] combination, int[] permutation)
+	{
+		final int[] permutated = new int[combination.length];
+		int permutatedIndex = 0;
+		for(int combinationIndex : permutation)
+			permutated[permutatedIndex++] = combination[combinationIndex];
+		return permutated;
+	}
+
 	//--------------------------------------------------------
 	// Generate next permutation (algorithm from Rosen p. 284)
 	//--------------------------------------------------------
 	public int[] getNext()
 	{
+		if(!this.hasMore())
+			return null;
 
-		if(remaining.equals(total))
+		if(this.combinationPermutationsRemaining.equals(BigInteger.ZERO))
 		{
-			remaining = remaining.subtract(BigInteger.ONE);
-			return a;
+			this.combination = this.combinations.getNext();
+			this.resetPermutations();
+		}
+
+		if(this.combinationPermutationsRemaining.equals(this.permutationsPerCombination))
+		{
+			this.remaining = remaining.subtract(BigInteger.ONE);
+			this.combinationPermutationsRemaining = combinationPermutationsRemaining.subtract(BigInteger.ONE);
+			return permutateCombination(this.combination, this.permutation);
 		}
 
 		int temp;
 
-		// Find largest index j with a[j] < a[j+1]
+		// Find largest index j with permutation[j] < permutation[j+1]
 
-		int j = a.length - 2;
-		while(a[j] > a[j + 1])
+		int j = permutation.length - 2;
+		while(permutation[j] > permutation[j + 1])
 			j--;
 
-		// Find index k such that a[k] is smallest integer
-		// greater than a[j] to the right of a[j]
+		// Find index k such that permutation[k] is smallest integer
+		// greater than permutation[j] to the right of permutation[j]
 
-		int k = a.length - 1;
-		while(a[j] > a[k])
+		int k = permutation.length - 1;
+		while(permutation[j] > permutation[k])
 			k--;
 
-		// Interchange a[j] and a[k]
+		// Interchange permutation[j] and permutation[k]
 
-		temp = a[k];
-		a[k] = a[j];
-		a[j] = temp;
+		temp = permutation[k];
+		permutation[k] = permutation[j];
+		permutation[j] = temp;
 
 		// Put tail end of permutation after jth position in increasing order
 
-		int r = a.length - 1;
+		int r = permutation.length - 1;
 		int s = j + 1;
 
 		while(r > s)
 		{
-			temp = a[s];
-			a[s] = a[r];
-			a[r] = temp;
+			temp = permutation[s];
+			permutation[s] = permutation[r];
+			permutation[r] = temp;
 			r--;
 			s++;
 		}
 
-		remaining = remaining.subtract(BigInteger.ONE);
-		return a;
+		this.combinationPermutationsRemaining = this.combinationPermutationsRemaining.subtract(BigInteger.ONE);
+		this.remaining = this.remaining.subtract(BigInteger.ONE);
+		return permutateCombination(this.combination, this.permutation);
 
+	}
+
+	public int getSetSize()
+	{
+		return setSize;
+	}
+
+	public int getPermutationSize()
+	{
+		return permutationSize;
 	}
 }
