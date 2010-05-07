@@ -145,31 +145,28 @@ public class LexicographicPermutationCounter implements Counter
 
 	private static void swap(int[] permutation, int firstIndex, int secondIndex)
 	{
-		int temp = permutation[firstIndex];
+		int first = permutation[firstIndex];
 		permutation[firstIndex] = permutation[secondIndex];
-		permutation[secondIndex] = temp;
+		permutation[secondIndex] = first;
 	}
 
 	private static boolean next(int[] permutation)
 	{
-		int N = permutation.length;
-
-		// find rightmost element permutation[k] that is smaller than element to its right
-		int k;
-		for(k = N - 2; k >= 0; k--)
-			if(permutation[k] < permutation[k + 1])
-				break;
-		if(k == -1)
+		if(permutation.length == 1)
 			return false;
 
-		// find rightmost element permutation[secondIndex] that is larger than permutation[k]
-		int j = N - 1;
-		while(permutation[k] > permutation[j])
-			j--;
-		swap(permutation, j, k);
+		int permutationIndex;
+		for(permutationIndex = permutation.length - 2; permutationIndex >= 0; permutationIndex--)
+			if(permutation[permutationIndex] < permutation[permutationIndex + 1])
+				break;
 
-		for(int r = N - 1, s = k + 1; r > s; r--, s++)
-			swap(permutation, r, s);
+		int swapIndex = permutation.length - 1;
+		while(permutation[permutationIndex] > permutation[swapIndex])
+			swapIndex--;
+		swap(permutation, swapIndex, permutationIndex);
+
+		for(int firstSwap = permutation.length - 1, secondSwap = permutationIndex + 1; firstSwap > secondSwap; firstSwap--, secondSwap++)
+			swap(permutation, firstSwap, secondSwap);
 
 		return true;
 	}
