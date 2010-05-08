@@ -19,17 +19,16 @@
 package com.syncleus.tests.dann.math.counting;
 
 import com.syncleus.dann.math.counting.Counter;
-import com.syncleus.dann.math.counting.LexicographicPermutationCounter;
-import com.syncleus.dann.math.counting.PermutationCounter;
+import com.syncleus.dann.math.counting.JohnsonTrotterPermutationCounter;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class TestLexicographicPermutationCounter
+public class TestJohnsonTrotterPermutationCounter
 {
 	@Test
 	public void testPermutationCount()
 	{
-		Counter generator = new LexicographicPermutationCounter(3, 2);
+		Counter generator = new JohnsonTrotterPermutationCounter(3, 2);
 		Assert.assertTrue("Generator produced incorrect number of permutations, expected 6, received: " + generator.getTotal(), generator.getTotal().intValue() == 6);
 		int count = 0;
 		while(generator.hasMore())
@@ -40,7 +39,7 @@ public class TestLexicographicPermutationCounter
 		}
 		Assert.assertTrue("Generator produced incorrect number of permutations, expected 6, received: " + count, count == 6);
 
-		generator = new LexicographicPermutationCounter(3, 3);
+		generator = new JohnsonTrotterPermutationCounter(3, 3);
 		Assert.assertTrue("Generator produced incorrect number of permutations, expected 6, received: " + generator.getTotal(), generator.getTotal().intValue() == 6);
 		count = 0;
 		while(generator.hasMore())
@@ -51,7 +50,7 @@ public class TestLexicographicPermutationCounter
 		}
 		Assert.assertTrue("Generator produced incorrect number of permutations, expected 6, received: " + count, count == 6);
 
-		generator = new LexicographicPermutationCounter(3, 0);
+		generator = new JohnsonTrotterPermutationCounter(3, 0);
 		Assert.assertTrue("Generator produced incorrect number of permutations, expected 0, received: " + generator.getTotal(), generator.getTotal().intValue() == 0);
 		count = 0;
 		while(generator.hasMore())
@@ -62,7 +61,7 @@ public class TestLexicographicPermutationCounter
 		}
 		Assert.assertTrue("Generator produced incorrect number of permutations, expected 0, received: " + count, count == 0);
 
-		generator = new LexicographicPermutationCounter(0, 0);
+		generator = new JohnsonTrotterPermutationCounter(0, 0);
 		Assert.assertTrue("Generator produced incorrect number of permutations, expected 0, received: " + generator.getTotal(), generator.getTotal().intValue() == 0);
 		count = 0;
 		while(generator.hasMore())
