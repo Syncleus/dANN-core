@@ -183,9 +183,6 @@ public final class Counters
 		return everyPermutation(new ArrayList<O>(superSet));
 	}
 	
-	//todo make this plural throughout
-	//todo check arguments in above methods
-
 	public static <O> Set<List<O>> fixedLengthPermutations(List<O> superList, int length)
 	{
 		if(superList == null)
@@ -213,5 +210,189 @@ public final class Counters
 			throw new IllegalArgumentException("length can not be larger than the collection size");
 
 		return fixedLengthPermutations(new ArrayList<O>(superSet), length);
+	}
+
+	private static <O> Set<List<O>> sameLengthLexicographicPermutations(List<O> superList)
+	{
+		final Set<List<O>> permutations = new HashSet<List<O>>();
+		Counter generator = new LexicographicPermutationCounter(superList.size());
+		while(generator.hasMore())
+		{
+			List<O> permutation = new ArrayList<O>();
+			int[] permutationIndexes = generator.getNext();
+			for(int permutationIndex : permutationIndexes)
+				permutation.add(superList.get(permutationIndex));
+			permutations.add(Collections.unmodifiableList(permutation));
+		}
+		return Collections.unmodifiableSet(permutations);
+	}
+
+	public static <O> BigInteger everyLexicographicPermutationCount(Collection<O> superCollection)
+	{
+		if(superCollection == null)
+			throw new IllegalArgumentException("superCollection can not be null");
+
+		BigInteger combinations = BigInteger.ZERO;
+		for(int currentSequenceLength = 1; currentSequenceLength <= superCollection.size(); currentSequenceLength++)
+			combinations.add(fixedLengthLexicographicPermutationCount(superCollection, currentSequenceLength));
+		return combinations;
+	}
+
+	public static <O> BigInteger fixedLengthLexicographicPermutationCount(Collection<O> superCollection, int length)
+	{
+		if(superCollection == null)
+			throw new IllegalArgumentException("superCollection can not be null");
+		if(length < 0)
+			throw new IllegalArgumentException("length must be >= 0");
+		if(length > superCollection.size())
+			throw new IllegalArgumentException("length can not be larger than the collection size");
+
+		Counter permutator = new LexicographicPermutationCounter(length);
+		Counter combinator = new CombinationCounter(superCollection.size(), length);
+		BigInteger combinationCount = combinator.getTotal();
+		BigInteger permutationsPerCount = permutator.getTotal();
+		return combinationCount.multiply(permutationsPerCount);
+	}
+
+	public static <O> Set<List<O>> everyLexicographicPermutation(List<O> superList)
+	{
+		if(superList == null)
+			throw new IllegalArgumentException("superList can not be null");
+
+		//get every combination then permutate it
+		Set<List<O>> permutations = new HashSet<List<O>>();
+		Set<List<O>> combinations = everyCombination(superList);
+		for(List<O> combination : combinations)
+			permutations.addAll(sameLengthLexicographicPermutations(combination));
+		return Collections.unmodifiableSet(permutations);
+	}
+
+	public static <O> Set<List<O>> everyLexicographicPermutation(Set<O> superSet)
+	{
+		if(superSet == null)
+			throw new IllegalArgumentException("superSet can not be null");
+
+		return everyLexicographicPermutation(new ArrayList<O>(superSet));
+	}
+
+	public static <O> Set<List<O>> fixedLengthLexicographicPermutations(List<O> superList, int length)
+	{
+		if(superList == null)
+			throw new IllegalArgumentException("superList can not be null");
+		if(length < 0)
+			throw new IllegalArgumentException("length must be >= 0");
+		if(length > superList.size())
+			throw new IllegalArgumentException("length can not be larger than the collection size");
+
+		//get every combination then permutate it
+		Set<List<O>> permutations = new HashSet<List<O>>();
+		Set<List<O>> combinations = fixedLengthCombinations(superList, length);
+		for(List<O> combination : combinations)
+			permutations.addAll(sameLengthLexicographicPermutations(combination));
+		return Collections.unmodifiableSet(permutations);
+	}
+
+	public static <O> Set<List<O>> fixedLengthLexicographicPermutations(Set<O> superSet, int length)
+	{
+		if(superSet == null)
+			throw new IllegalArgumentException("superSet can not be null");
+		if(length < 0)
+			throw new IllegalArgumentException("length must be >= 0");
+		if(length > superSet.size())
+			throw new IllegalArgumentException("length can not be larger than the collection size");
+
+		return fixedLengthLexicographicPermutations(new ArrayList<O>(superSet), length);
+	}
+
+	private static <O> Set<List<O>> sameLengthJohnsonTrotterPermutations(List<O> superList)
+	{
+		final Set<List<O>> permutations = new HashSet<List<O>>();
+		Counter generator = new JohnsonTrotterPermutationCounter(superList.size());
+		while(generator.hasMore())
+		{
+			List<O> permutation = new ArrayList<O>();
+			int[] permutationIndexes = generator.getNext();
+			for(int permutationIndex : permutationIndexes)
+				permutation.add(superList.get(permutationIndex));
+			permutations.add(Collections.unmodifiableList(permutation));
+		}
+		return Collections.unmodifiableSet(permutations);
+	}
+
+	public static <O> BigInteger everyJohnsonTrotterPermutationCount(Collection<O> superCollection)
+	{
+		if(superCollection == null)
+			throw new IllegalArgumentException("superCollection can not be null");
+
+		BigInteger combinations = BigInteger.ZERO;
+		for(int currentSequenceLength = 1; currentSequenceLength <= superCollection.size(); currentSequenceLength++)
+			combinations.add(fixedLengthJohnsonTrotterPermutationCount(superCollection, currentSequenceLength));
+		return combinations;
+	}
+
+	public static <O> BigInteger fixedLengthJohnsonTrotterPermutationCount(Collection<O> superCollection, int length)
+	{
+		if(superCollection == null)
+			throw new IllegalArgumentException("superCollection can not be null");
+		if(length < 0)
+			throw new IllegalArgumentException("length must be >= 0");
+		if(length > superCollection.size())
+			throw new IllegalArgumentException("length can not be larger than the collection size");
+
+		Counter permutator = new JohnsonTrotterPermutationCounter(length);
+		Counter combinator = new CombinationCounter(superCollection.size(), length);
+		BigInteger combinationCount = combinator.getTotal();
+		BigInteger permutationsPerCount = permutator.getTotal();
+		return combinationCount.multiply(permutationsPerCount);
+	}
+
+	public static <O> Set<List<O>> everyJohnsonTrotterPermutation(List<O> superList)
+	{
+		if(superList == null)
+			throw new IllegalArgumentException("superList can not be null");
+
+		//get every combination then permutate it
+		Set<List<O>> permutations = new HashSet<List<O>>();
+		Set<List<O>> combinations = everyCombination(superList);
+		for(List<O> combination : combinations)
+			permutations.addAll(sameLengthJohnsonTrotterPermutations(combination));
+		return Collections.unmodifiableSet(permutations);
+	}
+
+	public static <O> Set<List<O>> everyJohnsonTrotterPermutation(Set<O> superSet)
+	{
+		if(superSet == null)
+			throw new IllegalArgumentException("superSet can not be null");
+
+		return everyJohnsonTrotterPermutation(new ArrayList<O>(superSet));
+	}
+
+	public static <O> Set<List<O>> fixedLengthJohnsonTrotterPermutations(List<O> superList, int length)
+	{
+		if(superList == null)
+			throw new IllegalArgumentException("superList can not be null");
+		if(length < 0)
+			throw new IllegalArgumentException("length must be >= 0");
+		if(length > superList.size())
+			throw new IllegalArgumentException("length can not be larger than the collection size");
+
+		//get every combination then permutate it
+		Set<List<O>> permutations = new HashSet<List<O>>();
+		Set<List<O>> combinations = fixedLengthCombinations(superList, length);
+		for(List<O> combination : combinations)
+			permutations.addAll(sameLengthJohnsonTrotterPermutations(combination));
+		return Collections.unmodifiableSet(permutations);
+	}
+
+	public static <O> Set<List<O>> fixedLengthJohnsonTrotterPermutations(Set<O> superSet, int length)
+	{
+		if(superSet == null)
+			throw new IllegalArgumentException("superSet can not be null");
+		if(length < 0)
+			throw new IllegalArgumentException("length must be >= 0");
+		if(length > superSet.size())
+			throw new IllegalArgumentException("length can not be larger than the collection size");
+
+		return fixedLengthJohnsonTrotterPermutations(new ArrayList<O>(superSet), length);
 	}
 }
