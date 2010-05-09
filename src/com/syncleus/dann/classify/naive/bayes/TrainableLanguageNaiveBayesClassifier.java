@@ -18,23 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.classify.naive.bayes;
 
-import java.util.*;
+import com.syncleus.dann.classify.naive.TrainableLanguageNaiveClassifier;
 
-public interface TrainableLanguageNaiveBayesClassifier<C> extends TrainableNaiveBayesClassifier<String, String, C>, LanguageNaiveBayesClassifier<C>
+public interface TrainableLanguageNaiveBayesClassifier<C> extends TrainableNaiveBayesClassifier<String, String, C>, LanguageNaiveBayesClassifier<C>, TrainableLanguageNaiveClassifier<C>
 {
-	//Trainable methods
-	void train(String item, C category);
-	//NaiveBayesClassifier methods
-	C classification(String item, boolean useThreshold);
-	C classification(String item);
-	Map<C, Double> getCategoryProbabilities(String item);
-	double classificationProbability(String item, C category);
-	double getCategoryThreshold(C category);
-	void setCategoryThreshold(C category, double threshold);
-	//Classifier methods
-	C featureClassification(String feature);
-	C featureClassificationWeighted(String feature);
-	double featureClassificationProbability(String feature, C category);
-	double featureClassificationWeightedProbability(String feature, C category);
-	Set<C> getCategories();
 }

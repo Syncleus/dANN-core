@@ -23,6 +23,36 @@ import com.syncleus.dann.dataprocessing.language.*;
 
 public class SimpleLanguageNaiveClassifier<C> extends SimpleNaiveClassifier<String, String, C> implements TrainableLanguageNaiveClassifier<C>
 {
+	private final Locale locale;
+
+	public SimpleLanguageNaiveClassifier()
+	{
+		this(Locale.getDefault());
+	}
+
+	public SimpleLanguageNaiveClassifier(final Locale locale)
+	{
+		super(new WordExtractor());
+		this.locale = locale;
+	}
+
+	@Override
+	public double featureClassificationProbability(final String feature, final C category)
+	{
+		return super.featureClassificationProbability(feature.toLowerCase(this.locale), category);
+	}
+
+	@Override
+	public double featureClassificationWeightedProbability(final String feature, final C category)
+	{
+		return super.featureClassificationWeightedProbability(feature.toLowerCase(this.locale), category);
+	}
+
+	public Locale getLocale()
+	{
+		return locale;
+	}
+
 	private static class WordExtractor implements FeatureExtractor<String, String>
 	{
 		private static final WordParser PARSER = new BasicWordParser();
@@ -31,22 +61,5 @@ public class SimpleLanguageNaiveClassifier<C> extends SimpleNaiveClassifier<Stri
 		{
 			return PARSER.getUniqueWords(item);
 		}
-	}
-
-	public SimpleLanguageNaiveClassifier()
-	{
-		super(new WordExtractor());
-	}
-
-	@Override
-	public double featureClassificationProbability(final String feature, final C category)
-	{
-		return super.featureClassificationProbability(feature.toLowerCase(Locale.ENGLISH), category);
-	}
-
-	@Override
-	public double featureClassificationWeightedProbability(final String feature, final C category)
-	{
-		return super.featureClassificationWeightedProbability(feature.toLowerCase(Locale.ENGLISH), category);
 	}
 }

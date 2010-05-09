@@ -26,7 +26,7 @@ public class Nucleus implements Cloneable
 {
 	private List<Chromosome> chromosomes;
 	private double mutability;
-	private final static Logger LOGGER = Logger.getLogger(Nucleus.class);
+	private static final Logger LOGGER = Logger.getLogger(Nucleus.class);
 
 	public Nucleus()
 	{

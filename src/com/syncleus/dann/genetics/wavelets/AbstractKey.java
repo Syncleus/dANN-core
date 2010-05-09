@@ -26,8 +26,8 @@ import org.apache.log4j.Logger;
 public abstract class AbstractKey implements Cloneable
 {
 	private Map<Integer, Boolean> points;
-	private final static Random RANDOM = Mutations.getRandom();
-	private final static Logger LOGGER = Logger.getLogger(AbstractKey.class);
+	private static final Random RANDOM = Mutations.getRandom();
+	private static final Logger LOGGER = Logger.getLogger(AbstractKey.class);
 
 	protected AbstractKey()
 	{

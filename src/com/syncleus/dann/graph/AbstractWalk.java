@@ -42,16 +42,12 @@ public abstract class AbstractWalk<N, E extends Edge<N>> implements Walk<N, E>
 				return false;
 			nextNodeIndex++;
 		}
-		if (!edgeSteps.get(edgeSteps.size() - 1).getNodes().contains(nodeSteps.get(nextNodeIndex)))
-			return false;
-		return true;
+		return edgeSteps.get(edgeSteps.size() - 1).getNodes().contains(nodeSteps.get(nextNodeIndex));
 	}
 
 	public boolean isClosed()
 	{
-		if (this.getNodeSteps().get(0).equals(this.getNodeSteps().get(this.getNodeSteps().size() - 1)))
-			return true;
-		return false;
+		return this.getNodeSteps().get(0).equals(this.getNodeSteps().get(this.getNodeSteps().size() - 1));
 	}
 
 	public int getLength()
@@ -62,23 +58,17 @@ public abstract class AbstractWalk<N, E extends Edge<N>> implements Walk<N, E>
 	public boolean isTrail()
 	{
 		final Set<E> edgeSet = new HashSet<E>(this.getSteps());
-		if (edgeSet.size() < this.getSteps().size())
-			return false;
-		return true;
+		return edgeSet.size() >= this.getSteps().size();
 	}
 
 	public boolean isTour()
 	{
-		if ((this.isTrail()) && (this.isClosed()))
-			return true;
-		return false;
+		return (this.isTrail()) && (this.isClosed());
 	}
 
 	public boolean isCycle()
 	{
-		if (this.getNodeSteps().get(0).equals(this.getNodeSteps().get(this.getNodeSteps().size() - 1)))
-			return true;
-		return false;
+		return this.getNodeSteps().get(0).equals(this.getNodeSteps().get(this.getNodeSteps().size() - 1));
 	}
 
 	public boolean hasChildCycles()
@@ -136,9 +126,7 @@ public abstract class AbstractWalk<N, E extends Edge<N>> implements Walk<N, E>
 		final Set otherUniqueEdges = new HashSet(walk.getSteps());
 		if (!(uniqueNodes.equals(otherUniqueNodes)))
 			return false;
-		if (!(uniqueEdges.equals(otherUniqueEdges)))
-			return false;
-		return true;
+		return uniqueEdges.equals(otherUniqueEdges);
 	}
 
 	@Override

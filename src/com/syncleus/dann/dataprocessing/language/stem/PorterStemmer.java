@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.dataprocessing.language.stem;
 
-import java.util.Arrays;
+import java.util.*;
 
 public class PorterStemmer implements Stemmer
 {
@@ -28,24 +28,34 @@ public class PorterStemmer implements Stemmer
 	private int stemStartIndex;
 	private boolean dirtyBuffer;
 	private final int growSize;
+	private final Locale locale;
 
 	public PorterStemmer()
 	{
-		this.growSize = 50;
-		this.buffer = new char[growSize];
-		this.dirtyBuffer = false;
+		this(50);
 	}
 
 	public PorterStemmer(final int growSize)
 	{
+		this(Locale.getDefault(), growSize);
+	}
+
+	public PorterStemmer(final Locale locale)
+	{
+		this(locale, 50);
+	}
+
+	public PorterStemmer(final Locale locale, final int growSize)
+	{
 		this.growSize = growSize;
 		this.buffer = new char[growSize];
 		this.dirtyBuffer = false;
+		this.locale = locale;
 	}
 
 	public String stemWord(final String originalWord)
 	{
-		final String originalWordLowerCase = originalWord.toLowerCase();
+		final String originalWordLowerCase = originalWord.toLowerCase(this.locale);
 		this.dirtyBuffer = false;
 		int bufferSize = originalWordLowerCase.toCharArray().length;
 		this.buffer = Arrays.copyOf(originalWordLowerCase.toCharArray(), bufferSize);
@@ -430,5 +440,15 @@ public class PorterStemmer implements Stemmer
 		}
 		if (this.buffer[this.wordEndIndex] == 'l' && isRepeatedConsonant(this.wordEndIndex) && countConsonantsInStem() > 1)
 			this.wordEndIndex--;
+	}
+
+	public int getGrowSize()
+	{
+		return growSize;
+	}
+
+	public Locale getLocale()
+	{
+		return locale;
 	}
 }

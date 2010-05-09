@@ -23,10 +23,10 @@ import java.util.*;
 
 public class LinkedGraph<N, E extends Edge<N>> extends AbstractAdjacencyGraph<N, E>
 {
-	final private Set<N> nodes;
-	final private Set<E> edges;
-	final private Map<N, Set<E>> neighborEdges = new HashMap<N, Set<E>>();
-	final private Map<N, List<N>> neighborNodes = new HashMap<N, List<N>>();
+	private final Set<N> nodes;
+	private final Set<E> edges;
+	private final Map<N, Set<E>> neighborEdges = new HashMap<N, Set<E>>();
+	private final Map<N, List<N>> neighborNodes = new HashMap<N, List<N>>();
 
 	public LinkedGraph(final Graph<N, E> copyGraph)
 	{

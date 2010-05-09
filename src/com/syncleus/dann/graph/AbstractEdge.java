@@ -24,7 +24,7 @@ import org.apache.log4j.Logger;
 
 public abstract class AbstractEdge<N> implements Edge<N>
 {
-	private final static Logger LOGGER = Logger.getLogger(AbstractEdge.class);
+	private static final Logger LOGGER = Logger.getLogger(AbstractEdge.class);
 	private List<N> nodes;
 
 	protected AbstractEdge(final List<N> nodes)

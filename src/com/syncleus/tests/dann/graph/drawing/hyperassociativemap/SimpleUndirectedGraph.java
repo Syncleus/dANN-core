@@ -23,11 +23,11 @@ import com.syncleus.dann.graph.*;
 
 public class SimpleUndirectedGraph extends AbstractBidirectedAdjacencyGraph<SimpleNode, BidirectedEdge<SimpleNode>>
 {
-	final private SimpleNode[][] nodes;
-	final private Set<SimpleNode> nodeSet = new HashSet<SimpleNode>();
-	final private Set<BidirectedEdge<SimpleNode>> edges = new HashSet<BidirectedEdge<SimpleNode>>();
-	final private Map<SimpleNode, Set<BidirectedEdge<SimpleNode>>> neighborEdges = new HashMap<SimpleNode, Set<BidirectedEdge<SimpleNode>>>();
-	final private Map<SimpleNode, List<SimpleNode>> neighborNodes = new HashMap<SimpleNode, List<SimpleNode>>();
+	private final SimpleNode[][] nodes;
+	private final Set<SimpleNode> nodeSet = new HashSet<SimpleNode>();
+	private final Set<BidirectedEdge<SimpleNode>> edges = new HashSet<BidirectedEdge<SimpleNode>>();
+	private final Map<SimpleNode, Set<BidirectedEdge<SimpleNode>>> neighborEdges = new HashMap<SimpleNode, Set<BidirectedEdge<SimpleNode>>>();
+	private final Map<SimpleNode, List<SimpleNode>> neighborNodes = new HashMap<SimpleNode, List<SimpleNode>>();
 
 	public SimpleUndirectedGraph(final int layers, final int nodesPerLayer)
 	{

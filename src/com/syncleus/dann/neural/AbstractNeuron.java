@@ -30,7 +30,7 @@ public abstract class AbstractNeuron implements Neuron
 	 */
 	protected static final Random RANDOM = new Random();
 	private final Brain brain;
-	private final static Logger LOGGER = Logger.getLogger(AbstractNeuron.class);
+	private static final Logger LOGGER = Logger.getLogger(AbstractNeuron.class);
 
 	/**
 	 * Creates a new instance of NeuronImpl with a RANDOM bias weight and

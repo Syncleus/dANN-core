@@ -28,7 +28,7 @@ import org.junit.runner.*;
 public class InteractiveTests
 {
 	private static final Class<? extends Annotation> TEST_ANNOTATION = org.junit.Test.class;
-	private final static Logger LOGGER = Logger.getLogger(InteractiveTests.class);
+	private static final Logger LOGGER = Logger.getLogger(InteractiveTests.class);
 
 	private static class ClassComparator implements Comparator<Class>
 	{
@@ -40,9 +40,7 @@ public class InteractiveTests
 		@Override
 		public boolean equals(final Object compareWith)
 		{
-			if (compareWith instanceof ClassComparator)
-				return true;
-			return false;
+			return compareWith instanceof com.syncleus.tests.dann.InteractiveTests.ClassComparator;
 		}
 
 		@Override
@@ -62,9 +60,7 @@ public class InteractiveTests
 		@Override
 		public boolean equals(final Object compareWith)
 		{
-			if (compareWith instanceof ClassComparator)
-				return true;
-			return false;
+			return compareWith instanceof com.syncleus.tests.dann.InteractiveTests.ClassComparator;
 		}
 
 		@Override

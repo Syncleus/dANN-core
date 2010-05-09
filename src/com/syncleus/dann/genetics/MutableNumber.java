@@ -32,9 +32,9 @@ import org.apache.log4j.Logger;
  */
 public abstract class MutableNumber<N extends Number> extends Number implements Cloneable
 {
-	private final static Random RANDOM = Mutations.getRandom();
+	private static final Random RANDOM = Mutations.getRandom();
 	private N number;
-	private final static Logger LOGGER = Logger.getLogger(MutableNumber.class);
+	private static final Logger LOGGER = Logger.getLogger(MutableNumber.class);
 
 	/**
 	 * Initializes a new MutableNumber backed by the specified number.
@@ -55,13 +55,13 @@ public abstract class MutableNumber<N extends Number> extends Number implements 
 	 * @return Random double with the appropriate distribution.
 	 * @since 2.0
 	 */
-	static protected double getDistributedRandom(final double deviation)
+	protected static double getDistributedRandom(final double deviation)
 	{
 		final double normalRand = (MutableNumber.RANDOM.nextDouble() * 2.0) - 1.0;
 		return atanh(normalRand) * Math.abs(deviation);
 	}
 
-	static private double atanh(final double value)
+	private static double atanh(final double value)
 	{
 		return 0.5 * Math.log(Math.abs((value + 1.0) / (1.0 - value)));
 	}

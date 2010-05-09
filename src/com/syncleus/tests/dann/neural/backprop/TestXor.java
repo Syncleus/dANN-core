@@ -46,9 +46,9 @@ public class TestXor
 	private InputNeuron inputC = null;
 	private OutputBackpropNeuron output = null;
 	private FullyConnectedFeedforwardBrain brain = null;
-	private final static int TRAINING_CYCLES = 1000;
-	private final static double LEARNING_RATE = 0.0175;
-	private final static int[] TOPOLOGY = {3, 3, 1};
+	private static final int TRAINING_CYCLES = 1000;
+	private static final double LEARNING_RATE = 0.0175;
+	private static final int[] TOPOLOGY = {3, 3, 1};
 
 	@Test
 	public void testXor() throws DannException

@@ -51,7 +51,7 @@ public class SimpleBackpropNeuron extends AbstractActivationNeuron implements Ba
 	 *
 	 * @since 1.0
 	 */
-	protected Hashtable<Synapse, Double> deltaTrainDestinations = new Hashtable<Synapse, Double>();
+	protected final Hashtable<Synapse, Double> deltaTrainDestinations = new Hashtable<Synapse, Double>();
 	// </editor-fold>
 	// <editor-fold defaultstate="collapsed" desc="Constructors">
 

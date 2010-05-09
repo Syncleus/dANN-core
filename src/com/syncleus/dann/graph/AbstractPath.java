@@ -25,18 +25,14 @@ public abstract class AbstractPath<N, E extends Edge<N>> extends AbstractWalk<N,
 	@Override
 	protected boolean verify(final List<N> nodeSteps, final List<E> edgeSteps)
 	{
-		if ((super.verify(nodeSteps, edgeSteps)) && (verifyUtility(nodeSteps, edgeSteps)))
-			return true;
-		return false;
+		return ((super.verify(nodeSteps, edgeSteps)) && (verifyUtility(nodeSteps, edgeSteps)));
 	}
 
 	static <N, E extends Edge<N>> boolean verifyUtility(final List<N> nodeSteps, final List<E> edgeSteps)
 	{
 		if (nodeSteps.size() < 2)
 			throw new IllegalArgumentException("Wrong number of nodes or steps");
-		if (nodeSteps.get(0).equals(nodeSteps.get(nodeSteps.size() - 1)))
-			return false;
-		return true;
+		return !(nodeSteps.get(0).equals(nodeSteps.get(nodeSteps.size() - 1)));
 	}
 
 	public boolean isChain()
@@ -50,9 +46,7 @@ public abstract class AbstractPath<N, E extends Edge<N>> extends AbstractWalk<N,
 		final Set<E> uniqueEdges = new HashSet<E>(path.getSteps());
 		if (uniqueNodes.size() < path.getNodeSteps().size())
 			return false;
-		if (uniqueEdges.size() < path.getSteps().size())
-			return false;
-		return true;
+		return !(uniqueEdges.size() < path.getSteps().size());
 	}
 
 	public boolean isIndependent(final Path<N, E> path)
@@ -73,9 +67,7 @@ public abstract class AbstractPath<N, E extends Edge<N>> extends AbstractWalk<N,
 		secondNodes.remove(secondNodes.size() - 1);
 		secondNodes.remove(0);
 		exclusiveFirstNodes.removeAll(secondNodes);
-		if (exclusiveFirstNodes.size() < firstPath.getNodeSteps().size())
-			return false;
-		return true;
+		return !(exclusiveFirstNodes.size() < firstPath.getNodeSteps().size());
 	}
 
 	@Override
@@ -96,9 +88,7 @@ public abstract class AbstractPath<N, E extends Edge<N>> extends AbstractWalk<N,
 		final Path secondPath = (Path) object;
 		if (!(secondPath.getNodeSteps().equals(path.getNodeSteps())))
 			return false;
-		if (!(secondPath.getSteps().equals(path.getSteps())))
-			return false;
-		return true;
+		return secondPath.getSteps().equals(path.getSteps());
 	}
 
 	@Override

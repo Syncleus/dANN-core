@@ -23,7 +23,7 @@ import com.syncleus.dann.genetics.MutableDouble;
 
 public final class Mutations
 {
-	private final static Random RANDOM = new Random();
+	private static final Random RANDOM = new Random();
 
 	private Mutations()
 	{
@@ -50,8 +50,6 @@ public final class Mutations
 
 	public static boolean mutationEvent(final double mutability)
 	{
-		if (Mutations.getRandom().nextDouble() < Math.tanh(Math.abs(mutability)))
-			return true;
-		return false;
+		return (Mutations.getRandom().nextDouble() < Math.tanh(Math.abs(mutability)));
 	}
 }

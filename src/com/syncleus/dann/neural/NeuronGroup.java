@@ -51,7 +51,7 @@ public class NeuronGroup<N extends Neuron> implements java.io.Serializable
 	 *
 	 * @since 1.0
 	 */
-	protected final static Random RANDOM = new Random();
+	protected static final Random RANDOM = new Random();
 	// </editor-fold>
 	// <editor-fold defaultstate="collapsed" desc="Constructors">
 

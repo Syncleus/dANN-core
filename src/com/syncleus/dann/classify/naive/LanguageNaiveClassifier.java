@@ -18,14 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.classify.naive;
 
-import java.util.Set;
+import com.syncleus.dann.classify.LanguageClassifier;
 
-public interface LanguageNaiveClassifier<C> extends NaiveClassifier<String, String, C>
+public interface LanguageNaiveClassifier<C> extends NaiveClassifier<String, String, C>, LanguageClassifier<C>
 {
-	//NaiveClassifier methods
-	C featureClassification(String feature);
-	C featureClassificationWeighted(String feature);
-	double featureClassificationProbability(String feature, C category);
-	double featureClassificationWeightedProbability(String feature, C category);
-	Set<C> getCategories();
 }

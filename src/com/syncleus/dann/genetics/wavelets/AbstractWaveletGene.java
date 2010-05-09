@@ -29,10 +29,10 @@ public abstract class AbstractWaveletGene implements Gene, Cloneable
 	private double currentActivity;
 	private double pendingActivity;
 	private double mutability;
-	private final static Logger LOGGER = Logger.getLogger(AbstractWaveletGene.class);
+	private static final Logger LOGGER = Logger.getLogger(AbstractWaveletGene.class);
 	protected ExpressionFunction expressionFunction;
 	protected Set<SignalKeyConcentration> receivingConcentrations;
-	protected final static Random RANDOM = Mutations.getRandom();
+	protected static final Random RANDOM = Mutations.getRandom();
 
 	protected AbstractWaveletGene(final ReceptorKey initialReceptor)
 	{

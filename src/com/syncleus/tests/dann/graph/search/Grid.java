@@ -23,11 +23,11 @@ import java.util.*;
 
 public class Grid extends AbstractBidirectedAdjacencyGraph<GridNode, BidirectedEdge<GridNode>>
 {
-	final private GridNode[][] nodes;
-	final private Set<GridNode> nodeSet = new HashSet<GridNode>();
-	final private Set<BidirectedEdge<GridNode>> edges = new HashSet<BidirectedEdge<GridNode>>();
-	final private Map<GridNode, Set<BidirectedEdge<GridNode>>> neighborEdges = new HashMap<GridNode, Set<BidirectedEdge<GridNode>>>();
-	final private Map<GridNode, Set<GridNode>> neighborNodes = new HashMap<GridNode, Set<GridNode>>();
+	private final GridNode[][] nodes;
+	private final Set<GridNode> nodeSet = new HashSet<GridNode>();
+	private final Set<BidirectedEdge<GridNode>> edges = new HashSet<BidirectedEdge<GridNode>>();
+	private final Map<GridNode, Set<BidirectedEdge<GridNode>>> neighborEdges = new HashMap<GridNode, Set<BidirectedEdge<GridNode>>>();
+	private final Map<GridNode, Set<GridNode>> neighborNodes = new HashMap<GridNode, Set<GridNode>>();
 
 	public Grid(final double[][] nodeWeights)
 	{

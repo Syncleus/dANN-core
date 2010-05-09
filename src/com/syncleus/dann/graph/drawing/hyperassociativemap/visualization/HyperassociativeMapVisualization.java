@@ -38,11 +38,11 @@ import com.syncleus.dann.neural.*;
  */
 public class HyperassociativeMapVisualization<D extends GraphDrawer<G, N>, G extends Graph<N, ?>, N> extends BranchGroup
 {
-	private D drawer;
+	private final D drawer;
 	private Map<N, TransformGroup> nodeGraphics = new HashMap<N, TransformGroup>();
 	private final Map<N, Vector> oldNodeLocations = new HashMap<N, Vector>();
 	private final BranchGroup nestedRoot = new BranchGroup();
-	private float nodeRadius;
+	private final float nodeRadius;
 
 	/**
 	 * Initializes a new visualization to represent the specified drawer.

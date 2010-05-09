@@ -23,7 +23,18 @@ import java.util.regex.*;
 
 public class BasicWordParser implements WordParser
 {
-	public static final Pattern SPACE_PATTERN = Pattern.compile("\\w++");
+	private static final Pattern SPACE_PATTERN = Pattern.compile("\\w++");
+	private final Locale locale;
+
+	public BasicWordParser()
+	{
+		this.locale = Locale.getDefault();
+	}
+
+	public BasicWordParser(Locale locale)
+	{
+		this.locale = locale;
+	}
 
 	public List<String> getWords(final String text)
 	{
@@ -33,7 +44,7 @@ public class BasicWordParser implements WordParser
 		while (matches.find())
 		{
 			final String word = matches.group();
-			words.add(word.toLowerCase());
+			words.add(word.toLowerCase(this.locale));
 		}
 		return Collections.unmodifiableList(words);
 	}
@@ -41,5 +52,10 @@ public class BasicWordParser implements WordParser
 	public Set<String> getUniqueWords(final String text)
 	{
 		return Collections.unmodifiableSet(new HashSet<String>(this.getWords(text)));
+	}
+
+	public Locale getLocale()
+	{
+		return locale;
 	}
 }

@@ -27,8 +27,8 @@ package com.syncleus.dann.neural.activation;
 public class SineActivationFunction implements ActivationFunction
 {
 	private static final long serialVersionUID = 2091753528152343897L;
-	private final static double UPPER_LIMIT = 1.0;
-	private final static double LOWER_LIMIT = -1.0;
+	private static final double UPPER_LIMIT = 1.0;
+	private static final double LOWER_LIMIT = -1.0;
 
 	/**
 	 * The sine activation function.

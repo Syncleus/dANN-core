@@ -28,8 +28,8 @@ package com.syncleus.dann.neural.activation;
 public class HyperbolicTangentActivationFunction implements ActivationFunction
 {
 	private static final long serialVersionUID = -6377821025957445037L;
-	private final static double UPPER_LIMIT = 1.0;
-	private final static double LOWER_LIMIT = -1.0;
+	private static final double UPPER_LIMIT = 1.0;
+	private static final double LOWER_LIMIT = -1.0;
 
 	/**
 	 * The hyperbolic tangent activation function.

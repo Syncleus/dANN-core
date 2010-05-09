@@ -27,7 +27,7 @@ public abstract class AbstractFunction implements Cloneable, Function
 	private double[] parameters;
 	private final String[] parameterNames;
 	private final Map<String, Integer> indexNames;
-	private final static Logger LOGGER = Logger.getLogger(AbstractFunction.class);
+	private static final Logger LOGGER = Logger.getLogger(AbstractFunction.class);
 
 	protected AbstractFunction(final AbstractFunction copy)
 	{

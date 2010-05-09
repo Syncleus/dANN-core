@@ -128,9 +128,7 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 	private static boolean isPowerOf2(final int value)
 	{
 		final double exponentOf2 = Math.log(value) / Math.log(2.0);
-		if (Math.abs(exponentOf2 - Math.floor(exponentOf2)) > .0000000001)
-			return false;
-		return true;
+		return !(Math.abs(exponentOf2 - Math.floor(exponentOf2)) > .0000000001);
 	}
 
 	public static ComplexNumber[] transformMatrix(final ComplexNumber[] dataPoints)

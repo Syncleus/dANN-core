@@ -27,8 +27,8 @@ package com.syncleus.dann.neural.activation;
 public class IdentityActivationFunction implements ActivationFunction
 {
 	private static final long serialVersionUID = 8055171842751744405L;
-	private final static double UPPER_LIMIT = Double.MAX_VALUE;
-	private final static double LOWER_LIMIT = -1.0 * Double.MAX_VALUE;
+	private static final double UPPER_LIMIT = Double.MAX_VALUE;
+	private static final double LOWER_LIMIT = -1.0 * Double.MAX_VALUE;
 
 	/**
 	 * The activation function.

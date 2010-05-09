@@ -51,7 +51,7 @@ public class SimpleDynamicBayesianNode<S> extends SimpleBayesianNode<S> implemen
 		if (network == null)
 			throw new IllegalArgumentException("network can not be null");
 		final List<BayesianNode<S>> newHistoricalNodes = new ArrayList<BayesianNode<S>>(history.size());
-		for(S aHistory : history)
+		for(final S aHistory : history)
 			newHistoricalNodes.add(new com.syncleus.dann.graphicalmodel.bayesian.SimpleBayesianNode<S>(aHistory, network));
 		this.historicalNodes = Collections.unmodifiableList(newHistoricalNodes);
 	}

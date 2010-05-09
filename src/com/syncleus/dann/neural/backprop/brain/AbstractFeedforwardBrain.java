@@ -30,12 +30,12 @@ public abstract class AbstractFeedforwardBrain extends AbstractLocalBrain implem
 	private boolean initialized = false;
 	private final List<NeuronGroup<BackpropNeuron>> neuronLayers = new ArrayList<NeuronGroup<BackpropNeuron>>();
 	private int layerCount;
-	private final static Logger LOGGER = Logger.getLogger(AbstractFeedforwardBrain.class);
+	private static final Logger LOGGER = Logger.getLogger(AbstractFeedforwardBrain.class);
 
 	private static class Propagate implements Runnable
 	{
 		private final BackpropNeuron neuron;
-		private final static Logger LOGGER = Logger.getLogger(Propagate.class);
+		private static final Logger LOGGER = Logger.getLogger(Propagate.class);
 
 		public Propagate(final BackpropNeuron neuron)
 		{
@@ -51,7 +51,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractLocalBrain implem
 	private static class BackPropagate implements Runnable
 	{
 		private final BackpropNeuron neuron;
-		private final static Logger LOGGER = Logger.getLogger(BackPropagate.class);
+		private static final Logger LOGGER = Logger.getLogger(BackPropagate.class);
 
 		public BackPropagate(final BackpropNeuron neuron)
 		{

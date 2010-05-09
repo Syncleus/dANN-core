@@ -43,12 +43,12 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	private Vector lowerBounds;
 	private final List<InputNeuron> inputs;
 	private final Map<Vector, SimpleSomNeuron> outputs = new HashMap<Vector, SimpleSomNeuron>();
-	private final static Logger LOGGER = Logger.getLogger(AbstractSomBrain.class);
+	private static final Logger LOGGER = Logger.getLogger(AbstractSomBrain.class);
 
 	private static class PropagateOutput implements Callable<Double>
 	{
 		private final SimpleSomNeuron neuron;
-		private final static Logger LOGGER = Logger.getLogger(PropagateOutput.class);
+		private static final Logger LOGGER = Logger.getLogger(PropagateOutput.class);
 
 		public PropagateOutput(final SimpleSomNeuron neuron)
 		{

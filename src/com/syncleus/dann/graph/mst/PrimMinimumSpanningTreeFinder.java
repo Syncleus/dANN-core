@@ -122,9 +122,7 @@ public class PrimMinimumSpanningTreeFinder<N, E extends Edge<N>> implements Root
 		{
 			if (edge == null)
 				throw new IllegalArgumentException("edge can not be null");
-			if (edgeToWeight(edge) < getWeight(node))
-				return true;
-			return false;
+			return edgeToWeight(edge) < getWeight(node);
 		}
 
 		private double edgeToWeight(final E edge)

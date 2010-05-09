@@ -40,17 +40,17 @@ public class SimpleWalk<N, E extends Edge<N>> extends AbstractWalk<N, E>
 		this(steps, nodeSteps, 0.0);
 	}
 
-	final public List<E> getSteps()
+	public final List<E> getSteps()
 	{
 		return this.steps;
 	}
 
-	final public List<N> getNodeSteps()
+	public final List<N> getNodeSteps()
 	{
 		return this.nodeSteps;
 	}
 
-	final public double getWeight()
+	public final double getWeight()
 	{
 		return this.totalWeight;
 	}

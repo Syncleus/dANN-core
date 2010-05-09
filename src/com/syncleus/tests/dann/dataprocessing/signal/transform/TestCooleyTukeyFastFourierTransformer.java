@@ -52,9 +52,7 @@ public class TestCooleyTukeyFastFourierTransformer
 			else if (maxEntry.getValue().absScalar() < phasorEntry.getValue().absScalar())
 				maxEntry = phasorEntry;
 		}
-		if (Math.abs(maxEntry.getKey() - frequency) > 2.0)
-			return false;
-		return true;
+		return !(Math.abs(maxEntry.getKey() - frequency) > 2.0);
 	}
 
 	public static boolean checkFrequencyRange(final double frequency)
@@ -75,9 +73,7 @@ public class TestCooleyTukeyFastFourierTransformer
 			if ((startBandFreq <= frequency) && (frequency < endBandFreq))
 				expectedBandPower = currentBandPower;
 		}
-		if (Math.abs(expectedBandPower - maxBandPower) < 0.000000001)
-			return true;
-		return false;
+		return (Math.abs(expectedBandPower - maxBandPower) < 0.000000001);
 	}
 
 	@Test

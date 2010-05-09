@@ -27,8 +27,8 @@ package com.syncleus.dann.neural.activation;
 public class GausianActivationFunction implements ActivationFunction
 {
 	private static final long serialVersionUID = -6299865430397526530L;
-	private final static double UPPER_LIMIT = 1.0;
-	private final static double LOWER_LIMIT = 0.0;
+	private static final double UPPER_LIMIT = 1.0;
+	private static final double LOWER_LIMIT = 0.0;
 
 	/**
 	 * The gausian activation function.

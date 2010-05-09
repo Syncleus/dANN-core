@@ -26,7 +26,7 @@ import org.junit.*;
 
 public class TestExhaustiveDepthFirstSearchFinder
 {
-	private final static Logger LOGGER = Logger.getLogger(TestExhaustiveDepthFirstSearchFinder.class);
+	private static final Logger LOGGER = Logger.getLogger(TestExhaustiveDepthFirstSearchFinder.class);
 
 	@Test
 	public void testDirectedNoCycles()

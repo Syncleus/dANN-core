@@ -23,13 +23,13 @@ import java.util.*;
 
 public class DirectedGrid extends AbstractBidirectedAdjacencyGraph<GridNode, DirectedEdge<GridNode>>
 {
-	final private GridNode[][] nodes;
-	final private Set<GridNode> nodeSet = new HashSet<GridNode>();
-	final private Set<DirectedEdge<GridNode>> edges = new HashSet<DirectedEdge<GridNode>>();
-	final private Map<GridNode, Set<DirectedEdge<GridNode>>> outNeighborEdges = new HashMap<GridNode, Set<DirectedEdge<GridNode>>>();
-	final private Map<GridNode, Set<GridNode>> outNeighborNodes = new HashMap<GridNode, Set<GridNode>>();
-	final private Map<GridNode, Set<DirectedEdge<GridNode>>> inNeighborEdges = new HashMap<GridNode, Set<DirectedEdge<GridNode>>>();
-	final private Map<GridNode, Set<GridNode>> inNeighborNodes = new HashMap<GridNode, Set<GridNode>>();
+	private final GridNode[][] nodes;
+	private final Set<GridNode> nodeSet = new HashSet<GridNode>();
+	private final Set<DirectedEdge<GridNode>> edges = new HashSet<DirectedEdge<GridNode>>();
+	private final Map<GridNode, Set<DirectedEdge<GridNode>>> outNeighborEdges = new HashMap<GridNode, Set<DirectedEdge<GridNode>>>();
+	private final Map<GridNode, Set<GridNode>> outNeighborNodes = new HashMap<GridNode, Set<GridNode>>();
+	private final Map<GridNode, Set<DirectedEdge<GridNode>>> inNeighborEdges = new HashMap<GridNode, Set<DirectedEdge<GridNode>>>();
+	private final Map<GridNode, Set<GridNode>> inNeighborNodes = new HashMap<GridNode, Set<GridNode>>();
 
 	public DirectedGrid(final double[][] nodeWeights)
 	{

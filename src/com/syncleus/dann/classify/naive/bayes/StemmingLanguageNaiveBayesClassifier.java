@@ -18,26 +18,24 @@
  ******************************************************************************/
 package com.syncleus.dann.classify.naive.bayes;
 
-import java.util.Set;
+import java.util.*;
 import com.syncleus.dann.classify.naive.FeatureExtractor;
 import com.syncleus.dann.dataprocessing.language.WordParser;
 import com.syncleus.dann.dataprocessing.language.stem.StemmingWordParser;
 
 public class StemmingLanguageNaiveBayesClassifier<C> extends SimpleNaiveBayesClassifier<String, String, C> implements TrainableLanguageNaiveBayesClassifier<C>
 {
-	private static class StemmingWordExtractor implements FeatureExtractor<String, String>
-	{
-		public static final WordParser PARSER = new StemmingWordParser();
-
-		public Set<String> getFeatures(final String item)
-		{
-			return PARSER.getUniqueWords(item);
-		}
-	}
+	private final Locale locale;
 
 	public StemmingLanguageNaiveBayesClassifier()
 	{
+		this(Locale.getDefault());
+	}
+
+	public StemmingLanguageNaiveBayesClassifier(final Locale locale)
+	{
 		super(new StemmingWordExtractor());
+		this.locale = locale;
 	}
 
 	@Override
@@ -50,5 +48,20 @@ public class StemmingLanguageNaiveBayesClassifier<C> extends SimpleNaiveBayesCla
 	public double featureClassificationWeightedProbability(final String feature, final C category)
 	{
 		return super.featureClassificationWeightedProbability(StemmingWordExtractor.PARSER.getUniqueWords(feature).iterator().next(), category);
+	}
+
+	public Locale getLocale()
+	{
+		return locale;
+	}
+
+	private static class StemmingWordExtractor implements FeatureExtractor<String, String>
+	{
+		public static final WordParser PARSER = new StemmingWordParser();
+
+		public Set<String> getFeatures(final String item)
+		{
+			return PARSER.getUniqueWords(item);
+		}
 	}
 }

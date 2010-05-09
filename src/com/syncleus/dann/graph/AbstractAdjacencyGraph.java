@@ -28,7 +28,7 @@ import org.apache.log4j.Logger;
 
 public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Graph<N, E>
 {
-	private final static Logger LOGGER = Logger.getLogger(AbstractAdjacencyGraph.class);
+	private static final Logger LOGGER = Logger.getLogger(AbstractAdjacencyGraph.class);
 	private Set<E> edges;
 	private Map<N, Set<E>> adjacentEdges = new HashMap<N, Set<E>>();
 	private Map<N, List<N>> adjacentNodes = new HashMap<N, List<N>>();
@@ -679,9 +679,8 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		{
 			if (compareWith == null)
 				return false;
-			if (compareWith instanceof SizeComparator)
-				return true;
-			return false;
+			
+			return (compareWith instanceof SizeComparator);
 		}
 
 		@Override

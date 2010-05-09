@@ -31,7 +31,7 @@ import com.syncleus.dann.neural.activation.*;
 public class SimpleSomNeuron extends AbstractNeuron implements SomNeuron
 {
 	private static final long serialVersionUID = -4237625154747173055L;
-	private final static ActivationFunction ACTIVATION_FUNCTION = new SqrtActivationFunction();
+	private static final ActivationFunction ACTIVATION_FUNCTION = new SqrtActivationFunction();
 	private final ActivationFunction activationFunction;
 	private double output = 0.0;
 

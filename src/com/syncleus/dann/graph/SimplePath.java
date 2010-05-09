@@ -83,9 +83,7 @@ public class SimplePath<N, E extends Edge<N>> extends SimpleWalk<N, E> implement
 	@Override
 	protected boolean verify(final List<N> nodeSteps, final List<E> edgeSteps)
 	{
-		if ((super.verify(nodeSteps, edgeSteps)) && (AbstractPath.verifyUtility(nodeSteps, edgeSteps)))
-			return true;
-		return false;
+		return (super.verify(nodeSteps, edgeSteps)) && (com.syncleus.dann.graph.AbstractPath.verifyUtility(nodeSteps, edgeSteps));
 	}
 
 	public boolean isIndependent(final Path<N, E> path)

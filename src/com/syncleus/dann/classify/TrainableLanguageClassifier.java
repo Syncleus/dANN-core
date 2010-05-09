@@ -16,55 +16,8 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.dataprocessing.language.stem;
+package com.syncleus.dann.classify;
 
-import java.util.*;
-import com.syncleus.dann.dataprocessing.language.BasicWordParser;
-
-public class StemmingWordParser extends BasicWordParser implements Stemmer
+public interface TrainableLanguageClassifier<C> extends Trainable<String, C>, LanguageClassifier<C>, TrainableClassifier<String, C>
 {
-	private final Stemmer stemmer;
-
-	public StemmingWordParser()
-	{
-		this.stemmer = new PorterStemmer();
-	}
-
-	public StemmingWordParser(final Stemmer stemmer)
-	{
-		this.stemmer = stemmer;
-	}
-
-	public String stemWord(final String word)
-	{
-		return this.stemmer.stemWord(word.toLowerCase(this.getLocale()));
-	}
-
-	private List<String> stemList(final Collection<String> unstemmed)
-	{
-		final List<String> stemmedWords = new ArrayList<String>(unstemmed.size());
-		for(final String word : unstemmed)
-			stemmedWords.add(stemmer.stemWord(word.toLowerCase(this.getLocale())));
-		return Collections.unmodifiableList(stemmedWords);
-	}
-
-	private Set<String> stemSet(final Collection<String> unstemmed)
-	{
-		final Set<String> stemmedWords = new HashSet<String>(unstemmed.size());
-		for(final String word : unstemmed)
-			stemmedWords.add(stemmer.stemWord(word.toLowerCase(this.getLocale())));
-		return Collections.unmodifiableSet(stemmedWords);
-	}
-
-	@Override
-	public List<String> getWords(final String text)
-	{
-		return stemList(super.getWords(text));
-	}
-
-	@Override
-	public Set<String> getUniqueWords(final String text)
-	{
-		return stemSet(super.getUniqueWords(text));
-	}
 }

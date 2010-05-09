@@ -26,7 +26,7 @@ public class RealNumber extends Number implements OrderedTrigonometricAlgebraic<
 
 	public static final class Field implements com.syncleus.dann.math.OrderedField<RealNumber>
 	{
-		public final static Field FIELD = new Field();
+		public static final Field FIELD = new Field();
 
 		private Field()
 		{
@@ -43,8 +43,8 @@ public class RealNumber extends Number implements OrderedTrigonometricAlgebraic<
 		}
 	}
 
-	public final static RealNumber ZERO = new RealNumber(0);
-	public final static RealNumber ONE = new RealNumber(1);
+	public static final RealNumber ZERO = new RealNumber(0);
+	public static final RealNumber ONE = new RealNumber(1);
 	private final double value;
 
 	public RealNumber(final double value)
@@ -257,9 +257,7 @@ public class RealNumber extends Number implements OrderedTrigonometricAlgebraic<
 		if (!(compareObj instanceof RealNumber))
 			return false;
 		final RealNumber compareWith = (RealNumber) compareObj;
-		if (compareWith.value == this.value)
-			return true;
-		return false;
+		return (compareWith.value == this.value);
 	}
 
 	public int compareTo(final RealNumber compareWith)

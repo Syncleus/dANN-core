@@ -33,19 +33,19 @@ import org.apache.log4j.Logger;
  */
 public abstract class AbstractGeneticAlgorithmPopulation
 {
-	private final static Random RANDOM = new Random();
+	private static final Random RANDOM = new Random();
 	private final SortedSet<AbstractGeneticAlgorithmFitnessFunction> population;
 	private final double mutationDeviation;
 	private final double crossoverPercentage;
 	private final double dieOffPercentage;
 	private int generations;
 	private final ThreadPoolExecutor threadExecutor;
-	private final static Logger LOGGER = Logger.getLogger(AbstractGeneticAlgorithmPopulation.class);
+	private static final Logger LOGGER = Logger.getLogger(AbstractGeneticAlgorithmPopulation.class);
 
 	private static class Process implements Runnable
 	{
 		private final AbstractGeneticAlgorithmFitnessFunction fitnessFunction;
-		private final static Logger LOGGER = Logger.getLogger(Process.class);
+		private static final Logger LOGGER = Logger.getLogger(Process.class);
 
 		public Process(final AbstractGeneticAlgorithmFitnessFunction fitnessFunction)
 		{

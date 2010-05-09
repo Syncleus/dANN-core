@@ -59,9 +59,7 @@ public class SimpleCycle<N, E extends Edge<N>> extends SimpleWalk<N, E> implemen
 	@Override
 	protected boolean verify(final List<N> nodeSteps, final List<E> edgeSteps)
 	{
-		if ((super.verify(nodeSteps, edgeSteps)) && (AbstractCycle.verifyUtility(nodeSteps, edgeSteps)))
-			return true;
-		return false;
+		return (super.verify(nodeSteps, edgeSteps)) && (com.syncleus.dann.graph.AbstractCycle.verifyUtility(nodeSteps, edgeSteps));
 	}
 
 	private static <N, E extends Edge<N>> List<N> edgeToNodeSteps(final List<E> steps)

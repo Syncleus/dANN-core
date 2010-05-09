@@ -36,7 +36,7 @@ public class HyperassociativeMapCanvas<G extends Graph<N, ?>, N> extends Canvas3
 {
 	private static final long serialVersionUID = -2387160322569579373L;
 	private final HyperassociativeMap<G, N> map;
-	private HyperassociativeMapVisualization<HyperassociativeMap<G, N>, G, N> mapVisual;
+	private final HyperassociativeMapVisualization<HyperassociativeMap<G, N>, G, N> mapVisual;
 
 	/**
 	 * Initializes a new HyperassociativeMapCanvas to represent the specified

@@ -34,8 +34,8 @@ import org.apache.log4j.Logger;
 public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>, Cloneable
 {
 	private Vector<AbstractValueGene> alleles;
-	private final static Random RANDOM = Mutations.getRandom();
-	private final static Logger LOGGER = Logger.getLogger(GeneticAlgorithmChromosome.class);
+	private static final Random RANDOM = Mutations.getRandom();
+	private static final Logger LOGGER = Logger.getLogger(GeneticAlgorithmChromosome.class);
 
 	private GeneticAlgorithmChromosome()
 	{

@@ -25,7 +25,7 @@ import com.syncleus.dann.classify.naive.bayes.SimpleNaiveBayesClassifier;
 
 public class SimpleFisherClassifier<I, F, C> extends SimpleNaiveBayesClassifier<I, F, C> implements FisherClassifier<I, F, C>
 {
-	final private Map<C, Double> categoryMinimums = new HashMap<C, Double>();
+	private final Map<C, Double> categoryMinimums = new HashMap<C, Double>();
 
 	public SimpleFisherClassifier(final FeatureExtractor<F, I> extractor)
 	{

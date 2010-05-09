@@ -167,9 +167,7 @@ public class ExhaustiveDepthFirstSearchCycleFinder<N, E extends Edge<N>> extends
 		@Override
 		public boolean equals(final Object compareWith)
 		{
-			if (compareWith instanceof CycleLengthComparator)
-				return true;
-			return false;
+			return (compareWith instanceof CycleLengthComparator);
 		}
 
 		@Override

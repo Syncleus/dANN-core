@@ -26,8 +26,8 @@ public class TestGeneticCube
 {
 	private class VolumeAreaCubeFitness extends AbstractGeneticAlgorithmFitnessFunction
 	{
-		private final static double IDEAL_AREA = 2200d;
-		private final static double IDEAL_VOLUME = 6000d;
+		private static final double IDEAL_AREA = 2200d;
+		private static final double IDEAL_VOLUME = 6000d;
 		private boolean errorProcessed = false;
 		private double error;
 
@@ -54,7 +54,7 @@ public class TestGeneticCube
 
 		public double getError()
 		{
-			if (this.errorProcessed == false)
+			if (!this.errorProcessed)
 				this.process();
 			return this.error;
 		}

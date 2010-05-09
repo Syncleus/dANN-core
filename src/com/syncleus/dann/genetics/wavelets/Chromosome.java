@@ -27,8 +27,8 @@ public class Chromosome implements Cloneable
 {
 	private WaveletChromatid leftChromatid;
 	private WaveletChromatid rightChromatid;
-	private final static Random RANDOM = Mutations.getRandom();
-	private final static Logger LOGGER = Logger.getLogger(Chromosome.class);
+	private static final Random RANDOM = Mutations.getRandom();
+	private static final Logger LOGGER = Logger.getLogger(Chromosome.class);
 	private double mutability;
 
 	public Chromosome()

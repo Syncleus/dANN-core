@@ -28,7 +28,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 {
 	// <editor-fold defaultstate="collapsed" desc="internal class">
 
-	public static abstract class SignalConcentration implements Comparable<SignalConcentration>
+	public abstract static class SignalConcentration implements Comparable<SignalConcentration>
 	{
 		private double value = 0.0;
 		private long id = RANDOM.nextLong();
@@ -109,7 +109,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 	private Set<SignalConcentration> signals = new HashSet<SignalConcentration>();
 	private List<WaveMultidimensionalFunction> waves = new ArrayList<WaveMultidimensionalFunction>();
 	private CombinedWaveletFunction wavelet;
-	private final static Logger LOGGER = Logger.getLogger(SignalProcessingWavelet.class);
+	private static final Logger LOGGER = Logger.getLogger(SignalProcessingWavelet.class);
 
 	public SignalProcessingWavelet(final SignalConcentration initialInput, final SignalConcentration initialOutput)
 	{

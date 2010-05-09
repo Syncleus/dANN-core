@@ -27,18 +27,14 @@ public abstract class AbstractCycle<N, E extends Edge<N>> extends AbstractWalk<N
 	@Override
 	protected boolean verify(final List<N> nodeSteps, final List<E> edgeSteps)
 	{
-		if ((super.verify(nodeSteps, edgeSteps)) && (AbstractCycle.verifyUtility(nodeSteps, edgeSteps)))
-			return true;
-		return false;
+		return (super.verify(nodeSteps, edgeSteps)) && (com.syncleus.dann.graph.AbstractCycle.verifyUtility(nodeSteps, edgeSteps));
 	}
 
 	static <N, E extends Edge<? extends N>> boolean verifyUtility(final List<N> nodeSteps, final List<E> edgeSteps)
 	{
 		if (nodeSteps.size() < 2)
 			throw new IllegalArgumentException("Wrong number of nodes or steps");
-		if (!nodeSteps.get(0).equals(nodeSteps.get(nodeSteps.size() - 1)))
-			return false;
-		return true;
+		return nodeSteps.get(0).equals(nodeSteps.get(nodeSteps.size() - 1));
 	}
 
 	public boolean isOddCycle()

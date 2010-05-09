@@ -18,24 +18,22 @@
  ******************************************************************************/
 package com.syncleus.dann.classify.naive;
 
-import java.util.Set;
+import java.util.*;
 import com.syncleus.dann.dataprocessing.language.stem.StemmingWordParser;
 
 public class StemmingLanguageNaiveClassifier<C> extends SimpleNaiveClassifier<String, String, C> implements TrainableLanguageNaiveClassifier<C>
 {
-	private static class StemmingWordExtractor implements FeatureExtractor<String, String>
-	{
-		public static final StemmingWordParser PARSER = new StemmingWordParser();
-
-		public Set<String> getFeatures(final String item)
-		{
-			return PARSER.getUniqueWords(item);
-		}
-	}
+	private final Locale locale;
 
 	public StemmingLanguageNaiveClassifier()
 	{
+		this(Locale.getDefault());
+	}
+
+	public StemmingLanguageNaiveClassifier(final Locale locale)
+	{
 		super(new StemmingWordExtractor());
+		this.locale = locale;
 	}
 
 	@Override
@@ -48,5 +46,20 @@ public class StemmingLanguageNaiveClassifier<C> extends SimpleNaiveClassifier<St
 	public double featureClassificationWeightedProbability(final String feature, final C category)
 	{
 		return super.featureClassificationWeightedProbability(StemmingWordExtractor.PARSER.getUniqueWords(feature).iterator().next(), category);
+	}
+
+	public Locale getLocale()
+	{
+		return locale;
+	}
+
+	private static class StemmingWordExtractor implements FeatureExtractor<String, String>
+	{
+		public static final StemmingWordParser PARSER = new StemmingWordParser();
+
+		public Set<String> getFeatures(final String item)
+		{
+			return PARSER.getUniqueWords(item);
+		}
 	}
 }

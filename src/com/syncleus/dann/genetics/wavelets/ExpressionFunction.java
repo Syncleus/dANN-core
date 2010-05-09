@@ -26,11 +26,11 @@ import org.apache.log4j.Logger;
 
 public class ExpressionFunction implements Cloneable
 {
-	private final static Random RANDOM = Mutations.getRandom();
+	private static final Random RANDOM = Mutations.getRandom();
 	private Set<ReceptorKey> receptors;
 	private List<WaveMultidimensionalFunction> waves;
 	private CombinedWaveletFunction wavelet;
-	private final static Logger LOGGER = Logger.getLogger(ExpressionFunction.class);
+	private static final Logger LOGGER = Logger.getLogger(ExpressionFunction.class);
 
 	public ExpressionFunction(final ExpressionFunction copy)
 	{

@@ -66,16 +66,12 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implemen
 
 	public boolean isIntroverted()
 	{
-		if ((this.rightEndState == EndState.INWARD) && (this.leftEndState == EndState.INWARD))
-			return true;
-		return false;
+		return (this.rightEndState == com.syncleus.dann.graph.BidirectedEdge.EndState.INWARD) && (this.leftEndState == com.syncleus.dann.graph.BidirectedEdge.EndState.INWARD);
 	}
 
 	public boolean isExtraverted()
 	{
-		if ((this.rightEndState == EndState.OUTWARD) && (this.leftEndState == EndState.OUTWARD))
-			return true;
-		return false;
+		return (this.rightEndState == com.syncleus.dann.graph.BidirectedEdge.EndState.OUTWARD) && (this.leftEndState == com.syncleus.dann.graph.BidirectedEdge.EndState.OUTWARD);
 	}
 
 	public boolean isDirected()
@@ -98,23 +94,17 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implemen
 
 	public boolean isLooseEdge()
 	{
-		if ((this.rightEndState == EndState.NONE) && (this.leftEndState == EndState.NONE))
-			return true;
-		return false;
+		return (this.rightEndState == com.syncleus.dann.graph.BidirectedEdge.EndState.NONE) && (this.leftEndState == com.syncleus.dann.graph.BidirectedEdge.EndState.NONE);
 	}
 
 	public boolean isOrdinaryEdge()
 	{
-		if ((!this.isHalfEdge()) && (!this.isLooseEdge()))
-			return true;
-		return false;
+		return (!this.isHalfEdge()) && (!this.isLooseEdge());
 	}
 
 	public boolean isLoop()
 	{
-		if (this.leftEndState.equals(this.rightEndState))
-			return true;
-		return false;
+		return this.leftEndState.equals(this.rightEndState);
 	}
 
 	@Override

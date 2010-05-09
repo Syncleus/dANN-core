@@ -27,7 +27,7 @@ import org.apache.log4j.Logger;
 
 public class TestKruskalMinimumSpanningTreeFinder
 {
-	private final static Logger LOGGER = Logger.getLogger(TestKruskalMinimumSpanningTreeFinder.class);
+	private static final Logger LOGGER = Logger.getLogger(TestKruskalMinimumSpanningTreeFinder.class);
 
 	@Test
 	public void testUndirected()

@@ -34,9 +34,9 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 	//contains al the external signal genes in an arbitrary order.
 	private List<ExternalSignalGene> externalSignalGenes;
 	//Logger used to log debugging information.
-	private final static Logger LOGGER = Logger.getLogger(WaveletChromatid.class);
+	private static final Logger LOGGER = Logger.getLogger(WaveletChromatid.class);
 	//Random used for all RANDOM values.
-	private final static Random RANDOM = Mutations.getRandom();
+	private static final Random RANDOM = Mutations.getRandom();
 	//Position of the gene's centromere. This is the origin where chromatid
 	//pairs are joined.
 	private int centromerePosition;

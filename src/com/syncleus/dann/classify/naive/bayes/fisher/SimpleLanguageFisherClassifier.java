@@ -18,25 +18,28 @@
  ******************************************************************************/
 package com.syncleus.dann.classify.naive.bayes.fisher;
 
-import java.util.Set;
+import java.util.*;
 import com.syncleus.dann.classify.naive.FeatureExtractor;
 import com.syncleus.dann.dataprocessing.language.*;
 
 public class SimpleLanguageFisherClassifier<C> extends SimpleFisherClassifier<String, String, C> implements TrainableLanguageFisherClassifier<C>
 {
-	private static class WordExtractor implements FeatureExtractor<String, String>
-	{
-		private static final WordParser PARSER = new BasicWordParser();
-
-		public Set<String> getFeatures(final String item)
-		{
-			return PARSER.getUniqueWords(item);
-		}
-	}
+	private final Locale locale;
 
 	public SimpleLanguageFisherClassifier()
 	{
+		this(Locale.getDefault());
+	}
+
+	public SimpleLanguageFisherClassifier(final Locale locale)
+	{
 		super(new WordExtractor());
+		this.locale = locale;
+	}
+
+	public Locale getLocale()
+	{
+		return locale;
 	}
 
 	@Override
@@ -49,5 +52,15 @@ public class SimpleLanguageFisherClassifier<C> extends SimpleFisherClassifier<St
 	public double featureClassificationWeightedProbability(final String feature, final C category)
 	{
 		return super.featureClassificationWeightedProbability(feature.toLowerCase(), category);
+	}
+
+	private static class WordExtractor implements FeatureExtractor<String, String>
+	{
+		private static final WordParser PARSER = new BasicWordParser();
+
+		public Set<String> getFeatures(final String item)
+		{
+			return PARSER.getUniqueWords(item);
+		}
 	}
 }

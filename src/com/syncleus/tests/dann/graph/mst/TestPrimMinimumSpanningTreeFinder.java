@@ -27,7 +27,7 @@ import org.apache.log4j.Logger;
 
 public class TestPrimMinimumSpanningTreeFinder
 {
-	private final static Logger LOGGER = Logger.getLogger(TestPrimMinimumSpanningTreeFinder.class);
+	private static final Logger LOGGER = Logger.getLogger(TestPrimMinimumSpanningTreeFinder.class);
 
 	@Test
 	public void testUndirected()

@@ -34,7 +34,7 @@ public class TestSignalProcessingWavelet
 	private static final double XOR_MUTABILITY = 100.0;
 	private static final int TEST_MUTATIONS_REPEATS = 1000;
 	private static final int TEST_XOR_REPEATS = 50;
-	private final static Logger LOGGER = Logger.getLogger(TestSignalProcessingWavelet.class);
+	private static final Logger LOGGER = Logger.getLogger(TestSignalProcessingWavelet.class);
 
 	@Test
 	public void testMutations() throws CloneNotSupportedException

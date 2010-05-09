@@ -25,9 +25,9 @@ import org.apache.log4j.Logger;
 
 public class TestCounters
 {
-	private final static Logger LOGGER = Logger.getLogger(TestCounters.class);
-	private final static String SUPER_SET = "1234";
-	private final static int COMBINATION_COUNT = 15;
+	private static final Logger LOGGER = Logger.getLogger(TestCounters.class);
+	private static final String SUPER_SET = "1234";
+	private static final int COMBINATION_COUNT = 15;
 
 	@Test
 	public void testStringCombinations()

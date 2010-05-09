@@ -32,17 +32,17 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 	private final G graph;
 	private final int dimensions;
 	private final ExecutorService threadExecutor;
-	private final static Logger LOGGER = Logger.getLogger(HyperassociativeMap.class);
+	private static final Logger LOGGER = Logger.getLogger(HyperassociativeMap.class);
 	private Map<N, Vector> coordinates = Collections.synchronizedMap(new HashMap<N, Vector>());
-	private final static Random RANDOM = new Random();
+	private static final Random RANDOM = new Random();
 	private final boolean useWeights;
 	private double equilibriumDistance;
 	private double learningRate = 0.4;
 	private double maxMovement = 0.0;
 	private double totalMovement = 0.0;
 	private double acceptableDistanceFactor = 0.75;
-	private final static double REPULSIVE_WEAKNESS = 2.0;
-	private final static double ATTRACTION_STRENGTH = 4.0;
+	private static final double REPULSIVE_WEAKNESS = 2.0;
+	private static final double ATTRACTION_STRENGTH = 4.0;
 
 	private class Align implements Callable<Vector>
 	{
@@ -246,7 +246,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 		}
 		//calculate repulsion with all non-neighbors
 		for(final N node : this.graph.getNodes())
-			if ((neighbors.containsKey(node) == false) && (node != nodeToAlign) && (this.graph.getAdjacentNodes(node).contains(nodeToAlign) == false))
+			if ((!neighbors.containsKey(node)) && (node != nodeToAlign) && (!this.graph.getAdjacentNodes(node).contains(nodeToAlign)))
 			{
 				Vector nodeVector = this.coordinates.get(node).calculateRelativeTo(location);
 				double newDistance = -1.0 / Math.pow(nodeVector.getDistance(), REPULSIVE_WEAKNESS);

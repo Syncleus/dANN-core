@@ -84,7 +84,7 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 		qlTridiagonalReduction();
 	}
 
-	final public int getDimensionSize()
+	public final int getDimensionSize()
 	{
 		return this.matrix.getHeight();
 	}

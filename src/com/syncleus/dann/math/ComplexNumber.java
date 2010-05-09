@@ -28,7 +28,7 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 {
 	public static final class Field implements com.syncleus.dann.math.OrderedField<ComplexNumber>
 	{
-		public final static Field FIELD = new Field();
+		public static final Field FIELD = new Field();
 
 		private Field()
 		{
@@ -50,9 +50,9 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 		}
 	}
 
-	public final static ComplexNumber ONE = new ComplexNumber(1, 0);
-	public final static ComplexNumber ZERO = new ComplexNumber(0, 0);
-	public final static ComplexNumber I = new ComplexNumber(0, 1);
+	public static final ComplexNumber ONE = new ComplexNumber(1, 0);
+	public static final ComplexNumber ZERO = new ComplexNumber(0, 0);
+	public static final ComplexNumber I = new ComplexNumber(0, 1);
 	private final double realValue;
 	private final double imaginaryValue;
 
@@ -285,9 +285,8 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 		final ComplexNumber compareComplex = (ComplexNumber) compareObject;
 		if (compareComplex.realValue != this.realValue)
 			return false;
-		if (compareComplex.imaginaryValue != this.imaginaryValue)
-			return false;
-		return true;
+		
+		return !(compareComplex.imaginaryValue != this.imaginaryValue);
 	}
 
 	@Override

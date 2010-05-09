@@ -50,8 +50,8 @@ public abstract class AbstractActivationNeuron extends AbstractNeuron
 	 * @since 1.0
 	 */
 	private double output;
-	private final static HyperbolicTangentActivationFunction DEFAULT_ACTIVATION_FUNCTION = new HyperbolicTangentActivationFunction();
-	private final static Logger LOGGER = Logger.getLogger(AbstractActivationNeuron.class);
+	private static final HyperbolicTangentActivationFunction DEFAULT_ACTIVATION_FUNCTION = new HyperbolicTangentActivationFunction();
+	private static final Logger LOGGER = Logger.getLogger(AbstractActivationNeuron.class);
 	// </editor-fold>
 	// <editor-fold defaultstate="collapsed" desc="Constructors">
 

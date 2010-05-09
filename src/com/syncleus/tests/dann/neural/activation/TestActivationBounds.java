@@ -26,10 +26,10 @@ import java.util.Random;
 public class TestActivationBounds
 {
 	private static final Random RANDOM = new Random();
-	private final static GausianActivationFunction GAUSIAN_ACTIVATION_FUNCTION = new GausianActivationFunction();
-	private final static HyperbolicSecantActivationFunction HYPERBOLIC_SECANT_ACTIVATION_FUNCTION = new HyperbolicSecantActivationFunction();
-	private final static HyperbolicTangentActivationFunction HYPERBOLIC_TANGENT_ACTIVATION_FUNCTION = new HyperbolicTangentActivationFunction();
-	private final static SineActivationFunction SINE_ACTIVATION_FUNCTION = new SineActivationFunction();
+	private static final GausianActivationFunction GAUSIAN_ACTIVATION_FUNCTION = new GausianActivationFunction();
+	private static final HyperbolicSecantActivationFunction HYPERBOLIC_SECANT_ACTIVATION_FUNCTION = new HyperbolicSecantActivationFunction();
+	private static final HyperbolicTangentActivationFunction HYPERBOLIC_TANGENT_ACTIVATION_FUNCTION = new HyperbolicTangentActivationFunction();
+	private static final SineActivationFunction SINE_ACTIVATION_FUNCTION = new SineActivationFunction();
 	private final ArrayList<ActivationFunction> activationFunctions = new ArrayList<ActivationFunction>();
 	private static final double UPPER_TEST_VALUE = 1000000000.0;
 	private static final double UPPER_CUTOFF_VALUE = 100.0;

@@ -54,7 +54,7 @@ import org.apache.log4j.Logger;
 public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 {
 	private static final long serialVersionUID = 7930693107191691804L;
-	private final static Logger LOGGER = Logger.getLogger(SimpleRealMatrix.class);
+	private static final Logger LOGGER = Logger.getLogger(SimpleRealMatrix.class);
 	/**
 	 * Array for internal storage of elements.
 	 */
@@ -142,9 +142,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 
 	public boolean isSquare()
 	{
-		if (this.width != this.height)
-			return false;
-		return true;
+		return this.width == this.height;
 	}
 
 	public boolean isSymmetric()

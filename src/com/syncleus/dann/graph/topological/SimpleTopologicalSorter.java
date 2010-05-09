@@ -32,7 +32,7 @@ public class SimpleTopologicalSorter<N> implements TopologicalSorter<N>
 		for(final DirectedEdge<? extends N> edge : edges)
 		{
 			final List<? extends N> edgeNodes = edge.getNodes();
-			for(N edgeNode : edgeNodes)
+			for(final N edgeNode : edgeNodes)
 			{
 				if (!nodes.contains(edgeNode))
 					throw new IllegalArgumentException("A node that is an end point in one of the edges was not in the nodes list");

@@ -119,7 +119,7 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 				// subsequent calculation of the row transformation.
 				e[j] = A[k][j];
 			}
-			if (wantu & (k < nct))
+			if (wantu && (k < nct))
 				// Place the transformation in u for subsequent back
 				// multiplication.
 				for(int i = k; i < this.m; i++)
@@ -529,7 +529,7 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 		final double eps = Math.pow(2.0, -52.0);
 		final double tol = Math.max(this.m, this.n) * this.s[0] * eps;
 		int r = 0;
-		for(double value : s)
+		for(final double value : this.s)
 			if (value > tol)
 				r++;
 		return r;

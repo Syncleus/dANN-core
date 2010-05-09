@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 
 public abstract class PackageUtility
 {
-	private final static Logger LOGGER = Logger.getLogger(PackageUtility.class);
+	private static final Logger LOGGER = Logger.getLogger(PackageUtility.class);
 
 	public static Class[] getClasses(final String pkgName) throws ClassNotFoundException
 	{
@@ -35,7 +35,7 @@ public abstract class PackageUtility
 		{
 			// Get the list of the files contained in the package
 			final String[] files = directory.list();
-			for(String file : files)
+			for(final String file : files)
 				if (file.endsWith(".class"))
 					// removes the .class extension
 					classes.add(Class.forName(pkgName + '.' + file.substring(0, file.length() - 6)));
@@ -66,7 +66,7 @@ public abstract class PackageUtility
 		}
 	}
 
-	public static Class[] getClasses(final String jarName, final String packageName) throws FileNotFoundException, IOException
+	public static Class[] getClasses(final String jarName, final String packageName) throws IOException
 	{
 		final ArrayList<Class> classes = new ArrayList<Class>();
 		final String cleanedPackageName = packageName.replaceAll("\\.", "/");
