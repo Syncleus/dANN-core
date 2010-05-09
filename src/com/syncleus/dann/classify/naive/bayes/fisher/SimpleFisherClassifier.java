@@ -51,7 +51,7 @@ public class SimpleFisherClassifier<I,F,C> extends SimpleNaiveBayesClassifier<I,
 
 		C topCategory = null;
 		double topProbability = 0.0;
-		for(C category : this.getCategories())
+		for(final C category : this.getCategories())
 		{
 			final double currentProbability = this.classificationProbability(item, category);
 			categoryProbabilities.put(category, currentProbability);
@@ -64,7 +64,7 @@ public class SimpleFisherClassifier<I,F,C> extends SimpleNaiveBayesClassifier<I,
 
 		if(useThreshold)
 		{
-			for(Entry<C,Double> probability : categoryProbabilities.entrySet())
+			for(final Entry<C,Double> probability : categoryProbabilities.entrySet())
 				if( probability.getValue()  > this.getMinimum(probability.getKey()) )
 					return probability.getKey();
 			return null;
@@ -81,7 +81,7 @@ public class SimpleFisherClassifier<I,F,C> extends SimpleNaiveBayesClassifier<I,
 			return 0.0;
 
 		double probabilitySum = 0.0;
-		for(C currentCategory : this.getCategories())
+		for(final C currentCategory : this.getCategories())
 			probabilitySum += super.featureClassificationProbability(feature, currentCategory);
 
 		return probability / probabilitySum;
@@ -92,7 +92,7 @@ public class SimpleFisherClassifier<I,F,C> extends SimpleNaiveBayesClassifier<I,
 	{
 		final Set<F> features = this.getExtractor().getFeatures(item);
 		double probability = 1.0;
-		for(F feature : features)
+		for(final F feature : features)
 			probability *= this.featureClassificationWeightedProbability(feature, category);
 		probability = (-2.0 * Math.log(probability)) / 2.0;
 

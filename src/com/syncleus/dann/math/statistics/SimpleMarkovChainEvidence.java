@@ -36,7 +36,7 @@ public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S>
 	private final Map<List<S>, Map<S, Integer>> evidence;
 	private final Set<S> observedStates;
 
-	public SimpleMarkovChainEvidence(boolean isArbitraryStart, int order)
+	public SimpleMarkovChainEvidence(final boolean isArbitraryStart, final int order)
 	{
 		this.history = new ArrayDeque<S>(order);
 		this.order = order;
@@ -50,9 +50,9 @@ public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S>
 		this.history.clear();
 	}
 
-	private void learnFromMemroy(Collection<S> stateMemoryCollection, S nextState)
+	private void learnFromMemroy(final Collection<S> stateMemoryCollection, final S nextState)
 	{
-		List<S> stateMemory = Collections.unmodifiableList(new ArrayList<S>(stateMemoryCollection));
+		final List<S> stateMemory = Collections.unmodifiableList(new ArrayList<S>(stateMemoryCollection));
 		//get the current evidence for this state
 		Map<S, Integer> transitions = this.evidence.get(stateMemory);
 		//if there is no transistions then create a blank one
@@ -69,9 +69,9 @@ public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S>
 		transitions.put(nextState, transition++);
 	}
 
-	public void learnStep(S state)
+	public void learnStep(final S state)
 	{
-		ArrayDeque<S> trainingMemory = new ArrayDeque<S>(this.history);
+		final ArrayDeque<S> trainingMemory = new ArrayDeque<S>(this.history);
 		learnFromMemroy(trainingMemory, state);
 
 		if(this.isArbitraryStart)

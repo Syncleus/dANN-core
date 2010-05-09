@@ -181,7 +181,7 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>,
 	{
 		final GeneticAlgorithmChromosome mutated = this.clone();
 		mutated.alleles.clear();
-		for(AbstractValueGene allele : this.alleles)
+		for(final AbstractValueGene allele : this.alleles)
 			mutated.alleles.add(allele.mutate(deviation));
 		return mutated;
 	}

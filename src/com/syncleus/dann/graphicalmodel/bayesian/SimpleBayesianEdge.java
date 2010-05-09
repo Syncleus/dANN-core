@@ -24,7 +24,7 @@ public class SimpleBayesianEdge<N extends BayesianNode> extends ImmutableDirecte
 {
 	private static final long serialVersionUID = 5817768183659411136L;
 	
-	public SimpleBayesianEdge(N source, N destination)
+	public SimpleBayesianEdge(final N source, final N destination)
 	{
 		super(source, destination);
 	}

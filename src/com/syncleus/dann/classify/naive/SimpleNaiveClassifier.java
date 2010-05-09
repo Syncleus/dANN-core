@@ -41,13 +41,13 @@ public class SimpleNaiveClassifier<I,F,C> implements TrainableNaiveClassifier<I,
 
 	public C classification(final I item)
 	{
-		Set<F> features = this.extractor.getFeatures(item);
-		Map<C,Double> categoryProbabilities = new HashMap<C,Double>();
+		final Set<F> features = this.extractor.getFeatures(item);
+		final Map<C,Double> categoryProbabilities = new HashMap<C,Double>();
 		C topCategory = null;
 		double topProbability = 0.0;
-		for(F feature : features)
+		for(final F feature : features)
 		{
-			C currentCategory = this.featureClassification(feature);
+			final C currentCategory = this.featureClassification(feature);
 			Double newProbability = categoryProbabilities.get(currentCategory);
 			if( newProbability == null )
 				newProbability = Double.valueOf(1.0);
@@ -67,11 +67,11 @@ public class SimpleNaiveClassifier<I,F,C> implements TrainableNaiveClassifier<I,
 
 	public Map<C,Double> getCategoryProbabilities(final I item)
 	{
-		Set<F> features = this.extractor.getFeatures(item);
-		Map<C,Double> categoryProbabilities = new HashMap<C,Double>();
-		for(F feature : features)
+		final Set<F> features = this.extractor.getFeatures(item);
+		final Map<C,Double> categoryProbabilities = new HashMap<C,Double>();
+		for(final F feature : features)
 		{
-			C currentCategory = this.featureClassification(feature);
+			final C currentCategory = this.featureClassification(feature);
 			Double newProbability = categoryProbabilities.get(currentCategory);
 			if( newProbability == null )
 				newProbability = Double.valueOf(1.0);
@@ -92,9 +92,9 @@ public class SimpleNaiveClassifier<I,F,C> implements TrainableNaiveClassifier<I,
 	{
 		C topCategory = null;
 		double topProbability = 0.0;
-		for(C category : this.getCategories())
+		for(final C category : this.getCategories())
 		{
-			double currentProbability = this.featureClassificationProbability(feature, category);
+			final double currentProbability = this.featureClassificationProbability(feature, category);
 			if( topProbability < currentProbability)
 			{
 				topCategory = category;
@@ -108,9 +108,9 @@ public class SimpleNaiveClassifier<I,F,C> implements TrainableNaiveClassifier<I,
 	{
 		C topCategory = null;
 		double topProbability = 0.0;
-		for(C category : this.getCategories())
+		for(final C category : this.getCategories())
 		{
-			double currentProbability = this.featureClassificationWeightedProbability(feature, category);
+			final double currentProbability = this.featureClassificationWeightedProbability(feature, category);
 			if( topProbability < currentProbability)
 			{
 				topCategory = category;
@@ -123,7 +123,7 @@ public class SimpleNaiveClassifier<I,F,C> implements TrainableNaiveClassifier<I,
 
 	public double featureClassificationProbability(final F feature, final C category)
 	{
-		int overallProb = this.getOverallProbability(category);
+		final int overallProb = this.getOverallProbability(category);
 		int featureProb = 0;
 		if( this.featureTree.containsKey(feature) )
 			featureProb = this.featureTree.getFeature(feature).getCategoryProbability(category);
@@ -136,7 +136,7 @@ public class SimpleNaiveClassifier<I,F,C> implements TrainableNaiveClassifier<I,
 
 	public double featureClassificationWeightedProbability(final F feature, final C category)
 	{
-		double unweightedProb = this.featureClassificationProbability(feature, category);
+		final double unweightedProb = this.featureClassificationProbability(feature, category);
 		double total = 0.0;
 		if( this.featureTree.containsKey(feature) )
 			total = this.featureTree.getFeature(feature).getProbabilitySum();
@@ -151,8 +151,8 @@ public class SimpleNaiveClassifier<I,F,C> implements TrainableNaiveClassifier<I,
 
 	public void train(final I item, final C category)
 	{
-		Set<F> features = this.extractor.getFeatures(item);
-		for(F feature : features)
+		final Set<F> features = this.extractor.getFeatures(item);
+		for(final F feature : features)
 			this.featureTree.getFeature(feature).incrementCategory(category);
 		this.overallCategoryProbability.incrementCategory(category);
 	}

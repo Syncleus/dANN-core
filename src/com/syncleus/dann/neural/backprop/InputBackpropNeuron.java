@@ -34,7 +34,7 @@ public class InputBackpropNeuron extends SimpleInputNeuron implements BackpropNe
 {
 	private static final long serialVersionUID = -5476983544332917618L;
 	
-    public InputBackpropNeuron(Brain brain)
+    public InputBackpropNeuron(final Brain brain)
     {
         super(brain);
     }

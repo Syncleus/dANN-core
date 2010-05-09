@@ -23,21 +23,21 @@ import java.util.List;
 
 public class JohnsonPathFinder<N, E extends WeightedDirectedEdge<N>> implements PathFinder<N,WeightedDirectedEdge<N>>
 {
-	private BidirectedGraph<N,E> graph;
+	private final BidirectedGraph<N,E> graph;
 	private final JohnsonGraphTransformer<N> TRANSFORMER = new JohnsonGraphTransformer<N>();
 
-	public JohnsonPathFinder(BidirectedGraph<N,E> graph)
+	public JohnsonPathFinder(final BidirectedGraph<N,E> graph)
 	{
 		if(graph == null)
 			throw new IllegalArgumentException("graph can not be null");
 		this.graph = graph;
 	}
 
-	public List<WeightedDirectedEdge<N>> getBestPath(N begin, N end)
+	public List<WeightedDirectedEdge<N>> getBestPath(final N begin, final N end)
 	{
-		BidirectedGraph<N,WeightedDirectedEdge<N>> johnsonGraph = TRANSFORMER.transform(this.graph);
-		DijkstraPathFinder<N,WeightedDirectedEdge<N>> pathFinder = new DijkstraPathFinder<N,WeightedDirectedEdge<N>>(johnsonGraph);
-		List<WeightedDirectedEdge<N>> pathWalk = pathFinder.getBestPath(begin, end);
+		final BidirectedGraph<N,WeightedDirectedEdge<N>> johnsonGraph = TRANSFORMER.transform(this.graph);
+		final DijkstraPathFinder<N,WeightedDirectedEdge<N>> pathFinder = new DijkstraPathFinder<N,WeightedDirectedEdge<N>>(johnsonGraph);
+		final List<WeightedDirectedEdge<N>> pathWalk = pathFinder.getBestPath(begin, end);
 
 		if(pathWalk == null)
 			return null;
@@ -45,12 +45,12 @@ public class JohnsonPathFinder<N, E extends WeightedDirectedEdge<N>> implements 
 		return pathWalk;
 	}
 
-	public boolean isReachable(N begin, N end)
+	public boolean isReachable(final N begin, final N end)
 	{
 		return (this.getBestPath(begin, end) != null);
 	}
 
-	public boolean isConnected(N begin, N end)
+	public boolean isConnected(final N begin, final N end)
 	{
 		return (this.getBestPath(begin, end) != null);
 	}

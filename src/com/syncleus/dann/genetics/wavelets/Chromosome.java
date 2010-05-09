@@ -38,7 +38,7 @@ public class Chromosome implements Cloneable
 		this.rightChromatid = WaveletChromatid.newRandomWaveletChromatid();
 	}
 
-	public Chromosome(Chromosome copy)
+	public Chromosome(final Chromosome copy)
 	{
 		this.leftChromatid = new WaveletChromatid(copy.leftChromatid);
 		this.rightChromatid = new WaveletChromatid(copy.rightChromatid);
@@ -123,7 +123,7 @@ public class Chromosome implements Cloneable
 	private void crossover(final double deviation)
 	{
 		//find the crossover position
-		int crossoverPosition;
+		final int crossoverPosition;
 		if(RANDOM.nextBoolean())
 		{
 			final int length = ( this.leftChromatid.getCentromerePosition() < this.rightChromatid.getCentromerePosition() ? this.leftChromatid.getCentromerePosition() : this.rightChromatid.getCentromerePosition());

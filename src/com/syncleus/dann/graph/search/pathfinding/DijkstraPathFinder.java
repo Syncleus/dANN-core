@@ -24,7 +24,7 @@ public class DijkstraPathFinder<N, E extends Edge<N>> extends AstarPathFinder<N,
 {
 	public final static class ZeroHeuristicPathCost<N> implements HeuristicPathCost<N>
 	{
-		public double getHeuristicPathCost(N begin, N end)
+		public double getHeuristicPathCost(final N begin, final N end)
 		{
 			return 0.0;
 		}
@@ -40,7 +40,7 @@ public class DijkstraPathFinder<N, E extends Edge<N>> extends AstarPathFinder<N,
 		}
 	}
 
-	public DijkstraPathFinder(Graph<N,E> graph)
+	public DijkstraPathFinder(final Graph<N,E> graph)
 	{
 		super(graph, new ZeroHeuristicPathCost<N>());
 	}

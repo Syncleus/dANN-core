@@ -24,20 +24,20 @@ public class ExternalSignalGene extends SignalGene implements Cloneable
 {
 	private boolean outward;
 
-	public ExternalSignalGene(ReceptorKey initialReceptor, SignalKey initialSignal, boolean outward)
+	public ExternalSignalGene(final ReceptorKey initialReceptor, final SignalKey initialSignal, final boolean outward)
 	{
 		super(initialReceptor, initialSignal);
 
 		this.outward = outward;
 	}
 	
-	public ExternalSignalGene(ExternalSignalGene copy)
+	public ExternalSignalGene(final ExternalSignalGene copy)
 	{
 		super(copy);
 	}
 
 	@Override
-	public boolean bind(SignalKeyConcentration concentration, boolean isExternal)
+	public boolean bind(final SignalKeyConcentration concentration, final boolean isExternal)
 	{
 		if( (this.outward && !isExternal) || (!this.outward && isExternal) )
 		{
@@ -68,7 +68,7 @@ public class ExternalSignalGene extends SignalGene implements Cloneable
 	}
 
 	@Override
-	public void mutate(Set<AbstractKey> keyPool)
+	public void mutate(final Set<AbstractKey> keyPool)
 	{
 		super.mutate(keyPool);
 

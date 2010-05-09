@@ -49,7 +49,7 @@ public class HyperassociativeMapCanvas<G extends Graph<N, ?>, N> extends Canvas3
 	 * @param map The HyperassociativeMap to display.
 	 * @since 1.0
 	 */
-    public HyperassociativeMapCanvas(HyperassociativeMap<G,N> map)
+    public HyperassociativeMapCanvas(final HyperassociativeMap<G,N> map)
     {
         this(map, SimpleUniverse.getPreferredConfiguration());
     }
@@ -64,7 +64,7 @@ public class HyperassociativeMapCanvas<G extends Graph<N, ?>, N> extends Canvas3
 	 * @param nodeRadius The radius of the spheres representing each node.
 	 * @since 1.0
 	 */
-    public HyperassociativeMapCanvas(HyperassociativeMap<G,N> map, float nodeRadius)
+    public HyperassociativeMapCanvas(final HyperassociativeMap<G,N> map, final float nodeRadius)
     {
         this(map, SimpleUniverse.getPreferredConfiguration(), nodeRadius);
     }
@@ -79,7 +79,7 @@ public class HyperassociativeMapCanvas<G extends Graph<N, ?>, N> extends Canvas3
 	 * canvas.
 	 * @since 1.0
 	 */
-    public HyperassociativeMapCanvas(HyperassociativeMap<G,N> map, GraphicsConfiguration configuration)
+    public HyperassociativeMapCanvas(final HyperassociativeMap<G,N> map, final GraphicsConfiguration configuration)
     {
         this(map, configuration, 0.07F);
     }
@@ -96,7 +96,7 @@ public class HyperassociativeMapCanvas<G extends Graph<N, ?>, N> extends Canvas3
 	 * @param nodeRadius The radius of the spheres representing each node.
 	 * @since 1.0
 	 */
-    public HyperassociativeMapCanvas(HyperassociativeMap<G,N> map, GraphicsConfiguration configuration, float nodeRadius)
+    public HyperassociativeMapCanvas(final HyperassociativeMap<G,N> map, final GraphicsConfiguration configuration, final float nodeRadius)
     {
         super(configuration);
         

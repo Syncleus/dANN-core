@@ -28,7 +28,7 @@ public class WaveMultidimensionalFunction extends AbstractFunction implements Cl
     private String[] dimensionNames = null;
     private SharpenedWaveletFunction wave;
 
-	public WaveMultidimensionalFunction(WaveMultidimensionalFunction copy)
+	public WaveMultidimensionalFunction(final WaveMultidimensionalFunction copy)
 	{
 		super(copy);
 		this.dimensionNames = (copy.dimensionNames == null ? null : copy.dimensionNames.clone());
@@ -37,7 +37,7 @@ public class WaveMultidimensionalFunction extends AbstractFunction implements Cl
 		this.wave = new SharpenedWaveletFunction(copy.wave);
 	}
     
-    public WaveMultidimensionalFunction(double constantValue)
+    public WaveMultidimensionalFunction(final double constantValue)
     {
         super(new String[]{});
         
@@ -46,7 +46,7 @@ public class WaveMultidimensionalFunction extends AbstractFunction implements Cl
 		this.wave = new SharpenedWaveletFunction();
     }
     
-    public WaveMultidimensionalFunction(String[] dimensions)
+    public WaveMultidimensionalFunction(final String[] dimensions)
     {
         super(combineLabels(appendStrings(dimensions, "center-"), combineLabels(dimensions, new String[]{"distribution", "form", "frequency", "amplitude", "phase"})));
         this.dimensionNames = dimensions.clone();
@@ -61,7 +61,7 @@ public class WaveMultidimensionalFunction extends AbstractFunction implements Cl
 
     private static String[] appendStrings(final String[] original, final String append)
     {
-        String[] copy = new String[original.length];
+        final String[] copy = new String[original.length];
         for(int index = 0; index < copy.length; index++)
         {
             copy[index] = append + original[index];
@@ -165,7 +165,7 @@ public class WaveMultidimensionalFunction extends AbstractFunction implements Cl
         
         //step through each dimension value and center value
         double squaredSum = 0.0;
-        for(String dimensionName : this.dimensionNames )
+        for(final String dimensionName : this.dimensionNames )
         {
             final double dimensionValue = this.getDimension(dimensionName);
             final double centerValue = this.getCenter(dimensionName);

@@ -27,7 +27,7 @@ public class TestSimpleLanguageClassifier
 	@Test
 	public void testClassify()
 	{
-		TrainableLanguageNaiveClassifier<Integer> classifier = new SimpleLanguageNaiveClassifier<Integer>();
+		final TrainableLanguageNaiveClassifier<Integer> classifier = new SimpleLanguageNaiveClassifier<Integer>();
 
 		//train
 		classifier.train("Money is the root of all evil!", 1);

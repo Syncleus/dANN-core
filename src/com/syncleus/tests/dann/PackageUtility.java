@@ -11,19 +11,19 @@ public abstract class PackageUtility
 {
 	private final static Logger LOGGER = Logger.getLogger(PackageUtility.class);
 
-	public static Class[] getClasses(String pkgName) throws ClassNotFoundException
+	public static Class[] getClasses(final String pkgName) throws ClassNotFoundException
 	{
-		ArrayList<Class> classes = new ArrayList<Class>();
+		final ArrayList<Class> classes = new ArrayList<Class>();
 		// Get a File object for the package
 		File directory = null;
 		String pkgPath = null;
 		try
 		{
-			ClassLoader cld = Thread.currentThread().getContextClassLoader();
+			final ClassLoader cld = Thread.currentThread().getContextClassLoader();
 			assert (cld != null);
 
 			pkgPath = pkgName.replace('.', '/');
-			URL resource = cld.getResource(pkgPath);
+			final URL resource = cld.getResource(pkgPath);
 			if(resource == null)
 				throw new ClassNotFoundException("No resource for " + pkgPath);
 			directory = new File(resource.getFile());
@@ -37,14 +37,14 @@ public abstract class PackageUtility
 		if(directory.exists())
 		{
 			// Get the list of the files contained in the package
-			String[] files = directory.list();
+			final String[] files = directory.list();
 			for(int i = 0; i < files.length; i++)
 				// we are only interested in .class files
 				if(files[i].endsWith(".class"))
 					// removes the .class extension
 					classes.add(Class.forName(pkgName + '.' + files[i].substring(0, files[i].length() - 6)));
 
-			Class[] classesA = new Class[classes.size()];
+			final Class[] classesA = new Class[classes.size()];
 			classes.toArray(classesA);
 			return classesA;
 		}
@@ -73,11 +73,11 @@ public abstract class PackageUtility
 
 	public static Class[] getClasses(final String jarName, final String packageName) throws FileNotFoundException, IOException
 	{
-		ArrayList<Class> classes = new ArrayList<Class>();
+		final ArrayList<Class> classes = new ArrayList<Class>();
 
 		final String cleanedPackageName = packageName.replaceAll("\\.", "/");
 
-		JarInputStream jarFile = new JarInputStream(new FileInputStream(jarName));
+		final JarInputStream jarFile = new JarInputStream(new FileInputStream(jarName));
 		JarEntry jarEntry;
 
 		while(true)
@@ -87,7 +87,7 @@ public abstract class PackageUtility
 				break;
 			if((jarEntry.getName().startsWith(cleanedPackageName)) && (jarEntry.getName().endsWith(".class")))
 			{
-				String classFileName = jarEntry.getName().replaceAll("/", "\\.");
+				final String classFileName = jarEntry.getName().replaceAll("/", "\\.");
 				try
 				{
 					classes.add(Class.forName(classFileName.substring(0, classFileName.length() - 6)));
@@ -99,7 +99,7 @@ public abstract class PackageUtility
 			}
 		}
 
-		Class[] classesRet = new Class[classes.size()];
+		final Class[] classesRet = new Class[classes.size()];
 		classes.toArray(classesRet);
 		return classesRet;
 	}

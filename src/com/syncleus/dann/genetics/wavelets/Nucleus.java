@@ -42,10 +42,10 @@ public class Nucleus implements Cloneable
 			this.chromosomes.add(new Chromosome());
 	}
 
-	public Nucleus(Nucleus copy)
+	public Nucleus(final Nucleus copy)
 	{
 		this.chromosomes = new ArrayList<Chromosome>();
-		for(Chromosome chromosome : copy.chromosomes)
+		for(final Chromosome chromosome : copy.chromosomes)
 			this.chromosomes.add(new Chromosome(chromosome));
 	}
 
@@ -56,20 +56,20 @@ public class Nucleus implements Cloneable
 
 	public void preTick()
 	{
-		for(Chromosome chromosome : this.chromosomes)
+		for(final Chromosome chromosome : this.chromosomes)
 			chromosome.preTick();
 	}
 
 	public void tick()
 	{
-		for(Chromosome chromosome : this.chromosomes)
+		for(final Chromosome chromosome : this.chromosomes)
 			chromosome.tick();
 	}
 
-	public boolean bind(SignalKeyConcentration concentration, boolean isExternal)
+	public boolean bind(final SignalKeyConcentration concentration, final boolean isExternal)
 	{
 		boolean bound = true;
-		for( Chromosome chromosome : this.chromosomes )
+		for( final Chromosome chromosome : this.chromosomes )
 			if( chromosome.bind(concentration, isExternal) )
 				bound = true;
 		return bound;
@@ -80,9 +80,9 @@ public class Nucleus implements Cloneable
 	{
 		try
 		{
-			Nucleus copy = (Nucleus) super.clone();
+			final Nucleus copy = (Nucleus) super.clone();
 			copy.chromosomes = new ArrayList<Chromosome>();
-			for(Chromosome chromosome : this.chromosomes)
+			for(final Chromosome chromosome : this.chromosomes)
 				copy.chromosomes.add(chromosome.clone());
 			return copy;
 		}
@@ -95,28 +95,28 @@ public class Nucleus implements Cloneable
 
 	public void mutate()
 	{
-		HashSet<AbstractKey> allKeys = new HashSet<AbstractKey>();
-		for(Chromosome chromosome : this.chromosomes)
+		final HashSet<AbstractKey> allKeys = new HashSet<AbstractKey>();
+		for(final Chromosome chromosome : this.chromosomes)
 			allKeys.addAll(chromosome.getKeys());
 
-		for(Chromosome chromosome : this.chromosomes)
+		for(final Chromosome chromosome : this.chromosomes)
 			chromosome.mutate(allKeys);
 	}
 
-	public void mutate(Set<AbstractKey> keyPool)
+	public void mutate(final Set<AbstractKey> keyPool)
 	{
-		HashSet<AbstractKey> allKeys = new HashSet<AbstractKey>(keyPool);
-		for(Chromosome chromosome : this.chromosomes)
+		final HashSet<AbstractKey> allKeys = new HashSet<AbstractKey>(keyPool);
+		for(final Chromosome chromosome : this.chromosomes)
 			allKeys.addAll(chromosome.getKeys());
 		
-		for(Chromosome chromosome : this.chromosomes)
+		for(final Chromosome chromosome : this.chromosomes)
 			chromosome.mutate(allKeys);
 	}
 
-	Set<SignalKey> getExpressedSignals(boolean external)
+	Set<SignalKey> getExpressedSignals(final boolean external)
 	{
-		HashSet<SignalKey> allSignals = new HashSet<SignalKey>();
-		for(Chromosome chromosome:this.chromosomes)
+		final HashSet<SignalKey> allSignals = new HashSet<SignalKey>();
+		for(final Chromosome chromosome:this.chromosomes)
 			allSignals.addAll(chromosome.getExpressedSignals(external));
 		return Collections.unmodifiableSet(allSignals);
 	}

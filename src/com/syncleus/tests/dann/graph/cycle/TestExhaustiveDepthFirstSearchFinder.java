@@ -31,27 +31,27 @@ public class TestExhaustiveDepthFirstSearchFinder
 	@Test
 	public void testDirectedNoCycles()
 	{
-		Set<Object> nodes = new HashSet<Object>();
-		Object topNode = "topNode";
+		final Set<Object> nodes = new HashSet<Object>();
+		final Object topNode = "topNode";
 		nodes.add(topNode);
-		Object leftNode = "leftNode";
+		final Object leftNode = "leftNode";
 		nodes.add(leftNode);
-		Object rightNode = "rightNode";
+		final Object rightNode = "rightNode";
 		nodes.add(rightNode);
 
-		Set<DirectedEdge<Object>> edges = new HashSet<DirectedEdge<Object>>();
-		DirectedEdge<Object> topRightEdge = new ImmutableDirectedEdge<Object>(topNode, rightNode);
+		final Set<DirectedEdge<Object>> edges = new HashSet<DirectedEdge<Object>>();
+		final DirectedEdge<Object> topRightEdge = new ImmutableDirectedEdge<Object>(topNode, rightNode);
 		edges.add(topRightEdge);
-		DirectedEdge<Object> rightLeftEdge = new ImmutableDirectedEdge<Object>(rightNode, leftNode);
+		final DirectedEdge<Object> rightLeftEdge = new ImmutableDirectedEdge<Object>(rightNode, leftNode);
 		edges.add(rightLeftEdge);
-		DirectedEdge<Object> topLeftEdge = new ImmutableDirectedEdge<Object>(topNode, leftNode);
+		final DirectedEdge<Object> topLeftEdge = new ImmutableDirectedEdge<Object>(topNode, leftNode);
 		edges.add(topLeftEdge);
 
-		BidirectedGraph<Object, DirectedEdge<Object>> graph = new ImmutableDirectedAdjacencyGraph<Object, DirectedEdge<Object>>(nodes, edges);
+		final BidirectedGraph<Object, DirectedEdge<Object>> graph = new ImmutableDirectedAdjacencyGraph<Object, DirectedEdge<Object>>(nodes, edges);
 
-		CycleFinder<Object, DirectedEdge<Object>> finder = new ExhaustiveDepthFirstSearchCycleFinder<Object, DirectedEdge<Object>>();
+		final CycleFinder<Object, DirectedEdge<Object>> finder = new ExhaustiveDepthFirstSearchCycleFinder<Object, DirectedEdge<Object>>();
 		LOGGER.info("testDirectedNoCycles cycles: ");
-		for(Object cycle: finder.findCycles(graph))
+		for(final Object cycle: finder.findCycles(graph))
 			LOGGER.info(cycle);
 		Assert.assertTrue("Cycles detected when there should be none: " + finder.cycleCount(graph), finder.cycleCount(graph) == 0);
 	}
@@ -59,39 +59,39 @@ public class TestExhaustiveDepthFirstSearchFinder
 	@Test
 	public void testDirectedWithCycles()
 	{
-		Set<Object> nodes = new HashSet<Object>();
-		Object tippyTopNode = "tippyTopNode";
+		final Set<Object> nodes = new HashSet<Object>();
+		final Object tippyTopNode = "tippyTopNode";
 		nodes.add(tippyTopNode);
-		Object topNode = "topNode";
+		final Object topNode = "topNode";
 		nodes.add(topNode);
-		Object leftNode = "leftNode";
+		final Object leftNode = "leftNode";
 		nodes.add(leftNode);
-		Object rightNode = "RightNode";
+		final Object rightNode = "RightNode";
 		nodes.add(rightNode);
-		Object bottomNode = "bottomNode";
+		final Object bottomNode = "bottomNode";
 		nodes.add(bottomNode);
 
-		Set<DirectedEdge<Object>> edges = new HashSet<DirectedEdge<Object>>();
-		DirectedEdge<Object> bottomLeftEdge = new ImmutableDirectedEdge<Object>(bottomNode, leftNode);
+		final Set<DirectedEdge<Object>> edges = new HashSet<DirectedEdge<Object>>();
+		final DirectedEdge<Object> bottomLeftEdge = new ImmutableDirectedEdge<Object>(bottomNode, leftNode);
 		edges.add(bottomLeftEdge);
-		DirectedEdge<Object> letRightEdge = new ImmutableDirectedEdge<Object>(leftNode, rightNode);
+		final DirectedEdge<Object> letRightEdge = new ImmutableDirectedEdge<Object>(leftNode, rightNode);
 		edges.add(letRightEdge);
-		DirectedEdge<Object> rightBottomEdge = new ImmutableDirectedEdge<Object>(rightNode, bottomNode);
+		final DirectedEdge<Object> rightBottomEdge = new ImmutableDirectedEdge<Object>(rightNode, bottomNode);
 		edges.add(rightBottomEdge);
-		DirectedEdge<Object> leftTopEdge = new ImmutableDirectedEdge<Object>(leftNode, topNode);
+		final DirectedEdge<Object> leftTopEdge = new ImmutableDirectedEdge<Object>(leftNode, topNode);
 		edges.add(leftTopEdge);
-		DirectedEdge<Object> topRightEdge = new ImmutableDirectedEdge<Object>(topNode, rightNode);
+		final DirectedEdge<Object> topRightEdge = new ImmutableDirectedEdge<Object>(topNode, rightNode);
 		edges.add(topRightEdge);
-		DirectedEdge<Object> leftTippyTopEdge = new ImmutableDirectedEdge<Object>(leftNode, tippyTopNode);
+		final DirectedEdge<Object> leftTippyTopEdge = new ImmutableDirectedEdge<Object>(leftNode, tippyTopNode);
 		edges.add(leftTippyTopEdge);
-		DirectedEdge<Object> tippyTopRightEdge = new ImmutableDirectedEdge<Object>(tippyTopNode, rightNode);
+		final DirectedEdge<Object> tippyTopRightEdge = new ImmutableDirectedEdge<Object>(tippyTopNode, rightNode);
 		edges.add(tippyTopRightEdge);
 
-		BidirectedGraph<Object, DirectedEdge<Object>> graph = new ImmutableDirectedAdjacencyGraph<Object, DirectedEdge<Object>>(nodes, edges);
+		final BidirectedGraph<Object, DirectedEdge<Object>> graph = new ImmutableDirectedAdjacencyGraph<Object, DirectedEdge<Object>>(nodes, edges);
 
-		CycleFinder<Object, DirectedEdge<Object>> finder = new ExhaustiveDepthFirstSearchCycleFinder<Object, DirectedEdge<Object>>();
+		final CycleFinder<Object, DirectedEdge<Object>> finder = new ExhaustiveDepthFirstSearchCycleFinder<Object, DirectedEdge<Object>>();
 		LOGGER.info("testDirectedWithCycles cycles: ");
-		for(Object cycle: finder.findCycles(graph))
+		for(final Object cycle: finder.findCycles(graph))
 			LOGGER.info(cycle);
 		Assert.assertTrue("incorrect number of cycles detected. Expected 3, got: " + finder.cycleCount(graph), finder.cycleCount(graph) == 3);
 	}
@@ -99,29 +99,29 @@ public class TestExhaustiveDepthFirstSearchFinder
 	@Test
 	public void testUndirectedNoCycles()
 	{
-		Set<Object> nodes = new HashSet<Object>();
-		Object centerNode = "centerNode";
+		final Set<Object> nodes = new HashSet<Object>();
+		final Object centerNode = "centerNode";
 		nodes.add(centerNode);
-		Object topNode = "topNode";
+		final Object topNode = "topNode";
 		nodes.add(topNode);
-		Object leftNode = "leftNode";
+		final Object leftNode = "leftNode";
 		nodes.add(leftNode);
-		Object rightNode = "rightNode";
+		final Object rightNode = "rightNode";
 		nodes.add(rightNode);
 
-		Set<BidirectedEdge<Object>> edges = new HashSet<BidirectedEdge<Object>>();
-		BidirectedEdge<Object> centerTopEdge = new ImmutableUndirectedEdge<Object>(centerNode, topNode);
+		final Set<BidirectedEdge<Object>> edges = new HashSet<BidirectedEdge<Object>>();
+		final BidirectedEdge<Object> centerTopEdge = new ImmutableUndirectedEdge<Object>(centerNode, topNode);
 		edges.add(centerTopEdge);
-		BidirectedEdge<Object> centerLeftEdge = new ImmutableUndirectedEdge<Object>(centerNode, leftNode);
+		final BidirectedEdge<Object> centerLeftEdge = new ImmutableUndirectedEdge<Object>(centerNode, leftNode);
 		edges.add(centerLeftEdge);
-		BidirectedEdge<Object> centerRightEdge = new ImmutableUndirectedEdge<Object>(centerNode, rightNode);
+		final BidirectedEdge<Object> centerRightEdge = new ImmutableUndirectedEdge<Object>(centerNode, rightNode);
 		edges.add(centerRightEdge);
 
-		Graph<Object, BidirectedEdge<Object>> graph = new ImmutableAdjacencyGraph<Object, BidirectedEdge<Object>>(nodes, edges);
+		final Graph<Object, BidirectedEdge<Object>> graph = new ImmutableAdjacencyGraph<Object, BidirectedEdge<Object>>(nodes, edges);
 
-		CycleFinder<Object, BidirectedEdge<Object>> finder = new ExhaustiveDepthFirstSearchCycleFinder<Object, BidirectedEdge<Object>>();
+		final CycleFinder<Object, BidirectedEdge<Object>> finder = new ExhaustiveDepthFirstSearchCycleFinder<Object, BidirectedEdge<Object>>();
 		LOGGER.info("testUndirectedNoCycles cycles: ");
-		for(Object cycle: finder.findCycles(graph))
+		for(final Object cycle: finder.findCycles(graph))
 			LOGGER.info(cycle);
 		Assert.assertTrue("Cycles detected when there should be none: " + finder.cycleCount(graph), finder.cycleCount(graph) == 0);
 	}
@@ -129,33 +129,33 @@ public class TestExhaustiveDepthFirstSearchFinder
 	@Test
 	public void testUndirectedWithCycles()
 	{
-		Set<Object> nodes = new HashSet<Object>();
-		Object bottomNode = "bottomNode";
+		final Set<Object> nodes = new HashSet<Object>();
+		final Object bottomNode = "bottomNode";
 		nodes.add(bottomNode);
-		Object topNode = "topNode";
+		final Object topNode = "topNode";
 		nodes.add(topNode);
-		Object leftNode = "leftNode";
+		final Object leftNode = "leftNode";
 		nodes.add(leftNode);
-		Object rightNode = "rightNode";
+		final Object rightNode = "rightNode";
 		nodes.add(rightNode);
 
-		Set<BidirectedEdge<Object>> edges = new HashSet<BidirectedEdge<Object>>();
-		BidirectedEdge<Object> rightBottomEdge = new ImmutableUndirectedEdge<Object>(rightNode, bottomNode);
+		final Set<BidirectedEdge<Object>> edges = new HashSet<BidirectedEdge<Object>>();
+		final BidirectedEdge<Object> rightBottomEdge = new ImmutableUndirectedEdge<Object>(rightNode, bottomNode);
 		edges.add(rightBottomEdge);
-		BidirectedEdge<Object> bottomLeftEdge = new ImmutableUndirectedEdge<Object>(bottomNode, leftNode);
+		final BidirectedEdge<Object> bottomLeftEdge = new ImmutableUndirectedEdge<Object>(bottomNode, leftNode);
 		edges.add(bottomLeftEdge);
-		BidirectedEdge<Object> topRightEdge = new ImmutableUndirectedEdge<Object>(topNode, rightNode);
+		final BidirectedEdge<Object> topRightEdge = new ImmutableUndirectedEdge<Object>(topNode, rightNode);
 		edges.add(topRightEdge);
-		BidirectedEdge<Object> rightLeftEdge = new ImmutableUndirectedEdge<Object>(rightNode, leftNode);
+		final BidirectedEdge<Object> rightLeftEdge = new ImmutableUndirectedEdge<Object>(rightNode, leftNode);
 		edges.add(rightLeftEdge);
-		BidirectedEdge<Object> leftTopEdge = new ImmutableUndirectedEdge<Object>(leftNode, topNode);
+		final BidirectedEdge<Object> leftTopEdge = new ImmutableUndirectedEdge<Object>(leftNode, topNode);
 		edges.add(leftTopEdge);
 
-		Graph<Object, BidirectedEdge<Object>> graph = new ImmutableAdjacencyGraph<Object, BidirectedEdge<Object>>(nodes, edges);
+		final Graph<Object, BidirectedEdge<Object>> graph = new ImmutableAdjacencyGraph<Object, BidirectedEdge<Object>>(nodes, edges);
 
-		CycleFinder<Object, BidirectedEdge<Object>> finder = new ExhaustiveDepthFirstSearchCycleFinder<Object, BidirectedEdge<Object>>();
+		final CycleFinder<Object, BidirectedEdge<Object>> finder = new ExhaustiveDepthFirstSearchCycleFinder<Object, BidirectedEdge<Object>>();
 		LOGGER.info("testUndirectedWithCycles cycles: ");
-		for(Object cycle: finder.findCycles(graph))
+		for(final Object cycle: finder.findCycles(graph))
 			LOGGER.info(cycle);
 		Assert.assertTrue("incorrect number of cycles detected. Expected 3, got: " + finder.cycleCount(graph), finder.cycleCount(graph) == 3);
 	}
@@ -163,31 +163,31 @@ public class TestExhaustiveDepthFirstSearchFinder
 	@Test
 	public void testUndirectedWithDoubleEdgeCycles()
 	{
-		Set<Object> nodes = new HashSet<Object>();
-		Object centerNode = "centerNode";
+		final Set<Object> nodes = new HashSet<Object>();
+		final Object centerNode = "centerNode";
 		nodes.add(centerNode);
-		Object topNode = "topNode";
+		final Object topNode = "topNode";
 		nodes.add(topNode);
-		Object leftNode = "leftNode";
+		final Object leftNode = "leftNode";
 		nodes.add(leftNode);
-		Object rightNode = "rightNode";
+		final Object rightNode = "rightNode";
 		nodes.add(rightNode);
 
-		Set<BidirectedEdge<Object>> edges = new HashSet<BidirectedEdge<Object>>();
-		BidirectedEdge<Object> centerTopEdge = new ImmutableUndirectedEdge<Object>(centerNode, topNode);
+		final Set<BidirectedEdge<Object>> edges = new HashSet<BidirectedEdge<Object>>();
+		final BidirectedEdge<Object> centerTopEdge = new ImmutableUndirectedEdge<Object>(centerNode, topNode);
 		edges.add(centerTopEdge);
-		BidirectedEdge<Object> centerLeftEdge = new ImmutableUndirectedEdge<Object>(centerNode, leftNode);
+		final BidirectedEdge<Object> centerLeftEdge = new ImmutableUndirectedEdge<Object>(centerNode, leftNode);
 		edges.add(centerLeftEdge);
-		BidirectedEdge<Object> centerRightEdge = new ImmutableUndirectedEdge<Object>(centerNode, rightNode);
+		final BidirectedEdge<Object> centerRightEdge = new ImmutableUndirectedEdge<Object>(centerNode, rightNode);
 		edges.add(centerRightEdge);
-		BidirectedEdge<Object> centerRightEdge2 = new ImmutableUndirectedEdge<Object>(centerNode, rightNode);
+		final BidirectedEdge<Object> centerRightEdge2 = new ImmutableUndirectedEdge<Object>(centerNode, rightNode);
 		edges.add(centerRightEdge2);
 
-		Graph<Object, BidirectedEdge<Object>> graph = new ImmutableAdjacencyGraph<Object, BidirectedEdge<Object>>(nodes, edges);
+		final Graph<Object, BidirectedEdge<Object>> graph = new ImmutableAdjacencyGraph<Object, BidirectedEdge<Object>>(nodes, edges);
 
-		CycleFinder<Object, BidirectedEdge<Object>> finder = new ExhaustiveDepthFirstSearchCycleFinder<Object, BidirectedEdge<Object>>();
+		final CycleFinder<Object, BidirectedEdge<Object>> finder = new ExhaustiveDepthFirstSearchCycleFinder<Object, BidirectedEdge<Object>>();
 		LOGGER.info("testUndirectedWithDoubleEdgeCycles cycles: ");
-		for(Object cycle: finder.findCycles(graph))
+		for(final Object cycle: finder.findCycles(graph))
 			LOGGER.info(cycle);
 		Assert.assertTrue("incorrect number of cycles detected. Expected 1, got: " + finder.cycleCount(graph), finder.cycleCount(graph) == 1);
 	}

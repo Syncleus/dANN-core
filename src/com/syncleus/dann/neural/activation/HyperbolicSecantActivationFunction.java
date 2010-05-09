@@ -42,7 +42,7 @@ public class HyperbolicSecantActivationFunction implements ActivationFunction
 	 * between 0 and 1.
 	 * @since 1.0
 	 */
-    public double activate(double activity)
+    public double activate(final double activity)
     {
         return 1.0/Math.cosh(activity);
     }
@@ -56,7 +56,7 @@ public class HyperbolicSecantActivationFunction implements ActivationFunction
 	 * function.
 	 * @since 1.0
 	 */
-    public double activateDerivative(double activity)
+    public double activateDerivative(final double activity)
     {
         return -1.0 * Math.tanh(activity) * this.activate(activity);
     }

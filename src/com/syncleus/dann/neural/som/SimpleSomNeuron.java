@@ -41,7 +41,7 @@ public class SimpleSomNeuron extends AbstractNeuron implements SomNeuron
 	 *
 	 * @since 2.0
 	 */
-	public SimpleSomNeuron(Brain brain)
+	public SimpleSomNeuron(final Brain brain)
 	{
 		super(brain);
 		this.activationFunction = ACTIVATION_FUNCTION;
@@ -53,9 +53,9 @@ public class SimpleSomNeuron extends AbstractNeuron implements SomNeuron
 	 *
 	 * @since 2.0
 	 */
-	public void train(double learningRate, double neighborhoodAdjustment)
+	public void train(final double learningRate, final double neighborhoodAdjustment)
 	{
-		for(Synapse source : this.getBrain().getInEdges(this))
+		for(final Synapse source : this.getBrain().getInEdges(this))
 			source.setWeight( source.getWeight() + (learningRate * neighborhoodAdjustment * (source.getInput() - source.getWeight())) );
 	}
 
@@ -69,12 +69,12 @@ public class SimpleSomNeuron extends AbstractNeuron implements SomNeuron
     {
         //calculate the current input activity
         double activity = 0.0;
-        for (Synapse currentSynapse : this.getBrain().getInEdges(this))
+        for (final Synapse currentSynapse : this.getBrain().getInEdges(this))
             activity += Math.pow(currentSynapse.getInput() - currentSynapse.getWeight(), 2.0);
 
         //calculate the activity function and set the result as the output
         this.output = this.activationFunction.activate(activity);
-        for (Synapse current : this.getBrain().getTraversableEdges(this))
+        for (final Synapse current : this.getBrain().getTraversableEdges(this))
             current.setInput(this.output);
     }
 

@@ -60,7 +60,7 @@ public class SimplePath<N, E extends Edge<N>> extends SimpleWalk<N,E> implements
 
 		final List<N> newNodeSteps = new ArrayList<N>();
 		N nextNodeStep = firstNode;
-		for(E edgeStep : steps)
+		for(final E edgeStep : steps)
 		{
 			if(!(edgeStep instanceof BidirectedEdge))
 				throw new IllegalArgumentException("this constructor can only be called when all steps are BidirectedEdge");

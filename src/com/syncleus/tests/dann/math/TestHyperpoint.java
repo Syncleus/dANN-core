@@ -42,8 +42,8 @@ public class TestHyperpoint
 	@Test
 	public void testDistances()
 	{
-		Vector pointA = new Vector(TEST_POINT_A);
-		Vector pointB = new Vector(TEST_POINT_B);
+		final Vector pointA = new Vector(TEST_POINT_A);
+		final Vector pointB = new Vector(TEST_POINT_B);
 
 		double result = pointA.calculateRelativeTo(pointB).getDistance();
 		Assert.assertTrue("invalid distance (relative): " + result, Math.abs(result - TEST_DISTANCE_AB) < TEST_ACCEPTABLE_ERROR);
@@ -59,7 +59,7 @@ public class TestHyperpoint
 	public void testAngles()
 	{
 		Vector pointA = new Vector(TEST_POINT_A);
-		Vector pointB = new Vector(TEST_POINT_B);
+		final Vector pointB = new Vector(TEST_POINT_B);
 
 		double result = pointA.calculateRelativeTo(pointB).getAngularComponent(1);
 		Assert.assertTrue("angle(relative 1): " + result, Math.abs(result - TEST_RELATIVE_AB_ANGLE_1) < TEST_ACCEPTABLE_ERROR);
@@ -79,7 +79,7 @@ public class TestHyperpoint
 		result = pointB.getAngularComponent(2);
 		Assert.assertTrue("angle(B 2): " + result, Math.abs(result - TEST_B_ANGLE_2) < TEST_ACCEPTABLE_ERROR);
 
-		double distance = pointA.getDistance();
+		final double distance = pointA.getDistance();
 		pointA.setAngularComponent(1.2345, 1);
 		pointA.setAngularComponent(0.5432, 2);
 		Assert.assertTrue("distance drifted after setting angle", Math.abs(pointA.getDistance() - distance) < TEST_ACCEPTABLE_ERROR);
@@ -93,8 +93,8 @@ public class TestHyperpoint
 	@Test
 	public void testAddition()
 	{
-		Vector pointA = new Vector(TEST_POINT_A);
-		Vector pointB = new Vector(TEST_POINT_B);
+		final Vector pointA = new Vector(TEST_POINT_A);
+		final Vector pointB = new Vector(TEST_POINT_B);
 
 		double result = pointA.add(pointB).getAngularComponent(1);
 		Assert.assertTrue("add(1): " + result, Math.abs(result - 0.9553166181245093d) < TEST_ACCEPTABLE_ERROR);
@@ -109,10 +109,10 @@ public class TestHyperpoint
 		Vector testPoint = new Vector(3);
 		Assert.assertTrue("dimensions value is incorrect", testPoint.getDimensions() == 3);
 
-		Vector anotherTestPoint = new Vector(testPoint);
+		final Vector anotherTestPoint = new Vector(testPoint);
 		Assert.assertTrue("dimensions value is incorrect", anotherTestPoint.getDimensions() == 3);
 
-		ArrayList<Double> points = new ArrayList<Double>();
+		final ArrayList<Double> points = new ArrayList<Double>();
 		points.add(Double.valueOf(1.0d));
 		points.add(Double.valueOf(2.0d));
 		points.add(Double.valueOf(3.0d));
@@ -176,11 +176,11 @@ public class TestHyperpoint
 	@Test
 	public void testToString()
 	{
-		ArrayList<Double> points = new ArrayList<Double>();
+		final ArrayList<Double> points = new ArrayList<Double>();
 		points.add(Double.valueOf(1.0d));
 		points.add(Double.valueOf(2.0d));
 		points.add(Double.valueOf(3.0d));
-		Vector testPoint = new Vector(points);
+		final Vector testPoint = new Vector(points);
 
 		Assert.assertTrue(testPoint.toString() + " != {1.0,2.0,3.0}", testPoint.toString().compareToIgnoreCase("{1.0,2.0,3.0}") == 0);
 	}

@@ -69,7 +69,7 @@ public class TestAstarPathFinder
 
 	private static class DistanceHeuristic implements HeuristicPathCost<GridNode>
 	{
-		public double getHeuristicPathCost(GridNode begin, GridNode end)
+		public double getHeuristicPathCost(final GridNode begin, final GridNode end)
 		{
 			return begin.calculateRelativeTo(end).getDistance();
 		}
@@ -85,23 +85,23 @@ public class TestAstarPathFinder
 		}
 	}
 
-	private static boolean checkNode(GridNode node, int[] coords)
+	private static boolean checkNode(final GridNode node, final int[] coords)
 	{
 		return ( (node.getX() == coords[0])&&(node.getY() == coords[1]) );
 	}
 
-	private static boolean checkSolution(GridNode start, List<BidirectedEdge<GridNode>> path, int[][] solution)
+	private static boolean checkSolution(final GridNode start, final List<BidirectedEdge<GridNode>> path, final int[][] solution)
 	{
 		int solutionIndex = 0;
 		GridNode lastNode = start;
 		if(!checkNode(lastNode, solution[solutionIndex]))
 			return false;
 
-		for(BidirectedEdge<GridNode> edge : path)
+		for(final BidirectedEdge<GridNode> edge : path)
 		{
 			solutionIndex++;
 
-			GridNode currentNode = (edge.getLeftNode().equals(lastNode) ? edge.getRightNode() : edge.getLeftNode());
+			final GridNode currentNode = (edge.getLeftNode().equals(lastNode) ? edge.getRightNode() : edge.getLeftNode());
 			if(!checkNode(currentNode, solution[solutionIndex]))
 				return false;
 			lastNode = currentNode;
@@ -113,13 +113,13 @@ public class TestAstarPathFinder
 	@Test
 	public void testHardGrid()
 	{
-		Grid hardGrid = new Grid(HARD_GRID);
-		AstarPathFinder<GridNode, BidirectedEdge<GridNode>> pathFinder = new AstarPathFinder<GridNode, BidirectedEdge<GridNode>>(hardGrid, new DistanceHeuristic());
+		final Grid hardGrid = new Grid(HARD_GRID);
+		final AstarPathFinder<GridNode, BidirectedEdge<GridNode>> pathFinder = new AstarPathFinder<GridNode, BidirectedEdge<GridNode>>(hardGrid, new DistanceHeuristic());
 
-		GridNode startNode = hardGrid.getNode(HARD_GRID_START[0], HARD_GRID_START[1]);
-		GridNode endNode = hardGrid.getNode(HARD_GRID_END[0], HARD_GRID_END[1]);
+		final GridNode startNode = hardGrid.getNode(HARD_GRID_START[0], HARD_GRID_START[1]);
+		final GridNode endNode = hardGrid.getNode(HARD_GRID_END[0], HARD_GRID_END[1]);
 
-		List<BidirectedEdge<GridNode>> path = pathFinder.getBestPath(startNode, endNode);
+		final List<BidirectedEdge<GridNode>> path = pathFinder.getBestPath(startNode, endNode);
 
 		Assert.assertTrue("incorrect path found!", checkSolution(startNode, path, HARD_GRID_SOLUTION));
 	}
@@ -127,13 +127,13 @@ public class TestAstarPathFinder
 	@Test
 	public void testInfinityGrid()
 	{
-		Grid infinityGrid = new Grid(EASY_GRID);
-		AstarPathFinder<GridNode, BidirectedEdge<GridNode>> pathFinder = new AstarPathFinder<GridNode, BidirectedEdge<GridNode>>(infinityGrid, new DistanceHeuristic());
+		final Grid infinityGrid = new Grid(EASY_GRID);
+		final AstarPathFinder<GridNode, BidirectedEdge<GridNode>> pathFinder = new AstarPathFinder<GridNode, BidirectedEdge<GridNode>>(infinityGrid, new DistanceHeuristic());
 
-		GridNode startNode = infinityGrid.getNode(EASY_GRID_START[0], EASY_GRID_START[1]);
-		GridNode endNode = infinityGrid.getNode(EASY_GRID_END[0], EASY_GRID_END[1]);
+		final GridNode startNode = infinityGrid.getNode(EASY_GRID_START[0], EASY_GRID_START[1]);
+		final GridNode endNode = infinityGrid.getNode(EASY_GRID_END[0], EASY_GRID_END[1]);
 
-		List<BidirectedEdge<GridNode>> path = pathFinder.getBestPath(startNode, endNode);
+		final List<BidirectedEdge<GridNode>> path = pathFinder.getBestPath(startNode, endNode);
 
 		Assert.assertTrue("incorrect path found!", checkSolution(startNode, path, EASY_GRID_SOLUTION));
 	}

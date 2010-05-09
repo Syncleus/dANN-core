@@ -60,7 +60,7 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 	/** Internal storage of pivot vector.
 	@serial pivot vector.
 	 */
-	private int[] pivot;
+	private final int[] pivot;
 
 	/**
 	 * matrixToDecompose Elements Decomposition. Structure to access
@@ -68,19 +68,19 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 	 *
 	 * @param  matrixToDecompose Rectangular matrix
 	 */
-	public DoolittleLuDecomposition(M matrixToDecompose)
+	public DoolittleLuDecomposition(final M matrixToDecompose)
 	{
 		// Use a "left-looking", dot-product, Crout/Doolittle algorithm.
 		this.matrix = matrixToDecompose;
-		int height = matrixToDecompose.getHeight();
-		int width = matrixToDecompose.getWidth();
+		final int height = matrixToDecompose.getHeight();
+		final int width = matrixToDecompose.getWidth();
 
 		this.pivot = new int[height];
 		for(int i = 0; i < height; i++)
 			this.pivot[i] = i;
 		this.pivotSign = 1;
 
-		List<F> matrixColumn = new ArrayList<F>(height);
+		final List<F> matrixColumn = new ArrayList<F>(height);
 		matrixColumn.addAll(Collections.nCopies(height, matrixToDecompose.getElementField().getZero()));
 
 		// Outer loop.
@@ -94,7 +94,7 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 			for(int i = 0; i < height; i++)
 			{
 				// Most of the time is spent in the following dot product.
-				int kmax = Math.min(i, j);
+				final int kmax = Math.min(i, j);
 				F s = matrixToDecompose.getElementField().getZero();
 				for(int k = 0; k < kmax; k++)
 					s = s.add(this.matrix.get(i,k).multiply(matrixColumn.get(k)));
@@ -112,11 +112,11 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 			{
 				for(int k = 0; k < width; k++)
 				{
-					F t = this.matrix.get(p,k);
+					final F t = this.matrix.get(p,k);
 					this.matrix = this.matrix.set(p, k, this.matrix.get(j,k));
 					this.matrix = this.matrix.set(j, k, t);
 				}
-				int k = pivot[p];
+				final int k = pivot[p];
 				pivot[p] = pivot[j];
 				pivot[j] = k;
 				pivotSign = -pivotSign;
@@ -188,7 +188,7 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 	 */
 	public int[] getPivot()
 	{
-		int[] p = new int[this.getHeight()];
+		final int[] p = new int[this.getHeight()];
 		for(int i = 0; i < this.getHeight(); i++)
 			p[i] = pivot[i];
 		return p;
@@ -220,7 +220,7 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 	@exception  IllegalArgumentException SimpleRealMatrix row dimensions must agree.
 	@exception  RuntimeException  SimpleRealMatrix is singular.
 	 */
-	public M solve(M solutionMatrix)
+	public M solve(final M solutionMatrix)
 	{
 		if(solutionMatrix.getHeight() != this.getHeight())
 			throw new IllegalArgumentException("solutionMatrix row dimensions must agree.");
@@ -228,7 +228,7 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 			throw new ArithmeticException("Matrix is singular.");
 
 		// Copy right hand side with pivoting
-		int nx = solutionMatrix.getWidth();
+		final int nx = solutionMatrix.getWidth();
 		M Xmat = solutionMatrix.getSubmatrix(pivot, 0, nx - 1);
 
 		// Solve lowerTriangularFactor*Y = solutionMatrix(pivot,:)

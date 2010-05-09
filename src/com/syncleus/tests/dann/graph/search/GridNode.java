@@ -23,9 +23,9 @@ import com.syncleus.dann.math.Vector;
 
 public class GridNode extends Vector implements Weighted
 {
-	private double weight;
+	private final double weight;
 
-	public GridNode(int x, int y, double weight)
+	public GridNode(final int x, final int y, final double weight)
 	{
 		super((double)x, (double)y);
 		this.weight = weight;
@@ -53,12 +53,12 @@ public class GridNode extends Vector implements Weighted
 	}
 
 	@Override
-	public boolean equals(Object compareToObj)
+	public boolean equals(final Object compareToObj)
 	{
 		if(!(compareToObj instanceof GridNode))
 			return false;
 
-		GridNode compareTo = (GridNode) compareToObj;
+		final GridNode compareTo = (GridNode) compareToObj;
 		return ((compareTo.getX() == this.getX())&&(compareTo.getY() == this.getY()));
 	}
 }

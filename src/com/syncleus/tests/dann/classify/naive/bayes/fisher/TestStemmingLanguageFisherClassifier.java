@@ -27,7 +27,7 @@ public class TestStemmingLanguageFisherClassifier
 	@Test
 	public void testClassify()
 	{
-		TrainableLanguageFisherClassifier<Integer> classifier = new StemmingLanguageFisherClassifier<Integer>();
+		final TrainableLanguageFisherClassifier<Integer> classifier = new StemmingLanguageFisherClassifier<Integer>();
 
 		//train
 		classifier.train("Money is the root of all evil!", 1);

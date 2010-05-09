@@ -28,37 +28,37 @@ public class ReceptorKey extends AbstractKey implements Cloneable
 		super();
 	}
 	
-	public ReceptorKey(AbstractKey copy)
+	public ReceptorKey(final AbstractKey copy)
 	{
 		super(copy);
 	}
 
-	public ReceptorKey(Map<Integer, Boolean> points)
+	public ReceptorKey(final Map<Integer, Boolean> points)
 	{
 		super(points);
 	}
 
-	public ReceptorKey(String keyString)
+	public ReceptorKey(final String keyString)
 	{
 		super(keyString);
 	}
 	
-	public boolean binds(SignalKey signal)
+	public boolean binds(final SignalKey signal)
 	{
 		if(signal.getPoints().size() < this.getPoints().size())
 			return false;
 
 		boolean matching;
-		for(Integer offsetPoint : signal.getPoints().keySet())
+		for(final Integer offsetPoint : signal.getPoints().keySet())
 		{
 			matching = true;
 			Integer offset = null;
-			for(Entry<Integer,Boolean> point : this.getPoints().entrySet())
+			for(final Entry<Integer,Boolean> point : this.getPoints().entrySet())
 			{
 				if (offset == null)
 					offset = offsetPoint - point.getKey();
 
-				Boolean bindingValue = signal.getPoints().get(point.getKey() + offset);
+				final Boolean bindingValue = signal.getPoints().get(point.getKey() + offset);
 				if(bindingValue == null)
 				{
 					matching = false;
@@ -85,7 +85,7 @@ public class ReceptorKey extends AbstractKey implements Cloneable
 	}
 
 	@Override
-	public ReceptorKey mutate(double deviation)
+	public ReceptorKey mutate(final double deviation)
 	{
 		return (ReceptorKey) super.mutate(deviation);
 	}

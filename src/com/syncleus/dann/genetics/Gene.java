@@ -26,6 +26,7 @@ package com.syncleus.dann.genetics;
  * @since 2.0
  *
  */
+
 public interface Gene extends Cloneable
 {
 	/**

@@ -29,7 +29,7 @@ public class SimpleUndirectedGraph extends AbstractBidirectedAdjacencyGraph<Simp
 	final private Map<SimpleNode, Set<BidirectedEdge<SimpleNode>>> neighborEdges = new HashMap<SimpleNode, Set<BidirectedEdge<SimpleNode>>>();
 	final private Map<SimpleNode, List<SimpleNode>> neighborNodes = new HashMap<SimpleNode, List<SimpleNode>>();
 
-	public SimpleUndirectedGraph(int layers, int nodesPerLayer)
+	public SimpleUndirectedGraph(final int layers, final int nodesPerLayer)
 	{
 		this.nodes = new SimpleNode[layers][nodesPerLayer];
 
@@ -51,7 +51,7 @@ public class SimpleUndirectedGraph extends AbstractBidirectedAdjacencyGraph<Simp
 			{
 				for(int nodeIndex2 = 0; nodeIndex2 < nodesPerLayer; nodeIndex2++)
 				{
-					ImmutableUndirectedEdge<SimpleNode> newEdge = new ImmutableUndirectedEdge<SimpleNode>(nodes[layerIndex][nodeIndex], nodes[layerIndex+1][nodeIndex2]);
+					final ImmutableUndirectedEdge<SimpleNode> newEdge = new ImmutableUndirectedEdge<SimpleNode>(nodes[layerIndex][nodeIndex], nodes[layerIndex+1][nodeIndex2]);
 					this.edges.add(newEdge);
 					this.neighborEdges.get(nodes[layerIndex][nodeIndex]).add(newEdge);
 					this.neighborNodes.get(nodes[layerIndex][nodeIndex]).add(nodes[layerIndex+1][nodeIndex2]);
@@ -66,7 +66,7 @@ public class SimpleUndirectedGraph extends AbstractBidirectedAdjacencyGraph<Simp
 		return this.nodes;
 	}
 
-	public SimpleNode getNode(int layer, int index)
+	public SimpleNode getNode(final int layer, final int index)
 	{
 		if( (index >= nodes[0].length)||(layer >= nodes.length) )
 			throw new IllegalArgumentException("coordinates are out of bounds");
@@ -84,27 +84,27 @@ public class SimpleUndirectedGraph extends AbstractBidirectedAdjacencyGraph<Simp
 		return Collections.unmodifiableSet(this.edges);
 	}
 
-	public Set<BidirectedEdge<SimpleNode>> getAdjacentEdges(SimpleNode node)
+	public Set<BidirectedEdge<SimpleNode>> getAdjacentEdges(final SimpleNode node)
 	{
 		return Collections.unmodifiableSet(this.neighborEdges.get(node));
 	}
 
-	public Set<BidirectedEdge<SimpleNode>> getInEdges(SimpleNode node)
+	public Set<BidirectedEdge<SimpleNode>> getInEdges(final SimpleNode node)
 	{
 		return this.getAdjacentEdges(node);
 	}
 
-	public int getIndegree(SimpleNode node)
+	public int getIndegree(final SimpleNode node)
 	{
 		return this.getInEdges(node).size();
 	}
 
-	public int getOutdegree(SimpleNode node)
+	public int getOutdegree(final SimpleNode node)
 	{
 		return this.getTraversableEdges(node).size();
 	}
 
-	public List<SimpleNode> getAdjacentNodes(SimpleNode node)
+	public List<SimpleNode> getAdjacentNodes(final SimpleNode node)
 	{
 		return Collections.unmodifiableList(this.neighborNodes.get(node));
 	}

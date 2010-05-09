@@ -49,7 +49,7 @@ public class CholeskyBanachiewiczCholeskyDecomposition<M extends Matrix<M, F>, F
 	/** Cholesky algorithm for symmetric and positive definite matrix.
 	 *  @param matrix Square, symmetric matrix.
 	 */
-	public CholeskyBanachiewiczCholeskyDecomposition(M matrix)
+	public CholeskyBanachiewiczCholeskyDecomposition(final M matrix)
 	{
 		// Initialize.
 		M newMatrix = matrix;
@@ -100,7 +100,7 @@ public class CholeskyBanachiewiczCholeskyDecomposition<M extends Matrix<M, F>, F
 	@exception  IllegalArgumentException  SimpleRealMatrix row dimensions must agree.
 	@exception  RuntimeException  SimpleRealMatrix is not symmetric positive definite.
 	 */
-	public M solve(M solutionMatrix)
+	public M solve(final M solutionMatrix)
 	{
 		M solvedMatrix = solutionMatrix;
 		if(solutionMatrix.getHeight() != this.matrix.getHeight())

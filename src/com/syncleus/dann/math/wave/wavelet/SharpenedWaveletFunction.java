@@ -25,7 +25,7 @@ public class SharpenedWaveletFunction extends SharpenedWaveFunction
 
 
 
-    public SharpenedWaveletFunction(double constantValue)
+    public SharpenedWaveletFunction(final double constantValue)
     {
         this();
 
@@ -34,7 +34,7 @@ public class SharpenedWaveletFunction extends SharpenedWaveFunction
     }
 
 
-	public SharpenedWaveletFunction(SharpenedWaveletFunction copy)
+	public SharpenedWaveletFunction(final SharpenedWaveletFunction copy)
 	{
 		super(copy);
 		this.constantMode = copy.constantMode;
@@ -51,7 +51,7 @@ public class SharpenedWaveletFunction extends SharpenedWaveFunction
 
 
 
-    protected SharpenedWaveletFunction(String[] additionalParameters)
+    protected SharpenedWaveletFunction(final String[] additionalParameters)
     {
         super(combineLabels(new String[]{"center", "distribution"}, additionalParameters));
         this.setDistribution(1.0);
@@ -59,7 +59,7 @@ public class SharpenedWaveletFunction extends SharpenedWaveFunction
 
 
 
-    public final void setCenter(double center)
+    public final void setCenter(final double center)
     {
         this.setParameter(this.getParameterNameIndex("center"), center);
     }
@@ -73,7 +73,7 @@ public class SharpenedWaveletFunction extends SharpenedWaveFunction
 
 
 
-    public final void setDistribution(double distribution)
+    public final void setDistribution(final double distribution)
     {
         if(distribution == 0.0)
             throw new IllegalArgumentException("distribution can't be 0");
@@ -121,7 +121,7 @@ public class SharpenedWaveletFunction extends SharpenedWaveFunction
         return this.toString("x", "center");
     }
     
-    public String toString(String xName, String centerName)
+    public String toString(final String xName, final String centerName)
     {
         return "(1 / (distribution * Math.sqrt(2 * pi))) * e^(-1 * ( (" + xName + " - " + centerName + ")^2 ) / (2 * distribution^2))" + " * " + super.toString(xName);
     }

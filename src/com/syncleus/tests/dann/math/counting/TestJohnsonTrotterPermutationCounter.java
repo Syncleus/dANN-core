@@ -33,7 +33,7 @@ public class TestJohnsonTrotterPermutationCounter
 		int count = 0;
 		while(generator.hasMore())
 		{
-			int[] next = generator.getNext();
+			final int[] next = generator.getNext();
 			if(next != null)
 				count++;
 		}
@@ -44,7 +44,7 @@ public class TestJohnsonTrotterPermutationCounter
 		count = 0;
 		while(generator.hasMore())
 		{
-			int[] next = generator.getNext();
+			final int[] next = generator.getNext();
 			if(next != null)
 				count++;
 		}
@@ -55,7 +55,7 @@ public class TestJohnsonTrotterPermutationCounter
 		count = 0;
 		while(generator.hasMore())
 		{
-			int[] next = generator.getNext();
+			final int[] next = generator.getNext();
 			if(next != null)
 				count++;
 		}
@@ -66,7 +66,7 @@ public class TestJohnsonTrotterPermutationCounter
 		count = 0;
 		while(generator.hasMore())
 		{
-			int[] next = generator.getNext();
+			final int[] next = generator.getNext();
 			if(next != null)
 				count++;
 		}

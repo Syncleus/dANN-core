@@ -24,10 +24,10 @@ import java.util.*;
 
 public class KruskalMinimumSpanningTreeFinder<N, E extends Edge<N>> implements MinimumSpanningTreeFinder<N,E>
 {
-	public Set<E> findMinimumSpanningTree(Graph<N,E> graph)
+	public Set<E> findMinimumSpanningTree(final Graph<N,E> graph)
 	{
 		final Set<Set<N>> componentNodeSets = new HashSet<Set<N>>();
-		for(N node : graph.getNodes())
+		for(final N node : graph.getNodes())
 			componentNodeSets.add(Collections.singleton(node));
 		final Queue<E> edgeQueue = new PriorityQueue<E>(graph.getEdges().size(), new WeightComparator<E>());
 		edgeQueue.addAll(graph.getEdges());
@@ -38,14 +38,14 @@ public class KruskalMinimumSpanningTreeFinder<N, E extends Edge<N>> implements M
 		{
 			//find all the componentNodeSets which contains one of the end points
 			//of the next edge
-			E queuedEdge = edgeQueue.poll();
+			final E queuedEdge = edgeQueue.poll();
 			if( queuedEdge == null )
 				return null;
 			
-			Set<Set<N>> setContainingEndNodes = new HashSet<Set<N>>();
-			for(Set<N> component : componentNodeSets)
+			final Set<Set<N>> setContainingEndNodes = new HashSet<Set<N>>();
+			for(final Set<N> component : componentNodeSets)
 			{
-				for(N endNode : queuedEdge.getNodes())
+				for(final N endNode : queuedEdge.getNodes())
 				{
 					if( component.contains(endNode) )
 					{
@@ -58,8 +58,8 @@ public class KruskalMinimumSpanningTreeFinder<N, E extends Edge<N>> implements M
 			//if more than one set was found then merge them
 			if(setContainingEndNodes.size() > 1)
 			{
-				Set<N> mergedSet = new HashSet<N>();
-				for(Set<N> toMerge : setContainingEndNodes)
+				final Set<N> mergedSet = new HashSet<N>();
+				for(final Set<N> toMerge : setContainingEndNodes)
 				{
 					mergedSet.addAll(toMerge);
 					componentNodeSets.remove(toMerge);
@@ -78,7 +78,7 @@ public class KruskalMinimumSpanningTreeFinder<N, E extends Edge<N>> implements M
 	{
 		private static final long serialVersionUID = 4497530556915589495L;
 		
-		public int compare(E first, E second)
+		public int compare(final E first, final E second)
 		{
 			double firstWeight = 0;
 			if(first instanceof Weighted)

@@ -29,9 +29,9 @@ public final class Mutations
 	{
 	}
 
-	public static double mutabilityMutation(double mutability)
+	public static double mutabilityMutation(final double mutability)
 	{
-		double mutabilityMutation = new MutableDouble(0.0).mutate(mutability).doubleValue();
+		final double mutabilityMutation = new MutableDouble(0.0).mutate(mutability).doubleValue();
 		if(mutabilityMutation > 0)
 			return mutability + mutabilityMutation;
 		else
@@ -49,7 +49,7 @@ public final class Mutations
 		return RANDOM;
 	}
 
-	public static boolean mutationEvent(double mutability)
+	public static boolean mutationEvent(final double mutability)
 	{
 		if(Mutations.getRandom().nextDouble() < Math.tanh(Math.abs(mutability)))
 			return true;

@@ -174,7 +174,7 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 
 	public static ComplexNumber[] inverseTransformMatrix(final ComplexNumber[] transforms)
 	{
-		int transformSize = transforms.length;
+		final int transformSize = transforms.length;
 
 		ComplexNumber[] signal = new ComplexNumber[transformSize];
 

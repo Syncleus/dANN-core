@@ -76,7 +76,7 @@ public class SimpleCycle<N, E extends Edge<N>> extends SimpleWalk<N,E> implement
 
 		final List<N> newNodeSteps = new ArrayList<N>();
 		N nextNodeStep = SimpleCycle.<N,E>startNodeFromSteps(steps);
-		for(E edgeStep : steps)
+		for(final E edgeStep : steps)
 		{
 			if(!(edgeStep instanceof BidirectedEdge))
 				throw new IllegalArgumentException("all steps are not BidirectedEdge");

@@ -24,10 +24,10 @@ public class SimpleBayesianNode<S> implements BayesianNode<S>
 {
 	private EvidenceMap<S> evidence;
 	private S state;
-	private SortedSet<S> learnedStates;
-	private BayesianNetwork network;
+	private final SortedSet<S> learnedStates;
+	private final BayesianNetwork network;
 
-	public SimpleBayesianNode(S initialState, BayesianNetwork network)
+	public SimpleBayesianNode(final S initialState, final BayesianNetwork network)
 	{
 		if(initialState == null)
 			throw new IllegalArgumentException("initialState can not be null");
@@ -39,7 +39,7 @@ public class SimpleBayesianNode<S> implements BayesianNode<S>
 		this.learnedStates = new TreeSet<S>();
 	}
 
-	public void setState(S newState)
+	public void setState(final S newState)
 	{
 		if(newState == null)
 			throw new IllegalArgumentException("newState can not be null");
@@ -69,16 +69,16 @@ public class SimpleBayesianNode<S> implements BayesianNode<S>
 	{
 		this.updateInfluence();
 
-		StateEvidence<S> stateEvidence = this.evidence.get(this.getInputStates());
+		final StateEvidence<S> stateEvidence = this.evidence.get(this.getInputStates());
 		return (stateEvidence != null ? stateEvidence.getPercentage(this.getState()) : 0.0 );
 	}
 
 	private Map<BayesianNode,Object> getInputStates()
 	{
-		Map<BayesianNode,Object> inStates = new HashMap<BayesianNode,Object>();
+		final Map<BayesianNode,Object> inStates = new HashMap<BayesianNode,Object>();
 
-		Set<BayesianEdge> inEdges = this.network.getInEdges(this);
-		for(BayesianEdge inEdge : inEdges)
+		final Set<BayesianEdge> inEdges = this.network.getInEdges(this);
+		for(final BayesianEdge inEdge : inEdges)
 			inStates.put(inEdge.getSourceNode(), inEdge.getSourceNode().getState());
 		
 		return inStates;
@@ -86,16 +86,16 @@ public class SimpleBayesianNode<S> implements BayesianNode<S>
 
 	protected Set<BayesianNode> getInfluencingNodes()
 	{
-		Set<BayesianEdge> inEdges = this.network.getInEdges(this);
-		Set<BayesianNode> inNodes = new HashSet<BayesianNode>();
-		for(BayesianEdge inEdge : inEdges)
+		final Set<BayesianEdge> inEdges = this.network.getInEdges(this);
+		final Set<BayesianNode> inNodes = new HashSet<BayesianNode>();
+		for(final BayesianEdge inEdge : inEdges)
 			inNodes.add( (inEdge.getLeftNode().equals(this) ? inEdge.getRightNode() : inEdge.getLeftNode()) );
 		return Collections.unmodifiableSet( inNodes );
 	}
 
 	private boolean updateInfluence()
 	{
-		Set<BayesianNode> currentInfluences = this.getInfluencingNodes();
+		final Set<BayesianNode> currentInfluences = this.getInfluencingNodes();
 		if(this.evidence == null)
 		{
 			this.evidence = new EvidenceMap<S>(currentInfluences);

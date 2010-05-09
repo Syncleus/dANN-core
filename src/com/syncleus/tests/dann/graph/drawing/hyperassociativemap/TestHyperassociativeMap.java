@@ -31,13 +31,13 @@ public class TestHyperassociativeMap
 	private class TestBrain extends AbstractLocalBrain
 	{
 		@Override
-		public boolean add(Neuron newNeuron)
+		public boolean add(final Neuron newNeuron)
 		{
 			return super.add(newNeuron);
 		}
 
 		@Override
-		public boolean connect(Neuron source, Neuron destination)
+		public boolean connect(final Neuron source, final Neuron destination)
 		{
 			return super.connect(source, destination);
 		}
@@ -45,7 +45,7 @@ public class TestHyperassociativeMap
 
 	private class TestMap extends HyperassociativeMap<AbstractLocalBrain, Neuron>
 	{
-		public TestMap(AbstractLocalBrain brain, int dimensions, ThreadPoolExecutor executor)
+		public TestMap(final AbstractLocalBrain brain, final int dimensions, final ThreadPoolExecutor executor)
 		{
 			super(brain, dimensions, executor);
 		}
@@ -54,19 +54,19 @@ public class TestHyperassociativeMap
 	@Test
 	public void testRefresh() throws InvalidConnectionTypeDannException
 	{
-		TestBrain testBrain = new TestBrain();
+		final TestBrain testBrain = new TestBrain();
 
-		SimpleBackpropNeuron neuron1 = new SimpleBackpropNeuron(testBrain);
-		SimpleBackpropNeuron neuron2 = new SimpleBackpropNeuron(testBrain);
+		final SimpleBackpropNeuron neuron1 = new SimpleBackpropNeuron(testBrain);
+		final SimpleBackpropNeuron neuron2 = new SimpleBackpropNeuron(testBrain);
 
 		testBrain.add(neuron1);
 		testBrain.add(neuron2);
 
 		testBrain.connect(neuron1, neuron2);
 
-		TestMap testMap;
+		final TestMap testMap;
 		final int cores = Runtime.getRuntime().availableProcessors();
-		ThreadPoolExecutor executer = new ThreadPoolExecutor(cores+1, cores*2, 20, TimeUnit.SECONDS, new LinkedBlockingQueue());
+		final ThreadPoolExecutor executer = new ThreadPoolExecutor(cores+1, cores*2, 20, TimeUnit.SECONDS, new LinkedBlockingQueue());
 		try
 		{
 			testMap = new TestMap(testBrain, 3, executer);

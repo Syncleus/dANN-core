@@ -63,7 +63,7 @@ public abstract class MutableNumber<N extends Number> extends Number implements 
 		return atanh(normalRand) * Math.abs(deviation);
 	}
 
-    static private double atanh(double value)
+    static private double atanh(final double value)
     {
         return 0.5 * Math.log(Math.abs((value + 1.0) / (1.0 - value)));
     }
@@ -167,7 +167,7 @@ public abstract class MutableNumber<N extends Number> extends Number implements 
 	 * @since 2.0
 	 */
 	@Override
-	public final boolean equals(Object compareWith)
+	public final boolean equals(final Object compareWith)
 	{
 		if(compareWith == null)
 			return true;

@@ -50,7 +50,7 @@ public class SimpleNaiveBayesClassifier<I,F,C> extends SimpleNaiveClassifier<I,F
 
 		C topCategory = null;
 		double topProbability = 0.0;
-		for(C category : this.getCategories())
+		for(final C category : this.getCategories())
 		{
 			final double currentProbability = this.classificationProbability(item, category);
 			categoryProbabilities.put(category, currentProbability);
@@ -62,7 +62,7 @@ public class SimpleNaiveBayesClassifier<I,F,C> extends SimpleNaiveClassifier<I,F
 		}
 
 		if(useThreshold)
-			for(Entry<C,Double> probability : categoryProbabilities.entrySet())
+			for(final Entry<C,Double> probability : categoryProbabilities.entrySet())
 				if( (probability.getKey() != topCategory) && (probability.getValue() * this.categoryThresholds.get(topCategory) > topProbability) )
 					return null;
 
@@ -79,17 +79,17 @@ public class SimpleNaiveBayesClassifier<I,F,C> extends SimpleNaiveClassifier<I,F
 	public Map<C,Double> getCategoryProbabilities(final I item)
 	{
 		final Map<C,Double> categoryProbabilities = new HashMap<C,Double>();
-		for(C category : this.getCategories())
+		for(final C category : this.getCategories())
 			categoryProbabilities.put(category, this.classificationProbability(item, category));
 		return Collections.unmodifiableMap(categoryProbabilities);
 	}
 
 	@Override
-	public double classificationProbability(I item, C category)
+	public double classificationProbability(final I item, final C category)
 	{
 		double probability = ((double)this.getOverallProbability(category)) / ((double)this.getOverallProbabilitySum());
 		final Set<F> features = this.getExtractor().getFeatures(item);
-		for(F feature : features)
+		for(final F feature : features)
 			probability *= this.featureClassificationWeightedProbability(feature, category);
 		return probability;
 	}

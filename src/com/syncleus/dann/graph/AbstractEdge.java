@@ -35,70 +35,69 @@ public abstract class AbstractEdge<N> implements Edge<N>
 	protected AbstractEdge(final N... nodes)
 	{
 		final List<N> newNodes = new ArrayList<N>();
-		for(N node : nodes)
-			newNodes.add(node);
+        newNodes.addAll(Arrays.asList(nodes));
 		this.nodes = Collections.unmodifiableList(newNodes);
 	}
 
-	protected AbstractEdge<N> add(N node)
+	protected AbstractEdge<N> add(final N node)
 	{
 		if(node == null)
 			throw new IllegalArgumentException("node can not be null");
 
-		List<N> newNodes = new ArrayList<N>(this.nodes);
+		final List<N> newNodes = new ArrayList<N>(this.nodes);
 		newNodes.add(node);
 
-		AbstractEdge<N> copy = this.clone();
+		final AbstractEdge<N> copy = this.clone();
 		copy.nodes = Collections.unmodifiableList(newNodes);
 		return copy;
 	}
 
-	protected AbstractEdge<N> add(List<N> nodes)
+	protected AbstractEdge<N> add(final List<N> nodes)
 	{
 		if(nodes == null)
 			throw new IllegalArgumentException("node can not be null");
 
-		List<N> newNodes = new ArrayList<N>(this.nodes);
+		final List<N> newNodes = new ArrayList<N>(this.nodes);
 		newNodes.addAll(nodes);
 
-		AbstractEdge<N> copy = this.clone();
+		final AbstractEdge<N> copy = this.clone();
 		copy.nodes = Collections.unmodifiableList(newNodes);
 		return copy;
 	}
 
-	protected AbstractEdge<N> remove(N node)
+	protected AbstractEdge<N> remove(final N node)
 	{
 		if(node == null)
 			throw new IllegalArgumentException("node can not be null");
 		if(!this.getNodes().contains(node))
 			throw new IllegalArgumentException("is not an endpoint");
 
-		List<N> newNodes = new ArrayList<N>(this.nodes);
+		final List<N> newNodes = new ArrayList<N>(this.nodes);
 		newNodes.remove(node);
 
 		if( newNodes.size() <= 1 )
 			return null;
 
-		AbstractEdge<N> copy = this.clone();
+		final AbstractEdge<N> copy = this.clone();
 		copy.nodes = Collections.unmodifiableList(newNodes);
 		return copy;
 	}
 
-	protected AbstractEdge<N> remove(List<N> nodes)
+	protected AbstractEdge<N> remove(final List<N> nodes)
 	{
 		if(nodes == null)
 			throw new IllegalArgumentException("nodes can not be null");
 		if(!this.getNodes().containsAll(nodes))
 			throw new IllegalArgumentException("nodes do not contain all valid end points");
 
-		List<N> newNodes = new ArrayList<N>(this.nodes);
-		for(N node : nodes)
+		final List<N> newNodes = new ArrayList<N>(this.nodes);
+		for(final N node : nodes)
 			newNodes.remove(node);
 
 		if( newNodes.size() <= 1 )
 			return null;
 
-		AbstractEdge<N> copy = this.clone();
+		final AbstractEdge<N> copy = this.clone();
 		copy.nodes = Collections.unmodifiableList(newNodes);
 		return copy;
 	}
@@ -116,13 +115,10 @@ public abstract class AbstractEdge<N> implements Edge<N>
 	@Override
 	public String toString()
 	{
-		StringBuilder outString = null;
-		for(N node : this.nodes)
+		final StringBuilder outString = new StringBuilder();
+		for(final N node : this.nodes)
 		{
-			if(outString == null)
-				outString = new StringBuilder(node.toString());
-			else
-				outString.append(":" + node);
+            outString.append(":").append(node);
 		}
 		return outString.toString();
 	}

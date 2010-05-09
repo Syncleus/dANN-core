@@ -33,16 +33,16 @@ public class TestCounters
 	public void testStringCombinations()
 	{
 		LOGGER.info("Generating combinations for: " + SUPER_SET);
-		char[] lettersArray = SUPER_SET.toCharArray();
-		List<Character> letters = new ArrayList<Character>();
-		for(char letter : lettersArray)
+		final char[] lettersArray = SUPER_SET.toCharArray();
+		final List<Character> letters = new ArrayList<Character>();
+		for(final char letter : lettersArray)
 			letters.add(Character.valueOf(letter));
 
-		Set<List<Character>> combinations = Counters.everyCombination(letters);
-		for(List<Character> combination : combinations)
+		final Set<List<Character>> combinations = Counters.everyCombination(letters);
+		for(final List<Character> combination : combinations)
 		{
-			StringBuilder combinationString = new StringBuilder();
-			for(Character combinationChar : combination)
+			final StringBuilder combinationString = new StringBuilder();
+			for(final Character combinationChar : combination)
 				combinationString.append(combinationChar);
 			LOGGER.info("Combination Generated: " + combinationString);
 		}

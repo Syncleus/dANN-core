@@ -43,7 +43,7 @@ public class TestIntegerValueGene
 	@Test
 	public void testMutation()
 	{
-		ValueGene center = new IntegerValueGene(0);
+		final ValueGene center = new IntegerValueGene(0);
 
 		int averageSum = 0;
 		int testCount = 0;
@@ -52,7 +52,7 @@ public class TestIntegerValueGene
 			averageSum += center.mutate(100).getValue().intValue();
 		}
 
-		int average = averageSum / testCount;
+		final int average = averageSum / testCount;
 
 		Assert.assertTrue("average deviation is more than 100.0", average < 100);
 	}

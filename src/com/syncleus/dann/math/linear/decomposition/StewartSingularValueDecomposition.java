@@ -52,45 +52,47 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 	@serial internal storage of U.
 	@serial internal storage of V.
 	 */
-	private double[][] U,  V;
+	private final double[][] U;
+    private final double[][] V;
 
 	/** Array for internal storage of singular values.
 	@serial internal storage of singular values.
 	 */
-	private double[] s;
+	private final double[] s;
 
 	/** Row and column dimensions.
 	@serial row dimension.
 	@serial column dimension.
 	 */
-	private int m,  n;
+	private final int m;
+    private final int n;
 
 	/**
 	 * Construct the singular value decomposition
 	 * 
 	 * @param matrix Rectangular matrix. Gives access to U, S and V.
 	 */
-	public StewartSingularValueDecomposition(RealMatrix matrix)
+	public StewartSingularValueDecomposition(final RealMatrix matrix)
 	{
 		// Derived from LINPACK code.
 		// Initialize.
-		double[][] A = matrix.toDoubleArray();
+		final double[][] A = matrix.toDoubleArray();
 		m = matrix.getHeight();
 		n = matrix.getWidth();
 
-		int nu = Math.min(m, n);
+		final int nu = Math.min(m, n);
 		s = new double[Math.min(m + 1, n)];
 		U = new double[m][nu];
 		V = new double[n][n];
-		double[] e = new double[n];
-		double[] work = new double[m];
-		boolean wantu = true;
-		boolean wantv = true;
+		final double[] e = new double[n];
+		final double[] work = new double[m];
+		final boolean wantu = true;
+		final boolean wantv = true;
 
 		// Reduce A to bidiagonal form, storing the diagonal elements
 		// in s and the super-diagonal elements in e.
-		int nct = Math.min(m - 1, n);
-		int nrt = Math.max(0, Math.min(n - 2, m));
+		final int nct = Math.min(m - 1, n);
+		final int nrt = Math.max(0, Math.min(n - 2, m));
 		for(int k = 0; k < Math.max(nct, nrt); k++)
 		{
 			if(k < nct)
@@ -164,7 +166,7 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 							work[i] += e[j] * A[i][j];
 					for(int j = k + 1; j < n; j++)
 					{
-						double t = -e[j] / e[k + 1];
+						final double t = -e[j] / e[k + 1];
 						for(int i = k + 1; i < m; i++)
 							A[i][j] += t * work[i];
 					}
@@ -244,15 +246,16 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 			}
 
 		// Main iteration loop for the singular values.
-		int pp = p - 1;
+		final int pp = p - 1;
 		int iter = 0;
-		double eps = Math.pow(2.0, -52.0);
-		double tiny = Math.pow(2.0, -966.0);
+		final double eps = Math.pow(2.0, -52.0);
+		final double tiny = Math.pow(2.0, -966.0);
 		while(p > 0)
 		{
-			int k, kase;
+			int k;
+            final int kase;
 
-			// Here is where a test for too many iterations would go.
+            // Here is where a test for too many iterations would go.
 
 			// This section of the program inspects for
 			// negligible elements in the s and e arrays.  On
@@ -284,7 +287,7 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 				{
 					if(ks == k)
 						break;
-					double t = (ks != p ? Math.abs(e[ks]) : 0.) +
+					final double t = (ks != p ? Math.abs(e[ks]) : 0.) +
 							   (ks != k + 1 ? Math.abs(e[ks - 1]) : 0.);
 					if(Math.abs(s[ks]) <= tiny + eps * t)
 					{
@@ -316,8 +319,8 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 					for(int j = p - 2; j >= k; j--)
 					{
 						double t = Math.hypot(s[j], f);
-						double cs = s[j] / t;
-						double sn = f / t;
+						final double cs = s[j] / t;
+						final double sn = f / t;
 						s[j] = t;
 						if(j != k)
 						{
@@ -343,8 +346,8 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 					for(int j = k; j < p; j++)
 					{
 						double t = Math.hypot(s[j], f);
-						double cs = s[j] / t;
-						double sn = f / t;
+						final double cs = s[j] / t;
+						final double sn = f / t;
 						s[j] = t;
 						f = -sn * e[j];
 						e[j] = cs * e[j];
@@ -365,16 +368,16 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 
 					// Calculate the shift.
 
-					double scale = Math.max(Math.max(Math.max(Math.max(
+					final double scale = Math.max(Math.max(Math.max(Math.max(
 						Math.abs(s[p - 1]), Math.abs(s[p - 2])), Math.abs(e[p - 2])),
 													 Math.abs(s[k])), Math.abs(e[k]));
-					double sp = s[p - 1] / scale;
-					double spm1 = s[p - 2] / scale;
-					double epm1 = e[p - 2] / scale;
-					double sk = s[k] / scale;
-					double ek = e[k] / scale;
-					double b = ((spm1 + sp) * (spm1 - sp) + epm1 * epm1) / 2.0;
-					double c = (sp * epm1) * (sp * epm1);
+					final double sp = s[p - 1] / scale;
+					final double spm1 = s[p - 2] / scale;
+					final double epm1 = e[p - 2] / scale;
+					final double sk = s[k] / scale;
+					final double ek = e[k] / scale;
+					final double b = ((spm1 + sp) * (spm1 - sp) + epm1 * epm1) / 2.0;
+					final double c = (sp * epm1) * (sp * epm1);
 					double shift = 0.0;
 					if((b != 0.0) | (c != 0.0))
 					{
@@ -491,8 +494,8 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 	 */
 	public List<RealNumber> getSingularValues()
 	{
-		List<RealNumber> singularValues = new ArrayList<RealNumber>(this.s.length);
-		for(double singularValue : this.s)
+		final List<RealNumber> singularValues = new ArrayList<RealNumber>(this.s.length);
+		for(final double singularValue : this.s)
 			singularValues.add(new RealNumber(singularValue));
 		return Collections.unmodifiableList(singularValues);
 	}
@@ -502,7 +505,7 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 	 */
 	public RealMatrix getMatrix()
 	{
-		double[][] S = new double[n][n];
+		final double[][] S = new double[n][n];
 		for(int i = 0; i < n; i++)
 		{
 			for(int j = 0; j < n; j++)
@@ -543,8 +546,8 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 	 */
 	public int rank()
 	{
-		double eps = Math.pow(2.0, -52.0);
-		double tol = Math.max(m, n) * s[0] * eps;
+		final double eps = Math.pow(2.0, -52.0);
+		final double tol = Math.max(m, n) * s[0] * eps;
 		int r = 0;
 		for(int i = 0; i < s.length; i++)
 			if(s[i] > tol)

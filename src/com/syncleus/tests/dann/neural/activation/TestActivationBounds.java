@@ -25,14 +25,14 @@ import java.util.Random;
 
 public class TestActivationBounds
 {
-	private static Random random = new Random();
+	private static final Random random = new Random();
 
 	private final static GausianActivationFunction GAUSIAN_ACTIVATION_FUNCTION = new GausianActivationFunction();
 	private final static HyperbolicSecantActivationFunction HYPERBOLIC_SECANT_ACTIVATION_FUNCTION = new HyperbolicSecantActivationFunction();
 	private final static HyperbolicTangentActivationFunction HYPERBOLIC_TANGENT_ACTIVATION_FUNCTION = new HyperbolicTangentActivationFunction();
 	private final static SineActivationFunction SINE_ACTIVATION_FUNCTION = new SineActivationFunction();
 
-	private ArrayList<ActivationFunction> activationFunctions = new ArrayList<ActivationFunction>();
+	private final ArrayList<ActivationFunction> activationFunctions = new ArrayList<ActivationFunction>();
 
 	private static final double UPPER_TEST_VALUE = 1000000000.0;
 	private static final double UPPER_CUTOFF_VALUE = 100.0;
@@ -54,13 +54,13 @@ public class TestActivationBounds
 	@Test
 	public void testBounds()
 	{
-		for(ActivationFunction currentActivationFunction : this.activationFunctions)
+		for(final ActivationFunction currentActivationFunction : this.activationFunctions)
 		{
 			double currentIn = UPPER_TEST_VALUE;
 			while(currentIn >= UPPER_CUTOFF_VALUE)
 			{
 				currentActivationFunction.activateDerivative(currentIn);
-				double result = currentActivationFunction.activate(currentIn);
+				final double result = currentActivationFunction.activate(currentIn);
 				Assert.assertTrue("Transfer out of bounds. In: " + currentIn + ", result: " + result, (result <= currentActivationFunction.getUpperLimit())&&(result >= currentActivationFunction.getLowerLimit()));
 
 				currentIn = currentIn/TEST_INCREMENT;
@@ -68,7 +68,7 @@ public class TestActivationBounds
 			while(currentIn > 0.0)
 			{
 				currentActivationFunction.activateDerivative(currentIn);
-				double result = currentActivationFunction.activate(currentIn);
+				final double result = currentActivationFunction.activate(currentIn);
 				Assert.assertTrue("Transfer out of bounds. In: " + currentIn + ", result: " + result, (result <= currentActivationFunction.getUpperLimit())&&(result >= currentActivationFunction.getLowerLimit()));
 
 				currentIn--;
@@ -78,7 +78,7 @@ public class TestActivationBounds
 			while(currentIn <= LOWER_CUTOFF_VALUE)
 			{
 				currentActivationFunction.activateDerivative(currentIn);
-				double result = currentActivationFunction.activate(currentIn);
+				final double result = currentActivationFunction.activate(currentIn);
 				Assert.assertTrue("Transfer out of bounds. In: " + currentIn + ", result: " + result, (result <= currentActivationFunction.getUpperLimit())&&(result >= currentActivationFunction.getLowerLimit()));
 
 				currentIn = currentIn/TEST_INCREMENT;
@@ -86,7 +86,7 @@ public class TestActivationBounds
 			while(currentIn <= 0.0)
 			{
 				currentActivationFunction.activateDerivative(currentIn);
-				double result = currentActivationFunction.activate(currentIn);
+				final double result = currentActivationFunction.activate(currentIn);
 				Assert.assertTrue("Transfer out of bounds. In: " + currentIn + ", result: " + result, (result <= currentActivationFunction.getUpperLimit())&&(result >= currentActivationFunction.getLowerLimit()));
 
 				currentIn++;
@@ -96,7 +96,7 @@ public class TestActivationBounds
 			{
 				currentIn = ((random.nextDouble()*2.0)-1.0) * RANDOM_TEST_RANGE;
 				currentActivationFunction.activateDerivative(currentIn);
-				double result = currentActivationFunction.activate(currentIn);
+				final double result = currentActivationFunction.activate(currentIn);
 				Assert.assertTrue("Transfer out of bounds. In: " + currentIn + ", result: " + result, (result <= currentActivationFunction.getUpperLimit())&&(result >= currentActivationFunction.getLowerLimit()));
 			}
 		}

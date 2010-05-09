@@ -56,7 +56,7 @@ public class HyperassociativeMapVisualization<D extends GraphDrawer<G, N>, G ext
 	 * @param map The drawer to represent by this BranchGroup
 	 * @since 1.0
 	 */
-    public HyperassociativeMapVisualization(D map)
+    public HyperassociativeMapVisualization(final D map)
     {
 		this(map, 0.01F);
     }
@@ -70,7 +70,7 @@ public class HyperassociativeMapVisualization<D extends GraphDrawer<G, N>, G ext
 	 * @param nodeRadius The radius of the spheres representing each node.
 	 * @since 1.0
 	 */
-	public HyperassociativeMapVisualization(D map, float nodeRadius)
+	public HyperassociativeMapVisualization(final D map, final float nodeRadius)
 	{
 		this.nodeRadius = nodeRadius;
         this.drawer = map;
@@ -103,7 +103,7 @@ public class HyperassociativeMapVisualization<D extends GraphDrawer<G, N>, G ext
 		final Map<N, Vector> coordinates = this.drawer.getCoordinates();
 
         final Set<N> nodes = this.drawer.getGraph().getNodes();
-        for (N node : nodes)
+        for (final N node : nodes)
             if (!this.nodeGraphics.containsKey(node))
             {
                 Color neuronColor = Color.GRAY;
@@ -146,7 +146,7 @@ public class HyperassociativeMapVisualization<D extends GraphDrawer<G, N>, G ext
             }
 
         //remove any stale nodes
-        for (N node : this.nodeGraphics.keySet())
+        for (final N node : this.nodeGraphics.keySet())
         {
             this.nestedRoot.removeChild(this.nodeGraphics.get(node));
             this.oldNodeLocations.remove(node);

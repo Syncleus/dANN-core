@@ -45,7 +45,7 @@ public class UnexpectedInterruptedException extends DannRuntimeException
 	 * @param msg A string describing the cause of the exception
 	 * @since 2.0
 	 */
-	public UnexpectedInterruptedException(String msg)
+	public UnexpectedInterruptedException(final String msg)
 	{
 		super(msg);
 	}
@@ -58,7 +58,7 @@ public class UnexpectedInterruptedException extends DannRuntimeException
 	 * @param cause The throwable which caused this exception
 	 * @since 2.0
 	 */
-	public UnexpectedInterruptedException(String msg, Throwable cause)
+	public UnexpectedInterruptedException(final String msg, final Throwable cause)
 	{
 		super(msg, cause);
 	}
@@ -70,7 +70,7 @@ public class UnexpectedInterruptedException extends DannRuntimeException
 	 * @param cause The throwable which caused this exception
 	 * @since 2.0
 	 */
-	public UnexpectedInterruptedException(Throwable cause)
+	public UnexpectedInterruptedException(final Throwable cause)
 	{
 		super(cause);
 	}

@@ -45,7 +45,7 @@ public class DannError extends Error
 	 * @param msg A string describing the cause of the error
 	 * @since 2.0
 	 */
-	public DannError(String msg)
+	public DannError(final String msg)
 	{
 		super(msg);
 	}
@@ -58,7 +58,7 @@ public class DannError extends Error
 	 * @param cause The throwable which caused this exception
 	 * @since 2.0
 	 */
-	public DannError(String msg, Throwable cause)
+	public DannError(final String msg, final Throwable cause)
 	{
 		super(msg, cause);
 	}
@@ -70,7 +70,7 @@ public class DannError extends Error
 	 * @param cause The throwable which caused this exception
 	 * @since 2.0
 	 */
-	public DannError(Throwable cause)
+	public DannError(final Throwable cause)
 	{
 		super(cause);
 	}

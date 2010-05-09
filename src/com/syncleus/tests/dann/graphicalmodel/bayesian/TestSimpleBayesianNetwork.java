@@ -29,19 +29,20 @@ import org.junit.*;
 
 public class TestSimpleBayesianNetwork
 {
-	private static enum SimpleEnum{ TRUE,FALSE; }
+	private static enum SimpleEnum{ TRUE,FALSE
+    }
 	
 	@Test
 	public void testDependentNode()
 	{
-		MutableBayesianAdjacencyNetwork network = new MutableBayesianAdjacencyNetwork();
-		BayesianNode<SimpleEnum> parentNode = new SimpleBayesianNode<SimpleEnum>(SimpleEnum.TRUE, network);
-		BayesianNode<SimpleEnum> childNode = new SimpleBayesianNode<SimpleEnum>(SimpleEnum.TRUE, network);
+		final MutableBayesianAdjacencyNetwork network = new MutableBayesianAdjacencyNetwork();
+		final BayesianNode<SimpleEnum> parentNode = new SimpleBayesianNode<SimpleEnum>(SimpleEnum.TRUE, network);
+		final BayesianNode<SimpleEnum> childNode = new SimpleBayesianNode<SimpleEnum>(SimpleEnum.TRUE, network);
 
 		network.add(parentNode);
 		network.add(childNode);
 
-		BayesianEdge<BayesianNode> testEdge = new SimpleBayesianEdge<BayesianNode>(parentNode, childNode);
+		final BayesianEdge<BayesianNode> testEdge = new SimpleBayesianEdge<BayesianNode>(parentNode, childNode);
 		network.add(testEdge);
 
 		parentNode.setState(SimpleEnum.TRUE);
@@ -60,9 +61,9 @@ public class TestSimpleBayesianNetwork
 		childNode.setState(SimpleEnum.FALSE);
 		network.learnStates();
 
-		Set<BayesianNode> goals = new HashSet<BayesianNode>();
+		final Set<BayesianNode> goals = new HashSet<BayesianNode>();
 		goals.add(childNode);
-		Set<BayesianNode> influences = new HashSet<BayesianNode>();
+		final Set<BayesianNode> influences = new HashSet<BayesianNode>();
 		influences.add(parentNode);
 
 		parentNode.setState(SimpleEnum.TRUE);

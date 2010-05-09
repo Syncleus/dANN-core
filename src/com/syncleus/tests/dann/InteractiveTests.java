@@ -32,13 +32,13 @@ public class InteractiveTests
 
 	private static class ClassComparator implements Comparator<Class>
 	{
-		public int compare(Class first, Class second)
+		public int compare(final Class first, final Class second)
 		{
 			return first.toString().compareTo(second.toString());
 		}
 
 		@Override
-		public boolean equals(Object compareWith)
+		public boolean equals(final Object compareWith)
 		{
 			if(compareWith instanceof ClassComparator)
 				return true;
@@ -54,13 +54,13 @@ public class InteractiveTests
 
 	private static class MethodComparator implements Comparator<Method>
 	{
-		public int compare(Method first, Method second)
+		public int compare(final Method first, final Method second)
 		{
 			return first.toString().compareTo(second.toString());
 		}
 
 		@Override
-		public boolean equals(Object compareWith)
+		public boolean equals(final Object compareWith)
 		{
 			if(compareWith instanceof ClassComparator)
 				return true;
@@ -74,9 +74,9 @@ public class InteractiveTests
 		}
 	}
 
-	private static boolean isTestClass(Class testClass)
+	private static boolean isTestClass(final Class testClass)
 	{
-		for(Method currentMethod : testClass.getDeclaredMethods())
+		for(final Method currentMethod : testClass.getDeclaredMethods())
 			if(currentMethod.isAnnotationPresent(TEST_ANNOTATION))
 				return true;
 		return false;
@@ -94,7 +94,7 @@ public class InteractiveTests
 		{
 			throw new AssertionError("com.syncleus.tests.dann can not be searched!");
 		}
-		for(Class packageClass : classes)
+		for(final Class packageClass : classes)
 		{
 			final String fullClassString = packageClass.toString();
 			final int classNameIndex = fullClassString.lastIndexOf(".") + 1;
@@ -104,7 +104,7 @@ public class InteractiveTests
 				//check to make sure there is a default constructor
 				boolean hasDefaultContructor = false;
 				final Constructor[] constructors = packageClass.getConstructors();
-				for(Constructor contructor : constructors)
+				for(final Constructor contructor : constructors)
 					if(contructor.getTypeParameters().length == 0)
 						hasDefaultContructor = true;
 				assert hasDefaultContructor;
@@ -113,7 +113,7 @@ public class InteractiveTests
 				final Set<Method> testMethods = new TreeSet<Method>(new MethodComparator());
 				testPoints.put(packageClass, testMethods);
 				final Method[] packageClassMethods = packageClass.getDeclaredMethods();
-				for(Method packageClassMethod : packageClassMethods)
+				for(final Method packageClassMethod : packageClassMethods)
 				{
 					if(packageClassMethod.isAnnotationPresent(TEST_ANNOTATION))
 						testMethods.add(packageClassMethod);
@@ -129,11 +129,11 @@ public class InteractiveTests
 		final Set<Class> testClasses = testPoints.keySet();
 		int currentChoice = 1;
 		final Map<Integer, Method> choices = new HashMap<Integer, Method>();
-		for(Class testClass : testClasses)
+		for(final Class testClass : testClasses)
 		{
 			System.out.println(testClass.toString() + ":");
 			final Set<Method> testPointMethods = testPoints.get(testClass);
-			for(Method testPointMethod : testPointMethods)
+			for(final Method testPointMethod : testPointMethods)
 			{
 				System.out.println(currentChoice + ": " + testPointMethod.getName());
 				choices.put(currentChoice, testPointMethod);
@@ -155,11 +155,11 @@ public class InteractiveTests
 		return choices.get(selection);
 	}
 
-	public static void main(String[] args)
+	public static void main(final String[] args)
 	{
 		try
 		{
-			Properties logProperties = new Properties();
+			final Properties logProperties = new Properties();
 			logProperties.setProperty("log4j.rootLogger", "all,console");
 			logProperties.setProperty("log4j.appender.console", "org.apache.log4j.ConsoleAppender");
 			logProperties.setProperty("log4j.appender.console.Target", "System.out");
@@ -175,7 +175,7 @@ public class InteractiveTests
 			final JUnitCore jUnit = new JUnitCore();
 			final Request testRequest = Request.method(testClass, test.getName());
 			System.out.println("Running " + testClass + "." + test.getName());
-			Result testResult = jUnit.run(testRequest);
+			final Result testResult = jUnit.run(testRequest);
 			if( testResult.wasSuccessful() )
 				System.out.print("Successful: ");
 			else

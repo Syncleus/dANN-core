@@ -59,12 +59,12 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 	 * 
 	 * @param matrixToDecompose Elements Square matrix
 	 */
-	public SchurEigenvalueDecomposition(RealMatrix matrixToDecompose)
+	public SchurEigenvalueDecomposition(final RealMatrix matrixToDecompose)
 	{
-		double[][] matrixToDecomposeElements = matrixToDecompose.toDoubleArray();
-		int n = matrixToDecompose.getWidth();
-		double[][] matrixElements = new double[n][n];
-		double[][] hessenbergMatrixElements = new double[n][n];
+		final double[][] matrixToDecomposeElements = matrixToDecompose.toDoubleArray();
+		final int n = matrixToDecompose.getWidth();
+		final double[][] matrixElements = new double[n][n];
+		final double[][] hessenbergMatrixElements = new double[n][n];
 
 		this.realEigenvalues = new ArrayList<RealNumber>(n);
 		this.realEigenvalues.addAll(Collections.nCopies(n, new RealNumber(0.0)));
@@ -77,7 +77,7 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 		this.hessenbergMatrix = new SimpleRealMatrix(hessenbergMatrixElements);
 		this.matrix = new SimpleRealMatrix(matrixElements);
 
-		HessenbergDecomposition hessenberbDecomposition = new NonsymetricHessenbergReduction(this.hessenbergMatrix);
+		final HessenbergDecomposition hessenberbDecomposition = new NonsymetricHessenbergReduction(this.hessenbergMatrix);
 		this.matrix = hessenberbDecomposition.getMatrix();
 		this.hessenbergMatrix = hessenberbDecomposition.getHessenbergMatrix();
 
@@ -90,10 +90,11 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 		return this.matrix.getHeight();
 	}
 
-	private void cdiv(double xr, double xi, double yr, double yi)
+	private void cdiv(final double xr, final double xi, final double yr, final double yi)
 	{
-		double r, d;
-		if(Math.abs(yr) > Math.abs(yi))
+		final double r;
+        final double d;
+        if(Math.abs(yr) > Math.abs(yi))
 		{
 			r = yi / yr;
 			d = yr + r * yi;
@@ -114,14 +115,14 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 	private void schurReduction()
 	{
 		int n = this.getDimensionSize();
-		double[] d = new double[this.realEigenvalues.size()];
+		final double[] d = new double[this.realEigenvalues.size()];
 		for(int valueIndex = 0; valueIndex < d.length; valueIndex++)
 			d[valueIndex] = this.realEigenvalues.get(valueIndex).getValue();
-		double[] e = new double[this.imaginaryEigenvalues.size()];
+		final double[] e = new double[this.imaginaryEigenvalues.size()];
 		for(int valueIndex = 0; valueIndex < d.length; valueIndex++)
 			e[valueIndex] = this.imaginaryEigenvalues.get(valueIndex).getValue();
-		double[][] V = this.matrix.toDoubleArray();
-		double[][] H = this.hessenbergMatrix.toDoubleArray();
+		final double[][] V = this.matrix.toDoubleArray();
+		final double[][] H = this.hessenbergMatrix.toDoubleArray();
 
 		//  This is derived from the Algol procedure schurReduction,
 		//  by Martin and Wilkinson, Handbook for Auto. Comp.,
@@ -129,11 +130,11 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 		//  Fortran subroutine in EISPACK.
 
 		// Initialize
-		int nn = n;
+		final int nn = n;
 		n = nn - 1;
-		int low = 0;
-		int high = nn - 1;
-		double eps = Math.pow(2.0, -52.0);
+		final int low = 0;
+		final int high = nn - 1;
+		final double eps = Math.pow(2.0, -52.0);
 		double exshift = 0.0;
 		double p = 0, q = 0, r = 0, s = 0, z = 0, t, w, x, y;
 
@@ -326,7 +327,7 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 				// Double QR step involving rows l:n and columns m:n
 				for(int k = m; k <= n - 1; k++)
 				{
-					boolean notlast = (k != n - 1);
+					final boolean notlast = (k != n - 1);
 					if(k != m)
 					{
 						p = H[k][k - 1];
@@ -477,8 +478,11 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 				H[n][n] = 1.0;
 				for(int i = n - 2; i >= 0; i--)
 				{
-					double ra, sa, vr, vi;
-					ra = 0.0;
+					double ra;
+                    double sa;
+                    double vr;
+                    final double vi;
+                    ra = 0.0;
 					sa = 0.0;
 					for(int j = l; j <= n; j++)
 					{
@@ -558,10 +562,10 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 			}
 
 		this.realEigenvalues = new ArrayList<RealNumber>(d.length);
-		for(double realValue : d)
+		for(final double realValue : d)
 			this.realEigenvalues.add(new RealNumber(realValue));
 		this.imaginaryEigenvalues = new ArrayList<RealNumber>(e.length);
-		for(double imaginaryValue : e)
+		for(final double imaginaryValue : e)
 			this.imaginaryEigenvalues.add(new RealNumber(imaginaryValue));
 		this.matrix = new SimpleRealMatrix(V);
 		this.hessenbergMatrix = new SimpleRealMatrix(H);
@@ -596,15 +600,15 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 	 */
 	public RealMatrix getBlockDiagonalMatrix()
 	{
-		int n = this.getDimensionSize();
-		double[] d = new double[this.realEigenvalues.size()];
+		final int n = this.getDimensionSize();
+		final double[] d = new double[this.realEigenvalues.size()];
 		for(int valueIndex = 0; valueIndex < d.length; valueIndex++)
 			d[valueIndex] = this.realEigenvalues.get(valueIndex).getValue();
-		double[] e = new double[this.imaginaryEigenvalues.size()];
+		final double[] e = new double[this.imaginaryEigenvalues.size()];
 		for(int valueIndex = 0; valueIndex < d.length; valueIndex++)
 			e[valueIndex] = this.imaginaryEigenvalues.get(valueIndex).getValue();
 
-		double[][] D = new double[n][n];
+		final double[][] D = new double[n][n];
 		for(int i = 0; i < n; i++)
 		{
 			for(int j = 0; j < n; j++)

@@ -50,7 +50,7 @@ public abstract class AbstractKey implements Cloneable
 
 		final char[] keyChars = keyString.toCharArray();
 		int index = 0;
-		for(char keyChar : keyChars)
+		for(final char keyChar : keyChars)
 		{
 			if((keyChar != '1')&&(keyChar != '0')&&(keyChar != 'x'))
 				throw new IllegalArgumentException("keyString is only allowed to contain the following characters: 1, 0, x");
@@ -86,7 +86,7 @@ public abstract class AbstractKey implements Cloneable
 	}
 
 	@Override
-	public boolean equals(Object compareWith)
+	public boolean equals(final Object compareWith)
 	{
 		if(compareWith == null)
 			return false;

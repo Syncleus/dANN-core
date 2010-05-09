@@ -36,7 +36,7 @@ public class ImmutableWeightedUndirectedEdge<N> extends ImmutableUndirectedEdge<
 	}
 
 	@Override
-	public SimpleWeightedUndirectedEdge<N> disconnect(N node)
+	public SimpleWeightedUndirectedEdge<N> disconnect(final N node)
 	{
 		if(node == null)
 			throw new IllegalArgumentException("node can not be null", new NullPointerException());
@@ -47,7 +47,7 @@ public class ImmutableWeightedUndirectedEdge<N> extends ImmutableUndirectedEdge<
 	}
 
 	@Override
-	public SimpleWeightedUndirectedEdge<N> disconnect(List<N> nodes)
+	public SimpleWeightedUndirectedEdge<N> disconnect(final List<N> nodes)
 	{
 		if(nodes == null)
 			throw new IllegalArgumentException("node can not be null", new NullPointerException());

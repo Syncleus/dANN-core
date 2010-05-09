@@ -24,55 +24,55 @@ import java.util.concurrent.ExecutorService;
 
 public class BrainHyperassociativeMap extends HyperassociativeMap<Brain, Neuron>
 {
-	public BrainHyperassociativeMap(Brain graph, int dimensions, double equilibriumDistance, boolean useWeights, ExecutorService threadExecutor)
+	public BrainHyperassociativeMap(final Brain graph, final int dimensions, final double equilibriumDistance, final boolean useWeights, final ExecutorService threadExecutor)
 	{
 		super(graph, dimensions, equilibriumDistance, useWeights, threadExecutor);
 	}
 
-	public BrainHyperassociativeMap(Brain graph, int dimensions, boolean useWeights, ExecutorService threadExecutor)
+	public BrainHyperassociativeMap(final Brain graph, final int dimensions, final boolean useWeights, final ExecutorService threadExecutor)
 	{
 		super(graph, dimensions, 1.0, useWeights, threadExecutor);
 	}
 
-	public BrainHyperassociativeMap(Brain graph, int dimensions, double equilibriumDistance, boolean useWeights)
+	public BrainHyperassociativeMap(final Brain graph, final int dimensions, final double equilibriumDistance, final boolean useWeights)
 	{
 		super(graph, dimensions, equilibriumDistance, useWeights, null);
 	}
 
-	public BrainHyperassociativeMap(Brain graph, int dimensions, boolean useWeights)
+	public BrainHyperassociativeMap(final Brain graph, final int dimensions, final boolean useWeights)
 	{
 		super(graph, dimensions, 1.0, useWeights, null);
 	}
 
-	public BrainHyperassociativeMap(Brain graph, int dimensions, double equilibriumDistance, ExecutorService threadExecutor)
+	public BrainHyperassociativeMap(final Brain graph, final int dimensions, final double equilibriumDistance, final ExecutorService threadExecutor)
 	{
 		super(graph, dimensions, equilibriumDistance, true, threadExecutor);
 	}
 
-	public BrainHyperassociativeMap(Brain graph, int dimensions, ExecutorService threadExecutor)
+	public BrainHyperassociativeMap(final Brain graph, final int dimensions, final ExecutorService threadExecutor)
 	{
 		super(graph, dimensions, 1.0, true, threadExecutor);
 	}
 
-	public BrainHyperassociativeMap(Brain graph, int dimensions, double equilibriumDistance)
+	public BrainHyperassociativeMap(final Brain graph, final int dimensions, final double equilibriumDistance)
 	{
 		super(graph, dimensions, equilibriumDistance, true, null);
 	}
 
-	public BrainHyperassociativeMap(Brain graph, int dimensions)
+	public BrainHyperassociativeMap(final Brain graph, final int dimensions)
 	{
 		super(graph, dimensions, 1.0, true, null);
 	}
 
 	@Override
-	Map<Neuron, Double> getNeighbors(Neuron nodeToQuery)
+	Map<Neuron, Double> getNeighbors(final Neuron nodeToQuery)
 	{
 		final Map<Neuron, Double> associations = super.getNeighbors(nodeToQuery);
 		if(nodeToQuery instanceof InputNeuron)
-			for(InputNeuron neuron : this.getGraph().getInputNeurons())
+			for(final InputNeuron neuron : this.getGraph().getInputNeurons())
 				associations.put(neuron, this.getEquilibriumDistance());
 		else if(nodeToQuery instanceof OutputNeuron)
-			for(OutputNeuron neuron : this.getGraph().getOutputNeurons())
+			for(final OutputNeuron neuron : this.getGraph().getOutputNeurons())
 				associations.put(neuron, this.getEquilibriumDistance());
 		associations.remove(nodeToQuery);
 

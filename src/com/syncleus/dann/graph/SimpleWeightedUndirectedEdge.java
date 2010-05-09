@@ -37,13 +37,13 @@ public class SimpleWeightedUndirectedEdge<N> extends ImmutableUndirectedEdge<N> 
 		return this.weight;
 	}
 
-	public void setWeight(double newWeight)
+	public void setWeight(final double newWeight)
 	{
 		this.weight = newWeight;
 	}
 
 	@Override
-	public SimpleWeightedUndirectedEdge<N> disconnect(N node)
+	public SimpleWeightedUndirectedEdge<N> disconnect(final N node)
 	{
 		if(node == null)
 			throw new IllegalArgumentException("node can not be null", new NullPointerException());
@@ -54,7 +54,7 @@ public class SimpleWeightedUndirectedEdge<N> extends ImmutableUndirectedEdge<N> 
 	}
 
 	@Override
-	public SimpleWeightedUndirectedEdge<N> disconnect(List<N> nodes)
+	public SimpleWeightedUndirectedEdge<N> disconnect(final List<N> nodes)
 	{
 		if(nodes == null)
 			throw new IllegalArgumentException("node can not be null", new NullPointerException());

@@ -29,14 +29,14 @@ import org.junit.Test;
 
 public class TestSimpleMarkovChain
 {
-	private static enum WeatherState{ SUNNY, RAINY};
+	private static enum WeatherState{ SUNNY, RAINY}
 
-	@Test
+    @Test
 	public void testSimpleChain()
 	{
-		Map<WeatherState, Map<WeatherState, Double>> transitionProbabilities = new HashMap<WeatherState, Map<WeatherState, Double>>();
-		Map<WeatherState, Double> sunnyTransitions = new HashMap<WeatherState, Double>();
-		Map<WeatherState, Double> rainyTransitions = new HashMap<WeatherState, Double>();
+		final Map<WeatherState, Map<WeatherState, Double>> transitionProbabilities = new HashMap<WeatherState, Map<WeatherState, Double>>();
+		final Map<WeatherState, Double> sunnyTransitions = new HashMap<WeatherState, Double>();
+		final Map<WeatherState, Double> rainyTransitions = new HashMap<WeatherState, Double>();
 
 		sunnyTransitions.put(WeatherState.SUNNY, 0.9);
 		sunnyTransitions.put(WeatherState.RAINY, 0.1);
@@ -46,11 +46,11 @@ public class TestSimpleMarkovChain
 		rainyTransitions.put(WeatherState.RAINY, 0.5);
 		transitionProbabilities.put(WeatherState.RAINY, rainyTransitions);
 
-		Set<WeatherState> states = new HashSet<WeatherState>();
+		final Set<WeatherState> states = new HashSet<WeatherState>();
 		states.add(WeatherState.SUNNY);
 		states.add(WeatherState.RAINY);
 
-		MarkovChain<WeatherState> simpleChain = new SimpleMarkovChain<WeatherState>(transitionProbabilities, states);
+		final MarkovChain<WeatherState> simpleChain = new SimpleMarkovChain<WeatherState>(transitionProbabilities, states);
 		simpleChain.transition(WeatherState.SUNNY);
 
 		Assert.assertTrue("Sunny steady state incorrect", Math.abs(simpleChain.getSteadyStateProbability(WeatherState.SUNNY) - 0.83333333333) < 0.0001);

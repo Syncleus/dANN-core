@@ -27,13 +27,14 @@ import org.junit.*;
 
 public class TestSimpleBayesianNode
 {
-	private static enum SimpleEnum{ TRUE,FALSE; }
+	private static enum SimpleEnum{ TRUE,FALSE
+    }
 	
 	@Test
 	public void testSingleNode()
 	{
-		MutableBayesianAdjacencyNetwork network = new MutableBayesianAdjacencyNetwork();
-		BayesianNode<SimpleEnum> testNode = new SimpleBayesianNode<SimpleEnum>(SimpleEnum.TRUE, network);
+		final MutableBayesianAdjacencyNetwork network = new MutableBayesianAdjacencyNetwork();
+		final BayesianNode<SimpleEnum> testNode = new SimpleBayesianNode<SimpleEnum>(SimpleEnum.TRUE, network);
 
 		network.add(testNode);
 
@@ -58,14 +59,14 @@ public class TestSimpleBayesianNode
 	@Test
 	public void testDependentNode()
 	{
-		MutableBayesianAdjacencyNetwork network = new MutableBayesianAdjacencyNetwork();
-		BayesianNode<SimpleEnum> parentNode = new SimpleBayesianNode<SimpleEnum>(SimpleEnum.TRUE, network);
-		BayesianNode<SimpleEnum> childNode = new SimpleBayesianNode<SimpleEnum>(SimpleEnum.TRUE, network);
+		final MutableBayesianAdjacencyNetwork network = new MutableBayesianAdjacencyNetwork();
+		final BayesianNode<SimpleEnum> parentNode = new SimpleBayesianNode<SimpleEnum>(SimpleEnum.TRUE, network);
+		final BayesianNode<SimpleEnum> childNode = new SimpleBayesianNode<SimpleEnum>(SimpleEnum.TRUE, network);
 
 		network.add(parentNode);
 		network.add(childNode);
 
-		BayesianEdge<BayesianNode<SimpleEnum>> testEdge = new SimpleBayesianEdge<BayesianNode<SimpleEnum>>(parentNode, childNode);
+		final BayesianEdge<BayesianNode<SimpleEnum>> testEdge = new SimpleBayesianEdge<BayesianNode<SimpleEnum>>(parentNode, childNode);
 		network.add(testEdge);
 
 		parentNode.setState(SimpleEnum.TRUE);

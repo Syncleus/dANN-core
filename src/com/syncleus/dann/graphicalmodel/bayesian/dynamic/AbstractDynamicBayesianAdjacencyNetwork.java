@@ -41,9 +41,9 @@ public abstract class AbstractDynamicBayesianAdjacencyNetwork<N extends DynamicB
 		super(nodes, edges);
 	}
 
-	public void learnStates(boolean updateHistory)
+	public void learnStates(final boolean updateHistory)
 	{
-		for(BayesianNode node : this.getNodes())
+		for(final BayesianNode node : this.getNodes())
 		{
 			if( node instanceof DynamicBayesianNode)
 				((DynamicBayesianNode)node).learnState(updateHistory);
@@ -53,37 +53,37 @@ public abstract class AbstractDynamicBayesianAdjacencyNetwork<N extends DynamicB
 	}
 
 	@Override
-	public AbstractDynamicBayesianAdjacencyNetwork<N, E> cloneAdd(E newEdge)
+	public AbstractDynamicBayesianAdjacencyNetwork<N, E> cloneAdd(final E newEdge)
 	{
 		return (AbstractDynamicBayesianAdjacencyNetwork<N, E>)super.cloneAdd(newEdge);
 	}
 
 	@Override
-	public AbstractDynamicBayesianAdjacencyNetwork<N, E> cloneAdd(N newNode)
+	public AbstractDynamicBayesianAdjacencyNetwork<N, E> cloneAdd(final N newNode)
 	{
 		return (AbstractDynamicBayesianAdjacencyNetwork<N, E>)super.cloneAdd(newNode);
 	}
 
 	@Override
-	public AbstractDynamicBayesianAdjacencyNetwork<N, E> cloneAdd(Set<N> newNodes, Set<E> newEdges)
+	public AbstractDynamicBayesianAdjacencyNetwork<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
 	{
 		return (AbstractDynamicBayesianAdjacencyNetwork<N, E>)super.cloneAdd(newNodes, newEdges);
 	}
 
 	@Override
-	public AbstractDynamicBayesianAdjacencyNetwork<N, E> cloneRemove(E edgeToRemove)
+	public AbstractDynamicBayesianAdjacencyNetwork<N, E> cloneRemove(final E edgeToRemove)
 	{
 		return (AbstractDynamicBayesianAdjacencyNetwork<N, E>)super.cloneRemove(edgeToRemove);
 	}
 
 	@Override
-	public AbstractDynamicBayesianAdjacencyNetwork<N, E> cloneRemove(N nodeToRemove)
+	public AbstractDynamicBayesianAdjacencyNetwork<N, E> cloneRemove(final N nodeToRemove)
 	{
 		return (AbstractDynamicBayesianAdjacencyNetwork<N, E>)super.cloneRemove(nodeToRemove);
 	}
 
 	@Override
-	public AbstractDynamicBayesianAdjacencyNetwork<N, E> cloneRemove(Set<N> deleteNodes, Set<E> deleteEdges)
+	public AbstractDynamicBayesianAdjacencyNetwork<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
 	{
 		return (AbstractDynamicBayesianAdjacencyNetwork<N, E>)super.cloneRemove(deleteNodes, deleteEdges);
 	}

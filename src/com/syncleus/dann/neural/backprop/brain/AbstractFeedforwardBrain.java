@@ -40,7 +40,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractLocalBrain implem
 		private final BackpropNeuron neuron;
 		private final static Logger LOGGER = Logger.getLogger(Propagate.class);
 
-		public Propagate(BackpropNeuron neuron)
+		public Propagate(final BackpropNeuron neuron)
 		{
 			this.neuron = neuron;
 		}
@@ -56,7 +56,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractLocalBrain implem
 		private final BackpropNeuron neuron;
 		private final static Logger LOGGER = Logger.getLogger(BackPropagate.class);
 
-		public BackPropagate(BackpropNeuron neuron)
+		public BackPropagate(final BackpropNeuron neuron)
 		{
 			this.neuron = neuron;
 		}
@@ -73,7 +73,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractLocalBrain implem
 	 * @param threadExecutor executor to use for executing tasks.
 	 * @since 2.0
 	 */
-	public AbstractFeedforwardBrain(ExecutorService threadExecutor)
+	public AbstractFeedforwardBrain(final ExecutorService threadExecutor)
 	{
 		super(threadExecutor);
 	}
@@ -98,7 +98,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractLocalBrain implem
 
 		//create each layer
 		int currentLayerCount = 0;
-		for(int neuronCount : neuronsPerLayer)
+		for(final int neuronCount : neuronsPerLayer)
 		{
 			final NeuronGroup<BackpropNeuron> currentGroup = new NeuronGroup<BackpropNeuron>();
 			for(int neuronIndex = 0; neuronIndex < neuronCount; neuronIndex++)
@@ -130,11 +130,11 @@ public abstract class AbstractFeedforwardBrain extends AbstractLocalBrain implem
 
 	public final List<Set<BackpropNeuron>> getLayers()
 	{
-		List<Set<BackpropNeuron>> layerList = new ArrayList<Set<BackpropNeuron>>();
-		for(NeuronGroup<BackpropNeuron> layerGroup : this.getEditableLayers())
+		final List<Set<BackpropNeuron>> layerList = new ArrayList<Set<BackpropNeuron>>();
+		for(final NeuronGroup<BackpropNeuron> layerGroup : this.getEditableLayers())
 		{
-			Set<BackpropNeuron> layer = new HashSet<BackpropNeuron>();
-			for(BackpropNeuron layerNeuron : layerGroup.getChildrenNeuronsRecursivly())
+			final Set<BackpropNeuron> layer = new HashSet<BackpropNeuron>();
+			for(final BackpropNeuron layerNeuron : layerGroup.getChildrenNeuronsRecursivly())
 				layer.add(layerNeuron);
 			layerList.add(Collections.unmodifiableSet(layer));
 		}
@@ -164,13 +164,13 @@ public abstract class AbstractFeedforwardBrain extends AbstractLocalBrain implem
 			{
 				//begin processing all neurons in one layer simultaniously
 				final ArrayList<Future> futures = new ArrayList<Future>();
-				for(BackpropNeuron neuron : layerNeurons)
+				for(final BackpropNeuron neuron : layerNeurons)
 					futures.add(this.getThreadExecutor().submit(new Propagate(neuron)));
 
 				//wait until all neurons have propogated
 				try
 				{
-					for(Future future : futures)
+					for(final Future future : futures)
 						future.get();
 				}
 				catch(InterruptedException caught)
@@ -185,7 +185,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractLocalBrain implem
 				}
 			}
 			else
-				for(BackpropNeuron neuron : layerNeurons)
+				for(final BackpropNeuron neuron : layerNeurons)
 					neuron.propagate();
 
 		}
@@ -206,13 +206,13 @@ public abstract class AbstractFeedforwardBrain extends AbstractLocalBrain implem
 			{
 				//begin processing all neurons in one layer simultaniously
 				final ArrayList<Future> futures = new ArrayList<Future>();
-				for(BackpropNeuron neuron : layerNeurons)
+				for(final BackpropNeuron neuron : layerNeurons)
 					futures.add(this.getThreadExecutor().submit(new BackPropagate(neuron)));
 
 				//wait until all neurons have backPropogated
 				try
 				{
-					for(Future future : futures)
+					for(final Future future : futures)
 						future.get();
 				}
 				catch(InterruptedException caught)
@@ -227,7 +227,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractLocalBrain implem
 				}
 			}
 			else
-				for(BackpropNeuron neuron : layerNeurons)
+				for(final BackpropNeuron neuron : layerNeurons)
 					neuron.backPropagate();
 		}
 	}

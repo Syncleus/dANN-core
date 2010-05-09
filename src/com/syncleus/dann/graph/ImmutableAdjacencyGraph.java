@@ -49,8 +49,8 @@ public class ImmutableAdjacencyGraph<N, E extends Edge<N>> extends AbstractAdjac
 	@Override
 	protected Map<N, Set<E>> getInternalAdjacencyEdges()
 	{
-		Map<N,Set<E>> newAdjacentEdges = new HashMap<N, Set<E>>();
-		for(Entry<N, Set<E>> neighborEdgeEntry : super.getInternalAdjacencyEdges().entrySet())
+		final Map<N,Set<E>> newAdjacentEdges = new HashMap<N, Set<E>>();
+		for(final Entry<N, Set<E>> neighborEdgeEntry : super.getInternalAdjacencyEdges().entrySet())
 			newAdjacentEdges.put(neighborEdgeEntry.getKey(), new HashSet<E>(neighborEdgeEntry.getValue()));
 		return newAdjacentEdges;
 	}
@@ -58,44 +58,44 @@ public class ImmutableAdjacencyGraph<N, E extends Edge<N>> extends AbstractAdjac
 	@Override
 	protected Map<N, List<N>> getInternalAdjacencyNodes()
 	{
-		Map<N,List<N>> newAdjacentNodes = new HashMap<N, List<N>>();
-		for(Entry<N, List<N>> neighborNodeEntry : this.getInternalAdjacencyNodes().entrySet())
+		final Map<N,List<N>> newAdjacentNodes = new HashMap<N, List<N>>();
+		for(final Entry<N, List<N>> neighborNodeEntry : this.getInternalAdjacencyNodes().entrySet())
 			newAdjacentNodes.put(neighborNodeEntry.getKey(), new ArrayList<N>(neighborNodeEntry.getValue()));
 		return newAdjacentNodes;
 	}
 
 	@Override
-	public ImmutableAdjacencyGraph<N,E> cloneAdd(E newEdge)
+	public ImmutableAdjacencyGraph<N,E> cloneAdd(final E newEdge)
 	{
 		return (ImmutableAdjacencyGraph<N,E>) super.cloneAdd(newEdge);
 	}
 
 	@Override
-	public ImmutableAdjacencyGraph<N,E> cloneAdd(N newNode)
+	public ImmutableAdjacencyGraph<N,E> cloneAdd(final N newNode)
 	{
 		return (ImmutableAdjacencyGraph<N,E>) super.cloneAdd(newNode);
 	}
 
 	@Override
-	public ImmutableAdjacencyGraph<N,E> cloneAdd(Set<N> newNodes, Set<E> newEdges)
+	public ImmutableAdjacencyGraph<N,E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
 	{
 		return (ImmutableAdjacencyGraph<N,E>) super.cloneAdd(newNodes, newEdges);
 	}
 
 	@Override
-	public ImmutableAdjacencyGraph<N,E> cloneRemove(E edgeToRemove)
+	public ImmutableAdjacencyGraph<N,E> cloneRemove(final E edgeToRemove)
 	{
 		return (ImmutableAdjacencyGraph<N,E>) super.cloneRemove(edgeToRemove);
 	}
 
 	@Override
-	public ImmutableAdjacencyGraph<N,E> cloneRemove(N nodeToRemove)
+	public ImmutableAdjacencyGraph<N,E> cloneRemove(final N nodeToRemove)
 	{
 		return (ImmutableAdjacencyGraph<N,E>) super.cloneRemove(nodeToRemove);
 	}
 
 	@Override
-	public ImmutableAdjacencyGraph<N,E> cloneRemove(Set<N> deleteNodes, Set<E> deleteEdges)
+	public ImmutableAdjacencyGraph<N,E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
 	{
 		return (ImmutableAdjacencyGraph<N,E>) super.cloneRemove(deleteNodes, deleteEdges);
 	}

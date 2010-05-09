@@ -39,11 +39,11 @@ public class TestMutableDouble
 	@Test
 	public void testMax()
 	{
-		MutableDouble highValue = new MutableDouble(Double.MAX_VALUE);
+		final MutableDouble highValue = new MutableDouble(Double.MAX_VALUE);
 
 		for(int testCount = 0; testCount < 1000; testCount++)
 		{
-			MutableDouble mutated = highValue.mutate(100.0);
+			final MutableDouble mutated = highValue.mutate(100.0);
 
 			Assert.assertTrue("mutation caused number to roll over: " + mutated, (mutated.doubleValue() != Double.POSITIVE_INFINITY)&&(mutated.doubleValue() != Double.NEGATIVE_INFINITY));
 		}
@@ -52,11 +52,11 @@ public class TestMutableDouble
 	@Test
 	public void testMin()
 	{
-		MutableDouble lowValue = new MutableDouble(Double.MAX_VALUE * -1.0);
+		final MutableDouble lowValue = new MutableDouble(Double.MAX_VALUE * -1.0);
 
 		for(int testCount = 0; testCount < 1000; testCount++)
 		{
-			MutableDouble mutated = lowValue.mutate(100.0);
+			final MutableDouble mutated = lowValue.mutate(100.0);
 
 			Assert.assertTrue("mutation caused number to roll over: " + mutated, (mutated.doubleValue() != Double.POSITIVE_INFINITY)&&(mutated.doubleValue() != Double.NEGATIVE_INFINITY));
 		}
@@ -65,7 +65,7 @@ public class TestMutableDouble
 	@Test
 	public void testDeviation()
 	{
-		MutableDouble center = new MutableDouble(0);
+		final MutableDouble center = new MutableDouble(0);
 
 		double averageSum = 0;
 		double testCount = 0.0;
@@ -74,7 +74,7 @@ public class TestMutableDouble
 			averageSum += center.mutate(1.0).doubleValue();
 		}
 
-		double average = averageSum / testCount;
+		final double average = averageSum / testCount;
 
 		Assert.assertTrue("average deviation is more than 1.0", average < 1.0);
 	}

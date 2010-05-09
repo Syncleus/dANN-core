@@ -43,7 +43,7 @@ public class TestByteValueGene
 	@Test
 	public void testMutation()
 	{
-		ValueGene center = new ByteValueGene((byte)0);
+		final ValueGene center = new ByteValueGene((byte)0);
 
 		double averageSum = 0;
 		double testCount = 0.0;
@@ -52,7 +52,7 @@ public class TestByteValueGene
 			averageSum += center.mutate(1.0).getValue().byteValue();
 		}
 
-		double average = averageSum / testCount;
+		final double average = averageSum / testCount;
 
 		Assert.assertTrue("average deviation is more than 1.0", average < 1.0);
 	}

@@ -49,7 +49,7 @@ public class NeighborNotFoundException extends DannException
 	 * @param msg A string describing the cause of the exception
 	 * @since 1.0
 	 */
-    public NeighborNotFoundException(String msg)
+    public NeighborNotFoundException(final String msg)
     {
         super(msg);
     }
@@ -63,7 +63,7 @@ public class NeighborNotFoundException extends DannException
 	 * @param cause The throwable which caused this exception
 	 * @since 1.0
 	 */
-	public NeighborNotFoundException(String msg, Throwable cause)
+	public NeighborNotFoundException(final String msg, final Throwable cause)
 	{
 		super(msg, cause);
 	}
@@ -76,7 +76,7 @@ public class NeighborNotFoundException extends DannException
 	 * @param cause The throwable which caused this exception
 	 * @since 1.0
 	 */
-	public NeighborNotFoundException(Throwable cause)
+	public NeighborNotFoundException(final Throwable cause)
 	{
 		super(cause);
 	}

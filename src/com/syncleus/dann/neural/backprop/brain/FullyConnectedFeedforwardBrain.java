@@ -26,8 +26,8 @@ public class FullyConnectedFeedforwardBrain extends AbstractFullyConnectedFeedfo
 {
 	private static final long serialVersionUID = 3666884827880527998L;
 	
-	private double learningRate;
-	private ActivationFunction activationFunction;
+	private final double learningRate;
+	private final ActivationFunction activationFunction;
 
 	/**
 	 * Uses the given threadExecutor for executing tasks.
@@ -35,7 +35,7 @@ public class FullyConnectedFeedforwardBrain extends AbstractFullyConnectedFeedfo
 	 * @param threadExecutor executor to use for executing tasks.
 	 * @since 2.0
 	 */
-	public FullyConnectedFeedforwardBrain(int neuronsPerLayer[], double learningRate, ActivationFunction activationFunction, ExecutorService threadExecutor)
+	public FullyConnectedFeedforwardBrain(final int[] neuronsPerLayer, final double learningRate, final ActivationFunction activationFunction, final ExecutorService threadExecutor)
 	{
 		super(threadExecutor);
 		this.learningRate = learningRate;
@@ -50,7 +50,7 @@ public class FullyConnectedFeedforwardBrain extends AbstractFullyConnectedFeedfo
 	 *
 	 * @since 2.0
 	 */
-	public FullyConnectedFeedforwardBrain(int neuronsPerLayer[], double learningRate, ActivationFunction activationFunction)
+	public FullyConnectedFeedforwardBrain(final int[] neuronsPerLayer, final double learningRate, final ActivationFunction activationFunction)
 	{
 		super();
 		this.learningRate = learningRate;
@@ -69,7 +69,7 @@ public class FullyConnectedFeedforwardBrain extends AbstractFullyConnectedFeedfo
 	 * @return The new SimpleBackpropNeuron to be added to the current layer.
 	 * @since 2.0
 	 */
-	protected BackpropNeuron createNeuron(int layer, int index)
+	protected BackpropNeuron createNeuron(final int layer, final int index)
 	{
 		if( layer == 0 )
 			return new InputBackpropNeuron(this);

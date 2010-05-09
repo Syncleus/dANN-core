@@ -27,7 +27,7 @@ public class TestPorterStemmer
 	@Test
 	public void testWords()
 	{
-		Stemmer stemmer = new PorterStemmer();
+		final Stemmer stemmer = new PorterStemmer();
 		
 		Assert.assertTrue("word stem incorrect!", stemmer.stemWord("bowling").compareToIgnoreCase("bowl") == 0);
 		Assert.assertTrue("word stem incorrect!", stemmer.stemWord("happiness").compareToIgnoreCase("happi") == 0);

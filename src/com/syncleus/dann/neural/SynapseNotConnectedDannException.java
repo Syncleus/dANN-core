@@ -47,7 +47,7 @@ public class SynapseNotConnectedDannException extends DannException
 	 * @param msg A string describing the cause of the exception
 	 * @since 1.0
 	 */
-	public SynapseNotConnectedDannException(String msg)
+	public SynapseNotConnectedDannException(final String msg)
 	{
 		super(msg);
 	}
@@ -61,7 +61,7 @@ public class SynapseNotConnectedDannException extends DannException
 	 * @param cause The throwable which caused this exception
 	 * @since 1.0
 	 */
-	public SynapseNotConnectedDannException(String msg, Throwable cause)
+	public SynapseNotConnectedDannException(final String msg, final Throwable cause)
 	{
 		super(msg, cause);
 	}
@@ -74,7 +74,7 @@ public class SynapseNotConnectedDannException extends DannException
 	 * @param cause The throwable which caused this exception
 	 * @since 1.0
 	 */
-	public SynapseNotConnectedDannException(Throwable cause)
+	public SynapseNotConnectedDannException(final Throwable cause)
 	{
 		super(cause);
 	}

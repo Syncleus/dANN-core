@@ -26,14 +26,14 @@ public class TestStateEvidence
 {
 	private static enum TestEnum
 	{
-		TOP,BOTTOM;
-	}
+		TOP,BOTTOM
+    }
 
 	@Test
 	public void testPercentage()
 	{
-		StateEvidence<TestEnum> evidence = new StateEvidence<TestEnum>();
-		Map<TestEnum,Integer> evidenceMap = evidence;
+		final StateEvidence<TestEnum> evidence = new StateEvidence<TestEnum>();
+		final Map<TestEnum,Integer> evidenceMap = evidence;
 		evidenceMap.put(TestEnum.TOP, 700);
 		evidenceMap.put(TestEnum.BOTTOM, 300);
 		Assert.assertTrue("top percentage: " + evidence.getPercentage(TestEnum.TOP), Math.abs(evidence.getPercentage(TestEnum.TOP) - 0.7) < 0.0001);

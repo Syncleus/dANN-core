@@ -48,7 +48,7 @@ public class OutputBackpropNeuron extends SimpleBackpropNeuron implements Output
      *
      * @since 1.0
      */
-    public OutputBackpropNeuron(Brain brain)
+    public OutputBackpropNeuron(final Brain brain)
     {
         super(brain);
     }
@@ -61,7 +61,7 @@ public class OutputBackpropNeuron extends SimpleBackpropNeuron implements Output
 	 * @param activationFunction The activation function to use.
      * @since 1.0
      */
-    public OutputBackpropNeuron(Brain brain, ActivationFunction activationFunction)
+    public OutputBackpropNeuron(final Brain brain, final ActivationFunction activationFunction)
     {
         super(brain, activationFunction);
     }
@@ -73,7 +73,7 @@ public class OutputBackpropNeuron extends SimpleBackpropNeuron implements Output
 	 * @param learningRate The learning rate for this neuron.
 	 * @since 1.0
 	 */
-	public OutputBackpropNeuron(Brain brain, double learningRate)
+	public OutputBackpropNeuron(final Brain brain, final double learningRate)
 	{
 		super(brain, learningRate);
 	}
@@ -87,7 +87,7 @@ public class OutputBackpropNeuron extends SimpleBackpropNeuron implements Output
 	 * @param learningRate The learning rate for this neuron.
 	 * @since 1.0
 	 */
-	public OutputBackpropNeuron(Brain brain, ActivationFunction activationFunction, double learningRate)
+	public OutputBackpropNeuron(final Brain brain, final ActivationFunction activationFunction, final double learningRate)
 	{
 		super(brain, activationFunction, learningRate);
 	}
@@ -101,7 +101,7 @@ public class OutputBackpropNeuron extends SimpleBackpropNeuron implements Output
      * @since 1.0
      * @param trainingToSet sets the current desired output.
      */
-    public void setDesired(double trainingToSet)
+    public void setDesired(final double trainingToSet)
     {
         this.desired = trainingToSet;
     }
@@ -119,7 +119,7 @@ public class OutputBackpropNeuron extends SimpleBackpropNeuron implements Output
     protected void calculateDeltaTrain()
     {
         this.deltaTrain = 0;
-        for (Synapse currentSynapse : super.getBrain().getTraversableEdges(this))
+        for (final Synapse currentSynapse : super.getBrain().getTraversableEdges(this))
 			this.deltaTrain += (currentSynapse.getWeight() * this.deltaTrainDestinations.get(currentSynapse).doubleValue());
 
         this.deltaTrain += (this.desired - this.getOutput());

@@ -25,19 +25,19 @@ public class WaveFunction extends AbstractFunction implements Cloneable
         super(new String[]{"x", "frequency", "amplitude", "phase"});
     }
 
-	public WaveFunction(WaveFunction copy)
+	public WaveFunction(final WaveFunction copy)
 	{
 		super(copy);
 	}
     
-    protected WaveFunction(String[] parameterNames)
+    protected WaveFunction(final String[] parameterNames)
     {
         super(
                 combineLabels(new String[]{"x", "frequency", "amplitude", "phase"}, parameterNames)
         );
     }
     
-    protected void setX(double x)
+    protected void setX(final double x)
     {
         this.setParameter(this.getParameterNameIndex("x"), x);
     }
@@ -47,7 +47,7 @@ public class WaveFunction extends AbstractFunction implements Cloneable
         return this.getParameter(this.getParameterNameIndex("x"));
     }
     
-    public void setFrequency(double frequency)
+    public void setFrequency(final double frequency)
     {
         this.setParameter(this.getParameterNameIndex("frequency"), frequency);
     }
@@ -57,7 +57,7 @@ public class WaveFunction extends AbstractFunction implements Cloneable
         return this.getParameter(this.getParameterNameIndex("frequency"));
     }
     
-    public void setAmplitude(double amplitude)
+    public void setAmplitude(final double amplitude)
     {
         this.setParameter(this.getParameterNameIndex("amplitude"), amplitude);
     }
@@ -67,7 +67,7 @@ public class WaveFunction extends AbstractFunction implements Cloneable
         return this.getParameter(this.getParameterNameIndex("amplitude"));
     }
     
-    public void setPhase(double phase)
+    public void setPhase(final double phase)
     {
         this.setParameter(this.getParameterNameIndex("phase"), phase);
     }
@@ -93,7 +93,7 @@ public class WaveFunction extends AbstractFunction implements Cloneable
         return this.toString("x");
     }
     
-    String toString(String xName)
+    String toString(final String xName)
     {
         return "sin( (" + xName + "+(phase/360)) * 2pi * frequency) * amplitude";
     }

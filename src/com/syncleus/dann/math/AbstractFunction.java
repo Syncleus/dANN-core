@@ -29,14 +29,14 @@ public abstract class AbstractFunction implements Cloneable, Function
     private final Map<String,Integer> indexNames;
 	private final static Logger LOGGER = Logger.getLogger(AbstractFunction.class);
 
-	protected AbstractFunction(AbstractFunction copy)
+	protected AbstractFunction(final AbstractFunction copy)
 	{
 		this.parameters = copy.parameters.clone();
 		this.parameterNames = copy.parameterNames;
 		this.indexNames = copy.indexNames;
 	}
 
-    protected AbstractFunction(String[] parameterNames)
+    protected AbstractFunction(final String[] parameterNames)
     {
         if(parameterNames.length <= 0)
 		{
@@ -49,7 +49,7 @@ public abstract class AbstractFunction implements Cloneable, Function
         this.parameters = new double[parameterNames.length];
         this.parameterNames = parameterNames.clone();
 
-		Map<String,Integer> newIndexNames = new HashMap<String,Integer>();
+		final Map<String,Integer> newIndexNames = new HashMap<String,Integer>();
         for(int index = 0; index < this.parameterNames.length; index++)
             newIndexNames.put(this.parameterNames[index], Integer.valueOf(index));
 		this.indexNames = Collections.unmodifiableMap(newIndexNames);
@@ -120,7 +120,7 @@ public abstract class AbstractFunction implements Cloneable, Function
 	{
 		try
 		{
-			AbstractFunction copy = (AbstractFunction) super.clone();
+			final AbstractFunction copy = (AbstractFunction) super.clone();
 			copy.parameters = this.parameters.clone();
 			return copy;
 		}

@@ -33,9 +33,9 @@ public class StateEvidence<S> extends HashMap<S,Integer>
 		return this.totalEvidence;
 	}
 
-	public double getPercentage(S key)
+	public double getPercentage(final S key)
 	{
-		Integer stateEvidence = this.get(key);
+		final Integer stateEvidence = this.get(key);
 		if( stateEvidence != null)
 			return this.get(key).doubleValue() / ((double)this.totalEvidence);
 		else
@@ -43,9 +43,9 @@ public class StateEvidence<S> extends HashMap<S,Integer>
 	}
 
 	@Override
-	public Integer put(S key, Integer value)
+	public Integer put(final S key, final Integer value)
 	{
-		Integer old = super.put(key,value);
+		final Integer old = super.put(key,value);
 		if(old != null)
 			this.totalEvidence -= old;
 		this.totalEvidence += value;
@@ -54,15 +54,15 @@ public class StateEvidence<S> extends HashMap<S,Integer>
 	}
 
 	@Override
-	public void putAll(Map<? extends S,? extends Integer> map)
+	public void putAll(final Map<? extends S,? extends Integer> map)
 	{
-		Map<S,Integer> oldMap = new HashMap<S,Integer>(this);
+		final Map<S,Integer> oldMap = new HashMap<S,Integer>(this);
 		super.putAll(map);
 
-		for(Entry<? extends S,? extends Integer> entry : map.entrySet())
+		for(final Entry<? extends S,? extends Integer> entry : map.entrySet())
 		{
-			Integer oldEvidence = oldMap.get(entry.getKey());
-			Integer newEvidence = this.get(entry.getKey());
+			final Integer oldEvidence = oldMap.get(entry.getKey());
+			final Integer newEvidence = this.get(entry.getKey());
 			this.totalEvidence = (this.totalEvidence - oldEvidence) + newEvidence;
 		}
 	}

@@ -24,7 +24,7 @@ import com.syncleus.dann.math.linear.RealMatrix;
 
 public final class Decompositions
 {
-	public static EigenvalueDecomposition createEigenvalueDecomposition(RealMatrix matrixToDecompose)
+	public static EigenvalueDecomposition createEigenvalueDecomposition(final RealMatrix matrixToDecompose)
 	{
 		if(matrixToDecompose.isSymmetric())
 			return new TridiagonalEignevalueDecomposition(matrixToDecompose);
@@ -32,22 +32,22 @@ public final class Decompositions
 			return new SchurEigenvalueDecomposition(matrixToDecompose);
 	}
 
-	public static <M extends Matrix<M, F>, F extends OrderedAlgebraic<F>> CholeskyDecomposition<M,F> createCholeskyDecomposition(M matrix)
+	public static <M extends Matrix<M, F>, F extends OrderedAlgebraic<F>> CholeskyDecomposition<M,F> createCholeskyDecomposition(final M matrix)
 	{
 		return new CholeskyBanachiewiczCholeskyDecomposition<M,F>(matrix);
 	}
 
-	public static <M extends Matrix<M, F>, F extends OrderedAlgebraic<F>> LuDecomposition<M,F> createLuDecomposition(M matrix)
+	public static <M extends Matrix<M, F>, F extends OrderedAlgebraic<F>> LuDecomposition<M,F> createLuDecomposition(final M matrix)
 	{
 		return new DoolittleLuDecomposition<M,F>(matrix);
 	}
 
-	public static <M extends Matrix<M, F>, F extends OrderedAlgebraic<F>> QrDecomposition<M,F> createQrDecomposition(M matrix)
+	public static <M extends Matrix<M, F>, F extends OrderedAlgebraic<F>> QrDecomposition<M,F> createQrDecomposition(final M matrix)
 	{
 		return new HouseholderQrDecomposition<M,F>(matrix);
 	}
 
-	public static SingularValueDecomposition createSingularValueDecomposition(RealMatrix matrix)
+	public static SingularValueDecomposition createSingularValueDecomposition(final RealMatrix matrix)
 	{
 		return new StewartSingularValueDecomposition(matrix);
 	}

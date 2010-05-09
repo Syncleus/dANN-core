@@ -23,13 +23,13 @@ import java.util.*;
 
 public class SimpleTopologicalSorter<N> implements TopologicalSorter<N>
 {
-	public List<N> sort(BidirectedGraph<? extends N,? extends DirectedEdge<? extends N>> graph)
+	public List<N> sort(final BidirectedGraph<? extends N,? extends DirectedEdge<? extends N>> graph)
 	{
 		//initialize data structures
 		final Set<N> nodes = new HashSet<N>(graph.getNodes());
 		final Set<DirectedEdge<? extends N>> edges = new HashSet<DirectedEdge<? extends N>>(graph.getEdges());
 		final Map<N, Set<DirectedEdge<? extends N>>> neighborEdges = new HashMap<N, Set<DirectedEdge<? extends N>>>();
-		for(DirectedEdge<? extends N> edge : edges)
+		for(final DirectedEdge<? extends N> edge : edges)
 		{
 			final List<? extends N> edgeNodes = edge.getNodes();
 			for(int startNodeIndex = 0; startNodeIndex < edgeNodes.size(); startNodeIndex++)
@@ -51,23 +51,23 @@ public class SimpleTopologicalSorter<N> implements TopologicalSorter<N>
 		final List<N> topologicalNodes = new ArrayList<N>();
 		while( !nodes.isEmpty() )
 		{
-			int preNodeCount = nodes.size();
-			for( N node : nodes )
+			final int preNodeCount = nodes.size();
+			for( final N node : nodes )
 			{
 				if( getIndegree(edges, node) == 0)
 				{
 					topologicalNodes.add(node);
 
 					//delete node
-					Set<DirectedEdge<? extends N>> neighbors = neighborEdges.get(node);
-					for(DirectedEdge<? extends N> neighbor : neighbors)
+					final Set<DirectedEdge<? extends N>> neighbors = neighborEdges.get(node);
+					for(final DirectedEdge<? extends N> neighbor : neighbors)
 					{
-						List<N> adjacentNodes = new ArrayList<N>(neighbor.getNodes());
+						final List<N> adjacentNodes = new ArrayList<N>(neighbor.getNodes());
 						adjacentNodes.remove(node);
-						N adjacentNode = adjacentNodes.get(0);
+						final N adjacentNode = adjacentNodes.get(0);
 
 						//delete the edge from the neighbor map
-						Set<DirectedEdge<? extends N>> deleteFromEdges = neighborEdges.get(adjacentNode);
+						final Set<DirectedEdge<? extends N>> deleteFromEdges = neighborEdges.get(adjacentNode);
 						deleteFromEdges.remove(neighbor);
 
 						//delete the edge from edges
@@ -86,10 +86,10 @@ public class SimpleTopologicalSorter<N> implements TopologicalSorter<N>
 		return topologicalNodes;
 	}
 
-	public int getIndegree(Set<DirectedEdge<? extends N>> edges, N node)
+	public int getIndegree(final Set<DirectedEdge<? extends N>> edges, final N node)
 	{
 		int inDegree = 0;
-		for(DirectedEdge<? extends N> edge : edges)
+		for(final DirectedEdge<? extends N> edge : edges)
 			if(edge.getDestinationNode() == node)
 				inDegree++;
 		return inDegree;

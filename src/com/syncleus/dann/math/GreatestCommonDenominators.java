@@ -26,7 +26,7 @@ public final class GreatestCommonDenominators
 		private final long y;
 		private final long greatestCommonDenominator;
 
-		private ExtendedGCD(long x, long y, long greatestCommonDenominator)
+		private ExtendedGCD(final long x, final long y, final long greatestCommonDenominator)
 		{
 			this.x = x;
 			this.y = y;
@@ -66,7 +66,7 @@ public final class GreatestCommonDenominators
 		long secondEuclidean = secondNumerator;
 		while(firstEuclidean != 0)
 		{
-			long tempEuclidean = firstEuclidean;
+			final long tempEuclidean = firstEuclidean;
 			firstEuclidean = secondEuclidean % firstEuclidean;
 			secondEuclidean = tempEuclidean;
 		}
@@ -83,7 +83,7 @@ public final class GreatestCommonDenominators
 		long b = secondNumerator;
 		while(b != 0)
 		{
-			long quotient = a / b;
+			final long quotient = a / b;
 
 			long temp = b;
 			b = a % b;
@@ -128,7 +128,7 @@ public final class GreatestCommonDenominators
 				secondBinary -= firstBinary;
 			else
 			{
-				long diff = firstBinary - secondBinary;
+				final long diff = firstBinary - secondBinary;
 				firstBinary = secondBinary;
 				secondBinary = diff;
 			}

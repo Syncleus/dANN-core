@@ -37,7 +37,7 @@ public abstract class AbstractWalk<N, E extends Edge<N>> implements Walk<N,E>
 			throw new IllegalArgumentException("Wrong number of nodes or steps");
 
 		int nextNodeIndex = 0;
-		for(E edgeStep : edgeSteps)
+		for(final E edgeStep : edgeSteps)
 		{
 			if(!edgeStep.getNodes().contains(nodeSteps.get(nextNodeIndex)))
 				return false;
@@ -101,14 +101,14 @@ public abstract class AbstractWalk<N, E extends Edge<N>> implements Walk<N,E>
 	protected double calculateWeight(final double defaultWeight)
 	{
 		double newTotalWeight = 0.0;
-		for(E step : this.getSteps())
+		for(final E step : this.getSteps())
 		{
 			if( step instanceof Weighted )
 				newTotalWeight += ((Weighted)step).getWeight();
 			else
 				newTotalWeight += defaultWeight;
 		}
-		for(N step : this.getNodeSteps())
+		for(final N step : this.getNodeSteps())
 		{
 			if( step instanceof Weighted )
 				newTotalWeight += ((Weighted)step).getWeight();

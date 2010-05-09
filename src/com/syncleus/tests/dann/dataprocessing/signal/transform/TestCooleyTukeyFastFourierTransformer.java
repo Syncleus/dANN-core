@@ -31,9 +31,9 @@ public class TestCooleyTukeyFastFourierTransformer
 	private static final int BLOCK_SIZE = 1024;
 
 	//generates a 1 second signal of the specified size and frequency
-	private static double[] generateSignal(double frequency, int signalSize)
+	private static double[] generateSignal(final double frequency, final int signalSize)
 	{
-        double[] dataPoints = new double[signalSize];
+        final double[] dataPoints = new double[signalSize];
         for (int dataPointsIndex = 0; dataPointsIndex < signalSize; dataPointsIndex++)
 		{
 			dataPoints[dataPointsIndex] = Math.cos(((double)dataPointsIndex)*((Math.PI*2.0) * (frequency/((double)signalSize))));
@@ -41,15 +41,15 @@ public class TestCooleyTukeyFastFourierTransformer
 		return dataPoints;
 	}
 
-    public boolean checkSingleFrequency(double frequency)
+    public boolean checkSingleFrequency(final double frequency)
 	{
-        double[] dataPoints = generateSignal(frequency, BLOCK_SIZE);
+        final double[] dataPoints = generateSignal(frequency, BLOCK_SIZE);
 
-		FastFourierTransformer transformer = new CooleyTukeyFastFourierTransformer(dataPoints.length, dataPoints.length);
-        DiscreteFourierTransform transformed = transformer.transform(dataPoints);
+		final FastFourierTransformer transformer = new CooleyTukeyFastFourierTransformer(dataPoints.length, dataPoints.length);
+        final DiscreteFourierTransform transformed = transformer.transform(dataPoints);
 
 		Entry<Double, ComplexNumber> maxEntry = null;
-		for(Entry<Double, ComplexNumber> phasorEntry : transformed.getFrequencyPhasors().entrySet())
+		for(final Entry<Double, ComplexNumber> phasorEntry : transformed.getFrequencyPhasors().entrySet())
 		{
 			if(maxEntry == null)
 				maxEntry = phasorEntry;
@@ -62,14 +62,14 @@ public class TestCooleyTukeyFastFourierTransformer
 		return true;
     }
 
-	public boolean checkFrequencyRange(double frequency)
+	public boolean checkFrequencyRange(final double frequency)
 	{
-        double[] dataPoints = generateSignal(frequency, BLOCK_SIZE);
+        final double[] dataPoints = generateSignal(frequency, BLOCK_SIZE);
 
 
         // FFT of original data
-		FastFourierTransformer transformer = new CooleyTukeyFastFourierTransformer(dataPoints.length, dataPoints.length);
-        DiscreteFourierTransform transformed = transformer.transform(dataPoints);
+		final FastFourierTransformer transformer = new CooleyTukeyFastFourierTransformer(dataPoints.length, dataPoints.length);
+        final DiscreteFourierTransform transformed = transformer.transform(dataPoints);
 
 		double expectedBandPower = 0.0;
 		double maxBandPower = 0.0;

@@ -31,23 +31,23 @@ public class TestEvidenceMap
 {
 	private static enum TestEnum
 	{
-		TRUE,FALSE;
+		TRUE,FALSE
 	}
 
 	@Test
 	public void testOverall()
 	{
-		MutableBayesianAdjacencyNetwork network = new MutableBayesianAdjacencyNetwork();
-		BayesianNode<TestEnum> influence1 = new SimpleBayesianNode<TestEnum>(TestEnum.FALSE, network);
-		BayesianNode<TestEnum> influence2 = new SimpleBayesianNode<TestEnum>(TestEnum.FALSE, network);
-		BayesianNode<TestEnum> influence3 = new SimpleBayesianNode<TestEnum>(TestEnum.FALSE, network);
+		final MutableBayesianAdjacencyNetwork network = new MutableBayesianAdjacencyNetwork();
+		final BayesianNode<TestEnum> influence1 = new SimpleBayesianNode<TestEnum>(TestEnum.FALSE, network);
+		final BayesianNode<TestEnum> influence2 = new SimpleBayesianNode<TestEnum>(TestEnum.FALSE, network);
+		final BayesianNode<TestEnum> influence3 = new SimpleBayesianNode<TestEnum>(TestEnum.FALSE, network);
 
-		Set<BayesianNode> nodes = new HashSet<BayesianNode>();
+		final Set<BayesianNode> nodes = new HashSet<BayesianNode>();
 		nodes.add(influence1);
 		nodes.add(influence2);
 		nodes.add(influence3);
 
-		EvidenceMap<TestEnum> evidence = new EvidenceMap<TestEnum>(nodes);
+		final EvidenceMap<TestEnum> evidence = new EvidenceMap<TestEnum>(nodes);
 
 		//train some values
 		influence1.setState(TestEnum.TRUE);

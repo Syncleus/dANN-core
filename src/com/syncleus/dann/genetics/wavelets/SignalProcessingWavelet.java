@@ -36,13 +36,13 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 		{
 		}
 
-		protected SignalConcentration(SignalConcentration originalSignal)
+		protected SignalConcentration(final SignalConcentration originalSignal)
 		{
 			value = originalSignal.value;
 			id = originalSignal.id;
 		}
 
-		public double add(double addValue)
+		public double add(final double addValue)
 		{
 			this.value += addValue;
 			return this.value;
@@ -53,7 +53,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 			return this.value;
 		}
 
-		public void setValue(double newValue)
+		public void setValue(final double newValue)
 		{
 			this.value = newValue;
 		}
@@ -63,7 +63,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 			return this.id;
 		}
 
-		public int compareTo(SignalConcentration compareWith)
+		public int compareTo(final SignalConcentration compareWith)
 		{
 			return (this.id < compareWith.id ? -1 : (this.id > compareWith.id ? 1 : 0));
 		}
@@ -75,11 +75,11 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 		}
 
 		@Override
-		public boolean equals(Object compareWith)
+		public boolean equals(final Object compareWith)
 		{
 			if(compareWith instanceof SignalConcentration)
 			{
-				SignalConcentration signalCompare = (SignalConcentration) compareWith;
+				final SignalConcentration signalCompare = (SignalConcentration) compareWith;
 				if(signalCompare.id == this.id)
 					return true;
 			}
@@ -95,7 +95,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 		{
 		}
 
-		protected GlobalSignalConcentration(GlobalSignalConcentration originalSignal)
+		protected GlobalSignalConcentration(final GlobalSignalConcentration originalSignal)
 		{
 			super(originalSignal);
 		}
@@ -112,13 +112,13 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 	private final static Logger LOGGER = Logger.getLogger(SignalProcessingWavelet.class);
 
 
-    public SignalProcessingWavelet(SignalConcentration initialInput, SignalConcentration initialOutput)
+    public SignalProcessingWavelet(final SignalConcentration initialInput, final SignalConcentration initialOutput)
     {
         this.output = initialOutput;
 
         this.signals.add(initialInput);
 
-        WaveMultidimensionalFunction initialWave = generateNewWave();
+        final WaveMultidimensionalFunction initialWave = generateNewWave();
         this.waves.add(initialWave);
 
         this.id = RANDOM.nextLong();
@@ -142,14 +142,14 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 
     public TreeSet<SignalConcentration> getSignals()
     {
-        TreeSet<SignalConcentration> copy = new TreeSet<SignalConcentration>(this.signals);
+        final TreeSet<SignalConcentration> copy = new TreeSet<SignalConcentration>(this.signals);
         copy.add(this.output);
         return copy;
     }
 
 
 
-    public int compareTo(SignalProcessingWavelet compareWith)
+    public int compareTo(final SignalProcessingWavelet compareWith)
     {
 		if(this.id < compareWith.id)
 			return -1;
@@ -159,7 +159,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
     }
 
 	@Override
-	public boolean equals(Object compareWithObject)
+	public boolean equals(final Object compareWithObject)
 	{
 		if( compareWithObject instanceof SignalProcessingWavelet)
 			return (this.id == ((SignalProcessingWavelet)compareWithObject).id);
@@ -186,12 +186,12 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
     {
         this.reconstructWavelet();
 
-        for(SignalConcentration signal:this.signals)
+        for(final SignalConcentration signal:this.signals)
         {
             this.wavelet.setParameter(this.wavelet.getParameterNameIndex(signal.getId() + ""), signal.getValue());
         }
 
-        double newOutput = this.wavelet.calculate();
+        final double newOutput = this.wavelet.calculate();
 
         this.currentOutput = newOutput;
     }
@@ -210,10 +210,10 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
     {
 		try
 		{
-			SignalProcessingWavelet copy = (SignalProcessingWavelet) super.clone();
+			final SignalProcessingWavelet copy = (SignalProcessingWavelet) super.clone();
 			copy.signals = new TreeSet<SignalConcentration>(this.signals);
-			List<WaveMultidimensionalFunction> newWaves = new ArrayList<WaveMultidimensionalFunction>();
-			for(WaveMultidimensionalFunction wave : this.waves)
+			final List<WaveMultidimensionalFunction> newWaves = new ArrayList<WaveMultidimensionalFunction>();
+			for(final WaveMultidimensionalFunction wave : this.waves)
 				newWaves.add(wave.clone());
 			copy.waves = newWaves;
 			copy.wavelet = (this.wavelet == null ? null : this.wavelet.clone());
@@ -230,17 +230,17 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 
     private void reconstructWavelet()
     {
-        String[] signalNames = new String[this.signals.size()];
+        final String[] signalNames = new String[this.signals.size()];
         //System.out.println("dimensions size: " + this.dimensions.size());
         int signalNamesIndex = 0;
-        for(SignalConcentration dimension:this.signals)
+        for(final SignalConcentration dimension:this.signals)
         {
             signalNames[signalNamesIndex++] = dimension.getId() + "";
         }
 
         this.wavelet = new CombinedWaveletFunction(signalNames);
 
-        for(WaveMultidimensionalFunction wave:this.waves)
+        for(final WaveMultidimensionalFunction wave:this.waves)
         {
             this.wavelet.addWave(wave);
         }
@@ -262,14 +262,14 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
      * 
      * @return New mutated wavelet
      */
-    public SignalProcessingWavelet mutate(double deviation)
+    public SignalProcessingWavelet mutate(final double deviation)
     {
-        SignalProcessingWavelet copy = this.clone();
+        final SignalProcessingWavelet copy = this.clone();
 		copy.id = RANDOM.nextLong();
 
         do
         {
-			float roll = RANDOM.nextFloat();
+			final float roll = RANDOM.nextFloat();
 			//60% chance to add a mutated copy of an existing wave
             if(roll < 0.2)
             {
@@ -290,7 +290,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
                 //only delete if there will be atleast one wave left
                 if(copy.waves.size() > 1)
                 {
-                    WaveMultidimensionalFunction deleteWave = copy.waves.get(RANDOM.nextInt(copy.waves.size()));
+                    final WaveMultidimensionalFunction deleteWave = copy.waves.get(RANDOM.nextInt(copy.waves.size()));
                     copy.waves.remove(deleteWave);
                 }
             }
@@ -300,32 +300,32 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
                 //only delete if there will be atleast one signal left
                 if(copy.signals.size() > 1)
                 {
-                    SignalConcentration[] newSignals = new SignalConcentration[copy.signals.size()];
+                    final SignalConcentration[] newSignals = new SignalConcentration[copy.signals.size()];
                     copy.signals.toArray(newSignals);
 
-                    SignalConcentration deleteSignal = newSignals[RANDOM.nextInt(newSignals.length)];
+                    final SignalConcentration deleteSignal = newSignals[RANDOM.nextInt(newSignals.length)];
                     copy.signals.remove(deleteSignal);
 
-                    SignalConcentration[] copySignals = new SignalConcentration[copy.signals.size()];
+                    final SignalConcentration[] copySignals = new SignalConcentration[copy.signals.size()];
                     copy.signals.toArray(copySignals);
 
-                    String[] dimensionNames = new String[copySignals.length];
+                    final String[] dimensionNames = new String[copySignals.length];
                     int dimensionNamesIndex = 0;
-                    for(SignalConcentration copySignal:copySignals)
+                    for(final SignalConcentration copySignal:copySignals)
                     {
                         dimensionNames[dimensionNamesIndex++] = copySignal.getId() + "";
                     }
 
                     copy.waves.clear();
-                    for(WaveMultidimensionalFunction wave:this.waves)
+                    for(final WaveMultidimensionalFunction wave:this.waves)
                     {
-                        WaveMultidimensionalFunction newWave = new WaveMultidimensionalFunction(dimensionNames);
+                        final WaveMultidimensionalFunction newWave = new WaveMultidimensionalFunction(dimensionNames);
                         newWave.setAmplitude(wave.getAmplitude());
                         newWave.setDistribution(wave.getDistribution());
                         newWave.setForm(wave.getForm());
                         newWave.setFrequency(wave.getFrequency());
                         newWave.setPhase(wave.getPhase());
-                        for(String dimension:dimensionNames)
+                        for(final String dimension:dimensionNames)
                         {
                             newWave.setCenter(dimension, wave.getCenter(dimension));
                             newWave.setDimension(dimension, wave.getDimension(dimension));
@@ -352,31 +352,31 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
      * @param newSignal The new signal to incorperate.
      * @return New mutated wavelet
      */
-    public SignalProcessingWavelet mutate(double deviation, SignalConcentration newSignal)
+    public SignalProcessingWavelet mutate(final double deviation, final SignalConcentration newSignal)
     {
 		if( this.signals.contains(newSignal) )
 			return this.mutate(deviation);
 
-        SignalProcessingWavelet copy = this.clone();
+        final SignalProcessingWavelet copy = this.clone();
         copy.signals.add(newSignal);
         if(copy.signals.size() > this.signals.size())
         {
             copy.waves.clear();
-            for(WaveMultidimensionalFunction wave:this.waves)
+            for(final WaveMultidimensionalFunction wave:this.waves)
             {
-                String[] names = new String[wave.getDimensionNames().length + 1];
+                final String[] names = new String[wave.getDimensionNames().length + 1];
                 int index = 0;
-                for(String dimensionName:wave.getDimensionNames())
+                for(final String dimensionName:wave.getDimensionNames())
                     names[index++] = dimensionName;
                 names[index++] = newSignal.getId() + "";
 
-                WaveMultidimensionalFunction newWave = new WaveMultidimensionalFunction(names);
+                final WaveMultidimensionalFunction newWave = new WaveMultidimensionalFunction(names);
                 newWave.setAmplitude(wave.getAmplitude());
                 newWave.setDistribution(wave.getDistribution());
                 newWave.setForm(wave.getForm());
                 newWave.setFrequency(wave.getFrequency());
                 newWave.setPhase(wave.getPhase());
-                for(String dimension:wave.getDimensionNames())
+                for(final String dimension:wave.getDimensionNames())
                 {
                     newWave.setCenter(dimension, wave.getCenter(dimension));
                     newWave.setDimension(dimension, wave.getDimension(dimension));
@@ -435,9 +435,9 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
     private SignalConcentration getRandomSignal()
     {
 
-        SignalConcentration[] signalsArray = new SignalConcentration[this.signals.size()];
+        final SignalConcentration[] signalsArray = new SignalConcentration[this.signals.size()];
         this.signals.toArray(signalsArray);
-        SignalConcentration randomSignal = signalsArray[RANDOM.nextInt(signalsArray.length)];
+        final SignalConcentration randomSignal = signalsArray[RANDOM.nextInt(signalsArray.length)];
 
         return randomSignal;
     }
@@ -446,13 +446,13 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 
     private WaveMultidimensionalFunction generateNewWave()
     {
-        String[] dimensionNames = new String[this.signals.size()];
+        final String[] dimensionNames = new String[this.signals.size()];
         int index = 0;
-        for(SignalConcentration dimension:this.signals)
+        for(final SignalConcentration dimension:this.signals)
         {
             dimensionNames[index++] = dimension.getId() + "";
         }
-        WaveMultidimensionalFunction newWave = new WaveMultidimensionalFunction(dimensionNames);
+        final WaveMultidimensionalFunction newWave = new WaveMultidimensionalFunction(dimensionNames);
 
         newWave.setFrequency(RANDOM.nextGaussian() * 0.001);
         newWave.setPhase(RANDOM.nextGaussian() * 10);
@@ -463,7 +463,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
             newWave.setForm(newWave.getForm() + ((1 + RANDOM.nextGaussian()) * 10));
         }
 
-        for(String dimensionName:dimensionNames)
+        for(final String dimensionName:dimensionNames)
         {
             newWave.setCenter(dimensionName, newWave.getCenter(dimensionName) + ((RANDOM.nextFloat() * 2 - 1) * 100));
         }
@@ -474,14 +474,14 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 
 
 
-    private WaveMultidimensionalFunction generateRandomWave(double deviation)
+    private WaveMultidimensionalFunction generateRandomWave(final double deviation)
     {
         if(this.waves.size() > 0)
         {
-            WaveMultidimensionalFunction[] wavesArray = new WaveMultidimensionalFunction[this.waves.size()];
+            final WaveMultidimensionalFunction[] wavesArray = new WaveMultidimensionalFunction[this.waves.size()];
             this.waves.toArray(wavesArray);
-            WaveMultidimensionalFunction randomWave = wavesArray[RANDOM.nextInt(wavesArray.length)];
-			WaveMultidimensionalFunction newWave = randomWave.clone();
+            final WaveMultidimensionalFunction randomWave = wavesArray[RANDOM.nextInt(wavesArray.length)];
+			final WaveMultidimensionalFunction newWave = randomWave.clone();
 
 			// TODO clean this up
             if(RANDOM.nextDouble() <= 1.0)
@@ -506,8 +506,8 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
             }
             if(RANDOM.nextDouble() <= 1.0)
             {
-                String[] dimensionNames = newWave.getDimensionNames();
-                for(String dimensionName:dimensionNames)
+                final String[] dimensionNames = newWave.getDimensionNames();
+                for(final String dimensionName:dimensionNames)
                 {
                     newWave.setCenter(dimensionName, newWave.getCenter(dimensionName) + ((RANDOM.nextFloat() * 2.0 - 1.0) * deviation * 100.0));
                 }

@@ -25,14 +25,14 @@ public class SignalGene extends AbstractWaveletGene implements Cloneable
 	private SignalKey outputSignal;
 	protected SignalKeyConcentration expressingConcentration;
 
-	public SignalGene(ReceptorKey initialReceptor, SignalKey initialSignal)
+	public SignalGene(final ReceptorKey initialReceptor, final SignalKey initialSignal)
 	{
 		super(initialReceptor);
 
 		this.outputSignal = initialSignal;
 	}
 
-	public SignalGene(SignalGene copy)
+	public SignalGene(final SignalGene copy)
 	{
 		super(copy);
 
@@ -40,7 +40,7 @@ public class SignalGene extends AbstractWaveletGene implements Cloneable
 	}
 
 	@Override
-	public boolean bind(SignalKeyConcentration concentration, boolean isExternal)
+	public boolean bind(final SignalKeyConcentration concentration, final boolean isExternal)
 	{
 		boolean bound;
 		bound = super.bind(concentration, isExternal);
@@ -52,7 +52,7 @@ public class SignalGene extends AbstractWaveletGene implements Cloneable
 		return bound;
 	}
 	
-	public void tick(double promotion)
+	public void tick(final double promotion)
 	{
 		super.tick(promotion);
 		this.expressingConcentration.setConcentration(this.expressingConcentration.getConcentration() + this.expressionActivity());
@@ -61,7 +61,7 @@ public class SignalGene extends AbstractWaveletGene implements Cloneable
 	@Override
 	public Set<AbstractKey> getKeys()
 	{
-		HashSet<AbstractKey> allKeys = new HashSet<AbstractKey>(super.getKeys());
+		final HashSet<AbstractKey> allKeys = new HashSet<AbstractKey>(super.getKeys());
 		allKeys.add(this.outputSignal);
 		return Collections.unmodifiableSet(allKeys);
 	}
@@ -74,13 +74,13 @@ public class SignalGene extends AbstractWaveletGene implements Cloneable
 	@Override
 	public SignalGene clone()
 	{
-		SignalGene copy = (SignalGene) super.clone();
+		final SignalGene copy = (SignalGene) super.clone();
 		copy.outputSignal = this.outputSignal;
 		return copy;
 	}
 
 	@Override
-	public void mutate(Set<AbstractKey> keyPool)
+	public void mutate(final Set<AbstractKey> keyPool)
 	{
 		super.mutate(keyPool);
 		this.outputSignal = this.outputSignal.mutate(this.getMutability());

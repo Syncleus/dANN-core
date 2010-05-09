@@ -27,17 +27,17 @@ public class SignalKey extends AbstractKey implements Cloneable
 		super();
 	}
 	
-	public SignalKey(AbstractKey copy)
+	public SignalKey(final AbstractKey copy)
 	{
 		super(copy);
 	}
 
-	public SignalKey(Map<Integer, Boolean> points)
+	public SignalKey(final Map<Integer, Boolean> points)
 	{
 		super(points);
 	}
 
-	public SignalKey(String keyString)
+	public SignalKey(final String keyString)
 	{
 		super(keyString);
 	}
@@ -49,7 +49,7 @@ public class SignalKey extends AbstractKey implements Cloneable
 	}
 
 	@Override
-	public SignalKey mutate(double deviation)
+	public SignalKey mutate(final double deviation)
 	{
 		return (SignalKey) super.mutate(deviation);
 	}

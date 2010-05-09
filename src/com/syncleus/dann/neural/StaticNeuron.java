@@ -24,7 +24,7 @@ public class StaticNeuron extends AbstractNeuron
 	
 	private final double output;
 
-	public StaticNeuron(Brain brain, double constantOutput)
+	public StaticNeuron(final Brain brain, final double constantOutput)
 	{
 		super(brain);
 		this.output = constantOutput;
@@ -32,7 +32,7 @@ public class StaticNeuron extends AbstractNeuron
 
 	public void propagate()
 	{
-        for (Synapse current : this.getBrain().getTraversableEdges(this))
+        for (final Synapse current : this.getBrain().getTraversableEdges(this))
             current.setInput(this.output);
 	}
 

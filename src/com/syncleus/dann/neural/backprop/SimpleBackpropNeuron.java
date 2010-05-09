@@ -69,7 +69,7 @@ public class SimpleBackpropNeuron extends AbstractActivationNeuron implements Ba
 	 *
      * @since 1.0
      */
-    public SimpleBackpropNeuron(Brain brain)
+    public SimpleBackpropNeuron(final Brain brain)
     {
 		super(brain);
     }
@@ -83,7 +83,7 @@ public class SimpleBackpropNeuron extends AbstractActivationNeuron implements Ba
 	 * @param activationFunction The Neuron's activation function.
 	 * @since 1.0
 	 */
-    public SimpleBackpropNeuron(Brain brain, ActivationFunction activationFunction)
+    public SimpleBackpropNeuron(final Brain brain, final ActivationFunction activationFunction)
     {
         super(brain, activationFunction);
     }
@@ -96,7 +96,7 @@ public class SimpleBackpropNeuron extends AbstractActivationNeuron implements Ba
 	 * @param learningRate learning rate of this neuron.
 	 * @since 1.0
 	 */
-	public SimpleBackpropNeuron(Brain brain, double learningRate)
+	public SimpleBackpropNeuron(final Brain brain, final double learningRate)
 	{
 		super(brain);
 		this.learningRate = learningRate;
@@ -109,7 +109,7 @@ public class SimpleBackpropNeuron extends AbstractActivationNeuron implements Ba
 	 * @param activationFunction Activation function for this neuron.
 	 * @param learningRate Learning rate for this neuron.
 	 */
-	public SimpleBackpropNeuron(Brain brain, ActivationFunction activationFunction, double learningRate)
+	public SimpleBackpropNeuron(final Brain brain, final ActivationFunction activationFunction, final double learningRate)
 	{
 		super(brain, activationFunction);
 		this.learningRate = learningRate;
@@ -129,12 +129,12 @@ public class SimpleBackpropNeuron extends AbstractActivationNeuron implements Ba
         this.calculateDeltaTrain();
 
         //step thru source synapses and make them learn their new weight.
-        for (Synapse currentSynapse : this.getBrain().getInEdges(this))
+        for (final Synapse currentSynapse : this.getBrain().getInEdges(this))
 		{
-			Neuron sourceNeuron = currentSynapse.getSourceNode();
+			final Neuron sourceNeuron = currentSynapse.getSourceNode();
 			if(sourceNeuron instanceof BackpropNeuron)
 			{
-				BackpropNeuron sourceBackpropNeuron = (BackpropNeuron) sourceNeuron;
+				final BackpropNeuron sourceBackpropNeuron = (BackpropNeuron) sourceNeuron;
 				// TODO instead of only working on SimpleBackpropNeuron perhaps make deltaTrain part of a Backprop synapse
 				if(sourceBackpropNeuron instanceof SimpleBackpropNeuron)
 					((SimpleBackpropNeuron)sourceBackpropNeuron).deltaTrainDestinations.put(currentSynapse, Double.valueOf(this.deltaTrain));
@@ -154,7 +154,7 @@ public class SimpleBackpropNeuron extends AbstractActivationNeuron implements Ba
     protected void calculateDeltaTrain()
     {
         this.deltaTrain = 0;
-        for (Synapse currentSynapse : this.getBrain().getTraversableEdges(this))
+        for (final Synapse currentSynapse : this.getBrain().getTraversableEdges(this))
             this.deltaTrain += (currentSynapse.getWeight() * this.deltaTrainDestinations.get(currentSynapse).doubleValue());
         this.deltaTrain *= this.activateDerivitive();
     }

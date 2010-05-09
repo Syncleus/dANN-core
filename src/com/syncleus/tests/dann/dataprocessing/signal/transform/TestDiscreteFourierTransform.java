@@ -28,9 +28,9 @@ public class TestDiscreteFourierTransform
 	private static final Random RANDOM = new Random();
 	private static final int DATA_POINT_COUNT = 1024;
 
-	private static ComplexNumber[] generateRandomComplex(int count)
+	private static ComplexNumber[] generateRandomComplex(final int count)
 	{
-		ComplexNumber[] randomComplex = new ComplexNumber[count];
+		final ComplexNumber[] randomComplex = new ComplexNumber[count];
 		for(int randomComplexIndex = 0; randomComplexIndex < randomComplex.length; randomComplexIndex++)
 			randomComplex[randomComplexIndex] = new ComplexNumber(RANDOM.nextDouble() * 10.0, RANDOM.nextDouble() * 10.0);
 		return randomComplex;

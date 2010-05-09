@@ -41,7 +41,7 @@ public class NegativeWeightCycleException extends DannRuntimeException
 	 * @param msg A string describing the cause of the exception
 	 * @since 2.0
 	 */
-	public NegativeWeightCycleException(String msg)
+	public NegativeWeightCycleException(final String msg)
 	{
 		super(msg);
 	}
@@ -55,7 +55,7 @@ public class NegativeWeightCycleException extends DannRuntimeException
 	 * @param cause The throwable which caused this exception
 	 * @since 2.0
 	 */
-	public NegativeWeightCycleException(String msg, Throwable cause)
+	public NegativeWeightCycleException(final String msg, final Throwable cause)
 	{
 		super(msg, cause);
 	}
@@ -68,7 +68,7 @@ public class NegativeWeightCycleException extends DannRuntimeException
 	 * @param cause The throwable which caused this exception
 	 * @since 2.0
 	 */
-	public NegativeWeightCycleException(Throwable cause)
+	public NegativeWeightCycleException(final Throwable cause)
 	{
 		super(cause);
 	}

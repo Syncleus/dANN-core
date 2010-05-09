@@ -27,13 +27,13 @@ public class TestSynapse
 	private class TestBrain extends AbstractLocalBrain
 	{
 		@Override
-		public boolean add(Neuron newNeuron)
+		public boolean add(final Neuron newNeuron)
 		{
 			return super.add(newNeuron);
 		}
 
 		@Override
-		public boolean connect(Neuron source, Neuron destination)
+		public boolean connect(final Neuron source, final Neuron destination)
 		{
 			return super.connect(source, destination);
 		}
@@ -46,12 +46,12 @@ public class TestSynapse
 	@Test
 	public void testAccessors()
 	{
-		TestBrain brain = new TestBrain();
+		final TestBrain brain = new TestBrain();
 
-		SimpleBackpropNeuron sourceNeuron = new SimpleBackpropNeuron(brain);
-		SimpleBackpropNeuron destinationNeuron = new SimpleBackpropNeuron(brain);
+		final SimpleBackpropNeuron sourceNeuron = new SimpleBackpropNeuron(brain);
+		final SimpleBackpropNeuron destinationNeuron = new SimpleBackpropNeuron(brain);
 
-		SimpleSynapse testSynapse = new SimpleSynapse(sourceNeuron, destinationNeuron, INITIAL_WEIGHT);
+		final SimpleSynapse testSynapse = new SimpleSynapse(sourceNeuron, destinationNeuron, INITIAL_WEIGHT);
 
 		testSynapse.setInput(TEST_INPUT);
 		Assert.assertTrue(testSynapse.getInput() == TEST_INPUT);

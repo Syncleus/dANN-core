@@ -27,7 +27,7 @@ public class TestSimpleLanguageFisherClassifier
 	@Test
 	public void testClassify()
 	{
-		TrainableLanguageFisherClassifier<Integer> classifier = new SimpleLanguageFisherClassifier<Integer>();
+		final TrainableLanguageFisherClassifier<Integer> classifier = new SimpleLanguageFisherClassifier<Integer>();
 
 		//train
 		classifier.train("Money is the root of all evil!", 1);

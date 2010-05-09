@@ -31,7 +31,7 @@ public class WeightedDirectedGrid extends AbstractBidirectedAdjacencyGraph<GridN
 	final private Map<GridNode, Set<WeightedDirectedEdge<GridNode>>> inNeighborEdges = new HashMap<GridNode, Set<WeightedDirectedEdge<GridNode>>>();
 	final private Map<GridNode, Set<GridNode>> inNeighborNodes = new HashMap<GridNode, Set<GridNode>>();
 
-	public WeightedDirectedGrid(double[][] nodeWeights)
+	public WeightedDirectedGrid(final double[][] nodeWeights)
 	{
 		this.nodes = new GridNode[nodeWeights.length][nodeWeights[0].length];
 
@@ -88,7 +88,7 @@ public class WeightedDirectedGrid extends AbstractBidirectedAdjacencyGraph<GridN
 			}
 	}
 
-	public GridNode getNode(int x, int y)
+	public GridNode getNode(final int x, final int y)
 	{
 		if( (x >= nodes[0].length)||(y >= nodes.length) )
 			throw new IllegalArgumentException("coordinates are out of bounds");
@@ -106,55 +106,55 @@ public class WeightedDirectedGrid extends AbstractBidirectedAdjacencyGraph<GridN
 		return Collections.unmodifiableSet(this.edges);
 	}
 
-	public Set<WeightedDirectedEdge<GridNode>> getAdjacentEdges(GridNode node)
+	public Set<WeightedDirectedEdge<GridNode>> getAdjacentEdges(final GridNode node)
 	{
-		Set<WeightedDirectedEdge<GridNode>> newEdges = new HashSet<WeightedDirectedEdge<GridNode>>(this.inNeighborEdges.get(node));
+		final Set<WeightedDirectedEdge<GridNode>> newEdges = new HashSet<WeightedDirectedEdge<GridNode>>(this.inNeighborEdges.get(node));
 		newEdges.addAll(this.outNeighborEdges.get(node));
 		return Collections.unmodifiableSet(newEdges);
 	}
 
-	public Set<WeightedDirectedEdge<GridNode>> getTraversableEdges(GridNode node)
+	public Set<WeightedDirectedEdge<GridNode>> getTraversableEdges(final GridNode node)
 	{
-		Set<WeightedDirectedEdge<GridNode>> newEdges = new HashSet<WeightedDirectedEdge<GridNode>>(this.outNeighborEdges.get(node));
+		final Set<WeightedDirectedEdge<GridNode>> newEdges = new HashSet<WeightedDirectedEdge<GridNode>>(this.outNeighborEdges.get(node));
 		return Collections.unmodifiableSet(newEdges);
 	}
 
-	public Set<WeightedDirectedEdge<GridNode>> getOutEdges(GridNode node)
+	public Set<WeightedDirectedEdge<GridNode>> getOutEdges(final GridNode node)
 	{
 		return this.getTraversableEdges(node);
 	}
 
-	public Set<WeightedDirectedEdge<GridNode>> getInEdges(GridNode node)
+	public Set<WeightedDirectedEdge<GridNode>> getInEdges(final GridNode node)
 	{
-		Set<WeightedDirectedEdge<GridNode>> newEdges = new HashSet<WeightedDirectedEdge<GridNode>>(this.inNeighborEdges.get(node));
+		final Set<WeightedDirectedEdge<GridNode>> newEdges = new HashSet<WeightedDirectedEdge<GridNode>>(this.inNeighborEdges.get(node));
 		return Collections.unmodifiableSet(newEdges);
 	}
 
-	public int getIndegree(GridNode node)
+	public int getIndegree(final GridNode node)
 	{
 		return this.getInEdges(node).size();
 	}
 
-	public int getOutdegree(GridNode node)
+	public int getOutdegree(final GridNode node)
 	{
 		return this.getOutEdges(node).size();
 	}
 
-	public boolean isStronglyConnected(GridNode leftNode, GridNode rightNode)
+	public boolean isStronglyConnected(final GridNode leftNode, final GridNode rightNode)
 	{
 		return this.getAdjacentNodes(leftNode).contains(rightNode);
 	}
 
-	public List<GridNode> getAdjacentNodes(GridNode node)
+	public List<GridNode> getAdjacentNodes(final GridNode node)
 	{
-		ArrayList<GridNode> newNeighbors = new ArrayList<GridNode>(this.inNeighborNodes.get(node));
+		final ArrayList<GridNode> newNeighbors = new ArrayList<GridNode>(this.inNeighborNodes.get(node));
 		newNeighbors.addAll(this.outNeighborNodes.get(node));
 		return Collections.unmodifiableList(newNeighbors);
 	}
 
-	public List<GridNode> getTraversableNodes(GridNode node)
+	public List<GridNode> getTraversableNodes(final GridNode node)
 	{
-		ArrayList<GridNode> newNeighbors = new ArrayList<GridNode>(this.outNeighborNodes.get(node));
+		final ArrayList<GridNode> newNeighbors = new ArrayList<GridNode>(this.outNeighborNodes.get(node));
 		return Collections.unmodifiableList(newNeighbors);
 	}
 }

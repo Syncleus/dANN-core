@@ -32,41 +32,41 @@ public class TestKruskalMinimumSpanningTreeFinder
 	@Test
 	public void testUndirected()
 	{
-		Set<Object> nodes = new HashSet<Object>();
-		Object centerNode = "centerNode";
+		final Set<Object> nodes = new HashSet<Object>();
+		final Object centerNode = "centerNode";
 		nodes.add(centerNode);
-		Object topNode = "topNode";
+		final Object topNode = "topNode";
 		nodes.add(topNode);
-		Object leftNode = "leftNode";
+		final Object leftNode = "leftNode";
 		nodes.add(leftNode);
-		Object rightNode = "rightNode";
+		final Object rightNode = "rightNode";
 		nodes.add(rightNode);
 
-		Set<BidirectedEdge<Object>> edges = new HashSet<BidirectedEdge<Object>>();
-		BidirectedEdge<Object> centerTopEdge = new ImmutableUndirectedEdge<Object>(centerNode, topNode);
+		final Set<BidirectedEdge<Object>> edges = new HashSet<BidirectedEdge<Object>>();
+		final BidirectedEdge<Object> centerTopEdge = new ImmutableUndirectedEdge<Object>(centerNode, topNode);
 		edges.add(centerTopEdge);
-		BidirectedEdge<Object> centerLeftEdge = new ImmutableUndirectedEdge<Object>(centerNode, leftNode);
+		final BidirectedEdge<Object> centerLeftEdge = new ImmutableUndirectedEdge<Object>(centerNode, leftNode);
 		edges.add(centerLeftEdge);
-		BidirectedEdge<Object> centerRightEdge = new ImmutableUndirectedEdge<Object>(centerNode, rightNode);
+		final BidirectedEdge<Object> centerRightEdge = new ImmutableUndirectedEdge<Object>(centerNode, rightNode);
 		edges.add(centerRightEdge);
-		BidirectedEdge<Object> topRightEdge = new ImmutableUndirectedEdge<Object>(topNode, rightNode);
+		final BidirectedEdge<Object> topRightEdge = new ImmutableUndirectedEdge<Object>(topNode, rightNode);
 		edges.add(topRightEdge);
-		BidirectedEdge<Object> rightLeftEdge = new ImmutableUndirectedEdge<Object>(rightNode, leftNode);
+		final BidirectedEdge<Object> rightLeftEdge = new ImmutableUndirectedEdge<Object>(rightNode, leftNode);
 		edges.add(rightLeftEdge);
-		BidirectedEdge<Object> leftTopEdge = new ImmutableUndirectedEdge<Object>(leftNode, topNode);
+		final BidirectedEdge<Object> leftTopEdge = new ImmutableUndirectedEdge<Object>(leftNode, topNode);
 		edges.add(leftTopEdge);
 
-		Graph<Object, BidirectedEdge<Object>> graph = new ImmutableAdjacencyGraph<Object, BidirectedEdge<Object>>(nodes, edges);
+		final Graph<Object, BidirectedEdge<Object>> graph = new ImmutableAdjacencyGraph<Object, BidirectedEdge<Object>>(nodes, edges);
 
-		MinimumSpanningTreeFinder<Object, BidirectedEdge<Object>> finder = new KruskalMinimumSpanningTreeFinder<Object, BidirectedEdge<Object>>();
-		Set<BidirectedEdge<Object>> mstEdges = finder.findMinimumSpanningTree(graph);
-		TreeGraph<Object, BidirectedEdge<Object>> mst = new ImmutableTreeAdjacencyGraph<Object, BidirectedEdge<Object>>(graph.getNodes(), mstEdges);
+		final MinimumSpanningTreeFinder<Object, BidirectedEdge<Object>> finder = new KruskalMinimumSpanningTreeFinder<Object, BidirectedEdge<Object>>();
+		final Set<BidirectedEdge<Object>> mstEdges = finder.findMinimumSpanningTree(graph);
+		final TreeGraph<Object, BidirectedEdge<Object>> mst = new ImmutableTreeAdjacencyGraph<Object, BidirectedEdge<Object>>(graph.getNodes(), mstEdges);
 
 		LOGGER.info("mst edges:");
-		for(Edge edge : mst.getEdges())
+		for(final Edge edge : mst.getEdges())
 			LOGGER.info(edge);
 
-		CycleDetector detector = new ColoredDepthFirstSearchDetector();
+		final CycleDetector detector = new ColoredDepthFirstSearchDetector();
 		LOGGER.info("mst is cyclic: " + detector.hasCycle(mst));
 		LOGGER.info("mst is connected: " + mst.isStronglyConnected());
 		LOGGER.info("mst is contains all nodes: " + mst.getNodes().containsAll(graph.getNodes()));
@@ -79,48 +79,48 @@ public class TestKruskalMinimumSpanningTreeFinder
 	@Test
 	public void testLinkedUndirected()
 	{
-		Set<Object> nodes = new LinkedHashSet<Object>();
-		Object centerNode = "centerNode";
+		final Set<Object> nodes = new LinkedHashSet<Object>();
+		final Object centerNode = "centerNode";
 		nodes.add(centerNode);
-		Object leftNode = "leftNode";
+		final Object leftNode = "leftNode";
 		nodes.add(leftNode);
-		Object topNode = "topNode";
+		final Object topNode = "topNode";
 		nodes.add(topNode);
-		Object rightNode = "rightNode";
+		final Object rightNode = "rightNode";
 		nodes.add(rightNode);
 
-		Set<BidirectedEdge<Object>> edges = new LinkedHashSet<BidirectedEdge<Object>>();
-		BidirectedEdge<Object> centerRightEdge = new ImmutableUndirectedEdge<Object>(centerNode, rightNode);
+		final Set<BidirectedEdge<Object>> edges = new LinkedHashSet<BidirectedEdge<Object>>();
+		final BidirectedEdge<Object> centerRightEdge = new ImmutableUndirectedEdge<Object>(centerNode, rightNode);
 		edges.add(centerRightEdge);
-		BidirectedEdge<Object> rightLeftEdge = new ImmutableUndirectedEdge<Object>(rightNode, leftNode);
+		final BidirectedEdge<Object> rightLeftEdge = new ImmutableUndirectedEdge<Object>(rightNode, leftNode);
 		edges.add(rightLeftEdge);
-		BidirectedEdge<Object> topRightEdge = new ImmutableUndirectedEdge<Object>(topNode, rightNode);
+		final BidirectedEdge<Object> topRightEdge = new ImmutableUndirectedEdge<Object>(topNode, rightNode);
 		edges.add(topRightEdge);
-		BidirectedEdge<Object> centerTopEdge = new ImmutableUndirectedEdge<Object>(centerNode, topNode);
+		final BidirectedEdge<Object> centerTopEdge = new ImmutableUndirectedEdge<Object>(centerNode, topNode);
 		edges.add(centerTopEdge);
-		BidirectedEdge<Object> centerLeftEdge = new ImmutableUndirectedEdge<Object>(centerNode, leftNode);
+		final BidirectedEdge<Object> centerLeftEdge = new ImmutableUndirectedEdge<Object>(centerNode, leftNode);
 		edges.add(centerLeftEdge);
-		BidirectedEdge<Object> leftTopEdge = new ImmutableUndirectedEdge<Object>(leftNode, topNode);
+		final BidirectedEdge<Object> leftTopEdge = new ImmutableUndirectedEdge<Object>(leftNode, topNode);
 		edges.add(leftTopEdge);
 
-		Graph<Object, BidirectedEdge<Object>> graph = new LinkedGraph<Object, BidirectedEdge<Object>>(nodes, edges);
+		final Graph<Object, BidirectedEdge<Object>> graph = new LinkedGraph<Object, BidirectedEdge<Object>>(nodes, edges);
 
-		MinimumSpanningTreeFinder<Object, BidirectedEdge<Object>> finder = new KruskalMinimumSpanningTreeFinder<Object, BidirectedEdge<Object>>();
-		Set<BidirectedEdge<Object>> mstEdges = finder.findMinimumSpanningTree(graph);
-		TreeGraph<Object, BidirectedEdge<Object>> mst = new ImmutableTreeAdjacencyGraph<Object, BidirectedEdge<Object>>(graph.getNodes(), mstEdges);
+		final MinimumSpanningTreeFinder<Object, BidirectedEdge<Object>> finder = new KruskalMinimumSpanningTreeFinder<Object, BidirectedEdge<Object>>();
+		final Set<BidirectedEdge<Object>> mstEdges = finder.findMinimumSpanningTree(graph);
+		final TreeGraph<Object, BidirectedEdge<Object>> mst = new ImmutableTreeAdjacencyGraph<Object, BidirectedEdge<Object>>(graph.getNodes(), mstEdges);
 
 		LOGGER.info("Linkedgraph objects:");
-		for(Object node : nodes)
+		for(final Object node : nodes)
 			LOGGER.info(node);
 		LOGGER.info("Linkedgraph edges:");
-		for(Edge edge : edges)
+		for(final Edge edge : edges)
 			LOGGER.info(edge);
 
 		LOGGER.info("Linked mst edges:");
-		for(Edge edge : mst.getEdges())
+		for(final Edge edge : mst.getEdges())
 			LOGGER.info(edge);
 
-		CycleDetector detector = new ColoredDepthFirstSearchDetector();
+		final CycleDetector detector = new ColoredDepthFirstSearchDetector();
 		LOGGER.info("Linked mst is cyclic: " + detector.hasCycle(mst));
 		LOGGER.info("Linked mst is connected: " + mst.isStronglyConnected());
 		LOGGER.info("Linked mst is contains all nodes: " + mst.getNodes().containsAll(graph.getNodes()));

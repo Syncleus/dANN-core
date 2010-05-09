@@ -40,7 +40,7 @@ public class SignalOutputStream extends OutputStream
 
 	public void writeSignal(final double[] signals) throws IOException
 	{
-		for(double signal : signals)
+		for(final double signal : signals)
 			this.destStream.writeDouble(signal);
 	}
 

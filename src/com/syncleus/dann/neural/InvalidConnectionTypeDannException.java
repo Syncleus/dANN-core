@@ -49,7 +49,7 @@ public class InvalidConnectionTypeDannException extends DannRuntimeException
 	 * @param msg A string describing the cause of the exception
 	 * @since 1.0
 	 */
-	public InvalidConnectionTypeDannException(String msg)
+	public InvalidConnectionTypeDannException(final String msg)
 	{
 		super(msg);
 	}
@@ -63,7 +63,7 @@ public class InvalidConnectionTypeDannException extends DannRuntimeException
 	 * @param cause The throwable which caused this exception
 	 * @since 1.0
 	 */
-	public InvalidConnectionTypeDannException(String msg, Throwable cause)
+	public InvalidConnectionTypeDannException(final String msg, final Throwable cause)
 	{
 		super(msg, cause);
 	}
@@ -76,7 +76,7 @@ public class InvalidConnectionTypeDannException extends DannRuntimeException
 	 * @param cause The throwable which caused this exception
 	 * @since 1.0
 	 */
-	public InvalidConnectionTypeDannException(Throwable cause)
+	public InvalidConnectionTypeDannException(final Throwable cause)
 	{
 		super(cause);
 	}

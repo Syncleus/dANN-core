@@ -24,12 +24,12 @@ public class SimpleInputNeuron extends AbstractNeuron implements InputNeuron
 	
     private double input = 0.0;
 
-    public SimpleInputNeuron(Brain brain)
+    public SimpleInputNeuron(final Brain brain)
     {
         super(brain);
     }
 
-    public void setInput(double inputToSet)
+    public void setInput(final double inputToSet)
     {
         if( Math.abs(inputToSet) > 1.0 )
             throw new IllegalArgumentException("InputToSet must be between -1 and +1");
@@ -50,7 +50,7 @@ public class SimpleInputNeuron extends AbstractNeuron implements InputNeuron
 	@Override
     public void propagate()
     {
-        for (Synapse current : this.getBrain().getTraversableEdges(this))
+        for (final Synapse current : this.getBrain().getTraversableEdges(this))
             current.setInput(this.input);
     }
 }

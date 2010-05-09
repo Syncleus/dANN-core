@@ -27,13 +27,13 @@ import java.math.BigInteger;
 
 public class CombinationCounter implements Counter
 {
-	private int[] currentCombination;
+	private final int[] currentCombination;
 	private final int setSize;
 	private final int combinationSize;
 	private BigInteger remaining;
-	private BigInteger total;
+	private final BigInteger total;
 
-	public CombinationCounter(int setSize, int combinationSize)
+	public CombinationCounter(final int setSize, final int combinationSize)
 	{
 		if(combinationSize > setSize)
 			throw new IllegalArgumentException("combinationSize can not be larger than setSize");
@@ -45,9 +45,9 @@ public class CombinationCounter implements Counter
 		this.setSize = setSize;
 		this.combinationSize = combinationSize;
 		currentCombination = new int[combinationSize];
-		BigInteger nFact = getFactorial(setSize);
-		BigInteger rFact = getFactorial(combinationSize);
-		BigInteger nminusrFact = getFactorial(setSize - combinationSize);
+		final BigInteger nFact = getFactorial(setSize);
+		final BigInteger rFact = getFactorial(combinationSize);
+		final BigInteger nminusrFact = getFactorial(setSize - combinationSize);
 		total = (setSize == 0 || combinationSize == 0 ? BigInteger.ZERO : nFact.divide(rFact.multiply(nminusrFact)));
 		reset();
 	}
@@ -74,7 +74,7 @@ public class CombinationCounter implements Counter
 		return total;
 	}
 
-	private static BigInteger getFactorial(int n)
+	private static BigInteger getFactorial(final int n)
 	{
 		BigInteger fact = BigInteger.ONE;
 		for(int i = n; i > 1; i--)

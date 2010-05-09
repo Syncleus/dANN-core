@@ -31,13 +31,13 @@ public class TestSimpleBooleanNetwork
 {
 	public static enum BooleanState
 	{
-		TRUE, FALSE;
-	}
+		TRUE, FALSE
+    }
 
 	private static enum TwoState
 	{
-		A, B;
-	}
+		A, B
+    }
 
 	private static enum ThreeState
 	{
@@ -53,13 +53,13 @@ public class TestSimpleBooleanNetwork
 	/** boolean-goaled bayesian network */
 	private static class SimpleBooleanNetwork<I> extends MutableBayesianAdjacencyNetwork
 	{
-		private HashSet<BayesianNode> goals;
-		private HashSet<BayesianNode> influences;
+		private final HashSet<BayesianNode> goals;
+		private final HashSet<BayesianNode> influences;
 		//create nodes
 		private final BayesianNode<I> influence;
 		private final BayesianNode<BooleanState> goal;
 
-		public SimpleBooleanNetwork(I initialState)
+		public SimpleBooleanNetwork(final I initialState)
 		{
 			super();
 			influence = new SimpleBayesianNode<I>(initialState, this);
@@ -72,7 +72,7 @@ public class TestSimpleBooleanNetwork
 			add(goal);
 
 			//connect nodes
-			BayesianEdge<BayesianNode> testEdge = new SimpleBayesianEdge<BayesianNode>(influence, goal);
+			final BayesianEdge<BayesianNode> testEdge = new SimpleBayesianEdge<BayesianNode>(influence, goal);
 			this.add(testEdge);
 
 			goals.add(goal);
@@ -90,18 +90,18 @@ public class TestSimpleBooleanNetwork
 			return influence;
 		}
 
-		public double getPercentage(I influenceState)
+		public double getPercentage(final I influenceState)
 		{
 			influence.setState(influenceState);
 			return this.conditionalProbability(goals, influences);
 		}
 
-		public void learn(I influenceState, boolean goalState)
+		public void learn(final I influenceState, final boolean goalState)
 		{
 			learn(influenceState, goalState ? BooleanState.TRUE : BooleanState.FALSE);
 		}
 
-		public void learn(I influenceState, BooleanState goalState)
+		public void learn(final I influenceState, final BooleanState goalState)
 		{
 			influence.setState(influenceState);
 			goal.setState(goalState);
@@ -114,7 +114,7 @@ public class TestSimpleBooleanNetwork
 	public void testTwoState50()
 	{
 
-		SimpleBooleanNetwork<TwoState> n = new SimpleBooleanNetwork<TwoState>(TwoState.B);
+		final SimpleBooleanNetwork<TwoState> n = new SimpleBooleanNetwork<TwoState>(TwoState.B);
 		n.learn(TwoState.A, true);
 		n.learn(TwoState.A, false);  //::
 
@@ -123,8 +123,8 @@ public class TestSimpleBooleanNetwork
 
 		n.getGoal().setState(BooleanState.TRUE);
 
-		double truePercent = n.getPercentage(TwoState.A);
-		double falsePercent = n.getPercentage(TwoState.B);
+		final double truePercent = n.getPercentage(TwoState.A);
+		final double falsePercent = n.getPercentage(TwoState.B);
 
 		Assert.assertTrue("incorrect true/false distribution: " + truePercent + ":" + falsePercent, (truePercent == (1f / 2f)) && (falsePercent == (1f / 2f)));
 	}
@@ -140,7 +140,7 @@ public class TestSimpleBooleanNetwork
 	@Test
 	public void testThreeStateBalanced()
 	{
-		SimpleBooleanNetwork<ThreeState> n = new SimpleBooleanNetwork<ThreeState>(ThreeState.A);
+		final SimpleBooleanNetwork<ThreeState> n = new SimpleBooleanNetwork<ThreeState>(ThreeState.A);
 
 		n.learn(ThreeState.A, true);
 		n.learn(ThreeState.A, true);
@@ -153,11 +153,11 @@ public class TestSimpleBooleanNetwork
 
 		n.getGoal().setState(BooleanState.TRUE);
 
-		double aPercent = n.getPercentage(ThreeState.A);
-		double bPercent = n.getPercentage(ThreeState.B);
-		double cPercent = n.getPercentage(ThreeState.C);
+		final double aPercent = n.getPercentage(ThreeState.A);
+		final double bPercent = n.getPercentage(ThreeState.B);
+		final double cPercent = n.getPercentage(ThreeState.C);
 
-		boolean condition = (aPercent == 1f) && (bPercent == (0.5f)) && (cPercent == 0.0);
+		final boolean condition = (aPercent == 1f) && (bPercent == (0.5f)) && (cPercent == 0.0);
 		Assert.assertTrue("incorrect a/b/c distribution" + aPercent + " == 1f && " + bPercent + " == 0.5f && " + cPercent + " == 0.0", condition);
 	}
 
@@ -172,7 +172,7 @@ public class TestSimpleBooleanNetwork
 	@Test
 	public void testTwoState75()
 	{
-		SimpleBooleanNetwork<TwoState> n = new SimpleBooleanNetwork<TwoState>(TwoState.B);
+		final SimpleBooleanNetwork<TwoState> n = new SimpleBooleanNetwork<TwoState>(TwoState.B);
 
 		n.learn(TwoState.A, true);
 		n.learn(TwoState.A, true);
@@ -186,8 +186,8 @@ public class TestSimpleBooleanNetwork
 
 		n.getGoal().setState(BooleanState.TRUE);
 
-		double truePercent = n.getPercentage(TwoState.A);
-		double falsePercent = n.getPercentage(TwoState.B);
+		final double truePercent = n.getPercentage(TwoState.A);
+		final double falsePercent = n.getPercentage(TwoState.B);
 
 		Assert.assertTrue("incorrect true/false distribution: " + truePercent + ":" + falsePercent, (truePercent == (3f / 4f)) && (falsePercent == (1f / 4f)));
 	}
@@ -204,7 +204,7 @@ public class TestSimpleBooleanNetwork
 	public void testFeverState()
 	{
 
-		SimpleBooleanNetwork<FeverState> n = new SimpleBooleanNetwork<FeverState>(FeverState.HOT);
+		final SimpleBooleanNetwork<FeverState> n = new SimpleBooleanNetwork<FeverState>(FeverState.HOT);
 		n.learn(FeverState.NONE, false);
 		n.learn(FeverState.NONE, false);
 		n.learn(FeverState.NONE, false);
@@ -237,12 +237,12 @@ public class TestSimpleBooleanNetwork
 		n.getGoal().setState(BooleanState.TRUE);
 
 		//check some probabilities
-		double nonePercentage = n.getPercentage(FeverState.NONE);
-		double lowPercentage = n.getPercentage(FeverState.LOW);
-		double warmPercentage = n.getPercentage(FeverState.WARM);
-		double hotPercentage = n.getPercentage(FeverState.HOT);
+		final double nonePercentage = n.getPercentage(FeverState.NONE);
+		final double lowPercentage = n.getPercentage(FeverState.LOW);
+		final double warmPercentage = n.getPercentage(FeverState.WARM);
+		final double hotPercentage = n.getPercentage(FeverState.HOT);
 
-		boolean condition = (nonePercentage < lowPercentage) && (lowPercentage < warmPercentage) && (warmPercentage < hotPercentage);
+		final boolean condition = (nonePercentage < lowPercentage) && (lowPercentage < warmPercentage) && (warmPercentage < hotPercentage);
 
 		Assert.assertTrue("incorrect fever to sickness mapping! " + nonePercentage + " < " + lowPercentage + " < " + warmPercentage + " < " + hotPercentage, condition);
 	}

@@ -38,7 +38,7 @@ public class Cell
 		this.localConcentrations = new HashSet<SignalKeyConcentration>();
 
 		final Set<SignalKey> localSignals = this.nucleus.getExpressedSignals(false);
-		for(SignalKey localSignal : localSignals)
+		for(final SignalKey localSignal : localSignals)
 		{
 			final SignalKeyConcentration newConcentration = new SignalKeyConcentration(localSignal);
 			this.localConcentrations.add(newConcentration);
@@ -46,7 +46,7 @@ public class Cell
 		}
 	}
 
-	public boolean bind(SignalKeyConcentration concentration, boolean isExternal)
+	public boolean bind(final SignalKeyConcentration concentration, final boolean isExternal)
 	{
 		return false;
 	}

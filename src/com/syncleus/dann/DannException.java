@@ -45,7 +45,7 @@ public class DannException extends Exception
 	 * @param msg A string describing the cause of the exception
 	 * @since 1.0
 	 */
-	public DannException(String msg)
+	public DannException(final String msg)
 	{
 		super(msg);
 	}
@@ -58,7 +58,7 @@ public class DannException extends Exception
 	 * @param cause The throwable which caused this exception
 	 * @since 1.0
 	 */
-	public DannException(String msg, Throwable cause)
+	public DannException(final String msg, final Throwable cause)
 	{
 		super(msg, cause);
 	}
@@ -70,7 +70,7 @@ public class DannException extends Exception
 	 * @param cause The throwable which caused this exception
 	 * @since 1.0
 	 */
-	public DannException(Throwable cause)
+	public DannException(final Throwable cause)
 	{
 		super(cause);
 	}

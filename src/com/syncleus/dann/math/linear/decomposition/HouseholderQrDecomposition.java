@@ -53,7 +53,7 @@ public class HouseholderQrDecomposition<M extends Matrix<M, F>, F extends Ordere
 	/** Array for internal storage of diagonal of factor.
 	@serial diagonal of factor.
 	 */
-	private List<F> rDiagonal;
+	private final List<F> rDiagonal;
 
 	/**
 	 * QR Decomposition, computed by Householder reflections. gives access to
@@ -61,7 +61,7 @@ public class HouseholderQrDecomposition<M extends Matrix<M, F>, F extends Ordere
 	 *
 	 * @param matrixToDecompose Rectangular matrix
 	 */
-	public HouseholderQrDecomposition(M matrixToDecompose)
+	public HouseholderQrDecomposition(final M matrixToDecompose)
 	{
 		// Initialize.
 		this.matrix = matrixToDecompose;
@@ -185,7 +185,7 @@ public class HouseholderQrDecomposition<M extends Matrix<M, F>, F extends Ordere
 	@exception  IllegalArgumentException  SimpleRealMatrix row dimensions must agree.
 	@exception  RuntimeException  SimpleRealMatrix is rank deficient.
 	 */
-	public M solve(M solutionMatrix)
+	public M solve(final M solutionMatrix)
 	{
 		if(solutionMatrix.getHeight() != this.getHeight())
 			throw new IllegalArgumentException("solutionMatrix row dimensions must agree.");
@@ -193,7 +193,7 @@ public class HouseholderQrDecomposition<M extends Matrix<M, F>, F extends Ordere
 			throw new ArithmeticException("Matrix is rank deficient.");
 
 		// Copy right hand side
-		int nx = solutionMatrix.getWidth();
+		final int nx = solutionMatrix.getWidth();
 		M solved = solutionMatrix;
 
 		// Compute Y = transpose(factor)*solutionMatrix

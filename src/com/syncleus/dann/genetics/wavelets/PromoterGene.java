@@ -25,14 +25,14 @@ public class PromoterGene extends AbstractWaveletGene implements Cloneable
 {
 	private MutableInteger targetDistance;
 
-	public PromoterGene(ReceptorKey initialReceptor, int initialDistance)
+	public PromoterGene(final ReceptorKey initialReceptor, final int initialDistance)
 	{
 		super(initialReceptor);
 
 		this.targetDistance = new MutableInteger(initialDistance);
 	}
 
-	public PromoterGene(PromoterGene copy)
+	public PromoterGene(final PromoterGene copy)
 	{
 		super(copy);
 
@@ -47,7 +47,7 @@ public class PromoterGene extends AbstractWaveletGene implements Cloneable
 	@Override
 	public PromoterGene clone()
 	{
-		PromoterGene copy = (PromoterGene) super.clone();
+		final PromoterGene copy = (PromoterGene) super.clone();
 
 		copy.targetDistance = this.targetDistance.clone();
 
@@ -55,7 +55,7 @@ public class PromoterGene extends AbstractWaveletGene implements Cloneable
 	}
 
 	@Override
-	public void mutate(Set<AbstractKey> keyPool)
+	public void mutate(final Set<AbstractKey> keyPool)
 	{
 		super.mutate(keyPool);
 

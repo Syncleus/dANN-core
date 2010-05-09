@@ -60,7 +60,7 @@ public class TestXor
 		final ActivationFunction activationFunction = new SineActivationFunction();
 
 		final int cores = Runtime.getRuntime().availableProcessors();
-		ThreadPoolExecutor executor = new ThreadPoolExecutor(cores+1, cores*2, 20, TimeUnit.SECONDS, new LinkedBlockingQueue());
+		final ThreadPoolExecutor executor = new ThreadPoolExecutor(cores+1, cores*2, 20, TimeUnit.SECONDS, new LinkedBlockingQueue());
 		try
 		{
 			this.brain = new FullyConnectedFeedforwardBrain(TOPOLOGY, LEARNING_RATE, activationFunction, executor);
@@ -117,7 +117,7 @@ public class TestXor
 
 	private void checkOutput()
 	{
-		double[] curInput =
+		final double[] curInput =
 		{
 			-1, -1, -1
 		};
@@ -182,7 +182,7 @@ public class TestXor
 	{
 		for(int lcv = 0;lcv < count;lcv++)
 		{
-			double[] curInput =
+			final double[] curInput =
 			{
 				-1, -1, -1
 			};

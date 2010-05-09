@@ -47,9 +47,9 @@ public class NonsymetricHessenbergReduction implements java.io.Serializable, Hes
 	 *
 	 * @param matrixToDecompose Elements Square matrix
 	 */
-	public NonsymetricHessenbergReduction(RealMatrix matrixToDecompose)
+	public NonsymetricHessenbergReduction(final RealMatrix matrixToDecompose)
 	{
-		int n = matrixToDecompose.getWidth();
+		final int n = matrixToDecompose.getWidth();
 
 		// Reduce to Hessenberg form.
 		hessenbergReduction(matrixToDecompose.getSubmatrix(0, n, 0, n));
@@ -61,20 +61,20 @@ public class NonsymetricHessenbergReduction implements java.io.Serializable, Hes
 	}
 
 	// Nonsymmetric reduction to Hessenberg form.
-	private void hessenbergReduction(RealMatrix matrixToReduce)
+	private void hessenbergReduction(final RealMatrix matrixToReduce)
 	{
-		int n = matrixToReduce.getHeight();
-		double[][] V = matrixToReduce.blank().toDoubleArray();
-		double[][] H = matrixToReduce.toDoubleArray();
-		double[] ort = new double[matrixToReduce.getHeight()];
+		final int n = matrixToReduce.getHeight();
+		final double[][] V = matrixToReduce.blank().toDoubleArray();
+		final double[][] H = matrixToReduce.toDoubleArray();
+		final double[] ort = new double[matrixToReduce.getHeight()];
 
 		//  This is derived from the Algol procedures hessenbergReduction and ortran,
 		//  by Martin and Wilkinson, Handbook for Auto. Comp.,
 		//  Vol.ii-Linear Algebra, and the corresponding
 		//  Fortran subroutines in EISPACK.
 
-		int low = 0;
-		int high = n - 1;
+		final int low = 0;
+		final int high = n - 1;
 
 		for(int m = low + 1; m <= high - 1; m++)
 		{

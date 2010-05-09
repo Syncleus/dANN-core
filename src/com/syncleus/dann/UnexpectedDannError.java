@@ -45,7 +45,7 @@ public class UnexpectedDannError extends DannError
 	 * @param msg A string describing the cause of the error
 	 * @since 2.0
 	 */
-	public UnexpectedDannError(String msg)
+	public UnexpectedDannError(final String msg)
 	{
 		super(msg);
 	}
@@ -58,7 +58,7 @@ public class UnexpectedDannError extends DannError
 	 * @param cause The throwable which caused this exception
 	 * @since 2.0
 	 */
-	public UnexpectedDannError(String msg, Throwable cause)
+	public UnexpectedDannError(final String msg, final Throwable cause)
 	{
 		super(msg, cause);
 	}
@@ -70,7 +70,7 @@ public class UnexpectedDannError extends DannError
 	 * @param cause The throwable which caused this exception
 	 * @since 2.0
 	 */
-	public UnexpectedDannError(Throwable cause)
+	public UnexpectedDannError(final Throwable cause)
 	{
 		super(cause);
 	}

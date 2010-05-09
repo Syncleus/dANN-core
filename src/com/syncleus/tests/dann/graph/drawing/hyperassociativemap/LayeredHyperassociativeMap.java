@@ -25,7 +25,7 @@ public class LayeredHyperassociativeMap extends HyperassociativeMap<SimpleUndire
 {
     private static final int NODES_PER_LAYER = 16;
     
-    LayeredHyperassociativeMap(int layers, ThreadPoolExecutor executor)
+    LayeredHyperassociativeMap(final int layers, final ThreadPoolExecutor executor)
     {
 		super(new SimpleUndirectedGraph(layers,NODES_PER_LAYER), 3, executor);
     }

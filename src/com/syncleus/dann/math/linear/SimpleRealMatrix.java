@@ -67,14 +67,15 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	@serial row dimension.
 	@serial column dimension.
 	 */
-	private int height,  width;
+	private final int height;
+    private final int width;
 
 	/**
 	 * Construct an height-by-height matrix of zeros.
 	 * @param height Number of rows.
 	 * @param width Number of colums.
 	 */
-	public SimpleRealMatrix(int height, int width)
+	public SimpleRealMatrix(final int height, final int width)
 	{
 		this.height = height;
 		this.width = width;
@@ -88,7 +89,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	 * @param width Number of colums.
 	 * @param fillValue Fill the matrix with this scalar value.
 	 */
-	public SimpleRealMatrix(int height, int width, double fillValue)
+	public SimpleRealMatrix(final int height, final int width, final double fillValue)
 	{
 		this.height = height;
 		this.width = width;
@@ -103,7 +104,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	@exception  IllegalArgumentException All rows must have the same length
 	@see        #constructWithCopy
 	 */
-	public SimpleRealMatrix(double[][] matrixElements)
+	public SimpleRealMatrix(final double[][] matrixElements)
 	{
 		width = matrixElements[0].length;
 		height = matrixElements.length;
@@ -121,7 +122,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	@param height    Number of rows.
 	@exception  IllegalArgumentException Array length must be a multiple of height.
 	 */
-	public SimpleRealMatrix(double packedMatrixElements[], int height)
+	public SimpleRealMatrix(final double[] packedMatrixElements, final int height)
 	{
 		this.height = height;
 		width = (height != 0 ? packedMatrixElements.length / height : 0);
@@ -161,7 +162,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	@param matrixElements    Two-dimensional array of doubles.
 	@exception  IllegalArgumentException All rows must have the same length
 	 */
-	public static RealMatrix constructWithCopy(double[][] matrixElements)
+	public static RealMatrix constructWithCopy(final double[][] matrixElements)
 	{
 		return new SimpleRealMatrix(matrixElements);
 	}
@@ -180,7 +181,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	{
 		try
 		{
-			SimpleRealMatrix copy = (SimpleRealMatrix) super.clone();
+			final SimpleRealMatrix copy = (SimpleRealMatrix) super.clone();
 			copy.matrixElements = new double[height][];
 			for(int heightIndex = 0; heightIndex < height; heightIndex++)
 				copy.matrixElements[heightIndex] = this.matrixElements[heightIndex].clone();
@@ -195,7 +196,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 
 	public RealNumber[][] toArray()
 	{
-		RealNumber[][] C = new RealNumber[height][width];
+		final RealNumber[][] C = new RealNumber[height][width];
 		for(int i = 0; i < height; i++)
 			for(int j = 0; j < width; j++)
 				C[i][j] = new RealNumber(matrixElements[i][j]);
@@ -207,7 +208,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	 */
 	public double[][] toDoubleArray()
 	{
-		double[][] C = new double[height][width];
+		final double[][] C = new double[height][width];
 		for(int i = 0; i < height; i++)
 			for(int j = 0; j < width; j++)
 				C[i][j] = matrixElements[i][j];
@@ -219,7 +220,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	 */
 	public double[] getColumnPackedCopy()
 	{
-		double[] vals = new double[height * width];
+		final double[] vals = new double[height * width];
 		for(int i = 0; i < height; i++)
 			for(int j = 0; j < width; j++)
 				vals[i + j * height] = matrixElements[i][j];
@@ -231,7 +232,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	 */
 	public double[] getRowPackedCopy()
 	{
-		double[] vals = new double[height * width];
+		final double[] vals = new double[height * width];
 		for(int i = 0; i < height; i++)
 			for(int j = 0; j < width; j++)
 				vals[i * width + j] = matrixElements[i][j];
@@ -262,7 +263,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	 * @return value at the specified element
 	 * @exception  ArrayIndexOutOfBoundsException
 	 */
-	public double getDouble(int heightIndex, int widthIndex)
+	public double getDouble(final int heightIndex, final int widthIndex)
 	{
 		return matrixElements[heightIndex][widthIndex];
 	}
@@ -275,7 +276,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	 * @return RealNumber value of the specified element.
 	 * @exception  ArrayIndexOutOfBoundsException
 	 */
-	public RealNumber get(int heightIndex, int widthIndex)
+	public RealNumber get(final int heightIndex, final int widthIndex)
 	{
 		return new RealNumber(this.getDouble(heightIndex, widthIndex));
 	}
@@ -287,7 +288,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 
 	public RealMatrix flip()
 	{
-		double[][] flippedSolution = new double[this.getWidth()][this.getHeight()];
+		final double[][] flippedSolution = new double[this.getWidth()][this.getHeight()];
 		for(int heightIndex = 0; heightIndex < this.getHeight(); heightIndex++)
 			for(int widthIndex = 0; widthIndex < this.getWidth(); widthIndex++)
 				flippedSolution[widthIndex][heightIndex] = this.matrixElements[heightIndex][widthIndex];
@@ -302,9 +303,9 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	@return     matrixElements(heightStart:heightEnd,widthStart:widthEnd)
 	@exception  ArrayIndexOutOfBoundsException Submatrix indices
 	 */
-	public RealMatrix getSubmatrix(int heightStart, int heightEnd, int widthStart, int widthEnd)
+	public RealMatrix getSubmatrix(final int heightStart, final int heightEnd, final int widthStart, final int widthEnd)
 	{
-		double[][] subMatrix = new double[heightEnd - heightStart + 1][widthEnd - widthStart + 1];
+		final double[][] subMatrix = new double[heightEnd - heightStart + 1][widthEnd - widthStart + 1];
 		for(int heightIndex = heightStart; heightIndex <= heightEnd; heightIndex++)
 			for(int widthIndex = widthStart; widthIndex <= widthEnd; widthIndex++)
 				subMatrix[heightIndex - heightStart][widthIndex - widthStart] = matrixElements[heightIndex][widthIndex];
@@ -317,11 +318,11 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	@return     matrixElements(heightIndexes(:),widthIndexes(:))
 	@exception  ArrayIndexOutOfBoundsException Submatrix indices
 	 */
-	public RealMatrix getSubmatrix(int[] heightIndexes, int[] widthIndexes)
+	public RealMatrix getSubmatrix(final int[] heightIndexes, final int[] widthIndexes)
 	{
 		//SimpleRealMatrix newSimpleMatrix = new SimpleRealMatrix(heightIndexes.length, widthIndexes.length);
 		//double[][] newMatrix = newSimpleMatrix.getArray();
-		double[][] newMatrix = new double[heightIndexes.length][widthIndexes.length];
+		final double[][] newMatrix = new double[heightIndexes.length][widthIndexes.length];
 
 		for(int heightIndex = 0; heightIndex < heightIndexes.length; heightIndex++)
 			for(int widthIndex = 0; widthIndex < widthIndexes.length; widthIndex++)
@@ -337,11 +338,11 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	@return     matrixElements(heightStart:heightEnd,widthIndexes(:))
 	@exception  ArrayIndexOutOfBoundsException Submatrix indices
 	 */
-	public RealMatrix getSubmatrix(int heightStart, int heightEnd, int[] widthIndexes)
+	public RealMatrix getSubmatrix(final int heightStart, final int heightEnd, final int[] widthIndexes)
 	{
 //		SimpleRealMatrix newSimpleMatrix = new SimpleRealMatrix(heightEnd - heightStart + 1, widthIndexes.length);
 //		double[][] newMatrix = newSimpleMatrix.getArray();
-		double[][] newMatrix = new double[heightEnd - heightStart + 1][widthIndexes.length];
+		final double[][] newMatrix = new double[heightEnd - heightStart + 1][widthIndexes.length];
 
 		for(int heightIndex = heightStart; heightIndex <= heightEnd; heightIndex++)
 			for(int widthIndex = 0; widthIndex < widthIndexes.length; widthIndex++)
@@ -358,9 +359,9 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	 * @return A RealMatrix represented the elements specified
 	 * @exception ArrayIndexOutOfBoundsException Submatrix indices
 	 */
-	public RealMatrix getSubmatrix(int[] heightIndexes, int widthStart, int widthEnd)
+	public RealMatrix getSubmatrix(final int[] heightIndexes, final int widthStart, final int widthEnd)
 	{
-		double[][] newMatrix = new double[heightIndexes.length][widthEnd - widthStart + 1];
+		final double[][] newMatrix = new double[heightIndexes.length][widthEnd - widthStart + 1];
 
 		for(int heightIndex = 0; heightIndex < heightIndexes.length; heightIndex++)
 			for(int widthIndex = widthStart; widthIndex <= widthEnd; widthIndex++)
@@ -377,9 +378,9 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	 * @param fillValue value to set
 	 * @exception ArrayIndexOutOfBoundsException
 	 */
-	public RealMatrix set(int heightIndex, int widthIndex, RealNumber fillValue)
+	public RealMatrix set(final int heightIndex, final int widthIndex, final RealNumber fillValue)
 	{
-		double[][] copy = this.toDoubleArray();
+		final double[][] copy = this.toDoubleArray();
 		copy[heightIndex][widthIndex] = fillValue.getValue();
 		return new SimpleRealMatrix(copy);
 	}
@@ -395,7 +396,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	 * of this matrix.
 	 * @exception  ArrayIndexOutOfBoundsException Submatrix indices
 	 */
-	public void setMatrix(int heightStart, int heightEnd, int widthStart, int widthEnd, SimpleRealMatrix fillMatrix)
+	public void setMatrix(final int heightStart, final int heightEnd, final int widthStart, final int widthEnd, final SimpleRealMatrix fillMatrix)
 	{
 		for(int i = heightStart; i <= heightEnd; i++)
 			for(int j = widthStart; j <= widthEnd; j++)
@@ -410,7 +411,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	 * @param fillMatrix source matrix used to fill the specified elements.
 	 * @exception ArrayIndexOutOfBoundsException Submatrix indices
 	 */
-	public void setMatrix(int[] heightIndexes, int[] widthIndexes, SimpleRealMatrix fillMatrix)
+	public void setMatrix(final int[] heightIndexes, final int[] widthIndexes, final SimpleRealMatrix fillMatrix)
 	{
 		for(int i = 0; i < heightIndexes.length; i++)
 			for(int j = 0; j < widthIndexes.length; j++)
@@ -426,7 +427,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	 * @param fillMatrix Source matrix used to fill the specified elements.
 	 * @exception ArrayIndexOutOfBoundsException Submatrix indices
 	 */
-	public void setMatrix(int[] heightIndexes, int widthStart, int widthEnd, SimpleRealMatrix fillMatrix)
+	public void setMatrix(final int[] heightIndexes, final int widthStart, final int widthEnd, final SimpleRealMatrix fillMatrix)
 	{
 		for(int i = 0; i < heightIndexes.length; i++)
 			for(int j = widthStart; j <= widthEnd; j++)
@@ -442,7 +443,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	 * @param fillMatrix Source matrix used to fill the specified elements.
 	 * @exception ArrayIndexOutOfBoundsException Submatrix indices
 	 */
-	public void setMatrix(int heightStart, int heightEnd, int[] widthIndexes, SimpleRealMatrix fillMatrix)
+	public void setMatrix(final int heightStart, final int heightEnd, final int[] widthIndexes, final SimpleRealMatrix fillMatrix)
 	{
 		for(int i = heightStart; i <= heightEnd; i++)
 			for(int j = 0; j < widthIndexes.length; j++)
@@ -454,7 +455,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	 */
 	public RealMatrix transpose()
 	{
-		double[][] transposedMatrix = new double[width][height];
+		final double[][] transposedMatrix = new double[width][height];
 		for(int heightIndex = 0; heightIndex < height; heightIndex++)
 			for(int widthIndex = 0; widthIndex < width; widthIndex++)
 				transposedMatrix[widthIndex][heightIndex] = matrixElements[heightIndex][widthIndex];
@@ -535,7 +536,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	{
 		//SimpleRealMatrix newSimpleMatrix = new SimpleRealMatrix(height, width);
 		//double[][] negatedMatrix = newSimpleMatrix.getArray();
-		double[][] negatedMatrix = new double[height][width];
+		final double[][] negatedMatrix = new double[height][width];
 		for(int heightIndex = 0; heightIndex < height; heightIndex++)
 			for(int widthIndex = 0; widthIndex < width; widthIndex++)
 				negatedMatrix[heightIndex][widthIndex] = -matrixElements[heightIndex][widthIndex];
@@ -546,13 +547,13 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	@param operand    another matrix
 	@return     matrixElements + operand
 	 */
-	public RealMatrix add(RealMatrix operand)
+	public RealMatrix add(final RealMatrix operand)
 	{
 		checkMatrixDimensions(operand);
 
 //		SimpleRealMatrix resultMatrix = new SimpleRealMatrix(height, width);
 //		double[][] resultArray = resultMatrix.getArray();
-		double[][] resultArray = new double[height][width];
+		final double[][] resultArray = new double[height][width];
 		for(int heightIndex = 0; heightIndex < height; heightIndex++)
 			for(int widthIndex = 0; widthIndex < width; widthIndex++)
 				resultArray[heightIndex][widthIndex] = matrixElements[heightIndex][widthIndex] + operand.getDouble(heightIndex, widthIndex);
@@ -565,10 +566,10 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	 * @param operand scalar value to add to each element in this matrix.
 	 * @return a new element containing the result of this scalar addition.
 	 */
-	public RealMatrix add(RealNumber operand)
+	public RealMatrix add(final RealNumber operand)
 	{
-		SimpleRealMatrix newSimpleMatrix = new SimpleRealMatrix(height, width);
-		double[][] newMatrix = newSimpleMatrix.matrixElements;
+		final SimpleRealMatrix newSimpleMatrix = new SimpleRealMatrix(height, width);
+		final double[][] newMatrix = newSimpleMatrix.matrixElements;
 		for(int heightIndex = 0; heightIndex < height; heightIndex++)
 			for(int widthIndex = 0; widthIndex < width; widthIndex++)
 				newMatrix[heightIndex][widthIndex] = matrixElements[heightIndex][widthIndex] + operand.getValue();
@@ -581,10 +582,10 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	 * @param scalar scalar value to add.
 	 * @return new matrix containing the result of this operation.
 	 */
-	public RealMatrix add(double scalar)
+	public RealMatrix add(final double scalar)
 	{
-		SimpleRealMatrix newMatrix = new SimpleRealMatrix(height, width);
-		double[][] newMatrixElements = newMatrix.matrixElements;
+		final SimpleRealMatrix newMatrix = new SimpleRealMatrix(height, width);
+		final double[][] newMatrixElements = newMatrix.matrixElements;
 		for(int heightIndex = 0; heightIndex < height; heightIndex++)
 			for(int widthIndex = 0; widthIndex < width; widthIndex++)
 				newMatrixElements[heightIndex][widthIndex] = matrixElements[heightIndex][widthIndex] + scalar;
@@ -595,11 +596,11 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	@param operand    another matrix
 	@return     matrixElements + operand
 	 */
-	public RealMatrix addEquals(RealMatrix operand)
+	public RealMatrix addEquals(final RealMatrix operand)
 	{
 		checkMatrixDimensions(operand);
 
-		double[][] newMatrixElements = this.matrixElements.clone();
+		final double[][] newMatrixElements = this.matrixElements.clone();
 
 		for(int heightIndex = 0; heightIndex < height; heightIndex++)
 			for(int widthIndex = 0; widthIndex < width; widthIndex++)
@@ -611,24 +612,24 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	@param operand    another matrix
 	@return     matrixElements - operand
 	 */
-	public RealMatrix subtract(RealMatrix operand)
+	public RealMatrix subtract(final RealMatrix operand)
 	{
 		checkMatrixDimensions(operand);
 
-		SimpleRealMatrix newMatrix = new SimpleRealMatrix(height, width);
-		double[][] newMatrixElements = newMatrix.matrixElements;
+		final SimpleRealMatrix newMatrix = new SimpleRealMatrix(height, width);
+		final double[][] newMatrixElements = newMatrix.matrixElements;
 		for(int heightIndex = 0; heightIndex < height; heightIndex++)
 			for(int widthIndex = 0; widthIndex < width; widthIndex++)
 				newMatrixElements[heightIndex][widthIndex] = matrixElements[heightIndex][widthIndex] - operand.getDouble(heightIndex,widthIndex);
 		return newMatrix;
 	}
 
-	public RealMatrix subtract(RealNumber scalar)
+	public RealMatrix subtract(final RealNumber scalar)
 	{
 		return this.add(-1.0 * scalar.getValue());
 	}
 
-	public RealMatrix subtract(double scalar)
+	public RealMatrix subtract(final double scalar)
 	{
 		return this.add(-1.0 * scalar);
 	}
@@ -637,11 +638,11 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	@param operand    another matrix
 	@return     matrixElements - operand
 	 */
-	public RealMatrix subtractEquals(RealMatrix operand)
+	public RealMatrix subtractEquals(final RealMatrix operand)
 	{
 		checkMatrixDimensions(operand);
-		SimpleRealMatrix newMatrix = new SimpleRealMatrix(height, width);
-		double[][] newMatrixElements = newMatrix.matrixElements;
+		final SimpleRealMatrix newMatrix = new SimpleRealMatrix(height, width);
+		final double[][] newMatrixElements = newMatrix.matrixElements;
 		for(int heightIndex = 0; heightIndex < height; heightIndex++)
 			for(int widthIndex = 0; widthIndex < width; widthIndex++)
 				newMatrixElements[heightIndex][widthIndex] = matrixElements[heightIndex][widthIndex] - operand.getDouble(heightIndex,widthIndex);
@@ -652,12 +653,12 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	@param operand    another matrix
 	@return     matrixElements.*operand
 	 */
-	public RealMatrix arrayTimes(RealMatrix operand)
+	public RealMatrix arrayTimes(final RealMatrix operand)
 	{
 		checkMatrixDimensions(operand);
 
-		SimpleRealMatrix newMatrix = new SimpleRealMatrix(height, width);
-		double[][] newMatrixElements = newMatrix.matrixElements;
+		final SimpleRealMatrix newMatrix = new SimpleRealMatrix(height, width);
+		final double[][] newMatrixElements = newMatrix.matrixElements;
 		for(int heightIndex = 0; heightIndex < height; heightIndex++)
 			for(int widthIndex = 0; widthIndex < width; widthIndex++)
 				newMatrixElements[heightIndex][widthIndex] = matrixElements[heightIndex][widthIndex] * operand.getDouble(heightIndex,widthIndex);
@@ -668,7 +669,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	@param operand    another matrix
 	@return     matrixElements.*operand
 	 */
-	public RealMatrix arrayTimesEquals(RealMatrix operand)
+	public RealMatrix arrayTimesEquals(final RealMatrix operand)
 	{
 		checkMatrixDimensions(operand);
 		for(int i = 0; i < height; i++)
@@ -681,11 +682,11 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	@param operand    another matrix
 	@return     matrixElements./operand
 	 */
-	public RealMatrix arrayRightDivide(RealMatrix operand)
+	public RealMatrix arrayRightDivide(final RealMatrix operand)
 	{
 		checkMatrixDimensions(operand);
-		SimpleRealMatrix X = new SimpleRealMatrix(height, width);
-		double[][] C = X.matrixElements;
+		final SimpleRealMatrix X = new SimpleRealMatrix(height, width);
+		final double[][] C = X.matrixElements;
 		for(int i = 0; i < height; i++)
 			for(int j = 0; j < width; j++)
 				C[i][j] = matrixElements[i][j] / operand.getDouble(i,j);
@@ -696,7 +697,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	@param operand    another matrix
 	@return     matrixElements./operand
 	 */
-	public RealMatrix arrayRightDivideEquals(RealMatrix operand)
+	public RealMatrix arrayRightDivideEquals(final RealMatrix operand)
 	{
 		checkMatrixDimensions(operand);
 		for(int i = 0; i < height; i++)
@@ -709,11 +710,11 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	@param operand    another matrix
 	@return     matrixElements.\operand
 	 */
-	public RealMatrix arrayLeftDivide(RealMatrix operand)
+	public RealMatrix arrayLeftDivide(final RealMatrix operand)
 	{
 		checkMatrixDimensions(operand);
-		SimpleRealMatrix X = new SimpleRealMatrix(height, width);
-		double[][] C = X.matrixElements;
+		final SimpleRealMatrix X = new SimpleRealMatrix(height, width);
+		final double[][] C = X.matrixElements;
 		for(int i = 0; i < height; i++)
 			for(int j = 0; j < width; j++)
 				C[i][j] = operand.getDouble(i,j) / matrixElements[i][j];
@@ -724,7 +725,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	@param operand    another matrix
 	@return     matrixElements.\operand
 	 */
-	public RealMatrix arrayLeftDivideEquals(RealMatrix operand)
+	public RealMatrix arrayLeftDivideEquals(final RealMatrix operand)
 	{
 		checkMatrixDimensions(operand);
 		for(int i = 0; i < height; i++)
@@ -737,10 +738,10 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	@param scalar    scalar
 	@return     scalar*matrixElements
 	 */
-	public RealMatrix multiply(double scalar)
+	public RealMatrix multiply(final double scalar)
 	{
-		SimpleRealMatrix X = new SimpleRealMatrix(height, width);
-		double[][] C = X.matrixElements;
+		final SimpleRealMatrix X = new SimpleRealMatrix(height, width);
+		final double[][] C = X.matrixElements;
 		for(int i = 0; i < height; i++)
 			for(int j = 0; j < width; j++)
 				C[i][j] = scalar * matrixElements[i][j];
@@ -751,17 +752,17 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	@param scalar    scalar
 	@return     scalar*matrixElements
 	 */
-	public RealMatrix multiply(RealNumber scalar)
+	public RealMatrix multiply(final RealNumber scalar)
 	{
 		return this.multiply(scalar.getValue());
 	}
 
-	public RealMatrix divide(RealNumber scalar)
+	public RealMatrix divide(final RealNumber scalar)
 	{
 		return this.multiply(1.0/scalar.getValue());
 	}
 
-	public RealMatrix divide(double scalar)
+	public RealMatrix divide(final double scalar)
 	{
 		return this.multiply(1.0/scalar);
 	}
@@ -770,7 +771,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	@param scalar    scalar
 	@return     replace matrixElements by scalar*matrixElements
 	 */
-	public RealMatrix multiplyEquals(double scalar)
+	public RealMatrix multiplyEquals(final double scalar)
 	{
 		for(int i = 0; i < height; i++)
 			for(int j = 0; j < width; j++)
@@ -778,7 +779,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 		return this;
 	}
 
-	public RealMatrix multiplyEquals(RealNumber scalar)
+	public RealMatrix multiplyEquals(final RealNumber scalar)
 	{
 		for(int i = 0; i < height; i++)
 			for(int j = 0; j < width; j++)
@@ -791,20 +792,20 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	@return     SimpleRealMatrix product, matrixElements * operand
 	@exception  IllegalArgumentException SimpleRealMatrix inner dimensions must agree.
 	 */
-	public RealMatrix multiply(RealMatrix operand)
+	public RealMatrix multiply(final RealMatrix operand)
 	{
 		if(operand.getHeight() != width)
 			throw new IllegalArgumentException("Matrix inner dimensions must agree.");
-		SimpleRealMatrix resultMatrix = new SimpleRealMatrix(height, operand.getWidth());
-		double[][] resultArray = resultMatrix.matrixElements;
-		double[] Bcolj = new double[width];
+		final SimpleRealMatrix resultMatrix = new SimpleRealMatrix(height, operand.getWidth());
+		final double[][] resultArray = resultMatrix.matrixElements;
+		final double[] Bcolj = new double[width];
 		for(int j = 0; j < operand.getWidth(); j++)
 		{
 			for(int k = 0; k < width; k++)
 				Bcolj[k] = operand.getDouble(k,j);
 			for(int i = 0; i < height; i++)
 			{
-				double[] Arowi = matrixElements[i];
+				final double[] Arowi = matrixElements[i];
 				double s = 0;
 				for(int k = 0; k < width; k++)
 					s += Arowi[k] * Bcolj[k];
@@ -818,7 +819,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	@param operand    right hand side
 	@return     solution if matrixElements is square, least squares solution otherwise
 	 */
-	public RealMatrix solve(RealMatrix operand)
+	public RealMatrix solve(final RealMatrix operand)
 	{
 		return (height == width ? (new DoolittleLuDecomposition<RealMatrix,RealNumber>(this)).solve(operand) : (new HouseholderQrDecomposition<RealMatrix,RealNumber>(this)).solve(operand));
 	}
@@ -827,7 +828,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	@param operand    right hand side
 	@return     solution if matrixElements is square, least squares solution otherwise.
 	 */
-	public RealMatrix solveTranspose(RealMatrix operand)
+	public RealMatrix solveTranspose(final RealMatrix operand)
 	{
 		return this.transpose().solve(operand.transpose());
 	}
@@ -883,10 +884,10 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	 * @return An height-by-width matrix with uniformly distributed random
 	 * elements.
 	 */
-	public static SimpleRealMatrix random(int height, int width)
+	public static SimpleRealMatrix random(final int height, final int width)
 	{
-		SimpleRealMatrix A = new SimpleRealMatrix(height, width);
-		double[][] X = A.matrixElements;
+		final SimpleRealMatrix A = new SimpleRealMatrix(height, width);
+		final double[][] X = A.matrixElements;
 		for(int i = 0; i < height; i++)
 			for(int j = 0; j < width; j++)
 				X[i][j] = Math.random();
@@ -901,7 +902,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	 * @return An height-by-width matrix with ones on the diagonal and zeros
 	 * elsewhere.
 	 */
-	public static RealMatrix identity(int height, int width)
+	public static RealMatrix identity(final int height, final int width)
 	{
 		final double[][] identityValues = new double[height][width];
 		for(int index = 0; index < (height < width ? height : width); index++)
@@ -917,7 +918,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	}
 
 	/** Check if size(matrixElements) == size(operand) **/
-	private void checkMatrixDimensions(RealMatrix compareMatrix)
+	private void checkMatrixDimensions(final RealMatrix compareMatrix)
 	{
 		if(compareMatrix.getHeight() != height || compareMatrix.getWidth() != width)
 			throw new IllegalArgumentException("Matrix dimensions must agree.");
@@ -926,7 +927,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	@Override
 	public String toString()
 	{
-		StringBuffer out = new StringBuffer("{");
+		final StringBuffer out = new StringBuffer("{");
 		for(int heightIndex = 0; heightIndex < this.height; heightIndex++)
 			for(int widthIndex = 0; widthIndex < this.width; widthIndex++)
 			{

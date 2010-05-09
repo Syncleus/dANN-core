@@ -23,7 +23,7 @@ public class SignalKeyConcentration
 	private final SignalKey signal;
 	private double concentration;
 
-	public SignalKeyConcentration(SignalKey signal)
+	public SignalKeyConcentration(final SignalKey signal)
 	{
 		this.signal = signal;
 	}
@@ -38,7 +38,7 @@ public class SignalKeyConcentration
 		return concentration;
 	}
 
-	public final void setConcentration(double concentration)
+	public final void setConcentration(final double concentration)
 	{
 		this.concentration = concentration;
 	}

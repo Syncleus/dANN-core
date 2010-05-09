@@ -32,7 +32,7 @@ public class SimpleDynamicBayesianNode<S> extends SimpleBayesianNode<S> implemen
 	//0 index is most recent
 	private final List<BayesianNode<S>> historicalNodes;
 
-	public SimpleDynamicBayesianNode(int historyCapacity, S initialState, BayesianNetwork network)
+	public SimpleDynamicBayesianNode(final int historyCapacity, final S initialState, final BayesianNetwork network)
 	{
 		super(initialState,network);
 		
@@ -43,13 +43,13 @@ public class SimpleDynamicBayesianNode<S> extends SimpleBayesianNode<S> implemen
 		if(network == null)
 			throw new IllegalArgumentException("network can not be null");
 
-		List<BayesianNode<S>> newHistoricalNodes = new ArrayList<BayesianNode<S>>(historyCapacity);
+		final List<BayesianNode<S>> newHistoricalNodes = new ArrayList<BayesianNode<S>>(historyCapacity);
 		for(int historyIndex = 0; historyIndex < historyCapacity; historyIndex++)
 			newHistoricalNodes.add(new SimpleBayesianNode<S>(null, network));
 		this.historicalNodes = Collections.unmodifiableList(newHistoricalNodes);
 	}
 
-	public SimpleDynamicBayesianNode(List<S> history, S initialState, BayesianNetwork network)
+	public SimpleDynamicBayesianNode(final List<S> history, final S initialState, final BayesianNetwork network)
 	{
 		super(initialState,network);
 
@@ -60,7 +60,7 @@ public class SimpleDynamicBayesianNode<S> extends SimpleBayesianNode<S> implemen
 		if(network == null)
 			throw new IllegalArgumentException("network can not be null");
 
-		List<BayesianNode<S>> newHistoricalNodes = new ArrayList<BayesianNode<S>>(history.size());
+		final List<BayesianNode<S>> newHistoricalNodes = new ArrayList<BayesianNode<S>>(history.size());
 		for(int historyIndex = 0; historyIndex < history.size(); historyIndex++)
 			newHistoricalNodes.add(new SimpleBayesianNode<S>(history.get(historyIndex), network));
 
@@ -74,19 +74,19 @@ public class SimpleDynamicBayesianNode<S> extends SimpleBayesianNode<S> implemen
 
 	public List<S> getStateHistory()
 	{
-		List<S> historyStates = new ArrayList<S>(this.getStateHistoryCapacity());
-		for(BayesianNode<S> node : this.historicalNodes)
+		final List<S> historyStates = new ArrayList<S>(this.getStateHistoryCapacity());
+		for(final BayesianNode<S> node : this.historicalNodes)
 			historyStates.add(node.getState());
 		return Collections.unmodifiableList(historyStates);
 	}
 
-	public void setStateHistory(List<S> history)
+	public void setStateHistory(final List<S> history)
 	{
 		for(int historyIndex = 0; historyIndex < this.historicalNodes.size(); historyIndex++)
 			this.historicalNodes.get(historyIndex).setState( (history.size() > historyIndex ? history.get(historyIndex) : null) );
 	}
 
-	public void learnState(boolean updateHistory)
+	public void learnState(final boolean updateHistory)
 	{
 		super.learnState();
 
@@ -110,7 +110,7 @@ public class SimpleDynamicBayesianNode<S> extends SimpleBayesianNode<S> implemen
 	@Override
 	protected Set<BayesianNode> getInfluencingNodes()
 	{
-		Set<BayesianNode> influences = new HashSet<BayesianNode>(super.getInfluencingNodes());
+		final Set<BayesianNode> influences = new HashSet<BayesianNode>(super.getInfluencingNodes());
 		influences.addAll(this.historicalNodes);
 		return Collections.unmodifiableSet(influences);
 	}

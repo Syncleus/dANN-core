@@ -34,7 +34,7 @@ public class MathFunctionCanvas extends SurfacePlot
 	private float yMax;
 	private int resolution;
 
-	public MathFunctionCanvas(Function function, String xParameter, String yParameter, float xMin, float xMax, float yMin, float yMax, int resolution)
+	public MathFunctionCanvas(final Function function, final String xParameter, final String yParameter, final float xMin, final float xMax, final float yMin, final float yMax, final int resolution)
 	{
 		super();
 
@@ -54,7 +54,7 @@ public class MathFunctionCanvas extends SurfacePlot
 
 	private void refresh()
 	{
-        MathFunctionDataBinder dataBinder = new MathFunctionDataBinder(
+        final MathFunctionDataBinder dataBinder = new MathFunctionDataBinder(
             this.function,
             this.function.getParameterName(xIndex),
             this.function.getParameterName(yIndex),
@@ -67,7 +67,7 @@ public class MathFunctionCanvas extends SurfacePlot
 		super.setData(dataBinder);
 	}
 
-	public void setFunction(Function newFunction, String xParameter, String yParameter)
+	public void setFunction(final Function newFunction, final String xParameter, final String yParameter)
 	{
 		this.function = newFunction;
 		this.xIndex = this.function.getParameterNameIndex(xParameter);
@@ -123,11 +123,11 @@ public class MathFunctionCanvas extends SurfacePlot
     }
 
 	@Override
-	public void setData(Binned2DData data)
+	public void setData(final Binned2DData data)
 	{
 		if(data instanceof MathFunctionDataBinder)
 		{
-			MathFunctionDataBinder mathFunctionData = (MathFunctionDataBinder)data;
+			final MathFunctionDataBinder mathFunctionData = (MathFunctionDataBinder)data;
 
 			this.function = mathFunctionData.getFunction();
 			this.xIndex = mathFunctionData.getXIndex();
@@ -146,7 +146,7 @@ public class MathFunctionCanvas extends SurfacePlot
 
 
 
-	public void setXMin(float xMin)
+	public void setXMin(final float xMin)
 	{
 		this.xMin = xMin;
 		this.refresh();
@@ -154,7 +154,7 @@ public class MathFunctionCanvas extends SurfacePlot
 
 
 
-	public void setXMax(float xMax)
+	public void setXMax(final float xMax)
 	{
 		this.xMax = xMax;
 		this.refresh();
@@ -162,7 +162,7 @@ public class MathFunctionCanvas extends SurfacePlot
 
 
 
-	public void setYMin(float yMin)
+	public void setYMin(final float yMin)
 	{
 		this.yMin = yMin;
 		this.refresh();
@@ -170,7 +170,7 @@ public class MathFunctionCanvas extends SurfacePlot
 
 
 
-	public void setYMax(float yMax)
+	public void setYMax(final float yMax)
 	{
 		this.yMax = yMax;
 		this.refresh();
@@ -178,7 +178,7 @@ public class MathFunctionCanvas extends SurfacePlot
 
 
 
-	public void setResolution(int resolution)
+	public void setResolution(final int resolution)
 	{
 		this.resolution = resolution;
 		this.refresh();

@@ -28,16 +28,16 @@ public class LinkedGraph<N, E extends Edge<N>> extends AbstractAdjacencyGraph<N,
 	final private Map<N, Set<E>> neighborEdges = new HashMap<N, Set<E>>();
 	final private Map<N, List<N>> neighborNodes = new HashMap<N, List<N>>();
 
-	public LinkedGraph(Graph<N,E> copyGraph)
+	public LinkedGraph(final Graph<N,E> copyGraph)
 	{
 		this(copyGraph.getNodes(), copyGraph.getEdges());
 	}
 
-	public LinkedGraph(Set<N> nodes, Set<E> edges)
+	public LinkedGraph(final Set<N> nodes, final Set<E> edges)
 	{
 		this.nodes = new LinkedHashSet<N>(nodes);
 		this.edges = new LinkedHashSet<E>(edges);
-		for(E edge : edges)
+		for(final E edge : edges)
 		{
 			final List<N> edgeNodes = edge.getNodes();
 			for(int startNodeIndex = 0; startNodeIndex < edgeNodes.size(); startNodeIndex++)
@@ -82,7 +82,7 @@ public class LinkedGraph<N, E extends Edge<N>> extends AbstractAdjacencyGraph<N,
 		return Collections.unmodifiableSet(this.edges);
 	}
 
-	public Set<E> getAdjacentEdges(N node)
+	public Set<E> getAdjacentEdges(final N node)
 	{
 		if(this.neighborEdges.containsKey(node))
 			return Collections.unmodifiableSet(this.neighborEdges.get(node));
@@ -90,7 +90,7 @@ public class LinkedGraph<N, E extends Edge<N>> extends AbstractAdjacencyGraph<N,
 			return Collections.<E>emptySet();
 	}
 
-	public List<N> getAdjacentNodes(N node)
+	public List<N> getAdjacentNodes(final N node)
 	{
 		return Collections.unmodifiableList(new ArrayList<N>(this.neighborNodes.get(node)));
 	}

@@ -66,14 +66,14 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 	 *
 	 * @param matrixToDecompose Elements Square matrix
 	 */
-	public TridiagonalEignevalueDecomposition(RealMatrix matrixToDecompose)
+	public TridiagonalEignevalueDecomposition(final RealMatrix matrixToDecompose)
 	{
 		if(!matrixToDecompose.isSymmetric())
 			throw new IllegalArgumentException("matrixToDecompose must be symmetric");
 
-		double[][] matrixToDecomposeElements = matrixToDecompose.toDoubleArray();
-		int n = matrixToDecompose.getWidth();
-		double[][] matrixElements = new double[n][n];
+		final double[][] matrixToDecomposeElements = matrixToDecompose.toDoubleArray();
+		final int n = matrixToDecompose.getWidth();
+		final double[][] matrixElements = new double[n][n];
 
 		this.realEigenvalues = new ArrayList<RealNumber>(n);
 		this.realEigenvalues.addAll(Collections.nCopies(n, new RealNumber(0.0)));
@@ -100,14 +100,14 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 	// Symmetric Householder reduction to tridiagonal form.
 	private void householderTridiagonalReduction()
 	{
-		int n = this.getDimensionSize();
-		double[] d = new double[this.realEigenvalues.size()];
+		final int n = this.getDimensionSize();
+		final double[] d = new double[this.realEigenvalues.size()];
 		for(int valueIndex = 0; valueIndex < d.length; valueIndex++)
 			d[valueIndex] = this.realEigenvalues.get(valueIndex).getValue();
-		double[] e = new double[this.imaginaryEigenvalues.size()];
+		final double[] e = new double[this.imaginaryEigenvalues.size()];
 		for(int valueIndex = 0; valueIndex < d.length; valueIndex++)
 			e[valueIndex] = this.imaginaryEigenvalues.get(valueIndex).getValue();
-		double[][] V = this.matrix.toDoubleArray();
+		final double[][] V = this.matrix.toDoubleArray();
 
 
 		//  This is derived from the Algol procedures householderTridiagonalReduction by
@@ -173,7 +173,7 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 					e[j] /= h;
 					f += e[j] * d[j];
 				}
-				double hh = f / (h + h);
+				final double hh = f / (h + h);
 				for(int j = 0; j < i; j++)
 					e[j] -= hh * d[j];
 				for(int j = 0; j < i; j++)
@@ -194,7 +194,7 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 		{
 			V[n - 1][i] = V[i][i];
 			V[i][i] = 1.0;
-			double h = d[i + 1];
+			final double h = d[i + 1];
 			if(h != 0.0)
 			{
 				for(int k = 0; k <= i; k++)
@@ -220,10 +220,10 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 		e[0] = 0.0;
 
 		this.realEigenvalues = new ArrayList<RealNumber>(d.length);
-		for(double realValue : d)
+		for(final double realValue : d)
 			this.realEigenvalues.add(new RealNumber(realValue));
 		this.imaginaryEigenvalues = new ArrayList<RealNumber>(e.length);
-		for(double imaginaryValue : e)
+		for(final double imaginaryValue : e)
 			this.imaginaryEigenvalues.add(new RealNumber(imaginaryValue));
 		this.matrix = new SimpleRealMatrix(V);
 	}
@@ -236,14 +236,14 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 		//  Bowdler, Martin, Reinsch, and Wilkinson, Handbook for
 		//  Auto. Comp., Vol.ii-Linear Algebra, and the corresponding
 		//  Fortran subroutine in EISPACK.
-		int n = this.getDimensionSize();
-		double[] d = new double[this.realEigenvalues.size()];
+		final int n = this.getDimensionSize();
+		final double[] d = new double[this.realEigenvalues.size()];
 		for(int valueIndex = 0; valueIndex < d.length; valueIndex++)
 			d[valueIndex] = this.realEigenvalues.get(valueIndex).getValue();
-		double[] e = new double[this.imaginaryEigenvalues.size()];
+		final double[] e = new double[this.imaginaryEigenvalues.size()];
 		for(int valueIndex = 0; valueIndex < d.length; valueIndex++)
 			e[valueIndex] = this.imaginaryEigenvalues.get(valueIndex).getValue();
-		double[][] V = this.matrix.toDoubleArray();
+		final double[][] V = this.matrix.toDoubleArray();
 
 		for(int i = 1; i < n; i++)
 			e[i - 1] = e[i];
@@ -251,7 +251,7 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 
 		double f = 0.0;
 		double tst1 = 0.0;
-		double eps = Math.pow(2.0, -52.0);
+		final double eps = Math.pow(2.0, -52.0);
 		for(int l = 0; l < n; l++)
 		{
 			// Find small subdiagonal element
@@ -281,7 +281,7 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 						r = -r;
 					d[l] = e[l] / (p + r);
 					d[l + 1] = e[l] * (p + r);
-					double dl1 = d[l + 1];
+					final double dl1 = d[l + 1];
 					double h = g - d[l];
 					for(int i = l + 2; i < n; i++)
 						d[i] -= h;
@@ -292,7 +292,7 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 					double c = 1.0;
 					double c2 = c;
 					double c3 = c;
-					double el1 = e[l + 1];
+					final double el1 = e[l + 1];
 					double s = 0.0;
 					double s2 = 0.0;
 					for(int i = m - 1; i >= l; i--)
@@ -355,10 +355,10 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 		}
 
 		this.realEigenvalues = new ArrayList<RealNumber>(d.length);
-		for(double realValue : d)
+		for(final double realValue : d)
 			this.realEigenvalues.add(new RealNumber(realValue));
 		this.imaginaryEigenvalues = new ArrayList<RealNumber>(e.length);
-		for(double imaginaryValue : e)
+		for(final double imaginaryValue : e)
 			this.imaginaryEigenvalues.add(new RealNumber(imaginaryValue));
 		this.matrix = new SimpleRealMatrix(V);
 	}
@@ -392,15 +392,15 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 	 */
 	public RealMatrix getBlockDiagonalMatrix()
 	{
-		int n = this.getDimensionSize();
-		double[] d = new double[this.realEigenvalues.size()];
+		final int n = this.getDimensionSize();
+		final double[] d = new double[this.realEigenvalues.size()];
 		for(int valueIndex = 0; valueIndex < d.length; valueIndex++)
 			d[valueIndex] = this.realEigenvalues.get(valueIndex).getValue();
-		double[] e = new double[this.imaginaryEigenvalues.size()];
+		final double[] e = new double[this.imaginaryEigenvalues.size()];
 		for(int valueIndex = 0; valueIndex < d.length; valueIndex++)
 			e[valueIndex] = this.imaginaryEigenvalues.get(valueIndex).getValue();
 
-		double[][] D = new double[n][n];
+		final double[][] D = new double[n][n];
 		for(int i = 0; i < n; i++)
 		{
 			for(int j = 0; j < n; j++)

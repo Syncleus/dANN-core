@@ -67,23 +67,23 @@ public class TestFloydWarshallPathFinder
 		{2,7},{2,6},{3,6},{4,6},{5,6},{5,5},{6,5},{7,5},{7,6},{7,7}
 	};
 
-	private static boolean checkNode(GridNode node, int[] coords)
+	private static boolean checkNode(final GridNode node, final int[] coords)
 	{
 		return ( (node.getX() == coords[0])&&(node.getY() == coords[1]) );
 	}
 
-	private static boolean checkSolution(GridNode start, List<DirectedEdge<GridNode>> path, int[][] solution)
+	private static boolean checkSolution(final GridNode start, final List<DirectedEdge<GridNode>> path, final int[][] solution)
 	{
 		int solutionIndex = 0;
 		GridNode lastNode = start;
 		if(!checkNode(lastNode, solution[solutionIndex]))
 			return false;
 
-		for(BidirectedEdge<GridNode> edge : path)
+		for(final BidirectedEdge<GridNode> edge : path)
 		{
 			solutionIndex++;
 
-			GridNode currentNode = (edge.getLeftNode().equals(lastNode) ? edge.getRightNode() : edge.getLeftNode());
+			final GridNode currentNode = (edge.getLeftNode().equals(lastNode) ? edge.getRightNode() : edge.getLeftNode());
 			if(!checkNode(currentNode, solution[solutionIndex]))
 				return false;
 			lastNode = currentNode;
@@ -95,13 +95,13 @@ public class TestFloydWarshallPathFinder
 	@Test
 	public void testHardGrid()
 	{
-		DirectedGrid hardGrid = new DirectedGrid(HARD_GRID);
-		FloydWarshallPathFinder<GridNode, DirectedEdge<GridNode>> pathFinder = new FloydWarshallPathFinder<GridNode, DirectedEdge<GridNode>>(hardGrid);
+		final DirectedGrid hardGrid = new DirectedGrid(HARD_GRID);
+		final FloydWarshallPathFinder<GridNode, DirectedEdge<GridNode>> pathFinder = new FloydWarshallPathFinder<GridNode, DirectedEdge<GridNode>>(hardGrid);
 
-		GridNode startNode = hardGrid.getNode(HARD_GRID_START[0], HARD_GRID_START[1]);
-		GridNode endNode = hardGrid.getNode(HARD_GRID_END[0], HARD_GRID_END[1]);
+		final GridNode startNode = hardGrid.getNode(HARD_GRID_START[0], HARD_GRID_START[1]);
+		final GridNode endNode = hardGrid.getNode(HARD_GRID_END[0], HARD_GRID_END[1]);
 
-		List<DirectedEdge<GridNode>> path = pathFinder.getBestPath(startNode, endNode);
+		final List<DirectedEdge<GridNode>> path = pathFinder.getBestPath(startNode, endNode);
 
 		Assert.assertTrue("incorrect path found!", checkSolution(startNode, path, HARD_GRID_SOLUTION));
 	}
@@ -109,13 +109,13 @@ public class TestFloydWarshallPathFinder
 	@Test
 	public void testInfinityGrid()
 	{
-		DirectedGrid infinityGrid = new DirectedGrid(EASY_GRID);
-		FloydWarshallPathFinder<GridNode, DirectedEdge<GridNode>> pathFinder = new FloydWarshallPathFinder<GridNode, DirectedEdge<GridNode>>(infinityGrid);
+		final DirectedGrid infinityGrid = new DirectedGrid(EASY_GRID);
+		final FloydWarshallPathFinder<GridNode, DirectedEdge<GridNode>> pathFinder = new FloydWarshallPathFinder<GridNode, DirectedEdge<GridNode>>(infinityGrid);
 
-		GridNode startNode = infinityGrid.getNode(EASY_GRID_START[0], EASY_GRID_START[1]);
-		GridNode endNode = infinityGrid.getNode(EASY_GRID_END[0], EASY_GRID_END[1]);
+		final GridNode startNode = infinityGrid.getNode(EASY_GRID_START[0], EASY_GRID_START[1]);
+		final GridNode endNode = infinityGrid.getNode(EASY_GRID_END[0], EASY_GRID_END[1]);
 
-		List<DirectedEdge<GridNode>> path = pathFinder.getBestPath(startNode, endNode);
+		final List<DirectedEdge<GridNode>> path = pathFinder.getBestPath(startNode, endNode);
 
 		Assert.assertTrue("incorrect path found!", checkSolution(startNode, path, EASY_GRID_SOLUTION));
 	}

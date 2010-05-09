@@ -91,7 +91,7 @@ public class ImmutableDirectedEdge<N> extends AbstractBidirectedEdge<N> implemen
 		return this.getSourceNode() + "->" + this.getDestinationNode();
 	}
 
-	public ImmutableDirectedEdge<N> disconnect(N node)
+	public ImmutableDirectedEdge<N> disconnect(final N node)
 	{
 		if(node == null)
 			throw new IllegalArgumentException("node can not be null", new NullPointerException());
@@ -101,7 +101,7 @@ public class ImmutableDirectedEdge<N> extends AbstractBidirectedEdge<N> implemen
 		return (ImmutableDirectedEdge<N>) this.remove(node);
 	}
 
-	public ImmutableDirectedEdge<N> disconnect(List<N> nodes)
+	public ImmutableDirectedEdge<N> disconnect(final List<N> nodes)
 	{
 		if(nodes == null)
 			throw new IllegalArgumentException("node can not be null", new NullPointerException());

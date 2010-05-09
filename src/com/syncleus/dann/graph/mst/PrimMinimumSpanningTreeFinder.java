@@ -27,22 +27,22 @@ import java.util.Map.Entry;
 public class PrimMinimumSpanningTreeFinder<N,E extends Edge<N>> implements RootedMinimumSpanningTreeFinder<N,E>
 {
 	@SuppressWarnings("unchecked")
-	public Set<E> findMinimumSpanningTree(Graph<N,E> graph)
+	public Set<E> findMinimumSpanningTree(final Graph<N,E> graph)
 	{
 		boolean isDirected = false;
 		if( graph instanceof BidirectedGraph )
 		{
 			isDirected = true;
-			for(E edge : graph.getEdges())
+			for(final E edge : graph.getEdges())
 				if( !(edge instanceof DirectedEdge) )
 					isDirected = false;
 		}
 
-		N startNode;
+		final N startNode;
 		if( isDirected )
 		{
-			TopologicalSorter<N> sorter = new SimpleTopologicalSorter<N>();
-			List<N> sortedNodes = sorter.sort((BidirectedGraph)graph);
+			final TopologicalSorter<N> sorter = new SimpleTopologicalSorter<N>();
+			final List<N> sortedNodes = sorter.sort((BidirectedGraph)graph);
 			startNode = sortedNodes.get(0);
 		}
 		else
@@ -53,16 +53,16 @@ public class PrimMinimumSpanningTreeFinder<N,E extends Edge<N>> implements Roote
 		return this.primCalculate(graph, startNode);
 	}
 
-	public Set<E> findMinimumSpanningTree(Graph<N,E> graph, N startNode)
+	public Set<E> findMinimumSpanningTree(final Graph<N,E> graph, final N startNode)
 	{
 		return primCalculate(graph, startNode);
 	}
 
-	private Set<E> primCalculate(Graph<N,E> graph, N startNode)
+	private Set<E> primCalculate(final Graph<N,E> graph, final N startNode)
 	{
-		Set<E> mst = new HashSet<E>();
-		PrimMap primMap = new PrimMap();
-		for(N node : graph.getNodes())
+		final Set<E> mst = new HashSet<E>();
+		final PrimMap primMap = new PrimMap();
+		for(final N node : graph.getNodes())
 			primMap.put(node, null);
 
 		N currentNode = null;
@@ -70,7 +70,7 @@ public class PrimMinimumSpanningTreeFinder<N,E extends Edge<N>> implements Roote
 		{
 			if(currentNode != null)
 			{
-				Entry<N,E> currentEntry = primMap.pop();
+				final Entry<N,E> currentEntry = primMap.pop();
 				currentNode = currentEntry.getKey();
 				mst.add(currentEntry.getValue());
 			}
@@ -80,13 +80,13 @@ public class PrimMinimumSpanningTreeFinder<N,E extends Edge<N>> implements Roote
 				currentNode = startNode;
 			}
 
-			Set<E> neighborEdges = graph.getTraversableEdges(currentNode);
-			for(E neighborEdge : neighborEdges)
+			final Set<E> neighborEdges = graph.getTraversableEdges(currentNode);
+			for(final E neighborEdge : neighborEdges)
 			{
-				List<N> neighborNodes = new ArrayList<N>(neighborEdge.getNodes());
+				final List<N> neighborNodes = new ArrayList<N>(neighborEdge.getNodes());
 				//remove all occurance of currentNode, not just the first
 				while( neighborNodes.remove(currentNode) ){}
-				for(N neighborNode : neighborNodes)
+				for(final N neighborNode : neighborNodes)
 				{
 					if(primMap.containsKey(neighborNode))
 					{
@@ -111,17 +111,17 @@ public class PrimMinimumSpanningTreeFinder<N,E extends Edge<N>> implements Roote
 		public void resort()
 		{
 			weightedNodes.clear();
-			for(Entry<N,E> entry : this.entrySet())
+			for(final Entry<N,E> entry : this.entrySet())
 				weightedNodes.add(entry);
 		}
 
-		public double getWeight(N node)
+		public double getWeight(final N node)
 		{
-			E edge = this.get(node);
+			final E edge = this.get(node);
 			return edgeToWeight(edge);
 		}
 
-		public boolean isLess(N node, E edge)
+		public boolean isLess(final N node, final E edge)
 		{
 			if(edge == null)
 				throw new IllegalArgumentException("edge can not be null");
@@ -130,7 +130,7 @@ public class PrimMinimumSpanningTreeFinder<N,E extends Edge<N>> implements Roote
 			return false;
 		}
 
-		private double edgeToWeight(E edge)
+		private double edgeToWeight(final E edge)
 		{
 			if(edge == null)
 				return Double.MAX_VALUE;
@@ -142,7 +142,7 @@ public class PrimMinimumSpanningTreeFinder<N,E extends Edge<N>> implements Roote
 
 		public Entry<N,E> pop()
 		{
-			Entry<N,E> poped = weightedNodes.poll();
+			final Entry<N,E> poped = weightedNodes.poll();
 			if(poped != null)
 				this.remove(poped.getKey());
 			return poped;
@@ -152,7 +152,7 @@ public class PrimMinimumSpanningTreeFinder<N,E extends Edge<N>> implements Roote
 		{
 			private static final long serialVersionUID = -4356537864223227850L;
 			
-			public int compare(Entry<N,E> first, Entry<N,E> second)
+			public int compare(final Entry<N,E> first, final Entry<N,E> second)
 			{
 				double firstWeight = 0;
 				if(first.getValue() == null)

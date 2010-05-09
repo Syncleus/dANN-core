@@ -51,7 +51,7 @@ public class CholeskyCroutCholeskyDecomposition<M extends Matrix<M, F>, F extend
 	 * @param matrixToDecompose Square, symmetric matrix.
 	 * @param rightflag Actual value ignored.
 	 */
-	public CholeskyCroutCholeskyDecomposition(M matrixToDecompose, int rightflag)
+	public CholeskyCroutCholeskyDecomposition(final M matrixToDecompose, final int rightflag)
 	{
 		// Initialize.
 		M newMatrix = matrixToDecompose;
@@ -116,7 +116,7 @@ public class CholeskyCroutCholeskyDecomposition<M extends Matrix<M, F>, F extend
 	 * @exception IllegalArgumentException  SimpleRealMatrix row dimensions must
 	 * agree or SimpleRealMatrix is not symmetric positive definite.
 	 */
-	public M solve(M matrixToSolve)
+	public M solve(final M matrixToSolve)
 	{
 		M solutionMatrix = matrixToSolve;
 		if(solutionMatrix.getHeight() != this.matrix.getHeight())

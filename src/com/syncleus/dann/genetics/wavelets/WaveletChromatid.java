@@ -51,7 +51,7 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 		mutability = Mutations.getRandom().nextDouble() * 10.0;
 	}
 	
-	public WaveletChromatid(WaveletChromatid copy)
+	public WaveletChromatid(final WaveletChromatid copy)
 	{
 		this.centromerePosition = copy.centromerePosition;
 		this.mutability = copy.mutability;
@@ -61,13 +61,13 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 		this.localSignalGenes = new ArrayList<SignalGene>();
 		this.externalSignalGenes = new ArrayList<ExternalSignalGene>();
 
-		for(AbstractWaveletGene currentGene : copy.sequencedGenes)
+		for(final AbstractWaveletGene currentGene : copy.sequencedGenes)
 			this.sequencedGenes.add(currentGene.clone());
-		for(PromoterGene currentGene : copy.promoters)
+		for(final PromoterGene currentGene : copy.promoters)
 			this.promoters.add(currentGene.clone());
-		for(SignalGene currentGene : copy.localSignalGenes)
+		for(final SignalGene currentGene : copy.localSignalGenes)
 			this.localSignalGenes.add(currentGene.clone());
-		for(ExternalSignalGene currentGene : copy.externalSignalGenes)
+		for(final ExternalSignalGene currentGene : copy.externalSignalGenes)
 			this.externalSignalGenes.add(currentGene.clone());
 	}
 
@@ -88,7 +88,7 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 	{
 		//calculate the signal concentrations
 		final HashSet<SignalKey> allSignals = new HashSet<SignalKey>();
-		for(AbstractWaveletGene waveletGene : this.sequencedGenes)
+		for(final AbstractWaveletGene waveletGene : this.sequencedGenes)
 		{
 			//if the current gene doesnt express a signal then skip it.
 			if(!(waveletGene instanceof SignalGene))
@@ -122,14 +122,14 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 	public Set<AbstractKey> getKeys()
 	{
 		final HashSet<AbstractKey> allKeys = new HashSet<AbstractKey>();
-		for(AbstractWaveletGene gene : this.sequencedGenes)
+		for(final AbstractWaveletGene gene : this.sequencedGenes)
 			allKeys.addAll(gene.getKeys());
 		return Collections.unmodifiableSet(allKeys);
 	}
 
 	public void preTick()
 	{
-		for(AbstractWaveletGene gene : this.sequencedGenes)
+		for(final AbstractWaveletGene gene : this.sequencedGenes)
 			gene.preTick();
 	}
 
@@ -137,7 +137,7 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 	{
 		//first we need to calculate the promotion of each site
 		final Hashtable<Integer, Double> promotions = new Hashtable<Integer, Double>();
-		for(PromoterGene promoter : this.promoters)
+		for(final PromoterGene promoter : this.promoters)
 		{
 			final int promoterIndex = this.sequencedGenes.indexOf(promoter);
 			final int promotedIndex = promoter.getTargetDistance() + promoterIndex;
@@ -161,7 +161,7 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 	public boolean bind(final SignalKeyConcentration concentration, final boolean isExternal)
 	{
 		boolean bound = false;
-		for(AbstractWaveletGene gene : this.sequencedGenes)
+		for(final AbstractWaveletGene gene : this.sequencedGenes)
 			if(	gene.bind(concentration, isExternal) )
 				bound = true;
 		return bound;
@@ -218,8 +218,8 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 		final int newCentromerePostion = this.centromerePosition - (index - geneticSegment.size());
 
 		//create new sequence of genes after crossover
-		ArrayList<AbstractWaveletGene> newGenes;
-		List<AbstractWaveletGene> oldGenes;
+		final ArrayList<AbstractWaveletGene> newGenes;
+		final List<AbstractWaveletGene> oldGenes;
 		if(point < 0 )
 		{
 			newGenes = new ArrayList<AbstractWaveletGene>(geneticSegment);
@@ -236,7 +236,7 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 		}
 		
 		//remove displaced genes from specific gene type lists
-		for(AbstractWaveletGene oldGene : oldGenes)
+		for(final AbstractWaveletGene oldGene : oldGenes)
 		{
 			if(oldGene instanceof PromoterGene)
 				this.promoters.remove(oldGene);
@@ -247,7 +247,7 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 		}
 		
 		//add new genes to the specific gene type list
-		for(AbstractWaveletGene newGene : geneticSegment)
+		for(final AbstractWaveletGene newGene : geneticSegment)
 		{
 			if(newGene instanceof PromoterGene)
 				this.promoters.add((PromoterGene)newGene);
@@ -277,13 +277,13 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 			copy.localSignalGenes = new ArrayList<SignalGene>();
 			copy.externalSignalGenes = new ArrayList<ExternalSignalGene>();
 
-			for(AbstractWaveletGene currentGene : this.sequencedGenes)
+			for(final AbstractWaveletGene currentGene : this.sequencedGenes)
 				copy.sequencedGenes.add(currentGene.clone());
-			for(PromoterGene currentGene : this.promoters)
+			for(final PromoterGene currentGene : this.promoters)
 				copy.promoters.add(currentGene.clone());
-			for(SignalGene currentGene : this.localSignalGenes)
+			for(final SignalGene currentGene : this.localSignalGenes)
 				copy.localSignalGenes.add(currentGene.clone());
-			for(ExternalSignalGene currentGene : this.externalSignalGenes)
+			for(final ExternalSignalGene currentGene : this.externalSignalGenes)
 				copy.externalSignalGenes.add(currentGene.clone());
 
 			return copy;
@@ -302,7 +302,7 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 			//select a random key from the pool
 			AbstractKey randomKey = null;
 			int keyIndex = RANDOM.nextInt(keyPool.size());
-			for(AbstractKey key : keyPool)
+			for(final AbstractKey key : keyPool)
 			{
 				if(keyIndex <= 0)
 				{
@@ -332,7 +332,7 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 				newReceptorKey = newReceptorKey.mutate(mutability);
 
 			//create a new gene using the new receptor
-			AbstractWaveletGene newGene;
+			final AbstractWaveletGene newGene;
 			final SignalKey newSignalKey = new SignalKey(randomKey(keyPool));
 			switch( RANDOM.nextInt(3) )
 			{
@@ -358,7 +358,7 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 		}
 
 		//mutate each gene (the gene itself will handle if it actually mutates)
-		for(AbstractWaveletGene currentGene : this.sequencedGenes)
+		for(final AbstractWaveletGene currentGene : this.sequencedGenes)
 			currentGene.mutate(keyPool);
 
 		//mutate the mutability factor.

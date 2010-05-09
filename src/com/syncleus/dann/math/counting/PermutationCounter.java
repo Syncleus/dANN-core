@@ -38,7 +38,7 @@ public class PermutationCounter implements Counter
 	private BigInteger combinationPermutationsRemaining;
 	private BigInteger remaining;
 
-	public PermutationCounter(int permutationSize)
+	public PermutationCounter(final int permutationSize)
 	{
 		this(permutationSize, permutationSize);
 	}
@@ -51,7 +51,7 @@ public class PermutationCounter implements Counter
 	// 21! is too big to fit into permutation Java long, which is
 	// why we use BigInteger instead.
 	//----------------------------------------------------------
-	public PermutationCounter(int setSize, int permutationSize)
+	public PermutationCounter(final int setSize, final int permutationSize)
 	{
 		if(permutationSize > setSize)
 			throw new IllegalArgumentException("permutationSize can not be larger than setSize");
@@ -102,7 +102,7 @@ public class PermutationCounter implements Counter
 		return remaining.compareTo(BigInteger.ZERO) == 1;
 	}
 
-	private static BigInteger getFactorial(int n)
+	private static BigInteger getFactorial(final int n)
 	{
 		BigInteger fact = BigInteger.ONE;
 		for(int i = n; i > 1; i--)
@@ -110,11 +110,11 @@ public class PermutationCounter implements Counter
 		return fact;
 	}
 
-	private int[] permutateCombination(int[] combination, int[] permutation)
+	private int[] permutateCombination(final int[] combination, final int[] permutation)
 	{
 		final int[] permutated = new int[combination.length];
 		int permutatedIndex = 0;
-		for(int combinationIndex : permutation)
+		for(final int combinationIndex : permutation)
 			permutated[permutatedIndex++] = combination[combinationIndex];
 		return permutated;
 	}

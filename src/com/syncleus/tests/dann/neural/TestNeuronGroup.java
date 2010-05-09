@@ -29,13 +29,13 @@ public class TestNeuronGroup
 	private class TestBrain extends AbstractLocalBrain
 	{
 		@Override
-		public boolean add(Neuron newNeuron)
+		public boolean add(final Neuron newNeuron)
 		{
 			return super.add(newNeuron);
 		}
 
 		@Override
-		public boolean connect(Neuron source, Neuron destination)
+		public boolean connect(final Neuron source, final Neuron destination)
 		{
 			return super.connect(source, destination);
 		}
@@ -44,12 +44,12 @@ public class TestNeuronGroup
 	@Test
 	public void testCollection()
 	{
-		TestBrain brain = new TestBrain();
+		final TestBrain brain = new TestBrain();
 
-		NeuronGroup<SimpleBackpropNeuron> newGroup = new NeuronGroup<SimpleBackpropNeuron>();
-		NeuronGroup<SimpleBackpropNeuron> subGroup = new NeuronGroup<SimpleBackpropNeuron>();
-		SimpleBackpropNeuron newNeuron = new SimpleBackpropNeuron(brain);
-		SimpleBackpropNeuron subNeuron = new SimpleBackpropNeuron(brain);
+		final NeuronGroup<SimpleBackpropNeuron> newGroup = new NeuronGroup<SimpleBackpropNeuron>();
+		final NeuronGroup<SimpleBackpropNeuron> subGroup = new NeuronGroup<SimpleBackpropNeuron>();
+		final SimpleBackpropNeuron newNeuron = new SimpleBackpropNeuron(brain);
+		final SimpleBackpropNeuron subNeuron = new SimpleBackpropNeuron(brain);
 
 		subGroup.add(subNeuron);
 		newGroup.add(subGroup);

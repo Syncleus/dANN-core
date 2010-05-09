@@ -25,7 +25,7 @@ public class BackpropStaticNeuron extends StaticNeuron implements BackpropNeuron
 {
 	private static final long serialVersionUID = -958292142062664899L;
 	
-	public BackpropStaticNeuron(Brain brain, double constantOutput)
+	public BackpropStaticNeuron(final Brain brain, final double constantOutput)
 	{
 		super(brain, constantOutput);
 	}

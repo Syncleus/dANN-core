@@ -43,7 +43,7 @@ public class TestColor
 		final Random random = new Random();
 
 		final int cores = Runtime.getRuntime().availableProcessors();
-		ThreadPoolExecutor executor = new ThreadPoolExecutor(cores+1, cores*2, 20, TimeUnit.SECONDS, new LinkedBlockingQueue());
+		final ThreadPoolExecutor executor = new ThreadPoolExecutor(cores+1, cores*2, 20, TimeUnit.SECONDS, new LinkedBlockingQueue());
 		try
 		{
 			//initialize brain with 3d input and 2d output
@@ -72,7 +72,7 @@ public class TestColor
 			String closeOutText = "";
 			for(int iteration = 0; iteration < TEST_ITERATIONS; iteration++)
 			{
-				StringBuffer outText = new StringBuffer(64);
+				final StringBuffer outText = new StringBuffer(64);
 				//find a mutual offset in the color space (leaving room for the
 				//block)
 				final double redOffset = random.nextDouble() * maxOffset;
@@ -113,7 +113,7 @@ public class TestColor
 			String farOutText = "";
 			for(int iteration = 0; iteration < TEST_ITERATIONS; iteration++)
 			{
-				StringBuffer outText = new StringBuffer(64);
+				final StringBuffer outText = new StringBuffer(64);
 				//get the location of a color within the block
 				final boolean isRed1Positive = random.nextBoolean();
 				final boolean isGreen1Positive = random.nextBoolean();

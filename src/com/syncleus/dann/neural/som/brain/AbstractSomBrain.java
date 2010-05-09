@@ -54,7 +54,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 		private final SimpleSomNeuron neuron;
 		private final static Logger LOGGER = Logger.getLogger(PropagateOutput.class);
 
-		public PropagateOutput(SimpleSomNeuron neuron)
+		public PropagateOutput(final SimpleSomNeuron neuron)
 		{
 			this.neuron = neuron;
 		}
@@ -74,7 +74,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 		private final double neighborhoodRadius;
 		private final double learningRate;
 
-		public TrainNeuron(SimpleSomNeuron neuron, Vector neuronPoint, Vector bestMatchPoint, double neighborhoodRadius, double learningRate)
+		public TrainNeuron(final SimpleSomNeuron neuron, final Vector neuronPoint, final Vector bestMatchPoint, final double neighborhoodRadius, final double learningRate)
 		{
 			this.neuron = neuron;
 			this.neuronPoint = neuronPoint;
@@ -103,7 +103,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	 * @param dimentionality The number of dimensions of the output lattice
 	 * @since 2.0
 	 */
-	protected AbstractSomBrain(int inputCount, int dimentionality)
+	protected AbstractSomBrain(final int inputCount, final int dimentionality)
 	{
 		this(inputCount, dimentionality, null);
 	}
@@ -119,7 +119,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	 * functionality.
 	 * @since 2.0
 	 */
-	protected AbstractSomBrain(int inputCount, int dimentionality, ExecutorService executor)
+	protected AbstractSomBrain(final int inputCount, final int dimentionality, final ExecutorService executor)
 	{
 		super(executor);
 
@@ -130,10 +130,10 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 		
 		this.upperBounds = new Vector(dimentionality);
 		this.lowerBounds = new Vector(dimentionality);
-		List<InputNeuron> newInputs = new ArrayList<InputNeuron>();
+		final List<InputNeuron> newInputs = new ArrayList<InputNeuron>();
 		for(int inputIndex = 0; inputIndex < inputCount; inputIndex++)
 		{
-			InputNeuron newNeuron = new SimpleInputNeuron(this);
+			final InputNeuron newNeuron = new SimpleInputNeuron(this);
 			newInputs.add(newNeuron);
 			super.add(newNeuron);
 		}
@@ -177,7 +177,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 		this.add(outputNeuron);
 
 		//connect all inputs to the new neuron
-		for(InputNeuron input : inputs)
+		for(final InputNeuron input : inputs)
 			this.connect(input, outputNeuron);
 	}
 
@@ -190,7 +190,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	public final Set<Vector> getPositions()
 	{
 		final HashSet<Vector> positions = new HashSet<Vector>();
-		for(Vector position : this.outputs.keySet())
+		for(final Vector position : this.outputs.keySet())
 			positions.add(new Vector(position));
 		return Collections.unmodifiableSet(positions);
 	}
@@ -249,16 +249,16 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 		{
 			//stick all the neurons in the queue to propogate
 			final Map<Vector, Future<Double>> futureOutput = new HashMap<Vector, Future<Double>>();
-			for(Entry<Vector, SimpleSomNeuron> entry : this.outputs.entrySet())
+			for(final Entry<Vector, SimpleSomNeuron> entry : this.outputs.entrySet())
 			{
 				final PropagateOutput callable = new PropagateOutput(entry.getValue());
 				futureOutput.put(entry.getKey(), this.getThreadExecutor().submit(callable));
 			}
 
 			//find the best matching unit
-			for(Entry<Vector, SimpleSomNeuron> entry : this.outputs.entrySet())
+			for(final Entry<Vector, SimpleSomNeuron> entry : this.outputs.entrySet())
 			{
-				double output;
+				final double output;
 				try
 				{
 					output = futureOutput.get(entry.getKey()).get().doubleValue();
@@ -285,11 +285,11 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 		}
 		else
 		{
-			for(Entry<Vector, SimpleSomNeuron> entry : this.outputs.entrySet())
+			for(final Entry<Vector, SimpleSomNeuron> entry : this.outputs.entrySet())
 			{
-				SimpleSomNeuron neuron = entry.getValue();
+				final SimpleSomNeuron neuron = entry.getValue();
 				neuron.propagate();
-				double output = neuron.getOutput();
+				final double output = neuron.getOutput();
 
 				if(bestMatchingUnit == null)
 					bestMatchingUnit = entry.getKey();
@@ -316,7 +316,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 		{
 			//add all the neuron trainingevents to the thread queue
 			final ArrayList<Future> futures = new ArrayList<Future>();
-			for(Entry<Vector, SimpleSomNeuron> entry : this.outputs.entrySet())
+			for(final Entry<Vector, SimpleSomNeuron> entry : this.outputs.entrySet())
 			{
 				final TrainNeuron runnable = new TrainNeuron(entry.getValue(), entry.getKey(), bestMatchingUnit, neighborhoodRadius, learningRate);
 				futures.add(this.getThreadExecutor().submit(runnable));
@@ -325,7 +325,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 			//wait until all neurons are trained
 			try
 			{
-				for(Future future : futures)
+				for(final Future future : futures)
 					future.get();
 			}
 			catch(InterruptedException caught)
@@ -341,7 +341,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 		}
 		else
 		{
-			for(Entry<Vector, SimpleSomNeuron> entry : this.outputs.entrySet())
+			for(final Entry<Vector, SimpleSomNeuron> entry : this.outputs.entrySet())
 			{
 				final TrainNeuron runnable = new TrainNeuron(entry.getValue(), entry.getKey(), bestMatchingUnit, neighborhoodRadius, learningRate);
 				runnable.run();
@@ -439,14 +439,14 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	{
 		//iterate through the output lattice
 		final HashMap<Vector, double[]> weightVectors = new HashMap<Vector, double[]>();
-		for(Entry<Vector,SimpleSomNeuron> output : this.outputs.entrySet())
+		for(final Entry<Vector,SimpleSomNeuron> output : this.outputs.entrySet())
 		{
 			final double[] weightVector = new double[this.inputs.size()];
 			final SimpleSomNeuron currentNeuron = output.getValue();
 			final Vector currentPoint = output.getKey();
 
 			//iterate through the weight vectors of the current neuron
-			for(Synapse source : this.getInEdges(currentNeuron))
+			for(final Synapse source : this.getInEdges(currentNeuron))
 			{
 				final int sourceIndex = this.inputs.indexOf(source.getSourceNode());
 				weightVector[sourceIndex] = source.getWeight();

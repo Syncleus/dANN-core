@@ -31,7 +31,7 @@ public class DirectedGrid extends AbstractBidirectedAdjacencyGraph<GridNode, Dir
 	final private Map<GridNode, Set<DirectedEdge<GridNode>>> inNeighborEdges = new HashMap<GridNode, Set<DirectedEdge<GridNode>>>();
 	final private Map<GridNode, Set<GridNode>> inNeighborNodes = new HashMap<GridNode, Set<GridNode>>();
 
-	public DirectedGrid(double[][] nodeWeights)
+	public DirectedGrid(final double[][] nodeWeights)
 	{
 		this.nodes = new GridNode[nodeWeights.length][nodeWeights[0].length];
 
@@ -88,7 +88,7 @@ public class DirectedGrid extends AbstractBidirectedAdjacencyGraph<GridNode, Dir
 			}
 	}
 
-	public GridNode getNode(int x, int y)
+	public GridNode getNode(final int x, final int y)
 	{
 		if( (x >= nodes[0].length)||(y >= nodes.length) )
 			throw new IllegalArgumentException("coordinates are out of bounds");
@@ -106,55 +106,55 @@ public class DirectedGrid extends AbstractBidirectedAdjacencyGraph<GridNode, Dir
 		return Collections.unmodifiableSet(this.edges);
 	}
 
-	public Set<DirectedEdge<GridNode>> getAdjacentEdges(GridNode node)
+	public Set<DirectedEdge<GridNode>> getAdjacentEdges(final GridNode node)
 	{
-		Set<DirectedEdge<GridNode>> newEdges = new HashSet<DirectedEdge<GridNode>>(this.inNeighborEdges.get(node));
+		final Set<DirectedEdge<GridNode>> newEdges = new HashSet<DirectedEdge<GridNode>>(this.inNeighborEdges.get(node));
 		newEdges.addAll(this.outNeighborEdges.get(node));
 		return Collections.unmodifiableSet(newEdges);
 	}
 
-	public Set<DirectedEdge<GridNode>> getTraversableEdges(GridNode node)
+	public Set<DirectedEdge<GridNode>> getTraversableEdges(final GridNode node)
 	{
-		Set<DirectedEdge<GridNode>> newEdges = new HashSet<DirectedEdge<GridNode>>(this.outNeighborEdges.get(node));
+		final Set<DirectedEdge<GridNode>> newEdges = new HashSet<DirectedEdge<GridNode>>(this.outNeighborEdges.get(node));
 		return Collections.unmodifiableSet(newEdges);
 	}
 
-	public Set<DirectedEdge<GridNode>> getOutEdges(GridNode node)
+	public Set<DirectedEdge<GridNode>> getOutEdges(final GridNode node)
 	{
 		return this.getTraversableEdges(node);
 	}
 
-	public Set<DirectedEdge<GridNode>> getInEdges(GridNode node)
+	public Set<DirectedEdge<GridNode>> getInEdges(final GridNode node)
 	{
-		Set<DirectedEdge<GridNode>> newEdges = new HashSet<DirectedEdge<GridNode>>(this.inNeighborEdges.get(node));
+		final Set<DirectedEdge<GridNode>> newEdges = new HashSet<DirectedEdge<GridNode>>(this.inNeighborEdges.get(node));
 		return Collections.unmodifiableSet(newEdges);
 	}
 
-	public int getIndegree(GridNode node)
+	public int getIndegree(final GridNode node)
 	{
 		return this.getInEdges(node).size();
 	}
 
-	public int getOutdegree(GridNode node)
+	public int getOutdegree(final GridNode node)
 	{
 		return this.getOutEdges(node).size();
 	}
 
-	public boolean isStronglyConnected(GridNode leftNode, GridNode rightNode)
+	public boolean isStronglyConnected(final GridNode leftNode, final GridNode rightNode)
 	{
 		return this.getAdjacentNodes(leftNode).contains(rightNode);
 	}
 
-	public List<GridNode> getAdjacentNodes(GridNode node)
+	public List<GridNode> getAdjacentNodes(final GridNode node)
 	{
-		ArrayList<GridNode> newNeighbors = new ArrayList<GridNode>(this.inNeighborNodes.get(node));
+		final ArrayList<GridNode> newNeighbors = new ArrayList<GridNode>(this.inNeighborNodes.get(node));
 		newNeighbors.addAll(this.outNeighborNodes.get(node));
 		return Collections.unmodifiableList(newNeighbors);
 	}
 
-	public List<GridNode> getTraversableNodes(GridNode node)
+	public List<GridNode> getTraversableNodes(final GridNode node)
 	{
-		ArrayList<GridNode> newNeighbors = new ArrayList<GridNode>(this.outNeighborNodes.get(node));
+		final ArrayList<GridNode> newNeighbors = new ArrayList<GridNode>(this.outNeighborNodes.get(node));
 		return Collections.unmodifiableList(newNeighbors);
 	}
 }

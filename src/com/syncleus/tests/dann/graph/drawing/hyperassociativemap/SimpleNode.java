@@ -23,7 +23,7 @@ public class SimpleNode
 {
 	final int layer;
 
-	public SimpleNode(int layer)
+	public SimpleNode(final int layer)
 	{
 		this.layer = layer;
 	}

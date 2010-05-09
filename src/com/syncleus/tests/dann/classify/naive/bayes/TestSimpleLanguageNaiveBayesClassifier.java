@@ -27,7 +27,7 @@ public class TestSimpleLanguageNaiveBayesClassifier
 	@Test
 	public void testClassify()
 	{
-		TrainableLanguageNaiveBayesClassifier<Integer> classifier = new SimpleLanguageNaiveBayesClassifier<Integer>();
+		final TrainableLanguageNaiveBayesClassifier<Integer> classifier = new SimpleLanguageNaiveBayesClassifier<Integer>();
 
 		//train
 		classifier.train("Money is the root of all evil!", 1);

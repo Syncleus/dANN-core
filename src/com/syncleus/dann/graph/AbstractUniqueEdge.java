@@ -50,7 +50,7 @@ public abstract class AbstractUniqueEdge<N> extends AbstractEdge<N>
 	public int hashCode()
 	{
 		int hash = 0;
-		for(N node : this.getNodes())
+		for(final N node : this.getNodes())
 			hash += node.hashCode();
 		return hash;
 	}

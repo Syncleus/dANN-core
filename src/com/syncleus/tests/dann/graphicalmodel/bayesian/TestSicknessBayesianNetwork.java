@@ -26,25 +26,25 @@ public class TestSicknessBayesianNetwork
 {
 	private static enum BooleanState
 	{
-		TRUE,FALSE;
-	}
+		TRUE,FALSE
+    }
 
 	private static enum SeasonState
 	{
-		WINTER,SUMMER,SPRING,FALL;
-	}
+		WINTER,SUMMER,SPRING,FALL
+    }
 
 	private static enum AgeState
 	{
-		BABY,CHILD,TEENAGER,ADULT,SENIOR;
-	}
+		BABY,CHILD,TEENAGER,ADULT,SENIOR
+    }
 
 	private static enum FeverState
 	{
 		LOW,NONE,WARM,HOT
 	}
 	
-	private static Random RANDOM = new Random();
+	private static final Random RANDOM = new Random();
 
 	private MutableBayesianAdjacencyNetwork network = new MutableBayesianAdjacencyNetwork();
 
@@ -105,36 +105,36 @@ public class TestSicknessBayesianNetwork
 			this.sampleState();
 
 		//lets check some probabilities
-		Set<BayesianNode> goals = new HashSet<BayesianNode>();
+		final Set<BayesianNode> goals = new HashSet<BayesianNode>();
 		goals.add(sick);
-		Set<BayesianNode> influences = new HashSet<BayesianNode>();
+		final Set<BayesianNode> influences = new HashSet<BayesianNode>();
 		influences.add(fever);
 		sick.setState(BooleanState.TRUE);
 
 		fever.setState(FeverState.LOW);
-		double lowPercentage = network.conditionalProbability(goals, influences);
+		final double lowPercentage = network.conditionalProbability(goals, influences);
 		fever.setState(FeverState.NONE);
-		double nonePercentage = network.conditionalProbability(goals, influences);
+		final double nonePercentage = network.conditionalProbability(goals, influences);
 		fever.setState(FeverState.WARM);
-		double warmPercentage = network.conditionalProbability(goals, influences);
+		final double warmPercentage = network.conditionalProbability(goals, influences);
 		fever.setState(FeverState.HOT);
-		double hotPercentage = network.conditionalProbability(goals, influences);
+		final double hotPercentage = network.conditionalProbability(goals, influences);
 
 		Assert.assertTrue("incorrect fever to sickness mapping! " + nonePercentage + " < " + lowPercentage + " < " + warmPercentage + " < " + hotPercentage, (nonePercentage < lowPercentage) && (lowPercentage < warmPercentage) && (warmPercentage < hotPercentage) );
 	}
 
 	private void sampleState()
 	{
-		SeasonState seasonState = (SeasonState.values())[RANDOM.nextInt(SeasonState.values().length)];
+		final SeasonState seasonState = (SeasonState.values())[RANDOM.nextInt(SeasonState.values().length)];
 		season.setState(seasonState);
 
-		AgeState ageState = (AgeState.values())[RANDOM.nextInt(AgeState.values().length)];
+		final AgeState ageState = (AgeState.values())[RANDOM.nextInt(AgeState.values().length)];
 		age.setState(ageState);
 
-		BooleanState noseState = (BooleanState.values())[RANDOM.nextInt(BooleanState.values().length)];
+		final BooleanState noseState = (BooleanState.values())[RANDOM.nextInt(BooleanState.values().length)];
 		stuffyNose.setState(noseState);
 
-		BooleanState tiredState = (BooleanState.values())[RANDOM.nextInt(BooleanState.values().length)];
+		final BooleanState tiredState = (BooleanState.values())[RANDOM.nextInt(BooleanState.values().length)];
 		tired.setState(tiredState);
 
 		

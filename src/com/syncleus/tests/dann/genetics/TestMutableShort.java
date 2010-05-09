@@ -39,11 +39,11 @@ public class TestMutableShort
 	@Test
 	public void testMax()
 	{
-		MutableShort highValue = new MutableShort(Short.MAX_VALUE);
+		final MutableShort highValue = new MutableShort(Short.MAX_VALUE);
 
 		for(int testCount = 0; testCount < 1000; testCount++)
 		{
-			MutableShort mutated = highValue.mutate(100.0);
+			final MutableShort mutated = highValue.mutate(100.0);
 
 			Assert.assertTrue("mutation caused number to roll over: " + mutated, mutated.shortValue() >= -1);
 		}
@@ -52,11 +52,11 @@ public class TestMutableShort
 	@Test
 	public void testMin()
 	{
-		MutableShort lowValue = new MutableShort(Short.MIN_VALUE);
+		final MutableShort lowValue = new MutableShort(Short.MIN_VALUE);
 
 		for(int testCount = 0; testCount < 1000; testCount++)
 		{
-			MutableShort mutated = lowValue.mutate(100.0);
+			final MutableShort mutated = lowValue.mutate(100.0);
 
 			Assert.assertTrue("mutation caused number to roll over: " + mutated, mutated.shortValue() <= 1);
 		}
@@ -65,7 +65,7 @@ public class TestMutableShort
 	@Test
 	public void testDeviation()
 	{
-		MutableShort center = new MutableShort((short)0);
+		final MutableShort center = new MutableShort((short)0);
 
 		double averageSum = 0;
 		double testCount = 0.0;
@@ -74,7 +74,7 @@ public class TestMutableShort
 			averageSum += center.mutate(1.0).shortValue();
 		}
 
-		double average = averageSum / testCount;
+		final double average = averageSum / testCount;
 
 		Assert.assertTrue("average deviation is more than 1.0", average < 1.0);
 	}

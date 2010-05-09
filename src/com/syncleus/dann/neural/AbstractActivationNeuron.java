@@ -51,7 +51,7 @@ public abstract class AbstractActivationNeuron extends AbstractNeuron
 	 *
 	 * @since 1.0
 	 */
-    private ActivationFunction activationFunction;
+    private final ActivationFunction activationFunction;
 
     /**
      * Represents the current output of the neuron
@@ -74,7 +74,7 @@ public abstract class AbstractActivationNeuron extends AbstractNeuron
      *
      * @since 1.0
      */
-    public AbstractActivationNeuron(Brain brain)
+    public AbstractActivationNeuron(final Brain brain)
     {
 		super(brain);
         this.activationFunction = DEFAULT_ACTIVATION_FUNCTION;
@@ -91,7 +91,7 @@ public abstract class AbstractActivationNeuron extends AbstractNeuron
 	 * output fromt he neuron's activity.
 	 * @since 1.0
 	 */
-    public AbstractActivationNeuron(Brain brain, ActivationFunction activationFunction)
+    public AbstractActivationNeuron(final Brain brain, final ActivationFunction activationFunction)
     {
 		super(brain);
 
@@ -162,16 +162,16 @@ public abstract class AbstractActivationNeuron extends AbstractNeuron
     {
         //calculate the current input activity
         this.activity = 0;
-        for (Synapse currentSynapse : this.getBrain().getInEdges(this))
+        for (final Synapse currentSynapse : this.getBrain().getInEdges(this))
             this.activity += currentSynapse.getInput() * currentSynapse.getWeight();
 
         //calculate the activity function and set the result as the output
         this.setOutput(this.activate());
-        for (Synapse current : this.getBrain().getTraversableEdges(this))
+        for (final Synapse current : this.getBrain().getTraversableEdges(this))
             current.setInput(this.output);
     }
 
-	protected void setOutput(double output)
+	protected void setOutput(final double output)
 	{
 		this.output = output;
 	}

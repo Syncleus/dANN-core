@@ -51,9 +51,9 @@ public class TestSignalProcessingWavelet
 	@Test
 	public void testMutationOnce()
 	{
-        GlobalSignalConcentration xAxis = new GlobalSignalConcentration();
-        GlobalSignalConcentration yAxis = new GlobalSignalConcentration();
-        GlobalSignalConcentration output = new GlobalSignalConcentration();
+        final GlobalSignalConcentration xAxis = new GlobalSignalConcentration();
+        final GlobalSignalConcentration yAxis = new GlobalSignalConcentration();
+        final GlobalSignalConcentration output = new GlobalSignalConcentration();
         SignalProcessingWavelet processor = new SignalProcessingWavelet(xAxis, output);
 		processor = processor.mutate(1.0, xAxis);
 		processor = processor.mutate(1.0, yAxis);
@@ -108,7 +108,7 @@ public class TestSignalProcessingWavelet
 				population.pollFirstEntry();
 
 			//repopulate to POPULATION_SIZE members
-			ArrayList<SignalProcessingWavelet> populationArray = new ArrayList<SignalProcessingWavelet>(population.values());
+			final ArrayList<SignalProcessingWavelet> populationArray = new ArrayList<SignalProcessingWavelet>(population.values());
 			while(population.size() < POPULATION_SIZE)
 			{
 				SignalProcessingWavelet processor;
@@ -132,7 +132,7 @@ public class TestSignalProcessingWavelet
 		Assert.assertTrue("did not successfully match XOR truth table: fitness: " + bestFitness, bestFitness >= 4.0);
 	}
 
-	private static SignalProcessingWavelet mutateXor(SignalProcessingWavelet processor, GlobalSignalConcentration xAxis, GlobalSignalConcentration yAxis)
+	private static SignalProcessingWavelet mutateXor(final SignalProcessingWavelet processor, final GlobalSignalConcentration xAxis, final GlobalSignalConcentration yAxis)
 	{
 		//mutate until there are atleast 2 input signals and 1 output signal, 3 total
 		//there will always be exactly 1 output signal
@@ -147,7 +147,7 @@ public class TestSignalProcessingWavelet
 		return mutatedProcessor;
 	}
 
-	private static double checkXorFitness(Function xorAttempt, int waveCount)
+	private static double checkXorFitness(final Function xorAttempt, final int waveCount)
 	{
 		if(waveCount <= 0)
 			throw new IllegalArgumentException("waveCount must be >0");

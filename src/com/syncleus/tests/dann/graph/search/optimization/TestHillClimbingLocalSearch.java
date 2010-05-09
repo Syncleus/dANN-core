@@ -43,13 +43,13 @@ public class TestHillClimbingLocalSearch
 	@Test
 	public void testEasyHill()
 	{
-		Grid easyHillGrid = new Grid(EASY_GRID);
-		HillClimbingLocalSearch<Grid, GridNode> searcher = new HillClimbingLocalSearch<Grid, GridNode>(easyHillGrid);
+		final Grid easyHillGrid = new Grid(EASY_GRID);
+		final HillClimbingLocalSearch<Grid, GridNode> searcher = new HillClimbingLocalSearch<Grid, GridNode>(easyHillGrid);
 
-		GridNode startNode = easyHillGrid.getNode(EASY_GRID_START[0], EASY_GRID_START[1]);
-		GridNode expectedSolutionNode = easyHillGrid.getNode(EASY_GRID_SOLUTION[0], EASY_GRID_SOLUTION[1]);
+		final GridNode startNode = easyHillGrid.getNode(EASY_GRID_START[0], EASY_GRID_START[1]);
+		final GridNode expectedSolutionNode = easyHillGrid.getNode(EASY_GRID_SOLUTION[0], EASY_GRID_SOLUTION[1]);
 
-		GridNode obtainedSolutionNode = searcher.search(startNode);
+		final GridNode obtainedSolutionNode = searcher.search(startNode);
 
 		Assert.assertTrue("incorrect solution found!", obtainedSolutionNode.equals(expectedSolutionNode));
 	}

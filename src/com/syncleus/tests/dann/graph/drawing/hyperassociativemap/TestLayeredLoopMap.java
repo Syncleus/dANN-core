@@ -39,7 +39,7 @@ public class TestLayeredLoopMap
 			for(int alignCount = 0; alignCount<10; alignCount++)
 				testMap.align();
 
-			SimpleNode[][] nodes = testMap.getGraph().getNodeInLayers();
+			final SimpleNode[][] nodes = testMap.getGraph().getNodeInLayers();
 
 			//find the farthest nodes in layer 1 and 2
 			double adjacentTotal = 0.0;
@@ -48,12 +48,12 @@ public class TestLayeredLoopMap
 			double seperatedComponents = 0.0;
 			for(int primaryLayerIndex = 0; primaryLayerIndex < nodes[0].length; primaryLayerIndex++)
 			{
-				SimpleNode currentPrimaryLayerNode = nodes[0][primaryLayerIndex];
+				final SimpleNode currentPrimaryLayerNode = nodes[0][primaryLayerIndex];
 
 				for(int adjacentLayerIndex = 0; adjacentLayerIndex < nodes[1].length; adjacentLayerIndex++)
 				{
-					SimpleNode currentAdjacentLayerNode = nodes[1][adjacentLayerIndex];
-					double currentDistance = testMap.getCoordinates().get(currentPrimaryLayerNode).calculateRelativeTo(testMap.getCoordinates().get(currentAdjacentLayerNode)).getDistance();
+					final SimpleNode currentAdjacentLayerNode = nodes[1][adjacentLayerIndex];
+					final double currentDistance = testMap.getCoordinates().get(currentPrimaryLayerNode).calculateRelativeTo(testMap.getCoordinates().get(currentAdjacentLayerNode)).getDistance();
 
 					adjacentTotal += currentDistance;
 					adjacentComponents++;
@@ -62,16 +62,16 @@ public class TestLayeredLoopMap
 
 				for(int seperatedLayerIndex = 0; seperatedLayerIndex < nodes[nodes.length-1].length; seperatedLayerIndex++)
 				{
-					SimpleNode currentSeperatedLayerNode = nodes[nodes.length-1][seperatedLayerIndex];
-					double currentDistance = testMap.getCoordinates().get(currentPrimaryLayerNode).calculateRelativeTo(testMap.getCoordinates().get(currentSeperatedLayerNode)).getDistance();
+					final SimpleNode currentSeperatedLayerNode = nodes[nodes.length-1][seperatedLayerIndex];
+					final double currentDistance = testMap.getCoordinates().get(currentPrimaryLayerNode).calculateRelativeTo(testMap.getCoordinates().get(currentSeperatedLayerNode)).getDistance();
 
 					seperatedTotal += currentDistance;
 					seperatedComponents++;
 				}
 			}
 
-			double averageSeperated = seperatedTotal / seperatedComponents;
-			double averageAdjacent = adjacentTotal / adjacentComponents;
+			final double averageSeperated = seperatedTotal / seperatedComponents;
+			final double averageAdjacent = adjacentTotal / adjacentComponents;
 			Assert.assertTrue("Associative Map did not properly align: averageAdjacent:" + averageAdjacent + " averageSeperated:" + averageSeperated, averageAdjacent < averageSeperated);
 		}
 		finally

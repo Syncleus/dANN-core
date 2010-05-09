@@ -49,7 +49,7 @@ public class SynapseDoesNotExistDannException extends DannException
 	 * @param msg A string describing the cause of the exception
 	 * @since 1.0
 	 */
-	public SynapseDoesNotExistDannException(String msg)
+	public SynapseDoesNotExistDannException(final String msg)
 	{
 		super(msg);
 	}
@@ -63,7 +63,7 @@ public class SynapseDoesNotExistDannException extends DannException
 	 * @param cause The throwable which caused this exception
 	 * @since 1.0
 	 */
-	public SynapseDoesNotExistDannException(String msg, Throwable cause)
+	public SynapseDoesNotExistDannException(final String msg, final Throwable cause)
 	{
 		super(msg, cause);
 	}
@@ -76,7 +76,7 @@ public class SynapseDoesNotExistDannException extends DannException
 	 * @param cause The throwable which caused this exception
 	 * @since 1.0
 	 */
-	public SynapseDoesNotExistDannException(Throwable cause)
+	public SynapseDoesNotExistDannException(final Throwable cause)
 	{
 		super(cause);
 	}

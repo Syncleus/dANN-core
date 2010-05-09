@@ -43,7 +43,7 @@ public class TestShortValueGene
 	@Test
 	public void testMutation()
 	{
-		ValueGene center = new ShortValueGene((short)0);
+		final ValueGene center = new ShortValueGene((short)0);
 
 		short averageSum = 0;
 		int testCount;
@@ -52,7 +52,7 @@ public class TestShortValueGene
 			averageSum += center.mutate(10).getValue().shortValue();
 		}
 
-		double average = averageSum / testCount;
+		final double average = averageSum / testCount;
 
 		Assert.assertTrue("average deviation is more than 10.0", average < 10.0);
 	}

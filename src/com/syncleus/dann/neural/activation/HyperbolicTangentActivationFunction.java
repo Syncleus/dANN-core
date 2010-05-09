@@ -42,7 +42,7 @@ public class HyperbolicTangentActivationFunction implements ActivationFunction
 	 * between -1 and 1.
 	 * @since 1.0
 	 */
-    public double activate(double activity)
+    public double activate(final double activity)
     {
         return Math.tanh(activity);
     }
@@ -56,7 +56,7 @@ public class HyperbolicTangentActivationFunction implements ActivationFunction
 	 * function.
 	 * @since 1.0
 	 */
-    public double activateDerivative(double activity)
+    public double activateDerivative(final double activity)
     {
         return 1.0 - Math.pow(this.activate(activity), 2.0);
     }

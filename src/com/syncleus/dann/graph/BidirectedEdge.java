@@ -23,8 +23,8 @@ public interface BidirectedEdge<N> extends Edge<N>
 {
 	public enum EndState
 	{
-		OUTWARD, INWARD, NONE;
-	};
+		OUTWARD, INWARD, NONE
+	}
 
 	N getLeftNode();
 	N getRightNode();

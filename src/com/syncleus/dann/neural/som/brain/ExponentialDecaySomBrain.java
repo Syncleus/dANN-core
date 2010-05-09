@@ -32,14 +32,14 @@ public class ExponentialDecaySomBrain extends AbstractSomBrain
 	private final int iterationsToConverge;
 	private final double initialLearningRate;
 
-	public ExponentialDecaySomBrain(int inputCount, int dimentionality, int iterationsToConverge, double initialLearningRate, ExecutorService executor)
+	public ExponentialDecaySomBrain(final int inputCount, final int dimentionality, final int iterationsToConverge, final double initialLearningRate, final ExecutorService executor)
 	{
 		super(inputCount, dimentionality, executor);
 		this.iterationsToConverge = iterationsToConverge;
 		this.initialLearningRate = initialLearningRate;
 	}
 
-	public ExponentialDecaySomBrain(int inputCount, int dimentionality, int iterationsToConverge, double initialLearningRate)
+	public ExponentialDecaySomBrain(final int inputCount, final int dimentionality, final int iterationsToConverge, final double initialLearningRate)
 	{
 		this(inputCount, dimentionality, iterationsToConverge, initialLearningRate, null);
 	}
@@ -49,7 +49,7 @@ public class ExponentialDecaySomBrain extends AbstractSomBrain
 		double maxCrossSection = 0.0;
 		for(int dimensionIndex = 1; dimensionIndex <= this.getUpperBounds().getDimensions(); dimensionIndex++)
 		{
-			double crossSection = this.getUpperBounds().getCoordinate(dimensionIndex) - this.getLowerBounds().getCoordinate(dimensionIndex);
+			final double crossSection = this.getUpperBounds().getCoordinate(dimensionIndex) - this.getLowerBounds().getCoordinate(dimensionIndex);
 			if( crossSection > maxCrossSection)
 				maxCrossSection = crossSection;
 		}
@@ -71,7 +71,7 @@ public class ExponentialDecaySomBrain extends AbstractSomBrain
 	 * its distance from the BMU.
 	 * @since 2.0
 	 */
-	protected double neighborhoodFunction(double distanceFromBest)
+	protected double neighborhoodFunction(final double distanceFromBest)
 	{
 		return Math.exp(-1.0*(Math.pow(distanceFromBest, 2.0))/(2.0*Math.pow(this.neighborhoodRadiusFunction(), 2.0)));
 	}

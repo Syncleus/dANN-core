@@ -52,7 +52,7 @@ public class SimpleSynapse extends ImmutableDirectedEdge<Neuron> implements Syna
      */
     private double input;
 
-	private Random RANDOM = new Random();
+	private final Random RANDOM = new Random();
 
     /**
      * Creates a new instance of SimpleSynapse
@@ -62,7 +62,7 @@ public class SimpleSynapse extends ImmutableDirectedEdge<Neuron> implements Syna
      * @param destinationToSet The outgoing neuron connection.
      * @param initialWeight The initial weight of the synapse
      */
-    public SimpleSynapse(Neuron sourceToSet, Neuron destinationToSet, double initialWeight)
+    public SimpleSynapse(final Neuron sourceToSet, final Neuron destinationToSet, final double initialWeight)
     {
 		super(sourceToSet, destinationToSet);
 
@@ -77,7 +77,7 @@ public class SimpleSynapse extends ImmutableDirectedEdge<Neuron> implements Syna
      * @param destinationToSet The outgoing neuron connection.
      * @param initialWeight The initial weight of the synapse
      */
-    public SimpleSynapse(Neuron sourceToSet, Neuron destinationToSet)
+    public SimpleSynapse(final Neuron sourceToSet, final Neuron destinationToSet)
     {
 		super(sourceToSet, destinationToSet);
 
@@ -91,7 +91,7 @@ public class SimpleSynapse extends ImmutableDirectedEdge<Neuron> implements Syna
      * @since 1.0
      * @param newInput The new input value to set.
      */
-    public void setInput(double newInput)
+    public void setInput(final double newInput)
     {
         this.input = newInput;
     }
@@ -103,7 +103,7 @@ public class SimpleSynapse extends ImmutableDirectedEdge<Neuron> implements Syna
 	 * @param newWeight new weight for the synapse.
 	 * @since 1.0
 	 */
-	public void setWeight(double newWeight)
+	public void setWeight(final double newWeight)
 	{
 		this.weight = newWeight;
 	}
@@ -133,7 +133,7 @@ public class SimpleSynapse extends ImmutableDirectedEdge<Neuron> implements Syna
 	}
 
 	@Override
-	public SimpleSynapse disconnect(Neuron node)
+	public SimpleSynapse disconnect(final Neuron node)
 	{
 		if(node == null)
 			throw new IllegalArgumentException("node can not be null", new NullPointerException());
@@ -144,7 +144,7 @@ public class SimpleSynapse extends ImmutableDirectedEdge<Neuron> implements Syna
 	}
 
 	@Override
-	public SimpleSynapse disconnect(List<Neuron> nodes)
+	public SimpleSynapse disconnect(final List<Neuron> nodes)
 	{
 		if(nodes == null)
 			throw new IllegalArgumentException("node can not be null", new NullPointerException());

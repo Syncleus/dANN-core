@@ -144,7 +144,7 @@ public class TestActivationValues
 	{
 		for(int testIndex = 0; testIndex < activities.length; testIndex++)
 		{
-			double result = function.activate(activities[testIndex]);
+			final double result = function.activate(activities[testIndex]);
 			if(!checkResult(result, transfered[testIndex]))
 			{
 				LOGGER.error("Activation function " + function + " failed. Expected: " + transfered[testIndex] + ", Received: " + result);
@@ -154,7 +154,7 @@ public class TestActivationValues
 		return true;
 	}
 
-	private static boolean checkResult(double firstValue, double secondValue)
+	private static boolean checkResult(final double firstValue, final double secondValue)
 	{
 		return (Math.abs(firstValue - secondValue) < 0.0000001);
 	}

@@ -43,7 +43,7 @@ public class TestLongValueGene
 	@Test
 	public void testMutation()
 	{
-		ValueGene center = new LongValueGene(0l);
+		final ValueGene center = new LongValueGene(0l);
 
 		long averageSum = 0;
 		long testCount;
@@ -52,7 +52,7 @@ public class TestLongValueGene
 			averageSum += center.mutate(100.0).getValue().byteValue();
 		}
 
-		double average = averageSum / testCount;
+		final double average = averageSum / testCount;
 
 		Assert.assertTrue("average deviation is more than 100.0", average < 100.0);
 	}

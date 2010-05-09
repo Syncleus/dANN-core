@@ -41,7 +41,7 @@ public class GausianActivationFunction implements ActivationFunction
 	 * 1.
 	 * @since 1.0
 	 */
-    public double activate(double activity)
+    public double activate(final double activity)
     {
         return Math.pow(Math.E, (-1.0 * Math.pow(activity,2) ));
     }
@@ -54,7 +54,7 @@ public class GausianActivationFunction implements ActivationFunction
 	 * @return The result of the derivative of the gausian activation function.
 	 * @since 1.0
 	 */
-    public double activateDerivative(double activity)
+    public double activateDerivative(final double activity)
     {
         return (-2.0 * Math.log10(Math.E) * activity) / Math.pow(Math.E, Math.pow(activity,2));
     }

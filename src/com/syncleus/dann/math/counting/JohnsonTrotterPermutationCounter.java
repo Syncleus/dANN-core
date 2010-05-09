@@ -35,12 +35,12 @@ public class JohnsonTrotterPermutationCounter implements Counter
 	private BigInteger combinationPermutationsRemaining;
 	private BigInteger remaining;
 
-	public JohnsonTrotterPermutationCounter(int permutationSize)
+	public JohnsonTrotterPermutationCounter(final int permutationSize)
 	{
 		this(permutationSize, permutationSize);
 	}
 
-	public JohnsonTrotterPermutationCounter(int setSize, int permutationSize)
+	public JohnsonTrotterPermutationCounter(final int setSize, final int permutationSize)
 	{
 		if(permutationSize > setSize)
 			throw new IllegalArgumentException("permutationSize can not be larger than setSize");
@@ -96,7 +96,7 @@ public class JohnsonTrotterPermutationCounter implements Counter
 		return remaining.compareTo(BigInteger.ZERO) == 1;
 	}
 
-	private static BigInteger getFactorial(int n)
+	private static BigInteger getFactorial(final int n)
 	{
 		BigInteger fact = BigInteger.ONE;
 		for(int i = n; i > 1; i--)
@@ -104,11 +104,11 @@ public class JohnsonTrotterPermutationCounter implements Counter
 		return fact;
 	}
 
-	private int[] permutateCombination(int[] combination, int[] permutation)
+	private int[] permutateCombination(final int[] combination, final int[] permutation)
 	{
 		final int[] permutated = new int[combination.length];
 		int permutatedIndex = 0;
-		for(int combinationIndex : permutation)
+		for(final int combinationIndex : permutation)
 			permutated[permutatedIndex++] = combination[combinationIndex];
 		return permutated;
 	}
@@ -150,9 +150,9 @@ public class JohnsonTrotterPermutationCounter implements Counter
 		return permutationSize;
 	}
 
-	private static boolean isMobile(int[] permutation, int[] mobility, int index)
+	private static boolean isMobile(final int[] permutation, final int[] mobility, final int index)
 	{
-		int mobilityValue = mobility[index];
+		final int mobilityValue = mobility[index];
 
 		if( (index == 0) && (mobilityValue < 0) )
 			return false;
@@ -162,14 +162,14 @@ public class JohnsonTrotterPermutationCounter implements Counter
 		return  ( permutation[index] > permutation[index + mobility[index]]);
 	}
 
-	private static void swap(int[] permutation, int firstIndex, int secondIndex)
+	private static void swap(final int[] permutation, final int firstIndex, final int secondIndex)
 	{
-		int first = permutation[firstIndex];
+		final int first = permutation[firstIndex];
 		permutation[firstIndex] = permutation[secondIndex];
 		permutation[secondIndex] = first;
 	}
 	
-	private static int largestMobileIndex(int[] permutation, int[] mobility)
+	private static int largestMobileIndex(final int[] permutation, final int[] mobility)
 	{
 		for(int index = mobility.length - 1; index >= 0; index--)
 			if(isMobile(permutation, mobility, index))
@@ -177,7 +177,7 @@ public class JohnsonTrotterPermutationCounter implements Counter
 		return -1;
 	}
 
-	private static boolean next(int[] permutation, int[] mobility)
+	private static boolean next(final int[] permutation, final int[] mobility)
 	{
 		final int largestIndex = largestMobileIndex(permutation, mobility);
 		if(largestIndex < 0)

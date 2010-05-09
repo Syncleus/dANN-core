@@ -43,7 +43,7 @@ public class TestDoubleValueGene
 	@Test
 	public void testMutation()
 	{
-		ValueGene center = new DoubleValueGene(0.0);
+		final ValueGene center = new DoubleValueGene(0.0);
 
 		double averageSum = 0.0;
 		double testCount;
@@ -52,7 +52,7 @@ public class TestDoubleValueGene
 			averageSum += center.mutate(1.0).getValue().doubleValue();
 		}
 
-		double average = averageSum / testCount;
+		final double average = averageSum / testCount;
 
 		Assert.assertTrue("average deviation is more than 1.0", average < 1.0);
 	}

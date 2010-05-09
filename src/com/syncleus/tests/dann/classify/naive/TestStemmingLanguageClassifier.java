@@ -27,7 +27,7 @@ public class TestStemmingLanguageClassifier
 	@Test
 	public void testClassify()
 	{
-		TrainableLanguageNaiveClassifier<Integer> classifier = new StemmingLanguageNaiveClassifier<Integer>();
+		final TrainableLanguageNaiveClassifier<Integer> classifier = new StemmingLanguageNaiveClassifier<Integer>();
 
 		//train
 		classifier.train("Money is the root of all evil!", 1);

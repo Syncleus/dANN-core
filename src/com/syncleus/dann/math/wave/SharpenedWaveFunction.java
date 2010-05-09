@@ -20,7 +20,7 @@ package com.syncleus.dann.math.wave;
 
 public class SharpenedWaveFunction extends WaveFunction
 {
-	public SharpenedWaveFunction(SharpenedWaveFunction copy)
+	public SharpenedWaveFunction(final SharpenedWaveFunction copy)
 	{
 		super(copy);
 	}
@@ -30,12 +30,12 @@ public class SharpenedWaveFunction extends WaveFunction
         super(new String[]{"form"});
     }
     
-    public SharpenedWaveFunction(String[] additionalParameters)
+    public SharpenedWaveFunction(final String[] additionalParameters)
     {
         super(combineLabels(new String[]{"form"},additionalParameters));
     }
     
-    public void setForm(double form)
+    public void setForm(final double form)
     {
         this.setParameter(this.getParameterNameIndex("form"), form);
     }
@@ -69,7 +69,7 @@ public class SharpenedWaveFunction extends WaveFunction
     }
 
 	@Override
-    public String toString(String xName)
+    public String toString(final String xName)
     {
         return "(" + super.toString(xName) + "/|" + super.toString(xName) + "|) * |(|" + super.toString(xName) + ")/amplitude|^form| * amplitude";
     }

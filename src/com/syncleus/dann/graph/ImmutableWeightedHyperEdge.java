@@ -38,7 +38,7 @@ public class ImmutableWeightedHyperEdge<N> extends ImmutableHyperEdge<N> impleme
 	}
 
 	@Override
-	public SimpleWeightedHyperEdge<N> disconnect(N node)
+	public SimpleWeightedHyperEdge<N> disconnect(final N node)
 	{
 		if(node == null)
 			throw new IllegalArgumentException("node can not be null", new NullPointerException());
@@ -49,7 +49,7 @@ public class ImmutableWeightedHyperEdge<N> extends ImmutableHyperEdge<N> impleme
 	}
 
 	@Override
-	public SimpleWeightedHyperEdge<N> disconnect(List<N> nodes)
+	public SimpleWeightedHyperEdge<N> disconnect(final List<N> nodes)
 	{
 		if(nodes == null)
 			throw new IllegalArgumentException("node can not be null", new NullPointerException());

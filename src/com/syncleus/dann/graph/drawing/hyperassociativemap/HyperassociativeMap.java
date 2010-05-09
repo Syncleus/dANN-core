@@ -46,9 +46,9 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 
 	private class Align implements Callable<Vector>
 	{
-		private N node;
+		private final N node;
 
-		public Align(N node)
+		public Align(final N node)
 		{
 			this.node = node;
 		}
@@ -59,7 +59,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 		}
 	}
 
-	public HyperassociativeMap(G graph, int dimensions, double equilibriumDistance, boolean useWeights, ExecutorService threadExecutor)
+	public HyperassociativeMap(final G graph, final int dimensions, final double equilibriumDistance, final boolean useWeights, final ExecutorService threadExecutor)
 	{
 		if(graph == null)
 			throw new IllegalArgumentException("Graph can not be null");
@@ -73,21 +73,21 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 		this.useWeights = useWeights;
 
 		//refresh all nodes
-		for(N node:this.graph.getNodes())
+		for(final N node:this.graph.getNodes())
 			this.coordinates.put(node, randomCoordinates(this.dimensions));
 	}
 
-	public HyperassociativeMap(G graph, int dimensions, ExecutorService threadExecutor)
+	public HyperassociativeMap(final G graph, final int dimensions, final ExecutorService threadExecutor)
 	{
 		this(graph, dimensions, 1.0, true, threadExecutor);
 	}
 
-	public HyperassociativeMap(G graph, int dimensions, double equilibriumDistance, boolean useWeights)
+	public HyperassociativeMap(final G graph, final int dimensions, final double equilibriumDistance, final boolean useWeights)
 	{
 		this(graph, dimensions, equilibriumDistance, useWeights, null);
 	}
 
-	public HyperassociativeMap(G graph, int dimensions)
+	public HyperassociativeMap(final G graph, final int dimensions)
 	{
 		this(graph, dimensions, 1.0, true, null);
 	}
@@ -119,7 +119,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 	{
 		this.resetLearning();
 		//randomize all nodes
-		for(N node:this.coordinates.keySet())
+		for(final N node:this.coordinates.keySet())
 			this.coordinates.put(node, randomCoordinates(this.dimensions));
 	}
 
@@ -147,7 +147,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 		if(!this.coordinates.keySet().equals(this.graph.getNodes()))
 		{
 			final Map<N, Vector> newCoordinates = new HashMap<N, Vector>();
-			for(N node:this.graph.getNodes())
+			for(final N node:this.graph.getNodes())
 				if(this.coordinates.containsKey(node))
 					newCoordinates.put(node, this.coordinates.get(node));
 				else
@@ -200,7 +200,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 
 	private void recenterNodes(final Vector center)
 	{
-		for(N node:this.graph.getNodes())
+		for(final N node:this.graph.getNodes())
 			this.coordinates.put(node, this.coordinates.get(node).calculateRelativeTo(center));
 	}
 
@@ -209,27 +209,27 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 		return this.useWeights;
 	}
 
-	Map<N, Double> getNeighbors(N nodeToQuery)
+	Map<N, Double> getNeighbors(final N nodeToQuery)
 	{
-		Map<N, Double> neighbors = new HashMap<N, Double>();
-		for(Edge<N> neighborEdge : this.graph.getAdjacentEdges(nodeToQuery))
+		final Map<N, Double> neighbors = new HashMap<N, Double>();
+		for(final Edge<N> neighborEdge : this.graph.getAdjacentEdges(nodeToQuery))
 		{
-			Double currentWeight = ((neighborEdge instanceof Weighted) && this.useWeights ? ((Weighted)neighborEdge).getWeight() : this.equilibriumDistance );
-			for(N neighbor : neighborEdge.getNodes())
+			final Double currentWeight = ((neighborEdge instanceof Weighted) && this.useWeights ? ((Weighted)neighborEdge).getWeight() : this.equilibriumDistance );
+			for(final N neighbor : neighborEdge.getNodes())
 				if( !neighbor.equals(nodeToQuery) )
 					neighbors.put(neighbor, currentWeight);
 		}
 		return neighbors;
 	}
 
-	final private Vector align(N nodeToAlign)
+	final private Vector align(final N nodeToAlign)
 	{
 		//calculate equilibrium with neighbors
 		final Vector location = this.coordinates.get(nodeToAlign);
 		final Map<N, Double> neighbors = this.getNeighbors(nodeToAlign);
 
 		Vector compositeVector = new Vector(location.getDimensions());
-		for(Entry<N,Double> neighborEntry : neighbors.entrySet())
+		for(final Entry<N,Double> neighborEntry : neighbors.entrySet())
 		{
 			final N neighbor = neighborEntry.getKey();
 			final double associationEquilibriumDistance = neighborEntry.getValue();
@@ -257,7 +257,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 
 
 		//calculate repulsion with all non-neighbors
-		for(N node:this.graph.getNodes())
+		for(final N node:this.graph.getNodes())
 			if((neighbors.containsKey(node) == false) && (node != nodeToAlign) && (this.graph.getAdjacentNodes(node).contains(nodeToAlign) == false))
 			{
 				Vector nodeVector = this.coordinates.get(node).calculateRelativeTo(location);
@@ -272,12 +272,12 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 			}
 
 		Vector newLocation = location.add(compositeVector);
-		Vector oldLocation = this.coordinates.get(nodeToAlign);
+		final Vector oldLocation = this.coordinates.get(nodeToAlign);
 		double moveDistance = Math.abs(newLocation.calculateRelativeTo(oldLocation).getDistance());
 
 		if(moveDistance > equilibriumDistance * this.acceptableDistanceFactor)
 		{
-			double newLearningRate = ((equilibriumDistance * this.acceptableDistanceFactor) / moveDistance);
+			final double newLearningRate = ((equilibriumDistance * this.acceptableDistanceFactor) / moveDistance);
 			if(newLearningRate < this.learningRate)
 			{
 				this.learningRate = newLearningRate;
@@ -310,16 +310,16 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 	 * @return New random Vector
 	 * @since 1.0
 	 */
-	public static Vector randomCoordinates(int dimensions)
+	public static Vector randomCoordinates(final int dimensions)
 	{
-		double[] randomCoords = new double[dimensions];
+		final double[] randomCoords = new double[dimensions];
 		for(int randomCoordsIndex = 0; randomCoordsIndex < dimensions; randomCoordsIndex++)
 			randomCoords[randomCoordsIndex] = (RANDOM.nextDouble() * 2.0) - 1.0;
 
 		return new Vector(randomCoords);
 	}
 
-	private static double atanh(double value)
+	private static double atanh(final double value)
 	{
 		return 0.5 * Math.log(Math.abs((value + 1.0) / (1.0 - value)));
 	}
@@ -327,7 +327,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 	private List<Future<Vector>> submitFutureAligns()
 	{
 		final ArrayList<Future<Vector>> futures = new ArrayList<Future<Vector>>();
-		for(N node:this.graph.getNodes())
+		for(final N node:this.graph.getNodes())
 			futures.add(this.threadExecutor.submit(new Align(node)));
 		return futures;
 	}
@@ -335,9 +335,9 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 	private Vector processLocally()
 	{
 		Vector pointSum = new Vector(this.dimensions);
-		for(N node:this.graph.getNodes())
+		for(final N node:this.graph.getNodes())
 		{
-			Vector newPoint = this.align(node);
+			final Vector newPoint = this.align(node);
 			for(int dimensionIndex = 1; dimensionIndex <= this.dimensions; dimensionIndex++)
 				pointSum = pointSum.setCoordinate(pointSum.getCoordinate(dimensionIndex) + newPoint.getCoordinate(dimensionIndex), dimensionIndex);
 		}
@@ -359,9 +359,9 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 		Vector pointSum = new Vector(this.dimensions);
 		try
 		{
-			for(Future<Vector> future:futures)
+			for(final Future<Vector> future:futures)
 			{
-				Vector newPoint = future.get();
+				final Vector newPoint = future.get();
 				for(int dimensionIndex = 1; dimensionIndex <= this.dimensions; dimensionIndex++)
 					pointSum = pointSum.setCoordinate(pointSum.getCoordinate(dimensionIndex) + newPoint.getCoordinate(dimensionIndex), dimensionIndex);
 			}

@@ -28,10 +28,10 @@ public class CombinedWaveletFunction extends AbstractFunction implements Cloneab
     private Set<String> dimensions = new TreeSet<String>();
     private List<WaveMultidimensionalFunction> waves = Collections.synchronizedList(new ArrayList<WaveMultidimensionalFunction>());
 
-    public CombinedWaveletFunction(String[] dimensions)
+    public CombinedWaveletFunction(final String[] dimensions)
     {
         super(dimensions);
-        for(String dimension:dimensions)
+        for(final String dimension:dimensions)
         {
             this.dimensions.add(dimension);
         }
@@ -52,19 +52,19 @@ public class CombinedWaveletFunction extends AbstractFunction implements Cloneab
 
 
 
-    public void setDimension(String dimension, double value)
+    public void setDimension(final String dimension, final double value)
     {
         this.setParameter(this.getParameterNameIndex(dimension), value);
     }
 
 
 
-    public double getDimension(String dimension)
+    public double getDimension(final String dimension)
     {
         return this.getParameter(this.getParameterNameIndex(dimension));
     }
 
-    public void addWave(WaveMultidimensionalFunction wave)
+    public void addWave(final WaveMultidimensionalFunction wave)
     {
         this.waves.add(wave);
     }
@@ -74,9 +74,9 @@ public class CombinedWaveletFunction extends AbstractFunction implements Cloneab
     public double calculate()
     {
         double waveTotal = 0.0;
-        for(WaveMultidimensionalFunction currentWave:this.waves)
+        for(final WaveMultidimensionalFunction currentWave:this.waves)
         {
-            for(String dimension:this.dimensions)
+            for(final String dimension:this.dimensions)
             {
 				currentWave.setDimension(dimension, this.getDimension(dimension));
             }
@@ -92,7 +92,7 @@ public class CombinedWaveletFunction extends AbstractFunction implements Cloneab
 	@Override
     public CombinedWaveletFunction clone()
     {
-        CombinedWaveletFunction copy = (CombinedWaveletFunction) super.clone();
+        final CombinedWaveletFunction copy = (CombinedWaveletFunction) super.clone();
 		copy.dimensions = new TreeSet<String>(this.dimensions);
 		copy.waves = new ArrayList<WaveMultidimensionalFunction>(this.waves);
         return copy;
@@ -102,12 +102,12 @@ public class CombinedWaveletFunction extends AbstractFunction implements Cloneab
 
     public String toString()
     {
-		StringBuffer equationBuffer =new StringBuffer();
-        WaveMultidimensionalFunction[] waveArray = new WaveMultidimensionalFunction[this.waves.size()];
+		final StringBuffer equationBuffer =new StringBuffer();
+        final WaveMultidimensionalFunction[] waveArray = new WaveMultidimensionalFunction[this.waves.size()];
         this.waves.toArray(waveArray);
         for(int waveArrayIndex = 0; waveArrayIndex < waveArray.length; waveArrayIndex++)
         {
-            WaveMultidimensionalFunction currentWave = waveArray[waveArrayIndex];
+            final WaveMultidimensionalFunction currentWave = waveArray[waveArrayIndex];
             if( waveArrayIndex > 0 )
                 equationBuffer.append(" + ");
             equationBuffer.append(currentWave.toString());

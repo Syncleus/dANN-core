@@ -33,12 +33,12 @@ public class LexicographicPermutationCounter implements Counter
 	private BigInteger combinationPermutationsRemaining;
 	private BigInteger remaining;
 
-	public LexicographicPermutationCounter(int permutationSize)
+	public LexicographicPermutationCounter(final int permutationSize)
 	{
 		this(permutationSize, permutationSize);
 	}
 
-	public LexicographicPermutationCounter(int setSize, int permutationSize)
+	public LexicographicPermutationCounter(final int setSize, final int permutationSize)
 	{
 		if(permutationSize > setSize)
 			throw new IllegalArgumentException("permutationSize can not be larger than setSize");
@@ -89,7 +89,7 @@ public class LexicographicPermutationCounter implements Counter
 		return remaining.compareTo(BigInteger.ZERO) == 1;
 	}
 
-	private static BigInteger getFactorial(int n)
+	private static BigInteger getFactorial(final int n)
 	{
 		BigInteger fact = BigInteger.ONE;
 		for(int i = n; i > 1; i--)
@@ -97,11 +97,11 @@ public class LexicographicPermutationCounter implements Counter
 		return fact;
 	}
 
-	private int[] permutateCombination(int[] combination, int[] permutation)
+	private int[] permutateCombination(final int[] combination, final int[] permutation)
 	{
 		final int[] permutated = new int[combination.length];
 		int permutatedIndex = 0;
-		for(int combinationIndex : permutation)
+		for(final int combinationIndex : permutation)
 			permutated[permutatedIndex++] = combination[combinationIndex];
 		return permutated;
 	}
@@ -143,14 +143,14 @@ public class LexicographicPermutationCounter implements Counter
 		return permutationSize;
 	}
 
-	private static void swap(int[] permutation, int firstIndex, int secondIndex)
+	private static void swap(final int[] permutation, final int firstIndex, final int secondIndex)
 	{
-		int first = permutation[firstIndex];
+		final int first = permutation[firstIndex];
 		permutation[firstIndex] = permutation[secondIndex];
 		permutation[secondIndex] = first;
 	}
 
-	private static boolean next(int[] permutation)
+	private static boolean next(final int[] permutation)
 	{
 		if(permutation.length == 1)
 			return false;

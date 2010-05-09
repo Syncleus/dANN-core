@@ -108,7 +108,7 @@ public abstract class AbstractGeneticAlgorithmPopulation
 		//create all the fitness functions and then process them in parallel
 		final ArrayList<AbstractGeneticAlgorithmFitnessFunction> initialPopulation = new ArrayList<AbstractGeneticAlgorithmFitnessFunction>();
 		final ArrayList<Future> futures = new ArrayList<Future>();
-		for(GeneticAlgorithmChromosome chromosome : chromosomes)
+		for(final GeneticAlgorithmChromosome chromosome : chromosomes)
 		{
 			final AbstractGeneticAlgorithmFitnessFunction fitnessFunction = this.packageChromosome(chromosome);
 			initialPopulation.add(fitnessFunction);
@@ -117,7 +117,7 @@ public abstract class AbstractGeneticAlgorithmPopulation
 		//wait for processing to finish
 		try
 		{
-			for(Future future : futures)
+			for(final Future future : futures)
 				future.get();
 		}
 		catch(InterruptedException caught)
@@ -146,7 +146,7 @@ public abstract class AbstractGeneticAlgorithmPopulation
 	public final Set<GeneticAlgorithmChromosome> getChromosomes()
 	{
 		final HashSet<GeneticAlgorithmChromosome> chromosomes = new HashSet<GeneticAlgorithmChromosome>();
-		for(AbstractGeneticAlgorithmFitnessFunction member : population)
+		for(final AbstractGeneticAlgorithmFitnessFunction member : population)
 			chromosomes.add(member.getChromosome());
 
 		return Collections.unmodifiableSet(chromosomes);
@@ -180,7 +180,7 @@ public abstract class AbstractGeneticAlgorithmPopulation
 	{
 		final int randomIndex = RANDOM.nextInt(this.population.size());
 		int currentIndex = 0;
-		for(AbstractGeneticAlgorithmFitnessFunction member : this.population)
+		for(final AbstractGeneticAlgorithmFitnessFunction member : this.population)
 		{
 			if(currentIndex == randomIndex)
 				return member.getChromosome();

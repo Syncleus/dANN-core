@@ -80,10 +80,10 @@ public class NeuronGroup<N extends Neuron> implements java.io.Serializable
 	 * @param copyGroup NeuronGroup to copy.
 	 * @since 1.0
 	 */
-	public NeuronGroup(NeuronGroup<? extends N> copyGroup)
+	public NeuronGroup(final NeuronGroup<? extends N> copyGroup)
 	{
 		this.childrenNeurons.addAll(copyGroup.childrenNeurons);
-		for(NeuronGroup<? extends N> currentGroup : copyGroup.childrenNeuronGroups)
+		for(final NeuronGroup<? extends N> currentGroup : copyGroup.childrenNeuronGroups)
 		{
 			this.childrenNeuronGroups.add(currentGroup);
 		}
@@ -100,7 +100,7 @@ public class NeuronGroup<N extends Neuron> implements java.io.Serializable
      * @since 1.0
      * @param toAdd the Neuron to add.
      */
-    public void add(N toAdd)
+    public void add(final N toAdd)
     {
         this.childrenNeurons.add(toAdd);
     }
@@ -112,7 +112,7 @@ public class NeuronGroup<N extends Neuron> implements java.io.Serializable
      * @since 1.0
      * @param toAdd the NeuronGroup to add.
      */
-    public void add(NeuronGroup<? extends N> toAdd)
+    public void add(final NeuronGroup<? extends N> toAdd)
     {
         this.childrenNeuronGroups.add(toAdd);
     }
@@ -146,10 +146,10 @@ public class NeuronGroup<N extends Neuron> implements java.io.Serializable
      */
     public Set<N> getChildrenNeuronsRecursivly()
     {
-        HashSet<N> returnList = new HashSet<N>();
+        final HashSet<N> returnList = new HashSet<N>();
 
 		returnList.addAll(this.childrenNeurons);
-		for (NeuronGroup<? extends N> currentChild : this.childrenNeuronGroups)
+		for (final NeuronGroup<? extends N> currentChild : this.childrenNeuronGroups)
 			returnList.addAll(currentChild.getChildrenNeuronsRecursivly());
 
         return Collections.unmodifiableSet(returnList);

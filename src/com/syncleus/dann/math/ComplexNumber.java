@@ -61,13 +61,13 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 	private final double realValue;
 	private final double imaginaryValue;
 
-	public ComplexNumber(double real, double imaginary)
+	public ComplexNumber(final double real, final double imaginary)
 	{
 		this.realValue = real;
 		this.imaginaryValue = imaginary;
 	}
 
-	public ComplexNumber(double imaginary)
+	public ComplexNumber(final double imaginary)
 	{
 		this.realValue = 0.0;
 		this.imaginaryValue = imaginary;
@@ -94,44 +94,44 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 		return Math.atan2(imaginaryValue, realValue);
 	}
 
-	public final ComplexNumber add(ComplexNumber value)
+	public final ComplexNumber add(final ComplexNumber value)
 	{
 		return new ComplexNumber(this.realValue + value.realValue, this.imaginaryValue + value.imaginaryValue);
 	}
 
-	public final ComplexNumber add(double value)
+	public final ComplexNumber add(final double value)
 	{
 		return this.add(new ComplexNumber(value, 0.0));
 	}
 
-	public final ComplexNumber subtract(ComplexNumber value)
+	public final ComplexNumber subtract(final ComplexNumber value)
 	{
 		return new ComplexNumber(this.realValue - value.realValue, this.imaginaryValue - value.imaginaryValue);
 	}
 
-	public final ComplexNumber subtract(double value)
+	public final ComplexNumber subtract(final double value)
 	{
 		return this.subtract(new ComplexNumber(value, 0.0));
 	}
 
-	public final ComplexNumber multiply(ComplexNumber value)
+	public final ComplexNumber multiply(final ComplexNumber value)
 	{
 		final double imaginary = this.realValue * value.imaginaryValue + this.imaginaryValue * value.realValue;
 		final double real = this.realValue * value.realValue - this.imaginaryValue * value.imaginaryValue;
 		return new ComplexNumber(real, imaginary);
 	}
 
-	public final ComplexNumber multiply(double value)
+	public final ComplexNumber multiply(final double value)
 	{
 		return new ComplexNumber(value * realValue, value * imaginaryValue);
 	}
 	
-	public final ComplexNumber divide(ComplexNumber value)
+	public final ComplexNumber divide(final ComplexNumber value)
 	{
 		return this.multiply(value.reciprocal());
 	}
 
-	public final ComplexNumber divide(double value)
+	public final ComplexNumber divide(final double value)
 	{
 		return this.divide(new ComplexNumber(value, 0.0));
 	}
@@ -146,7 +146,7 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 		return new ComplexNumber(Math.log(this.absScalar()), Math.atan2(this.imaginaryValue, this.realValue));
 	}
 
-	public final ComplexNumber pow(ComplexNumber exponent)
+	public final ComplexNumber pow(final ComplexNumber exponent)
 	{
 		if(exponent == null)
 			throw new IllegalArgumentException("exponent can not be null");
@@ -154,17 +154,17 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 		return this.log().multiply(exponent).exp();
 	}
 
-	public final ComplexNumber pow(double exponent)
+	public final ComplexNumber pow(final double exponent)
 	{
 		return this.log().multiply(exponent).exp();
 	}
 
-	public List<ComplexNumber> root(int n)
+	public List<ComplexNumber> root(final int n)
 	{
 		if (n <= 0)
 			throw new IllegalArgumentException("n must be greater than 0");
 
-		List<ComplexNumber> result = new ArrayList<ComplexNumber>();
+		final List<ComplexNumber> result = new ArrayList<ComplexNumber>();
 
 		double inner = this.phase()/n;
 		for (int nIndex = 0; nIndex < n ; nIndex++)
@@ -182,8 +182,8 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 		//The square-root of the complex number (a + i b) is
 		//sqrt(a + i b) = +/- (sqrt(radius + a) + i sqrt(radius - a) sign(b)) sqrt(2) / 2,
 		//where radius = sqrt(a^2 + b^2).
-		double r = Math.sqrt((this.realValue*this.realValue) + (this.imaginaryValue*this.imaginaryValue));
-		ComplexNumber intermediate = new ComplexNumber(Math.sqrt(r + this.realValue), Math.sqrt(r + this.realValue) * Math.signum(this.imaginaryValue));
+		final double r = Math.sqrt((this.realValue*this.realValue) + (this.imaginaryValue*this.imaginaryValue));
+		final ComplexNumber intermediate = new ComplexNumber(Math.sqrt(r + this.realValue), Math.sqrt(r + this.realValue) * Math.signum(this.imaginaryValue));
 		return intermediate.multiply(Math.sqrt(2.0)).divide(2.0);
 	}
 
@@ -192,7 +192,7 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 		return (new ComplexNumber(1.0, 0.0)).subtract(this.multiply(this)).sqrt();
 	}
 
-	public ComplexNumber hypot(ComplexNumber operand)
+	public ComplexNumber hypot(final ComplexNumber operand)
 	{
 		return this.pow(2.0).add(operand.pow(2.0)).sqrt();
 	}
@@ -240,7 +240,7 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 
 	public final ComplexNumber tanh()
 	{
-		double denominator = Math.cosh(2.0 * this.realValue) + Math.cos(2.0 * this.imaginaryValue);
+		final double denominator = Math.cosh(2.0 * this.realValue) + Math.cos(2.0 * this.imaginaryValue);
 		return new ComplexNumber(Math.sinh(2.0 * this.realValue) / denominator, Math.sin(2.0 * this.imaginaryValue) / denominator);
 	}
 
@@ -283,18 +283,18 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 	@Override
 	public int hashCode()
 	{
-		int imaginaryHash = Double.valueOf(this.getImaginaryValue()).hashCode();
-		int realHash = Double.valueOf(this.getRealValue()).hashCode();
+		final int imaginaryHash = Double.valueOf(this.getImaginaryValue()).hashCode();
+		final int realHash = Double.valueOf(this.getRealValue()).hashCode();
 		return (imaginaryHash * realHash) + realHash;
 	}
 
 	@Override
-	public boolean equals(Object compareObject)
+	public boolean equals(final Object compareObject)
 	{
 		if(!(compareObject instanceof ComplexNumber))
 			return false;
 
-		ComplexNumber compareComplex = (ComplexNumber) compareObject;
+		final ComplexNumber compareComplex = (ComplexNumber) compareObject;
 		if(compareComplex.getRealValue() != this.getRealValue())
 			return false;
 		if(compareComplex.getImaginaryValue() != this.getImaginaryValue())
@@ -314,32 +314,32 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 		return realValue + " + " + imaginaryValue + "i";
 	}
 
-	public static ComplexNumber scalarToComplex(double scalar)
+	public static ComplexNumber scalarToComplex(final double scalar)
 	{
 		return new ComplexNumber(scalar, 0.0);
 	}
 
-	public static ComplexNumber scalarToComplex(float scalar)
+	public static ComplexNumber scalarToComplex(final float scalar)
 	{
 		return new ComplexNumber(scalar, 0.0);
 	}
 
-	public static ComplexNumber scalarToComplex(long scalar)
+	public static ComplexNumber scalarToComplex(final long scalar)
 	{
 		return new ComplexNumber(scalar, 0.0);
 	}
 
-	public static ComplexNumber scalarToComplex(int scalar)
+	public static ComplexNumber scalarToComplex(final int scalar)
 	{
 		return new ComplexNumber(scalar, 0.0);
 	}
 
-	public static ComplexNumber scalarToComplex(short scalar)
+	public static ComplexNumber scalarToComplex(final short scalar)
 	{
 		return new ComplexNumber(scalar, 0.0);
 	}
 
-	public static ComplexNumber polarToComplex(double radius, double theta)
+	public static ComplexNumber polarToComplex(final double radius, final double theta)
 	{
 		if (radius < 0)
 			throw new IllegalArgumentException("r must be greater than or equal to 0");
@@ -347,18 +347,18 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 	}
 
 
-	public static ComplexNumber sum(ComplexNumber... values)
+	public static ComplexNumber sum(final ComplexNumber... values)
 	{
 		ComplexNumber complexSum = ComplexNumber.ZERO;
-		for(ComplexNumber value : values)
+		for(final ComplexNumber value : values)
 			complexSum = complexSum.add(value);
 		return complexSum;
 	}
 
-	public static ComplexNumber multiply(ComplexNumber... values)
+	public static ComplexNumber multiply(final ComplexNumber... values)
 	{
 		ComplexNumber complexProduct = new ComplexNumber(1.0, 0.0);
-		for(ComplexNumber value : values)
+		for(final ComplexNumber value : values)
 			complexProduct = complexProduct.multiply(value);
 		return complexProduct;
 	}

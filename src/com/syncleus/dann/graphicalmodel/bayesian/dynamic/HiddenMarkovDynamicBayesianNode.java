@@ -23,12 +23,12 @@ import java.util.Collections;
 
 public class HiddenMarkovDynamicBayesianNode<S> extends SimpleDynamicBayesianNode<S>
 {
-	public HiddenMarkovDynamicBayesianNode(S initialState, BayesianNetwork network)
+	public HiddenMarkovDynamicBayesianNode(final S initialState, final BayesianNetwork network)
 	{
 		super(0, initialState, network);
 	}
 
-	public HiddenMarkovDynamicBayesianNode(S lastState, S initialState, BayesianNetwork network)
+	public HiddenMarkovDynamicBayesianNode(final S lastState, final S initialState, final BayesianNetwork network)
 	{
 		super(Collections.singletonList(lastState), initialState, network);
 	}

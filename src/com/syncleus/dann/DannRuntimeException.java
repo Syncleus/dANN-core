@@ -45,7 +45,7 @@ public class DannRuntimeException extends RuntimeException
 	 * @param msg A string describing the cause of the exception
 	 * @since 2.0
 	 */
-	public DannRuntimeException(String msg)
+	public DannRuntimeException(final String msg)
 	{
 		super(msg);
 	}
@@ -58,7 +58,7 @@ public class DannRuntimeException extends RuntimeException
 	 * @param cause The throwable which caused this exception
 	 * @since 2.0
 	 */
-	public DannRuntimeException(String msg, Throwable cause)
+	public DannRuntimeException(final String msg, final Throwable cause)
 	{
 		super(msg, cause);
 	}
@@ -70,7 +70,7 @@ public class DannRuntimeException extends RuntimeException
 	 * @param cause The throwable which caused this exception
 	 * @since 2.0
 	 */
-	public DannRuntimeException(Throwable cause)
+	public DannRuntimeException(final Throwable cause)
 	{
 		super(cause);
 	}

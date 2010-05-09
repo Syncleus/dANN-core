@@ -22,7 +22,7 @@ import org.junit.Assert;
 import org.junit.Test;
 public class TestGreatestCommonDenominators
 {
-	private static long[][] solutions = {	{20l, 90l, 10l},
+	private static final long[][] solutions = {	{20l, 90l, 10l},
 											{19l, 187l, 1l},
 											{5l, 1867l, 1l},
 											{20l, 100l, 20l},

@@ -27,7 +27,7 @@ public class TestStemmingLanguageNaiveBayesClassifier
 	@Test
 	public void testClassify()
 	{
-		TrainableLanguageNaiveBayesClassifier<Integer> classifier = new StemmingLanguageNaiveBayesClassifier<Integer>();
+		final TrainableLanguageNaiveBayesClassifier<Integer> classifier = new StemmingLanguageNaiveBayesClassifier<Integer>();
 
 		//train
 		classifier.train("Money is the root of all evil!", 1);

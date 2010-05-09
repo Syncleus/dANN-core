@@ -39,14 +39,14 @@ public final class MathFunctionDataBinder implements Binned2DData
 
 
 
-    public MathFunctionDataBinder(Function function,
-                                     String functionXParam,
-                                     String functionYParam,
-                                     float xMin,
-                                     float xMax,
-                                     float yMin,
-                                     float yMax,
-                                     int resolution)
+    public MathFunctionDataBinder(final Function function,
+                                     final String functionXParam,
+                                     final String functionYParam,
+                                     final float xMin,
+                                     final float xMax,
+                                     final float yMin,
+                                     final float yMax,
+                                     final int resolution)
     {
         if( resolution <= 0 )
             throw new IllegalArgumentException("resolution must be greater than 0");

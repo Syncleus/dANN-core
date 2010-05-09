@@ -43,37 +43,37 @@ public abstract class AbstractRootedTreeAdjacencyGraph<N, E extends BidirectedEd
 	}
 
 	@Override
-	public AbstractRootedTreeAdjacencyGraph<N,E> cloneAdd(E newEdge)
+	public AbstractRootedTreeAdjacencyGraph<N,E> cloneAdd(final E newEdge)
 	{
 		return (AbstractRootedTreeAdjacencyGraph<N,E>) super.cloneAdd(newEdge);
 	}
 
 	@Override
-	public AbstractRootedTreeAdjacencyGraph<N,E> cloneAdd(N newNode)
+	public AbstractRootedTreeAdjacencyGraph<N,E> cloneAdd(final N newNode)
 	{
 		return (AbstractRootedTreeAdjacencyGraph<N,E>) super.cloneAdd(newNode);
 	}
 
 	@Override
-	public AbstractRootedTreeAdjacencyGraph<N,E> cloneAdd(Set<N> newNodes, Set<E> newEdges)
+	public AbstractRootedTreeAdjacencyGraph<N,E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
 	{
 		return (AbstractRootedTreeAdjacencyGraph<N,E>) super.cloneAdd(newNodes, newEdges);
 	}
 
 	@Override
-	public AbstractRootedTreeAdjacencyGraph<N,E> cloneRemove(E edgeToRemove)
+	public AbstractRootedTreeAdjacencyGraph<N,E> cloneRemove(final E edgeToRemove)
 	{
 		return (AbstractRootedTreeAdjacencyGraph<N,E>) super.cloneRemove(edgeToRemove);
 	}
 
 	@Override
-	public AbstractRootedTreeAdjacencyGraph<N,E> cloneRemove(N nodeToRemove)
+	public AbstractRootedTreeAdjacencyGraph<N,E> cloneRemove(final N nodeToRemove)
 	{
 		return (AbstractRootedTreeAdjacencyGraph<N,E>) super.cloneRemove(nodeToRemove);
 	}
 
 	@Override
-	public AbstractRootedTreeAdjacencyGraph<N,E> cloneRemove(Set<N> deleteNodes, Set<E> deleteEdges)
+	public AbstractRootedTreeAdjacencyGraph<N,E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
 	{
 		return (AbstractRootedTreeAdjacencyGraph<N,E>) super.cloneRemove(deleteNodes, deleteEdges);
 	}
