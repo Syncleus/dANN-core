@@ -37,10 +37,10 @@ public class SimpleUndirectedGraph extends AbstractBidirectedAdjacencyGraph<Simp
 		{
 			for(int nodeIndex = 0; nodeIndex < nodesPerLayer; nodeIndex++)
 			{
-				nodes[layerIndex][nodeIndex] = new SimpleNode(layerIndex);
-				this.nodeSet.add(nodes[layerIndex][nodeIndex]);
-				this.neighborEdges.put(nodes[layerIndex][nodeIndex], new HashSet<BidirectedEdge<SimpleNode>>());
-				this.neighborNodes.put(nodes[layerIndex][nodeIndex], new ArrayList<SimpleNode>());
+				this.nodes[layerIndex][nodeIndex] = new SimpleNode(layerIndex);
+				this.nodeSet.add(this.nodes[layerIndex][nodeIndex]);
+				this.neighborEdges.put(this.nodes[layerIndex][nodeIndex], new HashSet<BidirectedEdge<SimpleNode>>());
+				this.neighborNodes.put(this.nodes[layerIndex][nodeIndex], new ArrayList<SimpleNode>());
 			}
 		}
 		//connect nodes
@@ -49,12 +49,12 @@ public class SimpleUndirectedGraph extends AbstractBidirectedAdjacencyGraph<Simp
 			{
 				for(int nodeIndex2 = 0; nodeIndex2 < nodesPerLayer; nodeIndex2++)
 				{
-					final ImmutableUndirectedEdge<SimpleNode> newEdge = new ImmutableUndirectedEdge<SimpleNode>(nodes[layerIndex][nodeIndex], nodes[layerIndex + 1][nodeIndex2]);
+					final ImmutableUndirectedEdge<SimpleNode> newEdge = new ImmutableUndirectedEdge<SimpleNode>(this.nodes[layerIndex][nodeIndex], this.nodes[layerIndex + 1][nodeIndex2]);
 					this.edges.add(newEdge);
-					this.neighborEdges.get(nodes[layerIndex][nodeIndex]).add(newEdge);
-					this.neighborNodes.get(nodes[layerIndex][nodeIndex]).add(nodes[layerIndex + 1][nodeIndex2]);
-					this.neighborEdges.get(nodes[layerIndex + 1][nodeIndex2]).add(newEdge);
-					this.neighborNodes.get(nodes[layerIndex + 1][nodeIndex2]).add(nodes[layerIndex][nodeIndex]);
+					this.neighborEdges.get(this.nodes[layerIndex][nodeIndex]).add(newEdge);
+					this.neighborNodes.get(this.nodes[layerIndex][nodeIndex]).add(this.nodes[layerIndex + 1][nodeIndex2]);
+					this.neighborEdges.get(this.nodes[layerIndex + 1][nodeIndex2]).add(newEdge);
+					this.neighborNodes.get(this.nodes[layerIndex + 1][nodeIndex2]).add(this.nodes[layerIndex][nodeIndex]);
 				}
 			}
 	}
@@ -66,7 +66,7 @@ public class SimpleUndirectedGraph extends AbstractBidirectedAdjacencyGraph<Simp
 
 	public SimpleNode getNode(final int layer, final int index)
 	{
-		if ((index >= nodes[0].length) || (layer >= nodes.length))
+		if ((index >= this.nodes[0].length) || (layer >= nodes.length))
 			throw new IllegalArgumentException("coordinates are out of bounds");
 		return this.nodes[layer][index];
 	}

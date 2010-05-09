@@ -46,7 +46,7 @@ public class TestShortValueGene
 		{
 			averageSum += center.mutate(10).getValue().shortValue();
 		}
-		final double average = averageSum / testCount;
+		final double average = ((double)averageSum) / ((double)testCount);
 		Assert.assertTrue("average deviation is more than 10.0", average < 10.0);
 	}
 }

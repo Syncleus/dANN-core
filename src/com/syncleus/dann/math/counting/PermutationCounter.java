@@ -70,25 +70,25 @@ public class PermutationCounter implements Counter
 	{
 		this.resetPermutations();
 		this.combinations.reset();
-		this.remaining = total;
+		this.remaining = this.total;
 		this.combination = this.combinations.getNext();
 	}
 
 	private void resetPermutations()
 	{
 		for(int i = 0; i < permutation.length; i++)
-			permutation[i] = i;
+			this.permutation[i] = i;
 		this.combinationPermutationsRemaining = this.permutationsPerCombination;
 	}
 
 	public BigInteger getRemaining()
 	{
-		return remaining;
+		return this.remaining;
 	}
 
 	public BigInteger getTotal()
 	{
-		return total;
+		return this.total;
 	}
 
 	public boolean hasMore()
@@ -134,25 +134,25 @@ public class PermutationCounter implements Counter
 		int temp;
 		// Find largest index j with permutation[j] < permutation[j+1]
 		int j = permutation.length - 2;
-		while (permutation[j] > permutation[j + 1])
+		while (this.permutation[j] > this.permutation[j + 1])
 			j--;
 		// Find index k such that permutation[k] is smallest integer
 		// greater than permutation[j] to the right of permutation[j]
 		int k = permutation.length - 1;
-		while (permutation[j] > permutation[k])
+		while (this.permutation[j] > this.permutation[k])
 			k--;
 		// Interchange permutation[j] and permutation[k]
-		temp = permutation[k];
-		permutation[k] = permutation[j];
-		permutation[j] = temp;
+		temp = this.permutation[k];
+		this.permutation[k] = this.permutation[j];
+		this.permutation[j] = temp;
 		// Put tail end of permutation after jth position in increasing order
 		int r = permutation.length - 1;
 		int s = j + 1;
 		while (r > s)
 		{
-			temp = permutation[s];
-			permutation[s] = permutation[r];
-			permutation[r] = temp;
+			temp = this.permutation[s];
+			this.permutation[s] = this.permutation[r];
+			this.permutation[r] = temp;
 			r--;
 			s++;
 		}
@@ -163,11 +163,11 @@ public class PermutationCounter implements Counter
 
 	public int getSetSize()
 	{
-		return setSize;
+		return this.setSize;
 	}
 
 	public int getPermutationSize()
 	{
-		return permutationSize;
+		return this.permutationSize;
 	}
 }

@@ -68,34 +68,34 @@ public class TestSimpleBooleanNetwork
 		public SimpleBooleanNetwork(final I initialState)
 		{
 			super();
-			influence = new SimpleBayesianNode<I>(initialState, this);
-			goal = new SimpleBayesianNode<BooleanState>(BooleanState.FALSE, this);
-			goals = new HashSet<BayesianNode>();
-			influences = new HashSet<BayesianNode>();
+			this.influence = new SimpleBayesianNode<I>(initialState, this);
+			this.goal = new SimpleBayesianNode<BooleanState>(BooleanState.FALSE, this);
+			this.goals = new HashSet<BayesianNode>();
+			this.influences = new HashSet<BayesianNode>();
 			//add nodes
-			add(influence);
-			add(goal);
+			add(this.influence);
+			add(this.goal);
 			//connect nodes
-			final BayesianEdge<BayesianNode> testEdge = new SimpleBayesianEdge<BayesianNode>(influence, goal);
+			final BayesianEdge<BayesianNode> testEdge = new SimpleBayesianEdge<BayesianNode>(this.influence, this.goal);
 			this.add(testEdge);
-			goals.add(goal);
-			influences.add(influence);
+			goals.add(this.goal);
+			influences.add(this.influence);
 		}
 
 		public BayesianNode<BooleanState> getGoal()
 		{
-			return goal;
+			return this.goal;
 		}
 
 		public BayesianNode<I> getInfluence()
 		{
-			return influence;
+			return this.influence;
 		}
 
 		public double getPercentage(final I influenceState)
 		{
 			influence.setState(influenceState);
-			return this.conditionalProbability(goals, influences);
+			return this.conditionalProbability(this.goals, this.influences);
 		}
 
 		public void learn(final I influenceState, final boolean goalState)
@@ -125,7 +125,7 @@ public class TestSimpleBooleanNetwork
 		n.getGoal().setState(BooleanState.TRUE);
 		final double truePercent = n.getPercentage(TwoState.A);
 		final double falsePercent = n.getPercentage(TwoState.B);
-		Assert.assertTrue("incorrect true/false distribution: " + truePercent + ':' + falsePercent, (truePercent == (1f / 2f)) && (falsePercent == (1f / 2f)));
+		Assert.assertTrue("incorrect true/false distribution: " + truePercent + ':' + falsePercent, (Math.abs(truePercent - (1f / 2f)) < 0.000001) && (Math.abs(falsePercent - (1f / 2f)) < 0.000001) );
 	}
 
 	@Test
@@ -152,7 +152,7 @@ public class TestSimpleBooleanNetwork
 		final double aPercent = n.getPercentage(ThreeState.A);
 		final double bPercent = n.getPercentage(ThreeState.B);
 		final double cPercent = n.getPercentage(ThreeState.C);
-		final boolean condition = (aPercent == 1f) && (bPercent == (0.5f)) && (cPercent == 0.0);
+		final boolean condition = ( (Math.abs(aPercent - 1f) < 0.000001) && (Math.abs(bPercent - 0.5f) < 0.000001) && (Math.abs(cPercent) < 0.00000001) );
 		Assert.assertTrue("incorrect a/b/c distribution" + aPercent + " == 1f && " + bPercent + " == 0.5f && " + cPercent + " == 0.0", condition);
 	}
 
@@ -181,7 +181,7 @@ public class TestSimpleBooleanNetwork
 		n.getGoal().setState(BooleanState.TRUE);
 		final double truePercent = n.getPercentage(TwoState.A);
 		final double falsePercent = n.getPercentage(TwoState.B);
-		Assert.assertTrue("incorrect true/false distribution: " + truePercent + ':' + falsePercent, (truePercent == (3f / 4f)) && (falsePercent == (1f / 4f)));
+		Assert.assertTrue("incorrect true/false distribution: " + truePercent + ':' + falsePercent, (Math.abs(truePercent - (3f / 4f)) < 0.000001) && (Math.abs(falsePercent - (1f / 4f)) < 0.000001));
 	}
 
 	@Test

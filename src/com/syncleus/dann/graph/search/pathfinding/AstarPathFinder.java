@@ -61,17 +61,17 @@ public class AstarPathFinder<N, E extends Edge<N>> implements PathFinder<N, E>
 
 		public N getNode()
 		{
-			return node;
+			return this.node;
 		}
 
 		public PathedStep getParent()
 		{
-			return parent;
+			return this.parent;
 		}
 
 		public double getCachedPathWeight()
 		{
-			return cachedPathWeight;
+			return this.cachedPathWeight;
 		}
 
 		public double getHeuristicCostToGoal()
@@ -115,7 +115,7 @@ public class AstarPathFinder<N, E extends Edge<N>> implements PathFinder<N, E>
 
 		public E getParentEdge()
 		{
-			return parentEdge;
+			return this.parentEdge;
 		}
 	}
 

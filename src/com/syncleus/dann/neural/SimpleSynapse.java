@@ -104,7 +104,7 @@ public class SimpleSynapse extends ImmutableDirectedEdge<Neuron> implements Syna
 	 */
 	public double getWeight()
 	{
-		return weight;
+		return this.weight;
 	}
 
 	/**
@@ -115,7 +115,7 @@ public class SimpleSynapse extends ImmutableDirectedEdge<Neuron> implements Syna
 	 */
 	public double getInput()
 	{
-		return input;
+		return this.input;
 	}
 
 	@Override

@@ -151,7 +151,7 @@ public class SimpleBackpropNeuron extends AbstractActivationNeuron implements Ba
 	// TODO put this in the interface and expose as public
 	protected double getDeltaTrain()
 	{
-		return deltaTrain;
+		return this.deltaTrain;
 	}
 	// </editor-fold>
 }

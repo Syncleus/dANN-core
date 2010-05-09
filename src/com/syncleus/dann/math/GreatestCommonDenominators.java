@@ -35,23 +35,23 @@ public final class GreatestCommonDenominators
 
 		public long getX()
 		{
-			return x;
+			return this.x;
 		}
 
 		public long getY()
 		{
-			return y;
+			return this.y;
 		}
 
 		public long getGreatestCommonDenominator()
 		{
-			return greatestCommonDenominator;
+			return this.greatestCommonDenominator;
 		}
 
 		@Override
 		public String toString()
 		{
-			return "a*" + x + " + b*" + y + " = " + greatestCommonDenominator;
+			return "a*" + this.x + " + b*" + this.y + " = " + this.greatestCommonDenominator;
 		}
 	}
 

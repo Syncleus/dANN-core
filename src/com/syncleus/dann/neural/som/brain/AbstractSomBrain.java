@@ -167,7 +167,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 		this.outputs.put(position, outputNeuron);
 		this.add(outputNeuron);
 		//connect all inputs to the new neuron
-		for(final InputNeuron input : inputs)
+		for(final InputNeuron input : this.inputs)
 			this.connect(input, outputNeuron);
 	}
 
@@ -339,7 +339,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	 */
 	public final int getIterationsTrained()
 	{
-		return iterationsTrained;
+		return this.iterationsTrained;
 	}
 
 	/**
@@ -350,7 +350,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	 */
 	protected final Vector getUpperBounds()
 	{
-		return upperBounds;
+		return this.upperBounds;
 	}
 
 	/**
@@ -361,7 +361,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	 */
 	protected final Vector getLowerBounds()
 	{
-		return lowerBounds;
+		return this.lowerBounds;
 	}
 
 	/**

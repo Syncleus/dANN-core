@@ -38,55 +38,55 @@ public class DirectedGrid extends AbstractBidirectedAdjacencyGraph<GridNode, Dir
 		for(int y = 0; y < nodeWeights.length; y++)
 			for(int x = 0; x < nodeWeights[0].length; x++)
 			{
-				nodes[y][x] = new GridNode(x, y, nodeWeights[y][x]);
-				this.nodeSet.add(nodes[y][x]);
-				this.inNeighborEdges.put(nodes[y][x], new HashSet<DirectedEdge<GridNode>>());
-				this.inNeighborNodes.put(nodes[y][x], new HashSet<GridNode>());
-				this.outNeighborEdges.put(nodes[y][x], new HashSet<DirectedEdge<GridNode>>());
-				this.outNeighborNodes.put(nodes[y][x], new HashSet<GridNode>());
+				this.nodes[y][x] = new GridNode(x, y, nodeWeights[y][x]);
+				this.nodeSet.add(this.nodes[y][x]);
+				this.inNeighborEdges.put(this.nodes[y][x], new HashSet<DirectedEdge<GridNode>>());
+				this.inNeighborNodes.put(this.nodes[y][x], new HashSet<GridNode>());
+				this.outNeighborEdges.put(this.nodes[y][x], new HashSet<DirectedEdge<GridNode>>());
+				this.outNeighborNodes.put(this.nodes[y][x], new HashSet<GridNode>());
 			}
 		//connect nodes
 		for(int y = 0; y < nodes.length; y++)
-			for(int x = 0; x < nodes[0].length; x++)
+			for(int x = 0; x < this.nodes[0].length; x++)
 			{
 				//connect to the right
-				if (x < nodes[0].length - 1)
+				if (x < this.nodes[0].length - 1)
 				{
-					ImmutableDirectedEdge<GridNode> newEdge = new ImmutableDirectedEdge<GridNode>(nodes[y][x], nodes[y][x + 1]);
+					ImmutableDirectedEdge<GridNode> newEdge = new ImmutableDirectedEdge<GridNode>(this.nodes[y][x], this.nodes[y][x + 1]);
 					this.edges.add(newEdge);
-					this.outNeighborEdges.get(nodes[y][x]).add(newEdge);
-					this.inNeighborEdges.get(nodes[y][x + 1]).add(newEdge);
-					this.outNeighborNodes.get(nodes[y][x]).add(nodes[y][x + 1]);
-					this.inNeighborNodes.get(nodes[y][x + 1]).add(nodes[y][x]);
-					newEdge = new ImmutableDirectedEdge<GridNode>(nodes[y][x + 1], nodes[y][x]);
+					this.outNeighborEdges.get(this.nodes[y][x]).add(newEdge);
+					this.inNeighborEdges.get(this.nodes[y][x + 1]).add(newEdge);
+					this.outNeighborNodes.get(this.nodes[y][x]).add(this.nodes[y][x + 1]);
+					this.inNeighborNodes.get(this.nodes[y][x + 1]).add(this.nodes[y][x]);
+					newEdge = new ImmutableDirectedEdge<GridNode>(this.nodes[y][x + 1], this.nodes[y][x]);
 					this.edges.add(newEdge);
-					this.inNeighborEdges.get(nodes[y][x]).add(newEdge);
-					this.outNeighborEdges.get(nodes[y][x + 1]).add(newEdge);
-					this.inNeighborNodes.get(nodes[y][x]).add(nodes[y][x + 1]);
-					this.outNeighborNodes.get(nodes[y][x + 1]).add(nodes[y][x]);
+					this.inNeighborEdges.get(this.nodes[y][x]).add(newEdge);
+					this.outNeighborEdges.get(this.nodes[y][x + 1]).add(newEdge);
+					this.inNeighborNodes.get(this.nodes[y][x]).add(this.nodes[y][x + 1]);
+					this.outNeighborNodes.get(this.nodes[y][x + 1]).add(this.nodes[y][x]);
 				}
 				//connect to the bottom
 				if (y < nodes.length - 1)
 				{
-					ImmutableDirectedEdge<GridNode> newEdge = new ImmutableDirectedEdge<GridNode>(nodes[y][x], nodes[y + 1][x]);
+					ImmutableDirectedEdge<GridNode> newEdge = new ImmutableDirectedEdge<GridNode>(this.nodes[y][x], this.nodes[y + 1][x]);
 					this.edges.add(newEdge);
-					this.outNeighborEdges.get(nodes[y][x]).add(newEdge);
-					this.inNeighborEdges.get(nodes[y + 1][x]).add(newEdge);
-					this.outNeighborNodes.get(nodes[y][x]).add(nodes[y + 1][x]);
-					this.inNeighborNodes.get(nodes[y + 1][x]).add(nodes[y][x]);
-					newEdge = new ImmutableDirectedEdge<GridNode>(nodes[y + 1][x], nodes[y][x]);
+					this.outNeighborEdges.get(this.nodes[y][x]).add(newEdge);
+					this.inNeighborEdges.get(this.nodes[y + 1][x]).add(newEdge);
+					this.outNeighborNodes.get(this.nodes[y][x]).add(this.nodes[y + 1][x]);
+					this.inNeighborNodes.get(this.nodes[y + 1][x]).add(this.nodes[y][x]);
+					newEdge = new ImmutableDirectedEdge<GridNode>(this.nodes[y + 1][x], this.nodes[y][x]);
 					this.edges.add(newEdge);
-					this.inNeighborEdges.get(nodes[y][x]).add(newEdge);
-					this.outNeighborEdges.get(nodes[y + 1][x]).add(newEdge);
-					this.inNeighborNodes.get(nodes[y][x]).add(nodes[y + 1][x]);
-					this.outNeighborNodes.get(nodes[y + 1][x]).add(nodes[y][x]);
+					this.inNeighborEdges.get(this.nodes[y][x]).add(newEdge);
+					this.outNeighborEdges.get(this.nodes[y + 1][x]).add(newEdge);
+					this.inNeighborNodes.get(this.nodes[y][x]).add(this.nodes[y + 1][x]);
+					this.outNeighborNodes.get(this.nodes[y + 1][x]).add(this.nodes[y][x]);
 				}
 			}
 	}
 
 	public GridNode getNode(final int x, final int y)
 	{
-		if ((x >= nodes[0].length) || (y >= nodes.length))
+		if ((x >= this.nodes[0].length) || (y >= nodes.length))
 			throw new IllegalArgumentException("coordinates are out of bounds");
 		return this.nodes[y][x];
 	}

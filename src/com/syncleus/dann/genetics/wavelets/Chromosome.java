@@ -170,7 +170,7 @@ public class Chromosome implements Cloneable
 
 	public void mutate(final Set<AbstractKey> keyPool)
 	{
-		if (Mutations.mutationEvent(mutability))
+		if (Mutations.mutationEvent(this.mutability))
 			this.crossover(this.mutability);
 		this.leftChromatid.mutate(keyPool);
 		this.rightChromatid.mutate(keyPool);

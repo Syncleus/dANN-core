@@ -101,7 +101,7 @@ public class HyperassociativeMapVisualization<D extends GraphDrawer<G, N>, G ext
 					else if (neuron instanceof StaticNeuron)
 						neuronColor = Color.YELLOW;
 				}
-				final TransformGroup newVisual = this.createNeuronSphere("", "", neuronColor, (float) coordinates.get(node).getCoordinate(1), (float) coordinates.get(node).getCoordinate(2), (float) coordinates.get(node).getCoordinate(3), this.nodeRadius);
+				final TransformGroup newVisual = createNeuronSphere("", "", neuronColor, (float) coordinates.get(node).getCoordinate(1), (float) coordinates.get(node).getCoordinate(2), (float) coordinates.get(node).getCoordinate(3), this.nodeRadius);
 				if (!childrenRemoved)
 				{
 					this.removeAllChildren();
@@ -126,7 +126,7 @@ public class HyperassociativeMapVisualization<D extends GraphDrawer<G, N>, G ext
 				newGraphicalNodes.put(node, oldVisual);
 			}
 		//remove any stale nodes
-		for(Map.Entry<N, TransformGroup> nTransformGroupEntry : this.nodeGraphics.entrySet())
+		for(final Map.Entry<N, TransformGroup> nTransformGroupEntry : this.nodeGraphics.entrySet())
 		{
 			this.nestedRoot.removeChild(nTransformGroupEntry.getValue());
 			this.oldNodeLocations.remove(nTransformGroupEntry.getKey());
@@ -224,6 +224,6 @@ public class HyperassociativeMapVisualization<D extends GraphDrawer<G, N>, G ext
 	 */
 	GraphDrawer getMap()
 	{
-		return drawer;
+		return this.drawer;
 	}
 }

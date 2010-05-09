@@ -167,7 +167,6 @@ public class SimpleMarkovChain<S> extends AbstractMarkovChain<S>
 
 	public Map<S, Double> getSteadyStateProbability()
 	{
-//		double[][] tmpValues = {{-0.1, 0.5},{0.1,-0.5},{1.0,1.0}};
 		final RealMatrix steadyStateMatrix = this.transitionProbabilityMatrix.subtract(SimpleRealMatrix.identity(this.transitionProbabilityMatrix.getHeight(), this.transitionProbabilityMatrix.getWidth())).flip();
 		final double[][] simultaniousValues = new double[steadyStateMatrix.getHeight() + 1][steadyStateMatrix.getWidth()];
 		for(int rowIndex = 0; rowIndex < simultaniousValues.length; rowIndex++)
@@ -182,21 +181,14 @@ public class SimpleMarkovChain<S> extends AbstractMarkovChain<S>
 		final double[][] solutionValues = new double[simultaniousValues.length][1];
 		solutionValues[simultaniousValues.length - 1][0] = 1.0;
 		final RealMatrix solutionMatrix = new SimpleRealMatrix(solutionValues);
-//		System.out.println("transitionProbabilityMatrix: " + this.transitionProbabilityMatrix);
-//		System.out.println("identity: " + SimpleRealMatrix.identity(this.transitionProbabilityMatrix.getHeight(), this.transitionProbabilityMatrix.getWidth()));
-//		System.out.println("simultaniousMatrix: " + simultaniousMatrix);
-//		System.out.println("solutionMatrix: " + solutionMatrix);
-		final RealMatrix SimultaniousSolved = simultaniousMatrix.solve(solutionMatrix);
+		final RealMatrix simultaniousSolved = simultaniousMatrix.solve(solutionMatrix);
 		final Map<S, Double> stateProbabilities = new HashMap<S, Double>();
-		for(int stateIndex = 0; stateIndex < SimultaniousSolved.getHeight(); stateIndex++)
+		for(int stateIndex = 0; stateIndex < simultaniousSolved.getHeight(); stateIndex++)
 		{
 			final S currentState = this.columnMapping.get(stateIndex);
-			final double currentProbability = SimultaniousSolved.get(stateIndex, 0).doubleValue();
+			final double currentProbability = simultaniousSolved.get(stateIndex, 0).doubleValue();
 			stateProbabilities.put(currentState, currentProbability);
 		}
 		return Collections.unmodifiableMap(stateProbabilities);
-//		RealMatrix tmpTest = new SimpleRealMatrix(tmpValues);
-//		RealMatrix solution = tmpTest.solve(new SimpleRealMatrix(new double[][]{{0.0}, {0.0}, {1.0}}));
-//		System.out.println("tmp solution: " + solution);
 	}
 }

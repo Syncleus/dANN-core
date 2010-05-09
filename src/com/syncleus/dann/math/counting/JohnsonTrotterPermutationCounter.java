@@ -61,7 +61,7 @@ public class JohnsonTrotterPermutationCounter implements Counter
 	{
 		this.resetPermutations();
 		this.combinations.reset();
-		this.remaining = total;
+		this.remaining = this.total;
 		this.combination = this.combinations.getNext();
 	}
 
@@ -69,20 +69,20 @@ public class JohnsonTrotterPermutationCounter implements Counter
 	{
 		for(int i = 0; i < this.permutationSize; i++)
 		{
-			mobility[i] = -1;
-			permutation[i] = i;
+			this.mobility[i] = -1;
+			this.permutation[i] = i;
 		}
 		this.combinationPermutationsRemaining = this.permutationsPerCombination;
 	}
 
 	public BigInteger getRemaining()
 	{
-		return remaining;
+		return this.remaining;
 	}
 
 	public BigInteger getTotal()
 	{
-		return total;
+		return this.total;
 	}
 
 	public boolean hasMore()
@@ -130,12 +130,12 @@ public class JohnsonTrotterPermutationCounter implements Counter
 
 	public int getSetSize()
 	{
-		return setSize;
+		return this.setSize;
 	}
 
 	public int getPermutationSize()
 	{
-		return permutationSize;
+		return this.permutationSize;
 	}
 
 	private static boolean isMobile(final int[] permutation, final int[] mobility, final int index)

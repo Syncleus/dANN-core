@@ -329,6 +329,6 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedAdjacencyGrap
 	 */
 	protected ExecutorService getThreadExecutor()
 	{
-		return threadExecutor;
+		return this.threadExecutor;
 	}
 }

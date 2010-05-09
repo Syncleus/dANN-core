@@ -27,11 +27,11 @@ public class TestMutableDouble
 	public void testConstructors()
 	{
 		MutableDouble test = new MutableDouble(123.0);
-		Assert.assertTrue("value constructor failed", test.getNumber().doubleValue() == 123.0);
+		Assert.assertTrue("value constructor failed", Math.abs(test.getNumber().doubleValue() - 123.0) < 0.000001);
 		test = new MutableDouble("456");
-		Assert.assertTrue("string value constructor failed", test.getNumber().doubleValue() == 456.0);
+		Assert.assertTrue("string value constructor failed", Math.abs(test.getNumber().doubleValue() - 456.0) < 0.000001);
 		test = new MutableDouble(Double.valueOf(789));
-		Assert.assertTrue("Number value constructor failed", test.getNumber().doubleValue() == 789.0);
+		Assert.assertTrue("Number value constructor failed", Math.abs(test.getNumber().doubleValue() - 789.0) < 0.000001);
 	}
 
 	@Test

@@ -137,7 +137,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractLocalBrain implem
 	 */
 	public final int getLayerCount()
 	{
-		return layerCount;
+		return this.layerCount;
 	}
 
 	public final void propagate()

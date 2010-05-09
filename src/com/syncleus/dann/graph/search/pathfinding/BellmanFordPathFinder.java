@@ -56,17 +56,17 @@ public class BellmanFordPathFinder<N, E extends DirectedEdge<N>> implements Path
 
 		public N getNode()
 		{
-			return node;
+			return this.node;
 		}
 
 		public PathedStep getParent()
 		{
-			return parent;
+			return this.parent;
 		}
 
 		public double getCachedPathWeight()
 		{
-			return cachedPathWeight;
+			return this.cachedPathWeight;
 		}
 
 		@Override
@@ -100,7 +100,7 @@ public class BellmanFordPathFinder<N, E extends DirectedEdge<N>> implements Path
 
 		public E getParentEdge()
 		{
-			return parentEdge;
+			return this.parentEdge;
 		}
 
 		@Override
@@ -141,7 +141,7 @@ public class BellmanFordPathFinder<N, E extends DirectedEdge<N>> implements Path
 	{
 		final Set<? extends N> nodes = this.graph.getNodes();
 		final Set<? extends E> edges = this.graph.getEdges();
-		pathedSteps = new HashMap<N, PathedStep>(nodes.size());
+		this.pathedSteps = new HashMap<N, PathedStep>(nodes.size());
 		//relax edges
 		for(int lcv = 0; lcv < (nodes.size() - 1); lcv++)
 		{

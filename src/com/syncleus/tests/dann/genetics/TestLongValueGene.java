@@ -26,27 +26,27 @@ public class TestLongValueGene
 	@Test
 	public void testConstructors()
 	{
-		ValueGene test = new LongValueGene(78101237423l);
-		Assert.assertTrue("value constructor failed", test.getValue().getNumber().longValue() == 78101237423l);
-		test = new LongValueGene(new MutableLong(78101237423l));
-		Assert.assertTrue("MutableByte value constructor failed", test.getValue().getNumber().longValue() == 78101237423l);
-		test = new LongValueGene(Long.valueOf(78101237423l));
-		Assert.assertTrue("Number value constructor failed", test.getValue().getNumber().longValue() == 78101237423l);
+		ValueGene test = new LongValueGene(78101237423L);
+		Assert.assertTrue("value constructor failed", test.getValue().getNumber().longValue() == 78101237423L);
+		test = new LongValueGene(new MutableLong(78101237423L));
+		Assert.assertTrue("MutableByte value constructor failed", test.getValue().getNumber().longValue() == 78101237423L);
+		test = new LongValueGene(Long.valueOf(78101237423L));
+		Assert.assertTrue("Number value constructor failed", test.getValue().getNumber().longValue() == 78101237423L);
 		test = new LongValueGene();
-		Assert.assertTrue("default constructor failed", test.getValue().getNumber().longValue() == 0l);
+		Assert.assertTrue("default constructor failed", test.getValue().getNumber().longValue() == 0L);
 	}
 
 	@Test
 	public void testMutation()
 	{
-		final ValueGene center = new LongValueGene(0l);
+		final ValueGene center = new LongValueGene(0L);
 		long averageSum = 0;
 		long testCount;
 		for(testCount = 0; testCount < 1000; testCount++)
 		{
 			averageSum += center.mutate(100.0).getValue().byteValue();
 		}
-		final double average = averageSum / testCount;
+		final double average = ((double)averageSum) / ((double)testCount);
 		Assert.assertTrue("average deviation is more than 100.0", average < 100.0);
 	}
 }

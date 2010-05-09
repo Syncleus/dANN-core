@@ -75,7 +75,7 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 
 	public final double absScalar()
 	{
-		return Math.hypot(realValue, imaginaryValue);
+		return Math.hypot(this.realValue, this.imaginaryValue);
 	}
 
 	public final ComplexNumber abs()
@@ -86,7 +86,7 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 	//Value between -pi and pi
 	public final double phase()
 	{
-		return Math.atan2(imaginaryValue, realValue);
+		return Math.atan2(this.imaginaryValue, this.realValue);
 	}
 
 	public final ComplexNumber add(final ComplexNumber value)
@@ -118,7 +118,7 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 
 	public final ComplexNumber multiply(final double value)
 	{
-		return new ComplexNumber(value * realValue, value * imaginaryValue);
+		return new ComplexNumber(value * this.realValue, value * this.imaginaryValue);
 	}
 
 	public final ComplexNumber divide(final ComplexNumber value)
@@ -133,7 +133,7 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 
 	public final ComplexNumber exp()
 	{
-		return new ComplexNumber(Math.exp(realValue) * Math.cos(imaginaryValue), Math.exp(realValue) * Math.sin(imaginaryValue));
+		return new ComplexNumber(Math.exp(this.realValue) * Math.cos(this.imaginaryValue), Math.exp(this.realValue) * Math.sin(this.imaginaryValue));
 	}
 
 	public final ComplexNumber log()
@@ -189,7 +189,7 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 
 	public final ComplexNumber sin()
 	{
-		return new ComplexNumber(Math.sin(realValue) * Math.cosh(imaginaryValue), Math.cos(realValue) * Math.sinh(imaginaryValue));
+		return new ComplexNumber(Math.sin(this.realValue) * Math.cosh(this.imaginaryValue), Math.cos(this.realValue) * Math.sinh(this.imaginaryValue));
 	}
 
 	public final ComplexNumber asin()
@@ -204,7 +204,7 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 
 	public final ComplexNumber cos()
 	{
-		return new ComplexNumber(Math.cos(realValue) * Math.cosh(imaginaryValue), -Math.sin(realValue) * Math.sinh(imaginaryValue));
+		return new ComplexNumber(Math.cos(this.realValue) * Math.cosh(this.imaginaryValue), -Math.sin(this.realValue) * Math.sinh(this.imaginaryValue));
 	}
 
 	public final ComplexNumber acos()
@@ -240,13 +240,13 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 
 	public final ComplexNumber reciprocal()
 	{
-		final double scale = (realValue * realValue) + (imaginaryValue * imaginaryValue);
-		return new ComplexNumber(realValue / scale, -imaginaryValue / scale);
+		final double scale = (this.realValue * this.realValue) + (this.imaginaryValue * this.imaginaryValue);
+		return new ComplexNumber(this.realValue / scale, -this.imaginaryValue / scale);
 	}
 
 	public final ComplexNumber conjugate()
 	{
-		return new ComplexNumber(realValue, -imaginaryValue);
+		return new ComplexNumber(this.realValue, -this.imaginaryValue);
 	}
 
 	public boolean isNaN()
@@ -261,12 +261,12 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 
 	public final double getRealValue()
 	{
-		return realValue;
+		return this.realValue;
 	}
 
 	public final double getImaginaryValue()
 	{
-		return imaginaryValue;
+		return this.imaginaryValue;
 	}
 
 	@Override
@@ -293,13 +293,13 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 	@Override
 	public String toString()
 	{
-		if (imaginaryValue == 0)
-			return realValue + "0";
-		if (realValue == 0)
-			return imaginaryValue + "i";
-		if (imaginaryValue < 0)
-			return realValue + " - " + -imaginaryValue + 'i';
-		return realValue + " + " + imaginaryValue + 'i';
+		if (this.imaginaryValue == 0)
+			return this.realValue + "0";
+		if (this.realValue == 0)
+			return this.imaginaryValue + "i";
+		if (this.imaginaryValue < 0)
+			return this.realValue + " - " + -this.imaginaryValue + 'i';
+		return this.realValue + " + " + this.imaginaryValue + 'i';
 	}
 
 	public static ComplexNumber scalarToComplex(final double scalar)

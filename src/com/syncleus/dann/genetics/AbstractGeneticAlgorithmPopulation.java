@@ -141,7 +141,7 @@ public abstract class AbstractGeneticAlgorithmPopulation
 	public final Set<GeneticAlgorithmChromosome> getChromosomes()
 	{
 		final HashSet<GeneticAlgorithmChromosome> chromosomes = new HashSet<GeneticAlgorithmChromosome>();
-		for(final AbstractGeneticAlgorithmFitnessFunction member : population)
+		for(final AbstractGeneticAlgorithmFitnessFunction member : this.population)
 			chromosomes.add(member.getChromosome());
 		return Collections.unmodifiableSet(chromosomes);
 	}
@@ -214,8 +214,8 @@ public abstract class AbstractGeneticAlgorithmPopulation
 				//obtain parents and mutate into children
 				GeneticAlgorithmChromosome child1 = this.getRandomMember();
 				GeneticAlgorithmChromosome child2 = this.getRandomMember();
-				child1 = child1.mutate(mutationDeviation);
-				child2 = child2.mutate(mutationDeviation);
+				child1 = child1.mutate(this.mutationDeviation);
+				child2 = child2.mutate(this.mutationDeviation);
 				//crossover performed on children
 				if (RANDOM.nextDouble() < this.crossoverPercentage)
 				{

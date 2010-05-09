@@ -100,9 +100,9 @@ public class TestHyperpoint
 		points.add(Double.valueOf(3.0d));
 		testPoint = new Vector(points);
 		Assert.assertTrue("dimensions value is incorrect", testPoint.getDimensions() == 3);
-		Assert.assertTrue("coordinate 1 incorrect", testPoint.getCoordinate(1) == 1.0d);
-		Assert.assertTrue("coordinate 2 incorrect", testPoint.getCoordinate(2) == 2.0d);
-		Assert.assertTrue("coordinate 3 incorrect", testPoint.getCoordinate(3) == 3.0d);
+		Assert.assertTrue("coordinate 1 incorrect", Math.abs(testPoint.getCoordinate(1) - 1.0d) < 0.000001);
+		Assert.assertTrue("coordinate 2 incorrect", Math.abs(testPoint.getCoordinate(2) - 2.0d) < 0.000001);
+		Assert.assertTrue("coordinate 3 incorrect", Math.abs(testPoint.getCoordinate(3) - 3.0d) < 0.000001);
 		testPoint = testPoint.setCoordinate(5.0d, 1);
 		testPoint = testPoint.setCoordinate(4.0d, 2);
 		testPoint = testPoint.setCoordinate(3.0d, 3);

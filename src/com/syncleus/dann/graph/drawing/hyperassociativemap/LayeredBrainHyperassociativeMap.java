@@ -32,8 +32,8 @@ public class LayeredBrainHyperassociativeMap extends HyperassociativeMap<Feedfor
 	public LayeredBrainHyperassociativeMap(final FeedforwardBackpropBrain graph, final int dimensions, final double equilibriumDistance, final boolean useWeights, final ExecutorService threadExecutor, final boolean cache)
 	{
 		super(graph, dimensions, equilibriumDistance, useWeights, threadExecutor);
-		cached = cache;
-		neighbors = new HashMap<BackpropNeuron, Map<Neuron, Double>>();
+		this.cached = cache;
+		this.neighbors = new HashMap<BackpropNeuron, Map<Neuron, Double>>();
 	}
 
 	public LayeredBrainHyperassociativeMap(final FeedforwardBackpropBrain graph, final int dimensions, final ExecutorService threadExecutor, final boolean cache)

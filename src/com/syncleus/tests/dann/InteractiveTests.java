@@ -127,7 +127,7 @@ public class InteractiveTests
 		final Set<Class> testClasses = testPoints.keySet();
 		int currentChoice = 1;
 		final Map<Integer, Method> choices = new HashMap<Integer, Method>();
-		for(Map.Entry<Class, Set<Method>> classSetEntry : testPoints.entrySet())
+		for(final Map.Entry<Class, Set<Method>> classSetEntry : testPoints.entrySet())
 		{
 			System.out.println(classSetEntry.getKey().toString() + ':');
 			final Set<Method> testPointMethods = classSetEntry.getValue();

@@ -52,8 +52,8 @@ public class MathFunctionCanvas extends SurfacePlot
 	{
 		final MathFunctionDataBinder dataBinder = new MathFunctionDataBinder(
 				this.function,
-				this.function.getParameterName(xIndex),
-				this.function.getParameterName(yIndex),
+				this.function.getParameterName(this.xIndex),
+				this.function.getParameterName(this.yIndex),
 				this.xMin,
 				this.xMax,
 				this.yMin,

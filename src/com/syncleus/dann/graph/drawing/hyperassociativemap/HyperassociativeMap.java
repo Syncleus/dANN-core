@@ -129,7 +129,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 	public boolean isAligned()
 	{
 		if (this.isAlignable())
-			return ((this.maxMovement < 0.005 * equilibriumDistance) && (this.maxMovement > 0.0));
+			return ((this.maxMovement < 0.005 * this.equilibriumDistance) && (this.maxMovement > 0.0));
 		else
 			return false;
 	}
@@ -231,7 +231,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 				double newDistance = Math.pow(Math.abs(neighborVector.getDistance()) - associationEquilibriumDistance, ATTRACTION_STRENGTH);
 				if (Math.abs(newDistance) > Math.abs(Math.abs(neighborVector.getDistance()) - associationEquilibriumDistance))
 					newDistance = Math.copySign(Math.abs(Math.abs(neighborVector.getDistance()) - associationEquilibriumDistance), newDistance);
-				newDistance *= learningRate;
+				newDistance *= this.learningRate;
 				neighborVector = neighborVector.setDistance(Math.signum(neighborVector.getDistance()) * newDistance);
 			}
 			else
@@ -239,7 +239,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 				double newDistance = -1.0 * atanh((associationEquilibriumDistance - Math.abs(neighborVector.getDistance())) / associationEquilibriumDistance);
 				if (Math.abs(newDistance) > Math.abs(associationEquilibriumDistance - Math.abs(neighborVector.getDistance())))
 					newDistance = -1.0 * (associationEquilibriumDistance - Math.abs(neighborVector.getDistance()));
-				newDistance *= learningRate;
+				newDistance *= this.learningRate;
 				neighborVector = neighborVector.setDistance(Math.signum(neighborVector.getDistance()) * newDistance);
 			}
 			compositeVector = compositeVector.add(neighborVector);
@@ -250,18 +250,18 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 			{
 				Vector nodeVector = this.coordinates.get(node).calculateRelativeTo(location);
 				double newDistance = -1.0 / Math.pow(nodeVector.getDistance(), REPULSIVE_WEAKNESS);
-				if (Math.abs(newDistance) > Math.abs(equilibriumDistance))
-					newDistance = Math.copySign(equilibriumDistance, newDistance);
-				newDistance *= learningRate;
+				if (Math.abs(newDistance) > Math.abs(this.equilibriumDistance))
+					newDistance = Math.copySign(this.equilibriumDistance, newDistance);
+				newDistance *= this.learningRate;
 				nodeVector = nodeVector.setDistance(newDistance);
 				compositeVector = compositeVector.add(nodeVector);
 			}
 		Vector newLocation = location.add(compositeVector);
 		final Vector oldLocation = this.coordinates.get(nodeToAlign);
 		double moveDistance = Math.abs(newLocation.calculateRelativeTo(oldLocation).getDistance());
-		if (moveDistance > equilibriumDistance * this.acceptableDistanceFactor)
+		if (moveDistance > this.equilibriumDistance * this.acceptableDistanceFactor)
 		{
-			final double newLearningRate = ((equilibriumDistance * this.acceptableDistanceFactor) / moveDistance);
+			final double newLearningRate = ((this.equilibriumDistance * this.acceptableDistanceFactor) / moveDistance);
 			if (newLearningRate < this.learningRate)
 			{
 				this.learningRate = newLearningRate;
@@ -322,7 +322,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 		}
 		if (this.learningRate * 1.01 < 0.4)
 		{
-			if (this.getAverageMovement() < (equilibriumDistance * this.acceptableDistanceFactor * 0.1))
+			if (this.getAverageMovement() < (this.equilibriumDistance * this.acceptableDistanceFactor * 0.1))
 				this.acceptableDistanceFactor *= 0.9;
 			this.learningRate *= 1.01;
 			LOGGER.debug("learning rate: " + this.learningRate + ", acceptableDistanceFactor: " + this.acceptableDistanceFactor);
@@ -350,7 +350,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 		}
 		if (this.learningRate * 1.01 < 0.4)
 		{
-			if (this.getAverageMovement() < (equilibriumDistance * this.acceptableDistanceFactor * 0.1))
+			if (this.getAverageMovement() < (this.equilibriumDistance * this.acceptableDistanceFactor * 0.1))
 				this.acceptableDistanceFactor = this.maxMovement * 2.0;
 			this.learningRate *= 1.01;
 			LOGGER.debug("learning rate: " + this.learningRate + ", acceptableDistanceFactor: " + this.acceptableDistanceFactor);

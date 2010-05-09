@@ -40,7 +40,7 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 	{
 		final double[] signalPadded = pad(signal);
 		final ComplexNumber[] frequencyDomain = transformMatrix(doubleArrayToComplexArray(signalPadded));
-		return new DiscreteFourierTransform(frequencyDomain, bitrate);
+		return new DiscreteFourierTransform(frequencyDomain, this.bitrate);
 	}
 
 	public double[] inverseTransform(final DiscreteFourierTransform transform)
@@ -67,7 +67,7 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 
 	public int getBlockSize()
 	{
-		return blockSize;
+		return this.blockSize;
 	}
 
 	public void setBlockSize(final int blockSize)
@@ -80,7 +80,7 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 
 	public int getBitrate()
 	{
-		return bitrate;
+		return this.bitrate;
 	}
 
 	public void setBitrate(final int bitrate)

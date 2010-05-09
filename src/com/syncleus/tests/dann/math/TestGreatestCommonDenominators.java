@@ -24,18 +24,18 @@ import org.junit.Test;
 
 public class TestGreatestCommonDenominators
 {
-	private static final long[][] solutions = {{20l, 90l, 10l},
-			{19l, 187l, 1l},
-			{5l, 1867l, 1l},
-			{20l, 100l, 20l},
-			{5l, 0l, 5l},
-			{6l, 21l, 3l},
-			{4l, 42l, 2l},
-			{7l, 11l, 1l},
-			{1l, 2l, 1l},
-			{1l, 1l, 1l},
-			{1l, 0l, 1l},
-			{0l, 1l, 1l}};
+	private static final long[][] solutions = {{20L, 90L, 10L},
+			{19L, 187L, 1L},
+			{5L, 1867L, 1L},
+			{20L, 100L, 20L},
+			{5L, 0L, 5L},
+			{6L, 21L, 3L},
+			{4L, 42L, 2L},
+			{7L, 11L, 1L},
+			{1L, 2L, 1L},
+			{1L, 1L, 1L},
+			{1L, 0L, 1L},
+			{0L, 1L, 1L}};
 
 	@Test
 	public void testBinaryGCD()

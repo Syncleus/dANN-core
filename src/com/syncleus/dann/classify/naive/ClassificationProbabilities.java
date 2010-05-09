@@ -48,7 +48,7 @@ public class ClassificationProbabilities<C>
 
 	public int getProbabilitySum()
 	{
-		return probabilitySum;
+		return this.probabilitySum;
 	}
 
 	public int getCategoryProbability(final C category)

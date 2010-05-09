@@ -66,10 +66,10 @@ public class TestGeneticCube
 			final VolumeAreaCubeFitness compareWith = (VolumeAreaCubeFitness) baseCompareWith;
 			if (this.getError() < compareWith.getError())
 				return 1;
-			else if (this.getError() == compareWith.getError())
-				return 0;
-			else
+			else if (this.getError() > compareWith.getError())
 				return -1;
+			else
+				return 0;
 		}
 	}
 

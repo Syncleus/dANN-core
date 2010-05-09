@@ -42,24 +42,24 @@ public class CombinationCounter implements Counter
 			throw new IllegalArgumentException("combinationSize can not be negative");
 		this.setSize = setSize;
 		this.combinationSize = combinationSize;
-		currentCombination = new int[combinationSize];
+		this.currentCombination = new int[combinationSize];
 		final BigInteger nFact = getFactorial(setSize);
 		final BigInteger rFact = getFactorial(combinationSize);
 		final BigInteger nminusrFact = getFactorial(setSize - combinationSize);
-		total = (setSize == 0 || combinationSize == 0 ? BigInteger.ZERO : nFact.divide(rFact.multiply(nminusrFact)));
+		this.total = (setSize == 0 || combinationSize == 0 ? BigInteger.ZERO : nFact.divide(rFact.multiply(nminusrFact)));
 		reset();
 	}
 
 	public final void reset()
 	{
 		for(int i = 0; i < currentCombination.length; i++)
-			currentCombination[i] = i;
-		remaining = new BigInteger(total.toString());
+			this.currentCombination[i] = i;
+		this.remaining = new BigInteger(total.toString());
 	}
 
 	public BigInteger getRemaining()
 	{
-		return remaining;
+		return this.remaining;
 	}
 
 	public boolean hasMore()
@@ -69,7 +69,7 @@ public class CombinationCounter implements Counter
 
 	public BigInteger getTotal()
 	{
-		return total;
+		return this.total;
 	}
 
 	private static BigInteger getFactorial(final int n)
@@ -85,18 +85,18 @@ public class CombinationCounter implements Counter
 	//--------------------------------------------------------
 	public int[] getNext()
 	{
-		if (remaining.equals(total))
+		if (remaining.equals(this.total))
 		{
-			remaining = remaining.subtract(BigInteger.ONE);
+			this.remaining = remaining.subtract(BigInteger.ONE);
 			return currentCombination.clone();
 		}
-		int i = combinationSize - 1;
-		while (currentCombination[i] == setSize - combinationSize + i)
+		int i = this.combinationSize - 1;
+		while (this.currentCombination[i] == this.setSize - this.combinationSize + i)
 			i--;
-		currentCombination[i] = currentCombination[i] + 1;
-		for(int j = i + 1; j < combinationSize; j++)
-			currentCombination[j] = currentCombination[i] + j - i;
-		remaining = remaining.subtract(BigInteger.ONE);
+		this.currentCombination[i] = this.currentCombination[i] + 1;
+		for(int j = i + 1; j < this.combinationSize; j++)
+			this.currentCombination[j] = this.currentCombination[i] + j - i;
+		this.remaining = remaining.subtract(BigInteger.ONE);
 		return currentCombination.clone();
 	}
 }

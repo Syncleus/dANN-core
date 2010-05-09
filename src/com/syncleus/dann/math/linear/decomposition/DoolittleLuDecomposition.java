@@ -106,10 +106,10 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 					this.matrix = this.matrix.set(p, k, this.matrix.get(j, k));
 					this.matrix = this.matrix.set(j, k, t);
 				}
-				final int k = pivot[p];
-				pivot[p] = pivot[j];
-				pivot[j] = k;
-				pivotSign = -pivotSign;
+				final int k = this.pivot[p];
+				this.pivot[p] = this.pivot[j];
+				this.pivot[j] = k;
+				this.pivotSign = -this.pivotSign;
 			}
 			// Compute multipliers.
 			if ((j < height) && (!this.matrix.get(j, j).equals(this.matrix.getElementField().getZero())))
@@ -186,7 +186,7 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 	public int[] getPivot()
 	{
 		final int[] p = new int[this.getHeight()];
-		System.arraycopy(pivot, 0, p, 0, this.getHeight());
+		System.arraycopy(this.pivot, 0, p, 0, this.getHeight());
 		return p;
 	}
 
@@ -201,9 +201,9 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 		if (this.getHeight() != this.getWidth())
 			throw new ArithmeticException("Matrix must be square.");
 		F determinant;
-		if (pivotSign > 0)
+		if (this.pivotSign > 0)
 			determinant = this.matrix.getElementField().getOne();
-		else if (pivotSign < 0)
+		else if (this.pivotSign < 0)
 			determinant = this.matrix.getElementField().getOne().negate();
 		else
 			determinant = this.matrix.getElementField().getZero();
@@ -230,7 +230,7 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 			throw new ArithmeticException("Matrix is singular.");
 		// Copy right hand side with pivoting
 		final int nx = solutionMatrix.getWidth();
-		M Xmat = solutionMatrix.getSubmatrix(pivot, 0, nx - 1);
+		M Xmat = solutionMatrix.getSubmatrix(this.pivot, 0, nx - 1);
 		// Solve lowerTriangularFactor*Y = solutionMatrix(pivot,:)
 		for(int k = 0; k < this.getWidth(); k++)
 			for(int i = k + 1; i < this.getWidth(); i++)

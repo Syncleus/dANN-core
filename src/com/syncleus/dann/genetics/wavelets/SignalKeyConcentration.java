@@ -30,12 +30,12 @@ public class SignalKeyConcentration
 
 	public final SignalKey getSignal()
 	{
-		return signal;
+		return this.signal;
 	}
 
 	public final double getConcentration()
 	{
-		return concentration;
+		return this.concentration;
 	}
 
 	public final void setConcentration(final double concentration)

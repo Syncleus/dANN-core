@@ -53,7 +53,7 @@ public class CholeskyCroutCholeskyDecomposition<M extends Matrix<M, F>, F extend
 	{
 		// Initialize.
 		M newMatrix = matrixToDecompose;
-		isSpd = true;
+		this.isSpd = true;
 		// Main loop.
 		for(int j = 0; j < matrixToDecompose.getWidth(); j++)
 		{
@@ -66,10 +66,10 @@ public class CholeskyCroutCholeskyDecomposition<M extends Matrix<M, F>, F extend
 				s = s.divide(newMatrix.get(k, k));
 				newMatrix = newMatrix.set(k, j, s);
 				d = d.add(s.multiply(s));
-				isSpd = isSpd && (matrixToDecompose.get(k, j).equals(matrixToDecompose.get(j, k)));
+				this.isSpd = this.isSpd && (matrixToDecompose.get(k, j).equals(matrixToDecompose.get(j, k)));
 			}
 			d = matrixToDecompose.get(j, j).subtract(d);
-			isSpd = isSpd && (d.compareTo(d.getField().getZero()) > 0);
+			this.isSpd = this.isSpd && (d.compareTo(d.getField().getZero()) > 0);
 			newMatrix = newMatrix.set(j, j, d.max(d.getField().getZero()).sqrt());
 			for(int k = j + 1; k < matrixToDecompose.getWidth(); k++)
 				newMatrix = newMatrix.set(k, j, newMatrix.getElementField().getZero());
@@ -94,7 +94,7 @@ public class CholeskyCroutCholeskyDecomposition<M extends Matrix<M, F>, F extend
 	 */
 	public boolean isSpd()
 	{
-		return isSpd;
+		return this.isSpd;
 	}
 
 	/**
@@ -121,7 +121,7 @@ public class CholeskyCroutCholeskyDecomposition<M extends Matrix<M, F>, F extend
 		M solutionMatrix = matrixToSolve;
 		if (solutionMatrix.getHeight() != this.matrix.getHeight())
 			throw new IllegalArgumentException("matrixToSolve row dimensions must agree.");
-		if (!isSpd)
+		if (!this.isSpd)
 			throw new ArithmeticException("this is not symmetric positive definite.");
 		// Solve L*Y = solutionMatrix;
 		for(int k = 0; k < this.matrix.getHeight(); k++)

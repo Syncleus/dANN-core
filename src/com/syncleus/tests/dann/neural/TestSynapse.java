@@ -51,9 +51,9 @@ public class TestSynapse
 		final SimpleBackpropNeuron destinationNeuron = new SimpleBackpropNeuron(brain);
 		final SimpleSynapse testSynapse = new SimpleSynapse(sourceNeuron, destinationNeuron, INITIAL_WEIGHT);
 		testSynapse.setInput(TEST_INPUT);
-		Assert.assertTrue(testSynapse.getInput() == TEST_INPUT);
+		Assert.assertTrue(Math.abs(testSynapse.getInput() - TEST_INPUT) < 0.000001 );
 		testSynapse.setWeight(TEST_WEIGHT);
-		Assert.assertTrue(testSynapse.getWeight() == TEST_WEIGHT);
+		Assert.assertTrue(Math.abs(testSynapse.getWeight() - TEST_WEIGHT) < 0.000001 );
 		Assert.assertTrue(testSynapse.getSourceNode() == sourceNeuron);
 		Assert.assertTrue(testSynapse.getDestinationNode() == destinationNeuron);
 	}

@@ -58,25 +58,25 @@ public class LexicographicPermutationCounter implements Counter
 	{
 		this.resetPermutations();
 		this.combinations.reset();
-		this.remaining = total;
+		this.remaining = this.total;
 		this.combination = this.combinations.getNext();
 	}
 
 	private void resetPermutations()
 	{
 		for(int i = 0; i < permutation.length; i++)
-			permutation[i] = i;
+			this.permutation[i] = i;
 		this.combinationPermutationsRemaining = this.permutationsPerCombination;
 	}
 
 	public BigInteger getRemaining()
 	{
-		return remaining;
+		return this.remaining;
 	}
 
 	public BigInteger getTotal()
 	{
-		return total;
+		return this.total;
 	}
 
 	public boolean hasMore()
@@ -124,12 +124,12 @@ public class LexicographicPermutationCounter implements Counter
 
 	public int getSetSize()
 	{
-		return setSize;
+		return this.setSize;
 	}
 
 	public int getPermutationSize()
 	{
-		return permutationSize;
+		return this.permutationSize;
 	}
 
 	private static void swap(final int[] permutation, final int firstIndex, final int secondIndex)

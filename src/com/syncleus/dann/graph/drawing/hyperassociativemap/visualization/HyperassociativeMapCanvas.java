@@ -96,7 +96,7 @@ public class HyperassociativeMapCanvas<G extends Graph<N, ?>, N> extends Canvas3
 		final BranchGroup root = createRoot();
 		this.mapVisual = new HyperassociativeMapVisualization<HyperassociativeMap<G, N>, G, N>(map, nodeRadius);
 		this.mapVisual.refresh();
-		root.addChild(mapVisual);
+		root.addChild(this.mapVisual);
 		final SimpleUniverse universe = new SimpleUniverse(this);
 		universe.addBranchGraph(root);
 		// Set the initial view position

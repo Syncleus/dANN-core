@@ -45,7 +45,7 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 
 	private WaveletChromatid()
 	{
-		mutability = Mutations.getRandom().nextDouble() * 10.0;
+		this.mutability = Mutations.getRandom().nextDouble() * 10.0;
 	}
 
 	public WaveletChromatid(final WaveletChromatid copy)
@@ -295,20 +295,20 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 	public void mutate(final Set<AbstractKey> keyPool)
 	{
 		//there is a chance we will add a new gene to the chromatid
-		if (Mutations.mutationEvent(mutability))
+		if (Mutations.mutationEvent(this.mutability))
 		{
 			//generate the new receptorKey used in the new gene
 			ReceptorKey newReceptorKey = new ReceptorKey(randomKey(keyPool));
 			//mutate new receptorKey before using it
 			while (Mutations.mutationEvent(this.mutability))
-				newReceptorKey = newReceptorKey.mutate(mutability);
+				newReceptorKey = newReceptorKey.mutate(this.mutability);
 			//create a new gene using the new receptor
 			final AbstractWaveletGene newGene;
 			final SignalKey newSignalKey = new SignalKey(randomKey(keyPool));
 			switch (RANDOM.nextInt(3))
 			{
 			case 0:
-				final MutableInteger initialDistance = (new MutableInteger(0)).mutate(mutability);
+				final MutableInteger initialDistance = (new MutableInteger(0)).mutate(this.mutability);
 				newGene = new PromoterGene(newReceptorKey, initialDistance.intValue());
 				this.promoters.add((PromoterGene) newGene);
 				break;
@@ -331,7 +331,7 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 		for(final AbstractWaveletGene currentGene : this.sequencedGenes)
 			currentGene.mutate(keyPool);
 		//mutate the mutability factor.
-		if (Mutations.mutationEvent(mutability))
+		if (Mutations.mutationEvent(this.mutability))
 			this.mutability = Mutations.mutabilityMutation(this.mutability);
 	}
 }

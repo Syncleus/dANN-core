@@ -75,7 +75,7 @@ public class TestCooleyTukeyFastFourierTransformer
 			if ((startBandFreq <= frequency) && (frequency < endBandFreq))
 				expectedBandPower = currentBandPower;
 		}
-		if (expectedBandPower == maxBandPower)
+		if (Math.abs(expectedBandPower - maxBandPower) < 0.000000001)
 			return true;
 		return false;
 	}

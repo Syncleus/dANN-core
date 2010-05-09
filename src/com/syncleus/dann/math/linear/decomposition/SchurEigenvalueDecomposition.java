@@ -85,15 +85,15 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 		{
 			r = yi / yr;
 			d = yr + r * yi;
-			cdivr = new RealNumber((xr + r * xi) / d);
-			cdivi = new RealNumber((xi - r * xr) / d);
+			this.cdivr = new RealNumber((xr + r * xi) / d);
+			this.cdivi = new RealNumber((xi - r * xr) / d);
 		}
 		else
 		{
 			r = yr / yi;
 			d = yi + r * yr;
-			cdivr = new RealNumber((r * xr + xi) / d);
-			cdivi = new RealNumber((r * xi - xr) / d);
+			this.cdivr = new RealNumber((r * xr + xi) / d);
+			this.cdivi = new RealNumber((r * xi - xr) / d);
 		}
 	}
 	// Nonsymmetric reduction from Hessenberg to real Schur form.

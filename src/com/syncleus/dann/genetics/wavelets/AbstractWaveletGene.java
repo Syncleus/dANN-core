@@ -84,7 +84,7 @@ public abstract class AbstractWaveletGene implements Gene, Cloneable
 
 	public void preTick()
 	{
-		this.pendingActivity = this.expressionFunction.calculate(receivingConcentrations);
+		this.pendingActivity = this.expressionFunction.calculate(this.receivingConcentrations);
 	}
 
 	public void tick(final double promotion)
@@ -99,12 +99,12 @@ public abstract class AbstractWaveletGene implements Gene, Cloneable
 		if ((keyPool != null) && (keyPool.isEmpty()))
 		{
 			final ReceptorKey newReceptor = new ReceptorKey(new ArrayList<AbstractKey>(keyPool).get(RANDOM.nextInt(keyPool.size())));
-			this.expressionFunction.mutate(mutability, newReceptor);
+			this.expressionFunction.mutate(this.mutability, newReceptor);
 		}
 		else
-			this.expressionFunction.mutate(mutability);
+			this.expressionFunction.mutate(this.mutability);
 		if (Mutations.mutationEvent(this.mutability))
-			this.mutability = Mutations.mutabilityMutation(mutability);
+			this.mutability = Mutations.mutabilityMutation(this.mutability);
 	}
 
 	@Override

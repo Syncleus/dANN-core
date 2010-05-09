@@ -151,7 +151,7 @@ public class FastFourierTransformerInputStream extends InputStream
 
 	public int getInterval()
 	{
-		return interval;
+		return this.interval;
 	}
 
 	public void setInterval(final int interval)

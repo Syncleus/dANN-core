@@ -208,7 +208,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		if (!this.isSubGraph(subgraph))
 			return false;
 		//findCycles all edges in the parent graph, but not in the subgraph
-		final Set<E> exclusiveParentEdges = new HashSet<E>(this.getEdges());
+		final Set<E> exclusiveParentEdges = new HashSet<E>(this.edges);
 		final Set<? extends E> subedges = subgraph.getEdges();
 		exclusiveParentEdges.removeAll(subedges);
 		//check to make sure none of the edges exclusive to the parent graph
@@ -228,7 +228,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		final Set<N> cutNodes = this.getNodes();
 		cutNodes.removeAll(nodes);
 		//remove the edges
-		final Set<Edge<N>> cutEdges = new HashSet<Edge<N>>(this.getEdges());
+		final Set<Edge<N>> cutEdges = new HashSet<Edge<N>>(edges);
 		for(final E edge : edges)
 			cutEdges.remove(edge);
 		//remove any remaining edges which connect to removed nodes
@@ -307,13 +307,13 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 
 	public int getEdgeConnectivity()
 	{
-		final Set<Set<E>> combinations = Counters.everyCombination(this.getEdges());
+		final Set<Set<E>> combinations = Counters.everyCombination(this.edges);
 		final SortedSet<Set<E>> sortedCombinations = new TreeSet<Set<E>>(new SizeComparator());
 		sortedCombinations.addAll(combinations);
 		for(final Set<E> cutEdges : combinations)
 			if (this.isCut(cutEdges))
 				return cutEdges.size();
-		return this.getEdges().size();
+		return this.edges.size();
 	}
 
 	public int getNodeConnectivity(final N begin, final N end)
@@ -329,13 +329,13 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 
 	public int getEdgeConnectivity(final N begin, final N end)
 	{
-		final Set<Set<E>> combinations = Counters.everyCombination(this.getEdges());
+		final Set<Set<E>> combinations = Counters.everyCombination(this.edges);
 		final SortedSet<Set<E>> sortedCombinations = new TreeSet<Set<E>>(new SizeComparator());
 		sortedCombinations.addAll(combinations);
 		for(final Set<E> cutEdges : combinations)
 			if (this.isCut(cutEdges, begin, end))
 				return cutEdges.size();
-		return this.getEdges().size();
+		return this.edges.size();
 	}
 
 	public boolean isComplete()
@@ -416,7 +416,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		for(final N subnode : subnodes)
 			if (!nodes.contains(subnode))
 				return false;
-		final Set<E> edges = this.getEdges();
+		final Set<E> edges = this.edges;
 		final Set<E> subedges = subgraph.getEdges();
 		for(final E subedge : subedges)
 			if (!edges.contains(subedge))
@@ -525,7 +525,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 	public int getMultiplicity()
 	{
 		int multiplicity = 0;
-		for(final E edge : this.getEdges())
+		for(final E edge : this.edges)
 		{
 			final int edgeMultiplicity = this.getMultiplicity(edge);
 			if (edgeMultiplicity > multiplicity)

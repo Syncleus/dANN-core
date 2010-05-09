@@ -36,41 +36,41 @@ public class Grid extends AbstractBidirectedAdjacencyGraph<GridNode, BidirectedE
 		for(int y = 0; y < nodeWeights.length; y++)
 			for(int x = 0; x < nodeWeights[0].length; x++)
 			{
-				nodes[y][x] = new GridNode(x, y, nodeWeights[y][x]);
-				this.nodeSet.add(nodes[y][x]);
-				this.neighborEdges.put(nodes[y][x], new HashSet<BidirectedEdge<GridNode>>());
-				this.neighborNodes.put(nodes[y][x], new HashSet<GridNode>());
+				this.nodes[y][x] = new GridNode(x, y, nodeWeights[y][x]);
+				this.nodeSet.add(this.nodes[y][x]);
+				this.neighborEdges.put(this.nodes[y][x], new HashSet<BidirectedEdge<GridNode>>());
+				this.neighborNodes.put(this.nodes[y][x], new HashSet<GridNode>());
 			}
 		//connect nodes
 		for(int y = 0; y < nodes.length; y++)
-			for(int x = 0; x < nodes[0].length; x++)
+			for(int x = 0; x < this.nodes[0].length; x++)
 			{
 				//connect to the right
-				if (x < nodes[0].length - 1)
+				if (x < this.nodes[0].length - 1)
 				{
-					final ImmutableUndirectedEdge<GridNode> newEdge = new ImmutableUndirectedEdge<GridNode>(nodes[y][x], nodes[y][x + 1]);
+					final ImmutableUndirectedEdge<GridNode> newEdge = new ImmutableUndirectedEdge<GridNode>(this.nodes[y][x], this.nodes[y][x + 1]);
 					this.edges.add(newEdge);
-					this.neighborEdges.get(nodes[y][x]).add(newEdge);
-					this.neighborEdges.get(nodes[y][x + 1]).add(newEdge);
-					this.neighborNodes.get(nodes[y][x]).add(nodes[y][x + 1]);
-					this.neighborNodes.get(nodes[y][x + 1]).add(nodes[y][x]);
+					this.neighborEdges.get(this.nodes[y][x]).add(newEdge);
+					this.neighborEdges.get(this.nodes[y][x + 1]).add(newEdge);
+					this.neighborNodes.get(this.nodes[y][x]).add(this.nodes[y][x + 1]);
+					this.neighborNodes.get(this.nodes[y][x + 1]).add(this.nodes[y][x]);
 				}
 				//connect to the bottom
 				if (y < nodes.length - 1)
 				{
-					final ImmutableUndirectedEdge<GridNode> newEdge = new ImmutableUndirectedEdge<GridNode>(nodes[y][x], nodes[y + 1][x]);
+					final ImmutableUndirectedEdge<GridNode> newEdge = new ImmutableUndirectedEdge<GridNode>(this.nodes[y][x], this.nodes[y + 1][x]);
 					this.edges.add(newEdge);
-					this.neighborEdges.get(nodes[y][x]).add(newEdge);
-					this.neighborEdges.get(nodes[y + 1][x]).add(newEdge);
-					this.neighborNodes.get(nodes[y][x]).add(nodes[y + 1][x]);
-					this.neighborNodes.get(nodes[y + 1][x]).add(nodes[y][x]);
+					this.neighborEdges.get(this.nodes[y][x]).add(newEdge);
+					this.neighborEdges.get(this.nodes[y + 1][x]).add(newEdge);
+					this.neighborNodes.get(this.nodes[y][x]).add(this.nodes[y + 1][x]);
+					this.neighborNodes.get(this.nodes[y + 1][x]).add(this.nodes[y][x]);
 				}
 			}
 	}
 
 	public GridNode getNode(final int x, final int y)
 	{
-		if ((x >= nodes[0].length) || (y >= nodes.length))
+		if ((x >= this.nodes[0].length) || (y >= nodes.length))
 			throw new IllegalArgumentException("coordinates are out of bounds");
 		return this.nodes[y][x];
 	}

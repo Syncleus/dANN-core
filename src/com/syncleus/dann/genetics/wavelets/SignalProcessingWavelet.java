@@ -39,8 +39,8 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 
 		protected SignalConcentration(final SignalConcentration originalSignal)
 		{
-			value = originalSignal.value;
-			id = originalSignal.id;
+			this.value = originalSignal.value;
+			this.id = originalSignal.id;
 		}
 
 		public double add(final double addValue)
@@ -179,7 +179,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 
 	public void tick()
 	{
-		this.output.setValue(this.output.getValue() + currentOutput);
+		this.output.setValue(this.output.getValue() + this.currentOutput);
 	}
 
 	@Override

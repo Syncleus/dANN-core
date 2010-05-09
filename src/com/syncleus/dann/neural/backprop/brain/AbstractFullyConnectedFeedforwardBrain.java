@@ -82,7 +82,7 @@ public abstract class AbstractFullyConnectedFeedforwardBrain extends AbstractFee
 		{
 			for(final BackpropNeuron destinationNeuron : this.getEditableLayers().get(layerIndex).getChildrenNeuronsRecursivly())
 			{
-				if (hasBias)
+				if (this.hasBias)
 				{
 					//create the bias neuron and add it
 					final BackpropNeuron biasNeuron = new BackpropStaticNeuron(this, 1.0);
