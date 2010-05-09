@@ -173,8 +173,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 		{
 			this.wavelet.setParameter(this.wavelet.getParameterNameIndex(String.valueOf(signal.getId())), signal.getValue());
 		}
-		final double newOutput = this.wavelet.calculate();
-		this.currentOutput = newOutput;
+		this.currentOutput = this.wavelet.calculate();
 	}
 
 	public void tick()
@@ -235,7 +234,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 		{
 			final float roll = RANDOM.nextFloat();
 			//60% chance to add a mutated copy of an existing wave
-			if (roll < 0.2)
+			if (roll < (float) 0.2)
 			{
 				//Signal newSignal = this.getRandomSignal();
 				//return this.mutate(newSignal);
@@ -243,13 +242,13 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 				copy.id = RANDOM.nextLong();
 			}
 			//20% to make a RANDOM new wave
-			else if (roll < 0.8)
+			else if (roll < (float) 0.8)
 			{
 				copy.waves.add(this.generateNewWave());
 				copy.id = RANDOM.nextLong();
 			}
 			//10% to delete a RANDOM wave
-			else if (roll < 0.9)
+			else if (roll < (float) 0.9)
 			{
 				//only delete if there will be atleast one wave left
 				if (copy.waves.size() > 1)
@@ -294,7 +293,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 					}
 				}
 			}
-		} while (RANDOM.nextFloat() < 0.1);
+		} while (RANDOM.nextFloat() < (float) 0.1);
 		return copy;
 	}
 
@@ -380,8 +379,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 	{
 		final SignalConcentration[] signalsArray = new SignalConcentration[this.signals.size()];
 		this.signals.toArray(signalsArray);
-		final SignalConcentration randomSignal = signalsArray[RANDOM.nextInt(signalsArray.length)];
-		return randomSignal;
+		return signalsArray[RANDOM.nextInt(signalsArray.length)];
 	}
 
 	private WaveMultidimensionalFunction generateNewWave()

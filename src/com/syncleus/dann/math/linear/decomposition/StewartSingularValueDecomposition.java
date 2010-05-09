@@ -30,8 +30,8 @@ import com.syncleus.dann.math.linear.*;
  * Singular Value Decomposition.
  * <p/>
  * For an m-by-n matrix A with m >= n, the singular value decomposition is an
- * m-by-n orthogonal matrix U, an n-by-n diagonal matrix S, and an n-by-n
- * orthogonal matrix V so that A = U*S*V'.
+ * m-by-n orthogonal matrix u, an n-by-n diagonal matrix S, and an n-by-n
+ * orthogonal matrix v so that A = u*S*v'.
  * <p/>
  * The singular values, sigma[k] = S[k][k], are ordered so that sigma[0] >=
  * sigma[1] >= ... >= sigma[n-1].
@@ -45,10 +45,10 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 {
 	private static final long serialVersionUID = 325638354441525023L;
 	/**
-	 * Arrays for internal storage of U and V.
+	 * Arrays for internal storage of u and v.
 	 */
-	private final double[][] U;
-	private final double[][] V;
+	private final double[][] u;
+	private final double[][] v;
 	/**
 	 * Array for internal storage of singular values.
 	 */
@@ -62,7 +62,7 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 	/**
 	 * Construct the singular value decomposition
 	 *
-	 * @param matrix Rectangular matrix. Gives access to U, S and V.
+	 * @param matrix Rectangular matrix. Gives access to u, S and v.
 	 */
 	public StewartSingularValueDecomposition(final RealMatrix matrix)
 	{
@@ -73,8 +73,8 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 		this.n = matrix.getWidth();
 		final int nu = Math.min(this.m, this.n);
 		this.s = new double[Math.min(this.m + 1, this.n)];
-		this.U = new double[m][nu];
-		this.V = new double[n][n];
+		this.u = new double[m][nu];
+		this.v = new double[n][n];
 		final double[] e = new double[n];
 		final double[] work = new double[m];
 		final boolean wantu = true;
@@ -120,10 +120,10 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 				e[j] = A[k][j];
 			}
 			if (wantu & (k < nct))
-				// Place the transformation in U for subsequent back
+				// Place the transformation in u for subsequent back
 				// multiplication.
 				for(int i = k; i < this.m; i++)
-					this.U[i][k] = A[i][k];
+					this.u[i][k] = A[i][k];
 			if (k < nrt)
 			{
 				// Compute the k-th row transformation and place the
@@ -157,10 +157,10 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 					}
 				}
 				if (wantv)
-					// Place the transformation in V for subsequent
+					// Place the transformation in v for subsequent
 					// back multiplication.
 					for(int i = k + 1; i < this.n; i++)
-						this.V[i][k] = e[i];
+						this.v[i][k] = e[i];
 			}
 		}
 		// Set up the final bidiagonal matrix or order p.
@@ -172,14 +172,14 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 		if (nrt + 1 < p)
 			e[nrt] = A[nrt][p - 1];
 		e[p - 1] = 0.0;
-		// If required, generate U.
+		// If required, generate u.
 		if (wantu)
 		{
 			for(int j = nct; j < nu; j++)
 			{
 				for(int i = 0; i < this.m; i++)
-					this.U[i][j] = 0.0;
-				this.U[j][j] = 1.0;
+					this.u[i][j] = 0.0;
+				this.u[j][j] = 1.0;
 			}
 			for(int k = nct - 1; k >= 0; k--)
 				if (this.s[k] != 0.0)
@@ -188,25 +188,25 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 					{
 						double t = 0;
 						for(int i = k; i < this.m; i++)
-							t += this.U[i][k] * this.U[i][j];
-						t = -t / this.U[k][k];
+							t += this.u[i][k] * this.u[i][j];
+						t = -t / this.u[k][k];
 						for(int i = k; i < this.m; i++)
-							this.U[i][j] += t * this.U[i][k];
+							this.u[i][j] += t * this.u[i][k];
 					}
 					for(int i = k; i < this.m; i++)
-						this.U[i][k] = -this.U[i][k];
-					this.U[k][k] = 1.0 + this.U[k][k];
+						this.u[i][k] = -this.u[i][k];
+					this.u[k][k] = 1.0 + this.u[k][k];
 					for(int i = 0; i < k - 1; i++)
-						this.U[i][k] = 0.0;
+						this.u[i][k] = 0.0;
 				}
 				else
 				{
 					for(int i = 0; i < this.m; i++)
-						this.U[i][k] = 0.0;
-					this.U[k][k] = 1.0;
+						this.u[i][k] = 0.0;
+					this.u[k][k] = 1.0;
 				}
 		}
-		// If required, generate V.
+		// If required, generate v.
 		if (wantv)
 			for(int k = this.n - 1; k >= 0; k--)
 			{
@@ -215,14 +215,14 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 					{
 						double t = 0;
 						for(int i = k + 1; i < this.n; i++)
-							t += this.V[i][k] * this.V[i][j];
-						t = -t / this.V[k + 1][k];
+							t += this.v[i][k] * this.v[i][j];
+						t = -t / this.v[k + 1][k];
 						for(int i = k + 1; i < this.n; i++)
-							this.V[i][j] += t * this.V[i][k];
+							this.v[i][j] += t * this.v[i][k];
 					}
 				for(int i = 0; i < this.n; i++)
-					this.V[i][k] = 0.0;
-				this.V[k][k] = 1.0;
+					this.v[i][k] = 0.0;
+				this.v[k][k] = 1.0;
 			}
 		// Main iteration loop for the singular values.
 		final int pp = p - 1;
@@ -303,9 +303,9 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 					if (wantv)
 						for(int i = 0; i < this.n; i++)
 						{
-							t = cs * this.V[i][j] + sn * this.V[i][p - 1];
-							this.V[i][p - 1] = -sn * this.V[i][j] + cs * this.V[i][p - 1];
-							this.V[i][j] = t;
+							t = cs * this.v[i][j] + sn * this.v[i][p - 1];
+							this.v[i][p - 1] = -sn * this.v[i][j] + cs * this.v[i][p - 1];
+							this.v[i][j] = t;
 						}
 				}
 			}
@@ -326,9 +326,9 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 					if (wantu)
 						for(int i = 0; i < this.m; i++)
 						{
-							t = cs * this.U[i][j] + sn * this.U[i][k - 1];
-							this.U[i][k - 1] = -sn * this.U[i][j] + cs * this.U[i][k - 1];
-							this.U[i][j] = t;
+							t = cs * this.u[i][j] + sn * this.u[i][k - 1];
+							this.u[i][k - 1] = -sn * this.u[i][j] + cs * this.u[i][k - 1];
+							this.u[i][j] = t;
 						}
 				}
 			}
@@ -372,9 +372,9 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 					if (wantv)
 						for(int i = 0; i < this.n; i++)
 						{
-							t = cs * this.V[i][j] + sn * this.V[i][j + 1];
-							this.V[i][j + 1] = -sn * this.V[i][j] + cs * this.V[i][j + 1];
-							this.V[i][j] = t;
+							t = cs * this.v[i][j] + sn * this.v[i][j + 1];
+							this.v[i][j + 1] = -sn * this.v[i][j] + cs * this.v[i][j + 1];
+							this.v[i][j] = t;
 						}
 					t = Math.hypot(f, g);
 					cs = f / t;
@@ -387,9 +387,9 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 					if (wantu && (j < this.m - 1))
 						for(int i = 0; i < this.m; i++)
 						{
-							t = cs * this.U[i][j] + sn * this.U[i][j + 1];
-							this.U[i][j + 1] = -sn * this.U[i][j] + cs * this.U[i][j + 1];
-							this.U[i][j] = t;
+							t = cs * this.u[i][j] + sn * this.u[i][j + 1];
+							this.u[i][j + 1] = -sn * this.u[i][j] + cs * this.u[i][j + 1];
+							this.u[i][j] = t;
 						}
 				}
 				e[p - 2] = f;
@@ -405,7 +405,7 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 					this.s[k] = (this.s[k] < 0.0 ? -this.s[k] : 0.0);
 					if (wantv)
 						for(int i = 0; i <= pp; i++)
-							this.V[i][k] = -this.V[i][k];
+							this.v[i][k] = -this.v[i][k];
 				}
 				// Order the singular values.
 				while (k < pp)
@@ -418,16 +418,16 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 					if (wantv && (k < this.n - 1))
 						for(int i = 0; i < this.n; i++)
 						{
-							t = this.V[i][k + 1];
-							this.V[i][k + 1] = this.V[i][k];
-							this.V[i][k] = t;
+							t = this.v[i][k + 1];
+							this.v[i][k + 1] = this.v[i][k];
+							this.v[i][k] = t;
 						}
 					if (wantu && (k < this.m - 1))
 						for(int i = 0; i < this.m; i++)
 						{
-							t = this.U[i][k + 1];
-							this.U[i][k + 1] = this.U[i][k];
-							this.U[i][k] = t;
+							t = this.u[i][k + 1];
+							this.u[i][k + 1] = this.u[i][k];
+							this.u[i][k] = t;
 						}
 					k++;
 				}
@@ -446,7 +446,7 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 	 */
 	public RealMatrix getLeftSingularMatrix()
 	{
-		return new SimpleRealMatrix(this.U).getSubmatrix(0, this.m, 0, Math.min(this.m + 1, this.n));
+		return new SimpleRealMatrix(this.u).getSubmatrix(0, this.m, 0, Math.min(this.m + 1, this.n));
 	}
 
 	/**
@@ -456,7 +456,7 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 	 */
 	public RealMatrix getRightSingularMatrix()
 	{
-		return new SimpleRealMatrix(this.V).getSubmatrix(0, this.n, 0, this.n);
+		return new SimpleRealMatrix(this.v).getSubmatrix(0, this.n, 0, this.n);
 	}
 
 	/**
@@ -529,8 +529,8 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 		final double eps = Math.pow(2.0, -52.0);
 		final double tol = Math.max(this.m, this.n) * this.s[0] * eps;
 		int r = 0;
-		for(int i = 0; i < s.length; i++)
-			if (this.s[i] > tol)
+		for(double value : s)
+			if (value > tol)
 				r++;
 		return r;
 	}

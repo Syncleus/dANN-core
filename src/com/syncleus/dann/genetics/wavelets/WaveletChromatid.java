@@ -35,7 +35,7 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 	private List<ExternalSignalGene> externalSignalGenes;
 	//Logger used to log debugging information.
 	private final static Logger LOGGER = Logger.getLogger(WaveletChromatid.class);
-	//Random used for all random values.
+	//Random used for all RANDOM values.
 	private final static Random RANDOM = Mutations.getRandom();
 	//Position of the gene's centromere. This is the origin where chromatid
 	//pairs are joined.
@@ -273,7 +273,7 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 	{
 		if ((keyPool != null) && (!keyPool.isEmpty()))
 		{
-			//select a random key from the pool
+			//select a RANDOM key from the pool
 			AbstractKey randomKey = null;
 			int keyIndex = RANDOM.nextInt(keyPool.size());
 			for(final AbstractKey key : keyPool)

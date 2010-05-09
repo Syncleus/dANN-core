@@ -23,13 +23,13 @@ import java.util.regex.*;
 
 public class BasicWordParser implements WordParser
 {
-	public static final Pattern spacePattern = Pattern.compile("\\w++");
+	public static final Pattern SPACE_PATTERN = Pattern.compile("\\w++");
 
 	public List<String> getWords(final String text)
 	{
 		final List<String> words = new ArrayList<String>();
-		final String textLowerCase = text.toLowerCase();
-		final Matcher matches = spacePattern.matcher(textLowerCase);
+		final String textLowerCase = text.toLowerCase(Locale.ENGLISH);
+		final Matcher matches = SPACE_PATTERN.matcher(textLowerCase);
 		while (matches.find())
 		{
 			final String word = matches.group();

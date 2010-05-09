@@ -83,7 +83,7 @@ public class Vector implements Serializable
 		int coordinatesIndex = 0;
 		for(final Double coordinate : coordinates)
 		{
-			this.coordinates[coordinatesIndex++] = coordinate.doubleValue();
+			this.coordinates[coordinatesIndex++] = coordinate;
 		}
 	}
 

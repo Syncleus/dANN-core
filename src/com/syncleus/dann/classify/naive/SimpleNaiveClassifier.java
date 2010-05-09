@@ -47,7 +47,7 @@ public class SimpleNaiveClassifier<I, F, C> implements TrainableNaiveClassifier<
 			final C currentCategory = this.featureClassification(feature);
 			Double newProbability = categoryProbabilities.get(currentCategory);
 			if (newProbability == null)
-				newProbability = Double.valueOf(1.0);
+				newProbability = 1.0;
 			else
 				newProbability++;
 			categoryProbabilities.put(currentCategory, newProbability);
@@ -69,7 +69,7 @@ public class SimpleNaiveClassifier<I, F, C> implements TrainableNaiveClassifier<
 			final C currentCategory = this.featureClassification(feature);
 			Double newProbability = categoryProbabilities.get(currentCategory);
 			if (newProbability == null)
-				newProbability = Double.valueOf(1.0);
+				newProbability = 1.0;
 			else
 				newProbability++;
 			categoryProbabilities.put(currentCategory, newProbability);
@@ -79,7 +79,7 @@ public class SimpleNaiveClassifier<I, F, C> implements TrainableNaiveClassifier<
 
 	public double classificationProbability(final I item, final C category)
 	{
-		return this.getCategoryProbabilities(item).get(category).doubleValue();
+		return this.getCategoryProbabilities(item).get(category);
 	}
 
 	public C featureClassification(final F feature)

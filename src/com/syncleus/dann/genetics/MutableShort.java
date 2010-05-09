@@ -37,7 +37,7 @@ public class MutableShort extends MutableNumber<Short> implements Comparable<Mut
 	 */
 	public MutableShort(final short value)
 	{
-		super(Short.valueOf(value));
+		super(value);
 	}
 
 	/**
@@ -95,10 +95,10 @@ public class MutableShort extends MutableNumber<Short> implements Comparable<Mut
 			distributedRand = Short.MAX_VALUE;
 		else if (doubleDistributed < Short.MIN_VALUE)
 			distributedRand = Short.MIN_VALUE;
-		final short result = (short) (this.getNumber().shortValue() + distributedRand);
-		if ((distributedRand > 0) && (result < this.getNumber().shortValue()))
+		final short result = (short) (this.getNumber() + distributedRand);
+		if ((distributedRand > (short) 0) && (result < this.getNumber()))
 			return new MutableShort(Short.MAX_VALUE);
-		else if ((distributedRand < 0) && (result > this.getNumber().shortValue()))
+		else if ((distributedRand < (short) 0) && (result > this.getNumber()))
 			return new MutableShort(Short.MIN_VALUE);
 		return new MutableShort(result);
 	}

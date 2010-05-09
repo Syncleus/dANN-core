@@ -32,7 +32,7 @@ public abstract class AbstractKey implements Cloneable
 	protected AbstractKey()
 	{
 		final HashMap<Integer, Boolean> newPoints = new HashMap<Integer, Boolean>();
-		newPoints.put(Integer.valueOf(RANDOM.nextInt()), RANDOM.nextBoolean());
+		newPoints.put(RANDOM.nextInt(), RANDOM.nextBoolean());
 		this.points = Collections.unmodifiableMap(newPoints);
 	}
 

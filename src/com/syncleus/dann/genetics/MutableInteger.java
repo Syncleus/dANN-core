@@ -37,7 +37,7 @@ public class MutableInteger extends MutableNumber<Integer> implements Comparable
 	 */
 	public MutableInteger(final int value)
 	{
-		super(Integer.valueOf(value));
+		super(value);
 	}
 
 	/**
@@ -95,10 +95,10 @@ public class MutableInteger extends MutableNumber<Integer> implements Comparable
 			distributedRand = Integer.MAX_VALUE;
 		else if (doubleDistributed < Integer.MIN_VALUE)
 			distributedRand = Integer.MIN_VALUE;
-		final int result = this.getNumber().intValue() + distributedRand;
-		if ((distributedRand > 0) && (result < this.getNumber().intValue()))
+		final int result = this.getNumber() + distributedRand;
+		if ((distributedRand > 0) && (result < this.getNumber()))
 			return new MutableInteger(Integer.MAX_VALUE);
-		else if ((distributedRand < 0) && (result > this.getNumber().intValue()))
+		else if ((distributedRand < 0) && (result > this.getNumber()))
 			return new MutableInteger(Integer.MIN_VALUE);
 		return new MutableInteger(result);
 	}

@@ -27,11 +27,11 @@ public class TestMutableShort
 	public void testConstructors()
 	{
 		MutableShort test = new MutableShort((short) 123);
-		Assert.assertTrue("value constructor failed", test.getNumber().shortValue() == 123);
+		Assert.assertTrue("value constructor failed", test.getNumber() == (int) 123);
 		test = new MutableShort("456");
-		Assert.assertTrue("string value constructor failed", test.getNumber().shortValue() == 456);
-		test = new MutableShort(Short.valueOf((short) 789));
-		Assert.assertTrue("Number value constructor failed", test.getNumber().shortValue() == 789);
+		Assert.assertTrue("string value constructor failed", test.getNumber() == (int) 456);
+		test = new MutableShort((short) 789);
+		Assert.assertTrue("Number value constructor failed", test.getNumber() == (int) 789);
 	}
 
 	@Test
@@ -41,7 +41,7 @@ public class TestMutableShort
 		for(int testCount = 0; testCount < 1000; testCount++)
 		{
 			final MutableShort mutated = highValue.mutate(100.0);
-			Assert.assertTrue("mutation caused number to roll over: " + mutated, mutated.shortValue() >= -1);
+			Assert.assertTrue("mutation caused number to roll over: " + mutated, mutated.shortValue() >= (short) -1);
 		}
 	}
 
@@ -52,7 +52,7 @@ public class TestMutableShort
 		for(int testCount = 0; testCount < 1000; testCount++)
 		{
 			final MutableShort mutated = lowValue.mutate(100.0);
-			Assert.assertTrue("mutation caused number to roll over: " + mutated, mutated.shortValue() <= 1);
+			Assert.assertTrue("mutation caused number to roll over: " + mutated, mutated.shortValue() <= (short) 1);
 		}
 	}
 

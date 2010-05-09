@@ -35,11 +35,10 @@ public abstract class PackageUtility
 		{
 			// Get the list of the files contained in the package
 			final String[] files = directory.list();
-			for(int i = 0; i < files.length; i++)
-				// we are only interested in .class files
-				if (files[i].endsWith(".class"))
+			for(String file : files)
+				if (file.endsWith(".class"))
 					// removes the .class extension
-					classes.add(Class.forName(pkgName + '.' + files[i].substring(0, files[i].length() - 6)));
+					classes.add(Class.forName(pkgName + '.' + file.substring(0, file.length() - 6)));
 			final Class[] classesA = new Class[classes.size()];
 			classes.toArray(classesA);
 			return classesA;

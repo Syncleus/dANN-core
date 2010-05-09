@@ -30,7 +30,7 @@ public class TestDoubleValueGene
 		Assert.assertTrue("value constructor failed", Math.abs(test.getValue().getNumber().doubleValue() - 93947810231.0) < 1000);
 		test = new DoubleValueGene(new MutableDouble(20237420342.0));
 		Assert.assertTrue("MutableDouble value constructor failed", Math.abs(test.getValue().getNumber().doubleValue() - 20237420342.0) < 1000);
-		test = new DoubleValueGene(Double.valueOf(82649173937.0));
+		test = new DoubleValueGene(82649173937.0);
 		Assert.assertTrue("Number value constructor failed", Math.abs(test.getValue().getNumber().doubleValue() - 82649173937.0) < 1000);
 		test = new DoubleValueGene();
 		Assert.assertTrue("default constructor failed", test.getValue().getNumber().doubleValue() == 0.0);

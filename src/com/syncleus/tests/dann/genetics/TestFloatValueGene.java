@@ -30,10 +30,10 @@ public class TestFloatValueGene
 		Assert.assertTrue("value constructor failed", Math.abs(test.getValue().getNumber().floatValue() - 939810231.0f) < 1000);
 		test = new FloatValueGene(new MutableFloat(202320342.0f));
 		Assert.assertTrue("MutableFloat value constructor failed", Math.abs(test.getValue().getNumber().floatValue() - 202320342.0f) < 1000);
-		test = new FloatValueGene(Float.valueOf(826493937.0f));
+		test = new FloatValueGene(826493937.0f);
 		Assert.assertTrue("Number value constructor failed", Math.abs(test.getValue().getNumber().floatValue() - 826493937.0f) < 1000);
 		test = new FloatValueGene();
-		Assert.assertTrue("default constructor failed", test.getValue().getNumber().floatValue() == 0.0);
+		Assert.assertTrue("default constructor failed", test.getValue().getNumber().floatValue() == (float) 0.0);
 	}
 
 	@Test

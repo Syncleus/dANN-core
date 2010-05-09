@@ -36,7 +36,7 @@ public class TestCounters
 		final char[] lettersArray = SUPER_SET.toCharArray();
 		final List<Character> letters = new ArrayList<Character>();
 		for(final char letter : lettersArray)
-			letters.add(Character.valueOf(letter));
+			letters.add(letter);
 		final Set<List<Character>> combinations = Counters.everyCombination(letters);
 		for(final List<Character> combination : combinations)
 		{

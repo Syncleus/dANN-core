@@ -51,7 +51,7 @@ public class TestColor
 			for(double x = 0; x < OUTPUT_WIDTH; x++)
 				for(double y = 0; y < OUTPUT_HEIGHT; y++)
 					brain.createOutput(new Vector(new double[]{x, y}));
-			//run through random training data
+			//run through RANDOM training data
 			for(int iteration = 0; iteration < TRAIN_ITERATIONS; iteration++)
 			{
 				brain.setInput(0, random.nextDouble());

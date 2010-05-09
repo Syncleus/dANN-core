@@ -49,7 +49,7 @@ public abstract class AbstractFunction implements Cloneable, Function
 		this.parameterNames = parameterNames.clone();
 		final Map<String, Integer> newIndexNames = new HashMap<String, Integer>();
 		for(int index = 0; index < this.parameterNames.length; index++)
-			newIndexNames.put(this.parameterNames[index], Integer.valueOf(index));
+			newIndexNames.put(this.parameterNames[index], index);
 		this.indexNames = Collections.unmodifiableMap(newIndexNames);
 	}
 
@@ -98,7 +98,7 @@ public abstract class AbstractFunction implements Cloneable, Function
 	{
 		if (!this.indexNames.containsKey(parameterName))
 			throw new IllegalArgumentException("parameterName: " + parameterName + " does not exist");
-		return this.indexNames.get(parameterName).intValue();
+		return this.indexNames.get(parameterName);
 	}
 
 	public final int getParameterCount()

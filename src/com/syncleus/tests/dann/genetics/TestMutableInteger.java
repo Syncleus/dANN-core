@@ -27,11 +27,11 @@ public class TestMutableInteger
 	public void testConstructors()
 	{
 		MutableInteger test = new MutableInteger(123);
-		Assert.assertTrue("value constructor failed", test.getNumber().intValue() == 123);
+		Assert.assertTrue("value constructor failed", test.getNumber() == 123);
 		test = new MutableInteger("456");
-		Assert.assertTrue("string value constructor failed", test.getNumber().intValue() == 456);
-		test = new MutableInteger(Integer.valueOf(789));
-		Assert.assertTrue("Number value constructor failed", test.getNumber().intValue() == 789);
+		Assert.assertTrue("string value constructor failed", test.getNumber() == 456);
+		test = new MutableInteger(789);
+		Assert.assertTrue("Number value constructor failed", test.getNumber() == 789);
 	}
 
 	@Test

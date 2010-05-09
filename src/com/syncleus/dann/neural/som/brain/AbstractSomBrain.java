@@ -58,7 +58,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 		public Double call()
 		{
 			this.neuron.propagate();
-			return Double.valueOf(this.neuron.getOutput());
+			return this.neuron.getOutput();
 		}
 	}
 
@@ -248,7 +248,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 				final double output;
 				try
 				{
-					output = futureOutput.get(entry.getKey()).get().doubleValue();
+					output = futureOutput.get(entry.getKey()).get();
 				}
 				catch (InterruptedException caught)
 				{

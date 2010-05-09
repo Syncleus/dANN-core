@@ -37,7 +37,7 @@ public class MutableByte extends MutableNumber<Byte> implements Comparable<Mutab
 	 */
 	public MutableByte(final byte value)
 	{
-		super(Byte.valueOf(value));
+		super(value);
 	}
 
 	/**
@@ -95,10 +95,10 @@ public class MutableByte extends MutableNumber<Byte> implements Comparable<Mutab
 			distributedRand = Byte.MAX_VALUE;
 		else if (doubleDistributed < Byte.MIN_VALUE)
 			distributedRand = Byte.MIN_VALUE;
-		final byte result = (byte) (this.getNumber().byteValue() + distributedRand);
-		if ((distributedRand > 0) && (result < this.getNumber().byteValue()))
+		final byte result = (byte) (this.getNumber() + distributedRand);
+		if ((distributedRand > (byte) 0) && (result < this.getNumber()))
 			return new MutableByte(Byte.MAX_VALUE);
-		else if ((distributedRand < 0) && (result > this.getNumber().byteValue()))
+		else if ((distributedRand < (byte) 0) && (result > this.getNumber()))
 			return new MutableByte(Byte.MIN_VALUE);
 		return new MutableByte(result);
 	}

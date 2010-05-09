@@ -61,9 +61,9 @@ public class EvidenceMap<S> extends HashMap<Map<BayesianNode, Object>, StateEvid
 		}
 		Integer evidence = stateEvidence.get(state);
 		if (evidence == null)
-			evidence = Integer.valueOf(1);
+			evidence = 1;
 		else
-			evidence = Integer.valueOf(evidence + 1);
+			evidence = evidence + 1;
 		stateEvidence.put(state, evidence);
 		return evidence;
 	}

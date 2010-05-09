@@ -32,15 +32,15 @@ public class SimpleTopologicalSorter<N> implements TopologicalSorter<N>
 		for(final DirectedEdge<? extends N> edge : edges)
 		{
 			final List<? extends N> edgeNodes = edge.getNodes();
-			for(int startNodeIndex = 0; startNodeIndex < edgeNodes.size(); startNodeIndex++)
+			for(N edgeNode : edgeNodes)
 			{
-				if (!nodes.contains(edgeNodes.get(startNodeIndex)))
+				if (!nodes.contains(edgeNode))
 					throw new IllegalArgumentException("A node that is an end point in one of the edges was not in the nodes list");
-				Set<DirectedEdge<? extends N>> startNeighborEdges = neighborEdges.get(edgeNodes.get(startNodeIndex));
+				java.util.Set<com.syncleus.dann.graph.DirectedEdge<? extends N>> startNeighborEdges = neighborEdges.get(edgeNode);
 				if (startNeighborEdges == null)
 				{
-					startNeighborEdges = new HashSet<DirectedEdge<? extends N>>();
-					neighborEdges.put(edgeNodes.get(startNodeIndex), startNeighborEdges);
+					startNeighborEdges = new java.util.HashSet<com.syncleus.dann.graph.DirectedEdge<? extends N>>();
+					neighborEdges.put(edgeNode, startNeighborEdges);
 				}
 				startNeighborEdges.add(edge);
 			}

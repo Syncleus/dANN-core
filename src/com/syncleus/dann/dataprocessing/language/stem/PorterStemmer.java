@@ -23,7 +23,6 @@ import java.util.Arrays;
 public class PorterStemmer implements Stemmer
 {
 	private char[] buffer;
-	private int bufferSize;
 	private int stemEndIndex;
 	private int wordEndIndex;
 	private int stemStartIndex;
@@ -48,10 +47,10 @@ public class PorterStemmer implements Stemmer
 	{
 		final String originalWordLowerCase = originalWord.toLowerCase();
 		this.dirtyBuffer = false;
-		this.bufferSize = originalWordLowerCase.toCharArray().length;
-		this.buffer = Arrays.copyOf(originalWordLowerCase.toCharArray(), this.bufferSize);
+		int bufferSize = originalWordLowerCase.toCharArray().length;
+		this.buffer = Arrays.copyOf(originalWordLowerCase.toCharArray(), bufferSize);
 		this.stemStartIndex = 0;
-		this.wordEndIndex = this.bufferSize - 1;
+		this.wordEndIndex = bufferSize - 1;
 		if (this.wordEndIndex > this.stemStartIndex + 1)
 		{
 			step1();
@@ -61,11 +60,11 @@ public class PorterStemmer implements Stemmer
 			step5();
 			step6();
 		}
-		if (this.bufferSize != this.wordEndIndex + 1)
+		if (bufferSize != this.wordEndIndex + 1)
 			this.dirtyBuffer = true;
-		this.bufferSize = this.wordEndIndex + 1;
+		bufferSize = this.wordEndIndex + 1;
 		if (this.dirtyBuffer)
-			return new String(this.buffer, 0, this.bufferSize);
+			return new String(this.buffer, 0, bufferSize);
 		else
 			return originalWordLowerCase;
 	}

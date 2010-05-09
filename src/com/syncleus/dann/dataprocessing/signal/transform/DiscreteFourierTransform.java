@@ -31,7 +31,7 @@ public class DiscreteFourierTransform
 		final double frequencySize = ((double) frequencies.length) / 2.0;
 		final double frequencyStep = frequencyResolution(frequencies.length, bitrate);
 		final NavigableMap<Double, ComplexNumber> newFrequencies = new TreeMap<Double, ComplexNumber>();
-		for(int index = 0; index <= frequencySize; index++)
+		for(int index = 0; index <= (int) frequencySize; index++)
 		{
 			final Double currentFrequency = ((double) index) * frequencyStep;
 			newFrequencies.put(currentFrequency, frequencies[index]);
@@ -52,7 +52,7 @@ public class DiscreteFourierTransform
 
 	public double getClosestFrequency(final double frequency)
 	{
-		return this.frequencies.ceilingEntry(frequency).getKey().doubleValue();
+		return this.frequencies.ceilingEntry(frequency).getKey();
 	}
 
 	public ComplexNumber getClosestPhasor(final double frequency)
@@ -62,7 +62,7 @@ public class DiscreteFourierTransform
 
 	public ComplexNumber getPhasor(final double frequency)
 	{
-		return this.frequencies.get(Double.valueOf(frequency));
+		return this.frequencies.get(frequency);
 	}
 
 	public double getClosestAmplitude(final double frequency)
@@ -72,7 +72,7 @@ public class DiscreteFourierTransform
 
 	public double getAmplitude(final double frequency)
 	{
-		return this.frequencies.get(Double.valueOf(frequency)).absScalar();
+		return this.frequencies.get(frequency).absScalar();
 	}
 
 	public double getClosestPhase(final double frequency)
@@ -82,7 +82,7 @@ public class DiscreteFourierTransform
 
 	public double getPhase(final double frequency)
 	{
-		return this.frequencies.get(Double.valueOf(frequency)).phase();
+		return this.frequencies.get(frequency).phase();
 	}
 
 	private ComplexNumber[] amplitudes(final double startFrequency, final double endFrequency)
@@ -125,11 +125,11 @@ public class DiscreteFourierTransform
 
 	public double getMinimumFrequency()
 	{
-		return this.frequencies.firstEntry().getKey().doubleValue();
+		return this.frequencies.firstEntry().getKey();
 	}
 
 	public double getMaximumFrequency()
 	{
-		return this.frequencies.lastEntry().getKey().doubleValue();
+		return this.frequencies.lastEntry().getKey();
 	}
 }

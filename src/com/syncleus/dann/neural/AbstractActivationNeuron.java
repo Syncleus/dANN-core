@@ -56,7 +56,7 @@ public abstract class AbstractActivationNeuron extends AbstractNeuron
 	// <editor-fold defaultstate="collapsed" desc="Constructors">
 
 	/**
-	 * Creates a new instance of NeuronImpl with a random bias weight and
+	 * Creates a new instance of NeuronImpl with a RANDOM bias weight and
 	 * HyperbolicTangentActivationFunction as the activation function.
 	 *
 	 * @since 1.0
@@ -68,7 +68,7 @@ public abstract class AbstractActivationNeuron extends AbstractNeuron
 	}
 
 	/**
-	 * Creates a new instance of NEuronImpl with a random bias weight and the
+	 * Creates a new instance of NEuronImpl with a RANDOM bias weight and the
 	 * specified activation function.
 	 *
 	 * @param activationFunction The activation function used to calculate the

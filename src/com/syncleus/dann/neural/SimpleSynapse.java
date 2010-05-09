@@ -45,7 +45,7 @@ public class SimpleSynapse extends ImmutableDirectedEdge<Neuron> implements Syna
 	 * @since 1.0
 	 */
 	private double input;
-	private final Random RANDOM = new Random();
+	private static final Random RANDOM = new Random();
 
 	/**
 	 * Creates a new instance of SimpleSynapse

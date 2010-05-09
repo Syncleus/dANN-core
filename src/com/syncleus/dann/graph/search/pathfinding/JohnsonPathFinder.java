@@ -24,7 +24,7 @@ import com.syncleus.dann.graph.*;
 public class JohnsonPathFinder<N, E extends WeightedDirectedEdge<N>> implements PathFinder<N, WeightedDirectedEdge<N>>
 {
 	private final BidirectedGraph<N, E> graph;
-	private final JohnsonGraphTransformer<N> TRANSFORMER = new JohnsonGraphTransformer<N>();
+	private final JohnsonGraphTransformer<N> transformer = new JohnsonGraphTransformer<N>();
 
 	public JohnsonPathFinder(final BidirectedGraph<N, E> graph)
 	{
@@ -35,7 +35,7 @@ public class JohnsonPathFinder<N, E extends WeightedDirectedEdge<N>> implements 
 
 	public List<WeightedDirectedEdge<N>> getBestPath(final N begin, final N end)
 	{
-		final BidirectedGraph<N, WeightedDirectedEdge<N>> johnsonGraph = TRANSFORMER.transform(this.graph);
+		final BidirectedGraph<N, WeightedDirectedEdge<N>> johnsonGraph = transformer.transform(this.graph);
 		final DijkstraPathFinder<N, WeightedDirectedEdge<N>> pathFinder = new DijkstraPathFinder<N, WeightedDirectedEdge<N>>(johnsonGraph);
 		final List<WeightedDirectedEdge<N>> pathWalk = pathFinder.getBestPath(begin, end);
 		if (pathWalk == null)

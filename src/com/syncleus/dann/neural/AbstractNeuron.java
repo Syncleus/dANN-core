@@ -24,7 +24,7 @@ import org.apache.log4j.Logger;
 public abstract class AbstractNeuron implements Neuron
 {
 	/**
-	 * Random number generator used toproduce any needed random values
+	 * Random number generator used toproduce any needed RANDOM values
 	 *
 	 * @since 1.0
 	 */
@@ -33,7 +33,7 @@ public abstract class AbstractNeuron implements Neuron
 	private final static Logger LOGGER = Logger.getLogger(AbstractNeuron.class);
 
 	/**
-	 * Creates a new instance of NeuronImpl with a random bias weight and
+	 * Creates a new instance of NeuronImpl with a RANDOM bias weight and
 	 * HyperbolicTangentActivationFunction as the activation function.
 	 *
 	 * @since 1.0

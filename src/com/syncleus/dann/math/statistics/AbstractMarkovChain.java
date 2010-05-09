@@ -32,11 +32,11 @@ public abstract class AbstractMarkovChain<S> implements MarkovChain<S>
 
 	public double getProbability(final S futureState, final int steps)
 	{
-		return this.getProbability(steps).get(futureState).doubleValue();
+		return this.getProbability(steps).get(futureState);
 	}
 
 	public double getSteadyStateProbability(final S futureState)
 	{
-		return this.getSteadyStateProbability().get(futureState).doubleValue();
+		return this.getSteadyStateProbability().get(futureState);
 	}
 }

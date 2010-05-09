@@ -947,11 +947,11 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	}
 
 	/**
-	 * Generate matrix with random elements
+	 * Generate matrix with RANDOM elements
 	 *
 	 * @param height Number of rows.
 	 * @param width Number of colums.
-	 * @return An height-by-width matrix with uniformly distributed random
+	 * @return An height-by-width matrix with uniformly distributed RANDOM
 	 *         elements.
 	 */
 	public static SimpleRealMatrix random(final int height, final int width)

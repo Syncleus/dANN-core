@@ -146,7 +146,7 @@ public class ExpressionFunction implements Cloneable
 	public ExpressionFunction mutate(final double deviation)
 	{
 		final ExpressionFunction copy = this.clone();
-		while (RANDOM.nextFloat() < 0.1)
+		while (RANDOM.nextFloat() < (float) 0.1)
 		{
 			//add a mutated copy of an existing wave
 			if (RANDOM.nextDouble() < 0.1)
@@ -155,12 +155,12 @@ public class ExpressionFunction implements Cloneable
 				//return this.mutate(newSignal);
 				copy.waves.add(this.generateRandomWave());
 			}
-			//make a random new wave
+			//make a RANDOM new wave
 			if (RANDOM.nextDouble() < 0.1)
 			{
 				copy.waves.add(this.generateNewWave());
 			}
-			//delete a random wave
+			//delete a RANDOM wave
 			if ((this.waves.size() > 1) && (RANDOM.nextDouble() < 0.1))
 			{
 				final WaveMultidimensionalFunction deleteWave = copy.waves.get(RANDOM.nextInt(copy.waves.size()));
@@ -206,7 +206,7 @@ public class ExpressionFunction implements Cloneable
 	 *
 	 * @param newReceptor The new receptor to possibly incorperate into
 	 * mutation
-	 * @param deviation random deviation for mutation.
+	 * @param deviation RANDOM deviation for mutation.
 	 * @return New mutated wavelet
 	 */
 	public ExpressionFunction mutate(final double deviation, final ReceptorKey newReceptor)

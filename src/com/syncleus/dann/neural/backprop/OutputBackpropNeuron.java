@@ -106,7 +106,7 @@ public class OutputBackpropNeuron extends SimpleBackpropNeuron implements Output
 	{
 		this.deltaTrain = 0;
 		for(final Synapse currentSynapse : super.getBrain().getTraversableEdges(this))
-			this.deltaTrain += (currentSynapse.getWeight() * this.deltaTrainDestinations.get(currentSynapse).doubleValue());
+			this.deltaTrain += (currentSynapse.getWeight() * this.deltaTrainDestinations.get(currentSynapse));
 		this.deltaTrain += (this.desired - this.getOutput());
 		this.deltaTrain *= super.activateDerivitive();
 	}

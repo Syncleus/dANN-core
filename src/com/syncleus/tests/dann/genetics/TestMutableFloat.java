@@ -27,11 +27,11 @@ public class TestMutableFloat
 	public void testConstructors()
 	{
 		MutableFloat test = new MutableFloat(123f);
-		Assert.assertTrue("value constructor failed", Math.abs(test.getNumber().floatValue() - 123f) < 0.000001);
+		Assert.assertTrue("value constructor failed", Math.abs(test.getNumber() - 123f) < (float) 0.000001);
 		test = new MutableFloat("456");
-		Assert.assertTrue("string value constructor failed", Math.abs(test.getNumber().floatValue() - 456f) < 0.000001);
-		test = new MutableFloat(Float.valueOf(789f));
-		Assert.assertTrue("Number value constructor failed", Math.abs(test.getNumber().floatValue() - 789f) < 0.000001);
+		Assert.assertTrue("string value constructor failed", Math.abs(test.getNumber() - 456f) < (float) 0.000001);
+		test = new MutableFloat(789f);
+		Assert.assertTrue("Number value constructor failed", Math.abs(test.getNumber() - 789f) < (float) 0.000001);
 	}
 
 	@Test

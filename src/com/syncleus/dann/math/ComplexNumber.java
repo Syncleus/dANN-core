@@ -298,7 +298,7 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 		if (this.realValue == 0)
 			return this.imaginaryValue + "i";
 		if (this.imaginaryValue < 0)
-			return this.realValue + " - " + -this.imaginaryValue + 'i';
+			return this.realValue + " - " + this.imaginaryValue + 'i';
 		return this.realValue + " + " + this.imaginaryValue + 'i';
 	}
 

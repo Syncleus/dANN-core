@@ -37,7 +37,7 @@ public class MutableDouble extends MutableNumber<Double> implements Comparable<M
 	 */
 	public MutableDouble(final double value)
 	{
-		super(Double.valueOf(value));
+		super(value);
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class MutableDouble extends MutableNumber<Double> implements Comparable<M
 	public MutableDouble mutate(final double deviation)
 	{
 		final double distributedRand = MutableNumber.getDistributedRandom(deviation);
-		double result = this.getNumber().doubleValue() + distributedRand;
+		double result = this.getNumber() + distributedRand;
 		if (Double.isInfinite(result))
 		{
 			if (result > 0)

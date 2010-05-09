@@ -83,8 +83,8 @@ public final class MathFunctionDataBinder implements Binned2DData
 		}
 		if (newZMax == newZMin)
 		{
-			newZMax += 1.0;
-			newZMin += -1.0;
+			newZMax += (float) 1.0;
+			newZMin -= 1.0;
 		}
 		this.maxZ = newZMax;
 		this.minZ = newZMin;

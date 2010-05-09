@@ -25,7 +25,7 @@ import java.util.Random;
 
 public class TestActivationBounds
 {
-	private static final Random random = new Random();
+	private static final Random RANDOM = new Random();
 	private final static GausianActivationFunction GAUSIAN_ACTIVATION_FUNCTION = new GausianActivationFunction();
 	private final static HyperbolicSecantActivationFunction HYPERBOLIC_SECANT_ACTIVATION_FUNCTION = new HyperbolicSecantActivationFunction();
 	private final static HyperbolicTangentActivationFunction HYPERBOLIC_TANGENT_ACTIVATION_FUNCTION = new HyperbolicTangentActivationFunction();
@@ -84,7 +84,7 @@ public class TestActivationBounds
 			}
 			for(int count = 0; count < RANDOM_TEST_ITERATIONS; count++)
 			{
-				currentIn = ((random.nextDouble() * 2.0) - 1.0) * RANDOM_TEST_RANGE;
+				currentIn = ((RANDOM.nextDouble() * 2.0) - 1.0) * RANDOM_TEST_RANGE;
 				currentActivationFunction.activateDerivative(currentIn);
 				final double result = currentActivationFunction.activate(currentIn);
 				Assert.assertTrue("Transfer out of bounds. In: " + currentIn + ", result: " + result, (result <= currentActivationFunction.getUpperLimit()) && (result >= currentActivationFunction.getLowerLimit()));

@@ -283,11 +283,11 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 	}
 
 	/**
-	 * Obtains a Vector with random coordinates for the specified number of
+	 * Obtains a Vector with RANDOM coordinates for the specified number of
 	 * dimensions.
 	 *
-	 * @param dimensions Number of dimensions for the random Vector
-	 * @return New random Vector
+	 * @param dimensions Number of dimensions for the RANDOM Vector
+	 * @return New RANDOM Vector
 	 * @since 1.0
 	 */
 	public static Vector randomCoordinates(final int dimensions)

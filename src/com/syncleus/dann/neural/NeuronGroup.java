@@ -47,11 +47,11 @@ public class NeuronGroup<N extends Neuron> implements java.io.Serializable
 	 */
 	protected final HashSet<NeuronGroup<? extends N>> childrenNeuronGroups = new HashSet<NeuronGroup<? extends N>>();
 	/**
-	 * The random number generator used for this class
+	 * The RANDOM number generator used for this class
 	 *
 	 * @since 1.0
 	 */
-	protected static Random random = new Random();
+	protected final static Random RANDOM = new Random();
 	// </editor-fold>
 	// <editor-fold defaultstate="collapsed" desc="Constructors">
 

@@ -37,7 +37,7 @@ public class MutableLong extends MutableNumber<Long> implements Comparable<Mutab
 	 */
 	public MutableLong(final long value)
 	{
-		super(Long.valueOf(value));
+		super(value);
 	}
 
 	/**
@@ -95,10 +95,10 @@ public class MutableLong extends MutableNumber<Long> implements Comparable<Mutab
 			distributedRand = Long.MAX_VALUE;
 		else if (doubleDistributed < Long.MIN_VALUE)
 			distributedRand = Long.MIN_VALUE;
-		final long result = this.getNumber().longValue() + distributedRand;
-		if ((distributedRand > 0) && (result < this.getNumber().longValue()))
+		final long result = this.getNumber() + distributedRand;
+		if ((distributedRand > 0) && (result < this.getNumber()))
 			return new MutableLong(Long.MAX_VALUE);
-		else if ((distributedRand < 0) && (result > this.getNumber().longValue()))
+		else if ((distributedRand < 0) && (result > this.getNumber()))
 			return new MutableLong(Long.MIN_VALUE);
 		return new MutableLong(result);
 	}

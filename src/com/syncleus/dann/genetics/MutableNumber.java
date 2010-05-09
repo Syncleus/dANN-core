@@ -48,7 +48,7 @@ public abstract class MutableNumber<N extends Number> extends Number implements 
 	}
 
 	/**
-	 * Returns a random double normally distributed around 0.0 and multiplied by
+	 * Returns a RANDOM double normally distributed around 0.0 and multiplied by
 	 * deviation.
 	 *
 	 * @param deviation multiplier for the distribution.

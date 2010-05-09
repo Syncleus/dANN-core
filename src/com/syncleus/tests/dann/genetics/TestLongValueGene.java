@@ -30,7 +30,7 @@ public class TestLongValueGene
 		Assert.assertTrue("value constructor failed", test.getValue().getNumber().longValue() == 78101237423L);
 		test = new LongValueGene(new MutableLong(78101237423L));
 		Assert.assertTrue("MutableByte value constructor failed", test.getValue().getNumber().longValue() == 78101237423L);
-		test = new LongValueGene(Long.valueOf(78101237423L));
+		test = new LongValueGene(78101237423L);
 		Assert.assertTrue("Number value constructor failed", test.getValue().getNumber().longValue() == 78101237423L);
 		test = new LongValueGene();
 		Assert.assertTrue("default constructor failed", test.getValue().getNumber().longValue() == 0L);

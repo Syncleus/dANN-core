@@ -18,13 +18,11 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.math;
 
-import com.syncleus.dann.math.GreatestCommonDenominators;
-import org.junit.Assert;
 import org.junit.Test;
 
 public class TestGreatestCommonDenominators
 {
-	private static final long[][] solutions = {{20L, 90L, 10L},
+	private static final long[][] SOLUTIONS = {{20L, 90L, 10L},
 			{19L, 187L, 1L},
 			{5L, 1867L, 1L},
 			{20L, 100L, 20L},
@@ -43,31 +41,31 @@ public class TestGreatestCommonDenominators
 		long firstMultiply = 1;
 		long secondMultiply = 1;
 		long gcd;
-		for(int solutionIndex = 0; solutionIndex < solutions.length; solutionIndex++)
+		for(long[] solution3 : SOLUTIONS)
 		{
-			gcd = GreatestCommonDenominators.binaryGCD(firstMultiply * solutions[solutionIndex][0], secondMultiply * solutions[solutionIndex][1]);
-			Assert.assertTrue("first:" + firstMultiply * solutions[solutionIndex][0] + " second:" + secondMultiply * solutions[solutionIndex][1] + " GCD:" + gcd + " expected:" + solutions[solutionIndex][2], gcd == solutions[solutionIndex][2]);
+			gcd = com.syncleus.dann.math.GreatestCommonDenominators.binaryGCD(firstMultiply * solution3[0], secondMultiply * solution3[1]);
+			org.junit.Assert.assertTrue("first:" + firstMultiply * solution3[0] + " second:" + secondMultiply * solution3[1] + " GCD:" + gcd + " expected:" + solution3[2], gcd == solution3[2]);
 		}
 		firstMultiply = -1;
 		secondMultiply = 1;
-		for(int solutionIndex = 0; solutionIndex < solutions.length; solutionIndex++)
+		for(long[] solution2 : SOLUTIONS)
 		{
-			gcd = GreatestCommonDenominators.binaryGCD(firstMultiply * solutions[solutionIndex][0], secondMultiply * solutions[solutionIndex][1]);
-			Assert.assertTrue("first:" + firstMultiply * solutions[solutionIndex][0] + " second:" + secondMultiply * solutions[solutionIndex][1] + " GCD:" + gcd + " expected:" + solutions[solutionIndex][2], gcd == solutions[solutionIndex][2]);
+			gcd = com.syncleus.dann.math.GreatestCommonDenominators.binaryGCD(firstMultiply * solution2[0], secondMultiply * solution2[1]);
+			org.junit.Assert.assertTrue("first:" + firstMultiply * solution2[0] + " second:" + secondMultiply * solution2[1] + " GCD:" + gcd + " expected:" + solution2[2], gcd == solution2[2]);
 		}
 		firstMultiply = 1;
 		secondMultiply = -1;
-		for(int solutionIndex = 0; solutionIndex < solutions.length; solutionIndex++)
+		for(long[] solution1 : SOLUTIONS)
 		{
-			gcd = GreatestCommonDenominators.binaryGCD(firstMultiply * solutions[solutionIndex][0], secondMultiply * solutions[solutionIndex][1]);
-			Assert.assertTrue("first:" + firstMultiply * solutions[solutionIndex][0] + " second:" + secondMultiply * solutions[solutionIndex][1] + " GCD:" + gcd + " expected:" + solutions[solutionIndex][2], gcd == solutions[solutionIndex][2]);
+			gcd = com.syncleus.dann.math.GreatestCommonDenominators.binaryGCD(firstMultiply * solution1[0], secondMultiply * solution1[1]);
+			org.junit.Assert.assertTrue("first:" + firstMultiply * solution1[0] + " second:" + secondMultiply * solution1[1] + " GCD:" + gcd + " expected:" + solution1[2], gcd == solution1[2]);
 		}
 		firstMultiply = -1;
 		secondMultiply = -1;
-		for(int solutionIndex = 0; solutionIndex < solutions.length; solutionIndex++)
+		for(long[] solution : SOLUTIONS)
 		{
-			gcd = GreatestCommonDenominators.binaryGCD(firstMultiply * solutions[solutionIndex][0], secondMultiply * solutions[solutionIndex][1]);
-			Assert.assertTrue("first:" + firstMultiply * solutions[solutionIndex][0] + " second:" + secondMultiply * solutions[solutionIndex][1] + " GCD:" + gcd + " expected:" + solutions[solutionIndex][2], gcd == solutions[solutionIndex][2]);
+			gcd = com.syncleus.dann.math.GreatestCommonDenominators.binaryGCD(firstMultiply * solution[0], secondMultiply * solution[1]);
+			org.junit.Assert.assertTrue("first:" + firstMultiply * solution[0] + " second:" + secondMultiply * solution[1] + " GCD:" + gcd + " expected:" + solution[2], gcd == solution[2]);
 		}
 	}
 
@@ -77,31 +75,31 @@ public class TestGreatestCommonDenominators
 		long firstMultiply = 1;
 		long secondMultiply = 1;
 		long gcd;
-		for(int solutionIndex = 0; solutionIndex < solutions.length; solutionIndex++)
+		for(long[] solution3 : SOLUTIONS)
 		{
-			gcd = GreatestCommonDenominators.euclideanGCD(firstMultiply * solutions[solutionIndex][0], secondMultiply * solutions[solutionIndex][1]);
-			Assert.assertTrue("first:" + firstMultiply * solutions[solutionIndex][0] + " second:" + secondMultiply * solutions[solutionIndex][1] + " GCD:" + gcd + " expected:" + solutions[solutionIndex][2], gcd == solutions[solutionIndex][2]);
+			gcd = com.syncleus.dann.math.GreatestCommonDenominators.euclideanGCD(firstMultiply * solution3[0], secondMultiply * solution3[1]);
+			org.junit.Assert.assertTrue("first:" + firstMultiply * solution3[0] + " second:" + secondMultiply * solution3[1] + " GCD:" + gcd + " expected:" + solution3[2], gcd == solution3[2]);
 		}
 		firstMultiply = -1;
 		secondMultiply = 1;
-		for(int solutionIndex = 0; solutionIndex < solutions.length; solutionIndex++)
+		for(long[] solution2 : SOLUTIONS)
 		{
-			gcd = GreatestCommonDenominators.euclideanGCD(firstMultiply * solutions[solutionIndex][0], secondMultiply * solutions[solutionIndex][1]);
-			Assert.assertTrue("first:" + firstMultiply * solutions[solutionIndex][0] + " second:" + secondMultiply * solutions[solutionIndex][1] + " GCD:" + gcd + " expected:" + solutions[solutionIndex][2], gcd == solutions[solutionIndex][2]);
+			gcd = com.syncleus.dann.math.GreatestCommonDenominators.euclideanGCD(firstMultiply * solution2[0], secondMultiply * solution2[1]);
+			org.junit.Assert.assertTrue("first:" + firstMultiply * solution2[0] + " second:" + secondMultiply * solution2[1] + " GCD:" + gcd + " expected:" + solution2[2], gcd == solution2[2]);
 		}
 		firstMultiply = 1;
 		secondMultiply = -1;
-		for(int solutionIndex = 0; solutionIndex < solutions.length; solutionIndex++)
+		for(long[] solution1 : SOLUTIONS)
 		{
-			gcd = GreatestCommonDenominators.euclideanGCD(firstMultiply * solutions[solutionIndex][0], secondMultiply * solutions[solutionIndex][1]);
-			Assert.assertTrue("first:" + firstMultiply * solutions[solutionIndex][0] + " second:" + secondMultiply * solutions[solutionIndex][1] + " GCD:" + gcd + " expected:" + solutions[solutionIndex][2], gcd == solutions[solutionIndex][2]);
+			gcd = com.syncleus.dann.math.GreatestCommonDenominators.euclideanGCD(firstMultiply * solution1[0], secondMultiply * solution1[1]);
+			org.junit.Assert.assertTrue("first:" + firstMultiply * solution1[0] + " second:" + secondMultiply * solution1[1] + " GCD:" + gcd + " expected:" + solution1[2], gcd == solution1[2]);
 		}
 		firstMultiply = -1;
 		secondMultiply = -1;
-		for(int solutionIndex = 0; solutionIndex < solutions.length; solutionIndex++)
+		for(long[] solution : SOLUTIONS)
 		{
-			gcd = GreatestCommonDenominators.euclideanGCD(firstMultiply * solutions[solutionIndex][0], secondMultiply * solutions[solutionIndex][1]);
-			Assert.assertTrue("first:" + firstMultiply * solutions[solutionIndex][0] + " second:" + secondMultiply * solutions[solutionIndex][1] + " GCD:" + gcd + " expected:" + solutions[solutionIndex][2], gcd == solutions[solutionIndex][2]);
+			gcd = com.syncleus.dann.math.GreatestCommonDenominators.euclideanGCD(firstMultiply * solution[0], secondMultiply * solution[1]);
+			org.junit.Assert.assertTrue("first:" + firstMultiply * solution[0] + " second:" + secondMultiply * solution[1] + " GCD:" + gcd + " expected:" + solution[2], gcd == solution[2]);
 		}
 	}
 
@@ -111,31 +109,31 @@ public class TestGreatestCommonDenominators
 		long firstMultiply = 1;
 		long secondMultiply = 1;
 		long gcd;
-		for(int solutionIndex = 0; solutionIndex < solutions.length; solutionIndex++)
+		for(long[] solution3 : SOLUTIONS)
 		{
-			gcd = GreatestCommonDenominators.extendedEuclideanGCD(firstMultiply * solutions[solutionIndex][0], secondMultiply * solutions[solutionIndex][1]).getGreatestCommonDenominator();
-			Assert.assertTrue("first:" + firstMultiply * solutions[solutionIndex][0] + " second:" + secondMultiply * solutions[solutionIndex][1] + " GCD:" + gcd + " expected:" + solutions[solutionIndex][2], gcd == solutions[solutionIndex][2]);
+			gcd = com.syncleus.dann.math.GreatestCommonDenominators.extendedEuclideanGCD(firstMultiply * solution3[0], secondMultiply * solution3[1]).getGreatestCommonDenominator();
+			org.junit.Assert.assertTrue("first:" + firstMultiply * solution3[0] + " second:" + secondMultiply * solution3[1] + " GCD:" + gcd + " expected:" + solution3[2], gcd == solution3[2]);
 		}
 		firstMultiply = -1;
 		secondMultiply = 1;
-		for(int solutionIndex = 0; solutionIndex < solutions.length; solutionIndex++)
+		for(long[] solution2 : SOLUTIONS)
 		{
-			gcd = GreatestCommonDenominators.extendedEuclideanGCD(firstMultiply * solutions[solutionIndex][0], secondMultiply * solutions[solutionIndex][1]).getGreatestCommonDenominator();
-			Assert.assertTrue("first:" + firstMultiply * solutions[solutionIndex][0] + " second:" + secondMultiply * solutions[solutionIndex][1] + " GCD:" + gcd + " expected:" + solutions[solutionIndex][2], gcd == solutions[solutionIndex][2]);
+			gcd = com.syncleus.dann.math.GreatestCommonDenominators.extendedEuclideanGCD(firstMultiply * solution2[0], secondMultiply * solution2[1]).getGreatestCommonDenominator();
+			org.junit.Assert.assertTrue("first:" + firstMultiply * solution2[0] + " second:" + secondMultiply * solution2[1] + " GCD:" + gcd + " expected:" + solution2[2], gcd == solution2[2]);
 		}
 		firstMultiply = 1;
 		secondMultiply = -1;
-		for(int solutionIndex = 0; solutionIndex < solutions.length; solutionIndex++)
+		for(long[] solution1 : SOLUTIONS)
 		{
-			gcd = GreatestCommonDenominators.extendedEuclideanGCD(firstMultiply * solutions[solutionIndex][0], secondMultiply * solutions[solutionIndex][1]).getGreatestCommonDenominator();
-			Assert.assertTrue("first:" + firstMultiply * solutions[solutionIndex][0] + " second:" + secondMultiply * solutions[solutionIndex][1] + " GCD:" + gcd + " expected:" + solutions[solutionIndex][2], gcd == solutions[solutionIndex][2]);
+			gcd = com.syncleus.dann.math.GreatestCommonDenominators.extendedEuclideanGCD(firstMultiply * solution1[0], secondMultiply * solution1[1]).getGreatestCommonDenominator();
+			org.junit.Assert.assertTrue("first:" + firstMultiply * solution1[0] + " second:" + secondMultiply * solution1[1] + " GCD:" + gcd + " expected:" + solution1[2], gcd == solution1[2]);
 		}
 		firstMultiply = -1;
 		secondMultiply = -1;
-		for(int solutionIndex = 0; solutionIndex < solutions.length; solutionIndex++)
+		for(long[] solution : SOLUTIONS)
 		{
-			gcd = GreatestCommonDenominators.extendedEuclideanGCD(firstMultiply * solutions[solutionIndex][0], secondMultiply * solutions[solutionIndex][1]).getGreatestCommonDenominator();
-			Assert.assertTrue("first:" + firstMultiply * solutions[solutionIndex][0] + " second:" + secondMultiply * solutions[solutionIndex][1] + " GCD:" + gcd + " expected:" + solutions[solutionIndex][2], gcd == solutions[solutionIndex][2]);
+			gcd = com.syncleus.dann.math.GreatestCommonDenominators.extendedEuclideanGCD(firstMultiply * solution[0], secondMultiply * solution[1]).getGreatestCommonDenominator();
+			org.junit.Assert.assertTrue("first:" + firstMultiply * solution[0] + " second:" + secondMultiply * solution[1] + " GCD:" + gcd + " expected:" + solution[2], gcd == solution[2]);
 		}
 	}
 }

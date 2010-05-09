@@ -95,9 +95,9 @@ public class TestHyperpoint
 		final Vector anotherTestPoint = new Vector(testPoint);
 		Assert.assertTrue("dimensions value is incorrect", anotherTestPoint.getDimensions() == 3);
 		final ArrayList<Double> points = new ArrayList<Double>();
-		points.add(Double.valueOf(1.0d));
-		points.add(Double.valueOf(2.0d));
-		points.add(Double.valueOf(3.0d));
+		points.add(1.0d);
+		points.add(2.0d);
+		points.add(3.0d);
 		testPoint = new Vector(points);
 		Assert.assertTrue("dimensions value is incorrect", testPoint.getDimensions() == 3);
 		Assert.assertTrue("coordinate 1 incorrect", Math.abs(testPoint.getCoordinate(1) - 1.0d) < 0.000001);
@@ -152,9 +152,9 @@ public class TestHyperpoint
 	public void testToString()
 	{
 		final ArrayList<Double> points = new ArrayList<Double>();
-		points.add(Double.valueOf(1.0d));
-		points.add(Double.valueOf(2.0d));
-		points.add(Double.valueOf(3.0d));
+		points.add(1.0d);
+		points.add(2.0d);
+		points.add(3.0d);
 		final Vector testPoint = new Vector(points);
 		Assert.assertTrue(testPoint.toString() + " != {1.0,2.0,3.0}", testPoint.toString().compareToIgnoreCase("{1.0,2.0,3.0}") == 0);
 	}
