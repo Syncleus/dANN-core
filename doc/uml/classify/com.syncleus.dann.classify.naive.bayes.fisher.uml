@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassDiagramm>
+  <classes>
+    <class fqn="com.syncleus.dann.classify.naive.bayes.fisher.SimpleLanguageFisherClassifier" x="370.0" y="410.0" />
+    <class fqn="com.syncleus.dann.classify.naive.bayes.fisher.TrainableLanguageFisherClassifier" x="434.5" y="263.0" />
+    <class fqn="com.syncleus.dann.classify.naive.bayes.fisher.TrainableFisherClassifier" x="569.8125" y="116.0" />
+    <class fqn="com.syncleus.dann.classify.naive.bayes.fisher.FisherClassifier" x="342.8125" y="0.0" />
+    <class fqn="com.syncleus.dann.classify.naive.bayes.fisher.LanguageFisherClassifier" x="338.8125" y="116.0" />
+    <class fqn="com.syncleus.dann.classify.naive.bayes.fisher.StemmingLanguageFisherClassifier" x="0.0" y="410.0" />
+    <class fqn="com.syncleus.dann.classify.naive.bayes.fisher.SimpleFisherClassifier" x="12.5" y="192.0" />
+  </classes>
+  <packages />
+  <edges>
+    <edge source="com.syncleus.dann.classify.naive.bayes.fisher.SimpleLanguageFisherClassifier" target="com.syncleus.dann.classify.naive.bayes.fisher.TrainableLanguageFisherClassifier" relationship="REALIZATION">
+      <point x="87.5" y="-64.0" />
+      <point x="66.0" y="13.0" />
+    </edge>
+    <edge source="com.syncleus.dann.classify.naive.bayes.fisher.TrainableLanguageFisherClassifier" target="com.syncleus.dann.classify.naive.bayes.fisher.TrainableFisherClassifier" relationship="INTERFACE_GENERALIZATION">
+      <point x="66.0" y="-13.0" />
+      <point x="632.5" y="167.0" />
+      <point x="675.3125" y="167.0" />
+      <point x="0.0" y="13.0" />
+    </edge>
+    <edge source="com.syncleus.dann.classify.naive.bayes.fisher.TrainableFisherClassifier" target="com.syncleus.dann.classify.naive.bayes.fisher.FisherClassifier" relationship="INTERFACE_GENERALIZATION">
+      <point x="0.0" y="-13.0" />
+      <point x="675.3125" y="91.0" />
+      <point x="511.9791666666667" y="91.0" />
+      <point x="67.66666666666669" y="33.0" />
+    </edge>
+    <edge source="com.syncleus.dann.classify.naive.bayes.fisher.StemmingLanguageFisherClassifier" target="com.syncleus.dann.classify.naive.bayes.fisher.SimpleFisherClassifier" relationship="GENERALIZATION">
+      <point x="-87.5" y="-64.0" />
+      <point x="-75.0" y="84.0" />
+    </edge>
+    <edge source="com.syncleus.dann.classify.naive.bayes.fisher.SimpleFisherClassifier" target="com.syncleus.dann.classify.naive.bayes.fisher.FisherClassifier" relationship="REALIZATION">
+      <point x="0.0" y="-84.0" />
+      <point x="162.5" y="91.0" />
+      <point x="376.6458333333333" y="91.0" />
+      <point x="-67.66666666666667" y="33.0" />
+    </edge>
+    <edge source="com.syncleus.dann.classify.naive.bayes.fisher.StemmingLanguageFisherClassifier" target="com.syncleus.dann.classify.naive.bayes.fisher.TrainableLanguageFisherClassifier" relationship="REALIZATION">
+      <point x="87.5" y="-64.0" />
+      <point x="262.5" y="390.0" />
+      <point x="500.5" y="390.0" />
+      <point x="-66.0" y="13.0" />
+    </edge>
+    <edge source="com.syncleus.dann.classify.naive.bayes.fisher.LanguageFisherClassifier" target="com.syncleus.dann.classify.naive.bayes.fisher.FisherClassifier" relationship="INTERFACE_GENERALIZATION">
+      <point x="0.0" y="-13.0" />
+      <point x="1.4210854715202004E-14" y="33.0" />
+    </edge>
+    <edge source="com.syncleus.dann.classify.naive.bayes.fisher.TrainableLanguageFisherClassifier" target="com.syncleus.dann.classify.naive.bayes.fisher.LanguageFisherClassifier" relationship="INTERFACE_GENERALIZATION">
+      <point x="-66.0" y="-13.0" />
+      <point x="500.5" y="167.0" />
+      <point x="444.3125" y="167.0" />
+      <point x="0.0" y="13.0" />
+    </edge>
+    <edge source="com.syncleus.dann.classify.naive.bayes.fisher.SimpleLanguageFisherClassifier" target="com.syncleus.dann.classify.naive.bayes.fisher.SimpleFisherClassifier" relationship="GENERALIZATION">
+      <point x="-87.5" y="-64.0" />
+      <point x="457.5" y="380.0" />
+      <point x="237.5" y="380.0" />
+      <point x="75.0" y="84.0" />
+    </edge>
+  </edges>
+  <settings isCamel="false" isColorManagerEnabled="true" isFieldsVisible="true" isConstructorsVisible="true" isMethodsVisible="true" isShowDependencies="true" isShowInnerClasses="true" isVcsFilterEnabled="false" defaultVisibility="all" layout="Hierarchic Group" isPropertiesVisible="true" zoom="0.7702871410736579" x="390.5" y="269.0" />
+  <SelectedNodes>
+    <node fqn="com.syncleus.dann.classify.naive.bayes.fisher.StemmingLanguageFisherClassifier" />
+  </SelectedNodes>
+</ClassDiagramm>
+

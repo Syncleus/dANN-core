@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassDiagramm>
+  <classes>
+    <class fqn="com.syncleus.dann.classify.naive.ClassificationProbabilities" x="0.0" y="855.0" />
+    <class fqn="com.syncleus.dann.classify.naive.FeatureClassificationTree" x="302.0" y="855.0" />
+    <class fqn="com.syncleus.dann.classify.naive.SimpleNaiveClassifier" x="498.3901515151515" y="313.0" />
+    <class fqn="com.syncleus.dann.classify.naive.NaiveClassifier" x="505.8901515151515" y="0.0" />
+    <class fqn="com.syncleus.dann.classify.naive.TrainableNaiveClassifier" x="604.1931818181818" y="237.0" />
+    <class fqn="com.syncleus.dann.classify.naive.FeatureExtractor" x="631.0" y="855.0" />
+    <class fqn="com.syncleus.dann.classify.naive.StemmingLanguageNaiveClassifier" x="370.0" y="682.0" />
+    <class fqn="com.syncleus.dann.classify.naive.SimpleLanguageNaiveClassifier" x="0.0" y="682.0" />
+    <class fqn="com.syncleus.dann.classify.naive.LanguageNaiveClassifier" x="113.25" y="237.0" />
+    <class fqn="com.syncleus.dann.classify.naive.TrainableLanguageNaiveClassifier" x="151.99999999999994" y="454.5" />
+  </classes>
+  <packages>
+    <package fqn="com.syncleus.dann.classify.naive.bayes" x="740.0" y="733.0" />
+  </packages>
+  <edges>
+    <edge source="com.syncleus.dann.classify.naive.bayes" target="com.syncleus.dann.classify.naive.NaiveClassifier" relationship="INTERFACE_GENERALIZATION">
+      <point x="94.87500000000003" y="-13.0" />
+      <point x="961.375" y="662.0" />
+      <point x="952.3333333333333" y="662.0" />
+      <point x="952.3333333333333" y="212.0" />
+      <point x="779.2234848484849" y="212.0" />
+      <point x="109.33333333333331" y="93.5" />
+    </edge>
+    <edge source="com.syncleus.dann.classify.naive.StemmingLanguageNaiveClassifier" target="com.syncleus.dann.classify.naive.TrainableLanguageNaiveClassifier" relationship="REALIZATION">
+      <point x="-87.5" y="-64.0" />
+      <point x="457.5" y="652.0" />
+      <point x="282.49999999999994" y="652.0" />
+      <point x="0.0" y="13.0" />
+    </edge>
+    <edge source="com.syncleus.dann.classify.naive.bayes" target="com.syncleus.dann.classify.naive.TrainableLanguageNaiveClassifier" relationship="INTERFACE_GENERALIZATION">
+      <point x="-94.875" y="-13.0" />
+      <point x="771.625" y="642.0" />
+      <point x="369.49999999999994" y="642.0" />
+      <point x="87.0" y="13.0" />
+    </edge>
+    <edge source="com.syncleus.dann.classify.naive.LanguageNaiveClassifier" target="com.syncleus.dann.classify.naive.NaiveClassifier" relationship="INTERFACE_GENERALIZATION">
+      <point x="0.0" y="-13.0" />
+      <point x="217.25" y="212.0" />
+      <point x="560.5568181818182" y="212.0" />
+      <point x="-109.33333333333333" y="93.5" />
+    </edge>
+    <edge source="com.syncleus.dann.classify.naive.TrainableLanguageNaiveClassifier" target="com.syncleus.dann.classify.naive.LanguageNaiveClassifier" relationship="INTERFACE_GENERALIZATION">
+      <point x="-65.25" y="-13.0" />
+      <point x="0.0" y="13.0" />
+    </edge>
+    <edge source="com.syncleus.dann.classify.naive.TrainableNaiveClassifier" target="com.syncleus.dann.classify.naive.NaiveClassifier" relationship="INTERFACE_GENERALIZATION">
+      <point x="0.0" y="-13.0" />
+      <point x="708.1931818181818" y="212.0" />
+      <point x="669.8901515151515" y="212.0" />
+      <point x="0.0" y="93.5" />
+    </edge>
+    <edge source="com.syncleus.dann.classify.naive.bayes" target="com.syncleus.dann.classify.naive.SimpleNaiveClassifier" relationship="GENERALIZATION">
+      <point x="-31.625" y="-13.0" />
+      <point x="834.875" y="662.0" />
+      <point x="784.2234848484849" y="662.0" />
+      <point x="114.33333333333331" y="154.5" />
+    </edge>
+    <edge source="com.syncleus.dann.classify.naive.bayes" target="com.syncleus.dann.classify.naive.TrainableNaiveClassifier" relationship="INTERFACE_GENERALIZATION">
+      <point x="31.62500000000003" y="-13.0" />
+      <point x="898.125" y="662.0" />
+      <point x="924.25" y="662.0" />
+      <point x="924.25" y="288.0" />
+      <point x="777.5265151515151" y="288.0" />
+      <point x="69.33333333333331" y="13.0" />
+    </edge>
+    <edge source="com.syncleus.dann.classify.naive.SimpleLanguageNaiveClassifier" target="com.syncleus.dann.classify.naive.SimpleNaiveClassifier" relationship="GENERALIZATION">
+      <point x="87.5" y="-64.0" />
+      <point x="262.5" y="662.0" />
+      <point x="555.5568181818182" y="662.0" />
+      <point x="-114.33333333333333" y="154.5" />
+    </edge>
+    <edge source="com.syncleus.dann.classify.naive.SimpleLanguageNaiveClassifier" target="com.syncleus.dann.classify.naive.TrainableLanguageNaiveClassifier" relationship="REALIZATION">
+      <point x="-87.5" y="-64.0" />
+      <point x="87.5" y="662.0" />
+      <point x="195.49999999999994" y="662.0" />
+      <point x="-87.0" y="13.0" />
+    </edge>
+    <edge source="com.syncleus.dann.classify.naive.StemmingLanguageNaiveClassifier" target="com.syncleus.dann.classify.naive.SimpleNaiveClassifier" relationship="GENERALIZATION">
+      <point x="87.5" y="-64.0" />
+      <point x="632.5" y="662.0" />
+      <point x="669.8901515151515" y="662.0" />
+      <point x="0.0" y="154.5" />
+    </edge>
+    <edge source="com.syncleus.dann.classify.naive.SimpleNaiveClassifier" target="com.syncleus.dann.classify.naive.TrainableNaiveClassifier" relationship="REALIZATION">
+      <point x="0.0" y="-154.5" />
+      <point x="669.8901515151515" y="288.0" />
+      <point x="708.1931818181818" y="288.0" />
+      <point x="-1.4210854715202004E-14" y="13.0" />
+    </edge>
+    <edge source="com.syncleus.dann.classify.naive.TrainableLanguageNaiveClassifier" target="com.syncleus.dann.classify.naive.TrainableNaiveClassifier" relationship="INTERFACE_GENERALIZATION">
+      <point x="65.25" y="-13.0" />
+      <point x="347.74999999999994" y="288.0" />
+      <point x="638.8598484848485" y="288.0" />
+      <point x="-69.33333333333333" y="13.0" />
+    </edge>
+  </edges>
+  <settings isCamel="false" isColorManagerEnabled="true" isFieldsVisible="true" isConstructorsVisible="true" isMethodsVisible="true" isShowDependencies="true" isShowInnerClasses="true" isVcsFilterEnabled="false" defaultVisibility="all" layout="Hierarchic Group" isPropertiesVisible="true" zoom="0.5179640718562875" x="496.5" y="490.99999999999994" />
+  <SelectedNodes>
+    <node fqn="com.syncleus.dann.classify.naive.StemmingLanguageNaiveClassifier" />
+  </SelectedNodes>
+</ClassDiagramm>
+

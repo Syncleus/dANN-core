@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassDiagramm>
+  <classes>
+    <class fqn="com.syncleus.dann.classify.naive.bayes.NaiveBayesClassifier" x="794.725" y="0.0" />
+    <class fqn="com.syncleus.dann.classify.naive.bayes.StemmingLanguageNaiveBayesClassifier" x="370.0" y="460.0" />
+    <class fqn="com.syncleus.dann.classify.naive.bayes.SimpleLanguageNaiveBayesClassifier" x="0.0" y="460.0" />
+    <class fqn="com.syncleus.dann.classify.naive.bayes.TrainableLanguageNaiveBayesClassifier" x="563.0" y="293.0" />
+    <class fqn="com.syncleus.dann.classify.naive.bayes.TrainableNaiveBayesClassifier" x="515.75" y="136.0" />
+    <class fqn="com.syncleus.dann.classify.naive.bayes.SimpleNaiveBayesClassifier" x="183.4548611111112" y="212.0" />
+    <class fqn="com.syncleus.dann.classify.naive.bayes.LanguageNaiveBayesClassifier" x="802.661111111111" y="136.0" />
+  </classes>
+  <packages>
+    <package fqn="com.syncleus.dann.classify.naive.bayes.fisher" x="771.25" y="511.0" />
+  </packages>
+  <edges>
+    <edge source="com.syncleus.dann.classify.naive.bayes.fisher" target="com.syncleus.dann.classify.naive.bayes.NaiveBayesClassifier" relationship="INTERFACE_GENERALIZATION">
+      <point x="115.19999999999999" y="-13.0" />
+      <point x="1030.45" y="440.0" />
+      <point x="1059.036111111111" y="440.0" />
+      <point x="1059.036111111111" y="111.0" />
+      <point x="1007.225" y="111.0" />
+      <point x="85.0" y="43.0" />
+    </edge>
+    <edge source="com.syncleus.dann.classify.naive.bayes.TrainableLanguageNaiveBayesClassifier" target="com.syncleus.dann.classify.naive.bayes.TrainableNaiveBayesClassifier" relationship="INTERFACE_GENERALIZATION">
+      <point x="-73.75" y="-13.0" />
+      <point x="1.4210854715202004E-14" y="13.0" />
+    </edge>
+    <edge source="com.syncleus.dann.classify.naive.bayes.SimpleLanguageNaiveBayesClassifier" target="com.syncleus.dann.classify.naive.bayes.SimpleNaiveBayesClassifier" relationship="GENERALIZATION">
+      <point x="-87.5" y="-64.0" />
+      <point x="87.5" y="440.0" />
+      <point x="237.9548611111112" y="440.0" />
+      <point x="-109.0" y="94.0" />
+    </edge>
+    <edge source="com.syncleus.dann.classify.naive.bayes.fisher" target="com.syncleus.dann.classify.naive.bayes.TrainableLanguageNaiveBayesClassifier" relationship="INTERFACE_GENERALIZATION">
+      <point x="-57.599999999999994" y="-13.0" />
+      <point x="857.65" y="440.0" />
+      <point x="808.8333333333333" y="440.0" />
+      <point x="98.33333333333331" y="13.0" />
+    </edge>
+    <edge source="com.syncleus.dann.classify.naive.bayes.fisher" target="com.syncleus.dann.classify.naive.bayes.TrainableNaiveBayesClassifier" relationship="INTERFACE_GENERALIZATION">
+      <point x="0.0" y="-13.0" />
+      <point x="915.25" y="440.0" />
+      <point x="931.85" y="440.0" />
+      <point x="931.85" y="182.0" />
+      <point x="717.4166666666667" y="182.0" />
+      <point x="80.66666666666669" y="13.0" />
+    </edge>
+    <edge source="com.syncleus.dann.classify.naive.bayes.fisher" target="com.syncleus.dann.classify.naive.bayes.SimpleNaiveBayesClassifier" relationship="GENERALIZATION">
+      <point x="-115.19999999999999" y="-13.0" />
+      <point x="800.05" y="420.0" />
+      <point x="455.9548611111112" y="420.0" />
+      <point x="109.0" y="94.0" />
+    </edge>
+    <edge source="com.syncleus.dann.classify.naive.bayes.TrainableNaiveBayesClassifier" target="com.syncleus.dann.classify.naive.bayes.NaiveBayesClassifier" relationship="INTERFACE_GENERALIZATION">
+      <point x="0.0" y="-13.0" />
+      <point x="636.75" y="111.0" />
+      <point x="837.225" y="111.0" />
+      <point x="-85.0" y="43.0" />
+    </edge>
+    <edge source="com.syncleus.dann.classify.naive.bayes.StemmingLanguageNaiveBayesClassifier" target="com.syncleus.dann.classify.naive.bayes.SimpleNaiveBayesClassifier" relationship="GENERALIZATION">
+      <point x="-87.5" y="-64.0" />
+      <point x="457.5" y="430.0" />
+      <point x="346.9548611111112" y="430.0" />
+      <point x="0.0" y="94.0" />
+    </edge>
+    <edge source="com.syncleus.dann.classify.naive.bayes.SimpleNaiveBayesClassifier" target="com.syncleus.dann.classify.naive.bayes.TrainableNaiveBayesClassifier" relationship="REALIZATION">
+      <point x="0.0" y="-94.0" />
+      <point x="346.9548611111112" y="192.0" />
+      <point x="556.0833333333333" y="192.0" />
+      <point x="-80.66666666666667" y="13.0" />
+    </edge>
+    <edge source="com.syncleus.dann.classify.naive.bayes.SimpleLanguageNaiveBayesClassifier" target="com.syncleus.dann.classify.naive.bayes.TrainableLanguageNaiveBayesClassifier" relationship="REALIZATION">
+      <point x="87.5" y="-64.0" />
+      <point x="262.5" y="440.0" />
+      <point x="612.1666666666667" y="440.0" />
+      <point x="-98.33333333333333" y="13.0" />
+    </edge>
+    <edge source="com.syncleus.dann.classify.naive.bayes.LanguageNaiveBayesClassifier" target="com.syncleus.dann.classify.naive.bayes.NaiveBayesClassifier" relationship="INTERFACE_GENERALIZATION">
+      <point x="0.0" y="-13.0" />
+      <point x="923.661111111111" y="111.0" />
+      <point x="922.225" y="111.0" />
+      <point x="0.0" y="43.0" />
+    </edge>
+    <edge source="com.syncleus.dann.classify.naive.bayes.fisher" target="com.syncleus.dann.classify.naive.bayes.LanguageNaiveBayesClassifier" relationship="INTERFACE_GENERALIZATION">
+      <point x="57.60000000000002" y="-13.0" />
+      <point x="972.85" y="440.0" />
+      <point x="1018.036111111111" y="440.0" />
+      <point x="1018.036111111111" y="192.0" />
+      <point x="984.161111111111" y="192.0" />
+      <point x="60.5" y="13.0" />
+    </edge>
+    <edge source="com.syncleus.dann.classify.naive.bayes.TrainableLanguageNaiveBayesClassifier" target="com.syncleus.dann.classify.naive.bayes.LanguageNaiveBayesClassifier" relationship="INTERFACE_GENERALIZATION">
+      <point x="73.75" y="-13.0" />
+      <point x="784.25" y="192.0" />
+      <point x="863.161111111111" y="192.0" />
+      <point x="-60.5" y="13.0" />
+    </edge>
+    <edge source="com.syncleus.dann.classify.naive.bayes.StemmingLanguageNaiveBayesClassifier" target="com.syncleus.dann.classify.naive.bayes.TrainableLanguageNaiveBayesClassifier" relationship="REALIZATION">
+      <point x="87.5" y="-64.0" />
+      <point x="632.5" y="440.0" />
+      <point x="710.5" y="440.0" />
+      <point x="0.0" y="13.0" />
+    </edge>
+  </edges>
+  <settings isCamel="false" isColorManagerEnabled="true" isFieldsVisible="true" isConstructorsVisible="true" isMethodsVisible="true" isShowDependencies="true" isShowInnerClasses="true" isVcsFilterEnabled="false" defaultVisibility="all" layout="Hierarchic Group" isPropertiesVisible="true" zoom="0.5712962962962963" x="530.0" y="294.0" />
+  <SelectedNodes>
+    <node fqn="com.syncleus.dann.classify.naive.bayes.TrainableNaiveBayesClassifier" />
+  </SelectedNodes>
+</ClassDiagramm>
+
