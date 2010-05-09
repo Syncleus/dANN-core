@@ -18,9 +18,7 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.graph.drawing.hyperassociativemap;
 
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import org.junit.*;
 
 public class TestLayeredLoopMap
@@ -29,18 +27,14 @@ public class TestLayeredLoopMap
 	public void testLayeredLoopAverage()
 	{
 		final int cores = Runtime.getRuntime().availableProcessors();
-		final ThreadPoolExecutor executor = new ThreadPoolExecutor(cores+1, cores*2, 20, TimeUnit.SECONDS, new LinkedBlockingQueue());
-		
+		final ThreadPoolExecutor executor = new ThreadPoolExecutor(cores + 1, cores * 2, 20, TimeUnit.SECONDS, new LinkedBlockingQueue());
 		try
 		{
 			final LayeredHyperassociativeMap testMap = new LayeredHyperassociativeMap(10, executor);
-
 			//align the testMap
-			for(int alignCount = 0; alignCount<10; alignCount++)
+			for(int alignCount = 0; alignCount < 10; alignCount++)
 				testMap.align();
-
 			final SimpleNode[][] nodes = testMap.getGraph().getNodeInLayers();
-
 			//find the farthest nodes in layer 1 and 2
 			double adjacentTotal = 0.0;
 			double adjacentComponents = 0.0;
@@ -49,27 +43,21 @@ public class TestLayeredLoopMap
 			for(int primaryLayerIndex = 0; primaryLayerIndex < nodes[0].length; primaryLayerIndex++)
 			{
 				final SimpleNode currentPrimaryLayerNode = nodes[0][primaryLayerIndex];
-
 				for(int adjacentLayerIndex = 0; adjacentLayerIndex < nodes[1].length; adjacentLayerIndex++)
 				{
 					final SimpleNode currentAdjacentLayerNode = nodes[1][adjacentLayerIndex];
 					final double currentDistance = testMap.getCoordinates().get(currentPrimaryLayerNode).calculateRelativeTo(testMap.getCoordinates().get(currentAdjacentLayerNode)).getDistance();
-
 					adjacentTotal += currentDistance;
 					adjacentComponents++;
 				}
-
-
-				for(int seperatedLayerIndex = 0; seperatedLayerIndex < nodes[nodes.length-1].length; seperatedLayerIndex++)
+				for(int seperatedLayerIndex = 0; seperatedLayerIndex < nodes[nodes.length - 1].length; seperatedLayerIndex++)
 				{
-					final SimpleNode currentSeperatedLayerNode = nodes[nodes.length-1][seperatedLayerIndex];
+					final SimpleNode currentSeperatedLayerNode = nodes[nodes.length - 1][seperatedLayerIndex];
 					final double currentDistance = testMap.getCoordinates().get(currentPrimaryLayerNode).calculateRelativeTo(testMap.getCoordinates().get(currentSeperatedLayerNode)).getDistance();
-
 					seperatedTotal += currentDistance;
 					seperatedComponents++;
 				}
 			}
-
 			final double averageSeperated = seperatedTotal / seperatedComponents;
 			final double averageAdjacent = adjacentTotal / adjacentComponents;
 			Assert.assertTrue("Associative Map did not properly align: averageAdjacent:" + averageAdjacent + " averageSeperated:" + averageSeperated, averageAdjacent < averageSeperated);

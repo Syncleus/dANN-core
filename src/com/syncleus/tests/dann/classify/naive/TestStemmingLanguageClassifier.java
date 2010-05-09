@@ -18,8 +18,7 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.classify.naive;
 
-import com.syncleus.dann.classify.naive.StemmingLanguageNaiveClassifier;
-import com.syncleus.dann.classify.naive.TrainableLanguageNaiveClassifier;
+import com.syncleus.dann.classify.naive.*;
 import org.junit.*;
 
 public class TestStemmingLanguageClassifier
@@ -28,7 +27,6 @@ public class TestStemmingLanguageClassifier
 	public void testClassify()
 	{
 		final TrainableLanguageNaiveClassifier<Integer> classifier = new StemmingLanguageNaiveClassifier<Integer>();
-
 		//train
 		classifier.train("Money is the root of all evil!", 1);
 		classifier.train("Money destroys the soul", 1);
@@ -39,7 +37,6 @@ public class TestStemmingLanguageClassifier
 		classifier.train("Even more nonsense cause we can", 2);
 		classifier.train("nonsense is the root of all good", 2);
 		classifier.train("just a filler to waste space", 2);
-
 		//test
 		Assert.assertTrue("Feature had incorrect category!", classifier.featureClassification("Money") == 1);
 		Assert.assertTrue("Feature had incorrect category!", classifier.featureClassification("Fox") == 1);
@@ -47,7 +44,6 @@ public class TestStemmingLanguageClassifier
 		Assert.assertTrue("Feature had incorrect category!", classifier.featureClassification("Waste") == 2);
 		Assert.assertTrue("Feature had incorrect category!", classifier.featureClassification("Evil") == 1);
 		Assert.assertTrue("Feature had incorrect category!", classifier.featureClassification("Good") == 2);
-
 		Assert.assertTrue("Item had incorrect category!", classifier.classification("Money was here once") == 2);
 		Assert.assertTrue("Item had incorrect category!", classifier.classification("Money destroys the quick brown fox!") == 1);
 		Assert.assertTrue("Item had incorrect category!", classifier.classification("kills the soul") == 1);

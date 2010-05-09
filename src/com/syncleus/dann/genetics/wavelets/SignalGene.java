@@ -28,14 +28,12 @@ public class SignalGene extends AbstractWaveletGene implements Cloneable
 	public SignalGene(final ReceptorKey initialReceptor, final SignalKey initialSignal)
 	{
 		super(initialReceptor);
-
 		this.outputSignal = initialSignal;
 	}
 
 	public SignalGene(final SignalGene copy)
 	{
 		super(copy);
-
 		this.outputSignal = copy.outputSignal;
 	}
 
@@ -44,14 +42,14 @@ public class SignalGene extends AbstractWaveletGene implements Cloneable
 	{
 		boolean bound;
 		bound = super.bind(concentration, isExternal);
-		if( concentration.getSignal().equals(this.outputSignal))
+		if (concentration.getSignal().equals(this.outputSignal))
 		{
 			this.expressingConcentration = concentration;
 			bound = true;
 		}
 		return bound;
 	}
-	
+
 	public void tick(final double promotion)
 	{
 		super.tick(promotion);

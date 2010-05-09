@@ -25,7 +25,6 @@ package com.syncleus.dann.genetics;
  *
  * @author Jeffrey Phillips Freeman
  * @since 2.0
- *
  */
 public class ByteValueGene extends AbstractValueGene<MutableByte> implements Cloneable
 {
@@ -36,7 +35,7 @@ public class ByteValueGene extends AbstractValueGene<MutableByte> implements Clo
 	 */
 	public ByteValueGene()
 	{
-		super(new MutableByte((byte)0));
+		super(new MutableByte((byte) 0));
 	}
 
 	/**
@@ -97,12 +96,12 @@ public class ByteValueGene extends AbstractValueGene<MutableByte> implements Clo
 	}
 
 	/**
-	 * This will make a copy of the object and mutate it. The mutation has
-	 * a normal distribution multiplied by the deviation.
+	 * This will make a copy of the object and mutate it. The mutation has a normal
+	 * distribution multiplied by the deviation.
 	 *
-	 * @param deviation A double indicating how extreme the mutation will be.
-	 * The greater the deviation the more drastically the object will mutate.
-	 * A deviation of 0 should cause no mutation.
+	 * @param deviation A double indicating how extreme the mutation will be. The
+	 * greater the deviation the more drastically the object will mutate. A
+	 * deviation of 0 should cause no mutation.
 	 * @return A copy of the current object with potential mutations.
 	 * @since 2.0
 	 */
@@ -110,7 +109,6 @@ public class ByteValueGene extends AbstractValueGene<MutableByte> implements Clo
 	{
 		final ByteValueGene copy = this.clone();
 		copy.internalMutate(deviation);
-
 		return copy;
 	}
 }

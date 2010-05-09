@@ -18,15 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.math.statistics;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S>
 {
@@ -56,15 +48,14 @@ public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S>
 		//get the current evidence for this state
 		Map<S, Integer> transitions = this.evidence.get(stateMemory);
 		//if there is no transistions then create a blank one
-		if(transitions == null)
+		if (transitions == null)
 		{
-			transitions = new HashMap<S,Integer>();
+			transitions = new HashMap<S, Integer>();
 			this.evidence.put(stateMemory, transitions);
 		}
-
 		//update the transitions evidence for the new state
 		Integer transition = transitions.get(nextState);
-		if(transition == null)
+		if (transition == null)
 			transition = 0;
 		transitions.put(nextState, transition++);
 	}
@@ -73,20 +64,17 @@ public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S>
 	{
 		final ArrayDeque<S> trainingMemory = new ArrayDeque<S>(this.history);
 		learnFromMemroy(trainingMemory, state);
-
-		if(this.isArbitraryStart)
+		if (this.isArbitraryStart)
 		{
-			while(trainingMemory.size() > 1)
+			while (trainingMemory.size() > 1)
 			{
 				trainingMemory.poll();
 				learnFromMemroy(trainingMemory, state);
 			}
 		}
-
 		this.history.add(state);
-		while(this.history.size() > this.order)
+		while (this.history.size() > this.order)
 			this.history.poll();
-
 		this.observedStates.add(state);
 	}
 

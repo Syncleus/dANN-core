@@ -26,7 +26,7 @@ public class SignalOutputStream extends OutputStream
 
 	public SignalOutputStream(final OutputStream destStream) throws IOException
 	{
-		if(destStream instanceof ObjectOutputStream)
+		if (destStream instanceof ObjectOutputStream)
 			this.destStream = (ObjectOutputStream) destStream;
 		else
 			this.destStream = new ObjectOutputStream(destStream);
@@ -34,7 +34,7 @@ public class SignalOutputStream extends OutputStream
 
 	public void writeSignal(final double[] signals, final int off, final int len) throws IOException
 	{
-		for(int signalsIndex = off; signalsIndex < (off+len); signalsIndex++)
+		for(int signalsIndex = off; signalsIndex < (off + len); signalsIndex++)
 			this.destStream.writeDouble(signals[signalsIndex]);
 	}
 

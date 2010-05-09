@@ -18,55 +18,50 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics;
 
-import java.util.*;
+import java.util.List;
 
 /**
  * Represents a single Chromatid containing a single unique set of genes. This
- * is only one half of a chromosome which contains a pair of matching
- * chromatid. Typically only Chromatid are used, not chromosomes.
+ * is only one half of a chromosome which contains a pair of matching chromatid.
+ * Typically only Chromatid are used, not chromosomes.
  *
  * @author Jeffrey Phillips Freeman
- * @param <G> The type of Gene this Chromatid may contain.
  * @since 2.0
- *
  */
 public interface Chromatid<G extends Gene> extends Cloneable
 {
 	/**
-	 * Gets an unmodifiable List of all the genes. The index of the genes
-	 * indicates its position in the chromatid.
+	 * Gets an unmodifiable List of all the genes. The index of the genes indicates
+	 * its position in the chromatid.
 	 *
 	 * @return An unmodifiable List of all genes in the chromatid
 	 * @since 2.0
 	 */
 	public List<? extends G> getGenes();
-
 	/**
-	 * The first step in crossover. This will return a segment of genes from
-	 * the point specified to the end of the chromatid. This will not modify
-	 * the Chromatid.
+	 * The first step in crossover. This will return a segment of genes from the
+	 * point specified to the end of the chromatid. This will not modify the
+	 * Chromatid.
 	 *
 	 * @param point the point (index) in the chromatid to act as the crossover
 	 * point
 	 * @return A List of the genetic segment crossing over.
 	 */
 	public List<? extends G> crossover(int point);
-
 	/**
-	 * The second step in crossover. This will replace its own genetic code
-	 * with the specefied genetic segment at the specefied crossover point.
+	 * The second step in crossover. This will replace its own genetic code with
+	 * the specefied genetic segment at the specefied crossover point.
 	 *
 	 * @param geneticSegment Segmet of genetic code crossing over.
 	 * @param point Crossover point (index) where genes are spliced
-	 * @since 2.0
 	 * @see com.syncleus.dann.genetics.Chromatid#crossover(int)
+	 * @since 2.0
 	 */
 	public void crossover(List<G> geneticSegment, int point);
-
 	/**
-	 * All children of this class should override this method and return
-	 * their own class type even if it is abstract. It should return a copy
-	 * without any mutation.
+	 * All children of this class should override this method and return their own
+	 * class type even if it is abstract. It should return a copy without any
+	 * mutation.
 	 *
 	 * @return an exact copy of this object.
 	 * @since 2.0

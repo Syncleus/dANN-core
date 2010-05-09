@@ -18,57 +18,50 @@
  ******************************************************************************/
 package com.syncleus.dann.neural.backprop;
 
-
 import com.syncleus.dann.neural.*;
-import com.syncleus.dann.neural.activation.*;
+import com.syncleus.dann.neural.activation.ActivationFunction;
 
 /**
  * This is a special type of neuron that provides the output.
  *
- *
  * @author Jeffrey Phillips Freeman
- * @since 1.0
  * @see com.syncleus.dann.neural.backprop.InputBackpropNeuron
+ * @since 1.0
  */
 public class OutputBackpropNeuron extends SimpleBackpropNeuron implements OutputNeuron
 {
 	private static final long serialVersionUID = -4643866124019076672L;
-	
-    /**
-     * holds the value for the current training set.
-     *
-     * @since 1.0
-     */
-    protected double desired;
+	/**
+	 * holds the value for the current training set.
+	 *
+	 * @since 1.0
+	 */
+	protected double desired;
 
+	/**
+	 * Creates a new instance of OutputBackpropNeuron
+	 *
+	 * @since 1.0
+	 */
+	public OutputBackpropNeuron(final Brain brain)
+	{
+		super(brain);
+	}
 
-
-    /**
-     * Creates a new instance of OutputBackpropNeuron
-     *
-     * @since 1.0
-     */
-    public OutputBackpropNeuron(final Brain brain)
-    {
-        super(brain);
-    }
-    
-    /**
-     * Creates a new instance of OutputBackpropNeuron using the specified
+	/**
+	 * Creates a new instance of OutputBackpropNeuron using the specified
 	 * activation function.
 	 *
-     *
 	 * @param activationFunction The activation function to use.
-     * @since 1.0
-     */
-    public OutputBackpropNeuron(final Brain brain, final ActivationFunction activationFunction)
-    {
-        super(brain, activationFunction);
-    }
+	 * @since 1.0
+	 */
+	public OutputBackpropNeuron(final Brain brain, final ActivationFunction activationFunction)
+	{
+		super(brain, activationFunction);
+	}
 
 	/**
 	 * Creates a new instance of this class using the specified learning rate.
-	 *
 	 *
 	 * @param learningRate The learning rate for this neuron.
 	 * @since 1.0
@@ -79,9 +72,8 @@ public class OutputBackpropNeuron extends SimpleBackpropNeuron implements Output
 	}
 
 	/**
-	 * Creates a new instance of this class with the specified activation
-	 * function and learning rate.
-	 *
+	 * Creates a new instance of this class with the specified activation function
+	 * and learning rate.
 	 *
 	 * @param activationFunction The activation used by this neuron.
 	 * @param learningRate The learning rate for this neuron.
@@ -92,44 +84,35 @@ public class OutputBackpropNeuron extends SimpleBackpropNeuron implements Output
 		super(brain, activationFunction, learningRate);
 	}
 
-
-
-    /**
-     * This method sets the expected output for this neuron to learn from.
+	/**
+	 * This method sets the expected output for this neuron to learn from.
 	 *
-     *
-     * @since 1.0
-     * @param trainingToSet sets the current desired output.
-     */
-    public void setDesired(final double trainingToSet)
-    {
-        this.desired = trainingToSet;
-    }
+	 * @param trainingToSet sets the current desired output.
+	 * @since 1.0
+	 */
+	public void setDesired(final double trainingToSet)
+	{
+		this.desired = trainingToSet;
+	}
 
-
-
-    /**
-     * Calculates the Delta Train based on all the destination synapses
+	/**
+	 * Calculates the Delta Train based on all the destination synapses
 	 *
-     *
-     * @since 1.0
-     * @see com.syncleus.dann.neural.backprop.SimpleBackpropNeuron#backPropagate
-     */
+	 * @see com.syncleus.dann.neural.backprop.SimpleBackpropNeuron#backPropagate
+	 * @since 1.0
+	 */
 	@Override
-    protected void calculateDeltaTrain()
-    {
-        this.deltaTrain = 0;
-        for (final Synapse currentSynapse : super.getBrain().getTraversableEdges(this))
+	protected void calculateDeltaTrain()
+	{
+		this.deltaTrain = 0;
+		for(final Synapse currentSynapse : super.getBrain().getTraversableEdges(this))
 			this.deltaTrain += (currentSynapse.getWeight() * this.deltaTrainDestinations.get(currentSynapse).doubleValue());
-
-        this.deltaTrain += (this.desired - this.getOutput());
-
-        this.deltaTrain *= super.activateDerivitive();
-    }
+		this.deltaTrain += (this.desired - this.getOutput());
+		this.deltaTrain *= super.activateDerivitive();
+	}
 
 	/**
 	 * Obtains the current output for this neuron.
-	 *
 	 *
 	 * @return The current output of the neuron.
 	 */

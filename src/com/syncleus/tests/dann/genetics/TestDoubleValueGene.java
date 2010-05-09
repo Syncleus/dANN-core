@@ -19,8 +19,7 @@
 package com.syncleus.tests.dann.genetics;
 
 import com.syncleus.dann.genetics.*;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.*;
 
 public class TestDoubleValueGene
 {
@@ -29,13 +28,10 @@ public class TestDoubleValueGene
 	{
 		ValueGene test = new DoubleValueGene(93947810231.0);
 		Assert.assertTrue("value constructor failed", Math.abs(test.getValue().getNumber().doubleValue() - 93947810231.0) < 1000);
-
 		test = new DoubleValueGene(new MutableDouble(20237420342.0));
 		Assert.assertTrue("MutableDouble value constructor failed", Math.abs(test.getValue().getNumber().doubleValue() - 20237420342.0) < 1000);
-
 		test = new DoubleValueGene(Double.valueOf(82649173937.0));
 		Assert.assertTrue("Number value constructor failed", Math.abs(test.getValue().getNumber().doubleValue() - 82649173937.0) < 1000);
-
 		test = new DoubleValueGene();
 		Assert.assertTrue("default constructor failed", test.getValue().getNumber().doubleValue() == 0.0);
 	}
@@ -44,16 +40,13 @@ public class TestDoubleValueGene
 	public void testMutation()
 	{
 		final ValueGene center = new DoubleValueGene(0.0);
-
 		double averageSum = 0.0;
 		double testCount;
 		for(testCount = 0.0; testCount < 1000; testCount++)
 		{
 			averageSum += center.mutate(1.0).getValue().doubleValue();
 		}
-
 		final double average = averageSum / testCount;
-
 		Assert.assertTrue("average deviation is more than 1.0", average < 1.0);
 	}
 }

@@ -18,20 +18,18 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.bayesian.dynamic;
 
-import com.syncleus.dann.graph.Graph;
-import com.syncleus.dann.graphicalmodel.bayesian.AbstractBayesianAdjacencyNetwork;
-import com.syncleus.dann.graphicalmodel.bayesian.BayesianEdge;
-import com.syncleus.dann.graphicalmodel.bayesian.BayesianNode;
 import java.util.Set;
+import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graphicalmodel.bayesian.*;
 
-public abstract class AbstractDynamicBayesianAdjacencyNetwork<N extends DynamicBayesianNode, E extends BayesianEdge<N>> extends AbstractBayesianAdjacencyNetwork<N,E> implements DynamicBayesianNetwork<N,E>
+public abstract class AbstractDynamicBayesianAdjacencyNetwork<N extends DynamicBayesianNode, E extends BayesianEdge<N>> extends AbstractBayesianAdjacencyNetwork<N, E> implements DynamicBayesianNetwork<N, E>
 {
 	protected AbstractDynamicBayesianAdjacencyNetwork()
 	{
 		super();
 	}
 
-	protected AbstractDynamicBayesianAdjacencyNetwork(final Graph<N,E> copyGraph)
+	protected AbstractDynamicBayesianAdjacencyNetwork(final Graph<N, E> copyGraph)
 	{
 		super(copyGraph.getNodes(), copyGraph.getEdges());
 	}
@@ -45,8 +43,8 @@ public abstract class AbstractDynamicBayesianAdjacencyNetwork<N extends DynamicB
 	{
 		for(final BayesianNode node : this.getNodes())
 		{
-			if( node instanceof DynamicBayesianNode)
-				((DynamicBayesianNode)node).learnState(updateHistory);
+			if (node instanceof DynamicBayesianNode)
+				((DynamicBayesianNode) node).learnState(updateHistory);
 			else
 				node.learnState();
 		}
@@ -55,42 +53,42 @@ public abstract class AbstractDynamicBayesianAdjacencyNetwork<N extends DynamicB
 	@Override
 	public AbstractDynamicBayesianAdjacencyNetwork<N, E> cloneAdd(final E newEdge)
 	{
-		return (AbstractDynamicBayesianAdjacencyNetwork<N, E>)super.cloneAdd(newEdge);
+		return (AbstractDynamicBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newEdge);
 	}
 
 	@Override
 	public AbstractDynamicBayesianAdjacencyNetwork<N, E> cloneAdd(final N newNode)
 	{
-		return (AbstractDynamicBayesianAdjacencyNetwork<N, E>)super.cloneAdd(newNode);
+		return (AbstractDynamicBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newNode);
 	}
 
 	@Override
 	public AbstractDynamicBayesianAdjacencyNetwork<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
 	{
-		return (AbstractDynamicBayesianAdjacencyNetwork<N, E>)super.cloneAdd(newNodes, newEdges);
+		return (AbstractDynamicBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newNodes, newEdges);
 	}
 
 	@Override
 	public AbstractDynamicBayesianAdjacencyNetwork<N, E> cloneRemove(final E edgeToRemove)
 	{
-		return (AbstractDynamicBayesianAdjacencyNetwork<N, E>)super.cloneRemove(edgeToRemove);
+		return (AbstractDynamicBayesianAdjacencyNetwork<N, E>) super.cloneRemove(edgeToRemove);
 	}
 
 	@Override
 	public AbstractDynamicBayesianAdjacencyNetwork<N, E> cloneRemove(final N nodeToRemove)
 	{
-		return (AbstractDynamicBayesianAdjacencyNetwork<N, E>)super.cloneRemove(nodeToRemove);
+		return (AbstractDynamicBayesianAdjacencyNetwork<N, E>) super.cloneRemove(nodeToRemove);
 	}
 
 	@Override
 	public AbstractDynamicBayesianAdjacencyNetwork<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
 	{
-		return (AbstractDynamicBayesianAdjacencyNetwork<N, E>)super.cloneRemove(deleteNodes, deleteEdges);
+		return (AbstractDynamicBayesianAdjacencyNetwork<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
 	}
 
 	@Override
 	public AbstractDynamicBayesianAdjacencyNetwork<N, E> clone()
 	{
-		return (AbstractDynamicBayesianAdjacencyNetwork<N, E>)super.clone();
+		return (AbstractDynamicBayesianAdjacencyNetwork<N, E>) super.clone();
 	}
 }

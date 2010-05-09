@@ -18,12 +18,12 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.topological;
 
-import com.syncleus.dann.graph.*;
 import java.util.*;
+import com.syncleus.dann.graph.*;
 
 public class SimpleTopologicalSorter<N> implements TopologicalSorter<N>
 {
-	public List<N> sort(final BidirectedGraph<? extends N,? extends DirectedEdge<? extends N>> graph)
+	public List<N> sort(final BidirectedGraph<? extends N, ? extends DirectedEdge<? extends N>> graph)
 	{
 		//initialize data structures
 		final Set<N> nodes = new HashSet<N>(graph.getNodes());
@@ -34,11 +34,10 @@ public class SimpleTopologicalSorter<N> implements TopologicalSorter<N>
 			final List<? extends N> edgeNodes = edge.getNodes();
 			for(int startNodeIndex = 0; startNodeIndex < edgeNodes.size(); startNodeIndex++)
 			{
-				if(!nodes.contains(edgeNodes.get(startNodeIndex)))
+				if (!nodes.contains(edgeNodes.get(startNodeIndex)))
 					throw new IllegalArgumentException("A node that is an end point in one of the edges was not in the nodes list");
-
 				Set<DirectedEdge<? extends N>> startNeighborEdges = neighborEdges.get(edgeNodes.get(startNodeIndex));
-				if( startNeighborEdges == null )
+				if (startNeighborEdges == null)
 				{
 					startNeighborEdges = new HashSet<DirectedEdge<? extends N>>();
 					neighborEdges.put(edgeNodes.get(startNodeIndex), startNeighborEdges);
@@ -46,18 +45,16 @@ public class SimpleTopologicalSorter<N> implements TopologicalSorter<N>
 				startNeighborEdges.add(edge);
 			}
 		}
-
 		//pull a node of 0 degree then delete
 		final List<N> topologicalNodes = new ArrayList<N>();
-		while( !nodes.isEmpty() )
+		while (!nodes.isEmpty())
 		{
 			final int preNodeCount = nodes.size();
-			for( final N node : nodes )
+			for(final N node : nodes)
 			{
-				if( getIndegree(edges, node) == 0)
+				if (getIndegree(edges, node) == 0)
 				{
 					topologicalNodes.add(node);
-
 					//delete node
 					final Set<DirectedEdge<? extends N>> neighbors = neighborEdges.get(node);
 					for(final DirectedEdge<? extends N> neighbor : neighbors)
@@ -65,24 +62,20 @@ public class SimpleTopologicalSorter<N> implements TopologicalSorter<N>
 						final List<N> adjacentNodes = new ArrayList<N>(neighbor.getNodes());
 						adjacentNodes.remove(node);
 						final N adjacentNode = adjacentNodes.get(0);
-
 						//delete the edge from the neighbor map
 						final Set<DirectedEdge<? extends N>> deleteFromEdges = neighborEdges.get(adjacentNode);
 						deleteFromEdges.remove(neighbor);
-
 						//delete the edge from edges
 						edges.remove(neighbor);
 					}
 					nodes.remove(node);
-
 					//since we found a nod with 0 in degree and removed it we should back out
 					break;
 				}
 			}
-			if( preNodeCount <= nodes.size() )
+			if (preNodeCount <= nodes.size())
 				return null;
 		}
-
 		return topologicalNodes;
 	}
 
@@ -90,7 +83,7 @@ public class SimpleTopologicalSorter<N> implements TopologicalSorter<N>
 	{
 		int inDegree = 0;
 		for(final DirectedEdge<? extends N> edge : edges)
-			if(edge.getDestinationNode() == node)
+			if (edge.getDestinationNode() == node)
 				inDegree++;
 		return inDegree;
 	}

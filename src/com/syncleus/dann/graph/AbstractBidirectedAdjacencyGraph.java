@@ -20,14 +20,14 @@ package com.syncleus.dann.graph;
 
 import java.util.*;
 
-public abstract class AbstractBidirectedAdjacencyGraph<N, E extends BidirectedEdge<N>> extends AbstractAdjacencyGraph<N,E> implements BidirectedGraph<N,E>
+public abstract class AbstractBidirectedAdjacencyGraph<N, E extends BidirectedEdge<N>> extends AbstractAdjacencyGraph<N, E> implements BidirectedGraph<N, E>
 {
 	protected AbstractBidirectedAdjacencyGraph()
 	{
 		super();
 	}
 
-	protected AbstractBidirectedAdjacencyGraph(final Graph<N,E> copyGraph)
+	protected AbstractBidirectedAdjacencyGraph(final Graph<N, E> copyGraph)
 	{
 		super(copyGraph.getNodes(), copyGraph.getEdges());
 	}
@@ -43,7 +43,7 @@ public abstract class AbstractBidirectedAdjacencyGraph<N, E extends BidirectedEd
 	}
 
 	@Override
-	public Set<Graph<N,E>> getMaximallyConnectedComponents()
+	public Set<Graph<N, E>> getMaximallyConnectedComponents()
 	{
 		return null;
 	}
@@ -55,7 +55,7 @@ public abstract class AbstractBidirectedAdjacencyGraph<N, E extends BidirectedEd
 		int degree = 0;
 		for(final E adjacentEdge : adjacentEdges)
 		{
-			if(adjacentEdge.isLoop())
+			if (adjacentEdge.isLoop())
 				degree += 2;
 			else
 				degree++;
@@ -71,8 +71,7 @@ public abstract class AbstractBidirectedAdjacencyGraph<N, E extends BidirectedEd
 			final List<N> adjacentNodes = new ArrayList<N>(edge.getNodes());
 			adjacentNodes.remove(node);
 			final N adjacentNode = adjacentNodes.get(0);
-
-			if(edge.isTraversable(adjacentNode) && edge.getTraversableNodes(adjacentNode).contains(node))
+			if (edge.isTraversable(adjacentNode) && edge.getTraversableNodes(adjacentNode).contains(node))
 				inEdges.add(edge);
 		}
 		return Collections.unmodifiableSet(inEdges);
@@ -89,44 +88,44 @@ public abstract class AbstractBidirectedAdjacencyGraph<N, E extends BidirectedEd
 	}
 
 	@Override
-	public AbstractBidirectedAdjacencyGraph<N,E> cloneAdd(final E newEdge)
+	public AbstractBidirectedAdjacencyGraph<N, E> cloneAdd(final E newEdge)
 	{
-		return (AbstractBidirectedAdjacencyGraph<N,E>) super.cloneAdd(newEdge);
+		return (AbstractBidirectedAdjacencyGraph<N, E>) super.cloneAdd(newEdge);
 	}
 
 	@Override
-	public AbstractBidirectedAdjacencyGraph<N,E> cloneAdd(final N newNode)
+	public AbstractBidirectedAdjacencyGraph<N, E> cloneAdd(final N newNode)
 	{
-		return (AbstractBidirectedAdjacencyGraph<N,E>) super.cloneAdd(newNode);
+		return (AbstractBidirectedAdjacencyGraph<N, E>) super.cloneAdd(newNode);
 	}
 
 	@Override
-	public AbstractBidirectedAdjacencyGraph<N,E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
+	public AbstractBidirectedAdjacencyGraph<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
 	{
-		return (AbstractBidirectedAdjacencyGraph<N,E>) super.cloneAdd(newNodes, newEdges);
+		return (AbstractBidirectedAdjacencyGraph<N, E>) super.cloneAdd(newNodes, newEdges);
 	}
 
 	@Override
-	public AbstractBidirectedAdjacencyGraph<N,E> cloneRemove(final E edgeToRemove)
+	public AbstractBidirectedAdjacencyGraph<N, E> cloneRemove(final E edgeToRemove)
 	{
-		return (AbstractBidirectedAdjacencyGraph<N,E>) super.cloneRemove(edgeToRemove);
+		return (AbstractBidirectedAdjacencyGraph<N, E>) super.cloneRemove(edgeToRemove);
 	}
 
 	@Override
-	public AbstractBidirectedAdjacencyGraph<N,E> cloneRemove(final N nodeToRemove)
+	public AbstractBidirectedAdjacencyGraph<N, E> cloneRemove(final N nodeToRemove)
 	{
-		return (AbstractBidirectedAdjacencyGraph<N,E>) super.cloneRemove(nodeToRemove);
+		return (AbstractBidirectedAdjacencyGraph<N, E>) super.cloneRemove(nodeToRemove);
 	}
 
 	@Override
-	public AbstractBidirectedAdjacencyGraph<N,E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
+	public AbstractBidirectedAdjacencyGraph<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
 	{
-		return (AbstractBidirectedAdjacencyGraph<N,E>) super.cloneRemove(deleteNodes, deleteEdges);
+		return (AbstractBidirectedAdjacencyGraph<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
 	}
 
 	@Override
-	public AbstractBidirectedAdjacencyGraph<N,E> clone()
+	public AbstractBidirectedAdjacencyGraph<N, E> clone()
 	{
-		return (AbstractBidirectedAdjacencyGraph<N,E>) super.clone();
+		return (AbstractBidirectedAdjacencyGraph<N, E>) super.clone();
 	}
 }

@@ -18,24 +18,21 @@
  ******************************************************************************/
 package com.syncleus.dann.neural;
 
-import com.syncleus.dann.*;
+import com.syncleus.dann.DannException;
 
 /**
  * This indicates that a required synapse does not exist.
  *
- *
  * @author Jeffrey Phillips Freeman
  * @since 1.0
- *
  */
 public class SynapseDoesNotExistDannException extends DannException
 {
 	private static final long serialVersionUID = 1454119896780185614L;
-	
+
 	/**
 	 * Creates a blank default exception.
 	 *
-	 * 
 	 * @since 1.0
 	 */
 	public SynapseDoesNotExistDannException()
@@ -45,7 +42,6 @@ public class SynapseDoesNotExistDannException extends DannException
 	/**
 	 * Creates an exception with a message describing the cause.
 	 *
-	 * 
 	 * @param msg A string describing the cause of the exception
 	 * @since 1.0
 	 */
@@ -58,7 +54,6 @@ public class SynapseDoesNotExistDannException extends DannException
 	 * Creates an exception with a message describing the cause as well as the
 	 * throwable which caused this exception to be thrown.
 	 *
-	 * 
 	 * @param msg A string describing the cause of the exception
 	 * @param cause The throwable which caused this exception
 	 * @since 1.0
@@ -69,10 +64,9 @@ public class SynapseDoesNotExistDannException extends DannException
 	}
 
 	/**
-	 * Creates an exception containing the throwable which caused this exception
-	 * to be thrown.
+	 * Creates an exception containing the throwable which caused this exception to
+	 * be thrown.
 	 *
-	 * 
 	 * @param cause The throwable which caused this exception
 	 * @since 1.0
 	 */

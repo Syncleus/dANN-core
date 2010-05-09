@@ -18,19 +18,16 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.bayesian;
 
-import com.syncleus.dann.graph.BidirectedEdge.EndState;
-import com.syncleus.dann.graph.DirectedEdge;
 import java.util.List;
+import com.syncleus.dann.graph.DirectedEdge;
 
 public interface BayesianEdge<N extends BayesianNode> extends DirectedEdge<N>
 {
 	Object getState();
-	
 	//Parent methods
 	List<N> getNodes();
 	N getSourceNode();
 	N getDestinationNode();
-
 	N getLeftNode();
 	N getRightNode();
 	EndState getLeftEndState();

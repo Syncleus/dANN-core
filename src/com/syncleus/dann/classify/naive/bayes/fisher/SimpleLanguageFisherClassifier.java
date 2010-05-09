@@ -18,9 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.classify.naive.bayes.fisher;
 
-import com.syncleus.dann.dataprocessing.language.*;
-import com.syncleus.dann.classify.naive.FeatureExtractor;
 import java.util.Set;
+import com.syncleus.dann.classify.naive.FeatureExtractor;
+import com.syncleus.dann.dataprocessing.language.*;
 
 public class SimpleLanguageFisherClassifier<C> extends SimpleFisherClassifier<String, String, C> implements TrainableLanguageFisherClassifier<C>
 {

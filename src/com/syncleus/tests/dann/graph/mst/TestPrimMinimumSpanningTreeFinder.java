@@ -41,7 +41,6 @@ public class TestPrimMinimumSpanningTreeFinder
 		nodes.add(leftNode);
 		final Object rightNode = "rightNode";
 		nodes.add(rightNode);
-
 		final Set<BidirectedEdge<Object>> edges = new HashSet<BidirectedEdge<Object>>();
 		final BidirectedEdge<Object> centerTopEdge = new ImmutableUndirectedEdge<Object>(centerNode, topNode);
 		edges.add(centerTopEdge);
@@ -55,22 +54,17 @@ public class TestPrimMinimumSpanningTreeFinder
 		edges.add(rightLeftEdge);
 		final BidirectedEdge<Object> leftTopEdge = new ImmutableUndirectedEdge<Object>(leftNode, topNode);
 		edges.add(leftTopEdge);
-
 		final Graph<Object, BidirectedEdge<Object>> graph = new ImmutableAdjacencyGraph<Object, BidirectedEdge<Object>>(nodes, edges);
-
 		final RootedMinimumSpanningTreeFinder<Object, BidirectedEdge<Object>> finder = new PrimMinimumSpanningTreeFinder<Object, BidirectedEdge<Object>>();
 		final Set<BidirectedEdge<Object>> mstEdges = finder.findMinimumSpanningTree(graph);
 		final TreeGraph<Object, BidirectedEdge<Object>> mst = new ImmutableTreeAdjacencyGraph<Object, BidirectedEdge<Object>>(graph.getNodes(), mstEdges);
-
 		LOGGER.info("mst edges:");
 		for(final Edge edge : mst.getEdges())
 			LOGGER.info(edge);
-
 		final CycleDetector detector = new ColoredDepthFirstSearchDetector();
 		LOGGER.info("mst is cyclic: " + detector.hasCycle(mst));
 		LOGGER.info("mst is connected: " + mst.isStronglyConnected());
 		LOGGER.info("mst is contains all nodes: " + mst.getNodes().containsAll(graph.getNodes()));
-
 		Assert.assertTrue("mst was not acyclic", !detector.hasCycle(mst));
 		Assert.assertTrue("mst was not connected", mst.isStronglyConnected());
 		Assert.assertTrue("mst did not contain all the nodes of the paret graph", mst.getNodes().containsAll(graph.getNodes()));

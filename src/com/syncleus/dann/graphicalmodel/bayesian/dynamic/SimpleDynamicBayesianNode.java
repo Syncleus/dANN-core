@@ -18,14 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.bayesian.dynamic;
 
-import com.syncleus.dann.graphicalmodel.bayesian.BayesianNetwork;
-import com.syncleus.dann.graphicalmodel.bayesian.BayesianNode;
-import com.syncleus.dann.graphicalmodel.bayesian.SimpleBayesianNode;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import com.syncleus.dann.graphicalmodel.bayesian.*;
 
 public class SimpleDynamicBayesianNode<S> extends SimpleBayesianNode<S> implements DynamicBayesianNode<S>
 {
@@ -34,15 +28,13 @@ public class SimpleDynamicBayesianNode<S> extends SimpleBayesianNode<S> implemen
 
 	public SimpleDynamicBayesianNode(final int historyCapacity, final S initialState, final BayesianNetwork network)
 	{
-		super(initialState,network);
-		
-		if(historyCapacity < 0)
+		super(initialState, network);
+		if (historyCapacity < 0)
 			throw new IllegalArgumentException("historyCapacity can not be less than 0");
-		if(initialState == null)
+		if (initialState == null)
 			throw new IllegalArgumentException("initialState can not be null");
-		if(network == null)
+		if (network == null)
 			throw new IllegalArgumentException("network can not be null");
-
 		final List<BayesianNode<S>> newHistoricalNodes = new ArrayList<BayesianNode<S>>(historyCapacity);
 		for(int historyIndex = 0; historyIndex < historyCapacity; historyIndex++)
 			newHistoricalNodes.add(new SimpleBayesianNode<S>(null, network));
@@ -51,22 +43,19 @@ public class SimpleDynamicBayesianNode<S> extends SimpleBayesianNode<S> implemen
 
 	public SimpleDynamicBayesianNode(final List<S> history, final S initialState, final BayesianNetwork network)
 	{
-		super(initialState,network);
-
-		if(history == null)
+		super(initialState, network);
+		if (history == null)
 			throw new IllegalArgumentException("history can not be null");
-		if(initialState == null)
+		if (initialState == null)
 			throw new IllegalArgumentException("initialState can not be null");
-		if(network == null)
+		if (network == null)
 			throw new IllegalArgumentException("network can not be null");
-
 		final List<BayesianNode<S>> newHistoricalNodes = new ArrayList<BayesianNode<S>>(history.size());
 		for(int historyIndex = 0; historyIndex < history.size(); historyIndex++)
 			newHistoricalNodes.add(new SimpleBayesianNode<S>(history.get(historyIndex), network));
-
 		this.historicalNodes = Collections.unmodifiableList(newHistoricalNodes);
 	}
-	
+
 	public int getStateHistoryCapacity()
 	{
 		return this.historicalNodes.size();
@@ -83,19 +72,17 @@ public class SimpleDynamicBayesianNode<S> extends SimpleBayesianNode<S> implemen
 	public void setStateHistory(final List<S> history)
 	{
 		for(int historyIndex = 0; historyIndex < this.historicalNodes.size(); historyIndex++)
-			this.historicalNodes.get(historyIndex).setState( (history.size() > historyIndex ? history.get(historyIndex) : null) );
+			this.historicalNodes.get(historyIndex).setState((history.size() > historyIndex ? history.get(historyIndex) : null));
 	}
 
 	public void learnState(final boolean updateHistory)
 	{
 		super.learnState();
-
-		if(updateHistory)
+		if (updateHistory)
 		{
 			//move the state down the line making each state one step older
 			for(int historyIndex = 0; historyIndex < (this.historicalNodes.size() - 1); historyIndex++)
-				this.historicalNodes.get(historyIndex+1).setState(this.historicalNodes.get(historyIndex).getState());
-
+				this.historicalNodes.get(historyIndex + 1).setState(this.historicalNodes.get(historyIndex).getState());
 			//add the new state to history
 			this.historicalNodes.get(0).setState(this.getState());
 		}

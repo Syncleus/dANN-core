@@ -18,8 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.bayesian;
 
-import com.syncleus.dann.graph.*;
 import java.util.*;
+import com.syncleus.dann.graph.*;
 
 public abstract class AbstractBayesianAdjacencyNetwork<N extends BayesianNode, E extends BayesianEdge<N>> extends AbstractBidirectedAdjacencyGraph<N, E> implements BayesianNetwork<N, E>
 {
@@ -40,14 +40,14 @@ public abstract class AbstractBayesianAdjacencyNetwork<N extends BayesianNode, E
 
 	public void learnStates()
 	{
-		for(final N node:this.getNodes())
+		for(final N node : this.getNodes())
 			node.learnState();
 	}
 
 	public double jointProbability()
 	{
 		double probabilityProduct = 1.0;
-		for(final N node:this.getNodes())
+		for(final N node : this.getNodes())
 			probabilityProduct *= node.stateProbability();
 		return probabilityProduct;
 	}
@@ -55,7 +55,6 @@ public abstract class AbstractBayesianAdjacencyNetwork<N extends BayesianNode, E
 	public double conditionalProbability(final Set<N> goals, final Set<N> influences)
 	{
 		List<N> varyingNodes = new ArrayList<N>(this.getNodes());
-
 		//calculate numerator
 		varyingNodes = new ArrayList<N>(this.getNodes());
 		varyingNodes.removeAll(influences);
@@ -63,18 +62,20 @@ public abstract class AbstractBayesianAdjacencyNetwork<N extends BayesianNode, E
 		resetNodeStates(varyingNodes);
 		double numerator = 0.0;
 		do
+		{
 			numerator += this.jointProbability();
-		while(!incrementNodeStates(varyingNodes));
-
+		}
+		while (!incrementNodeStates(varyingNodes));
 		//calculate denominator
 		varyingNodes = new ArrayList<N>(this.getNodes());
 		varyingNodes.removeAll(influences);
 		resetNodeStates(varyingNodes);
 		double denominator = 0.0;
 		do
+		{
 			denominator += this.jointProbability();
-		while(!incrementNodeStates(varyingNodes));
-
+		}
+		while (!incrementNodeStates(varyingNodes));
 		//all done
 		return numerator / denominator;
 	}
@@ -82,14 +83,14 @@ public abstract class AbstractBayesianAdjacencyNetwork<N extends BayesianNode, E
 	@SuppressWarnings("unchecked")
 	private static <N extends BayesianNode> void resetNodeStates(final List<N> incNodes)
 	{
-		for(final N incNode:incNodes)
+		for(final N incNode : incNodes)
 			incNode.setState((incNode.getLearnedStates().toArray())[0]);
 	}
 
 	private static <N extends BayesianNode> boolean incrementNodeStates(final List<N> incNodes)
 	{
-		for(final N incNode:incNodes)
-			if(!incrementNodeState(incNode))
+		for(final N incNode : incNodes)
+			if (!incrementNodeState(incNode))
 				return false;
 		return true;
 	}
@@ -99,7 +100,7 @@ public abstract class AbstractBayesianAdjacencyNetwork<N extends BayesianNode, E
 	{
 		final List stateTypes = Arrays.asList(incNode.getLearnedStates().toArray());
 		final int currentStateIndex = stateTypes.indexOf(incNode.getState());
-		if((currentStateIndex + 1) >= stateTypes.size())
+		if ((currentStateIndex + 1) >= stateTypes.size())
 		{
 			incNode.setState(stateTypes.get(0));
 			return true;
@@ -114,54 +115,53 @@ public abstract class AbstractBayesianAdjacencyNetwork<N extends BayesianNode, E
 	@Override
 	public AbstractBayesianAdjacencyNetwork<N, E> cloneAdd(final E newEdge)
 	{
-		return (AbstractBayesianAdjacencyNetwork<N, E>)super.cloneAdd(newEdge);
+		return (AbstractBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newEdge);
 	}
 
 	@Override
 	public AbstractBayesianAdjacencyNetwork<N, E> cloneAdd(final N newNode)
 	{
-		return (AbstractBayesianAdjacencyNetwork<N, E>)super.cloneAdd(newNode);
+		return (AbstractBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newNode);
 	}
 
 	@Override
 	public AbstractBayesianAdjacencyNetwork<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
 	{
-		return (AbstractBayesianAdjacencyNetwork<N, E>)super.cloneAdd(newNodes, newEdges);
+		return (AbstractBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newNodes, newEdges);
 	}
 
 	@Override
 	public AbstractBayesianAdjacencyNetwork<N, E> cloneRemove(final E edgeToRemove)
 	{
-		return (AbstractBayesianAdjacencyNetwork<N, E>)super.cloneRemove(edgeToRemove);
+		return (AbstractBayesianAdjacencyNetwork<N, E>) super.cloneRemove(edgeToRemove);
 	}
 
 	@Override
 	public AbstractBayesianAdjacencyNetwork<N, E> cloneRemove(final N nodeToRemove)
 	{
-		return (AbstractBayesianAdjacencyNetwork<N, E>)super.cloneRemove(nodeToRemove);
+		return (AbstractBayesianAdjacencyNetwork<N, E>) super.cloneRemove(nodeToRemove);
 	}
 
 	@Override
 	public AbstractBayesianAdjacencyNetwork<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
 	{
-		return (AbstractBayesianAdjacencyNetwork<N, E>)super.cloneRemove(deleteNodes, deleteEdges);
+		return (AbstractBayesianAdjacencyNetwork<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
 	}
 
 	@Override
 	public AbstractBayesianAdjacencyNetwork<N, E> clone()
 	{
-		return (AbstractBayesianAdjacencyNetwork<N, E>)super.clone();
+		return (AbstractBayesianAdjacencyNetwork<N, E>) super.clone();
 	}
 
-	protected static class NodeConnectivity<N extends BayesianNode, E extends BayesianEdge<N>>  extends HashMap<N, Set<E>>
+	protected static class NodeConnectivity<N extends BayesianNode, E extends BayesianEdge<N>> extends HashMap<N, Set<E>>
 	{
 		private static final long serialVersionUID = -3068604309573134643L;
 
 		public Set<E> get(final N keyNode)
 		{
-
 			Set<E> edges = super.get(keyNode);
-			if(edges == null)
+			if (edges == null)
 			{
 				edges = new HashSet<E>();
 				super.put(keyNode, edges);

@@ -18,8 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.neural.backprop.brain;
 
-import com.syncleus.dann.neural.backprop.BackpropNeuron;
 import java.util.*;
+import com.syncleus.dann.neural.backprop.BackpropNeuron;
 
 public interface FeedforwardBackpropBrain extends BackpropBrain
 {

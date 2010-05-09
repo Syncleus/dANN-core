@@ -23,7 +23,6 @@ import java.util.List;
 public class ImmutableWeightedHyperEdge<N> extends ImmutableHyperEdge<N> implements WeightedEdge<N>
 {
 	private static final long serialVersionUID = 2622882478754498808L;
-	
 	private final double weight;
 
 	public ImmutableWeightedHyperEdge(final List<N> nodes, final double weight)
@@ -40,22 +39,20 @@ public class ImmutableWeightedHyperEdge<N> extends ImmutableHyperEdge<N> impleme
 	@Override
 	public SimpleWeightedHyperEdge<N> disconnect(final N node)
 	{
-		if(node == null)
+		if (node == null)
 			throw new IllegalArgumentException("node can not be null", new NullPointerException());
-		if(!this.getNodes().contains(node))
+		if (!this.getNodes().contains(node))
 			throw new IllegalArgumentException("node is not currently connected to");
-
 		return (SimpleWeightedHyperEdge<N>) this.remove(node);
 	}
 
 	@Override
 	public SimpleWeightedHyperEdge<N> disconnect(final List<N> nodes)
 	{
-		if(nodes == null)
+		if (nodes == null)
 			throw new IllegalArgumentException("node can not be null", new NullPointerException());
-		if(!this.getNodes().containsAll(nodes))
+		if (!this.getNodes().containsAll(nodes))
 			throw new IllegalArgumentException("node is not currently connected to");
-
 		return (SimpleWeightedHyperEdge<N>) this.remove(nodes);
 	}
 

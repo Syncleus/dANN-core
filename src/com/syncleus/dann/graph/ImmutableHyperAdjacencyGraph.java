@@ -21,7 +21,7 @@ package com.syncleus.dann.graph;
 import java.util.*;
 import java.util.Map.Entry;
 
-public class ImmutableHyperAdjacencyGraph<N, E extends HyperEdge<N>> extends AbstractHyperAdjacencyGraph<N,E>
+public class ImmutableHyperAdjacencyGraph<N, E extends HyperEdge<N>> extends AbstractHyperAdjacencyGraph<N, E>
 {
 	private static final long serialVersionUID = 8503954045220921240L;
 
@@ -29,8 +29,8 @@ public class ImmutableHyperAdjacencyGraph<N, E extends HyperEdge<N>> extends Abs
 	{
 		super();
 	}
-	
-	public ImmutableHyperAdjacencyGraph(final Graph<N,E> copyGraph)
+
+	public ImmutableHyperAdjacencyGraph(final Graph<N, E> copyGraph)
 	{
 		super(copyGraph);
 	}
@@ -49,7 +49,7 @@ public class ImmutableHyperAdjacencyGraph<N, E extends HyperEdge<N>> extends Abs
 	@Override
 	protected Map<N, Set<E>> getInternalAdjacencyEdges()
 	{
-		final Map<N,Set<E>> newAdjacentEdges = new HashMap<N, Set<E>>();
+		final Map<N, Set<E>> newAdjacentEdges = new HashMap<N, Set<E>>();
 		for(final Entry<N, Set<E>> neighborEdgeEntry : super.getInternalAdjacencyEdges().entrySet())
 			newAdjacentEdges.put(neighborEdgeEntry.getKey(), new HashSet<E>(neighborEdgeEntry.getValue()));
 		return newAdjacentEdges;
@@ -58,51 +58,51 @@ public class ImmutableHyperAdjacencyGraph<N, E extends HyperEdge<N>> extends Abs
 	@Override
 	protected Map<N, List<N>> getInternalAdjacencyNodes()
 	{
-		final Map<N,List<N>> newAdjacentNodes = new HashMap<N, List<N>>();
+		final Map<N, List<N>> newAdjacentNodes = new HashMap<N, List<N>>();
 		for(final Entry<N, List<N>> neighborNodeEntry : this.getInternalAdjacencyNodes().entrySet())
 			newAdjacentNodes.put(neighborNodeEntry.getKey(), new ArrayList<N>(neighborNodeEntry.getValue()));
 		return newAdjacentNodes;
 	}
 
 	@Override
-	public ImmutableHyperAdjacencyGraph<N,E> cloneAdd(final E newEdge)
+	public ImmutableHyperAdjacencyGraph<N, E> cloneAdd(final E newEdge)
 	{
-		return (ImmutableHyperAdjacencyGraph<N,E>) super.cloneAdd(newEdge);
+		return (ImmutableHyperAdjacencyGraph<N, E>) super.cloneAdd(newEdge);
 	}
 
 	@Override
-	public ImmutableHyperAdjacencyGraph<N,E> cloneAdd(final N newNode)
+	public ImmutableHyperAdjacencyGraph<N, E> cloneAdd(final N newNode)
 	{
-		return (ImmutableHyperAdjacencyGraph<N,E>) super.cloneAdd(newNode);
+		return (ImmutableHyperAdjacencyGraph<N, E>) super.cloneAdd(newNode);
 	}
 
 	@Override
-	public ImmutableHyperAdjacencyGraph<N,E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
+	public ImmutableHyperAdjacencyGraph<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
 	{
-		return (ImmutableHyperAdjacencyGraph<N,E>) super.cloneAdd(newNodes, newEdges);
+		return (ImmutableHyperAdjacencyGraph<N, E>) super.cloneAdd(newNodes, newEdges);
 	}
 
 	@Override
-	public ImmutableHyperAdjacencyGraph<N,E> cloneRemove(final E edgeToRemove)
+	public ImmutableHyperAdjacencyGraph<N, E> cloneRemove(final E edgeToRemove)
 	{
-		return (ImmutableHyperAdjacencyGraph<N,E>) super.cloneRemove(edgeToRemove);
+		return (ImmutableHyperAdjacencyGraph<N, E>) super.cloneRemove(edgeToRemove);
 	}
 
 	@Override
-	public ImmutableHyperAdjacencyGraph<N,E> cloneRemove(final N nodeToRemove)
+	public ImmutableHyperAdjacencyGraph<N, E> cloneRemove(final N nodeToRemove)
 	{
-		return (ImmutableHyperAdjacencyGraph<N,E>) super.cloneRemove(nodeToRemove);
+		return (ImmutableHyperAdjacencyGraph<N, E>) super.cloneRemove(nodeToRemove);
 	}
 
 	@Override
-	public ImmutableHyperAdjacencyGraph<N,E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
+	public ImmutableHyperAdjacencyGraph<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
 	{
-		return (ImmutableHyperAdjacencyGraph<N,E>) super.cloneRemove(deleteNodes, deleteEdges);
+		return (ImmutableHyperAdjacencyGraph<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
 	}
 
 	@Override
-	public ImmutableHyperAdjacencyGraph<N,E> clone()
+	public ImmutableHyperAdjacencyGraph<N, E> clone()
 	{
-		return (ImmutableHyperAdjacencyGraph<N,E>) super.clone();
+		return (ImmutableHyperAdjacencyGraph<N, E>) super.clone();
 	}
 }

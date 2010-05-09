@@ -18,8 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.mst;
 
-import com.syncleus.dann.graph.*;
 import java.util.Set;
+import com.syncleus.dann.graph.*;
 
 public interface MinimumSpanningTreeFinder<N, E extends Edge<N>>
 {

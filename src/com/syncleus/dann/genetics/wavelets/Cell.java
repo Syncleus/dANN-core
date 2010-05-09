@@ -18,8 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class Cell
 {
@@ -29,14 +28,13 @@ public class Cell
 	public Cell(final Cell copy)
 	{
 		this.nucleus = new Nucleus(copy.nucleus);
-		this.localConcentrations  = new HashSet<SignalKeyConcentration>(copy.localConcentrations);
+		this.localConcentrations = new HashSet<SignalKeyConcentration>(copy.localConcentrations);
 	}
 
 	public Cell()
 	{
 		this.nucleus = new Nucleus();
 		this.localConcentrations = new HashSet<SignalKeyConcentration>();
-
 		final Set<SignalKey> localSignals = this.nucleus.getExpressedSignals(false);
 		for(final SignalKey localSignal : localSignals)
 		{

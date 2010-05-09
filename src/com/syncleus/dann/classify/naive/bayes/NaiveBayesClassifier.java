@@ -18,22 +18,20 @@
  ******************************************************************************/
 package com.syncleus.dann.classify.naive.bayes;
 
+import java.util.*;
 import com.syncleus.dann.classify.naive.NaiveClassifier;
-import java.util.Map;
-import java.util.Set;
 
-public interface NaiveBayesClassifier<I,F,C> extends NaiveClassifier<I,F,C>
+public interface NaiveBayesClassifier<I, F, C> extends NaiveClassifier<I, F, C>
 {
 	C classification(I item, boolean useThreshold);
 	double getCategoryThreshold(C category);
 	void setCategoryThreshold(C category, double threshold);
-
 	//NaiveClassifier methods
 	C featureClassification(F feature);
 	C featureClassificationWeighted(F feature);
 	double featureClassificationProbability(F feature, C category);
 	double featureClassificationWeightedProbability(F feature, C category);
-	Map<C,Double> getCategoryProbabilities(I item);
+	Map<C, Double> getCategoryProbabilities(I item);
 	double classificationProbability(I item, C category);
 	C classification(I item);
 	Set<C> getCategories();

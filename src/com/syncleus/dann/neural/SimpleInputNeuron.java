@@ -21,21 +21,19 @@ package com.syncleus.dann.neural;
 public class SimpleInputNeuron extends AbstractNeuron implements InputNeuron
 {
 	private static final long serialVersionUID = 4397150011892747140L;
-	
-    private double input = 0.0;
+	private double input = 0.0;
 
-    public SimpleInputNeuron(final Brain brain)
-    {
-        super(brain);
-    }
+	public SimpleInputNeuron(final Brain brain)
+	{
+		super(brain);
+	}
 
-    public void setInput(final double inputToSet)
-    {
-        if( Math.abs(inputToSet) > 1.0 )
-            throw new IllegalArgumentException("InputToSet must be between -1 and +1");
-
-        this.input = inputToSet;
-    }
+	public void setInput(final double inputToSet)
+	{
+		if (Math.abs(inputToSet) > 1.0)
+			throw new IllegalArgumentException("InputToSet must be between -1 and +1");
+		this.input = inputToSet;
+	}
 
 	public double getInput()
 	{
@@ -48,9 +46,9 @@ public class SimpleInputNeuron extends AbstractNeuron implements InputNeuron
 	}
 
 	@Override
-    public void propagate()
-    {
-        for (final Synapse current : this.getBrain().getTraversableEdges(this))
-            current.setInput(this.input);
-    }
+	public void propagate()
+	{
+		for(final Synapse current : this.getBrain().getTraversableEdges(this))
+			current.setInput(this.input);
+	}
 }

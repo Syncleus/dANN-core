@@ -18,8 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.bayesian.dynamic;
 
-import com.syncleus.dann.graphicalmodel.bayesian.BayesianNetwork;
 import java.util.Collections;
+import com.syncleus.dann.graphicalmodel.bayesian.BayesianNetwork;
 
 public class HiddenMarkovDynamicBayesianNode<S> extends SimpleDynamicBayesianNode<S>
 {

@@ -18,15 +18,15 @@
  ******************************************************************************/
 package com.syncleus.dann.classify.naive.bayes;
 
-import com.syncleus.dann.classify.naive.*;
 import java.util.*;
 import java.util.Map.Entry;
+import com.syncleus.dann.classify.naive.*;
 
-public class SimpleNaiveBayesClassifier<I,F,C> extends SimpleNaiveClassifier<I,F,C> implements TrainableNaiveBayesClassifier<I,F,C>
+public class SimpleNaiveBayesClassifier<I, F, C> extends SimpleNaiveClassifier<I, F, C> implements TrainableNaiveBayesClassifier<I, F, C>
 {
-	private final Map<C,Double> categoryThresholds = new HashMap<C,Double>();
+	private final Map<C, Double> categoryThresholds = new HashMap<C, Double>();
 
-	public SimpleNaiveBayesClassifier(final FeatureExtractor<F,I> extractor)
+	public SimpleNaiveBayesClassifier(final FeatureExtractor<F, I> extractor)
 	{
 		super(extractor);
 	}
@@ -34,7 +34,7 @@ public class SimpleNaiveBayesClassifier<I,F,C> extends SimpleNaiveClassifier<I,F
 	public double getCategoryThreshold(final C category)
 	{
 		final Double threshold = this.categoryThresholds.get(category);
-		if( threshold == null )
+		if (threshold == null)
 			return 0.0;
 		return threshold;
 	}
@@ -46,26 +46,23 @@ public class SimpleNaiveBayesClassifier<I,F,C> extends SimpleNaiveClassifier<I,F
 
 	public C classification(final I item, final boolean useThreshold)
 	{
-		final Map<C,Double> categoryProbabilities = new HashMap<C,Double>();
-
+		final Map<C, Double> categoryProbabilities = new HashMap<C, Double>();
 		C topCategory = null;
 		double topProbability = 0.0;
 		for(final C category : this.getCategories())
 		{
 			final double currentProbability = this.classificationProbability(item, category);
 			categoryProbabilities.put(category, currentProbability);
-			if(topProbability < currentProbability)
+			if (topProbability < currentProbability)
 			{
 				topCategory = category;
 				topProbability = currentProbability;
 			}
 		}
-
-		if(useThreshold)
-			for(final Entry<C,Double> probability : categoryProbabilities.entrySet())
-				if( (probability.getKey() != topCategory) && (probability.getValue() * this.categoryThresholds.get(topCategory) > topProbability) )
+		if (useThreshold)
+			for(final Entry<C, Double> probability : categoryProbabilities.entrySet())
+				if ((probability.getKey() != topCategory) && (probability.getValue() * this.categoryThresholds.get(topCategory) > topProbability))
 					return null;
-
 		return topCategory;
 	}
 
@@ -76,9 +73,9 @@ public class SimpleNaiveBayesClassifier<I,F,C> extends SimpleNaiveClassifier<I,F
 	}
 
 	@Override
-	public Map<C,Double> getCategoryProbabilities(final I item)
+	public Map<C, Double> getCategoryProbabilities(final I item)
 	{
-		final Map<C,Double> categoryProbabilities = new HashMap<C,Double>();
+		final Map<C, Double> categoryProbabilities = new HashMap<C, Double>();
 		for(final C category : this.getCategories())
 			categoryProbabilities.put(category, this.classificationProbability(item, category));
 		return Collections.unmodifiableMap(categoryProbabilities);
@@ -87,7 +84,7 @@ public class SimpleNaiveBayesClassifier<I,F,C> extends SimpleNaiveClassifier<I,F
 	@Override
 	public double classificationProbability(final I item, final C category)
 	{
-		double probability = ((double)this.getOverallProbability(category)) / ((double)this.getOverallProbabilitySum());
+		double probability = ((double) this.getOverallProbability(category)) / ((double) this.getOverallProbabilitySum());
 		final Set<F> features = this.getExtractor().getFeatures(item);
 		for(final F feature : features)
 			probability *= this.featureClassificationWeightedProbability(feature, category);

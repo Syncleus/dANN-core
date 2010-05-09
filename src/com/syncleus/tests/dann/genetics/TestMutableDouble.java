@@ -28,10 +28,8 @@ public class TestMutableDouble
 	{
 		MutableDouble test = new MutableDouble(123.0);
 		Assert.assertTrue("value constructor failed", test.getNumber().doubleValue() == 123.0);
-
 		test = new MutableDouble("456");
 		Assert.assertTrue("string value constructor failed", test.getNumber().doubleValue() == 456.0);
-
 		test = new MutableDouble(Double.valueOf(789));
 		Assert.assertTrue("Number value constructor failed", test.getNumber().doubleValue() == 789.0);
 	}
@@ -40,12 +38,10 @@ public class TestMutableDouble
 	public void testMax()
 	{
 		final MutableDouble highValue = new MutableDouble(Double.MAX_VALUE);
-
 		for(int testCount = 0; testCount < 1000; testCount++)
 		{
 			final MutableDouble mutated = highValue.mutate(100.0);
-
-			Assert.assertTrue("mutation caused number to roll over: " + mutated, (mutated.doubleValue() != Double.POSITIVE_INFINITY)&&(mutated.doubleValue() != Double.NEGATIVE_INFINITY));
+			Assert.assertTrue("mutation caused number to roll over: " + mutated, (mutated.doubleValue() != Double.POSITIVE_INFINITY) && (mutated.doubleValue() != Double.NEGATIVE_INFINITY));
 		}
 	}
 
@@ -53,12 +49,10 @@ public class TestMutableDouble
 	public void testMin()
 	{
 		final MutableDouble lowValue = new MutableDouble(Double.MAX_VALUE * -1.0);
-
 		for(int testCount = 0; testCount < 1000; testCount++)
 		{
 			final MutableDouble mutated = lowValue.mutate(100.0);
-
-			Assert.assertTrue("mutation caused number to roll over: " + mutated, (mutated.doubleValue() != Double.POSITIVE_INFINITY)&&(mutated.doubleValue() != Double.NEGATIVE_INFINITY));
+			Assert.assertTrue("mutation caused number to roll over: " + mutated, (mutated.doubleValue() != Double.POSITIVE_INFINITY) && (mutated.doubleValue() != Double.NEGATIVE_INFINITY));
 		}
 	}
 
@@ -66,16 +60,13 @@ public class TestMutableDouble
 	public void testDeviation()
 	{
 		final MutableDouble center = new MutableDouble(0);
-
 		double averageSum = 0;
 		double testCount = 0.0;
 		for(testCount = 0.0; testCount < 10000; testCount++)
 		{
 			averageSum += center.mutate(1.0).doubleValue();
 		}
-
 		final double average = averageSum / testCount;
-
 		Assert.assertTrue("average deviation is more than 1.0", average < 1.0);
 	}
 }

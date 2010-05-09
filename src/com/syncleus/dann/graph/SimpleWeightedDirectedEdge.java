@@ -17,11 +17,12 @@
  *                                                                             *
  ******************************************************************************/
 package com.syncleus.dann.graph;
+
 import java.util.List;
+
 public class SimpleWeightedDirectedEdge<N> extends ImmutableDirectedEdge<N> implements WeightedDirectedEdge<N>, MutableWeighted
 {
 	private static final long serialVersionUID = -6843921044147012645L;
-	
 	private double weight;
 
 	public SimpleWeightedDirectedEdge(final N source, final N destination, final double weight)
@@ -43,22 +44,20 @@ public class SimpleWeightedDirectedEdge<N> extends ImmutableDirectedEdge<N> impl
 	@Override
 	public SimpleWeightedDirectedEdge<N> disconnect(final N node)
 	{
-		if(node == null)
+		if (node == null)
 			throw new IllegalArgumentException("node can not be null", new NullPointerException());
-		if(!this.getNodes().contains(node))
+		if (!this.getNodes().contains(node))
 			throw new IllegalArgumentException("node is not currently connected to");
-
 		return (SimpleWeightedDirectedEdge<N>) this.remove(node);
 	}
 
 	@Override
 	public SimpleWeightedDirectedEdge<N> disconnect(final List<N> nodes)
 	{
-		if(nodes == null)
+		if (nodes == null)
 			throw new IllegalArgumentException("node can not be null", new NullPointerException());
-		if(!this.getNodes().containsAll(nodes))
+		if (!this.getNodes().containsAll(nodes))
 			throw new IllegalArgumentException("node is not currently connected to");
-
 		return (SimpleWeightedDirectedEdge<N>) this.remove(nodes);
 	}
 

@@ -19,17 +19,17 @@
 package com.syncleus.dann.graphicalmodel.bayesian;
 
 import java.util.*;
-import com.syncleus.dann.graph.Graph;
 import java.util.Map.Entry;
+import com.syncleus.dann.graph.Graph;
 
-public class ImmutableBayesianAdjacencyNetwork<N extends BayesianNode, E extends BayesianEdge<N>> extends AbstractBayesianAdjacencyNetwork<N,E>
+public class ImmutableBayesianAdjacencyNetwork<N extends BayesianNode, E extends BayesianEdge<N>> extends AbstractBayesianAdjacencyNetwork<N, E>
 {
 	public ImmutableBayesianAdjacencyNetwork()
 	{
 		super();
 	}
 
-	public ImmutableBayesianAdjacencyNetwork(final Graph<N,E> copyGraph)
+	public ImmutableBayesianAdjacencyNetwork(final Graph<N, E> copyGraph)
 	{
 		super(copyGraph.getNodes(), copyGraph.getEdges());
 	}
@@ -48,7 +48,7 @@ public class ImmutableBayesianAdjacencyNetwork<N extends BayesianNode, E extends
 	@Override
 	protected Map<N, Set<E>> getInternalAdjacencyEdges()
 	{
-		final Map<N,Set<E>> newAdjacentEdges = new HashMap<N, Set<E>>();
+		final Map<N, Set<E>> newAdjacentEdges = new HashMap<N, Set<E>>();
 		for(final Entry<N, Set<E>> neighborEdgeEntry : super.getInternalAdjacencyEdges().entrySet())
 			newAdjacentEdges.put(neighborEdgeEntry.getKey(), new HashSet<E>(neighborEdgeEntry.getValue()));
 		return newAdjacentEdges;
@@ -57,51 +57,51 @@ public class ImmutableBayesianAdjacencyNetwork<N extends BayesianNode, E extends
 	@Override
 	protected Map<N, List<N>> getInternalAdjacencyNodes()
 	{
-		final Map<N,List<N>> newAdjacentNodes = new HashMap<N, List<N>>();
+		final Map<N, List<N>> newAdjacentNodes = new HashMap<N, List<N>>();
 		for(final Entry<N, List<N>> neighborNodeEntry : this.getInternalAdjacencyNodes().entrySet())
 			newAdjacentNodes.put(neighborNodeEntry.getKey(), new ArrayList<N>(neighborNodeEntry.getValue()));
 		return newAdjacentNodes;
 	}
 
 	@Override
-	public ImmutableBayesianAdjacencyNetwork<N,E> cloneAdd(final E newEdge)
+	public ImmutableBayesianAdjacencyNetwork<N, E> cloneAdd(final E newEdge)
 	{
-		return (ImmutableBayesianAdjacencyNetwork<N,E>) super.cloneAdd(newEdge);
+		return (ImmutableBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newEdge);
 	}
 
 	@Override
-	public ImmutableBayesianAdjacencyNetwork<N,E> cloneAdd(final N newNode)
+	public ImmutableBayesianAdjacencyNetwork<N, E> cloneAdd(final N newNode)
 	{
-		return (ImmutableBayesianAdjacencyNetwork<N,E>) super.cloneAdd(newNode);
+		return (ImmutableBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newNode);
 	}
 
 	@Override
-	public ImmutableBayesianAdjacencyNetwork<N,E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
+	public ImmutableBayesianAdjacencyNetwork<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
 	{
-		return (ImmutableBayesianAdjacencyNetwork<N,E>) super.cloneAdd(newNodes, newEdges);
+		return (ImmutableBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newNodes, newEdges);
 	}
 
 	@Override
-	public ImmutableBayesianAdjacencyNetwork<N,E> cloneRemove(final E edgeToRemove)
+	public ImmutableBayesianAdjacencyNetwork<N, E> cloneRemove(final E edgeToRemove)
 	{
-		return (ImmutableBayesianAdjacencyNetwork<N,E>) super.cloneRemove(edgeToRemove);
+		return (ImmutableBayesianAdjacencyNetwork<N, E>) super.cloneRemove(edgeToRemove);
 	}
 
 	@Override
-	public ImmutableBayesianAdjacencyNetwork<N,E> cloneRemove(final N nodeToRemove)
+	public ImmutableBayesianAdjacencyNetwork<N, E> cloneRemove(final N nodeToRemove)
 	{
-		return (ImmutableBayesianAdjacencyNetwork<N,E>) super.cloneRemove(nodeToRemove);
+		return (ImmutableBayesianAdjacencyNetwork<N, E>) super.cloneRemove(nodeToRemove);
 	}
 
 	@Override
-	public ImmutableBayesianAdjacencyNetwork<N,E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
+	public ImmutableBayesianAdjacencyNetwork<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
 	{
-		return (ImmutableBayesianAdjacencyNetwork<N,E>) super.cloneRemove(deleteNodes, deleteEdges);
+		return (ImmutableBayesianAdjacencyNetwork<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
 	}
 
 	@Override
-	public ImmutableBayesianAdjacencyNetwork<N,E> clone()
+	public ImmutableBayesianAdjacencyNetwork<N, E> clone()
 	{
-		return (ImmutableBayesianAdjacencyNetwork<N,E>) super.clone();
+		return (ImmutableBayesianAdjacencyNetwork<N, E>) super.clone();
 	}
 }

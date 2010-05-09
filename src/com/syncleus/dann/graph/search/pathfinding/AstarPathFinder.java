@@ -18,10 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.search.pathfinding;
 
-import com.syncleus.dann.graph.*;
 import java.util.*;
+import com.syncleus.dann.graph.*;
 
-public class AstarPathFinder<N, E extends Edge<N>> implements PathFinder<N,E>
+public class AstarPathFinder<N, E extends Edge<N>> implements PathFinder<N, E>
 {
 	private final class PathedStep implements Comparable<PathedStep>
 	{
@@ -33,23 +33,22 @@ public class AstarPathFinder<N, E extends Edge<N>> implements PathFinder<N,E>
 
 		public PathedStep(final N node, final N goalNode)
 		{
-			if( node == null )
+			if (node == null)
 				throw new IllegalArgumentException("node can not be null");
-			if( goalNode == null )
+			if (goalNode == null)
 				throw new IllegalArgumentException("goalNode can not be null");
-
 			this.goalNode = goalNode;
 			this.node = node;
 		}
 
 		private boolean updateParent(final PathedStep newParent, final E newParentEdge)
 		{
-			double newWeight = (newParentEdge instanceof Weighted ? ((Weighted)newParentEdge).getWeight() : 0.0);
-			if(this.node instanceof Weighted)
-				newWeight += ((Weighted)this.node).getWeight();
+			double newWeight = (newParentEdge instanceof Weighted ? ((Weighted) newParentEdge).getWeight() : 0.0);
+			if (this.node instanceof Weighted)
+				newWeight += ((Weighted) this.node).getWeight();
 			else
 				newWeight += 1.0;
-			if((this.parent == null) || (newParent.cachedPathWeight + newWeight < this.cachedPathWeight))
+			if ((this.parent == null) || (newParent.cachedPathWeight + newWeight < this.cachedPathWeight))
 			{
 				this.parent = newParent;
 				this.parentEdge = newParentEdge;
@@ -88,14 +87,12 @@ public class AstarPathFinder<N, E extends Edge<N>> implements PathFinder<N,E>
 		@Override
 		public boolean equals(final Object compareToObj)
 		{
-			if(compareToObj == null)
+			if (compareToObj == null)
 				return false;
-			
-			if(!(compareToObj.getClass().isInstance(this)))
+			if (!(compareToObj.getClass().isInstance(this)))
 				return false;
-
 			final PathedStep compareTo = (PathedStep) compareToObj;
-			return ((this.node.equals(compareTo))||(this.node.equals(compareTo.node)));
+			return ((this.node.equals(compareTo)) || (this.node.equals(compareTo.node)));
 		}
 
 		@Override
@@ -108,9 +105,9 @@ public class AstarPathFinder<N, E extends Edge<N>> implements PathFinder<N,E>
 		{
 			//the natural ordering is inverse cause the smallest path weight is
 			//the best weight.
-			if(this.getHeuristicOverallCost() < compareWith.getHeuristicOverallCost())
+			if (this.getHeuristicOverallCost() < compareWith.getHeuristicOverallCost())
 				return -1;
-			else if(this.getHeuristicOverallCost() > compareWith.getHeuristicOverallCost())
+			else if (this.getHeuristicOverallCost() > compareWith.getHeuristicOverallCost())
 				return 1;
 			else
 				return 0;
@@ -122,36 +119,32 @@ public class AstarPathFinder<N, E extends Edge<N>> implements PathFinder<N,E>
 		}
 	}
 
-
-
 	private final Graph<N, E> graph;
 	private final HeuristicPathCost<N> heuristicPathCost;
 
 	public AstarPathFinder(final Graph<N, E> graph, final HeuristicPathCost<N> heuristicPathCost)
 	{
-		if( graph == null )
+		if (graph == null)
 			throw new IllegalArgumentException("graph can not be null");
-		if( heuristicPathCost  == null )
+		if (heuristicPathCost == null)
 			throw new IllegalArgumentException("heuristicPathCost can not be null");
-		if( !heuristicPathCost.isOptimistic() )
+		if (!heuristicPathCost.isOptimistic())
 			throw new IllegalArgumentException("heuristicPathCost must be admissible");
 //		TODO : Does the heuristic need to be consistent?
 //		if( !heuristicPathCost.isConsistent() )
 //			throw new IllegalArgumentException("This implementation requires a consistent heuristic");
-
 		this.graph = graph;
 		this.heuristicPathCost = heuristicPathCost;
 	}
 
 	public List<E> getBestPath(final N begin, final N end)
 	{
-		if(begin == null)
+		if (begin == null)
 			throw new IllegalArgumentException("begin can not be null");
-		if(end == null)
+		if (end == null)
 			throw new IllegalArgumentException("end can not be null");
-		if(begin.equals(end))
+		if (begin.equals(end))
 			throw new IllegalArgumentException("begin can not be equal to end");
-
 		//initalize candidate nodes queue containing potential edges as a
 		//solution
 		final Map<N, PathedStep> nodeStepMapping = new HashMap<N, PathedStep>();
@@ -159,47 +152,39 @@ public class AstarPathFinder<N, E extends Edge<N>> implements PathFinder<N,E>
 		final PathedStep beginStep = new PathedStep(begin, end);
 		nodeStepMapping.put(begin, beginStep);
 		candidateSteps.add(beginStep);
-
 		//all nodes that have been closed can no longer be traversed
 		final Set<PathedStep> closedSteps = new HashSet<PathedStep>();
-
 		//lets iterate through each step from the begining
-		while(!candidateSteps.isEmpty())
+		while (!candidateSteps.isEmpty())
 		{
 			final PathedStep currentStep = candidateSteps.poll();
-			if( currentStep.getNode().equals(end) )
+			if (currentStep.getNode().equals(end))
 				return pathedStepToWalk(currentStep);
-
 			for(final E edge : this.graph.getTraversableEdges(currentStep.node))
 			{
 				for(final N neighborNode : edge.getNodes())
 				{
-					if(neighborNode.equals(currentStep.node))
+					if (neighborNode.equals(currentStep.node))
 						continue;
-
 					final PathedStep neighborStep;
-					if(nodeStepMapping.containsKey(neighborNode))
+					if (nodeStepMapping.containsKey(neighborNode))
 						neighborStep = nodeStepMapping.get(neighborNode);
 					else
 					{
 						neighborStep = new PathedStep(neighborNode, end);
 						nodeStepMapping.put(neighborNode, neighborStep);
 					}
-
-					if(!neighborNode.equals(begin))
+					if (!neighborNode.equals(begin))
 						neighborStep.updateParent(currentStep, edge);
-
-					if(!closedSteps.contains(neighborStep))
+					if (!closedSteps.contains(neighborStep))
 					{
 						candidateSteps.remove(neighborStep);
 						candidateSteps.add(neighborStep);
 					}
 				}
 			}
-
 			closedSteps.add(currentStep);
 		}
-
 		return null;
 	}
 
@@ -216,15 +201,13 @@ public class AstarPathFinder<N, E extends Edge<N>> implements PathFinder<N,E>
 	private List<E> pathedStepToWalk(final PathedStep endPathedStep)
 	{
 		final List<E> edges = new ArrayList<E>();
-
 		PathedStep currentStep = endPathedStep;
-		while(currentStep != null)
+		while (currentStep != null)
 		{
-			if(currentStep.getParentEdge() != null)
+			if (currentStep.getParentEdge() != null)
 				edges.add(0, currentStep.getParentEdge());
 			currentStep = currentStep.getParent();
 		}
-
 		return edges;
 	}
 }

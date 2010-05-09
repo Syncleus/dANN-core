@@ -18,9 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.math.statistics;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public interface MarkovChain<S>
 {
@@ -32,8 +30,8 @@ public interface MarkovChain<S>
 	S getCurrentState();
 	List<S> getStateHistory();
 	void reset();
-	Map<S,Double> getProbability(int steps);
-	Map<S,Double> getSteadyStateProbability();
+	Map<S, Double> getProbability(int steps);
+	Map<S, Double> getSteadyStateProbability();
 	double getProbability(S futureState, int steps);
 	double getSteadyStateProbability(S futureState);
 }

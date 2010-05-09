@@ -18,7 +18,6 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.graph.drawing.hyperassociativemap;
 
-
 public class SimpleNode
 {
 	final int layer;

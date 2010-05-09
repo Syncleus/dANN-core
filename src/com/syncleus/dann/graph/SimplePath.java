@@ -20,24 +20,22 @@ package com.syncleus.dann.graph;
 
 import java.util.*;
 
-public class SimplePath<N, E extends Edge<N>> extends SimpleWalk<N,E> implements Path<N,E>
+public class SimplePath<N, E extends Edge<N>> extends SimpleWalk<N, E> implements Path<N, E>
 {
 	private final N firstNode;
 	private final N lastNode;
-	
+
 	public SimplePath(final N firstNode, final N lastNode, final List<E> steps, final List<N> nodeSteps, final double defaultWeight)
 	{
 		super(steps, nodeSteps, defaultWeight);
-
-		if(firstNode == null)
+		if (firstNode == null)
 			throw new IllegalArgumentException("firstNode can not be null");
-		if(lastNode == null)
+		if (lastNode == null)
 			throw new IllegalArgumentException("lastNode can not be null");
-		if(!steps.get(0).getNodes().contains(firstNode))
+		if (!steps.get(0).getNodes().contains(firstNode))
 			throw new IllegalArgumentException("firstNode is not a end point in the first nodeSteps");
-		if(!steps.get(steps.size()-1).getNodes().contains(lastNode))
+		if (!steps.get(steps.size() - 1).getNodes().contains(lastNode))
 			throw new IllegalArgumentException("lastNode is not a end point in the last nodeSteps");
-
 		this.firstNode = firstNode;
 		this.lastNode = lastNode;
 	}
@@ -49,36 +47,32 @@ public class SimplePath<N, E extends Edge<N>> extends SimpleWalk<N,E> implements
 
 	private static <N, E extends Edge<N>> List<N> edgeToNodeSteps(final N firstNode, final List<E> steps)
 	{
-		if(firstNode == null)
+		if (firstNode == null)
 			throw new IllegalArgumentException("firstNode can not be null");
-		if(steps == null)
+		if (steps == null)
 			throw new IllegalArgumentException("steps can not be null");
-		if(steps.contains(null))
+		if (steps.contains(null))
 			throw new IllegalArgumentException("steps can not contain a null");
-		if(steps.size() < 1)
+		if (steps.size() < 1)
 			throw new IllegalArgumentException("steps can not be empty");
-
 		final List<N> newNodeSteps = new ArrayList<N>();
 		N nextNodeStep = firstNode;
 		for(final E edgeStep : steps)
 		{
-			if(!(edgeStep instanceof BidirectedEdge))
+			if (!(edgeStep instanceof BidirectedEdge))
 				throw new IllegalArgumentException("this constructor can only be called when all steps are BidirectedEdge");
-
 			newNodeSteps.add(nextNodeStep);
-
 			final List<N> nextNodes = new ArrayList<N>(edgeStep.getNodes());
 			nextNodes.remove(nextNodeStep);
 			nextNodeStep = nextNodes.get(0);
 		}
 		newNodeSteps.add(nextNodeStep);
-
 		return newNodeSteps;
 	}
 
 	public SimplePath(final N firstNode, final N lastNode, final List<E> steps, final double defaultWeight)
 	{
-		this(firstNode, lastNode, steps, SimplePath.<N,E>edgeToNodeSteps(firstNode, steps), defaultWeight);
+		this(firstNode, lastNode, steps, SimplePath.<N, E>edgeToNodeSteps(firstNode, steps), defaultWeight);
 	}
 
 	public SimplePath(final N firstNode, final N lastNode, final List<E> steps)
@@ -89,12 +83,12 @@ public class SimplePath<N, E extends Edge<N>> extends SimpleWalk<N,E> implements
 	@Override
 	protected boolean verify(final List<N> nodeSteps, final List<E> edgeSteps)
 	{
-		if( (super.verify(nodeSteps, edgeSteps)) && (AbstractPath.verifyUtility(nodeSteps, edgeSteps)) )
+		if ((super.verify(nodeSteps, edgeSteps)) && (AbstractPath.verifyUtility(nodeSteps, edgeSteps)))
 			return true;
 		return false;
 	}
 
-	public boolean isIndependent(final Path<N,E> path)
+	public boolean isIndependent(final Path<N, E> path)
 	{
 		return AbstractPath.isIndependentUtility(this, path);
 	}
@@ -129,12 +123,10 @@ public class SimplePath<N, E extends Edge<N>> extends SimpleWalk<N,E> implements
 	@Override
 	public boolean equals(final Object object)
 	{
-		if(object == null)
+		if (object == null)
 			return false;
-
-		if(!(object instanceof Path))
+		if (!(object instanceof Path))
 			return false;
-		
 		return AbstractPath.equalsUtility(this, object);
 	}
 }

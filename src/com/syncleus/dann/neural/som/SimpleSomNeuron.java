@@ -19,12 +19,11 @@
 package com.syncleus.dann.neural.som;
 
 import com.syncleus.dann.neural.*;
-import com.syncleus.dann.neural.activation.ActivationFunction;
-import com.syncleus.dann.neural.activation.SqrtActivationFunction;
+import com.syncleus.dann.neural.activation.*;
 
 /**
- * A Som Nearon will calculate its euclidean distance to the input vector as
- * its output.
+ * A Som Nearon will calculate its euclidean distance to the input vector as its
+ * output.
  *
  * @author Jeffrey Phillips Freeman
  * @since 2.0
@@ -56,33 +55,32 @@ public class SimpleSomNeuron extends AbstractNeuron implements SomNeuron
 	public void train(final double learningRate, final double neighborhoodAdjustment)
 	{
 		for(final Synapse source : this.getBrain().getInEdges(this))
-			source.setWeight( source.getWeight() + (learningRate * neighborhoodAdjustment * (source.getInput() - source.getWeight())) );
+			source.setWeight(source.getWeight() + (learningRate * neighborhoodAdjustment * (source.getInput() - source.getWeight())));
 	}
 
-    /**
-     * Propogates all the inputs to determine to caculate the output.
+	/**
+	 * Propogates all the inputs to determine to caculate the output.
 	 *
 	 * @since 2.0
-     */
+	 */
 	@Override
-    public void propagate()
-    {
-        //calculate the current input activity
-        double activity = 0.0;
-        for (final Synapse currentSynapse : this.getBrain().getInEdges(this))
-            activity += Math.pow(currentSynapse.getInput() - currentSynapse.getWeight(), 2.0);
-
-        //calculate the activity function and set the result as the output
-        this.output = this.activationFunction.activate(activity);
-        for (final Synapse current : this.getBrain().getTraversableEdges(this))
-            current.setInput(this.output);
-    }
+	public void propagate()
+	{
+		//calculate the current input activity
+		double activity = 0.0;
+		for(final Synapse currentSynapse : this.getBrain().getInEdges(this))
+			activity += Math.pow(currentSynapse.getInput() - currentSynapse.getWeight(), 2.0);
+		//calculate the activity function and set the result as the output
+		this.output = this.activationFunction.activate(activity);
+		for(final Synapse current : this.getBrain().getTraversableEdges(this))
+			current.setInput(this.output);
+	}
 
 	/**
 	 * Obtains the current output for this neuron.
 	 *
-	 * @since 2.0
 	 * @return The current output of the neuron.
+	 * @since 2.0
 	 */
 	@Override
 	public double getOutput()

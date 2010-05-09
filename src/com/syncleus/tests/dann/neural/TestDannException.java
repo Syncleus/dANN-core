@@ -23,25 +23,25 @@ import org.junit.*;
 
 public class TestDannException
 {
-	@Test(expected=DannException.class)
+	@Test(expected = DannException.class)
 	public void testDefault() throws DannException
 	{
 		throw new DannException();
 	}
 
-	@Test(expected=DannException.class)
+	@Test(expected = DannException.class)
 	public void testString() throws DannException
 	{
 		throw new DannException("This is just a test");
 	}
 
-	@Test(expected=DannException.class)
+	@Test(expected = DannException.class)
 	public void testCause() throws DannException
 	{
 		throw new DannException(new Exception());
 	}
 
-	@Test(expected=DannException.class)
+	@Test(expected = DannException.class)
 	public void testStringCause() throws DannException
 	{
 		throw new DannException("This is just a test", new Exception());

@@ -26,109 +26,104 @@ import org.junit.Test;
 public class TestActivationValues
 {
 	private final static Logger LOGGER = Logger.getLogger(TestActivationValues.class);
-
 	private final static ActivationFunction GAUSIAN_ACTIVATION_FUNCTION = new GausianActivationFunction();
-	private final static double[] GAUSIAN_ACTIVITY = {	-10000.0,
-														-100.0,
-														-10.0,
-														-1.0,
-														-0.1,
-														0.0,
-														0.1,
-														1.0,
-														10.0,
-														100.0,
-														10000.0 };
+	private final static double[] GAUSIAN_ACTIVITY = {-10000.0,
+			-100.0,
+			-10.0,
+			-1.0,
+			-0.1,
+			0.0,
+			0.1,
+			1.0,
+			10.0,
+			100.0,
+			10000.0};
 	private final static double[] GAUSIAN_TRANSFERED = {scientific(6.451709693, -43429449),
-														scientific(1.135483865, -4343),
-														scientific(3.720075976, -44),
-														0.3678794412,
-														0.9900498337,
-														1.0,
-														0.9900498337,
-														0.3678794412,
-														scientific(3.720075976, -44),
-														scientific(1.135483865, -4343),
-														scientific(6.451709693, -43429449)};
-
+			scientific(1.135483865, -4343),
+			scientific(3.720075976, -44),
+			0.3678794412,
+			0.9900498337,
+			1.0,
+			0.9900498337,
+			0.3678794412,
+			scientific(3.720075976, -44),
+			scientific(1.135483865, -4343),
+			scientific(6.451709693, -43429449)};
 	private final static ActivationFunction IDENTITY_ACTIVATION_FUNCTION = new IdentityActivationFunction();
-	private final static double[] IDENTITY_ACTIVITY = {	-10000.0, -5000.0, -1000.0, -500.0, -100.0,
-														-50.0, -10.0, -5.0, -1.0, -0.5, -0.1, -0.05,
-														0.0, 0.05, 0.1, 0.5, 1.0, 5.0, 10.0, 50.0,
-														100.0, 500.0, 1000.0, 5000.0, 10000.0 };
+	private final static double[] IDENTITY_ACTIVITY = {-10000.0, -5000.0, -1000.0, -500.0, -100.0,
+			-50.0, -10.0, -5.0, -1.0, -0.5, -0.1, -0.05,
+			0.0, 0.05, 0.1, 0.5, 1.0, 5.0, 10.0, 50.0,
+			100.0, 500.0, 1000.0, 5000.0, 10000.0};
 	private final static double[] IDENTITY_TRANSFERED = IDENTITY_ACTIVITY;
-
 	private final static ActivationFunction HYPERBOLIC_SECANT_ACTIVATION_FUNCTION = new HyperbolicSecantActivationFunction();
 	private final static double[] HYPERBOLIC_SECANT_ACTIVITY = {-10000.0,
-																-100.0,
-																-10.0,
-																-1.0,
-																-0.1,
-																0.0,
-																0.1,
-																1.0,
-																10.0,
-																100.0,
-																10000.0 };
-	private final static double[] HYPERBOLIC_SECANT_TRANSFERED = {	scientific(2.270967731, -4343),
-																	scientific(7.440151952, -44),
-																	0.00009079985934,
-																	0.6480542737,
-																	0.9950207489,
-																	1.0,
-																	0.9950207489,
-																	0.6480542737,
-																	0.00009079985934,
-																	scientific(7.440151952, -44),
-																	scientific(2.270967731, -4343)};
-
+			-100.0,
+			-10.0,
+			-1.0,
+			-0.1,
+			0.0,
+			0.1,
+			1.0,
+			10.0,
+			100.0,
+			10000.0};
+	private final static double[] HYPERBOLIC_SECANT_TRANSFERED = {scientific(2.270967731, -4343),
+			scientific(7.440151952, -44),
+			0.00009079985934,
+			0.6480542737,
+			0.9950207489,
+			1.0,
+			0.9950207489,
+			0.6480542737,
+			0.00009079985934,
+			scientific(7.440151952, -44),
+			scientific(2.270967731, -4343)};
 	private final static ActivationFunction HYPERBOLIC_TANGENT_ACTIVATION_FUNCTION = new HyperbolicTangentActivationFunction();
 	private final static double[] HYPERBOLIC_TANGENT_ACTIVITY = {-10000.0,
-																-100.0,
-																-10.0,
-																-1.0,
-																-0.1,
-																0.0,
-																0.1,
-																1.0,
-																10.0,
-																100.0,
-																10000.0 };
-	private final static double[] HYPERBOLIC_TANGENT_TRANSFERED = {	-1.0,
-																	-1.0,
-																	-0.9999999959,
-																	-0.7615941560,
-																	-0.09966799462,
-																	0.0,
-																	0.09966799462,
-																	0.7615941560,
-																	0.9999999959,
-																	1.0,
-																	1.0};
-
+			-100.0,
+			-10.0,
+			-1.0,
+			-0.1,
+			0.0,
+			0.1,
+			1.0,
+			10.0,
+			100.0,
+			10000.0};
+	private final static double[] HYPERBOLIC_TANGENT_TRANSFERED = {-1.0,
+			-1.0,
+			-0.9999999959,
+			-0.7615941560,
+			-0.09966799462,
+			0.0,
+			0.09966799462,
+			0.7615941560,
+			0.9999999959,
+			1.0,
+			1.0};
 	private final static ActivationFunction SINE_ACTIVATION_FUNCTION = new SineActivationFunction();
-	private final static double[] SINE_ACTIVITY = {		-10000.0,
-														-100.0,
-														-10.0,
-														-1.0,
-														-0.1,
-														0.0,
-														0.1,
-														1.0,
-														10.0,
-														100.0,
-														10000.0 };
-	private final static double[] SINE_TRANSFERED = {	0.3056143889,
-														0.5063656411,
-														0.5440211109,
-														-0.8414709848,
-														-0.09983341665,
-														0.0,
-														0.09983341665,
-														0.8414709848,
-														-0.5440211109,
-														-0.5063656411,
-														-0.3056143889};
+	private final static double[] SINE_ACTIVITY = {-10000.0,
+			-100.0,
+			-10.0,
+			-1.0,
+			-0.1,
+			0.0,
+			0.1,
+			1.0,
+			10.0,
+			100.0,
+			10000.0};
+	private final static double[] SINE_TRANSFERED = {0.3056143889,
+			0.5063656411,
+			0.5440211109,
+			-0.8414709848,
+			-0.09983341665,
+			0.0,
+			0.09983341665,
+			0.8414709848,
+			-0.5440211109,
+			-0.5063656411,
+			-0.3056143889};
 
 	@Test
 	public void testActivations()
@@ -145,7 +140,7 @@ public class TestActivationValues
 		for(int testIndex = 0; testIndex < activities.length; testIndex++)
 		{
 			final double result = function.activate(activities[testIndex]);
-			if(!checkResult(result, transfered[testIndex]))
+			if (!checkResult(result, transfered[testIndex]))
 			{
 				LOGGER.error("Activation function " + function + " failed. Expected: " + transfered[testIndex] + ", Received: " + result);
 				return false;

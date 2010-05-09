@@ -18,26 +18,22 @@
  ******************************************************************************/
 package com.syncleus.dann.classify.naive.bayes.fisher;
 
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-public interface TrainableLanguageFisherClassifier<C> extends TrainableFisherClassifier<String,String,C>, LanguageFisherClassifier<C>
+public interface TrainableLanguageFisherClassifier<C> extends TrainableFisherClassifier<String, String, C>, LanguageFisherClassifier<C>
 {
 	//Trainable methods
 	void train(String item, C category);
-
 	//FisherClassifier methods
 	void setMinimum(C category, double minimum);
 	double getMinimum(C category);
-
 	//NaiveBayesClassifier methods
 	C classification(String item, boolean useThreshold);
 	C classification(String item);
-	Map<C,Double> getCategoryProbabilities(String item);
+	Map<C, Double> getCategoryProbabilities(String item);
 	double classificationProbability(String item, C category);
 	double getCategoryThreshold(C category);
 	void setCategoryThreshold(C category, double threshold);
-
 	//Classifier methods
 	C featureClassification(String feature);
 	C featureClassificationWeighted(String feature);

@@ -31,54 +31,49 @@ import java.util.Set;
  * inward on the other, such that both ends point in the same direction.
  *
  * @author Jeffrey Phillips Freeman
- * @param <N> The class represenging a node.
- * @param <E> The bidirected edge used to connect nodes.
  * @since 2.0
  */
-public interface BidirectedGraph<N, E extends BidirectedEdge<N>> extends Graph<N,E>
+public interface BidirectedGraph<N, E extends BidirectedEdge<N>> extends Graph<N, E>
 {
 	/**
-	 * Get all edges which traverse to the specified node. While the
-	 * combination of out edges and in edges will usually result in all the
-	 * adjacent edges for a node this is not strictly required.
+	 * Get all edges which traverse to the specified node. While the combination of
+	 * out edges and in edges will usually result in all the adjacent edges for a
+	 * node this is not strictly required.
 	 *
-	 * @throws IllegalArgumentException if node does not exist in the graph.
 	 * @param node The destination node the returned edges will traverse to.
 	 * @return an unmodifiable set of all edges which traverse to the specified
-	 * node.
+	 *         node.
+	 * @throws IllegalArgumentException if node does not exist in the graph.
 	 * @since 2.0
 	 */
 	Set<E> getInEdges(N node);
-	
 	/**
 	 * Count all edges which traverse from the specified node. While the
 	 * combination of out edges and in edges will usually result in all the
 	 * adjacent edges for a node this is not strictly required.
 	 *
-	 * @throws IllegalArgumentException if node does not exist in the graph.
 	 * @param node The source node the returned edges will traverse from.
 	 * @return count of all edges which traverse from the specified node.
+	 * @throws IllegalArgumentException if node does not exist in the graph.
 	 * @since 2.0
 	 */
 	int getOutdegree(N node);
-
 	/**
-	 * Count all edges which traverse to the specified node. While the
-	 * combination of out edges and in edges will usually result in all the
-	 * adjacent edges for a node this is not strictly required.
+	 * Count all edges which traverse to the specified node. While the combination
+	 * of out edges and in edges will usually result in all the adjacent edges for
+	 * a node this is not strictly required.
 	 *
-	 * @throws IllegalArgumentException if node does not exist in the graph.
 	 * @param node The destination node the edges counted will traverse to.
 	 * @return count of all edges which traverse to the specified node.
+	 * @throws IllegalArgumentException if node does not exist in the graph.
 	 * @since 2.0
 	 */
 	int getIndegree(N node);
-
 	/**
 	 * Determines if the graph is a simple acyclic graph with no more than one
-	 * undirected edge between any two nodes, there can be muliple directed
-	 * edges so long as the graph remains simple and acyclic. if there are no
-	 * edges or nodes this returns true.
+	 * undirected edge between any two nodes, there can be muliple directed edges
+	 * so long as the graph remains simple and acyclic. if there are no edges or
+	 * nodes this returns true.
 	 *
 	 * @return true if the graph is a polytree, false otherwise.
 	 * @since 2.0

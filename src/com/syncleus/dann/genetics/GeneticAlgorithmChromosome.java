@@ -19,9 +19,9 @@
 package com.syncleus.dann.genetics;
 
 import java.util.*;
-import org.apache.log4j.Logger;
-import com.syncleus.dann.genetics.wavelets.Mutations;
 import com.syncleus.dann.UnexpectedDannError;
+import com.syncleus.dann.genetics.wavelets.Mutations;
+import org.apache.log4j.Logger;
 
 /**
  * A Genetic Algorithm based Chromosome. While technically a Chromatid in
@@ -30,7 +30,6 @@ import com.syncleus.dann.UnexpectedDannError;
  *
  * @author Jeffrey Phillips Freeman
  * @since 2.0
- *
  */
 public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>, Cloneable
 {
@@ -56,9 +55,9 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>,
 	}
 
 	/**
-	 * Initiates a new instance of this class with the specefied number of
-	 * initial geneCount. All initial genes will be DoubleGeneValue with an
-	 * initial value of 0.
+	 * Initiates a new instance of this class with the specefied number of initial
+	 * geneCount. All initial genes will be DoubleGeneValue with an initial value
+	 * of 0.
 	 *
 	 * @param geneCount The number of genes to create in this chromosome.
 	 * @since 2.0
@@ -66,33 +65,30 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>,
 	public GeneticAlgorithmChromosome(final int geneCount)
 	{
 		this();
-
-		while(this.alleles.size() < geneCount)
+		while (this.alleles.size() < geneCount)
 			this.alleles.add(new DoubleValueGene());
 	}
 
 	/**
-	 * Initiates a new instance of this class with the specefied number of
-	 * initial geneCount. All initial genes will be DoubleGeneValue with an
-	 * initial value with a normal distribution around 0 multipled by
-	 * maxDeviation.
-	 * 
+	 * Initiates a new instance of this class with the specefied number of initial
+	 * geneCount. All initial genes will be DoubleGeneValue with an initial value
+	 * with a normal distribution around 0 multipled by maxDeviation.
+	 *
 	 * @param geneCount The number of genes to create in this chromosome.
-	 * @param maxDeviation The multiplier for the normal distribution of
-	 * initial values for this object's genes.
+	 * @param maxDeviation The multiplier for the normal distribution of initial
+	 * values for this object's genes.
 	 * @since 2.0
 	 */
 	public GeneticAlgorithmChromosome(final int geneCount, final double maxDeviation)
 	{
 		this();
-
-		while(this.alleles.size() < geneCount)
-			this.alleles.add(new DoubleValueGene(((RANDOM.nextDouble()*2d)-1d) * maxDeviation));
+		while (this.alleles.size() < geneCount)
+			this.alleles.add(new DoubleValueGene(((RANDOM.nextDouble() * 2d) - 1d) * maxDeviation));
 	}
 
 	/**
-	 * Gets an unmodifiable List of all the genes. The index of the genes
-	 * indicates its position in the chromatid.
+	 * Gets an unmodifiable List of all the genes. The index of the genes indicates
+	 * its position in the chromatid.
 	 *
 	 * @return An unmodifiable List of all genes in the chromatid
 	 * @since 2.0
@@ -103,9 +99,9 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>,
 	}
 
 	/**
-	 * The first step in crossover. This will return a segment of genes from
-	 * the point specified to the end of the chromatid. This will not modify
-	 * the Chromatid.
+	 * The first step in crossover. This will return a segment of genes from the
+	 * point specified to the end of the chromatid. This will not modify the
+	 * Chromatid.
 	 *
 	 * @param point the point (index) in the chromatid to act as the crossover
 	 * point
@@ -113,33 +109,30 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>,
 	 */
 	public List<AbstractValueGene> crossover(final int point)
 	{
-		if(point <= 0)
+		if (point <= 0)
 			throw new IllegalArgumentException("point must be positive");
-		if(point > this.alleles.size())
+		if (point > this.alleles.size())
 			throw new IllegalArgumentException("point can not be larger than the number of alleles");
-
 		return Collections.unmodifiableList(this.alleles.subList(point, this.alleles.size()));
 	}
 
 	/**
-	 * The second step in crossover. This will replace its own genetic code
-	 * with the specefied genetic segment at the specefied crossover point.
+	 * The second step in crossover. This will replace its own genetic code with
+	 * the specefied genetic segment at the specefied crossover point.
 	 *
 	 * @param geneticSegment Segmet of genetic code crossing over.
 	 * @param point Crossover point (index) where genes are spliced
-	 * @since 2.0
 	 * @see com.syncleus.dann.genetics.Chromatid#crossover(int)
+	 * @since 2.0
 	 */
 	public void crossover(final List<AbstractValueGene> geneticSegment, final int point)
 	{
-		if(point <= 0)
+		if (point <= 0)
 			throw new IllegalArgumentException("point must be positive");
-		if(point > this.alleles.size())
+		if (point > this.alleles.size())
 			throw new IllegalArgumentException("point can not be larger than the number of alleles");
-
 		//remove allel replaced by crossover
 		this.alleles = new Vector<AbstractValueGene>(this.alleles.subList(0, point));
-
 		//add the genetic segment to the end
 		this.alleles.addAll(geneticSegment);
 	}
@@ -159,7 +152,7 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>,
 			copy.alleles = new Vector<AbstractValueGene>(this.alleles);
 			return copy;
 		}
-		catch(CloneNotSupportedException caught)
+		catch (CloneNotSupportedException caught)
 		{
 			LOGGER.error("CloneNotSupportedException caught but not expected!", caught);
 			throw new UnexpectedDannError("CloneNotSupportedException caught but not expected", caught);
@@ -167,13 +160,13 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>,
 	}
 
 	/**
-	 * This will make a copy of the object and mutate it. The mutation has
-	 * a normal distribution multiplied by the deviation. This will be applied
-	 * to each gene in the chromosome.
+	 * This will make a copy of the object and mutate it. The mutation has a normal
+	 * distribution multiplied by the deviation. This will be applied to each gene
+	 * in the chromosome.
 	 *
-	 * @param deviation A double indicating how extreme the mutation will be.
-	 * The greater the deviation the more drastically the object will mutate.
-	 * A deviation of 0 should cause no mutation.
+	 * @param deviation A double indicating how extreme the mutation will be. The
+	 * greater the deviation the more drastically the object will mutate. A
+	 * deviation of 0 should cause no mutation.
 	 * @return A copy of the current object with potential mutations.
 	 * @since 2.0
 	 */

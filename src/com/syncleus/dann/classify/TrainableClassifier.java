@@ -18,6 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.classify;
 
-public interface TrainableClassifier<I,C> extends Classifier<I,C>, Trainable<I,C>
+public interface TrainableClassifier<I, C> extends Classifier<I, C>, Trainable<I, C>
 {
 }

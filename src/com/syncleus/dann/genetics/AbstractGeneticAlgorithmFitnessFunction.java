@@ -54,12 +54,11 @@ public abstract class AbstractGeneticAlgorithmFitnessFunction<E extends Abstract
 		return this.chromosome;
 	}
 
-
 	@Override
 	public boolean equals(final Object compareWith)
 	{
-		if(compareWith instanceof AbstractGeneticAlgorithmFitnessFunction)
-			return ((AbstractGeneticAlgorithmFitnessFunction)compareWith).chromosome.equals(this.chromosome);
+		if (compareWith instanceof AbstractGeneticAlgorithmFitnessFunction)
+			return ((AbstractGeneticAlgorithmFitnessFunction) compareWith).chromosome.equals(this.chromosome);
 		else
 			return false;
 	}
@@ -74,11 +73,11 @@ public abstract class AbstractGeneticAlgorithmFitnessFunction<E extends Abstract
 	 * Evaluates the fitness of the chromosome being wrapped relative to the
 	 * specified chromosome.
 	 *
-	 * @param compareWith The fitness function containing a chromosome to
-	 * compare to.
-	 * @return If this chromosome is more fit it will return a
-	 * positive value, if it is less fit it will be negative. If they are
-	 * both equally as fit it will return 0.
+	 * @param compareWith The fitness function containing a chromosome to compare
+	 * to.
+	 * @return If this chromosome is more fit it will return a positive value, if
+	 *         it is less fit it will be negative. If they are both equally as fit
+	 *         it will return 0.
 	 * @since 2.0
 	 */
 	public abstract int compareTo(E compareWith);

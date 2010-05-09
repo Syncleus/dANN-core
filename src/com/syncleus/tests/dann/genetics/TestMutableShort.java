@@ -26,13 +26,11 @@ public class TestMutableShort
 	@Test
 	public void testConstructors()
 	{
-		MutableShort test = new MutableShort((short)123);
+		MutableShort test = new MutableShort((short) 123);
 		Assert.assertTrue("value constructor failed", test.getNumber().shortValue() == 123);
-
 		test = new MutableShort("456");
 		Assert.assertTrue("string value constructor failed", test.getNumber().shortValue() == 456);
-
-		test = new MutableShort(Short.valueOf((short)789));
+		test = new MutableShort(Short.valueOf((short) 789));
 		Assert.assertTrue("Number value constructor failed", test.getNumber().shortValue() == 789);
 	}
 
@@ -40,11 +38,9 @@ public class TestMutableShort
 	public void testMax()
 	{
 		final MutableShort highValue = new MutableShort(Short.MAX_VALUE);
-
 		for(int testCount = 0; testCount < 1000; testCount++)
 		{
 			final MutableShort mutated = highValue.mutate(100.0);
-
 			Assert.assertTrue("mutation caused number to roll over: " + mutated, mutated.shortValue() >= -1);
 		}
 	}
@@ -53,11 +49,9 @@ public class TestMutableShort
 	public void testMin()
 	{
 		final MutableShort lowValue = new MutableShort(Short.MIN_VALUE);
-
 		for(int testCount = 0; testCount < 1000; testCount++)
 		{
 			final MutableShort mutated = lowValue.mutate(100.0);
-
 			Assert.assertTrue("mutation caused number to roll over: " + mutated, mutated.shortValue() <= 1);
 		}
 	}
@@ -65,17 +59,14 @@ public class TestMutableShort
 	@Test
 	public void testDeviation()
 	{
-		final MutableShort center = new MutableShort((short)0);
-
+		final MutableShort center = new MutableShort((short) 0);
 		double averageSum = 0;
 		double testCount = 0.0;
 		for(testCount = 0.0; testCount < 10000; testCount++)
 		{
 			averageSum += center.mutate(1.0).shortValue();
 		}
-
 		final double average = averageSum / testCount;
-
 		Assert.assertTrue("average deviation is more than 1.0", average < 1.0);
 	}
 }

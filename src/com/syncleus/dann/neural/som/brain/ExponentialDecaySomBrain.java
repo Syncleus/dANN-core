@@ -17,7 +17,9 @@
  *                                                                             *
  ******************************************************************************/
 package com.syncleus.dann.neural.som.brain;
+
 import java.util.concurrent.ExecutorService;
+
 /**
  * A SomBrain which uses exponential decay over time for the neighboorhood
  * radius, neighboorhood function, and learning rate.
@@ -28,7 +30,6 @@ import java.util.concurrent.ExecutorService;
 public class ExponentialDecaySomBrain extends AbstractSomBrain
 {
 	private static final long serialVersionUID = 4523396585666912034L;
-	
 	private final int iterationsToConverge;
 	private final double initialLearningRate;
 
@@ -50,30 +51,29 @@ public class ExponentialDecaySomBrain extends AbstractSomBrain
 		for(int dimensionIndex = 1; dimensionIndex <= this.getUpperBounds().getDimensions(); dimensionIndex++)
 		{
 			final double crossSection = this.getUpperBounds().getCoordinate(dimensionIndex) - this.getLowerBounds().getCoordinate(dimensionIndex);
-			if( crossSection > maxCrossSection)
+			if (crossSection > maxCrossSection)
 				maxCrossSection = crossSection;
 		}
-
-		return maxCrossSection/2.0;
+		return maxCrossSection / 2.0;
 	}
 
 	private double getTimeConstant()
 	{
-		return ((double)this.iterationsToConverge) / Math.log(this.getIntialRadius());
+		return ((double) this.iterationsToConverge) / Math.log(this.getIntialRadius());
 	}
 
 	/**
-	 * Determines the neighboorhood function based on the neurons distance from
-	 * the BMU.
+	 * Determines the neighboorhood function based on the neurons distance from the
+	 * BMU.
 	 *
 	 * @param distanceFromBest The neuron's distance from the BMU.
-	 * @return the decay effecting the learning of the specified neuron due to
-	 * its distance from the BMU.
+	 * @return the decay effecting the learning of the specified neuron due to its
+	 *         distance from the BMU.
 	 * @since 2.0
 	 */
 	protected double neighborhoodFunction(final double distanceFromBest)
 	{
-		return Math.exp(-1.0*(Math.pow(distanceFromBest, 2.0))/(2.0*Math.pow(this.neighborhoodRadiusFunction(), 2.0)));
+		return Math.exp(-1.0 * (Math.pow(distanceFromBest, 2.0)) / (2.0 * Math.pow(this.neighborhoodRadiusFunction(), 2.0)));
 	}
 
 	/**

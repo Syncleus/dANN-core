@@ -23,7 +23,7 @@ import java.util.*;
 public class ImmutableHyperEdge<N> extends AbstractEdge<N> implements HyperEdge<N>
 {
 	private static final long serialVersionUID = -3657973823101515199L;
-	
+
 	public ImmutableHyperEdge(final List<N> nodes)
 	{
 		super(nodes);
@@ -37,7 +37,7 @@ public class ImmutableHyperEdge<N> extends AbstractEdge<N> implements HyperEdge<
 	public List<N> getTraversableNodes(final N node)
 	{
 		final List<N> traversableNodes = new ArrayList<N>(this.getNodes());
-		if( !traversableNodes.remove(node) )
+		if (!traversableNodes.remove(node))
 			throw new IllegalArgumentException("node is not one of the end points!");
 		return Collections.unmodifiableList(traversableNodes);
 	}
@@ -54,43 +54,38 @@ public class ImmutableHyperEdge<N> extends AbstractEdge<N> implements HyperEdge<
 
 	public ImmutableHyperEdge<N> connect(final N node)
 	{
-		if(node == null)
+		if (node == null)
 			throw new IllegalArgumentException("node can not be null", new NullPointerException());
-		if(this.getNodes().contains(node))
+		if (this.getNodes().contains(node))
 			throw new IllegalArgumentException("node is already connected");
-
 		return (ImmutableHyperEdge<N>) this.add(node);
 	}
 
 	public ImmutableHyperEdge<N> connect(final List<N> nodes)
 	{
-		if(nodes == null)
+		if (nodes == null)
 			throw new IllegalArgumentException("node can not be null", new NullPointerException());
-
 		for(final N node : nodes)
-			if(this.getNodes().contains(node))
+			if (this.getNodes().contains(node))
 				throw new IllegalArgumentException("node is already connected");
-
 		return (ImmutableHyperEdge<N>) this.add(nodes);
 	}
 
 	public ImmutableHyperEdge<N> disconnect(final N node)
 	{
-		if(node == null)
+		if (node == null)
 			throw new IllegalArgumentException("node can not be null", new NullPointerException());
-		if(!this.getNodes().contains(node))
+		if (!this.getNodes().contains(node))
 			throw new IllegalArgumentException("node is not currently connected to");
-
 		return (ImmutableHyperEdge<N>) this.remove(node);
 	}
 
 	public ImmutableHyperEdge<N> disconnect(final List<N> nodes)
 	{
-		if(nodes == null)
+		if (nodes == null)
 			throw new IllegalArgumentException("node can not be null", new NullPointerException());
-		if(!this.getNodes().containsAll(nodes))
+		if (!this.getNodes().containsAll(nodes))
 			throw new IllegalArgumentException("node is not currently connected to");
-
 		return (ImmutableHyperEdge<N>) this.remove(nodes);
 	}
 

@@ -18,9 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.drawing.hyperassociativemap;
 
-import com.syncleus.dann.neural.*;
-import java.util.*;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
+import com.syncleus.dann.neural.*;
 
 public class BrainHyperassociativeMap extends HyperassociativeMap<Brain, Neuron>
 {
@@ -68,14 +68,13 @@ public class BrainHyperassociativeMap extends HyperassociativeMap<Brain, Neuron>
 	Map<Neuron, Double> getNeighbors(final Neuron nodeToQuery)
 	{
 		final Map<Neuron, Double> associations = super.getNeighbors(nodeToQuery);
-		if(nodeToQuery instanceof InputNeuron)
+		if (nodeToQuery instanceof InputNeuron)
 			for(final InputNeuron neuron : this.getGraph().getInputNeurons())
 				associations.put(neuron, this.getEquilibriumDistance());
-		else if(nodeToQuery instanceof OutputNeuron)
+		else if (nodeToQuery instanceof OutputNeuron)
 			for(final OutputNeuron neuron : this.getGraph().getOutputNeurons())
 				associations.put(neuron, this.getEquilibriumDistance());
 		associations.remove(nodeToQuery);
-
 		return associations;
 	}
 }

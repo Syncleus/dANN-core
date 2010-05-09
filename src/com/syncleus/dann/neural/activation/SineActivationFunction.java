@@ -21,43 +21,39 @@ package com.syncleus.dann.neural.activation;
 /**
  * An implementation of an activation function using a sine function.
  *
- *
  * @author Jeffrey Phillips Freeman
  * @since 1.0
- *
  */
 public class SineActivationFunction implements ActivationFunction
 {
 	private static final long serialVersionUID = 2091753528152343897L;
 	private final static double UPPER_LIMIT = 1.0;
 	private final static double LOWER_LIMIT = -1.0;
-	
+
 	/**
 	 * The sine activation function.
 	 *
-	 *
 	 * @param activity the neuron's current activity.
-	 * @return The result of the sine activation function bound between -1
-	 * and 1.
+	 * @return The result of the sine activation function bound between -1 and
+	 *         1.
 	 * @since 1.0
 	 */
-    public double activate(final double activity)
-    {
-        return Math.sin(activity);
-    }
+	public double activate(final double activity)
+	{
+		return Math.sin(activity);
+	}
 
 	/**
 	 * The derivative of the sine activation function.
-	 *
 	 *
 	 * @param activity The neuron's current activity.
 	 * @return The result of the derivative of the sine activation function.
 	 * @since 1.0
 	 */
-    public double activateDerivative(final double activity)
-    {
-        return Math.cos(activity);
-    }
+	public double activateDerivative(final double activity)
+	{
+		return Math.cos(activity);
+	}
 
 	public boolean isBound()
 	{

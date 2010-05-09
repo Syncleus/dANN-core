@@ -18,86 +18,75 @@
  ******************************************************************************/
 package com.syncleus.dann.neural;
 
+import java.util.*;
 import com.syncleus.dann.graph.ImmutableDirectedEdge;
-import java.util.List;
-import java.util.Random;
 
 /**
  * The synapse acts as a bridge between connected neurons. It is also where the
  * connection weights are stores and manipulated.
- * 
  *
  * @author Jeffrey Phillips Freeman
- * @since 1.0
- *
  * @see com.syncleus.dann.neural.Neuron
+ * @since 1.0
  */
 public class SimpleSynapse extends ImmutableDirectedEdge<Neuron> implements Synapse, java.io.Serializable
 {
-    // <editor-fold defaultstate="collapsed" desc="Attributes">
-
+	// <editor-fold defaultstate="collapsed" desc="Attributes">
 	private static final long serialVersionUID = -7939448149356677295L;
-	
-    /**
-     * The current weight of the synapse.
-     *
-     * @since 1.0
-     */
-    private double weight;
-
-    /**
-     * The current input from the synapse.
-     *
-     * @since 1.0
-     */
-    private double input;
-
+	/**
+	 * The current weight of the synapse.
+	 *
+	 * @since 1.0
+	 */
+	private double weight;
+	/**
+	 * The current input from the synapse.
+	 *
+	 * @since 1.0
+	 */
+	private double input;
 	private final Random RANDOM = new Random();
 
-    /**
-     * Creates a new instance of SimpleSynapse
-     *
-     * @since 1.0
-     * @param sourceToSet The incomming neuron connection.
-     * @param destinationToSet The outgoing neuron connection.
-     * @param initialWeight The initial weight of the synapse
-     */
-    public SimpleSynapse(final Neuron sourceToSet, final Neuron destinationToSet, final double initialWeight)
-    {
-		super(sourceToSet, destinationToSet);
-
-        this.weight = initialWeight;
-    }
-
-    /**
-     * Creates a new instance of SimpleSynapse
-     *
-     * @since 1.0
-     * @param sourceToSet The incomming neuron connection.
-     * @param destinationToSet The outgoing neuron connection.
-     */
-    public SimpleSynapse(final Neuron sourceToSet, final Neuron destinationToSet)
-    {
-		super(sourceToSet, destinationToSet);
-
-        this.weight = ((RANDOM.nextDouble() * 2.0) - 1.0) / 10000.0;
-    }
-
-    /**
-     * Set the current input for the synapse.
+	/**
+	 * Creates a new instance of SimpleSynapse
 	 *
-     *
-     * @since 1.0
-     * @param newInput The new input value to set.
-     */
-    public void setInput(final double newInput)
-    {
-        this.input = newInput;
-    }
+	 * @param sourceToSet The incomming neuron connection.
+	 * @param destinationToSet The outgoing neuron connection.
+	 * @param initialWeight The initial weight of the synapse
+	 * @since 1.0
+	 */
+	public SimpleSynapse(final Neuron sourceToSet, final Neuron destinationToSet, final double initialWeight)
+	{
+		super(sourceToSet, destinationToSet);
+		this.weight = initialWeight;
+	}
+
+	/**
+	 * Creates a new instance of SimpleSynapse
+	 *
+	 * @param sourceToSet The incomming neuron connection.
+	 * @param destinationToSet The outgoing neuron connection.
+	 * @since 1.0
+	 */
+	public SimpleSynapse(final Neuron sourceToSet, final Neuron destinationToSet)
+	{
+		super(sourceToSet, destinationToSet);
+		this.weight = ((RANDOM.nextDouble() * 2.0) - 1.0) / 10000.0;
+	}
+
+	/**
+	 * Set the current input for the synapse.
+	 *
+	 * @param newInput The new input value to set.
+	 * @since 1.0
+	 */
+	public void setInput(final double newInput)
+	{
+		this.input = newInput;
+	}
 
 	/**
 	 * Set the weight of the synapse.
-	 *
 	 *
 	 * @param newWeight new weight for the synapse.
 	 * @since 1.0
@@ -110,18 +99,16 @@ public class SimpleSynapse extends ImmutableDirectedEdge<Neuron> implements Syna
 	/**
 	 * Get the weight of the synapse.
 	 *
-	 *
 	 * @return The current weight of the synapse.
 	 * @since 1.0
 	 */
-    public double getWeight()
-    {
-        return weight;
-    }
+	public double getWeight()
+	{
+		return weight;
+	}
 
 	/**
 	 * Get the current input of the synapse.
-	 *
 	 *
 	 * @return The current input of the synapse.
 	 * @since 1.0
@@ -134,22 +121,20 @@ public class SimpleSynapse extends ImmutableDirectedEdge<Neuron> implements Syna
 	@Override
 	public SimpleSynapse disconnect(final Neuron node)
 	{
-		if(node == null)
+		if (node == null)
 			throw new IllegalArgumentException("node can not be null", new NullPointerException());
-		if(!this.getNodes().contains(node))
+		if (!this.getNodes().contains(node))
 			throw new IllegalArgumentException("node is not currently connected to");
-
 		return (SimpleSynapse) this.remove(node);
 	}
 
 	@Override
 	public SimpleSynapse disconnect(final List<Neuron> nodes)
 	{
-		if(nodes == null)
+		if (nodes == null)
 			throw new IllegalArgumentException("node can not be null", new NullPointerException());
-		if(!this.getNodes().containsAll(nodes))
+		if (!this.getNodes().containsAll(nodes))
 			throw new IllegalArgumentException("node is not currently connected to");
-
 		return (SimpleSynapse) this.remove(nodes);
 	}
 

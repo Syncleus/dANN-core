@@ -18,45 +18,41 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.cycle;
 
-import com.syncleus.dann.graph.*;
 import java.util.*;
+import com.syncleus.dann.graph.*;
 
 public class ColoredDepthFirstSearchDetector implements CycleDetector
 {
-	public <N, E extends Edge<N>> boolean hasCycle(final Graph<N,E> graph)
+	public <N, E extends Edge<N>> boolean hasCycle(final Graph<N, E> graph)
 	{
 		//A map of the current Node colors. Key is the node, value is null for
 		//white, false for grey, true for black.
 		final Map<N, Boolean> colorMap = new HashMap<N, Boolean>();
-
 		final Set<E> traversedEdges = new HashSet<E>();
-
 		for(final N node : graph.getNodes())
-			if(!colorMap.containsKey(node))
-				if( visit(graph, colorMap, traversedEdges, node) )
+			if (!colorMap.containsKey(node))
+				if (visit(graph, colorMap, traversedEdges, node))
 					return true;
-
 		return false;
 	}
 
-	private static <N, E extends Edge<N>> boolean visit(final Graph<N,E> graph, final Map<N, Boolean> colorMap, final Set<E> traversedEdges, final N node)
+	private static <N, E extends Edge<N>> boolean visit(final Graph<N, E> graph, final Map<N, Boolean> colorMap, final Set<E> traversedEdges, final N node)
 	{
 		colorMap.put(node, Boolean.FALSE);
-
 		final Set<E> traversableEdges = graph.getTraversableEdges(node);
 		for(final E neighborEdge : traversableEdges)
 		{
-			if(!ColoredDepthFirstSearchDetector.<E>traversed(traversedEdges, neighborEdge))
+			if (!ColoredDepthFirstSearchDetector.<E>traversed(traversedEdges, neighborEdge))
 			{
 				traversedEdges.add(neighborEdge);
 				final List<N> neighborNodes = new ArrayList<N>(neighborEdge.getNodes());
 				neighborNodes.remove(node);
 				for(final N neighborNode : neighborNodes)
 				{
-					if(colorMap.get(neighborNode) == Boolean.FALSE)
+					if (colorMap.get(neighborNode) == Boolean.FALSE)
 						return true;
-					else if(!colorMap.containsKey(neighborNode))
-						if(visit(graph, colorMap, traversedEdges, neighborNode))
+					else if (!colorMap.containsKey(neighborNode))
+						if (visit(graph, colorMap, traversedEdges, neighborNode))
 							return true;
 				}
 			}
@@ -68,7 +64,7 @@ public class ColoredDepthFirstSearchDetector implements CycleDetector
 	private static <E extends Edge> boolean traversed(final Set<E> traversedEdges, final E edge)
 	{
 		for(final E traversedEdge : traversedEdges)
-			if(traversedEdge == edge)
+			if (traversedEdge == edge)
 				return true;
 		return false;
 	}

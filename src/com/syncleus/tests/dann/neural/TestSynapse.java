@@ -47,12 +47,9 @@ public class TestSynapse
 	public void testAccessors()
 	{
 		final TestBrain brain = new TestBrain();
-
 		final SimpleBackpropNeuron sourceNeuron = new SimpleBackpropNeuron(brain);
 		final SimpleBackpropNeuron destinationNeuron = new SimpleBackpropNeuron(brain);
-
 		final SimpleSynapse testSynapse = new SimpleSynapse(sourceNeuron, destinationNeuron, INITIAL_WEIGHT);
-
 		testSynapse.setInput(TEST_INPUT);
 		Assert.assertTrue(testSynapse.getInput() == TEST_INPUT);
 		testSynapse.setWeight(TEST_WEIGHT);

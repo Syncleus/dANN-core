@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.classify;
 
-public interface Trainable<I,C>
+public interface Trainable<I, C>
 {
 	void train(I item, C category);
 }

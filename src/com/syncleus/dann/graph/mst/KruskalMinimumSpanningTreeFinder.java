@@ -18,13 +18,13 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.mst;
 
-import com.syncleus.dann.graph.*;
 import java.io.Serializable;
 import java.util.*;
+import com.syncleus.dann.graph.*;
 
-public class KruskalMinimumSpanningTreeFinder<N, E extends Edge<N>> implements MinimumSpanningTreeFinder<N,E>
+public class KruskalMinimumSpanningTreeFinder<N, E extends Edge<N>> implements MinimumSpanningTreeFinder<N, E>
 {
-	public Set<E> findMinimumSpanningTree(final Graph<N,E> graph)
+	public Set<E> findMinimumSpanningTree(final Graph<N, E> graph)
 	{
 		final Set<Set<N>> componentNodeSets = new HashSet<Set<N>>();
 		for(final N node : graph.getNodes())
@@ -33,30 +33,27 @@ public class KruskalMinimumSpanningTreeFinder<N, E extends Edge<N>> implements M
 		edgeQueue.addAll(graph.getEdges());
 		final Set<E> mstEdges = new HashSet<E>();
 		final Set<N> mstNodes = new HashSet<N>();
-
-		while( componentNodeSets.size() > 1 )
+		while (componentNodeSets.size() > 1)
 		{
 			//find all the componentNodeSets which contains one of the end points
 			//of the next edge
 			final E queuedEdge = edgeQueue.poll();
-			if( queuedEdge == null )
+			if (queuedEdge == null)
 				return null;
-			
 			final Set<Set<N>> setContainingEndNodes = new HashSet<Set<N>>();
 			for(final Set<N> component : componentNodeSets)
 			{
 				for(final N endNode : queuedEdge.getNodes())
 				{
-					if( component.contains(endNode) )
+					if (component.contains(endNode))
 					{
 						setContainingEndNodes.add(component);
 						continue;
 					}
 				}
 			}
-
 			//if more than one set was found then merge them
-			if(setContainingEndNodes.size() > 1)
+			if (setContainingEndNodes.size() > 1)
 			{
 				final Set<N> mergedSet = new HashSet<N>();
 				for(final Set<N> toMerge : setContainingEndNodes)
@@ -65,31 +62,28 @@ public class KruskalMinimumSpanningTreeFinder<N, E extends Edge<N>> implements M
 					componentNodeSets.remove(toMerge);
 				}
 				componentNodeSets.add(mergedSet);
-
 				mstEdges.add(queuedEdge);
 				mstNodes.addAll(queuedEdge.getNodes());
 			}
 		}
-
 		return mstEdges;
 	}
 
 	private static class WeightComparator<E> implements Comparator<E>, Serializable
 	{
 		private static final long serialVersionUID = 4497530556915589495L;
-		
+
 		public int compare(final E first, final E second)
 		{
 			double firstWeight = 0;
-			if(first instanceof Weighted)
+			if (first instanceof Weighted)
 				firstWeight = ((Weighted) first).getWeight();
 			double secondWeight = 0;
-			if(second instanceof Weighted)
+			if (second instanceof Weighted)
 				secondWeight = ((Weighted) second).getWeight();
-
-			if(firstWeight < secondWeight)
+			if (firstWeight < secondWeight)
 				return -1;
-			if(firstWeight > secondWeight)
+			if (firstWeight > secondWeight)
 				return 1;
 			return 0;
 		}

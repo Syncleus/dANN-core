@@ -18,8 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.bayesian.dynamic;
 
-import com.syncleus.dann.graphicalmodel.bayesian.BayesianNode;
 import java.util.List;
+import com.syncleus.dann.graphicalmodel.bayesian.BayesianNode;
 
 public interface DynamicBayesianNode<S> extends BayesianNode<S>
 {

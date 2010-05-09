@@ -19,10 +19,10 @@
 package com.syncleus.dann.genetics.wavelets;
 
 import java.util.*;
+import com.syncleus.dann.UnexpectedDannError;
 import com.syncleus.dann.genetics.Gene;
 import com.syncleus.dann.math.AbstractFunction;
 import org.apache.log4j.Logger;
-import com.syncleus.dann.UnexpectedDannError;
 
 public abstract class AbstractWaveletGene implements Gene, Cloneable
 {
@@ -30,7 +30,6 @@ public abstract class AbstractWaveletGene implements Gene, Cloneable
 	private double pendingActivity;
 	private double mutability;
 	private final static Logger LOGGER = Logger.getLogger(AbstractWaveletGene.class);
-
 	protected ExpressionFunction expressionFunction;
 	protected Set<SignalKeyConcentration> receivingConcentrations;
 	protected final static Random RANDOM = Mutations.getRandom();
@@ -47,7 +46,6 @@ public abstract class AbstractWaveletGene implements Gene, Cloneable
 		this.currentActivity = copy.currentActivity;
 		this.pendingActivity = copy.pendingActivity;
 		this.expressionFunction = copy.expressionFunction;
-
 		this.mutability = copy.mutability;
 		this.receivingConcentrations = new HashSet<SignalKeyConcentration>(copy.receivingConcentrations);
 	}
@@ -74,15 +72,13 @@ public abstract class AbstractWaveletGene implements Gene, Cloneable
 
 	public boolean bind(final SignalKeyConcentration concentration, final boolean isExternal)
 	{
-		if(isExternal)
+		if (isExternal)
 			return false;
-
-		if( this.expressionFunction.receives(concentration.getSignal()))
+		if (this.expressionFunction.receives(concentration.getSignal()))
 		{
 			this.receivingConcentrations.add(concentration);
 			return true;
 		}
-
 		return false;
 	}
 
@@ -96,21 +92,18 @@ public abstract class AbstractWaveletGene implements Gene, Cloneable
 		this.currentActivity = this.pendingActivity + (this.pendingActivity * promotion);
 	}
 
-
 	public void mutate(final Set<AbstractKey> keyPool)
 	{
 		this.currentActivity = 0.0;
 		this.pendingActivity = 0.0;
-
-		if((keyPool != null)&&(keyPool.isEmpty()))
+		if ((keyPool != null) && (keyPool.isEmpty()))
 		{
 			final ReceptorKey newReceptor = new ReceptorKey(new ArrayList<AbstractKey>(keyPool).get(RANDOM.nextInt(keyPool.size())));
 			this.expressionFunction.mutate(mutability, newReceptor);
 		}
 		else
 			this.expressionFunction.mutate(mutability);
-
-		if( Mutations.mutationEvent(this.mutability) )
+		if (Mutations.mutationEvent(this.mutability))
 			this.mutability = Mutations.mutabilityMutation(mutability);
 	}
 
@@ -119,17 +112,15 @@ public abstract class AbstractWaveletGene implements Gene, Cloneable
 	{
 		try
 		{
-			final AbstractWaveletGene copy  = (AbstractWaveletGene) super.clone();
-
+			final AbstractWaveletGene copy = (AbstractWaveletGene) super.clone();
 			copy.currentActivity = this.currentActivity;
 			copy.pendingActivity = this.pendingActivity;
 			copy.expressionFunction = this.expressionFunction.clone();
 			copy.mutability = this.mutability;
 			copy.receivingConcentrations = new HashSet<SignalKeyConcentration>(this.receivingConcentrations);
-
 			return copy;
 		}
-		catch(CloneNotSupportedException caught)
+		catch (CloneNotSupportedException caught)
 		{
 			LOGGER.error("CloneNotSupportedException caught but not expected!", caught);
 			throw new UnexpectedDannError("CloneNotSupportedException caught but not expected", caught);

@@ -19,8 +19,8 @@
 package com.syncleus.dann;
 
 /**
- * All dANN specific errors that are thrown will either be a DannError
- * or inherit from it.
+ * All dANN specific errors that are thrown will either be a DannError or
+ * inherit from it.
  *
  * @author Jeffrey Phillips Freeman
  * @since 2.0
@@ -28,7 +28,7 @@ package com.syncleus.dann;
 public class DannError extends Error
 {
 	private static final long serialVersionUID = -4374806187402275474L;
-	
+
 	/**
 	 * Creates a blank default exception.
 	 *
@@ -64,8 +64,8 @@ public class DannError extends Error
 	}
 
 	/**
-	 * Creates an error containing the throwable which caused this exception
-	 * to be thrown.
+	 * Creates an error containing the throwable which caused this exception to be
+	 * thrown.
 	 *
 	 * @param cause The throwable which caused this exception
 	 * @since 2.0

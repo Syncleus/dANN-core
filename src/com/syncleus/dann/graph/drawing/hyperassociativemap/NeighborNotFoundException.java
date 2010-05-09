@@ -18,47 +18,42 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.drawing.hyperassociativemap;
 
-import com.syncleus.dann.*;
+import com.syncleus.dann.DannException;
 
 /**
  * An exception thrown to indicate that no neighbor nodes currently exist.
  *
- *
  * @author Jeffrey Phillips Freeman
  * @since 1.0
- *
  */
 public class NeighborNotFoundException extends DannException
 {
 	private static final long serialVersionUID = -2456894263798776928L;
-	
+
 	/**
 	 * Creates a blank default exception.
 	 *
-	 * 
 	 * @since 1.0
 	 */
-    public NeighborNotFoundException()
-    {
-    }
+	public NeighborNotFoundException()
+	{
+	}
 
 	/**
 	 * Creates an exception with a message describing the cause.
 	 *
-	 * 
 	 * @param msg A string describing the cause of the exception
 	 * @since 1.0
 	 */
-    public NeighborNotFoundException(final String msg)
-    {
-        super(msg);
-    }
+	public NeighborNotFoundException(final String msg)
+	{
+		super(msg);
+	}
 
 	/**
 	 * Creates an exception with a message describing the cause as well as the
 	 * throwable which caused this exception to be thrown.
 	 *
-	 * 
 	 * @param msg A string describing the cause of the exception
 	 * @param cause The throwable which caused this exception
 	 * @since 1.0
@@ -69,10 +64,9 @@ public class NeighborNotFoundException extends DannException
 	}
 
 	/**
-	 * Creates an exception containing the throwable which caused this exception
-	 * to be thrown.
+	 * Creates an exception containing the throwable which caused this exception to
+	 * be thrown.
 	 *
-	 * 
 	 * @param cause The throwable which caused this exception
 	 * @since 1.0
 	 */

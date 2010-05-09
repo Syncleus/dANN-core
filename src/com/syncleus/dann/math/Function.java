@@ -20,12 +20,12 @@ package com.syncleus.dann.math;
 
 public interface Function
 {
-    void setParameter(final int parameterIndex, final double value);
+	void setParameter(final int parameterIndex, final double value);
 	void setParameter(final String parameterName, final double value);
-    double getParameter(final int parameterIndex);
+	double getParameter(final int parameterIndex);
 	double getParameter(final String parameterName);
-    String getParameterName(final int parameterIndex);
-    int getParameterNameIndex(final String parameterName);
-    int getParameterCount();
-    double calculate();
+	String getParameterName(final int parameterIndex);
+	int getParameterNameIndex(final String parameterName);
+	int getParameterCount();
+	double calculate();
 }

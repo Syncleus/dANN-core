@@ -20,7 +20,7 @@ package com.syncleus.dann.graph;
 
 import java.util.Set;
 
-public abstract class AbstractTreeAdjacencyGraph<N, E extends BidirectedEdge<N>> extends AbstractBidirectedAdjacencyGraph<N,E> implements TreeGraph<N,E>
+public abstract class AbstractTreeAdjacencyGraph<N, E extends BidirectedEdge<N>> extends AbstractBidirectedAdjacencyGraph<N, E> implements TreeGraph<N, E>
 {
 	// TODO restrict tree's to only maximally connected trees
 
@@ -29,7 +29,7 @@ public abstract class AbstractTreeAdjacencyGraph<N, E extends BidirectedEdge<N>>
 		super();
 	}
 
-	protected AbstractTreeAdjacencyGraph(final Graph<N,E> copyGraph)
+	protected AbstractTreeAdjacencyGraph(final Graph<N, E> copyGraph)
 	{
 		super(copyGraph.getNodes(), copyGraph.getEdges());
 	}
@@ -38,7 +38,7 @@ public abstract class AbstractTreeAdjacencyGraph<N, E extends BidirectedEdge<N>>
 	{
 		super(nodes, edges);
 	}
-	
+
 	public boolean isLeaf(final N node)
 	{
 		return (this.getDegree(node) == 1);
@@ -47,50 +47,50 @@ public abstract class AbstractTreeAdjacencyGraph<N, E extends BidirectedEdge<N>>
 	public boolean isLeaf(final E edge)
 	{
 		for(final N node : edge.getNodes())
-			if(this.isLeaf(node))
+			if (this.isLeaf(node))
 				return true;
 		return false;
 	}
 
 	@Override
-	public AbstractTreeAdjacencyGraph<N,E> cloneAdd(final E newEdge)
+	public AbstractTreeAdjacencyGraph<N, E> cloneAdd(final E newEdge)
 	{
-		return (AbstractTreeAdjacencyGraph<N,E>) super.cloneAdd(newEdge);
+		return (AbstractTreeAdjacencyGraph<N, E>) super.cloneAdd(newEdge);
 	}
 
 	@Override
-	public AbstractTreeAdjacencyGraph<N,E> cloneAdd(final N newNode)
+	public AbstractTreeAdjacencyGraph<N, E> cloneAdd(final N newNode)
 	{
-		return (AbstractTreeAdjacencyGraph<N,E>) super.cloneAdd(newNode);
+		return (AbstractTreeAdjacencyGraph<N, E>) super.cloneAdd(newNode);
 	}
 
 	@Override
-	public AbstractTreeAdjacencyGraph<N,E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
+	public AbstractTreeAdjacencyGraph<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
 	{
-		return (AbstractTreeAdjacencyGraph<N,E>) super.cloneAdd(newNodes, newEdges);
+		return (AbstractTreeAdjacencyGraph<N, E>) super.cloneAdd(newNodes, newEdges);
 	}
 
 	@Override
-	public AbstractTreeAdjacencyGraph<N,E> cloneRemove(final E edgeToRemove)
+	public AbstractTreeAdjacencyGraph<N, E> cloneRemove(final E edgeToRemove)
 	{
-		return (AbstractTreeAdjacencyGraph<N,E>) super.cloneRemove(edgeToRemove);
+		return (AbstractTreeAdjacencyGraph<N, E>) super.cloneRemove(edgeToRemove);
 	}
 
 	@Override
-	public AbstractTreeAdjacencyGraph<N,E> cloneRemove(final N nodeToRemove)
+	public AbstractTreeAdjacencyGraph<N, E> cloneRemove(final N nodeToRemove)
 	{
-		return (AbstractTreeAdjacencyGraph<N,E>) super.cloneRemove(nodeToRemove);
+		return (AbstractTreeAdjacencyGraph<N, E>) super.cloneRemove(nodeToRemove);
 	}
 
 	@Override
-	public AbstractTreeAdjacencyGraph<N,E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
+	public AbstractTreeAdjacencyGraph<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
 	{
-		return (AbstractTreeAdjacencyGraph<N,E>) super.cloneRemove(deleteNodes, deleteEdges);
+		return (AbstractTreeAdjacencyGraph<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
 	}
 
 	@Override
-	public AbstractTreeAdjacencyGraph<N,E> clone()
+	public AbstractTreeAdjacencyGraph<N, E> clone()
 	{
-		return (AbstractTreeAdjacencyGraph<N,E>) super.clone();
+		return (AbstractTreeAdjacencyGraph<N, E>) super.clone();
 	}
 }

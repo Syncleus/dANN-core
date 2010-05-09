@@ -19,26 +19,23 @@
 package com.syncleus.dann.genetics;
 
 /**
- * Represents a Gene which can mutate and expresses some activity. All New
- * types of Gene's will inherit from this class.
+ * Represents a Gene which can mutate and expresses some activity. All New types
+ * of Gene's will inherit from this class.
  *
  * @author Jeffrey Phillips Freeman
  * @since 2.0
- *
  */
-
 public interface Gene extends Cloneable
 {
 	/**
-	 * All children of this class should override this method and return
-	 * their own class type even if it is abstract. It should return a copy
-	 * without any mutation.
+	 * All children of this class should override this method and return their own
+	 * class type even if it is abstract. It should return a copy without any
+	 * mutation.
 	 *
 	 * @return an exact copy of this object.
 	 * @since 2.0
 	 */
 	Gene clone();
-
 	/**
 	 * The current expression activity. The meaning of this value depends on the
 	 * type of gene and the genetic system being used.
@@ -47,6 +44,5 @@ public interface Gene extends Cloneable
 	 * @since 2.0
 	 */
 	double expressionActivity();
-
 	// TODO put mutate method here
 }

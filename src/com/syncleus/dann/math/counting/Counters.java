@@ -30,9 +30,8 @@ public final class Counters
 
 	public static <O> BigInteger everyCombinationCount(final Collection<O> superCollection)
 	{
-		if(superCollection == null)
+		if (superCollection == null)
 			throw new IllegalArgumentException("superCollection can not be null");
-
 		final BigInteger combinations = BigInteger.ZERO;
 		for(int currentSequenceLength = 1; currentSequenceLength <= superCollection.size(); currentSequenceLength++)
 			combinations.add(fixedLengthCombinationCount(superCollection, currentSequenceLength));
@@ -41,22 +40,20 @@ public final class Counters
 
 	public static <O> BigInteger fixedLengthCombinationCount(final Collection<O> superCollection, final int length)
 	{
-		if(superCollection == null)
+		if (superCollection == null)
 			throw new IllegalArgumentException("superCollection can not be null");
-		if(length < 0)
+		if (length < 0)
 			throw new IllegalArgumentException("length must be >= 0");
-		if(length > superCollection.size())
+		if (length > superCollection.size())
 			throw new IllegalArgumentException("length can not be larger than the collection size");
-
 		final Counter generator = new CombinationCounter(superCollection.size(), length);
 		return generator.getTotal();
 	}
 
 	public static <O> Set<List<O>> everyCombination(final List<O> superList)
 	{
-		if(superList == null)
+		if (superList == null)
 			throw new IllegalArgumentException("superList can not be null");
-
 		final Set<List<O>> combinations = new HashSet<List<O>>();
 		for(int currentSequenceLength = 1; currentSequenceLength <= superList.size(); currentSequenceLength++)
 			combinations.addAll(fixedLengthCombinations(superList, currentSequenceLength));
@@ -65,9 +62,8 @@ public final class Counters
 
 	public static <O> Set<Set<O>> everyCombination(final Set<O> superSet)
 	{
-		if(superSet == null)
+		if (superSet == null)
 			throw new IllegalArgumentException("superSet can not be null");
-
 		final Set<Set<O>> combinations = new HashSet<Set<O>>();
 		for(int currentSequenceLength = 1; currentSequenceLength <= superSet.size(); currentSequenceLength++)
 			combinations.addAll(fixedLengthCombinations(superSet, currentSequenceLength));
@@ -76,20 +72,19 @@ public final class Counters
 
 	public static <O> Set<List<O>> fixedLengthCombinations(final List<O> superList, final int length)
 	{
-		if(superList == null)
+		if (superList == null)
 			throw new IllegalArgumentException("superList can not be null");
-		if(length < 0)
+		if (length < 0)
 			throw new IllegalArgumentException("length must be >= 0");
-		if(length > superList.size())
+		if (length > superList.size())
 			throw new IllegalArgumentException("length can not be larger than the collection size");
-
 		final Set<List<O>> combinations = new HashSet<List<O>>();
 		final Counter generator = new CombinationCounter(superList.size(), length);
-		while(generator.hasMore())
+		while (generator.hasMore())
 		{
 			final List<O> combination = new ArrayList<O>();
 			final int[] combinationIndexes = generator.getNext();
-			for(final int combinationIndex:combinationIndexes)
+			for(final int combinationIndex : combinationIndexes)
 				combination.add(superList.get(combinationIndex));
 			combinations.add(Collections.unmodifiableList(combination));
 		}
@@ -98,22 +93,20 @@ public final class Counters
 
 	public static <O> Set<Set<O>> fixedLengthCombinations(final Set<O> superSet, final int length)
 	{
-		if(superSet == null)
+		if (superSet == null)
 			throw new IllegalArgumentException("superSet can not be null");
-		if(length < 0)
+		if (length < 0)
 			throw new IllegalArgumentException("length must be >= 0");
-		if(length > superSet.size())
+		if (length > superSet.size())
 			throw new IllegalArgumentException("length can not be larger than the collection size");
-
 		final List<O> superSetList = new ArrayList<O>(superSet);
-
 		final Set<Set<O>> combinations = new HashSet<Set<O>>();
 		final Counter generator = new CombinationCounter(superSet.size(), length);
-		while(generator.hasMore())
+		while (generator.hasMore())
 		{
 			final Set<O> combination = new HashSet<O>();
 			final int[] combinationIndexes = generator.getNext();
-			for(final int combinationIndex:combinationIndexes)
+			for(final int combinationIndex : combinationIndexes)
 				combination.add(superSetList.get(combinationIndex));
 			combinations.add(Collections.unmodifiableSet(combination));
 		}
@@ -124,7 +117,7 @@ public final class Counters
 	{
 		final Set<List<O>> permutations = new HashSet<List<O>>();
 		final Counter generator = new PermutationCounter(superList.size());
-		while(generator.hasMore())
+		while (generator.hasMore())
 		{
 			final List<O> permutation = new ArrayList<O>();
 			final int[] permutationIndexes = generator.getNext();
@@ -137,9 +130,8 @@ public final class Counters
 
 	public static <O> BigInteger everyPermutationCount(final Collection<O> superCollection)
 	{
-		if(superCollection == null)
+		if (superCollection == null)
 			throw new IllegalArgumentException("superCollection can not be null");
-
 		final BigInteger combinations = BigInteger.ZERO;
 		for(int currentSequenceLength = 1; currentSequenceLength <= superCollection.size(); currentSequenceLength++)
 			combinations.add(fixedLengthPermutationCount(superCollection, currentSequenceLength));
@@ -148,13 +140,12 @@ public final class Counters
 
 	public static <O> BigInteger fixedLengthPermutationCount(final Collection<O> superCollection, final int length)
 	{
-		if(superCollection == null)
+		if (superCollection == null)
 			throw new IllegalArgumentException("superCollection can not be null");
-		if(length < 0)
+		if (length < 0)
 			throw new IllegalArgumentException("length must be >= 0");
-		if(length > superCollection.size())
+		if (length > superCollection.size())
 			throw new IllegalArgumentException("length can not be larger than the collection size");
-
 		final Counter permutator = new PermutationCounter(length);
 		final Counter combinator = new CombinationCounter(superCollection.size(), length);
 		final BigInteger combinationCount = combinator.getTotal();
@@ -164,9 +155,8 @@ public final class Counters
 
 	public static <O> Set<List<O>> everyPermutation(final List<O> superList)
 	{
-		if(superList == null)
+		if (superList == null)
 			throw new IllegalArgumentException("superList can not be null");
-
 		//get every combination then permutate it
 		final Set<List<O>> permutations = new HashSet<List<O>>();
 		final Set<List<O>> combinations = everyCombination(superList);
@@ -177,21 +167,19 @@ public final class Counters
 
 	public static <O> Set<List<O>> everyPermutation(final Set<O> superSet)
 	{
-		if(superSet == null)
+		if (superSet == null)
 			throw new IllegalArgumentException("superSet can not be null");
-
 		return everyPermutation(new ArrayList<O>(superSet));
 	}
-	
+
 	public static <O> Set<List<O>> fixedLengthPermutations(final List<O> superList, final int length)
 	{
-		if(superList == null)
+		if (superList == null)
 			throw new IllegalArgumentException("superList can not be null");
-		if(length < 0)
+		if (length < 0)
 			throw new IllegalArgumentException("length must be >= 0");
-		if(length > superList.size())
+		if (length > superList.size())
 			throw new IllegalArgumentException("length can not be larger than the collection size");
-
 		//get every combination then permutate it
 		final Set<List<O>> permutations = new HashSet<List<O>>();
 		final Set<List<O>> combinations = fixedLengthCombinations(superList, length);
@@ -202,13 +190,12 @@ public final class Counters
 
 	public static <O> Set<List<O>> fixedLengthPermutations(final Set<O> superSet, final int length)
 	{
-		if(superSet == null)
+		if (superSet == null)
 			throw new IllegalArgumentException("superSet can not be null");
-		if(length < 0)
+		if (length < 0)
 			throw new IllegalArgumentException("length must be >= 0");
-		if(length > superSet.size())
+		if (length > superSet.size())
 			throw new IllegalArgumentException("length can not be larger than the collection size");
-
 		return fixedLengthPermutations(new ArrayList<O>(superSet), length);
 	}
 
@@ -216,7 +203,7 @@ public final class Counters
 	{
 		final Set<List<O>> permutations = new HashSet<List<O>>();
 		final Counter generator = new LexicographicPermutationCounter(superList.size());
-		while(generator.hasMore())
+		while (generator.hasMore())
 		{
 			final List<O> permutation = new ArrayList<O>();
 			final int[] permutationIndexes = generator.getNext();
@@ -229,9 +216,8 @@ public final class Counters
 
 	public static <O> BigInteger everyLexicographicPermutationCount(final Collection<O> superCollection)
 	{
-		if(superCollection == null)
+		if (superCollection == null)
 			throw new IllegalArgumentException("superCollection can not be null");
-
 		final BigInteger combinations = BigInteger.ZERO;
 		for(int currentSequenceLength = 1; currentSequenceLength <= superCollection.size(); currentSequenceLength++)
 			combinations.add(fixedLengthLexicographicPermutationCount(superCollection, currentSequenceLength));
@@ -240,13 +226,12 @@ public final class Counters
 
 	public static <O> BigInteger fixedLengthLexicographicPermutationCount(final Collection<O> superCollection, final int length)
 	{
-		if(superCollection == null)
+		if (superCollection == null)
 			throw new IllegalArgumentException("superCollection can not be null");
-		if(length < 0)
+		if (length < 0)
 			throw new IllegalArgumentException("length must be >= 0");
-		if(length > superCollection.size())
+		if (length > superCollection.size())
 			throw new IllegalArgumentException("length can not be larger than the collection size");
-
 		final Counter permutator = new LexicographicPermutationCounter(length);
 		final Counter combinator = new CombinationCounter(superCollection.size(), length);
 		final BigInteger combinationCount = combinator.getTotal();
@@ -256,9 +241,8 @@ public final class Counters
 
 	public static <O> Set<List<O>> everyLexicographicPermutation(final List<O> superList)
 	{
-		if(superList == null)
+		if (superList == null)
 			throw new IllegalArgumentException("superList can not be null");
-
 		//get every combination then permutate it
 		final Set<List<O>> permutations = new HashSet<List<O>>();
 		final Set<List<O>> combinations = everyCombination(superList);
@@ -269,21 +253,19 @@ public final class Counters
 
 	public static <O> Set<List<O>> everyLexicographicPermutation(final Set<O> superSet)
 	{
-		if(superSet == null)
+		if (superSet == null)
 			throw new IllegalArgumentException("superSet can not be null");
-
 		return everyLexicographicPermutation(new ArrayList<O>(superSet));
 	}
 
 	public static <O> Set<List<O>> fixedLengthLexicographicPermutations(final List<O> superList, final int length)
 	{
-		if(superList == null)
+		if (superList == null)
 			throw new IllegalArgumentException("superList can not be null");
-		if(length < 0)
+		if (length < 0)
 			throw new IllegalArgumentException("length must be >= 0");
-		if(length > superList.size())
+		if (length > superList.size())
 			throw new IllegalArgumentException("length can not be larger than the collection size");
-
 		//get every combination then permutate it
 		final Set<List<O>> permutations = new HashSet<List<O>>();
 		final Set<List<O>> combinations = fixedLengthCombinations(superList, length);
@@ -294,13 +276,12 @@ public final class Counters
 
 	public static <O> Set<List<O>> fixedLengthLexicographicPermutations(final Set<O> superSet, final int length)
 	{
-		if(superSet == null)
+		if (superSet == null)
 			throw new IllegalArgumentException("superSet can not be null");
-		if(length < 0)
+		if (length < 0)
 			throw new IllegalArgumentException("length must be >= 0");
-		if(length > superSet.size())
+		if (length > superSet.size())
 			throw new IllegalArgumentException("length can not be larger than the collection size");
-
 		return fixedLengthLexicographicPermutations(new ArrayList<O>(superSet), length);
 	}
 
@@ -308,7 +289,7 @@ public final class Counters
 	{
 		final Set<List<O>> permutations = new HashSet<List<O>>();
 		final Counter generator = new JohnsonTrotterPermutationCounter(superList.size());
-		while(generator.hasMore())
+		while (generator.hasMore())
 		{
 			final List<O> permutation = new ArrayList<O>();
 			final int[] permutationIndexes = generator.getNext();
@@ -321,9 +302,8 @@ public final class Counters
 
 	public static <O> BigInteger everyJohnsonTrotterPermutationCount(final Collection<O> superCollection)
 	{
-		if(superCollection == null)
+		if (superCollection == null)
 			throw new IllegalArgumentException("superCollection can not be null");
-
 		final BigInteger combinations = BigInteger.ZERO;
 		for(int currentSequenceLength = 1; currentSequenceLength <= superCollection.size(); currentSequenceLength++)
 			combinations.add(fixedLengthJohnsonTrotterPermutationCount(superCollection, currentSequenceLength));
@@ -332,13 +312,12 @@ public final class Counters
 
 	public static <O> BigInteger fixedLengthJohnsonTrotterPermutationCount(final Collection<O> superCollection, final int length)
 	{
-		if(superCollection == null)
+		if (superCollection == null)
 			throw new IllegalArgumentException("superCollection can not be null");
-		if(length < 0)
+		if (length < 0)
 			throw new IllegalArgumentException("length must be >= 0");
-		if(length > superCollection.size())
+		if (length > superCollection.size())
 			throw new IllegalArgumentException("length can not be larger than the collection size");
-
 		final Counter permutator = new JohnsonTrotterPermutationCounter(length);
 		final Counter combinator = new CombinationCounter(superCollection.size(), length);
 		final BigInteger combinationCount = combinator.getTotal();
@@ -348,9 +327,8 @@ public final class Counters
 
 	public static <O> Set<List<O>> everyJohnsonTrotterPermutation(final List<O> superList)
 	{
-		if(superList == null)
+		if (superList == null)
 			throw new IllegalArgumentException("superList can not be null");
-
 		//get every combination then permutate it
 		final Set<List<O>> permutations = new HashSet<List<O>>();
 		final Set<List<O>> combinations = everyCombination(superList);
@@ -361,21 +339,19 @@ public final class Counters
 
 	public static <O> Set<List<O>> everyJohnsonTrotterPermutation(final Set<O> superSet)
 	{
-		if(superSet == null)
+		if (superSet == null)
 			throw new IllegalArgumentException("superSet can not be null");
-
 		return everyJohnsonTrotterPermutation(new ArrayList<O>(superSet));
 	}
 
 	public static <O> Set<List<O>> fixedLengthJohnsonTrotterPermutations(final List<O> superList, final int length)
 	{
-		if(superList == null)
+		if (superList == null)
 			throw new IllegalArgumentException("superList can not be null");
-		if(length < 0)
+		if (length < 0)
 			throw new IllegalArgumentException("length must be >= 0");
-		if(length > superList.size())
+		if (length > superList.size())
 			throw new IllegalArgumentException("length can not be larger than the collection size");
-
 		//get every combination then permutate it
 		final Set<List<O>> permutations = new HashSet<List<O>>();
 		final Set<List<O>> combinations = fixedLengthCombinations(superList, length);
@@ -386,13 +362,12 @@ public final class Counters
 
 	public static <O> Set<List<O>> fixedLengthJohnsonTrotterPermutations(final Set<O> superSet, final int length)
 	{
-		if(superSet == null)
+		if (superSet == null)
 			throw new IllegalArgumentException("superSet can not be null");
-		if(length < 0)
+		if (length < 0)
 			throw new IllegalArgumentException("length must be >= 0");
-		if(length > superSet.size())
+		if (length > superSet.size())
 			throw new IllegalArgumentException("length can not be larger than the collection size");
-
 		return fixedLengthJohnsonTrotterPermutations(new ArrayList<O>(superSet), length);
 	}
 }

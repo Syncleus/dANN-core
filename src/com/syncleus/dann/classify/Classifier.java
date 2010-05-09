@@ -18,13 +18,12 @@
  ******************************************************************************/
 package com.syncleus.dann.classify;
 
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-public interface Classifier<I,C>
+public interface Classifier<I, C>
 {
 	C classification(I item);
-	Map<C,Double> getCategoryProbabilities(I item);
+	Map<C, Double> getCategoryProbabilities(I item);
 	double classificationProbability(I item, C category);
 	Set<C> getCategories();
 }

@@ -17,11 +17,12 @@
  *                                                                             *
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.bayesian.dynamic;
+
+import java.util.*;
 import com.syncleus.dann.graph.Graph;
 import com.syncleus.dann.graphicalmodel.bayesian.BayesianEdge;
-import java.util.*;
 
-public class MutableDynamicBayesianAdjacencyNetwork<N extends DynamicBayesianNode, E extends BayesianEdge<N>> extends AbstractDynamicBayesianAdjacencyNetwork<N,E> implements MutableDynamicBayesianNetwork<N,E>
+public class MutableDynamicBayesianAdjacencyNetwork<N extends DynamicBayesianNode, E extends BayesianEdge<N>> extends AbstractDynamicBayesianAdjacencyNetwork<N, E> implements MutableDynamicBayesianNetwork<N, E>
 {
 	private static final long serialVersionUID = -7951102585507791756L;
 
@@ -30,7 +31,7 @@ public class MutableDynamicBayesianAdjacencyNetwork<N extends DynamicBayesianNod
 		super();
 	}
 
-	public MutableDynamicBayesianAdjacencyNetwork(final Graph<N,E> copyGraph)
+	public MutableDynamicBayesianAdjacencyNetwork(final Graph<N, E> copyGraph)
 	{
 		super(copyGraph.getNodes(), copyGraph.getEdges());
 	}
@@ -42,17 +43,15 @@ public class MutableDynamicBayesianAdjacencyNetwork<N extends DynamicBayesianNod
 
 	public boolean add(final E newEdge)
 	{
-		if(newEdge == null)
+		if (newEdge == null)
 			throw new IllegalArgumentException("newEdge can not be null");
-		if(!this.getNodes().containsAll(newEdge.getNodes()))
+		if (!this.getNodes().containsAll(newEdge.getNodes()))
 			throw new IllegalArgumentException("newEdge has a node as an end point that is not part of the graph");
-
-		if(this.getInternalEdges().add(newEdge))
+		if (this.getInternalEdges().add(newEdge))
 		{
 			for(final N currentNode : newEdge.getNodes())
 			{
 				this.getInternalAdjacencyEdges().get(currentNode).add(newEdge);
-
 				final List<N> newAdjacentNodes = new ArrayList<N>(newEdge.getNodes());
 				newAdjacentNodes.remove(currentNode);
 				for(final N newAdjacentNode : newAdjacentNodes)
@@ -60,18 +59,15 @@ public class MutableDynamicBayesianAdjacencyNetwork<N extends DynamicBayesianNod
 			}
 			return true;
 		}
-
 		return false;
 	}
 
 	public boolean add(final N newNode)
 	{
-		if(newNode == null)
+		if (newNode == null)
 			throw new IllegalArgumentException("newNode can not be null");
-
-		if(this.getNodes().contains(newNode))
+		if (this.getNodes().contains(newNode))
 			return false;
-
 		this.getInternalAdjacencyEdges().put(newNode, new HashSet<E>());
 		this.getInternalAdjacencyNodes().put(newNode, new ArrayList<N>());
 		return true;
@@ -79,16 +75,13 @@ public class MutableDynamicBayesianAdjacencyNetwork<N extends DynamicBayesianNod
 
 	public boolean remove(final E edgeToRemove)
 	{
-		if(edgeToRemove == null)
+		if (edgeToRemove == null)
 			throw new IllegalArgumentException("removeSynapse can not be null");
-
-		if(!this.getInternalEdges().remove(edgeToRemove))
+		if (!this.getInternalEdges().remove(edgeToRemove))
 			return false;
-
 		for(final N removeNode : edgeToRemove.getNodes())
 		{
 			this.getInternalAdjacencyEdges().get(removeNode).remove(edgeToRemove);
-
 			final List<N> removeAdjacentNodes = new ArrayList<N>(edgeToRemove.getNodes());
 			removeAdjacentNodes.remove(removeNode);
 			for(final N removeAdjacentNode : removeAdjacentNodes)
@@ -99,79 +92,72 @@ public class MutableDynamicBayesianAdjacencyNetwork<N extends DynamicBayesianNod
 
 	public boolean remove(final N nodeToRemove)
 	{
-		if(nodeToRemove == null)
+		if (nodeToRemove == null)
 			throw new IllegalArgumentException("node can not be null");
-
-		if(!this.getNodes().contains(nodeToRemove))
+		if (!this.getNodes().contains(nodeToRemove))
 			return false;
-
 		final Set<E> removeEdges = this.getInternalAdjacencyEdges().get(nodeToRemove);
-
 		//remove all the edges
 		for(final E removeEdge : removeEdges)
 			this.remove(removeEdge);
-
 		//modify edges by removing the node to remove
 		final Set<E> newEdges = new HashSet<E>();
 		for(final E removeEdge : removeEdges)
 		{
 			E newEdge = (E) removeEdge.disconnect(nodeToRemove);
-			while( (newEdge.getNodes().contains(nodeToRemove)) && (newEdge != null) )
+			while ((newEdge.getNodes().contains(nodeToRemove)) && (newEdge != null))
 				newEdge = (E) removeEdge.disconnect(nodeToRemove);
-			if(newEdge != null)
+			if (newEdge != null)
 				newEdges.add(newEdge);
 		}
-
 		//add the modified edges
 		for(final E newEdge : newEdges)
 			this.add(newEdge);
-
 		//remove the node itself
 		this.getInternalAdjacencyEdges().remove(nodeToRemove);
 		this.getInternalAdjacencyNodes().remove(nodeToRemove);
-
 		return true;
 	}
 
 	@Override
-	public MutableDynamicBayesianAdjacencyNetwork<N,E> cloneAdd(final E newEdge)
+	public MutableDynamicBayesianAdjacencyNetwork<N, E> cloneAdd(final E newEdge)
 	{
-		return (MutableDynamicBayesianAdjacencyNetwork<N,E>) super.cloneAdd(newEdge);
+		return (MutableDynamicBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newEdge);
 	}
 
 	@Override
-	public MutableDynamicBayesianAdjacencyNetwork<N,E> cloneAdd(final N newNode)
+	public MutableDynamicBayesianAdjacencyNetwork<N, E> cloneAdd(final N newNode)
 	{
-		return (MutableDynamicBayesianAdjacencyNetwork<N,E>) super.cloneAdd(newNode);
+		return (MutableDynamicBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newNode);
 	}
 
 	@Override
-	public MutableDynamicBayesianAdjacencyNetwork<N,E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
+	public MutableDynamicBayesianAdjacencyNetwork<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
 	{
-		return (MutableDynamicBayesianAdjacencyNetwork<N,E>) super.cloneAdd(newNodes, newEdges);
+		return (MutableDynamicBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newNodes, newEdges);
 	}
 
 	@Override
-	public MutableDynamicBayesianAdjacencyNetwork<N,E> cloneRemove(final E edgeToRemove)
+	public MutableDynamicBayesianAdjacencyNetwork<N, E> cloneRemove(final E edgeToRemove)
 	{
-		return (MutableDynamicBayesianAdjacencyNetwork<N,E>) super.cloneRemove(edgeToRemove);
+		return (MutableDynamicBayesianAdjacencyNetwork<N, E>) super.cloneRemove(edgeToRemove);
 	}
 
 	@Override
-	public MutableDynamicBayesianAdjacencyNetwork<N,E> cloneRemove(final N nodeToRemove)
+	public MutableDynamicBayesianAdjacencyNetwork<N, E> cloneRemove(final N nodeToRemove)
 	{
-		return (MutableDynamicBayesianAdjacencyNetwork<N,E>) super.cloneRemove(nodeToRemove);
+		return (MutableDynamicBayesianAdjacencyNetwork<N, E>) super.cloneRemove(nodeToRemove);
 	}
 
 	@Override
-	public MutableDynamicBayesianAdjacencyNetwork<N,E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
+	public MutableDynamicBayesianAdjacencyNetwork<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
 	{
-		return (MutableDynamicBayesianAdjacencyNetwork<N,E>) super.cloneRemove(deleteNodes, deleteEdges);
+		return (MutableDynamicBayesianAdjacencyNetwork<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
 	}
 
 	@Override
-	public MutableDynamicBayesianAdjacencyNetwork<N,E> clone()
+	public MutableDynamicBayesianAdjacencyNetwork<N, E> clone()
 	{
-		return (MutableDynamicBayesianAdjacencyNetwork<N,E>) super.clone();
+		return (MutableDynamicBayesianAdjacencyNetwork<N, E>) super.clone();
 	}
 }

@@ -18,9 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.drawing;
 
-import com.syncleus.dann.graph.*;
-import com.syncleus.dann.math.Vector;
 import java.util.Map;
+import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.math.Vector;
 
 public interface GraphDrawer<G extends Graph<N, ?>, N>
 {

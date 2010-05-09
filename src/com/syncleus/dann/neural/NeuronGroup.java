@@ -20,10 +20,8 @@ package com.syncleus.dann.neural;
 
 import java.util.*;
 
-
 /**
  * A special NetworkNode which can contain other NetworkNodes as children.
- * 
  *
  * @author Jeffrey Phillips Freeman
  * @since 1.0
@@ -31,51 +29,43 @@ import java.util.*;
 public class NeuronGroup<N extends Neuron> implements java.io.Serializable
 {
 	private static final long serialVersionUID = -7251026401945117794L;
-	
-    // <editor-fold defaultstate="collapsed" desc="Attributes">
-    /**
-     * This contains all the neurons considered to be a part of this layer. Any
-     * one neuron can only belong to one layer. But one layer owns many neurons.
-     * <BR>
-     *
-     * @since 1.0
-     */
-    protected HashSet<N> childrenNeurons = new HashSet<N>();
-
-    /**
-     * This contains all the neuronGroups considered to be a part of this layer. Any
-     * one neuron can only belong to one layer. But one layer owns many neurons.
-     * <BR>
-     *
-     * @since 1.0
-     */
+	// <editor-fold defaultstate="collapsed" desc="Attributes">
+	/**
+	 * This contains all the neurons considered to be a part of this layer. Any
+	 * one neuron can only belong to one layer. But one layer owns many neurons.
+	 * <BR>
+	 *
+	 * @since 1.0
+	 */
+	protected HashSet<N> childrenNeurons = new HashSet<N>();
+	/**
+	 * This contains all the neuronGroups considered to be a part of this layer.
+	 * Any one neuron can only belong to one layer. But one layer owns many
+	 * neurons. <BR>
+	 *
+	 * @since 1.0
+	 */
 	protected HashSet<NeuronGroup<? extends N>> childrenNeuronGroups = new HashSet<NeuronGroup<? extends N>>();
-
 	/**
 	 * The random number generator used for this class
-	 *
 	 *
 	 * @since 1.0
 	 */
 	protected static Random random = new Random();
+	// </editor-fold>
+	// <editor-fold defaultstate="collapsed" desc="Constructors">
 
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Constructors">
-
-    /**
-     * Creates a new empty instance of NeuronGroup
+	/**
+	 * Creates a new empty instance of NeuronGroup
 	 *
-     *
-     * @since 1.0
-     */
-    public NeuronGroup()
-    {
-    }
+	 * @since 1.0
+	 */
+	public NeuronGroup()
+	{
+	}
 
 	/**
 	 * Creates a new NeuronGroup that is a copy of the specified group.
-	 *
 	 *
 	 * @param copyGroup NeuronGroup to copy.
 	 * @since 1.0
@@ -88,71 +78,64 @@ public class NeuronGroup<N extends Neuron> implements java.io.Serializable
 			this.childrenNeuronGroups.add(currentGroup);
 		}
 	}
+	// </editor-fold>
+	// <editor-fold defaultstate="collapsed" desc="Topology Manipulation">
 
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Topology Manipulation">
-
-    /**
-     * Adds another Neuron to this layer.
+	/**
+	 * Adds another Neuron to this layer.
 	 *
-     *
-     * @since 1.0
-     * @param toAdd the Neuron to add.
-     */
-    public void add(final N toAdd)
-    {
-        this.childrenNeurons.add(toAdd);
-    }
+	 * @param toAdd the Neuron to add.
+	 * @since 1.0
+	 */
+	public void add(final N toAdd)
+	{
+		this.childrenNeurons.add(toAdd);
+	}
 
-    /**
-     * Adds another NeuronGroup to this layer.
+	/**
+	 * Adds another NeuronGroup to this layer.
 	 *
-     *
-     * @since 1.0
-     * @param toAdd the NeuronGroup to add.
-     */
-    public void add(final NeuronGroup<? extends N> toAdd)
-    {
-        this.childrenNeuronGroups.add(toAdd);
-    }
+	 * @param toAdd the NeuronGroup to add.
+	 * @since 1.0
+	 */
+	public void add(final NeuronGroup<? extends N> toAdd)
+	{
+		this.childrenNeuronGroups.add(toAdd);
+	}
 
+	/**
+	 * Obtains all the Neurons directly owned by this NeuronGroup.
+	 *
+	 * @since 1.0
+	 */
+	public Set<N> getChildrenNeurons()
+	{
+		return Collections.unmodifiableSet(this.childrenNeurons);
+	}
 
+	/**
+	 * Obtains all the NeuronGroups directly owned by this NeuronGroup.
+	 *
+	 * @since 1.0
+	 */
+	public Set<NeuronGroup<? extends N>> getChildrenNeuronGroups()
+	{
+		return Collections.unmodifiableSet(this.childrenNeuronGroups);
+	}
 
-    /**
-     * Obtains all the Neurons directly owned by this NeuronGroup.
-     * @since 1.0
-     */
-    public Set<N> getChildrenNeurons()
-    {
-        return Collections.unmodifiableSet(this.childrenNeurons);
-    }
-
-    /**
-     * Obtains all the NeuronGroups directly owned by this NeuronGroup.
-     * @since 1.0
-     */
-    public Set<NeuronGroup<? extends N>> getChildrenNeuronGroups()
-    {
-        return Collections.unmodifiableSet(this.childrenNeuronGroups);
-    }
-
-
-
-    /**
-     * Obtains all the NetworkNodes owned recursivly excluding
-     * NeuronGroups.<BR>
-     * @since 1.0
-     */
-    public Set<N> getChildrenNeuronsRecursivly()
-    {
-        final HashSet<N> returnList = new HashSet<N>();
-
+	/**
+	 * Obtains all the NetworkNodes owned recursivly excluding
+	 * NeuronGroups.<BR>
+	 *
+	 * @since 1.0
+	 */
+	public Set<N> getChildrenNeuronsRecursivly()
+	{
+		final HashSet<N> returnList = new HashSet<N>();
 		returnList.addAll(this.childrenNeurons);
-		for (final NeuronGroup<? extends N> currentChild : this.childrenNeuronGroups)
+		for(final NeuronGroup<? extends N> currentChild : this.childrenNeuronGroups)
 			returnList.addAll(currentChild.getChildrenNeuronsRecursivly());
-
-        return Collections.unmodifiableSet(returnList);
-    }
-    // </editor-fold>
+		return Collections.unmodifiableSet(returnList);
+	}
+	// </editor-fold>
 }

@@ -18,8 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.search.pathfinding;
 
-import com.syncleus.dann.graph.Edge;
 import java.util.List;
+import com.syncleus.dann.graph.Edge;
 
 public interface PathFinder<N, E extends Edge<? extends N>>
 {

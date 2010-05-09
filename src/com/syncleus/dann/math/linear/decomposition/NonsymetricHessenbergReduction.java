@@ -16,28 +16,23 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-
 /*
  * Derived from Public-Domain source as indicated at
  * http://math.nist.gov/javanumerics/jama/ as of 9/13/2009.
  */
 package com.syncleus.dann.math.linear.decomposition;
 
-import com.syncleus.dann.math.linear.RealMatrix;
-import com.syncleus.dann.math.linear.SimpleRealMatrix;
+import com.syncleus.dann.math.linear.*;
 
 public class NonsymetricHessenbergReduction implements java.io.Serializable, HessenbergDecomposition
 {
 	private static final long serialVersionUID = 9001289842017174236L;
-	
-	/** Array for internal storage of eigenvectors.
-	@serial internal storage of eigenvectors.
+	/**
+	 * Array for internal storage of eigenvectors.
 	 */
 	private RealMatrix matrix;
-
 	/**
 	 * Array for internal storage of nonsymmetric Hessenberg form.
-	 * @serial internal storage of nonsymmetric Hessenberg form.
 	 */
 	private RealMatrix hessenbergMatrix;
 
@@ -50,7 +45,6 @@ public class NonsymetricHessenbergReduction implements java.io.Serializable, Hes
 	public NonsymetricHessenbergReduction(final RealMatrix matrixToDecompose)
 	{
 		final int n = matrixToDecompose.getWidth();
-
 		// Reduce to Hessenberg form.
 		hessenbergReduction(matrixToDecompose.getSubmatrix(0, n, 0, n));
 	}
@@ -59,29 +53,26 @@ public class NonsymetricHessenbergReduction implements java.io.Serializable, Hes
 	{
 		return this.matrix.getHeight();
 	}
-
 	// Nonsymmetric reduction to Hessenberg form.
+
 	private void hessenbergReduction(final RealMatrix matrixToReduce)
 	{
 		final int n = matrixToReduce.getHeight();
 		final double[][] V = matrixToReduce.blank().toDoubleArray();
 		final double[][] H = matrixToReduce.toDoubleArray();
 		final double[] ort = new double[matrixToReduce.getHeight()];
-
 		//  This is derived from the Algol procedures hessenbergReduction and ortran,
 		//  by Martin and Wilkinson, Handbook for Auto. Comp.,
 		//  Vol.ii-Linear Algebra, and the corresponding
 		//  Fortran subroutines in EISPACK.
-
 		final int high = n - 1;
-
 		for(int m = 1; m <= high - 1; m++)
 		{
 			// Scale column.
 			double scale = 0.0;
 			for(int i = m; i <= high; i++)
 				scale = scale + Math.abs(H[i][m - 1]);
-			if(scale != 0.0)
+			if (scale != 0.0)
 			{
 				// Compute Householder transformation.
 				double h = 0.0;
@@ -91,14 +82,12 @@ public class NonsymetricHessenbergReduction implements java.io.Serializable, Hes
 					h += ort[i] * ort[i];
 				}
 				double g = Math.sqrt(h);
-				if(ort[m] > 0)
+				if (ort[m] > 0)
 					g = -g;
 				h = h - ort[m] * g;
 				ort[m] = ort[m] - g;
-
 				// Apply Householder similarity transformation
 				// hessenbergMatrixElements = (I-u*u'/h)*hessenbergMatrixElements*(I-u*u')/h)
-
 				for(int j = m; j < n; j++)
 				{
 					double f = 0.0;
@@ -108,7 +97,6 @@ public class NonsymetricHessenbergReduction implements java.io.Serializable, Hes
 					for(int i = m; i <= high; i++)
 						H[i][j] -= f * ort[i];
 				}
-
 				for(int i = 0; i <= high; i++)
 				{
 					double f = 0.0;
@@ -122,14 +110,12 @@ public class NonsymetricHessenbergReduction implements java.io.Serializable, Hes
 				H[m][m - 1] = scale * g;
 			}
 		}
-
 		// Accumulate transformations (Algol's ortran).
 		for(int i = 0; i < n; i++)
 			for(int j = 0; j < n; j++)
 				V[i][j] = (i == j ? 1.0 : 0.0);
-
 		for(int m = high - 1; m >= 1; m--)
-			if(H[m][m - 1] != 0.0)
+			if (H[m][m - 1] != 0.0)
 			{
 				for(int i = m + 1; i <= high; i++)
 					ort[i] = H[i][m - 1];
@@ -144,14 +130,14 @@ public class NonsymetricHessenbergReduction implements java.io.Serializable, Hes
 						V[i][j] += g * ort[i];
 				}
 			}
-
 		this.matrix = new SimpleRealMatrix(V);
 		this.hessenbergMatrix = new SimpleRealMatrix(H);
 	}
 
-
-	/** Return the eigenvector matrix
-	@return     matrixElements
+	/**
+	 * Return the eigenvector matrix
+	 *
+	 * @return matrixElements
 	 */
 	public RealMatrix getMatrix()
 	{

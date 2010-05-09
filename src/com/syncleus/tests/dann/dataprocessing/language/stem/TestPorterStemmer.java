@@ -18,8 +18,7 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.dataprocessing.language.stem;
 
-import com.syncleus.dann.dataprocessing.language.stem.PorterStemmer;
-import com.syncleus.dann.dataprocessing.language.stem.Stemmer;
+import com.syncleus.dann.dataprocessing.language.stem.*;
 import org.junit.*;
 
 public class TestPorterStemmer
@@ -28,7 +27,6 @@ public class TestPorterStemmer
 	public void testWords()
 	{
 		final Stemmer stemmer = new PorterStemmer();
-		
 		Assert.assertTrue("word stem incorrect!", stemmer.stemWord("bowling").compareToIgnoreCase("bowl") == 0);
 		Assert.assertTrue("word stem incorrect!", stemmer.stemWord("happiness").compareToIgnoreCase("happi") == 0);
 		Assert.assertTrue("word stem incorrect!", stemmer.stemWord("jeffrey").compareToIgnoreCase("jeffrei") == 0);

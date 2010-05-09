@@ -35,15 +35,13 @@ public abstract class AbstractUniqueEdge<N> extends AbstractEdge<N>
 	@Override
 	public boolean equals(final Object compareToObj)
 	{
-		if(compareToObj == null)
+		if (compareToObj == null)
 			return false;
-
-		if(!(compareToObj instanceof Edge))
+		if (!(compareToObj instanceof Edge))
 			return false;
-
 		final Edge compareTo = (Edge) compareToObj;
-		return (compareTo.getNodes().equals(this.getNodes()))&&
-			(this.getNodes().equals(compareTo.getNodes()));
+		return (compareTo.getNodes().equals(this.getNodes())) &&
+				(this.getNodes().equals(compareTo.getNodes()));
 	}
 
 	@Override

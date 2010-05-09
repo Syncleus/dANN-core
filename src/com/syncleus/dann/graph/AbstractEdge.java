@@ -18,8 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import com.syncleus.dann.UnexpectedDannError;
 import java.util.*;
+import com.syncleus.dann.UnexpectedDannError;
 import org.apache.log4j.Logger;
 
 public abstract class AbstractEdge<N> implements Edge<N>
@@ -35,18 +35,16 @@ public abstract class AbstractEdge<N> implements Edge<N>
 	protected AbstractEdge(final N... nodes)
 	{
 		final List<N> newNodes = new ArrayList<N>();
-        newNodes.addAll(Arrays.asList(nodes));
+		newNodes.addAll(Arrays.asList(nodes));
 		this.nodes = Collections.unmodifiableList(newNodes);
 	}
 
 	protected AbstractEdge<N> add(final N node)
 	{
-		if(node == null)
+		if (node == null)
 			throw new IllegalArgumentException("node can not be null");
-
 		final List<N> newNodes = new ArrayList<N>(this.nodes);
 		newNodes.add(node);
-
 		final AbstractEdge<N> copy = this.clone();
 		copy.nodes = Collections.unmodifiableList(newNodes);
 		return copy;
@@ -54,12 +52,10 @@ public abstract class AbstractEdge<N> implements Edge<N>
 
 	protected AbstractEdge<N> add(final List<N> nodes)
 	{
-		if(nodes == null)
+		if (nodes == null)
 			throw new IllegalArgumentException("node can not be null");
-
 		final List<N> newNodes = new ArrayList<N>(this.nodes);
 		newNodes.addAll(nodes);
-
 		final AbstractEdge<N> copy = this.clone();
 		copy.nodes = Collections.unmodifiableList(newNodes);
 		return copy;
@@ -67,17 +63,14 @@ public abstract class AbstractEdge<N> implements Edge<N>
 
 	protected AbstractEdge<N> remove(final N node)
 	{
-		if(node == null)
+		if (node == null)
 			throw new IllegalArgumentException("node can not be null");
-		if(!this.nodes.contains(node))
+		if (!this.nodes.contains(node))
 			throw new IllegalArgumentException("is not an endpoint");
-
 		final List<N> newNodes = new ArrayList<N>(this.nodes);
 		newNodes.remove(node);
-
-		if( newNodes.size() <= 1 )
+		if (newNodes.size() <= 1)
 			return null;
-
 		final AbstractEdge<N> copy = this.clone();
 		copy.nodes = Collections.unmodifiableList(newNodes);
 		return copy;
@@ -85,18 +78,15 @@ public abstract class AbstractEdge<N> implements Edge<N>
 
 	protected AbstractEdge<N> remove(final List<N> nodes)
 	{
-		if(nodes == null)
+		if (nodes == null)
 			throw new IllegalArgumentException("nodes can not be null");
-		if(!this.nodes.containsAll(nodes))
+		if (!this.nodes.containsAll(nodes))
 			throw new IllegalArgumentException("nodes do not contain all valid end points");
-
 		final List<N> newNodes = new ArrayList<N>(this.nodes);
 		for(final N node : nodes)
 			newNodes.remove(node);
-
-		if( newNodes.size() <= 1 )
+		if (newNodes.size() <= 1)
 			return null;
-
 		final AbstractEdge<N> copy = this.clone();
 		copy.nodes = Collections.unmodifiableList(newNodes);
 		return copy;
@@ -104,7 +94,7 @@ public abstract class AbstractEdge<N> implements Edge<N>
 
 	public boolean isTraversable(final N node)
 	{
-		return (! this.getTraversableNodes(node).isEmpty());
+		return (!this.getTraversableNodes(node).isEmpty());
 	}
 
 	public final List<N> getNodes()
@@ -118,7 +108,7 @@ public abstract class AbstractEdge<N> implements Edge<N>
 		final StringBuilder outString = new StringBuilder(this.nodes.size() * 10);
 		for(final N node : this.nodes)
 		{
-            outString.append(':').append(node);
+			outString.append(':').append(node);
 		}
 		return outString.toString();
 	}
@@ -130,7 +120,7 @@ public abstract class AbstractEdge<N> implements Edge<N>
 		{
 			return (AbstractEdge<N>) super.clone();
 		}
-		catch(CloneNotSupportedException caught)
+		catch (CloneNotSupportedException caught)
 		{
 			LOGGER.error("Edge was unexpectidly not cloneable", caught);
 			throw new UnexpectedDannError("Edge was unexpectidly not cloneable");

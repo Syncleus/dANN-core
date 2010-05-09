@@ -18,8 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.bayesian;
 
-import com.syncleus.dann.graph.BidirectedGraph;
 import java.util.Set;
+import com.syncleus.dann.graph.BidirectedGraph;
 
 public interface BayesianNetwork<N extends BayesianNode, E extends BayesianEdge<N>> extends BidirectedGraph<N, E>
 {

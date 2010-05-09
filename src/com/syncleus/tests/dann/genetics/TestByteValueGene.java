@@ -19,23 +19,19 @@
 package com.syncleus.tests.dann.genetics;
 
 import com.syncleus.dann.genetics.*;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.*;
 
 public class TestByteValueGene
 {
 	@Test
 	public void testConstructors()
 	{
-		ValueGene test = new ByteValueGene((byte)123);
+		ValueGene test = new ByteValueGene((byte) 123);
 		Assert.assertTrue("value constructor failed", test.getValue().getNumber().byteValue() == 123);
-
-		test = new ByteValueGene(new MutableByte((byte)57));
+		test = new ByteValueGene(new MutableByte((byte) 57));
 		Assert.assertTrue("MutableByte value constructor failed", test.getValue().getNumber().byteValue() == 57);
-
-		test = new ByteValueGene(Byte.valueOf((byte)83));
+		test = new ByteValueGene(Byte.valueOf((byte) 83));
 		Assert.assertTrue("Number value constructor failed", test.getValue().getNumber().byteValue() == 83);
-
 		test = new ByteValueGene();
 		Assert.assertTrue("default constructor failed", test.getValue().getNumber().byteValue() == 0);
 	}
@@ -43,17 +39,14 @@ public class TestByteValueGene
 	@Test
 	public void testMutation()
 	{
-		final ValueGene center = new ByteValueGene((byte)0);
-
+		final ValueGene center = new ByteValueGene((byte) 0);
 		double averageSum = 0;
 		double testCount = 0.0;
 		for(testCount = 0.0; testCount < 1000; testCount++)
 		{
 			averageSum += center.mutate(1.0).getValue().byteValue();
 		}
-
 		final double average = averageSum / testCount;
-
 		Assert.assertTrue("average deviation is more than 1.0", average < 1.0);
 	}
 }

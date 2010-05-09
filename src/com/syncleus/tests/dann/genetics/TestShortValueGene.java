@@ -19,23 +19,19 @@
 package com.syncleus.tests.dann.genetics;
 
 import com.syncleus.dann.genetics.*;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.*;
 
 public class TestShortValueGene
 {
 	@Test
 	public void testConstructors()
 	{
-		ValueGene test = new ShortValueGene((short)123);
+		ValueGene test = new ShortValueGene((short) 123);
 		Assert.assertTrue("value constructor failed", test.getValue().getNumber().shortValue() == 123);
-
-		test = new ShortValueGene(new MutableShort((short)57));
+		test = new ShortValueGene(new MutableShort((short) 57));
 		Assert.assertTrue("MutableByte value constructor failed", test.getValue().getNumber().shortValue() == 57);
-
-		test = new ShortValueGene(Short.valueOf((short)83));
+		test = new ShortValueGene(Short.valueOf((short) 83));
 		Assert.assertTrue("Number value constructor failed", test.getValue().getNumber().shortValue() == 83);
-
 		test = new ShortValueGene();
 		Assert.assertTrue("default constructor failed", test.getValue().getNumber().shortValue() == 0);
 	}
@@ -43,17 +39,14 @@ public class TestShortValueGene
 	@Test
 	public void testMutation()
 	{
-		final ValueGene center = new ShortValueGene((short)0);
-
+		final ValueGene center = new ShortValueGene((short) 0);
 		short averageSum = 0;
 		int testCount;
 		for(testCount = 0; testCount < 1000; testCount++)
 		{
 			averageSum += center.mutate(10).getValue().shortValue();
 		}
-
 		final double average = averageSum / testCount;
-
 		Assert.assertTrue("average deviation is more than 10.0", average < 10.0);
 	}
 }

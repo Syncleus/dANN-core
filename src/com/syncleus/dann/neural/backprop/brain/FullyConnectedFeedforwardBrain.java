@@ -18,14 +18,13 @@
  ******************************************************************************/
 package com.syncleus.dann.neural.backprop.brain;
 
-import com.syncleus.dann.neural.backprop.*;
-import com.syncleus.dann.neural.activation.ActivationFunction;
 import java.util.concurrent.ExecutorService;
+import com.syncleus.dann.neural.activation.ActivationFunction;
+import com.syncleus.dann.neural.backprop.*;
 
 public class FullyConnectedFeedforwardBrain extends AbstractFullyConnectedFeedforwardBrain
 {
 	private static final long serialVersionUID = 3666884827880527998L;
-	
 	private final double learningRate;
 	private final ActivationFunction activationFunction;
 
@@ -40,13 +39,12 @@ public class FullyConnectedFeedforwardBrain extends AbstractFullyConnectedFeedfo
 		super(threadExecutor);
 		this.learningRate = learningRate;
 		this.activationFunction = activationFunction;
-
 		this.initalizeNetwork(neuronsPerLayer);
 	}
 
 	/**
-	 * Default constructor initializes a default threadExecutor based on the
-	 * number of processors.
+	 * Default constructor initializes a default threadExecutor based on the number
+	 * of processors.
 	 *
 	 * @since 2.0
 	 */
@@ -55,7 +53,6 @@ public class FullyConnectedFeedforwardBrain extends AbstractFullyConnectedFeedfo
 		super();
 		this.learningRate = learningRate;
 		this.activationFunction = activationFunction;
-
 		this.initalizeNetwork(neuronsPerLayer);
 	}
 
@@ -63,17 +60,16 @@ public class FullyConnectedFeedforwardBrain extends AbstractFullyConnectedFeedfo
 	 * Since a specific ActivationFunction or learning rate is needed then this
 	 * should be overridden in a child class.
 	 *
-	 * @param layer the currrent layer index for which we are creating the
-	 * neuron.
+	 * @param layer the currrent layer index for which we are creating the neuron.
 	 * @param index The index of the new neuron within the layer.
 	 * @return The new SimpleBackpropNeuron to be added to the current layer.
 	 * @since 2.0
 	 */
 	protected BackpropNeuron createNeuron(final int layer, final int index)
 	{
-		if( layer == 0 )
+		if (layer == 0)
 			return new InputBackpropNeuron(this);
-		else if(layer >= (this.getLayerCount() - 1))
+		else if (layer >= (this.getLayerCount() - 1))
 			return new OutputBackpropNeuron(this, this.activationFunction, this.learningRate);
 		else
 			return new SimpleBackpropNeuron(this, this.activationFunction, this.learningRate);

@@ -20,23 +20,19 @@ package com.syncleus.dann.neural;
 
 import java.io.Serializable;
 
-
 /**
  * Interface representing the general methods common to all types of neurons.
  * All neurons will connect to other neurons as well as be able to disconnect.
  *
- *
  * @author Jeffrey Phillips Freeman
  * @since 1.0
- *
  */
 public interface Neuron extends Serializable
 {
-    /**
-     * Propogates the current output to all outgoing synapses.
+	/**
+	 * Propogates the current output to all outgoing synapses.
 	 *
-     *
-     * @since 1.0
-     */
+	 * @since 1.0
+	 */
 	public void propagate();
 }

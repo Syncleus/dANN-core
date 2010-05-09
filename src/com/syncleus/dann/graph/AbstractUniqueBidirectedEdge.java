@@ -28,26 +28,24 @@ public abstract class AbstractUniqueBidirectedEdge<N> extends AbstractBidirected
 	@Override
 	public boolean equals(final Object compareToObj)
 	{
-		if(compareToObj == null)
+		if (compareToObj == null)
 			return false;
-
-		if(!(compareToObj instanceof BidirectedEdge))
+		if (!(compareToObj instanceof BidirectedEdge))
 			return false;
-
 		final BidirectedEdge compareTo = (BidirectedEdge) compareToObj;
 		return
-			(
-				(compareTo.getLeftNode().equals(this.getLeftNode()))&&
-				(compareTo.getRightNode().equals(this.getRightNode()))&&
-				(compareTo.getLeftEndState().equals(this.getLeftEndState()))&&
-				(compareTo.getRightEndState().equals(this.getRightEndState()))
-			)||
-			(
-				(compareTo.getLeftNode().equals(this.getRightNode()))&&
-				(compareTo.getRightNode().equals(this.getLeftNode()))&&
-				(compareTo.getLeftEndState().equals(this.getRightEndState()))&&
-				(compareTo.getRightEndState().equals(this.getLeftEndState()))
-			);
+				(
+						(compareTo.getLeftNode().equals(this.getLeftNode())) &&
+								(compareTo.getRightNode().equals(this.getRightNode())) &&
+								(compareTo.getLeftEndState().equals(this.getLeftEndState())) &&
+								(compareTo.getRightEndState().equals(this.getRightEndState()))
+				) ||
+						(
+								(compareTo.getLeftNode().equals(this.getRightNode())) &&
+										(compareTo.getRightNode().equals(this.getLeftNode())) &&
+										(compareTo.getLeftEndState().equals(this.getRightEndState())) &&
+										(compareTo.getRightEndState().equals(this.getLeftEndState()))
+						);
 	}
 
 	@Override
@@ -58,9 +56,9 @@ public abstract class AbstractUniqueBidirectedEdge<N> extends AbstractBidirected
 		final int leftStateHash = this.getLeftEndState().hashCode();
 		final int rightStateHash = this.getRightEndState().hashCode();
 		return
-			leftNodeHash +
-			(leftNodeHash * leftStateHash) +
-			rightNodeHash +
-			(rightNodeHash * rightStateHash);
+				leftNodeHash +
+						(leftNodeHash * leftStateHash) +
+						rightNodeHash +
+						(rightNodeHash * rightStateHash);
 	}
 }

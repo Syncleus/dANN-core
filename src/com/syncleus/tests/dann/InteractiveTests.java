@@ -19,11 +19,11 @@
 package com.syncleus.tests.dann;
 
 import java.io.*;
-import java.util.*;
-import java.lang.reflect.*;
-import org.junit.runner.*;
-import org.apache.log4j.*;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.*;
+import java.util.*;
+import org.apache.log4j.*;
+import org.junit.runner.*;
 
 public class InteractiveTests
 {
@@ -40,7 +40,7 @@ public class InteractiveTests
 		@Override
 		public boolean equals(final Object compareWith)
 		{
-			if(compareWith instanceof ClassComparator)
+			if (compareWith instanceof ClassComparator)
 				return true;
 			return false;
 		}
@@ -62,7 +62,7 @@ public class InteractiveTests
 		@Override
 		public boolean equals(final Object compareWith)
 		{
-			if(compareWith instanceof ClassComparator)
+			if (compareWith instanceof ClassComparator)
 				return true;
 			return false;
 		}
@@ -77,7 +77,7 @@ public class InteractiveTests
 	private static boolean isTestClass(final Class testClass)
 	{
 		for(final Method currentMethod : testClass.getDeclaredMethods())
-			if(currentMethod.isAnnotationPresent(TEST_ANNOTATION))
+			if (currentMethod.isAnnotationPresent(TEST_ANNOTATION))
 				return true;
 		return false;
 	}
@@ -90,7 +90,7 @@ public class InteractiveTests
 		{
 			classes = PackageUtility.getClasses("com.syncleus.tests.dann");
 		}
-		catch(ClassNotFoundException caughtException)
+		catch (ClassNotFoundException caughtException)
 		{
 			throw new AssertionError("com.syncleus.tests.dann can not be searched!");
 		}
@@ -99,28 +99,26 @@ public class InteractiveTests
 			final String fullClassString = packageClass.toString();
 			final int classNameIndex = fullClassString.lastIndexOf('.') + 1;
 			final String classString = fullClassString.substring(classNameIndex);
-			if((!classString.contains("$")) && (InteractiveTests.isTestClass(packageClass)))
+			if ((!classString.contains("$")) && (InteractiveTests.isTestClass(packageClass)))
 			{
 				//check to make sure there is a default constructor
 				boolean hasDefaultContructor = false;
 				final Constructor[] constructors = packageClass.getConstructors();
 				for(final Constructor contructor : constructors)
-					if(contructor.getTypeParameters().length == 0)
+					if (contructor.getTypeParameters().length == 0)
 						hasDefaultContructor = true;
 				assert hasDefaultContructor;
-
 				//find test point methods
 				final Set<Method> testMethods = new TreeSet<Method>(new MethodComparator());
 				testPoints.put(packageClass, testMethods);
 				final Method[] packageClassMethods = packageClass.getDeclaredMethods();
 				for(final Method packageClassMethod : packageClassMethods)
 				{
-					if(packageClassMethod.isAnnotationPresent(TEST_ANNOTATION))
+					if (packageClassMethod.isAnnotationPresent(TEST_ANNOTATION))
 						testMethods.add(packageClassMethod);
 				}
 			}
 		}
-
 		return testPoints;
 	}
 
@@ -140,14 +138,11 @@ public class InteractiveTests
 				currentChoice++;
 			}
 		}
-
 		System.out.println();
 		System.out.println("Input Test Number: ");
-
 		final BufferedReader inReader = new BufferedReader(new InputStreamReader(System.in));
 		final Integer selection = Integer.valueOf(inReader.readLine());
-
-		if( (selection == null) || (selection <= 0) || (selection >= currentChoice) || (!choices.containsKey(selection)) )
+		if ((selection == null) || (selection <= 0) || (selection >= currentChoice) || (!choices.containsKey(selection)))
 		{
 			System.out.println("invalid selection");
 			System.exit(1);
@@ -166,23 +161,21 @@ public class InteractiveTests
 			logProperties.setProperty("log4j.appender.console.layout", "org.apache.log4j.PatternLayout");
 			logProperties.setProperty("log4j.appender.console.Threshold", "info");
 			PropertyConfigurator.configure(logProperties);
-
 			final Map<Class, Set<Method>> tests = InteractiveTests.getTestPoints();
 			final Method test = InteractiveTests.selectTest(tests);
 			final Class testClass = test.getDeclaringClass();
-
 			//run unit test
 			final JUnitCore jUnit = new JUnitCore();
 			final Request testRequest = Request.method(testClass, test.getName());
 			System.out.println("Running " + testClass + '.' + test.getName());
 			final Result testResult = jUnit.run(testRequest);
-			if( testResult.wasSuccessful() )
+			if (testResult.wasSuccessful())
 				System.out.print("Successful: ");
 			else
 				System.out.print("Failure: ");
-			System.out.println(((double)testResult.getRunTime())/1000.0 + " sec");
+			System.out.println(((double) testResult.getRunTime()) / 1000.0 + " sec");
 		}
-		catch(Throwable caughtException)
+		catch (Throwable caughtException)
 		{
 			caughtException.printStackTrace();
 			System.exit(0);

@@ -18,8 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.classify.naive;
 
-import com.syncleus.dann.dataprocessing.language.*;
 import java.util.*;
+import com.syncleus.dann.dataprocessing.language.*;
 
 public class SimpleLanguageNaiveClassifier<C> extends SimpleNaiveClassifier<String, String, C> implements TrainableLanguageNaiveClassifier<C>
 {

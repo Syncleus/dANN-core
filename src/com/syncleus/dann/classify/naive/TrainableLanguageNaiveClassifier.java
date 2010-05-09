@@ -20,11 +20,10 @@ package com.syncleus.dann.classify.naive;
 
 import java.util.Set;
 
-public interface TrainableLanguageNaiveClassifier<C> extends TrainableNaiveClassifier<String,String,C>, LanguageNaiveClassifier<C>
+public interface TrainableLanguageNaiveClassifier<C> extends TrainableNaiveClassifier<String, String, C>, LanguageNaiveClassifier<C>
 {
 	//Trainable methods
 	void train(String item, C category);
-
 	//Classifier methods
 	C featureClassification(String feature);
 	C featureClassificationWeighted(String feature);

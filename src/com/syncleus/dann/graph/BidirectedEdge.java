@@ -17,6 +17,7 @@
  *                                                                             *
  ******************************************************************************/
 package com.syncleus.dann.graph;
+
 import java.util.List;
 
 public interface BidirectedEdge<N> extends Edge<N>
@@ -25,7 +26,6 @@ public interface BidirectedEdge<N> extends Edge<N>
 	{
 		OUTWARD, INWARD, NONE
 	}
-
 	N getLeftNode();
 	N getRightNode();
 	EndState getLeftEndState();

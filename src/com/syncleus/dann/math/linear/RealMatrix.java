@@ -23,13 +23,10 @@ import com.syncleus.dann.math.RealNumber;
 public interface RealMatrix extends OrderedMatrix<RealMatrix, RealNumber>
 {
 	com.syncleus.dann.math.OrderedField<RealNumber> getElementField();
-
 	double getDouble(int i, int j);
 	double[][] toDoubleArray();
 	double getDeterminant();
-
 	RealMatrix multiplyEquals(double value);
-	
 	RealMatrix add(double value);
 	RealMatrix subtract(double value);
 	RealMatrix multiply(double value);

@@ -18,113 +18,95 @@
  ******************************************************************************/
 package com.syncleus.dann.math.visualization;
 
-
-import com.syncleus.dann.math.Function;
-import org.freehep.j3d.plot.*;
-import javax.vecmath.*;
+import javax.vecmath.Color3b;
 import java.awt.Color;
+import com.syncleus.dann.math.Function;
+import org.freehep.j3d.plot.Binned2DData;
 
 public final class MathFunctionDataBinder implements Binned2DData
 {
-    private final Function function;
-    private final int functionXIndex;
-    private final int functionYIndex;
-    private final float minX;
-    private final float maxX;
-    private final float minY;
-    private final float maxY;
-    private final float minZ;
-    private final float maxZ;
-    private final int resolution;
+	private final Function function;
+	private final int functionXIndex;
+	private final int functionYIndex;
+	private final float minX;
+	private final float maxX;
+	private final float minY;
+	private final float maxY;
+	private final float minZ;
+	private final float maxZ;
+	private final int resolution;
 
-
-
-    public MathFunctionDataBinder(final Function function,
-                                     final String functionXParam,
-                                     final String functionYParam,
-                                     final float xMin,
-                                     final float xMax,
-                                     final float yMin,
-                                     final float yMax,
-                                     final int resolution)
-    {
-        if( resolution <= 0 )
-            throw new IllegalArgumentException("resolution must be greater than 0");
-        
-        this.function = function;
-        this.functionXIndex = this.function.getParameterNameIndex(functionXParam);
-        this.functionYIndex = this.function.getParameterNameIndex(functionYParam);
-        this.minX = xMin;
-        this.maxX = xMax;
-        this.minY = yMin;
-        this.maxY = yMax;
-        this.resolution = resolution;
-
-        boolean zMaxSet = false;
-        boolean zMinSet = false;
+	public MathFunctionDataBinder(final Function function,
+								  final String functionXParam,
+								  final String functionYParam,
+								  final float xMin,
+								  final float xMax,
+								  final float yMin,
+								  final float yMax,
+								  final int resolution)
+	{
+		if (resolution <= 0)
+			throw new IllegalArgumentException("resolution must be greater than 0");
+		this.function = function;
+		this.functionXIndex = this.function.getParameterNameIndex(functionXParam);
+		this.functionYIndex = this.function.getParameterNameIndex(functionYParam);
+		this.minX = xMin;
+		this.maxX = xMax;
+		this.minY = yMin;
+		this.maxY = yMax;
+		this.resolution = resolution;
+		boolean zMaxSet = false;
+		boolean zMinSet = false;
 		float newZMax = 1.0f;
 		float newZMin = -1.0f;
-        for(int xIndex = 0;xIndex < this.xBins();xIndex++)
-        {
-            this.setX(this.convertFromXIndex(xIndex));
-            for(int yIndex = 0;yIndex < this.yBins();yIndex++)
-            {
-                this.setY(this.convertFromYIndex(yIndex));
-                final float currentZ = (float)this.calculateZ();
-
-                if(!Float.isNaN(currentZ))
-                {
-
-                    if((newZMax < currentZ) || (!zMaxSet))
-                    {
-                        newZMax = currentZ;
-                        zMaxSet = true;
-                    }
-
-                    if((newZMin > currentZ) || (!zMinSet))
-                    {
-                        newZMin = currentZ;
-                        zMinSet = true;
-                    }
-                }
-            }
-        }
-        
-        if(newZMax == newZMin)
-        {
-            newZMax += 1.0;
-            newZMin += -1.0;
-        }
-
+		for(int xIndex = 0; xIndex < this.xBins(); xIndex++)
+		{
+			this.setX(this.convertFromXIndex(xIndex));
+			for(int yIndex = 0; yIndex < this.yBins(); yIndex++)
+			{
+				this.setY(this.convertFromYIndex(yIndex));
+				final float currentZ = (float) this.calculateZ();
+				if (!Float.isNaN(currentZ))
+				{
+					if ((newZMax < currentZ) || (!zMaxSet))
+					{
+						newZMax = currentZ;
+						zMaxSet = true;
+					}
+					if ((newZMin > currentZ) || (!zMinSet))
+					{
+						newZMin = currentZ;
+						zMinSet = true;
+					}
+				}
+			}
+		}
+		if (newZMax == newZMin)
+		{
+			newZMax += 1.0;
+			newZMin += -1.0;
+		}
 		this.maxZ = newZMax;
 		this.minZ = newZMin;
-        
-        assert ( (!Float.isNaN(this.maxZ)) && (!Float.isNaN(this.minZ)) );
-    }
-
-
+		assert ((!Float.isNaN(this.maxZ)) && (!Float.isNaN(this.minZ)));
+	}
 
 	private float convertFromXIndex(final int xCoord)
-    {
-        final float xSize = this.maxX - this.minX;
+	{
+		final float xSize = this.maxX - this.minX;
+		return (((float) xCoord) / ((float) this.xBins())) * xSize + this.minX;
+	}
 
-        return (((float)xCoord) / ((float)this.xBins())) * xSize + this.minX;
-    }
+	private float convertFromYIndex(final int yCoord)
+	{
+		final float ySize = this.maxY - this.minY;
+		return (((float) (this.yBins() - yCoord)) / ((float) this.yBins())) * ySize + this.minY;
+	}
 
-
-
-    private float convertFromYIndex(final int yCoord)
-    {
-        final float ySize = this.maxY - this.minY;
-        return (((float)(this.yBins() - yCoord)) / ((float)this.yBins())) * ySize + this.minY;
-    }
-
-
-
-    public Function getFunction()
-    {
-        return this.function;
-    }
+	public Function getFunction()
+	{
+		return this.function;
+	}
 
 	public int getXIndex()
 	{
@@ -141,126 +123,95 @@ public final class MathFunctionDataBinder implements Binned2DData
 		return this.resolution;
 	}
 
-    private void setX(final double xCoord)
-    {
-        this.function.setParameter(this.functionXIndex, xCoord);
-    }
+	private void setX(final double xCoord)
+	{
+		this.function.setParameter(this.functionXIndex, xCoord);
+	}
 
+	private void setY(final double yCoord)
+	{
+		this.function.setParameter(this.functionYIndex, yCoord);
+	}
 
+	private double calculateZ()
+	{
+		return this.function.calculate();
+	}
 
-    private void setY(final double yCoord)
-    {
-        this.function.setParameter(this.functionYIndex, yCoord);
-    }
+	public Color3b colorAt(final int xIndex, final int yIndex)
+	{
+		final float xCoord = this.convertFromXIndex(xIndex);
+		final float yCoord = this.convertFromYIndex(yIndex);
+		this.setX(xCoord);
+		this.setY(yCoord);
+		final double zCoord = this.calculateZ();
+		if (zCoord > this.maxZ)
+			return new Color3b(new Color(0.0f, 0.0f, 0.0f));
+		else if (zCoord < this.minZ)
+			return new Color3b(new Color(0.0f, 0.0f, 0.0f));
+		else
+		{
+			final float redValue = (float) (zCoord - this.minZ) / (this.maxZ - this.minZ);
+			final float blueValue = 1.0f - redValue;
+			final float greenValue = 0.0f;
+			return new Color3b(new Color(redValue, greenValue, blueValue));
+		}
+	}
 
+	public int xBins()
+	{
+		return this.resolution;
+	}
 
+	public float xMax()
+	{
+		return this.maxX;
+	}
 
-    private double calculateZ()
-    {
-        return this.function.calculate();
-    }
+	public float xMin()
+	{
+		return this.minX;
+	}
 
+	public int yBins()
+	{
+		return this.resolution;
+	}
 
+	public float yMax()
+	{
+		return this.maxY;
+	}
 
-    public Color3b colorAt(final int xIndex, final int yIndex)
-    {
-        final float xCoord = this.convertFromXIndex(xIndex);
-        final float yCoord = this.convertFromYIndex(yIndex);
+	public float yMin()
+	{
+		return this.minY;
+	}
 
-        this.setX(xCoord);
-        this.setY(yCoord);
-        final double zCoord = this.calculateZ();
+	public float zAt(final int xIndex, final int yIndex)
+	{
+		final float xCoord = this.convertFromXIndex(xIndex);
+		final float yCoord = this.convertFromYIndex(yIndex);
+		this.setX(xCoord);
+		this.setY(yCoord);
+		final float zCoord = (float) this.calculateZ();
+		if (zCoord < this.minZ)
+			return this.minZ;
+		else if (zCoord > this.maxZ)
+			return this.maxZ;
+		else if (Float.isNaN(zCoord))
+			return 0.0f;
+		else
+			return zCoord;
+	}
 
+	public float zMax()
+	{
+		return this.maxZ;
+	}
 
-        if(zCoord > this.maxZ)
-            return new Color3b(new Color(0.0f, 0.0f, 0.0f));
-        else if(zCoord < this.minZ)
-            return new Color3b(new Color(0.0f, 0.0f, 0.0f));
-        else
-        {
-            final float redValue = (float)(zCoord - this.minZ) / (this.maxZ - this.minZ);
-            final float blueValue = 1.0f - redValue;
-            final float greenValue = 0.0f;
-
-            return new Color3b(new Color(redValue, greenValue, blueValue));
-        }
-    }
-
-
-
-    public int xBins()
-    {
-        return this.resolution;
-    }
-
-
-
-    public float xMax()
-    {
-        return this.maxX;
-    }
-
-
-
-    public float xMin()
-    {
-        return this.minX;
-    }
-
-
-
-    public int yBins()
-    {
-        return this.resolution;
-    }
-
-
-
-    public float yMax()
-    {
-        return this.maxY;
-    }
-
-
-
-    public float yMin()
-    {
-        return this.minY;
-    }
-
-
-
-    public float zAt(final int xIndex, final int yIndex)
-    {
-        final float xCoord = this.convertFromXIndex(xIndex);
-        final float yCoord = this.convertFromYIndex(yIndex);
-
-        this.setX(xCoord);
-        this.setY(yCoord);
-        final float zCoord = (float)this.calculateZ();
-
-
-        if(zCoord < this.minZ)
-            return this.minZ;
-        else if(zCoord > this.maxZ)
-            return this.maxZ;
-        else if(Float.isNaN(zCoord))
-            return 0.0f;
-        else
-            return zCoord;
-    }
-
-
-
-    public float zMax()
-    {
-        return this.maxZ;
-    }
-
-
-
-    public float zMin()
-    {
-        return this.minZ;
-    }
+	public float zMin()
+	{
+		return this.minZ;
+	}
 }

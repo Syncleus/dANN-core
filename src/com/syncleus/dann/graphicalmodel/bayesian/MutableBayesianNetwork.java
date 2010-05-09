@@ -20,6 +20,6 @@ package com.syncleus.dann.graphicalmodel.bayesian;
 
 import com.syncleus.dann.graph.MutableGraph;
 
-public interface MutableBayesianNetwork<N extends BayesianNode, E extends BayesianEdge<N>> extends BayesianNetwork<N,E>, MutableGraph<N,E>
+public interface MutableBayesianNetwork<N extends BayesianNode, E extends BayesianEdge<N>> extends BayesianNetwork<N, E>, MutableGraph<N, E>
 {
 }

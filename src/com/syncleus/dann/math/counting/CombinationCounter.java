@@ -16,7 +16,6 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-
 /*
  ** Derived from Public-Domain source as indicated at
  ** http://www.merriampark.com/comb.htm as of 4/20/2010.
@@ -35,13 +34,12 @@ public class CombinationCounter implements Counter
 
 	public CombinationCounter(final int setSize, final int combinationSize)
 	{
-		if(combinationSize > setSize)
+		if (combinationSize > setSize)
 			throw new IllegalArgumentException("combinationSize can not be larger than setSize");
-		if(setSize < 0)
+		if (setSize < 0)
 			throw new IllegalArgumentException("setSize can not be negative");
-		if(combinationSize < 0)
+		if (combinationSize < 0)
 			throw new IllegalArgumentException("combinationSize can not be negative");
-
 		this.setSize = setSize;
 		this.combinationSize = combinationSize;
 		currentCombination = new int[combinationSize];
@@ -82,25 +80,22 @@ public class CombinationCounter implements Counter
 		return fact;
 	}
 
-  //--------------------------------------------------------
-  // Generate next combination (algorithm from Rosen p. 286)
-  //--------------------------------------------------------
+	//--------------------------------------------------------
+	// Generate next combination (algorithm from Rosen p. 286)
+	//--------------------------------------------------------
 	public int[] getNext()
 	{
-
-		if(remaining.equals(total))
+		if (remaining.equals(total))
 		{
 			remaining = remaining.subtract(BigInteger.ONE);
 			return currentCombination.clone();
 		}
-
 		int i = combinationSize - 1;
-		while(currentCombination[i] == setSize - combinationSize + i)
+		while (currentCombination[i] == setSize - combinationSize + i)
 			i--;
 		currentCombination[i] = currentCombination[i] + 1;
 		for(int j = i + 1; j < combinationSize; j++)
 			currentCombination[j] = currentCombination[i] + j - i;
-
 		remaining = remaining.subtract(BigInteger.ONE);
 		return currentCombination.clone();
 	}

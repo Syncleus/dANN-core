@@ -18,24 +18,22 @@
  ******************************************************************************/
 package com.syncleus.dann.neural;
 
-import com.syncleus.dann.*;
+import com.syncleus.dann.DannRuntimeException;
+
 /**
  * An exception thrown to indicate two neurons trying to be connected are
  * invalid.
  *
- * 
  * @author Jeffrey Phillips Freeman
  * @since 1.0
- *
  */
 public class InvalidConnectionTypeDannException extends DannRuntimeException
 {
 	private static final long serialVersionUID = -2042929829459488405L;
-	
+
 	/**
 	 * Creates a blank default exception.
 	 *
-	 * 
 	 * @since 1.0
 	 */
 	public InvalidConnectionTypeDannException()
@@ -45,7 +43,6 @@ public class InvalidConnectionTypeDannException extends DannRuntimeException
 	/**
 	 * Creates an exception with a message describing the cause.
 	 *
-	 * 
 	 * @param msg A string describing the cause of the exception
 	 * @since 1.0
 	 */
@@ -58,7 +55,6 @@ public class InvalidConnectionTypeDannException extends DannRuntimeException
 	 * Creates an exception with a message describing the cause as well as the
 	 * throwable which caused this exception to be thrown.
 	 *
-	 * 
 	 * @param msg A string describing the cause of the exception
 	 * @param cause The throwable which caused this exception
 	 * @since 1.0
@@ -69,10 +65,9 @@ public class InvalidConnectionTypeDannException extends DannRuntimeException
 	}
 
 	/**
-	 * Creates an exception containing the throwable which caused this exception
-	 * to be thrown.
+	 * Creates an exception containing the throwable which caused this exception to
+	 * be thrown.
 	 *
-	 * 
 	 * @param cause The throwable which caused this exception
 	 * @since 1.0
 	 */

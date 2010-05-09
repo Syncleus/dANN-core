@@ -24,7 +24,6 @@ import org.freehep.j3d.plot.*;
 public class MathFunctionCanvas extends SurfacePlot
 {
 	private static final long serialVersionUID = -6107827702991178553L;
-	
 	private Function function;
 	private int xIndex;
 	private int yIndex;
@@ -37,7 +36,6 @@ public class MathFunctionCanvas extends SurfacePlot
 	public MathFunctionCanvas(final Function function, final String xParameter, final String yParameter, final float xMin, final float xMax, final float yMin, final float yMax, final int resolution)
 	{
 		super();
-
 		this.function = function;
 		this.xIndex = this.function.getParameterNameIndex(xParameter);
 		this.yIndex = this.function.getParameterNameIndex(yParameter);
@@ -46,24 +44,21 @@ public class MathFunctionCanvas extends SurfacePlot
 		this.yMin = yMin;
 		this.yMax = yMax;
 		this.resolution = resolution;
-
 		this.setLogZscaling(false);
-
 		this.refresh();
 	}
 
 	private void refresh()
 	{
-        final MathFunctionDataBinder dataBinder = new MathFunctionDataBinder(
-            this.function,
-            this.function.getParameterName(xIndex),
-            this.function.getParameterName(yIndex),
-            this.xMin,
-            this.xMax,
-            this.yMin,
-            this.yMax,
-            this.resolution);
-
+		final MathFunctionDataBinder dataBinder = new MathFunctionDataBinder(
+				this.function,
+				this.function.getParameterName(xIndex),
+				this.function.getParameterName(yIndex),
+				this.xMin,
+				this.xMax,
+				this.yMin,
+				this.yMax,
+				this.resolution);
 		super.setData(dataBinder);
 	}
 
@@ -72,14 +67,13 @@ public class MathFunctionCanvas extends SurfacePlot
 		this.function = newFunction;
 		this.xIndex = this.function.getParameterNameIndex(xParameter);
 		this.yIndex = this.function.getParameterNameIndex(yParameter);
-
 		this.refresh();
 	}
 
-    public Function getFunction()
-    {
-        return this.function;
-    }
+	public Function getFunction()
+	{
+		return this.function;
+	}
 
 	public int getXIndex()
 	{
@@ -96,39 +90,32 @@ public class MathFunctionCanvas extends SurfacePlot
 		return this.resolution;
 	}
 
-    public float getXMax()
-    {
-        return this.xMax;
-    }
+	public float getXMax()
+	{
+		return this.xMax;
+	}
 
+	public float getXMin()
+	{
+		return this.xMin;
+	}
 
+	public float getYMax()
+	{
+		return this.yMax;
+	}
 
-    public float getXMin()
-    {
-        return this.xMin;
-    }
-
-
-
-    public float getYMax()
-    {
-        return this.yMax;
-    }
-
-
-
-    public float getYMin()
-    {
-        return this.yMin;
-    }
+	public float getYMin()
+	{
+		return this.yMin;
+	}
 
 	@Override
 	public void setData(final Binned2DData data)
 	{
-		if(data instanceof MathFunctionDataBinder)
+		if (data instanceof MathFunctionDataBinder)
 		{
-			final MathFunctionDataBinder mathFunctionData = (MathFunctionDataBinder)data;
-
+			final MathFunctionDataBinder mathFunctionData = (MathFunctionDataBinder) data;
 			this.function = mathFunctionData.getFunction();
 			this.xIndex = mathFunctionData.getXIndex();
 			this.yIndex = mathFunctionData.getYIndex();
@@ -137,14 +124,11 @@ public class MathFunctionCanvas extends SurfacePlot
 			this.setYMin(mathFunctionData.yMin());
 			this.setYMax(mathFunctionData.yMax());
 			this.setResolution(mathFunctionData.getResolution());
-
 			this.refresh();
 		}
 		else
 			throw new IllegalArgumentException("data must be a MathFunction3dDataBinder");
 	}
-
-
 
 	public void setXMin(final float xMin)
 	{
@@ -152,15 +136,11 @@ public class MathFunctionCanvas extends SurfacePlot
 		this.refresh();
 	}
 
-
-
 	public void setXMax(final float xMax)
 	{
 		this.xMax = xMax;
 		this.refresh();
 	}
-
-
 
 	public void setYMin(final float yMin)
 	{
@@ -168,15 +148,11 @@ public class MathFunctionCanvas extends SurfacePlot
 		this.refresh();
 	}
 
-
-
 	public void setYMax(final float yMax)
 	{
 		this.yMax = yMax;
 		this.refresh();
 	}
-
-
 
 	public void setResolution(final int resolution)
 	{

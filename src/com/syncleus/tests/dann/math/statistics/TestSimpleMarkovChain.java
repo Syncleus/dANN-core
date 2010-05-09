@@ -29,30 +29,28 @@ import org.junit.Test;
 
 public class TestSimpleMarkovChain
 {
-	private static enum WeatherState{ SUNNY, RAINY}
+	private static enum WeatherState
+	{
+		SUNNY, RAINY
+	}
 
-    @Test
+	@Test
 	public void testSimpleChain()
 	{
 		final Map<WeatherState, Map<WeatherState, Double>> transitionProbabilities = new HashMap<WeatherState, Map<WeatherState, Double>>();
 		final Map<WeatherState, Double> sunnyTransitions = new HashMap<WeatherState, Double>();
 		final Map<WeatherState, Double> rainyTransitions = new HashMap<WeatherState, Double>();
-
 		sunnyTransitions.put(WeatherState.SUNNY, 0.9);
 		sunnyTransitions.put(WeatherState.RAINY, 0.1);
 		transitionProbabilities.put(WeatherState.SUNNY, sunnyTransitions);
-
 		rainyTransitions.put(WeatherState.SUNNY, 0.5);
 		rainyTransitions.put(WeatherState.RAINY, 0.5);
 		transitionProbabilities.put(WeatherState.RAINY, rainyTransitions);
-
 		final Set<WeatherState> states = new HashSet<WeatherState>();
 		states.add(WeatherState.SUNNY);
 		states.add(WeatherState.RAINY);
-
 		final MarkovChain<WeatherState> simpleChain = new SimpleMarkovChain<WeatherState>(transitionProbabilities, states);
 		simpleChain.transition(WeatherState.SUNNY);
-
 		Assert.assertTrue("Sunny steady state incorrect", Math.abs(simpleChain.getSteadyStateProbability(WeatherState.SUNNY) - 0.83333333333) < 0.0001);
 		Assert.assertTrue("Rainy steady state incorrect", Math.abs(simpleChain.getSteadyStateProbability(WeatherState.RAINY) - 0.16666666666) < 0.0001);
 		Assert.assertTrue("Sunny 1 step incorrect", Math.abs(simpleChain.getProbability(WeatherState.SUNNY, 1) - 0.9) < 0.0001);

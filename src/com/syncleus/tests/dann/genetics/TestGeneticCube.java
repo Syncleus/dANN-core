@@ -18,8 +18,8 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.genetics;
 
-import com.syncleus.dann.genetics.*;
 import java.util.*;
+import com.syncleus.dann.genetics.*;
 import org.junit.*;
 
 public class TestGeneticCube
@@ -28,15 +28,13 @@ public class TestGeneticCube
 	{
 		private final static double IDEAL_AREA = 2200d;
 		private final static double IDEAL_VOLUME = 6000d;
-
 		private boolean errorProcessed = false;
 		private double error;
 
 		public VolumeAreaCubeFitness(final GeneticAlgorithmChromosome chromosome)
 		{
 			super(chromosome);
-
-			if(chromosome.getGenes().size() < 3)
+			if (chromosome.getGenes().size() < 3)
 				throw new IllegalArgumentException("Chromosome must have atleast 3 genes");
 		}
 
@@ -46,36 +44,29 @@ public class TestGeneticCube
 			final double side1 = genes.get(0).expressionActivity();
 			final double side2 = genes.get(1).expressionActivity();
 			final double side3 = genes.get(2).expressionActivity();
-
 			final double volume = side1 * side2 * side3;
-			final double area = (side1*side2*2d)+(side1*side3*2d)+(side2*side3*2d);
-
+			final double area = (side1 * side2 * 2d) + (side1 * side3 * 2d) + (side2 * side3 * 2d);
 			final double volumeError = Math.abs(IDEAL_VOLUME - volume);
 			final double areaError = Math.abs(IDEAL_AREA - area);
-
 			this.error = volumeError + areaError;
 			this.errorProcessed = true;
 		}
 
 		public double getError()
 		{
-			if(this.errorProcessed == false)
+			if (this.errorProcessed == false)
 				this.process();
-			
 			return this.error;
 		}
-		
+
 		public int compareTo(final AbstractGeneticAlgorithmFitnessFunction baseCompareWith)
 		{
-			if(!(baseCompareWith instanceof VolumeAreaCubeFitness))
+			if (!(baseCompareWith instanceof VolumeAreaCubeFitness))
 				throw new IllegalArgumentException("Can only compare with VolumeAreaCubeFitness");
-
 			final VolumeAreaCubeFitness compareWith = (VolumeAreaCubeFitness) baseCompareWith;
-
-
-			if(this.getError() < compareWith.getError())
+			if (this.getError() < compareWith.getError())
 				return 1;
-			else if(this.getError() == compareWith.getError())
+			else if (this.getError() == compareWith.getError())
 				return 0;
 			else
 				return -1;
@@ -100,19 +91,17 @@ public class TestGeneticCube
 	public void testVolumeArea()
 	{
 		final HashSet<GeneticAlgorithmChromosome> cubeChromosomes = new HashSet<GeneticAlgorithmChromosome>();
-		while(cubeChromosomes.size() < 100)
+		while (cubeChromosomes.size() < 100)
 		{
 			cubeChromosomes.add(new GeneticAlgorithmChromosome(3, 10d));
 		}
-
 		final VolumeAreaCubePopulation population = new VolumeAreaCubePopulation(cubeChromosomes);
 		VolumeAreaCubeFitness fitness = new VolumeAreaCubeFitness(population.getWinner());
-		while((population.getGenerations() < 10000)&&(fitness.getError() > 0.5d))
+		while ((population.getGenerations() < 10000) && (fitness.getError() > 0.5d))
 		{
 			population.nextGeneration();
 			fitness = new VolumeAreaCubeFitness(population.getWinner());
 		}
-
 		Assert.assertTrue("Volume/Area Cube failed (error was too great)" + fitness.getError(), fitness.getError() < 0.5d);
 	}
 }

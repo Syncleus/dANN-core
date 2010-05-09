@@ -18,8 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
-import com.syncleus.dann.UnexpectedDannError;
 import java.util.*;
+import com.syncleus.dann.UnexpectedDannError;
 import org.apache.log4j.Logger;
 
 public class Nucleus implements Cloneable
@@ -31,14 +31,11 @@ public class Nucleus implements Cloneable
 	public Nucleus()
 	{
 		this.chromosomes = new ArrayList<Chromosome>();
-
 		this.mutability = Mutations.getRandom().nextDouble() * 10.0;
-
 		//make sure there is atleast one starting chromosome.
 		this.chromosomes.add(new Chromosome());
-
 		//there is a chance more chromosomes can be created
-		while(Mutations.mutationEvent(mutability))
+		while (Mutations.mutationEvent(mutability))
 			this.chromosomes.add(new Chromosome());
 	}
 
@@ -69,8 +66,8 @@ public class Nucleus implements Cloneable
 	public boolean bind(final SignalKeyConcentration concentration, final boolean isExternal)
 	{
 		boolean bound = true;
-		for( final Chromosome chromosome : this.chromosomes )
-			if( chromosome.bind(concentration, isExternal) )
+		for(final Chromosome chromosome : this.chromosomes)
+			if (chromosome.bind(concentration, isExternal))
 				bound = true;
 		return bound;
 	}
@@ -86,7 +83,7 @@ public class Nucleus implements Cloneable
 				copy.chromosomes.add(chromosome.clone());
 			return copy;
 		}
-		catch(CloneNotSupportedException caught)
+		catch (CloneNotSupportedException caught)
 		{
 			LOGGER.error("CloneNotSupportedException caught but not expected!", caught);
 			throw new UnexpectedDannError("CloneNotSupportedException caught but not expected", caught);
@@ -98,7 +95,6 @@ public class Nucleus implements Cloneable
 		final HashSet<AbstractKey> allKeys = new HashSet<AbstractKey>();
 		for(final Chromosome chromosome : this.chromosomes)
 			allKeys.addAll(chromosome.getKeys());
-
 		for(final Chromosome chromosome : this.chromosomes)
 			chromosome.mutate(allKeys);
 	}
@@ -108,7 +104,6 @@ public class Nucleus implements Cloneable
 		final HashSet<AbstractKey> allKeys = new HashSet<AbstractKey>(keyPool);
 		for(final Chromosome chromosome : this.chromosomes)
 			allKeys.addAll(chromosome.getKeys());
-		
 		for(final Chromosome chromosome : this.chromosomes)
 			chromosome.mutate(allKeys);
 	}
@@ -116,7 +111,7 @@ public class Nucleus implements Cloneable
 	Set<SignalKey> getExpressedSignals(final boolean external)
 	{
 		final HashSet<SignalKey> allSignals = new HashSet<SignalKey>();
-		for(final Chromosome chromosome:this.chromosomes)
+		for(final Chromosome chromosome : this.chromosomes)
 			allSignals.addAll(chromosome.getExpressedSignals(external));
 		return Collections.unmodifiableSet(allSignals);
 	}

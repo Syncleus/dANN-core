@@ -15,22 +15,24 @@
  *  2604 South 12th Street                                                     *
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
- ******************************************************************************/package com.syncleus.dann.math.linear.decomposition;
+ ******************************************************************************/
+package com.syncleus.dann.math.linear.decomposition;
 
 import com.syncleus.dann.math.OrderedAlgebraic;
-import com.syncleus.dann.math.linear.*;
+import com.syncleus.dann.math.linear.Matrix;
 
-/** QR Decomposition.
-<P>
-For an m-by-n matrix matrixToDecompose with m >= n, the QR decomposition is an m-by-n
-orthogonal matrix factor and an n-by-n upper triangular matrix factor so that
-matrixToDecompose = factor*factor.
-<P>
-The QR decompostion always exists, even if the matrix does not have
-full rank, so the constructor will never fail.  The primary use of the
-QR decomposition is in the least squares solution of nonsquare systems
-of simultaneous linear equations.  This will fail if isFullRank()
-returns false.
+/**
+ * QR Decomposition.
+ * <p/>
+ * For an m-by-n matrix matrixToDecompose with m >= n, the QR decomposition is
+ * an m-by-n orthogonal matrix factor and an n-by-n upper triangular matrix
+ * factor so that matrixToDecompose = factor*factor.
+ * <p/>
+ * The QR decompostion always exists, even if the matrix does not have full
+ * rank, so the constructor will never fail.  The primary use of the QR
+ * decomposition is in the least squares solution of nonsquare systems of
+ * simultaneous linear equations.  This will fail if isFullRank() returns
+ * false.
  */
 public interface QrDecomposition<M extends Matrix<M, F>, F extends OrderedAlgebraic<F>> extends SolvableDecomposition<M>
 {

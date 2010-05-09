@@ -28,7 +28,7 @@ public class LinkedGraph<N, E extends Edge<N>> extends AbstractAdjacencyGraph<N,
 	final private Map<N, Set<E>> neighborEdges = new HashMap<N, Set<E>>();
 	final private Map<N, List<N>> neighborNodes = new HashMap<N, List<N>>();
 
-	public LinkedGraph(final Graph<N,E> copyGraph)
+	public LinkedGraph(final Graph<N, E> copyGraph)
 	{
 		this(copyGraph.getNodes(), copyGraph.getEdges());
 	}
@@ -42,29 +42,25 @@ public class LinkedGraph<N, E extends Edge<N>> extends AbstractAdjacencyGraph<N,
 			final List<N> edgeNodes = edge.getNodes();
 			for(int startNodeIndex = 0; startNodeIndex < edgeNodes.size(); startNodeIndex++)
 			{
-				if(!this.nodes.contains(edgeNodes.get(startNodeIndex)))
+				if (!this.nodes.contains(edgeNodes.get(startNodeIndex)))
 					throw new IllegalArgumentException("A node that is an end point in one of the edges was not in the nodes list");
-
 				Set<E> startNeighborEdges = this.neighborEdges.get(edgeNodes.get(startNodeIndex));
-				if( startNeighborEdges == null )
+				if (startNeighborEdges == null)
 				{
 					startNeighborEdges = new LinkedHashSet<E>();
 					this.neighborEdges.put(edgeNodes.get(startNodeIndex), startNeighborEdges);
 				}
 				startNeighborEdges.add(edge);
-
 				List<N> startNeighborNodes = this.neighborNodes.get(edgeNodes.get(startNodeIndex));
-				if( startNeighborNodes == null )
+				if (startNeighborNodes == null)
 				{
 					startNeighborNodes = new ArrayList<N>();
 					this.neighborNodes.put(edgeNodes.get(startNodeIndex), startNeighborNodes);
 				}
-				
 				for(int endNodeIndex = 0; endNodeIndex < edgeNodes.size(); endNodeIndex++)
 				{
-					if(startNodeIndex == endNodeIndex)
+					if (startNodeIndex == endNodeIndex)
 						continue;
-
 					startNeighborNodes.add(edgeNodes.get(endNodeIndex));
 				}
 			}
@@ -84,7 +80,7 @@ public class LinkedGraph<N, E extends Edge<N>> extends AbstractAdjacencyGraph<N,
 
 	public Set<E> getAdjacentEdges(final N node)
 	{
-		if(this.neighborEdges.containsKey(node))
+		if (this.neighborEdges.containsKey(node))
 			return Collections.unmodifiableSet(this.neighborEdges.get(node));
 		else
 			return Collections.<E>emptySet();

@@ -19,29 +19,25 @@
 package com.syncleus.dann.neural.backprop;
 
 import com.syncleus.dann.neural.*;
-import com.syncleus.dann.neural.activation.*;
-
 
 /**
  * This is a special type of SimpleBackpropNeuron that receives input.
  *
- *
  * @author Jeffrey Phillips Freeman
  * @since 1.0
- *
  */
 public class InputBackpropNeuron extends SimpleInputNeuron implements BackpropNeuron, InputNeuron
 {
 	private static final long serialVersionUID = -5476983544332917618L;
-	
-    public InputBackpropNeuron(final Brain brain)
-    {
-        super(brain);
-    }
+
+	public InputBackpropNeuron(final Brain brain)
+	{
+		super(brain);
+	}
 
 	@Override
-    public void backPropagate()
-    {
-        //Do nothing, this is an input neuron.
-    }
+	public void backPropagate()
+	{
+		//Do nothing, this is an input neuron.
+	}
 }

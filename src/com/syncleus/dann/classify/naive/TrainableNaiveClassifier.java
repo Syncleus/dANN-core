@@ -18,14 +18,13 @@
  ******************************************************************************/
 package com.syncleus.dann.classify.naive;
 
-import com.syncleus.dann.classify.*;
 import java.util.Set;
+import com.syncleus.dann.classify.TrainableClassifier;
 
-public interface TrainableNaiveClassifier<I,F,C> extends NaiveClassifier<I,F,C>, TrainableClassifier<I,C>
+public interface TrainableNaiveClassifier<I, F, C> extends NaiveClassifier<I, F, C>, TrainableClassifier<I, C>
 {
 	//Trainable methods
 	void train(I item, C category);
-
 	//NaiveClassifier methods
 	C featureClassification(F feature);
 	C featureClassificationWeighted(F feature);

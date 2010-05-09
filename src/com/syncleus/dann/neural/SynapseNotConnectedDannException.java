@@ -17,23 +17,22 @@
  *                                                                             *
  ******************************************************************************/
 package com.syncleus.dann.neural;
-import com.syncleus.dann.*;
+
+import com.syncleus.dann.DannException;
+
 /**
  * This means a synapse is not a connected synpase.
  *
- *
  * @author Jeffrey Phillips Freeman
  * @since 1.0
- *
  */
 public class SynapseNotConnectedDannException extends DannException
 {
 	private static final long serialVersionUID = 6281989867214769559L;
-	
+
 	/**
 	 * Creates a blank default exception.
 	 *
-	 * 
 	 * @since 1.0
 	 */
 	public SynapseNotConnectedDannException()
@@ -43,7 +42,6 @@ public class SynapseNotConnectedDannException extends DannException
 	/**
 	 * Creates an exception with a message describing the cause.
 	 *
-	 * 
 	 * @param msg A string describing the cause of the exception
 	 * @since 1.0
 	 */
@@ -56,7 +54,6 @@ public class SynapseNotConnectedDannException extends DannException
 	 * Creates an exception with a message describing the cause as well as the
 	 * throwable which caused this exception to be thrown.
 	 *
-	 * 
 	 * @param msg A string describing the cause of the exception
 	 * @param cause The throwable which caused this exception
 	 * @since 1.0
@@ -67,10 +64,9 @@ public class SynapseNotConnectedDannException extends DannException
 	}
 
 	/**
-	 * Creates an exception containing the throwable which caused this exception
-	 * to be thrown.
+	 * Creates an exception containing the throwable which caused this exception to
+	 * be thrown.
 	 *
-	 * 
 	 * @param cause The throwable which caused this exception
 	 * @since 1.0
 	 */

@@ -18,10 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.topological;
 
-import com.syncleus.dann.graph.*;
 import java.util.List;
+import com.syncleus.dann.graph.*;
 
 public interface TopologicalSorter<N>
 {
-	List<N> sort(BidirectedGraph<? extends N,? extends DirectedEdge<? extends N>> graph);
+	List<N> sort(BidirectedGraph<? extends N, ? extends DirectedEdge<? extends N>> graph);
 }

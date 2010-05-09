@@ -26,14 +26,13 @@ public interface Edge<N> extends Serializable, Cloneable
 	List<N> getNodes();
 	List<N> getTraversableNodes(N node);
 	boolean isTraversable(N node);
-
 	/**
 	 * returns an edge with the specified node disconnected, null if the entire
 	 * edge should be deleted as a result of removing the specified node.
 	 *
 	 * @param node node to remove from the returned edge.
 	 * @return an edge with the specified node disconnected, null if the entire
-	 * edge should be deleted as a result of removing the specified node.
+	 *         edge should be deleted as a result of removing the specified node.
 	 * @since 2.0
 	 */
 	Edge<N> disconnect(N node);

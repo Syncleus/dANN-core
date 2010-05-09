@@ -23,7 +23,7 @@ import java.util.*;
 public class ImmutableUndirectedEdge<N> extends AbstractBidirectedEdge<N>
 {
 	private static final long serialVersionUID = -7729189071866403594L;
-	
+
 	public ImmutableUndirectedEdge(final N leftNode, final N rightNode)
 	{
 		super(leftNode, EndState.NONE, rightNode, EndState.NONE);
@@ -31,9 +31,9 @@ public class ImmutableUndirectedEdge<N> extends AbstractBidirectedEdge<N>
 
 	public List<N> getTraversableNodes(final N node)
 	{
-		if( this.getLeftNode().equals(node) )
+		if (this.getLeftNode().equals(node))
 			return Collections.singletonList(this.getRightNode());
-		else if( this.getRightNode().equals(node) )
+		else if (this.getRightNode().equals(node))
 			return Collections.singletonList(this.getLeftNode());
 		else
 			throw new IllegalArgumentException("node is not one of the end points!");
@@ -77,21 +77,19 @@ public class ImmutableUndirectedEdge<N> extends AbstractBidirectedEdge<N>
 
 	public ImmutableUndirectedEdge<N> disconnect(final N node)
 	{
-		if(node == null)
+		if (node == null)
 			throw new IllegalArgumentException("node can not be null", new NullPointerException());
-		if(!this.getNodes().contains(node))
+		if (!this.getNodes().contains(node))
 			throw new IllegalArgumentException("node is not currently connected to");
-
 		return (ImmutableUndirectedEdge<N>) this.remove(node);
 	}
 
 	public ImmutableUndirectedEdge<N> disconnect(final List<N> nodes)
 	{
-		if(nodes == null)
+		if (nodes == null)
 			throw new IllegalArgumentException("node can not be null", new NullPointerException());
-		if(!this.getNodes().containsAll(nodes))
+		if (!this.getNodes().containsAll(nodes))
 			throw new IllegalArgumentException("node is not currently connected to");
-
 		return (ImmutableUndirectedEdge<N>) this.remove(nodes);
 	}
 

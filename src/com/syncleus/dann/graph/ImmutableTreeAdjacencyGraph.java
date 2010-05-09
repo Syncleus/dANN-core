@@ -21,7 +21,7 @@ package com.syncleus.dann.graph;
 import java.util.*;
 import java.util.Map.Entry;
 
-public class ImmutableTreeAdjacencyGraph<N, E extends BidirectedEdge<N>> extends AbstractTreeAdjacencyGraph<N,E>
+public class ImmutableTreeAdjacencyGraph<N, E extends BidirectedEdge<N>> extends AbstractTreeAdjacencyGraph<N, E>
 {
 	private static final long serialVersionUID = -7193318700735007603L;
 
@@ -29,15 +29,15 @@ public class ImmutableTreeAdjacencyGraph<N, E extends BidirectedEdge<N>> extends
 	{
 		super();
 	}
-	
-	public ImmutableTreeAdjacencyGraph(final Graph<N,E> copyGraph)
+
+	public ImmutableTreeAdjacencyGraph(final Graph<N, E> copyGraph)
 	{
 		super(copyGraph.getNodes(), copyGraph.getEdges());
 	}
 
 	public ImmutableTreeAdjacencyGraph(final Set<N> nodes, final Set<E> edges)
 	{
-		super(nodes,edges);
+		super(nodes, edges);
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class ImmutableTreeAdjacencyGraph<N, E extends BidirectedEdge<N>> extends
 	@Override
 	protected Map<N, Set<E>> getInternalAdjacencyEdges()
 	{
-		final Map<N,Set<E>> newAdjacentEdges = new HashMap<N, Set<E>>();
+		final Map<N, Set<E>> newAdjacentEdges = new HashMap<N, Set<E>>();
 		for(final Entry<N, Set<E>> neighborEdgeEntry : super.getInternalAdjacencyEdges().entrySet())
 			newAdjacentEdges.put(neighborEdgeEntry.getKey(), new HashSet<E>(neighborEdgeEntry.getValue()));
 		return newAdjacentEdges;
@@ -58,51 +58,51 @@ public class ImmutableTreeAdjacencyGraph<N, E extends BidirectedEdge<N>> extends
 	@Override
 	protected Map<N, List<N>> getInternalAdjacencyNodes()
 	{
-		final Map<N,List<N>> newAdjacentNodes = new HashMap<N, List<N>>();
+		final Map<N, List<N>> newAdjacentNodes = new HashMap<N, List<N>>();
 		for(final Entry<N, List<N>> neighborNodeEntry : this.getInternalAdjacencyNodes().entrySet())
 			newAdjacentNodes.put(neighborNodeEntry.getKey(), new ArrayList<N>(neighborNodeEntry.getValue()));
 		return newAdjacentNodes;
 	}
 
 	@Override
-	public ImmutableTreeAdjacencyGraph<N,E> cloneAdd(final E newEdge)
+	public ImmutableTreeAdjacencyGraph<N, E> cloneAdd(final E newEdge)
 	{
-		return (ImmutableTreeAdjacencyGraph<N,E>) super.cloneAdd(newEdge);
+		return (ImmutableTreeAdjacencyGraph<N, E>) super.cloneAdd(newEdge);
 	}
 
 	@Override
-	public ImmutableTreeAdjacencyGraph<N,E> cloneAdd(final N newNode)
+	public ImmutableTreeAdjacencyGraph<N, E> cloneAdd(final N newNode)
 	{
-		return (ImmutableTreeAdjacencyGraph<N,E>) super.cloneAdd(newNode);
+		return (ImmutableTreeAdjacencyGraph<N, E>) super.cloneAdd(newNode);
 	}
 
 	@Override
-	public ImmutableTreeAdjacencyGraph<N,E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
+	public ImmutableTreeAdjacencyGraph<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
 	{
-		return (ImmutableTreeAdjacencyGraph<N,E>) super.cloneAdd(newNodes, newEdges);
+		return (ImmutableTreeAdjacencyGraph<N, E>) super.cloneAdd(newNodes, newEdges);
 	}
 
 	@Override
-	public ImmutableTreeAdjacencyGraph<N,E> cloneRemove(final E edgeToRemove)
+	public ImmutableTreeAdjacencyGraph<N, E> cloneRemove(final E edgeToRemove)
 	{
-		return (ImmutableTreeAdjacencyGraph<N,E>) super.cloneRemove(edgeToRemove);
+		return (ImmutableTreeAdjacencyGraph<N, E>) super.cloneRemove(edgeToRemove);
 	}
 
 	@Override
-	public ImmutableTreeAdjacencyGraph<N,E> cloneRemove(final N nodeToRemove)
+	public ImmutableTreeAdjacencyGraph<N, E> cloneRemove(final N nodeToRemove)
 	{
-		return (ImmutableTreeAdjacencyGraph<N,E>) super.cloneRemove(nodeToRemove);
+		return (ImmutableTreeAdjacencyGraph<N, E>) super.cloneRemove(nodeToRemove);
 	}
 
 	@Override
-	public ImmutableTreeAdjacencyGraph<N,E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
+	public ImmutableTreeAdjacencyGraph<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
 	{
-		return (ImmutableTreeAdjacencyGraph<N,E>) super.cloneRemove(deleteNodes, deleteEdges);
+		return (ImmutableTreeAdjacencyGraph<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
 	}
 
 	@Override
-	public ImmutableTreeAdjacencyGraph<N,E> clone()
+	public ImmutableTreeAdjacencyGraph<N, E> clone()
 	{
-		return (ImmutableTreeAdjacencyGraph<N,E>) super.clone();
+		return (ImmutableTreeAdjacencyGraph<N, E>) super.clone();
 	}
 }

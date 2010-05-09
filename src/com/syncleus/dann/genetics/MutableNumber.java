@@ -18,19 +18,17 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics;
 
+import java.util.Random;
 import com.syncleus.dann.UnexpectedDannError;
 import com.syncleus.dann.genetics.wavelets.Mutations;
-import java.util.Random;
 import org.apache.log4j.Logger;
 
 /**
- * An abstract class representing a gene which expresses a constant value
- * which only changes through mutation.
+ * An abstract class representing a gene which expresses a constant value which
+ * only changes through mutation.
  *
  * @author Jeffrey Phillips Freeman
- * @param <N> The type of number backing the Gene.
  * @since 2.0
- *
  */
 public abstract class MutableNumber<N extends Number> extends Number implements Cloneable
 {
@@ -50,8 +48,8 @@ public abstract class MutableNumber<N extends Number> extends Number implements 
 	}
 
 	/**
-	 * Returns a random double normally distributed around 0.0 and multiplied
-	 * by deviation.
+	 * Returns a random double normally distributed around 0.0 and multiplied by
+	 * deviation.
 	 *
 	 * @param deviation multiplier for the distribution.
 	 * @return Random double with the appropriate distribution.
@@ -63,10 +61,10 @@ public abstract class MutableNumber<N extends Number> extends Number implements 
 		return atanh(normalRand) * Math.abs(deviation);
 	}
 
-    static private double atanh(final double value)
-    {
-        return 0.5 * Math.log(Math.abs((value + 1.0) / (1.0 - value)));
-    }
+	static private double atanh(final double value)
+	{
+		return 0.5 * Math.log(Math.abs((value + 1.0) / (1.0 - value)));
+	}
 
 	/**
 	 * Get the number used to back this object.
@@ -169,11 +167,10 @@ public abstract class MutableNumber<N extends Number> extends Number implements 
 	@Override
 	public final boolean equals(final Object compareWith)
 	{
-		if(compareWith == null)
+		if (compareWith == null)
 			return true;
-
-		if(compareWith instanceof MutableNumber)
-			return this.number.equals(((MutableNumber)compareWith).number);
+		if (compareWith instanceof MutableNumber)
+			return this.number.equals(((MutableNumber) compareWith).number);
 		else
 			return false;
 	}
@@ -191,9 +188,9 @@ public abstract class MutableNumber<N extends Number> extends Number implements 
 	}
 
 	/**
-	 * All children of this class should override this method and return
-	 * their own class type even if it is abstract. It should return a copy
-	 * without any mutation.
+	 * All children of this class should override this method and return their own
+	 * class type even if it is abstract. It should return a copy without any
+	 * mutation.
 	 *
 	 * @return an exact copy of this object.
 	 * @since 2.0
@@ -208,7 +205,7 @@ public abstract class MutableNumber<N extends Number> extends Number implements 
 			copy.number = this.number;
 			return copy;
 		}
-		catch(CloneNotSupportedException caught)
+		catch (CloneNotSupportedException caught)
 		{
 			LOGGER.error("CloneNotSupportedException caught but not expected!", caught);
 			throw new UnexpectedDannError("CloneNotSupportedException caught but not expected", caught);
@@ -216,14 +213,14 @@ public abstract class MutableNumber<N extends Number> extends Number implements 
 	}
 
 	/**
-	 * This will make a copy of the object and mutate it. The mutation has
-	 * a normal distribution multiplied by the deviation. If the Number is
-	 * mutated past its largest or smallest representable number it will
-	 * simply return the max or min respectivly.
+	 * This will make a copy of the object and mutate it. The mutation has a normal
+	 * distribution multiplied by the deviation. If the Number is mutated past its
+	 * largest or smallest representable number it will simply return the max or
+	 * min respectivly.
 	 *
-	 * @param deviation A double indicating how extreme the mutation will be.
-	 * The greater the deviation the more drastically the object will mutate.
-	 * A deviation of 0 should cause no mutation.
+	 * @param deviation A double indicating how extreme the mutation will be. The
+	 * greater the deviation the more drastically the object will mutate. A
+	 * deviation of 0 should cause no mutation.
 	 * @return A copy of the current object with potential mutations.
 	 * @since 2.0
 	 */

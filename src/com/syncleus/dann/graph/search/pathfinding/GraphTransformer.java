@@ -20,7 +20,7 @@ package com.syncleus.dann.graph.search.pathfinding;
 
 import com.syncleus.dann.graph.Graph;
 
-public interface GraphTransformer<G extends Graph<?,?>>
+public interface GraphTransformer<G extends Graph<?, ?>>
 {
 	G transform(G original);
 }

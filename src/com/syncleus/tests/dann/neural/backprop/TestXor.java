@@ -18,7 +18,6 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.neural.backprop;
 
-
 import com.syncleus.dann.DannException;
 import com.syncleus.dann.neural.InputNeuron;
 import com.syncleus.dann.neural.OutputNeuron;
@@ -35,8 +34,8 @@ import org.junit.*;
 /**
  * An example main class that shows using dANN to solve an XOR problem. An XOR
  * is a circuit that returns true (1) when only one of its inputs is true. It
- * returns false (-1) if none all of its inputs are false or if more then one
- * of its inputs are true.
+ * returns false (-1) if none all of its inputs are false or if more then one of
+ * its inputs are true.
  *
  * @author Jeffrey Phillips Freeman
  */
@@ -51,16 +50,13 @@ public class TestXor
 	private final static double LEARNING_RATE = 0.0175;
 	private final static int[] TOPOLOGY = {3, 3, 1};
 
-
-
 	@Test
 	public void testXor() throws DannException
 	{
 		//Adjust the learning rate
 		final ActivationFunction activationFunction = new SineActivationFunction();
-
 		final int cores = Runtime.getRuntime().availableProcessors();
-		final ThreadPoolExecutor executor = new ThreadPoolExecutor(cores+1, cores*2, 20, TimeUnit.SECONDS, new LinkedBlockingQueue());
+		final ThreadPoolExecutor executor = new ThreadPoolExecutor(cores + 1, cores * 2, 20, TimeUnit.SECONDS, new LinkedBlockingQueue());
 		try
 		{
 			this.brain = new FullyConnectedFeedforwardBrain(TOPOLOGY, LEARNING_RATE, activationFunction, executor);
@@ -70,9 +66,7 @@ public class TestXor
 			this.inputC = inputs.get(2);
 			final ArrayList<OutputNeuron> outputs = new ArrayList<OutputNeuron>(this.brain.getOutputNeurons());
 			this.output = (OutputBackpropNeuron) outputs.get(0);
-
 			train(TRAINING_CYCLES);
-
 			checkOutput();
 		}
 		finally
@@ -86,14 +80,10 @@ public class TestXor
 		this.brain.propagate();
 	}
 
-
-
 	private void backPropogateTraining()
 	{
 		this.brain.backPropagate();
 	}
-
-
 
 	private void setCurrentInput(final double[] inputToSet)
 	{
@@ -104,70 +94,60 @@ public class TestXor
 
 	private static boolean checkTruthTable(final double in1, final double in2, final double in3, final double result)
 	{
-		if( ((in1 > 0.0)&&(in2 <= 0.0)&&(in3 <= 0.0))||
-			((in1 <= 0.0)&&(in2 > 0.0)&&(in3 <= 0.0))||
-			((in1 <= 0.0)&&(in2 <= 0.0)&&(in3 > 0.0))
-		  )
+		if (((in1 > 0.0) && (in2 <= 0.0) && (in3 <= 0.0)) ||
+				((in1 <= 0.0) && (in2 > 0.0) && (in3 <= 0.0)) ||
+				((in1 <= 0.0) && (in2 <= 0.0) && (in3 > 0.0))
+				)
 			return (result > 0.0);
 		else
 			return (result <= 0.0);
 	}
 
-
-
 	private void checkOutput()
 	{
 		final double[] curInput =
-		{
-			-1, -1, -1
-		};
+				{
+						-1, -1, -1
+				};
 		setCurrentInput(curInput);
 		propogateOutput();
 		Assert.assertTrue("Failed Truth Table: curInput[0]:" + curInput[0] + " curInput[1]:" + curInput[1] + " curInput[2]:" + curInput[2] + " result:" + output.getOutput(), checkTruthTable(curInput[0], curInput[1], curInput[2], output.getOutput()));
-
-
 		curInput[0] = 1;
 		curInput[1] = -1;
 		curInput[2] = -1;
 		setCurrentInput(curInput);
 		propogateOutput();
 		Assert.assertTrue("Failed Truth Table: curInput[0]:" + curInput[0] + " curInput[1]:" + curInput[1] + " curInput[2]:" + curInput[2] + " result:" + output.getOutput(), checkTruthTable(curInput[0], curInput[1], curInput[2], output.getOutput()));
-
 		curInput[0] = -1;
 		curInput[1] = 1;
 		curInput[2] = -1;
 		setCurrentInput(curInput);
 		propogateOutput();
 		Assert.assertTrue("Failed Truth Table: curInput[0]:" + curInput[0] + " curInput[1]:" + curInput[1] + " curInput[2]:" + curInput[2] + " result:" + output.getOutput(), checkTruthTable(curInput[0], curInput[1], curInput[2], output.getOutput()));
-
 		curInput[0] = -1;
 		curInput[1] = -1;
 		curInput[2] = 1;
 		setCurrentInput(curInput);
 		propogateOutput();
 		Assert.assertTrue("Failed Truth Table: curInput[0]:" + curInput[0] + " curInput[1]:" + curInput[1] + " curInput[2]:" + curInput[2] + " result:" + output.getOutput(), checkTruthTable(curInput[0], curInput[1], curInput[2], output.getOutput()));
-
 		curInput[0] = 1;
 		curInput[1] = 1;
 		curInput[2] = -1;
 		setCurrentInput(curInput);
 		propogateOutput();
 		Assert.assertTrue("Failed Truth Table: curInput[0]:" + curInput[0] + " curInput[1]:" + curInput[1] + " curInput[2]:" + curInput[2] + " result:" + output.getOutput(), checkTruthTable(curInput[0], curInput[1], curInput[2], output.getOutput()));
-
 		curInput[0] = -1;
 		curInput[1] = 1;
 		curInput[2] = 1;
 		setCurrentInput(curInput);
 		propogateOutput();
 		Assert.assertTrue("Failed Truth Table: curInput[0]:" + curInput[0] + " curInput[1]:" + curInput[1] + " curInput[2]:" + curInput[2] + " result:" + output.getOutput(), checkTruthTable(curInput[0], curInput[1], curInput[2], output.getOutput()));
-
 		curInput[0] = 1;
 		curInput[1] = -1;
 		curInput[2] = 1;
 		setCurrentInput(curInput);
 		propogateOutput();
 		Assert.assertTrue("Failed Truth Table: curInput[0]:" + curInput[0] + " curInput[1]:" + curInput[1] + " curInput[2]:" + curInput[2] + " result:" + output.getOutput(), checkTruthTable(curInput[0], curInput[1], curInput[2], output.getOutput()));
-
 		curInput[0] = 1;
 		curInput[1] = 1;
 		curInput[2] = 1;
@@ -176,22 +156,19 @@ public class TestXor
 		Assert.assertTrue("Failed Truth Table: curInput[0]:" + curInput[0] + " curInput[1]:" + curInput[1] + " curInput[2]:" + curInput[2] + " result:" + output.getOutput(), checkTruthTable(curInput[0], curInput[1], curInput[2], output.getOutput()));
 	}
 
-
-
 	private void train(final int count)
 	{
-		for(int lcv = 0;lcv < count;lcv++)
+		for(int lcv = 0; lcv < count; lcv++)
 		{
 			final double[] curInput =
-			{
-				-1, -1, -1
-			};
+					{
+							-1, -1, -1
+					};
 			double curTrain = -1;
 			setCurrentInput(curInput);
 			propogateOutput();
 			output.setDesired(curTrain);
 			backPropogateTraining();
-
 			curInput[0] = 1;
 			curInput[1] = -1;
 			curInput[2] = -1;
@@ -200,7 +177,6 @@ public class TestXor
 			propogateOutput();
 			output.setDesired(curTrain);
 			backPropogateTraining();
-
 			curInput[0] = -1;
 			curInput[1] = 1;
 			curInput[2] = -1;
@@ -209,7 +185,6 @@ public class TestXor
 			propogateOutput();
 			output.setDesired(curTrain);
 			backPropogateTraining();
-
 			curInput[0] = -1;
 			curInput[1] = -1;
 			curInput[2] = 1;
@@ -218,7 +193,6 @@ public class TestXor
 			propogateOutput();
 			output.setDesired(curTrain);
 			backPropogateTraining();
-
 			curInput[0] = 1;
 			curInput[1] = 1;
 			curInput[2] = -1;
@@ -227,7 +201,6 @@ public class TestXor
 			propogateOutput();
 			output.setDesired(curTrain);
 			backPropogateTraining();
-
 			curInput[0] = -1;
 			curInput[1] = 1;
 			curInput[2] = 1;
@@ -236,7 +209,6 @@ public class TestXor
 			propogateOutput();
 			output.setDesired(curTrain);
 			backPropogateTraining();
-
 			curInput[0] = 1;
 			curInput[1] = -1;
 			curInput[2] = 1;
@@ -245,7 +217,6 @@ public class TestXor
 			propogateOutput();
 			output.setDesired(curTrain);
 			backPropogateTraining();
-
 			curInput[0] = 1;
 			curInput[1] = 1;
 			curInput[2] = 1;

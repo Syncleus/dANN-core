@@ -18,8 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.dataprocessing.language.stem;
 
-import com.syncleus.dann.dataprocessing.language.*;
 import java.util.*;
+import com.syncleus.dann.dataprocessing.language.BasicWordParser;
 
 public class StemmingWordParser extends BasicWordParser implements Stemmer
 {
@@ -43,7 +43,7 @@ public class StemmingWordParser extends BasicWordParser implements Stemmer
 	private List<String> stemList(final Collection<String> unstemmed)
 	{
 		final List<String> stemmedWords = new ArrayList<String>(unstemmed.size());
-		for(final String word:unstemmed)
+		for(final String word : unstemmed)
 			stemmedWords.add(stemmer.stemWord(word.toLowerCase()));
 		return Collections.unmodifiableList(stemmedWords);
 	}
@@ -60,7 +60,6 @@ public class StemmingWordParser extends BasicWordParser implements Stemmer
 	public List<String> getWords(final String text)
 	{
 		return stemList(super.getWords(text));
-
 	}
 
 	@Override

@@ -19,21 +19,24 @@
 package com.syncleus.dann.math.linear.decomposition;
 
 import com.syncleus.dann.math.OrderedAlgebraic;
-import com.syncleus.dann.math.linear.*;
+import com.syncleus.dann.math.linear.Matrix;
 
-/** Cholesky Decomposition.
-<P>
-For a symmetric, positive definite matrix A, the Cholesky decomposition
-is an lower triangular matrix L so that A = L*L'.
-<P>
-If the matrix is not symmetric or positive definite, the constructor
-returns a partial decomposition and sets an internal flag that may
-be queried by the isSpd() method.
+/**
+ * Cholesky Decomposition.
+ * <p/>
+ * For a symmetric, positive definite matrix A, the Cholesky decomposition is an
+ * lower triangular matrix L so that A = L*L'.
+ * <p/>
+ * If the matrix is not symmetric or positive definite, the constructor returns
+ * a partial decomposition and sets an internal flag that may be queried by the
+ * isSpd() method.
  */
 public interface CholeskyDecomposition<M extends Matrix<M, F>, F extends OrderedAlgebraic<F>> extends java.io.Serializable, SolvableDecomposition<M>
 {
-	/** Is the matrix symmetric and positive definite?
-	@return     true if A is symmetric and positive definite.
+	/**
+	 * Is the matrix symmetric and positive definite?
+	 *
+	 * @return true if A is symmetric and positive definite.
 	 */
 	boolean isSpd();
 }

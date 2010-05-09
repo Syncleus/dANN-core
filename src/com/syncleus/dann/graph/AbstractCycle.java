@@ -19,27 +19,25 @@
 package com.syncleus.dann.graph;
 
 import java.util.List;
-
 // TODO refine the verify and equals method to match a cycles definition of
 // unique. i.e. no repeat in nodes or edges, sequence matters but starting point doesnt.
 
-public abstract class AbstractCycle<N, E extends Edge<N>> extends AbstractWalk<N,E> implements Cycle<N,E>
+public abstract class AbstractCycle<N, E extends Edge<N>> extends AbstractWalk<N, E> implements Cycle<N, E>
 {
 	@Override
 	protected boolean verify(final List<N> nodeSteps, final List<E> edgeSteps)
 	{
-		if( (super.verify(nodeSteps, edgeSteps)) && (AbstractCycle.verifyUtility(nodeSteps, edgeSteps)) )
+		if ((super.verify(nodeSteps, edgeSteps)) && (AbstractCycle.verifyUtility(nodeSteps, edgeSteps)))
 			return true;
 		return false;
 	}
 
 	static <N, E extends Edge<? extends N>> boolean verifyUtility(final List<N> nodeSteps, final List<E> edgeSteps)
 	{
-		if(nodeSteps.size()<2)
+		if (nodeSteps.size() < 2)
 			throw new IllegalArgumentException("Wrong number of nodes or steps");
-		if(!nodeSteps.get(0).equals(nodeSteps.get(nodeSteps.size()-1)))
+		if (!nodeSteps.get(0).equals(nodeSteps.get(nodeSteps.size() - 1)))
 			return false;
-
 		return true;
 	}
 
@@ -50,7 +48,7 @@ public abstract class AbstractCycle<N, E extends Edge<N>> extends AbstractWalk<N
 
 	static boolean isOddCycle(final Cycle cycle)
 	{
-		return (cycle.getSteps().size()%2 != 0);
+		return (cycle.getSteps().size() % 2 != 0);
 	}
 
 	@Override

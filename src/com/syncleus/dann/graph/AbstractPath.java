@@ -20,23 +20,22 @@ package com.syncleus.dann.graph;
 
 import java.util.*;
 
-public abstract class AbstractPath<N, E extends Edge<N>> extends AbstractWalk<N,E> implements Path<N,E>
+public abstract class AbstractPath<N, E extends Edge<N>> extends AbstractWalk<N, E> implements Path<N, E>
 {
 	@Override
 	protected boolean verify(final List<N> nodeSteps, final List<E> edgeSteps)
 	{
-		if( (super.verify(nodeSteps, edgeSteps)) && (verifyUtility(nodeSteps, edgeSteps)) )
+		if ((super.verify(nodeSteps, edgeSteps)) && (verifyUtility(nodeSteps, edgeSteps)))
 			return true;
 		return false;
 	}
 
 	static <N, E extends Edge<N>> boolean verifyUtility(final List<N> nodeSteps, final List<E> edgeSteps)
 	{
-		if(nodeSteps.size()<2)
+		if (nodeSteps.size() < 2)
 			throw new IllegalArgumentException("Wrong number of nodes or steps");
-		if(nodeSteps.get(0).equals(nodeSteps.get(nodeSteps.size()-1)))
+		if (nodeSteps.get(0).equals(nodeSteps.get(nodeSteps.size() - 1)))
 			return false;
-
 		return true;
 	}
 
@@ -45,40 +44,36 @@ public abstract class AbstractPath<N, E extends Edge<N>> extends AbstractWalk<N,
 		return isChain(this);
 	}
 
-	protected static <N, E extends Edge<N>> boolean isChain(final Path<N,E> path)
+	protected static <N, E extends Edge<N>> boolean isChain(final Path<N, E> path)
 	{
 		final Set<N> uniqueNodes = new HashSet<N>(path.getNodeSteps());
 		final Set<E> uniqueEdges = new HashSet<E>(path.getSteps());
-		if( uniqueNodes.size() < path.getNodeSteps().size())
+		if (uniqueNodes.size() < path.getNodeSteps().size())
 			return false;
-		if( uniqueEdges.size() < path.getSteps().size())
+		if (uniqueEdges.size() < path.getSteps().size())
 			return false;
 		return true;
 	}
 
-	public boolean isIndependent(final Path<N,E> path)
+	public boolean isIndependent(final Path<N, E> path)
 	{
 		return AbstractPath.isIndependentUtility(this, path);
 	}
 
-	static <N, E extends Edge<N>> boolean isIndependentUtility(final Path<N,E> firstPath, final Path<N,E> secondPath)
+	static <N, E extends Edge<N>> boolean isIndependentUtility(final Path<N, E> firstPath, final Path<N, E> secondPath)
 	{
-		if( !firstPath.getFirstNode().equals(secondPath.getFirstNode()) )
+		if (!firstPath.getFirstNode().equals(secondPath.getFirstNode()))
 			return false;
-		if( !firstPath.getLastNode().equals(secondPath.getLastNode()) )
+		if (!firstPath.getLastNode().equals(secondPath.getLastNode()))
 			return false;
-
 		final List<N> exclusiveFirstNodes = new ArrayList<N>(firstPath.getNodeSteps());
-		exclusiveFirstNodes.remove(exclusiveFirstNodes.size()-1);
+		exclusiveFirstNodes.remove(exclusiveFirstNodes.size() - 1);
 		exclusiveFirstNodes.remove(0);
-
 		final List<N> secondNodes = new ArrayList<N>(secondPath.getNodeSteps());
-		secondNodes.remove(secondNodes.size()-1);
+		secondNodes.remove(secondNodes.size() - 1);
 		secondNodes.remove(0);
-
 		exclusiveFirstNodes.removeAll(secondNodes);
-
-		if( exclusiveFirstNodes.size() < firstPath.getNodeSteps().size())
+		if (exclusiveFirstNodes.size() < firstPath.getNodeSteps().size())
 			return false;
 		return true;
 	}
@@ -88,21 +83,20 @@ public abstract class AbstractPath<N, E extends Edge<N>> extends AbstractWalk<N,
 	{
 		return false;
 	}
-	
+
 	static int hashCodeUtility(final Path path)
 	{
 		return (path.getNodeSteps().hashCode() + path.getSteps().hashCode()) * path.getSteps().hashCode();
 	}
-	
+
 	static boolean equalsUtility(final Path path, final Object object)
 	{
-		if( (path == null) || (object == null))
+		if ((path == null) || (object == null))
 			return false;
-
-		final Path secondPath = (Path)object;
-		if(! (secondPath.getNodeSteps().equals(path.getNodeSteps())) )
+		final Path secondPath = (Path) object;
+		if (!(secondPath.getNodeSteps().equals(path.getNodeSteps())))
 			return false;
-		if(! (secondPath.getSteps().equals(path.getSteps())) )
+		if (!(secondPath.getSteps().equals(path.getSteps())))
 			return false;
 		return true;
 	}
@@ -116,12 +110,10 @@ public abstract class AbstractPath<N, E extends Edge<N>> extends AbstractWalk<N,
 	@Override
 	public boolean equals(final Object object)
 	{
-		if(object == null)
+		if (object == null)
 			return false;
-
-		if(!(object instanceof Path))
+		if (!(object instanceof Path))
 			return false;
-		
 		return AbstractPath.equalsUtility(this, object);
 	}
 }

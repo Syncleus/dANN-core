@@ -21,7 +21,6 @@ package com.syncleus.dann.neural;
 public class StaticNeuron extends AbstractNeuron
 {
 	private static final long serialVersionUID = 4752462697390024068L;
-	
 	private final double output;
 
 	public StaticNeuron(final Brain brain, final double constantOutput)
@@ -32,8 +31,8 @@ public class StaticNeuron extends AbstractNeuron
 
 	public void propagate()
 	{
-        for (final Synapse current : this.getBrain().getTraversableEdges(this))
-            current.setInput(this.output);
+		for(final Synapse current : this.getBrain().getTraversableEdges(this))
+			current.setInput(this.output);
 	}
 
 	protected double getOutput()

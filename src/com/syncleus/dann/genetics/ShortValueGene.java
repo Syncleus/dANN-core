@@ -25,7 +25,6 @@ package com.syncleus.dann.genetics;
  *
  * @author Jeffrey Phillips Freeman
  * @since 2.0
- *
  */
 public class ShortValueGene extends AbstractValueGene<MutableShort> implements Cloneable
 {
@@ -36,7 +35,7 @@ public class ShortValueGene extends AbstractValueGene<MutableShort> implements C
 	 */
 	public ShortValueGene()
 	{
-		super(new MutableShort((short)0));
+		super(new MutableShort((short) 0));
 	}
 
 	/**
@@ -97,12 +96,12 @@ public class ShortValueGene extends AbstractValueGene<MutableShort> implements C
 	}
 
 	/**
-	 * This will make a copy of the object and mutate it. The mutation has
-	 * a normal distribution multiplied by the deviation.
+	 * This will make a copy of the object and mutate it. The mutation has a normal
+	 * distribution multiplied by the deviation.
 	 *
-	 * @param deviation A double indicating how extreme the mutation will be.
-	 * The greater the deviation the more drastically the object will mutate.
-	 * A deviation of 0 should cause no mutation.
+	 * @param deviation A double indicating how extreme the mutation will be. The
+	 * greater the deviation the more drastically the object will mutate. A
+	 * deviation of 0 should cause no mutation.
 	 * @return A copy of the current object with potential mutations.
 	 * @since 2.0
 	 */
@@ -110,7 +109,6 @@ public class ShortValueGene extends AbstractValueGene<MutableShort> implements C
 	{
 		final ShortValueGene copy = this.clone();
 		copy.internalMutate(deviation);
-
 		return copy;
 	}
 }

@@ -18,23 +18,20 @@
  ******************************************************************************/
 package com.syncleus.dann.classify.naive;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-public class SimpleNaiveClassifier<I,F,C> implements TrainableNaiveClassifier<I,F,C>
+public class SimpleNaiveClassifier<I, F, C> implements TrainableNaiveClassifier<I, F, C>
 {
 	private final ClassificationProbabilities<C> overallCategoryProbability = new ClassificationProbabilities<C>();
-	private final FeatureClassificationTree<F,C> featureTree = new FeatureClassificationTree<F,C>();
-	private final FeatureExtractor<F,I> extractor;
+	private final FeatureClassificationTree<F, C> featureTree = new FeatureClassificationTree<F, C>();
+	private final FeatureExtractor<F, I> extractor;
 
-	public SimpleNaiveClassifier(final FeatureExtractor<F,I> extractor)
+	public SimpleNaiveClassifier(final FeatureExtractor<F, I> extractor)
 	{
 		this.extractor = extractor;
 	}
 
-	protected FeatureExtractor<F,I> getExtractor()
+	protected FeatureExtractor<F, I> getExtractor()
 	{
 		return this.extractor;
 	}
@@ -42,44 +39,41 @@ public class SimpleNaiveClassifier<I,F,C> implements TrainableNaiveClassifier<I,
 	public C classification(final I item)
 	{
 		final Set<F> features = this.extractor.getFeatures(item);
-		final Map<C,Double> categoryProbabilities = new HashMap<C,Double>();
+		final Map<C, Double> categoryProbabilities = new HashMap<C, Double>();
 		C topCategory = null;
 		double topProbability = 0.0;
 		for(final F feature : features)
 		{
 			final C currentCategory = this.featureClassification(feature);
 			Double newProbability = categoryProbabilities.get(currentCategory);
-			if( newProbability == null )
+			if (newProbability == null)
 				newProbability = Double.valueOf(1.0);
 			else
 				newProbability++;
 			categoryProbabilities.put(currentCategory, newProbability);
-
-			if(newProbability >= topProbability)
+			if (newProbability >= topProbability)
 			{
 				topProbability = newProbability;
 				topCategory = currentCategory;
 			}
 		}
-
 		return topCategory;
 	}
 
-	public Map<C,Double> getCategoryProbabilities(final I item)
+	public Map<C, Double> getCategoryProbabilities(final I item)
 	{
 		final Set<F> features = this.extractor.getFeatures(item);
-		final Map<C,Double> categoryProbabilities = new HashMap<C,Double>();
+		final Map<C, Double> categoryProbabilities = new HashMap<C, Double>();
 		for(final F feature : features)
 		{
 			final C currentCategory = this.featureClassification(feature);
 			Double newProbability = categoryProbabilities.get(currentCategory);
-			if( newProbability == null )
+			if (newProbability == null)
 				newProbability = Double.valueOf(1.0);
 			else
 				newProbability++;
 			categoryProbabilities.put(currentCategory, newProbability);
 		}
-
 		return categoryProbabilities;
 	}
 
@@ -95,7 +89,7 @@ public class SimpleNaiveClassifier<I,F,C> implements TrainableNaiveClassifier<I,
 		for(final C category : this.getCategories())
 		{
 			final double currentProbability = this.featureClassificationProbability(feature, category);
-			if( topProbability < currentProbability)
+			if (topProbability < currentProbability)
 			{
 				topCategory = category;
 				topProbability = currentProbability;
@@ -111,7 +105,7 @@ public class SimpleNaiveClassifier<I,F,C> implements TrainableNaiveClassifier<I,
 		for(final C category : this.getCategories())
 		{
 			final double currentProbability = this.featureClassificationWeightedProbability(feature, category);
-			if( topProbability < currentProbability)
+			if (topProbability < currentProbability)
 			{
 				topCategory = category;
 				topProbability = currentProbability;
@@ -120,27 +114,24 @@ public class SimpleNaiveClassifier<I,F,C> implements TrainableNaiveClassifier<I,
 		return topCategory;
 	}
 
-
 	public double featureClassificationProbability(final F feature, final C category)
 	{
 		final int overallProb = this.getOverallProbability(category);
 		int featureProb = 0;
-		if( this.featureTree.containsKey(feature) )
+		if (this.featureTree.containsKey(feature))
 			featureProb = this.featureTree.getFeature(feature).getCategoryProbability(category);
-
-		if(overallProb == 0)
+		if (overallProb == 0)
 			return 0.0;
 		else
-			return ((double)featureProb) / ((double)overallProb);
+			return ((double) featureProb) / ((double) overallProb);
 	}
 
 	public double featureClassificationWeightedProbability(final F feature, final C category)
 	{
 		final double unweightedProb = this.featureClassificationProbability(feature, category);
 		double total = 0.0;
-		if( this.featureTree.containsKey(feature) )
+		if (this.featureTree.containsKey(feature))
 			total = this.featureTree.getFeature(feature).getProbabilitySum();
-		
 		return ((total * unweightedProb) + 0.5) / (1.0 + total);
 	}
 

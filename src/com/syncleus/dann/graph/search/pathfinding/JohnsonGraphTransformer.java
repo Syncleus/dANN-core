@@ -18,42 +18,38 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.search.pathfinding;
 
-import com.syncleus.dann.graph.*;
 import java.util.*;
+import com.syncleus.dann.graph.*;
 
 public class JohnsonGraphTransformer<N> implements GraphTransformer<BidirectedGraph<N, ? extends WeightedDirectedEdge<N>>>
 {
 	private static final Object blankNode = new Object();
 
-	private boolean containsInfinite(final Graph<N,?> original)
+	private boolean containsInfinite(final Graph<N, ?> original)
 	{
 		for(final Edge edge : original.getEdges())
-			if(edge instanceof Weighted)
-				if(Double.isInfinite(((Weighted)edge).getWeight()))
+			if (edge instanceof Weighted)
+				if (Double.isInfinite(((Weighted) edge).getWeight()))
 					return true;
 		return false;
 	}
 
 	@SuppressWarnings("unchecked")
-	public BidirectedGraph<N, WeightedDirectedEdge<N>> transform(final BidirectedGraph<N,? extends WeightedDirectedEdge<N>> original)
+	public BidirectedGraph<N, WeightedDirectedEdge<N>> transform(final BidirectedGraph<N, ? extends WeightedDirectedEdge<N>> original)
 	{
-		if(original == null)
+		if (original == null)
 			throw new IllegalArgumentException("original can not be null");
-		if(containsInfinite(original))
+		if (containsInfinite(original))
 			throw new IllegalArgumentException("original cannot contain infinite weights");
-
 		final Set<WeightedDirectedEdge<Object>> originalEdges = new HashSet<WeightedDirectedEdge<Object>>();
 		for(final WeightedDirectedEdge<N> originalEdge : original.getEdges())
-			originalEdges.add((WeightedDirectedEdge<Object>)originalEdge);
-		final MutableDirectedAdjacencyGraph<Object, WeightedDirectedEdge<Object>> copyGraph = new MutableDirectedAdjacencyGraph<Object, WeightedDirectedEdge<Object>>(new HashSet<Object>(original.getNodes()), originalEdges );
-
+			originalEdges.add((WeightedDirectedEdge<Object>) originalEdge);
+		final MutableDirectedAdjacencyGraph<Object, WeightedDirectedEdge<Object>> copyGraph = new MutableDirectedAdjacencyGraph<Object, WeightedDirectedEdge<Object>>(new HashSet<Object>(original.getNodes()), originalEdges);
 		final Set<Object> originalNodes = copyGraph.getNodes();
 		copyGraph.add(blankNode);
 		for(final Object originalNode : originalNodes)
 			copyGraph.add(new ImmutableWeightedDirectedEdge<Object>(blankNode, originalNode, 0.0));
-
 		final BellmanFordPathFinder<Object, WeightedDirectedEdge<Object>> pathFinder = new BellmanFordPathFinder<Object, WeightedDirectedEdge<Object>>(copyGraph);
-
 		final MutableDirectedAdjacencyGraph johnsonGraph = new MutableDirectedAdjacencyGraph(original.getNodes(), new HashSet<WeightedDirectedEdge<N>>(original.getEdges()));
 		final List<WeightedDirectedEdge<N>> edges = new ArrayList<WeightedDirectedEdge<N>>(johnsonGraph.getEdges());
 		for(final WeightedDirectedEdge<N> edge : edges)
@@ -62,7 +58,6 @@ public class JohnsonGraphTransformer<N> implements GraphTransformer<BidirectedGr
 			johnsonGraph.remove(edge);
 			johnsonGraph.add(new SimpleWeightedDirectedEdge<N>(edge.getSourceNode(), edge.getDestinationNode(), newWeight));
 		}
-
 		return johnsonGraph;
 	}
 

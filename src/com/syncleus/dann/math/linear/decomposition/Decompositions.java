@@ -19,32 +19,31 @@
 package com.syncleus.dann.math.linear.decomposition;
 
 import com.syncleus.dann.math.OrderedAlgebraic;
-import com.syncleus.dann.math.linear.Matrix;
-import com.syncleus.dann.math.linear.RealMatrix;
+import com.syncleus.dann.math.linear.*;
 
 public final class Decompositions
 {
 	public static EigenvalueDecomposition createEigenvalueDecomposition(final RealMatrix matrixToDecompose)
 	{
-		if(matrixToDecompose.isSymmetric())
+		if (matrixToDecompose.isSymmetric())
 			return new TridiagonalEignevalueDecomposition(matrixToDecompose);
 		else
 			return new SchurEigenvalueDecomposition(matrixToDecompose);
 	}
 
-	public static <M extends Matrix<M, F>, F extends OrderedAlgebraic<F>> CholeskyDecomposition<M,F> createCholeskyDecomposition(final M matrix)
+	public static <M extends Matrix<M, F>, F extends OrderedAlgebraic<F>> CholeskyDecomposition<M, F> createCholeskyDecomposition(final M matrix)
 	{
-		return new CholeskyBanachiewiczCholeskyDecomposition<M,F>(matrix);
+		return new CholeskyBanachiewiczCholeskyDecomposition<M, F>(matrix);
 	}
 
-	public static <M extends Matrix<M, F>, F extends OrderedAlgebraic<F>> LuDecomposition<M,F> createLuDecomposition(final M matrix)
+	public static <M extends Matrix<M, F>, F extends OrderedAlgebraic<F>> LuDecomposition<M, F> createLuDecomposition(final M matrix)
 	{
-		return new DoolittleLuDecomposition<M,F>(matrix);
+		return new DoolittleLuDecomposition<M, F>(matrix);
 	}
 
-	public static <M extends Matrix<M, F>, F extends OrderedAlgebraic<F>> QrDecomposition<M,F> createQrDecomposition(final M matrix)
+	public static <M extends Matrix<M, F>, F extends OrderedAlgebraic<F>> QrDecomposition<M, F> createQrDecomposition(final M matrix)
 	{
-		return new HouseholderQrDecomposition<M,F>(matrix);
+		return new HouseholderQrDecomposition<M, F>(matrix);
 	}
 
 	public static SingularValueDecomposition createSingularValueDecomposition(final RealMatrix matrix)

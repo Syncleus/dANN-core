@@ -18,8 +18,8 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.graph.drawing.hyperassociativemap;
 
-import com.syncleus.dann.graph.*;
 import java.util.*;
+import com.syncleus.dann.graph.*;
 
 public class SimpleUndirectedGraph extends AbstractBidirectedAdjacencyGraph<SimpleNode, BidirectedEdge<SimpleNode>>
 {
@@ -32,7 +32,6 @@ public class SimpleUndirectedGraph extends AbstractBidirectedAdjacencyGraph<Simp
 	public SimpleUndirectedGraph(final int layers, final int nodesPerLayer)
 	{
 		this.nodes = new SimpleNode[layers][nodesPerLayer];
-
 		//construct nodes
 		for(int layerIndex = 0; layerIndex < layers; layerIndex++)
 		{
@@ -44,19 +43,18 @@ public class SimpleUndirectedGraph extends AbstractBidirectedAdjacencyGraph<Simp
 				this.neighborNodes.put(nodes[layerIndex][nodeIndex], new ArrayList<SimpleNode>());
 			}
 		}
-
 		//connect nodes
-		for(int layerIndex = 0; layerIndex < (layers-1); layerIndex++)
+		for(int layerIndex = 0; layerIndex < (layers - 1); layerIndex++)
 			for(int nodeIndex = 0; nodeIndex < nodesPerLayer; nodeIndex++)
 			{
 				for(int nodeIndex2 = 0; nodeIndex2 < nodesPerLayer; nodeIndex2++)
 				{
-					final ImmutableUndirectedEdge<SimpleNode> newEdge = new ImmutableUndirectedEdge<SimpleNode>(nodes[layerIndex][nodeIndex], nodes[layerIndex+1][nodeIndex2]);
+					final ImmutableUndirectedEdge<SimpleNode> newEdge = new ImmutableUndirectedEdge<SimpleNode>(nodes[layerIndex][nodeIndex], nodes[layerIndex + 1][nodeIndex2]);
 					this.edges.add(newEdge);
 					this.neighborEdges.get(nodes[layerIndex][nodeIndex]).add(newEdge);
-					this.neighborNodes.get(nodes[layerIndex][nodeIndex]).add(nodes[layerIndex+1][nodeIndex2]);
-					this.neighborEdges.get(nodes[layerIndex+1][nodeIndex2]).add(newEdge);
-					this.neighborNodes.get(nodes[layerIndex+1][nodeIndex2]).add(nodes[layerIndex][nodeIndex]);
+					this.neighborNodes.get(nodes[layerIndex][nodeIndex]).add(nodes[layerIndex + 1][nodeIndex2]);
+					this.neighborEdges.get(nodes[layerIndex + 1][nodeIndex2]).add(newEdge);
+					this.neighborNodes.get(nodes[layerIndex + 1][nodeIndex2]).add(nodes[layerIndex][nodeIndex]);
 				}
 			}
 	}
@@ -68,7 +66,7 @@ public class SimpleUndirectedGraph extends AbstractBidirectedAdjacencyGraph<Simp
 
 	public SimpleNode getNode(final int layer, final int index)
 	{
-		if( (index >= nodes[0].length)||(layer >= nodes.length) )
+		if ((index >= nodes[0].length) || (layer >= nodes.length))
 			throw new IllegalArgumentException("coordinates are out of bounds");
 		return this.nodes[layer][index];
 	}

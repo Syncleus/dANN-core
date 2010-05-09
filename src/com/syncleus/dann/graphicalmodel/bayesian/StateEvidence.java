@@ -18,14 +18,11 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.bayesian;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.*;
 
-public class StateEvidence<S> extends HashMap<S,Integer>
+public class StateEvidence<S> extends HashMap<S, Integer>
 {
 	private static final long serialVersionUID = 4276706788994272957L;
-	
 	private long totalEvidence;
 
 	public long getTotalEvidence()
@@ -36,8 +33,8 @@ public class StateEvidence<S> extends HashMap<S,Integer>
 	public double getPercentage(final S key)
 	{
 		final Integer stateEvidence = this.get(key);
-		if( stateEvidence != null)
-			return this.get(key).doubleValue() / ((double)this.totalEvidence);
+		if (stateEvidence != null)
+			return this.get(key).doubleValue() / ((double) this.totalEvidence);
 		else
 			return 0.0;
 	}
@@ -45,21 +42,19 @@ public class StateEvidence<S> extends HashMap<S,Integer>
 	@Override
 	public Integer put(final S key, final Integer value)
 	{
-		final Integer old = super.put(key,value);
-		if(old != null)
+		final Integer old = super.put(key, value);
+		if (old != null)
 			this.totalEvidence -= old;
 		this.totalEvidence += value;
-
 		return old;
 	}
 
 	@Override
-	public void putAll(final Map<? extends S,? extends Integer> map)
+	public void putAll(final Map<? extends S, ? extends Integer> map)
 	{
-		final Map<S,Integer> oldMap = new HashMap<S,Integer>(this);
+		final Map<S, Integer> oldMap = new HashMap<S, Integer>(this);
 		super.putAll(map);
-
-		for(final Entry<? extends S,? extends Integer> entry : map.entrySet())
+		for(final Map.Entry<? extends S, ? extends Integer> entry : map.entrySet())
 		{
 			final Integer oldEvidence = oldMap.get(entry.getKey());
 			final Integer newEvidence = this.get(entry.getKey());

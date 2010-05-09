@@ -31,7 +31,7 @@ public class TestEvidenceMap
 {
 	private static enum TestEnum
 	{
-		TRUE,FALSE
+		TRUE, FALSE
 	}
 
 	@Test
@@ -41,14 +41,11 @@ public class TestEvidenceMap
 		final BayesianNode<TestEnum> influence1 = new SimpleBayesianNode<TestEnum>(TestEnum.FALSE, network);
 		final BayesianNode<TestEnum> influence2 = new SimpleBayesianNode<TestEnum>(TestEnum.FALSE, network);
 		final BayesianNode<TestEnum> influence3 = new SimpleBayesianNode<TestEnum>(TestEnum.FALSE, network);
-
 		final Set<BayesianNode> nodes = new HashSet<BayesianNode>();
 		nodes.add(influence1);
 		nodes.add(influence2);
 		nodes.add(influence3);
-
 		final EvidenceMap<TestEnum> evidence = new EvidenceMap<TestEnum>(nodes);
-
 		//train some values
 		influence1.setState(TestEnum.TRUE);
 		influence2.setState(TestEnum.TRUE);
@@ -57,7 +54,6 @@ public class TestEvidenceMap
 		evidence.incrementState(nodes, TestEnum.FALSE);
 		evidence.incrementState(nodes, TestEnum.FALSE);
 		evidence.incrementState(nodes, TestEnum.TRUE);
-
 		influence1.setState(TestEnum.TRUE);
 		influence2.setState(TestEnum.FALSE);
 		influence3.setState(TestEnum.TRUE);
@@ -65,7 +61,6 @@ public class TestEvidenceMap
 		evidence.incrementState(nodes, TestEnum.FALSE);
 		evidence.incrementState(nodes, TestEnum.FALSE);
 		evidence.incrementState(nodes, TestEnum.TRUE);
-
 		influence1.setState(TestEnum.FALSE);
 		influence2.setState(TestEnum.TRUE);
 		influence3.setState(TestEnum.TRUE);
@@ -73,7 +68,6 @@ public class TestEvidenceMap
 		evidence.incrementState(nodes, TestEnum.FALSE);
 		evidence.incrementState(nodes, TestEnum.FALSE);
 		evidence.incrementState(nodes, TestEnum.TRUE);
-
 		influence1.setState(TestEnum.TRUE);
 		influence2.setState(TestEnum.TRUE);
 		influence3.setState(TestEnum.FALSE);
@@ -81,7 +75,6 @@ public class TestEvidenceMap
 		evidence.incrementState(nodes, TestEnum.FALSE);
 		evidence.incrementState(nodes, TestEnum.FALSE);
 		evidence.incrementState(nodes, TestEnum.TRUE);
-
 		influence1.setState(TestEnum.TRUE);
 		influence2.setState(TestEnum.FALSE);
 		influence3.setState(TestEnum.FALSE);
@@ -89,7 +82,6 @@ public class TestEvidenceMap
 		evidence.incrementState(nodes, TestEnum.TRUE);
 		evidence.incrementState(nodes, TestEnum.TRUE);
 		evidence.incrementState(nodes, TestEnum.TRUE);
-
 		influence1.setState(TestEnum.FALSE);
 		influence2.setState(TestEnum.TRUE);
 		influence3.setState(TestEnum.FALSE);
@@ -97,7 +89,6 @@ public class TestEvidenceMap
 		evidence.incrementState(nodes, TestEnum.TRUE);
 		evidence.incrementState(nodes, TestEnum.TRUE);
 		evidence.incrementState(nodes, TestEnum.TRUE);
-
 		influence1.setState(TestEnum.FALSE);
 		influence2.setState(TestEnum.FALSE);
 		influence3.setState(TestEnum.TRUE);
@@ -105,7 +96,6 @@ public class TestEvidenceMap
 		evidence.incrementState(nodes, TestEnum.TRUE);
 		evidence.incrementState(nodes, TestEnum.TRUE);
 		evidence.incrementState(nodes, TestEnum.TRUE);
-
 		influence1.setState(TestEnum.FALSE);
 		influence2.setState(TestEnum.FALSE);
 		influence3.setState(TestEnum.FALSE);
@@ -113,7 +103,6 @@ public class TestEvidenceMap
 		evidence.incrementState(nodes, TestEnum.TRUE);
 		evidence.incrementState(nodes, TestEnum.TRUE);
 		evidence.incrementState(nodes, TestEnum.TRUE);
-
 		//test thevalues
 		influence1.setState(TestEnum.FALSE);
 		influence2.setState(TestEnum.FALSE);
@@ -124,7 +113,6 @@ public class TestEvidenceMap
 		Assert.assertTrue("incorrect total evidence!", stateEvidence.getTotalEvidence() == 4);
 		Assert.assertTrue("incorrect individual evidence!", stateEvidence.get(TestEnum.TRUE) == 3);
 		Assert.assertTrue("incorrect individual evidence!", stateEvidence.get(TestEnum.FALSE) == 1);
-
 		influence1.setState(TestEnum.TRUE);
 		influence2.setState(TestEnum.FALSE);
 		influence3.setState(TestEnum.FALSE);
@@ -134,7 +122,6 @@ public class TestEvidenceMap
 		Assert.assertTrue("incorrect total evidence!", stateEvidence.getTotalEvidence() == 4);
 		Assert.assertTrue("incorrect individual evidence!", stateEvidence.get(TestEnum.TRUE) == 3);
 		Assert.assertTrue("incorrect individual evidence!", stateEvidence.get(TestEnum.FALSE) == 1);
-
 		influence1.setState(TestEnum.FALSE);
 		influence2.setState(TestEnum.TRUE);
 		influence3.setState(TestEnum.FALSE);
@@ -144,7 +131,6 @@ public class TestEvidenceMap
 		Assert.assertTrue("incorrect total evidence!", stateEvidence.getTotalEvidence() == 4);
 		Assert.assertTrue("incorrect individual evidence!", stateEvidence.get(TestEnum.TRUE) == 3);
 		Assert.assertTrue("incorrect individual evidence!", stateEvidence.get(TestEnum.FALSE) == 1);
-
 		influence1.setState(TestEnum.FALSE);
 		influence2.setState(TestEnum.FALSE);
 		influence3.setState(TestEnum.TRUE);
@@ -154,9 +140,6 @@ public class TestEvidenceMap
 		Assert.assertTrue("incorrect total evidence!", stateEvidence.getTotalEvidence() == 4);
 		Assert.assertTrue("incorrect individual evidence!", stateEvidence.get(TestEnum.TRUE) == 3);
 		Assert.assertTrue("incorrect individual evidence!", stateEvidence.get(TestEnum.FALSE) == 1);
-
-
-
 		influence1.setState(TestEnum.FALSE);
 		influence2.setState(TestEnum.TRUE);
 		influence3.setState(TestEnum.TRUE);
@@ -166,7 +149,6 @@ public class TestEvidenceMap
 		Assert.assertTrue("incorrect total evidence!", stateEvidence.getTotalEvidence() == 4);
 		Assert.assertTrue("incorrect individual evidence!", stateEvidence.get(TestEnum.TRUE) == 1);
 		Assert.assertTrue("incorrect individual evidence!", stateEvidence.get(TestEnum.FALSE) == 3);
-
 		influence1.setState(TestEnum.TRUE);
 		influence2.setState(TestEnum.FALSE);
 		influence3.setState(TestEnum.TRUE);
@@ -176,7 +158,6 @@ public class TestEvidenceMap
 		Assert.assertTrue("incorrect total evidence!", stateEvidence.getTotalEvidence() == 4);
 		Assert.assertTrue("incorrect individual evidence!", stateEvidence.get(TestEnum.TRUE) == 1);
 		Assert.assertTrue("incorrect individual evidence!", stateEvidence.get(TestEnum.FALSE) == 3);
-
 		influence1.setState(TestEnum.TRUE);
 		influence2.setState(TestEnum.TRUE);
 		influence3.setState(TestEnum.FALSE);
@@ -186,7 +167,6 @@ public class TestEvidenceMap
 		Assert.assertTrue("incorrect total evidence!", stateEvidence.getTotalEvidence() == 4);
 		Assert.assertTrue("incorrect individual evidence!", stateEvidence.get(TestEnum.TRUE) == 1);
 		Assert.assertTrue("incorrect individual evidence!", stateEvidence.get(TestEnum.FALSE) == 3);
-
 		influence1.setState(TestEnum.TRUE);
 		influence2.setState(TestEnum.TRUE);
 		influence3.setState(TestEnum.TRUE);

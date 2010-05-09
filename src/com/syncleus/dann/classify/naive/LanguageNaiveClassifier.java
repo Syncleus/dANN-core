@@ -20,7 +20,7 @@ package com.syncleus.dann.classify.naive;
 
 import java.util.Set;
 
-public interface LanguageNaiveClassifier<C> extends NaiveClassifier<String, String,C>
+public interface LanguageNaiveClassifier<C> extends NaiveClassifier<String, String, C>
 {
 	//NaiveClassifier methods
 	C featureClassification(String feature);

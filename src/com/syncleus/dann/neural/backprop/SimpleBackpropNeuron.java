@@ -18,40 +18,33 @@
  ******************************************************************************/
 package com.syncleus.dann.neural.backprop;
 
+import java.util.Hashtable;
 import com.syncleus.dann.neural.*;
 import com.syncleus.dann.neural.activation.ActivationFunction;
-import java.util.Hashtable;
-
 
 /**
- * The SimpleBackpropNeuron is the most fundemental component of a backprop network;
- * it is also the proccessor of the system. One neuron will usually connect to
- * many other Neurons through synapses and receive input from many other
- * Neurons in the same way.
- *
+ * The SimpleBackpropNeuron is the most fundemental component of a backprop
+ * network; it is also the proccessor of the system. One neuron will usually
+ * connect to many other Neurons through synapses and receive input from many
+ * other Neurons in the same way.
  *
  * @author Jeffrey Phillips Freeman
- * @since 1.0
- *
  * @see com.syncleus.dann.neural.SimpleSynapse
+ * @since 1.0
  */
 public class SimpleBackpropNeuron extends AbstractActivationNeuron implements BackpropNeuron
 {
-    // <editor-fold defaultstate="collapsed" desc="Attributes">
-
+	// <editor-fold defaultstate="collapsed" desc="Attributes">
 	private static final long serialVersionUID = 85919762906996765L;
-
-    /**
-     * This represents the net effect of all the training data from all the
-     * inputs. It is essentially the reverse of the activity value.
-     *
-     * @since 1.0
-     * @see com.syncleus.dann.neural.AbstractActivationNeuron#activity
-     */
-    protected double deltaTrain = 0;
-
+	/**
+	 * This represents the net effect of all the training data from all the
+	 * inputs. It is essentially the reverse of the activity value.
+	 *
+	 * @see com.syncleus.dann.neural.AbstractActivationNeuron#activity
+	 * @since 1.0
+	 */
+	protected double deltaTrain = 0;
 	private double learningRate = 0.001;
-
 	/**
 	 * A hashtable which contains the current delta train for each of the
 	 * destination synapses.
@@ -59,39 +52,34 @@ public class SimpleBackpropNeuron extends AbstractActivationNeuron implements Ba
 	 * @since 1.0
 	 */
 	protected Hashtable<Synapse, Double> deltaTrainDestinations = new Hashtable<Synapse, Double>();
-
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Constructors">
-
-    /**
-     * Creates a new default instance of SimpleBackpropNeuron
-	 *
-     * @since 1.0
-     */
-    public SimpleBackpropNeuron(final Brain brain)
-    {
-		super(brain);
-    }
-
-
+	// </editor-fold>
+	// <editor-fold defaultstate="collapsed" desc="Constructors">
 
 	/**
-	 * Creates a new instance of SimpleBackpropNeuron with the specified activation
-	 * function.
+	 * Creates a new default instance of SimpleBackpropNeuron
+	 *
+	 * @since 1.0
+	 */
+	public SimpleBackpropNeuron(final Brain brain)
+	{
+		super(brain);
+	}
+
+	/**
+	 * Creates a new instance of SimpleBackpropNeuron with the specified
+	 * activation function.
 	 *
 	 * @param activationFunction The Neuron's activation function.
 	 * @since 1.0
 	 */
-    public SimpleBackpropNeuron(final Brain brain, final ActivationFunction activationFunction)
-    {
-        super(brain, activationFunction);
-    }
-
+	public SimpleBackpropNeuron(final Brain brain, final ActivationFunction activationFunction)
+	{
+		super(brain, activationFunction);
+	}
 
 	/**
-	 * Creates a new instance of a SimpleBackpropNeuron using the default activation
-	 * function with the specified learning rate.
+	 * Creates a new instance of a SimpleBackpropNeuron using the default
+	 * activation function with the specified learning rate.
 	 *
 	 * @param learningRate learning rate of this neuron.
 	 * @since 1.0
@@ -103,8 +91,8 @@ public class SimpleBackpropNeuron extends AbstractActivationNeuron implements Ba
 	}
 
 	/**
-	 * Creates a new instance of a SimpleBackpropNeuron with the specified activtion
-	 * function and learning rate.
+	 * Creates a new instance of a SimpleBackpropNeuron with the specified
+	 * activtion function and learning rate.
 	 *
 	 * @param activationFunction Activation function for this neuron.
 	 * @param learningRate Learning rate for this neuron.
@@ -114,52 +102,45 @@ public class SimpleBackpropNeuron extends AbstractActivationNeuron implements Ba
 		super(brain, activationFunction);
 		this.learningRate = learningRate;
 	}
+	// </editor-fold>
+	// <editor-fold defaultstate="collapsed" desc="Propogation">
 
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Propogation">
-
-    /**
-     * Backpropogates the training data to all the incomming synapses.
+	/**
+	 * Backpropogates the training data to all the incomming synapses.
 	 *
-     * @since 1.0
-     */
-    public void backPropagate()
-    {
-        this.calculateDeltaTrain();
-
-        //step thru source synapses and make them learn their new weight.
-        for (final Synapse currentSynapse : this.getBrain().getInEdges(this))
+	 * @since 1.0
+	 */
+	public void backPropagate()
+	{
+		this.calculateDeltaTrain();
+		//step thru source synapses and make them learn their new weight.
+		for(final Synapse currentSynapse : this.getBrain().getInEdges(this))
 		{
 			final Neuron sourceNeuron = currentSynapse.getSourceNode();
-			if(sourceNeuron instanceof BackpropNeuron)
+			if (sourceNeuron instanceof BackpropNeuron)
 			{
 				final BackpropNeuron sourceBackpropNeuron = (BackpropNeuron) sourceNeuron;
 				// TODO instead of only working on SimpleBackpropNeuron perhaps make deltaTrain part of a Backprop synapse
-				if(sourceBackpropNeuron instanceof SimpleBackpropNeuron)
-					((SimpleBackpropNeuron)sourceBackpropNeuron).deltaTrainDestinations.put(currentSynapse, Double.valueOf(this.deltaTrain));
+				if (sourceBackpropNeuron instanceof SimpleBackpropNeuron)
+					((SimpleBackpropNeuron) sourceBackpropNeuron).deltaTrainDestinations.put(currentSynapse, Double.valueOf(this.deltaTrain));
 				currentSynapse.setWeight(currentSynapse.getWeight() + (this.deltaTrain * this.learningRate * currentSynapse.getInput()));
 			}
 		}
-    }
+	}
 
-
-
-    /**
-     * Calculates the Delta Train based on all the destination synapses
+	/**
+	 * Calculates the Delta Train based on all the destination synapses
 	 *
-     * @since 1.0
-     * @see com.syncleus.dann.neural.backprop.SimpleBackpropNeuron#backPropagate
-     */
-    protected void calculateDeltaTrain()
-    {
-        this.deltaTrain = 0;
-        for (final Synapse currentSynapse : this.getBrain().getTraversableEdges(this))
-            this.deltaTrain += (currentSynapse.getWeight() * this.deltaTrainDestinations.get(currentSynapse).doubleValue());
-        this.deltaTrain *= this.activateDerivitive();
-    }
-
-
+	 * @see com.syncleus.dann.neural.backprop.SimpleBackpropNeuron#backPropagate
+	 * @since 1.0
+	 */
+	protected void calculateDeltaTrain()
+	{
+		this.deltaTrain = 0;
+		for(final Synapse currentSynapse : this.getBrain().getTraversableEdges(this))
+			this.deltaTrain += (currentSynapse.getWeight() * this.deltaTrainDestinations.get(currentSynapse).doubleValue());
+		this.deltaTrain *= this.activateDerivitive();
+	}
 
 	/**
 	 * Gets the current delta train of the neuron.
@@ -168,9 +149,9 @@ public class SimpleBackpropNeuron extends AbstractActivationNeuron implements Ba
 	 * @since 1.0
 	 */
 	// TODO put this in the interface and expose as public
-    protected double getDeltaTrain()
-    {
-        return deltaTrain;
-    }
-    // </editor-fold>
+	protected double getDeltaTrain()
+	{
+		return deltaTrain;
+	}
+	// </editor-fold>
 }

@@ -18,9 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.classify.naive;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class ClassificationProbabilities<C>
 {
@@ -40,7 +38,7 @@ public class ClassificationProbabilities<C>
 	public void incrementCategory(final C category, final int value)
 	{
 		Integer currentProbability = this.categoryProbabilityMap.get(category);
-		if(currentProbability == null)
+		if (currentProbability == null)
 			currentProbability = value;
 		else
 			currentProbability = currentProbability + value;
@@ -56,7 +54,7 @@ public class ClassificationProbabilities<C>
 	public int getCategoryProbability(final C category)
 	{
 		final Integer probability = this.categoryProbabilityMap.get(category);
-		if(probability == null)
+		if (probability == null)
 			return 0;
 		else
 			return probability;

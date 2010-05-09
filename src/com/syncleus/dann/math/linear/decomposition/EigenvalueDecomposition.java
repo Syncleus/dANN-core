@@ -18,9 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.math.linear.decomposition;
 
+import java.util.List;
 import com.syncleus.dann.math.RealNumber;
 import com.syncleus.dann.math.linear.RealMatrix;
-import java.util.List;
 
 public interface EigenvalueDecomposition extends Decomposition<RealMatrix>
 {

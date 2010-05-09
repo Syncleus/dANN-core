@@ -45,16 +45,13 @@ public class TestNeuronGroup
 	public void testCollection()
 	{
 		final TestBrain brain = new TestBrain();
-
 		final NeuronGroup<SimpleBackpropNeuron> newGroup = new NeuronGroup<SimpleBackpropNeuron>();
 		final NeuronGroup<SimpleBackpropNeuron> subGroup = new NeuronGroup<SimpleBackpropNeuron>();
 		final SimpleBackpropNeuron newNeuron = new SimpleBackpropNeuron(brain);
 		final SimpleBackpropNeuron subNeuron = new SimpleBackpropNeuron(brain);
-
 		subGroup.add(subNeuron);
 		newGroup.add(subGroup);
 		newGroup.add(newNeuron);
-
 		Assert.assertTrue(newGroup.getChildrenNeurons().contains(newNeuron));
 		Assert.assertTrue(newGroup.getChildrenNeuronGroups().contains(subGroup));
 		Assert.assertTrue(newGroup.getChildrenNeuronsRecursivly().contains(subNeuron));

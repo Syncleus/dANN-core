@@ -18,20 +18,18 @@
  ******************************************************************************/
 package com.syncleus.dann.classify.naive;
 
+import java.util.*;
 import com.syncleus.dann.classify.Classifier;
-import java.util.Map;
-import java.util.Set;
 
-public interface NaiveClassifier<I,F,C> extends Classifier<I,C>
+public interface NaiveClassifier<I, F, C> extends Classifier<I, C>
 {
 	C featureClassification(F feature);
 	C featureClassificationWeighted(F feature);
 	double featureClassificationProbability(F feature, C category);
 	double featureClassificationWeightedProbability(F feature, C category);
-
 	//parent methods
 	C classification(I item);
-	Map<C,Double> getCategoryProbabilities(I item);
+	Map<C, Double> getCategoryProbabilities(I item);
 	double classificationProbability(I item, C category);
 	Set<C> getCategories();
 }

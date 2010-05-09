@@ -26,10 +26,8 @@ import org.apache.log4j.Logger;
  * activity of a ValueGene remains constant and only changes through mutation.
  * These are the only type of gene used in basic Genetic Algorithms.
  *
- * @param <N> The MutableNumber type used to back the value of this gene.
  * @author Jeffrey Phillips Freeman
  * @since 2.0
- *
  */
 public abstract class AbstractValueGene<N extends MutableNumber> implements ValueGene<N>, Cloneable
 {
@@ -72,9 +70,9 @@ public abstract class AbstractValueGene<N extends MutableNumber> implements Valu
 	}
 
 	/**
-	 * The current expression activity. This will be a constant value equal to
-	 * the doubleValue of the backing number. This value will only change
-	 * through mutation.
+	 * The current expression activity. This will be a constant value equal to the
+	 * doubleValue of the backing number. This value will only change through
+	 * mutation.
 	 *
 	 * @return The current expression activity.
 	 * @since 2.0
@@ -85,11 +83,11 @@ public abstract class AbstractValueGene<N extends MutableNumber> implements Valu
 	}
 
 	/**
-	 * Mutates this gene internally without copying first. This is used by
-	 * children to recursivly mutate the gene.
+	 * Mutates this gene internally without copying first. This is used by children
+	 * to recursivly mutate the gene.
 	 *
-	 * @param deviation deviation to use during mutation. A higher value
-	 * represents more severe mutations. A deviation of 0 causes no mutation.
+	 * @param deviation deviation to use during mutation. A higher value represents
+	 * more severe mutations. A deviation of 0 causes no mutation.
 	 * @since 2.0
 	 */
 	@SuppressWarnings("unchecked")
@@ -99,9 +97,9 @@ public abstract class AbstractValueGene<N extends MutableNumber> implements Valu
 	}
 
 	/**
-	 * All children of this class should override this method and return
-	 * their own class type even if it is abstract. It should return a copy
-	 * without any mutation.
+	 * All children of this class should override this method and return their own
+	 * class type even if it is abstract. It should return a copy without any
+	 * mutation.
 	 *
 	 * @return an exact copy of this object.
 	 * @since 2.0
@@ -114,7 +112,7 @@ public abstract class AbstractValueGene<N extends MutableNumber> implements Valu
 		{
 			return (AbstractValueGene) super.clone();
 		}
-		catch(CloneNotSupportedException caught)
+		catch (CloneNotSupportedException caught)
 		{
 			LOGGER.error("CloneNotSupportedException caught but not expected!", caught);
 			throw new UnexpectedDannError("CloneNotSupportedException caught but not expected", caught);
@@ -122,12 +120,12 @@ public abstract class AbstractValueGene<N extends MutableNumber> implements Valu
 	}
 
 	/**
-	 * This will make a copy of the object and mutate it. The mutation has
-	 * a normal distribution multiplied by the deviation.
+	 * This will make a copy of the object and mutate it. The mutation has a normal
+	 * distribution multiplied by the deviation.
 	 *
-	 * @param deviation A double indicating how extreme the mutation will be.
-	 * The greater the deviation the more drastically the object will mutate.
-	 * A deviation of 0 should cause no mutation.
+	 * @param deviation A double indicating how extreme the mutation will be. The
+	 * greater the deviation the more drastically the object will mutate. A
+	 * deviation of 0 should cause no mutation.
 	 * @return A copy of the current object with potential mutations.
 	 * @since 2.0
 	 */

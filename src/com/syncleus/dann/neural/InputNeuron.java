@@ -22,16 +22,13 @@ package com.syncleus.dann.neural;
  * A Neuron which receives an input from an outside source. These neurons allow
  * you to input data into the brain for processing.
  *
- *
  * @author Jeffrey Phillips Freeman
  * @since 1.0
- *
  */
 public interface InputNeuron extends Neuron
 {
 	/**
 	 * Sets the current input for this neuron.
-	 *
 	 *
 	 * @param inputToSet The new input value you want to set.
 	 */

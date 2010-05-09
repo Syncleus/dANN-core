@@ -28,10 +28,8 @@ public class TestMutableInteger
 	{
 		MutableInteger test = new MutableInteger(123);
 		Assert.assertTrue("value constructor failed", test.getNumber().intValue() == 123);
-
 		test = new MutableInteger("456");
 		Assert.assertTrue("string value constructor failed", test.getNumber().intValue() == 456);
-
 		test = new MutableInteger(Integer.valueOf(789));
 		Assert.assertTrue("Number value constructor failed", test.getNumber().intValue() == 789);
 	}
@@ -40,11 +38,9 @@ public class TestMutableInteger
 	public void testMax()
 	{
 		final MutableInteger highValue = new MutableInteger(Integer.MAX_VALUE);
-
 		for(int testCount = 0; testCount < 1000; testCount++)
 		{
 			final MutableInteger mutated = highValue.mutate(100.0);
-
 			Assert.assertTrue("mutation caused number to roll over: " + mutated, mutated.intValue() >= -1);
 		}
 	}
@@ -53,11 +49,9 @@ public class TestMutableInteger
 	public void testMin()
 	{
 		final MutableInteger lowValue = new MutableInteger(Integer.MIN_VALUE);
-
 		for(int testCount = 0; testCount < 1000; testCount++)
 		{
 			final MutableInteger mutated = lowValue.mutate(100.0);
-
 			Assert.assertTrue("mutation caused number to roll over: " + mutated, mutated.intValue() <= -1);
 		}
 	}
@@ -66,16 +60,13 @@ public class TestMutableInteger
 	public void testDeviation()
 	{
 		final MutableInteger center = new MutableInteger(0);
-
 		double averageSum = 0;
 		double testCount = 0.0;
 		for(testCount = 0.0; testCount < 10000; testCount++)
 		{
 			averageSum += center.mutate(1.0).intValue();
 		}
-
 		final double average = averageSum / testCount;
-
 		Assert.assertTrue("average deviation is more than 1.0", average < 1.0);
 	}
 }

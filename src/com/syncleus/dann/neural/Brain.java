@@ -18,39 +18,32 @@
  ******************************************************************************/
 package com.syncleus.dann.neural;
 
-import com.syncleus.dann.graph.*;
-import java.util.*;
+import java.util.Set;
+import com.syncleus.dann.graph.BidirectedGraph;
 
 /**
  * Represents a single artificial brain typically belonging to a single
  * artificial organism. It will contain a set of input and output neurons which
- * corelates to a specific dataset pattern.<br/>
- * <br/>
- * This class is abstract and must be extended in order to be used.
+ * corelates to a specific dataset pattern.<br/> <br/> This class is abstract
+ * and must be extended in order to be used.
  *
  * @author Jeffrey Phillips Freeman
  * @since 1.0
- *
  */
 public interface Brain extends BidirectedGraph<Neuron, Synapse>
 {
 	/**
 	 * Obtains all InputNeurons contained within the brain.
 	 *
-	 *
 	 * @return An unmodifiable Set of InputNeurons.
 	 * @since 1.0
 	 */
-    public abstract Set<InputNeuron> getInputNeurons();
-
-
-
+	public abstract Set<InputNeuron> getInputNeurons();
 	/**
 	 * Obtains all OutputNeurons contained within the brain.
-	 *
 	 *
 	 * @return An unmodifiable Set of OutputNeurons
 	 * @since 1.0
 	 */
-    public abstract Set<OutputNeuron> getOutputNeurons();
+	public abstract Set<OutputNeuron> getOutputNeurons();
 }

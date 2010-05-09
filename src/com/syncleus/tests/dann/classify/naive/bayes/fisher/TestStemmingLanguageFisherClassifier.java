@@ -18,8 +18,7 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.classify.naive.bayes.fisher;
 
-import com.syncleus.dann.classify.naive.bayes.fisher.StemmingLanguageFisherClassifier;
-import com.syncleus.dann.classify.naive.bayes.fisher.TrainableLanguageFisherClassifier;
+import com.syncleus.dann.classify.naive.bayes.fisher.*;
 import org.junit.*;
 
 public class TestStemmingLanguageFisherClassifier
@@ -28,7 +27,6 @@ public class TestStemmingLanguageFisherClassifier
 	public void testClassify()
 	{
 		final TrainableLanguageFisherClassifier<Integer> classifier = new StemmingLanguageFisherClassifier<Integer>();
-
 		//train
 		classifier.train("Money is the root of all evil!", 1);
 		classifier.train("Money destroys the soul", 1);
@@ -39,7 +37,6 @@ public class TestStemmingLanguageFisherClassifier
 		classifier.train("Even more nonsense cause we can", 2);
 		classifier.train("nonsense was the root of all good", 2);
 		classifier.train("just a filler to waste space", 2);
-
 		//test
 		Assert.assertTrue("Feature had incorrect category!", classifier.featureClassification("Money") == 1);
 		Assert.assertTrue("Feature had incorrect category!", classifier.featureClassification("Fox") == 1);
@@ -47,7 +44,6 @@ public class TestStemmingLanguageFisherClassifier
 		Assert.assertTrue("Feature had incorrect category!", classifier.featureClassification("Waste") == 2);
 		Assert.assertTrue("Feature had incorrect category!", classifier.featureClassification("Evil") == 1);
 		Assert.assertTrue("Feature had incorrect category!", classifier.featureClassification("Good") == 2);
-
 		Assert.assertTrue("Item had incorrect category!", classifier.classification("Money was here once") == 2);
 		Assert.assertTrue("Item had incorrect category!", classifier.classification("Money destroys the quick brown fox!") == 1);
 		Assert.assertTrue("Item had incorrect category!", classifier.classification("kills the soul") == 1);

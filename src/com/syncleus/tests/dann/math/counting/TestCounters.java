@@ -37,7 +37,6 @@ public class TestCounters
 		final List<Character> letters = new ArrayList<Character>();
 		for(final char letter : lettersArray)
 			letters.add(Character.valueOf(letter));
-
 		final Set<List<Character>> combinations = Counters.everyCombination(letters);
 		for(final List<Character> combination : combinations)
 		{
@@ -46,7 +45,6 @@ public class TestCounters
 				combinationString.append(combinationChar);
 			LOGGER.info("Combination Generated: " + combinationString);
 		}
-
 		Assert.assertTrue("Wrong number of combinations: " + combinations.size(), combinations.size() == COMBINATION_COUNT);
 	}
 }

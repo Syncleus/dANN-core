@@ -32,26 +32,24 @@ public abstract class AbstractNeuron implements Neuron
 	private final Brain brain;
 	private final static Logger LOGGER = Logger.getLogger(AbstractNeuron.class);
 
-    /**
-     * Creates a new instance of NeuronImpl with a random bias weight and
+	/**
+	 * Creates a new instance of NeuronImpl with a random bias weight and
 	 * HyperbolicTangentActivationFunction as the activation function.
 	 *
-     *
-     * @since 1.0
-     */
-    public AbstractNeuron(final Brain brain)
-    {
-		if( brain == null)
+	 * @since 1.0
+	 */
+	public AbstractNeuron(final Brain brain)
+	{
+		if (brain == null)
 			throw new IllegalArgumentException("brain can not be null");
-
 		this.brain = brain;
-    }
+	}
 
 	protected Brain getBrain()
 	{
 		return this.brain;
 	}
-
 	// TODO consider making this public and moving it to the neuron interface
-    protected abstract double getOutput();
+
+	protected abstract double getOutput();
 }

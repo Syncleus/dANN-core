@@ -18,12 +18,12 @@
  ******************************************************************************/
 package com.syncleus.dann.classify.naive.bayes.fisher;
 
+import java.util.Set;
 import com.syncleus.dann.classify.naive.FeatureExtractor;
 import com.syncleus.dann.dataprocessing.language.WordParser;
 import com.syncleus.dann.dataprocessing.language.stem.StemmingWordParser;
-import java.util.Set;
 
-public class StemmingLanguageFisherClassifier<C> extends SimpleFisherClassifier<String,String,C> implements TrainableLanguageFisherClassifier<C>
+public class StemmingLanguageFisherClassifier<C> extends SimpleFisherClassifier<String, String, C> implements TrainableLanguageFisherClassifier<C>
 {
 	private static class StemmingWordExtractor implements FeatureExtractor<String, String>
 	{

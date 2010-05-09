@@ -18,9 +18,9 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.dataprocessing.signal.transform;
 
-import com.syncleus.dann.math.ComplexNumber;
-import com.syncleus.dann.dataprocessing.signal.transform.DiscreteFourierTransform;
 import java.util.Random;
+import com.syncleus.dann.dataprocessing.signal.transform.DiscreteFourierTransform;
+import com.syncleus.dann.math.ComplexNumber;
 import org.junit.*;
 
 public class TestDiscreteFourierTransform
@@ -39,12 +39,11 @@ public class TestDiscreteFourierTransform
 	@Test
 	public void testFrequencyMapping()
 	{
-		DiscreteFourierTransform dft = new DiscreteFourierTransform(generateRandomComplex(DATA_POINT_COUNT), DATA_POINT_COUNT/4);
-		Assert.assertTrue("minimum frequency mapping is incorrect: " + dft.getMinimumFrequency(), Math.abs(dft.getMinimumFrequency()  - 0.0) < 0.001);
-		Assert.assertTrue("maximum frequency mapping is incorrect: " + dft.getMaximumFrequency(), Math.abs(dft.getMaximumFrequency()  - 128.0) < 0.001);
-
+		DiscreteFourierTransform dft = new DiscreteFourierTransform(generateRandomComplex(DATA_POINT_COUNT), DATA_POINT_COUNT / 4);
+		Assert.assertTrue("minimum frequency mapping is incorrect: " + dft.getMinimumFrequency(), Math.abs(dft.getMinimumFrequency() - 0.0) < 0.001);
+		Assert.assertTrue("maximum frequency mapping is incorrect: " + dft.getMaximumFrequency(), Math.abs(dft.getMaximumFrequency() - 128.0) < 0.001);
 		dft = new DiscreteFourierTransform(generateRandomComplex(DATA_POINT_COUNT), DATA_POINT_COUNT);
-		Assert.assertTrue("minimum frequency mapping is incorrect: " + dft.getMinimumFrequency(), Math.abs(dft.getMinimumFrequency()  - 0.0) < 0.001);
-		Assert.assertTrue("maximum frequency mapping is incorrect: " + dft.getMaximumFrequency(), Math.abs(dft.getMaximumFrequency()  - 512.0) < 0.001);
+		Assert.assertTrue("minimum frequency mapping is incorrect: " + dft.getMinimumFrequency(), Math.abs(dft.getMinimumFrequency() - 0.0) < 0.001);
+		Assert.assertTrue("maximum frequency mapping is incorrect: " + dft.getMaximumFrequency(), Math.abs(dft.getMaximumFrequency() - 512.0) < 0.001);
 	}
 }

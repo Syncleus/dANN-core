@@ -28,15 +28,13 @@ public class BasicWordParser implements WordParser
 	public List<String> getWords(final String text)
 	{
 		final List<String> words = new ArrayList<String>();
-
 		final String textLowerCase = text.toLowerCase();
 		final Matcher matches = spacePattern.matcher(textLowerCase);
-		while(matches.find())
+		while (matches.find())
 		{
 			final String word = matches.group();
 			words.add(word.toLowerCase());
 		}
-
 		return Collections.unmodifiableList(words);
 	}
 
