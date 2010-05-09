@@ -18,6 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.neural.activation;
 
+// TODO rework this so it will work with piecewise and ramping activation function, a derivative isnt enough for that
+
 /**
  * An interface containing methods for an activation function as well as its
  * derivative. This is used in propogating as well as backpropogating activity.
