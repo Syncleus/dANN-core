@@ -75,7 +75,6 @@ public class SimpleSynapse extends ImmutableDirectedEdge<Neuron> implements Syna
      * @since 1.0
      * @param sourceToSet The incomming neuron connection.
      * @param destinationToSet The outgoing neuron connection.
-     * @param initialWeight The initial weight of the synapse
      */
     public SimpleSynapse(final Neuron sourceToSet, final Neuron destinationToSet)
     {

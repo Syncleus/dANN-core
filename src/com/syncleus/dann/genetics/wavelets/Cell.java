@@ -46,7 +46,7 @@ public class Cell
 		}
 	}
 
-	public boolean bind(final SignalKeyConcentration concentration, final boolean isExternal)
+	public static boolean bind(final SignalKeyConcentration concentration, final boolean isExternal)
 	{
 		return false;
 	}

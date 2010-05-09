@@ -109,7 +109,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractLocalBrain implem
 				this.add(currentNeuron);
 			}
 
-			this.getEditableLayers().add(currentGroup);
+            this.neuronLayers.add(currentGroup);
 
 			currentLayerCount++;
 		}
@@ -131,7 +131,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractLocalBrain implem
 	public final List<Set<BackpropNeuron>> getLayers()
 	{
 		final List<Set<BackpropNeuron>> layerList = new ArrayList<Set<BackpropNeuron>>();
-		for(final NeuronGroup<BackpropNeuron> layerGroup : this.getEditableLayers())
+		for(final NeuronGroup<BackpropNeuron> layerGroup : this.neuronLayers)
 		{
 			final Set<BackpropNeuron> layer = new HashSet<BackpropNeuron>();
 			for(final BackpropNeuron layerNeuron : layerGroup.getChildrenNeuronsRecursivly())

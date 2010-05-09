@@ -138,7 +138,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 
 	private double getAverageMovement()
 	{
-		return this.totalMovement / ((double)this.getGraph().getOrder());
+		return this.totalMovement / ((double) this.graph.getOrder());
 	}
 
 	public void align()
@@ -222,7 +222,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 		return neighbors;
 	}
 
-	final private Vector align(final N nodeToAlign)
+	private Vector align(final N nodeToAlign)
 	{
 		//calculate equilibrium with neighbors
 		final Vector location = this.coordinates.get(nodeToAlign);

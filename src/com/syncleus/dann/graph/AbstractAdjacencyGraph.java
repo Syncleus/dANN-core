@@ -451,7 +451,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 
 	public int getMinimumDegree()
 	{
-		if(this.getNodes().size() == 0)
+		if(this.getNodes().isEmpty())
 			throw new IllegalStateException("This graph has no nodes!");
 		
 		int minimumDegree = Integer.MAX_VALUE;

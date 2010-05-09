@@ -314,7 +314,7 @@ public class ExpressionFunction implements Cloneable
 
     private WaveMultidimensionalFunction generateRandomWave()
     {
-        if(this.waves.size() > 0)
+        if(!this.waves.isEmpty())
         {
             final WaveMultidimensionalFunction[] wavesArray = new WaveMultidimensionalFunction[this.waves.size()];
             this.waves.toArray(wavesArray);

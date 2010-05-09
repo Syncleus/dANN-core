@@ -48,7 +48,7 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 			return ComplexNumber.ONE;
 		}
 
-		public ComplexNumber getImaginaryUnit()
+		public static ComplexNumber getImaginaryUnit()
 		{
 			return ComplexNumber.I;
 		}
@@ -283,8 +283,8 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 	@Override
 	public int hashCode()
 	{
-		final int imaginaryHash = Double.valueOf(this.getImaginaryValue()).hashCode();
-		final int realHash = Double.valueOf(this.getRealValue()).hashCode();
+		final int imaginaryHash = Double.valueOf(this.imaginaryValue).hashCode();
+		final int realHash = Double.valueOf(this.realValue).hashCode();
 		return (imaginaryHash * realHash) + realHash;
 	}
 
@@ -295,9 +295,9 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 			return false;
 
 		final ComplexNumber compareComplex = (ComplexNumber) compareObject;
-		if(compareComplex.getRealValue() != this.getRealValue())
+		if(compareComplex.realValue != this.realValue)
 			return false;
-		if(compareComplex.getImaginaryValue() != this.getImaginaryValue())
+		if(compareComplex.imaginaryValue != this.imaginaryValue)
 			return false;
 		return true;
 	}
@@ -310,8 +310,8 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 		if( realValue == 0 )
 			return imaginaryValue + "i";
 		if( imaginaryValue <  0 )
-			return realValue + " - " + -imaginaryValue + "i";
-		return realValue + " + " + imaginaryValue + "i";
+			return realValue + " - " + -imaginaryValue + 'i';
+		return realValue + " + " + imaginaryValue + 'i';
 	}
 
 	public static ComplexNumber scalarToComplex(final double scalar)

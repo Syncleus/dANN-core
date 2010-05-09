@@ -31,10 +31,7 @@ public class CombinedWaveletFunction extends AbstractFunction implements Cloneab
     public CombinedWaveletFunction(final String[] dimensions)
     {
         super(dimensions);
-        for(final String dimension:dimensions)
-        {
-            this.dimensions.add(dimension);
-        }
+        this.dimensions.addAll(Arrays.asList(dimensions));
     }
     
     
@@ -102,7 +99,7 @@ public class CombinedWaveletFunction extends AbstractFunction implements Cloneab
 
     public String toString()
     {
-		final StringBuffer equationBuffer =new StringBuffer();
+        final StringBuilder equationBuffer = new StringBuilder();
         final WaveMultidimensionalFunction[] waveArray = new WaveMultidimensionalFunction[this.waves.size()];
         this.waves.toArray(waveArray);
         for(int waveArrayIndex = 0; waveArrayIndex < waveArray.length; waveArrayIndex++)

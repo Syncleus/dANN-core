@@ -126,7 +126,7 @@ public class TestSimpleBooleanNetwork
 		final double truePercent = n.getPercentage(TwoState.A);
 		final double falsePercent = n.getPercentage(TwoState.B);
 
-		Assert.assertTrue("incorrect true/false distribution: " + truePercent + ":" + falsePercent, (truePercent == (1f / 2f)) && (falsePercent == (1f / 2f)));
+		Assert.assertTrue("incorrect true/false distribution: " + truePercent + ':' + falsePercent, (truePercent == (1f / 2f)) && (falsePercent == (1f / 2f)));
 	}
 
 	@Test
@@ -189,7 +189,7 @@ public class TestSimpleBooleanNetwork
 		final double truePercent = n.getPercentage(TwoState.A);
 		final double falsePercent = n.getPercentage(TwoState.B);
 
-		Assert.assertTrue("incorrect true/false distribution: " + truePercent + ":" + falsePercent, (truePercent == (3f / 4f)) && (falsePercent == (1f / 4f)));
+		Assert.assertTrue("incorrect true/false distribution: " + truePercent + ':' + falsePercent, (truePercent == (3f / 4f)) && (falsePercent == (1f / 4f)));
 	}
 
 	@Test

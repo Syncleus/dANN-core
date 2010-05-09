@@ -104,7 +104,7 @@ public abstract class AbstractKey implements Cloneable
 		final Integer lowIndex = orderedIndexes.first();
 		final Integer highIndex = orderedIndexes.last();
 
-		final StringBuilder outBuilder = new StringBuilder();
+		final StringBuilder outBuilder = new StringBuilder(highIndex - lowIndex);
 		for(Integer index = lowIndex; index <= highIndex; index++)
 		{
 			if(orderedIndexes.contains(index))

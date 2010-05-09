@@ -141,7 +141,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 
 	public boolean isSquare()
 	{
-		if(this.getWidth() != this.getHeight())
+		if(this.width != this.height)
 			return false;
 		return true;
 	}
@@ -151,8 +151,8 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 		if(!this.isSquare())
 			return false;
 
-		for(int j = 0; j < this.getWidth(); j++)
-			for(int i = 0; i < this.getWidth(); i++)
+		for(int j = 0; j < this.width; j++)
+			for(int i = 0; i < this.width; i++)
 				if(matrixElements[i][j] != matrixElements[j][i])
 					return false;
 		return true;
@@ -210,8 +210,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	{
 		final double[][] C = new double[height][width];
 		for(int i = 0; i < height; i++)
-			for(int j = 0; j < width; j++)
-				C[i][j] = matrixElements[i][j];
+            System.arraycopy(matrixElements[i], 0, C[i], 0, width);
 		return C;
 	}
 
@@ -234,8 +233,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	{
 		final double[] vals = new double[height * width];
 		for(int i = 0; i < height; i++)
-			for(int j = 0; j < width; j++)
-				vals[i * width + j] = matrixElements[i][j];
+            System.arraycopy(matrixElements[i], 0, vals, i * width, width);
 		return vals;
 	}
 
@@ -288,9 +286,9 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 
 	public RealMatrix flip()
 	{
-		final double[][] flippedSolution = new double[this.getWidth()][this.getHeight()];
-		for(int heightIndex = 0; heightIndex < this.getHeight(); heightIndex++)
-			for(int widthIndex = 0; widthIndex < this.getWidth(); widthIndex++)
+		final double[][] flippedSolution = new double[this.width][this.height];
+		for(int heightIndex = 0; heightIndex < this.height; heightIndex++)
+			for(int widthIndex = 0; widthIndex < this.width; widthIndex++)
 				flippedSolution[widthIndex][heightIndex] = this.matrixElements[heightIndex][widthIndex];
 		return new SimpleRealMatrix(flippedSolution);
 	}
@@ -927,7 +925,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	@Override
 	public String toString()
 	{
-		final StringBuffer out = new StringBuffer("{");
+        final StringBuilder out = new StringBuilder("{");
 		for(int heightIndex = 0; heightIndex < this.height; heightIndex++)
 			for(int widthIndex = 0; widthIndex < this.width; widthIndex++)
 			{

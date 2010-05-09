@@ -49,11 +49,11 @@ public class AstarPathFinder<N, E extends Edge<N>> implements PathFinder<N,E>
 				newWeight += ((Weighted)this.node).getWeight();
 			else
 				newWeight += 1.0;
-			if((this.parent == null) || ( newParent.getCachedPathWeight() + newWeight < this.getCachedPathWeight()))
+			if((this.parent == null) || (newParent.cachedPathWeight + newWeight < this.cachedPathWeight))
 			{
 				this.parent = newParent;
 				this.parentEdge = newParentEdge;
-				this.cachedPathWeight = newParent.getCachedPathWeight() + newWeight;
+				this.cachedPathWeight = newParent.cachedPathWeight + newWeight;
 				return true;
 			}
 			else
@@ -82,7 +82,7 @@ public class AstarPathFinder<N, E extends Edge<N>> implements PathFinder<N,E>
 
 		public double getHeuristicOverallCost()
 		{
-			return this.getCachedPathWeight() + this.getHeuristicCostToGoal();
+			return this.cachedPathWeight + this.getHeuristicCostToGoal();
 		}
 
 		@Override

@@ -266,9 +266,9 @@ public class RealNumber extends Number implements OrderedTrigonometricAlgebraic<
 
 	public int compareTo(final RealNumber compareWith)
 	{
-		if(this.getValue() > compareWith.getValue())
+		if(this.value > compareWith.value)
 			return 1;
-		else if(this.getValue() < compareWith.getValue())
+		else if(this.value < compareWith.value)
 			return -1;
 		return 0;
 	}

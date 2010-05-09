@@ -166,7 +166,7 @@ public abstract class AbstractActivationNeuron extends AbstractNeuron
             this.activity += currentSynapse.getInput() * currentSynapse.getWeight();
 
         //calculate the activity function and set the result as the output
-        this.setOutput(this.activate());
+        this.output = this.activate();
         for (final Synapse current : this.getBrain().getTraversableEdges(this))
             current.setInput(this.output);
     }

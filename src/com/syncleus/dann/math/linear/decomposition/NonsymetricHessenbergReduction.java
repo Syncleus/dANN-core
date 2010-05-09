@@ -73,10 +73,9 @@ public class NonsymetricHessenbergReduction implements java.io.Serializable, Hes
 		//  Vol.ii-Linear Algebra, and the corresponding
 		//  Fortran subroutines in EISPACK.
 
-		final int low = 0;
 		final int high = n - 1;
 
-		for(int m = low + 1; m <= high - 1; m++)
+		for(int m = 1; m <= high - 1; m++)
 		{
 			// Scale column.
 			double scale = 0.0;
@@ -129,7 +128,7 @@ public class NonsymetricHessenbergReduction implements java.io.Serializable, Hes
 			for(int j = 0; j < n; j++)
 				V[i][j] = (i == j ? 1.0 : 0.0);
 
-		for(int m = high - 1; m >= low + 1; m--)
+		for(int m = high - 1; m >= 1; m--)
 			if(H[m][m - 1] != 0.0)
 			{
 				for(int i = m + 1; i <= high; i++)

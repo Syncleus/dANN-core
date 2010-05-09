@@ -176,7 +176,7 @@ public abstract class AbstractGeneticAlgorithmPopulation
 		return this.generations;
 	}
 
-	private final GeneticAlgorithmChromosome getRandomMember()
+	private GeneticAlgorithmChromosome getRandomMember()
 	{
 		final int randomIndex = RANDOM.nextInt(this.population.size());
 		int currentIndex = 0;

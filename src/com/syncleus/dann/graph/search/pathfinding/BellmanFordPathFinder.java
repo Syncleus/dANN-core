@@ -44,11 +44,11 @@ public class BellmanFordPathFinder<N, E extends DirectedEdge<N>> implements Path
 			double newWeight = (newParentEdge instanceof Weighted ? ((Weighted)newParentEdge).getWeight() : 1.0);
 			if(this.node instanceof Weighted)
 				newWeight += ((Weighted)this.node).getWeight();
-			if((this.parent == null) || ( newParent.getCachedPathWeight() + newWeight < this.getCachedPathWeight()))
+			if((this.parent == null) || (newParent.cachedPathWeight + newWeight < this.cachedPathWeight))
 			{
 				this.parent = newParent;
 				this.parentEdge = newParentEdge;
-				this.cachedPathWeight = newParent.getCachedPathWeight() + newWeight;
+				this.cachedPathWeight = newParent.cachedPathWeight + newWeight;
 				return true;
 			}
 			else
@@ -93,9 +93,9 @@ public class BellmanFordPathFinder<N, E extends DirectedEdge<N>> implements Path
 		{
 			//the natural ordering is inverse cause the smallest path weight is
 			//the best weight.
-			if(this.getCachedPathWeight() < compareWith.getCachedPathWeight())
+			if(this.cachedPathWeight < compareWith.cachedPathWeight)
 				return -1;
-			else if(this.getCachedPathWeight() > compareWith.getCachedPathWeight())
+			else if(this.cachedPathWeight > compareWith.cachedPathWeight)
 				return 1;
 			else
 				return 0;

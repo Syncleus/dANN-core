@@ -71,6 +71,6 @@ public class SharpenedWaveFunction extends WaveFunction
 	@Override
     public String toString(final String xName)
     {
-        return "(" + super.toString(xName) + "/|" + super.toString(xName) + "|) * |(|" + super.toString(xName) + ")/amplitude|^form| * amplitude";
+        return '(' + super.toString(xName) + "/|" + super.toString(xName) + "|) * |(|" + super.toString(xName) + ")/amplitude|^form| * amplitude";
     }
 }

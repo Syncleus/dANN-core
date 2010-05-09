@@ -58,7 +58,7 @@ public class JohnsonGraphTransformer<N> implements GraphTransformer<BidirectedGr
 		final List<WeightedDirectedEdge<N>> edges = new ArrayList<WeightedDirectedEdge<N>>(johnsonGraph.getEdges());
 		for(final WeightedDirectedEdge<N> edge : edges)
 		{
-			final double newWeight = edge.getWeight() + this.getPathWeight(pathFinder.getBestPath(blankNode, edge.getSourceNode(), false)) - this.getPathWeight(pathFinder.getBestPath(blankNode, edge.getDestinationNode(), false));
+			final double newWeight = edge.getWeight() + getPathWeight(pathFinder.getBestPath(blankNode, edge.getSourceNode(), false)) - getPathWeight(pathFinder.getBestPath(blankNode, edge.getDestinationNode(), false));
 			johnsonGraph.remove(edge);
 			johnsonGraph.add(new SimpleWeightedDirectedEdge<N>(edge.getSourceNode(), edge.getDestinationNode(), newWeight));
 		}
@@ -66,7 +66,7 @@ public class JohnsonGraphTransformer<N> implements GraphTransformer<BidirectedGr
 		return johnsonGraph;
 	}
 
-	private double getPathWeight(final List<WeightedDirectedEdge<Object>> path)
+	private static double getPathWeight(final List<WeightedDirectedEdge<Object>> path)
 	{
 		double weight = 0.0;
 		for(final WeightedDirectedEdge<Object> node : path)

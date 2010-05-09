@@ -28,7 +28,7 @@ import org.junit.*;
 
 public class TestHyperassociativeMap
 {
-	private class TestBrain extends AbstractLocalBrain
+	private static class TestBrain extends AbstractLocalBrain
 	{
 		@Override
 		public boolean add(final Neuron newNeuron)
@@ -43,7 +43,7 @@ public class TestHyperassociativeMap
 		}
 	}
 
-	private class TestMap extends HyperassociativeMap<AbstractLocalBrain, Neuron>
+	private static class TestMap extends HyperassociativeMap<AbstractLocalBrain, Neuron>
 	{
 		public TestMap(final AbstractLocalBrain brain, final int dimensions, final ThreadPoolExecutor executor)
 		{

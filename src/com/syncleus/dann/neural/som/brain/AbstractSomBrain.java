@@ -165,7 +165,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	public void createOutput(final Vector position)
 	{
 		//make sure we have the proper dimentionality
-		if(position.getDimensions() != this.getUpperBounds().getDimensions())
+		if(position.getDimensions() != this.upperBounds.getDimensions())
 			throw new IllegalArgumentException("Dimentionality mismatch");
 
 		//increase the upper bounds if needed

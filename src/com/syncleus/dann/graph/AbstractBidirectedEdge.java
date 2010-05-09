@@ -67,39 +67,39 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implemen
 
 	public boolean isIntroverted()
 	{
-		if( (this.getRightEndState() == EndState.INWARD) && (this.getLeftEndState() == EndState.INWARD) )
+		if( (this.rightEndState == EndState.INWARD) && (this.leftEndState == EndState.INWARD) )
 			return true;
 		return false;
 	}
 
 	public boolean isExtraverted()
 	{
-		if( (this.getRightEndState() == EndState.OUTWARD) && (this.getLeftEndState() == EndState.OUTWARD) )
+		if( (this.rightEndState == EndState.OUTWARD) && (this.leftEndState == EndState.OUTWARD) )
 			return true;
 		return false;
 	}
 
 	public boolean isDirected()
 	{
-		if( (this.getRightEndState() == EndState.INWARD) && (this.getLeftEndState() == EndState.OUTWARD) )
+		if( (this.rightEndState == EndState.INWARD) && (this.leftEndState == EndState.OUTWARD) )
 			return true;
-		else if( (this.getRightEndState() == EndState.OUTWARD) && (this.getLeftEndState() == EndState.INWARD) )
+		else if( (this.rightEndState == EndState.OUTWARD) && (this.leftEndState == EndState.INWARD) )
 			return true;
 		return false;
 	}
 
 	public boolean isHalfEdge()
 	{
-		if( (this.getRightEndState() == EndState.NONE) && (this.getLeftEndState() != EndState.NONE) )
+		if( (this.rightEndState == EndState.NONE) && (this.leftEndState != EndState.NONE) )
 			return true;
-		else if( (this.getRightEndState() != EndState.NONE) && (this.getLeftEndState() == EndState.NONE) )
+		else if( (this.rightEndState != EndState.NONE) && (this.leftEndState == EndState.NONE) )
 			return true;
 		return false;
 	}
 
 	public boolean isLooseEdge()
 	{
-		if( (this.getRightEndState() == EndState.NONE) && (this.getLeftEndState() == EndState.NONE) )
+		if( (this.rightEndState == EndState.NONE) && (this.leftEndState == EndState.NONE) )
 			return true;
 		return false;
 	}
@@ -113,7 +113,7 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implemen
 
 	public boolean isLoop()
 	{
-		if(this.getLeftEndState().equals(this.getRightEndState()))
+		if(this.leftEndState.equals(this.rightEndState))
 			return true;
 		return false;
 	}
@@ -123,7 +123,7 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implemen
 	{
 		return this.leftNode.toString() +
 			endStateToString(this.leftEndState, true) +
-			"-" +
+                '-' +
 			endStateToString(this.rightEndState, false) +
 			this.rightNode;
 	}

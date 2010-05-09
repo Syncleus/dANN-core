@@ -69,7 +69,7 @@ public abstract class AbstractEdge<N> implements Edge<N>
 	{
 		if(node == null)
 			throw new IllegalArgumentException("node can not be null");
-		if(!this.getNodes().contains(node))
+		if(!this.nodes.contains(node))
 			throw new IllegalArgumentException("is not an endpoint");
 
 		final List<N> newNodes = new ArrayList<N>(this.nodes);
@@ -87,7 +87,7 @@ public abstract class AbstractEdge<N> implements Edge<N>
 	{
 		if(nodes == null)
 			throw new IllegalArgumentException("nodes can not be null");
-		if(!this.getNodes().containsAll(nodes))
+		if(!this.nodes.containsAll(nodes))
 			throw new IllegalArgumentException("nodes do not contain all valid end points");
 
 		final List<N> newNodes = new ArrayList<N>(this.nodes);
@@ -115,10 +115,10 @@ public abstract class AbstractEdge<N> implements Edge<N>
 	@Override
 	public String toString()
 	{
-		final StringBuilder outString = new StringBuilder();
+		final StringBuilder outString = new StringBuilder(this.nodes.size() * 10);
 		for(final N node : this.nodes)
 		{
-            outString.append(":").append(node);
+            outString.append(':').append(node);
 		}
 		return outString.toString();
 	}

@@ -61,7 +61,7 @@ public class SimpleBayesianNode<S> implements BayesianNode<S>
 	{
 		this.updateInfluence();
 
-		this.evidence.incrementState(this.getInputStates(),this.getState());
+		this.evidence.incrementState(this.getInputStates(), this.state);
 		this.learnedStates.add(this.state);
 	}
 
@@ -70,7 +70,7 @@ public class SimpleBayesianNode<S> implements BayesianNode<S>
 		this.updateInfluence();
 
 		final StateEvidence<S> stateEvidence = this.evidence.get(this.getInputStates());
-		return (stateEvidence != null ? stateEvidence.getPercentage(this.getState()) : 0.0 );
+		return (stateEvidence != null ? stateEvidence.getPercentage(this.state) : 0.0 );
 	}
 
 	private Map<BayesianNode,Object> getInputStates()

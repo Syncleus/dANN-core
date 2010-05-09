@@ -202,10 +202,10 @@ public class WaveMultidimensionalFunction extends AbstractFunction implements Cl
         {
             if(squaredSumsIndex > 0)
                 equationBuffer.append(" + ");
-            equationBuffer.append("(" + this.dimensionNames[squaredSumsIndex] + " - center-" + this.dimensionNames[squaredSumsIndex] + ")^2");
+            equationBuffer.append('(').append(this.dimensionNames[squaredSumsIndex]).append(" - center-").append(this.dimensionNames[squaredSumsIndex]).append(")^2");
         }
 
-        final String equation = "sqrt( " + equationBuffer.toString() + " )";
+        final String equation = "sqrt( " + equationBuffer + " )";
         
         return this.wave.toString(equation, centerName);
     }

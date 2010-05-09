@@ -41,7 +41,7 @@ public class TestCooleyTukeyFastFourierTransformer
 		return dataPoints;
 	}
 
-    public boolean checkSingleFrequency(final double frequency)
+    public static boolean checkSingleFrequency(final double frequency)
 	{
         final double[] dataPoints = generateSignal(frequency, BLOCK_SIZE);
 
@@ -62,7 +62,7 @@ public class TestCooleyTukeyFastFourierTransformer
 		return true;
     }
 
-	public boolean checkFrequencyRange(final double frequency)
+	public static boolean checkFrequencyRange(final double frequency)
 	{
         final double[] dataPoints = generateSignal(frequency, BLOCK_SIZE);
 
@@ -111,7 +111,7 @@ public class TestCooleyTukeyFastFourierTransformer
 			double frequency = ((random.nextDouble() * 0.05)+0.025) + (((double)random.nextInt(10)/10.0) );
 			//scale from 0-1 to 0-512
 			frequency *= 512.0;
-			Assert.assertTrue("unexpected random dominant frequency range: " + frequency + "!", checkFrequencyRange(frequency));
+			Assert.assertTrue("unexpected random dominant frequency range: " + frequency + '!', checkFrequencyRange(frequency));
 		}
 	}
 
@@ -136,7 +136,7 @@ public class TestCooleyTukeyFastFourierTransformer
 			double frequency = (random.nextDouble() * 0.09) + (((double)random.nextInt(10)/10.0) );
 			//scale to 0 - 512
 			frequency *= 512.0;
-			Assert.assertTrue("unexpected random dominant frequency: " + frequency + "!", checkSingleFrequency(frequency));
+			Assert.assertTrue("unexpected random dominant frequency: " + frequency + '!', checkSingleFrequency(frequency));
 		}
 	}
 }

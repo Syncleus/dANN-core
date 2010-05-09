@@ -141,8 +141,8 @@ public class TestHyperpoint
 		angle2 = testPoint.getAngularComponent(2);
 		testPoint = testPoint.setDistance(5.0d);
 		Assert.assertTrue("distance didnt set properly -> 5.0:" + testPoint.getDistance(), Math.abs(testPoint.getDistance() - 5.0d) < TEST_ACCEPTABLE_ERROR);
-		Assert.assertTrue("angle drifted after setting distance -> " + angle1 + ":" + testPoint.getAngularComponent(1), Math.abs(testPoint.getAngularComponent(1) - angle1) < TEST_ACCEPTABLE_ERROR);
-		Assert.assertTrue("angle drifted after setting distance -> " + angle2 + ":" + testPoint.getAngularComponent(2), Math.abs(testPoint.getAngularComponent(2) - angle2) < TEST_ACCEPTABLE_ERROR);
+		Assert.assertTrue("angle drifted after setting distance -> " + angle1 + ':' + testPoint.getAngularComponent(1), Math.abs(testPoint.getAngularComponent(1) - angle1) < TEST_ACCEPTABLE_ERROR);
+		Assert.assertTrue("angle drifted after setting distance -> " + angle2 + ':' + testPoint.getAngularComponent(2), Math.abs(testPoint.getAngularComponent(2) - angle2) < TEST_ACCEPTABLE_ERROR);
 
 		testPoint = new Vector(2);
 		testPoint = testPoint.setCoordinate(1.0d, 1);

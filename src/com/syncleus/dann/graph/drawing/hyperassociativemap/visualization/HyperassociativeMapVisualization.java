@@ -146,10 +146,10 @@ public class HyperassociativeMapVisualization<D extends GraphDrawer<G, N>, G ext
             }
 
         //remove any stale nodes
-        for (final N node : this.nodeGraphics.keySet())
+        for (Map.Entry<N, TransformGroup> nTransformGroupEntry : this.nodeGraphics.entrySet())
         {
-            this.nestedRoot.removeChild(this.nodeGraphics.get(node));
-            this.oldNodeLocations.remove(node);
+            this.nestedRoot.removeChild(nTransformGroupEntry.getValue());
+            this.oldNodeLocations.remove(nTransformGroupEntry.getKey());
         }
 
         this.nodeGraphics = newGraphicalNodes;
@@ -160,7 +160,7 @@ public class HyperassociativeMapVisualization<D extends GraphDrawer<G, N>, G ext
 
 
 
-    private TransformGroup createNeuronSphere(final String textLine1, final String textLine2, final Color myColor, final float posX, final float posY, final float posZ, final float radius)
+    private static TransformGroup createNeuronSphere(final String textLine1, final String textLine2, final Color myColor, final float posX, final float posY, final float posZ, final float radius)
     {
         // Create the transform group node holding the sphere
         final TransformGroup neuronTransformGroup = new TransformGroup();
@@ -197,7 +197,7 @@ public class HyperassociativeMapVisualization<D extends GraphDrawer<G, N>, G ext
 
 
 
-    private BufferedImage createNeuronTextureImage(final String textLine1, final String textLine2, final Color myColor)
+    private static BufferedImage createNeuronTextureImage(final String textLine1, final String textLine2, final Color myColor)
     {
 
         final int imSizeX = 256; // high quality for now - we will optimize later
@@ -231,7 +231,7 @@ public class HyperassociativeMapVisualization<D extends GraphDrawer<G, N>, G ext
 
 
 
-    private Appearance makeMappingFromImage(final BufferedImage myImage)
+    private static Appearance makeMappingFromImage(final BufferedImage myImage)
     {
         final Appearance mapping = new Appearance();
 

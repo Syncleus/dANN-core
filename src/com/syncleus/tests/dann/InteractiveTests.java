@@ -97,7 +97,7 @@ public class InteractiveTests
 		for(final Class packageClass : classes)
 		{
 			final String fullClassString = packageClass.toString();
-			final int classNameIndex = fullClassString.lastIndexOf(".") + 1;
+			final int classNameIndex = fullClassString.lastIndexOf('.') + 1;
 			final String classString = fullClassString.substring(classNameIndex);
 			if((!classString.contains("$")) && (InteractiveTests.isTestClass(packageClass)))
 			{
@@ -129,10 +129,10 @@ public class InteractiveTests
 		final Set<Class> testClasses = testPoints.keySet();
 		int currentChoice = 1;
 		final Map<Integer, Method> choices = new HashMap<Integer, Method>();
-		for(final Class testClass : testClasses)
+		for(Map.Entry<Class, Set<Method>> classSetEntry : testPoints.entrySet())
 		{
-			System.out.println(testClass.toString() + ":");
-			final Set<Method> testPointMethods = testPoints.get(testClass);
+			System.out.println(classSetEntry.getKey().toString() + ':');
+			final Set<Method> testPointMethods = classSetEntry.getValue();
 			for(final Method testPointMethod : testPointMethods)
 			{
 				System.out.println(currentChoice + ": " + testPointMethod.getName());
@@ -174,7 +174,7 @@ public class InteractiveTests
 			//run unit test
 			final JUnitCore jUnit = new JUnitCore();
 			final Request testRequest = Request.method(testClass, test.getName());
-			System.out.println("Running " + testClass + "." + test.getName());
+			System.out.println("Running " + testClass + '.' + test.getName());
 			final Result testResult = jUnit.run(testRequest);
 			if( testResult.wasSuccessful() )
 				System.out.print("Successful: ");

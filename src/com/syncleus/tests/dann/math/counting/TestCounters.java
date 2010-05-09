@@ -41,7 +41,7 @@ public class TestCounters
 		final Set<List<Character>> combinations = Counters.everyCombination(letters);
 		for(final List<Character> combination : combinations)
 		{
-			final StringBuilder combinationString = new StringBuilder();
+			final StringBuilder combinationString = new StringBuilder(combination.size());
 			for(final Character combinationChar : combination)
 				combinationString.append(combinationChar);
 			LOGGER.info("Combination Generated: " + combinationString);

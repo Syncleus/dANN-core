@@ -81,7 +81,7 @@ public abstract class AbstractValueGene<N extends MutableNumber> implements Valu
 	 */
 	public final double expressionActivity()
 	{
-		return this.getValue().doubleValue();
+		return this.value.doubleValue();
 	}
 
 	/**

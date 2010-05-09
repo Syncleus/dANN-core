@@ -548,8 +548,7 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 		// Vectors of isolated roots
 		for(int i = 0; i < nn; i++)
 			if(i < low | i > high)
-				for(int j = i; j < nn; j++)
-					V[i][j] = H[i][j];
+                System.arraycopy(H[i], i, V[i], i, nn - i);
 
 		// Back transformation to get eigenvectors of original matrix
 		for(int j = nn - 1; j >= low; j--)

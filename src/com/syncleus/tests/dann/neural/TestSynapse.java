@@ -24,7 +24,7 @@ import org.junit.*;
 
 public class TestSynapse
 {
-	private class TestBrain extends AbstractLocalBrain
+	private static class TestBrain extends AbstractLocalBrain
 	{
 		@Override
 		public boolean add(final Neuron newNeuron)

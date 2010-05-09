@@ -60,13 +60,13 @@ public abstract class PackageUtility
 			}
 			catch(FileNotFoundException caughtException)
 			{
-				LOGGER.error("Can not figure out the location of the jar: " + jarPath + " " + pkgName, caughtException);
-				throw new DannError("Can not figure out the location of the jar: " + jarPath + " " + pkgName, caughtException);
+				LOGGER.error("Can not figure out the location of the jar: " + jarPath + ' ' + pkgName, caughtException);
+				throw new DannError("Can not figure out the location of the jar: " + jarPath + ' ' + pkgName, caughtException);
 			}
 			catch(IOException caughtException)
 			{
-				LOGGER.error("IO error when opening jar: " + jarPath + " " + pkgName, caughtException);
-				throw new DannError("IO error when opening jar: " + jarPath + " " + pkgName, caughtException);
+				LOGGER.error("IO error when opening jar: " + jarPath + ' ' + pkgName, caughtException);
+				throw new DannError("IO error when opening jar: " + jarPath + ' ' + pkgName, caughtException);
 			}
 		}
 	}

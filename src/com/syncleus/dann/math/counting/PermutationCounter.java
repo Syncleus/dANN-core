@@ -110,7 +110,7 @@ public class PermutationCounter implements Counter
 		return fact;
 	}
 
-	private int[] permutateCombination(final int[] combination, final int[] permutation)
+	private static int[] permutateCombination(final int[] combination, final int[] permutation)
 	{
 		final int[] permutated = new int[combination.length];
 		int permutatedIndex = 0;

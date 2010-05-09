@@ -102,7 +102,7 @@ public class TestXor
 		inputC.setInput(inputToSet[2]);
 	}
 
-	private boolean checkTruthTable(final double in1, final double in2, final double in3, final double result)
+	private static boolean checkTruthTable(final double in1, final double in2, final double in3, final double result)
 	{
 		if( ((in1 > 0.0)&&(in2 <= 0.0)&&(in3 <= 0.0))||
 			((in1 <= 0.0)&&(in2 > 0.0)&&(in3 <= 0.0))||
