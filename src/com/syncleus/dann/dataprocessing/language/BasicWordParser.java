@@ -31,7 +31,7 @@ public class BasicWordParser implements WordParser
 		this.locale = Locale.getDefault();
 	}
 
-	public BasicWordParser(Locale locale)
+	public BasicWordParser(final Locale locale)
 	{
 		this.locale = locale;
 	}
@@ -56,6 +56,6 @@ public class BasicWordParser implements WordParser
 
 	public Locale getLocale()
 	{
-		return locale;
+		return this.locale;
 	}
 }

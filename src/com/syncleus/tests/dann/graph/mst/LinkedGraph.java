@@ -27,6 +27,7 @@ public class LinkedGraph<N, E extends Edge<N>> extends AbstractAdjacencyGraph<N,
 	private final Set<E> edges;
 	private final Map<N, Set<E>> neighborEdges = new HashMap<N, Set<E>>();
 	private final Map<N, List<N>> neighborNodes = new HashMap<N, List<N>>();
+	private static final long serialVersionUID = -5301697513399013407L;
 
 	public LinkedGraph(final Graph<N, E> copyGraph)
 	{

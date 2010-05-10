@@ -62,18 +62,18 @@ public class RealNumber extends Number implements OrderedTrigonometricAlgebraic<
 		return Field.FIELD;
 	}
 
-	public RealNumber max(final RealNumber value)
+	public RealNumber max(final RealNumber maxValue)
 	{
-		if (this.compareTo(value) > 0)
+		if (this.compareTo(maxValue) > 0)
 			return this;
-		return value;
+		return maxValue;
 	}
 
-	public RealNumber min(final RealNumber value)
+	public RealNumber min(final RealNumber minValue)
 	{
-		if (this.compareTo(value) < 0)
+		if (this.compareTo(minValue) < 0)
 			return this;
-		return value;
+		return minValue;
 	}
 
 	public RealNumber add(final RealNumber operand)

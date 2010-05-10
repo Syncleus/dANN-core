@@ -22,6 +22,8 @@ import java.util.*;
 
 public class MutableDirectedAdjacencyGraph<N, E extends DirectedEdge<N>> extends AbstractBidirectedAdjacencyGraph<N, E> implements MutableBidirectedGraph<N, E>
 {
+	private static final long serialVersionUID = 8043216557844179053L;
+
 	public MutableDirectedAdjacencyGraph()
 	{
 		super();

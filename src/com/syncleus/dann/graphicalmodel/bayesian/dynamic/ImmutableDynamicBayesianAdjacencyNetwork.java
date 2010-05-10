@@ -61,7 +61,7 @@ public class ImmutableDynamicBayesianAdjacencyNetwork<N extends DynamicBayesianN
 	protected Map<N, List<N>> getInternalAdjacencyNodes()
 	{
 		final Map<N, List<N>> newAdjacentNodes = new HashMap<N, List<N>>();
-		for(final Entry<N, List<N>> neighborNodeEntry : this.getInternalAdjacencyNodes().entrySet())
+		for(final Entry<N, List<N>> neighborNodeEntry : super.getInternalAdjacencyNodes().entrySet())
 			newAdjacentNodes.put(neighborNodeEntry.getKey(), new ArrayList<N>(neighborNodeEntry.getValue()));
 		return newAdjacentNodes;
 	}

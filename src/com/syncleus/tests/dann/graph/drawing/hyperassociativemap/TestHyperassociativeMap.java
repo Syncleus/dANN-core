@@ -28,6 +28,8 @@ public class TestHyperassociativeMap
 {
 	private static class TestBrain extends AbstractLocalBrain
 	{
+		private static final long serialVersionUID = 6640257805440602087L;
+
 		@Override
 		public boolean add(final Neuron newNeuron)
 		{

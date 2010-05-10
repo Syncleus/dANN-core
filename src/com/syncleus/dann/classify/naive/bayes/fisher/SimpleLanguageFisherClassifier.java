@@ -39,19 +39,19 @@ public class SimpleLanguageFisherClassifier<C> extends SimpleFisherClassifier<St
 
 	public Locale getLocale()
 	{
-		return locale;
+		return this.locale;
 	}
 
 	@Override
 	public double featureClassificationProbability(final String feature, final C category)
 	{
-		return super.featureClassificationProbability(feature.toLowerCase(), category);
+		return super.featureClassificationProbability(feature.toLowerCase(this.locale), category);
 	}
 
 	@Override
 	public double featureClassificationWeightedProbability(final String feature, final C category)
 	{
-		return super.featureClassificationWeightedProbability(feature.toLowerCase(), category);
+		return super.featureClassificationWeightedProbability(feature.toLowerCase(this.locale), category);
 	}
 
 	private static class WordExtractor implements FeatureExtractor<String, String>

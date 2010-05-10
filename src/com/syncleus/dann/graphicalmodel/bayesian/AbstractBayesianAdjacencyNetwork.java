@@ -56,7 +56,6 @@ public abstract class AbstractBayesianAdjacencyNetwork<N extends BayesianNode, E
 	{
 		List<N> varyingNodes = new ArrayList<N>(this.getNodes());
 		//calculate numerator
-		varyingNodes = new ArrayList<N>(this.getNodes());
 		varyingNodes.removeAll(influences);
 		varyingNodes.removeAll(goals);
 		resetNodeStates(varyingNodes);

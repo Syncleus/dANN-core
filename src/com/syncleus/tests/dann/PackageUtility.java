@@ -16,7 +16,7 @@ public abstract class PackageUtility
 		final ArrayList<Class> classes = new ArrayList<Class>();
 		// Get a File object for the package
 		File directory = null;
-		String pkgPath = null;
+		String pkgPath;
 		try
 		{
 			final ClassLoader cld = Thread.currentThread().getContextClassLoader();

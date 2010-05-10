@@ -52,7 +52,7 @@ public class StemmingLanguageFisherClassifier<C> extends SimpleFisherClassifier<
 
 	public Locale getLocale()
 	{
-		return locale;
+		return this.locale;
 	}
 
 	private static class StemmingWordExtractor implements FeatureExtractor<String, String>

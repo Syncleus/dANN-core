@@ -28,6 +28,8 @@ public class TestNeuronGroup
 {
 	private static class TestBrain extends AbstractLocalBrain
 	{
+		private static final long serialVersionUID = 3393474496867875251L;
+
 		@Override
 		public boolean add(final Neuron newNeuron)
 		{

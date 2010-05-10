@@ -61,7 +61,7 @@ public class TestMutableDouble
 	{
 		final MutableDouble center = new MutableDouble(0);
 		double averageSum = 0;
-		double testCount = 0.0;
+		double testCount;
 		for(testCount = 0.0; testCount < 10000; testCount++)
 		{
 			averageSum += center.mutate(1.0).doubleValue();

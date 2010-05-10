@@ -30,8 +30,10 @@ public class InteractiveTests
 	private static final Class<? extends Annotation> TEST_ANNOTATION = org.junit.Test.class;
 	private static final Logger LOGGER = Logger.getLogger(InteractiveTests.class);
 
-	private static class ClassComparator implements Comparator<Class>
+	private static class ClassComparator implements Comparator<Class>, Serializable
 	{
+		private static final long serialVersionUID = -5688218293882769266L;
+
 		public int compare(final Class first, final Class second)
 		{
 			return first.toString().compareTo(second.toString());
@@ -50,8 +52,10 @@ public class InteractiveTests
 		}
 	}
 
-	private static class MethodComparator implements Comparator<Method>
+	private static class MethodComparator implements Comparator<Method>, Serializable
 	{
+		private static final long serialVersionUID = 493385418023700863L;
+
 		public int compare(final Method first, final Method second)
 		{
 			return first.toString().compareTo(second.toString());
@@ -120,7 +124,6 @@ public class InteractiveTests
 
 	private static Method selectTest(final Map<Class, Set<Method>> testPoints) throws Exception
 	{
-		final Set<Class> testClasses = testPoints.keySet();
 		int currentChoice = 1;
 		final Map<Integer, Method> choices = new HashMap<Integer, Method>();
 		for(final Map.Entry<Class, Set<Method>> classSetEntry : testPoints.entrySet())

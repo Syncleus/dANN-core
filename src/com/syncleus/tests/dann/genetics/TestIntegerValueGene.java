@@ -41,7 +41,7 @@ public class TestIntegerValueGene
 	{
 		final ValueGene center = new IntegerValueGene(0);
 		int averageSum = 0;
-		int testCount = 0;
+		int testCount;
 		for(testCount = 0; testCount < 1000; testCount++)
 		{
 			averageSum += center.mutate(100).getValue().intValue();

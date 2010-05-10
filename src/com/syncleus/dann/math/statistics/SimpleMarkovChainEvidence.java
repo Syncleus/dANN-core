@@ -57,7 +57,7 @@ public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S>
 		Integer transition = transitions.get(nextState);
 		if (transition == null)
 			transition = 0;
-		transitions.put(nextState, transition++);
+		transitions.put(nextState, transition);
 	}
 
 	public void learnStep(final S state)

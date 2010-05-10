@@ -26,6 +26,8 @@ public class TestSynapse
 {
 	private static class TestBrain extends AbstractLocalBrain
 	{
+		private static final long serialVersionUID = -7579268135961655455L;
+
 		@Override
 		public boolean add(final Neuron newNeuron)
 		{

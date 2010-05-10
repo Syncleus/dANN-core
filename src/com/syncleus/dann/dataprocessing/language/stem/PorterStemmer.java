@@ -444,11 +444,11 @@ public class PorterStemmer implements Stemmer
 
 	public int getGrowSize()
 	{
-		return growSize;
+		return this.growSize;
 	}
 
 	public Locale getLocale()
 	{
-		return locale;
+		return this.locale;
 	}
 }

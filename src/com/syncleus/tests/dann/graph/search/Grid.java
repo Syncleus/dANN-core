@@ -28,6 +28,7 @@ public class Grid extends AbstractBidirectedAdjacencyGraph<GridNode, BidirectedE
 	private final Set<BidirectedEdge<GridNode>> edges = new HashSet<BidirectedEdge<GridNode>>();
 	private final Map<GridNode, Set<BidirectedEdge<GridNode>>> neighborEdges = new HashMap<GridNode, Set<BidirectedEdge<GridNode>>>();
 	private final Map<GridNode, Set<GridNode>> neighborNodes = new HashMap<GridNode, Set<GridNode>>();
+	private static final long serialVersionUID = -5202664944476006671L;
 
 	public Grid(final double[][] nodeWeights)
 	{

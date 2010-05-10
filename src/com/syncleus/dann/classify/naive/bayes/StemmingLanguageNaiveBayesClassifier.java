@@ -52,7 +52,7 @@ public class StemmingLanguageNaiveBayesClassifier<C> extends SimpleNaiveBayesCla
 
 	public Locale getLocale()
 	{
-		return locale;
+		return this.locale;
 	}
 
 	private static class StemmingWordExtractor implements FeatureExtractor<String, String>

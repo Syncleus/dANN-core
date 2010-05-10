@@ -30,7 +30,7 @@ public class TestMutableLong
 		Assert.assertTrue("value constructor failed", test.getNumber() == 123);
 		test = new MutableLong("456");
 		Assert.assertTrue("string value constructor failed", test.getNumber() == 456);
-		test = new MutableLong((long) 789);
+		test = new MutableLong(789L);
 		Assert.assertTrue("Number value constructor failed", test.getNumber() == 789);
 	}
 
@@ -61,7 +61,7 @@ public class TestMutableLong
 	{
 		final MutableLong center = new MutableLong(0);
 		double averageSum = 0;
-		double testCount = 0.0;
+		double testCount;
 		for(testCount = 0.0; testCount < 10000; testCount++)
 		{
 			averageSum += center.mutate(1.0).longValue();

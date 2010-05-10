@@ -30,6 +30,7 @@ public class WeightedDirectedGrid extends AbstractBidirectedAdjacencyGraph<GridN
 	private final Map<GridNode, Set<GridNode>> outNeighborNodes = new HashMap<GridNode, Set<GridNode>>();
 	private final Map<GridNode, Set<WeightedDirectedEdge<GridNode>>> inNeighborEdges = new HashMap<GridNode, Set<WeightedDirectedEdge<GridNode>>>();
 	private final Map<GridNode, Set<GridNode>> inNeighborNodes = new HashMap<GridNode, Set<GridNode>>();
+	private static final long serialVersionUID = -3468201633079817064L;
 
 	public WeightedDirectedGrid(final double[][] nodeWeights)
 	{

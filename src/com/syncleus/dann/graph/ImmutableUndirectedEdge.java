@@ -78,7 +78,7 @@ public class ImmutableUndirectedEdge<N> extends AbstractBidirectedEdge<N>
 	public ImmutableUndirectedEdge<N> disconnect(final N node)
 	{
 		if (node == null)
-			throw new IllegalArgumentException("node can not be null", new NullPointerException());
+			throw new IllegalArgumentException("node can not be null");
 		if (!this.getNodes().contains(node))
 			throw new IllegalArgumentException("node is not currently connected to");
 		return (ImmutableUndirectedEdge<N>) this.remove(node);
@@ -87,7 +87,7 @@ public class ImmutableUndirectedEdge<N> extends AbstractBidirectedEdge<N>
 	public ImmutableUndirectedEdge<N> disconnect(final List<N> nodes)
 	{
 		if (nodes == null)
-			throw new IllegalArgumentException("node can not be null", new NullPointerException());
+			throw new IllegalArgumentException("node can not be null");
 		if (!this.getNodes().containsAll(nodes))
 			throw new IllegalArgumentException("node is not currently connected to");
 		return (ImmutableUndirectedEdge<N>) this.remove(nodes);

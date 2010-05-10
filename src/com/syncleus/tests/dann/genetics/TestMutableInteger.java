@@ -61,7 +61,7 @@ public class TestMutableInteger
 	{
 		final MutableInteger center = new MutableInteger(0);
 		double averageSum = 0;
-		double testCount = 0.0;
+		double testCount;
 		for(testCount = 0.0; testCount < 10000; testCount++)
 		{
 			averageSum += center.mutate(1.0).intValue();

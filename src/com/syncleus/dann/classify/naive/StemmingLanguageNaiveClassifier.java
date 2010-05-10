@@ -50,7 +50,7 @@ public class StemmingLanguageNaiveClassifier<C> extends SimpleNaiveClassifier<St
 
 	public Locale getLocale()
 	{
-		return locale;
+		return this.locale;
 	}
 
 	private static class StemmingWordExtractor implements FeatureExtractor<String, String>

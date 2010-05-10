@@ -419,7 +419,8 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 			//iterate through the weight vectors of the current neuron
 			for(final Synapse source : this.getInEdges(currentNeuron))
 			{
-				final int sourceIndex = this.inputs.indexOf(source.getSourceNode());
+				assert (source.getSourceNode() instanceof InputNeuron);
+				final int sourceIndex = this.inputs.indexOf((InputNeuron)source.getSourceNode());
 				weightVector[sourceIndex] = source.getWeight();
 			}
 			//add the current weight vector to the map

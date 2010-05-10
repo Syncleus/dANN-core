@@ -405,7 +405,7 @@ public class Vector implements Serializable
 	public String toString()
 	{
 		final double currentCoords[] = this.coordinates.clone();
-		final StringBuilder stringValue = new StringBuilder();
+		final StringBuilder stringValue = new StringBuilder(currentCoords.length*5 + 2);
 		stringValue.append('{');
 		for(int dimension = 0; dimension < currentCoords.length; dimension++)
 		{
@@ -427,7 +427,7 @@ public class Vector implements Serializable
 	{
 		synchronized (this)
 		{
-			final StringBuilder retString = new StringBuilder();
+			final StringBuilder retString = new StringBuilder(this.getDimensions() * 6);
 			retString.append(this.getDistance());
 			retString.append('@');
 			for(int angleDimension = 1; angleDimension < this.getDimensions(); angleDimension++)

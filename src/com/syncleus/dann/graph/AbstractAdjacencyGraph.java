@@ -127,9 +127,9 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 
 	public int getDegree(final N node)
 	{
-		final Set<E> adjacentEdges = this.getAdjacentEdges(node);
+		final Set<E> adjacentNodesEdges = this.getAdjacentEdges(node);
 		int degree = 0;
-		for(final E adjacentEdge : adjacentEdges)
+		for(final E adjacentEdge : adjacentNodesEdges)
 			for(final N adjacentNode : adjacentEdge.getNodes())
 				if (adjacentNode.equals(node))
 					degree++;
@@ -222,18 +222,18 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		return true;
 	}
 
-	private ImmutableAdjacencyGraph<N, Edge<N>> deleteFromGraph(final Set<N> nodes, final Set<E> edges)
+	private ImmutableAdjacencyGraph<N, Edge<N>> deleteFromGraph(final Set<N> deleteNodes, final Set<E> deleteEdges)
 	{
-		//remove the nodes
+		//remove the deleteNodes
 		final Set<N> cutNodes = this.getNodes();
-		cutNodes.removeAll(nodes);
-		//remove the edges
-		final Set<Edge<N>> cutEdges = new HashSet<Edge<N>>(edges);
-		for(final E edge : edges)
+		cutNodes.removeAll(deleteNodes);
+		//remove the deleteEdges
+		final Set<Edge<N>> cutEdges = new HashSet<Edge<N>>(deleteEdges);
+		for(final E edge : deleteEdges)
 			cutEdges.remove(edge);
-		//remove any remaining edges which connect to removed nodes
-		//also replace edges that have one removed node but still have
-		//2 or more remaining nodes with a new edge.
+		//remove any remaining deleteEdges which connect to removed deleteNodes
+		//also replace deleteEdges that have one removed node but still have
+		//2 or more remaining deleteNodes with a new edge.
 		final Set<Edge<N>> removeEdges = new HashSet<Edge<N>>();
 		final Set<Edge<N>> addEdges = new HashSet<Edge<N>>();
 		for(final Edge<N> cutEdge : cutEdges)
@@ -249,24 +249,24 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		for(final Edge<N> removeEdge : removeEdges)
 			cutEdges.remove(removeEdge);
 		cutEdges.addAll(addEdges);
-		//check if a graph fromt he new set of edges and nodes is still
+		//check if a graph fromt he new set of deleteEdges and deleteNodes is still
 		//connected
 		return new ImmutableAdjacencyGraph<N, Edge<N>>(cutNodes, cutEdges);
 	}
 
-	public boolean isCut(final Set<N> nodes, final Set<E> edges)
+	public boolean isCut(final Set<N> cutNodes, final Set<E> cutEdges)
 	{
-		return this.deleteFromGraph(nodes, edges).isStronglyConnected();
+		return this.deleteFromGraph(cutNodes, cutEdges).isStronglyConnected();
 	}
 
-	public boolean isCut(final Set<N> nodes, final Set<E> edges, final N begin, final N end)
+	public boolean isCut(final Set<N> cutNodes, final Set<E> cutEdges, final N begin, final N end)
 	{
-		return this.deleteFromGraph(nodes, edges).isStronglyConnected(begin, end);
+		return this.deleteFromGraph(cutNodes, cutEdges).isStronglyConnected(begin, end);
 	}
 
-	public boolean isCut(final Set<E> edges)
+	public boolean isCut(final Set<E> cutEdges)
 	{
-		return this.isCut(Collections.<N>emptySet(), edges);
+		return this.isCut(Collections.<N>emptySet(), cutEdges);
 	}
 
 	public boolean isCut(final N node)
@@ -279,9 +279,9 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		return this.isCut(Collections.<N>emptySet(), Collections.singleton(edge));
 	}
 
-	public boolean isCut(final Set<E> edges, final N begin, final N end)
+	public boolean isCut(final Set<E> cutEdges, final N begin, final N end)
 	{
-		return this.isCut(Collections.<N>emptySet(), edges, begin, end);
+		return this.isCut(Collections.<N>emptySet(), cutEdges, begin, end);
 	}
 
 	public boolean isCut(final N node, final N begin, final N end)
@@ -299,7 +299,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		final Set<Set<N>> combinations = Counters.everyCombination(this.getNodes());
 		final SortedSet<Set<N>> sortedCombinations = new TreeSet<Set<N>>(new SizeComparator());
 		sortedCombinations.addAll(combinations);
-		for(final Set<N> cutNodes : combinations)
+		for(final Set<N> cutNodes : sortedCombinations)
 			if (this.isCut(cutNodes, Collections.<E>emptySet()))
 				return cutNodes.size();
 		return this.getNodes().size();
@@ -310,7 +310,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		final Set<Set<E>> combinations = Counters.everyCombination(this.edges);
 		final SortedSet<Set<E>> sortedCombinations = new TreeSet<Set<E>>(new SizeComparator());
 		sortedCombinations.addAll(combinations);
-		for(final Set<E> cutEdges : combinations)
+		for(final Set<E> cutEdges : sortedCombinations)
 			if (this.isCut(cutEdges))
 				return cutEdges.size();
 		return this.edges.size();
@@ -321,7 +321,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		final Set<Set<N>> combinations = Counters.everyCombination(this.getNodes());
 		final SortedSet<Set<N>> sortedCombinations = new TreeSet<Set<N>>(new SizeComparator());
 		sortedCombinations.addAll(combinations);
-		for(final Set<N> cutNodes : combinations)
+		for(final Set<N> cutNodes : sortedCombinations)
 			if (this.isCut(cutNodes, Collections.<E>emptySet(), begin, end))
 				return cutNodes.size();
 		return this.getNodes().size();
@@ -332,7 +332,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		final Set<Set<E>> combinations = Counters.everyCombination(this.edges);
 		final SortedSet<Set<E>> sortedCombinations = new TreeSet<Set<E>>(new SizeComparator());
 		sortedCombinations.addAll(combinations);
-		for(final Set<E> cutEdges : combinations)
+		for(final Set<E> cutEdges : sortedCombinations)
 			if (this.isCut(cutEdges, begin, end))
 				return cutEdges.size();
 		return this.edges.size();
@@ -416,10 +416,9 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		for(final N subnode : subnodes)
 			if (!nodes.contains(subnode))
 				return false;
-		final Set<E> edges = this.edges;
 		final Set<E> subedges = subgraph.getEdges();
 		for(final E subedge : subedges)
-			if (!edges.contains(subedge))
+			if (!this.edges.contains(subedge))
 				return false;
 		return true;
 	}

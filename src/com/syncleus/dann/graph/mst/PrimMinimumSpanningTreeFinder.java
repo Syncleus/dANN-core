@@ -103,12 +103,12 @@ public class PrimMinimumSpanningTreeFinder<N, E extends Edge<N>> implements Root
 	private class PrimMap extends HashMap<N, E>
 	{
 		private static final long serialVersionUID = 6345120112273301259L;
-		private final Queue<Entry<N, E>> weightedNodes = new PriorityQueue<Entry<N, E>>(10, new EntryCompare());
+		private final Queue<Map.Entry<N, E>> weightedNodes = new PriorityQueue<Map.Entry<N, E>>(10, new EntryCompare());
 
 		public void resort()
 		{
 			weightedNodes.clear();
-			for(final Entry<N, E> entry : this.entrySet())
+			for(final Map.Entry<N, E> entry : this.entrySet())
 				weightedNodes.add(entry);
 		}
 
@@ -135,19 +135,19 @@ public class PrimMinimumSpanningTreeFinder<N, E extends Edge<N>> implements Root
 				return 0;
 		}
 
-		public Entry<N, E> pop()
+		public Map.Entry<N, E> pop()
 		{
-			final Entry<N, E> poped = weightedNodes.poll();
+			final Map.Entry<N, E> poped = weightedNodes.poll();
 			if (poped != null)
 				this.remove(poped.getKey());
 			return poped;
 		}
 
-		private class EntryCompare implements Comparator<Entry<N, E>>, Serializable
+		private class EntryCompare implements Comparator<Map.Entry<N, E>>, Serializable
 		{
 			private static final long serialVersionUID = -4356537864223227850L;
 
-			public int compare(final Entry<N, E> first, final Entry<N, E> second)
+			public int compare(final Map.Entry<N, E> first, final Map.Entry<N, E> second)
 			{
 				double firstWeight = 0;
 				if (first.getValue() == null)

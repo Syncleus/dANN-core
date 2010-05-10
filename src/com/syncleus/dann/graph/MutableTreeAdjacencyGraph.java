@@ -22,6 +22,8 @@ import java.util.*;
 
 public class MutableTreeAdjacencyGraph<N, E extends BidirectedEdge<N>> extends AbstractTreeAdjacencyGraph<N, E> implements MutableTreeGraph<N, E>
 {
+	private static final long serialVersionUID = 2873950115205981709L;
+
 	public MutableTreeAdjacencyGraph()
 	{
 		super();

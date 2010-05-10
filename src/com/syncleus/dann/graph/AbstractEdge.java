@@ -50,12 +50,12 @@ public abstract class AbstractEdge<N> implements Edge<N>
 		return copy;
 	}
 
-	protected AbstractEdge<N> add(final List<N> nodes)
+	protected AbstractEdge<N> add(final List<N> addNodes)
 	{
-		if (nodes == null)
+		if (addNodes == null)
 			throw new IllegalArgumentException("node can not be null");
 		final List<N> newNodes = new ArrayList<N>(this.nodes);
-		newNodes.addAll(nodes);
+		newNodes.addAll(addNodes);
 		final AbstractEdge<N> copy = this.clone();
 		copy.nodes = Collections.unmodifiableList(newNodes);
 		return copy;
@@ -76,14 +76,14 @@ public abstract class AbstractEdge<N> implements Edge<N>
 		return copy;
 	}
 
-	protected AbstractEdge<N> remove(final List<N> nodes)
+	protected AbstractEdge<N> remove(final List<N> removeNodes)
 	{
-		if (nodes == null)
-			throw new IllegalArgumentException("nodes can not be null");
-		if (!this.nodes.containsAll(nodes))
-			throw new IllegalArgumentException("nodes do not contain all valid end points");
+		if ( removeNodes == null)
+			throw new IllegalArgumentException("removeNodes can not be null");
+		if (!this.nodes.containsAll(removeNodes))
+			throw new IllegalArgumentException("removeNodes do not contain all valid end points");
 		final List<N> newNodes = new ArrayList<N>(this.nodes);
-		for(final N node : nodes)
+		for(final N node : removeNodes)
 			newNodes.remove(node);
 		if (newNodes.size() <= 1)
 			return null;

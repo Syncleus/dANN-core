@@ -24,6 +24,8 @@ import com.syncleus.dann.graph.Graph;
 
 public class ImmutableBayesianAdjacencyNetwork<N extends BayesianNode, E extends BayesianEdge<N>> extends AbstractBayesianAdjacencyNetwork<N, E>
 {
+	private static final long serialVersionUID = -2944480631125238463L;
+
 	public ImmutableBayesianAdjacencyNetwork()
 	{
 		super();
@@ -58,7 +60,7 @@ public class ImmutableBayesianAdjacencyNetwork<N extends BayesianNode, E extends
 	protected Map<N, List<N>> getInternalAdjacencyNodes()
 	{
 		final Map<N, List<N>> newAdjacentNodes = new HashMap<N, List<N>>();
-		for(final Entry<N, List<N>> neighborNodeEntry : this.getInternalAdjacencyNodes().entrySet())
+		for(final Entry<N, List<N>> neighborNodeEntry : super.getInternalAdjacencyNodes().entrySet())
 			newAdjacentNodes.put(neighborNodeEntry.getKey(), new ArrayList<N>(neighborNodeEntry.getValue()));
 		return newAdjacentNodes;
 	}

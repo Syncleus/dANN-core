@@ -32,7 +32,6 @@ public class KruskalMinimumSpanningTreeFinder<N, E extends Edge<N>> implements M
 		final Queue<E> edgeQueue = new PriorityQueue<E>(graph.getEdges().size(), new WeightComparator<E>());
 		edgeQueue.addAll(graph.getEdges());
 		final Set<E> mstEdges = new HashSet<E>();
-		final Set<N> mstNodes = new HashSet<N>();
 		while (componentNodeSets.size() > 1)
 		{
 			//find all the componentNodeSets which contains one of the end points
@@ -62,7 +61,6 @@ public class KruskalMinimumSpanningTreeFinder<N, E extends Edge<N>> implements M
 				}
 				componentNodeSets.add(mergedSet);
 				mstEdges.add(queuedEdge);
-				mstNodes.addAll(queuedEdge.getNodes());
 			}
 		}
 		return mstEdges;

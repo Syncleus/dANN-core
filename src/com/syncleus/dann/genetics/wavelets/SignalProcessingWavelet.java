@@ -319,7 +319,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 				int index = 0;
 				for(final String dimensionName : wave.getDimensionNames())
 					names[index++] = dimensionName;
-				names[index++] = String.valueOf(newSignal.getId());
+				names[index] = String.valueOf(newSignal.getId());
 				final WaveMultidimensionalFunction newWave = new WaveMultidimensionalFunction(names);
 				newWave.setAmplitude(wave.getAmplitude());
 				newWave.setDistribution(wave.getDistribution());

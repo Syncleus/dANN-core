@@ -22,6 +22,8 @@ import java.util.*;
 
 public class MutableAdjacencyGraph<N, E extends Edge<N>> extends AbstractAdjacencyGraph<N, E> implements MutableGraph<N, E>
 {
+	private static final long serialVersionUID = -4613327727609060678L;
+
 	public MutableAdjacencyGraph()
 	{
 		super();

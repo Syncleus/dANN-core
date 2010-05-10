@@ -40,18 +40,18 @@ public class SimpleLanguageNaiveBayesClassifier<C> extends SimpleNaiveBayesClass
 	@Override
 	public double featureClassificationProbability(final String feature, final C category)
 	{
-		return super.featureClassificationProbability(feature.toLowerCase(), category);
+		return super.featureClassificationProbability(feature.toLowerCase(this.locale), category);
 	}
 
 	@Override
 	public double featureClassificationWeightedProbability(final String feature, final C category)
 	{
-		return super.featureClassificationWeightedProbability(feature.toLowerCase(), category);
+		return super.featureClassificationWeightedProbability(feature.toLowerCase(this.locale), category);
 	}
 
 	public Locale getLocale()
 	{
-		return locale;
+		return this.locale;
 	}
 
 	private static class WordExtractor implements FeatureExtractor<String, String>

@@ -22,6 +22,8 @@ import java.util.*;
 
 public class MutableHyperAdjacencyGraph<N, E extends HyperEdge<N>> extends AbstractHyperAdjacencyGraph<N, E> implements MutableHyperGraph<N, E>
 {
+	private static final long serialVersionUID = 3675634360942901918L;
+
 	public MutableHyperAdjacencyGraph()
 	{
 		super();

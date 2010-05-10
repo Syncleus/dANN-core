@@ -40,7 +40,7 @@ public class ImmutableWeightedHyperEdge<N> extends ImmutableHyperEdge<N> impleme
 	public SimpleWeightedHyperEdge<N> disconnect(final N node)
 	{
 		if (node == null)
-			throw new IllegalArgumentException("node can not be null", new NullPointerException());
+			throw new IllegalArgumentException("node can not be null");
 		if (!this.getNodes().contains(node))
 			throw new IllegalArgumentException("node is not currently connected to");
 		return (SimpleWeightedHyperEdge<N>) this.remove(node);
@@ -50,7 +50,7 @@ public class ImmutableWeightedHyperEdge<N> extends ImmutableHyperEdge<N> impleme
 	public SimpleWeightedHyperEdge<N> disconnect(final List<N> nodes)
 	{
 		if (nodes == null)
-			throw new IllegalArgumentException("node can not be null", new NullPointerException());
+			throw new IllegalArgumentException("node can not be null");
 		if (!this.getNodes().containsAll(nodes))
 			throw new IllegalArgumentException("node is not currently connected to");
 		return (SimpleWeightedHyperEdge<N>) this.remove(nodes);

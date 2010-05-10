@@ -50,7 +50,7 @@ public class SimpleLanguageNaiveClassifier<C> extends SimpleNaiveClassifier<Stri
 
 	public Locale getLocale()
 	{
-		return locale;
+		return this.locale;
 	}
 
 	private static class WordExtractor implements FeatureExtractor<String, String>

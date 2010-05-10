@@ -64,6 +64,7 @@ public class TestSimpleBooleanNetwork
 		//create nodes
 		private final BayesianNode<I> influence;
 		private final BayesianNode<BooleanState> goal;
+		private static final long serialVersionUID = -5435852374754248557L;
 
 		public SimpleBooleanNetwork(final I initialState)
 		{
