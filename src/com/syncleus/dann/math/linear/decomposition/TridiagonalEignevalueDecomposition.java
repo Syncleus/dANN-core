@@ -16,6 +16,7 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
+
 /*
 ** Derived from Public-Domain source as indicated at
 ** http://math.nist.gov/javanumerics/jama/ as of 9/13/2009.
@@ -66,20 +67,25 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 	 */
 	public TridiagonalEignevalueDecomposition(final RealMatrix matrixToDecompose)
 	{
-		if (!matrixToDecompose.isSymmetric())
+		if( !matrixToDecompose.isSymmetric() )
 			throw new IllegalArgumentException("matrixToDecompose must be symmetric");
+
 		final double[][] matrixToDecomposeElements = matrixToDecompose.toDoubleArray();
 		final int n = matrixToDecompose.getWidth();
 		final double[][] matrixElements = new double[n][n];
+
 		this.realEigenvalues = new ArrayList<RealNumber>(n);
 		this.realEigenvalues.addAll(Collections.nCopies(n, new RealNumber(0.0)));
 		this.imaginaryEigenvalues = new ArrayList<RealNumber>(n);
 		this.imaginaryEigenvalues.addAll(Collections.nCopies(n, new RealNumber(0.0)));
+
 		for(int i = 0; i < n; i++)
 			System.arraycopy(matrixToDecomposeElements[i], 0, matrixElements[i], 0, n);
 		this.matrix = new SimpleRealMatrix(matrixElements);
+
 		// Tridiagonalize.
 		householderTridiagonalReduction();
+
 		// Diagonalize.
 		qlTridiagonalReduction();
 	}
@@ -88,6 +94,7 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 	{
 		return this.matrix.getHeight();
 	}
+
 	// Symmetric Householder reduction to tridiagonal form.
 
 	private void householderTridiagonalReduction()
@@ -100,20 +107,24 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 		for(int valueIndex = 0; valueIndex < d.length; valueIndex++)
 			e[valueIndex] = this.imaginaryEigenvalues.get(valueIndex).getValue();
 		final double[][] V = this.matrix.toDoubleArray();
+
+
 		//  This is derived from the Algol procedures householderTridiagonalReduction by
 		//  Bowdler, Martin, Reinsch, and Wilkinson, Handbook for
 		//  Auto. Comp., Vol.ii-Linear Algebra, and the corresponding
 		//  Fortran subroutine in EISPACK.
 		System.arraycopy(V[n - 1], 0, d, 0, n);
+
 		// Householder reduction to tridiagonal form.
 		for(int i = n - 1; i > 0; i--)
 		{
+
 			// Scale to avoid under/overflow.
 			double scale = 0.0;
 			double h = 0.0;
 			for(int k = 0; k < i; k++)
 				scale = scale + Math.abs(d[k]);
-			if (scale == 0.0)
+			if( scale == 0.0 )
 			{
 				e[i] = d[i - 1];
 				for(int j = 0; j < i; j++)
@@ -133,13 +144,14 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 				}
 				double f = d[i - 1];
 				double g = Math.sqrt(h);
-				if (f > 0)
+				if( f > 0 )
 					g = -g;
 				e[i] = scale * g;
 				h = h - f * g;
 				d[i - 1] = f - g;
 				for(int j = 0; j < i; j++)
 					e[j] = 0.0;
+
 				// Apply similarity transformation to remaining columns.
 				for(int j = 0; j < i; j++)
 				{
@@ -174,13 +186,14 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 			}
 			d[i] = h;
 		}
+
 		// Accumulate transformations.
 		for(int i = 0; i < n - 1; i++)
 		{
 			V[n - 1][i] = V[i][i];
 			V[i][i] = 1.0;
 			final double h = d[i + 1];
-			if (h != 0.0)
+			if( h != 0.0 )
 			{
 				for(int k = 0; k <= i; k++)
 					d[k] = V[k][i + 1] / h;
@@ -203,6 +216,7 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 		}
 		V[n - 1][n - 1] = 1.0;
 		e[0] = 0.0;
+
 		this.realEigenvalues = new ArrayList<RealNumber>(d.length);
 		for(final double realValue : d)
 			this.realEigenvalues.add(new RealNumber(realValue));
@@ -211,10 +225,12 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 			this.imaginaryEigenvalues.add(new RealNumber(imaginaryValue));
 		this.matrix = new SimpleRealMatrix(V);
 	}
+
 	// Symmetric tridiagonal QL algorithm.
 
 	private void qlTridiagonalReduction()
 	{
+
 		//  This is derived from the Algol procedures qlTridiagonalReduction, by
 		//  Bowdler, Martin, Reinsch, and Wilkinson, Handbook for
 		//  Auto. Comp., Vol.ii-Linear Algebra, and the corresponding
@@ -227,8 +243,10 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 		for(int valueIndex = 0; valueIndex < d.length; valueIndex++)
 			e[valueIndex] = this.imaginaryEigenvalues.get(valueIndex).getValue();
 		final double[][] V = this.matrix.toDoubleArray();
+
 		System.arraycopy(e, 1, e, 0, n - 1);
 		e[n - 1] = 0.0;
+
 		double f = 0.0;
 		double tst1 = 0.0;
 		final double eps = Math.pow(2.0, -52.0);
@@ -237,25 +255,27 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 			// Find small subdiagonal element
 			tst1 = Math.max(tst1, Math.abs(d[l]) + Math.abs(e[l]));
 			int m = l;
-			while (m < n)
+			while( m < n )
 			{
-				if (Math.abs(e[m]) <= eps * tst1)
+				if( Math.abs(e[m]) <= eps * tst1 )
 					break;
 				m++;
 			}
+
 			// If m == l, d[l] is an eigenvalue,
 			// otherwise, iterate.
-			if (m > l)
+			if( m > l )
 			{
 				int iter = 0;
 				do
 				{
 					iter = iter + 1;  // (Could check iteration count here.)
+
 					// Compute implicit shift
 					double g = d[l];
 					double p = (d[l + 1] - g) / (2.0 * e[l]);
 					double r = Math.hypot(p, 1.0);
-					if (p < 0)
+					if( p < 0 )
 						r = -r;
 					d[l] = e[l] / (p + r);
 					d[l + 1] = e[l] * (p + r);
@@ -264,6 +284,7 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 					for(int i = l + 2; i < n; i++)
 						d[i] -= h;
 					f = f + h;
+
 					// Implicit QL transformation.
 					p = d[m];
 					double c = 1.0;
@@ -285,7 +306,9 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 						c = p / r;
 						p = c * d[i] - s * g;
 						d[i + 1] = h + s * (c * g + s * d[i]);
+
 						// Accumulate transformation.
+
 						for(int k = 0; k < n; k++)
 						{
 							h = V[k][i + 1];
@@ -296,25 +319,27 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 					p = -s * s2 * c3 * el1 * e[l] / dl1;
 					e[l] = s * p;
 					d[l] = c * p;
+
 					// Check for convergence.
 				}
-				while (Math.abs(e[l]) > eps * tst1);
+				while( Math.abs(e[l]) > eps * tst1 );
 			}
 			d[l] = d[l] + f;
 			e[l] = 0.0;
 		}
+
 		// Sort eigenvalues and corresponding vectors.
 		for(int i = 0; i < n - 1; i++)
 		{
 			int k = i;
 			double p = d[i];
 			for(int j = i + 1; j < n; j++)
-				if (d[j] < p)
+				if( d[j] < p )
 				{
 					k = j;
 					p = d[j];
 				}
-			if (k != i)
+			if( k != i )
 			{
 				d[k] = d[i];
 				d[i] = p;
@@ -326,6 +351,7 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 				}
 			}
 		}
+
 		this.realEigenvalues = new ArrayList<RealNumber>(d.length);
 		for(final double realValue : d)
 			this.realEigenvalues.add(new RealNumber(realValue));
@@ -379,15 +405,16 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 		final double[] e = new double[this.imaginaryEigenvalues.size()];
 		for(int valueIndex = 0; valueIndex < d.length; valueIndex++)
 			e[valueIndex] = this.imaginaryEigenvalues.get(valueIndex).getValue();
+
 		final double[][] D = new double[n][n];
 		for(int i = 0; i < n; i++)
 		{
 			for(int j = 0; j < n; j++)
 				D[i][j] = 0.0;
 			D[i][i] = d[i];
-			if (e[i] > 0)
+			if( e[i] > 0 )
 				D[i][i + 1] = e[i];
-			else if (e[i] < 0)
+			else if( e[i] < 0 )
 				D[i][i - 1] = e[i];
 		}
 		return new SimpleRealMatrix(D);

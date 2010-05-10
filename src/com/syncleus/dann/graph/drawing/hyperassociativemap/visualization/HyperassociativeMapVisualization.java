@@ -88,21 +88,21 @@ public class HyperassociativeMapVisualization<D extends GraphDrawer<G, N>, G ext
 		final Map<N, Vector> coordinates = this.drawer.getCoordinates();
 		final Set<N> nodes = this.drawer.getGraph().getNodes();
 		for(final N node : nodes)
-			if (!this.nodeGraphics.containsKey(node))
+			if( !this.nodeGraphics.containsKey(node) )
 			{
 				Color neuronColor = Color.GRAY;
-				if (node instanceof Neuron)
+				if( node instanceof Neuron )
 				{
 					final Neuron neuron = ((Neuron) node);
-					if (neuron instanceof OutputNeuron)
+					if( neuron instanceof OutputNeuron )
 						neuronColor = Color.RED;
-					else if (neuron instanceof InputNeuron)
+					else if( neuron instanceof InputNeuron )
 						neuronColor = Color.BLUE;
-					else if (neuron instanceof StaticNeuron)
+					else if( neuron instanceof StaticNeuron )
 						neuronColor = Color.YELLOW;
 				}
 				final TransformGroup newVisual = createNeuronSphere("", "", neuronColor, (float) coordinates.get(node).getCoordinate(1), (float) coordinates.get(node).getCoordinate(2), (float) coordinates.get(node).getCoordinate(3), this.nodeRadius);
-				if (!childrenRemoved)
+				if( !childrenRemoved )
 				{
 					this.removeAllChildren();
 					childrenRemoved = true;
@@ -132,7 +132,7 @@ public class HyperassociativeMapVisualization<D extends GraphDrawer<G, N>, G ext
 			this.oldNodeLocations.remove(nTransformGroupEntry.getKey());
 		}
 		this.nodeGraphics = newGraphicalNodes;
-		if (childrenRemoved)
+		if( childrenRemoved )
 			this.addChild(this.nestedRoot);
 	}
 
@@ -199,12 +199,12 @@ public class HyperassociativeMapVisualization<D extends GraphDrawer<G, N>, G ext
 		// Mipmapping of the texture -- WARNING: original picture sizes have to be ^2 (e.g. 1024x512)
 		int imageLevel = 0;
 		texture.setImage(imageLevel, image);
-		while (imageWidth > 1 || imageHeight > 1)
+		while( imageWidth > 1 || imageHeight > 1 )
 		{
 			imageLevel++;
-			if (imageWidth > 1)
+			if( imageWidth > 1 )
 				imageWidth /= 2;
-			if (imageHeight > 1)
+			if( imageHeight > 1 )
 				imageHeight /= 2;
 			image = loader.getScaledImage(imageWidth, imageHeight);
 			texture.setImage(imageLevel, image);

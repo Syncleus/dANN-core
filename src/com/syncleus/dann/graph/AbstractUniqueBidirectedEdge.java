@@ -28,10 +28,12 @@ public abstract class AbstractUniqueBidirectedEdge<N> extends AbstractBidirected
 	@Override
 	public boolean equals(final Object compareToObj)
 	{
-		if (compareToObj == null)
+		if( compareToObj == null )
 			return false;
-		if (!(compareToObj instanceof BidirectedEdge))
+
+		if( !(compareToObj instanceof BidirectedEdge) )
 			return false;
+
 		final BidirectedEdge compareTo = (BidirectedEdge) compareToObj;
 		return
 				(

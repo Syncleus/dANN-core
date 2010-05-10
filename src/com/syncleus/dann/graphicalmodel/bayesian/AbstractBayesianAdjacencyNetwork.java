@@ -55,6 +55,7 @@ public abstract class AbstractBayesianAdjacencyNetwork<N extends BayesianNode, E
 	public double conditionalProbability(final Set<N> goals, final Set<N> influences)
 	{
 		List<N> varyingNodes = new ArrayList<N>(this.getNodes());
+
 		//calculate numerator
 		varyingNodes.removeAll(influences);
 		varyingNodes.removeAll(goals);
@@ -64,7 +65,8 @@ public abstract class AbstractBayesianAdjacencyNetwork<N extends BayesianNode, E
 		{
 			numerator += this.jointProbability();
 		}
-		while (!incrementNodeStates(varyingNodes));
+		while( !incrementNodeStates(varyingNodes) );
+
 		//calculate denominator
 		varyingNodes = new ArrayList<N>(this.getNodes());
 		varyingNodes.removeAll(influences);
@@ -74,7 +76,8 @@ public abstract class AbstractBayesianAdjacencyNetwork<N extends BayesianNode, E
 		{
 			denominator += this.jointProbability();
 		}
-		while (!incrementNodeStates(varyingNodes));
+		while( !incrementNodeStates(varyingNodes) );
+
 		//all done
 		return numerator / denominator;
 	}
@@ -89,7 +92,7 @@ public abstract class AbstractBayesianAdjacencyNetwork<N extends BayesianNode, E
 	private static <N extends BayesianNode> boolean incrementNodeStates(final List<N> incNodes)
 	{
 		for(final N incNode : incNodes)
-			if (!incrementNodeState(incNode))
+			if( !incrementNodeState(incNode) )
 				return false;
 		return true;
 	}
@@ -99,7 +102,7 @@ public abstract class AbstractBayesianAdjacencyNetwork<N extends BayesianNode, E
 	{
 		final List stateTypes = Arrays.asList(incNode.getLearnedStates().toArray());
 		final int currentStateIndex = stateTypes.indexOf(incNode.getState());
-		if ((currentStateIndex + 1) >= stateTypes.size())
+		if( (currentStateIndex + 1) >= stateTypes.size() )
 		{
 			incNode.setState(stateTypes.get(0));
 			return true;
@@ -159,8 +162,9 @@ public abstract class AbstractBayesianAdjacencyNetwork<N extends BayesianNode, E
 
 		public Set<E> get(final N keyNode)
 		{
+
 			Set<E> edges = super.get(keyNode);
-			if (edges == null)
+			if( edges == null )
 			{
 				edges = new HashSet<E>();
 				super.put(keyNode, edges);

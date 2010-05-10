@@ -109,6 +109,7 @@ public class ByteValueGene extends AbstractValueGene<MutableByte> implements Clo
 	{
 		final ByteValueGene copy = this.clone();
 		copy.internalMutate(deviation);
+
 		return copy;
 	}
 }

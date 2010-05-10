@@ -18,8 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.classify.naive.bayes.fisher;
 
-import java.util.*;
-import com.syncleus.dann.classify.TrainableClassifier;
 import com.syncleus.dann.classify.naive.bayes.TrainableNaiveBayesClassifier;
 
 public interface TrainableFisherClassifier<I, F, C> extends FisherClassifier<I, F, C>, TrainableNaiveBayesClassifier<I, F, C>

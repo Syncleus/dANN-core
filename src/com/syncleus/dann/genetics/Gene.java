@@ -44,5 +44,6 @@ public interface Gene extends Cloneable
 	 * @since 2.0
 	 */
 	double expressionActivity();
+
 	// TODO put mutate method here
 }

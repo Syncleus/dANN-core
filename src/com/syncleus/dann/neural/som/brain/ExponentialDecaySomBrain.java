@@ -51,9 +51,10 @@ public class ExponentialDecaySomBrain extends AbstractSomBrain
 		for(int dimensionIndex = 1; dimensionIndex <= this.getUpperBounds().getDimensions(); dimensionIndex++)
 		{
 			final double crossSection = this.getUpperBounds().getCoordinate(dimensionIndex) - this.getLowerBounds().getCoordinate(dimensionIndex);
-			if (crossSection > maxCrossSection)
+			if( crossSection > maxCrossSection )
 				maxCrossSection = crossSection;
 		}
+
 		return maxCrossSection / 2.0;
 	}
 

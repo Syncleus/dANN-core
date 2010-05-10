@@ -91,14 +91,14 @@ public class MutableByte extends MutableNumber<Byte> implements Comparable<Mutab
 	{
 		final double doubleDistributed = MutableNumber.getDistributedRandom(deviation);
 		byte distributedRand = (byte) doubleDistributed;
-		if (doubleDistributed > Byte.MAX_VALUE)
+		if( doubleDistributed > Byte.MAX_VALUE )
 			distributedRand = Byte.MAX_VALUE;
-		else if (doubleDistributed < Byte.MIN_VALUE)
+		else if( doubleDistributed < Byte.MIN_VALUE )
 			distributedRand = Byte.MIN_VALUE;
 		final byte result = (byte) (this.getNumber() + distributedRand);
-		if ((distributedRand > (byte) 0) && (result < this.getNumber()))
+		if( (distributedRand > (byte) 0) && (result < this.getNumber()) )
 			return new MutableByte(Byte.MAX_VALUE);
-		else if ((distributedRand < (byte) 0) && (result > this.getNumber()))
+		else if( (distributedRand < (byte) 0) && (result > this.getNumber()) )
 			return new MutableByte(Byte.MIN_VALUE);
 		return new MutableByte(result);
 	}

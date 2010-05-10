@@ -42,6 +42,7 @@ public class TestDiscreteFourierTransform
 		DiscreteFourierTransform dft = new DiscreteFourierTransform(generateRandomComplex(DATA_POINT_COUNT), DATA_POINT_COUNT / 4);
 		Assert.assertTrue("minimum frequency mapping is incorrect: " + dft.getMinimumFrequency(), Math.abs(dft.getMinimumFrequency() - 0.0) < 0.001);
 		Assert.assertTrue("maximum frequency mapping is incorrect: " + dft.getMaximumFrequency(), Math.abs(dft.getMaximumFrequency() - 128.0) < 0.001);
+
 		dft = new DiscreteFourierTransform(generateRandomComplex(DATA_POINT_COUNT), DATA_POINT_COUNT);
 		Assert.assertTrue("minimum frequency mapping is incorrect: " + dft.getMinimumFrequency(), Math.abs(dft.getMinimumFrequency() - 0.0) < 0.001);
 		Assert.assertTrue("maximum frequency mapping is incorrect: " + dft.getMaximumFrequency(), Math.abs(dft.getMaximumFrequency() - 512.0) < 0.001);

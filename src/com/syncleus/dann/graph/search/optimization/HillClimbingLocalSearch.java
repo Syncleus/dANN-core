@@ -27,28 +27,32 @@ public class HillClimbingLocalSearch<G extends Graph<N, ?>, N extends Weighted> 
 
 	public HillClimbingLocalSearch(final G graph)
 	{
-		if (graph == null)
+		if( graph == null )
 			throw new IllegalArgumentException("graph can not be null");
 		this.graph = graph;
 	}
 
 	public N search(final N startNode)
 	{
-		if (startNode == null)
+		if( startNode == null )
 			throw new IllegalArgumentException("startNode can not be null");
+
 		N currentNode = startNode;
 		do
 		{
 			N nextNode = null;
 			for(final N neighbor : graph.getTraversableNodes(currentNode))
 			{
-				if ((nextNode == null) || (neighbor.getWeight() > nextNode.getWeight()))
+				if( (nextNode == null) || (neighbor.getWeight() > nextNode.getWeight()) )
 					nextNode = neighbor;
 			}
-			if ((nextNode == null) || (currentNode.getWeight() > nextNode.getWeight()))
+
+			if( (nextNode == null) || (currentNode.getWeight() > nextNode.getWeight()) )
 				return currentNode;
+
 			currentNode = nextNode;
-		} while (currentNode != startNode);
+		} while( currentNode != startNode );
+
 		return null;
 	}
 }

@@ -46,7 +46,7 @@ public class TestLongValueGene
 		{
 			averageSum += center.mutate(100.0).getValue().byteValue();
 		}
-		final double average = ((double)averageSum) / ((double)testCount);
+		final double average = ((double) averageSum) / ((double) testCount);
 		Assert.assertTrue("average deviation is more than 100.0", average < 100.0);
 	}
 }

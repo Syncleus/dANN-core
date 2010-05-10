@@ -18,12 +18,8 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.graphicalmodel.bayesian;
 
-import com.syncleus.dann.graphicalmodel.bayesian.BayesianEdge;
-import com.syncleus.dann.graphicalmodel.bayesian.BayesianNode;
-import com.syncleus.dann.graphicalmodel.bayesian.MutableBayesianAdjacencyNetwork;
-import com.syncleus.dann.graphicalmodel.bayesian.SimpleBayesianEdge;
-import com.syncleus.dann.graphicalmodel.bayesian.SimpleBayesianNode;
 import java.util.HashSet;
+import com.syncleus.dann.graphicalmodel.bayesian.*;
 import org.junit.*;
 
 /**
@@ -126,7 +122,7 @@ public class TestSimpleBooleanNetwork
 		n.getGoal().setState(BooleanState.TRUE);
 		final double truePercent = n.getPercentage(TwoState.A);
 		final double falsePercent = n.getPercentage(TwoState.B);
-		Assert.assertTrue("incorrect true/false distribution: " + truePercent + ':' + falsePercent, (Math.abs(truePercent - (1f / 2f)) < 0.000001) && (Math.abs(falsePercent - (1f / 2f)) < 0.000001) );
+		Assert.assertTrue("incorrect true/false distribution: " + truePercent + ':' + falsePercent, (Math.abs(truePercent - (1f / 2f)) < 0.000001) && (Math.abs(falsePercent - (1f / 2f)) < 0.000001));
 	}
 
 	@Test
@@ -153,7 +149,7 @@ public class TestSimpleBooleanNetwork
 		final double aPercent = n.getPercentage(ThreeState.A);
 		final double bPercent = n.getPercentage(ThreeState.B);
 		final double cPercent = n.getPercentage(ThreeState.C);
-		final boolean condition = ( (Math.abs(aPercent - 1f) < 0.000001) && (Math.abs(bPercent - 0.5f) < 0.000001) && (Math.abs(cPercent) < 0.00000001) );
+		final boolean condition = ((Math.abs(aPercent - 1f) < 0.000001) && (Math.abs(bPercent - 0.5f) < 0.000001) && (Math.abs(cPercent) < 0.00000001));
 		Assert.assertTrue("incorrect a/b/c distribution" + aPercent + " == 1f && " + bPercent + " == 0.5f && " + cPercent + " == 0.0", condition);
 	}
 
@@ -198,34 +194,47 @@ public class TestSimpleBooleanNetwork
 	@Test
 	public void testFeverState()
 	{
+
 		final SimpleBooleanNetwork<FeverState> n = new SimpleBooleanNetwork<FeverState>(FeverState.HOT);
 		n.learn(FeverState.NONE, false);
 		n.learn(FeverState.NONE, false);
 		n.learn(FeverState.NONE, false);
 		n.learn(FeverState.NONE, false);
+
 		n.learn(FeverState.NONE, true);
+
 		n.learn(FeverState.LOW, false);
 		n.learn(FeverState.LOW, false);
 		n.learn(FeverState.LOW, false);
+
 		n.learn(FeverState.LOW, true);
 		n.learn(FeverState.LOW, true);
+
 		n.learn(FeverState.WARM, false);
 		n.learn(FeverState.WARM, false);
+
 		n.learn(FeverState.WARM, true);
 		n.learn(FeverState.WARM, true);
+
 		n.learn(FeverState.WARM, true);
+
 		n.learn(FeverState.HOT, false);
+
 		n.learn(FeverState.HOT, true);
 		n.learn(FeverState.HOT, true);
 		n.learn(FeverState.HOT, true);
 		n.learn(FeverState.HOT, true);
+
 		n.getGoal().setState(BooleanState.TRUE);
+
 		//check some probabilities
 		final double nonePercentage = n.getPercentage(FeverState.NONE);
 		final double lowPercentage = n.getPercentage(FeverState.LOW);
 		final double warmPercentage = n.getPercentage(FeverState.WARM);
 		final double hotPercentage = n.getPercentage(FeverState.HOT);
+
 		final boolean condition = (nonePercentage < lowPercentage) && (lowPercentage < warmPercentage) && (warmPercentage < hotPercentage);
+
 		Assert.assertTrue("incorrect fever to sickness mapping! " + nonePercentage + " < " + lowPercentage + " < " + warmPercentage + " < " + hotPercentage, condition);
 	}
 

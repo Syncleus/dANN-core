@@ -34,7 +34,7 @@ public class SimpleNaiveBayesClassifier<I, F, C> extends SimpleNaiveClassifier<I
 	public double getCategoryThreshold(final C category)
 	{
 		final Double threshold = this.categoryThresholds.get(category);
-		if (threshold == null)
+		if( threshold == null )
 			return 0.0;
 		return threshold;
 	}
@@ -47,22 +47,25 @@ public class SimpleNaiveBayesClassifier<I, F, C> extends SimpleNaiveClassifier<I
 	public C classification(final I item, final boolean useThreshold)
 	{
 		final Map<C, Double> categoryProbabilities = new HashMap<C, Double>();
+
 		C topCategory = null;
 		double topProbability = 0.0;
 		for(final C category : this.getCategories())
 		{
 			final double currentProbability = this.classificationProbability(item, category);
 			categoryProbabilities.put(category, currentProbability);
-			if (topProbability < currentProbability)
+			if( topProbability < currentProbability )
 			{
 				topCategory = category;
 				topProbability = currentProbability;
 			}
 		}
-		if (useThreshold)
+
+		if( useThreshold )
 			for(final Entry<C, Double> probability : categoryProbabilities.entrySet())
-				if ((probability.getKey() != topCategory) && (probability.getValue() * this.categoryThresholds.get(topCategory) > topProbability))
+				if( (probability.getKey() != topCategory) && (probability.getValue() * this.categoryThresholds.get(topCategory) > topProbability) )
 					return null;
+
 		return topCategory;
 	}
 

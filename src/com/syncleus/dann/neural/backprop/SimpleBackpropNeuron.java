@@ -66,8 +66,8 @@ public class SimpleBackpropNeuron extends AbstractActivationNeuron implements Ba
 	}
 
 	/**
-	 * Creates a new instance of SimpleBackpropNeuron with the specified
-	 * activation function.
+	 * Creates a new instance of SimpleBackpropNeuron with the specified activation
+	 * function.
 	 *
 	 * @param activationFunction The Neuron's activation function.
 	 * @since 1.0
@@ -117,11 +117,11 @@ public class SimpleBackpropNeuron extends AbstractActivationNeuron implements Ba
 		for(final Synapse currentSynapse : this.getBrain().getInEdges(this))
 		{
 			final Neuron sourceNeuron = currentSynapse.getSourceNode();
-			if (sourceNeuron instanceof BackpropNeuron)
+			if( sourceNeuron instanceof BackpropNeuron )
 			{
 				final BackpropNeuron sourceBackpropNeuron = (BackpropNeuron) sourceNeuron;
 				// TODO instead of only working on SimpleBackpropNeuron perhaps make deltaTrain part of a Backprop synapse
-				if (sourceBackpropNeuron instanceof SimpleBackpropNeuron)
+				if( sourceBackpropNeuron instanceof SimpleBackpropNeuron )
 					((SimpleBackpropNeuron) sourceBackpropNeuron).deltaTrainDestinations.put(currentSynapse, this.deltaTrain);
 				currentSynapse.setWeight(currentSynapse.getWeight() + (this.deltaTrain * this.learningRate * currentSynapse.getInput()));
 			}

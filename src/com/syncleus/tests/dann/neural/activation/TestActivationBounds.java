@@ -18,10 +18,9 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.neural.activation;
 
+import java.util.*;
 import com.syncleus.dann.neural.activation.*;
 import org.junit.*;
-import java.util.ArrayList;
-import java.util.Random;
 
 public class TestActivationBounds
 {
@@ -53,14 +52,14 @@ public class TestActivationBounds
 		for(final ActivationFunction currentActivationFunction : this.activationFunctions)
 		{
 			double currentIn = UPPER_TEST_VALUE;
-			while (currentIn >= UPPER_CUTOFF_VALUE)
+			while( currentIn >= UPPER_CUTOFF_VALUE )
 			{
 				currentActivationFunction.activateDerivative(currentIn);
 				final double result = currentActivationFunction.activate(currentIn);
 				Assert.assertTrue("Transfer out of bounds. In: " + currentIn + ", result: " + result, (result <= currentActivationFunction.getUpperLimit()) && (result >= currentActivationFunction.getLowerLimit()));
 				currentIn = currentIn / TEST_INCREMENT;
 			}
-			while (currentIn > 0.0)
+			while( currentIn > 0.0 )
 			{
 				currentActivationFunction.activateDerivative(currentIn);
 				final double result = currentActivationFunction.activate(currentIn);
@@ -68,14 +67,14 @@ public class TestActivationBounds
 				currentIn--;
 			}
 			currentIn = LOWER_TEST_VALUE;
-			while (currentIn <= LOWER_CUTOFF_VALUE)
+			while( currentIn <= LOWER_CUTOFF_VALUE )
 			{
 				currentActivationFunction.activateDerivative(currentIn);
 				final double result = currentActivationFunction.activate(currentIn);
 				Assert.assertTrue("Transfer out of bounds. In: " + currentIn + ", result: " + result, (result <= currentActivationFunction.getUpperLimit()) && (result >= currentActivationFunction.getLowerLimit()));
 				currentIn = currentIn / TEST_INCREMENT;
 			}
-			while (currentIn <= 0.0)
+			while( currentIn <= 0.0 )
 			{
 				currentActivationFunction.activateDerivative(currentIn);
 				final double result = currentActivationFunction.activate(currentIn);

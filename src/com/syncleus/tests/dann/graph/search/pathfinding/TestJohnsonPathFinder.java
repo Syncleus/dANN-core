@@ -18,12 +18,11 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.graph.search.pathfinding;
 
-import com.syncleus.dann.graph.*;
-import org.junit.*;
-import com.syncleus.dann.graph.search.pathfinding.JohnsonPathFinder;
-import com.syncleus.tests.dann.graph.search.WeightedDirectedGrid;
-import com.syncleus.tests.dann.graph.search.GridNode;
 import java.util.List;
+import com.syncleus.dann.graph.*;
+import com.syncleus.dann.graph.search.pathfinding.JohnsonPathFinder;
+import com.syncleus.tests.dann.graph.search.*;
+import org.junit.*;
 
 public class TestJohnsonPathFinder
 {
@@ -76,16 +75,19 @@ public class TestJohnsonPathFinder
 	{
 		int solutionIndex = 0;
 		GridNode lastNode = start;
-		if (!checkNode(lastNode, solution[solutionIndex]))
+		if( !checkNode(lastNode, solution[solutionIndex]) )
 			return false;
+
 		for(final BidirectedEdge<GridNode> edge : path)
 		{
 			solutionIndex++;
+
 			final GridNode currentNode = (edge.getLeftNode().equals(lastNode) ? edge.getRightNode() : edge.getLeftNode());
-			if (!checkNode(currentNode, solution[solutionIndex]))
+			if( !checkNode(currentNode, solution[solutionIndex]) )
 				return false;
 			lastNode = currentNode;
 		}
+
 		return true;
 	}
 
@@ -94,9 +96,12 @@ public class TestJohnsonPathFinder
 	{
 		final WeightedDirectedGrid hardGrid = new WeightedDirectedGrid(HARD_GRID);
 		final JohnsonPathFinder<GridNode, WeightedDirectedEdge<GridNode>> pathFinder = new JohnsonPathFinder<GridNode, WeightedDirectedEdge<GridNode>>(hardGrid);
+
 		final GridNode startNode = hardGrid.getNode(HARD_GRID_START[0], HARD_GRID_START[1]);
 		final GridNode endNode = hardGrid.getNode(HARD_GRID_END[0], HARD_GRID_END[1]);
+
 		final List<WeightedDirectedEdge<GridNode>> path = pathFinder.getBestPath(startNode, endNode);
+
 		Assert.assertTrue("incorrect path found!", checkSolution(startNode, path, HARD_GRID_SOLUTION));
 	}
 
@@ -105,9 +110,12 @@ public class TestJohnsonPathFinder
 	{
 		final WeightedDirectedGrid infinityGrid = new WeightedDirectedGrid(EASY_GRID);
 		final JohnsonPathFinder<GridNode, WeightedDirectedEdge<GridNode>> pathFinder = new JohnsonPathFinder<GridNode, WeightedDirectedEdge<GridNode>>(infinityGrid);
+
 		final GridNode startNode = infinityGrid.getNode(EASY_GRID_START[0], EASY_GRID_START[1]);
 		final GridNode endNode = infinityGrid.getNode(EASY_GRID_END[0], EASY_GRID_END[1]);
+
 		final List<WeightedDirectedEdge<GridNode>> path = pathFinder.getBestPath(startNode, endNode);
+
 		Assert.assertTrue("incorrect path found!", checkSolution(startNode, path, EASY_GRID_SOLUTION));
 	}
 }

@@ -29,10 +29,11 @@ public class SimpleBayesianNode<S> implements BayesianNode<S>
 
 	public SimpleBayesianNode(final S initialState, final BayesianNetwork network)
 	{
-		if (initialState == null)
+		if( initialState == null )
 			throw new IllegalArgumentException("initialState can not be null");
-		if (network == null)
+		if( network == null )
 			throw new IllegalArgumentException("network must not be null");
+
 		this.state = initialState;
 		this.network = network;
 		this.learnedStates = new TreeSet<S>();
@@ -40,8 +41,9 @@ public class SimpleBayesianNode<S> implements BayesianNode<S>
 
 	public void setState(final S newState)
 	{
-		if (newState == null)
+		if( newState == null )
 			throw new IllegalArgumentException("newState can not be null");
+
 		this.state = newState;
 	}
 
@@ -58,6 +60,7 @@ public class SimpleBayesianNode<S> implements BayesianNode<S>
 	public void learnState()
 	{
 		this.updateInfluence();
+
 		this.evidence.incrementState(this.getInputStates(), this.state);
 		this.learnedStates.add(this.state);
 	}
@@ -65,6 +68,7 @@ public class SimpleBayesianNode<S> implements BayesianNode<S>
 	public double stateProbability()
 	{
 		this.updateInfluence();
+
 		final StateEvidence<S> stateEvidence = this.evidence.get(this.getInputStates());
 		return (stateEvidence != null ? stateEvidence.getPercentage(this.state) : 0.0);
 	}
@@ -72,9 +76,11 @@ public class SimpleBayesianNode<S> implements BayesianNode<S>
 	private Map<BayesianNode, Object> getInputStates()
 	{
 		final Map<BayesianNode, Object> inStates = new HashMap<BayesianNode, Object>();
+
 		final Set<BayesianEdge> inEdges = this.network.getInEdges(this);
 		for(final BayesianEdge inEdge : inEdges)
 			inStates.put(inEdge.getSourceNode(), inEdge.getSourceNode().getState());
+
 		return inStates;
 	}
 
@@ -90,18 +96,19 @@ public class SimpleBayesianNode<S> implements BayesianNode<S>
 	private boolean updateInfluence()
 	{
 		final Set<BayesianNode> currentInfluences = this.getInfluencingNodes();
-		if (this.evidence == null)
+		if( this.evidence == null )
 		{
 			this.evidence = new EvidenceMap<S>(currentInfluences);
 			this.learnedStates.clear();
 			return true;
 		}
-		else if (!currentInfluences.equals(this.evidence.getInfluencingNodes()))
+		else if( !currentInfluences.equals(this.evidence.getInfluencingNodes()) )
 		{
 			this.evidence = new EvidenceMap<S>(currentInfluences);
 			this.learnedStates.clear();
 			return true;
 		}
+
 		return false;
 	}
 }

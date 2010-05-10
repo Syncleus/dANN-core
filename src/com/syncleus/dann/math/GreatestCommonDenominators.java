@@ -64,7 +64,7 @@ public final class GreatestCommonDenominators
 	{
 		long firstEuclidean = firstNumerator;
 		long secondEuclidean = secondNumerator;
-		while (firstEuclidean != 0)
+		while( firstEuclidean != 0 )
 		{
 			final long tempEuclidean = firstEuclidean;
 			firstEuclidean = secondEuclidean % firstEuclidean;
@@ -81,19 +81,23 @@ public final class GreatestCommonDenominators
 		long lasty = 0;
 		long a = firstNumerator;
 		long b = secondNumerator;
-		while (b != 0)
+		while( b != 0 )
 		{
 			final long quotient = a / b;
+
 			long temp = b;
 			b = a % b;
 			a = temp;
+
 			temp = x;
 			x = lastx - quotient * x;
 			lastx = temp;
+
 			temp = y;
 			y = lasty - quotient * y;
 			lasty = temp;
 		}
+
 		return new ExtendedGCD(lastx, lasty, Math.abs(a));
 	}
 
@@ -102,20 +106,25 @@ public final class GreatestCommonDenominators
 		long firstBinary = Math.abs(firstNumerator);
 		long secondBinary = Math.abs(secondNumerator);
 		long shift;
-		if (firstBinary == 0 || secondBinary == 0)
+
+		if( firstBinary == 0 || secondBinary == 0 )
 			return firstBinary | secondBinary;
+
 		for(shift = 0; ((firstBinary | secondBinary) & 1) == 0; ++shift)
 		{
 			firstBinary >>= 1;
 			secondBinary >>= 1;
 		}
-		while ((firstBinary & 1) == 0)
+
+		while( (firstBinary & 1) == 0 )
 			firstBinary >>= 1;
+
 		do
 		{
-			while ((secondBinary & 1) == 0)
+			while( (secondBinary & 1) == 0 )
 				secondBinary >>= 1;
-			if (firstBinary < secondBinary)
+
+			if( firstBinary < secondBinary )
 				secondBinary -= firstBinary;
 			else
 			{
@@ -124,7 +133,8 @@ public final class GreatestCommonDenominators
 				secondBinary = diff;
 			}
 			secondBinary >>= 1;
-		} while (secondBinary != 0);
+		} while( secondBinary != 0 );
+
 		return firstBinary << shift;
 	}
 }

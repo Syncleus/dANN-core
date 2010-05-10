@@ -48,10 +48,11 @@ public class SharpenedWaveFunction extends WaveFunction
 	@Override
 	public double calculate()
 	{
-		if (super.calculate() == 0.0)
+		if( super.calculate() == 0.0 )
 			return 0.0;
-		if (this.getAmplitude() == 0.0)
+		if( this.getAmplitude() == 0.0 )
 			return 0.0;
+
 		return (super.calculate() / Math.abs(super.calculate())) * Math.abs(Math.pow(Math.abs(super.calculate() / this.getAmplitude()), this.getForm()) * this.getAmplitude());
 	}
 

@@ -57,7 +57,7 @@ public abstract class AbstractGeneticAlgorithmFitnessFunction<E extends Abstract
 	@Override
 	public boolean equals(final Object compareWith)
 	{
-		if (compareWith instanceof AbstractGeneticAlgorithmFitnessFunction)
+		if( compareWith instanceof AbstractGeneticAlgorithmFitnessFunction )
 			return ((AbstractGeneticAlgorithmFitnessFunction) compareWith).chromosome.equals(this.chromosome);
 		else
 			return false;

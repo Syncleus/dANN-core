@@ -41,15 +41,17 @@ public class MutableHyperAdjacencyGraph<N, E extends HyperEdge<N>> extends Abstr
 
 	public boolean add(final E newEdge)
 	{
-		if (newEdge == null)
+		if( newEdge == null )
 			throw new IllegalArgumentException("newEdge can not be null");
-		if (!this.getNodes().containsAll(newEdge.getNodes()))
+		if( !this.getNodes().containsAll(newEdge.getNodes()) )
 			throw new IllegalArgumentException("newEdge has a node as an end point that is not part of the graph");
-		if (this.getInternalEdges().add(newEdge))
+
+		if( this.getInternalEdges().add(newEdge) )
 		{
 			for(final N currentNode : newEdge.getNodes())
 			{
 				this.getInternalAdjacencyEdges().get(currentNode).add(newEdge);
+
 				final List<N> newAdjacentNodes = new ArrayList<N>(newEdge.getNodes());
 				newAdjacentNodes.remove(currentNode);
 				for(final N newAdjacentNode : newAdjacentNodes)
@@ -57,15 +59,18 @@ public class MutableHyperAdjacencyGraph<N, E extends HyperEdge<N>> extends Abstr
 			}
 			return true;
 		}
+
 		return false;
 	}
 
 	public boolean add(final N newNode)
 	{
-		if (newNode == null)
+		if( newNode == null )
 			throw new IllegalArgumentException("newNode can not be null");
-		if (this.getNodes().contains(newNode))
+
+		if( this.getNodes().contains(newNode) )
 			return false;
+
 		this.getInternalAdjacencyEdges().put(newNode, new HashSet<E>());
 		this.getInternalAdjacencyNodes().put(newNode, new ArrayList<N>());
 		return true;
@@ -73,13 +78,16 @@ public class MutableHyperAdjacencyGraph<N, E extends HyperEdge<N>> extends Abstr
 
 	public boolean remove(final E edgeToRemove)
 	{
-		if (edgeToRemove == null)
+		if( edgeToRemove == null )
 			throw new IllegalArgumentException("removeSynapse can not be null");
-		if (!this.getInternalEdges().remove(edgeToRemove))
+
+		if( !this.getInternalEdges().remove(edgeToRemove) )
 			return false;
+
 		for(final N removeNode : edgeToRemove.getNodes())
 		{
 			this.getInternalAdjacencyEdges().get(removeNode).remove(edgeToRemove);
+
 			final List<N> removeAdjacentNodes = new ArrayList<N>(edgeToRemove.getNodes());
 			removeAdjacentNodes.remove(removeNode);
 			for(final N removeAdjacentNode : removeAdjacentNodes)
@@ -90,30 +98,37 @@ public class MutableHyperAdjacencyGraph<N, E extends HyperEdge<N>> extends Abstr
 
 	public boolean remove(final N nodeToRemove)
 	{
-		if (nodeToRemove == null)
+		if( nodeToRemove == null )
 			throw new IllegalArgumentException("node can not be null");
-		if (!this.getNodes().contains(nodeToRemove))
+
+		if( !this.getNodes().contains(nodeToRemove) )
 			return false;
+
 		final Set<E> removeEdges = this.getInternalAdjacencyEdges().get(nodeToRemove);
+
 		//remove all the edges
 		for(final E removeEdge : removeEdges)
 			this.remove(removeEdge);
+
 		//modify edges by removing the node to remove
 		final Set<E> newEdges = new HashSet<E>();
 		for(final E removeEdge : removeEdges)
 		{
 			E newEdge = (E) removeEdge.disconnect(nodeToRemove);
-			while ((newEdge.getNodes().contains(nodeToRemove)) && (newEdge != null))
+			while( (newEdge.getNodes().contains(nodeToRemove)) && (newEdge != null) )
 				newEdge = (E) removeEdge.disconnect(nodeToRemove);
-			if (newEdge != null)
+			if( newEdge != null )
 				newEdges.add(newEdge);
 		}
+
 		//add the modified edges
 		for(final E newEdge : newEdges)
 			this.add(newEdge);
+
 		//remove the node itself
 		this.getInternalAdjacencyEdges().remove(nodeToRemove);
 		this.getInternalAdjacencyNodes().remove(nodeToRemove);
+
 		return true;
 	}
 

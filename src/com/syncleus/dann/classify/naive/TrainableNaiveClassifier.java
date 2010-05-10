@@ -18,7 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.classify.naive;
 
-import java.util.Set;
 import com.syncleus.dann.classify.TrainableClassifier;
 
 public interface TrainableNaiveClassifier<I, F, C> extends NaiveClassifier<I, F, C>, TrainableClassifier<I, C>

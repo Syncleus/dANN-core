@@ -64,14 +64,14 @@ public class RealNumber extends Number implements OrderedTrigonometricAlgebraic<
 
 	public RealNumber max(final RealNumber maxValue)
 	{
-		if (this.compareTo(maxValue) > 0)
+		if( this.compareTo(maxValue) > 0 )
 			return this;
 		return maxValue;
 	}
 
 	public RealNumber min(final RealNumber minValue)
 	{
-		if (this.compareTo(minValue) < 0)
+		if( this.compareTo(minValue) < 0 )
 			return this;
 		return minValue;
 	}
@@ -128,7 +128,7 @@ public class RealNumber extends Number implements OrderedTrigonometricAlgebraic<
 
 	public RealNumber abs()
 	{
-		if (this.value < 0.0)
+		if( this.value < 0.0 )
 			return new RealNumber(Math.abs(this.value));
 		else
 			return this;
@@ -159,7 +159,7 @@ public class RealNumber extends Number implements OrderedTrigonometricAlgebraic<
 		final List<RealNumber> roots = new ArrayList<RealNumber>();
 		final double positiveRoot = Math.pow(this.value, 1.0 / ((double) n));
 		roots.add(new RealNumber(positiveRoot));
-		if (n % 2 == 0)
+		if( n % 2 == 0 )
 			roots.add(new RealNumber(-positiveRoot));
 		return Collections.unmodifiableList(roots);
 	}
@@ -254,7 +254,7 @@ public class RealNumber extends Number implements OrderedTrigonometricAlgebraic<
 	@Override
 	public boolean equals(final Object compareObj)
 	{
-		if (!(compareObj instanceof RealNumber))
+		if( !(compareObj instanceof RealNumber) )
 			return false;
 		final RealNumber compareWith = (RealNumber) compareObj;
 		return (compareWith.value == this.value);
@@ -262,9 +262,9 @@ public class RealNumber extends Number implements OrderedTrigonometricAlgebraic<
 
 	public int compareTo(final RealNumber compareWith)
 	{
-		if (this.value > compareWith.value)
+		if( this.value > compareWith.value )
 			return 1;
-		else if (this.value < compareWith.value)
+		else if( this.value < compareWith.value )
 			return -1;
 		return 0;
 	}

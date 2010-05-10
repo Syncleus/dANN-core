@@ -19,7 +19,6 @@
 package com.syncleus.tests.dann.graphicalmodel.bayesian;
 
 import com.syncleus.dann.graphicalmodel.bayesian.StateEvidence;
-import java.util.Map;
 import org.junit.*;
 
 public class TestStateEvidence

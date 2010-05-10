@@ -35,7 +35,7 @@ public class Nucleus implements Cloneable
 		//make sure there is atleast one starting chromosome.
 		this.chromosomes.add(new Chromosome());
 		//there is a chance more chromosomes can be created
-		while (Mutations.mutationEvent(this.mutability))
+		while( Mutations.mutationEvent(this.mutability) )
 			this.chromosomes.add(new Chromosome());
 	}
 
@@ -67,7 +67,7 @@ public class Nucleus implements Cloneable
 	{
 		boolean bound = true;
 		for(final Chromosome chromosome : this.chromosomes)
-			if (chromosome.bind(concentration, isExternal))
+			if( chromosome.bind(concentration, isExternal) )
 				bound = true;
 		return bound;
 	}
@@ -83,7 +83,7 @@ public class Nucleus implements Cloneable
 				copy.chromosomes.add(chromosome.clone());
 			return copy;
 		}
-		catch (CloneNotSupportedException caught)
+		catch(CloneNotSupportedException caught)
 		{
 			LOGGER.error("CloneNotSupportedException caught but not expected!", caught);
 			throw new UnexpectedDannError("CloneNotSupportedException caught but not expected", caught);
@@ -95,6 +95,7 @@ public class Nucleus implements Cloneable
 		final HashSet<AbstractKey> allKeys = new HashSet<AbstractKey>();
 		for(final Chromosome chromosome : this.chromosomes)
 			allKeys.addAll(chromosome.getKeys());
+
 		for(final Chromosome chromosome : this.chromosomes)
 			chromosome.mutate(allKeys);
 	}
@@ -104,6 +105,7 @@ public class Nucleus implements Cloneable
 		final HashSet<AbstractKey> allKeys = new HashSet<AbstractKey>(keyPool);
 		for(final Chromosome chromosome : this.chromosomes)
 			allKeys.addAll(chromosome.getKeys());
+
 		for(final Chromosome chromosome : this.chromosomes)
 			chromosome.mutate(allKeys);
 	}

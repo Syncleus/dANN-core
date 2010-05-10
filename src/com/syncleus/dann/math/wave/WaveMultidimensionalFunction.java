@@ -40,6 +40,7 @@ public class WaveMultidimensionalFunction extends AbstractFunction implements Cl
 	public WaveMultidimensionalFunction(final double constantValue)
 	{
 		super(new String[]{});
+
 		this.constantMode = true;
 		this.constantValue = constantValue;
 		this.wave = new SharpenedWaveletFunction();
@@ -91,8 +92,9 @@ public class WaveMultidimensionalFunction extends AbstractFunction implements Cl
 
 	public final void setDistribution(final double distribution)
 	{
-		if (distribution == 0.0)
+		if( distribution == 0.0 )
 			throw new IllegalArgumentException("distribution can't be 0");
+
 		this.setParameter(this.getParameterNameIndex("distribution"), distribution);
 		this.wave.setDistribution(distribution);
 	}
@@ -148,8 +150,9 @@ public class WaveMultidimensionalFunction extends AbstractFunction implements Cl
 
 	public double calculate()
 	{
-		if (this.constantMode)
+		if( this.constantMode )
 			return this.constantValue;
+
 		//step through each dimension value and center value
 		double squaredSum = 0.0;
 		for(final String dimensionName : this.dimensionNames)
@@ -157,10 +160,13 @@ public class WaveMultidimensionalFunction extends AbstractFunction implements Cl
 			final double dimensionValue = this.getDimension(dimensionName);
 			final double centerValue = this.getCenter(dimensionName);
 			final double relativeValue = dimensionValue - centerValue;
+
 			squaredSum += Math.pow(relativeValue, 2.0);
 		}
 		final double distanceFromCenter = Math.sqrt(squaredSum);
+
 		this.wave.setX(distanceFromCenter);
+
 		return this.wave.calculate();
 	}
 
@@ -168,8 +174,10 @@ public class WaveMultidimensionalFunction extends AbstractFunction implements Cl
 	public WaveMultidimensionalFunction clone()
 	{
 		final WaveMultidimensionalFunction copy = (WaveMultidimensionalFunction) super.clone();
+
 		copy.wave = this.wave.clone();
 		copy.dimensionNames = this.dimensionNames.clone();
+
 		return copy;
 	}
 
@@ -178,11 +186,13 @@ public class WaveMultidimensionalFunction extends AbstractFunction implements Cl
 		final StringBuffer equationBuffer = new StringBuffer(32);
 		for(int squaredSumsIndex = 0; squaredSumsIndex < this.dimensionNames.length; squaredSumsIndex++)
 		{
-			if (squaredSumsIndex > 0)
+			if( squaredSumsIndex > 0 )
 				equationBuffer.append(" + ");
 			equationBuffer.append('(').append(this.dimensionNames[squaredSumsIndex]).append(" - center-").append(this.dimensionNames[squaredSumsIndex]).append(")^2");
 		}
+
 		final String equation = "sqrt( " + equationBuffer + " )";
+
 		return this.wave.toString(equation, centerName);
 	}
 

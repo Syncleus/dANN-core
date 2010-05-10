@@ -25,7 +25,7 @@ public final class Decompositions
 {
 	public static EigenvalueDecomposition createEigenvalueDecomposition(final RealMatrix matrixToDecompose)
 	{
-		if (matrixToDecompose.isSymmetric())
+		if( matrixToDecompose.isSymmetric() )
 			return new TridiagonalEignevalueDecomposition(matrixToDecompose);
 		else
 			return new SchurEigenvalueDecomposition(matrixToDecompose);

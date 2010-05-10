@@ -18,12 +18,10 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.neural.som;
 
+import java.util.Random;
+import java.util.concurrent.*;
 import com.syncleus.dann.math.Vector;
 import com.syncleus.dann.neural.som.brain.ExponentialDecaySomBrain;
-import java.util.Random;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 import org.junit.*;
 
 public class TestColor
@@ -74,30 +72,34 @@ public class TestColor
 				final double greenOffset = random.nextDouble() * maxOffset;
 				final double blueOffset = random.nextDouble() * maxOffset;
 				outText.append("close color offsets... red: ").append(redOffset).append(", green: ").append(greenOffset).append(", blue: ").append(blueOffset).append('\n');
+
 				//get the location of a color within the block
 				brain.setInput(0, redOffset + (random.nextDouble() * blockSize));
 				brain.setInput(1, greenOffset + (random.nextDouble() * blockSize));
 				brain.setInput(2, blueOffset + (random.nextDouble() * blockSize));
 				outText.append("close color1... red:").append(brain.getInput(0)).append(", green: ").append(brain.getInput(1)).append(", blue").append(brain.getInput(2)).append('\n');
 				final Vector color1 = brain.getBestMatchingUnit(true);
+
 				//get the location of the other color within the block
 				brain.setInput(0, redOffset + (random.nextDouble() * blockSize));
 				brain.setInput(1, greenOffset + (random.nextDouble() * blockSize));
 				brain.setInput(2, blueOffset + (random.nextDouble() * blockSize));
 				outText.append("close color2... red:").append(brain.getInput(0)).append(", green: ").append(brain.getInput(1)).append(", blue").append(brain.getInput(2)).append('\n');
 				final Vector color2 = brain.getBestMatchingUnit(true);
+
 				//calculate the distance between these two points
 				outText.append("close color1 point: ").append(color1).append('\n');
 				outText.append("close color2 point: ").append(color2).append('\n');
 				final double distance = color1.calculateRelativeTo(color2).getDistance();
 				outText.append("close color distance: ").append(distance).append('\n');
 				//store the distance if its greater than the current max
-				if (farthestDistanceClose < distance)
+				if( farthestDistanceClose < distance )
 				{
 					farthestDistanceClose = distance;
 					closeOutText = outText.toString();
 				}
 			}
+
 			//test the maximum distance of far colors in the color space
 			final double maxDrift = maxOffset / DRIFT_FACTOR;
 			double closestDistanceFar = Double.POSITIVE_INFINITY;
@@ -114,24 +116,27 @@ public class TestColor
 				brain.setInput(2, (isBlue1Positive ? random.nextDouble() * maxDrift : 1.0 - (random.nextDouble() * maxDrift)));
 				outText.append("far color1... red:").append(brain.getInput(0)).append(", green: ").append(brain.getInput(1)).append(", blue").append(brain.getInput(2)).append('\n');
 				final Vector color1 = brain.getBestMatchingUnit(true);
+
 				//get the location of the other color within the block
 				brain.setInput(0, (isRed1Positive ? 1.0 - (random.nextDouble() * maxDrift) : random.nextDouble() * maxDrift));
 				brain.setInput(1, (isGreen1Positive ? 1.0 - (random.nextDouble() * maxDrift) : random.nextDouble() * maxDrift));
 				brain.setInput(2, (isBlue1Positive ? 1.0 - (random.nextDouble() * maxDrift) : random.nextDouble() * maxDrift));
 				outText.append("far color2... red:").append(brain.getInput(0)).append(", green: ").append(brain.getInput(1)).append(", blue").append(brain.getInput(2)).append('\n');
 				final Vector color2 = brain.getBestMatchingUnit(true);
+
 				//calculate the distance between these two points
 				outText.append("far color1 point: ").append(color1).append('\n');
 				outText.append("far color2 point: ").append(color2).append('\n');
 				final double distance = color1.calculateRelativeTo(color2).getDistance();
 				outText.append("far color distance: ").append(distance).append('\n');
 				//store the distance if its greater than the current max
-				if (closestDistanceFar > distance)
+				if( closestDistanceFar > distance )
 				{
 					closestDistanceFar = distance;
 					farOutText = outText.toString();
 				}
 			}
+
 			//check that the farthest close is closer than the farthest far,
 			//essentially make sure similar colors are always close and
 			//dissimilar colors are always far away.

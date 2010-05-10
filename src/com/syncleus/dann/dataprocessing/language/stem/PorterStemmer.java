@@ -61,7 +61,7 @@ public class PorterStemmer implements Stemmer
 		this.buffer = Arrays.copyOf(originalWordLowerCase.toCharArray(), bufferSize);
 		this.stemStartIndex = 0;
 		this.wordEndIndex = bufferSize - 1;
-		if (this.wordEndIndex > this.stemStartIndex + 1)
+		if( this.wordEndIndex > this.stemStartIndex + 1 )
 		{
 			step1();
 			step2();
@@ -70,10 +70,10 @@ public class PorterStemmer implements Stemmer
 			step5();
 			step6();
 		}
-		if (bufferSize != this.wordEndIndex + 1)
+		if( bufferSize != this.wordEndIndex + 1 )
 			this.dirtyBuffer = true;
 		bufferSize = this.wordEndIndex + 1;
-		if (this.dirtyBuffer)
+		if( this.dirtyBuffer )
 			return new String(this.buffer, 0, bufferSize);
 		else
 			return originalWordLowerCase;
@@ -81,7 +81,7 @@ public class PorterStemmer implements Stemmer
 
 	private boolean isConsonant(final int i)
 	{
-		switch (this.buffer[i])
+		switch(this.buffer[i])
 		{
 		case 'a':
 		case 'e':
@@ -100,32 +100,32 @@ public class PorterStemmer implements Stemmer
 	{
 		int n = 0;
 		int i = this.stemStartIndex;
-		while (true)
+		while( true )
 		{
-			if (i > this.stemEndIndex)
+			if( i > this.stemEndIndex )
 				return n;
-			if (!this.isConsonant(i))
+			if( !this.isConsonant(i) )
 				break;
 			i++;
 		}
 		i++;
-		while (true)
+		while( true )
 		{
-			while (true)
+			while( true )
 			{
-				if (i > this.stemEndIndex)
+				if( i > this.stemEndIndex )
 					return n;
-				if (this.isConsonant(i))
+				if( this.isConsonant(i) )
 					break;
 				i++;
 			}
 			i++;
 			n++;
-			while (true)
+			while( true )
 			{
-				if (i > this.stemEndIndex)
+				if( i > this.stemEndIndex )
 					return n;
-				if (!this.isConsonant(i))
+				if( !this.isConsonant(i) )
 					break;
 				i++;
 			}
@@ -136,7 +136,7 @@ public class PorterStemmer implements Stemmer
 	private boolean isVowelInStem()
 	{
 		for(int bufferIndex = this.stemStartIndex; bufferIndex <= this.stemEndIndex; bufferIndex++)
-			if (!this.isConsonant(bufferIndex))
+			if( !this.isConsonant(bufferIndex) )
 				return true;
 		return false;
 	}
@@ -148,12 +148,12 @@ public class PorterStemmer implements Stemmer
 
 	private boolean isConsonantVowelConsonant(final int i)
 	{
-		if (i < this.stemStartIndex + 2 || !this.isConsonant(i) || this.isConsonant(i - 1) || !this.isConsonant(i - 2))
+		if( i < this.stemStartIndex + 2 || !this.isConsonant(i) || this.isConsonant(i - 1) || !this.isConsonant(i - 2) )
 			return false;
 		else
 		{
 			final int ch = this.buffer[i];
-			if (ch == 'w' || ch == 'x' || ch == 'y')
+			if( ch == 'w' || ch == 'x' || ch == 'y' )
 				return false;
 		}
 		return true;
@@ -163,10 +163,10 @@ public class PorterStemmer implements Stemmer
 	{
 		final int possibleEndingLength = possibleEnding.length();
 		final int o = this.wordEndIndex - possibleEndingLength + 1;
-		if (o < this.stemStartIndex)
+		if( o < this.stemStartIndex )
 			return false;
 		for(int i = 0; i < possibleEndingLength; i++)
-			if (this.buffer[o + i] != possibleEnding.charAt(i))
+			if( this.buffer[o + i] != possibleEnding.charAt(i) )
 				return false;
 		this.stemEndIndex = this.wordEndIndex - possibleEndingLength;
 		return true;
@@ -182,7 +182,7 @@ public class PorterStemmer implements Stemmer
 
 	private void setToConsonantStem(final String setString)
 	{
-		if (this.countConsonantsInStem() > 0)
+		if( this.countConsonantsInStem() > 0 )
 			this.setTo(setString);
 	}
 
@@ -207,34 +207,34 @@ public class PorterStemmer implements Stemmer
 	 */
 	private void step1()
 	{
-		if (this.buffer[this.wordEndIndex] == 's')
-			if (ends("sses"))
+		if( this.buffer[this.wordEndIndex] == 's' )
+			if( ends("sses") )
 				this.wordEndIndex -= 2;
-			else if (ends("ies"))
+			else if( ends("ies") )
 				setTo("i");
-			else if (this.buffer[this.wordEndIndex - 1] != 's')
+			else if( this.buffer[this.wordEndIndex - 1] != 's' )
 				this.wordEndIndex--;
-		if (ends("eed"))
+		if( ends("eed") )
 		{
-			if (countConsonantsInStem() > 0)
+			if( countConsonantsInStem() > 0 )
 				this.wordEndIndex--;
 		}
-		else if ((ends("ed") || ends("ing")) && isVowelInStem())
+		else if( (ends("ed") || ends("ing")) && isVowelInStem() )
 		{
 			this.wordEndIndex = this.stemEndIndex;
-			if (ends("at"))
+			if( ends("at") )
 				setTo("ate");
-			else if (ends("bl"))
+			else if( ends("bl") )
 				setTo("ble");
-			else if (ends("iz"))
+			else if( ends("iz") )
 				setTo("ize");
-			else if (isRepeatedConsonant(this.wordEndIndex))
+			else if( isRepeatedConsonant(this.wordEndIndex) )
 			{
 				final int ch = this.buffer[this.wordEndIndex--];
-				if (ch == 'l' || ch == 's' || ch == 'z')
+				if( ch == 'l' || ch == 's' || ch == 'z' )
 					this.wordEndIndex++;
 			}
-			else if (countConsonantsInStem() == 1 && isConsonantVowelConsonant(this.wordEndIndex))
+			else if( countConsonantsInStem() == 1 && isConsonantVowelConsonant(this.wordEndIndex) )
 				setTo("e");
 		}
 	}
@@ -242,7 +242,7 @@ public class PorterStemmer implements Stemmer
 	/* step2() turns terminal y to bufferIndex when there is another vowel in the stem. */
 	private void step2()
 	{
-		if (ends("y") && isVowelInStem())
+		if( ends("y") && isVowelInStem() )
 		{
 			this.buffer[this.wordEndIndex] = 'i';
 			this.dirtyBuffer = true;
@@ -254,66 +254,66 @@ public class PorterStemmer implements Stemmer
 	countConsonantsInStem() > 0. */
 	private void step3()
 	{
-		if (this.wordEndIndex == this.stemStartIndex)
+		if( this.wordEndIndex == this.stemStartIndex )
 			return;
-		switch (this.buffer[this.wordEndIndex - 1])
+		switch(this.buffer[this.wordEndIndex - 1])
 		{
 		case 'a':
-			if (ends("ational"))
+			if( ends("ational") )
 				setToConsonantStem("ate");
-			else if (ends("tional"))
+			else if( ends("tional") )
 				setToConsonantStem("tion");
 			break;
 		case 'c':
-			if (ends("enci"))
+			if( ends("enci") )
 				setToConsonantStem("ence");
-			else if (ends("anci"))
+			else if( ends("anci") )
 				setToConsonantStem("ance");
 			break;
 		case 'e':
-			if (ends("izer"))
+			if( ends("izer") )
 				setToConsonantStem("ize");
 			break;
 		case 'l':
-			if (ends("bli"))
+			if( ends("bli") )
 				setToConsonantStem("ble");
-			else if (ends("alli"))
+			else if( ends("alli") )
 				setToConsonantStem("al");
-			else if (ends("entli"))
+			else if( ends("entli") )
 				setToConsonantStem("ent");
-			else if (ends("eli"))
+			else if( ends("eli") )
 				setToConsonantStem("e");
-			else if (ends("ousli"))
+			else if( ends("ousli") )
 				setToConsonantStem("ous");
 			break;
 		case 'o':
-			if (ends("ization"))
+			if( ends("ization") )
 				setToConsonantStem("ize");
-			else if (ends("ation"))
+			else if( ends("ation") )
 				setToConsonantStem("ate");
-			else if (ends("ator"))
+			else if( ends("ator") )
 				setToConsonantStem("ate");
 			break;
 		case 's':
-			if (ends("alism"))
+			if( ends("alism") )
 				setToConsonantStem("al");
-			else if (ends("iveness"))
+			else if( ends("iveness") )
 				setToConsonantStem("ive");
-			else if (ends("fulness"))
+			else if( ends("fulness") )
 				setToConsonantStem("ful");
-			else if (ends("ousness"))
+			else if( ends("ousness") )
 				setToConsonantStem("ous");
 			break;
 		case 't':
-			if (ends("aliti"))
+			if( ends("aliti") )
 				setToConsonantStem("al");
-			else if (ends("iviti"))
+			else if( ends("iviti") )
 				setToConsonantStem("ive");
-			else if (ends("biliti"))
+			else if( ends("biliti") )
 				setToConsonantStem("ble");
 			break;
 		case 'g':
-			if (ends("logi"))
+			if( ends("logi") )
 				setToConsonantStem("log");
 			break;
 		}
@@ -322,28 +322,28 @@ public class PorterStemmer implements Stemmer
 	/* step4() deals with -ic-, -full, -ness etc. similar strategy to step3. */
 	private void step4()
 	{
-		switch (this.buffer[this.wordEndIndex])
+		switch(this.buffer[this.wordEndIndex])
 		{
 		case 'e':
-			if (ends("icate"))
+			if( ends("icate") )
 				setToConsonantStem("ic");
-			else if (ends("ative"))
+			else if( ends("ative") )
 				setToConsonantStem("");
-			else if (ends("alize"))
+			else if( ends("alize") )
 				setToConsonantStem("al");
 			break;
 		case 'i':
-			if (ends("iciti"))
+			if( ends("iciti") )
 				setToConsonantStem("ic");
 			break;
 		case 'l':
-			if (ends("ical"))
+			if( ends("ical") )
 				setToConsonantStem("ic");
-			else if (ends("ful"))
+			else if( ends("ful") )
 				setToConsonantStem("");
 			break;
 		case 's':
-			if (ends("ness"))
+			if( ends("ness") )
 				setToConsonantStem("");
 			break;
 		}
@@ -352,79 +352,79 @@ public class PorterStemmer implements Stemmer
 	/* step5() takes off -ant, -ence etc., in context <c>vcvc<v>. */
 	private void step5()
 	{
-		if (this.wordEndIndex == this.stemStartIndex)
+		if( this.wordEndIndex == this.stemStartIndex )
 			return;
-		switch (this.buffer[this.wordEndIndex - 1])
+		switch(this.buffer[this.wordEndIndex - 1])
 		{
 		case 'a':
-			if (ends("al"))
+			if( ends("al") )
 				break;
 			return;
 		case 'c':
-			if (ends("ance"))
+			if( ends("ance") )
 				break;
-			if (ends("ence"))
+			if( ends("ence") )
 				break;
 			return;
 		case 'e':
-			if (ends("er"))
+			if( ends("er") )
 				break;
 			return;
 		case 'i':
-			if (ends("ic"))
+			if( ends("ic") )
 				break;
 			return;
 		case 'l':
-			if (ends("able"))
+			if( ends("able") )
 				break;
-			if (ends("ible"))
+			if( ends("ible") )
 				break;
 			return;
 		case 'n':
-			if (ends("ant"))
+			if( ends("ant") )
 				break;
-			if (ends("ement"))
+			if( ends("ement") )
 				break;
-			if (ends("ment"))
+			if( ends("ment") )
 				break;
 			/* element etc. not stripped before the countConsonantsInStem */
-			if (ends("ent"))
+			if( ends("ent") )
 				break;
 			return;
 		case 'o':
-			if (ends("ion") && this.stemEndIndex >= 0 && (this.buffer[this.stemEndIndex] == 's' || this.buffer[this.stemEndIndex] == 't'))
+			if( ends("ion") && this.stemEndIndex >= 0 && (this.buffer[this.stemEndIndex] == 's' || this.buffer[this.stemEndIndex] == 't') )
 				break;
 			/* stemEndIndex >= 0 fixes Bug 2 */
-			if (ends("ou"))
+			if( ends("ou") )
 				break;
 			return;
 		/* takes care of -ous */
 		case 's':
-			if (ends("ism"))
+			if( ends("ism") )
 				break;
 			return;
 		case 't':
-			if (ends("ate"))
+			if( ends("ate") )
 				break;
-			if (ends("iti"))
+			if( ends("iti") )
 				break;
 			return;
 		case 'u':
-			if (ends("ous"))
+			if( ends("ous") )
 				break;
 			return;
 		case 'v':
-			if (ends("ive"))
+			if( ends("ive") )
 				break;
 			return;
 		case 'z':
-			if (ends("ize"))
+			if( ends("ize") )
 				break;
 			return;
 		default:
 			return;
 		}
-		if (countConsonantsInStem() > 1)
+		if( countConsonantsInStem() > 1 )
 			this.wordEndIndex = this.stemEndIndex;
 	}
 
@@ -432,13 +432,13 @@ public class PorterStemmer implements Stemmer
 	private void step6()
 	{
 		this.stemEndIndex = this.wordEndIndex;
-		if (this.buffer[this.wordEndIndex] == 'e')
+		if( this.buffer[this.wordEndIndex] == 'e' )
 		{
 			final int a = countConsonantsInStem();
-			if (a > 1 || a == 1 && !isConsonantVowelConsonant(this.wordEndIndex - 1))
+			if( a > 1 || a == 1 && !isConsonantVowelConsonant(this.wordEndIndex - 1) )
 				this.wordEndIndex--;
 		}
-		if (this.buffer[this.wordEndIndex] == 'l' && isRepeatedConsonant(this.wordEndIndex) && countConsonantsInStem() > 1)
+		if( this.buffer[this.wordEndIndex] == 'l' && isRepeatedConsonant(this.wordEndIndex) && countConsonantsInStem() > 1 )
 			this.wordEndIndex--;
 	}
 

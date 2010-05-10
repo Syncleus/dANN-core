@@ -30,16 +30,18 @@ public class FastFourierTransformerInputStream extends InputStream
 
 	public FastFourierTransformerInputStream(final InputStream srcStream, final FastFourierTransformer transformer, final int interval) throws IOException
 	{
-		if (srcStream == null)
+		if( srcStream == null )
 			throw new IllegalArgumentException("srcStream can not be null");
-		if (transformer == null)
+		if( transformer == null )
 			throw new IllegalArgumentException("transformer can not be null");
-		if (interval <= 0)
+		if( interval <= 0 )
 			throw new IllegalArgumentException("interval must be greater than 0");
-		if (srcStream instanceof ObjectInputStream)
+
+		if( srcStream instanceof ObjectInputStream )
 			this.srcStream = (ObjectInputStream) srcStream;
 		else
 			this.srcStream = new ObjectInputStream(srcStream);
+
 		this.transformer = transformer;
 		this.interval = interval;
 	}
@@ -52,21 +54,24 @@ public class FastFourierTransformerInputStream extends InputStream
 
 	public int readTransform(final DiscreteFourierTransform[] b, final int off, final int len) throws IOException
 	{
-		if (b == null)
+		if( b == null )
 			throw new IllegalArgumentException("b must not be null");
-		if (off > b.length)
+		if( off > b.length )
 			throw new IllegalArgumentException("off is greater than length of b");
-		if (off < 0)
+		if( off < 0 )
 			throw new IllegalArgumentException("off must be greater than or equal to 0");
-		if (len < 0)
+		if( len < 0 )
 			throw new IllegalArgumentException("len must be greater than or equal to 0");
-		if ((off + len) > b.length)
+		if( (off + len) > b.length )
 			throw new IllegalArgumentException("(off + len) is greater than length of b");
-		if (len == 0)
+
+		if( len == 0 )
 			return 0;
-		if (b.length == 0)
+
+		if( b.length == 0 )
 			return 0;
-		if (this.transformsAvailable() <= 1)
+
+		if( this.transformsAvailable() <= 1 )
 		{
 			b[off] = this.readTransform();
 			return 1;
@@ -74,7 +79,7 @@ public class FastFourierTransformerInputStream extends InputStream
 		else
 		{
 			int bufferSpace = b.length - off;
-			if (bufferSpace > len)
+			if( bufferSpace > len )
 				bufferSpace = len;
 			final int transformCount = (bufferSpace < this.transformsAvailable() ? bufferSpace : this.transformsAvailable());
 			for(int bIndex = off; bIndex < (transformCount + off); bIndex++)
@@ -85,11 +90,13 @@ public class FastFourierTransformerInputStream extends InputStream
 
 	public int readTransform(final DiscreteFourierTransform[] b) throws IOException
 	{
-		if (b == null)
+		if( b == null )
 			throw new IllegalArgumentException("b must not be null");
-		if (b.length == 0)
+
+		if( b.length == 0 )
 			return 0;
-		if (this.transformsAvailable() <= 1)
+
+		if( this.transformsAvailable() <= 1 )
 		{
 			b[0] = this.readTransform();
 			return 1;
@@ -105,25 +112,28 @@ public class FastFourierTransformerInputStream extends InputStream
 
 	public DiscreteFourierTransform readTransform() throws IOException
 	{
+
 		//make sure the buffer contains atleast one block, if not fill it. copy
 		//block to signal
 		final double[] signal;
-		if (this.buffer == null)
+		if( this.buffer == null )
 			signal = new double[this.transformer.getBlockSize()];
 		else
 			signal = Arrays.copyOf(this.buffer, this.transformer.getBlockSize());
-		if ((this.buffer == null) || (this.buffer.length <= this.transformer.getBlockSize()))
+
+		if( (this.buffer == null) || (this.buffer.length <= this.transformer.getBlockSize()) )
 		{
 			//signal = Arrays.copyOf(this.buffer, this.transformer.getBlockSize());
 			for(int signalIndex = (this.buffer == null ? 0 : this.buffer.length); signalIndex < signal.length; signalIndex++)
 				signal[signalIndex] = this.srcStream.readDouble();
 			this.buffer = signal;
 		}
+
 		//remove the time interval from the begining of the buffer and stream.
 		int signalsToRemove = this.interval;
-		if (this.buffer != null)
+		if( this.buffer != null )
 		{
-			if (this.buffer.length <= signalsToRemove)
+			if( this.buffer.length <= signalsToRemove )
 			{
 				signalsToRemove -= this.buffer.length;
 				this.buffer = null;
@@ -134,8 +144,10 @@ public class FastFourierTransformerInputStream extends InputStream
 				signalsToRemove = 0;
 			}
 		}
-		if (signalsToRemove > 0)
+
+		if( signalsToRemove > 0 )
 			assert this.srcStream.skip(signalsToRemove) == signalsToRemove;
+
 		return this.transformer.transform(signal);
 	}
 

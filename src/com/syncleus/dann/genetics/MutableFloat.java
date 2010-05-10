@@ -91,14 +91,14 @@ public class MutableFloat extends MutableNumber<Float> implements Comparable<Mut
 	{
 		final double doubleDistributed = MutableNumber.getDistributedRandom(deviation);
 		float distributedRand = (float) doubleDistributed;
-		if (doubleDistributed > Float.MAX_VALUE)
+		if( doubleDistributed > Float.MAX_VALUE )
 			distributedRand = Float.MAX_VALUE;
-		else if (doubleDistributed < (Float.MAX_VALUE * -1f))
+		else if( doubleDistributed < (Float.MAX_VALUE * -1f) )
 			distributedRand = Float.MAX_VALUE * -1f;
 		final float result = this.getNumber() + distributedRand;
-		if ((distributedRand > 0f) && (result < this.getNumber()))
+		if( (distributedRand > 0f) && (result < this.getNumber()) )
 			return new MutableFloat(Float.MAX_VALUE);
-		else if ((distributedRand < 0f) && (result > this.getNumber()))
+		else if( (distributedRand < 0f) && (result > this.getNumber()) )
 			return new MutableFloat(Float.MAX_VALUE * -1f);
 		return new MutableFloat(result);
 	}

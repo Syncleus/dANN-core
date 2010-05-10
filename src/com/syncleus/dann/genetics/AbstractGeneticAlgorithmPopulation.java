@@ -116,16 +116,17 @@ public abstract class AbstractGeneticAlgorithmPopulation
 			for(final Future future : futures)
 				future.get();
 		}
-		catch (InterruptedException caught)
+		catch(InterruptedException caught)
 		{
 			LOGGER.warn("Unexpected execution exception thrown from within Process(fitnessFunction)", caught);
 			throw new UnexpectedInterruptedException("Unexpected execution exception. Get should block indefinately", caught);
 		}
-		catch (ExecutionException caught)
+		catch(ExecutionException caught)
 		{
 			LOGGER.error("Unexpected execution exception thrown from within Process(fitnessFunction)", caught);
 			throw new UnexpectedDannError("Unexpected execution exception. Get should block indefinately", caught);
 		}
+
 		//add to thetree set and sort
 		this.population.addAll(initialPopulation);
 	}
@@ -143,6 +144,7 @@ public abstract class AbstractGeneticAlgorithmPopulation
 		final HashSet<GeneticAlgorithmChromosome> chromosomes = new HashSet<GeneticAlgorithmChromosome>();
 		for(final AbstractGeneticAlgorithmFitnessFunction member : this.population)
 			chromosomes.add(member.getChromosome());
+
 		return Collections.unmodifiableSet(chromosomes);
 	}
 
@@ -176,7 +178,7 @@ public abstract class AbstractGeneticAlgorithmPopulation
 		int currentIndex = 0;
 		for(final AbstractGeneticAlgorithmFitnessFunction member : this.population)
 		{
-			if (currentIndex == randomIndex)
+			if( currentIndex == randomIndex )
 				return member.getChromosome();
 			currentIndex++;
 		}
@@ -192,24 +194,24 @@ public abstract class AbstractGeneticAlgorithmPopulation
 	 */
 	public void nextGeneration()
 	{
-		if (this.population.size() < 4)
+		if( this.population.size() < 4 )
 			throw new IllegalStateException("Must have a population of atleast 4. Currently: " + this.population.size());
 		this.generations++;
 		//calculate population sizes
 		final int populationSize = this.population.size();
 		int lostPopulation = (int) ((double) populationSize * this.dieOffPercentage);
 		//ensure the population to kill off is even.
-		if (lostPopulation % 2 != 0)
+		if( lostPopulation % 2 != 0 )
 			lostPopulation--;
 		final int remainingPopulation = populationSize - lostPopulation;
 		//remove least performing members of the population
-		while (this.population.size() > remainingPopulation)
+		while( this.population.size() > remainingPopulation )
 			this.population.remove(this.population.first());
 		//breed children through mutation and crossover
-		while (this.population.size() < populationSize)
+		while( this.population.size() < populationSize )
 		{
 			final ArrayList<GeneticAlgorithmChromosome> children = new ArrayList<GeneticAlgorithmChromosome>();
-			while (this.population.size() + children.size() < populationSize)
+			while( this.population.size() + children.size() < populationSize )
 			{
 				//obtain parents and mutate into children
 				GeneticAlgorithmChromosome child1 = this.getRandomMember();
@@ -217,7 +219,7 @@ public abstract class AbstractGeneticAlgorithmPopulation
 				child1 = child1.mutate(this.mutationDeviation);
 				child2 = child2.mutate(this.mutationDeviation);
 				//crossover performed on children
-				if (RANDOM.nextDouble() < this.crossoverPercentage)
+				if( RANDOM.nextDouble() < this.crossoverPercentage )
 				{
 					final int crossoverPoint = RANDOM.nextInt(child1.getGenes().size() - 1) + 1;
 					final List<AbstractValueGene> child1Segment = child1.crossover(crossoverPoint);
@@ -227,7 +229,7 @@ public abstract class AbstractGeneticAlgorithmPopulation
 				}
 				//store the new children
 				children.add(child1);
-				if (this.population.size() + children.size() < populationSize)
+				if( this.population.size() + children.size() < populationSize )
 					children.add(child2);
 			}
 			//add children to the population

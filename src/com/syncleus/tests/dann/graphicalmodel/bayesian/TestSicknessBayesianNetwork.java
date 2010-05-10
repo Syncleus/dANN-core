@@ -18,8 +18,8 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.graphicalmodel.bayesian;
 
-import com.syncleus.dann.graphicalmodel.bayesian.*;
 import java.util.*;
+import com.syncleus.dann.graphicalmodel.bayesian.*;
 import org.junit.*;
 
 public class TestSicknessBayesianNetwork
@@ -60,6 +60,7 @@ public class TestSicknessBayesianNetwork
 		for(int i = 0; i < 10; i++)
 		{
 			testOverall();
+
 			this.network = new MutableBayesianAdjacencyNetwork();
 			this.season = new SimpleBayesianNode<SeasonState>(SeasonState.WINTER, this.network);
 			this.age = new SimpleBayesianNode<AgeState>(AgeState.BABY, this.network);
@@ -112,6 +113,7 @@ public class TestSicknessBayesianNetwork
 		final double warmPercentage = network.conditionalProbability(goals, influences);
 		fever.setState(FeverState.HOT);
 		final double hotPercentage = network.conditionalProbability(goals, influences);
+
 		Assert.assertTrue("incorrect fever to sickness mapping! " + nonePercentage + " < " + lowPercentage + " < " + warmPercentage + " < " + hotPercentage, (nonePercentage < lowPercentage) && (lowPercentage < warmPercentage) && (warmPercentage < hotPercentage));
 	}
 
@@ -119,12 +121,17 @@ public class TestSicknessBayesianNetwork
 	{
 		final SeasonState seasonState = (SeasonState.values())[RANDOM.nextInt(SeasonState.values().length)];
 		season.setState(seasonState);
+
 		final AgeState ageState = (AgeState.values())[RANDOM.nextInt(AgeState.values().length)];
 		age.setState(ageState);
+
 		final BooleanState noseState = (BooleanState.values())[RANDOM.nextInt(BooleanState.values().length)];
 		stuffyNose.setState(noseState);
+
 		final BooleanState tiredState = (BooleanState.values())[RANDOM.nextInt(BooleanState.values().length)];
 		tired.setState(tiredState);
+
+
 		fever.setState(FeverState.NONE);
 		sick.setState(BooleanState.FALSE);
 		network.learnStates();
@@ -140,6 +147,7 @@ public class TestSicknessBayesianNetwork
 		fever.setState(FeverState.NONE);
 		sick.setState(BooleanState.TRUE);
 		network.learnStates();
+
 		fever.setState(FeverState.LOW);
 		sick.setState(BooleanState.FALSE);
 		network.learnStates();
@@ -155,6 +163,7 @@ public class TestSicknessBayesianNetwork
 		fever.setState(FeverState.LOW);
 		sick.setState(BooleanState.TRUE);
 		network.learnStates();
+
 		fever.setState(FeverState.WARM);
 		sick.setState(BooleanState.FALSE);
 		network.learnStates();
@@ -170,6 +179,7 @@ public class TestSicknessBayesianNetwork
 		fever.setState(FeverState.WARM);
 		sick.setState(BooleanState.TRUE);
 		network.learnStates();
+
 		fever.setState(FeverState.HOT);
 		sick.setState(BooleanState.FALSE);
 		network.learnStates();

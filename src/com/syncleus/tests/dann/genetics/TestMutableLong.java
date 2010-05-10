@@ -38,9 +38,11 @@ public class TestMutableLong
 	public void testMax()
 	{
 		final MutableLong highValue = new MutableLong(Long.MAX_VALUE);
+
 		for(int testCount = 0; testCount < 1000; testCount++)
 		{
 			final MutableLong mutated = highValue.mutate(100.0);
+
 			Assert.assertTrue("mutation caused number to roll over: " + mutated, mutated.longValue() >= -1);
 		}
 	}
@@ -49,9 +51,11 @@ public class TestMutableLong
 	public void testMin()
 	{
 		final MutableLong lowValue = new MutableLong(Long.MIN_VALUE);
+
 		for(int testCount = 0; testCount < 1000; testCount++)
 		{
 			final MutableLong mutated = lowValue.mutate(100.0);
+
 			Assert.assertTrue("mutation caused number to roll over: " + mutated, mutated.longValue() <= 1);
 		}
 	}

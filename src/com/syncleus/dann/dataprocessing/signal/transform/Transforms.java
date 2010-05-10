@@ -31,10 +31,11 @@ public final class Transforms
 
 		public StreamPair(final FastFourierTransformerInputStream inStream, final SignalOutputStream outStream)
 		{
-			if (inStream == null)
+			if( inStream == null )
 				throw new IllegalArgumentException("inStream can not be null");
-			if (outStream == null)
+			if( outStream == null )
 				throw new IllegalArgumentException("outStream can not be null");
+
 			this.inStream = inStream;
 			this.outStream = outStream;
 		}
@@ -61,11 +62,13 @@ public final class Transforms
 			final PipedInputStream inPipe = new PipedInputStream();
 			final PipedOutputStream outPipe = new PipedOutputStream(inPipe);
 			inPipe.connect(outPipe);
+
 			final FastFourierTransformerInputStream fftInStream = new FastFourierTransformerInputStream(inPipe, transformer, interval);
 			final SignalOutputStream signalOutStream = new SignalOutputStream(outPipe);
+
 			return new StreamPair(fftInStream, signalOutStream);
 		}
-		catch (IOException caughtException)
+		catch(IOException caughtException)
 		{
 			throw new UnexpectedDannError(caughtException);
 		}

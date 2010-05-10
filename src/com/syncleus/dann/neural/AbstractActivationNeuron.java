@@ -78,7 +78,7 @@ public abstract class AbstractActivationNeuron extends AbstractNeuron
 	public AbstractActivationNeuron(final Brain brain, final ActivationFunction activationFunction)
 	{
 		super(brain);
-		if (activationFunction == null)
+		if( activationFunction == null )
 			throw new IllegalArgumentException("activationFunction can not be null");
 		this.activationFunction = activationFunction;
 	}
@@ -102,9 +102,9 @@ public abstract class AbstractActivationNeuron extends AbstractNeuron
 
 	/**
 	 * This must be the derivity of the ActivityFunction. As such it's output is
-	 * also based on the current activity of the neuron. If the
-	 * activationFunction is overwritten then this method must also be
-	 * overwritten with the proper derivative.
+	 * also based on the current activity of the neuron. If the activationFunction
+	 * is overwritten then this method must also be overwritten with the proper
+	 * derivative.
 	 *
 	 * @return the derivative output of the activationFunction
 	 * @see com.syncleus.dann.neural.AbstractActivationNeuron#activationFunction

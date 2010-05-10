@@ -16,6 +16,7 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
+
 /*
  ** Derived from Public-Domain source as indicated at
  ** http://www.merriampark.com/perm.htm as of 5/7/2010.
@@ -51,24 +52,28 @@ public class PermutationCounter implements Counter
 	//----------------------------------------------------------
 	public PermutationCounter(final int setSize, final int permutationSize)
 	{
-		if (permutationSize > setSize)
+		if( permutationSize > setSize )
 			throw new IllegalArgumentException("permutationSize can not be larger than setSize");
-		if (permutationSize < 0)
+		if( permutationSize < 0 )
 			throw new IllegalArgumentException("permutation size must be larger than 0");
-		if (setSize < 0)
+		if( setSize < 0 )
 			throw new IllegalArgumentException("setSize must be greater than 0");
+
 		this.setSize = setSize;
 		this.permutationSize = permutationSize;
 		this.combinations = new CombinationCounter(setSize, permutationSize);
+
 		this.permutation = new int[permutationSize];
 		this.permutationsPerCombination = getFactorial(permutationSize);
 		this.total = (permutationSize == 0 || setSize == 0 ? BigInteger.ZERO : this.combinations.getTotal().multiply(this.permutationsPerCombination));
+
 		reset();
 	}
 
 	public void reset()
 	{
 		this.resetPermutations();
+
 		this.combinations.reset();
 		this.remaining = this.total;
 		this.combination = this.combinations.getNext();
@@ -118,14 +123,14 @@ public class PermutationCounter implements Counter
 	//--------------------------------------------------------
 	public int[] getNext()
 	{
-		if (!this.hasMore())
+		if( !this.hasMore() )
 			return null;
-		if (this.combinationPermutationsRemaining.equals(BigInteger.ZERO))
+		if( this.combinationPermutationsRemaining.equals(BigInteger.ZERO) )
 		{
 			this.combination = this.combinations.getNext();
 			this.resetPermutations();
 		}
-		if (this.combinationPermutationsRemaining.equals(this.permutationsPerCombination))
+		if( this.combinationPermutationsRemaining.equals(this.permutationsPerCombination) )
 		{
 			this.remaining = remaining.subtract(BigInteger.ONE);
 			this.combinationPermutationsRemaining = combinationPermutationsRemaining.subtract(BigInteger.ONE);
@@ -134,12 +139,12 @@ public class PermutationCounter implements Counter
 		int temp;
 		// Find largest index j with permutation[j] < permutation[j+1]
 		int j = permutation.length - 2;
-		while (this.permutation[j] > this.permutation[j + 1])
+		while( this.permutation[j] > this.permutation[j + 1] )
 			j--;
 		// Find index k such that permutation[k] is smallest integer
 		// greater than permutation[j] to the right of permutation[j]
 		int k = permutation.length - 1;
-		while (this.permutation[j] > this.permutation[k])
+		while( this.permutation[j] > this.permutation[k] )
 			k--;
 		// Interchange permutation[j] and permutation[k]
 		temp = this.permutation[k];
@@ -148,7 +153,7 @@ public class PermutationCounter implements Counter
 		// Put tail end of permutation after jth position in increasing order
 		int r = permutation.length - 1;
 		int s = j + 1;
-		while (r > s)
+		while( r > s )
 		{
 			temp = this.permutation[s];
 			this.permutation[s] = this.permutation[r];
@@ -156,6 +161,7 @@ public class PermutationCounter implements Counter
 			r--;
 			s++;
 		}
+
 		this.combinationPermutationsRemaining = this.combinationPermutationsRemaining.subtract(BigInteger.ONE);
 		this.remaining = this.remaining.subtract(BigInteger.ONE);
 		return permutateCombination(this.combination, this.permutation);

@@ -46,23 +46,28 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 	protected AbstractAdjacencyGraph(final Set<N> nodes, final Set<E> edges)
 	{
 		this.edges = new HashSet<E>(edges);
+
 		for(final N node : nodes)
 		{
 			this.adjacentNodes.put(node, new ArrayList<N>());
 			this.adjacentEdges.put(node, new HashSet<E>());
 		}
+
 		for(final E edge : edges)
 		{
 			final List<N> edgeNodes = edge.getNodes();
 			for(int startNodeIndex = 0; startNodeIndex < edgeNodes.size(); startNodeIndex++)
 			{
 				final N edgeNode = edgeNodes.get(startNodeIndex);
-				if (!nodes.contains(edgeNode))
+
+				if( !nodes.contains(edgeNode) )
 					throw new IllegalArgumentException("A node that is an end point in one of the edges was not in the nodes list");
+
 				this.adjacentEdges.get(edgeNode).add(edge);
+
 				for(int endNodeIndex = 0; endNodeIndex < edgeNodes.size(); endNodeIndex++)
 				{
-					if (startNodeIndex != endNodeIndex)
+					if( startNodeIndex != endNodeIndex )
 						this.adjacentNodes.get(edgeNode).add(edgeNodes.get(endNodeIndex));
 				}
 			}
@@ -97,7 +102,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 
 	public Set<E> getAdjacentEdges(final N node)
 	{
-		if (this.adjacentEdges.containsKey(node))
+		if( this.adjacentEdges.containsKey(node) )
 			return Collections.unmodifiableSet(this.adjacentEdges.get(node));
 		else
 			return Collections.<E>emptySet();
@@ -120,7 +125,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 	{
 		final Set<E> traversableEdges = new HashSet<E>();
 		for(final E adjacentEdge : this.getAdjacentEdges(node))
-			if (adjacentEdge.isTraversable(node))
+			if( adjacentEdge.isTraversable(node) )
 				traversableEdges.add(adjacentEdge);
 		return Collections.unmodifiableSet(traversableEdges);
 	}
@@ -131,7 +136,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		int degree = 0;
 		for(final E adjacentEdge : adjacentNodesEdges)
 			for(final N adjacentNode : adjacentEdge.getNodes())
-				if (adjacentNode.equals(node))
+				if( adjacentNode.equals(node) )
 					degree++;
 		return degree;
 	}
@@ -141,7 +146,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		final Set<N> nodes = this.getNodes();
 		for(final N fromNode : nodes)
 			for(final N toNode : nodes)
-				if ((toNode != fromNode) && (!this.isStronglyConnected(toNode, fromNode)))
+				if( (toNode != fromNode) && (!this.isStronglyConnected(toNode, fromNode)) )
 					return false;
 		return true;
 	}
@@ -149,11 +154,11 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 	public boolean isWeaklyConnected()
 	{
 		final List<N> remainingNodes = new ArrayList<N>(this.getNodes());
-		while (remainingNodes.size() >= 2)
+		while( remainingNodes.size() >= 2 )
 		{
 			final N fromNode = remainingNodes.get(0);
 			for(final N toNode : remainingNodes)
-				if ((toNode != fromNode) && (!this.isWeaklyConnected(toNode, fromNode)))
+				if( (toNode != fromNode) && (!this.isWeaklyConnected(toNode, fromNode)) )
 					return false;
 		}
 		return true;
@@ -163,18 +168,23 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 	{
 		final Set<N> visited = new HashSet<N>();
 		visited.add(leftNode);
+
 		final Set<N> toVisit = new HashSet<N>();
 		toVisit.addAll(this.getAdjacentNodes(leftNode));
-		while (!toVisit.isEmpty())
+
+		while( !toVisit.isEmpty() )
 		{
 			final N node = toVisit.iterator().next();
-			if (node.equals(rightNode))
+			if( node.equals(rightNode) )
 				return true;
+
 			visited.add(node);
 			toVisit.remove(node);
+
 			toVisit.addAll(this.getAdjacentNodes(node));
 			toVisit.removeAll(visited);
 		}
+
 		return false;
 	}
 
@@ -184,10 +194,10 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		visited.add(leftNode);
 		final Set<N> toVisit = new HashSet<N>();
 		toVisit.addAll(this.getTraversableNodes(leftNode));
-		while (!toVisit.isEmpty())
+		while( !toVisit.isEmpty() )
 		{
 			final N node = toVisit.iterator().next();
-			if (node.equals(rightNode))
+			if( node.equals(rightNode) )
 				return true;
 			visited.add(node);
 			toVisit.remove(node);
@@ -205,7 +215,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 
 	public boolean isMaximalSubgraph(final Graph<N, E> subgraph)
 	{
-		if (!this.isSubGraph(subgraph))
+		if( !this.isSubGraph(subgraph) )
 			return false;
 		//findCycles all edges in the parent graph, but not in the subgraph
 		final Set<E> exclusiveParentEdges = new HashSet<E>(this.edges);
@@ -216,7 +226,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		final Set<? extends N> subnodes = subgraph.getNodes();
 		for(final E exclusiveParentEdge : exclusiveParentEdges)
 			for(final N exclusiveParentNode : exclusiveParentEdge.getNodes())
-				if (subnodes.contains(exclusiveParentNode))
+				if( subnodes.contains(exclusiveParentNode) )
 					return false;
 		//passed all the tests, must be maximal
 		return true;
@@ -240,9 +250,9 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		{
 			final List<N> cutEdgeNeighbors = cutEdge.getNodes();
 			cutEdgeNeighbors.removeAll(cutNodes);
-			if (cutEdgeNeighbors.size() != cutEdge.getNodes().size())
+			if( cutEdgeNeighbors.size() != cutEdge.getNodes().size() )
 				removeEdges.add(cutEdge);
-			if (cutEdgeNeighbors.size() > 1)
+			if( cutEdgeNeighbors.size() > 1 )
 				// TODO instead of ImmutableHyperEdge implement clone or something
 				addEdges.add(new ImmutableHyperEdge<N>(cutEdgeNeighbors));
 		}
@@ -300,7 +310,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		final SortedSet<Set<N>> sortedCombinations = new TreeSet<Set<N>>(new SizeComparator());
 		sortedCombinations.addAll(combinations);
 		for(final Set<N> cutNodes : sortedCombinations)
-			if (this.isCut(cutNodes, Collections.<E>emptySet()))
+			if( this.isCut(cutNodes, Collections.<E>emptySet()) )
 				return cutNodes.size();
 		return this.getNodes().size();
 	}
@@ -311,7 +321,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		final SortedSet<Set<E>> sortedCombinations = new TreeSet<Set<E>>(new SizeComparator());
 		sortedCombinations.addAll(combinations);
 		for(final Set<E> cutEdges : sortedCombinations)
-			if (this.isCut(cutEdges))
+			if( this.isCut(cutEdges) )
 				return cutEdges.size();
 		return this.edges.size();
 	}
@@ -322,7 +332,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		final SortedSet<Set<N>> sortedCombinations = new TreeSet<Set<N>>(new SizeComparator());
 		sortedCombinations.addAll(combinations);
 		for(final Set<N> cutNodes : sortedCombinations)
-			if (this.isCut(cutNodes, Collections.<E>emptySet(), begin, end))
+			if( this.isCut(cutNodes, Collections.<E>emptySet(), begin, end) )
 				return cutNodes.size();
 		return this.getNodes().size();
 	}
@@ -333,19 +343,19 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		final SortedSet<Set<E>> sortedCombinations = new TreeSet<Set<E>>(new SizeComparator());
 		sortedCombinations.addAll(combinations);
 		for(final Set<E> cutEdges : sortedCombinations)
-			if (this.isCut(cutEdges, begin, end))
+			if( this.isCut(cutEdges, begin, end) )
 				return cutEdges.size();
 		return this.edges.size();
 	}
 
 	public boolean isComplete()
 	{
-		if (!this.isSimple())
+		if( !this.isSimple() )
 			return false;
 		for(final N startNode : this.getNodes())
 			for(final N endNode : this.getNodes())
-				if (!startNode.equals(endNode))
-					if (!this.getAdjacentNodes(startNode).contains(endNode))
+				if( !startNode.equals(endNode) )
+					if( !this.getAdjacentNodes(startNode).contains(endNode) )
 						return false;
 		return true;
 	}
@@ -414,22 +424,22 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		final Set<N> nodes = this.getNodes();
 		final Set<N> subnodes = subgraph.getNodes();
 		for(final N subnode : subnodes)
-			if (!nodes.contains(subnode))
+			if( !nodes.contains(subnode) )
 				return false;
 		final Set<E> subedges = subgraph.getEdges();
 		for(final E subedge : subedges)
-			if (!this.edges.contains(subedge))
+			if( !this.edges.contains(subedge) )
 				return false;
 		return true;
 	}
 
 	public int getMinimumDegree()
 	{
-		if (this.getNodes().isEmpty())
+		if( this.getNodes().isEmpty() )
 			throw new IllegalStateException("This graph has no nodes!");
 		int minimumDegree = Integer.MAX_VALUE;
 		for(final N node : this.getNodes())
-			if (this.getDegree(node) < minimumDegree)
+			if( this.getDegree(node) < minimumDegree )
 				minimumDegree = this.getDegree(node);
 		return minimumDegree;
 	}
@@ -439,12 +449,12 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		for(final N currentNode : this.getNodes())
 		{
 			final List<N> neighbors = new ArrayList<N>(this.getAdjacentNodes(currentNode));
-			while (neighbors.remove(currentNode))
+			while( neighbors.remove(currentNode) )
 			{
 				//do nothing, just remove all instances of the currentNode
 			}
 			final Set<N> uniqueNeighbors = new HashSet<N>(neighbors);
-			if (neighbors.size() > uniqueNeighbors.size())
+			if( neighbors.size() > uniqueNeighbors.size() )
 				return true;
 		}
 		return false;
@@ -459,25 +469,28 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 	{
 		final Set<N> uncheckedNodes = new HashSet<N>(this.getNodes());
 		final Set<N> homomorphicNodes = homomorphicGraph.getNodes();
-		while (!uncheckedNodes.isEmpty())
+
+		while( !uncheckedNodes.isEmpty() )
 		{
 			final N currentNode = uncheckedNodes.iterator().next();
 			uncheckedNodes.remove(currentNode);
+
 			final List<N> neighborNodes = this.getAdjacentNodes(currentNode);
-			if (!neighborNodes.isEmpty())
-				if (!homomorphicNodes.contains(currentNode))
+			if( !neighborNodes.isEmpty() )
+				if( !homomorphicNodes.contains(currentNode) )
 					return false;
 			for(final N neighborNode : neighborNodes)
 			{
-				if (uncheckedNodes.contains(neighborNode))
+				if( uncheckedNodes.contains(neighborNode) )
 				{
-					if (!homomorphicNodes.contains(neighborNode))
+					if( !homomorphicNodes.contains(neighborNode) )
 						return false;
-					if (!homomorphicGraph.getAdjacentNodes(currentNode).contains(neighborNode))
+					if( !homomorphicGraph.getAdjacentNodes(currentNode).contains(neighborNode) )
 						return false;
 				}
 			}
 		}
+
 		return true;
 	}
 
@@ -487,7 +500,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		{
 			final List<N> neighbors = this.getAdjacentNodes(currentNode);
 			final Set<N> uniqueNeighbors = new HashSet<N>(neighbors);
-			if (neighbors.size() > uniqueNeighbors.size())
+			if( neighbors.size() > uniqueNeighbors.size() )
 				return false;
 		}
 		return true;
@@ -498,9 +511,9 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		int degree = -1;
 		for(final N node : this.getNodes())
 		{
-			if (degree == -1)
+			if( degree == -1 )
 				degree = this.getDegree(node);
-			else if (degree != this.getDegree(node))
+			else if( degree != this.getDegree(node) )
 				return false;
 		}
 		return true;
@@ -511,13 +524,15 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		int degree = -1;
 		for(final N node : this.getNodes())
 		{
-			if (degree == -1)
+			if( degree == -1 )
 				degree = this.getDegree(node);
-			else if (degree != this.getDegree(node))
+			else if( degree != this.getDegree(node) )
 				return -1;
 		}
-		if (degree == -1)
+
+		if( degree == -1 )
 			throw new IllegalStateException("This graph has no nodes!");
+
 		return degree;
 	}
 
@@ -527,7 +542,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		for(final E edge : this.edges)
 		{
 			final int edgeMultiplicity = this.getMultiplicity(edge);
-			if (edgeMultiplicity > multiplicity)
+			if( edgeMultiplicity > multiplicity )
 				multiplicity = edgeMultiplicity;
 		}
 		return multiplicity;
@@ -540,14 +555,14 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		final Set<E> potentialMultiples = this.getAdjacentEdges(edge.getNodes().get(0));
 		for(final E potentialMultiple : potentialMultiples)
 		{
-			if (potentialMultiple.equals(edge))
+			if( potentialMultiple.equals(edge) )
 				continue;
 			final List<N> potentialNodes = new ArrayList<N>(potentialMultiple.getNodes());
-			if (potentialNodes.size() != edgeNodes.size())
+			if( potentialNodes.size() != edgeNodes.size() )
 				continue;
 			for(final N edgeNode : edgeNodes)
 				potentialNodes.remove(edgeNode);
-			if (potentialNodes.isEmpty())
+			if( potentialNodes.isEmpty() )
 				multiplicity++;
 		}
 		return multiplicity;
@@ -559,14 +574,14 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		final Set<E> potentialMultiples = this.getAdjacentEdges(edge.getNodes().get(0));
 		for(final E potentialMultiple : potentialMultiples)
 		{
-			if (potentialMultiple.equals(edge))
+			if( potentialMultiple.equals(edge) )
 				continue;
 			final List<N> potentialNodes = new ArrayList<N>(potentialMultiple.getNodes());
-			if (potentialNodes.size() != edgeNodes.size())
+			if( potentialNodes.size() != edgeNodes.size() )
 				continue;
 			for(final N edgeNode : edgeNodes)
 				potentialNodes.remove(edgeNode);
-			if (potentialNodes.isEmpty())
+			if( potentialNodes.isEmpty() )
 				return true;
 		}
 		return false;
@@ -586,12 +601,13 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 
 	public AbstractAdjacencyGraph<N, E> cloneAdd(final E newEdge)
 	{
-		if (newEdge == null)
+		if( newEdge == null )
 			throw new IllegalArgumentException("newEdge can not be null");
-		if (!this.getNodes().containsAll(newEdge.getNodes()))
+		if( !this.getNodes().containsAll(newEdge.getNodes()) )
 			throw new IllegalArgumentException("newEdge has a node as an end point that is not part of the graph");
+
 		final Set<E> newEdges = new HashSet<E>(this.edges);
-		if (newEdges.add(newEdge))
+		if( newEdges.add(newEdge) )
 		{
 			final Map<N, Set<E>> newAdjacentEdges = new HashMap<N, Set<E>>();
 			for(final Entry<N, Set<E>> neighborEdgeEntry : this.adjacentEdges.entrySet())
@@ -599,20 +615,24 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 			final Map<N, List<N>> newAdjacentNodes = new HashMap<N, List<N>>();
 			for(final Entry<N, List<N>> neighborNodeEntry : this.adjacentNodes.entrySet())
 				newAdjacentNodes.put(neighborNodeEntry.getKey(), new ArrayList<N>(neighborNodeEntry.getValue()));
+
 			for(final N currentNode : newEdge.getNodes())
 			{
 				newAdjacentEdges.get(currentNode).add(newEdge);
+
 				final List<N> currentAdjacentNodes = new ArrayList<N>(newEdge.getNodes());
 				currentAdjacentNodes.remove(currentNode);
 				for(final N currentAdjacentNode : currentAdjacentNodes)
 					newAdjacentNodes.get(currentNode).add(currentAdjacentNode);
 			}
+
 			final AbstractAdjacencyGraph<N, E> copy = (AbstractAdjacencyGraph<N, E>) this.clone();
 			copy.edges = newEdges;
 			copy.adjacentEdges = newAdjacentEdges;
 			copy.adjacentNodes = newAdjacentNodes;
 			return copy;
 		}
+
 		return null;
 	}
 
@@ -653,7 +673,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		{
 			return (AbstractAdjacencyGraph<N, E>) super.clone();
 		}
-		catch (CloneNotSupportedException caught)
+		catch(CloneNotSupportedException caught)
 		{
 			LOGGER.error("Unexpectidly could not clone Graph.", caught);
 			throw new UnexpectedDannError("Unexpectidly could not clone graph", caught);
@@ -666,9 +686,9 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 
 		public int compare(final Collection first, final Collection second)
 		{
-			if (first.size() < second.size())
+			if( first.size() < second.size() )
 				return -1;
-			else if (first.size() > second.size())
+			else if( first.size() > second.size() )
 				return 1;
 			return 0;
 		}
@@ -676,9 +696,9 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		@Override
 		public boolean equals(final Object compareWith)
 		{
-			if (compareWith == null)
+			if( compareWith == null )
 				return false;
-			
+
 			return (compareWith instanceof SizeComparator);
 		}
 

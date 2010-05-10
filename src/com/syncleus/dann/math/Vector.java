@@ -45,7 +45,7 @@ public class Vector implements Serializable
 	 */
 	public Vector(final int dimensions)
 	{
-		if (dimensions <= 0)
+		if( dimensions <= 0 )
 			throw new IllegalArgumentException(DIMENSIONS_BELOW_ONE);
 		this.coordinates = new double[dimensions];
 	}
@@ -59,9 +59,9 @@ public class Vector implements Serializable
 	 */
 	public Vector(final double... coordinates)
 	{
-		if (coordinates == null)
+		if( coordinates == null )
 			throw new IllegalArgumentException("coordinates can not be null!");
-		if (coordinates.length <= 0)
+		if( coordinates.length <= 0 )
 			throw new IllegalArgumentException("coordinates must have atleast one member, 0 dimensions isnt valid!");
 		this.coordinates = coordinates.clone();
 	}
@@ -75,9 +75,9 @@ public class Vector implements Serializable
 	 */
 	public Vector(final List<Double> coordinates)
 	{
-		if (coordinates == null)
+		if( coordinates == null )
 			throw new IllegalArgumentException("coordinates can not be null!");
-		if (coordinates.size() <= 0)
+		if( coordinates.size() <= 0 )
 			throw new IllegalArgumentException("coordinates must have atleast one member, 0 dimensions isnt valid!");
 		this.coordinates = new double[coordinates.size()];
 		int coordinatesIndex = 0;
@@ -119,9 +119,9 @@ public class Vector implements Serializable
 	 */
 	public Vector setCoordinate(final double coordinate, final int dimension)
 	{
-		if (dimension <= 0)
+		if( dimension <= 0 )
 			throw new IllegalArgumentException(DIMENSIONS_BELOW_ONE);
-		if (dimension > this.coordinates.length)
+		if( dimension > this.coordinates.length )
 			throw new IllegalArgumentException("dimensions is larger than the dimensionality of this point");
 		final double[] coords = this.coordinates.clone();
 		coords[dimension - 1] = coordinate;
@@ -139,9 +139,9 @@ public class Vector implements Serializable
 	 */
 	public double getCoordinate(final int dimension)
 	{
-		if (dimension <= 0)
+		if( dimension <= 0 )
 			throw new IllegalArgumentException(DIMENSIONS_BELOW_ONE);
-		if (dimension > this.coordinates.length)
+		if( dimension > this.coordinates.length )
 			throw new IllegalArgumentException("dimensions is larger than the dimensionality of this point");
 		return this.coordinates[dimension - 1];
 	}
@@ -159,10 +159,13 @@ public class Vector implements Serializable
 	{
 		final Vector newVector = new Vector(this.coordinates);
 		final double[] newCoords = newVector.coordinates;
+
 		final double oldDistance = this.getDistance();
 		final double scalar = distance / oldDistance;
+
 		for(int newCoordsIndex = 0; newCoordsIndex < newCoords.length; newCoordsIndex++)
 			newCoords[newCoordsIndex] *= scalar;
+
 		return newVector;
 	}
 
@@ -180,10 +183,11 @@ public class Vector implements Serializable
 	 */
 	public Vector setAngularComponent(final double angle, final int dimension)
 	{
-		if (dimension <= 0)
+		if( dimension <= 0 )
 			throw new IllegalArgumentException(DIMENSIONS_BELOW_ONE);
-		if ((dimension - 1) > this.coordinates.length)
+		if( (dimension - 1) > this.coordinates.length )
 			throw new IllegalArgumentException("dimensions is larger than the dimensionality (minus 1) of this point");
+
 		final Vector newVector = new Vector(this);
 		final double[] newCoords = newVector.coordinates;
 		for(int cartesianDimension = 1; cartesianDimension <= this.getDimensions(); cartesianDimension++)
@@ -191,16 +195,16 @@ public class Vector implements Serializable
 			double sphericalProducts = this.getDistance();
 			for(int angleDimension = 1; angleDimension <= (cartesianDimension >= this.getDimensions() ? this.getDimensions() - 1 : cartesianDimension); angleDimension++)
 			{
-				if (angleDimension < cartesianDimension)
+				if( angleDimension < cartesianDimension )
 				{
-					if (angleDimension == dimension)
+					if( angleDimension == dimension )
 						sphericalProducts *= Math.sin(angle);
 					else
 						sphericalProducts *= Math.sin(this.getAngularComponent(angleDimension));
 				}
 				else
 				{
-					if (angleDimension == dimension)
+					if( angleDimension == dimension )
 						sphericalProducts *= Math.cos(angle);
 					else
 						sphericalProducts *= Math.cos(this.getAngularComponent(angleDimension));
@@ -208,6 +212,7 @@ public class Vector implements Serializable
 			}
 			newCoords[cartesianDimension - 1] = sphericalProducts;
 		}
+
 		return newVector;
 	}
 
@@ -221,7 +226,7 @@ public class Vector implements Serializable
 	 */
 	public double getDistance()
 	{
-		if (this.distanceCache == null)
+		if( this.distanceCache == null )
 		{
 			final double currentCoords[] = this.coordinates.clone();
 			double squaredSum = 0.0;
@@ -242,20 +247,23 @@ public class Vector implements Serializable
 	 */
 	public double getAngularComponent(final int dimension)
 	{
-		if (dimension <= 0)
+		if( dimension <= 0 )
 			throw new IllegalArgumentException(DIMENSIONS_BELOW_ONE);
-		if ((dimension - 1) > this.coordinates.length)
+		if( (dimension - 1) > this.coordinates.length )
 			throw new IllegalArgumentException("dimensions is larger than the dimensionality (minus 1) of this point");
+
 		final double currentCoords[] = this.coordinates.clone();
 		double squaredSum = 0.0;
 		for(int coordinateIndex = currentCoords.length - 1; coordinateIndex >= dimension; coordinateIndex--)
 			squaredSum += Math.pow(currentCoords[coordinateIndex], 2.0);
-		if (dimension == (this.getDimensions() - 1))
+
+		if( dimension == (this.getDimensions() - 1) )
 			return Math.atan2(Math.sqrt(squaredSum), currentCoords[dimension - 1]);
 		else
 		{
-			if (currentCoords[dimension - 1] == 0.0d)
+			if( currentCoords[dimension - 1] == 0.0d )
 				return Math.PI / 2.0d;
+
 			return Math.atan(Math.sqrt(squaredSum) / currentCoords[dimension - 1]);
 		}
 	}
@@ -277,14 +285,14 @@ public class Vector implements Serializable
 	{
 		double maximum = 0.0;
 		for(final double coordinate : this.coordinates)
-			if (maximum < coordinate)
+			if( maximum < coordinate )
 				maximum = coordinate;
 		return maximum;
 	}
 
 	public Vector normalize()
 	{
-		if (this.isOrigin())
+		if( this.isOrigin() )
 			throw new ArithmeticException("cant normalize a 0 vector");
 		final double norm = this.getNorm();
 		return this.multiply(1.0 / norm);
@@ -293,7 +301,7 @@ public class Vector implements Serializable
 	public boolean isOrigin()
 	{
 		for(final double coordinate : this.coordinates)
-			if (coordinate != 0.0)
+			if( coordinate != 0.0 )
 				return false;
 		return true;
 	}
@@ -307,15 +315,19 @@ public class Vector implements Serializable
 	 */
 	public Vector calculateRelativeTo(final Vector absolutePoint)
 	{
-		if (absolutePoint == null)
+		if( absolutePoint == null )
 			throw new IllegalArgumentException("absolutePoint can not be null!");
+
 		final double currentCoords[] = this.coordinates.clone();
 		final double absoluteCoords[] = absolutePoint.coordinates.clone();
-		if (absoluteCoords.length != currentCoords.length)
+
+		if( absoluteCoords.length != currentCoords.length )
 			throw new IllegalArgumentException("absolutePoint must have the same dimensions as this point");
+
 		final double[] relativeCoords = new double[currentCoords.length];
 		for(int coordIndex = 0; coordIndex < currentCoords.length; coordIndex++)
 			relativeCoords[coordIndex] = currentCoords[coordIndex] - absoluteCoords[coordIndex];
+
 		return new Vector(relativeCoords);
 	}
 
@@ -328,29 +340,39 @@ public class Vector implements Serializable
 	 */
 	public Vector add(final Vector pointToAdd)
 	{
-		if (pointToAdd == null)
+		if( pointToAdd == null )
 			throw new IllegalArgumentException("pointToAdd can not be null!");
+
 		final double currentCoords[] = this.coordinates.clone();
 		final double addCoords[] = pointToAdd.coordinates.clone();
-		if (addCoords.length != currentCoords.length)
+
+
+		if( addCoords.length != currentCoords.length )
 			throw new IllegalArgumentException("pointToAdd must have the same dimensions as this point");
+
 		final double[] relativeCoords = new double[currentCoords.length];
 		for(int coordIndex = 0; coordIndex < currentCoords.length; coordIndex++)
 			relativeCoords[coordIndex] = currentCoords[coordIndex] + addCoords[coordIndex];
+
 		return new Vector(relativeCoords);
 	}
 
 	public Vector subtract(final Vector pointToAdd)
 	{
-		if (pointToAdd == null)
+		if( pointToAdd == null )
 			throw new IllegalArgumentException("pointToAdd can not be null!");
+
 		final double currentCoords[] = this.coordinates.clone();
 		final double addCoords[] = pointToAdd.coordinates.clone();
-		if (addCoords.length != currentCoords.length)
+
+
+		if( addCoords.length != currentCoords.length )
 			throw new IllegalArgumentException("pointToAdd must have the same dimensions as this point");
+
 		final double[] relativeCoords = new double[currentCoords.length];
 		for(int coordIndex = 0; coordIndex < currentCoords.length; coordIndex++)
 			relativeCoords[coordIndex] = currentCoords[coordIndex] - addCoords[coordIndex];
+
 		return new Vector(relativeCoords);
 	}
 
@@ -371,8 +393,9 @@ public class Vector implements Serializable
 
 	public double dotProduct(final Vector operand)
 	{
-		if (this.coordinates.length != operand.coordinates.length)
+		if( this.coordinates.length != operand.coordinates.length )
 			throw new IllegalArgumentException("operand must have the same number of dimensions as this vector.");
+
 		double result = 0.0;
 		for(int coordIndex = 0; coordIndex < this.coordinates.length; coordIndex++)
 			result += this.coordinates[coordIndex] * operand.coordinates[coordIndex];
@@ -382,7 +405,7 @@ public class Vector implements Serializable
 	public boolean isNaN()
 	{
 		for(final double coordinate : this.coordinates)
-			if (Double.isNaN(coordinate))
+			if( Double.isNaN(coordinate) )
 				return true;
 		return false;
 	}
@@ -390,7 +413,7 @@ public class Vector implements Serializable
 	public boolean isInfinite()
 	{
 		for(final double coordinate : this.coordinates)
-			if (Double.isInfinite(coordinate))
+			if( Double.isInfinite(coordinate) )
 				return true;
 		return false;
 	}
@@ -405,12 +428,12 @@ public class Vector implements Serializable
 	public String toString()
 	{
 		final double currentCoords[] = this.coordinates.clone();
-		final StringBuilder stringValue = new StringBuilder(currentCoords.length*5 + 2);
+		final StringBuilder stringValue = new StringBuilder(currentCoords.length * 5 + 2);
 		stringValue.append('{');
 		for(int dimension = 0; dimension < currentCoords.length; dimension++)
 		{
 			stringValue.append(currentCoords[dimension]);
-			if (dimension < (currentCoords.length - 1))
+			if( dimension < (currentCoords.length - 1) )
 				stringValue.append(',');
 		}
 		stringValue.append('}');
@@ -425,7 +448,7 @@ public class Vector implements Serializable
 	 */
 	public String toStringHypersphere()
 	{
-		synchronized (this)
+		synchronized(this)
 		{
 			final StringBuilder retString = new StringBuilder(this.getDimensions() * 6);
 			retString.append(this.getDistance());
@@ -433,7 +456,7 @@ public class Vector implements Serializable
 			for(int angleDimension = 1; angleDimension < this.getDimensions(); angleDimension++)
 			{
 				retString.append(this.getAngularComponent(angleDimension));
-				if (angleDimension < (this.getDimensions() - 1))
+				if( angleDimension < (this.getDimensions() - 1) )
 					retString.append(',');
 			}
 			return retString.toString();
@@ -465,16 +488,21 @@ public class Vector implements Serializable
 	@Override
 	public boolean equals(final Object compareWithObject)
 	{
-		if (!(compareWithObject instanceof Vector))
+		if( !(compareWithObject instanceof Vector) )
 			return false;
+
 		final Vector compareWith = (Vector) compareWithObject;
+
 		final double currentCoords[] = this.coordinates;
 		final double otherCoords[] = compareWith.coordinates;
-		if (currentCoords.length != otherCoords.length)
+
+		if( currentCoords.length != otherCoords.length )
 			return false;
+
 		for(int dimension = 0; dimension <= currentCoords.length; dimension++)
-			if (currentCoords[dimension] != otherCoords[dimension])
+			if( currentCoords[dimension] != otherCoords[dimension] )
 				return false;
+
 		return true;
 	}
 }

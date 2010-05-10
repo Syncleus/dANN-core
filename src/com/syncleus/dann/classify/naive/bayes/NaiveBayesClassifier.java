@@ -18,7 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.classify.naive.bayes;
 
-import java.util.*;
 import com.syncleus.dann.classify.naive.NaiveClassifier;
 
 public interface NaiveBayesClassifier<I, F, C> extends NaiveClassifier<I, F, C>

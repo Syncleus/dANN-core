@@ -32,13 +32,14 @@ public final class Mutations
 	public static double mutabilityMutation(final double mutability)
 	{
 		final double mutabilityMutation = new MutableDouble(0.0).mutate(mutability).doubleValue();
-		if (mutabilityMutation > 0)
+		if( mutabilityMutation > 0 )
 			return mutability + mutabilityMutation;
 		else
 		{
 			double returnValue = mutability - (mutability * (1 - 1 / (Math.abs(mutabilityMutation) + 1)));
-			if (returnValue == 0.0)
+			if( returnValue == 0.0 )
 				returnValue = Double.MIN_VALUE;
+
 			return returnValue;
 		}
 	}

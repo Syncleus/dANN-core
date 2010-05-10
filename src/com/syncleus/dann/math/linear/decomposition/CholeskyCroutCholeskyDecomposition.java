@@ -16,6 +16,7 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
+
 /*
 ** Derived from Public-Domain source as indicated at
 ** http://math.nist.gov/javanumerics/jama/ as of 9/13/2009.
@@ -119,9 +120,9 @@ public class CholeskyCroutCholeskyDecomposition<M extends Matrix<M, F>, F extend
 	public M solve(final M matrixToSolve)
 	{
 		M solutionMatrix = matrixToSolve;
-		if (solutionMatrix.getHeight() != this.matrix.getHeight())
+		if( solutionMatrix.getHeight() != this.matrix.getHeight() )
 			throw new IllegalArgumentException("matrixToSolve row dimensions must agree.");
-		if (!this.isSpd)
+		if( !this.isSpd )
 			throw new ArithmeticException("this is not symmetric positive definite.");
 		// Solve L*Y = solutionMatrix;
 		for(int k = 0; k < this.matrix.getHeight(); k++)
@@ -131,6 +132,7 @@ public class CholeskyCroutCholeskyDecomposition<M extends Matrix<M, F>, F extend
 					solutionMatrix = solutionMatrix.set(k, j, solutionMatrix.get(k, j).subtract(solutionMatrix.get(i, j).multiply(this.matrix.get(k, i))));
 				solutionMatrix = solutionMatrix.set(k, j, solutionMatrix.get(k, j).divide(this.matrix.get(k, k)));
 			}
+
 		// Solve L'*X = Y;
 		for(int k = this.matrix.getHeight() - 1; k >= 0; k--)
 			for(int j = 0; j < solutionMatrix.getWidth(); j++)
@@ -139,6 +141,8 @@ public class CholeskyCroutCholeskyDecomposition<M extends Matrix<M, F>, F extend
 					solutionMatrix = solutionMatrix.set(k, j, solutionMatrix.get(k, j).subtract(solutionMatrix.get(i, j).multiply(this.matrix.get(i, k))));
 				solutionMatrix = solutionMatrix.set(k, j, solutionMatrix.get(k, j).divide(this.matrix.get(k, k)));
 			}
+
+
 		return solutionMatrix;
 	}
 }

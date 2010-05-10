@@ -18,7 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.classify.naive.bayes;
 
-import java.util.*;
 import com.syncleus.dann.classify.LanguageClassifier;
 
 public interface LanguageNaiveBayesClassifier<C> extends NaiveBayesClassifier<String, String, C>, LanguageClassifier<C>

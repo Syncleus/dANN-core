@@ -46,12 +46,12 @@ public class SimpleNaiveClassifier<I, F, C> implements TrainableNaiveClassifier<
 		{
 			final C currentCategory = this.featureClassification(feature);
 			Double newProbability = categoryProbabilities.get(currentCategory);
-			if (newProbability == null)
+			if( newProbability == null )
 				newProbability = 1.0;
 			else
 				newProbability++;
 			categoryProbabilities.put(currentCategory, newProbability);
-			if (newProbability >= topProbability)
+			if( newProbability >= topProbability )
 			{
 				topProbability = newProbability;
 				topCategory = currentCategory;
@@ -68,7 +68,7 @@ public class SimpleNaiveClassifier<I, F, C> implements TrainableNaiveClassifier<
 		{
 			final C currentCategory = this.featureClassification(feature);
 			Double newProbability = categoryProbabilities.get(currentCategory);
-			if (newProbability == null)
+			if( newProbability == null )
 				newProbability = 1.0;
 			else
 				newProbability++;
@@ -89,7 +89,7 @@ public class SimpleNaiveClassifier<I, F, C> implements TrainableNaiveClassifier<
 		for(final C category : this.getCategories())
 		{
 			final double currentProbability = this.featureClassificationProbability(feature, category);
-			if (topProbability < currentProbability)
+			if( topProbability < currentProbability )
 			{
 				topCategory = category;
 				topProbability = currentProbability;
@@ -105,7 +105,7 @@ public class SimpleNaiveClassifier<I, F, C> implements TrainableNaiveClassifier<
 		for(final C category : this.getCategories())
 		{
 			final double currentProbability = this.featureClassificationWeightedProbability(feature, category);
-			if (topProbability < currentProbability)
+			if( topProbability < currentProbability )
 			{
 				topCategory = category;
 				topProbability = currentProbability;
@@ -118,9 +118,10 @@ public class SimpleNaiveClassifier<I, F, C> implements TrainableNaiveClassifier<
 	{
 		final int overallProb = this.getOverallProbability(category);
 		int featureProb = 0;
-		if (this.featureTree.containsKey(feature))
+		if( this.featureTree.containsKey(feature) )
 			featureProb = this.featureTree.getFeature(feature).getCategoryProbability(category);
-		if (overallProb == 0)
+
+		if( overallProb == 0 )
 			return 0.0;
 		else
 			return ((double) featureProb) / ((double) overallProb);
@@ -130,8 +131,9 @@ public class SimpleNaiveClassifier<I, F, C> implements TrainableNaiveClassifier<
 	{
 		final double unweightedProb = this.featureClassificationProbability(feature, category);
 		double total = 0.0;
-		if (this.featureTree.containsKey(feature))
+		if( this.featureTree.containsKey(feature) )
 			total = this.featureTree.getFeature(feature).getProbabilitySum();
+
 		return ((total * unweightedProb) + 0.5) / (1.0 + total);
 	}
 

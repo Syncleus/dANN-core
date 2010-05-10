@@ -74,37 +74,42 @@ public class LayeredBrainHyperassociativeMap extends HyperassociativeMap<Feedfor
 	@Override
 	Map<Neuron, Double> getNeighbors(final Neuron nodeToQuery)
 	{
-		if (!(nodeToQuery instanceof BackpropNeuron))
+		if( !(nodeToQuery instanceof BackpropNeuron) )
 			throw new IllegalArgumentException("nodeToQuery must be BackpropNeuron");
 		final BackpropNeuron neuronToQuery = (BackpropNeuron) nodeToQuery;
-		if ((this.cached) && (this.neighbors.containsKey(neuronToQuery)))
+
+		if( (this.cached) && (this.neighbors.containsKey(neuronToQuery)) )
 			return this.neighbors.get(neuronToQuery);
+
 		//populate initial associations based off edges
 		final Map<Neuron, Double> associations = new HashMap<Neuron, Double>();
 		for(final Synapse neighborEdge : this.getGraph().getAdjacentEdges(nodeToQuery))
 		{
 			final Double currentWeight = (this.isUsingWeights() ? neighborEdge.getWeight() : this.getEquilibriumDistance());
 			for(final Neuron neighbor : neighborEdge.getNodes())
-				if (!neighbor.equals(nodeToQuery))
+				if( !neighbor.equals(nodeToQuery) )
 					associations.put(neighbor, currentWeight);
 		}
+
 		//add aditional associations per layer.
 		for(final Set<BackpropNeuron> layer : this.getGraph().getLayers())
 		{
-			if (layer.contains(neuronToQuery))
+			if( layer.contains(neuronToQuery) )
 			{
 				for(final BackpropNeuron layerNeuron : layer)
 				{
-					if ((neuronToQuery instanceof StaticNeuron) && (layerNeuron instanceof StaticNeuron))
+					if( (neuronToQuery instanceof StaticNeuron) && (layerNeuron instanceof StaticNeuron) )
 						associations.put(layerNeuron, this.getEquilibriumDistance());
-					else if ((!(neuronToQuery instanceof StaticNeuron)) && (!(layerNeuron instanceof StaticNeuron)))
+					else if( (!(neuronToQuery instanceof StaticNeuron)) && (!(layerNeuron instanceof StaticNeuron)) )
 						associations.put(layerNeuron, this.getEquilibriumDistance());
 				}
 			}
 		}
 		associations.remove(nodeToQuery);
-		if (this.cached)
+
+		if( this.cached )
 			this.neighbors.put(neuronToQuery, associations);
+
 		return associations;
 	}
 }

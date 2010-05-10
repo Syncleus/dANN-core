@@ -82,7 +82,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 		public void run()
 		{
 			final double currentDistance = this.neuronPoint.calculateRelativeTo(this.bestMatchPoint).getDistance();
-			if (currentDistance < this.neighborhoodRadius)
+			if( currentDistance < this.neighborhoodRadius )
 			{
 				final double neighborhoodAdjustment = neighborhoodFunction(currentDistance);
 				this.neuron.train(this.learningRate, neighborhoodAdjustment);
@@ -118,10 +118,12 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	protected AbstractSomBrain(final int inputCount, final int dimentionality, final ExecutorService executor)
 	{
 		super(executor);
-		if (inputCount <= 0)
+
+		if( inputCount <= 0 )
 			throw new IllegalArgumentException("input count must be greater than 0");
-		if (dimentionality <= 0)
+		if( dimentionality <= 0 )
 			throw new IllegalArgumentException("dimentionality must be greater than 0");
+
 		this.upperBounds = new Vector(dimentionality);
 		this.lowerBounds = new Vector(dimentionality);
 		final List<InputNeuron> newInputs = new ArrayList<InputNeuron>();
@@ -137,13 +139,14 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	private void updateBounds(final Vector position)
 	{
 		//make sure we have the proper dimentionality
-		if (position.getDimensions() != this.upperBounds.getDimensions())
+		if( position.getDimensions() != this.upperBounds.getDimensions() )
 			throw new IllegalArgumentException("Dimentionality mismatch");
+
 		for(int dimensionIndex = 1; dimensionIndex <= position.getDimensions(); dimensionIndex++)
 		{
-			if (this.upperBounds.getCoordinate(dimensionIndex) < position.getCoordinate(dimensionIndex))
+			if( this.upperBounds.getCoordinate(dimensionIndex) < position.getCoordinate(dimensionIndex) )
 				this.upperBounds = this.upperBounds.setCoordinate(position.getCoordinate(dimensionIndex), dimensionIndex);
-			if (this.lowerBounds.getCoordinate(dimensionIndex) > position.getCoordinate(dimensionIndex))
+			if( this.lowerBounds.getCoordinate(dimensionIndex) > position.getCoordinate(dimensionIndex) )
 				this.lowerBounds = this.lowerBounds.setCoordinate(position.getCoordinate(dimensionIndex), dimensionIndex);
 		}
 	}
@@ -158,14 +161,17 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	public void createOutput(final Vector position)
 	{
 		//make sure we have the proper dimentionality
-		if (position.getDimensions() != this.upperBounds.getDimensions())
+		if( position.getDimensions() != this.upperBounds.getDimensions() )
 			throw new IllegalArgumentException("Dimentionality mismatch");
+
 		//increase the upper bounds if needed
 		this.updateBounds(position);
+
 		//create and add the new output neuron
 		final SimpleSomNeuron outputNeuron = new SimpleSomNeuron(this);
 		this.outputs.put(position, outputNeuron);
 		this.add(outputNeuron);
+
 		//connect all inputs to the new neuron
 		for(final InputNeuron input : this.inputs)
 			this.connect(input, outputNeuron);
@@ -200,8 +206,9 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	public final double getOutput(final Vector position)
 	{
 		final SimpleSomNeuron outputNeuron = this.outputs.get(position);
-		if (outputNeuron == null)
+		if( outputNeuron == null )
 			throw new IllegalArgumentException("position does not exist");
+
 		outputNeuron.propagate();
 		return outputNeuron.getOutput();
 	}
@@ -229,11 +236,12 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	public final Vector getBestMatchingUnit(final boolean train)
 	{
 		//make sure we have atleast one output
-		if (this.outputs.size() <= 0)
+		if( this.outputs.size() <= 0 )
 			throw new IllegalStateException("Must have atleast one output");
+
 		Vector bestMatchingUnit = null;
 		double bestMatch = Double.POSITIVE_INFINITY;
-		if (this.getThreadExecutor() != null)
+		if( this.getThreadExecutor() != null )
 		{
 			//stick all the neurons in the queue to propogate
 			final Map<Vector, Future<Double>> futureOutput = new HashMap<Vector, Future<Double>>();
@@ -242,6 +250,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 				final PropagateOutput callable = new PropagateOutput(entry.getValue());
 				futureOutput.put(entry.getKey(), this.getThreadExecutor().submit(callable));
 			}
+
 			//find the best matching unit
 			for(final Entry<Vector, SimpleSomNeuron> entry : this.outputs.entrySet())
 			{
@@ -250,19 +259,20 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 				{
 					output = futureOutput.get(entry.getKey()).get();
 				}
-				catch (InterruptedException caught)
+				catch(InterruptedException caught)
 				{
 					LOGGER.warn("PropagateOutput was unexpectidy interupted", caught);
 					throw new UnexpectedInterruptedException("Unexpected interuption. Get should block indefinately", caught);
 				}
-				catch (ExecutionException caught)
+				catch(ExecutionException caught)
 				{
 					LOGGER.error("PropagateOutput was had an unexcepted problem executing.", caught);
 					throw new UnexpectedDannError("Unexpected execution exception. Get should block indefinately", caught);
 				}
-				if (bestMatchingUnit == null)
+
+				if( bestMatchingUnit == null )
 					bestMatchingUnit = entry.getKey();
-				else if (output < bestMatch)
+				else if( output < bestMatch )
 				{
 					bestMatchingUnit = entry.getKey();
 					bestMatch = output;
@@ -276,17 +286,20 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 				final SimpleSomNeuron neuron = entry.getValue();
 				neuron.propagate();
 				final double output = neuron.getOutput();
-				if (bestMatchingUnit == null)
+
+				if( bestMatchingUnit == null )
 					bestMatchingUnit = entry.getKey();
-				else if (output < bestMatch)
+				else if( output < bestMatch )
 				{
 					bestMatchingUnit = entry.getKey();
 					bestMatch = output;
 				}
 			}
 		}
-		if (train)
+
+		if( train )
 			this.train(bestMatchingUnit);
+
 		return bestMatchingUnit;
 	}
 
@@ -294,7 +307,8 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	{
 		final double neighborhoodRadius = this.neighborhoodRadiusFunction();
 		final double learningRate = this.learningRateFunction();
-		if (this.getThreadExecutor() != null)
+
+		if( this.getThreadExecutor() != null )
 		{
 			//add all the neuron trainingevents to the thread queue
 			final ArrayList<Future> futures = new ArrayList<Future>();
@@ -303,18 +317,19 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 				final TrainNeuron runnable = new TrainNeuron(entry.getValue(), entry.getKey(), bestMatchingUnit, neighborhoodRadius, learningRate);
 				futures.add(this.getThreadExecutor().submit(runnable));
 			}
+
 			//wait until all neurons are trained
 			try
 			{
 				for(final Future future : futures)
 					future.get();
 			}
-			catch (InterruptedException caught)
+			catch(InterruptedException caught)
 			{
 				LOGGER.warn("PropagateOutput was unexpectidy interupted", caught);
 				throw new UnexpectedInterruptedException("Unexpected interuption. Get should block indefinately", caught);
 			}
-			catch (ExecutionException caught)
+			catch(ExecutionException caught)
 			{
 				LOGGER.error("PropagateOutput had an unexpected problem executing.", caught);
 				throw new UnexpectedDannError("Unexpected execution exception. Get should block indefinately", caught);
@@ -328,6 +343,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 				runnable.run();
 			}
 		}
+
 		this.iterationsTrained++;
 	}
 
@@ -382,8 +398,9 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	 */
 	public final void setInput(final int inputIndex, final double inputValue)
 	{
-		if (inputIndex >= this.getInputCount())
+		if( inputIndex >= this.getInputCount() )
 			throw new IllegalArgumentException("inputIndex is out of bounds");
+
 		final InputNeuron currentInput = this.inputs.get(inputIndex);
 		currentInput.setInput(inputValue);
 		currentInput.propagate();
@@ -420,7 +437,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 			for(final Synapse source : this.getInEdges(currentNeuron))
 			{
 				assert (source.getSourceNode() instanceof InputNeuron);
-				final int sourceIndex = this.inputs.indexOf((InputNeuron)source.getSourceNode());
+				final int sourceIndex = this.inputs.indexOf((InputNeuron) source.getSourceNode());
 				weightVector[sourceIndex] = source.getWeight();
 			}
 			//add the current weight vector to the map

@@ -35,6 +35,7 @@ public class Cell
 	{
 		this.nucleus = new Nucleus();
 		this.localConcentrations = new HashSet<SignalKeyConcentration>();
+
 		final Set<SignalKey> localSignals = this.nucleus.getExpressedSignals(false);
 		for(final SignalKey localSignal : localSignals)
 		{

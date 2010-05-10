@@ -38,9 +38,11 @@ public class TestMutableFloat
 	public void testMax()
 	{
 		final MutableFloat highValue = new MutableFloat(Float.MAX_VALUE);
+
 		for(int testCount = 0; testCount < 1000; testCount++)
 		{
 			final MutableFloat mutated = highValue.mutate(100.0);
+
 			Assert.assertTrue("mutation caused number to roll over: " + mutated, (mutated.floatValue() != Float.POSITIVE_INFINITY) && (mutated.floatValue() != Float.NEGATIVE_INFINITY));
 		}
 	}
@@ -49,9 +51,11 @@ public class TestMutableFloat
 	public void testMin()
 	{
 		final MutableFloat lowValue = new MutableFloat(Float.MAX_VALUE * -1f);
+
 		for(int testCount = 0; testCount < 1000; testCount++)
 		{
 			final MutableFloat mutated = lowValue.mutate(100.0);
+
 			Assert.assertTrue("mutation caused number to roll over: " + mutated, (mutated.floatValue() != Float.POSITIVE_INFINITY) && (mutated.floatValue() != Float.NEGATIVE_INFINITY));
 		}
 	}

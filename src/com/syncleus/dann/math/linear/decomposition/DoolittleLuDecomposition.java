@@ -16,6 +16,7 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
+
 /*
 ** Derived from Public-Domain source as indicated at
 ** http://math.nist.gov/javanumerics/jama/ as of 9/13/2009.
@@ -70,18 +71,22 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 		this.matrix = matrixToDecompose;
 		final int height = matrixToDecompose.getHeight();
 		final int width = matrixToDecompose.getWidth();
+
 		this.pivot = new int[height];
 		for(int i = 0; i < height; i++)
 			this.pivot[i] = i;
 		this.pivotSign = 1;
+
 		final List<F> matrixColumn = new ArrayList<F>(height);
 		matrixColumn.addAll(Collections.nCopies(height, matrixToDecompose.getElementField().getZero()));
+
 		// Outer loop.
 		for(int j = 0; j < width; j++)
 		{
 			// Make a copy of the j-th column to localize references.
 			for(int i = 0; i < height; i++)
 				matrixColumn.set(i, this.matrix.get(i, j));
+
 			// Apply previous transformations.
 			for(int i = 0; i < height; i++)
 			{
@@ -90,15 +95,17 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 				F s = matrixToDecompose.getElementField().getZero();
 				for(int k = 0; k < kmax; k++)
 					s = s.add(this.matrix.get(i, k).multiply(matrixColumn.get(k)));
+
 				matrixColumn.set(i, matrixColumn.get(i).subtract(s));
 				this.matrix = this.matrix.set(i, j, matrixColumn.get(i));
 			}
+
 			// Find pivot and exchange if necessary.
 			int p = j;
 			for(int i = j + 1; i < height; i++)
-				if (matrixColumn.get(i).abs().compareTo(matrixColumn.get(p).abs()) > 0)
+				if( matrixColumn.get(i).abs().compareTo(matrixColumn.get(p).abs()) > 0 )
 					p = i;
-			if (p != j)
+			if( p != j )
 			{
 				for(int k = 0; k < width; k++)
 				{
@@ -111,8 +118,9 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 				this.pivot[j] = k;
 				this.pivotSign = -this.pivotSign;
 			}
+
 			// Compute multipliers.
-			if ((j < height) && (!this.matrix.get(j, j).equals(this.matrix.getElementField().getZero())))
+			if( (j < height) && (!this.matrix.get(j, j).equals(this.matrix.getElementField().getZero())) )
 				for(int i = j + 1; i < height; i++)
 					this.matrix = this.matrix.set(i, j, this.matrix.get(i, j).divide(this.matrix.get(j, j)));
 		}
@@ -141,7 +149,7 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 	public boolean isNonsingular()
 	{
 		for(int j = 0; j < this.getWidth(); j++)
-			if (this.matrix.get(j, j).equals(this.matrix.getElementField().getZero()))
+			if( this.matrix.get(j, j).equals(this.matrix.getElementField().getZero()) )
 				return false;
 		return true;
 	}
@@ -156,9 +164,9 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 		M lowerTriangularFactor = this.matrix;
 		for(int i = 0; i < this.getHeight(); i++)
 			for(int j = 0; j < this.getWidth(); j++)
-				if (i == j)
+				if( i == j )
 					lowerTriangularFactor = lowerTriangularFactor.set(i, j, lowerTriangularFactor.getElementField().getOne());
-				else if (i <= j)
+				else if( i <= j )
 					lowerTriangularFactor = lowerTriangularFactor.set(i, j, lowerTriangularFactor.getElementField().getZero());
 		return lowerTriangularFactor;
 	}
@@ -173,7 +181,7 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 		M U = this.matrix;
 		for(int i = 0; i < this.getWidth(); i++)
 			for(int j = 0; j < this.getWidth(); j++)
-				if (i > j)
+				if( i > j )
 					U = U.set(i, j, U.getElementField().getZero());
 		return U;
 	}
@@ -198,12 +206,12 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 	 */
 	public F getDeterminant()
 	{
-		if (this.getHeight() != this.getWidth())
+		if( this.getHeight() != this.getWidth() )
 			throw new ArithmeticException("Matrix must be square.");
 		F determinant;
-		if (this.pivotSign > 0)
+		if( this.pivotSign > 0 )
 			determinant = this.matrix.getElementField().getOne();
-		else if (this.pivotSign < 0)
+		else if( this.pivotSign < 0 )
 			determinant = this.matrix.getElementField().getOne().negate();
 		else
 			determinant = this.matrix.getElementField().getZero();
@@ -224,9 +232,9 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 	 */
 	public M solve(final M solutionMatrix)
 	{
-		if (solutionMatrix.getHeight() != this.getHeight())
+		if( solutionMatrix.getHeight() != this.getHeight() )
 			throw new IllegalArgumentException("solutionMatrix row dimensions must agree.");
-		if (!this.isNonsingular())
+		if( !this.isNonsingular() )
 			throw new ArithmeticException("Matrix is singular.");
 		// Copy right hand side with pivoting
 		final int nx = solutionMatrix.getWidth();

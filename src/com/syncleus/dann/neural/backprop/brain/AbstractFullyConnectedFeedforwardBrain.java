@@ -67,6 +67,7 @@ public abstract class AbstractFullyConnectedFeedforwardBrain extends AbstractFee
 	{
 		//makse sure the parent has a chance to create the unconnected network.
 		super.initalizeNetwork(neuronsPerLayer);
+
 		//iterate through all layers (except the last) and connect it to the
 		//next layer
 		for(int layerIndex = 0; layerIndex < (this.getLayerCount() - 1); layerIndex++)
@@ -82,7 +83,7 @@ public abstract class AbstractFullyConnectedFeedforwardBrain extends AbstractFee
 		{
 			for(final BackpropNeuron destinationNeuron : this.getEditableLayers().get(layerIndex).getChildrenNeuronsRecursivly())
 			{
-				if (this.hasBias)
+				if( this.hasBias )
 				{
 					//create the bias neuron and add it
 					final BackpropNeuron biasNeuron = new BackpropStaticNeuron(this, 1.0);

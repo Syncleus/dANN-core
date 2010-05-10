@@ -18,10 +18,10 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.math.counting;
 
-import org.junit.*;
 import java.util.*;
 import com.syncleus.dann.math.counting.Counters;
 import org.apache.log4j.Logger;
+import org.junit.*;
 
 public class TestCounters
 {
@@ -45,6 +45,7 @@ public class TestCounters
 				combinationString.append(combinationChar);
 			LOGGER.info("Combination Generated: " + combinationString);
 		}
+
 		Assert.assertTrue("Wrong number of combinations: " + combinations.size(), combinations.size() == COMBINATION_COUNT);
 	}
 }

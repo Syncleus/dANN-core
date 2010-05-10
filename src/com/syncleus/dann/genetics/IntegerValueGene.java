@@ -109,6 +109,7 @@ public class IntegerValueGene extends AbstractValueGene<MutableInteger> implemen
 	{
 		final IntegerValueGene copy = this.clone();
 		copy.internalMutate(deviation);
+
 		return copy;
 	}
 }

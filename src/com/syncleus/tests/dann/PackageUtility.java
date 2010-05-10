@@ -23,20 +23,20 @@ public abstract class PackageUtility
 			assert (cld != null);
 			pkgPath = pkgName.replace('.', '/');
 			final URL resource = cld.getResource(pkgPath);
-			if (resource == null)
+			if( resource == null )
 				throw new ClassNotFoundException("No resource for " + pkgPath);
 			directory = new File(resource.getFile());
 		}
-		catch (NullPointerException x)
+		catch(NullPointerException x)
 		{
 			throw new ClassNotFoundException(pkgName + " (" + directory + ") does not appear to be a valid package");
 		}
-		if (directory.exists())
+		if( directory.exists() )
 		{
 			// Get the list of the files contained in the package
 			final String[] files = directory.list();
 			for(final String file : files)
-				if (file.endsWith(".class"))
+				if( file.endsWith(".class") )
 					// removes the .class extension
 					classes.add(Class.forName(pkgName + '.' + file.substring(0, file.length() - 6)));
 			final Class[] classesA = new Class[classes.size()];
@@ -53,12 +53,12 @@ public abstract class PackageUtility
 			{
 				return PackageUtility.getClasses(jarPath, pkgName);
 			}
-			catch (FileNotFoundException caughtException)
+			catch(FileNotFoundException caughtException)
 			{
 				LOGGER.error("Can not figure out the location of the jar: " + jarPath + ' ' + pkgName, caughtException);
 				throw new DannError("Can not figure out the location of the jar: " + jarPath + ' ' + pkgName, caughtException);
 			}
-			catch (IOException caughtException)
+			catch(IOException caughtException)
 			{
 				LOGGER.error("IO error when opening jar: " + jarPath + ' ' + pkgName, caughtException);
 				throw new DannError("IO error when opening jar: " + jarPath + ' ' + pkgName, caughtException);
@@ -69,27 +69,31 @@ public abstract class PackageUtility
 	public static Class[] getClasses(final String jarName, final String packageName) throws IOException
 	{
 		final ArrayList<Class> classes = new ArrayList<Class>();
+
 		final String cleanedPackageName = packageName.replaceAll("\\.", "/");
+
 		final JarInputStream jarFile = new JarInputStream(new FileInputStream(jarName));
 		JarEntry jarEntry;
-		while (true)
+
+		while( true )
 		{
 			jarEntry = jarFile.getNextJarEntry();
-			if (jarEntry == null)
+			if( jarEntry == null )
 				break;
-			if ((jarEntry.getName().startsWith(cleanedPackageName)) && (jarEntry.getName().endsWith(".class")))
+			if( (jarEntry.getName().startsWith(cleanedPackageName)) && (jarEntry.getName().endsWith(".class")) )
 			{
 				final String classFileName = jarEntry.getName().replaceAll("/", "\\.");
 				try
 				{
 					classes.add(Class.forName(classFileName.substring(0, classFileName.length() - 6)));
 				}
-				catch (ClassNotFoundException caughtException)
+				catch(ClassNotFoundException caughtException)
 				{
 					throw new FileNotFoundException("class not found, do you have the right jar file?");
 				}
 			}
 		}
+
 		final Class[] classesRet = new Class[classes.size()];
 		classes.toArray(classesRet);
 		return classesRet;

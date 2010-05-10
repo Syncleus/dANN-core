@@ -47,9 +47,9 @@ public class TestCooleyTukeyFastFourierTransformer
 		Entry<Double, ComplexNumber> maxEntry = null;
 		for(final Entry<Double, ComplexNumber> phasorEntry : transformed.getFrequencyPhasors().entrySet())
 		{
-			if (maxEntry == null)
+			if( maxEntry == null )
 				maxEntry = phasorEntry;
-			else if (maxEntry.getValue().absScalar() < phasorEntry.getValue().absScalar())
+			else if( maxEntry.getValue().absScalar() < phasorEntry.getValue().absScalar() )
 				maxEntry = phasorEntry;
 		}
 		return !(Math.abs(maxEntry.getKey() - frequency) > 2.0);
@@ -68,9 +68,9 @@ public class TestCooleyTukeyFastFourierTransformer
 		{
 			final double endBandFreq = (startBandFreq + bandSize);
 			final double currentBandPower = transformed.getBandRms(startBandFreq, (startBandFreq + bandSize));
-			if (maxBandPower < currentBandPower)
+			if( maxBandPower < currentBandPower )
 				maxBandPower = currentBandPower;
-			if ((startBandFreq <= frequency) && (frequency < endBandFreq))
+			if( (startBandFreq <= frequency) && (frequency < endBandFreq) )
 				expectedBandPower = currentBandPower;
 		}
 		return (Math.abs(expectedBandPower - maxBandPower) < 0.000000001);

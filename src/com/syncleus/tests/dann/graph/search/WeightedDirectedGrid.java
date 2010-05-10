@@ -18,8 +18,8 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.graph.search;
 
-import com.syncleus.dann.graph.*;
 import java.util.*;
+import com.syncleus.dann.graph.*;
 
 public class WeightedDirectedGrid extends AbstractBidirectedAdjacencyGraph<GridNode, WeightedDirectedEdge<GridNode>>
 {
@@ -51,7 +51,7 @@ public class WeightedDirectedGrid extends AbstractBidirectedAdjacencyGraph<GridN
 			for(int x = 0; x < this.nodes[0].length; x++)
 			{
 				//connect to the right
-				if (x < this.nodes[0].length - 1)
+				if( x < this.nodes[0].length - 1 )
 				{
 					SimpleWeightedDirectedEdge<GridNode> newEdge = new SimpleWeightedDirectedEdge<GridNode>(this.nodes[y][x], this.nodes[y][x + 1], this.nodes[y][x + 1].getWeight());
 					this.edges.add(newEdge);
@@ -67,7 +67,7 @@ public class WeightedDirectedGrid extends AbstractBidirectedAdjacencyGraph<GridN
 					this.outNeighborNodes.get(this.nodes[y][x + 1]).add(this.nodes[y][x]);
 				}
 				//connect to the bottom
-				if (y < nodes.length - 1)
+				if( y < nodes.length - 1 )
 				{
 					SimpleWeightedDirectedEdge<GridNode> newEdge = new SimpleWeightedDirectedEdge<GridNode>(this.nodes[y][x], this.nodes[y + 1][x], this.nodes[y + 1][x].getWeight());
 					this.edges.add(newEdge);
@@ -87,7 +87,7 @@ public class WeightedDirectedGrid extends AbstractBidirectedAdjacencyGraph<GridN
 
 	public GridNode getNode(final int x, final int y)
 	{
-		if ((x >= this.nodes[0].length) || (y >= nodes.length))
+		if( (x >= this.nodes[0].length) || (y >= nodes.length) )
 			throw new IllegalArgumentException("coordinates are out of bounds");
 		return this.nodes[y][x];
 	}

@@ -109,6 +109,7 @@ public class FloatValueGene extends AbstractValueGene<MutableFloat> implements C
 	{
 		final FloatValueGene copy = this.clone();
 		copy.internalMutate(deviation);
+
 		return copy;
 	}
 }

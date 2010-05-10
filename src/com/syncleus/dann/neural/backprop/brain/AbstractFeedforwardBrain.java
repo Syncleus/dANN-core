@@ -88,9 +88,11 @@ public abstract class AbstractFeedforwardBrain extends AbstractLocalBrain implem
 
 	protected void initalizeNetwork(final int neuronsPerLayer[])
 	{
-		if (neuronsPerLayer.length < 2)
+		if( neuronsPerLayer.length < 2 )
 			throw new IllegalArgumentException("neuronsPerLayer must have atleast 2 elements");
+
 		this.layerCount = neuronsPerLayer.length;
+
 		//create each layer
 		int currentLayerCount = 0;
 		for(final int neuronCount : neuronsPerLayer)
@@ -99,12 +101,16 @@ public abstract class AbstractFeedforwardBrain extends AbstractLocalBrain implem
 			for(int neuronIndex = 0; neuronIndex < neuronCount; neuronIndex++)
 			{
 				final BackpropNeuron currentNeuron = this.createNeuron(currentLayerCount, neuronIndex);
+
 				currentGroup.add(currentNeuron);
 				this.add(currentNeuron);
 			}
+
 			this.neuronLayers.add(currentGroup);
+
 			currentLayerCount++;
 		}
+
 		this.initialized = true;
 	}
 
@@ -142,13 +148,13 @@ public abstract class AbstractFeedforwardBrain extends AbstractLocalBrain implem
 
 	public final void propagate()
 	{
-		if (!this.initialized)
+		if( !this.initialized )
 			throw new IllegalStateException("An implementation of AbstractFeedforwardBrain did not initialize network");
 		//step forward through all the layers, except the last (output)
 		for(final com.syncleus.dann.neural.NeuronGroup<com.syncleus.dann.neural.backprop.BackpropNeuron> layer : this.neuronLayers)
 		{
 			final java.util.Set<com.syncleus.dann.neural.backprop.BackpropNeuron> layerNeurons = layer.getChildrenNeuronsRecursivly();
-			if (this.getThreadExecutor() != null)
+			if( this.getThreadExecutor() != null )
 			{
 				//begin processing all neurons in one layer simultaniously
 				final java.util.ArrayList<java.util.concurrent.Future> futures = new java.util.ArrayList<java.util.concurrent.Future>();
@@ -160,12 +166,12 @@ public abstract class AbstractFeedforwardBrain extends AbstractLocalBrain implem
 					for(final java.util.concurrent.Future future : futures)
 						future.get();
 				}
-				catch (InterruptedException caught)
+				catch(InterruptedException caught)
 				{
 					LOGGER.warn("Propagate was unexpectidy interupted", caught);
 					throw new com.syncleus.dann.UnexpectedInterruptedException("Unexpected interuption. Get should block indefinately", caught);
 				}
-				catch (java.util.concurrent.ExecutionException caught)
+				catch(java.util.concurrent.ExecutionException caught)
 				{
 					LOGGER.error("Propagate had an unexcepted problem executing.", caught);
 					throw new com.syncleus.dann.UnexpectedDannError("Unexpected execution exception. Get should block indefinately", caught);
@@ -179,31 +185,34 @@ public abstract class AbstractFeedforwardBrain extends AbstractLocalBrain implem
 
 	public final void backPropagate()
 	{
-		if (!this.initialized)
+		if( !this.initialized )
 			throw new IllegalStateException("An implementation of AbstractFeedforwardBrain did not initialize network");
+
 		//step backwards through all the layers, except the first.
 		for(int layerIndex = (this.neuronLayers.size() - 1); layerIndex >= 0; layerIndex--)
 		{
 			final NeuronGroup<BackpropNeuron> layer = this.neuronLayers.get(layerIndex);
 			final Set<BackpropNeuron> layerNeurons = layer.getChildrenNeuronsRecursivly();
-			if (this.getThreadExecutor() != null)
+
+			if( this.getThreadExecutor() != null )
 			{
 				//begin processing all neurons in one layer simultaniously
 				final ArrayList<Future> futures = new ArrayList<Future>();
 				for(final BackpropNeuron neuron : layerNeurons)
 					futures.add(this.getThreadExecutor().submit(new BackPropagate(neuron)));
+
 				//wait until all neurons have backPropogated
 				try
 				{
 					for(final Future future : futures)
 						future.get();
 				}
-				catch (InterruptedException caught)
+				catch(InterruptedException caught)
 				{
 					LOGGER.warn("BackPropagate was unexpectidy interupted", caught);
 					throw new UnexpectedInterruptedException("Unexpected interuption. Get should block indefinately", caught);
 				}
-				catch (ExecutionException caught)
+				catch(ExecutionException caught)
 				{
 					LOGGER.error("BackPropagate had an unexcepted problem executing.", caught);
 					throw new UnexpectedDannError("Unexpected execution exception. Get should block indefinately", caught);

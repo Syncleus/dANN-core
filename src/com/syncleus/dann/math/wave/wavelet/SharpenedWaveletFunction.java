@@ -28,6 +28,7 @@ public class SharpenedWaveletFunction extends SharpenedWaveFunction
 	public SharpenedWaveletFunction(final double constantValue)
 	{
 		this();
+
 		this.constantMode = true;
 		this.constantValue = constantValue;
 	}
@@ -63,8 +64,9 @@ public class SharpenedWaveletFunction extends SharpenedWaveFunction
 
 	public final void setDistribution(final double distribution)
 	{
-		if (distribution == 0.0)
+		if( distribution == 0.0 )
 			throw new IllegalArgumentException("distribution can't be 0");
+
 		this.setParameter(this.getParameterNameIndex("distribution"), distribution);
 	}
 
@@ -80,10 +82,11 @@ public class SharpenedWaveletFunction extends SharpenedWaveFunction
 
 	public double calculate()
 	{
-		if (this.constantMode)
+		if( this.constantMode )
 		{
 			return this.constantValue;
 		}
+
 		return super.calculate() * this.calculateDistribution();
 	}
 

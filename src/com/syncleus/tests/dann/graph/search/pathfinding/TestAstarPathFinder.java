@@ -18,11 +18,11 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.graph.search.pathfinding;
 
-import com.syncleus.tests.dann.graph.search.*;
-import com.syncleus.dann.graph.*;
-import com.syncleus.dann.graph.search.pathfinding.*;
-import org.junit.*;
 import java.util.List;
+import com.syncleus.dann.graph.BidirectedEdge;
+import com.syncleus.dann.graph.search.pathfinding.*;
+import com.syncleus.tests.dann.graph.search.*;
+import org.junit.*;
 
 public class TestAstarPathFinder
 {
@@ -93,16 +93,19 @@ public class TestAstarPathFinder
 	{
 		int solutionIndex = 0;
 		GridNode lastNode = start;
-		if (!checkNode(lastNode, solution[solutionIndex]))
+		if( !checkNode(lastNode, solution[solutionIndex]) )
 			return false;
+
 		for(final BidirectedEdge<GridNode> edge : path)
 		{
 			solutionIndex++;
+
 			final GridNode currentNode = (edge.getLeftNode().equals(lastNode) ? edge.getRightNode() : edge.getLeftNode());
-			if (!checkNode(currentNode, solution[solutionIndex]))
+			if( !checkNode(currentNode, solution[solutionIndex]) )
 				return false;
 			lastNode = currentNode;
 		}
+
 		return true;
 	}
 
@@ -111,9 +114,12 @@ public class TestAstarPathFinder
 	{
 		final Grid hardGrid = new Grid(HARD_GRID);
 		final AstarPathFinder<GridNode, BidirectedEdge<GridNode>> pathFinder = new AstarPathFinder<GridNode, BidirectedEdge<GridNode>>(hardGrid, new DistanceHeuristic());
+
 		final GridNode startNode = hardGrid.getNode(HARD_GRID_START[0], HARD_GRID_START[1]);
 		final GridNode endNode = hardGrid.getNode(HARD_GRID_END[0], HARD_GRID_END[1]);
+
 		final List<BidirectedEdge<GridNode>> path = pathFinder.getBestPath(startNode, endNode);
+
 		Assert.assertTrue("incorrect path found!", checkSolution(startNode, path, HARD_GRID_SOLUTION));
 	}
 
@@ -122,9 +128,12 @@ public class TestAstarPathFinder
 	{
 		final Grid infinityGrid = new Grid(EASY_GRID);
 		final AstarPathFinder<GridNode, BidirectedEdge<GridNode>> pathFinder = new AstarPathFinder<GridNode, BidirectedEdge<GridNode>>(infinityGrid, new DistanceHeuristic());
+
 		final GridNode startNode = infinityGrid.getNode(EASY_GRID_START[0], EASY_GRID_START[1]);
 		final GridNode endNode = infinityGrid.getNode(EASY_GRID_END[0], EASY_GRID_END[1]);
+
 		final List<BidirectedEdge<GridNode>> path = pathFinder.getBestPath(startNode, endNode);
+
 		Assert.assertTrue("incorrect path found!", checkSolution(startNode, path, EASY_GRID_SOLUTION));
 	}
 }

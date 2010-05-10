@@ -91,14 +91,14 @@ public class MutableInteger extends MutableNumber<Integer> implements Comparable
 	{
 		final double doubleDistributed = MutableNumber.getDistributedRandom(deviation);
 		int distributedRand = (int) doubleDistributed;
-		if (doubleDistributed > Integer.MAX_VALUE)
+		if( doubleDistributed > Integer.MAX_VALUE )
 			distributedRand = Integer.MAX_VALUE;
-		else if (doubleDistributed < Integer.MIN_VALUE)
+		else if( doubleDistributed < Integer.MIN_VALUE )
 			distributedRand = Integer.MIN_VALUE;
 		final int result = this.getNumber() + distributedRand;
-		if ((distributedRand > 0) && (result < this.getNumber()))
+		if( (distributedRand > 0) && (result < this.getNumber()) )
 			return new MutableInteger(Integer.MAX_VALUE);
-		else if ((distributedRand < 0) && (result > this.getNumber()))
+		else if( (distributedRand < 0) && (result > this.getNumber()) )
 			return new MutableInteger(Integer.MIN_VALUE);
 		return new MutableInteger(result);
 	}

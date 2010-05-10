@@ -36,6 +36,7 @@ public class MathFunctionCanvas extends SurfacePlot
 	public MathFunctionCanvas(final Function function, final String xParameter, final String yParameter, final float xMin, final float xMax, final float yMin, final float yMax, final int resolution)
 	{
 		super();
+
 		this.function = function;
 		this.xIndex = this.function.getParameterNameIndex(xParameter);
 		this.yIndex = this.function.getParameterNameIndex(yParameter);
@@ -67,6 +68,7 @@ public class MathFunctionCanvas extends SurfacePlot
 		this.function = newFunction;
 		this.xIndex = this.function.getParameterNameIndex(xParameter);
 		this.yIndex = this.function.getParameterNameIndex(yParameter);
+
 		this.refresh();
 	}
 
@@ -113,9 +115,10 @@ public class MathFunctionCanvas extends SurfacePlot
 	@Override
 	public void setData(final Binned2DData data)
 	{
-		if (data instanceof MathFunctionDataBinder)
+		if( data instanceof MathFunctionDataBinder )
 		{
 			final MathFunctionDataBinder mathFunctionData = (MathFunctionDataBinder) data;
+
 			this.function = mathFunctionData.getFunction();
 			this.xIndex = mathFunctionData.getXIndex();
 			this.yIndex = mathFunctionData.getYIndex();
@@ -124,6 +127,7 @@ public class MathFunctionCanvas extends SurfacePlot
 			this.setYMin(mathFunctionData.yMin());
 			this.setYMax(mathFunctionData.yMax());
 			this.setResolution(mathFunctionData.getResolution());
+
 			this.refresh();
 		}
 		else

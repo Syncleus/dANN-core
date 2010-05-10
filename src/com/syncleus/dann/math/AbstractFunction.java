@@ -38,7 +38,7 @@ public abstract class AbstractFunction implements Cloneable, Function
 
 	protected AbstractFunction(final String[] parameterNames)
 	{
-		if (parameterNames.length <= 0)
+		if( parameterNames.length <= 0 )
 		{
 			this.indexNames = new Hashtable<String, Integer>();
 			this.parameters = null;
@@ -65,7 +65,7 @@ public abstract class AbstractFunction implements Cloneable, Function
 
 	public final void setParameter(final int parameterIndex, final double value)
 	{
-		if (parameterIndex >= parameters.length || parameterIndex < 0)
+		if( parameterIndex >= parameters.length || parameterIndex < 0 )
 			throw new IllegalArgumentException("parameterIndex of " + parameterIndex + " is out of range");
 		this.parameters[parameterIndex] = value;
 	}
@@ -77,7 +77,7 @@ public abstract class AbstractFunction implements Cloneable, Function
 
 	public final double getParameter(final int parameterIndex)
 	{
-		if (parameterIndex >= parameters.length || parameterIndex < 0)
+		if( parameterIndex >= parameters.length || parameterIndex < 0 )
 			throw new IllegalArgumentException("parameterIndex out of range");
 		return this.parameters[parameterIndex];
 	}
@@ -89,14 +89,14 @@ public abstract class AbstractFunction implements Cloneable, Function
 
 	public final String getParameterName(final int parameterIndex)
 	{
-		if (parameterIndex >= this.parameterNames.length || parameterIndex < 0)
+		if( parameterIndex >= this.parameterNames.length || parameterIndex < 0 )
 			throw new IllegalArgumentException("parameterIndex is not within range");
 		return this.parameterNames[parameterIndex];
 	}
 
 	public final int getParameterNameIndex(final String parameterName)
 	{
-		if (!this.indexNames.containsKey(parameterName))
+		if( !this.indexNames.containsKey(parameterName) )
 			throw new IllegalArgumentException("parameterName: " + parameterName + " does not exist");
 		return this.indexNames.get(parameterName);
 	}
@@ -116,7 +116,7 @@ public abstract class AbstractFunction implements Cloneable, Function
 			copy.parameters = this.parameters.clone();
 			return copy;
 		}
-		catch (CloneNotSupportedException caught)
+		catch(CloneNotSupportedException caught)
 		{
 			LOGGER.error("CloneNotSupportedException caught but not expected!", caught);
 			throw new UnexpectedDannError("CloneNotSupportedException caught but not expected", caught);

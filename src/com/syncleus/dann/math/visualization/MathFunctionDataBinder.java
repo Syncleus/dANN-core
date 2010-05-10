@@ -45,7 +45,7 @@ public final class MathFunctionDataBinder implements Binned2DData
 								  final float yMax,
 								  final int resolution)
 	{
-		if (resolution <= 0)
+		if( resolution <= 0 )
 			throw new IllegalArgumentException("resolution must be greater than 0");
 		this.function = function;
 		this.functionXIndex = this.function.getParameterNameIndex(functionXParam);
@@ -66,14 +66,14 @@ public final class MathFunctionDataBinder implements Binned2DData
 			{
 				this.setY(this.convertFromYIndex(yIndex));
 				final float currentZ = (float) this.calculateZ();
-				if (!Float.isNaN(currentZ))
+				if( !Float.isNaN(currentZ) )
 				{
-					if ((newZMax < currentZ) || (!zMaxSet))
+					if( (newZMax < currentZ) || (!zMaxSet) )
 					{
 						newZMax = currentZ;
 						zMaxSet = true;
 					}
-					if ((newZMin > currentZ) || (!zMinSet))
+					if( (newZMin > currentZ) || (!zMinSet) )
 					{
 						newZMin = currentZ;
 						zMinSet = true;
@@ -81,7 +81,7 @@ public final class MathFunctionDataBinder implements Binned2DData
 				}
 			}
 		}
-		if (newZMax == newZMin)
+		if( newZMax == newZMin )
 		{
 			newZMax += (float) 1.0;
 			newZMin -= (float) 1.0;
@@ -142,18 +142,22 @@ public final class MathFunctionDataBinder implements Binned2DData
 	{
 		final float xCoord = this.convertFromXIndex(xIndex);
 		final float yCoord = this.convertFromYIndex(yIndex);
+
 		this.setX(xCoord);
 		this.setY(yCoord);
 		final double zCoord = this.calculateZ();
-		if (zCoord > this.maxZ)
+
+
+		if( zCoord > this.maxZ )
 			return new Color3b(new Color(0.0f, 0.0f, 0.0f));
-		else if (zCoord < this.minZ)
+		else if( zCoord < this.minZ )
 			return new Color3b(new Color(0.0f, 0.0f, 0.0f));
 		else
 		{
 			final float redValue = (float) (zCoord - this.minZ) / (this.maxZ - this.minZ);
 			final float blueValue = 1.0f - redValue;
 			final float greenValue = 0.0f;
+
 			return new Color3b(new Color(redValue, greenValue, blueValue));
 		}
 	}
@@ -192,14 +196,17 @@ public final class MathFunctionDataBinder implements Binned2DData
 	{
 		final float xCoord = this.convertFromXIndex(xIndex);
 		final float yCoord = this.convertFromYIndex(yIndex);
+
 		this.setX(xCoord);
 		this.setY(yCoord);
 		final float zCoord = (float) this.calculateZ();
-		if (zCoord < this.minZ)
+
+
+		if( zCoord < this.minZ )
 			return this.minZ;
-		else if (zCoord > this.maxZ)
+		else if( zCoord > this.maxZ )
 			return this.maxZ;
-		else if (Float.isNaN(zCoord))
+		else if( Float.isNaN(zCoord) )
 			return 0.0f;
 		else
 			return zCoord;

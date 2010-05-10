@@ -28,7 +28,7 @@ public class JohnsonPathFinder<N, E extends WeightedDirectedEdge<N>> implements 
 
 	public JohnsonPathFinder(final BidirectedGraph<N, E> graph)
 	{
-		if (graph == null)
+		if( graph == null )
 			throw new IllegalArgumentException("graph can not be null");
 		this.graph = graph;
 	}
@@ -38,7 +38,7 @@ public class JohnsonPathFinder<N, E extends WeightedDirectedEdge<N>> implements 
 		final BidirectedGraph<N, WeightedDirectedEdge<N>> johnsonGraph = transformer.transform(this.graph);
 		final DijkstraPathFinder<N, WeightedDirectedEdge<N>> pathFinder = new DijkstraPathFinder<N, WeightedDirectedEdge<N>>(johnsonGraph);
 		final List<WeightedDirectedEdge<N>> pathWalk = pathFinder.getBestPath(begin, end);
-		if (pathWalk == null)
+		if( pathWalk == null )
 			return null;
 		return pathWalk;
 	}

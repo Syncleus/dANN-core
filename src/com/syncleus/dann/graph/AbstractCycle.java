@@ -32,7 +32,7 @@ public abstract class AbstractCycle<N, E extends Edge<N>> extends AbstractWalk<N
 
 	static <N, E extends Edge<? extends N>> boolean verifyUtility(final List<N> nodeSteps, final List<E> edgeSteps)
 	{
-		if (nodeSteps.size() < 2)
+		if( nodeSteps.size() < 2 )
 			throw new IllegalArgumentException("Wrong number of nodes or steps");
 		return nodeSteps.get(0).equals(nodeSteps.get(nodeSteps.size() - 1));
 	}

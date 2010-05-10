@@ -16,6 +16,7 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
+
 /*
  ** Derived from Public-Domain source as indicated at
  ** http://www.merriampark.com/comb.htm as of 4/20/2010.
@@ -34,12 +35,13 @@ public class CombinationCounter implements Counter
 
 	public CombinationCounter(final int setSize, final int combinationSize)
 	{
-		if (combinationSize > setSize)
+		if( combinationSize > setSize )
 			throw new IllegalArgumentException("combinationSize can not be larger than setSize");
-		if (setSize < 0)
+		if( setSize < 0 )
 			throw new IllegalArgumentException("setSize can not be negative");
-		if (combinationSize < 0)
+		if( combinationSize < 0 )
 			throw new IllegalArgumentException("combinationSize can not be negative");
+
 		this.setSize = setSize;
 		this.combinationSize = combinationSize;
 		this.currentCombination = new int[combinationSize];
@@ -85,13 +87,13 @@ public class CombinationCounter implements Counter
 	//--------------------------------------------------------
 	public int[] getNext()
 	{
-		if (remaining.equals(this.total))
+		if( remaining.equals(this.total) )
 		{
 			this.remaining = remaining.subtract(BigInteger.ONE);
 			return currentCombination.clone();
 		}
 		int i = this.combinationSize - 1;
-		while (this.currentCombination[i] == this.setSize - this.combinationSize + i)
+		while( this.currentCombination[i] == this.setSize - this.combinationSize + i )
 			i--;
 		this.currentCombination[i] = this.currentCombination[i] + 1;
 		for(int j = i + 1; j < this.combinationSize; j++)

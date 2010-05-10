@@ -65,7 +65,8 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>,
 	public GeneticAlgorithmChromosome(final int geneCount)
 	{
 		this();
-		while (this.alleles.size() < geneCount)
+
+		while( this.alleles.size() < geneCount )
 			this.alleles.add(new DoubleValueGene());
 	}
 
@@ -82,7 +83,8 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>,
 	public GeneticAlgorithmChromosome(final int geneCount, final double maxDeviation)
 	{
 		this();
-		while (this.alleles.size() < geneCount)
+
+		while( this.alleles.size() < geneCount )
 			this.alleles.add(new DoubleValueGene(((RANDOM.nextDouble() * 2d) - 1d) * maxDeviation));
 	}
 
@@ -109,10 +111,11 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>,
 	 */
 	public List<AbstractValueGene> crossover(final int point)
 	{
-		if (point <= 0)
+		if( point <= 0 )
 			throw new IllegalArgumentException("point must be positive");
-		if (point > this.alleles.size())
+		if( point > this.alleles.size() )
 			throw new IllegalArgumentException("point can not be larger than the number of alleles");
+
 		return Collections.unmodifiableList(this.alleles.subList(point, this.alleles.size()));
 	}
 
@@ -127,12 +130,14 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>,
 	 */
 	public void crossover(final List<AbstractValueGene> geneticSegment, final int point)
 	{
-		if (point <= 0)
+		if( point <= 0 )
 			throw new IllegalArgumentException("point must be positive");
-		if (point > this.alleles.size())
+		if( point > this.alleles.size() )
 			throw new IllegalArgumentException("point can not be larger than the number of alleles");
+
 		//remove allel replaced by crossover
 		this.alleles = new Vector<AbstractValueGene>(this.alleles.subList(0, point));
+
 		//add the genetic segment to the end
 		this.alleles.addAll(geneticSegment);
 	}
@@ -152,7 +157,7 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>,
 			copy.alleles = new Vector<AbstractValueGene>(this.alleles);
 			return copy;
 		}
-		catch (CloneNotSupportedException caught)
+		catch(CloneNotSupportedException caught)
 		{
 			LOGGER.error("CloneNotSupportedException caught but not expected!", caught);
 			throw new UnexpectedDannError("CloneNotSupportedException caught but not expected", caught);

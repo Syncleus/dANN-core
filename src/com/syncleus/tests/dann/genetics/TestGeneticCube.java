@@ -34,7 +34,7 @@ public class TestGeneticCube
 		public VolumeAreaCubeFitness(final GeneticAlgorithmChromosome chromosome)
 		{
 			super(chromosome);
-			if (chromosome.getGenes().size() < 3)
+			if( chromosome.getGenes().size() < 3 )
 				throw new IllegalArgumentException("Chromosome must have atleast 3 genes");
 		}
 
@@ -54,19 +54,19 @@ public class TestGeneticCube
 
 		public double getError()
 		{
-			if (!this.errorProcessed)
+			if( !this.errorProcessed )
 				this.process();
 			return this.error;
 		}
 
 		public int compareTo(final AbstractGeneticAlgorithmFitnessFunction baseCompareWith)
 		{
-			if (!(baseCompareWith instanceof VolumeAreaCubeFitness))
+			if( !(baseCompareWith instanceof VolumeAreaCubeFitness) )
 				throw new IllegalArgumentException("Can only compare with VolumeAreaCubeFitness");
 			final VolumeAreaCubeFitness compareWith = (VolumeAreaCubeFitness) baseCompareWith;
-			if (this.getError() < compareWith.getError())
+			if( this.getError() < compareWith.getError() )
 				return 1;
-			else if (this.getError() > compareWith.getError())
+			else if( this.getError() > compareWith.getError() )
 				return -1;
 			else
 				return 0;
@@ -91,17 +91,19 @@ public class TestGeneticCube
 	public void testVolumeArea()
 	{
 		final HashSet<GeneticAlgorithmChromosome> cubeChromosomes = new HashSet<GeneticAlgorithmChromosome>();
-		while (cubeChromosomes.size() < 100)
+		while( cubeChromosomes.size() < 100 )
 		{
 			cubeChromosomes.add(new GeneticAlgorithmChromosome(3, 10d));
 		}
+
 		final VolumeAreaCubePopulation population = new VolumeAreaCubePopulation(cubeChromosomes);
 		VolumeAreaCubeFitness fitness = new VolumeAreaCubeFitness(population.getWinner());
-		while ((population.getGenerations() < 10000) && (fitness.getError() > 0.5d))
+		while( (population.getGenerations() < 10000) && (fitness.getError() > 0.5d) )
 		{
 			population.nextGeneration();
 			fitness = new VolumeAreaCubeFitness(population.getWinner());
 		}
+
 		Assert.assertTrue("Volume/Area Cube failed (error was too great)" + fitness.getError(), fitness.getError() < 0.5d);
 	}
 }

@@ -18,8 +18,8 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.math;
 
-import com.syncleus.dann.math.Vector;
 import java.util.ArrayList;
+import com.syncleus.dann.math.Vector;
 import org.junit.*;
 
 public class TestHyperpoint
@@ -42,10 +42,13 @@ public class TestHyperpoint
 	{
 		final Vector pointA = new Vector(TEST_POINT_A);
 		final Vector pointB = new Vector(TEST_POINT_B);
+
 		double result = pointA.calculateRelativeTo(pointB).getDistance();
 		Assert.assertTrue("invalid distance (relative): " + result, Math.abs(result - TEST_DISTANCE_AB) < TEST_ACCEPTABLE_ERROR);
+
 		result = pointA.getDistance();
 		Assert.assertTrue("invalid distance dimension (A): " + result, Math.abs(result - TEST_DISTANCE_A) < TEST_ACCEPTABLE_ERROR);
+
 		result = pointB.getDistance();
 		Assert.assertTrue("invalid distance dimension (B): " + result, Math.abs(result - TEST_DISTANCE_B) < TEST_ACCEPTABLE_ERROR);
 	}
@@ -55,23 +58,32 @@ public class TestHyperpoint
 	{
 		Vector pointA = new Vector(TEST_POINT_A);
 		final Vector pointB = new Vector(TEST_POINT_B);
+
 		double result = pointA.calculateRelativeTo(pointB).getAngularComponent(1);
 		Assert.assertTrue("angle(relative 1): " + result, Math.abs(result - TEST_RELATIVE_AB_ANGLE_1) < TEST_ACCEPTABLE_ERROR);
+
 		result = pointA.calculateRelativeTo(pointB).getAngularComponent(2);
 		Assert.assertTrue("angle(relative 2): " + result, Math.abs(result - TEST_RELATIVE_AB_ANGLE_2) < TEST_ACCEPTABLE_ERROR);
+
 		result = pointA.getAngularComponent(1);
 		Assert.assertTrue("angle(A 1): " + result, Math.abs(result - TEST_A_ANGLE_1) < TEST_ACCEPTABLE_ERROR);
+
 		result = pointA.getAngularComponent(2);
 		Assert.assertTrue("angle(A 2): " + result, Math.abs(result - TEST_A_ANGLE_2) < TEST_ACCEPTABLE_ERROR);
+
 		result = pointB.getAngularComponent(1);
 		Assert.assertTrue("angle(B 1): " + result, Math.abs(result - TEST_B_ANGLE_1) < TEST_ACCEPTABLE_ERROR);
+
 		result = pointB.getAngularComponent(2);
 		Assert.assertTrue("angle(B 2): " + result, Math.abs(result - TEST_B_ANGLE_2) < TEST_ACCEPTABLE_ERROR);
+
 		final double distance = pointA.getDistance();
 		pointA.setAngularComponent(1.2345, 1);
 		pointA.setAngularComponent(0.5432, 2);
 		Assert.assertTrue("distance drifted after setting angle", Math.abs(pointA.getDistance() - distance) < TEST_ACCEPTABLE_ERROR);
+
 		pointA = new Vector(new double[]{1.0, 1.0});
+
 		result = pointA.getAngularComponent(1);
 		Assert.assertTrue("angle(45 degree): " + result, Math.abs(result - 0.7853981633974483d) < TEST_ACCEPTABLE_ERROR);
 	}
@@ -81,8 +93,10 @@ public class TestHyperpoint
 	{
 		final Vector pointA = new Vector(TEST_POINT_A);
 		final Vector pointB = new Vector(TEST_POINT_B);
+
 		double result = pointA.add(pointB).getAngularComponent(1);
 		Assert.assertTrue("add(1): " + result, Math.abs(result - 0.9553166181245093d) < TEST_ACCEPTABLE_ERROR);
+
 		result = pointA.add(pointB).getAngularComponent(2);
 		Assert.assertTrue("add(2): " + result, Math.abs(result - 0.7853981633974483d) < TEST_ACCEPTABLE_ERROR);
 	}
@@ -112,6 +126,7 @@ public class TestHyperpoint
 		Assert.assertTrue("distance didnt set properly", Math.abs(testPoint.getDistance() - 5.0d) < TEST_ACCEPTABLE_ERROR);
 		Assert.assertTrue("angle drifted after setting distance", Math.abs(testPoint.getAngularComponent(1) - angle1) < TEST_ACCEPTABLE_ERROR);
 		Assert.assertTrue("angle drifted after setting distance", Math.abs(testPoint.getAngularComponent(2) - angle2) < TEST_ACCEPTABLE_ERROR);
+
 		testPoint = testPoint.setCoordinate(15.0d, 1);
 		testPoint = testPoint.setCoordinate(14.0d, 2);
 		testPoint = testPoint.setCoordinate(13.0d, 3);
@@ -122,11 +137,13 @@ public class TestHyperpoint
 		Assert.assertTrue("distance didnt set properly -> 5.0:" + testPoint.getDistance(), Math.abs(testPoint.getDistance() - 5.0d) < TEST_ACCEPTABLE_ERROR);
 		Assert.assertTrue("angle drifted after setting distance -> " + angle1 + ':' + testPoint.getAngularComponent(1), Math.abs(testPoint.getAngularComponent(1) - angle1) < TEST_ACCEPTABLE_ERROR);
 		Assert.assertTrue("angle drifted after setting distance -> " + angle2 + ':' + testPoint.getAngularComponent(2), Math.abs(testPoint.getAngularComponent(2) - angle2) < TEST_ACCEPTABLE_ERROR);
+
 		testPoint = new Vector(2);
 		testPoint = testPoint.setCoordinate(1.0d, 1);
 		testPoint = testPoint.setCoordinate(1.0d, 2);
 		testPoint = testPoint.setAngularComponent(Math.PI / 8.0d, 1);
 		Assert.assertTrue("angular component didnt set properly", Math.abs(testPoint.getAngularComponent(1) - Math.PI / 8.0d) < TEST_ACCEPTABLE_ERROR);
+
 		testPoint = new Vector(4);
 		testPoint = testPoint.setCoordinate(1.0d, 1);
 		testPoint = testPoint.setCoordinate(1.0d, 2);
@@ -134,12 +151,14 @@ public class TestHyperpoint
 		testPoint = testPoint.setCoordinate(1.0d, 4);
 		testPoint = testPoint.setAngularComponent(Math.PI / 8.0d, 1);
 		Assert.assertTrue("angular component didnt set properly", Math.abs(testPoint.getAngularComponent(1) - Math.PI / 8.0d) < TEST_ACCEPTABLE_ERROR);
+
 		testPoint = testPoint.setCoordinate(1.0d, 1);
 		testPoint = testPoint.setCoordinate(1.0d, 2);
 		testPoint = testPoint.setCoordinate(1.0d, 3);
 		testPoint = testPoint.setCoordinate(1.0d, 4);
 		testPoint = testPoint.setAngularComponent(Math.PI / 8.0d, 2);
 		Assert.assertTrue("angular component didnt set properly", Math.abs(testPoint.getAngularComponent(2) - Math.PI / 8.0d) < TEST_ACCEPTABLE_ERROR);
+
 		testPoint = testPoint.setCoordinate(1.0d, 1);
 		testPoint = testPoint.setCoordinate(1.0d, 2);
 		testPoint = testPoint.setCoordinate(1.0d, 3);
@@ -156,6 +175,7 @@ public class TestHyperpoint
 		points.add(2.0d);
 		points.add(3.0d);
 		final Vector testPoint = new Vector(points);
+
 		Assert.assertTrue(testPoint.toString() + " != {1.0,2.0,3.0}", testPoint.toString().compareToIgnoreCase("{1.0,2.0,3.0}") == 0);
 	}
 }

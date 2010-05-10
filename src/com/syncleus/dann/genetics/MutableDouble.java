@@ -91,9 +91,9 @@ public class MutableDouble extends MutableNumber<Double> implements Comparable<M
 	{
 		final double distributedRand = MutableNumber.getDistributedRandom(deviation);
 		double result = this.getNumber() + distributedRand;
-		if (Double.isInfinite(result))
+		if( Double.isInfinite(result) )
 		{
-			if (result > 0)
+			if( result > 0 )
 				result = Double.MAX_VALUE;
 			else
 				result = Double.MAX_VALUE * -1.0;

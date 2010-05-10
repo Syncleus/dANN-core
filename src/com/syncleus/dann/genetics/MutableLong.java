@@ -91,14 +91,14 @@ public class MutableLong extends MutableNumber<Long> implements Comparable<Mutab
 	{
 		final double doubleDistributed = MutableNumber.getDistributedRandom(deviation);
 		long distributedRand = (long) doubleDistributed;
-		if (doubleDistributed > Long.MAX_VALUE)
+		if( doubleDistributed > Long.MAX_VALUE )
 			distributedRand = Long.MAX_VALUE;
-		else if (doubleDistributed < Long.MIN_VALUE)
+		else if( doubleDistributed < Long.MIN_VALUE )
 			distributedRand = Long.MIN_VALUE;
 		final long result = this.getNumber() + distributedRand;
-		if ((distributedRand > 0) && (result < this.getNumber()))
+		if( (distributedRand > 0) && (result < this.getNumber()) )
 			return new MutableLong(Long.MAX_VALUE);
-		else if ((distributedRand < 0) && (result > this.getNumber()))
+		else if( (distributedRand < 0) && (result > this.getNumber()) )
 			return new MutableLong(Long.MIN_VALUE);
 		return new MutableLong(result);
 	}

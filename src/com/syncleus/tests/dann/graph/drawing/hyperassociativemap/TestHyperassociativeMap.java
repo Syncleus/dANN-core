@@ -55,11 +55,15 @@ public class TestHyperassociativeMap
 	public void testRefresh() throws InvalidConnectionTypeDannException
 	{
 		final TestBrain testBrain = new TestBrain();
+
 		final SimpleBackpropNeuron neuron1 = new SimpleBackpropNeuron(testBrain);
 		final SimpleBackpropNeuron neuron2 = new SimpleBackpropNeuron(testBrain);
+
 		testBrain.add(neuron1);
 		testBrain.add(neuron2);
+
 		testBrain.connect(neuron1, neuron2);
+
 		final TestMap testMap;
 		final int cores = Runtime.getRuntime().availableProcessors();
 		final ThreadPoolExecutor executer = new ThreadPoolExecutor(cores + 1, cores * 2, 20, TimeUnit.SECONDS, new LinkedBlockingQueue());
@@ -67,8 +71,10 @@ public class TestHyperassociativeMap
 		{
 			testMap = new TestMap(testBrain, 3, executer);
 			testMap.align();
+
 			Assert.assertTrue("neuron1 is not in the map", testMap.getGraph().getNodes().contains(neuron1));
 			Assert.assertTrue("neuron2 is not in the map", testMap.getGraph().getNodes().contains(neuron2));
+
 			Assert.assertTrue("neuron1 is not associated to neuron2", testMap.getGraph().getAdjacentNodes(neuron1).contains(neuron2));
 			Assert.assertTrue("neuron2 is not associated to neuron1", testMap.getGraph().getAdjacentNodes(neuron2).contains(neuron1));
 		}

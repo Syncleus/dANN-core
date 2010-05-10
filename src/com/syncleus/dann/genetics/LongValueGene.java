@@ -109,6 +109,7 @@ public class LongValueGene extends AbstractValueGene<MutableLong> implements Clo
 	{
 		final LongValueGene copy = this.clone();
 		copy.internalMutate(deviation);
+
 		return copy;
 	}
 }

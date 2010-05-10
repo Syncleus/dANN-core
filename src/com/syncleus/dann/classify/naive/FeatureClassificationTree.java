@@ -27,7 +27,7 @@ public class FeatureClassificationTree<F, C> extends HashMap<F, ClassificationPr
 	public ClassificationProbabilities<C> getFeature(final F feature)
 	{
 		ClassificationProbabilities<C> classification = super.get(feature);
-		if (classification == null)
+		if( classification == null )
 		{
 			classification = new ClassificationProbabilities<C>();
 			this.put(feature, classification);

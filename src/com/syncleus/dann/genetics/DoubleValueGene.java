@@ -109,6 +109,7 @@ public class DoubleValueGene extends AbstractValueGene<MutableDouble> implements
 	{
 		final DoubleValueGene copy = this.clone();
 		copy.internalMutate(deviation);
+
 		return copy;
 	}
 }

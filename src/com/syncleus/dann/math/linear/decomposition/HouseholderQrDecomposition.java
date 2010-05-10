@@ -16,6 +16,7 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
+
 /*
  * Derived from Public-Domain source as indicated at
  * http://math.nist.gov/javanumerics/jama/ as of 9/13/2009.
@@ -63,6 +64,7 @@ public class HouseholderQrDecomposition<M extends Matrix<M, F>, F extends Ordere
 		this.matrix = matrixToDecompose;
 		this.rDiagonal = new ArrayList<F>(this.getWidth());
 		this.rDiagonal.addAll(Collections.nCopies(this.getWidth(), this.matrix.getElementField().getZero()));
+
 		// Main loop.
 		for(int k = 0; k < this.getWidth(); k++)
 		{
@@ -70,14 +72,16 @@ public class HouseholderQrDecomposition<M extends Matrix<M, F>, F extends Ordere
 			F nrm = this.matrix.getElementField().getZero();
 			for(int i = k; i < this.getHeight(); i++)
 				nrm = nrm.hypot(this.matrix.get(i, k));
-			if (!nrm.equals(this.matrix.getElementField().getZero()))
+
+			if( !nrm.equals(this.matrix.getElementField().getZero()) )
 			{
 				// Form k-th Householder vector.
-				if (this.matrix.get(k, k).compareTo(this.matrix.getElementField().getZero()) < 0)
+				if( this.matrix.get(k, k).compareTo(this.matrix.getElementField().getZero()) < 0 )
 					nrm = nrm.negate();
 				for(int i = k; i < this.getHeight(); i++)
 					this.matrix = this.matrix.set(i, k, this.matrix.get(i, k).divide(nrm));
 				this.matrix = this.matrix.set(k, k, this.matrix.get(k, k).add(this.matrix.getElementField().getOne()));
+
 				// Apply transformation to remaining columns.
 				for(int j = k + 1; j < this.getWidth(); j++)
 				{
@@ -116,7 +120,7 @@ public class HouseholderQrDecomposition<M extends Matrix<M, F>, F extends Ordere
 	public boolean isFullRank()
 	{
 		for(int j = 0; j < this.getWidth(); j++)
-			if (this.rDiagonal.get(j).equals(this.matrix.getElementField().getZero()))
+			if( this.rDiagonal.get(j).equals(this.matrix.getElementField().getZero()) )
 				return false;
 		return true;
 	}
@@ -131,7 +135,7 @@ public class HouseholderQrDecomposition<M extends Matrix<M, F>, F extends Ordere
 		M householderMatrix = this.matrix.blank();
 		for(int i = 0; i < this.getHeight(); i++)
 			for(int j = 0; j < this.getWidth(); j++)
-				if (i >= j)
+				if( i >= j )
 					householderMatrix = householderMatrix.set(i, j, this.matrix.get(i, j));
 		return householderMatrix;
 	}
@@ -146,9 +150,9 @@ public class HouseholderQrDecomposition<M extends Matrix<M, F>, F extends Ordere
 		M factor = this.matrix.blank();
 		for(int i = 0; i < this.getWidth(); i++)
 			for(int j = 0; j < this.getWidth(); j++)
-				if (i < j)
+				if( i < j )
 					factor = factor.set(i, j, this.matrix.get(i, j));
-				else if (i == j)
+				else if( i == j )
 					factor = factor.set(i, j, this.rDiagonal.get(i));
 		return factor;
 	}
@@ -167,7 +171,7 @@ public class HouseholderQrDecomposition<M extends Matrix<M, F>, F extends Ordere
 				factor = factor.set(i, k, this.matrix.getElementField().getZero());
 			factor = factor.set(k, k, this.matrix.getElementField().getOne());
 			for(int j = k; j < this.getWidth(); j++)
-				if (!this.matrix.get(k, k).equals(this.matrix.getElementField().getOne()))
+				if( !this.matrix.get(k, k).equals(this.matrix.getElementField().getOne()) )
 				{
 					F s = this.matrix.getElementField().getZero();
 					for(int i = k; i < this.getHeight(); i++)
@@ -192,13 +196,15 @@ public class HouseholderQrDecomposition<M extends Matrix<M, F>, F extends Ordere
 	 */
 	public M solve(final M solutionMatrix)
 	{
-		if (solutionMatrix.getHeight() != this.getHeight())
+		if( solutionMatrix.getHeight() != this.getHeight() )
 			throw new IllegalArgumentException("solutionMatrix row dimensions must agree.");
-		if (!this.isFullRank())
+		if( !this.isFullRank() )
 			throw new ArithmeticException("Matrix is rank deficient.");
+
 		// Copy right hand side
 		final int nx = solutionMatrix.getWidth();
 		M solved = solutionMatrix;
+
 		// Compute Y = transpose(factor)*solutionMatrix
 		for(int k = 0; k < this.getWidth(); k++)
 			for(int j = 0; j < nx; j++)
@@ -219,6 +225,7 @@ public class HouseholderQrDecomposition<M extends Matrix<M, F>, F extends Ordere
 				for(int j = 0; j < nx; j++)
 					solved = solved.set(i, j, solved.get(i, j).subtract(solved.get(k, j).multiply(this.matrix.get(i, k))));
 		}
+
 		return solved.getSubmatrix(0, this.getWidth() - 1, 0, nx - 1);
 	}
 }

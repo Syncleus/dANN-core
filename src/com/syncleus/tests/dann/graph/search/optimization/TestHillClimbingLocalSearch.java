@@ -18,11 +18,9 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.graph.search.optimization;
 
-import com.syncleus.tests.dann.graph.search.Grid;
-import com.syncleus.tests.dann.graph.search.GridNode;
 import com.syncleus.dann.graph.search.optimization.HillClimbingLocalSearch;
-import org.junit.Assert;
-import org.junit.Test;
+import com.syncleus.tests.dann.graph.search.*;
+import org.junit.*;
 
 public class TestHillClimbingLocalSearch
 {
@@ -45,9 +43,12 @@ public class TestHillClimbingLocalSearch
 	{
 		final Grid easyHillGrid = new Grid(EASY_GRID);
 		final HillClimbingLocalSearch<Grid, GridNode> searcher = new HillClimbingLocalSearch<Grid, GridNode>(easyHillGrid);
+
 		final GridNode startNode = easyHillGrid.getNode(EASY_GRID_START[0], EASY_GRID_START[1]);
 		final GridNode expectedSolutionNode = easyHillGrid.getNode(EASY_GRID_SOLUTION[0], EASY_GRID_SOLUTION[1]);
+
 		final GridNode obtainedSolutionNode = searcher.search(startNode);
+
 		Assert.assertTrue("incorrect solution found!", obtainedSolutionNode.equals(expectedSolutionNode));
 	}
 }

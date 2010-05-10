@@ -112,7 +112,7 @@ public abstract class AbstractValueGene<N extends MutableNumber> implements Valu
 		{
 			return (AbstractValueGene) super.clone();
 		}
-		catch (CloneNotSupportedException caught)
+		catch(CloneNotSupportedException caught)
 		{
 			LOGGER.error("CloneNotSupportedException caught but not expected!", caught);
 			throw new UnexpectedDannError("CloneNotSupportedException caught but not expected", caught);

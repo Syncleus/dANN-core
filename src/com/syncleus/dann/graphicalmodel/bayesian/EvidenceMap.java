@@ -54,13 +54,13 @@ public class EvidenceMap<S> extends HashMap<Map<BayesianNode, Object>, StateEvid
 	{
 		this.verifyInfluencingStates(influence);
 		StateEvidence<S> stateEvidence = this.get(influence);
-		if (stateEvidence == null)
+		if( stateEvidence == null )
 		{
 			stateEvidence = new StateEvidence<S>();
 			this.put(influence, stateEvidence);
 		}
 		Integer evidence = stateEvidence.get(state);
-		if (evidence == null)
+		if( evidence == null )
 			evidence = 1;
 		else
 			evidence = evidence + 1;
@@ -70,20 +70,20 @@ public class EvidenceMap<S> extends HashMap<Map<BayesianNode, Object>, StateEvid
 
 	private void verifyInfluencingStates(final Map<BayesianNode, Object> influencingStates)
 	{
-		if (!influencingStates.keySet().equals(this.influencingNodes))
+		if( !influencingStates.keySet().equals(this.influencingNodes) )
 			throw new IllegalArgumentException("wrong number of influencing nodes");
 	}
 
 	@Override
 	public boolean containsKey(final Object keyObj)
 	{
-		if (keyObj instanceof Set)
+		if( keyObj instanceof Set )
 		{
 			final Set key = (Set) keyObj;
 			final Map<BayesianNode, Object> newKey = new HashMap<BayesianNode, Object>();
 			for(final Object nodeObj : key)
 			{
-				if (nodeObj instanceof BayesianNode)
+				if( nodeObj instanceof BayesianNode )
 				{
 					final BayesianNode node = (BayesianNode) nodeObj;
 					newKey.put(node, node.getState());
@@ -93,19 +93,21 @@ public class EvidenceMap<S> extends HashMap<Map<BayesianNode, Object>, StateEvid
 			}
 			return super.containsKey(newKey);
 		}
+
 		return super.containsKey(keyObj);
 	}
 
 	@Override
 	public StateEvidence<S> get(final Object keyObj)
 	{
-		if (keyObj instanceof Set)
+		if( keyObj instanceof Set )
 		{
 			final Set key = (Set) keyObj;
+
 			final Map<BayesianNode, Object> newKey = new HashMap<BayesianNode, Object>();
 			for(final Object nodeObj : key)
 			{
-				if (nodeObj instanceof BayesianNode)
+				if( nodeObj instanceof BayesianNode )
 				{
 					final BayesianNode node = (BayesianNode) nodeObj;
 					newKey.put(node, node.getState());
@@ -115,6 +117,7 @@ public class EvidenceMap<S> extends HashMap<Map<BayesianNode, Object>, StateEvid
 			}
 			return super.get(newKey);
 		}
+
 		return super.get(keyObj);
 	}
 
@@ -122,6 +125,7 @@ public class EvidenceMap<S> extends HashMap<Map<BayesianNode, Object>, StateEvid
 	public StateEvidence<S> put(final Map<BayesianNode, Object> key, final StateEvidence<S> value)
 	{
 		this.verifyInfluencingStates(key);
+
 		return super.put(key, value);
 	}
 

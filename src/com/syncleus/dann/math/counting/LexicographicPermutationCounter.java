@@ -39,24 +39,28 @@ public class LexicographicPermutationCounter implements Counter
 
 	public LexicographicPermutationCounter(final int setSize, final int permutationSize)
 	{
-		if (permutationSize > setSize)
+		if( permutationSize > setSize )
 			throw new IllegalArgumentException("permutationSize can not be larger than setSize");
-		if (permutationSize < 0)
+		if( permutationSize < 0 )
 			throw new IllegalArgumentException("permutation size must be larger than 0");
-		if (setSize < 0)
+		if( setSize < 0 )
 			throw new IllegalArgumentException("setSize must be greater than 0");
+
 		this.setSize = setSize;
 		this.permutationSize = permutationSize;
 		this.combinations = new CombinationCounter(setSize, permutationSize);
+
 		this.permutation = new int[permutationSize];
 		this.permutationsPerCombination = getFactorial(permutationSize);
 		this.total = (permutationSize == 0 || setSize == 0 ? BigInteger.ZERO : this.combinations.getTotal().multiply(this.permutationsPerCombination));
+
 		reset();
 	}
 
 	public void reset()
 	{
 		this.resetPermutations();
+
 		this.combinations.reset();
 		this.remaining = this.total;
 		this.combination = this.combinations.getNext();
@@ -103,20 +107,24 @@ public class LexicographicPermutationCounter implements Counter
 
 	public int[] getNext()
 	{
-		if (!this.hasMore())
+		if( !this.hasMore() )
 			return null;
-		if (this.combinationPermutationsRemaining.equals(BigInteger.ZERO))
+
+		if( this.combinationPermutationsRemaining.equals(BigInteger.ZERO) )
 		{
 			this.combination = this.combinations.getNext();
 			this.resetPermutations();
 		}
-		if (this.combinationPermutationsRemaining.equals(this.permutationsPerCombination))
+
+		if( this.combinationPermutationsRemaining.equals(this.permutationsPerCombination) )
 		{
 			this.remaining = remaining.subtract(BigInteger.ONE);
 			this.combinationPermutationsRemaining = combinationPermutationsRemaining.subtract(BigInteger.ONE);
 			return permutateCombination(this.combination, this.permutation);
 		}
+
 		assert next(this.permutation);
+
 		this.combinationPermutationsRemaining = this.combinationPermutationsRemaining.subtract(BigInteger.ONE);
 		this.remaining = this.remaining.subtract(BigInteger.ONE);
 		return permutateCombination(this.combination, this.permutation);
@@ -141,18 +149,22 @@ public class LexicographicPermutationCounter implements Counter
 
 	private static boolean next(final int[] permutation)
 	{
-		if (permutation.length == 1)
+		if( permutation.length == 1 )
 			return false;
+
 		int permutationIndex;
 		for(permutationIndex = permutation.length - 2; permutationIndex >= 0; permutationIndex--)
-			if (permutation[permutationIndex] < permutation[permutationIndex + 1])
+			if( permutation[permutationIndex] < permutation[permutationIndex + 1] )
 				break;
+
 		int swapIndex = permutation.length - 1;
-		while (permutation[permutationIndex] > permutation[swapIndex])
+		while( permutation[permutationIndex] > permutation[swapIndex] )
 			swapIndex--;
 		swap(permutation, swapIndex, permutationIndex);
+
 		for(int firstSwap = permutation.length - 1, secondSwap = permutationIndex + 1; firstSwap > secondSwap; firstSwap--, secondSwap++)
 			swap(permutation, firstSwap, secondSwap);
+
 		return true;
 	}
 }

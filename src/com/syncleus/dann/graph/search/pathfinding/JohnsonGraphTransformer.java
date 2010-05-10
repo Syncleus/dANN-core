@@ -28,8 +28,8 @@ public class JohnsonGraphTransformer<N> implements GraphTransformer<BidirectedGr
 	private boolean containsInfinite(final Graph<N, ?> original)
 	{
 		for(final Edge edge : original.getEdges())
-			if (edge instanceof Weighted)
-				if (Double.isInfinite(((Weighted) edge).getWeight()))
+			if( edge instanceof Weighted )
+				if( Double.isInfinite(((Weighted) edge).getWeight()) )
 					return true;
 		return false;
 	}
@@ -37,9 +37,9 @@ public class JohnsonGraphTransformer<N> implements GraphTransformer<BidirectedGr
 	@SuppressWarnings("unchecked")
 	public BidirectedGraph<N, WeightedDirectedEdge<N>> transform(final BidirectedGraph<N, ? extends WeightedDirectedEdge<N>> original)
 	{
-		if (original == null)
+		if( original == null )
 			throw new IllegalArgumentException("original can not be null");
-		if (containsInfinite(original))
+		if( containsInfinite(original) )
 			throw new IllegalArgumentException("original cannot contain infinite weights");
 		final Set<WeightedDirectedEdge<Object>> originalEdges = new HashSet<WeightedDirectedEdge<Object>>();
 		for(final WeightedDirectedEdge<N> originalEdge : original.getEdges())
@@ -58,6 +58,7 @@ public class JohnsonGraphTransformer<N> implements GraphTransformer<BidirectedGr
 			johnsonGraph.remove(edge);
 			johnsonGraph.add(new SimpleWeightedDirectedEdge<N>(edge.getSourceNode(), edge.getDestinationNode(), newWeight));
 		}
+
 		return johnsonGraph;
 	}
 

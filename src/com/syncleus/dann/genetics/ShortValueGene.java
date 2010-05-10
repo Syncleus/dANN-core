@@ -109,6 +109,7 @@ public class ShortValueGene extends AbstractValueGene<MutableShort> implements C
 	{
 		final ShortValueGene copy = this.clone();
 		copy.internalMutate(deviation);
+
 		return copy;
 	}
 }

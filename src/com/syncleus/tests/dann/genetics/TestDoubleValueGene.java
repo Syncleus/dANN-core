@@ -40,13 +40,16 @@ public class TestDoubleValueGene
 	public void testMutation()
 	{
 		final ValueGene center = new DoubleValueGene(0.0);
+
 		double averageSum = 0.0;
 		double testCount;
 		for(testCount = 0.0; testCount < 1000; testCount++)
 		{
 			averageSum += center.mutate(1.0).getValue().doubleValue();
 		}
+
 		final double average = averageSum / testCount;
+
 		Assert.assertTrue("average deviation is more than 1.0", average < 1.0);
 	}
 }

@@ -20,6 +20,7 @@ package com.syncleus.dann.graph;
 
 import java.io.Serializable;
 import java.util.*;
+
 // TODO consider making all nodes extend from a connectable interface so you can embed other graphs as nodes if they too are connectable.
 
 /**

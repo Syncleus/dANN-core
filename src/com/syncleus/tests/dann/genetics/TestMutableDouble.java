@@ -38,9 +38,11 @@ public class TestMutableDouble
 	public void testMax()
 	{
 		final MutableDouble highValue = new MutableDouble(Double.MAX_VALUE);
+
 		for(int testCount = 0; testCount < 1000; testCount++)
 		{
 			final MutableDouble mutated = highValue.mutate(100.0);
+
 			Assert.assertTrue("mutation caused number to roll over: " + mutated, (mutated.doubleValue() != Double.POSITIVE_INFINITY) && (mutated.doubleValue() != Double.NEGATIVE_INFINITY));
 		}
 	}
@@ -49,9 +51,11 @@ public class TestMutableDouble
 	public void testMin()
 	{
 		final MutableDouble lowValue = new MutableDouble(Double.MAX_VALUE * -1.0);
+
 		for(int testCount = 0; testCount < 1000; testCount++)
 		{
 			final MutableDouble mutated = lowValue.mutate(100.0);
+
 			Assert.assertTrue("mutation caused number to roll over: " + mutated, (mutated.doubleValue() != Double.POSITIVE_INFINITY) && (mutated.doubleValue() != Double.NEGATIVE_INFINITY));
 		}
 	}

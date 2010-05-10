@@ -70,6 +70,7 @@ public class SimpleSomNeuron extends AbstractNeuron implements SomNeuron
 		double activity = 0.0;
 		for(final Synapse currentSynapse : this.getBrain().getInEdges(this))
 			activity += Math.pow(currentSynapse.getInput() - currentSynapse.getWeight(), 2.0);
+
 		//calculate the activity function and set the result as the output
 		this.output = this.activationFunction.activate(activity);
 		for(final Synapse current : this.getBrain().getTraversableEdges(this))

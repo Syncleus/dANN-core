@@ -28,7 +28,7 @@ public class BellmanFordPathFinder<N, E extends DirectedEdge<N>> implements Path
 
 	public BellmanFordPathFinder(final Graph<N, E> graph)
 	{
-		if (graph == null)
+		if( graph == null )
 			throw new IllegalArgumentException("graph can not be null");
 		this.graph = graph;
 	}
@@ -40,7 +40,7 @@ public class BellmanFordPathFinder<N, E extends DirectedEdge<N>> implements Path
 
 	public List<E> getBestPath(final N begin, final N end, final boolean refresh)
 	{
-		if ((refresh) || (this.pathedSteps == null))
+		if( (refresh) || (this.pathedSteps == null) )
 			this.calculateSteps(begin);
 		//construct a walk from the end node
 		final PathedStep endPathedStep = pathedSteps.get(end);
@@ -59,16 +59,16 @@ public class BellmanFordPathFinder<N, E extends DirectedEdge<N>> implements Path
 		{
 			for(final E edge : edges)
 			{
-				if (edge.getDestinationNode() == begin)
+				if( edge.getDestinationNode() == begin )
 					continue;
 				PathedStep sourcePathedStep = pathedSteps.get(edge.getSourceNode());
-				if (sourcePathedStep == null)
+				if( sourcePathedStep == null )
 				{
 					sourcePathedStep = new PathedStep(edge.getSourceNode(), (edge.getSourceNode().equals(begin) ? 0.0 : Double.POSITIVE_INFINITY));
 					pathedSteps.put(edge.getSourceNode(), sourcePathedStep);
 				}
 				PathedStep destinationPathedStep = pathedSteps.get(edge.getDestinationNode());
-				if (destinationPathedStep == null)
+				if( destinationPathedStep == null )
 				{
 					destinationPathedStep = new PathedStep(edge.getDestinationNode(), Double.POSITIVE_INFINITY);
 					pathedSteps.put(edge.getDestinationNode(), destinationPathedStep);
@@ -79,12 +79,12 @@ public class BellmanFordPathFinder<N, E extends DirectedEdge<N>> implements Path
 		//check for negative cycles
 		for(final E edge : edges)
 		{
-			if (edge.getDestinationNode() == begin)
+			if( edge.getDestinationNode() == begin )
 				continue;
 			final PathedStep sourcePathedStep = pathedSteps.get(edge.getSourceNode());
 			final PathedStep destinationPathedStep = pathedSteps.get(edge.getDestinationNode());
 			assert ((sourcePathedStep != null) && (destinationPathedStep != null));
-			if (destinationPathedStep.updateParent(sourcePathedStep, edge))
+			if( destinationPathedStep.updateParent(sourcePathedStep, edge) )
 				throw new NegativeWeightCycleException("negative-weight cycle found in graph");
 		}
 	}
@@ -103,9 +103,9 @@ public class BellmanFordPathFinder<N, E extends DirectedEdge<N>> implements Path
 	{
 		final List<E> edges = new ArrayList<E>();
 		PathedStep currentStep = endPathedStep;
-		while (currentStep != null)
+		while( currentStep != null )
 		{
-			if (currentStep.getParentEdge() != null)
+			if( currentStep.getParentEdge() != null )
 				edges.add(0, currentStep.getParentEdge());
 			currentStep = currentStep.getParent();
 		}
@@ -121,8 +121,9 @@ public class BellmanFordPathFinder<N, E extends DirectedEdge<N>> implements Path
 
 		public PathedStep(final N node, final double initialWeight)
 		{
-			if (node == null)
+			if( node == null )
 				throw new IllegalArgumentException("node can not be null");
+
 			this.node = node;
 			this.cachedPathWeight = initialWeight;
 		}
@@ -130,9 +131,9 @@ public class BellmanFordPathFinder<N, E extends DirectedEdge<N>> implements Path
 		private boolean updateParent(final PathedStep newParent, final E newParentEdge)
 		{
 			double newWeight = (newParentEdge instanceof Weighted ? ((Weighted) newParentEdge).getWeight() : 1.0);
-			if (this.node instanceof Weighted)
+			if( this.node instanceof Weighted )
 				newWeight += ((Weighted) this.node).getWeight();
-			if ((this.parent == null) || (newParent.cachedPathWeight + newWeight < this.cachedPathWeight))
+			if( (this.parent == null) || (newParent.cachedPathWeight + newWeight < this.cachedPathWeight) )
 			{
 				this.parent = newParent;
 				this.parentEdge = newParentEdge;
@@ -161,10 +162,12 @@ public class BellmanFordPathFinder<N, E extends DirectedEdge<N>> implements Path
 		@Override
 		public boolean equals(final Object compareToObj)
 		{
-			if (compareToObj == null)
+			if( compareToObj == null )
 				return false;
-			if (!(compareToObj.getClass().isInstance(this)))
+
+			if( !(compareToObj.getClass().isInstance(this)) )
 				return false;
+
 			final PathedStep compareTo = (PathedStep) compareToObj;
 			return ((this.node.equals(compareTo)) || (this.node.equals(compareTo.node)));
 		}
@@ -179,9 +182,9 @@ public class BellmanFordPathFinder<N, E extends DirectedEdge<N>> implements Path
 		{
 			//the natural ordering is inverse cause the smallest path weight is
 			//the best weight.
-			if (this.cachedPathWeight < compareWith.cachedPathWeight)
+			if( this.cachedPathWeight < compareWith.cachedPathWeight )
 				return -1;
-			else if (this.cachedPathWeight > compareWith.cachedPathWeight)
+			else if( this.cachedPathWeight > compareWith.cachedPathWeight )
 				return 1;
 			else
 				return 0;

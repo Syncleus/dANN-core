@@ -19,7 +19,7 @@
 package com.syncleus.tests.dann.neural;
 
 import com.syncleus.dann.DannException;
-import org.junit.*;
+import org.junit.Test;
 
 public class TestDannException
 {

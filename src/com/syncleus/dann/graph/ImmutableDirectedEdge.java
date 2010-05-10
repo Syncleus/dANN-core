@@ -41,9 +41,9 @@ public class ImmutableDirectedEdge<N> extends AbstractBidirectedEdge<N> implemen
 
 	public List<N> getTraversableNodes(final N node)
 	{
-		if (this.getSourceNode().equals(node))
+		if( this.getSourceNode().equals(node) )
 			return Collections.singletonList(this.getDestinationNode());
-		else if (this.getDestinationNode().equals(node))
+		else if( this.getDestinationNode().equals(node) )
 			return Collections.emptyList();
 		else
 			throw new IllegalArgumentException("node is not one of the end points!");
@@ -93,18 +93,18 @@ public class ImmutableDirectedEdge<N> extends AbstractBidirectedEdge<N> implemen
 
 	public ImmutableDirectedEdge<N> disconnect(final N node)
 	{
-		if (node == null)
+		if( node == null )
 			throw new IllegalArgumentException("node can not be null");
-		if (!this.getNodes().contains(node))
+		if( !this.getNodes().contains(node) )
 			throw new IllegalArgumentException("node is not currently connected to");
 		return (ImmutableDirectedEdge<N>) this.remove(node);
 	}
 
 	public ImmutableDirectedEdge<N> disconnect(final List<N> nodes)
 	{
-		if (nodes == null)
+		if( nodes == null )
 			throw new IllegalArgumentException("node can not be null");
-		if (!this.getNodes().containsAll(nodes))
+		if( !this.getNodes().containsAll(nodes) )
 			throw new IllegalArgumentException("node is not currently connected to");
 		return (ImmutableDirectedEdge<N>) this.remove(nodes);
 	}

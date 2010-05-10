@@ -167,9 +167,10 @@ public abstract class MutableNumber<N extends Number> extends Number implements 
 	@Override
 	public final boolean equals(final Object compareWith)
 	{
-		if (compareWith == null)
+		if( compareWith == null )
 			return true;
-		if (compareWith instanceof MutableNumber)
+
+		if( compareWith instanceof MutableNumber )
 			return this.number.equals(((MutableNumber) compareWith).number);
 		else
 			return false;
@@ -205,7 +206,7 @@ public abstract class MutableNumber<N extends Number> extends Number implements 
 			copy.number = this.number;
 			return copy;
 		}
-		catch (CloneNotSupportedException caught)
+		catch(CloneNotSupportedException caught)
 		{
 			LOGGER.error("CloneNotSupportedException caught but not expected!", caught);
 			throw new UnexpectedDannError("CloneNotSupportedException caught but not expected", caught);

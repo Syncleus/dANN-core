@@ -34,8 +34,7 @@ public class SineActivationFunction implements ActivationFunction
 	 * The sine activation function.
 	 *
 	 * @param activity the neuron's current activity.
-	 * @return The result of the sine activation function bound between -1 and
-	 *         1.
+	 * @return The result of the sine activation function bound between -1 and 1.
 	 * @since 1.0
 	 */
 	public double activate(final double activity)

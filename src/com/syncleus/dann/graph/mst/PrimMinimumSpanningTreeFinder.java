@@ -30,15 +30,16 @@ public class PrimMinimumSpanningTreeFinder<N, E extends Edge<N>> implements Root
 	public Set<E> findMinimumSpanningTree(final Graph<N, E> graph)
 	{
 		boolean isDirected = false;
-		if (graph instanceof BidirectedGraph)
+		if( graph instanceof BidirectedGraph )
 		{
 			isDirected = true;
 			for(final E edge : graph.getEdges())
-				if (!(edge instanceof DirectedEdge))
+				if( !(edge instanceof DirectedEdge) )
 					isDirected = false;
 		}
+
 		final N startNode;
-		if (isDirected)
+		if( isDirected )
 		{
 			final TopologicalSorter<N> sorter = new SimpleTopologicalSorter<N>();
 			final List<N> sortedNodes = sorter.sort((BidirectedGraph) graph);
@@ -48,6 +49,7 @@ public class PrimMinimumSpanningTreeFinder<N, E extends Edge<N>> implements Root
 		{
 			startNode = graph.getNodes().iterator().next();
 		}
+
 		return this.primCalculate(graph, startNode);
 	}
 
@@ -62,10 +64,11 @@ public class PrimMinimumSpanningTreeFinder<N, E extends Edge<N>> implements Root
 		final PrimMap primMap = new PrimMap();
 		for(final N node : graph.getNodes())
 			primMap.put(node, null);
+
 		N currentNode = null;
-		while (!primMap.isEmpty())
+		while( !primMap.isEmpty() )
 		{
-			if (currentNode != null)
+			if( currentNode != null )
 			{
 				final Entry<N, E> currentEntry = primMap.pop();
 				currentNode = currentEntry.getKey();
@@ -76,19 +79,20 @@ public class PrimMinimumSpanningTreeFinder<N, E extends Edge<N>> implements Root
 				primMap.remove(startNode);
 				currentNode = startNode;
 			}
+
 			final Set<E> neighborEdges = graph.getTraversableEdges(currentNode);
 			for(final E neighborEdge : neighborEdges)
 			{
 				final List<N> neighborNodes = new ArrayList<N>(neighborEdge.getNodes());
 				//remove all occurance of currentNode, not just the first
-				while (neighborNodes.remove(currentNode))
+				while( neighborNodes.remove(currentNode) )
 				{
 				}
 				for(final N neighborNode : neighborNodes)
 				{
-					if (primMap.containsKey(neighborNode))
+					if( primMap.containsKey(neighborNode) )
 					{
-						if (primMap.isLess(neighborNode, neighborEdge))
+						if( primMap.isLess(neighborNode, neighborEdge) )
 						{
 							primMap.put(neighborNode, neighborEdge);
 							primMap.resort();
@@ -120,16 +124,16 @@ public class PrimMinimumSpanningTreeFinder<N, E extends Edge<N>> implements Root
 
 		public boolean isLess(final N node, final E edge)
 		{
-			if (edge == null)
+			if( edge == null )
 				throw new IllegalArgumentException("edge can not be null");
 			return edgeToWeight(edge) < getWeight(node);
 		}
 
 		private double edgeToWeight(final E edge)
 		{
-			if (edge == null)
+			if( edge == null )
 				return Double.MAX_VALUE;
-			if (edge instanceof Weighted)
+			if( edge instanceof Weighted )
 				return ((Weighted) edge).getWeight();
 			else
 				return 0;
@@ -138,7 +142,7 @@ public class PrimMinimumSpanningTreeFinder<N, E extends Edge<N>> implements Root
 		public Map.Entry<N, E> pop()
 		{
 			final Map.Entry<N, E> poped = weightedNodes.poll();
-			if (poped != null)
+			if( poped != null )
 				this.remove(poped.getKey());
 			return poped;
 		}
@@ -150,18 +154,18 @@ public class PrimMinimumSpanningTreeFinder<N, E extends Edge<N>> implements Root
 			public int compare(final Map.Entry<N, E> first, final Map.Entry<N, E> second)
 			{
 				double firstWeight = 0;
-				if (first.getValue() == null)
+				if( first.getValue() == null )
 					firstWeight = Double.MAX_VALUE;
-				else if (first.getValue() instanceof Weighted)
+				else if( first.getValue() instanceof Weighted )
 					firstWeight = ((Weighted) first.getValue()).getWeight();
 				double secondWeight = 0;
-				if (second.getValue() == null)
+				if( second.getValue() == null )
 					secondWeight = Double.MAX_VALUE;
-				if (second.getValue() instanceof Weighted)
+				if( second.getValue() instanceof Weighted )
 					secondWeight = ((Weighted) second.getValue()).getWeight();
-				if (firstWeight < secondWeight)
+				if( firstWeight < secondWeight )
 					return -1;
-				else if (firstWeight > secondWeight)
+				else if( firstWeight > secondWeight )
 					return 1;
 				else
 					return 0;

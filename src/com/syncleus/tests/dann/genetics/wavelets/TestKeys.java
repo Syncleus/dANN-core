@@ -61,6 +61,7 @@ public class TestKeys
 		{
 			final SignalKey signal = new SignalKey(SUCCESS_SIGNALS[index]);
 			final ReceptorKey receptor = new ReceptorKey(SUCCESS_RECEPTORS[index]);
+
 			Assert.assertTrue("signal at index " + index + " does not bind.  Signal: " + signal + ", Receptor: " + receptor, receptor.binds(signal));
 		}
 	}
@@ -72,6 +73,7 @@ public class TestKeys
 		{
 			final SignalKey signal = new SignalKey(FAILURE_SIGNALS[index]);
 			final ReceptorKey receptor = new ReceptorKey(FAILURE_RECEPTORS[index]);
+
 			Assert.assertTrue("signal at index " + index + " was incorrectly able to bind. Signal: " + signal + ", Receptor: " + receptor, !receptor.binds(signal));
 		}
 	}

@@ -34,10 +34,10 @@ public class SimpleTopologicalSorter<N> implements TopologicalSorter<N>
 			final List<? extends N> edgeNodes = edge.getNodes();
 			for(final N edgeNode : edgeNodes)
 			{
-				if (!nodes.contains(edgeNode))
+				if( !nodes.contains(edgeNode) )
 					throw new IllegalArgumentException("A node that is an end point in one of the edges was not in the nodes list");
 				java.util.Set<com.syncleus.dann.graph.DirectedEdge<? extends N>> startNeighborEdges = neighborEdges.get(edgeNode);
-				if (startNeighborEdges == null)
+				if( startNeighborEdges == null )
 				{
 					startNeighborEdges = new java.util.HashSet<com.syncleus.dann.graph.DirectedEdge<? extends N>>();
 					neighborEdges.put(edgeNode, startNeighborEdges);
@@ -45,16 +45,18 @@ public class SimpleTopologicalSorter<N> implements TopologicalSorter<N>
 				startNeighborEdges.add(edge);
 			}
 		}
+
 		//pull a node of 0 degree then delete
 		final List<N> topologicalNodes = new ArrayList<N>();
-		while (!nodes.isEmpty())
+		while( !nodes.isEmpty() )
 		{
 			final int preNodeCount = nodes.size();
 			for(final N node : nodes)
 			{
-				if (getIndegree(edges, node) == 0)
+				if( getIndegree(edges, node) == 0 )
 				{
 					topologicalNodes.add(node);
+
 					//delete node
 					final Set<DirectedEdge<? extends N>> neighbors = neighborEdges.get(node);
 					for(final DirectedEdge<? extends N> neighbor : neighbors)
@@ -62,20 +64,24 @@ public class SimpleTopologicalSorter<N> implements TopologicalSorter<N>
 						final List<N> adjacentNodes = new ArrayList<N>(neighbor.getNodes());
 						adjacentNodes.remove(node);
 						final N adjacentNode = adjacentNodes.get(0);
+
 						//delete the edge from the neighbor map
 						final Set<DirectedEdge<? extends N>> deleteFromEdges = neighborEdges.get(adjacentNode);
 						deleteFromEdges.remove(neighbor);
+
 						//delete the edge from edges
 						edges.remove(neighbor);
 					}
 					nodes.remove(node);
+
 					//since we found a nod with 0 in degree and removed it we should back out
 					break;
 				}
 			}
-			if (preNodeCount <= nodes.size())
+			if( preNodeCount <= nodes.size() )
 				return null;
 		}
+
 		return topologicalNodes;
 	}
 
@@ -83,7 +89,7 @@ public class SimpleTopologicalSorter<N> implements TopologicalSorter<N>
 	{
 		int inDegree = 0;
 		for(final DirectedEdge<? extends N> edge : edges)
-			if (edge.getDestinationNode() == node)
+			if( edge.getDestinationNode() == node )
 				inDegree++;
 		return inDegree;
 	}

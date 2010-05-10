@@ -30,7 +30,7 @@ public abstract class AbstractPath<N, E extends Edge<N>> extends AbstractWalk<N,
 
 	static <N, E extends Edge<N>> boolean verifyUtility(final List<N> nodeSteps, final List<E> edgeSteps)
 	{
-		if (nodeSteps.size() < 2)
+		if( nodeSteps.size() < 2 )
 			throw new IllegalArgumentException("Wrong number of nodes or steps");
 		return !(nodeSteps.get(0).equals(nodeSteps.get(nodeSteps.size() - 1)));
 	}
@@ -44,7 +44,7 @@ public abstract class AbstractPath<N, E extends Edge<N>> extends AbstractWalk<N,
 	{
 		final Set<N> uniqueNodes = new HashSet<N>(path.getNodeSteps());
 		final Set<E> uniqueEdges = new HashSet<E>(path.getSteps());
-		if (uniqueNodes.size() < path.getNodeSteps().size())
+		if( uniqueNodes.size() < path.getNodeSteps().size() )
 			return false;
 		return !(uniqueEdges.size() < path.getSteps().size());
 	}
@@ -56,9 +56,9 @@ public abstract class AbstractPath<N, E extends Edge<N>> extends AbstractWalk<N,
 
 	static <N, E extends Edge<N>> boolean isIndependentUtility(final Path<N, E> firstPath, final Path<N, E> secondPath)
 	{
-		if (!firstPath.getFirstNode().equals(secondPath.getFirstNode()))
+		if( !firstPath.getFirstNode().equals(secondPath.getFirstNode()) )
 			return false;
-		if (!firstPath.getLastNode().equals(secondPath.getLastNode()))
+		if( !firstPath.getLastNode().equals(secondPath.getLastNode()) )
 			return false;
 		final List<N> exclusiveFirstNodes = new ArrayList<N>(firstPath.getNodeSteps());
 		exclusiveFirstNodes.remove(exclusiveFirstNodes.size() - 1);
@@ -83,10 +83,10 @@ public abstract class AbstractPath<N, E extends Edge<N>> extends AbstractWalk<N,
 
 	static boolean equalsUtility(final Path path, final Object object)
 	{
-		if ((path == null) || (object == null))
+		if( (path == null) || (object == null) )
 			return false;
 		final Path secondPath = (Path) object;
-		if (!(secondPath.getNodeSteps().equals(path.getNodeSteps())))
+		if( !(secondPath.getNodeSteps().equals(path.getNodeSteps())) )
 			return false;
 		return secondPath.getSteps().equals(path.getSteps());
 	}
@@ -100,10 +100,12 @@ public abstract class AbstractPath<N, E extends Edge<N>> extends AbstractWalk<N,
 	@Override
 	public boolean equals(final Object object)
 	{
-		if (object == null)
+		if( object == null )
 			return false;
-		if (!(object instanceof Path))
+
+		if( !(object instanceof Path) )
 			return false;
+
 		return AbstractPath.equalsUtility(this, object);
 	}
 }

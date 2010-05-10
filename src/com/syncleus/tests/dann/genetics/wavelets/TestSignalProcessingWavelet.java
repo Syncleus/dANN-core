@@ -56,6 +56,7 @@ public class TestSignalProcessingWavelet
 		processor = processor.mutate(1.0, xAxis);
 		processor = processor.mutate(1.0, yAxis);
 		processor = processor.mutate(1.0);
+
 		processor.preTick();
 		processor.tick();
 	}
@@ -80,7 +81,7 @@ public class TestSignalProcessingWavelet
 		final GlobalSignalConcentration xAxis = new GlobalSignalConcentration();
 		final GlobalSignalConcentration yAxis = new GlobalSignalConcentration();
 		final GlobalSignalConcentration output = new GlobalSignalConcentration();
-		while ((population.size() < POPULATION_SIZE) && ((population.isEmpty() ? 0.0 : population.lastKey()) < 4.0))
+		while( (population.size() < POPULATION_SIZE) && ((population.isEmpty() ? 0.0 : population.lastKey()) < 4.0) )
 		{
 			SignalProcessingWavelet processor = new SignalProcessingWavelet(xAxis, output);
 			processor = mutateXor(processor, xAxis, yAxis);
@@ -95,14 +96,14 @@ public class TestSignalProcessingWavelet
 		{
 			LOGGER.debug("Begining generation " + generationIndex + ", current fitness: " + population.lastKey());
 			//fill off all but the top EXTINCTION_SIZE performing members
-			while (population.size() > EXTINCTION_SIZE)
+			while( population.size() > EXTINCTION_SIZE )
 				population.pollFirstEntry();
 			//repopulate to POPULATION_SIZE members
 			final ArrayList<SignalProcessingWavelet> populationArray = new ArrayList<SignalProcessingWavelet>(population.values());
-			while (population.size() < POPULATION_SIZE)
+			while( population.size() < POPULATION_SIZE )
 			{
 				SignalProcessingWavelet processor;
-				if (RANDOM.nextFloat() < (float) 0.5)
+				if( RANDOM.nextFloat() < (float) 0.5 )
 					processor = populationArray.get(RANDOM.nextInt(populationArray.size()));
 				else
 					processor = new SignalProcessingWavelet(xAxis, output);
@@ -113,7 +114,7 @@ public class TestSignalProcessingWavelet
 		}
 		final double bestFitness = population.lastKey();
 		LOGGER.info("evolution completed in " + generationIndex + " generations.");
-		if (bestFitness < 4.0)
+		if( bestFitness < 4.0 )
 			LOGGER.warn("did not successfully match XOR truth table: fitness: " + bestFitness);
 		Assert.assertTrue("did not successfully match XOR truth table: fitness: " + bestFitness, bestFitness >= 4.0);
 	}
@@ -128,36 +129,44 @@ public class TestSignalProcessingWavelet
 			mutatedProcessor = mutatedProcessor.mutate(XOR_MUTABILITY, xAxis);
 			mutatedProcessor = mutatedProcessor.mutate(XOR_MUTABILITY, yAxis);
 			mutatedProcessor = mutatedProcessor.mutate(XOR_MUTABILITY);
-		} while (mutatedProcessor.getSignals().size() < 3);
+		} while( mutatedProcessor.getSignals().size() < 3 );
+
 		return mutatedProcessor;
 	}
 
 	private static double checkXorFitness(final Function xorAttempt, final int waveCount)
 	{
-		if (waveCount <= 0)
+		if( waveCount <= 0 )
 			throw new IllegalArgumentException("waveCount must be >0");
+
 		//testing against xor at 4 points only (0,0 0,1 1,0 1,1)
 		xorAttempt.setParameter(0, 0.0);
 		xorAttempt.setParameter(1, 0.0);
 		final double result00 = xorAttempt.calculate();
+
 		xorAttempt.setParameter(0, 1.0);
 		xorAttempt.setParameter(1, 0.0);
 		final double result10 = xorAttempt.calculate();
+
 		xorAttempt.setParameter(0, 0.0);
 		xorAttempt.setParameter(1, 1.0);
 		final double result01 = xorAttempt.calculate();
+
 		xorAttempt.setParameter(0, 1.0);
 		xorAttempt.setParameter(1, 1.0);
 		final double result11 = xorAttempt.calculate();
+
 		//calculates the whole number portion of the fitness, should be between -4 and +4
 		final int fitnessWhole =
 				(result00 < 0.0 ? 1 : 0) +
 						(result10 > 0.0 ? 1 : 0) +
 						(result01 > 0.0 ? 1 : 0) +
 						(result11 < 0.0 ? 1 : 0);
+
 		//calculates the decimal portion of the fitness , should be >= 0 and < 1
 		final double fitnessFine = 1.0 - Math.tanh(waveCount);
 		final double fitnessSuperFine = Math.abs((double) xorAttempt.hashCode()) / ((double) Integer.MAX_VALUE);
+
 		return ((double) fitnessWhole) + (fitnessFine * 0.99999) + (fitnessSuperFine * 0.00001);
 	}
 }

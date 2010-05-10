@@ -23,6 +23,7 @@ import java.util.*;
 import java.util.concurrent.ExecutorService;
 import com.syncleus.dann.UnexpectedDannError;
 import com.syncleus.dann.graph.AbstractBidirectedAdjacencyGraph;
+
 // TODO refactor this to be a generic following the patern of its parent classes.
 
 /**
@@ -43,10 +44,10 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedAdjacencyGrap
 		@Override
 		public Set<Synapse> get(final Object keyObject)
 		{
-			if (!(keyObject instanceof Neuron))
+			if( !(keyObject instanceof Neuron) )
 				throw new UnexpectedDannError("keyObject was not a Neuron");
 			Set<Synapse> edges = super.get((Neuron) keyObject);
-			if (edges == null)
+			if( edges == null )
 			{
 				edges = new HashSet<Synapse>();
 				final Neuron key = (Neuron) keyObject;
@@ -90,16 +91,18 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedAdjacencyGrap
 
 	protected boolean add(final Synapse newSynapse)
 	{
-		if (newSynapse == null)
+		if( newSynapse == null )
 			throw new IllegalArgumentException("newSynapse can not be null");
-		if (!this.neurons.containsAll(newSynapse.getNodes()))
+		if( !this.neurons.containsAll(newSynapse.getNodes()) )
 			throw new IllegalArgumentException("newSynapse has a node as an end point that is not part of the graph");
-		if (this.synapses.add(newSynapse))
+
+		if( this.synapses.add(newSynapse) )
 		{
 			this.outMap.get(newSynapse.getSourceNode()).add(newSynapse);
 			this.inMap.get(newSynapse.getDestinationNode()).add(newSynapse);
 			return true;
 		}
+
 		return false;
 	}
 
@@ -112,18 +115,20 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedAdjacencyGrap
 	 */
 	protected boolean add(final Neuron newNeuron)
 	{
-		if (newNeuron == null)
+		if( newNeuron == null )
 			throw new IllegalArgumentException("newNeuron can not be null");
-		if (this.neurons.add(newNeuron))
+
+		if( this.neurons.add(newNeuron) )
 		{
 			this.outMap.put(newNeuron, new HashSet<Synapse>());
 			this.inMap.put(newNeuron, new HashSet<Synapse>());
-			if (newNeuron instanceof OutputNeuron)
+			if( newNeuron instanceof OutputNeuron )
 				this.outputNeurons.add((OutputNeuron) newNeuron);
-			if (newNeuron instanceof InputNeuron)
+			if( newNeuron instanceof InputNeuron )
 				this.inputNeurons.add((InputNeuron) newNeuron);
 			return true;
 		}
+
 		return false;
 	}
 
@@ -136,20 +141,24 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedAdjacencyGrap
 	 */
 	protected boolean add(final Collection<? extends Neuron> newNeurons)
 	{
-		if (newNeurons == null)
+		if( newNeurons == null )
 			throw new IllegalArgumentException("newNeurons can not be null");
-		if (newNeurons.size() <= 0)
+
+		if( newNeurons.size() <= 0 )
 			return false;
+
 		final boolean added = this.neurons.addAll(newNeurons);
+
 		for(final Neuron newNeuron : newNeurons)
 		{
 			this.outMap.put(newNeuron, new HashSet<Synapse>());
 			this.inMap.put(newNeuron, new HashSet<Synapse>());
-			if (newNeuron instanceof OutputNeuron)
+			if( newNeuron instanceof OutputNeuron )
 				this.outputNeurons.add((OutputNeuron) newNeuron);
-			if (newNeuron instanceof InputNeuron)
+			if( newNeuron instanceof InputNeuron )
 				this.inputNeurons.add((InputNeuron) newNeuron);
 		}
+
 		return added;
 	}
 
@@ -160,39 +169,42 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedAdjacencyGrap
 
 	protected boolean connect(final Neuron source, final Neuron destination, final double initialWeight)
 	{
-		if (source == null)
+		if( source == null )
 			throw new IllegalArgumentException("source can not be null");
-		if (destination == null)
+		if( destination == null )
 			throw new IllegalArgumentException("destination can not be null");
-		if (!this.neurons.contains(source))
+		if( !this.neurons.contains(source) )
 			throw new IllegalArgumentException("source is not a member of this graph");
-		if (!this.neurons.contains(destination))
+		if( !this.neurons.contains(destination) )
 			throw new IllegalArgumentException("destination is not a member of this graph");
+
 		return this.add(new SimpleSynapse(source, destination, initialWeight));
 	}
 
 	protected boolean disconnect(final Neuron source, final Neuron destination)
 	{
-		if (source == null)
+		if( source == null )
 			throw new IllegalArgumentException("source can not be null");
-		if (destination == null)
+		if( destination == null )
 			throw new IllegalArgumentException("destination can not be null");
-		if (!this.neurons.contains(source))
+		if( !this.neurons.contains(source) )
 			throw new IllegalArgumentException("source is not a member of this graph");
-		if (!this.neurons.contains(destination))
+		if( !this.neurons.contains(destination) )
 			throw new IllegalArgumentException("destination is not a member of this graph");
+
 		return this.remove(new SimpleSynapse(source, destination, 0.0));
 	}
 
 	protected boolean remove(final Synapse removeSynapse)
 	{
-		if (removeSynapse == null)
+		if( removeSynapse == null )
 			throw new IllegalArgumentException("removeSynapse can not be null");
-		if (this.synapses.remove(removeSynapse))
+
+		if( this.synapses.remove(removeSynapse) )
 		{
-			if (this.outMap.containsKey(removeSynapse.getSourceNode()))
+			if( this.outMap.containsKey(removeSynapse.getSourceNode()) )
 				this.outMap.get(removeSynapse.getSourceNode()).remove(removeSynapse);
-			if (this.inMap.containsKey(removeSynapse.getDestinationNode()))
+			if( this.inMap.containsKey(removeSynapse.getDestinationNode()) )
 				this.inMap.get(removeSynapse.getDestinationNode()).remove(removeSynapse);
 			return true;
 		}
@@ -208,20 +220,23 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedAdjacencyGrap
 	 */
 	protected boolean remove(final Neuron removeNeuron)
 	{
-		if (removeNeuron == null)
+		if( removeNeuron == null )
 			throw new IllegalArgumentException("node can not be null");
-		if (this.neurons.remove(removeNeuron))
+
+		if( this.neurons.remove(removeNeuron) )
 		{
 			final Set<Synapse> removeEdges = new HashSet<Synapse>();
-			if (this.outMap.containsKey(removeNeuron))
+			if( this.outMap.containsKey(removeNeuron) )
 				removeEdges.addAll(this.outMap.remove(removeNeuron));
-			if (this.inMap.containsKey(removeNeuron))
+			if( this.inMap.containsKey(removeNeuron) )
 				removeEdges.addAll(this.inMap.remove(removeNeuron));
 			this.synapses.removeAll(removeEdges);
-			if (removeNeuron instanceof OutputNeuron)
+
+			if( removeNeuron instanceof OutputNeuron )
 				this.outputNeurons.remove((OutputNeuron) removeNeuron);
-			if (removeNeuron instanceof InputNeuron)
+			if( removeNeuron instanceof InputNeuron )
 				this.inputNeurons.remove((InputNeuron) removeNeuron);
+
 			return true;
 		}
 		return false;
@@ -270,9 +285,9 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedAdjacencyGrap
 	public Set<Synapse> getAdjacentEdges(final Neuron node)
 	{
 		final Set<Synapse> nodeSynapses = new HashSet<Synapse>();
-		if (this.outMap.containsKey(node))
+		if( this.outMap.containsKey(node) )
 			nodeSynapses.addAll(this.outMap.get(node));
-		if (this.inMap.containsKey(node))
+		if( this.inMap.containsKey(node) )
 			nodeSynapses.addAll(this.inMap.get(node));
 		return Collections.unmodifiableSet(nodeSynapses);
 	}
@@ -280,14 +295,14 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedAdjacencyGrap
 	@Override
 	public Set<Synapse> getTraversableEdges(final Neuron node)
 	{
-		if (this.inMap.containsKey(node))
+		if( this.inMap.containsKey(node) )
 			return Collections.unmodifiableSet(this.outMap.get(node));
 		return Collections.emptySet();
 	}
 
 	public Set<Synapse> getInEdges(final Neuron node)
 	{
-		if (this.inMap.containsKey(node))
+		if( this.inMap.containsKey(node) )
 			return Collections.unmodifiableSet(this.inMap.get(node));
 		return Collections.emptySet();
 	}
@@ -309,6 +324,7 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedAdjacencyGrap
 		final Set<Synapse> inSet = this.getInEdges(rightNode);
 		final Set<Synapse> jointSet = new HashSet<Synapse>(outSet);
 		jointSet.retainAll(inSet);
+
 		return (!jointSet.isEmpty());
 	}
 

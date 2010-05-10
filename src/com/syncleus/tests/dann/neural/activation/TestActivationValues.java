@@ -20,8 +20,7 @@ package com.syncleus.tests.dann.neural.activation;
 
 import com.syncleus.dann.neural.activation.*;
 import org.apache.log4j.Logger;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.*;
 
 public class TestActivationValues
 {
@@ -140,7 +139,7 @@ public class TestActivationValues
 		for(int testIndex = 0; testIndex < activities.length; testIndex++)
 		{
 			final double result = function.activate(activities[testIndex]);
-			if (!checkResult(result, transfered[testIndex]))
+			if( !checkResult(result, transfered[testIndex]) )
 			{
 				LOGGER.error("Activation function " + function + " failed. Expected: " + transfered[testIndex] + ", Received: " + result);
 				return false;

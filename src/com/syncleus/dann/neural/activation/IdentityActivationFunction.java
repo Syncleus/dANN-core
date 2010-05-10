@@ -34,9 +34,8 @@ public class IdentityActivationFunction implements ActivationFunction
 	 * The activation function.
 	 *
 	 * @param activity the neuron's current activity.
-	 * @return The result of the activation function. Usually a bound value
-	 *         between 1 and -1 or 1 and 0. However this bound range is not
-	 *         required.
+	 * @return The result of the activation function. Usually a bound value between
+	 *         1 and -1 or 1 and 0. However this bound range is not required.
 	 * @since 2.0
 	 */
 	public double activate(final double activity)

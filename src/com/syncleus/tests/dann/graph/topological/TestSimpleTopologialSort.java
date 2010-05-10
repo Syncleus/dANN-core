@@ -18,9 +18,9 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.graph.topological;
 
+import java.util.*;
 import com.syncleus.dann.graph.*;
 import com.syncleus.dann.graph.topological.*;
-import java.util.*;
 import org.junit.*;
 
 public class TestSimpleTopologialSort
@@ -39,6 +39,7 @@ public class TestSimpleTopologialSort
 		nodes.add(leftiestNode);
 		final Object rightNode = "rightNode";
 		nodes.add(rightNode);
+
 		final Set<DirectedEdge<Object>> edges = new HashSet<DirectedEdge<Object>>();
 		final DirectedEdge<Object> centerTopEdge = new ImmutableDirectedEdge<Object>(centerNode, topNode);
 		edges.add(centerTopEdge);
@@ -48,9 +49,12 @@ public class TestSimpleTopologialSort
 		edges.add(leftLeftiestEdge);
 		final DirectedEdge<Object> centerRightEdge = new ImmutableDirectedEdge<Object>(centerNode, rightNode);
 		edges.add(centerRightEdge);
+
 		final BidirectedGraph<Object, DirectedEdge<Object>> graph = new ImmutableDirectedAdjacencyGraph<Object, DirectedEdge<Object>>(nodes, edges);
+
 		final TopologicalSorter<Object> sorter = new SimpleTopologicalSorter<Object>();
 		final List<Object> sortedNodes = sorter.sort(graph);
+
 		Assert.assertTrue("center node is not the first node!", sortedNodes.get(0) == centerNode);
 		Assert.assertTrue("left node is not before leftiest node!", sortedNodes.indexOf(leftNode) < sortedNodes.indexOf(leftiestNode));
 	}

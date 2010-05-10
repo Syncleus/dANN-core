@@ -30,6 +30,7 @@ public class FloydWarshallPathFinder<N, E extends Edge<N>> implements PathFinder
 	public FloydWarshallPathFinder(final Graph<N, E> graph)
 	{
 		this.graph = graph;
+
 		//initialize
 		this.walkWeight = new HashMap<N, Map<N, Double>>(this.graph.getNodes().size());
 		this.nextNode = new HashMap<N, Map<N, N>>(this.graph.getNodes().size());
@@ -37,28 +38,33 @@ public class FloydWarshallPathFinder<N, E extends Edge<N>> implements PathFinder
 		{
 			final Map<N, Double> weightMapX = new HashMap<N, Double>(this.graph.getNodes().size());
 			this.walkWeight.put(nodeX, weightMapX);
+
 			final Map<N, N> nodeMapX = new HashMap<N, N>(this.graph.getNodes().size());
 			this.nextNode.put(nodeX, nodeMapX);
+
 			for(final N nodeY : this.graph.getNodes())
 			{
 				double initialWeight = Double.POSITIVE_INFINITY;
-				if (nodeX.equals(nodeY))
+
+				if( nodeX.equals(nodeY) )
 					initialWeight = 0.0;
-				else if (this.graph.getTraversableNodes(nodeX).contains(nodeY))
+				else if( this.graph.getTraversableNodes(nodeX).contains(nodeY) )
 				{
 					E connectedEdge = null;
 					for(final E edge : this.graph.getTraversableEdges(nodeX))
-						if (edge.getNodes().contains(nodeY))
+						if( edge.getNodes().contains(nodeY) )
 							connectedEdge = edge;
 					assert connectedEdge != null;
 					initialWeight = (connectedEdge instanceof WeightedEdge ? ((WeightedEdge) connectedEdge).getWeight() : 1.0);
-					if (nodeY instanceof Weighted)
+					if( nodeY instanceof Weighted )
 						initialWeight += ((Weighted) nodeY).getWeight();
 				}
+
 				weightMapX.put(nodeY, initialWeight);
 				nodeMapX.put(nodeY, null);
 			}
 		}
+
 		this.calculatePaths();
 	}
 
@@ -68,7 +74,7 @@ public class FloydWarshallPathFinder<N, E extends Edge<N>> implements PathFinder
 			for(final N nodeX : this.graph.getNodes())
 				for(final N nodeY : this.graph.getNodes())
 				{
-					if (!Double.isInfinite(this.walkWeight.get(nodeX).get(nodeK)) &&
+					if( !Double.isInfinite(this.walkWeight.get(nodeX).get(nodeK)) &&
 							!Double.isInfinite(this.walkWeight.get(nodeK).get(nodeY)) &&
 							this.walkWeight.get(nodeX).get(nodeK) + this.walkWeight.get(nodeK).get(nodeY) < this.walkWeight.get(nodeX).get(nodeY)
 							)
@@ -83,7 +89,7 @@ public class FloydWarshallPathFinder<N, E extends Edge<N>> implements PathFinder
 	public List<E> getBestPath(final N begin, final N end)
 	{
 		final List<N> nodePath = getIntermediatePath(begin, end);
-		if (nodePath.size() < 2)
+		if( nodePath.size() < 2 )
 			return null;
 		final List<E> edgePath = new ArrayList<E>(nodePath.size() - 1);
 		double overallWeight = 0.0;
@@ -95,13 +101,13 @@ public class FloydWarshallPathFinder<N, E extends Edge<N>> implements PathFinder
 			double stepEdgeWeight = Double.MAX_VALUE;
 			for(final E edge : this.graph.getTraversableEdges(fromNode))
 			{
-				if (edge.getNodes().contains(toNode))
+				if( edge.getNodes().contains(toNode) )
 				{
-					if (stepEdge == null)
+					if( stepEdge == null )
 						stepEdge = edge;
-					else if (edge instanceof WeightedEdge)
+					else if( edge instanceof WeightedEdge )
 					{
-						if (((WeightedEdge) edge).getWeight() < stepEdgeWeight)
+						if( ((WeightedEdge) edge).getWeight() < stepEdgeWeight )
 						{
 							stepEdge = edge;
 							stepEdgeWeight = ((WeightedEdge) edge).getWeight();
@@ -111,20 +117,24 @@ public class FloydWarshallPathFinder<N, E extends Edge<N>> implements PathFinder
 						stepEdge = edge;
 				}
 			}
+
 			assert stepEdge != null;
 			edgePath.add(stepEdge);
-			if (stepEdge instanceof WeightedEdge)
+
+			if( stepEdge instanceof WeightedEdge )
 				overallWeight += ((WeightedEdge) stepEdge).getWeight();
-			if (toNode instanceof Weighted)
+			if( toNode instanceof Weighted )
 				overallWeight += ((Weighted) toNode).getWeight();
 		}
+
 		return edgePath;
 	}
 
 	private List<N> getIntermediatePath(final N begin, final N end)
 	{
-		if (this.nextNode.get(begin).get(end) == null)
+		if( this.nextNode.get(begin).get(end) == null )
 			return new ArrayList<N>();
+
 		final List<N> nodePath = new ArrayList<N>();
 		nodePath.addAll(getIntermediatePath(begin, this.nextNode.get(begin).get(end)));
 		nodePath.add(this.nextNode.get(begin).get(end));

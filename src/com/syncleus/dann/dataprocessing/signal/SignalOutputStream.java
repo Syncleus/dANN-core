@@ -26,7 +26,7 @@ public class SignalOutputStream extends OutputStream
 
 	public SignalOutputStream(final OutputStream destStream) throws IOException
 	{
-		if (destStream instanceof ObjectOutputStream)
+		if( destStream instanceof ObjectOutputStream )
 			this.destStream = (ObjectOutputStream) destStream;
 		else
 			this.destStream = new ObjectOutputStream(destStream);

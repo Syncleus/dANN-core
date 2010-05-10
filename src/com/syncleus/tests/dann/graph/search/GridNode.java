@@ -56,8 +56,9 @@ public class GridNode extends Vector implements Weighted
 	@Override
 	public boolean equals(final Object compareToObj)
 	{
-		if (!(compareToObj instanceof GridNode))
+		if( !(compareToObj instanceof GridNode) )
 			return false;
+
 		final GridNode compareTo = (GridNode) compareToObj;
 		return ((compareTo.getX() == this.getX()) && (compareTo.getY() == this.getY()));
 	}

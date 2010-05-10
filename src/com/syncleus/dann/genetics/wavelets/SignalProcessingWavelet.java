@@ -78,16 +78,17 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 		@Override
 		public boolean equals(final Object compareWith)
 		{
-			if (compareWith instanceof SignalConcentration)
+			if( compareWith instanceof SignalConcentration )
 			{
 				final SignalConcentration signalCompare = (SignalConcentration) compareWith;
-				if (signalCompare.id == this.id)
+				if( signalCompare.id == this.id )
 					return true;
 			}
 			return false;
 		}
 	}
 	// </editor-fold>
+
 	// <editor-fold defaultstate="collapsed" desc="internal class">
 
 	public static class GlobalSignalConcentration extends SignalConcentration
@@ -139,9 +140,9 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 
 	public int compareTo(final SignalProcessingWavelet compareWith)
 	{
-		if (this.id < compareWith.id)
+		if( this.id < compareWith.id )
 			return -1;
-		else if (this.id > compareWith.id)
+		else if( this.id > compareWith.id )
 			return 1;
 		return 0;
 	}
@@ -149,7 +150,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 	@Override
 	public boolean equals(final Object compareWithObject)
 	{
-		if (compareWithObject instanceof SignalProcessingWavelet)
+		if( compareWithObject instanceof SignalProcessingWavelet )
 			return (this.id == ((SignalProcessingWavelet) compareWithObject).id);
 		return false;
 	}
@@ -195,7 +196,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 			copy.wavelet = (this.wavelet == null ? null : this.wavelet.clone());
 			return copy;
 		}
-		catch (CloneNotSupportedException caught)
+		catch(CloneNotSupportedException caught)
 		{
 			LOGGER.error("CloneNotSupportedException caught but not expected!", caught);
 			throw new UnexpectedDannError("CloneNotSupportedException caught but not expected", caught);
@@ -219,10 +220,10 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 	}
 
 	/**
-	 * Internally mutates.<br/> <br/> may change in any of the following
-	 * ways:<br/> <ul> <li>add a new bound wave</li> <li>copy an existing wave
-	 * and mutates it adding the new mutated wave</li> <li>delete an existing
-	 * wave</li> <li>removing a signal</li> <li>Do nothing</li> </ul>
+	 * Internally mutates.<br/> <br/> may change in any of the following ways:<br/>
+	 * <ul> <li>add a new bound wave</li> <li>copy an existing wave and mutates it
+	 * adding the new mutated wave</li> <li>delete an existing wave</li>
+	 * <li>removing a signal</li> <li>Do nothing</li> </ul>
 	 *
 	 * @return New mutated wavelet
 	 */
@@ -234,7 +235,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 		{
 			final float roll = RANDOM.nextFloat();
 			//60% chance to add a mutated copy of an existing wave
-			if (roll < (float) 0.2)
+			if( roll < (float) 0.2 )
 			{
 				//Signal newSignal = this.getRandomSignal();
 				//return this.mutate(newSignal);
@@ -242,16 +243,16 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 				copy.id = RANDOM.nextLong();
 			}
 			//20% to make a RANDOM new wave
-			else if (roll < (float) 0.8)
+			else if( roll < (float) 0.8 )
 			{
 				copy.waves.add(this.generateNewWave());
 				copy.id = RANDOM.nextLong();
 			}
 			//10% to delete a RANDOM wave
-			else if (roll < (float) 0.9)
+			else if( roll < (float) 0.9 )
 			{
 				//only delete if there will be atleast one wave left
-				if (copy.waves.size() > 1)
+				if( copy.waves.size() > 1 )
 				{
 					final WaveMultidimensionalFunction deleteWave = copy.waves.get(RANDOM.nextInt(copy.waves.size()));
 					copy.waves.remove(deleteWave);
@@ -261,7 +262,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 			else
 			{
 				//only delete if there will be atleast one signal left
-				if (copy.signals.size() > 1)
+				if( copy.signals.size() > 1 )
 				{
 					final SignalConcentration[] newSignals = new SignalConcentration[copy.signals.size()];
 					copy.signals.toArray(newSignals);
@@ -293,7 +294,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 					}
 				}
 			}
-		} while (RANDOM.nextFloat() < (float) 0.1);
+		} while( RANDOM.nextFloat() < (float) 0.1 );
 		return copy;
 	}
 
@@ -306,11 +307,11 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 	 */
 	public SignalProcessingWavelet mutate(final double deviation, final SignalConcentration newSignal)
 	{
-		if (this.signals.contains(newSignal))
+		if( this.signals.contains(newSignal) )
 			return this.mutate(deviation);
 		final SignalProcessingWavelet copy = this.clone();
 		copy.signals.add(newSignal);
-		if (copy.signals.size() > this.signals.size())
+		if( copy.signals.size() > this.signals.size() )
 		{
 			copy.waves.clear();
 			for(final WaveMultidimensionalFunction wave : this.waves)
@@ -395,7 +396,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 		newWave.setPhase(RANDOM.nextGaussian() * 10);
 		newWave.setAmplitude(RANDOM.nextGaussian());
 		newWave.setForm(Math.abs(RANDOM.nextGaussian()));
-		if (newWave.getForm() <= 0.0)
+		if( newWave.getForm() <= 0.0 )
 		{
 			newWave.setForm(newWave.getForm() + ((1 + RANDOM.nextGaussian()) * 10));
 		}
@@ -409,34 +410,34 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 
 	private WaveMultidimensionalFunction generateRandomWave(final double deviation)
 	{
-		if (!this.waves.isEmpty())
+		if( !this.waves.isEmpty() )
 		{
 			final WaveMultidimensionalFunction[] wavesArray = new WaveMultidimensionalFunction[this.waves.size()];
 			this.waves.toArray(wavesArray);
 			final WaveMultidimensionalFunction randomWave = wavesArray[RANDOM.nextInt(wavesArray.length)];
 			final WaveMultidimensionalFunction newWave = randomWave.clone();
 			// TODO clean this up
-			if (RANDOM.nextDouble() <= 1.0)
+			if( RANDOM.nextDouble() <= 1.0 )
 			{
 				newWave.setFrequency(newWave.getFrequency() + ((RANDOM.nextFloat() * 2.0 - 1.0) * deviation * 0.01));
 			}
-			if (RANDOM.nextDouble() <= 1.0)
+			if( RANDOM.nextDouble() <= 1.0 )
 			{
 				newWave.setPhase(newWave.getPhase() + ((RANDOM.nextFloat() * 2.0 - 1.0) * deviation * 10.0));
 			}
-			if (RANDOM.nextDouble() <= 1.0)
+			if( RANDOM.nextDouble() <= 1.0 )
 			{
 				newWave.setAmplitude(newWave.getAmplitude() + ((RANDOM.nextFloat() * 2.0 - 1.0) * deviation * 10.0));
 			}
-			if (RANDOM.nextDouble() <= 1.0)
+			if( RANDOM.nextDouble() <= 1.0 )
 			{
 				newWave.setForm(newWave.getForm() + (RANDOM.nextFloat() * deviation * 0.01));
 			}
-			if (RANDOM.nextDouble() <= 1.0)
+			if( RANDOM.nextDouble() <= 1.0 )
 			{
 				newWave.setDistribution(newWave.getDistribution() + ((RANDOM.nextFloat() * 2.0 - 1.0) * deviation * 100.0));
 			}
-			if (RANDOM.nextDouble() <= 1.0)
+			if( RANDOM.nextDouble() <= 1.0 )
 			{
 				final String[] dimensionNames = newWave.getDimensionNames();
 				for(final String dimensionName : dimensionNames)

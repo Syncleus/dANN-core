@@ -74,9 +74,9 @@ public class Chromosome implements Cloneable
 	public boolean bind(final SignalKeyConcentration concentration, final boolean isExternal)
 	{
 		boolean bound = false;
-		if (this.leftChromatid.bind(concentration, isExternal))
+		if( this.leftChromatid.bind(concentration, isExternal) )
 			bound = true;
-		if (this.rightChromatid.bind(concentration, isExternal))
+		if( this.rightChromatid.bind(concentration, isExternal) )
 			bound = true;
 		return bound;
 	}
@@ -123,11 +123,12 @@ public class Chromosome implements Cloneable
 	{
 		//find the crossover position
 		final int crossoverPosition;
-		if (RANDOM.nextBoolean())
+		if( RANDOM.nextBoolean() )
 		{
 			final int length = (this.leftChromatid.getCentromerePosition() < this.rightChromatid.getCentromerePosition() ? this.leftChromatid.getCentromerePosition() : this.rightChromatid.getCentromerePosition());
+
 			final int fromEnd = (int) Math.abs((new MutableDouble(0d)).mutate(deviation).doubleValue());
-			if (fromEnd > length)
+			if( fromEnd > length )
 				crossoverPosition = 0;
 			else
 				crossoverPosition = -1 * (length - fromEnd);
@@ -136,16 +137,20 @@ public class Chromosome implements Cloneable
 		{
 			final int leftLength = this.leftChromatid.getGenes().size() - this.leftChromatid.getCentromerePosition();
 			final int rightLength = this.rightChromatid.getGenes().size() - this.leftChromatid.getCentromerePosition();
+
 			final int length = (leftLength < rightLength ? leftLength : rightLength);
+
 			final int fromEnd = (int) Math.abs((new MutableDouble(0d)).mutate(deviation).doubleValue());
-			if (fromEnd > length)
+			if( fromEnd > length )
 				crossoverPosition = 0;
 			else
 				crossoverPosition = (length - fromEnd);
 		}
+
 		//perform the crossover.
 		final List<AbstractWaveletGene> leftGenes = this.leftChromatid.crossover(crossoverPosition);
 		final List<AbstractWaveletGene> rightGenes = this.rightChromatid.crossover(crossoverPosition);
+
 		this.leftChromatid.crossover(rightGenes, crossoverPosition);
 		this.rightChromatid.crossover(leftGenes, crossoverPosition);
 	}
@@ -161,7 +166,7 @@ public class Chromosome implements Cloneable
 			copy.mutability = this.mutability;
 			return copy;
 		}
-		catch (CloneNotSupportedException caught)
+		catch(CloneNotSupportedException caught)
 		{
 			LOGGER.error("CloneNotSupportedException caught but not expected!", caught);
 			throw new UnexpectedDannError("CloneNotSupportedException caught but not expected", caught);
@@ -170,11 +175,11 @@ public class Chromosome implements Cloneable
 
 	public void mutate(final Set<AbstractKey> keyPool)
 	{
-		if (Mutations.mutationEvent(this.mutability))
+		if( Mutations.mutationEvent(this.mutability) )
 			this.crossover(this.mutability);
 		this.leftChromatid.mutate(keyPool);
 		this.rightChromatid.mutate(keyPool);
-		if (Mutations.mutationEvent(this.mutability))
+		if( Mutations.mutationEvent(this.mutability) )
 			this.mutability = Mutations.mutabilityMutation(this.mutability);
 	}
 }

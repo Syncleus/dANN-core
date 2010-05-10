@@ -18,10 +18,8 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.math.counting;
 
-import com.syncleus.dann.math.counting.CombinationCounter;
-import com.syncleus.dann.math.counting.Counter;
-import org.junit.Assert;
-import org.junit.Test;
+import com.syncleus.dann.math.counting.*;
+import org.junit.*;
 
 public class TestCombinationCounter
 {
@@ -30,10 +28,13 @@ public class TestCombinationCounter
 	{
 		Counter generator = new CombinationCounter(5, 3);
 		Assert.assertTrue("Generator produced incorrect number of combinations, expected 10, received: " + generator.getTotal(), generator.getTotal().intValue() == 10);
+
 		generator = new CombinationCounter(5, 5);
 		Assert.assertTrue("Generator produced incorrect number of combinations, expected 1, received: " + generator.getTotal(), generator.getTotal().intValue() == 1);
+
 		generator = new CombinationCounter(5, 0);
 		Assert.assertTrue("Generator produced incorrect number of combinations, expected 0, received: " + generator.getTotal(), generator.getTotal().intValue() == 0);
+
 		generator = new CombinationCounter(0, 0);
 		Assert.assertTrue("Generator produced incorrect number of combinations, expected 0, received: " + generator.getTotal(), generator.getTotal().intValue() == 0);
 	}

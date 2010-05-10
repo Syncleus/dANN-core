@@ -30,6 +30,7 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implemen
 	protected AbstractBidirectedEdge(final N leftNode, final EndState leftEndState, final N rightNode, final EndState rightEndState)
 	{
 		super(packNodes(leftNode, rightNode));
+
 		this.leftNode = leftNode;
 		this.rightNode = rightNode;
 		this.leftEndState = leftEndState;
@@ -76,18 +77,18 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implemen
 
 	public boolean isDirected()
 	{
-		if ((this.rightEndState == EndState.INWARD) && (this.leftEndState == EndState.OUTWARD))
+		if( (this.rightEndState == EndState.INWARD) && (this.leftEndState == EndState.OUTWARD) )
 			return true;
-		else if ((this.rightEndState == EndState.OUTWARD) && (this.leftEndState == EndState.INWARD))
+		else if( (this.rightEndState == EndState.OUTWARD) && (this.leftEndState == EndState.INWARD) )
 			return true;
 		return false;
 	}
 
 	public boolean isHalfEdge()
 	{
-		if ((this.rightEndState == EndState.NONE) && (this.leftEndState != EndState.NONE))
+		if( (this.rightEndState == EndState.NONE) && (this.leftEndState != EndState.NONE) )
 			return true;
-		else if ((this.rightEndState != EndState.NONE) && (this.leftEndState == EndState.NONE))
+		else if( (this.rightEndState != EndState.NONE) && (this.leftEndState == EndState.NONE) )
 			return true;
 		return false;
 	}
@@ -119,7 +120,7 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implemen
 
 	private static String endStateToString(final EndState state, final boolean isLeft)
 	{
-		switch (state)
+		switch(state)
 		{
 		case INWARD:
 			return (isLeft ? ">" : "<");

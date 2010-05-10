@@ -16,6 +16,7 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
+
 /*
 ** Derived from the Public-Domain sources found at
 ** http://www.cs.princeton.edu/introcs/97data/ as of 9/13/2009.
@@ -143,8 +144,9 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 
 	public final ComplexNumber pow(final ComplexNumber exponent)
 	{
-		if (exponent == null)
+		if( exponent == null )
 			throw new IllegalArgumentException("exponent can not be null");
+
 		return this.log().multiply(exponent).exp();
 	}
 
@@ -155,15 +157,18 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 
 	public List<ComplexNumber> root(final int n)
 	{
-		if (n <= 0)
+		if( n <= 0 )
 			throw new IllegalArgumentException("n must be greater than 0");
+
 		final List<ComplexNumber> result = new ArrayList<ComplexNumber>();
+
 		double inner = this.phase() / n;
 		for(int nIndex = 0; nIndex < n; nIndex++)
 		{
 			result.add(new ComplexNumber(Math.cos(inner) * Math.pow(this.absScalar(), 1.0 / n), Math.sin(inner) * Math.pow(this.absScalar(), 1.0 / n)));
 			inner += 2 * Math.PI / n;
 		}
+
 		return Collections.unmodifiableList(result);
 	}
 
@@ -280,23 +285,23 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 	@Override
 	public boolean equals(final Object compareObject)
 	{
-		if (!(compareObject instanceof ComplexNumber))
+		if( !(compareObject instanceof ComplexNumber) )
 			return false;
 		final ComplexNumber compareComplex = (ComplexNumber) compareObject;
-		if (compareComplex.realValue != this.realValue)
+		if( compareComplex.realValue != this.realValue )
 			return false;
-		
+
 		return !(compareComplex.imaginaryValue != this.imaginaryValue);
 	}
 
 	@Override
 	public String toString()
 	{
-		if (this.imaginaryValue == 0)
+		if( this.imaginaryValue == 0 )
 			return this.realValue + "0";
-		if (this.realValue == 0)
+		if( this.realValue == 0 )
 			return this.imaginaryValue + "i";
-		if (this.imaginaryValue < 0)
+		if( this.imaginaryValue < 0 )
 			return this.realValue + " - " + this.imaginaryValue + 'i';
 		return this.realValue + " + " + this.imaginaryValue + 'i';
 	}
@@ -328,7 +333,7 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 
 	public static ComplexNumber polarToComplex(final double radius, final double theta)
 	{
-		if (radius < 0)
+		if( radius < 0 )
 			throw new IllegalArgumentException("r must be greater than or equal to 0");
 		return new ComplexNumber(Math.cos(theta) * radius, Math.sin(theta) * radius);
 	}

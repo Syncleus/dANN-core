@@ -40,7 +40,7 @@ public abstract class AbstractNeuron implements Neuron
 	 */
 	public AbstractNeuron(final Brain brain)
 	{
-		if (brain == null)
+		if( brain == null )
 			throw new IllegalArgumentException("brain can not be null");
 		this.brain = brain;
 	}

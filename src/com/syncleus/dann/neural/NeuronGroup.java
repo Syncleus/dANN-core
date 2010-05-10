@@ -31,9 +31,8 @@ public class NeuronGroup<N extends Neuron> implements java.io.Serializable
 	private static final long serialVersionUID = -7251026401945117794L;
 	// <editor-fold defaultstate="collapsed" desc="Attributes">
 	/**
-	 * This contains all the neurons considered to be a part of this layer. Any
-	 * one neuron can only belong to one layer. But one layer owns many neurons.
-	 * <BR>
+	 * This contains all the neurons considered to be a part of this layer. Any one
+	 * neuron can only belong to one layer. But one layer owns many neurons. <BR>
 	 *
 	 * @since 1.0
 	 */
@@ -78,7 +77,9 @@ public class NeuronGroup<N extends Neuron> implements java.io.Serializable
 			this.childrenNeuronGroups.add(currentGroup);
 		}
 	}
+
 	// </editor-fold>
+
 	// <editor-fold defaultstate="collapsed" desc="Topology Manipulation">
 
 	/**
@@ -132,9 +133,11 @@ public class NeuronGroup<N extends Neuron> implements java.io.Serializable
 	public Set<N> getChildrenNeuronsRecursivly()
 	{
 		final HashSet<N> returnList = new HashSet<N>();
+
 		returnList.addAll(this.childrenNeurons);
 		for(final NeuronGroup<? extends N> currentChild : this.childrenNeuronGroups)
 			returnList.addAll(currentChild.getChildrenNeuronsRecursivly());
+
 		return Collections.unmodifiableSet(returnList);
 	}
 	// </editor-fold>

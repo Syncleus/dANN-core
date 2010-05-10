@@ -16,6 +16,7 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
+
 /*
 ** Derived from Public-Domain source as indicated at
 ** http://math.nist.gov/javanumerics/jama/ as of 9/13/2009.
@@ -111,9 +112,9 @@ public class CholeskyBanachiewiczCholeskyDecomposition<M extends Matrix<M, F>, F
 	public M solve(final M solutionMatrix)
 	{
 		M solvedMatrix = solutionMatrix;
-		if (solutionMatrix.getHeight() != this.matrix.getHeight())
+		if( solutionMatrix.getHeight() != this.matrix.getHeight() )
 			throw new IllegalArgumentException("solutionMatrix row dimensions must agree.");
-		if (!this.isSpd)
+		if( !this.isSpd )
 			throw new ArithmeticException("this is not symmetric positive definite.");
 		// Solve L*Y = solutionMatrix;
 		for(int k = 0; k < this.matrix.getHeight(); k++)

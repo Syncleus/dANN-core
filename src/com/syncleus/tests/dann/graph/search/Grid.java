@@ -18,8 +18,8 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.graph.search;
 
-import com.syncleus.dann.graph.*;
 import java.util.*;
+import com.syncleus.dann.graph.*;
 
 public class Grid extends AbstractBidirectedAdjacencyGraph<GridNode, BidirectedEdge<GridNode>>
 {
@@ -47,7 +47,7 @@ public class Grid extends AbstractBidirectedAdjacencyGraph<GridNode, BidirectedE
 			for(int x = 0; x < this.nodes[0].length; x++)
 			{
 				//connect to the right
-				if (x < this.nodes[0].length - 1)
+				if( x < this.nodes[0].length - 1 )
 				{
 					final ImmutableUndirectedEdge<GridNode> newEdge = new ImmutableUndirectedEdge<GridNode>(this.nodes[y][x], this.nodes[y][x + 1]);
 					this.edges.add(newEdge);
@@ -57,7 +57,7 @@ public class Grid extends AbstractBidirectedAdjacencyGraph<GridNode, BidirectedE
 					this.neighborNodes.get(this.nodes[y][x + 1]).add(this.nodes[y][x]);
 				}
 				//connect to the bottom
-				if (y < nodes.length - 1)
+				if( y < nodes.length - 1 )
 				{
 					final ImmutableUndirectedEdge<GridNode> newEdge = new ImmutableUndirectedEdge<GridNode>(this.nodes[y][x], this.nodes[y + 1][x]);
 					this.edges.add(newEdge);
@@ -71,7 +71,7 @@ public class Grid extends AbstractBidirectedAdjacencyGraph<GridNode, BidirectedE
 
 	public GridNode getNode(final int x, final int y)
 	{
-		if ((x >= this.nodes[0].length) || (y >= nodes.length))
+		if( (x >= this.nodes[0].length) || (y >= nodes.length) )
 			throw new IllegalArgumentException("coordinates are out of bounds");
 		return this.nodes[y][x];
 	}

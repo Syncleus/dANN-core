@@ -121,9 +121,9 @@ public class SimpleSynapse extends ImmutableDirectedEdge<Neuron> implements Syna
 	@Override
 	public SimpleSynapse disconnect(final Neuron node)
 	{
-		if (node == null)
+		if( node == null )
 			throw new IllegalArgumentException("node can not be null");
-		if (!this.getNodes().contains(node))
+		if( !this.getNodes().contains(node) )
 			throw new IllegalArgumentException("node is not currently connected to");
 		return (SimpleSynapse) this.remove(node);
 	}
@@ -131,9 +131,9 @@ public class SimpleSynapse extends ImmutableDirectedEdge<Neuron> implements Syna
 	@Override
 	public SimpleSynapse disconnect(final List<Neuron> nodes)
 	{
-		if (nodes == null)
+		if( nodes == null )
 			throw new IllegalArgumentException("node can not be null");
-		if (!this.getNodes().containsAll(nodes))
+		if( !this.getNodes().containsAll(nodes) )
 			throw new IllegalArgumentException("node is not currently connected to");
 		return (SimpleSynapse) this.remove(nodes);
 	}

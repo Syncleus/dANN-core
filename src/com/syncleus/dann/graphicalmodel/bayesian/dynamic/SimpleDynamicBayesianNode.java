@@ -29,12 +29,14 @@ public class SimpleDynamicBayesianNode<S> extends SimpleBayesianNode<S> implemen
 	public SimpleDynamicBayesianNode(final int historyCapacity, final S initialState, final BayesianNetwork network)
 	{
 		super(initialState, network);
-		if (historyCapacity < 0)
+
+		if( historyCapacity < 0 )
 			throw new IllegalArgumentException("historyCapacity can not be less than 0");
-		if (initialState == null)
+		if( initialState == null )
 			throw new IllegalArgumentException("initialState can not be null");
-		if (network == null)
+		if( network == null )
 			throw new IllegalArgumentException("network can not be null");
+
 		final List<BayesianNode<S>> newHistoricalNodes = new ArrayList<BayesianNode<S>>(historyCapacity);
 		for(int historyIndex = 0; historyIndex < historyCapacity; historyIndex++)
 			newHistoricalNodes.add(new SimpleBayesianNode<S>(null, network));
@@ -44,11 +46,11 @@ public class SimpleDynamicBayesianNode<S> extends SimpleBayesianNode<S> implemen
 	public SimpleDynamicBayesianNode(final List<S> history, final S initialState, final BayesianNetwork network)
 	{
 		super(initialState, network);
-		if (history == null)
+		if( history == null )
 			throw new IllegalArgumentException("history can not be null");
-		if (initialState == null)
+		if( initialState == null )
 			throw new IllegalArgumentException("initialState can not be null");
-		if (network == null)
+		if( network == null )
 			throw new IllegalArgumentException("network can not be null");
 		final List<BayesianNode<S>> newHistoricalNodes = new ArrayList<BayesianNode<S>>(history.size());
 		for(final S aHistory : history)
@@ -78,11 +80,13 @@ public class SimpleDynamicBayesianNode<S> extends SimpleBayesianNode<S> implemen
 	public void learnState(final boolean updateHistory)
 	{
 		super.learnState();
-		if (updateHistory)
+
+		if( updateHistory )
 		{
 			//move the state down the line making each state one step older
 			for(int historyIndex = 0; historyIndex < (this.historicalNodes.size() - 1); historyIndex++)
 				this.historicalNodes.get(historyIndex + 1).setState(this.historicalNodes.get(historyIndex).getState());
+
 			//add the new state to history
 			this.historicalNodes.get(0).setState(this.getState());
 		}

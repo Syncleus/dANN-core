@@ -41,7 +41,7 @@ public class BasicWordParser implements WordParser
 		final List<String> words = new ArrayList<String>();
 		final String textLowerCase = text.toLowerCase(Locale.ENGLISH);
 		final Matcher matches = SPACE_PATTERN.matcher(textLowerCase);
-		while (matches.find())
+		while( matches.find() )
 		{
 			final String word = matches.group();
 			words.add(word.toLowerCase(this.locale));

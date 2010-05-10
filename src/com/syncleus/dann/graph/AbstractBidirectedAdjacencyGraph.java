@@ -55,7 +55,7 @@ public abstract class AbstractBidirectedAdjacencyGraph<N, E extends BidirectedEd
 		int degree = 0;
 		for(final E adjacentEdge : adjacentEdges)
 		{
-			if (adjacentEdge.isLoop())
+			if( adjacentEdge.isLoop() )
 				degree += 2;
 			else
 				degree++;
@@ -71,7 +71,8 @@ public abstract class AbstractBidirectedAdjacencyGraph<N, E extends BidirectedEd
 			final List<N> adjacentNodes = new ArrayList<N>(edge.getNodes());
 			adjacentNodes.remove(node);
 			final N adjacentNode = adjacentNodes.get(0);
-			if (edge.isTraversable(adjacentNode) && edge.getTraversableNodes(adjacentNode).contains(node))
+
+			if( edge.isTraversable(adjacentNode) && edge.getTraversableNodes(adjacentNode).contains(node) )
 				inEdges.add(edge);
 		}
 		return Collections.unmodifiableSet(inEdges);

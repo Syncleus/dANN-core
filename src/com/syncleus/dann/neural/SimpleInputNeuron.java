@@ -30,8 +30,9 @@ public class SimpleInputNeuron extends AbstractNeuron implements InputNeuron
 
 	public void setInput(final double inputToSet)
 	{
-		if (Math.abs(inputToSet) > 1.0)
+		if( Math.abs(inputToSet) > 1.0 )
 			throw new IllegalArgumentException("InputToSet must be between -1 and +1");
+
 		this.input = inputToSet;
 	}
 

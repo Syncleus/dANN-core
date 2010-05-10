@@ -44,13 +44,14 @@ public class SimpleCycle<N, E extends Edge<N>> extends SimpleWalk<N, E> implemen
 
 	private static <N, E extends Edge<N>> N startNodeFromSteps(final List<E> steps)
 	{
-		if (steps.size() == 1)
+		if( steps.size() == 1 )
 			return steps.get(0).getNodes().get(0);
+
 		final List<N> exclusiveFirstNodes = new ArrayList<N>(steps.get(0).getNodes());
 		exclusiveFirstNodes.removeAll(steps.get(1).getNodes());
-		if (exclusiveFirstNodes.size() == 1)
+		if( exclusiveFirstNodes.size() == 1 )
 			return exclusiveFirstNodes.get(0);
-		else if (exclusiveFirstNodes.isEmpty())
+		else if( exclusiveFirstNodes.isEmpty() )
 			return steps.get(0).getNodes().get(0);
 		else
 			throw new IllegalArgumentException("steps does not form a path");
@@ -64,17 +65,17 @@ public class SimpleCycle<N, E extends Edge<N>> extends SimpleWalk<N, E> implemen
 
 	private static <N, E extends Edge<N>> List<N> edgeToNodeSteps(final List<E> steps)
 	{
-		if (steps == null)
+		if( steps == null )
 			throw new IllegalArgumentException("steps can not be null");
-		if (steps.contains(null))
+		if( steps.contains(null) )
 			throw new IllegalArgumentException("steps can not contain a null");
-		if (steps.size() < 1)
+		if( steps.size() < 1 )
 			throw new IllegalArgumentException("steps can not be empty");
 		final List<N> newNodeSteps = new ArrayList<N>();
 		N nextNodeStep = SimpleCycle.<N, E>startNodeFromSteps(steps);
 		for(final E edgeStep : steps)
 		{
-			if (!(edgeStep instanceof BidirectedEdge))
+			if( !(edgeStep instanceof BidirectedEdge) )
 				throw new IllegalArgumentException("all steps are not BidirectedEdge");
 			newNodeSteps.add(nextNodeStep);
 			final List<N> nextNodes = new ArrayList<N>(edgeStep.getNodes());
@@ -95,7 +96,7 @@ public class SimpleCycle<N, E extends Edge<N>> extends SimpleWalk<N, E> implemen
 	{
 		final N startNode = this.getNodeSteps().get(0);
 		double endNodeWeight = 0.0;
-		if (startNode instanceof Weighted)
+		if( startNode instanceof Weighted )
 			endNodeWeight = ((Weighted) startNode).getWeight();
 		return super.calculateWeight(defaultWeight) - endNodeWeight;
 	}
