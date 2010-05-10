@@ -56,7 +56,7 @@ public class StateEvidence<S> extends HashMap<S, Integer>
 		final Map<S, Integer> oldMap = new HashMap<S, Integer>(this);
 		super.putAll(map);
 
-		for(final Entry<? extends S, ? extends Integer> entry : map.entrySet())
+		for(final Map.Entry<? extends S, ? extends Integer> entry : map.entrySet())
 		{
 			final Integer oldEvidence = oldMap.get(entry.getKey());
 			final Integer newEvidence = this.get(entry.getKey());
