@@ -75,42 +75,18 @@ public class SimpleMarkovChain<S> extends AbstractMarkovChain<S>
 
 	public SimpleMarkovChain(final Map<S, Map<S, Double>> transitionProbabilities, final Set<S> states)
 	{
-		this.history = new ArrayDeque<S>(1);
-		this.order = 1;
-		this.states = Collections.unmodifiableSet(states);
-		this.columnMapping = new ArrayList<S>(this.states);
-		this.rowMapping = new ArrayList<List<S>>();
+		this(packTransitions(transitionProbabilities), 1, states);
+	}
 
-		final int rows = transitionProbabilities.size();
-		final int columns = states.size();
-		final double[][] matrixValues = new double[rows][columns];
-
-		//iterate through all the new rows
-		int row = 0;
-		for(final Entry<S, Map<S, Double>> transitionProbability : transitionProbabilities.entrySet())
-		{
-			final List<S> rowHeader = Collections.singletonList(transitionProbability.getKey());
-			final Map<S, Double> rowTransition = transitionProbability.getValue();
-
-			assert !rowMapping.contains(rowHeader);
-
-			this.rowMapping.add(rowHeader);
-
-			double rowSum = 0.0;
-			for(final Entry<S, Double> stateTransition : rowTransition.entrySet())
-			{
-				final int column = this.columnMapping.indexOf(stateTransition.getKey());
-				matrixValues[row][column] = stateTransition.getValue();
-				rowSum += matrixValues[row][column];
-			}
-
-			if( Math.abs(rowSum - 1.0) > MAXIMUM_ROW_ERROR )
-				throw new IllegalArgumentException("One of the rows does not sum to 1");
-
-			row++;
-		}
-
-		this.transitionProbabilityMatrix = new SimpleRealMatrix(matrixValues);
+	private static <S> Map<List<S>, Map<S, Double>> packTransitions(Map<S, Map<S, Double>> transitions)
+	{
+		Map<List<S>, Map<S, Double>> pack = new HashMap<List<S>, Map<S, Double>>(transitions.size());
+		for(Map.Entry<S, Map<S, Double>> transitionEntry : transitions.entrySet())
+			if(transitionEntry.getKey() == null)
+				pack.put(Collections.<S>emptyList(), transitionEntry.getValue());
+			else
+				pack.put(Collections.singletonList(transitionEntry.getKey()), transitionEntry.getValue());
+		return pack;
 	}
 
 	public int getOrder()
