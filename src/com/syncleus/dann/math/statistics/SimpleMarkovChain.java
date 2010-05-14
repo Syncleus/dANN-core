@@ -49,8 +49,8 @@ public class SimpleMarkovChain<S> extends AbstractMarkovChain<S>
 		int row = 0;
 		for(final Entry<List<S>, Map<S, Double>> transitionProbability : transitionProbabilities.entrySet())
 		{
-			final List<S> rowHeader = transitionProbability.getKey();
-			final Map<S, Double> rowTransition = transitionProbability.getValue();
+			final List<S> rowHeader = Collections.unmodifiableList(new ArrayList<S>(transitionProbability.getKey()));
+			final Map<S, Double> rowTransition = Collections.unmodifiableMap(new HashMap<S, Double>(transitionProbability.getValue()));
 
 			assert !rowMapping.contains(rowHeader);
 
@@ -87,6 +87,21 @@ public class SimpleMarkovChain<S> extends AbstractMarkovChain<S>
 			else
 				pack.put(Collections.singletonList(transitionEntry.getKey()), transitionEntry.getValue());
 		return pack;
+	}
+
+	public List<S> getTransitionProbabilityColumns()
+	{
+		return Collections.unmodifiableList(this.columnMapping);
+	}
+
+	public List<List<S>> getTransitionProbabilityRows()
+	{
+		return Collections.unmodifiableList(this.rowMapping);
+	}
+
+	public RealMatrix getTransitionProbabilityMatrix()
+	{
+		return this.transitionProbabilityMatrix;
 	}
 
 	public int getOrder()

@@ -71,6 +71,10 @@ public class TestSimpleMarkovChainEvidence
 		final MarkovChain<WeatherState> simpleChain = chainEvidence.getMarkovChain();
 		simpleChain.transition(WeatherState.SUNNY);
 
+		System.out.println("transition columns: " + simpleChain.getTransitionProbabilityColumns());
+		System.out.println("transition rows: " + simpleChain.getTransitionProbabilityRows());
+		System.out.println("transition matrix: " + simpleChain.getTransitionProbabilityMatrix());
+
 		Assert.assertTrue("Sunny steady state incorrect: " + simpleChain.getSteadyStateProbability(WeatherState.SUNNY), Math.abs(simpleChain.getSteadyStateProbability(WeatherState.SUNNY) - 0.83333333333) < 0.1);
 		Assert.assertTrue("Rainy steady state incorrect: " + simpleChain.getSteadyStateProbability(WeatherState.RAINY), Math.abs(simpleChain.getSteadyStateProbability(WeatherState.RAINY) - 0.16666666666) < 0.1);
 		Assert.assertTrue("Sunny 1 step incorrect: " + simpleChain.getProbability(WeatherState.SUNNY, 1), Math.abs(simpleChain.getProbability(WeatherState.SUNNY, 1) - 0.9) < 0.1);

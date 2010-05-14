@@ -19,6 +19,7 @@
 package com.syncleus.dann.math.statistics;
 
 import java.util.*;
+import com.syncleus.dann.math.linear.RealMatrix;
 
 public interface MarkovChain<S>
 {
@@ -34,4 +35,7 @@ public interface MarkovChain<S>
 	Map<S, Double> getSteadyStateProbability();
 	double getProbability(S futureState, int steps);
 	double getSteadyStateProbability(S futureState);
+	List<S> getTransitionProbabilityColumns();
+	List<List<S>> getTransitionProbabilityRows();
+	RealMatrix getTransitionProbabilityMatrix();
 }
