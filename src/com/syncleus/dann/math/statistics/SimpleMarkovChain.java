@@ -42,7 +42,7 @@ public class SimpleMarkovChain<S> extends AbstractMarkovChain<S>
 		this.rowMapping = new ArrayList<List<S>>();
 
 		final int rows = transitionProbabilities.size();
-		final int columns = states.size();
+		final int columns = this.states.size();
 		final double[][] matrixValues = new double[rows][columns];
 
 		//iterate through all the new rows

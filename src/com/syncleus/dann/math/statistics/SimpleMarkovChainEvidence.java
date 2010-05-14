@@ -25,7 +25,7 @@ public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S>
 	private final int order;
 	private final ArrayDeque<S> history;
 	private final boolean isArbitraryStart;
-	private final Map<List<S>, Map<S, Integer>> evidence;
+	private final Map<List<S>, StateCounter<S>> evidence;
 	private final Set<S> observedStates;
 
 	public SimpleMarkovChainEvidence(final boolean isArbitraryStart, final int order)
@@ -33,8 +33,10 @@ public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S>
 		this.history = new ArrayDeque<S>(order);
 		this.order = order;
 		this.isArbitraryStart = isArbitraryStart;
-		this.evidence = new HashMap<List<S>, Map<S, Integer>>();
+		this.evidence = new HashMap<List<S>, StateCounter<S>>();
 		this.observedStates = new HashSet<S>();
+		// TODO observed states shouldnt need a null, instead the markov chain should know its an implicit state (it fails without this)
+		this.observedStates.add(null);
 	}
 
 	public void newChain()
@@ -42,43 +44,46 @@ public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S>
 		this.history.clear();
 	}
 
-	private void learnFromMemroy(final Collection<S> stateMemoryCollection, final S nextState)
+	private void learnFromMemory(final Collection<S> stateMemoryCollection, final S nextState)
 	{
 		final List<S> stateMemory = Collections.unmodifiableList(new ArrayList<S>(stateMemoryCollection));
+		
 		//get the current evidence for this state
-		Map<S, Integer> transitions = this.evidence.get(stateMemory);
+		StateCounter<S> transitions = this.evidence.get(stateMemory);
 		//if there is no transistions then create a blank one
 		if( transitions == null )
 		{
-			transitions = new HashMap<S, Integer>();
+			transitions = new StateCounter<S>();
 			this.evidence.put(stateMemory, transitions);
 		}
 
 		//update the transitions evidence for the new state
-		Integer transition = transitions.get(nextState);
-		if( transition == null )
-			transition = 0;
-		transitions.put(nextState, transition);
+		transitions.increment(nextState);
 	}
 
 	public void learnStep(final S state)
 	{
-		final ArrayDeque<S> trainingMemory = new ArrayDeque<S>(this.history);
-		learnFromMemroy(trainingMemory, state);
+		//update the evidence
+		learnFromMemory(this.history, state);
 
-		if( this.isArbitraryStart )
+		//if there is an arbitrary starting place update the evidance for the
+		//various sub-states of shorter order
+		if( (this.isArbitraryStart) && (this.order > 1) )
 		{
+			final ArrayDeque<S> trainingMemory = new ArrayDeque<S>(this.history);
 			while( trainingMemory.size() > 1 )
 			{
 				trainingMemory.poll();
-				learnFromMemroy(trainingMemory, state);
+				learnFromMemory(trainingMemory, state);
 			}
 		}
 
+		//update the history
 		this.history.add(state);
 		while( this.history.size() > this.order )
 			this.history.poll();
 
+		//update the set of observed states
 		this.observedStates.add(state);
 	}
 
@@ -97,8 +102,48 @@ public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S>
 		return this.isArbitraryStart;
 	}
 
-	public MarkovChain getMarkovChain()
+	public MarkovChain<S> getMarkovChain()
 	{
-		return null;
+		Map<List<S>, Map<S,Double>> transitionProbabilities = new HashMap<List<S>, Map<S,Double>>(this.evidence.size());
+		for(Map.Entry<List<S>,StateCounter<S>> countEntry : this.evidence.entrySet())
+			transitionProbabilities.put(countEntry.getKey(), countEntry.getValue().probabilities());
+		return new SimpleMarkovChain<S>(transitionProbabilities, this.order, this.observedStates);
+	}
+
+	private static class StateCounter<S>
+	{
+		private final Map<S, Integer> stateCount = new HashMap<S,Integer>();
+		private long totalEvidence;
+
+		public StateCounter()
+		{
+		}
+
+		public void increment(S state)
+		{
+			Integer count = this.stateCount.get(state);
+			if(count == null)
+				count = 1;
+			else
+				count++;
+			this.stateCount.put(state, count);
+			this.totalEvidence++;
+		}
+
+		public double probability(S state)
+		{
+			Integer count = this.stateCount.get(state);
+			if(count == null)
+				count = 0;
+			return count.doubleValue() / ((double)totalEvidence);
+		}
+
+		public Map<S, Double> probabilities()
+		{
+			Map<S, Double> prob = new HashMap<S,Double>(this.stateCount.size());
+			for(Map.Entry<S,Integer> countEntry : this.stateCount.entrySet())
+				prob.put(countEntry.getKey(), countEntry.getValue().doubleValue() / ((double)this.totalEvidence));
+			return prob;
+		}
 	}
 }

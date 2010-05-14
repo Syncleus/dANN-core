@@ -26,5 +26,5 @@ public interface MarkovChainEvidence<S>
 	void learnStep(S state);
 	Set<S> getObservedStates();
 	int getOrder();
-	MarkovChain getMarkovChain();
+	MarkovChain<S> getMarkovChain();
 }
