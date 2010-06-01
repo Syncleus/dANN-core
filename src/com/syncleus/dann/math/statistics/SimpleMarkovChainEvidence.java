@@ -33,7 +33,7 @@ public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S>
 		this.history = new ArrayDeque<S>(order);
 		this.order = order;
 		this.isArbitraryStart = isArbitraryStart;
-		this.evidence = new HashMap<List<S>, StateCounter<S>>();
+		this.evidence = new LinkedHashMap<List<S>, StateCounter<S>>();
 		this.observedStates = new HashSet<S>();
 		// TODO observed states shouldnt need a null, instead the markov chain should know its an implicit state (it fails without this)
 		this.observedStates.add(null);
@@ -104,7 +104,7 @@ public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S>
 
 	public MarkovChain<S> getMarkovChain()
 	{
-		Map<List<S>, Map<S,Double>> transitionProbabilities = new HashMap<List<S>, Map<S,Double>>(this.evidence.size());
+		Map<List<S>, Map<S,Double>> transitionProbabilities = new LinkedHashMap<List<S>, Map<S,Double>>(this.evidence.size());
 		for(Map.Entry<List<S>,StateCounter<S>> countEntry : this.evidence.entrySet())
 			transitionProbabilities.put(countEntry.getKey(), countEntry.getValue().probabilities());
 		return new SimpleMarkovChain<S>(transitionProbabilities, this.order, this.observedStates);
