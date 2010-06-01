@@ -52,11 +52,20 @@ public class SimpleMarkovChain<S> extends AbstractMarkovChain<S>
         for(final Entry<List<S>, Map<S, Double>> transitionProbability : transitionProbabilities.entrySet())
 		{
 			final List<S> rowHeader = Collections.unmodifiableList(new ArrayList<S>(transitionProbability.getKey()));
-            if (rowHeader.size() == 0)
-                columnMapping.add(null);
-            else
-                columnMapping.add(rowHeader.get(0));
+            
+            S nextColumn;
+            if (rowHeader.isEmpty()) {
+                nextColumn = null;
+            }
+            else {
+                nextColumn = rowHeader.get(0);
+            }
+
+            if (!columnMapping.contains(nextColumn)) {
+                columnMapping.add(nextColumn);
+            }
         }
+
 
 		//iterate through all the new rows
 		int row = 0;
