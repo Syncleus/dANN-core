@@ -45,6 +45,11 @@
 			<pathelement location="lib/pmd/junit-4.4.jar"/>
 		</classpath>
 	</taskdef>
+	<taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask">
+		<classpath>
+			<pathelement location="lib/jaxb/jaxb-xjc.jar"/>
+		</classpath>
+	</taskdef>
 
 	<path id="classpath">
 		<fileset dir="lib" includes="**/*.jar"/>
@@ -86,20 +91,43 @@
 		</lint4j>
 	</target>
 
-	<target name="compile">
+    <target  name="jaxb">
+        <mkdir dir="build/src-jaxb"/>
+        <xjc extension="true" destdir="build/src-jaxb">
+            <arg line="-Xannotate"/>
+            <schema dir="schema/jaxb" includes="*.xsd"/>
+            <!-- this activates the JAXB2 plugins to add annotations to generated classes -->
+			<classpath>
+				<fileset dir="lib/jaxb/annotate">
+					<!-- JAXB2 Basics library -->
+					<include name="jaxb2-basics-*.jar"/>
+					<include name="jaxb2-basics-annotate*.jar"/>
+					<!-- JAXB2 Basics library dependencies -->
+					<include name="annox-*.jar"/>
+					<include name="hibernate-search-*.jar"/>
+					<include name="commons-logging-*.jar"/>
+					<include name="commons-lang-*.jar"/>
+				</fileset>
+			</classpath>
+        </xjc>
+    </target>
+
+	<target name="compile" depends="jaxb">
 		<delete dir="build/classes"/>
 
 		<mkdir dir="build/classes"/>
-		<javac destdir="build/classes" classpathref="classpath" debug="true" excludes="com/syncleus/tests/**" srcdir="src">
-			<compilerarg value="-Xlint:unchecked"/>
-		</javac>
+		<javac destdir="build/classes" classpathref="classpath" debug="true" excludes="com/syncleus/tests/**">
+            <src path="src"/>
+            <src path="build/src-jaxb"/>
+        </javac>
 		<copy file="log4j.properties" todir="build/classes/"/>
 
 
 		<mkdir dir="build/tests/classes"/>
-		<javac destdir="build/tests/classes" classpathref="classpath" debug="true" srcdir="src">
+		<javac destdir="build/tests/classes" classpathref="classpath" debug="true">
+            <src path="src"/>
+            <src path="build/src-jaxb"/>
 			<include name="com/syncleus/tests/**"/>
-			<compilerarg value="-Xlint:unchecked"/>
 		</javac>
 		<delete dir="build/tests/classes/com/syncleus/dann"/>
 
@@ -112,16 +140,20 @@
 		</cobertura-instrument>
 	</target>
 
-	<target name="compile-warnings">
+	<target name="compile-warnings" depends="jaxb">
 		<delete dir="build/classes"/>
 
 		<mkdir dir="build/classes"/>
-		<javac destdir="build/classes" classpathref="classpath" debug="true" excludes="com/syncleus/tests/**" srcdir="src">
+		<javac destdir="build/classes" classpathref="classpath" debug="true" excludes="com/syncleus/tests/**">
+            <src path="src"/>
+            <src path="build/src-jaxb"/>
 			<compilerarg value="-Xlint"/>
 		</javac>
 
 		<mkdir dir="build/tests/classes"/>
-		<javac destdir="build/tests/classes" classpathref="classpath" debug="true" srcdir="src">
+		<javac destdir="build/tests/classes" classpathref="classpath" debug="true">
+            <src path="src"/>
+            <src path="build/src-jaxb"/>
 			<include name="com/syncleus/tests/**"/>
 			<compilerarg value="-Xlint"/>
 		</javac>

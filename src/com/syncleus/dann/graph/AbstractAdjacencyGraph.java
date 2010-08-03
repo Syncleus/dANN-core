@@ -23,8 +23,15 @@ import java.util.*;
 import java.util.Map.Entry;
 import com.syncleus.dann.UnexpectedDannError;
 import com.syncleus.dann.graph.cycle.*;
+import com.syncleus.dann.graph.xml.*;
 import com.syncleus.dann.math.counting.Counters;
+import com.syncleus.dann.xml.NameXml;
+import com.syncleus.dann.xml.NamedValueXml;
+import com.syncleus.dann.xml.Namer;
+import com.syncleus.dann.xml.XmlSerializable;
 import org.apache.log4j.Logger;
+
+import javax.xml.bind.JAXBElement;
 
 public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Graph<N, E>
 {
@@ -32,6 +39,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 	private Set<E> edges;
 	private Map<N, Set<E>> adjacentEdges = new HashMap<N, Set<E>>();
 	private Map<N, List<N>> adjacentNodes = new HashMap<N, List<N>>();
+
 
 	protected AbstractAdjacencyGraph()
 	{
@@ -94,7 +102,6 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		return Collections.unmodifiableSet(this.adjacentEdges.keySet());
 	}
 
-	@Override
 	public Set<E> getEdges()
 	{
 		return Collections.unmodifiableSet(this.edges);
@@ -708,4 +715,73 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 			return super.hashCode();
 		}
 	}
+
+    public GraphXml toXml()
+    {
+        GraphElementXml xml = new GraphElementXml();
+        Namer namer = new Namer();
+
+        xml.setNodes(new com.syncleus.dann.graph.xml.GraphXml.Nodes());
+        for(N node : this.adjacentEdges.keySet())
+        {
+            final String nodeName = namer.getNameOrCreate(node);
+
+            final Object nodeXml;
+            if(node instanceof XmlSerializable)
+                nodeXml = ((XmlSerializable)node).toXml(namer);
+            else
+                //if the object isnt XmlSerializable lets try to just serialize it as a regular JAXB object
+                nodeXml = node;
+
+            NamedValueXml encapsulation = new NamedValueXml();
+            encapsulation.setName(nodeName);
+            encapsulation.setValue(nodeXml);
+
+            xml.getNodeInstances().getNodes().add(encapsulation);
+        }
+
+        this.toXml(xml, namer);
+        return xml;
+    }
+
+    public GraphXml toXml(Namer namer)
+    {
+        if(namer == null)
+            throw new IllegalArgumentException("namer can not be null");
+
+        GraphXml xml = new GraphXml();
+        this.toXml(xml, namer);
+        return xml;
+    }
+
+    public void toXml(GraphXml jaxbObject, Namer namer)
+    {
+        for(N node : this.adjacentEdges.keySet())
+        {
+            final String nodeName = namer.getNameOrCreate(node);
+
+            final Object nodeXml;
+            if(node instanceof XmlSerializable)
+                nodeXml = ((XmlSerializable)node).toXml(namer);
+            else
+                //if the object isnt XmlSerializable lets try to just serialize it as a regular JAXB object
+                nodeXml = node;
+
+            NameXml encapsulation = new NameXml();
+            encapsulation.setName(nodeName);
+
+            if( jaxbObject.getNodes() == null )
+                jaxbObject.setNodes(new GraphXml.Nodes());
+            jaxbObject.getNodes().getNodes().add(encapsulation);
+        }
+
+        for(E edge : this.edges)
+        {
+            EdgeXml edgeXml = edge.toXml(namer);
+
+            if( jaxbObject.getEdges() == null )
+                jaxbObject.setEdges(new GraphXml.Edges());
+            jaxbObject.getEdges().getEdges().add(edgeXml);
+        }
+    }
 }

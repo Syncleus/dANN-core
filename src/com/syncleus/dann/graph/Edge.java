@@ -18,10 +18,14 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
+import com.syncleus.dann.graph.xml.EdgeElementXml;
+import com.syncleus.dann.graph.xml.EdgeXml;
+import com.syncleus.dann.xml.XmlSerializable;
+
 import java.io.Serializable;
 import java.util.List;
 
-public interface Edge<N> extends Serializable, Cloneable
+public interface Edge<N> extends Serializable, Cloneable, XmlSerializable<EdgeXml>
 {
 	List<N> getNodes();
 	List<N> getTraversableNodes(N node);

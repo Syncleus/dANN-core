@@ -18,7 +18,12 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
+import com.syncleus.dann.graph.xml.BidirectedEdgeXml;
+import com.syncleus.dann.graph.xml.EdgeXml;
+import com.syncleus.dann.xml.Namer;
+
 import java.util.*;
+
 
 public class ImmutableDirectedEdge<N> extends AbstractBidirectedEdge<N> implements DirectedEdge<N>
 {

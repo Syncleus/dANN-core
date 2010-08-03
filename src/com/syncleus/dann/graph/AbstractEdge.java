@@ -20,12 +20,21 @@ package com.syncleus.dann.graph;
 
 import java.util.*;
 import com.syncleus.dann.UnexpectedDannError;
+import com.syncleus.dann.graph.xml.*;
+import com.syncleus.dann.xml.NameXml;
+import com.syncleus.dann.xml.NamedValueXml;
+import com.syncleus.dann.xml.Namer;
+import com.syncleus.dann.xml.XmlSerializable;
 import org.apache.log4j.Logger;
 
 public abstract class AbstractEdge<N> implements Edge<N>
 {
 	private static final Logger LOGGER = Logger.getLogger(AbstractEdge.class);
 	private List<N> nodes;
+
+    protected AbstractEdge()
+    {
+    }
 
 	protected AbstractEdge(final List<N> nodes)
 	{
@@ -128,7 +137,59 @@ public abstract class AbstractEdge<N> implements Edge<N>
 		catch(CloneNotSupportedException caught)
 		{
 			LOGGER.error("Edge was unexpectidly not cloneable", caught);
-			throw new UnexpectedDannError("Edge was unexpectidly not cloneable");
+			throw new UnexpectedDannError("Edge was unexpectidly not cloneable", caught);
 		}
 	}
+
+    public EdgeXml toXml()
+    {
+        Namer namer = new Namer();
+        EdgeElementXml xml = new EdgeElementXml();
+
+        xml.setNodeInstances(new EdgeElementXml.NodeInstances());
+        Set<N> writtenNodes = new HashSet<N>();
+        for(N node : this.nodes)
+        {
+            if( writtenNodes.add(node) )
+            {
+                NamedValueXml named = new NamedValueXml();
+                named.setName(namer.getNameOrCreate(node));
+                if(node instanceof XmlSerializable)
+                    named.setValue(((XmlSerializable)node).toXml(namer));
+                else
+                    named.setValue(node);
+                xml.getNodeInstances().getNodes().add(named);
+            }
+        }
+        this.toXml(xml, namer);
+        
+        return xml;
+    }
+
+    public EdgeXml toXml(Namer nodeNames)
+    {
+        if(nodeNames == null)
+            throw new IllegalArgumentException("nodeNames can not be null");
+        
+        EdgeXml xml = new EdgeXml();
+        this.toXml(xml, nodeNames);
+        return xml;
+    }
+
+    public void toXml(EdgeXml jaxbObject, Namer nodeNames)
+    {
+        if(nodeNames == null)
+            throw new IllegalArgumentException("nodeNames can not be null");
+        if(jaxbObject == null)
+            throw new IllegalArgumentException("jaxbObject can not be null");
+
+        if(jaxbObject.getConnections() == null)
+            jaxbObject.setConnections(new EdgeXml.Connections());
+        for(N node : this.nodes)
+        {
+            NameXml connection = new NameXml();
+            connection.setName(nodeNames.getNameOrCreate(node));
+            jaxbObject.getConnections().getNodes().add(connection);
+        }
+    }
 }

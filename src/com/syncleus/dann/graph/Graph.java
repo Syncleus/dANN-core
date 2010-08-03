@@ -18,6 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
+import com.syncleus.dann.graph.xml.GraphElementXml;
+import com.syncleus.dann.graph.xml.GraphXml;
+import com.syncleus.dann.xml.XmlSerializable;
+
 import java.io.Serializable;
 import java.util.*;
 
@@ -34,7 +38,7 @@ import java.util.*;
  * @author Jeffrey Phillips Freeman
  * @since 2.0
  */
-public interface Graph<N, E extends Edge<N>> extends Serializable, Cloneable
+public interface Graph<N, E extends Edge<N>> extends Serializable, Cloneable, XmlSerializable<GraphXml>
 {
 	/**
 	 * Get a set of all nodes in the graph.

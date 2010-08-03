@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema
+        xmlns="http://127.0.0.1:8080/Aide/com/syncleus/dann/graph/xml"
+        xmlns:dann="http://127.0.0.1:8080/Aide/com/syncleus/dann/xml"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+        xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+        xmlns:annox="http://annox.dev.java.net"
+        xmlns:anno="http://annox.dev.java.net/javax.xml.bind.annotation"
+        targetNamespace="http://127.0.0.1:8080/Aide/com/syncleus/dann/graph/xml"
+        jaxb:version="2.0"
+        jaxb:extensionBindingPrefixes="xjc annox"
+        attributeFormDefault="unqualified"
+        elementFormDefault="unqualified">
+
+    <xsd:import namespace="http://127.0.0.1:8080/Aide/com/syncleus/dann/xml" schemaLocation="com.syncleus.dann.xml.xsd"/>
+
+    <!-- Global annotations -->
+    <xsd:annotation>
+        <xsd:appinfo>
+            <jaxb:globalBindings
+                    fixedAttributeAsConstantProperty="true"
+                    collectionType="java.util.ArrayList"
+                    typesafeEnumBase="xsd:NCName"
+                    choiceContentProperty="true"
+                    typesafeEnumMemberName="generateError"
+                    enableFailFastCheck="false"
+                    generateIsSetMethod="true"/>
+            <jaxb:schemaBindings>
+                <jaxb:package name="com.syncleus.dann.graph.xml"/>
+                <jaxb:nameXmlTransform>
+                    <jaxb:typeName suffix="Xml"/>
+                </jaxb:nameXmlTransform>
+            </jaxb:schemaBindings>
+        </xsd:appinfo>
+    </xsd:annotation>
+
+
+    <!-- some basic commonly used types -->
+    <xsd:simpleType name="EdgeDirection">
+        <xsd:restriction base="dann:FilledString">
+            <xsd:enumeration value="inward"/>
+            <xsd:enumeration value="outward"/>
+            <xsd:enumeration value="none"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+
+    <!-- Graphs -->
+
+    <!-- Graph Element, contains instances -->
+    <xsd:element name="Graph">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <jaxb:class name="GraphElementXml">
+                    <jaxb:javadoc>
+                        XML Representation of Graph Element
+                    </jaxb:javadoc>
+                </jaxb:class>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="Graph">
+                    <xsd:sequence>
+                        <xsd:element name="nodeInstances" maxOccurs="1">
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="node" type="dann:NamedValue" maxOccurs="unbounded">
+                                        <xsd:annotation>
+                                            <xsd:appinfo>
+                                                <jaxb:property name="nodes"/>
+                                            </xsd:appinfo>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+    <!-- Graph Type, contains references to instanced obects -->
+    <xsd:complexType name="Graph">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <jaxb:class>
+                    <jaxb:javadoc>
+                        XML Representation of A Graph
+                    </jaxb:javadoc>
+                </jaxb:class>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="nodes" maxOccurs="1">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="node" type="dann:Name" maxOccurs="unbounded">
+                            <xsd:annotation>
+                                <xsd:appinfo>
+                                    <jaxb:property name="nodes"/>
+                                </xsd:appinfo>
+                            </xsd:annotation>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="edges" maxOccurs="1">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="edge" maxOccurs="unbounded" type="Edge">
+                            <xsd:annotation>
+                                <xsd:appinfo>
+                                    <jaxb:property name="edges"/>
+                                </xsd:appinfo>
+                            </xsd:annotation>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+
+    <!-- Edges -->
+
+    <!-- Edge Element, contains instances -->
+    <xsd:element name="Edge">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <jaxb:class name="EdgeElementXml">
+                    <jaxb:javadoc>
+                        XML Representation of Edge Element
+                    </jaxb:javadoc>
+                </jaxb:class>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="Edge">
+                    <xsd:sequence>
+                        <xsd:element name="nodeInstances" maxOccurs="1">
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="node" type="dann:NamedValue" maxOccurs="unbounded">
+                                        <xsd:annotation>
+                                            <xsd:appinfo>
+                                                <jaxb:property name="nodes"/>
+                                            </xsd:appinfo>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+    <!-- Edge Type, contains references to instanced objects -->
+    <xsd:complexType name="Edge">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <jaxb:class>
+                    <jaxb:javadoc>
+                        XML Representation of Edge
+                    </jaxb:javadoc>
+                </jaxb:class>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="connections" maxOccurs="1">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="connection" type="dann:Name" maxOccurs="unbounded">
+                            <xsd:annotation>
+                                <xsd:appinfo>
+                                    <jaxb:property name="nodes"/>
+                                </xsd:appinfo>
+                            </xsd:annotation>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <!-- BidirectedEdge Element, contains instances -->
+    <xsd:element name="BidirectedEdge">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <jaxb:class name="BidirectedEdgeElementXml">
+                    <jaxb:javadoc>
+                        XML Representation of BidirectedEdge Element
+                    </jaxb:javadoc>
+                </jaxb:class>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="BidirectedEdge">
+                    <xsd:sequence>
+                        <xsd:element name="nodeInstances" maxOccurs="1">
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="node" type="dann:NamedValue" maxOccurs="unbounded">
+                                        <xsd:annotation>
+                                            <xsd:appinfo>
+                                                <jaxb:property name="nodes"/>
+                                            </xsd:appinfo>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+    <!-- BidirectedEdge Type, contains references to instanced objects -->
+    <xsd:complexType name="BidirectedEdge">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <jaxb:class>
+                    <jaxb:javadoc>
+                        XML Representation of BidirectedEdge
+                    </jaxb:javadoc>
+                </jaxb:class>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="Edge">
+                <xsd:attribute name="leftNode" type="dann:FilledString" use="required"/>
+                <xsd:attribute name="rightNode" type="dann:FilledString" use="required"/>
+                <xsd:attribute name="leftDirection" type="EdgeDirection" use="required"/>
+                <xsd:attribute name="rightDirection" type="EdgeDirection" use="required"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    
+</xsd:schema>

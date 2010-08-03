@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema
+        xmlns="http://127.0.0.1:8080/Aide/com/syncleus/dann/xml"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+        xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+        xmlns:annox="http://annox.dev.java.net"
+        xmlns:anno="http://annox.dev.java.net/javax.xml.bind.annotation"
+        targetNamespace="http://127.0.0.1:8080/Aide/com/syncleus/dann/xml"
+        jaxb:version="2.0"
+        jaxb:extensionBindingPrefixes="xjc annox"
+        attributeFormDefault="unqualified"
+        elementFormDefault="unqualified">
+
+
+    <!-- Global annotations -->
+    <xsd:annotation>
+        <xsd:appinfo>
+            <jaxb:globalBindings
+                    fixedAttributeAsConstantProperty="true"
+                    collectionType="java.util.ArrayList"
+                    typesafeEnumBase="xsd:NCName"
+                    choiceContentProperty="true"
+                    typesafeEnumMemberName="generateError"
+                    enableFailFastCheck="false"
+                    generateIsSetMethod="true"/>
+            <jaxb:schemaBindings>
+                <jaxb:package name="com.syncleus.dann.xml"/>
+                <jaxb:nameXmlTransform>
+                    <jaxb:typeName suffix="Xml"/>
+                </jaxb:nameXmlTransform>
+            </jaxb:schemaBindings>
+        </xsd:appinfo>
+    </xsd:annotation>
+
+
+    <!-- some basic commonly used types -->
+    <xsd:simpleType name="FilledString">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:complexType name="NamedValue">
+        <xsd:sequence>
+            <xsd:element name="value" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+        <xsd:attribute name="name" type="FilledString" use="required"/>
+    </xsd:complexType>
+    <xsd:complexType name="Name">
+        <xsd:attribute name="name" type="FilledString" use="required"/>
+    </xsd:complexType>
+
+</xsd:schema>
