@@ -218,7 +218,7 @@ public abstract class AbstractBayesianAdjacencyNetwork<N extends BayesianNode, E
     }
 
     @Override
-    public BayesianNetworkXml toXml(Namer namer)
+    public BayesianNetworkXml toXml(Namer<N> namer)
     {
         if(namer == null)
             throw new IllegalArgumentException("namer can not be null");
@@ -229,7 +229,7 @@ public abstract class AbstractBayesianAdjacencyNetwork<N extends BayesianNode, E
     }
 
     @Override
-    public void toXml(GraphXml jaxbObject, Namer namer)
+    public void toXml(GraphXml jaxbObject, Namer<N> namer)
     {
         if(namer == null)
             throw new IllegalArgumentException("nodeNames can not be null");

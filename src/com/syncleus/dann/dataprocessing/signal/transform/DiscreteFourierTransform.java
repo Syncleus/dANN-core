@@ -26,18 +26,18 @@ public class DiscreteFourierTransform
 	private final ComplexNumber[] transform;
 	private final NavigableMap<Double, ComplexNumber> frequencies;
 
-	public DiscreteFourierTransform(final ComplexNumber[] frequencies, final int bitrate)
+	public DiscreteFourierTransform(final ComplexNumber[] ourFrequencies, final int bitrate)
 	{
-		final double frequencySize = ((double) frequencies.length) / 2.0;
-		final double frequencyStep = frequencyResolution(frequencies.length, bitrate);
+		final double frequencySize = ((double) ourFrequencies.length) / 2.0;
+		final double frequencyStep = frequencyResolution(ourFrequencies.length, bitrate);
 		final NavigableMap<Double, ComplexNumber> newFrequencies = new TreeMap<Double, ComplexNumber>();
 		for(int index = 0; index <= (int) frequencySize; index++)
 		{
 			final Double currentFrequency = ((double) index) * frequencyStep;
-			newFrequencies.put(currentFrequency, frequencies[index]);
+			newFrequencies.put(currentFrequency, ourFrequencies[index]);
 		}
 		this.frequencies = newFrequencies;
-		this.transform = frequencies.clone();
+		this.transform = ourFrequencies.clone();
 	}
 
 	public static double upperFrequency(final int bitrate)

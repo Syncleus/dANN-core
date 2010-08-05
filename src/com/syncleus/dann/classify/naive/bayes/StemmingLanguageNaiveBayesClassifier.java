@@ -32,10 +32,10 @@ public class StemmingLanguageNaiveBayesClassifier<C> extends SimpleNaiveBayesCla
 		this(Locale.getDefault());
 	}
 
-	public StemmingLanguageNaiveBayesClassifier(final Locale locale)
+	public StemmingLanguageNaiveBayesClassifier(final Locale ourLocale)
 	{
 		super(new StemmingWordExtractor());
-		this.locale = locale;
+		this.locale = ourLocale;
 	}
 
 	@Override

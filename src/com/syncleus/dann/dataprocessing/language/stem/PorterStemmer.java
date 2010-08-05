@@ -22,6 +22,8 @@ import java.util.*;
 
 public class PorterStemmer implements Stemmer
 {
+	private static final int GROW_SIZE = 50;
+
 	private char[] buffer;
 	private int stemEndIndex;
 	private int wordEndIndex;
@@ -32,25 +34,25 @@ public class PorterStemmer implements Stemmer
 
 	public PorterStemmer()
 	{
-		this(50);
+		this(GROW_SIZE);
 	}
 
-	public PorterStemmer(final int growSize)
+	public PorterStemmer(final int ourGrowSize)
 	{
-		this(Locale.getDefault(), growSize);
+		this(Locale.getDefault(), ourGrowSize);
 	}
 
-	public PorterStemmer(final Locale locale)
+	public PorterStemmer(final Locale ourLocale)
 	{
-		this(locale, 50);
+		this(ourLocale, GROW_SIZE);
 	}
 
-	public PorterStemmer(final Locale locale, final int growSize)
+	public PorterStemmer(final Locale ourLocale, final int ourGrowSize)
 	{
-		this.growSize = growSize;
-		this.buffer = new char[growSize];
+		this.growSize = ourGrowSize;
+		this.buffer = new char[ourGrowSize];
 		this.dirtyBuffer = false;
-		this.locale = locale;
+		this.locale = ourLocale;
 	}
 
 	public String stemWord(final String originalWord)
@@ -316,6 +318,9 @@ public class PorterStemmer implements Stemmer
 			if( ends("logi") )
 				setToConsonantStem("log");
 			break;
+		default:
+			break;
+			//throw new UnexpectedDannError("Unknown suffix from " + buffer[wordEndIndex - 1]);
 		}
 	}
 
@@ -346,6 +351,9 @@ public class PorterStemmer implements Stemmer
 			if( ends("ness") )
 				setToConsonantStem("");
 			break;
+		default:
+			break;
+			//throw new UnexpectedDannError("Unknown suffix from " + buffer[wordEndIndex]);
 		}
 	}
 

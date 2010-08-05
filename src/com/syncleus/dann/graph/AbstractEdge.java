@@ -166,7 +166,8 @@ public abstract class AbstractEdge<N> implements Edge<N>
         return xml;
     }
 
-    public EdgeXml toXml(Namer nodeNames)
+	@Override
+    public EdgeXml toXml(Namer<N> nodeNames)
     {
         if(nodeNames == null)
             throw new IllegalArgumentException("nodeNames can not be null");
@@ -176,7 +177,8 @@ public abstract class AbstractEdge<N> implements Edge<N>
         return xml;
     }
 
-    public void toXml(EdgeXml jaxbObject, Namer nodeNames)
+	@Override
+    public void toXml(EdgeXml jaxbObject, Namer<N> nodeNames)
     {
         if(nodeNames == null)
             throw new IllegalArgumentException("nodeNames can not be null");

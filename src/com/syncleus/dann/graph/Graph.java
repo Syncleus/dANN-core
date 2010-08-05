@@ -38,7 +38,7 @@ import java.util.*;
  * @author Jeffrey Phillips Freeman
  * @since 2.0
  */
-public interface Graph<N, E extends Edge<N>> extends Serializable, Cloneable, XmlSerializable<GraphXml>
+public interface Graph<N, E extends Edge<N>> extends Serializable, Cloneable, XmlSerializable<GraphXml, N>
 {
 	/**
 	 * Get a set of all nodes in the graph.

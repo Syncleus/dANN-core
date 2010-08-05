@@ -30,10 +30,10 @@ public class StemmingLanguageNaiveClassifier<C> extends SimpleNaiveClassifier<St
 		this(Locale.getDefault());
 	}
 
-	public StemmingLanguageNaiveClassifier(final Locale locale)
+	public StemmingLanguageNaiveClassifier(final Locale ourLocale)
 	{
 		super(new StemmingWordExtractor());
-		this.locale = locale;
+		this.locale = ourLocale;
 	}
 
 	@Override

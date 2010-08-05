@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="dANN" default="all" basedir=".">
+	<property name="debug.level" value="vars,lines,source" /> <!-- Attempt to remove Cobertura warnings -->
+
 	<taskdef name="lint4j" classname="com.jutils.lint4j.ant.Lint4jAntTask">
 		<classpath>
 			<pathelement location="lib/lint/lint4j.jar"/>
@@ -116,7 +118,7 @@
 		<delete dir="build/classes"/>
 
 		<mkdir dir="build/classes"/>
-		<javac destdir="build/classes" classpathref="classpath" debug="true" excludes="com/syncleus/tests/**">
+		<javac destdir="build/classes" classpathref="classpath" debug="true" debuglevel="${debug.level}" excludes="com/syncleus/tests/**">
             <src path="src"/>
             <src path="build/src-jaxb"/>
         </javac>
@@ -124,7 +126,7 @@
 
 
 		<mkdir dir="build/tests/classes"/>
-		<javac destdir="build/tests/classes" classpathref="classpath" debug="true">
+		<javac destdir="build/tests/classes" classpathref="classpath" debug="true" debuglevel="${debug.level}">
             <src path="src"/>
             <src path="build/src-jaxb"/>
 			<include name="com/syncleus/tests/**"/>
@@ -144,14 +146,14 @@
 		<delete dir="build/classes"/>
 
 		<mkdir dir="build/classes"/>
-		<javac destdir="build/classes" classpathref="classpath" debug="true" excludes="com/syncleus/tests/**">
+		<javac destdir="build/classes" classpathref="classpath" debug="true" debuglevel="${debug.level}" excludes="com/syncleus/tests/**">
             <src path="src"/>
             <src path="build/src-jaxb"/>
 			<compilerarg value="-Xlint"/>
 		</javac>
 
 		<mkdir dir="build/tests/classes"/>
-		<javac destdir="build/tests/classes" classpathref="classpath" debug="true">
+		<javac destdir="build/tests/classes" classpathref="classpath" debug="true" debuglevel="${debug.level}">
             <src path="src"/>
             <src path="build/src-jaxb"/>
 			<include name="com/syncleus/tests/**"/>

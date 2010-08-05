@@ -107,8 +107,4 @@ public class SimpleDynamicBayesianNode<S> extends SimpleBayesianNode<S> implemen
 		influences.addAll(this.historicalNodes);
 		return Collections.unmodifiableSet(influences);
 	}
-
-	public void toXml(BayesianNodeXml jaxbObject, Namer namer) {
-		throw new UnsupportedOperationException("toXML not yet implemented");
-	}
 }

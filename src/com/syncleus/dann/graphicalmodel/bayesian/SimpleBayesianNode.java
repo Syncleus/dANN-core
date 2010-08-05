@@ -125,7 +125,7 @@ public class SimpleBayesianNode<S> implements BayesianNode<S>
 	@Override
     public SimpleBayesianNodeXml toXml()
     {
-        Namer namer = new Namer();
+        Namer<S> namer = new Namer<S>();
         SimpleBayesianNodeElementXml xml = new SimpleBayesianNodeElementXml();
 
         xml.setStateInstances(new SimpleBayesianNodeElementXml.StateInstances());
@@ -161,7 +161,7 @@ public class SimpleBayesianNode<S> implements BayesianNode<S>
     }
 
 	@Override
-    public SimpleBayesianNodeXml toXml(Namer namer)
+    public SimpleBayesianNodeXml toXml(Namer<S> namer)
     {
         if(namer == null)
             throw new IllegalArgumentException("namer can not be null");
@@ -171,7 +171,8 @@ public class SimpleBayesianNode<S> implements BayesianNode<S>
         return xml;
     }
 
-    public void toXml(BayesianNodeXml jaxbObject, Namer namer)
+	@Override
+    public void toXml(BayesianNodeXml jaxbObject, Namer<S> namer)
     {
         //set learned states
         if(jaxbObject.getLearnedStates() == null)

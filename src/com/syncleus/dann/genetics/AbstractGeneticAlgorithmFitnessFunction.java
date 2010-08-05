@@ -35,12 +35,12 @@ public abstract class AbstractGeneticAlgorithmFitnessFunction<E extends Abstract
 	 * Initializes a new instance of this class acting as a wrapper for the
 	 * specified chromosome.
 	 *
-	 * @param chromosome Chromosome to wrap and evaluate the fitness of.
+	 * @param ourChromosome Chromosome to wrap and evaluate the fitness of.
 	 * @since 2.0
 	 */
-	public AbstractGeneticAlgorithmFitnessFunction(final GeneticAlgorithmChromosome chromosome)
+	public AbstractGeneticAlgorithmFitnessFunction(final GeneticAlgorithmChromosome ourChromosome)
 	{
-		this.chromosome = chromosome;
+		this.chromosome = ourChromosome;
 	}
 
 	/**

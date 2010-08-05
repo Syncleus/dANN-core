@@ -29,15 +29,15 @@ public final class Transforms
 		private final FastFourierTransformerInputStream inStream;
 		private final SignalOutputStream outStream;
 
-		public StreamPair(final FastFourierTransformerInputStream inStream, final SignalOutputStream outStream)
+		public StreamPair(final FastFourierTransformerInputStream inputStream, final SignalOutputStream outputStream)
 		{
-			if( inStream == null )
-				throw new IllegalArgumentException("inStream can not be null");
-			if( outStream == null )
-				throw new IllegalArgumentException("outStream can not be null");
+			if( inputStream == null )
+				throw new IllegalArgumentException("inputStream can not be null");
+			if( outputStream == null )
+				throw new IllegalArgumentException("outputStream can not be null");
 
-			this.inStream = inStream;
-			this.outStream = outStream;
+			this.inStream = inputStream;
+			this.outStream = outputStream;
 		}
 
 		public FastFourierTransformerInputStream getInStream()

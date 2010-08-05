@@ -28,28 +28,29 @@ public class FastFourierTransformerInputStream extends InputStream
 	private int interval;
 	private double[] buffer;
 
-	public FastFourierTransformerInputStream(final InputStream srcStream, final FastFourierTransformer transformer, final int interval) throws IOException
+	public FastFourierTransformerInputStream(final InputStream inputStream, final FastFourierTransformer ourTransformer, final int ourInterval) throws IOException
 	{
-		if( srcStream == null )
-			throw new IllegalArgumentException("srcStream can not be null");
-		if( transformer == null )
-			throw new IllegalArgumentException("transformer can not be null");
-		if( interval <= 0 )
-			throw new IllegalArgumentException("interval must be greater than 0");
+		if( inputStream == null )
+			throw new IllegalArgumentException("inputStream can not be null");
+		if( ourTransformer == null )
+			throw new IllegalArgumentException("ourTransformer can not be null");
+		if( ourInterval <= 0 )
+			throw new IllegalArgumentException("ourInterval must be greater than 0");
 
-		if( srcStream instanceof ObjectInputStream )
-			this.srcStream = (ObjectInputStream) srcStream;
+		if( inputStream instanceof ObjectInputStream )
+			this.srcStream = (ObjectInputStream) inputStream;
 		else
-			this.srcStream = new ObjectInputStream(srcStream);
+			this.srcStream = new ObjectInputStream(inputStream);
 
-		this.transformer = transformer;
-		this.interval = interval;
+		this.transformer = ourTransformer;
+		this.interval = ourInterval;
 	}
 
 	public int transformsAvailable() throws IOException
 	{
-		final int doublesAvailible = (this.buffer != null ? (this.available() / 8) + this.buffer.length : this.available() / 8);
-		return doublesAvailible / this.transformer.getBlockSize();
+		final int numPerDouble = 8;
+		final int doublesAvailable = (this.buffer != null ? (this.available() / numPerDouble) + this.buffer.length : this.available() / numPerDouble);
+		return doublesAvailable / this.transformer.getBlockSize();
 	}
 
 	public int readTransform(final DiscreteFourierTransform[] b, final int off, final int len) throws IOException
@@ -166,9 +167,9 @@ public class FastFourierTransformerInputStream extends InputStream
 		return this.interval;
 	}
 
-	public void setInterval(final int interval)
+	public void setInterval(final int newInterval)
 	{
-		this.interval = interval;
+		this.interval = newInterval;
 	}
 
 	@Override

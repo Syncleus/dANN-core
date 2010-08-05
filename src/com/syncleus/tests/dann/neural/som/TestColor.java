@@ -40,7 +40,7 @@ public class TestColor
 	{
 		final Random random = new Random();
 		final int cores = Runtime.getRuntime().availableProcessors();
-		final ThreadPoolExecutor executor = new ThreadPoolExecutor(cores + 1, cores * 2, 20, TimeUnit.SECONDS, new LinkedBlockingQueue());
+		final ThreadPoolExecutor executor = new ThreadPoolExecutor(cores + 1, cores * 2, 20, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
 		try
 		{
 			//initialize brain with 3d input and 2d output
@@ -48,7 +48,7 @@ public class TestColor
 			//create the output latice
 			for(double x = 0; x < OUTPUT_WIDTH; x++)
 				for(double y = 0; y < OUTPUT_HEIGHT; y++)
-					brain.createOutput(new Vector(new double[]{x, y}));
+					brain.createOutput(new Vector(x, y));
 			//run through RANDOM training data
 			for(int iteration = 0; iteration < TRAIN_ITERATIONS; iteration++)
 			{

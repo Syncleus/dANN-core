@@ -94,7 +94,7 @@ public class SimpleFisherClassifier<I, F, C> extends SimpleNaiveBayesClassifier<
 		double probability = 1.0;
 		for(final F feature : features)
 			probability *= this.featureClassificationWeightedProbability(feature, category);
-		probability = (-2.0 * Math.log(probability)) / 2.0;
+		probability = -Math.log(probability); //originally (-2.0 * Math.log(probability)) / 2.0;
 
 		double term = Math.exp(-probability);
 		double sum = term;

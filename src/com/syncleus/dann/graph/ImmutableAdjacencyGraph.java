@@ -18,6 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
+import com.syncleus.dann.xml.Namer;
+import com.syncleus.dann.graph.xml.GraphXml;
+
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -104,5 +107,13 @@ public class ImmutableAdjacencyGraph<N, E extends Edge<N>> extends AbstractAdjac
 	public ImmutableAdjacencyGraph<N, E> clone()
 	{
 		return (ImmutableAdjacencyGraph<N, E>) super.clone();
+	}
+
+	public GraphXml toXml(Namer<N> namer) {
+		throw new UnsupportedOperationException("XML serialization not yet supported"); //TODO Implement serialization
+	}
+
+	public void toXml(GraphXml jaxbObject, Namer<N> namer) {
+		throw new UnsupportedOperationException("XML serialization not yet supported"); //TODO Implement serialization
 	}
 }

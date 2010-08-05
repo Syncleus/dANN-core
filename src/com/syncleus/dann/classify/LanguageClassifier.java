@@ -20,7 +20,15 @@ package com.syncleus.dann.classify;
 
 import java.util.Locale;
 
+/**
+ * A LanguageClassifier is a Classifier that classifies words into categories.
+ * @param <C> The categories to classify words into.
+ */
 public interface LanguageClassifier<C> extends Classifier<String, C>
 {
+	/**
+	 * Gets the locale used by the LanguageClassifier.
+	 * @return The locale in use
+	 */
 	Locale getLocale();
 }

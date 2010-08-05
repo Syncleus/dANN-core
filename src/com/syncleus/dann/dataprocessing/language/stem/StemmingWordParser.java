@@ -30,9 +30,9 @@ public class StemmingWordParser extends BasicWordParser implements Stemmer
 		this.stemmer = new PorterStemmer();
 	}
 
-	public StemmingWordParser(final Stemmer stemmer)
+	public StemmingWordParser(final Stemmer ourStemmer)
 	{
-		this.stemmer = stemmer;
+		this.stemmer = ourStemmer;
 	}
 
 	public String stemWord(final String word)

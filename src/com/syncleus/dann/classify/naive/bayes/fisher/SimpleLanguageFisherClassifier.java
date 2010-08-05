@@ -31,10 +31,10 @@ public class SimpleLanguageFisherClassifier<C> extends SimpleFisherClassifier<St
 		this(Locale.getDefault());
 	}
 
-	public SimpleLanguageFisherClassifier(final Locale locale)
+	public SimpleLanguageFisherClassifier(final Locale ourLocale)
 	{
 		super(new WordExtractor());
-		this.locale = locale;
+		this.locale = ourLocale;
 	}
 
 	public Locale getLocale()

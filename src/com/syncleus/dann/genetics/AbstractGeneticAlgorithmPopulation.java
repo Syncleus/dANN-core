@@ -47,9 +47,9 @@ public abstract class AbstractGeneticAlgorithmPopulation
 		private final AbstractGeneticAlgorithmFitnessFunction fitnessFunction;
 		private static final Logger LOGGER = Logger.getLogger(Process.class);
 
-		public Process(final AbstractGeneticAlgorithmFitnessFunction fitnessFunction)
+		public Process(final AbstractGeneticAlgorithmFitnessFunction ourFitnessFunction)
 		{
-			this.fitnessFunction = fitnessFunction;
+			this.fitnessFunction = ourFitnessFunction;
 		}
 
 		public void run()

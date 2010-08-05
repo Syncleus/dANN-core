@@ -32,10 +32,10 @@ public class StemmingLanguageFisherClassifier<C> extends SimpleFisherClassifier<
 		this(Locale.getDefault());
 	}
 
-	public StemmingLanguageFisherClassifier(final Locale locale)
+	public StemmingLanguageFisherClassifier(final Locale ourLocale)
 	{
 		super(new StemmingWordExtractor());
-		this.locale = locale;
+		this.locale = ourLocale;
 	}
 
 	@Override

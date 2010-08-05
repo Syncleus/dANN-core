@@ -21,19 +21,30 @@ package com.syncleus.dann.classify.naive;
 import java.util.*;
 import com.syncleus.dann.dataprocessing.language.*;
 
+/**
+ * This is an implementation of a SimpleNaiveClassifier for language.
+ * @param <C> The categories to use
+ */
 public class SimpleLanguageNaiveClassifier<C> extends SimpleNaiveClassifier<String, String, C> implements TrainableLanguageNaiveClassifier<C>
 {
 	private final Locale locale;
 
+	/**
+	 * Creates a SimpleLanguageNaiveClassifier using the default locale.
+	 */
 	public SimpleLanguageNaiveClassifier()
 	{
 		this(Locale.getDefault());
 	}
 
-	public SimpleLanguageNaiveClassifier(final Locale locale)
+	/**
+	 * Creates a SimpleLanguageNaiveClassifier using the supplied locale.
+	 * @param ourLocale The locale to use
+	 */
+	public SimpleLanguageNaiveClassifier(final Locale ourLocale)
 	{
 		super(new WordExtractor());
-		this.locale = locale;
+		this.locale = ourLocale;
 	}
 
 	@Override
@@ -48,6 +59,10 @@ public class SimpleLanguageNaiveClassifier<C> extends SimpleNaiveClassifier<Stri
 		return super.featureClassificationWeightedProbability(feature.toLowerCase(this.locale), category);
 	}
 
+	/**
+	 * Gets the current locale.
+	 * @return
+	 */
 	public Locale getLocale()
 	{
 		return this.locale;

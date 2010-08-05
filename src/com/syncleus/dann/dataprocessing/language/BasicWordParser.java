@@ -31,9 +31,9 @@ public class BasicWordParser implements WordParser
 		this.locale = Locale.getDefault();
 	}
 
-	public BasicWordParser(final Locale locale)
+	public BasicWordParser(final Locale ourLocale)
 	{
-		this.locale = locale;
+		this.locale = ourLocale;
 	}
 
 	public List<String> getWords(final String text)

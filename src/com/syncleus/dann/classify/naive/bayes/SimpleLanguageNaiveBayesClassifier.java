@@ -31,10 +31,10 @@ public class SimpleLanguageNaiveBayesClassifier<C> extends SimpleNaiveBayesClass
 		this(Locale.getDefault());
 	}
 
-	public SimpleLanguageNaiveBayesClassifier(final Locale locale)
+	public SimpleLanguageNaiveBayesClassifier(final Locale ourLocale)
 	{
 		super(new WordExtractor());
-		this.locale = locale;
+		this.locale = ourLocale;
 	}
 
 	@Override

@@ -176,7 +176,7 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implemen
     }
 
     @Override
-    public BidirectedEdgeXml toXml(Namer nodeNames)
+    public BidirectedEdgeXml toXml(Namer<N> nodeNames)
     {
         if(nodeNames == null)
             throw new IllegalArgumentException("nodeNames can not be null");
@@ -187,7 +187,7 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implemen
     }
 
     @Override
-    public void toXml(EdgeXml jaxbObject, Namer nodeNames)
+    public void toXml(EdgeXml jaxbObject, Namer<N> nodeNames)
     {
         if(nodeNames == null)
             throw new IllegalArgumentException("nodeNames can not be null");

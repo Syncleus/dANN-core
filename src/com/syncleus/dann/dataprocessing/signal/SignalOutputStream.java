@@ -24,12 +24,12 @@ public class SignalOutputStream extends OutputStream
 {
 	private final ObjectOutputStream destStream;
 
-	public SignalOutputStream(final OutputStream destStream) throws IOException
+	public SignalOutputStream(final OutputStream outputStream) throws IOException
 	{
-		if( destStream instanceof ObjectOutputStream )
-			this.destStream = (ObjectOutputStream) destStream;
+		if( outputStream instanceof ObjectOutputStream )
+			this.destStream = (ObjectOutputStream) outputStream;
 		else
-			this.destStream = new ObjectOutputStream(destStream);
+			this.destStream = new ObjectOutputStream(outputStream);
 	}
 
 	public void writeSignal(final double[] signals, final int off, final int len) throws IOException

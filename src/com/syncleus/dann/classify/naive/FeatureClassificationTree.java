@@ -20,10 +20,20 @@ package com.syncleus.dann.classify.naive;
 
 import java.util.HashMap;
 
+/**
+ * Classifies features into a tree of probability fields, based on category.
+ * @param <F> The type of feature to classify
+ * @param <C> The type of category to classify the feature into
+ */
 public class FeatureClassificationTree<F, C> extends HashMap<F, ClassificationProbabilities<C>>
 {
 	private static final long serialVersionUID = 4301941319736756428L;
 
+	/**
+	 * Gets the probability field for a given feature.
+	 * @param feature The feature to get the field for
+	 * @return The probability field for the given feature. Will never be null.
+	 */
 	public ClassificationProbabilities<C> getFeature(final F feature)
 	{
 		ClassificationProbabilities<C> classification = super.get(feature);

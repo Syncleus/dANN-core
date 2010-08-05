@@ -682,8 +682,8 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		}
 		catch(CloneNotSupportedException caught)
 		{
-			LOGGER.error("Unexpectidly could not clone Graph.", caught);
-			throw new UnexpectedDannError("Unexpectidly could not clone graph", caught);
+			LOGGER.error("Unexpectedly could not clone Graph.", caught);
+			throw new UnexpectedDannError("Unexpectedly could not clone graph", caught);
 		}
 	}
 
@@ -744,7 +744,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
         return xml;
     }
 
-    public GraphXml toXml(Namer namer)
+    public GraphXml toXml(Namer<N> namer)
     {
         if(namer == null)
             throw new IllegalArgumentException("namer can not be null");
@@ -754,7 +754,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
         return xml;
     }
 
-    public void toXml(GraphXml jaxbObject, Namer namer)
+    public void toXml(GraphXml jaxbObject, Namer<N> namer)
     {
         for(N node : this.adjacentEdges.keySet())
         {

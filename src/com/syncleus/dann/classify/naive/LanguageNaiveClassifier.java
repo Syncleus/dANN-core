@@ -20,6 +20,12 @@ package com.syncleus.dann.classify.naive;
 
 import com.syncleus.dann.classify.LanguageClassifier;
 
+/**
+ * A LanguageNaiveClassifier is a NaiveClassifier for words.
+ * @param <C> The categories to put words into
+ * @see com.syncleus.dann.classify.naive.NaiveClassifier
+ * @see com.syncleus.dann.classify.LanguageClassifier
+ */
 public interface LanguageNaiveClassifier<C> extends NaiveClassifier<String, String, C>, LanguageClassifier<C>
 {
 }

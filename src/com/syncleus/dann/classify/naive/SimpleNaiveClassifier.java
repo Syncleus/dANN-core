@@ -26,9 +26,9 @@ public class SimpleNaiveClassifier<I, F, C> implements TrainableNaiveClassifier<
 	private final FeatureClassificationTree<F, C> featureTree = new FeatureClassificationTree<F, C>();
 	private final FeatureExtractor<F, I> extractor;
 
-	public SimpleNaiveClassifier(final FeatureExtractor<F, I> extractor)
+	public SimpleNaiveClassifier(final FeatureExtractor<F, I> featureExtractor)
 	{
-		this.extractor = extractor;
+		this.extractor = featureExtractor;
 	}
 
 	protected FeatureExtractor<F, I> getExtractor()
@@ -134,7 +134,8 @@ public class SimpleNaiveClassifier<I, F, C> implements TrainableNaiveClassifier<
 		if( this.featureTree.containsKey(feature) )
 			total = this.featureTree.getFeature(feature).getProbabilitySum();
 
-		return ((total * unweightedProb) + 0.5) / (1.0 + total);
+		final double additionalProof = 0.5; //UNKNOWN USE
+		return ((total * unweightedProb) + additionalProof) / (1.0 + total);
 	}
 
 	public Set<C> getCategories()

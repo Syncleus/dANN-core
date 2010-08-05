@@ -18,7 +18,17 @@
  ******************************************************************************/
 package com.syncleus.dann.classify;
 
+/**
+ * If a class is Trainable, it means that it learns to put certain items in certain categories.
+ * @param <I> The type of item to train
+ * @param <C> The type of category to train
+ */
 public interface Trainable<I, C>
 {
+	/**
+	 * Causes the Trainable to associate the item with the given category.
+	 * @param item The item
+	 * @param category The category to associate with the item
+	 */
 	void train(I item, C category);
 }

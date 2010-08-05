@@ -30,11 +30,12 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 {
 	private int blockSize;
 	private int bitrate;
+	private static final double EPSILON = .0000000001;
 
-	public CooleyTukeyFastFourierTransformer(final int blockSize, final int bitrate)
+	public CooleyTukeyFastFourierTransformer(final int ourBlockSize, final int ourBitRate)
 	{
-		this.setBlockSize(blockSize);
-		this.bitrate = bitrate;
+		this.setBlockSize(ourBlockSize);
+		this.bitrate = ourBitRate;
 	}
 
 	public DiscreteFourierTransform transform(final double[] signal)
@@ -73,12 +74,12 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 		return this.blockSize;
 	}
 
-	public void setBlockSize(final int blockSize)
+	public void setBlockSize(final int ourBlockSize)
 	{
-		final double exponentOf2 = Math.log(blockSize) / Math.log(2.0);
-		if( Math.abs(exponentOf2 - Math.floor(exponentOf2)) > .0000000001 )
+		final double exponentOf2 = Math.log(ourBlockSize) / Math.log(2.0);
+		if( Math.abs(exponentOf2 - Math.floor(exponentOf2)) > EPSILON)
 			this.blockSize = (int) Math.pow(2.0, Math.ceil(exponentOf2));
-		this.blockSize = blockSize;
+		this.blockSize = ourBlockSize;
 	}
 
 	public int getBitrate()
@@ -86,9 +87,9 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 		return this.bitrate;
 	}
 
-	public void setBitrate(final int bitrate)
+	public void setBitrate(final int ourBitrate)
 	{
-		this.bitrate = bitrate;
+		this.bitrate = ourBitrate;
 	}
 
 	private static ComplexNumber[] doubleArrayToComplexArray(final double[] from)
@@ -131,7 +132,7 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 	private static boolean isPowerOf2(final int value)
 	{
 		final double exponentOf2 = Math.log(value) / Math.log(2.0);
-		return !(Math.abs(exponentOf2 - Math.floor(exponentOf2)) > .0000000001);
+		return !(Math.abs(exponentOf2 - Math.floor(exponentOf2)) > EPSILON);
 	}
 
 	public static ComplexNumber[] transformMatrix(final ComplexNumber[] dataPoints)
@@ -154,7 +155,8 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 		final ComplexNumber[] completeTransform = new ComplexNumber[dataPointCount];
 		for(int transformIndex = 0; transformIndex < (dataPointCount / 2); transformIndex++)
 		{
-			final double kth = -2 * Math.PI * transformIndex / dataPointCount;
+			final int correction = -2;
+			final double kth = correction * Math.PI * transformIndex / dataPointCount;
 			final ComplexNumber wk = new ComplexNumber(Math.cos(kth), Math.sin(kth));
 			completeTransform[transformIndex] = evenTransform[transformIndex].add(wk.multiply(oddTransform[transformIndex]));
 			completeTransform[transformIndex + (dataPointCount / 2)] = evenTransform[transformIndex].subtract(wk.multiply(oddTransform[transformIndex]));
