@@ -20,6 +20,8 @@ package com.syncleus.dann.graphicalmodel.bayesian.dynamic;
 
 import java.util.*;
 import com.syncleus.dann.graphicalmodel.bayesian.*;
+import com.syncleus.dann.xml.Namer;
+import com.syncleus.dann.graphicalmodel.bayesian.xml.BayesianNodeXml;
 
 public class SimpleDynamicBayesianNode<S> extends SimpleBayesianNode<S> implements DynamicBayesianNode<S>
 {
@@ -104,5 +106,9 @@ public class SimpleDynamicBayesianNode<S> extends SimpleBayesianNode<S> implemen
 		final Set<BayesianNode> influences = new HashSet<BayesianNode>(super.getInfluencingNodes());
 		influences.addAll(this.historicalNodes);
 		return Collections.unmodifiableSet(influences);
+	}
+
+	public void toXml(BayesianNodeXml jaxbObject, Namer namer) {
+		throw new UnsupportedOperationException("toXML not yet implemented");
 	}
 }

@@ -25,7 +25,7 @@ package com.syncleus.dann;
  * @author Jeffrey Phillips Freeman
  * @since 2.0
  */
-public class DannError extends Error
+public class DannError extends RuntimeException
 {
 	private static final long serialVersionUID = -4374806187402275474L;
 

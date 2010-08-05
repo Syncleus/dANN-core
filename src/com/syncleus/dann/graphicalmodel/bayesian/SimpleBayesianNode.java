@@ -34,9 +34,10 @@ public class SimpleBayesianNode<S> implements BayesianNode<S>
 	private EvidenceMap<S> evidence;
 	private S state;
 	private final SortedSet<S> learnedStates;
-	private final BayesianNetwork network;
+	private final BayesianNetwork<SimpleBayesianNode<S>, ? extends BayesianEdge<SimpleBayesianNode<S>>> network;
 
-	public SimpleBayesianNode(final S initialState, final BayesianNetwork network)
+	public SimpleBayesianNode(final S initialState,
+							  final BayesianNetwork<SimpleBayesianNode<S>, ? extends BayesianEdge<SimpleBayesianNode<S>>> network)
 	{
 		if( initialState == null )
 			throw new IllegalArgumentException("initialState can not be null");
@@ -86,8 +87,8 @@ public class SimpleBayesianNode<S> implements BayesianNode<S>
 	{
 		final Map<BayesianNode, Object> inStates = new HashMap<BayesianNode, Object>();
 
-		final Set<BayesianEdge> inEdges = this.network.getInEdges(this);
-		for(final BayesianEdge inEdge : inEdges)
+		final Set<? extends BayesianEdge<? extends BayesianNode<S>>> inEdges = this.network.getInEdges(this);
+		for(final BayesianEdge<? extends BayesianNode> inEdge : inEdges)
 			inStates.put(inEdge.getSourceNode(), inEdge.getSourceNode().getState());
 
 		return inStates;
@@ -95,9 +96,9 @@ public class SimpleBayesianNode<S> implements BayesianNode<S>
 
 	protected Set<BayesianNode> getInfluencingNodes()
 	{
-		final Set<BayesianEdge> inEdges = this.network.getInEdges(this);
+		final Set<? extends BayesianEdge<? extends BayesianNode>> inEdges = this.network.getInEdges(this);
 		final Set<BayesianNode> inNodes = new HashSet<BayesianNode>();
-		for(final BayesianEdge inEdge : inEdges)
+		for(final BayesianEdge<? extends BayesianNode> inEdge : inEdges)
 			inNodes.add((inEdge.getLeftNode().equals(this) ? inEdge.getRightNode() : inEdge.getLeftNode()));
 		return Collections.unmodifiableSet(inNodes);
 	}
@@ -121,6 +122,7 @@ public class SimpleBayesianNode<S> implements BayesianNode<S>
 		return false;
 	}
 
+	@Override
     public SimpleBayesianNodeXml toXml()
     {
         Namer namer = new Namer();
@@ -158,6 +160,7 @@ public class SimpleBayesianNode<S> implements BayesianNode<S>
         return xml;
     }
 
+	@Override
     public SimpleBayesianNodeXml toXml(Namer namer)
     {
         if(namer == null)
