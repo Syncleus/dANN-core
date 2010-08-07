@@ -18,7 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.bayesian;
 
-import com.syncleus.dann.graph.xml.*;
 import com.syncleus.dann.graphicalmodel.bayesian.xml.BayesianNodeXml;
 import com.syncleus.dann.graphicalmodel.bayesian.xml.SimpleBayesianNodeElementXml;
 import com.syncleus.dann.graphicalmodel.bayesian.xml.SimpleBayesianNodeXml;
@@ -122,10 +121,9 @@ public class SimpleBayesianNode<S> implements BayesianNode<S>
 		return false;
 	}
 
-	@Override
     public SimpleBayesianNodeXml toXml()
     {
-        Namer<S> namer = new Namer<S>();
+        Namer<Object> namer = new Namer<Object>();
         SimpleBayesianNodeElementXml xml = new SimpleBayesianNodeElementXml();
 
         xml.setStateInstances(new SimpleBayesianNodeElementXml.StateInstances());
@@ -160,8 +158,7 @@ public class SimpleBayesianNode<S> implements BayesianNode<S>
         return xml;
     }
 
-	@Override
-    public SimpleBayesianNodeXml toXml(Namer<S> namer)
+    public SimpleBayesianNodeXml toXml(Namer<Object> namer)
     {
         if(namer == null)
             throw new IllegalArgumentException("namer can not be null");
@@ -171,8 +168,7 @@ public class SimpleBayesianNode<S> implements BayesianNode<S>
         return xml;
     }
 
-	@Override
-    public void toXml(BayesianNodeXml jaxbObject, Namer<S> namer)
+    public void toXml(BayesianNodeXml jaxbObject, Namer<Object> namer)
     {
         //set learned states
         if(jaxbObject.getLearnedStates() == null)
@@ -189,5 +185,8 @@ public class SimpleBayesianNode<S> implements BayesianNode<S>
             jaxbObject.setState(new NameXml());
         jaxbObject.getState().setName(namer.getNameOrCreate(this.state));
 
+        //set evidence map
+        if((jaxbObject instanceof SimpleBayesianNodeXml) && (this.evidence != null) )
+            ((SimpleBayesianNodeXml)jaxbObject).setEvidence(this.evidence.toXml(namer));
     }
 }

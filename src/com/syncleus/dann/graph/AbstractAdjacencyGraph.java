@@ -30,9 +30,9 @@ import com.syncleus.dann.xml.NamedValueXml;
 import com.syncleus.dann.xml.Namer;
 import com.syncleus.dann.xml.XmlSerializable;
 import org.apache.log4j.Logger;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import javax.xml.bind.JAXBElement;
-
+@XmlJavaTypeAdapter( com.syncleus.dann.xml.XmlSerializableAdapter.class )
 public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Graph<N, E>
 {
 	private static final Logger LOGGER = Logger.getLogger(AbstractAdjacencyGraph.class);
@@ -719,9 +719,9 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
     public GraphXml toXml()
     {
         GraphElementXml xml = new GraphElementXml();
-        Namer namer = new Namer();
+        Namer<Object> namer = new Namer<Object>();
 
-        xml.setNodes(new com.syncleus.dann.graph.xml.GraphXml.Nodes());
+        xml.setNodeInstances(new GraphElementXml.NodeInstances());
         for(N node : this.adjacentEdges.keySet())
         {
             final String nodeName = namer.getNameOrCreate(node);
@@ -744,7 +744,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
         return xml;
     }
 
-    public GraphXml toXml(Namer<N> namer)
+    public GraphXml toXml(Namer<Object> namer)
     {
         if(namer == null)
             throw new IllegalArgumentException("namer can not be null");
@@ -754,8 +754,13 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
         return xml;
     }
 
-    public void toXml(GraphXml jaxbObject, Namer<N> namer)
+    public void toXml(GraphXml jaxbObject, Namer<Object> namer)
     {
+        if(namer == null)
+            throw new IllegalArgumentException("nodeNames can not be null");
+        if(jaxbObject == null)
+            throw new IllegalArgumentException("jaxbObject can not be null");
+        
         for(N node : this.adjacentEdges.keySet())
         {
             final String nodeName = namer.getNameOrCreate(node);

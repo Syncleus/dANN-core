@@ -21,21 +21,37 @@ package com.syncleus.dann.dataprocessing.language;
 import java.util.*;
 import java.util.regex.*;
 
+/**
+ * A BasicWordParser splits words into spaces.
+ */
 public class BasicWordParser implements WordParser
 {
 	private static final Pattern SPACE_PATTERN = Pattern.compile("\\w++");
 	private final Locale locale;
 
+	/**
+	 * Creates a new WordParser with the default locale.
+	 */
 	public BasicWordParser()
 	{
 		this.locale = Locale.getDefault();
 	}
 
+	/**
+	 * Creates a BasicWordParser with the given locale.
+	 * @param ourLocale The locale to use
+	 */
 	public BasicWordParser(final Locale ourLocale)
 	{
 		this.locale = ourLocale;
 	}
 
+	/**
+	 * Gets all the words from a given string of text.
+	 * @param text The string to parse
+	 * @return All words in the string
+	 */
+	@Override
 	public List<String> getWords(final String text)
 	{
 		final List<String> words = new ArrayList<String>();
@@ -49,11 +65,21 @@ public class BasicWordParser implements WordParser
 		return Collections.unmodifiableList(words);
 	}
 
+	/**
+	 * Gets an unmodifiable set of unique words from the given text.
+	 * @param text The text to process
+	 * @return The words in the text
+	 */
+	@Override
 	public Set<String> getUniqueWords(final String text)
 	{
 		return Collections.unmodifiableSet(new HashSet<String>(this.getWords(text)));
 	}
 
+	/**
+	 * Gets the currently used locale.
+	 * @return The current locale.
+	 */
 	public Locale getLocale()
 	{
 		return this.locale;

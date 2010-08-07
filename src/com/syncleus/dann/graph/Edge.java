@@ -25,7 +25,7 @@ import com.syncleus.dann.xml.XmlSerializable;
 import java.io.Serializable;
 import java.util.List;
 
-public interface Edge<N> extends Serializable, Cloneable, XmlSerializable<EdgeXml, N>
+public interface Edge<N> extends Serializable, Cloneable, XmlSerializable<EdgeXml, Object>
 {
 	List<N> getNodes();
 	List<N> getTraversableNodes(N node);

@@ -22,15 +22,31 @@ import java.util.*;
 import java.util.Map.Entry;
 import com.syncleus.dann.classify.naive.*;
 
+/**
+ * A SimpleNaiveBayesClassifier is a simple, naive implementation of a Bayes Classifier.
+ * @param <I> The type of item to use
+ * @param <F> The type of feature to use
+ * @param <C> The categories to place items in
+ */
 public class SimpleNaiveBayesClassifier<I, F, C> extends SimpleNaiveClassifier<I, F, C> implements TrainableNaiveBayesClassifier<I, F, C>
 {
 	private final Map<C, Double> categoryThresholds = new HashMap<C, Double>();
 
+	/**
+	 * Uses the given FeatureExtractor to get Features from the given Item.
+	 * @param extractor The extractor to use.
+	 */
 	public SimpleNaiveBayesClassifier(final FeatureExtractor<F, I> extractor)
 	{
 		super(extractor);
 	}
 
+	/**
+	 * Gets the threshold for a given category.
+	 * @param category The category to check
+	 * @return The threshold for the given category
+	 */
+	@Override
 	public double getCategoryThreshold(final C category)
 	{
 		final Double threshold = this.categoryThresholds.get(category);
@@ -39,11 +55,26 @@ public class SimpleNaiveBayesClassifier<I, F, C> extends SimpleNaiveClassifier<I
 		return threshold;
 	}
 
+	/**
+	 * Sets the threshold for the given category.
+	 * @param category The category to set a threshold for
+	 * @param threshold The threshold for the category
+	 */
+	@Override
 	public void setCategoryThreshold(final C category, final double threshold)
 	{
 		this.categoryThresholds.put(category, threshold);
 	}
 
+	/**
+	 * Gets the most likely category for the given threshold. If no suitable category
+	 * passes the threshold, null is returned.
+	 *
+	 * @param item The item to classify
+	 * @param useThreshold Whether to use the threshold
+	 * @return The most likely category for the item
+	 */
+	@Override
 	public C classification(final I item, final boolean useThreshold)
 	{
 		final Map<C, Double> categoryProbabilities = new HashMap<C, Double>();
@@ -69,12 +100,22 @@ public class SimpleNaiveBayesClassifier<I, F, C> extends SimpleNaiveClassifier<I
 		return topCategory;
 	}
 
+	/**
+	 * Gets the most likely classification for a given modifier.
+	 * @param item The item to classify
+	 * @return The most likely classification for the item
+	 */
 	@Override
 	public final C classification(final I item)
 	{
 		return this.classification(item, false);
 	}
 
+	/**
+	 * Gets the field of categories and their associated probabilities for a given item.
+	 * @param item The item to get probabilities for
+	 * @return The field of probabilities
+	 */
 	@Override
 	public Map<C, Double> getCategoryProbabilities(final I item)
 	{
@@ -84,6 +125,12 @@ public class SimpleNaiveBayesClassifier<I, F, C> extends SimpleNaiveClassifier<I
 		return Collections.unmodifiableMap(categoryProbabilities);
 	}
 
+	/**
+	 * Gets the probability that an item is in the given category.
+	 * @param item The item to categorize
+	 * @param category The category to check
+	 * @return The probability that an item is in teh given category
+	 */
 	@Override
 	public double classificationProbability(final I item, final C category)
 	{

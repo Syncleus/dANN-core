@@ -18,27 +18,36 @@
  ******************************************************************************/
 package com.syncleus.tests.dann.graphicalmodel.bayesian;
 
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.*;
 import com.syncleus.dann.graphicalmodel.bayesian.*;
+import com.syncleus.dann.graphicalmodel.bayesian.xml.BayesianNetworkXml;
 import org.junit.*;
+import javax.xml.bind.*;
+import javax.xml.bind.annotation.XmlRootElement;
 
 public class TestSicknessBayesianNetwork
 {
+    @XmlRootElement
 	private static enum BooleanState
 	{
 		TRUE, FALSE
 	}
 
+    @XmlRootElement
 	private static enum SeasonState
 	{
 		WINTER, SUMMER, SPRING, FALL
 	}
 
+    @XmlRootElement
 	private static enum AgeState
 	{
 		BABY, CHILD, TEENAGER, ADULT, SENIOR
 	}
 
+    @XmlRootElement
 	private static enum FeverState
 	{
 		LOW, NONE, WARM, HOT
@@ -53,6 +62,27 @@ public class TestSicknessBayesianNetwork
 	private BayesianNode<FeverState> fever = new SimpleBayesianNode<FeverState>(FeverState.HOT, this.network);
 	private BayesianNode<BooleanState> tired = new SimpleBayesianNode<BooleanState>(BooleanState.FALSE, this.network);
 	private BayesianNode<BooleanState> sick = new SimpleBayesianNode<BooleanState>(BooleanState.FALSE, this.network);
+
+    @Test
+    public void testXml() throws Exception
+    {
+        testOverall();
+
+        //mashall it
+        JAXBContext context = JAXBContext.newInstance(BayesianNetworkXml.class, TestSicknessBayesianNetwork.FeverState.class, TestSicknessBayesianNetwork.AgeState.class, TestSicknessBayesianNetwork.BooleanState.class, TestSicknessBayesianNetwork.SeasonState.class);
+        Marshaller marshal = context.createMarshaller();
+
+        StringWriter writer = new StringWriter();
+        marshal.marshal(network.toXml(), writer);
+
+        //unmarshall it
+        StringReader reader = new StringReader(writer.toString());
+        BayesianNetworkXml xml = JAXB.unmarshal(reader, BayesianNetworkXml.class);
+
+        Assert.assertTrue("could not unmarshal object!", xml != null);
+        Assert.assertTrue("Wrong number of edges after unmarshaling: " + xml.getEdges().getEdges().size(), xml.getEdges().getEdges().size() == 14);
+        Assert.assertTrue("Wrong number of nodes after unmarshaling: " + xml.getNodes().getNodes().size(), xml.getNodes().getNodes().size() == 6);
+    }
 
 	@Test
 	public void testOverallRepeated()

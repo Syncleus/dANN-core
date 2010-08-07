@@ -23,6 +23,7 @@ import java.util.Locale;
 /**
  * A LanguageClassifier is a Classifier that classifies words into categories.
  * @param <C> The categories to classify words into.
+ * @author Jeffrey Phillips Freeman
  */
 public interface LanguageClassifier<C> extends Classifier<String, C>
 {

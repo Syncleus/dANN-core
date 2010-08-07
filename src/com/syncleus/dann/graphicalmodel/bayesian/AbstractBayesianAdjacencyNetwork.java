@@ -20,7 +20,6 @@ package com.syncleus.dann.graphicalmodel.bayesian;
 
 import java.util.*;
 import com.syncleus.dann.graph.*;
-import com.syncleus.dann.graph.xml.*;
 import com.syncleus.dann.graphicalmodel.bayesian.xml.BayesianNetworkElementXml;
 import com.syncleus.dann.graphicalmodel.bayesian.xml.BayesianNetworkXml;
 import com.syncleus.dann.xml.NamedValueXml;
@@ -166,7 +165,7 @@ public abstract class AbstractBayesianAdjacencyNetwork<N extends BayesianNode, E
     public BayesianNetworkXml toXml()
     {
         BayesianNetworkElementXml networkXml = new BayesianNetworkElementXml();
-        Namer namer = new Namer();
+        Namer<Object> namer = new Namer<Object>();
 
         networkXml.setNodeInstances( new BayesianNetworkElementXml.NodeInstances() );
         networkXml.setStateInstances( new BayesianNetworkElementXml.StateInstances() );
@@ -188,7 +187,6 @@ public abstract class AbstractBayesianAdjacencyNetwork<N extends BayesianNode, E
                 //only add the learnedState if it hasnt yet been added
                 if( writtenStates.add(learnedState) )
                 {
-                    System.out.println("3");
                     NamedValueXml stateXml = new NamedValueXml();
                     stateXml.setName(namer.getNameOrCreate(learnedState));
                     if( learnedState instanceof XmlSerializable)
@@ -213,12 +211,12 @@ public abstract class AbstractBayesianAdjacencyNetwork<N extends BayesianNode, E
             }
         }
 
-        this.toXml(networkXml, new Namer());
+        this.toXml(networkXml, namer);
         return networkXml;
     }
 
     @Override
-    public BayesianNetworkXml toXml(Namer<N> namer)
+    public BayesianNetworkXml toXml(Namer<Object> namer)
     {
         if(namer == null)
             throw new IllegalArgumentException("namer can not be null");
@@ -226,48 +224,6 @@ public abstract class AbstractBayesianAdjacencyNetwork<N extends BayesianNode, E
         BayesianNetworkXml xml = new BayesianNetworkXml();
         this.toXml(xml, namer);
         return xml;
-    }
-
-    @Override
-    public void toXml(GraphXml jaxbObject, Namer<N> namer)
-    {
-        if(namer == null)
-            throw new IllegalArgumentException("nodeNames can not be null");
-        if(jaxbObject == null)
-            throw new IllegalArgumentException("jaxbObject can not be null");
-
-        super.toXml(jaxbObject, namer);
-
-        /*
-        if( jaxbObject instanceof BayesianNetworkXml )
-        {
-            BayesianNetworkXml networkXml = ((BayesianNetworkXml)jaxbObject);
-            if( networkXml.getStates() == null )
-                networkXml.setStates( new BayesianNetworkXml.States() );
-
-            for( N node : this.getNodes() )
-            {
-                for( Object state : node.getLearnedStates() )
-                {
-                    NamedValueXml stateXml = new NamedValueXml();
-                    stateXml.setName(namer.getNameOrCreate(state));
-                    if( state instanceof XmlSerializable)
-                        stateXml.setValue(((XmlSerializable)state).toXml(namer));
-                    else
-                        stateXml.setValue(state);
-                    networkXml.getStates().getState().add(stateXml);
-                }
-
-                Object state = node.getState();
-                NamedValueXml stateXml = new NamedValueXml();
-                stateXml.setName(namer.getNameOrCreate(state));
-                if( state instanceof XmlSerializable)
-                    stateXml.setValue(((XmlSerializable)state).toXml(namer));
-                else
-                    stateXml.setValue(state);
-                networkXml.getStates().getState().add(stateXml);
-            }
-        }*/
     }
 
 	protected static class NodeConnectivity<N extends BayesianNode, E extends BayesianEdge<N>> extends HashMap<N, Set<E>>

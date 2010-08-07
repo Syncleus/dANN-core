@@ -22,42 +22,82 @@ import java.util.*;
 import com.syncleus.dann.classify.naive.FeatureExtractor;
 import com.syncleus.dann.dataprocessing.language.*;
 
+/**
+ * A SimpleLanguageNaiveBayesClassifier classifies Strings by breaking them into Words.
+ * @param <C> The category to use.
+ */
 public class SimpleLanguageNaiveBayesClassifier<C> extends SimpleNaiveBayesClassifier<String, String, C> implements TrainableLanguageNaiveBayesClassifier<C>
 {
 	private final Locale locale;
 
+	/**
+	 * Creates a SimpleLanguageNaiveBayesClassifier using the default Locale.
+	 */
 	public SimpleLanguageNaiveBayesClassifier()
 	{
 		this(Locale.getDefault());
 	}
 
+	/**
+	 * Creates an object with the given locale.
+	 * @param ourLocale The locale to use
+	 */
 	public SimpleLanguageNaiveBayesClassifier(final Locale ourLocale)
 	{
 		super(new WordExtractor());
 		this.locale = ourLocale;
 	}
 
+	/**
+	 * Gets the probability that the feature is in the given category.
+	 * @param feature The feature to check
+	 * @param category The category to check
+	 * @return The probability that the feature is in the given category
+	 */
 	@Override
 	public double featureClassificationProbability(final String feature, final C category)
 	{
 		return super.featureClassificationProbability(feature.toLowerCase(this.locale), category);
 	}
 
+	/**
+	 * Gets the weighted probability that the feature is in the given category.
+	 * @param feature The feature to check
+	 * @param category The category to check
+	 * @return The weighted probability that the feature is in the given category
+	 */
 	@Override
 	public double featureClassificationWeightedProbability(final String feature, final C category)
 	{
 		return super.featureClassificationWeightedProbability(feature.toLowerCase(this.locale), category);
 	}
 
+	/**
+	 * Gets the currently used locale.
+	 * @return The current locale
+	 */
+	@Override
 	public Locale getLocale()
 	{
 		return this.locale;
 	}
 
+	/**
+	 * A WordExtractor extracts the unique words from a given string.
+	 */
 	private static class WordExtractor implements FeatureExtractor<String, String>
 	{
+		/**
+		 * The WordParser used to extract words.
+		 */
 		private static final WordParser PARSER = new BasicWordParser();
 
+		/**
+		 * Gets the unique words that make up a given string.
+		 * @param item The item
+		 * @return The features from the given item
+		 */
+		@Override
 		public Set<String> getFeatures(final String item)
 		{
 			return PARSER.getUniqueWords(item);

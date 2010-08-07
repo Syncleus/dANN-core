@@ -20,22 +20,44 @@ package com.syncleus.dann.classify.naive;
 
 import java.util.*;
 
+/**
+ * A SimpleNaiveClassifier is a simple implementation of a TrainableNaiveClassifier.
+ *
+ * @param <I> The type of item to classify
+ * @param <F> The type of features the item has
+ * @param <C> The type of categories to use
+ */
 public class SimpleNaiveClassifier<I, F, C> implements TrainableNaiveClassifier<I, F, C>
 {
 	private final ClassificationProbabilities<C> overallCategoryProbability = new ClassificationProbabilities<C>();
 	private final FeatureClassificationTree<F, C> featureTree = new FeatureClassificationTree<F, C>();
 	private final FeatureExtractor<F, I> extractor;
 
+	/**
+	 * Creates a SimpleNaiveClassifier with the given FeatureExtractor.
+	 * @param featureExtractor The FeatureExtractor to use.
+	 */
 	public SimpleNaiveClassifier(final FeatureExtractor<F, I> featureExtractor)
 	{
 		this.extractor = featureExtractor;
 	}
 
+	/**
+	 * Gets the FeatureExtractor with the given instance.
+	 * @return The FeatureExtractor currently used.
+	 */
 	protected FeatureExtractor<F, I> getExtractor()
 	{
 		return this.extractor;
 	}
 
+	/**
+	 * Gets the most likely classification of the given item.
+	 *
+	 * @param item The item to classify
+	 * @return The most likely classification
+	 */
+	@Override
 	public C classification(final I item)
 	{
 		final Set<F> features = this.extractor.getFeatures(item);
@@ -60,6 +82,13 @@ public class SimpleNaiveClassifier<I, F, C> implements TrainableNaiveClassifier<
 		return topCategory;
 	}
 
+	/**
+	 * Gets the probabilities for all categories of the given item.
+	 *
+	 * @param item The item to get probabilities for
+	 * @return The field of categories for the item
+	 */
+	@Override
 	public Map<C, Double> getCategoryProbabilities(final I item)
 	{
 		final Set<F> features = this.extractor.getFeatures(item);
@@ -77,11 +106,25 @@ public class SimpleNaiveClassifier<I, F, C> implements TrainableNaiveClassifier<
 		return categoryProbabilities;
 	}
 
+	/**
+	 * Gets the probability that an item is in the given category.
+	 *
+	 * @param item The item to categorize
+	 * @param category The category to check
+	 * @return The probability that the item is in the category
+	 */
+	@Override
 	public double classificationProbability(final I item, final C category)
 	{
 		return this.getCategoryProbabilities(item).get(category);
 	}
 
+	/**
+	 * Gets the most likely category of a given feature.
+	 * @param feature The feature to use
+	 * @return The category most associated with a given feature
+	 */
+	@Override
 	public C featureClassification(final F feature)
 	{
 		C topCategory = null;
@@ -98,6 +141,12 @@ public class SimpleNaiveClassifier<I, F, C> implements TrainableNaiveClassifier<
 		return topCategory;
 	}
 
+	/**
+	 * Gets the most likely category for a given feature using a weighted classification.
+	 * @param feature The feature to use
+	 * @return The most likely classification for the feature
+	 */
+	@Override
 	public C featureClassificationWeighted(final F feature)
 	{
 		C topCategory = null;
@@ -114,6 +163,14 @@ public class SimpleNaiveClassifier<I, F, C> implements TrainableNaiveClassifier<
 		return topCategory;
 	}
 
+	/**
+	 * Gets the probability that a given feature is in the given category.
+	 *
+	 * @param feature The feature to check
+	 * @param category The category to check
+	 * @return The probability that the feature is in the category.
+	 */
+	@Override
 	public double featureClassificationProbability(final F feature, final C category)
 	{
 		final int overallProb = this.getOverallProbability(category);
@@ -127,6 +184,14 @@ public class SimpleNaiveClassifier<I, F, C> implements TrainableNaiveClassifier<
 			return ((double) featureProb) / ((double) overallProb);
 	}
 
+	/**
+	 * Gets the weighted probability that a feature is in the given category.
+	 *
+	 * @param feature The feature to check
+	 * @param category The category to check
+	 * @return The weighted probability that the feature is in the category
+	 */
+	@Override
 	public double featureClassificationWeightedProbability(final F feature, final C category)
 	{
 		final double unweightedProb = this.featureClassificationProbability(feature, category);
@@ -138,11 +203,23 @@ public class SimpleNaiveClassifier<I, F, C> implements TrainableNaiveClassifier<
 		return ((total * unweightedProb) + additionalProof) / (1.0 + total);
 	}
 
+	/**
+	 * Gets an unmodifiable set of all given categories.
+	 * @return All possible categories.
+	 */
+	@Override
 	public Set<C> getCategories()
 	{
 		return Collections.unmodifiableSet(this.overallCategoryProbability.getCategoryProbabilityMap().keySet());
 	}
 
+	/**
+	 * Increases the association of the given item with the given category.
+	 *
+	 * @param item The item
+	 * @param category The category to associate with the item
+	 */
+	@Override
 	public void train(final I item, final C category)
 	{
 		final Set<F> features = this.extractor.getFeatures(item);
@@ -151,11 +228,21 @@ public class SimpleNaiveClassifier<I, F, C> implements TrainableNaiveClassifier<
 		this.overallCategoryProbability.incrementCategory(category);
 	}
 
+	/**
+	 * Gets the overall probability of the given category.
+	 * @param category The category to get the probability for
+	 * @return The probability of the given category.
+	 */
 	protected int getOverallProbability(final C category)
 	{
 		return this.overallCategoryProbability.getCategoryProbability(category);
 	}
 
+	/**
+	 * Gets the sum of all probabilities of all categories. Used in constructing
+	 * a weighted average.
+	 * @return The sum of all probabilities of all items.
+	 */
 	protected int getOverallProbabilitySum()
 	{
 		return this.overallCategoryProbability.getProbabilitySum();

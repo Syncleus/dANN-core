@@ -22,7 +22,7 @@ import com.syncleus.dann.graphicalmodel.bayesian.xml.BayesianNodeXml;
 import com.syncleus.dann.xml.XmlSerializable;
 import java.util.Set;
 
-public interface BayesianNode<S> extends XmlSerializable<BayesianNodeXml, S>
+public interface BayesianNode<S> extends XmlSerializable<BayesianNodeXml, Object>
 {
 	Set<S> getLearnedStates();
 	void setState(S currentState);

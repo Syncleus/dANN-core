@@ -52,11 +52,7 @@
     <xsd:element name="Graph">
         <xsd:annotation>
             <xsd:appinfo>
-                <jaxb:class name="GraphElementXml">
-                    <jaxb:javadoc>
-                        XML Representation of Graph Element
-                    </jaxb:javadoc>
-                </jaxb:class>
+                <jaxb:class name="GraphElementXml"/>
             </xsd:appinfo>
         </xsd:annotation>
         <xsd:complexType>
@@ -81,17 +77,8 @@
             </xsd:complexContent>
         </xsd:complexType>
     </xsd:element>
-    <!-- Graph Type, contains references to instanced obects -->
+    <!-- Graph Type, contains references to instanced objects -->
     <xsd:complexType name="Graph">
-        <xsd:annotation>
-            <xsd:appinfo>
-                <jaxb:class>
-                    <jaxb:javadoc>
-                        XML Representation of A Graph
-                    </jaxb:javadoc>
-                </jaxb:class>
-            </xsd:appinfo>
-        </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="nodes" maxOccurs="1">
                 <xsd:complexType>
@@ -129,11 +116,7 @@
     <xsd:element name="Edge">
         <xsd:annotation>
             <xsd:appinfo>
-                <jaxb:class name="EdgeElementXml">
-                    <jaxb:javadoc>
-                        XML Representation of Edge Element
-                    </jaxb:javadoc>
-                </jaxb:class>
+                <jaxb:class name="EdgeElementXml"/>
             </xsd:appinfo>
         </xsd:annotation>
         <xsd:complexType>
@@ -160,15 +143,6 @@
     </xsd:element>
     <!-- Edge Type, contains references to instanced objects -->
     <xsd:complexType name="Edge">
-        <xsd:annotation>
-            <xsd:appinfo>
-                <jaxb:class>
-                    <jaxb:javadoc>
-                        XML Representation of Edge
-                    </jaxb:javadoc>
-                </jaxb:class>
-            </xsd:appinfo>
-        </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="connections" maxOccurs="1">
                 <xsd:complexType>
@@ -190,11 +164,7 @@
     <xsd:element name="BidirectedEdge">
         <xsd:annotation>
             <xsd:appinfo>
-                <jaxb:class name="BidirectedEdgeElementXml">
-                    <jaxb:javadoc>
-                        XML Representation of BidirectedEdge Element
-                    </jaxb:javadoc>
-                </jaxb:class>
+                <jaxb:class name="BidirectedEdgeElementXml"/>
             </xsd:appinfo>
         </xsd:annotation>
         <xsd:complexType>
@@ -221,15 +191,6 @@
     </xsd:element>
     <!-- BidirectedEdge Type, contains references to instanced objects -->
     <xsd:complexType name="BidirectedEdge">
-        <xsd:annotation>
-            <xsd:appinfo>
-                <jaxb:class>
-                    <jaxb:javadoc>
-                        XML Representation of BidirectedEdge
-                    </jaxb:javadoc>
-                </jaxb:class>
-            </xsd:appinfo>
-        </xsd:annotation>
         <xsd:complexContent>
             <xsd:extension base="Edge">
                 <xsd:attribute name="leftNode" type="dann:FilledString" use="required"/>

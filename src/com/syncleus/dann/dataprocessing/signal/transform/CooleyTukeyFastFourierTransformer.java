@@ -26,18 +26,34 @@ package com.syncleus.dann.dataprocessing.signal.transform;
 import java.util.Arrays;
 import com.syncleus.dann.math.ComplexNumber;
 
+/**
+ * A CooleyTukeyFastFourierTransformer implements a fast fourier transform to reduce computation time
+ * for O(N log N) for smooth numbers. See <a href="http://en.wikipedia.org/wiki/Cooley–Tukey_FFT_algorithm">the wikipedia page</a>
+ * for more information.
+ */
 public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 {
 	private int blockSize;
 	private int bitrate;
 	private static final double EPSILON = .0000000001;
 
+	/**
+	 * Creates a new CooleyTukeyFastFourierTransformer with the given block size and bitrate.
+	 * @param ourBlockSize The block size to use
+	 * @param ourBitRate The bitrate to use.
+	 */
 	public CooleyTukeyFastFourierTransformer(final int ourBlockSize, final int ourBitRate)
 	{
 		this.setBlockSize(ourBlockSize);
 		this.bitrate = ourBitRate;
 	}
 
+	/**
+	 * Transforms the given signal into a DiscreteFourierTransform.
+	 * @param signal The signal to transform
+	 * @return The DiscreteFourierTransform as a result.
+	 */
+	@Override
 	public DiscreteFourierTransform transform(final double[] signal)
 	{
 		final double[] signalPadded = pad(signal);
@@ -45,12 +61,20 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 		return new DiscreteFourierTransform(frequencyDomain, this.bitrate);
 	}
 
+	/**
+	 * Inverts the transform. This the inverse of transform()
+	 * @param transform The transform to inverse
+	 * @return The orginal signal.
+	 * @see com.syncleus.dann.dataprocessing.signal.transform.CooleyTukeyFastFourierTransformer#transform(double[])
+	 */
+	@Override
 	public double[] inverseTransform(final DiscreteFourierTransform transform)
 	{
 		final ComplexNumber[] complexSignal = inverseTransformMatrix(pad(transform.getTransform()));
 		return complexArrayToDoubleArray(complexSignal);
 	}
 
+	@Override
 	public double[] circularConvolve(final double[] first, final double[] second)
 	{
 		final ComplexNumber[] firstComplex = pad(doubleArrayToComplexArray(first));
@@ -60,6 +84,7 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 		return complexArrayToDoubleArray(resultComplex);
 	}
 
+	@Override
 	public double[] linearConvolve(final double[] first, final double[] second)
 	{
 		final ComplexNumber[] firstComplex = pad(doubleArrayToComplexArray(first));
@@ -69,6 +94,7 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 		return complexArrayToDoubleArray(resultComplex);
 	}
 
+	@Override
 	public int getBlockSize()
 	{
 		return this.blockSize;

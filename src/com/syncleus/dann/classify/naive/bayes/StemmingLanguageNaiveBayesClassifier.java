@@ -23,42 +23,82 @@ import com.syncleus.dann.classify.naive.FeatureExtractor;
 import com.syncleus.dann.dataprocessing.language.WordParser;
 import com.syncleus.dann.dataprocessing.language.stem.StemmingWordParser;
 
+/**
+ * A StemmingLanguageNaiveBayesClassifier uses Bayes' theorem to classify word stems into categories.
+ * @param <C> The categories to classify things into
+ */
 public class StemmingLanguageNaiveBayesClassifier<C> extends SimpleNaiveBayesClassifier<String, String, C> implements TrainableLanguageNaiveBayesClassifier<C>
 {
 	private final Locale locale;
 
+	/**
+	 * Creates a StemmingLanguageNaiveBayesClassifier with the default locale.
+	 */
 	public StemmingLanguageNaiveBayesClassifier()
 	{
 		this(Locale.getDefault());
 	}
 
+	/**
+	 * Creates a StemmingLanguageNaiveBayesClassifier with the given Locale.
+	 * @param ourLocale The locale to use
+	 */
 	public StemmingLanguageNaiveBayesClassifier(final Locale ourLocale)
 	{
 		super(new StemmingWordExtractor());
 		this.locale = ourLocale;
 	}
 
+	/**
+	 * Gets the probability that a feature is in the given category.
+	 * @param feature The feature to check
+	 * @param category The category to check
+	 * @return The probability that a feature is in the supplied category
+	 */
 	@Override
 	public double featureClassificationProbability(final String feature, final C category)
 	{
 		return super.featureClassificationProbability(StemmingWordExtractor.PARSER.getUniqueWords(feature).iterator().next(), category);
 	}
 
+	/**
+	 * Gets the weighted probability that a given feature is in the supplied category.
+	 * @param feature The feature to check
+	 * @param category The category to check
+	 * @return The weighted probability that a given feature is in the supplied category
+	 */
 	@Override
 	public double featureClassificationWeightedProbability(final String feature, final C category)
 	{
 		return super.featureClassificationWeightedProbability(StemmingWordExtractor.PARSER.getUniqueWords(feature).iterator().next(), category);
 	}
 
+	/**
+	 * Gets the currently used locale.
+	 * @return The current locale
+	 */
+	@Override
 	public Locale getLocale()
 	{
 		return this.locale;
 	}
 
+	/**
+	 * A StemmingWordExtractor is a FeatureExtractor that extracts stems from words.
+	 */
 	private static class StemmingWordExtractor implements FeatureExtractor<String, String>
 	{
+		/**
+		 * The WordParser used to separate words into stems.
+		 */
 		public static final WordParser PARSER = new StemmingWordParser();
 
+		/**
+		 * Gets the word stems from a given word.
+		 * @param item The item to extract features from
+		 * @return The set of features
+		 */
+		@Override
 		public Set<String> getFeatures(final String item)
 		{
 			return PARSER.getUniqueWords(item);

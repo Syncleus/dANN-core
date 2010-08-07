@@ -24,6 +24,7 @@ import java.util.*;
  * Groups a set of items, I, into members of group C.
  * @param <I> The type of item to classify
  * @param <C> The type of group to classify them into
+ * @author Jeffrey Phillips Freeman
  */
 public interface Classifier<I, C>
 {

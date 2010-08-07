@@ -20,9 +20,35 @@ package com.syncleus.dann.classify.naive.bayes;
 
 import com.syncleus.dann.classify.naive.NaiveClassifier;
 
+/**
+ * A NaiveBayesClassifier classifies items based on Bayes' Theorum.
+ * @param <I> The item to classify
+ * @param <F> The type of feature from the item
+ * @param <C> The type of category
+ */
 public interface NaiveBayesClassifier<I, F, C> extends NaiveClassifier<I, F, C>
 {
+	/**
+	 * Gets the classification of an item, possibly using the threshold.
+	 * If all possible categories are below the threshold, null is returned.
+	 *
+	 * @param item The item to classify
+	 * @param useThreshold Whether to use the threshold
+	 * @return The category of a given item
+	 */
 	C classification(I item, boolean useThreshold);
+
+	/**
+	 * Gets the category threshold for a given category.
+	 * @param category The category to check
+	 * @return The threshold for the given category
+	 */
 	double getCategoryThreshold(C category);
+
+	/**
+	 * Sets the threshold for a given category.
+	 * @param category The category to set a threshold for
+	 * @param threshold The threshold for the category
+	 */
 	void setCategoryThreshold(C category, double threshold);
 }
