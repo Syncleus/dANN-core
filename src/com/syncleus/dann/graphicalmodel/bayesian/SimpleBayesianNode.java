@@ -48,6 +48,7 @@ public class SimpleBayesianNode<S> implements BayesianNode<S>
 		this.learnedStates = new TreeSet<S>();
 	}
 
+    @Override
 	public void setState(final S newState)
 	{
 		if( newState == null )
@@ -56,16 +57,19 @@ public class SimpleBayesianNode<S> implements BayesianNode<S>
 		this.state = newState;
 	}
 
+    @Override
 	public S getState()
 	{
 		return this.state;
 	}
 
+    @Override
 	public Set<S> getLearnedStates()
 	{
 		return Collections.unmodifiableSet(this.learnedStates);
 	}
 
+    @Override
 	public void learnState()
 	{
 		this.updateInfluence();
@@ -74,6 +78,7 @@ public class SimpleBayesianNode<S> implements BayesianNode<S>
 		this.learnedStates.add(this.state);
 	}
 
+    @Override
 	public double stateProbability()
 	{
 		this.updateInfluence();
@@ -121,6 +126,7 @@ public class SimpleBayesianNode<S> implements BayesianNode<S>
 		return false;
 	}
 
+    @Override
     public SimpleBayesianNodeXml toXml()
     {
         Namer<Object> namer = new Namer<Object>();
@@ -158,6 +164,7 @@ public class SimpleBayesianNode<S> implements BayesianNode<S>
         return xml;
     }
 
+    @Override
     public SimpleBayesianNodeXml toXml(Namer<Object> namer)
     {
         if(namer == null)
@@ -168,6 +175,7 @@ public class SimpleBayesianNode<S> implements BayesianNode<S>
         return xml;
     }
 
+    @Override
     public void toXml(BayesianNodeXml jaxbObject, Namer<Object> namer)
     {
         //set learned states
