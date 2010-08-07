@@ -23,20 +23,42 @@ import java.util.Map.Entry;
 import com.syncleus.dann.classify.naive.FeatureExtractor;
 import com.syncleus.dann.classify.naive.bayes.SimpleNaiveBayesClassifier;
 
+/**
+ * A SimpleFisherClassifier is a basic implementation of a FisherClassifier.
+ * @param <I> The type of item to classify
+ * @param <F> The type of factors to classify them by
+ * @param <C> The type of class to classify them into
+ */
 public class SimpleFisherClassifier<I, F, C> extends SimpleNaiveBayesClassifier<I, F, C> implements FisherClassifier<I, F, C>
 {
 	private final Map<C, Double> categoryMinimums = new HashMap<C, Double>();
 
+	/**
+	 * Creates a new SimpleFisherClassifier with the given FeatureExtractor.
+	 * @param extractor The FeatureExtractor to use
+	 */
 	public SimpleFisherClassifier(final FeatureExtractor<F, I> extractor)
 	{
 		super(extractor);
 	}
 
+	/**
+	 * Sets the minimum value for a given category.
+	 * @param category The category
+	 * @param minimum The minimum value.
+	 */
+	@Override
 	public void setMinimum(final C category, final double minimum)
 	{
 		this.categoryMinimums.put(category, minimum);
 	}
 
+	/**
+	 * Gets the minimum value for the given category.
+	 * @param category The category
+	 * @return The minimum value
+	 */
+	@Override
 	public double getMinimum(final C category)
 	{
 		if( this.categoryMinimums.containsKey(category) )
@@ -44,6 +66,14 @@ public class SimpleFisherClassifier<I, F, C> extends SimpleNaiveBayesClassifier<
 		return 0.0;
 	}
 
+	/**
+	 * Gets the most likely classification for the given item. May return null
+	 * if <code>useThreshold = true</code> and no category is above the required threshold.
+	 *
+	 * @param item The item to classify
+	 * @param useThreshold Whether to use the threshold
+	 * @return The most likely classification
+	 */
 	@Override
 	public C classification(final I item, final boolean useThreshold)
 	{

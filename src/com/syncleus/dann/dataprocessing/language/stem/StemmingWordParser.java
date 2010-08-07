@@ -21,25 +21,49 @@ package com.syncleus.dann.dataprocessing.language.stem;
 import java.util.*;
 import com.syncleus.dann.dataprocessing.language.BasicWordParser;
 
+/**
+ * A StemmingWordParser parses Strings into their stems.
+ */
 public class StemmingWordParser extends BasicWordParser implements Stemmer
 {
 	private final Stemmer stemmer;
 
+	/**
+	 * Creates a StemmingWordParser with the default Stemmer, a PorterStemmer.
+	 * @see com.syncleus.dann.dataprocessing.language.stem.PorterStemmer
+	 */
 	public StemmingWordParser()
 	{
-		this.stemmer = new PorterStemmer();
+		this(new PorterStemmer());
 	}
 
+	/**
+	 * Creates a StemmingWordParser with the supplied Stemmer.
+	 * @param ourStemmer The Stemmer to use.
+	 */
 	public StemmingWordParser(final Stemmer ourStemmer)
 	{
 		this.stemmer = ourStemmer;
 	}
 
+	/**
+	 * Gets the word stem for the given word.
+	 * @param word The word to get the stem from
+	 * @return The word stem.
+	 */
+	@Override
 	public String stemWord(final String word)
 	{
 		return this.stemmer.stemWord(word.toLowerCase(this.getLocale()));
 	}
 
+	/**
+	 * Converts a collection of Strings to a list of its stems - one stem per word.
+	 * Convenience method for stemWord().
+	 * @param unstemmed The collection of unstemmed words
+	 * @return An unmodifiable list of the word stems from the given collection.
+	 * @see com.syncleus.dann.dataprocessing.language.stem.StemmingWordParser#stemWord(String)
+	 */
 	private List<String> stemList(final Collection<String> unstemmed)
 	{
 		final List<String> stemmedWords = new ArrayList<String>(unstemmed.size());
@@ -48,6 +72,12 @@ public class StemmingWordParser extends BasicWordParser implements Stemmer
 		return Collections.unmodifiableList(stemmedWords);
 	}
 
+	/**
+	 * Converts a collection of Strings to a set of its stems. A maximum of one stem per word,
+	 * but duplicates are removed from output.
+	 * @param unstemmed A collection of unstemmed words
+	 * @return An unmodifiable set of word stems from the given collection
+	 */
 	private Set<String> stemSet(final Collection<String> unstemmed)
 	{
 		final Set<String> stemmedWords = new HashSet<String>(unstemmed.size());
@@ -56,12 +86,22 @@ public class StemmingWordParser extends BasicWordParser implements Stemmer
 		return Collections.unmodifiableSet(stemmedWords);
 	}
 
+	/**
+	 * Gets a collection of stems from the given text.
+	 * @param text The string to parse
+	 * @return The stems from the given text
+	 */
 	@Override
 	public List<String> getWords(final String text)
 	{
 		return stemList(super.getWords(text));
 	}
 
+	/**
+	 * Gets the unique stems from the string of text.
+	 * @param text The text to process
+	 * @return The unique set of stems
+	 */
 	@Override
 	public Set<String> getUniqueWords(final String text)
 	{

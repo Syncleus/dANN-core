@@ -20,6 +20,12 @@ package com.syncleus.dann.classify.naive.bayes.fisher;
 
 import com.syncleus.dann.classify.naive.bayes.TrainableNaiveBayesClassifier;
 
+/**
+ * A TrainableFisherClassifier is a trainable, naive Bayes' theorem classifier using Fisher's Method.
+ * @param <I> The type of item to classify
+ * @param <F> The type of field to classify items by
+ * @param <C> The type of class to use
+ */
 public interface TrainableFisherClassifier<I, F, C> extends FisherClassifier<I, F, C>, TrainableNaiveBayesClassifier<I, F, C>
 {
 }

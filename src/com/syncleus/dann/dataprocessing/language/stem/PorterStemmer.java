@@ -20,6 +20,10 @@ package com.syncleus.dann.dataprocessing.language.stem;
 
 import java.util.*;
 
+/**
+ * This is an implementation of <a href="http://tartarus.org/~martin/PorterStemmer/">Martin Porter's stemming algorithm</a>.
+ * This algorithm efficiently separates word stems from words.
+ */
 public class PorterStemmer implements Stemmer
 {
 	private static final int GROW_SIZE = 50;
@@ -32,21 +36,37 @@ public class PorterStemmer implements Stemmer
 	private final int growSize;
 	private final Locale locale;
 
+	/**
+	 * Creates a new PorterStemmer with the default grow size and default locale.
+	 */
 	public PorterStemmer()
 	{
 		this(GROW_SIZE);
 	}
 
+	/**
+	 * Creates a new PorterStemmer with the supplied grow size and default locale.
+	 * @param ourGrowSize The grow size to use.
+	 */
 	public PorterStemmer(final int ourGrowSize)
 	{
 		this(Locale.getDefault(), ourGrowSize);
 	}
 
+	/**
+	 * Creates a new PorterStemmer with the default grow size and the supplied locale.
+	 * @param ourLocale The locale to use
+	 */
 	public PorterStemmer(final Locale ourLocale)
 	{
 		this(ourLocale, GROW_SIZE);
 	}
 
+	/**
+	 * Creates a new PorterStemmer with the supplied locale and the supplied grow size.
+	 * @param ourLocale The locale to use
+	 * @param ourGrowSize The grow size to use
+	 */
 	public PorterStemmer(final Locale ourLocale, final int ourGrowSize)
 	{
 		this.growSize = ourGrowSize;
@@ -55,6 +75,12 @@ public class PorterStemmer implements Stemmer
 		this.locale = ourLocale;
 	}
 
+	/**
+	 * Gets the word stem from the specified word.
+	 * @param originalWord The word to extract the stems from
+	 * @return The stem of the word
+	 */
+	@Override
 	public String stemWord(final String originalWord)
 	{
 		final String originalWordLowerCase = originalWord.toLowerCase(this.locale);
@@ -81,6 +107,13 @@ public class PorterStemmer implements Stemmer
 			return originalWordLowerCase;
 	}
 
+	/**
+	 * Returns whether the character at a given index is a consonant, by exclusion.
+	 * A, e, i, o, u are not consonants. y is a consonant when it's at the start of the stem,
+	 * or when it immediately follows a vowel. All other characters are consonants.
+	 * @param i The index to check
+	 * @return Whether it is a consonant
+	 */
 	private boolean isConsonant(final int i)
 	{
 		switch(this.buffer[i])
@@ -98,6 +131,12 @@ public class PorterStemmer implements Stemmer
 		}
 	}
 
+	/**
+	 * Returns the number of consonants in the stem via a complex linear
+	 * count.
+	 * @return The number of consonants in the stem.
+	 * @see com.syncleus.dann.dataprocessing.language.stem.PorterStemmer#isConsonant(int)
+	 */
 	private int countConsonantsInStem()
 	{
 		int n = 0;
@@ -135,6 +174,11 @@ public class PorterStemmer implements Stemmer
 		}
 	}
 
+	/**
+	 * Returns whether there is a vowel in the stem by a simple linear search.
+	 * @return Whether there is a vowel in the word stem.
+	 * @see com.syncleus.dann.dataprocessing.language.stem.PorterStemmer#isConsonant(int)
+	 */
 	private boolean isVowelInStem()
 	{
 		for(int bufferIndex = this.stemStartIndex; bufferIndex <= this.stemEndIndex; bufferIndex++)
@@ -143,11 +187,25 @@ public class PorterStemmer implements Stemmer
 		return false;
 	}
 
+	/**
+	 * Determines whether the given index is a consonant that appears twice in succession, once at the given index
+	 * and once before.
+	 * 'tall' has the repeated consonant 'l' at index 3. The theoretical word stem 'lawl' does not have such
+	 * a repeated consonant.
+	 * @param testCharacterIndex The index of the character to check
+	 * @return Whether there is a repeated consonant at the given index
+	 */
 	private boolean isRepeatedConsonant(final int testCharacterIndex)
 	{
 		return testCharacterIndex >= this.stemStartIndex + 1 && this.buffer[testCharacterIndex] == this.buffer[testCharacterIndex - 1] && this.isConsonant(testCharacterIndex);
 	}
 
+	/**
+	 * Determines whether the given index is the third character in a consonant-vowel-consonant sequence.
+	 * 'com' is an example of such a sequence.
+	 * @param i The index to check
+	 * @return Whether the index is a cvc sequence
+	 */
 	private boolean isConsonantVowelConsonant(final int i)
 	{
 		if( i < this.stemStartIndex + 2 || !this.isConsonant(i) || this.isConsonant(i - 1) || !this.isConsonant(i - 2) )
@@ -161,6 +219,11 @@ public class PorterStemmer implements Stemmer
 		return true;
 	}
 
+	/**
+	 * Determines whether the String ends with the provided String.
+	 * @param possibleEnding The possible ending to the String
+	 * @return Whether the word ends with the given string
+	 */
 	private boolean ends(final String possibleEnding)
 	{
 		final int possibleEndingLength = possibleEnding.length();
@@ -174,6 +237,10 @@ public class PorterStemmer implements Stemmer
 		return true;
 	}
 
+	/**
+	 * Sets the internal buffer to the given string.
+	 * @param setString The string to use as the buffer
+	 */
 	private void setTo(final String setString)
 	{
 		for(int i = 0; i < setString.length(); i++)
@@ -182,6 +249,10 @@ public class PorterStemmer implements Stemmer
 		this.dirtyBuffer = true;
 	}
 
+	/**
+	 * Sets the internal buffer to the given string if there are consonants in the stem.
+	 * @param setString The stream to use as the buffer
+	 */
 	private void setToConsonantStem(final String setString)
 	{
 		if( this.countConsonantsInStem() > 0 )
@@ -206,6 +277,12 @@ public class PorterStemmer implements Stemmer
 	messing   ->  mess
 
 	meetings  ->  meet
+	 */
+
+	/**
+	 * Removes plurals (-s), and stems of -ed or -ing.
+	 * Transforms "caresses" into "caress"-, "ponies" into "poni"-, and "meetings" into "meet"-
+	 * Operates in-place.
 	 */
 	private void step1()
 	{
@@ -242,6 +319,10 @@ public class PorterStemmer implements Stemmer
 	}
 
 	/* step2() turns terminal y to bufferIndex when there is another vowel in the stem. */
+
+	/**
+	 * If the word ends in a y, and it's not the only vowel, change the terminal y to an i.
+	 */
 	private void step2()
 	{
 		if( ends("y") && isVowelInStem() )
@@ -251,9 +332,11 @@ public class PorterStemmer implements Stemmer
 		}
 	}
 
-	/* step3() maps double suffices to single ones. so -ization ( = -ize plus
-	-ation) maps to -ize etc. note that the string before the suffix must give
-	countConsonantsInStem() > 0. */
+	/**
+	 * step3() maps double suffices to single ones. so -ization ( = -ize plus
+	 * -ation) maps to -ize etc. note that the string before the suffix must give
+	 * countConsonantsInStem() > 0.
+	 */
 	private void step3()
 	{
 		if( this.wordEndIndex == this.stemStartIndex )
@@ -324,7 +407,10 @@ public class PorterStemmer implements Stemmer
 		}
 	}
 
-	/* step4() deals with -ic-, -full, -ness etc. similar strategy to step3. */
+	/**
+	 * step4() removes -ic-, -full, -ness, -icate, -ative, and -alize suffixes.
+	 * @see PorterStemmer#step3()
+	 */
 	private void step4()
 	{
 		switch(this.buffer[this.wordEndIndex])
@@ -357,7 +443,10 @@ public class PorterStemmer implements Stemmer
 		}
 	}
 
-	/* step5() takes off -ant, -ence etc., in context <c>vcvc<v>. */
+	/**
+	 * step5() removes -ant, -ence, -ance, -er, -ic, the -[st]ion endings, -ment, -ement,
+	 * ou, -ism, -iti, -ous, -ive, and -ize.
+	 */
 	private void step5()
 	{
 		if( this.wordEndIndex == this.stemStartIndex )
@@ -436,7 +525,9 @@ public class PorterStemmer implements Stemmer
 			this.wordEndIndex = this.stemEndIndex;
 	}
 
-	/* step6() removes a final -e if countConsonantsInStem() > 1. */
+	/**
+	 * step6() removes a final -e if countConsonantsInStem() > 1.
+	 */
 	private void step6()
 	{
 		this.stemEndIndex = this.wordEndIndex;
@@ -450,11 +541,19 @@ public class PorterStemmer implements Stemmer
 			this.wordEndIndex--;
 	}
 
+	/**
+	 * Gets the current grow size.
+	 * @return The current grow size.
+	 */
 	public int getGrowSize()
 	{
 		return this.growSize;
 	}
 
+	/**
+	 * Gets the current locale.
+	 * @return The locale in current use.
+	 */
 	public Locale getLocale()
 	{
 		return this.locale;

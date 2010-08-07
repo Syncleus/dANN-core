@@ -106,11 +106,13 @@ public abstract class AbstractEdge<N> implements Edge<N>
 		return copy;
 	}
 
+    @Override
 	public boolean isTraversable(final N node)
 	{
 		return (!this.getTraversableNodes(node).isEmpty());
 	}
 
+    @Override
 	public final List<N> getNodes()
 	{
 		return this.nodes;
@@ -141,6 +143,7 @@ public abstract class AbstractEdge<N> implements Edge<N>
 		}
 	}
 
+    @Override
     public EdgeXml toXml()
     {
         Namer namer = new Namer();
@@ -166,6 +169,7 @@ public abstract class AbstractEdge<N> implements Edge<N>
         return xml;
     }
 
+    @Override
     public EdgeXml toXml(Namer<Object> nodeNames)
     {
         if(nodeNames == null)
@@ -176,6 +180,7 @@ public abstract class AbstractEdge<N> implements Edge<N>
         return xml;
     }
 
+    @Override
     public void toXml(EdgeXml jaxbObject, Namer<Object> nodeNames)
     {
         if(nodeNames == null)

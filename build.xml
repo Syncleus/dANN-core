@@ -67,7 +67,7 @@
 		<delete includeemptydirs="true">
 			<fileset dir="build/javadoc" includes="**/*"/>
 		</delete>
-		<javadoc destdir="build/javadoc/" classpathref="classpath">
+		<javadoc destdir="build/javadoc/" classpathref="classpath" useexternalfile="true">
 			<fileset dir="src/com/syncleus/dann" includes="**/*.java"/>
 		</javadoc>
 	</target>
