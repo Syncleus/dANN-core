@@ -32,6 +32,10 @@ public class ExpressionFunction implements Cloneable
 	private CombinedWaveletFunction wavelet;
 	private static final Logger LOGGER = Logger.getLogger(ExpressionFunction.class);
 
+	/**
+	 * Creates the ExpressionFunction as a copy of the supplied ExpressionFunction.
+	 * @param copy The ExpressionFunction to copy
+	 */
 	public ExpressionFunction(final ExpressionFunction copy)
 	{
 		this.receptors = new HashSet<ReceptorKey>(copy.receptors);
@@ -39,6 +43,10 @@ public class ExpressionFunction implements Cloneable
 		this.wavelet = copy.wavelet;
 	}
 
+	/**
+	 * Creates an ExpressionFunction from the given initial input.
+	 * @param initialInput The initial input to use
+	 */
 	public ExpressionFunction(final ReceptorKey initialInput)
 	{
 		this.waves = new ArrayList<WaveMultidimensionalFunction>();
@@ -50,21 +58,36 @@ public class ExpressionFunction implements Cloneable
 		this.waves.add(initialWave);
 	}
 
+	/**
+	 * Creates an ExpressionFunction with no data.
+	 */
 	private ExpressionFunction()
 	{
 	}
 
+	/**
+	 * Gets the resultant CombinedWaveletFunction from this ExpressionFunction
+	 * @return The CombinedWaveletFunction
+	 */
 	public CombinedWaveletFunction getWaveletMathFunction()
 	{
 		return this.wavelet;
 	}
 
+	/**
+	 * Gets the number of waves expressed by this ExpressionFunction
+	 * @return The number of expressed waves
+	 */
 	public int getWaveCount()
 	{
 		this.reconstructWavelet();
 		return this.wavelet.getWaveCount();
 	}
 
+	/**
+	 * Gets the receptors for this ExpressionFunction
+	 * @return An unmodifiable set of ReceptorKey
+	 */
 	public Set<ReceptorKey> getReceptors()
 	{
 		return Collections.unmodifiableSet(this.receptors);
@@ -147,6 +170,7 @@ public class ExpressionFunction implements Cloneable
 	 * adding the new mutated wave</li> <li>delete an existing wave</li>
 	 * <li>removing a signal</li> <li>Do nothing</li> </ul>
 	 *
+	 * @param deviation The maximum allowable deviation
 	 * @return New mutated wavelet
 	 */
 	public ExpressionFunction mutate(final double deviation)
@@ -207,8 +231,8 @@ public class ExpressionFunction implements Cloneable
 	}
 
 	/**
-	 * Mutates by incorperating a new signal into the mutated result.<br/> <br/>
-	 * May mutate by:<br/> <ul> <li>adding the new signal</li> <ul>
+	 * Mutates by incorporating a new signal into the mutated result.<br/> <br/>
+	 * May mutate by:<br/> <ul> <li>adding the new signal</li> </ul>
 	 *
 	 * @param newReceptor The new receptor to possibly incorperate into mutation
 	 * @param deviation RANDOM deviation for mutation.

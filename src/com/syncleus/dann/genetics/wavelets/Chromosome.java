@@ -23,6 +23,9 @@ import com.syncleus.dann.UnexpectedDannError;
 import com.syncleus.dann.genetics.MutableDouble;
 import org.apache.log4j.Logger;
 
+/**
+ * A Chromosome is a mutable collection of Chromatids for use in a geneti algorithm.
+ */
 public class Chromosome implements Cloneable
 {
 	private WaveletChromatid leftChromatid;
@@ -31,12 +34,19 @@ public class Chromosome implements Cloneable
 	private static final Logger LOGGER = Logger.getLogger(Chromosome.class);
 	private double mutability;
 
+	/**
+	 * Creates a Chromasome with random left and right chromatids.
+	 */
 	public Chromosome()
 	{
 		this.leftChromatid = WaveletChromatid.newRandomWaveletChromatid();
 		this.rightChromatid = WaveletChromatid.newRandomWaveletChromatid();
 	}
 
+	/**
+	 * Creates a chromosome as a copy of another.
+	 * @param copy The chromosome to topy
+	 */
 	public Chromosome(final Chromosome copy)
 	{
 		this.leftChromatid = new WaveletChromatid(copy.leftChromatid);
@@ -44,6 +54,11 @@ public class Chromosome implements Cloneable
 		this.mutability = copy.mutability;
 	}
 
+	/**
+	 * Gets the expressed signals of this chromosome.
+	 * @param external Whether the caller is external to the Chromosome
+	 * @return The set of SignalKeys
+	 */
 	Set<SignalKey> getExpressedSignals(final boolean external)
 	{
 		final HashSet<SignalKey> allSignals = new HashSet<SignalKey>(this.leftChromatid.getExpressedSignals(external));
@@ -51,6 +66,10 @@ public class Chromosome implements Cloneable
 		return Collections.unmodifiableSet(allSignals);
 	}
 
+	/**
+	 * Gets an unmodifiable set keys of this Chromosome.
+	 * @return The expressed keys
+	 */
 	public Set<AbstractKey> getKeys()
 	{
 		final HashSet<AbstractKey> allKeys = new HashSet<AbstractKey>();
@@ -59,18 +78,33 @@ public class Chromosome implements Cloneable
 		return Collections.unmodifiableSet(allKeys);
 	}
 
+	/**
+	 * Prepares both chromatids to tick.
+	 * @see com.syncleus.dann.genetics.wavelets.WaveletChromatid#preTick()
+	 */
 	public void preTick()
 	{
 		this.leftChromatid.preTick();
 		this.rightChromatid.preTick();
 	}
 
+	/**
+	 * Ticks both chromatids.
+	 * @see com.syncleus.dann.genetics.wavelets.WaveletChromatid#tick()
+	 */
 	public void tick()
 	{
 		this.leftChromatid.tick();
 		this.rightChromatid.tick();
 	}
 
+	/**
+	 * Binds a SignalKeyConcentration to both Chromatids
+	 * @param concentration The signal key concentration
+	 * @param isExternal Whether this signal is external to the Chromasome
+	 * @return Whether the bind was successful
+	 * @see com.syncleus.dann.genetics.wavelets.WaveletChromatid#bind(SignalKeyConcentration, boolean)
+	 */
 	public boolean bind(final SignalKeyConcentration concentration, final boolean isExternal)
 	{
 		boolean bound = false;
@@ -81,16 +115,28 @@ public class Chromosome implements Cloneable
 		return bound;
 	}
 
+	/**
+	 * Gets the left chromatid.
+	 * @return The left chromatid
+	 */
 	protected WaveletChromatid getLeftChromatid()
 	{
 		return this.leftChromatid;
 	}
 
+	/**
+	 * Gets the right chromatid
+	 * @return The right chromatid
+	 */
 	protected WaveletChromatid getRightChromatid()
 	{
 		return this.rightChromatid;
 	}
 
+	/**
+	 * Gets all genes in the chromosome.
+	 * @return An unmodifiable list of genes
+	 */
 	public List<AbstractWaveletGene> getGenes()
 	{
 		final List<AbstractWaveletGene> genes = new ArrayList<AbstractWaveletGene>(this.leftChromatid.getGenes());
@@ -98,6 +144,11 @@ public class Chromosome implements Cloneable
 		return Collections.unmodifiableList(genes);
 	}
 
+	/**
+	 * Gets all promoter genes in the chromosome.
+	 * @return An unmodifiable list of promoter genes.
+	 * @see WaveletChromatid#getPromoterGenes()
+	 */
 	public List<PromoterGene> getPromoterGenes()
 	{
 		final List<PromoterGene> promoters = new ArrayList<PromoterGene>(this.leftChromatid.getPromoterGenes());
@@ -105,6 +156,11 @@ public class Chromosome implements Cloneable
 		return Collections.unmodifiableList(promoters);
 	}
 
+	/**
+	 * Gets all local signal genes expressed on the chromosome.
+	 * @return An unmodifiable list of local signal genes
+	 * @see WaveletChromatid#getLocalSignalGenes()
+	 */
 	public List<SignalGene> getLocalSignalGenes()
 	{
 		final List<SignalGene> localSignalGenes = new ArrayList<SignalGene>(this.leftChromatid.getLocalSignalGenes());
@@ -112,6 +168,11 @@ public class Chromosome implements Cloneable
 		return Collections.unmodifiableList(localSignalGenes);
 	}
 
+	/**
+	 * Gets all external signal genes expressed on the chromosome.
+	 * @return An unmodifiable list of external signal genes
+	 * @see WaveletChromatid#getExternalSignalGenes()
+	 */
 	public List<ExternalSignalGene> getExternalSignalGenes()
 	{
 		final List<ExternalSignalGene> externalSignalGenes = new ArrayList<ExternalSignalGene>(this.leftChromatid.getExternalSignalGenes());
@@ -119,6 +180,10 @@ public class Chromosome implements Cloneable
 		return Collections.unmodifiableList(externalSignalGenes);
 	}
 
+	/**
+	 * Crosses over the two chromatids.
+	 * @param deviation The amount of deviation allowable
+	 */
 	private void crossover(final double deviation)
 	{
 		//find the crossover position
@@ -155,6 +220,10 @@ public class Chromosome implements Cloneable
 		this.rightChromatid.crossover(leftGenes, crossoverPosition);
 	}
 
+	/**
+	 * Creates a deep clone of the current object.
+	 * @return A clone of a chromosome.
+	 */
 	@Override
 	public Chromosome clone()
 	{
@@ -168,11 +237,17 @@ public class Chromosome implements Cloneable
 		}
 		catch(CloneNotSupportedException caught)
 		{
-			LOGGER.error("CloneNotSupportedException caught but not expected!", caught);
-			throw new UnexpectedDannError("CloneNotSupportedException caught but not expected", caught);
+			final String userMessage = "CloneNotSupportedException caught but not expected!";
+			LOGGER.error(userMessage, caught);
+			throw new UnexpectedDannError(userMessage, caught);
 		}
 	}
 
+	/**
+	 * Mutates the chromosome by the given key pool.
+	 * @param keyPool The key pool to mutate by
+	 * @see com.syncleus.dann.genetics.wavelets.WaveletChromatid#mutate(java.util.Set)
+	 */
 	public void mutate(final Set<AbstractKey> keyPool)
 	{
 		if( Mutations.mutationEvent(this.mutability) )

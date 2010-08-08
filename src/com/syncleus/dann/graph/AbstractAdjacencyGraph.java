@@ -32,6 +32,11 @@ import com.syncleus.dann.xml.XmlSerializable;
 import org.apache.log4j.Logger;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+/**
+ * An AbstractAdjacencyGraph is a Graph implemented using adjacency lists. 
+ * @param <N> The node type
+ * @param <E> The type of edge for the given node type
+ */
 @XmlJavaTypeAdapter( com.syncleus.dann.xml.XmlSerializableAdapter.class )
 public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Graph<N, E>
 {
@@ -41,16 +46,30 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 	private Map<N, List<N>> adjacentNodes = new HashMap<N, List<N>>();
 
 
+	/**
+	 * Creates a new AbstractAdjacencyGraph with no edges and no adjacencies.
+	 */
 	protected AbstractAdjacencyGraph()
 	{
 		this.edges = new HashSet<E>();
 	}
 
+	/**
+	 * Creates a new AbstractAdjacencyGraph as a copy of the current Graph.
+	 * @param copyGraph The Graph to copy
+	 */
 	protected AbstractAdjacencyGraph(final Graph<N, E> copyGraph)
 	{
 		this(copyGraph.getNodes(), copyGraph.getEdges());
 	}
 
+	/**
+	 * Creates a new AbstractAdjacencyGraph from the given list of nodes, and the given list of edges.
+	 * The adjacency lists are created from this structure.
+	 *
+	 * @param nodes The set of all nodes
+	 * @param edges The set of all edges
+	 */
 	protected AbstractAdjacencyGraph(final Set<N> nodes, final Set<E> edges)
 	{
 		this.edges = new HashSet<E>(edges);
@@ -82,31 +101,59 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		}
 	}
 
+	/**
+	 * Gets the internal edges of the list.
+	 * @return The set of internal edges
+	 */
 	protected Set<E> getInternalEdges()
 	{
 		return this.edges;
 	}
 
+	/**
+	 * Gets the map of nodes to their associated set of edges
+	 * @return The internal adjacency edges to nodes
+	 */
 	protected Map<N, Set<E>> getInternalAdjacencyEdges()
 	{
 		return this.adjacentEdges;
 	}
 
+	/**
+	 * Gets each node's list of adjacent nodes.
+	 * @return The map of nodes to adjacent nodes
+	 */
 	protected Map<N, List<N>> getInternalAdjacencyNodes()
 	{
 		return this.adjacentNodes;
 	}
 
+	/**
+	 * Gets all nodes in the map.
+	 * @return The unmodifiable set of nodes
+	 */
+	@Override
 	public Set<N> getNodes()
 	{
 		return Collections.unmodifiableSet(this.adjacentEdges.keySet());
 	}
 
+	/**
+	 * Gets all edges in the map.
+	 * @return The unmodifiable set of edges
+	 */
+	@Override
 	public Set<E> getEdges()
 	{
 		return Collections.unmodifiableSet(this.edges);
 	}
 
+	/**
+	 * Gets all edges adjacent to a given node.
+	 * @param node the end point for all edges to retrieve.
+	 * @return The edges adjacent to that node.
+	 */
+	@Override
 	public Set<E> getAdjacentEdges(final N node)
 	{
 		if( this.adjacentEdges.containsKey(node) )
@@ -115,11 +162,24 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 			return Collections.<E>emptySet();
 	}
 
+	/**
+	 * Gets all nodes ajacent to the given node.
+	 * @param node The whose neighbors are to be returned.
+	 * @return All adjacent nodes to the given node
+	 */
+	@Override
 	public List<N> getAdjacentNodes(final N node)
 	{
 		return Collections.unmodifiableList(new ArrayList<N>(this.adjacentNodes.get(node)));
 	}
 
+	/**
+	 * Gets the traversable nodes adjacent to the given node
+	 * @param node The whose traversable neighbors are to be returned.
+	 * @return The traversable nodes adjacent to the given node
+	 * @see com.syncleus.dann.graph.Edge#getTraversableNodes(Object)
+	 */
+	@Override
 	public List<N> getTraversableNodes(final N node)
 	{
 		final List<N> traversableNodes = new ArrayList<N>();
@@ -128,6 +188,13 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		return Collections.unmodifiableList(traversableNodes);
 	}
 
+	/**
+	 * Gets the traversable edges from this node
+	 * @param node edges returned will be traversable from this node.
+	 * @return The traversable edges from the given node
+	 * @see com.syncleus.dann.graph.Edge#isTraversable(Object)
+	 */
+	@Override
 	public Set<E> getTraversableEdges(final N node)
 	{
 		final Set<E> traversableEdges = new HashSet<E>();
@@ -137,6 +204,12 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		return Collections.unmodifiableSet(traversableEdges);
 	}
 
+	/**
+	 * Gets the degree of a given node. The degree of a node is how many adjacent nodes link to
+	 * this node, as opposed to how many nodes this node links to.
+	 * @param node The node whose degree is to be returned
+	 * @return The degree of this node
+	 */
 	public int getDegree(final N node)
 	{
 		final Set<E> adjacentNodesEdges = this.getAdjacentEdges(node);
@@ -148,6 +221,12 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		return degree;
 	}
 
+	/**
+	 * Determines whether this graph is strongly connected. A graph is strongly connected if and only if
+	 * every node is strongly connected to every other node.
+	 * @return If this graph is strongly connected
+	 */
+	@Override
 	public boolean isStronglyConnected()
 	{
 		final Set<N> nodes = this.getNodes();
@@ -158,6 +237,12 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		return true;
 	}
 
+	/**
+	 * Determines whether this graph is weakly connected. A graph is weakly connected if
+	 * there is only one node or every node is weakly connected to every other node.
+	 * @return If this graph is weakly connected
+	 */
+	@Override
 	public boolean isWeaklyConnected()
 	{
 		final List<N> remainingNodes = new ArrayList<N>(this.getNodes());
@@ -171,6 +256,14 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		return true;
 	}
 
+	/**
+	 * Determines whether two nodes are weakly connected. Nodes are weakly connected if
+	 * .
+	 * @param leftNode
+	 * @param rightNode
+	 * @return
+	 */
+	@Override
 	public boolean isWeaklyConnected(final N leftNode, final N rightNode)
 	{
 		final Set<N> visited = new HashSet<N>();

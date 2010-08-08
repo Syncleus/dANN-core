@@ -73,7 +73,7 @@ public class DoubleValueGene extends AbstractValueGene<MutableDouble> implements
 
 	/**
 	 * Initializes a new instance of this class that is a copy of the specified
-	 * value
+	 * value.
 	 *
 	 * @param copyGene The value to copy.
 	 * @since 2.0
