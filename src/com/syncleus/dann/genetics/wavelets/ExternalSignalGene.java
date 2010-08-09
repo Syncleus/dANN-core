@@ -24,11 +24,11 @@ public class ExternalSignalGene extends SignalGene implements Cloneable
 {
 	private boolean outward;
 
-	public ExternalSignalGene(final ReceptorKey initialReceptor, final SignalKey initialSignal, final boolean outward)
+	public ExternalSignalGene(final ReceptorKey initialReceptor, final SignalKey initialSignal, final boolean isOutward)
 	{
 		super(initialReceptor, initialSignal);
 
-		this.outward = outward;
+		this.outward = isOutward;
 	}
 
 	public ExternalSignalGene(final ExternalSignalGene copy)
@@ -41,15 +41,15 @@ public class ExternalSignalGene extends SignalGene implements Cloneable
 	{
 		if( (this.outward && !isExternal) || (!this.outward && isExternal) )
 		{
-			if( this.expressionFunction.receives(concentration.getSignal()) )
+			if( this.getExpressionFunction().receives(concentration.getSignal()) )
 			{
-				this.receivingConcentrations.add(concentration);
+				this.getReceivingConcentrations().add(concentration);
 				return true;
 			}
 		}
 		else if( (this.outward && isExternal) || (!this.outward && !isExternal) )
 		{
-			this.expressingConcentration = concentration;
+			this.setExpressingConcentration(concentration);
 			return true;
 		}
 

@@ -36,12 +36,12 @@ public abstract class AbstractKey implements Cloneable
 		this.points = Collections.unmodifiableMap(newPoints);
 	}
 
-	protected AbstractKey(final Map<Integer, Boolean> points)
+	protected AbstractKey(final Map<Integer, Boolean> ourPoints)
 	{
-		if( points.isEmpty() )
-			throw new IllegalArgumentException("points must have at least one entry");
+		if( ourPoints.isEmpty() )
+			throw new IllegalArgumentException("ourPoints must have at least one entry");
 
-		this.points = Collections.unmodifiableMap(new HashMap<Integer, Boolean>(points));
+		this.points = Collections.unmodifiableMap(new HashMap<Integer, Boolean>(ourPoints));
 	}
 
 	protected AbstractKey(final String keyString)

@@ -24,7 +24,7 @@ import com.syncleus.dann.*;
 import org.apache.log4j.Logger;
 
 /**
- * Rerpesents a population governed by Genetic Algorithm parameters. This class
+ * Represents a population governed by Genetic Algorithm parameters. This class
  * is abstract and should be extended to assign fitness functions to each member
  * of the population. This class handles each generation of the population.
  *
@@ -41,6 +41,9 @@ public abstract class AbstractGeneticAlgorithmPopulation
 	private int generations;
 	private final ThreadPoolExecutor threadExecutor;
 	private static final Logger LOGGER = Logger.getLogger(AbstractGeneticAlgorithmPopulation.class);
+	private static final int MAX_THREADS_PER_PROCESSOR = 5;
+	private static final int KEEP_ALIVE_TIME = 20;
+	private static final int MINIMUM_POPULATION_SIZE = 4;
 
 	private static class Process implements Runnable
 	{
@@ -61,44 +64,55 @@ public abstract class AbstractGeneticAlgorithmPopulation
 	/**
 	 * Creates a new population with an initial population consisting of the
 	 * specified chromosomes and with the given Genetic Algorithm parameters.
+	 * The ThreadPoolExecutor is based off the current number of processors, with
+	 * the thread pool initial size equal to the number of processors.
 	 *
-	 * @param mutationDeviation The deviation used when mutating each chromosome in
+	 * @param ourMutationDeviation The deviation used when mutating each chromosome in
 	 * the population.
-	 * @param crossoverPercentage The percentage change crossover will take place.
-	 * @param dieOffPercentage The percentage of the population to die off in each
+	 * @param ourCrossoverPercentage The percentage change crossover will take place.
+	 * @param ourDieOffPercentage The percentage of the population to die off in each
 	 * generation.
 	 * @since 2.0
 	 */
-	public AbstractGeneticAlgorithmPopulation(final double mutationDeviation, final double crossoverPercentage, final double dieOffPercentage)
+	public AbstractGeneticAlgorithmPopulation(final double ourMutationDeviation, final double ourCrossoverPercentage, final double ourDieOffPercentage)
 	{
-		this(mutationDeviation, crossoverPercentage, dieOffPercentage, new ThreadPoolExecutor(Runtime.getRuntime().availableProcessors(), Runtime.getRuntime().availableProcessors() * 5, 20, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>()));
+		this(ourMutationDeviation, ourCrossoverPercentage, ourDieOffPercentage, new ThreadPoolExecutor(Runtime.getRuntime().availableProcessors(), Runtime.getRuntime().availableProcessors() * MAX_THREADS_PER_PROCESSOR, KEEP_ALIVE_TIME, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>()));
 	}
 
 	/**
 	 * Creates a new population with an initial population consisting of the
 	 * specified chromosomes and with the given Genetic Algorithm parameters.
 	 *
-	 * @param mutationDeviation The deviation used when mutating each chromosome in
+	 * @param ourMutationDeviation The deviation used when mutating each chromosome in
 	 * the population.
-	 * @param crossoverPercentage The percentage change crossover will take place.
-	 * @param dieOffPercentage The percentage of the population to die off in each
+	 * @param ourCrossoverPercentage The percentage change crossover will take place.
+	 * @param ourDieOffPercentage The percentage of the population to die off in each
 	 * generation.
+	 * @param ourThreadExecutor The ThreadPoolExecutor to execute genetic processes on
 	 * @since 2.0
 	 */
-	public AbstractGeneticAlgorithmPopulation(final double mutationDeviation, final double crossoverPercentage, final double dieOffPercentage, final ThreadPoolExecutor threadExecutor)
+	public AbstractGeneticAlgorithmPopulation(final double ourMutationDeviation, final double ourCrossoverPercentage, final double ourDieOffPercentage, final ThreadPoolExecutor ourThreadExecutor)
 	{
 		this.population = new TreeSet<AbstractGeneticAlgorithmFitnessFunction>();
-		this.mutationDeviation = mutationDeviation;
-		this.crossoverPercentage = crossoverPercentage;
-		this.dieOffPercentage = dieOffPercentage;
-		this.threadExecutor = threadExecutor;
+		this.mutationDeviation = ourMutationDeviation;
+		this.crossoverPercentage = ourCrossoverPercentage;
+		this.dieOffPercentage = ourDieOffPercentage;
+		this.threadExecutor = ourThreadExecutor;
 	}
 
+	/**
+	 * Adds the given chromosome to the population.
+	 * @param chromosome The chromosome to add
+	 */
 	public final void add(final GeneticAlgorithmChromosome chromosome)
 	{
 		this.population.add(this.packageChromosome(chromosome));
 	}
 
+	/**
+	 * Adds all chromosomes to the population, processing the fitness functions in parallel.
+	 * @param chromosomes The chromosomes to add
+	 */
 	public final void addAll(final Collection<GeneticAlgorithmChromosome> chromosomes)
 	{
 		//create all the fitness functions and then process them in parallel
@@ -127,7 +141,7 @@ public abstract class AbstractGeneticAlgorithmPopulation
 			throw new UnexpectedDannError("Unexpected execution exception. Get should block indefinately", caught);
 		}
 
-		//add to thetree set and sort
+		//add to the tree set and sort
 		this.population.addAll(initialPopulation);
 	}
 
@@ -172,6 +186,10 @@ public abstract class AbstractGeneticAlgorithmPopulation
 		return this.generations;
 	}
 
+	/**
+	 * Gets the a random member of the population.
+	 * @return A random member of the population
+	 */
 	private GeneticAlgorithmChromosome getRandomMember()
 	{
 		final int randomIndex = RANDOM.nextInt(this.population.size());
@@ -194,8 +212,8 @@ public abstract class AbstractGeneticAlgorithmPopulation
 	 */
 	public void nextGeneration()
 	{
-		if( this.population.size() < 4 )
-			throw new IllegalStateException("Must have a population of atleast 4. Currently: " + this.population.size());
+		if( this.population.size() < MINIMUM_POPULATION_SIZE)
+			throw new IllegalStateException("Must have a population of at least " + MINIMUM_POPULATION_SIZE + ". Currently: " + this.population.size());
 		this.generations++;
 		//calculate population sizes
 		final int populationSize = this.population.size();

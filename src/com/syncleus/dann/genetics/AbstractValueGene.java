@@ -26,6 +26,7 @@ import org.apache.log4j.Logger;
  * activity of a ValueGene remains constant and only changes through mutation.
  * These are the only type of gene used in basic Genetic Algorithms.
  *
+ * @param <N> The type of MutableNumber to use as the value.
  * @author Jeffrey Phillips Freeman
  * @since 2.0
  */
@@ -38,12 +39,12 @@ public abstract class AbstractValueGene<N extends MutableNumber> implements Valu
 	 * Initializes a new instance of this class backed by the specified
 	 * MutableNumber.
 	 *
-	 * @param value MutableNumber to back the ValueGene with.
+	 * @param backingValue MutableNumber to back the ValueGene with.
 	 * @since 2.0
 	 */
-	protected AbstractValueGene(final N value)
+	protected AbstractValueGene(final N backingValue)
 	{
-		this.value = value;
+		this.value = backingValue;
 	}
 
 	/**

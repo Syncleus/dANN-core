@@ -38,14 +38,14 @@ public abstract class MutableNumber<N extends Number> extends Number implements 
 	private static final Logger LOGGER = Logger.getLogger(MutableNumber.class);
 
 	/**
-	 * Initializes a new MutableNumber backed by the specified number.
+	 * Initializes a new MutableNumber backed by the specified backingNumber.
 	 *
-	 * @param number The number to back this MutableNumber
+	 * @param backingNumber The backingNumber to back this MutableNumber
 	 * @since 2.0
 	 */
-	protected MutableNumber(final N number)
+	protected MutableNumber(final N backingNumber)
 	{
-		this.number = number;
+		this.number = backingNumber;
 	}
 
 	/**
@@ -64,7 +64,8 @@ public abstract class MutableNumber<N extends Number> extends Number implements 
 
 	private static double atanh(final double value)
 	{
-		return 0.5 * Math.log(Math.abs((value + 1.0) / (1.0 - value)));
+		final double oneHalf = 0.5;
+		return oneHalf * Math.log(Math.abs((value + 1.0) / (1.0 - value)));
 	}
 
 	/**

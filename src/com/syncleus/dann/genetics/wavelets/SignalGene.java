@@ -23,7 +23,7 @@ import java.util.*;
 public class SignalGene extends AbstractWaveletGene implements Cloneable
 {
 	private SignalKey outputSignal;
-	protected SignalKeyConcentration expressingConcentration;
+	private SignalKeyConcentration expressingConcentration;
 
 	public SignalGene(final ReceptorKey initialReceptor, final SignalKey initialSignal)
 	{
@@ -69,6 +69,14 @@ public class SignalGene extends AbstractWaveletGene implements Cloneable
 	public SignalKey getOutputSignal()
 	{
 		return this.outputSignal;
+	}
+
+	protected SignalKeyConcentration getExpressingConcentration() {
+		return expressingConcentration;
+	}
+
+	protected void setExpressingConcentration(SignalKeyConcentration newExpressingConcentration) {
+		this.expressingConcentration = newExpressingConcentration;
 	}
 
 	@Override

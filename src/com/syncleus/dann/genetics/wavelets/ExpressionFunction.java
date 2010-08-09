@@ -31,6 +31,8 @@ public class ExpressionFunction implements Cloneable
 	private List<WaveMultidimensionalFunction> waves;
 	private CombinedWaveletFunction wavelet;
 	private static final Logger LOGGER = Logger.getLogger(ExpressionFunction.class);
+	private static final int PERCENT_TO_INT = 100;
+	private static final int PHASE_ADJUSTMENT = 10;
 
 	/**
 	 * Creates the ExpressionFunction as a copy of the supplied ExpressionFunction.
@@ -176,28 +178,29 @@ public class ExpressionFunction implements Cloneable
 	public ExpressionFunction mutate(final double deviation)
 	{
 		final ExpressionFunction copy = this.clone();
-		while( RANDOM.nextFloat() < (float) 0.1 )
+		final double changePercentage = 0.1;
+		while( RANDOM.nextFloat() < (float) changePercentage)
 		{
 			//add a mutated copy of an existing wave
-			if( RANDOM.nextDouble() < 0.1 )
+			if( RANDOM.nextDouble() < changePercentage)
 			{
 				//Signal newSignal = this.getRandomSignal();
 				//return this.mutate(newSignal);
 				copy.waves.add(this.generateRandomWave());
 			}
 			//make a RANDOM new wave
-			if( RANDOM.nextDouble() < 0.1 )
+			if( RANDOM.nextDouble() < changePercentage)
 			{
 				copy.waves.add(this.generateNewWave());
 			}
 			//delete a RANDOM wave
-			if( (this.waves.size() > 1) && (RANDOM.nextDouble() < 0.1) )
+			if( (this.waves.size() > 1) && (RANDOM.nextDouble() < changePercentage) )
 			{
 				final WaveMultidimensionalFunction deleteWave = copy.waves.get(RANDOM.nextInt(copy.waves.size()));
 				copy.waves.remove(deleteWave);
 			}
-			//only delete if there will be atleast one signal left
-			if( (this.receptors.size() > 1) && (RANDOM.nextDouble() < 0.1) )
+			//only delete if there will be at least one signal left
+			if( (this.receptors.size() > 1) && (RANDOM.nextDouble() < changePercentage) )
 			{
 				final ReceptorKey[] receptorArray = new ReceptorKey[copy.receptors.size()];
 				copy.receptors.toArray(receptorArray);
@@ -272,19 +275,22 @@ public class ExpressionFunction implements Cloneable
 	private WaveMultidimensionalFunction generateNewWave()
 	{
 		final String[] dimensionNames = new String[this.receptors.size()];
+		final double gaussianAdjustment = 0.001;
+
 		int index = 0;
 		for(final ReceptorKey receptor : this.receptors)
 			dimensionNames[index++] = String.valueOf(receptor.hashCode());
+
 		final WaveMultidimensionalFunction newWave = new WaveMultidimensionalFunction(dimensionNames);
-		newWave.setFrequency(RANDOM.nextGaussian() * 0.001);
-		newWave.setPhase(RANDOM.nextGaussian() * 10);
+		newWave.setFrequency(RANDOM.nextGaussian() * gaussianAdjustment);
+		newWave.setPhase(RANDOM.nextGaussian() * PHASE_ADJUSTMENT);
 		newWave.setAmplitude(RANDOM.nextGaussian());
 		newWave.setForm(Math.abs(RANDOM.nextGaussian()));
 		if( newWave.getForm() <= 0.0 )
-			newWave.setForm(newWave.getForm() + ((1 + RANDOM.nextGaussian()) * 10));
+			newWave.setForm(newWave.getForm() + ((1 + RANDOM.nextGaussian()) * PHASE_ADJUSTMENT));
 		for(final String dimensionName : dimensionNames)
-			newWave.setCenter(dimensionName, newWave.getCenter(dimensionName) + ((RANDOM.nextFloat() * 2 - 1) * 100));
-		newWave.setDistribution(RANDOM.nextFloat() * 100);
+			newWave.setCenter(dimensionName, newWave.getCenter(dimensionName) + ((RANDOM.nextFloat() * 2 - 1) * PERCENT_TO_INT));
+		newWave.setDistribution(RANDOM.nextFloat() * PERCENT_TO_INT);
 		return newWave;
 	}
 
@@ -296,21 +302,24 @@ public class ExpressionFunction implements Cloneable
 			this.waves.toArray(wavesArray);
 			final WaveMultidimensionalFunction randomWave = wavesArray[RANDOM.nextInt(wavesArray.length)];
 			final WaveMultidimensionalFunction newWave = new WaveMultidimensionalFunction(randomWave);
-			if( RANDOM.nextDouble() <= 1.0 )
-				newWave.setFrequency(newWave.getFrequency() + ((RANDOM.nextFloat() * 2 - 1) * 0.01));
-			if( RANDOM.nextDouble() <= 1.0 )
-				newWave.setPhase(newWave.getPhase() + ((RANDOM.nextFloat() * 2 - 1) * 10));
-			if( RANDOM.nextDouble() <= 1.0 )
-				newWave.setAmplitude(newWave.getAmplitude() + ((RANDOM.nextFloat() * 2 - 1) * 10));
-			if( RANDOM.nextDouble() <= 1.0 )
-				newWave.setForm(newWave.getForm() + (RANDOM.nextFloat() * 0.01));
-			if( RANDOM.nextDouble() <= 1.0 )
-				newWave.setDistribution(newWave.getDistribution() + ((RANDOM.nextFloat() * 2 - 1) * 100));
-			if( RANDOM.nextDouble() <= 1.0 )
+			final double changePercentage = 1.0;
+			final double frequencyAdjustment = 0.01;
+
+			if( RANDOM.nextDouble() <= changePercentage)
+				newWave.setFrequency(newWave.getFrequency() + ((RANDOM.nextFloat() * 2 - 1) * frequencyAdjustment));
+			if( RANDOM.nextDouble() <= changePercentage)
+				newWave.setPhase(newWave.getPhase() + ((RANDOM.nextFloat() * 2 - 1) * PHASE_ADJUSTMENT));
+			if( RANDOM.nextDouble() <= changePercentage)
+				newWave.setAmplitude(newWave.getAmplitude() + ((RANDOM.nextFloat() * 2 - 1) * PHASE_ADJUSTMENT));
+			if( RANDOM.nextDouble() <= changePercentage)
+				newWave.setForm(newWave.getForm() + (RANDOM.nextFloat() * frequencyAdjustment));
+			if( RANDOM.nextDouble() <= changePercentage)
+				newWave.setDistribution(newWave.getDistribution() + ((RANDOM.nextFloat() * 2 - 1) * PERCENT_TO_INT));
+			if( RANDOM.nextDouble() <= changePercentage)
 			{
 				final String[] dimensionNames = newWave.getDimensionNames();
 				for(final String dimensionName : dimensionNames)
-					newWave.setCenter(dimensionName, newWave.getCenter(dimensionName) + ((RANDOM.nextFloat() * 2 - 1) * 100));
+					newWave.setCenter(dimensionName, newWave.getCenter(dimensionName) + ((RANDOM.nextFloat() * 2 - 1) * PERCENT_TO_INT));
 			}
 			return newWave;
 		}

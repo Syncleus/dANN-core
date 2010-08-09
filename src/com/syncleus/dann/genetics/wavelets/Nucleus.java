@@ -31,6 +31,7 @@ public class Nucleus implements Cloneable
 	private List<Chromosome> chromosomes;
 	private double mutability;
 	private static final Logger LOGGER = Logger.getLogger(Nucleus.class);
+	private static final double MUTABILITY_ADJUSTMENT = 10.0;
 
 	/**
 	 * Creates a new Nucleus with at least one chromosome. Additional chromosomes
@@ -39,7 +40,7 @@ public class Nucleus implements Cloneable
 	public Nucleus()
 	{
 		this.chromosomes = new ArrayList<Chromosome>();
-		this.mutability = Mutations.getRandom().nextDouble() * 10.0;
+		this.mutability = Mutations.getRandom().nextDouble() * MUTABILITY_ADJUSTMENT;
 		//make sure there is at least one starting chromosome.
 		this.chromosomes.add(new Chromosome());
 		//there is a chance more chromosomes can be created

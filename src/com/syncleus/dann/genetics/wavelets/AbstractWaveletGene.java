@@ -30,8 +30,8 @@ public abstract class AbstractWaveletGene implements Gene, Cloneable
 	private double pendingActivity;
 	private double mutability;
 	private static final Logger LOGGER = Logger.getLogger(AbstractWaveletGene.class);
-	protected ExpressionFunction expressionFunction;
-	protected Set<SignalKeyConcentration> receivingConcentrations;
+	private ExpressionFunction expressionFunction;
+	private Set<SignalKeyConcentration> receivingConcentrations;
 	protected static final Random RANDOM = Mutations.getRandom();
 
 	protected AbstractWaveletGene(final ReceptorKey initialReceptor)
@@ -61,11 +61,32 @@ public abstract class AbstractWaveletGene implements Gene, Cloneable
 		return this.mutability;
 	}
 
+	protected ExpressionFunction getExpressionFunction()
+	{
+		return expressionFunction;
+	}
+
+	protected void setExpressionFunction(final ExpressionFunction newExpressionFunction)
+	{
+		this.expressionFunction = newExpressionFunction;
+	}
+
+	public Set<SignalKeyConcentration> getReceivingConcentrations()
+	{
+		return receivingConcentrations;
+	}
+
+	public void setReceivingConcentrations(final Set<SignalKeyConcentration> newReceivingConcentrations)
+	{
+		this.receivingConcentrations = newReceivingConcentrations;
+	}
+
 	public final AbstractFunction getExpressionActivityMathFunction()
 	{
 		return this.expressionFunction.getWaveletMathFunction();
 	}
 
+	@Override
 	public final double expressionActivity()
 	{
 		return this.currentActivity;
