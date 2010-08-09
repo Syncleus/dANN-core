@@ -24,6 +24,7 @@ import com.syncleus.dann.classify.LanguageClassifier;
  * Classifies words based on <a href="http://en.wikipedia.org/wiki/Naive_Bayes_classifier">Bayes' Theorem</a>
  * with a strong independence assumption.
  * @param <C> The categories to place words in
+ * @author Jeffrey Phillips Freeman
  */
 public interface LanguageNaiveBayesClassifier<C> extends NaiveBayesClassifier<String, String, C>, LanguageClassifier<C>
 {

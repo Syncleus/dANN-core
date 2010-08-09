@@ -23,6 +23,7 @@ import com.syncleus.dann.classify.LanguageClassifier;
 /**
  * A LanguageNaiveClassifier is a NaiveClassifier for words.
  * @param <C> The categories to put words into
+ * @author Jeffrey Phillips Freeman
  * @see com.syncleus.dann.classify.naive.NaiveClassifier
  * @see com.syncleus.dann.classify.LanguageClassifier
  */

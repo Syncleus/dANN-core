@@ -26,6 +26,7 @@ import com.syncleus.dann.dataprocessing.signal.SignalOutputStream;
  * A utility class that provides the StreamPair class, to convert from a FastFourierTransformerInputStream to
  * a SignalOutputStream, and a method to create a StreamPair from a FastFourierTransformer and a given
  * sampling rate.
+ * @author Jeffrey Phillips Freeman
  */
 public final class Transforms
 {
@@ -38,7 +39,7 @@ public final class Transforms
 		private final SignalOutputStream outStream;
 
 		/**
-		 * Creates a new StreamPair around the given FastFourierTransformerInputStream and the given SignalOutputStream
+		 * Creates a new StreamPair around the given FastFourierTransformerInputStream and the given SignalOutputStream.
 		 * @param inputStream The FastFourierTransformerInputStream to use
 		 * @param outputStream The SignalOutputStream to use
 		 */

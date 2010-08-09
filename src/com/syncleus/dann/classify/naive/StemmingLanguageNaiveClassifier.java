@@ -24,6 +24,7 @@ import com.syncleus.dann.dataprocessing.language.stem.StemmingWordParser;
 /**
  * A StemmingLanguageNaiveClassifier separates words into items based on their word stems.
  * @param <C> The categories associated with an item
+ * @author Jeffrey Phillips Freeman
  */
 public class StemmingLanguageNaiveClassifier<C> extends SimpleNaiveClassifier<String, String, C> implements TrainableLanguageNaiveClassifier<C>
 {

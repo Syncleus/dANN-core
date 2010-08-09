@@ -26,6 +26,7 @@ import java.util.*;
  * @param <I> The type of item to classify
  * @param <F> The type of features the item has
  * @param <C> The type of categories to use
+ * @author Jeffrey Phillips Freeman
  */
 public class SimpleNaiveClassifier<I, F, C> implements TrainableNaiveClassifier<I, F, C>
 {

@@ -26,6 +26,7 @@ import com.syncleus.dann.dataprocessing.language.stem.StemmingWordParser;
 /**
  * A StemmingLanguageNaiveBayesClassifier uses Bayes' theorem to classify word stems into categories.
  * @param <C> The categories to classify things into
+ * @author Jeffrey Phillips Freeman
  */
 public class StemmingLanguageNaiveBayesClassifier<C> extends SimpleNaiveBayesClassifier<String, String, C> implements TrainableLanguageNaiveBayesClassifier<C>
 {

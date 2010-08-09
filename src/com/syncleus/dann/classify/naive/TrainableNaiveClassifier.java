@@ -25,6 +25,7 @@ import com.syncleus.dann.classify.TrainableClassifier;
  * @param <I> The item to classify
  * @param <F> The features of the item
  * @param <C> The categories of the item
+ * @author Jeffrey Phillips Freeman
  */
 public interface TrainableNaiveClassifier<I, F, C> extends NaiveClassifier<I, F, C>, TrainableClassifier<I, C>
 {

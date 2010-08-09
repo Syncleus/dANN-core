@@ -23,6 +23,7 @@ import com.syncleus.dann.math.*;
 
 /**
  * A DiscreteFourierTransform is a fourier transform that operates on a discrete input function.
+ * @author Jeffrey Phillips Freeman
  */
 public class DiscreteFourierTransform
 {
@@ -30,7 +31,7 @@ public class DiscreteFourierTransform
 	private final NavigableMap<Double, ComplexNumber> frequencies;
 
 	/**
-	 * Creates a new DiscreteFourierTransform with the given frequencies and the given bitrate
+	 * Creates a new DiscreteFourierTransform with the given frequencies and the given bitrate.
 	 * @param ourFrequencies The frequencies to use
 	 * @param bitrate The bitrate to use
 	 */

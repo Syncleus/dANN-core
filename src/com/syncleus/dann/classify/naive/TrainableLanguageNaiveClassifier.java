@@ -23,6 +23,7 @@ import com.syncleus.dann.classify.TrainableLanguageClassifier;
 /**
  * A TrainableLanguageNaiveClassifier is a TrainableNaiveClassifier that's also a LanguageNaiveClassifier and a TrainableLanguageClassifier.
  * @param <C> The classification
+ * @author Jeffrey Phillips Freeman
  */
 public interface TrainableLanguageNaiveClassifier<C> extends TrainableNaiveClassifier<String, String, C>, LanguageNaiveClassifier<C>, TrainableLanguageClassifier<C>
 {

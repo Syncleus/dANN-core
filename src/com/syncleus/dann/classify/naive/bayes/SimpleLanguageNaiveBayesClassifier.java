@@ -25,6 +25,7 @@ import com.syncleus.dann.dataprocessing.language.*;
 /**
  * A SimpleLanguageNaiveBayesClassifier classifies Strings by breaking them into Words.
  * @param <C> The category to use.
+ * @author Jeffrey Phillips Freeman
  */
 public class SimpleLanguageNaiveBayesClassifier<C> extends SimpleNaiveBayesClassifier<String, String, C> implements TrainableLanguageNaiveBayesClassifier<C>
 {

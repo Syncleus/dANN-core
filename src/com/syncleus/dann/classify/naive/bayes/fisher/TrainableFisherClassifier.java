@@ -25,6 +25,7 @@ import com.syncleus.dann.classify.naive.bayes.TrainableNaiveBayesClassifier;
  * @param <I> The type of item to classify
  * @param <F> The type of field to classify items by
  * @param <C> The type of class to use
+ * @author Jeffrey Phillips Freeman
  */
 public interface TrainableFisherClassifier<I, F, C> extends FisherClassifier<I, F, C>, TrainableNaiveBayesClassifier<I, F, C>
 {

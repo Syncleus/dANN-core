@@ -21,7 +21,8 @@ package com.syncleus.dann.dataprocessing.language;
 import java.util.*;
 
 /**
- * A WordParser splits a String into invidiual words.
+ * A WordParser splits a String into individual words.
+ * @author Jeffrey Phillips Freeman
  */
 public interface WordParser
 {

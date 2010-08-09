@@ -23,6 +23,7 @@ import java.util.*;
 /**
  * This is an implementation of <a href="http://tartarus.org/~martin/PorterStemmer/">Martin Porter's stemming algorithm</a>.
  * This algorithm efficiently separates word stems from words.
+ * @author Jeffrey Phillips Freeman
  */
 public class PorterStemmer implements Stemmer
 {

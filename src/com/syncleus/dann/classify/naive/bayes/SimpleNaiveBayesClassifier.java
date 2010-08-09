@@ -27,6 +27,7 @@ import com.syncleus.dann.classify.naive.*;
  * @param <I> The type of item to use
  * @param <F> The type of feature to use
  * @param <C> The categories to place items in
+ * @author Jeffrey Phillips Freeman
  */
 public class SimpleNaiveBayesClassifier<I, F, C> extends SimpleNaiveClassifier<I, F, C> implements TrainableNaiveBayesClassifier<I, F, C>
 {

@@ -26,6 +26,7 @@ import com.syncleus.dann.classify.Classifier;
  * @param <I> The type of Item to use
  * @param <F> The type of feature to use
  * @param <C> The type of category to use
+ * @author Jeffrey Phillips Freeman
  */
 public interface NaiveClassifier<I, F, C> extends Classifier<I, C>
 {
@@ -42,7 +43,6 @@ public interface NaiveClassifier<I, F, C> extends Classifier<I, C>
 	 * @return The weighted classification of the feature
 	 * @see com.syncleus.dann.classify.naive.NaiveClassifier#featureClassification(Object)
 	 */
-	//DOC how does this differ from the method directly above it?
 	C featureClassificationWeighted(F feature);
 
 	/**

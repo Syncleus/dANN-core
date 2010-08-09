@@ -26,6 +26,7 @@ import com.syncleus.dann.dataprocessing.language.stem.StemmingWordParser;
 /**
  * A LanguageFisherClassifier that classifies according to word stems.
  * @param <C> The type of classification
+ * @author Jeffrey Phillips Freeman
  */
 public class StemmingLanguageFisherClassifier<C> extends SimpleFisherClassifier<String, String, C> implements TrainableLanguageFisherClassifier<C>
 {

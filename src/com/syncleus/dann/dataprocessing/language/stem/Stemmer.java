@@ -20,6 +20,7 @@ package com.syncleus.dann.dataprocessing.language.stem;
 
 /**
  * A Stemmer gets the <a href="http://en.wikipedia.org/wiki/Word_stem">word stem</a> from a word.
+ * @author Jeffrey Phillips Freeman
  */
 public interface Stemmer
 {

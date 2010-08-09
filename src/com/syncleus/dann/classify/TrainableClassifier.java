@@ -22,6 +22,7 @@ package com.syncleus.dann.classify;
  * A TrainableClassifier is any Classifier which is Trainable.
  * @param <I> The type of item to use
  * @param <C> The type of categories to use
+ * @author Jeffrey Phillips Freeman
  * @see Classifier
  * @see Trainable
  */

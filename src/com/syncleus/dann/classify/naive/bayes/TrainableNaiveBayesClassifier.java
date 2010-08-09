@@ -25,6 +25,7 @@ import com.syncleus.dann.classify.naive.TrainableNaiveClassifier;
  * @param <I> The type of item
  * @param <F> The type of feature
  * @param <C> The type of category
+ * @author Jeffrey Phillips Freeman
  */
 public interface TrainableNaiveBayesClassifier<I, F, C> extends NaiveBayesClassifier<I, F, C>, TrainableNaiveClassifier<I, F, C>
 {

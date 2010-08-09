@@ -24,6 +24,7 @@ import com.syncleus.dann.dataprocessing.language.*;
 /**
  * This is an implementation of a SimpleNaiveClassifier for language.
  * @param <C> The categories to use
+ * @author Jeffrey Phillips Freeman
  */
 public class SimpleLanguageNaiveClassifier<C> extends SimpleNaiveClassifier<String, String, C> implements TrainableLanguageNaiveClassifier<C>
 {

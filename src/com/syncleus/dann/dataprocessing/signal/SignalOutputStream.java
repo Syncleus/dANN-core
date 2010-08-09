@@ -23,6 +23,7 @@ import java.io.*;
 /**
  * A SignalOutputStream is an OutputStream that writes signals.
  * @see java.io.OutputStream
+ * @author Jeffrey Phillips Freeman
  */
 public class SignalOutputStream extends OutputStream
 {

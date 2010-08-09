@@ -25,6 +25,7 @@ import com.syncleus.dann.dataprocessing.language.*;
 /**
  * A SimpleLanguageFisherClassifier classifies words as a SimpleFisherClassifier.
  * @param <C> The classification to use
+ * @author Jeffrey Phillips Freeman
  */
 public class SimpleLanguageFisherClassifier<C> extends SimpleFisherClassifier<String, String, C> implements TrainableLanguageFisherClassifier<C>
 {

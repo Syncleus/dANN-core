@@ -25,6 +25,7 @@ import java.util.*;
  * probability that an item will be classified into a given category.
  *
  * @param <C> The type of category
+ * @author Jeffrey Phillips Freeman
  */
 public class ClassificationProbabilities<C>
 {

@@ -23,6 +23,7 @@ import java.util.regex.*;
 
 /**
  * A BasicWordParser splits words into spaces.
+ * @author Jeffrey Phillips Freeman
  */
 public class BasicWordParser implements WordParser
 {

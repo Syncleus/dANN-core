@@ -28,6 +28,7 @@ import com.syncleus.dann.classify.naive.bayes.SimpleNaiveBayesClassifier;
  * @param <I> The type of item to classify
  * @param <F> The type of factors to classify them by
  * @param <C> The type of class to classify them into
+ * @author Jeffrey Phillips Freeman
  */
 public class SimpleFisherClassifier<I, F, C> extends SimpleNaiveBayesClassifier<I, F, C> implements FisherClassifier<I, F, C>
 {

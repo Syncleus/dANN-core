@@ -23,6 +23,7 @@ import com.syncleus.dann.dataprocessing.language.BasicWordParser;
 
 /**
  * A StemmingWordParser parses Strings into their stems.
+ * @author Jeffrey Phillips Freeman
  */
 public class StemmingWordParser extends BasicWordParser implements Stemmer
 {

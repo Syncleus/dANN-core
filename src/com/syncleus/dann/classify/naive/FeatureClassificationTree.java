@@ -24,6 +24,7 @@ import java.util.HashMap;
  * Classifies features into a tree of probability fields, based on category.
  * @param <F> The type of feature to classify
  * @param <C> The type of category to classify the feature into
+ * @author Jeffrey Phillips Freeman
  */
 public class FeatureClassificationTree<F, C> extends HashMap<F, ClassificationProbabilities<C>>
 {
