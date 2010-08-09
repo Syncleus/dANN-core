@@ -209,6 +209,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 	 * this node, as opposed to how many nodes this node links to.
 	 * @param node The node whose degree is to be returned
 	 * @return The degree of this node
+	 * @see com.syncleus.dann.graph.Graph#getDegree(Object)
 	 */
 	public int getDegree(final N node)
 	{
@@ -225,6 +226,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 	 * Determines whether this graph is strongly connected. A graph is strongly connected if and only if
 	 * every node is strongly connected to every other node.
 	 * @return If this graph is strongly connected
+	 * @see Graph#isStronglyConnected()
 	 */
 	@Override
 	public boolean isStronglyConnected()
@@ -241,6 +243,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 	 * Determines whether this graph is weakly connected. A graph is weakly connected if
 	 * there is only one node or every node is weakly connected to every other node.
 	 * @return If this graph is weakly connected
+	 * @see com.syncleus.dann.graph.Graph#isWeaklyConnected()
 	 */
 	@Override
 	public boolean isWeaklyConnected()
@@ -258,10 +261,14 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 
 	/**
 	 * Determines whether two nodes are weakly connected. Nodes are weakly connected if
-	 * .
-	 * @param leftNode
-	 * @param rightNode
-	 * @return
+	 * there is some path from the left node to the right node, across any adjacent nodes.
+	 * Assume that the hypothetical <pre>A->B</pre> graph is directional. This graph
+	 * would have a strong connection from A to B, but only a weak connection from B to A.
+	 * This graph would, therefore, be weakly connected overall, but not strongly connected overall.
+	 * @param leftNode The left node
+	 * @param rightNode The right node
+	 * @return Whether there is any connection between the two nodes
+	 * @see com.syncleus.dann.graph.Graph#isWeaklyConnected(Object, Object)
 	 */
 	@Override
 	public boolean isWeaklyConnected(final N leftNode, final N rightNode)
@@ -288,6 +295,18 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		return false;
 	}
 
+	/**
+	 * Determines if two nodes are strongly connected. Nodes are strongly connected
+	 * if there is some path from the left node to the right node, across any traversable
+	 * nodes. See <code>isWeaklyConnected(N,N)</code> for an example of weak versus strong
+	 * connections.
+	 * @param leftNode The first node to check
+	 * @param rightNode The second node to check
+	 * @return Whether these nodes are strongly connected
+	 * @see com.syncleus.dann.graph.AbstractAdjacencyGraph#isWeaklyConnected(Object, Object)
+	 * @see Graph#isStronglyConnected(Object, Object)
+	 */
+	@Override
 	public boolean isStronglyConnected(final N leftNode, final N rightNode)
 	{
 		final Set<N> visited = new HashSet<N>();
@@ -307,12 +326,30 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		return false;
 	}
 
+	/**
+	 * Gets the set of maximally-connected components from a graph. The maximally-connected
+	 * components are those with the most connections to other nodes.
+	 * NOTE: This method currently returns null.
+	 * @return <code>null</code>
+	 * @see Graph#getMaximallyConnectedComponents()
+	 */
+	@Override
 	public Set<Graph<N, E>> getMaximallyConnectedComponents()
 	{
 		// TODO fill this in
 		return null;
 	}
 
+	/**
+	 * Determines whether the given graph is a maximal subgraph of the current graph.
+	 * A subgraph is maximal if none of the edges of the parent graph not in the subgraph
+	 * connect to any nodes in the subgraph.
+	 * @param subgraph A subgraph of this graph to be checked if maximally
+	 * connected.
+	 * @return Whether this is a maximal subgraph
+	 * @see com.syncleus.dann.graph.Graph#isMaximalSubgraph(Graph)
+	 */
+	@Override
 	public boolean isMaximalSubgraph(final Graph<N, E> subgraph)
 	{
 		if( !this.isSubGraph(subgraph) )
@@ -332,6 +369,14 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		return true;
 	}
 
+	/**
+	 * Removes a set of nodes and a set of edges from the given graph. First, it removes all nodes from the graph.
+	 * Then, it removes all edges in the edges to remove that are not connected to the given node. It then
+	 * returns an ImmutableAdjacencyGraph with the given nodes and edges removed.
+	 * @param deleteNodes The nodes to remove
+	 * @param deleteEdges The edges to remove in addition to the nodes
+	 * @return A graph of the remaining nodes
+	 */
 	private ImmutableAdjacencyGraph<N, Edge<N>> deleteFromGraph(final Set<N> deleteNodes, final Set<E> deleteEdges)
 	{
 		//remove the deleteNodes
@@ -359,7 +404,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		for(final Edge<N> removeEdge : removeEdges)
 			cutEdges.remove(removeEdge);
 		cutEdges.addAll(addEdges);
-		//check if a graph fromt he new set of deleteEdges and deleteNodes is still
+		//check if a graph from the new set of deleteEdges and deleteNodes is still
 		//connected
 		return new ImmutableAdjacencyGraph<N, Edge<N>>(cutNodes, cutEdges);
 	}
@@ -594,6 +639,16 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		return true;
 	}
 
+	/**
+	 * Determines if graph has no loops, and all edges have a multiplicity of 0.
+	 * Simple graphs can not have two nodes connected by two edges differing only
+	 * by its direction/navigability.
+	 *
+	 * @return true if graph has no loops, and all edges have a multiplicity of 0.
+	 * @since 2.0
+	 * @see com.syncleus.dann.graph.Graph#isSimple()
+	 */
+	@Override
 	public boolean isSimple()
 	{
 		for(final N currentNode : this.getNodes())
@@ -606,6 +661,16 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		return true;
 	}
 
+	/**
+	 * Determines if every node in this graph has the same degree. If there are no
+	 * nodes in the graph this will return true.
+	 *
+	 * @return true if every node in this graph has the same degree or there are no
+	 *         nodes, false otherwise.
+	 * @since 2.0
+	 * @see com.syncleus.dann.graph.Graph#isRegular()
+	 */
+	@Override
 	public boolean isRegular()
 	{
 		int degree = -1;
@@ -619,6 +684,13 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		return true;
 	}
 
+	/**
+	 * Gets the degree of the regular graph.
+	 * @throws IllegalStateException If this graph has no nodes, or the graph is not regular
+	 * @return The degree of the regular graph
+	 * @see Graph#getRegularDegree()
+	 */
+	@Override
 	public int getRegularDegree()
 	{
 		int degree = -1;
@@ -636,6 +708,15 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		return degree;
 	}
 
+	/**
+	 * Determined the largest multiplicty of any node in the graph and return it.
+	 * Returns 0 if there are no edges.
+	 *
+	 * @return the largest multiplicty of any node in the graph and return it.
+	 * @since 2.0
+	 * @see com.syncleus.dann.graph.Graph#getMultiplicity()
+	 */
+	@Override
 	public int getMultiplicity()
 	{
 		int multiplicity = 0;
@@ -648,6 +729,19 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		return multiplicity;
 	}
 
+	/**
+	 * Calculates the number of edges in the graph with the exact set of end nodes
+	 * as the specified edge, not including the specified edge itself.
+	 *
+	 * @param edge the edge of which the multiplicity is to be calculated.
+	 * @return the number of edges in the graph with the exact set of end nodes as
+	 *         the specified edge, not including the specified edge itself.
+	 * @throws IllegalArgumentException if the specified edge is not present in the
+	 * graph.
+	 * @since 2.0
+	 * @see Graph#getMultiplicity(Edge)
+	 */
+	@Override
 	public int getMultiplicity(final E edge)
 	{
 		int multiplicity = 0;
@@ -668,6 +762,19 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		return multiplicity;
 	}
 
+	/**
+	 * Determines if the edge is the only edge with its particular set of end point
+	 * nodes, false if unique, true if not. If there is another edge in the graph
+	 * with the exact same set of nodes, no more and no less, then returns true,
+	 * otherwise false.
+	 *
+	 * @param edge the edge to check if it is multiple.
+	 * @return true if there is another edge in the graph with the exact same set
+	 *         of nodes.
+	 * @throws IllegalArgumentException if the specified edge is not present in the
+	 * graph.
+	 * @since 2.0
+	 */
 	public boolean isMultiple(final E edge)
 	{
 		final List<N> edgeNodes = edge.getNodes();
@@ -687,18 +794,42 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		return false;
 	}
 
+	/**
+	 * Determines if the specified nodes can be traversed to from outside of the
+	 * set, and once the set is entered there is no path to traverse outside of the
+	 * set. if the specified nodes each have at least one traversable edge, all
+	 * traversable edges go to other nodes in the knot, no traversable edges
+	 * connect to a node outside of the knot, and there is at least one traversable
+	 * edge from a node outside of the knot to a node in the knot. It is important
+	 * to note that while the knot is not a maximally connected component of the
+	 * graph it is weakly connected amongst itself.
+	 *
+	 * NOTE: This method always returns false.
+	 *
+	 * @param knotedNodes A set of nodes to check if they form a knot.
+	 * @return false
+	 * @since 2.0
+	 */
+	@Override
 	public boolean isKnot(final Set<N> knotedNodes)
 	{
 		// TODO fill this in
 		return false;
 	}
 
+	@Override
 	public boolean isKnot(final Set<N> knotedNodes, final Set<E> knotedEdges)
 	{
 		// TODO fill this in
 		return false;
 	}
 
+	/**
+	 * Adds the given edge to a clone of this object. Returns null if the given edge could not be added.
+	 * @param newEdge the edge to add to the cloned graph.
+	 * @return A clone, with the given edge added
+	 */
+	@Override
 	public AbstractAdjacencyGraph<N, E> cloneAdd(final E newEdge)
 	{
 		if( newEdge == null )
@@ -726,7 +857,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 					newAdjacentNodes.get(currentNode).add(currentAdjacentNode);
 			}
 
-			final AbstractAdjacencyGraph<N, E> copy = (AbstractAdjacencyGraph<N, E>) this.clone();
+			final AbstractAdjacencyGraph<N, E> copy = this.clone();
 			copy.edges = newEdges;
 			copy.adjacentEdges = newAdjacentEdges;
 			copy.adjacentNodes = newAdjacentNodes;
@@ -736,36 +867,51 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		return null;
 	}
 
+	/**
+	 * Creates a clone of this graph with the given node added.
+	 * NOTE: Returns null.
+	 * @param newNode the node to add to the cloned graph.
+	 * @return null
+	 */
+	@Override
 	public AbstractAdjacencyGraph<N, E> cloneAdd(final N newNode)
 	{
 		// TODO fill this in
 		return null;
 	}
 
+	@Override
 	public AbstractAdjacencyGraph<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
 	{
 		// TODO fill this in
 		return null;
 	}
 
+	@Override
 	public AbstractAdjacencyGraph<N, E> cloneRemove(final E edgeToRemove)
 	{
 		// TODO fill this in
 		return null;
 	}
 
+	@Override
 	public AbstractAdjacencyGraph<N, E> cloneRemove(final N nodeToRemove)
 	{
 		// TODO fill this in
 		return null;
 	}
 
+	@Override
 	public AbstractAdjacencyGraph<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
 	{
 		// TODO fill this in
 		return null;
 	}
 
+	/**
+	 * Clones the current object.
+	 * @return A clone of the current object, with no changes
+	 */
 	@Override
 	public AbstractAdjacencyGraph<N, E> clone()
 	{
@@ -780,11 +926,22 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		}
 	}
 
-	private static class SizeComparator implements Comparator<Collection>, Serializable
+	/**
+	 * A SizeComparator compares two collections solely based on size
+	 */
+	private static class SizeComparator implements Comparator<Collection<?>>, Serializable
 	{
 		private static final long serialVersionUID = -4454396728238585057L;
 
-		public int compare(final Collection first, final Collection second)
+		/**
+		 * Compares the two collections based on their size.
+		 * @param first The first collection
+		 * @param second The second collection
+		 * @return Which collection is larger
+		 * @see java.util.Comparator#compare(Object, Object)
+		 */
+		@Override
+		public int compare(final Collection<?> first, final Collection<?> second)
 		{
 			if( first.size() < second.size() )
 				return -1;
@@ -793,6 +950,12 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 			return 0;
 		}
 
+		/**
+		 * Returns true if the given object is a non-null SizeComparator. As this class
+		 * has no state, all SizeComparators are equal.
+		 * @param compareWith The object to compare with
+		 * @return If the object is a non-null SizeComparator
+		 */
 		@Override
 		public boolean equals(final Object compareWith)
 		{
@@ -801,85 +964,96 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 
 			return (compareWith instanceof SizeComparator);
 		}
-
-		@Override
-		public int hashCode()
-		{
-			return super.hashCode();
-		}
 	}
 
-    public GraphXml toXml()
-    {
-        GraphElementXml xml = new GraphElementXml();
-        Namer<Object> namer = new Namer<Object>();
+	/**
+	 * Converts the current AbstractAdjacencyGraph to a GraphXML.
+	 * @return The GraphXML representation of this AbstractAdjacencyGraph
+	 */
+	@Override
+	public GraphXml toXml()
+	{
+		GraphElementXml xml = new GraphElementXml();
+		Namer<Object> namer = new Namer<Object>();
 
-        xml.setNodeInstances(new GraphElementXml.NodeInstances());
-        for(N node : this.adjacentEdges.keySet())
-        {
-            final String nodeName = namer.getNameOrCreate(node);
+		xml.setNodeInstances(new GraphElementXml.NodeInstances());
+		for(N node : this.adjacentEdges.keySet())
+		{
+			final String nodeName = namer.getNameOrCreate(node);
 
-            final Object nodeXml;
-            if(node instanceof XmlSerializable)
-                nodeXml = ((XmlSerializable)node).toXml(namer);
-            else
-                //if the object isnt XmlSerializable lets try to just serialize it as a regular JAXB object
-                nodeXml = node;
+			final Object nodeXml;
+			if(node instanceof XmlSerializable)
+				nodeXml = ((XmlSerializable)node).toXml(namer);
+			else
+				//if the object isnt XmlSerializable lets try to just serialize it as a regular JAXB object
+				nodeXml = node;
 
-            NamedValueXml encapsulation = new NamedValueXml();
-            encapsulation.setName(nodeName);
-            encapsulation.setValue(nodeXml);
+			NamedValueXml encapsulation = new NamedValueXml();
+			encapsulation.setName(nodeName);
+			encapsulation.setValue(nodeXml);
 
-            xml.getNodeInstances().getNodes().add(encapsulation);
-        }
+			xml.getNodeInstances().getNodes().add(encapsulation);
+		}
 
-        this.toXml(xml, namer);
-        return xml;
-    }
+		this.toXml(xml, namer);
+		return xml;
+	}
 
-    public GraphXml toXml(Namer<Object> namer)
-    {
-        if(namer == null)
-            throw new IllegalArgumentException("namer can not be null");
+	/**
+	 * Converts a given Namer to its GraphXML representation.
+	 * @param namer The namer to convert
+	 * @return The GraphXML representation of this namer
+	 */
+	@Override
+	public GraphXml toXml(Namer<Object> namer)
+	{
+		if(namer == null)
+			throw new IllegalArgumentException("namer can not be null");
 
-        GraphXml xml = new GraphXml();
-        this.toXml(xml, namer);
-        return xml;
-    }
+		GraphXml xml = new GraphXml();
+		this.toXml(xml, namer);
+		return xml;
+	}
 
-    public void toXml(GraphXml jaxbObject, Namer<Object> namer)
-    {
-        if(namer == null)
-            throw new IllegalArgumentException("nodeNames can not be null");
-        if(jaxbObject == null)
-            throw new IllegalArgumentException("jaxbObject can not be null");
-        
-        for(N node : this.adjacentEdges.keySet())
-        {
-            final String nodeName = namer.getNameOrCreate(node);
+	/**
+	 * Adds a current Namer to the given GraphXML object.
+	 * @param jaxbObject The graph to add the object to
+	 * @param namer THe namer to add to the GraphXML
+	 */
+	@Override
+	public void toXml(GraphXml jaxbObject, Namer<Object> namer)
+	{
+		if(namer == null)
+			throw new IllegalArgumentException("nodeNames can not be null");
+		if(jaxbObject == null)
+			throw new IllegalArgumentException("jaxbObject can not be null");
 
-            final Object nodeXml;
-            if(node instanceof XmlSerializable)
-                nodeXml = ((XmlSerializable)node).toXml(namer);
-            else
-                //if the object isnt XmlSerializable lets try to just serialize it as a regular JAXB object
-                nodeXml = node;
+		for(N node : this.adjacentEdges.keySet())
+		{
+			final String nodeName = namer.getNameOrCreate(node);
 
-            NameXml encapsulation = new NameXml();
-            encapsulation.setName(nodeName);
+			final Object nodeXml;
+			if(node instanceof XmlSerializable)
+				nodeXml = ((XmlSerializable)node).toXml(namer);
+			else
+				//if the object isnt XmlSerializable lets try to just serialize it as a regular JAXB object
+				nodeXml = node;
 
-            if( jaxbObject.getNodes() == null )
-                jaxbObject.setNodes(new GraphXml.Nodes());
-            jaxbObject.getNodes().getNodes().add(encapsulation);
-        }
+			NameXml encapsulation = new NameXml();
+			encapsulation.setName(nodeName);
 
-        for(E edge : this.edges)
-        {
-            EdgeXml edgeXml = edge.toXml(namer);
+			if( jaxbObject.getNodes() == null )
+				jaxbObject.setNodes(new GraphXml.Nodes());
+			jaxbObject.getNodes().getNodes().add(encapsulation);
+		}
 
-            if( jaxbObject.getEdges() == null )
-                jaxbObject.setEdges(new GraphXml.Edges());
-            jaxbObject.getEdges().getEdges().add(edgeXml);
-        }
-    }
+		for(E edge : this.edges)
+		{
+			EdgeXml edgeXml = edge.toXml(namer);
+
+			if( jaxbObject.getEdges() == null )
+				jaxbObject.setEdges(new GraphXml.Edges());
+			jaxbObject.getEdges().getEdges().add(edgeXml);
+		}
+	}
 }

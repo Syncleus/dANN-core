@@ -21,11 +21,19 @@ package com.syncleus.dann.dataprocessing.signal.transform;
 import java.util.*;
 import com.syncleus.dann.math.*;
 
+/**
+ * A DiscreteFourierTransform is a fourier transform that operates on a discrete input function.
+ */
 public class DiscreteFourierTransform
 {
 	private final ComplexNumber[] transform;
 	private final NavigableMap<Double, ComplexNumber> frequencies;
 
+	/**
+	 * Creates a new DiscreteFourierTransform with the given frequencies and the given bitrate
+	 * @param ourFrequencies The frequencies to use
+	 * @param bitrate The bitrate to use
+	 */
 	public DiscreteFourierTransform(final ComplexNumber[] ourFrequencies, final int bitrate)
 	{
 		final double frequencySize = ((double) ourFrequencies.length) / 2.0;
@@ -40,16 +48,32 @@ public class DiscreteFourierTransform
 		this.transform = ourFrequencies.clone();
 	}
 
+	/**
+	 * Gets the largest frequency possible for the given bitrate.
+	 * @param bitrate The bitrate to calculate the frequency for
+	 * @return The upper frequency for the given bitrate
+	 */
 	public static double upperFrequency(final int bitrate)
 	{
 		return ((double) bitrate) / 2.0;
 	}
 
+	/**
+	 * Calculates the frequency resolution for the given bitrate with the given block size.
+	 * @param blockSize The block size to use
+	 * @param bitrate The bit rate to use
+	 * @return How accurate the frequency sampling is
+	 */
 	public static double frequencyResolution(final int blockSize, final int bitrate)
 	{
 		return upperFrequency(bitrate) / (((double) blockSize) / 2.0);
 	}
 
+	/**
+	 * Gets the closest discrete frequency to the supplied frequency.
+	 * @param frequency The input frequency
+	 * @return The closest output frequency
+	 */
 	public double getClosestFrequency(final double frequency)
 	{
 		return this.frequencies.ceilingEntry(frequency).getKey();

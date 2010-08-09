@@ -74,6 +74,13 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 		return complexArrayToDoubleArray(complexSignal);
 	}
 
+	/**
+	 * Pads the double arrays to complex arrays, then performs the circular convolution.
+	 * @param first The first matrix of doubles
+	 * @param second The second matrix of doubles
+	 * @return The circular convolution as a double[]
+	 * @see com.syncleus.dann.dataprocessing.signal.transform.CooleyTukeyFastFourierTransformer#circularConvolveMatrix(com.syncleus.dann.math.ComplexNumber[], com.syncleus.dann.math.ComplexNumber[])
+	 */
 	@Override
 	public double[] circularConvolve(final double[] first, final double[] second)
 	{
@@ -109,6 +116,7 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 	 * the block size is set to the next-largest power of two.
 	 * @param ourBlockSize The block size.
 	 */
+	@Override
 	public void setBlockSize(final int ourBlockSize)
 	{
 		final double exponentOf2 = Math.log(ourBlockSize) / Math.log(2.0);
@@ -126,6 +134,7 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 	 * Gets the bitrate currently in use.
 	 * @return The current bitrate
 	 */
+	@Override
 	public int getBitrate()
 	{
 		return this.bitrate;
@@ -135,6 +144,7 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 	 * Sets the current bitrate.
 	 * @param ourBitrate The bitrate to use
 	 */
+	@Override
 	public void setBitrate(final int ourBitrate)
 	{
 		this.bitrate = ourBitrate;
@@ -214,6 +224,11 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 		return !(Math.abs(exponentOf2 - Math.floor(exponentOf2)) > EPSILON);
 	}
 
+	/**
+	 * Applies the FFT to the given matrix recursively.
+	 * @param dataPoints The data points to transform
+	 * @return The transformed matrix
+	 */
 	public static ComplexNumber[] transformMatrix(final ComplexNumber[] dataPoints)
 	{
 		final int dataPointCount = dataPoints.length;
@@ -274,6 +289,14 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 		return inverseTransformMatrix(result);
 	}
 
+	/**
+	 * Convolves two matrices linearly. This is accomplished by doubling the length of each array,
+	 * setting the remaining elements to zero, then performing a circular convolution.
+	 * @param first The first matrix to convolve
+	 * @param second The second matrix to convolve
+	 * @return The linear convolution of the two matrices
+	 * @see com.syncleus.dann.dataprocessing.signal.transform.CooleyTukeyFastFourierTransformer#circularConvolveMatrix(com.syncleus.dann.math.ComplexNumber[], com.syncleus.dann.math.ComplexNumber[])
+	 */
 	public static ComplexNumber[] linearConvolveMatrix(final ComplexNumber[] first, final ComplexNumber[] second)
 	{
 		final ComplexNumber[] firstLinear = Arrays.copyOf(first, first.length * 2);

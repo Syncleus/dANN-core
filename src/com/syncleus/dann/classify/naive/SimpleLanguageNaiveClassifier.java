@@ -47,12 +47,26 @@ public class SimpleLanguageNaiveClassifier<C> extends SimpleNaiveClassifier<Stri
 		this.locale = ourLocale;
 	}
 
+	/**
+	 * Gets the probability that a given feature is in the given category.
+	 * @param feature The feature to check
+	 * @param category The category to check
+	 * @return The probability the feature is in the given category
+	 * @see com.syncleus.dann.classify.naive.SimpleNaiveClassifier#featureClassificationProbability(Object, Object)
+	 */
 	@Override
 	public double featureClassificationProbability(final String feature, final C category)
 	{
 		return super.featureClassificationProbability(feature.toLowerCase(this.locale), category);
 	}
 
+	/**
+	 * Gets the weighted probability that a given feature is in the given category.
+	 * @param feature The feature to check
+	 * @param category The category to check
+	 * @return The weighted probability that the given feature is in the given category
+	 * @see com.syncleus.dann.classify.naive.SimpleNaiveClassifier#featureClassificationWeightedProbability(Object, Object)
+	 */
 	@Override
 	public double featureClassificationWeightedProbability(final String feature, final C category)
 	{
@@ -61,17 +75,28 @@ public class SimpleLanguageNaiveClassifier<C> extends SimpleNaiveClassifier<Stri
 
 	/**
 	 * Gets the current locale.
-	 * @return
+	 * @return The current locale
 	 */
 	public Locale getLocale()
 	{
 		return this.locale;
 	}
 
+	/**
+	 * This WordExtractor extracts words from Strings.
+	 * @see com.syncleus.dann.dataprocessing.language.BasicWordParser
+	 */
 	private static class WordExtractor implements FeatureExtractor<String, String>
 	{
 		private static final WordParser PARSER = new BasicWordParser();
 
+		/**
+		 * Gets the features from a given String.
+		 * @param item The item
+		 * @return The set of words
+		 * @see com.syncleus.dann.dataprocessing.language.BasicWordParser#getUniqueWords(String)
+		 */
+		@Override
 		public Set<String> getFeatures(final String item)
 		{
 			return PARSER.getUniqueWords(item);
