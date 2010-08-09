@@ -22,23 +22,35 @@ import java.util.*;
 import com.syncleus.dann.UnexpectedDannError;
 import org.apache.log4j.Logger;
 
+/**
+ * A Nucleus is a collection of Chromosomes with a known mutability.
+ * @see com.syncleus.dann.genetics.wavelets.Chromosome
+ */
 public class Nucleus implements Cloneable
 {
 	private List<Chromosome> chromosomes;
 	private double mutability;
 	private static final Logger LOGGER = Logger.getLogger(Nucleus.class);
 
+	/**
+	 * Creates a new Nucleus with at least one chromosome. Additional chromosomes
+	 * could be added based on the random mutability factor.
+	 */
 	public Nucleus()
 	{
 		this.chromosomes = new ArrayList<Chromosome>();
 		this.mutability = Mutations.getRandom().nextDouble() * 10.0;
-		//make sure there is atleast one starting chromosome.
+		//make sure there is at least one starting chromosome.
 		this.chromosomes.add(new Chromosome());
 		//there is a chance more chromosomes can be created
 		while( Mutations.mutationEvent(this.mutability) )
 			this.chromosomes.add(new Chromosome());
 	}
 
+	/**
+	 * Creates a new Nucleus as a copy of the old Nucleus.
+	 * @param copy The Nucleus to copy
+	 */
 	public Nucleus(final Nucleus copy)
 	{
 		this.chromosomes = new ArrayList<Chromosome>();
@@ -46,17 +58,29 @@ public class Nucleus implements Cloneable
 			this.chromosomes.add(new Chromosome(chromosome));
 	}
 
+	/**
+	 * Gets all chromosomes associated with this object.
+	 * @return A list of chromosomes
+	 */
 	protected List<Chromosome> getChromosomes()
 	{
 		return Collections.unmodifiableList(this.chromosomes);
 	}
 
+	/**
+	 * Performs a preTick() operation on each Chromosome.
+	 * @see Chromosome#preTick()
+	 */
 	public void preTick()
 	{
 		for(final Chromosome chromosome : this.chromosomes)
 			chromosome.preTick();
 	}
 
+	/**
+	 * Performs a tick() operation on each Chromosome.
+	 * @see Chromosome#tick()
+	 */
 	public void tick()
 	{
 		for(final Chromosome chromosome : this.chromosomes)

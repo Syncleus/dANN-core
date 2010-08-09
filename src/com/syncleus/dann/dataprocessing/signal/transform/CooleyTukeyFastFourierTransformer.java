@@ -94,30 +94,58 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 		return complexArrayToDoubleArray(resultComplex);
 	}
 
+	/**
+	 * Gets the current block size.
+	 * @return The current block size
+	 */
 	@Override
 	public int getBlockSize()
 	{
 		return this.blockSize;
 	}
 
+	/**
+	 * Sets the block size to use. If the block size is a not a power of 2,
+	 * the block size is set to the next-largest power of two.
+	 * @param ourBlockSize The block size.
+	 */
 	public void setBlockSize(final int ourBlockSize)
 	{
 		final double exponentOf2 = Math.log(ourBlockSize) / Math.log(2.0);
 		if( Math.abs(exponentOf2 - Math.floor(exponentOf2)) > EPSILON)
+		{
 			this.blockSize = (int) Math.pow(2.0, Math.ceil(exponentOf2));
-		this.blockSize = ourBlockSize;
+		}
+		else
+		{
+			this.blockSize = ourBlockSize;
+		}
 	}
 
+	/**
+	 * Gets the bitrate currently in use.
+	 * @return The current bitrate
+	 */
 	public int getBitrate()
 	{
 		return this.bitrate;
 	}
 
+	/**
+	 * Sets the current bitrate.
+	 * @param ourBitrate The bitrate to use
+	 */
 	public void setBitrate(final int ourBitrate)
 	{
 		this.bitrate = ourBitrate;
 	}
 
+	/**
+	 * Converts a double[] to a ComplexNumber[], using each double as the real component with
+	 * a 0.0 imaginary component.
+	 * @param from The array to convert from
+	 * @return The complex result
+	 */
 	private static ComplexNumber[] doubleArrayToComplexArray(final double[] from)
 	{
 		final ComplexNumber[] complexNumbers = new ComplexNumber[from.length];
@@ -126,6 +154,12 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 		return complexNumbers;
 	}
 
+	/**
+	 * Converts a ComplexNumber[] to a double[], using the absScalar() function.
+	 * @param from The ComplexNumber to convert from
+	 * @return The real number representation
+	 * @see com.syncleus.dann.math.ComplexNumber#absScalar()
+	 */
 	private static double[] complexArrayToDoubleArray(final ComplexNumber[] from)
 	{
 		final double[] doubleNumbers = new double[from.length];
@@ -134,6 +168,12 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 		return doubleNumbers;
 	}
 
+	/**
+	 * Returns a double[] array containing the same elements as signal,
+	 * with length equal to the current block size.
+	 * @param signal The signal to copy
+	 * @return A double[] containing the same elements of proper size
+	 */
 	private double[] pad(final double[] signal)
 	{
 		if( signal.length != this.blockSize )
@@ -141,6 +181,14 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 		return signal;
 	}
 
+	/**
+	 * Pads a ComplexNumber[] to have size equal to the current block size.
+	 * Returns a ComplexNumber[] of length equal to current block size, with uninitalized
+	 * elements equal to ComplexNumber.ZERO
+	 * @param signal The signal to pad
+	 * @return The padding
+	 * @see com.syncleus.dann.dataprocessing.signal.transform.CooleyTukeyFastFourierTransformer#pad(double[])
+	 */
 	private ComplexNumber[] pad(final ComplexNumber[] signal)
 	{
 		if( signal.length < this.blockSize )
@@ -155,6 +203,11 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 		return signal;
 	}
 
+	/**
+	 * Determines whether a number is a power of two via logarithms.
+	 * @param value The value to check
+	 * @return Whether the number is a power of two
+	 */
 	private static boolean isPowerOf2(final int value)
 	{
 		final double exponentOf2 = Math.log(value) / Math.log(2.0);

@@ -18,26 +18,45 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
+/**
+ * A SignalKeyConcentration is a SignalKey with a known concentration value.
+ */
 public class SignalKeyConcentration
 {
 	private final SignalKey signal;
 	private double concentration;
 
+	/**
+	 * Creates a new SignalKeyConcentration from the supplied SignalKey with a given concentration.
+	 * @param signal The SignalKey to use
+	 */
 	public SignalKeyConcentration(final SignalKey signal)
 	{
 		this.signal = signal;
 	}
 
+	/**
+	 * Gets the SignalKey in use.
+	 * @return The SignalKey in use
+	 */
 	public final SignalKey getSignal()
 	{
 		return this.signal;
 	}
 
+	/**
+	 * Gets the current concentration.
+	 * @return The concentration in use
+	 */
 	public final double getConcentration()
 	{
 		return this.concentration;
 	}
 
+	/**
+	 * Sets the concentration.
+	 * @param concentration The concentration to use
+	 */
 	public final void setConcentration(final double concentration)
 	{
 		this.concentration = concentration;

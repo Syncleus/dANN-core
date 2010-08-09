@@ -73,7 +73,7 @@ public class LongValueGene extends AbstractValueGene<MutableLong> implements Clo
 
 	/**
 	 * Initializes a new instance of this class that is a copy of the specified
-	 * value
+	 * value.
 	 *
 	 * @param copyGene The value to copy.
 	 * @since 2.0

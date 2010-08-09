@@ -24,6 +24,7 @@ package com.syncleus.dann.genetics;
  * represented by its natural ordering through implementation of the Comparable
  * interface.
  *
+ * @param <E> Reflexive parameter for the type of AbstractGeneticAlgorithmFitnessFunction used
  * @author Jeffrey Phillips Freeman
  * @since 2.0
  */

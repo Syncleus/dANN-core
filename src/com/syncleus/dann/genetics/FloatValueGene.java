@@ -73,7 +73,7 @@ public class FloatValueGene extends AbstractValueGene<MutableFloat> implements C
 
 	/**
 	 * Initializes a new instance of this class that is a copy of the specified
-	 * value
+	 * value.
 	 *
 	 * @param copyGene The value to copy.
 	 * @since 2.0
