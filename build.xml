@@ -30,7 +30,7 @@
 			<pathelement location="lib/checkstyle/google-collect-snapshot-20090211.jar"/>
 		</classpath>
 	</taskdef>
-	<taskdef resource="tasks.properties">
+	<taskdef resource="tasks.configuration">
 		<classpath>
 			<pathelement location="lib/testing/cobertura.jar"/>
 			<pathelement location="lib/testing/asm-3.0.jar"/>
@@ -122,7 +122,7 @@
             <src path="src"/>
             <src path="build/src-jaxb"/>
         </javac>
-		<copy file="log4j.properties" todir="build/classes/"/>
+		<copy file="log4j.configuration" todir="build/classes/"/>
 
 
 		<mkdir dir="build/tests/classes"/>
