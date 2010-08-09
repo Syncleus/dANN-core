@@ -42,10 +42,11 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 	private int centromerePosition;
 	//This chomatids chance of mutating. This value itself will mutate.
 	private double mutability;
+	private static final double MUTATION_FACTOR = 10.0;
 
 	private WaveletChromatid()
 	{
-		this.mutability = Mutations.getRandom().nextDouble() * 10.0;
+		this.mutability = Mutations.getRandom().nextDouble() * MUTATION_FACTOR;
 	}
 
 	public WaveletChromatid(final WaveletChromatid copy)
@@ -328,7 +329,8 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 			//create a new gene using the new receptor
 			final AbstractWaveletGene newGene;
 			final SignalKey newSignalKey = new SignalKey(randomKey(keyPool));
-			switch(RANDOM.nextInt(3))
+			final int numChoices = 3;
+			switch(RANDOM.nextInt(numChoices))
 			{
 			case 0:
 				final MutableInteger initialDistance = (new MutableInteger(0)).mutate(this.mutability);

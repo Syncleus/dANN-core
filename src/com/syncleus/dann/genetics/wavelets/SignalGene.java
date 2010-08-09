@@ -71,11 +71,13 @@ public class SignalGene extends AbstractWaveletGene implements Cloneable
 		return this.outputSignal;
 	}
 
-	protected SignalKeyConcentration getExpressingConcentration() {
+	protected SignalKeyConcentration getExpressingConcentration()
+	{
 		return expressingConcentration;
 	}
 
-	protected void setExpressingConcentration(SignalKeyConcentration newExpressingConcentration) {
+	protected void setExpressingConcentration(final SignalKeyConcentration newExpressingConcentration)
+	{
 		this.expressingConcentration = newExpressingConcentration;
 	}
 

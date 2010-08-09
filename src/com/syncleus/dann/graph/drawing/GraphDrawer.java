@@ -24,11 +24,11 @@ import com.syncleus.dann.math.Vector;
 
 public interface GraphDrawer<G extends Graph<N, ?>, N>
 {
-	public G getGraph();
-	public boolean isAlignable();
-	public boolean isAligned();
-	public void align();
-	public int getDimensions();
-	public Map<N, Vector> getCoordinates();
-	public void reset();
+	G getGraph();
+	boolean isAlignable();
+	boolean isAligned();
+	void align();
+	int getDimensions();
+	Map<N, Vector> getCoordinates();
+	void reset();
 }

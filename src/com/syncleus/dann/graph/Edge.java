@@ -18,8 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.xml.EdgeElementXml;
-import com.syncleus.dann.graph.xml.EdgeXml;
 import com.syncleus.dann.xml.XmlSerializable;
 
 import java.io.Serializable;

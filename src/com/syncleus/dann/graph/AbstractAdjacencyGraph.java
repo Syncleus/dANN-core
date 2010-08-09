@@ -33,7 +33,7 @@ import org.apache.log4j.Logger;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
- * An AbstractAdjacencyGraph is a Graph implemented using adjacency lists. 
+ * An AbstractAdjacencyGraph is a Graph implemented using adjacency lists.
  * @param <N> The node type
  * @param <E> The type of edge for the given node type
  */
@@ -64,15 +64,15 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 	}
 
 	/**
-	 * Creates a new AbstractAdjacencyGraph from the given list of nodes, and the given list of edges.
+	 * Creates a new AbstractAdjacencyGraph from the given list of nodes, and the given list of ourEdges.
 	 * The adjacency lists are created from this structure.
 	 *
 	 * @param nodes The set of all nodes
-	 * @param edges The set of all edges
+	 * @param ourEdges The set of all ourEdges
 	 */
-	protected AbstractAdjacencyGraph(final Set<N> nodes, final Set<E> edges)
+	protected AbstractAdjacencyGraph(final Set<N> nodes, final Set<E> ourEdges)
 	{
-		this.edges = new HashSet<E>(edges);
+		this.edges = new HashSet<E>(ourEdges);
 
 		for(final N node : nodes)
 		{
@@ -80,7 +80,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 			this.adjacentEdges.put(node, new HashSet<E>());
 		}
 
-		for(final E edge : edges)
+		for(final E edge : ourEdges)
 		{
 			final List<N> edgeNodes = edge.getNodes();
 			for(int startNodeIndex = 0; startNodeIndex < edgeNodes.size(); startNodeIndex++)
@@ -88,7 +88,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 				final N edgeNode = edgeNodes.get(startNodeIndex);
 
 				if( !nodes.contains(edgeNode) )
-					throw new IllegalArgumentException("A node that is an end point in one of the edges was not in the nodes list");
+					throw new IllegalArgumentException("A node that is an end point in one of the ourEdges was not in the nodes list");
 
 				this.adjacentEdges.get(edgeNode).add(edge);
 
@@ -548,9 +548,9 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 
 	public boolean isSpanningTree(final Graph<N, E> graph)
 	{
-		return ((this.getNodes().containsAll(graph.getNodes())) &&
-				(graph.isWeaklyConnected()) &&
-				(graph.isAcyclic()));
+		return ((this.getNodes().containsAll(graph.getNodes()))
+				&& (graph.isWeaklyConnected())
+				&& (graph.isAcyclic()));
 	}
 
 	public boolean isTree()
@@ -964,6 +964,14 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 
 			return (compareWith instanceof SizeComparator);
 		}
+
+
+		@Override
+		public int hashCode()
+		{
+			//Method only implemented for checkstyle reasons.
+			return super.hashCode(); //Default implementation; may need to bring in line to equals
+		}
 	}
 
 	/**
@@ -1005,7 +1013,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 	 * @return The GraphXML representation of this namer
 	 */
 	@Override
-	public GraphXml toXml(Namer<Object> namer)
+	public GraphXml toXml(final Namer<Object> namer)
 	{
 		if(namer == null)
 			throw new IllegalArgumentException("namer can not be null");
@@ -1021,7 +1029,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 	 * @param namer THe namer to add to the GraphXML
 	 */
 	@Override
-	public void toXml(GraphXml jaxbObject, Namer<Object> namer)
+	public void toXml(final GraphXml jaxbObject, final Namer<Object> namer)
 	{
 		if(namer == null)
 			throw new IllegalArgumentException("nodeNames can not be null");

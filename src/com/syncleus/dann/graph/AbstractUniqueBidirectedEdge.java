@@ -37,16 +37,16 @@ public abstract class AbstractUniqueBidirectedEdge<N> extends AbstractBidirected
 		final BidirectedEdge compareTo = (BidirectedEdge) compareToObj;
 		return
 				(
-						(compareTo.getLeftNode().equals(this.getLeftNode())) &&
-								(compareTo.getRightNode().equals(this.getRightNode())) &&
-								(compareTo.getLeftEndState().equals(this.getLeftEndState())) &&
-								(compareTo.getRightEndState().equals(this.getRightEndState()))
-				) ||
-						(
-								(compareTo.getLeftNode().equals(this.getRightNode())) &&
-										(compareTo.getRightNode().equals(this.getLeftNode())) &&
-										(compareTo.getLeftEndState().equals(this.getRightEndState())) &&
-										(compareTo.getRightEndState().equals(this.getLeftEndState()))
+						(compareTo.getLeftNode().equals(this.getLeftNode()))
+								&& (compareTo.getRightNode().equals(this.getRightNode()))
+								&& (compareTo.getLeftEndState().equals(this.getLeftEndState()))
+								&& (compareTo.getRightEndState().equals(this.getRightEndState()))
+				)
+						|| (
+								(compareTo.getLeftNode().equals(this.getRightNode()))
+										&& (compareTo.getRightNode().equals(this.getLeftNode()))
+										&& (compareTo.getLeftEndState().equals(this.getRightEndState()))
+										&& (compareTo.getRightEndState().equals(this.getLeftEndState()))
 						);
 	}
 
@@ -58,9 +58,9 @@ public abstract class AbstractUniqueBidirectedEdge<N> extends AbstractBidirected
 		final int leftStateHash = this.getLeftEndState().hashCode();
 		final int rightStateHash = this.getRightEndState().hashCode();
 		return
-				leftNodeHash +
-						(leftNodeHash * leftStateHash) +
-						rightNodeHash +
-						(rightNodeHash * rightStateHash);
+				leftNodeHash
+						+ (leftNodeHash * leftStateHash)
+						+ rightNodeHash
+						+ (rightNodeHash * rightStateHash);
 	}
 }

@@ -38,6 +38,8 @@ import com.syncleus.dann.neural.*;
  */
 public class HyperassociativeMapVisualization<D extends GraphDrawer<G, N>, G extends Graph<N, ?>, N> extends BranchGroup
 {
+	private static final float NODE_RADIUS = 0.01F;
+
 	private final D drawer;
 	private Map<N, TransformGroup> nodeGraphics = new HashMap<N, TransformGroup>();
 	private final Map<N, Vector> oldNodeLocations = new HashMap<N, Vector>();
@@ -52,7 +54,7 @@ public class HyperassociativeMapVisualization<D extends GraphDrawer<G, N>, G ext
 	 */
 	public HyperassociativeMapVisualization(final D map)
 	{
-		this(map, 0.01F);
+		this(map, NODE_RADIUS);
 	}
 
 	/**
@@ -60,12 +62,12 @@ public class HyperassociativeMapVisualization<D extends GraphDrawer<G, N>, G ext
 	 * nodes of the specified radius.
 	 *
 	 * @param map The drawer to represent by this BranchGroup
-	 * @param nodeRadius The radius of the spheres representing each node.
+	 * @param ourNodeRadius The radius of the spheres representing each node.
 	 * @since 1.0
 	 */
-	public HyperassociativeMapVisualization(final D map, final float nodeRadius)
+	public HyperassociativeMapVisualization(final D map, final float ourNodeRadius)
 	{
-		this.nodeRadius = nodeRadius;
+		this.nodeRadius = ourNodeRadius;
 		this.drawer = map;
 		this.setCapability(BranchGroup.ALLOW_CHILDREN_WRITE);
 		this.setCapability(BranchGroup.ALLOW_CHILDREN_EXTEND);

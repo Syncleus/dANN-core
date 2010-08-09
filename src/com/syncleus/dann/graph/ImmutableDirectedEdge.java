@@ -18,10 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.xml.BidirectedEdgeXml;
-import com.syncleus.dann.graph.xml.EdgeXml;
-import com.syncleus.dann.xml.Namer;
-
 import java.util.*;
 
 
@@ -34,16 +30,19 @@ public class ImmutableDirectedEdge<N> extends AbstractBidirectedEdge<N> implemen
 		super(source, EndState.INWARD, destination, EndState.OUTWARD);
 	}
 
+	@Override
 	public N getSourceNode()
 	{
 		return this.getLeftNode();
 	}
 
+	@Override
 	public N getDestinationNode()
 	{
 		return this.getRightNode();
 	}
 
+	@Override
 	public List<N> getTraversableNodes(final N node)
 	{
 		if( this.getSourceNode().equals(node) )
@@ -96,6 +95,7 @@ public class ImmutableDirectedEdge<N> extends AbstractBidirectedEdge<N> implemen
 		return this.getSourceNode() + "->" + this.getDestinationNode();
 	}
 
+	@Override
 	public ImmutableDirectedEdge<N> disconnect(final N node)
 	{
 		if( node == null )
@@ -105,6 +105,7 @@ public class ImmutableDirectedEdge<N> extends AbstractBidirectedEdge<N> implemen
 		return (ImmutableDirectedEdge<N>) this.remove(node);
 	}
 
+	@Override
 	public ImmutableDirectedEdge<N> disconnect(final List<N> nodes)
 	{
 		if( nodes == null )

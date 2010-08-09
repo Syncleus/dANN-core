@@ -25,17 +25,19 @@ public class SimpleWeightedHyperEdge<N> extends ImmutableHyperEdge<N> implements
 	private static final long serialVersionUID = 2622882478754498808L;
 	private double weight;
 
-	public SimpleWeightedHyperEdge(final List<N> nodes, final double weight)
+	public SimpleWeightedHyperEdge(final List<N> nodes, final double ourWeight)
 	{
 		super(nodes);
-		this.weight = weight;
+		this.weight = ourWeight;
 	}
 
+	@Override
 	public double getWeight()
 	{
 		return this.weight;
 	}
 
+	@Override
 	public void setWeight(final double newWeight)
 	{
 		this.weight = newWeight;

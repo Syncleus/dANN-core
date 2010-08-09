@@ -18,7 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.xml.GraphElementXml;
 import com.syncleus.dann.graph.xml.GraphXml;
 import com.syncleus.dann.xml.XmlSerializable;
 

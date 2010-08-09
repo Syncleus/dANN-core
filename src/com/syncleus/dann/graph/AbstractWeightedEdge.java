@@ -24,18 +24,19 @@ public abstract class AbstractWeightedEdge<N> extends AbstractEdge<N> implements
 {
 	private final double weight;
 
-	protected AbstractWeightedEdge(final List<N> nodes, final double weight)
+	protected AbstractWeightedEdge(final List<N> nodes, final double ourWEight)
 	{
 		super(nodes);
-		this.weight = weight;
+		this.weight = ourWEight;
 	}
 
-	protected AbstractWeightedEdge(final double weight, final N... nodes)
+	protected AbstractWeightedEdge(final double ourWeight, final N... nodes)
 	{
 		super(nodes);
-		this.weight = weight;
+		this.weight = ourWeight;
 	}
 
+	@Override
 	public double getWeight()
 	{
 		return this.weight;

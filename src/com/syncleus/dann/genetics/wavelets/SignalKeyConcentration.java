@@ -28,11 +28,11 @@ public class SignalKeyConcentration
 
 	/**
 	 * Creates a new SignalKeyConcentration from the supplied SignalKey with a given concentration.
-	 * @param signal The SignalKey to use
+	 * @param ourSignal The SignalKey to use
 	 */
-	public SignalKeyConcentration(final SignalKey signal)
+	public SignalKeyConcentration(final SignalKey ourSignal)
 	{
-		this.signal = signal;
+		this.signal = ourSignal;
 	}
 
 	/**
@@ -54,11 +54,11 @@ public class SignalKeyConcentration
 	}
 
 	/**
-	 * Sets the concentration.
-	 * @param concentration The concentration to use
+	 * Sets the newConcentration.
+	 * @param newConcentration The newConcentration to use
 	 */
-	public final void setConcentration(final double concentration)
+	public final void setConcentration(final double newConcentration)
 	{
-		this.concentration = concentration;
+		this.concentration = newConcentration;
 	}
 }

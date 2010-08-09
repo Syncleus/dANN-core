@@ -26,6 +26,7 @@ import org.apache.log4j.Logger;
 
 public class SignalProcessingWavelet implements Comparable<SignalProcessingWavelet>, Cloneable
 {
+	private static final int PERCENT_TO_INT = 100;
 	// <editor-fold defaultstate="collapsed" desc="internal class">
 
 	public abstract static class SignalConcentration implements Comparable<SignalConcentration>
@@ -225,17 +226,23 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 	 * adding the new mutated wave</li> <li>delete an existing wave</li>
 	 * <li>removing a signal</li> <li>Do nothing</li> </ul>
 	 *
+	 * @param deviation The deviation to mutate by
 	 * @return New mutated wavelet
 	 */
 	public SignalProcessingWavelet mutate(final double deviation)
 	{
+		final double mutationChance = 0.2;
+		final double waveGenerationChance = 0.8;
+		final double waveDeletionChance = 0.9;
+		final double exitChance = 0.1;
 		final SignalProcessingWavelet copy = this.clone();
 		copy.id = RANDOM.nextLong();
 		do
 		{
 			final float roll = RANDOM.nextFloat();
+
 			//60% chance to add a mutated copy of an existing wave
-			if( roll < (float) 0.2 )
+			if( roll < (float) mutationChance)
 			{
 				//Signal newSignal = this.getRandomSignal();
 				//return this.mutate(newSignal);
@@ -243,13 +250,13 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 				copy.id = RANDOM.nextLong();
 			}
 			//20% to make a RANDOM new wave
-			else if( roll < (float) 0.8 )
+			else if( roll < (float) waveGenerationChance )
 			{
 				copy.waves.add(this.generateNewWave());
 				copy.id = RANDOM.nextLong();
 			}
 			//10% to delete a RANDOM wave
-			else if( roll < (float) 0.9 )
+			else if( roll < (float) waveDeletionChance )
 			{
 				//only delete if there will be atleast one wave left
 				if( copy.waves.size() > 1 )
@@ -294,7 +301,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 					}
 				}
 			}
-		} while( RANDOM.nextFloat() < (float) 0.1 );
+		} while( RANDOM.nextFloat() < (float) exitChance );
 		return copy;
 	}
 
@@ -385,26 +392,29 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 
 	private WaveMultidimensionalFunction generateNewWave()
 	{
+		final double frequencyAdjustment = 0.001;
+		final int gaussianAdjustment = 10;
 		final String[] dimensionNames = new String[this.signals.size()];
+
 		int index = 0;
 		for(final SignalConcentration dimension : this.signals)
 		{
 			dimensionNames[index++] = String.valueOf(dimension.getId());
 		}
 		final WaveMultidimensionalFunction newWave = new WaveMultidimensionalFunction(dimensionNames);
-		newWave.setFrequency(RANDOM.nextGaussian() * 0.001);
-		newWave.setPhase(RANDOM.nextGaussian() * 10);
+		newWave.setFrequency(RANDOM.nextGaussian() * frequencyAdjustment);
+		newWave.setPhase(RANDOM.nextGaussian() * gaussianAdjustment);
 		newWave.setAmplitude(RANDOM.nextGaussian());
 		newWave.setForm(Math.abs(RANDOM.nextGaussian()));
 		if( newWave.getForm() <= 0.0 )
 		{
-			newWave.setForm(newWave.getForm() + ((1 + RANDOM.nextGaussian()) * 10));
+			newWave.setForm(newWave.getForm() + ((1 + RANDOM.nextGaussian()) * gaussianAdjustment));
 		}
 		for(final String dimensionName : dimensionNames)
 		{
-			newWave.setCenter(dimensionName, newWave.getCenter(dimensionName) + ((RANDOM.nextFloat() * 2 - 1) * 100));
+			newWave.setCenter(dimensionName, newWave.getCenter(dimensionName) + ((RANDOM.nextFloat() * 2 - 1) * PERCENT_TO_INT));
 		}
-		newWave.setDistribution((RANDOM.nextDouble() * 100.0) + Double.MIN_VALUE);
+		newWave.setDistribution((RANDOM.nextDouble() * PERCENT_TO_INT) + Double.MIN_VALUE);
 		return newWave;
 	}
 
@@ -417,32 +427,38 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 			final WaveMultidimensionalFunction randomWave = wavesArray[RANDOM.nextInt(wavesArray.length)];
 			final WaveMultidimensionalFunction newWave = randomWave.clone();
 			// TODO clean this up
-			if( RANDOM.nextDouble() <= 1.0 )
+			final double changeProbability = 1.0;
+			final double variableAdjustment = 2.0;
+			if( RANDOM.nextDouble() <= changeProbability)
 			{
-				newWave.setFrequency(newWave.getFrequency() + ((RANDOM.nextFloat() * 2.0 - 1.0) * deviation * 0.01));
+				final double frequencyAdjustment = 0.01;
+				newWave.setFrequency(newWave.getFrequency() + ((RANDOM.nextFloat() * variableAdjustment - changeProbability) * deviation * frequencyAdjustment));
 			}
-			if( RANDOM.nextDouble() <= 1.0 )
+			if( RANDOM.nextDouble() <= changeProbability)
 			{
-				newWave.setPhase(newWave.getPhase() + ((RANDOM.nextFloat() * 2.0 - 1.0) * deviation * 10.0));
+				final double phaseAdjustment = 10.0;
+				newWave.setPhase(newWave.getPhase() + ((RANDOM.nextFloat() * variableAdjustment - changeProbability) * deviation * phaseAdjustment));
 			}
-			if( RANDOM.nextDouble() <= 1.0 )
+			if( RANDOM.nextDouble() <= changeProbability)
 			{
-				newWave.setAmplitude(newWave.getAmplitude() + ((RANDOM.nextFloat() * 2.0 - 1.0) * deviation * 10.0));
+				final double amplitudeAdjustment = 10.0;
+				newWave.setAmplitude(newWave.getAmplitude() + ((RANDOM.nextFloat() * variableAdjustment - changeProbability) * deviation * amplitudeAdjustment));
 			}
-			if( RANDOM.nextDouble() <= 1.0 )
+			if( RANDOM.nextDouble() <= changeProbability)
 			{
-				newWave.setForm(newWave.getForm() + (RANDOM.nextFloat() * deviation * 0.01));
+				final double formAdjustment = 0.01;
+				newWave.setForm(newWave.getForm() + (RANDOM.nextFloat() * deviation * formAdjustment));
 			}
-			if( RANDOM.nextDouble() <= 1.0 )
+			if( RANDOM.nextDouble() <= changeProbability)
 			{
-				newWave.setDistribution(newWave.getDistribution() + ((RANDOM.nextFloat() * 2.0 - 1.0) * deviation * 100.0));
+				newWave.setDistribution(newWave.getDistribution() + ((RANDOM.nextFloat() * variableAdjustment - changeProbability) * deviation * PERCENT_TO_INT));
 			}
-			if( RANDOM.nextDouble() <= 1.0 )
+			if( RANDOM.nextDouble() <= changeProbability)
 			{
 				final String[] dimensionNames = newWave.getDimensionNames();
 				for(final String dimensionName : dimensionNames)
 				{
-					newWave.setCenter(dimensionName, newWave.getCenter(dimensionName) + ((RANDOM.nextFloat() * 2.0 - 1.0) * deviation * 100.0));
+					newWave.setCenter(dimensionName, newWave.getCenter(dimensionName) + ((RANDOM.nextFloat() * variableAdjustment - changeProbability) * deviation * PERCENT_TO_INT));
 				}
 			}
 			return newWave;

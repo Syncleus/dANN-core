@@ -25,17 +25,19 @@ public class SimpleWeightedDirectedEdge<N> extends ImmutableDirectedEdge<N> impl
 	private static final long serialVersionUID = -6843921044147012645L;
 	private double weight;
 
-	public SimpleWeightedDirectedEdge(final N source, final N destination, final double weight)
+	public SimpleWeightedDirectedEdge(final N source, final N destination, final double ourWeight)
 	{
 		super(source, destination);
-		this.weight = weight;
+		this.weight = ourWeight;
 	}
 
+	@Override
 	public double getWeight()
 	{
 		return this.weight;
 	}
 
+	@Override
 	public void setWeight(final double newWeight)
 	{
 		this.weight = newWeight;

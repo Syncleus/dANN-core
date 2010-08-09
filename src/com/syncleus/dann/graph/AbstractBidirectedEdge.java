@@ -35,19 +35,19 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implemen
     protected AbstractBidirectedEdge()
     {
         this.leftNode = null;
-        this.rightNode= null;
+        this.rightNode = null;
         this.leftEndState = null;
         this.rightEndState = null;
     }
 
-	protected AbstractBidirectedEdge(final N leftNode, final EndState leftEndState, final N rightNode, final EndState rightEndState)
+	protected AbstractBidirectedEdge(final N newLeftNode, final EndState newLeftEndState, final N newRightNode, final EndState newRightEndState)
 	{
-		super(packNodes(leftNode, rightNode));
+		super(packNodes(newLeftNode, newRightNode));
 
-		this.leftNode = leftNode;
-		this.rightNode = rightNode;
-		this.leftEndState = leftEndState;
-		this.rightEndState = rightEndState;
+		this.leftNode = newLeftNode;
+		this.rightNode = newRightNode;
+		this.leftEndState = newLeftEndState;
+		this.rightEndState = newRightEndState;
 	}
 
 	private static <N> List<N> packNodes(final N leftNode, final N rightNode)
@@ -124,11 +124,11 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implemen
 	@Override
 	public String toString()
 	{
-		return this.leftNode.toString() +
-				endStateToString(this.leftEndState, true) +
-				'-' +
-				endStateToString(this.rightEndState, false) +
-				this.rightNode;
+		return this.leftNode.toString()
+				+ endStateToString(this.leftEndState, true)
+				+ '-'
+				+ endStateToString(this.rightEndState, false)
+				+ this.rightNode;
 	}
 
 	private static String endStateToString(final EndState state, final boolean isLeft)
@@ -176,7 +176,7 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implemen
     }
 
     @Override
-    public BidirectedEdgeXml toXml(Namer<Object> nodeNames)
+    public BidirectedEdgeXml toXml(final Namer<Object> nodeNames)
     {
         if(nodeNames == null)
             throw new IllegalArgumentException("nodeNames can not be null");
@@ -187,7 +187,7 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implemen
     }
 
     @Override
-    public void toXml(EdgeXml jaxbObject, Namer<Object> nodeNames)
+    public void toXml(final EdgeXml jaxbObject, final Namer<Object> nodeNames)
     {
         if(nodeNames == null)
             throw new IllegalArgumentException("nodeNames can not be null");

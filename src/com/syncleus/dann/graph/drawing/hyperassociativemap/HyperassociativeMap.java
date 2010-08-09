@@ -29,6 +29,17 @@ import org.apache.log4j.Logger;
 
 public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawer<G, N>
 {
+	private static final double REPULSIVE_WEAKNESS = 2.0;
+	private static final double ATTRACTION_STRENGTH = 4.0;
+	private static final double DEFAULT_LEARNING_RATE = 0.4;
+	private static final double DEFAULT_MAX_MOVEMENT = 0.0;
+	private static final double DEFAULT_TOTAL_MOVEMENT = 0.0;
+	private static final double DEFAULT_ACCEPTABLE_DISTANCE_FACTOR = 0.75;
+	private static final double EQUILIBRIUM_DISTANCE = 1.0;
+	private static final double EQUILIBRIUM_ALIGNMENT_FACTOR = 0.005;
+	private static final double LEARNING_RATE_INCREASE_FACTOR = 0.9;
+	private static final double LEARNING_RATE_PROCESSING_ADJUSTMENT = 1.01;
+
 	private final G graph;
 	private final int dimensions;
 	private final ExecutorService threadExecutor;
@@ -37,61 +48,61 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 	private static final Random RANDOM = new Random();
 	private final boolean useWeights;
 	private double equilibriumDistance;
-	private double learningRate = 0.4;
-	private double maxMovement = 0.0;
-	private double totalMovement = 0.0;
-	private double acceptableDistanceFactor = 0.75;
-	private static final double REPULSIVE_WEAKNESS = 2.0;
-	private static final double ATTRACTION_STRENGTH = 4.0;
+	private double learningRate = DEFAULT_LEARNING_RATE;
+	private double maxMovement = DEFAULT_MAX_MOVEMENT;
+	private double totalMovement = DEFAULT_TOTAL_MOVEMENT;
+	private double acceptableDistanceFactor = DEFAULT_ACCEPTABLE_DISTANCE_FACTOR;
 
 	private class Align implements Callable<Vector>
 	{
 		private final N node;
 
-		public Align(final N node)
+		public Align(final N backingNode)
 		{
-			this.node = node;
+			this.node = backingNode;
 		}
 
+		@Override
 		public Vector call()
 		{
 			return align(this.node);
 		}
 	}
 
-	public HyperassociativeMap(final G graph, final int dimensions, final double equilibriumDistance, final boolean useWeights, final ExecutorService threadExecutor)
+	public HyperassociativeMap(final G ourGraph, final int ourDimensions, final double ourEquilibriumDistance, final boolean shouldUseWeights, final ExecutorService ourThreadExecutor)
 	{
-		if( graph == null )
+		if( ourGraph == null )
 			throw new IllegalArgumentException("Graph can not be null");
-		if( dimensions <= 0 )
-			throw new IllegalArgumentException("dimensions must be 1 or more");
+		if( ourDimensions <= 0 )
+			throw new IllegalArgumentException("ourDimensions must be 1 or more");
 
-		this.graph = graph;
-		this.dimensions = dimensions;
-		this.threadExecutor = threadExecutor;
-		this.equilibriumDistance = equilibriumDistance;
-		this.useWeights = useWeights;
+		this.graph = ourGraph;
+		this.dimensions = ourDimensions;
+		this.threadExecutor = ourThreadExecutor;
+		this.equilibriumDistance = ourEquilibriumDistance;
+		this.useWeights = shouldUseWeights;
 
 		//refresh all nodes
 		for(final N node : this.graph.getNodes())
 			this.coordinates.put(node, randomCoordinates(this.dimensions));
 	}
 
-	public HyperassociativeMap(final G graph, final int dimensions, final ExecutorService threadExecutor)
+	public HyperassociativeMap(final G ourGraph, final int ourDimensions, final ExecutorService ourThreadExecutor)
 	{
-		this(graph, dimensions, 1.0, true, threadExecutor);
+		this(ourGraph, ourDimensions, EQUILIBRIUM_DISTANCE, true, ourThreadExecutor);
 	}
 
-	public HyperassociativeMap(final G graph, final int dimensions, final double equilibriumDistance, final boolean useWeights)
+	public HyperassociativeMap(final G ourGraph, final int ourDimensions, final double ourEquilibriumDistance, final boolean shouldUseWeights)
 	{
-		this(graph, dimensions, equilibriumDistance, useWeights, null);
+		this(ourGraph, ourDimensions, ourEquilibriumDistance, shouldUseWeights, null);
 	}
 
-	public HyperassociativeMap(final G graph, final int dimensions)
+	public HyperassociativeMap(final G ourGraph, final int ourDimensions)
 	{
-		this(graph, dimensions, 1.0, true, null);
+		this(ourGraph, ourDimensions, EQUILIBRIUM_DISTANCE, true, null);
 	}
 
+	@Override
 	public G getGraph()
 	{
 		return this.graph;
@@ -109,12 +120,13 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 
 	public void resetLearning()
 	{
-		this.learningRate = 0.4;
-		this.maxMovement = 0.0;
-		this.totalMovement = 0.0;
-		this.acceptableDistanceFactor = 0.75;
+		this.learningRate = DEFAULT_LEARNING_RATE;
+		this.maxMovement = DEFAULT_TOTAL_MOVEMENT;
+		this.totalMovement = DEFAULT_TOTAL_MOVEMENT;
+		this.acceptableDistanceFactor = DEFAULT_ACCEPTABLE_DISTANCE_FACTOR;
 	}
 
+	@Override
 	public void reset()
 	{
 		this.resetLearning();
@@ -123,15 +135,17 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 			this.coordinates.put(node, randomCoordinates(this.dimensions));
 	}
 
+	@Override
 	public boolean isAlignable()
 	{
 		return true;
 	}
 
+	@Override
 	public boolean isAligned()
 	{
 		if( this.isAlignable() )
-			return ((this.maxMovement < 0.005 * this.equilibriumDistance) && (this.maxMovement > 0.0));
+			return ((this.maxMovement < EQUILIBRIUM_ALIGNMENT_FACTOR * this.equilibriumDistance) && (this.maxMovement > DEFAULT_MAX_MOVEMENT));
 		else
 			return false;
 	}
@@ -141,6 +155,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 		return this.totalMovement / ((double) this.graph.getOrder());
 	}
 
+	@Override
 	public void align()
 	{
 		//refresh all nodes
@@ -155,8 +170,8 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 			this.coordinates = Collections.synchronizedMap(newCoordinates);
 		}
 
-		this.totalMovement = 0.0;
-		this.maxMovement = 0.0;
+		this.totalMovement = DEFAULT_TOTAL_MOVEMENT;
+		this.maxMovement = DEFAULT_MAX_MOVEMENT;
 		Vector center;
 		if( this.threadExecutor != null )
 		{
@@ -180,7 +195,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 		LOGGER.debug("maxMove: " + this.maxMovement + ", Average Move: " + this.getAverageMovement());
 
 		//divide each coordinate of the sum of all the points by the number of
-		//nodes in order to calulate the average point, or center of all the
+		//nodes in order to calculate the average point, or center of all the
 		//points
 		for(int dimensionIndex = 1; dimensionIndex <= this.dimensions; dimensionIndex++)
 			center = center.setCoordinate(center.getCoordinate(dimensionIndex) / ((double) this.graph.getNodes().size()), dimensionIndex);
@@ -188,11 +203,13 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 		this.recenterNodes(center);
 	}
 
+	@Override
 	public int getDimensions()
 	{
 		return this.dimensions;
 	}
 
+	@Override
 	public Map<N, Vector> getCoordinates()
 	{
 		return Collections.unmodifiableMap(this.coordinates);
@@ -245,9 +262,9 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 			}
 			else
 			{
-				double newDistance = -1.0 * atanh((associationEquilibriumDistance - Math.abs(neighborVector.getDistance())) / associationEquilibriumDistance);
+				double newDistance = -EQUILIBRIUM_DISTANCE * atanh((associationEquilibriumDistance - Math.abs(neighborVector.getDistance())) / associationEquilibriumDistance);
 				if( Math.abs(newDistance) > Math.abs(associationEquilibriumDistance - Math.abs(neighborVector.getDistance())) )
-					newDistance = -1.0 * (associationEquilibriumDistance - Math.abs(neighborVector.getDistance()));
+					newDistance = -EQUILIBRIUM_DISTANCE * (associationEquilibriumDistance - Math.abs(neighborVector.getDistance()));
 				newDistance *= this.learningRate;
 				neighborVector = neighborVector.setDistance(Math.signum(neighborVector.getDistance()) * newDistance);
 			}
@@ -258,7 +275,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 			if( (!neighbors.containsKey(node)) && (node != nodeToAlign) && (!this.graph.getAdjacentNodes(node).contains(nodeToAlign)) )
 			{
 				Vector nodeVector = this.coordinates.get(node).calculateRelativeTo(location);
-				double newDistance = -1.0 / Math.pow(nodeVector.getDistance(), REPULSIVE_WEAKNESS);
+				double newDistance = -EQUILIBRIUM_DISTANCE / Math.pow(nodeVector.getDistance(), REPULSIVE_WEAKNESS);
 				if( Math.abs(newDistance) > Math.abs(this.equilibriumDistance) )
 					newDistance = Math.copySign(this.equilibriumDistance, newDistance);
 				newDistance *= this.learningRate;
@@ -278,12 +295,12 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 			}
 			else
 			{
-				this.learningRate *= 0.9;
+				this.learningRate *= LEARNING_RATE_INCREASE_FACTOR;
 				LOGGER.debug("learning rate: " + this.learningRate);
 			}
 
 			newLocation = oldLocation;
-			moveDistance = 0.0;
+			moveDistance = DEFAULT_TOTAL_MOVEMENT;
 		}
 
 		if( moveDistance > this.maxMovement )
@@ -313,7 +330,8 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 
 	private static double atanh(final double value)
 	{
-		return 0.5 * Math.log(Math.abs((value + 1.0) / (1.0 - value)));
+		final double oneHalf = 0.5; //for checkstyle.
+		return oneHalf * Math.log(Math.abs((value + 1.0) / (1.0 - value)));
 	}
 
 	private List<Future<Vector>> submitFutureAligns()
@@ -333,11 +351,12 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 			for(int dimensionIndex = 1; dimensionIndex <= this.dimensions; dimensionIndex++)
 				pointSum = pointSum.setCoordinate(pointSum.getCoordinate(dimensionIndex) + newPoint.getCoordinate(dimensionIndex), dimensionIndex);
 		}
-		if( this.learningRate * 1.01 < 0.4 )
+		if( this.learningRate * LEARNING_RATE__PROCESSING_ADJUSTMENT < DEFAULT_LEARNING_RATE )
 		{
-			if( this.getAverageMovement() < (this.equilibriumDistance * this.acceptableDistanceFactor * 0.1) )
-				this.acceptableDistanceFactor *= 0.9;
-			this.learningRate *= 1.01;
+			final double acceptableDistanceAdjustment = 0.1;
+			if( this.getAverageMovement() < (this.equilibriumDistance * this.acceptableDistanceFactor * acceptableDistanceAdjustment) )
+				this.acceptableDistanceFactor *= LEARNING_RATE_INCREASE_FACTOR;
+			this.learningRate *= LEARNING_RATE__PROCESSING_ADJUSTMENT;
 			LOGGER.debug("learning rate: " + this.learningRate + ", acceptableDistanceFactor: " + this.acceptableDistanceFactor);
 		}
 		return pointSum;
@@ -358,14 +377,15 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 		}
 		catch(ExecutionException caught)
 		{
-			LOGGER.error("Align had an unexcepted problem executing.", caught);
-			throw new UnexpectedDannError("Unexpected execution exception. Get should block indefinately", caught);
+			LOGGER.error("Align had an unexpected problem executing.", caught);
+			throw new UnexpectedDannError("Unexpected execution exception. Get should block indefinitely", caught);
 		}
-		if( this.learningRate * 1.01 < 0.4 )
+		if( this.learningRate * LEARNING_RATE__PROCESSING_ADJUSTMENT < DEFAULT_LEARNING_RATE )
 		{
-			if( this.getAverageMovement() < (this.equilibriumDistance * this.acceptableDistanceFactor * 0.1) )
+			final double acceptableDistanceAdjustment = 0.1;
+			if( this.getAverageMovement() < (this.equilibriumDistance * this.acceptableDistanceFactor * acceptableDistanceAdjustment) )
 				this.acceptableDistanceFactor = this.maxMovement * 2.0;
-			this.learningRate *= 1.01;
+			this.learningRate *= LEARNING_RATE__PROCESSING_ADJUSTMENT;
 			LOGGER.debug("learning rate: " + this.learningRate + ", acceptableDistanceFactor: " + this.acceptableDistanceFactor);
 		}
 		return pointSum;

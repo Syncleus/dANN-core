@@ -36,15 +36,15 @@ public abstract class AbstractEdge<N> implements Edge<N>
     {
     }
 
-	protected AbstractEdge(final List<N> nodes)
+	protected AbstractEdge(final List<N> ourNodes)
 	{
-		this.nodes = Collections.unmodifiableList(new ArrayList<N>(nodes));
+		this.nodes = Collections.unmodifiableList(new ArrayList<N>(ourNodes));
 	}
 
-	protected AbstractEdge(final N... nodes)
+	protected AbstractEdge(final N... ourNodes)
 	{
 		final List<N> newNodes = new ArrayList<N>();
-		newNodes.addAll(Arrays.asList(nodes));
+		newNodes.addAll(Arrays.asList(ourNodes));
 		this.nodes = Collections.unmodifiableList(newNodes);
 	}
 
@@ -165,23 +165,23 @@ public abstract class AbstractEdge<N> implements Edge<N>
             }
         }
         this.toXml(xml, namer);
-        
+
         return xml;
     }
 
     @Override
-    public EdgeXml toXml(Namer<Object> nodeNames)
+    public EdgeXml toXml(final Namer<Object> nodeNames)
     {
         if(nodeNames == null)
             throw new IllegalArgumentException("nodeNames can not be null");
-        
+
         EdgeXml xml = new EdgeXml();
         this.toXml(xml, nodeNames);
         return xml;
     }
 
     @Override
-    public void toXml(EdgeXml jaxbObject, Namer<Object> nodeNames)
+    public void toXml(final EdgeXml jaxbObject, final Namer<Object> nodeNames)
     {
         if(nodeNames == null)
             throw new IllegalArgumentException("nodeNames can not be null");
