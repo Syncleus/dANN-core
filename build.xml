@@ -1,74 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="dANN" default="all" basedir=".">
-	<property name="debug.level" value="vars,lines,source" /> <!-- Attempt to remove Cobertura warnings -->
+	<property name="debug.level" value="vars,lines,source" />
+
+	<path id="classpath.ant">
+		<fileset dir="lib/ant" includes="**/*.jar"/>
+	</path>
+	<path id="classpath.build">
+		<fileset dir="lib/build" includes="**/*.jar"/>
+	</path>
+	<path id="classpath.test">
+		<fileset dir="lib/test" includes="**/*.jar"/>
+		<fileset dir="build/jar" includes="dann.jar"/>
+		<fileset dir="build/jar" includes="dann-tests.jar"/>
+	</path>
+	<path id="classpath.test.coverage">
+		<fileset dir="lib/test" includes="**/*.jar"/>
+		<fileset dir="build/jar" includes="dann.jar"/>
+		<fileset dir="build/jar" includes="dann-coverage.jar"/>
+	</path>
 
 	<taskdef name="lint4j" classname="com.jutils.lint4j.ant.Lint4jAntTask">
 		<classpath>
-			<pathelement location="lib/lint/lint4j.jar"/>
+			<fileset dir="lib/ant/lint">
+				<include name="**/*.jar"/>
+			</fileset>
 		</classpath>
 	</taskdef>
 	<taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask">
 		<classpath>
-			<pathelement location="lib/findbugs/findbugs-ant.jar"/>
-			<pathelement location="lib/findbugs/bcel.jar"/>
-			<pathelement location="lib/findbugs/dom4j-1.6.1.jar"/>
-			<pathelement location="lib/findbugs/jFormatString.jar"/>
-			<pathelement location="lib/findbugs/asm-3.1.jar"/>
-			<pathelement location="lib/findbugs/asm-commons-3.1.jar"/>
-			<pathelement location="lib/findbugs/asm-tree-3.1.jar"/>
-			<pathelement location="lib/findbugs/jsr305.jar"/>
-			<pathelement location="lib/findbugs/commons-lang-2.4.jar"/>
+			<fileset dir="lib/ant/findbugs">
+				<include name="**/*.jar"/>
+			</fileset>
 		</classpath>
 	</taskdef>
 	<taskdef name="checkstyle" classname="com.puppycrawl.tools.checkstyle.CheckStyleTask">
 		<classpath>
-			<pathelement location="lib/checkstyle/checkstyle-5.0.jar"/>
-			<pathelement location="lib/checkstyle/commons-beanutils-core.jar"/>
-			<pathelement location="lib/checkstyle/commons-cli-1.1.jar"/>
-			<pathelement location="lib/checkstyle/commons-logging.jar"/>
-			<pathelement location="lib/checkstyle/antlr.jar"/>
-			<pathelement location="lib/checkstyle/google-collect-snapshot-20090211.jar"/>
+			<fileset dir="lib/ant/checkstyle">
+				<include name="**/*.jar"/>
+			</fileset>
 		</classpath>
 	</taskdef>
 	<taskdef resource="tasks.properties">
 		<classpath>
-			<pathelement location="lib/testing/cobertura.jar"/>
-			<pathelement location="lib/testing/asm-3.0.jar"/>
-			<pathelement location="lib/testing/log4j-1.2.9.jar"/>
-			<pathelement location="lib/testing/asm-tree-3.0.jar"/>
-			<pathelement location="lib/testing/jakarta-oro-2.0.8.jar"/>
+			<fileset dir="lib/ant/testing/cobertura">
+				<include name="**/*.jar"/>
+			</fileset>
 		</classpath>
 	</taskdef>
 	<taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask">
 		<classpath>
-			<pathelement location="lib/pmd/pmd-4.1.jar"/>
-			<pathelement location="lib/pmd/jaxen-1.1.1.jar"/>
-			<pathelement location="lib/pmd/asm-3.1.jar"/>
-			<pathelement location="lib/pmd/junit-4.4.jar"/>
+			<fileset dir="lib/ant/pmd">
+				<include name="**/*.jar"/>
+			</fileset>
 		</classpath>
 	</taskdef>
-	<taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask">
+	<taskdef name="xjc" classname="org.jvnet.jaxb2_commons.xjc.XJC2Task">
 		<classpath>
-			<pathelement location="lib/jaxb/jaxb-xjc.jar"/>
+			<fileset dir="lib/ant/xjc">
+				<include name="**/*.jar"/>
+			</fileset>
 		</classpath>
 	</taskdef>
-
-	<path id="classpath">
-		<fileset dir="lib" includes="**/*.jar"/>
-	</path>
     
-	<target name="clean">
+	<target name="clean" description="Cleans the build environment">
 		<delete dir="build"/>
 		<delete file="cobertura.ser"/>
 	</target>
     
-	<target name="javadoc">
+	<target name="javadoc" description="Generate javadocs from code">
 		<mkdir dir="build/javadoc"/>
 		<delete includeemptydirs="true">
 			<fileset dir="build/javadoc" includes="**/*"/>
 		</delete>
-		<javadoc destdir="build/javadoc/" classpathref="classpath" useexternalfile="true">
+		<javadoc destdir="build/javadoc/" classpathref="classpath.build" useexternalfile="true">
 			<fileset dir="src/com/syncleus/dann" includes="**/*.java"/>
+			<fileset dir="build/src-jaxb/com/syncleus/dann" includes="**/*.java"/>
 		</javadoc>
 	</target>
 
@@ -81,11 +87,7 @@
 				</dirset>
 				<pathelement path="src/" />
 			</sourcepath>
-			<classpath>
-				<fileset dir="lib/">
-					<include name="**/*.jar" />
-				</fileset>
-			</classpath>
+			<classpath refid="classpath.build"/>
 			<formatters>
 				<formatter type="text" />
 				<formatter type="xml" toFile="build/lint/all.xml"/>
@@ -93,32 +95,19 @@
 		</lint4j>
 	</target>
 
-    <target  name="jaxb">
+    <target  name="jaxb"  description="generate JAXB classes">
         <mkdir dir="build/src-jaxb"/>
         <xjc extension="true" destdir="build/src-jaxb">
-            <arg line="-Xannotate"/>
             <schema dir="schema/jaxb" includes="*.xsd"/>
-            <!-- this activates the JAXB2 plugins to add annotations to generated classes -->
-			<classpath>
-				<fileset dir="lib/jaxb/annotate">
-					<!-- JAXB2 Basics library -->
-					<include name="jaxb2-basics-*.jar"/>
-					<include name="jaxb2-basics-annotate*.jar"/>
-					<!-- JAXB2 Basics library dependencies -->
-					<include name="annox-*.jar"/>
-					<include name="hibernate-search-*.jar"/>
-					<include name="commons-logging-*.jar"/>
-					<include name="commons-lang-*.jar"/>
-				</fileset>
-			</classpath>
+			<arg line="-Xequals -XhashCode -Xannotate"/>
         </xjc>
     </target>
 
-	<target name="compile" depends="jaxb">
+	<target name="compile" depends="jaxb" description="compile class files">
 		<delete dir="build/classes"/>
 
 		<mkdir dir="build/classes"/>
-		<javac destdir="build/classes" classpathref="classpath" debug="true" debuglevel="${debug.level}" excludes="com/syncleus/tests/**">
+		<javac destdir="build/classes" classpathref="classpath.build" debug="true" debuglevel="${debug.level}" excludes="com/syncleus/tests/**">
             <src path="src"/>
             <src path="build/src-jaxb"/>
         </javac>
@@ -126,7 +115,7 @@
 
 
 		<mkdir dir="build/tests/classes"/>
-		<javac destdir="build/tests/classes" classpathref="classpath" debug="true" debuglevel="${debug.level}">
+		<javac destdir="build/tests/classes" classpathref="classpath.build" debug="true" debuglevel="${debug.level}">
             <src path="src"/>
             <src path="build/src-jaxb"/>
 			<include name="com/syncleus/tests/**"/>
@@ -142,18 +131,18 @@
 		</cobertura-instrument>
 	</target>
 
-	<target name="compile-warnings" depends="jaxb">
+	<target name="compile-warnings" depends="jaxb" description="compile class files and display all warnings">
 		<delete dir="build/classes"/>
 
 		<mkdir dir="build/classes"/>
-		<javac destdir="build/classes" classpathref="classpath" debug="true" debuglevel="${debug.level}" excludes="com/syncleus/tests/**">
+		<javac destdir="build/classes" classpathref="classpath.build" debug="true" debuglevel="${debug.level}" excludes="com/syncleus/tests/**">
             <src path="src"/>
             <src path="build/src-jaxb"/>
 			<compilerarg value="-Xlint"/>
 		</javac>
 
 		<mkdir dir="build/tests/classes"/>
-		<javac destdir="build/tests/classes" classpathref="classpath" debug="true" debuglevel="${debug.level}">
+		<javac destdir="build/tests/classes" classpathref="classpath.build" debug="true" debuglevel="${debug.level}">
             <src path="src"/>
             <src path="build/src-jaxb"/>
 			<include name="com/syncleus/tests/**"/>
@@ -170,7 +159,7 @@
 		</cobertura-instrument>
 	</target>
 
-	<target name="build">
+	<target name="build" description="package compiled class files into a jar">
 		<mkdir dir="build/jar"/>
 		<jar destfile="build/jar/dann.jar" basedir="build/classes">
 			<manifest>
@@ -216,15 +205,10 @@
 		</jar>
 	</target>
     
-	<target name="tests-nocoverage">
+	<target name="tests-nocoverage" description="run all unit tests without generating coverage information">
 		<mkdir dir="build/tests"/>
-		<junit printsummary="yes" haltonfailure="no" showoutput="yes" >
-			<classpath>
-				<pathelement location="build/jar/dann.jar"/>
-				<pathelement location="build/jar/dann-tests.jar"/>
-				<pathelement location="lib/testing/junit-4.6.jar"/>
-				<pathelement location="lib/log4j-1.2.15.jar"/>
-			</classpath>
+		<junit printsummary="yes" haltonfailure="no" showoutput="yes">
+			<classpath refid="classpath.test"/>
 			<formatter type="xml"/>
 			<batchtest fork="yes" todir="build/tests">
 				<fileset dir="src">
@@ -235,17 +219,10 @@
 		</junit>
 	</target>
 
-	<target name="tests-coverage">
+	<target name="tests-coverage" description="run all unit tests and generate coverage information">
 		<mkdir dir="build/coverage/tests"/>
 		<junit printsummary="yes" haltonfailure="no" showoutput="yes" >
-			<classpath>
-				<pathelement location="build/jar/dann-coverage.jar"/>
-                <pathelement location="build/jar/dann.jar"/>
-                <pathelement location="build/jar/dann-tests.jar"/>
-				<pathelement location="lib/testing/junit-4.6.jar"/>
-				<pathelement location="lib/testing/cobertura.jar"/>
-				<pathelement location="lib/log4j-1.2.15.jar"/>
-			</classpath>
+			<classpath refid="classpath.test.coverage"/>
 			<formatter type="xml"/>
 			<batchtest fork="yes" todir="build/coverage/tests">
 				<fileset dir="src">
@@ -261,23 +238,24 @@
 		<move file="./cobertura.ser" tofile="build/coverage/cobertura.ser"/>
 	</target>
 	
-	<target name="findbugs">
+	<target name="findbugs" description="run findbugs check on built jar writing output to a log file">
 		<mkdir dir="build/findbugs"/>
-		<findbugs home="lib/findbugs/"
+		<findbugs home="lib/ant/findbugs/"
 				  output="xml"
 				  outputFile="build/findbugs/findbugs-report.xml" >
-			<auxClasspath path="lib/j3dcore.jar"/>
-			<auxClasspath path="lib/freehep-j3d.jar"/>
-			<auxClasspath path="lib/j3dutils.jar"/>
-			<auxClasspath path="lib/vecmath.jar"/>
-			<auxClasspath path="lib/log4j-1.2.15.jar"/>
+			<auxClasspath path="lib/run/java3d/j3dcore.jar"/>
+			<auxClasspath path="lib/run/java3d/freehep/freehep-j3d.jar"/>
+			<auxClasspath path="lib/run/java3d/j3dutils.jar"/>
+			<auxClasspath path="lib/run/java3d/vecmath.jar"/>
+			<auxClasspath path="lib/run/jaxb/jaxb2-basics-runtime-0.5.3.jar"/>
+			<auxClasspath path="lib/run/log4j/log4j-1.2.15.jar"/>
 			<sourcePath path="src/" />
 			<class location="build/jar/dann.jar" />
 		</findbugs>
 	</target>
 
 
-	<target name="checkstyle">
+	<target name="checkstyle" description="run checkstyle checks on the source code">
 		<mkdir dir="build/checkstyle"/>
 		<checkstyle config="checks.xml" maxErrors="2147483647">
 			<fileset dir="src" includes="**/*.java"/>
@@ -286,7 +264,7 @@
 		</checkstyle>
 	</target>
 
-	<target name="pmd">
+	<target name="pmd" description="run pmd checks on the source code">
 		<mkdir dir="build/pmd"/>
 		<pmd rulesetfiles="pmd.xml">
 			<formatter type="xml" toFile="build/pmd/pmd-report.xml"/>
@@ -296,19 +274,10 @@
 		</pmd>
 	</target>
 
-    <target name="profile">
+	<!-- TODO this should be made non-netbeans specific -->
+    <target name="profile" description="profile code using a specific unit test, menu produced on standard IO">
         <nbprofiledirect>
-            <classpath>
-				<pathelement location="build/jar/dann.jar"/>
-				<pathelement location="build/jar/dann-tests.jar"/>
-				<pathelement location="lib/testing/junit-4.6.jar"/>
-				<pathelement location="lib/log4j-1.2.15.jar"/>
-				<pathelement location="lib/j3dcore.jar"/>
-				<pathelement location="lib/freehep-j3d.jar"/>
-				<pathelement location="lib/j3dutils.jar"/>
-				<pathelement location="lib/vecmath.jar"/>
-                <!--path location="../java_dann_examples/build/jar/dann_examples.jar"/-->
-            </classpath>
+            <classpath refid="classpath.test"/>
         </nbprofiledirect>
         <java fork="true" classname="com.syncleus.tests.dann.InteractiveTests">
             <jvmarg value="${profiler.info.jvmargs.agent}"/>
@@ -326,32 +295,28 @@
     </target>
 
 
-	<target name="test-interactive">
+	<target name="test-interactive" description="run a specific unit test specified via interactive menu on standard IO">
         <java fork="true" classname="com.syncleus.tests.dann.InteractiveTests">
-            <classpath>
-                <fileset dir="lib" includes="**/*.jar"/>
-                <path location="build/jar/dann.jar"/>
-				<path location="build/jar/dann-tests.jar"/>
-            </classpath>
+        	<classpath refid="classpath.test"/>
         </java>
 	</target>
 
 
 
-	<target name="build-all">
+	<target name="build-all" description="Clean, compile, then build">
 		<antcall target="clean"/>
 		<antcall target="compile"/>
 		<antcall target="build"/>
 	</target>
 
-	<target name="test-all">
+	<target name="tests-all" description="clean, compile, build, then run tests-nocoverage">
 		<antcall target="clean"/>
 		<antcall target="compile"/>
 		<antcall target="build"/>
 		<antcall target="tests-nocoverage"/>
 	</target>
 
-	<target name="all">
+	<target name="all" description="clean, javadoc, lint, compile, build, then run both tests-nocoverage and tests-coverage">
 		<antcall target="clean"/>
 		<antcall target="javadoc"/>
 		<antcall target="lint"/>
