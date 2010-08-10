@@ -351,12 +351,12 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 			for(int dimensionIndex = 1; dimensionIndex <= this.dimensions; dimensionIndex++)
 				pointSum = pointSum.setCoordinate(pointSum.getCoordinate(dimensionIndex) + newPoint.getCoordinate(dimensionIndex), dimensionIndex);
 		}
-		if( this.learningRate * LEARNING_RATE__PROCESSING_ADJUSTMENT < DEFAULT_LEARNING_RATE )
+		if( this.learningRate * LEARNING_RATE_PROCESSING_ADJUSTMENT < DEFAULT_LEARNING_RATE )
 		{
 			final double acceptableDistanceAdjustment = 0.1;
 			if( this.getAverageMovement() < (this.equilibriumDistance * this.acceptableDistanceFactor * acceptableDistanceAdjustment) )
 				this.acceptableDistanceFactor *= LEARNING_RATE_INCREASE_FACTOR;
-			this.learningRate *= LEARNING_RATE__PROCESSING_ADJUSTMENT;
+			this.learningRate *= LEARNING_RATE_PROCESSING_ADJUSTMENT;
 			LOGGER.debug("learning rate: " + this.learningRate + ", acceptableDistanceFactor: " + this.acceptableDistanceFactor);
 		}
 		return pointSum;
@@ -380,12 +380,12 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 			LOGGER.error("Align had an unexpected problem executing.", caught);
 			throw new UnexpectedDannError("Unexpected execution exception. Get should block indefinitely", caught);
 		}
-		if( this.learningRate * LEARNING_RATE__PROCESSING_ADJUSTMENT < DEFAULT_LEARNING_RATE )
+		if( this.learningRate * LEARNING_RATE_PROCESSING_ADJUSTMENT < DEFAULT_LEARNING_RATE )
 		{
 			final double acceptableDistanceAdjustment = 0.1;
 			if( this.getAverageMovement() < (this.equilibriumDistance * this.acceptableDistanceFactor * acceptableDistanceAdjustment) )
 				this.acceptableDistanceFactor = this.maxMovement * 2.0;
-			this.learningRate *= LEARNING_RATE__PROCESSING_ADJUSTMENT;
+			this.learningRate *= LEARNING_RATE_PROCESSING_ADJUSTMENT;
 			LOGGER.debug("learning rate: " + this.learningRate + ", acceptableDistanceFactor: " + this.acceptableDistanceFactor);
 		}
 		return pointSum;
