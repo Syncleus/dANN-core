@@ -30,6 +30,8 @@ public class MutableBayesianAdjacencyNetwork<N extends BayesianNode, E extends B
 		super();
 	}
 
+	// TODO we cant copy because right now each bayesian node is hard linked to a parent graph, this should be fixed
+	/*
 	public MutableBayesianAdjacencyNetwork(final Graph<N, E> copyGraph)
 	{
 		super(copyGraph.getNodes(), copyGraph.getEdges());
@@ -39,6 +41,7 @@ public class MutableBayesianAdjacencyNetwork<N extends BayesianNode, E extends B
 	{
 		super(nodes, edges);
 	}
+	*/
 
 	public boolean add(final E newEdge)
 	{

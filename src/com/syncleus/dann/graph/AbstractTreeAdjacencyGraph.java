@@ -22,7 +22,7 @@ import java.util.Set;
 
 public abstract class AbstractTreeAdjacencyGraph<N, E extends BidirectedEdge<N>> extends AbstractBidirectedAdjacencyGraph<N, E> implements TreeGraph<N, E>
 {
-	// TODO restrict tree's to only maximally connected trees
+	// TODO restrict tree's to only maximally connected trees or perhaps just tree in general
 
 	protected AbstractTreeAdjacencyGraph()
 	{

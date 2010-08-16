@@ -23,6 +23,7 @@ import com.syncleus.dann.graph.*;
 
 public class SimpleTopologicalSorter<N> implements TopologicalSorter<N>
 {
+	//TODO rank these via numbers to determine which nodes are at the same level of the hiearchy
 	public List<N> sort(final BidirectedGraph<? extends N, ? extends DirectedEdge<? extends N>> graph)
 	{
 		//initialize data structures

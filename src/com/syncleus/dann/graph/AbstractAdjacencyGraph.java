@@ -23,6 +23,8 @@ import java.util.*;
 import java.util.Map.Entry;
 import com.syncleus.dann.UnexpectedDannError;
 import com.syncleus.dann.graph.cycle.*;
+import com.syncleus.dann.graph.topological.SimpleTopologicalSorter;
+import com.syncleus.dann.graph.topological.TopologicalSorter;
 import com.syncleus.dann.graph.xml.*;
 import com.syncleus.dann.math.counting.Counters;
 import com.syncleus.dann.xml.NameXml;
@@ -530,7 +532,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 
 	public boolean isAcyclic()
 	{
-		final CycleFinder finder = new ExhaustiveDepthFirstSearchCycleFinder();
+		final CycleDetector finder = new ColoredDepthFirstSearchDetector();
 		return !finder.hasCycle(this);
 	}
 

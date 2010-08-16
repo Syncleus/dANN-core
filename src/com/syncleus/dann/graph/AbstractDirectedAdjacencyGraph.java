@@ -18,81 +18,80 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import com.syncleus.dann.graph.topological.SimpleTopologicalSorter;
 import com.syncleus.dann.graph.topological.TopologicalSorter;
 
-public abstract class AbstractRootedTreeAdjacencyGraph<N, E extends DirectedEdge<N>> extends AbstractTreeAdjacencyGraph<N, E> implements RootedTreeGraph<N, E>
+public abstract class AbstractDirectedAdjacencyGraph<N, E extends DirectedEdge<N>> extends AbstractBidirectedAdjacencyGraph<N, E> implements DirectedGraph<N, E>
 {
-	protected AbstractRootedTreeAdjacencyGraph()
+	protected AbstractDirectedAdjacencyGraph()
 	{
 		super();
 	}
 
-	protected AbstractRootedTreeAdjacencyGraph(final Graph<N, E> copyGraph)
+	protected AbstractDirectedAdjacencyGraph(final Graph<N, E> copyGraph)
 	{
 		super(copyGraph.getNodes(), copyGraph.getEdges());
 	}
 
-	protected AbstractRootedTreeAdjacencyGraph(final Set<N> nodes, final Set<E> edges)
+	protected AbstractDirectedAdjacencyGraph(final Set<N> nodes, final Set<E> edges)
 	{
 		super(nodes, edges);
 	}
 
 	public boolean isRootedTree()
 	{
-		return true;
-	}
-
-	public N getRoot()
-	{
-		if( this.getNodes().isEmpty() )
-			return null;
+		if( !this.isTree() )
+			return false;
 
 		TopologicalSorter<N> sorter = new SimpleTopologicalSorter<N>();
-		return sorter.sort(this).get(0);
+		List<N> sortedNodes = sorter.sort(this);
+
+		if( sortedNodes.size() < 2 )
+			return true;
+
+		return ( (this.getIndegree(sortedNodes.get(0)) == 0) && (this.getIndegree(sortedNodes.get(1)) > 0) );
 	}
 
 	@Override
-	public AbstractRootedTreeAdjacencyGraph<N, E> cloneAdd(final E newEdge)
+	public AbstractDirectedAdjacencyGraph<N, E> cloneAdd(final E newEdge)
 	{
-		return (AbstractRootedTreeAdjacencyGraph<N, E>) super.cloneAdd(newEdge);
+		return (AbstractDirectedAdjacencyGraph<N, E>) super.cloneAdd(newEdge);
 	}
 
 	@Override
-	public AbstractRootedTreeAdjacencyGraph<N, E> cloneAdd(final N newNode)
+	public AbstractDirectedAdjacencyGraph<N, E> cloneAdd(final N newNode)
 	{
-		return (AbstractRootedTreeAdjacencyGraph<N, E>) super.cloneAdd(newNode);
+		return (AbstractDirectedAdjacencyGraph<N, E>) super.cloneAdd(newNode);
 	}
 
 	@Override
-	public AbstractRootedTreeAdjacencyGraph<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
+	public AbstractDirectedAdjacencyGraph<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
 	{
-		return (AbstractRootedTreeAdjacencyGraph<N, E>) super.cloneAdd(newNodes, newEdges);
+		return (AbstractDirectedAdjacencyGraph<N, E>) super.cloneAdd(newNodes, newEdges);
 	}
 
 	@Override
-	public AbstractRootedTreeAdjacencyGraph<N, E> cloneRemove(final E edgeToRemove)
+	public AbstractDirectedAdjacencyGraph<N, E> cloneRemove(final E edgeToRemove)
 	{
-		return (AbstractRootedTreeAdjacencyGraph<N, E>) super.cloneRemove(edgeToRemove);
+		return (AbstractDirectedAdjacencyGraph<N, E>) super.cloneRemove(edgeToRemove);
 	}
 
 	@Override
-	public AbstractRootedTreeAdjacencyGraph<N, E> cloneRemove(final N nodeToRemove)
+	public AbstractDirectedAdjacencyGraph<N, E> cloneRemove(final N nodeToRemove)
 	{
-		return (AbstractRootedTreeAdjacencyGraph<N, E>) super.cloneRemove(nodeToRemove);
+		return (AbstractDirectedAdjacencyGraph<N, E>) super.cloneRemove(nodeToRemove);
 	}
 
 	@Override
-	public AbstractRootedTreeAdjacencyGraph<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
+	public AbstractDirectedAdjacencyGraph<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
 	{
-		return (AbstractRootedTreeAdjacencyGraph<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
+		return (AbstractDirectedAdjacencyGraph<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
 	}
 
 	@Override
-	public AbstractRootedTreeAdjacencyGraph<N, E> clone()
+	public AbstractDirectedAdjacencyGraph<N, E> clone()
 	{
-		return (AbstractRootedTreeAdjacencyGraph<N, E>) super.clone();
+		return (AbstractDirectedAdjacencyGraph<N, E>) super.clone();
 	}
 }

@@ -21,7 +21,7 @@ package com.syncleus.dann.graph;
 import java.util.*;
 import java.util.Map.Entry;
 
-public class ImmutableDirectedAdjacencyGraph<N, E extends DirectedEdge<N>> extends AbstractBidirectedAdjacencyGraph<N, E>
+public class ImmutableDirectedAdjacencyGraph<N, E extends DirectedEdge<N>> extends AbstractDirectedAdjacencyGraph<N, E>
 {
 	private static final long serialVersionUID = -4588563094809496900L;
 
