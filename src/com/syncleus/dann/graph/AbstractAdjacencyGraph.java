@@ -254,6 +254,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		while( remainingNodes.size() >= 2 )
 		{
 			final N fromNode = remainingNodes.get(0);
+			remainingNodes.remove(0);
 			for(final N toNode : remainingNodes)
 				if( (toNode != fromNode) && (!this.isWeaklyConnected(toNode, fromNode)) )
 					return false;
@@ -562,8 +563,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 
 	public boolean isForest()
 	{
-		// TODO fill this in
-		return false;
+		return ( (this.isAcyclic()) && (this.isSimple()));
 	}
 
 	public boolean isSubGraph(final Graph<N, E> subgraph)

@@ -29,14 +29,24 @@ public abstract class AbstractTreeAdjacencyGraph<N, E extends BidirectedEdge<N>>
 		super();
 	}
 
-	protected AbstractTreeAdjacencyGraph(final Graph<N, E> copyGraph)
+	protected AbstractTreeAdjacencyGraph(final BidirectedGraph<N, E> copyGraph)
 	{
 		super(copyGraph.getNodes(), copyGraph.getEdges());
+		if( !copyGraph.isTree() )
+			throw new IllegalArgumentException("copyGraph is not a Tree");
 	}
 
 	protected AbstractTreeAdjacencyGraph(final Set<N> nodes, final Set<E> edges)
 	{
 		super(nodes, edges);
+		if( ! super.isTree() )
+			throw new IllegalArgumentException("edges do not form a tree graph");
+	}
+
+	@Override
+	public boolean isTree()
+	{
+		return true;
 	}
 
 	public boolean isLeaf(final N node)
@@ -52,6 +62,7 @@ public abstract class AbstractTreeAdjacencyGraph<N, E extends BidirectedEdge<N>>
 		return false;
 	}
 
+	// TODO make sure these clones cant produce non-tree graphs.
 	@Override
 	public AbstractTreeAdjacencyGraph<N, E> cloneAdd(final E newEdge)
 	{

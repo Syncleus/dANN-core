@@ -21,4 +21,5 @@ package com.syncleus.dann.graph;
 public interface DirectedGraph<N, E extends DirectedEdge<N>> extends BidirectedGraph<N, E>
 {
 	boolean isRootedTree();
+	boolean isRootedForest();
 }

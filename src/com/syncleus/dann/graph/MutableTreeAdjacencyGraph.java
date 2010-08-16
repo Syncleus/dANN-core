@@ -29,7 +29,7 @@ public class MutableTreeAdjacencyGraph<N, E extends BidirectedEdge<N>> extends A
 		super();
 	}
 
-	public MutableTreeAdjacencyGraph(final Graph<N, E> copyGraph)
+	public MutableTreeAdjacencyGraph(final BidirectedGraph<N, E> copyGraph)
 	{
 		super(copyGraph);
 	}
@@ -45,6 +45,14 @@ public class MutableTreeAdjacencyGraph<N, E extends BidirectedEdge<N>> extends A
 			throw new IllegalArgumentException("newEdge can not be null");
 		if( !this.getNodes().containsAll(newEdge.getNodes()) )
 			throw new IllegalArgumentException("newEdge has a node as an end point that is not part of the graph");
+
+		//TODO make thsi more efficient
+		//make sure after we add thsi edge this will still be a tree
+		Set<E> testEdges = new HashSet<E>(this.getEdges());
+		testEdges.add(newEdge);
+		Graph<N,E> testGraph = new ImmutableAdjacencyGraph(this.getNodes(), testEdges);
+		if( !testGraph.isTree() )
+			throw new IllegalArgumentException("adding newEdge can not be added because this graph would no longer be a tree");
 
 		if( this.getInternalEdges().add(newEdge) )
 		{
@@ -132,6 +140,7 @@ public class MutableTreeAdjacencyGraph<N, E extends BidirectedEdge<N>> extends A
 		return true;
 	}
 
+	//TODO make sure these clone methods done generate a non-tree TreeGraoh
 	@Override
 	public MutableTreeAdjacencyGraph<N, E> cloneAdd(final E newEdge)
 	{

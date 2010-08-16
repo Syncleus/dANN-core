@@ -25,22 +25,32 @@ import com.syncleus.dann.graph.topological.TopologicalSorter;
 
 public abstract class AbstractRootedTreeAdjacencyGraph<N, E extends DirectedEdge<N>> extends AbstractTreeAdjacencyGraph<N, E> implements RootedTreeGraph<N, E>
 {
+	// TODO restrict all edgesd when added to make sure they conform to being a rooted tree
 	protected AbstractRootedTreeAdjacencyGraph()
 	{
 		super();
 	}
 
-	protected AbstractRootedTreeAdjacencyGraph(final Graph<N, E> copyGraph)
+	protected AbstractRootedTreeAdjacencyGraph(final DirectedGraph<N, E> copyGraph)
 	{
 		super(copyGraph.getNodes(), copyGraph.getEdges());
+		if( !copyGraph.isRootedTree() )
+			throw new IllegalArgumentException("copyGraph is not a rooted tree");
 	}
 
 	protected AbstractRootedTreeAdjacencyGraph(final Set<N> nodes, final Set<E> edges)
 	{
 		super(nodes, edges);
+		if( !this.isRootedTree() )
+			throw new IllegalArgumentException("edges do not form a rooted tree");
 	}
 
 	public boolean isRootedTree()
+	{
+		return true;
+	}
+
+	public boolean isRootedForest()
 	{
 		return true;
 	}
@@ -54,6 +64,7 @@ public abstract class AbstractRootedTreeAdjacencyGraph<N, E extends DirectedEdge
 		return sorter.sort(this).get(0);
 	}
 
+	// TODO ensure these clones cant produce non-rooted trees
 	@Override
 	public AbstractRootedTreeAdjacencyGraph<N, E> cloneAdd(final E newEdge)
 	{

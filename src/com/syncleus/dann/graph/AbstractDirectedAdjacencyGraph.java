@@ -53,6 +53,19 @@ public abstract class AbstractDirectedAdjacencyGraph<N, E extends DirectedEdge<N
 		return ( (this.getIndegree(sortedNodes.get(0)) == 0) && (this.getIndegree(sortedNodes.get(1)) > 0) );
 	}
 
+	public boolean isRootedForest()
+	{
+		//TODO make this more efficient
+		Set<Graph<N,E>> components = this.getMaximallyConnectedComponents();
+		for(Graph<N,E> component : components)
+		{
+			DirectedGraph<N,E> directedComponent = new ImmutableDirectedAdjacencyGraph<N,E>(component);
+			if( !directedComponent.isRootedTree() )
+				return false;
+		}
+		return true;
+	}
+
 	@Override
 	public AbstractDirectedAdjacencyGraph<N, E> cloneAdd(final E newEdge)
 	{
