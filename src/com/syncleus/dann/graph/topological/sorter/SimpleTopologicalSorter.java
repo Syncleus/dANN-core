@@ -16,7 +16,7 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph.topological;
+package com.syncleus.dann.graph.topological.sorter;
 
 import java.util.*;
 import com.syncleus.dann.graph.*;

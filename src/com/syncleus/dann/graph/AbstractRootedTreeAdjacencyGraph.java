@@ -18,10 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.List;
 import java.util.Set;
-import com.syncleus.dann.graph.topological.SimpleTopologicalSorter;
-import com.syncleus.dann.graph.topological.TopologicalSorter;
+import com.syncleus.dann.graph.topological.sorter.SimpleTopologicalSorter;
+import com.syncleus.dann.graph.topological.sorter.TopologicalSorter;
 
 public abstract class AbstractRootedTreeAdjacencyGraph<N, E extends DirectedEdge<N>> extends AbstractTreeAdjacencyGraph<N, E> implements RootedTreeGraph<N, E>
 {

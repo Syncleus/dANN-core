@@ -16,11 +16,12 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.tests.dann.graph.topological;
+package com.syncleus.tests.dann.graph.topological.sorter;
 
 import java.util.*;
 import com.syncleus.dann.graph.*;
-import com.syncleus.dann.graph.topological.*;
+import com.syncleus.dann.graph.topological.sorter.SimpleTopologicalSorter;
+import com.syncleus.dann.graph.topological.sorter.TopologicalSorter;
 import org.junit.*;
 
 public class TestSimpleTopologialSort
