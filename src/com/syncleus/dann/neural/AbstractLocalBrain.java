@@ -25,7 +25,7 @@ import com.syncleus.dann.UnexpectedDannError;
 import com.syncleus.dann.graph.AbstractBidirectedAdjacencyGraph;
 import com.syncleus.dann.graph.topological.StrongConnectivityOptimizedGraph;
 
-// TODO refactor this to be a generic following the patern of its parent classes.
+// TODO refactor this to be a generic following the patern of its parent classes. Specifically to use Mutable graph type.
 
 /**
  * Represents a single artificial brain typically belonging to a single
@@ -301,21 +301,12 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedAdjacencyGrap
 		return Collections.emptySet();
 	}
 
+	@Override
 	public Set<Synapse> getInEdges(final Neuron node)
 	{
 		if( this.inMap.containsKey(node) )
 			return Collections.unmodifiableSet(this.inMap.get(node));
 		return Collections.emptySet();
-	}
-
-	public int getIndegree(final Neuron node)
-	{
-		return this.inMap.get(node).size();
-	}
-
-	public int getOutdegree(final Neuron node)
-	{
-		return this.outMap.get(node).size();
 	}
 
 	@Override
