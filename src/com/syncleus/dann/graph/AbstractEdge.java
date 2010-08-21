@@ -27,25 +27,63 @@ import com.syncleus.dann.xml.Namer;
 import com.syncleus.dann.xml.XmlSerializable;
 import org.apache.log4j.Logger;
 
-public abstract class AbstractEdge<N> implements Edge<N>
+public abstract class AbstractEdge<N> extends AbstractContextGraphElement<N, Edge<N>> implements Edge<N>
 {
 	private static final Logger LOGGER = Logger.getLogger(AbstractEdge.class);
+	private final boolean contextEnabled;
 	private List<N> nodes;
 
     protected AbstractEdge()
     {
+		this(true, true);
+    }
+
+    protected AbstractEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
+    {
+		super(allowJoiningMultipleGraphs);
+		this.contextEnabled = contextEnabled;
     }
 
 	protected AbstractEdge(final List<N> ourNodes)
 	{
-		this.nodes = Collections.unmodifiableList(new ArrayList<N>(ourNodes));
+		this(true, true, ourNodes);
+	}
+
+	protected AbstractEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled, final List<N> ourNodes)
+	{
+		super(allowJoiningMultipleGraphs);
+		this.contextEnabled = contextEnabled;
+
+		//make sure each node with context allows us to connect to it
+		if(contextEnabled)
+		{
+			List<N> nodes = new ArrayList<N>(ourNodes.size());
+			for(N ourNode : ourNodes)
+			{
+				if( this.contextEnabled && ( ourNode instanceof ContextNode ) && ( !((ContextNode)ourNode).connectingEdge(this) ))
+					continue;
+				nodes.add(ourNode);
+			}
+			this.nodes = Collections.unmodifiableList(new ArrayList<N>(nodes));
+		}
+		else
+			this.nodes = Collections.unmodifiableList(new ArrayList<N>(ourNodes));
 	}
 
 	protected AbstractEdge(final N... ourNodes)
 	{
-		final List<N> newNodes = new ArrayList<N>();
-		newNodes.addAll(Arrays.asList(ourNodes));
-		this.nodes = Collections.unmodifiableList(newNodes);
+		this(true, true, ourNodes);
+	}
+
+	protected AbstractEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled, final N... ourNodes)
+	{
+		this(allowJoiningMultipleGraphs, contextEnabled, Arrays.asList(ourNodes));
+	}
+
+	@Override
+	public boolean isContextEnabled()
+	{
+		return this.contextEnabled;
 	}
 
 	protected AbstractEdge<N> add(final N node)
@@ -56,9 +94,25 @@ public abstract class AbstractEdge<N> implements Edge<N>
 		final List<N> newNodes = new ArrayList<N>(this.nodes);
 		newNodes.add(node);
 
-		final AbstractEdge<N> copy = this.clone();
-		copy.nodes = Collections.unmodifiableList(newNodes);
-		return copy;
+		try
+		{
+			AbstractEdge<N> clonedEdge = (AbstractEdge<N>) super.clone();
+			List<N> clonedNodes = new ArrayList<N>(this.nodes.size());
+			//add each node at a time to the clone considering context
+			for(N newNode : newNodes)
+			{
+				if( this.contextEnabled && (newNode instanceof ContextNode) && ( !((ContextNode)newNode).connectingEdge(clonedEdge) ) )
+					continue;
+				clonedNodes.add(newNode);
+			}
+			clonedEdge.nodes = Collections.unmodifiableList(clonedNodes);
+			return clonedEdge;
+		}
+		catch(CloneNotSupportedException caught)
+		{
+			LOGGER.error("Edge was unexpectidly not cloneable", caught);
+			throw new UnexpectedDannError("Edge was unexpectidly not cloneable", caught);
+		}
 	}
 
 	protected AbstractEdge<N> add(final List<N> addNodes)
@@ -67,9 +121,26 @@ public abstract class AbstractEdge<N> implements Edge<N>
 			throw new IllegalArgumentException("node can not be null");
 		final List<N> newNodes = new ArrayList<N>(this.nodes);
 		newNodes.addAll(addNodes);
-		final AbstractEdge<N> copy = this.clone();
-		copy.nodes = Collections.unmodifiableList(newNodes);
-		return copy;
+
+		try
+		{
+			AbstractEdge<N> clonedEdge = (AbstractEdge<N>) super.clone();
+			List<N> clonedNodes = new ArrayList<N>(this.nodes.size());
+			//add each node at a time to the clone considering context
+			for(N newNode : newNodes)
+			{
+				if( this.contextEnabled && (newNode instanceof ContextNode) && ( !((ContextNode)newNode).connectingEdge(clonedEdge) ) )
+					continue;
+				clonedNodes.add(newNode);
+			}
+			clonedEdge.nodes = Collections.unmodifiableList(clonedNodes);
+			return clonedEdge;
+		}
+		catch(CloneNotSupportedException caught)
+		{
+			LOGGER.error("Edge was unexpectidly not cloneable", caught);
+			throw new UnexpectedDannError("Edge was unexpectidly not cloneable", caught);
+		}
 	}
 
 	protected AbstractEdge<N> remove(final N node)
@@ -82,12 +153,25 @@ public abstract class AbstractEdge<N> implements Edge<N>
 		final List<N> newNodes = new ArrayList<N>(this.nodes);
 		newNodes.remove(node);
 
-		if( newNodes.size() <= 1 )
-			return null;
-
-		final AbstractEdge<N> copy = this.clone();
-		copy.nodes = Collections.unmodifiableList(newNodes);
-		return copy;
+		try
+		{
+			AbstractEdge<N> clonedEdge = (AbstractEdge<N>) super.clone();
+			List<N> clonedNodes = new ArrayList<N>(this.nodes.size());
+			//add each node at a time to the clone considering context
+			for(N newNode : newNodes)
+			{
+				if( this.contextEnabled && (newNode instanceof ContextNode) && ( !((ContextNode)newNode).connectingEdge(clonedEdge) ) )
+					continue;
+				clonedNodes.add(newNode);
+			}
+			clonedEdge.nodes = Collections.unmodifiableList(clonedNodes);
+			return clonedEdge;
+		}
+		catch(CloneNotSupportedException caught)
+		{
+			LOGGER.error("Edge was unexpectidly not cloneable", caught);
+			throw new UnexpectedDannError("Edge was unexpectidly not cloneable", caught);
+		}
 	}
 
 	protected AbstractEdge<N> remove(final List<N> removeNodes)
@@ -99,11 +183,26 @@ public abstract class AbstractEdge<N> implements Edge<N>
 		final List<N> newNodes = new ArrayList<N>(this.nodes);
 		for(final N node : removeNodes)
 			newNodes.remove(node);
-		if( newNodes.size() <= 1 )
-			return null;
-		final AbstractEdge<N> copy = this.clone();
-		copy.nodes = Collections.unmodifiableList(newNodes);
-		return copy;
+
+		try
+		{
+			AbstractEdge<N> clonedEdge = (AbstractEdge<N>) super.clone();
+			List<N> clonedNodes = new ArrayList<N>(this.nodes.size());
+			//add each node at a time to the clone considering context
+			for(N newNode : newNodes)
+			{
+				if( this.contextEnabled && (newNode instanceof ContextNode) && ( !((ContextNode)newNode).connectingEdge(clonedEdge) ) )
+					continue;
+				clonedNodes.add(newNode);
+			}
+			clonedEdge.nodes = Collections.unmodifiableList(clonedNodes);
+			return clonedEdge;
+		}
+		catch(CloneNotSupportedException caught)
+		{
+			LOGGER.error("Edge was unexpectidly not cloneable", caught);
+			throw new UnexpectedDannError("Edge was unexpectidly not cloneable", caught);
+		}
 	}
 
     @Override
@@ -134,7 +233,17 @@ public abstract class AbstractEdge<N> implements Edge<N>
 	{
 		try
 		{
-			return (AbstractEdge<N>) super.clone();
+			AbstractEdge<N> clonedEdge = (AbstractEdge<N>) super.clone();
+			List<N> clonedNodes = new ArrayList<N>(this.nodes.size());
+			//add each node at a time to the clone considering context
+			for(N node : this.nodes)
+			{
+				if( this.contextEnabled && (node instanceof ContextNode) && ( !((ContextNode)node).connectingEdge(clonedEdge) ) )
+					continue;
+				clonedNodes.add(node);
+			}
+			clonedEdge.nodes = Collections.unmodifiableList(clonedNodes);
+			return clonedEdge;
 		}
 		catch(CloneNotSupportedException caught)
 		{

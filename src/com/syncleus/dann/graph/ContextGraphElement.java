@@ -20,6 +20,7 @@ package com.syncleus.dann.graph;
 
 public interface ContextGraphElement<N, E extends Edge<N>>
 {
+	boolean isAllowingMultipleGraphs();
 	boolean joiningGraph(Graph<N, E> graph);
 	boolean leavingGraph(Graph<N, E> graph);
 }

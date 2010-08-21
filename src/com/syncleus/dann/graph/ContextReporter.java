@@ -18,27 +18,20 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.xml.EdgeXml;
-import com.syncleus.dann.xml.XmlSerializable;
-
-import java.io.Serializable;
-import java.util.List;
-
-public interface Edge<N> extends Serializable, Cloneable, XmlSerializable<EdgeXml, Object>, ContextReporter
+public interface ContextReporter
 {
-	List<N> getNodes();
-	List<N> getTraversableNodes(N node);
-	boolean isTraversable(N node);
 	/**
-	 * returns an edge with the specified node disconnected, null if the entire
-	 * edge should be deleted as a result of removing the specified node.
+	 * Determines if the graph has nodeContext enabled. If node context is enabled
+	 * then all nodes which implement the ContextNode interface will be notified
+	 * on context events (which graphs it is added or removed to as well as
+	 * which edges a node is connected to). This also allows nodes to refuse
+	 * to join networks or edges. When this is disabled the ContextNode interface
+	 * is ignored and nodes will not be notified and they will have no control
+	 * over their context.
 	 *
-	 * @param node node to remove from the returned edge.
-	 * @return an edge with the specified node disconnected, null if the entire
-	 *         edge should be deleted as a result of removing the specified node.
+	 * @return True if ContextNode is currently being honored on all nodes, false
+	 * otherwise.
 	 * @since 2.0
 	 */
-	Edge<N> disconnect(N node);
-	Edge<N> disconnect(List<N> node);
-	Edge<N> clone();
+	boolean isContextEnabled();
 }

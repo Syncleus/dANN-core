@@ -18,27 +18,51 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.xml.EdgeXml;
-import com.syncleus.dann.xml.XmlSerializable;
+import java.util.*;
 
-import java.io.Serializable;
-import java.util.List;
-
-public interface Edge<N> extends Serializable, Cloneable, XmlSerializable<EdgeXml, Object>, ContextReporter
+public abstract class AbstractContextGraphElement<N, E extends Edge<N>> implements ContextGraphElement<N,E>
 {
-	List<N> getNodes();
-	List<N> getTraversableNodes(N node);
-	boolean isTraversable(N node);
-	/**
-	 * returns an edge with the specified node disconnected, null if the entire
-	 * edge should be deleted as a result of removing the specified node.
-	 *
-	 * @param node node to remove from the returned edge.
-	 * @return an edge with the specified node disconnected, null if the entire
-	 *         edge should be deleted as a result of removing the specified node.
-	 * @since 2.0
-	 */
-	Edge<N> disconnect(N node);
-	Edge<N> disconnect(List<N> node);
-	Edge<N> clone();
+	private final boolean allowJoiningMultipleGraphs;
+	private final Set<Graph<N,E>> joinedGraphs = new HashSet<Graph<N,E>>();
+
+	protected AbstractContextGraphElement(final boolean allowJoiningMultipleGraphs)
+	{
+		this.allowJoiningMultipleGraphs = allowJoiningMultipleGraphs;
+	}
+
+	@Override
+	public boolean joiningGraph(Graph<N, E> graph)
+	{
+		if( graph == null )
+			throw new IllegalArgumentException("graph can not be null");
+
+		if( !this.allowJoiningMultipleGraphs && (joinedGraphs.size() > 0) )
+			return false;
+
+		this.joinedGraphs.add(graph);
+		return true;
+	}
+
+	@Override
+	public boolean leavingGraph(Graph<N, E> graph)
+	{
+		if( graph == null )
+			throw new IllegalArgumentException("graph can not be null");
+		if( !this.joinedGraphs.contains(graph) )
+			throw new IllegalArgumentException("graph was never joined");
+
+		this.joinedGraphs.remove(graph);
+		return true;
+	}
+
+	@Override
+	public boolean isAllowingMultipleGraphs()
+	{
+		return allowJoiningMultipleGraphs;
+	}
+
+	public final Set<Graph<N, E>> getJoinedGraphs()
+	{
+		return Collections.unmodifiableSet(joinedGraphs);
+	}
 }
