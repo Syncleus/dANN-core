@@ -18,13 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.io.Serializable;
 import java.util.*;
-import java.util.Map.Entry;
 import com.syncleus.dann.UnexpectedDannError;
-import com.syncleus.dann.graph.cycle.*;
 import com.syncleus.dann.graph.xml.*;
-import com.syncleus.dann.math.counting.Counters;
 import com.syncleus.dann.xml.NameXml;
 import com.syncleus.dann.xml.NamedValueXml;
 import com.syncleus.dann.xml.Namer;
@@ -44,58 +40,125 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 	private Set<E> edges;
 	private Map<N, Set<E>> adjacentEdges = new HashMap<N, Set<E>>();
 	private Map<N, List<N>> adjacentNodes = new HashMap<N, List<N>>();
+	private final boolean contextEnabled;
 
+
+	/**
+	 * Creates a new AbstractAdjacencyGraph with no edges and no adjacencies. nodeContext and edgeContext is enabled.
+	 */
+	protected AbstractAdjacencyGraph()
+	{
+		this(true);
+	}
 
 	/**
 	 * Creates a new AbstractAdjacencyGraph with no edges and no adjacencies.
 	 */
-	protected AbstractAdjacencyGraph()
+	protected AbstractAdjacencyGraph(final boolean contextEnabled)
 	{
 		this.edges = new HashSet<E>();
+		this.contextEnabled = contextEnabled;
+	}
+
+	/**
+	 * Creates a new AbstractAdjacencyGraph as a copy of the current Graph. nodeContext is enabled.
+	 * @param copyGraph The Graph to copy
+	 */
+	protected AbstractAdjacencyGraph(final Graph<N, E> copyGraph)
+	{
+		this(copyGraph.getNodes(), copyGraph.getEdges(), true);
 	}
 
 	/**
 	 * Creates a new AbstractAdjacencyGraph as a copy of the current Graph.
 	 * @param copyGraph The Graph to copy
 	 */
-	protected AbstractAdjacencyGraph(final Graph<N, E> copyGraph)
+	protected AbstractAdjacencyGraph(final Graph<N, E> copyGraph, final boolean contextEnabled)
 	{
-		this(copyGraph.getNodes(), copyGraph.getEdges());
+		this(copyGraph.getNodes(), copyGraph.getEdges(), contextEnabled);
+	}
+
+	/**
+	 * Creates a new AbstractAdjacencyGraph from the given list of nodes, and the given list of ourEdges.
+	 * The adjacency lists are created from this structure. nodeContext is enabled.
+	 *
+	 * @param nodes The set of all nodes
+	 * @param edges The set of all ourEdges
+	 */
+	protected AbstractAdjacencyGraph(final Set<N> nodes, final Set<E> edges)
+	{
+		this(nodes, edges, true);
 	}
 
 	/**
 	 * Creates a new AbstractAdjacencyGraph from the given list of nodes, and the given list of ourEdges.
 	 * The adjacency lists are created from this structure.
 	 *
-	 * @param nodes The set of all nodes
-	 * @param ourEdges The set of all ourEdges
+	 * @param attemptNodes The set of all nodes
+	 * @param attemptEdges The set of all ourEdges
 	 */
-	protected AbstractAdjacencyGraph(final Set<N> nodes, final Set<E> ourEdges)
+	protected AbstractAdjacencyGraph(final Set<N> attemptNodes, final Set<E> attemptEdges, final boolean contextEnabled)
 	{
-		this.edges = new HashSet<E>(ourEdges);
+		if(attemptNodes == null)
+			throw new IllegalArgumentException("attemptNodes can not be null");
+		if(attemptEdges == null)
+			throw new IllegalArgumentException("attemptEdges can not be null");
+		//make sure all the edges only connect to contained nodes
+		for( E attemptEdge : attemptEdges )
+			if( !attemptNodes.containsAll(attemptEdge.getNodes()) )
+			    throw new IllegalArgumentException("A node that is an end point in one of the attemptEdges was not in the nodes list");
 
-		for(final N node : nodes)
+		this.contextEnabled = contextEnabled;
+
+		//add all the nodes before we worry about edges. check for NodeContext
+		for(final N attemptNode : attemptNodes)
 		{
-			this.adjacentNodes.put(node, new ArrayList<N>());
-			this.adjacentEdges.put(node, new HashSet<E>());
+			if((this.contextEnabled) && (attemptNode instanceof ContextGraphElement) )
+				//lets see if this ContextEdge will allow itself to join he graph
+				if( !((ContextGraphElement)attemptNode).joiningGraph(this) )
+					continue;
+
+			this.adjacentNodes.put(attemptNode, new ArrayList<N>());
+			this.adjacentEdges.put(attemptNode, new HashSet<E>());
 		}
 
-		for(final E edge : ourEdges)
+		//Add the edges checking for Edge Context.
+		if( !this.contextEnabled )
+			this.edges = new HashSet<E>(attemptEdges);
+		else
 		{
-			final List<N> edgeNodes = edge.getNodes();
-			for(int startNodeIndex = 0; startNodeIndex < edgeNodes.size(); startNodeIndex++)
+			this.edges = new HashSet<E>(attemptEdges.size());
+			for(E attemptEdge : attemptEdges)
 			{
-				final N edgeNode = edgeNodes.get(startNodeIndex);
+				if((this.contextEnabled) && (attemptEdge instanceof ContextGraphElement) )
+					//lets see if this ContextEdge will allow itself to join he graph
+					if( !((ContextGraphElement)attemptEdge).joiningGraph(this) )
+						continue;
 
-				if( !nodes.contains(edgeNode) )
-					throw new IllegalArgumentException("A node that is an end point in one of the ourEdges was not in the nodes list");
-
-				this.adjacentEdges.get(edgeNode).add(edge);
-
-				for(int endNodeIndex = 0; endNodeIndex < edgeNodes.size(); endNodeIndex++)
+				this.edges.add(attemptEdge);
+				//populate adjacency maps
+				for(N currentNode : attemptEdge.getNodes())
 				{
-					if( startNodeIndex != endNodeIndex )
-						this.adjacentNodes.get(edgeNode).add(edgeNodes.get(endNodeIndex));
+					boolean passedCurrent = false;
+					for(N neighborNode : attemptEdge.getNodes())
+					{
+						if( !passedCurrent && (neighborNode == currentNode))
+						{
+							passedCurrent = true;
+							continue;
+						}
+
+						//this is a neighbor node
+						if( !this.adjacentNodes.containsKey(currentNode) )
+							throw new IllegalStateException("After edges and nodes have applied their context restrictions an edge remained connected to a node not in this graph");
+
+						this.adjacentNodes.get(currentNode).add(neighborNode);
+					}
+
+					//this is a neighbor edge
+					if( !this.adjacentEdges.containsKey(currentNode) )
+						throw new IllegalStateException("After edges and nodes have applied their context restrictions an edge remained connected to a node not in this graph");
+					this.adjacentEdges.get(currentNode).add(attemptEdge);
 				}
 			}
 		}
@@ -126,6 +189,12 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 	protected Map<N, List<N>> getInternalAdjacencyNodes()
 	{
 		return this.adjacentNodes;
+	}
+
+	@Override
+	public boolean isContextEnabled()
+	{
+		return this.contextEnabled;
 	}
 
 	/**
@@ -297,7 +366,66 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 	{
 		try
 		{
-			return (AbstractAdjacencyGraph<N, E>) super.clone();
+			 AbstractAdjacencyGraph<N, E> cloneGraph = (AbstractAdjacencyGraph<N, E>) super.clone();
+
+			//lets instantiate some new datastructurs for our clone
+			cloneGraph.adjacentEdges = new HashMap<N, Set<E>>();
+			cloneGraph.adjacentNodes = new HashMap<N, List<N>>();
+
+			//add all the nodes before we worry about edges. check for NodeContext
+			for(N attemptNode : this.getNodes())
+			{
+				if((this.contextEnabled) && (attemptNode instanceof ContextGraphElement) )
+					//lets see if this ContextEdge will allow itself to join he graph
+					if( !((ContextGraphElement)attemptNode).joiningGraph(cloneGraph) )
+						continue;
+
+				cloneGraph.adjacentNodes.put(attemptNode, new ArrayList<N>());
+				cloneGraph.adjacentEdges.put(attemptNode, new HashSet<E>());
+			}
+
+			//Add the edges checking for Edge Context.
+			if( !this.contextEnabled )
+				cloneGraph.edges = new HashSet<E>(this.getEdges());
+			else
+			{
+				cloneGraph.edges = new HashSet<E>(this.getEdges().size());
+				for(E attemptEdge : this.getEdges())
+				{
+					if((this.contextEnabled) && (attemptEdge instanceof ContextGraphElement) )
+						//lets see if this ContextEdge will allow itself to join he graph
+						if( !((ContextGraphElement)attemptEdge).joiningGraph(cloneGraph) )
+							continue;
+
+					cloneGraph.edges.add(attemptEdge);
+					//populate adjacency maps
+					for(N currentNode : attemptEdge.getNodes())
+					{
+						boolean passedCurrent = false;
+						for(N neighborNode : attemptEdge.getNodes())
+						{
+							if( !passedCurrent && (neighborNode == currentNode))
+							{
+								passedCurrent = true;
+								continue;
+							}
+
+							//this is a neighbor node
+							if( !cloneGraph.adjacentNodes.containsKey(currentNode) )
+								throw new IllegalStateException("After edges and nodes have applied their context restrictions an edge remained connected to a node not in this graph");
+
+							cloneGraph.adjacentNodes.get(currentNode).add(neighborNode);
+						}
+
+						//this is a neighbor edge
+						if( !cloneGraph.adjacentEdges.containsKey(currentNode) )
+							throw new IllegalStateException("After edges and nodes have applied their context restrictions an edge remained connected to a node not in this graph");
+						cloneGraph.adjacentEdges.get(currentNode).add(attemptEdge);
+					}
+				}
+			}
+
+			return cloneGraph;
 		}
 		catch(CloneNotSupportedException caught)
 		{

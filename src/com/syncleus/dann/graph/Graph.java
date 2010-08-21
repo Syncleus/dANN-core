@@ -104,6 +104,20 @@ public interface Graph<N, E extends Edge<N>> extends Serializable, Cloneable, Xm
 	 */
 	Set<E> getTraversableEdges(N node);
 	/**
+	 * Determines if the graph has nodeContext enabled. If node context is enabled
+	 * then all nodes which implement the ContextNode interface will be notified
+	 * on context events (which graphs it is added or removed to as well as
+	 * which edges a node is connected to). This also allows nodes to refuse
+	 * to join networks or edges. When this is disabled the ContextNode interface
+	 * is ignored and nodes will not be notified and they will have no control
+	 * over their context.
+	 *
+	 * @return True if ContextNode is currently being honored on all nodes, false
+	 * otherwise.
+	 * @since 2.0
+	 */
+	boolean isContextEnabled();
+	/**
 	 * Adds the specified edge to a clone of this class.
 	 *
 	 * @param newEdge the edge to add to the cloned graph.
