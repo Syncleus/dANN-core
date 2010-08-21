@@ -21,15 +21,16 @@ package com.syncleus.dann.graph.cycle;
 import java.io.Serializable;
 import java.util.*;
 import com.syncleus.dann.graph.*;
+import com.syncleus.dann.graph.topological.Topography;
 
 public class ExhaustiveDepthFirstSearchCycleFinder<N, E extends Edge<N>> extends ColoredDepthFirstSearchDetector implements CycleFinder<N, E>
 {
 	public boolean isPancyclic(final Graph<N, E> graph)
 	{
-		if( !graph.isSimple() )
+		if( !Topography.isSimple(graph) )
 			return false;
 
-		final int graphOrder = graph.getOrder();
+		final int graphOrder = Topography.getOrder(graph);
 		final Set<Cycle<N, E>> cycles = this.findCycles(graph);
 		final SortedSet<Cycle<N, E>> sortedCycles = new TreeSet<Cycle<N, E>>(new CycleLengthComparator<N, E>());
 		sortedCycles.addAll(cycles);
@@ -53,7 +54,7 @@ public class ExhaustiveDepthFirstSearchCycleFinder<N, E extends Edge<N>> extends
 
 	public boolean isUnicyclic(final Graph<N, E> graph)
 	{
-		return ((this.findCycles(graph).size() == 1) && (graph.isSimple()));
+		return ((this.findCycles(graph).size() == 1) && (Topography.isSimple(graph)));
 	}
 
 	public int cycleCount(final Graph<N, E> graph)

@@ -24,6 +24,7 @@ import java.util.concurrent.*;
 import com.syncleus.dann.*;
 import com.syncleus.dann.graph.*;
 import com.syncleus.dann.graph.drawing.GraphDrawer;
+import com.syncleus.dann.graph.topological.Topography;
 import com.syncleus.dann.math.Vector;
 import org.apache.log4j.Logger;
 
@@ -152,7 +153,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 
 	private double getAverageMovement()
 	{
-		return this.totalMovement / ((double) this.graph.getOrder());
+		return this.totalMovement / ((double) Topography.getOrder(this.graph));
 	}
 
 	@Override

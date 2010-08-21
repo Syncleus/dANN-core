@@ -23,6 +23,7 @@ import java.util.*;
 import java.util.concurrent.ExecutorService;
 import com.syncleus.dann.UnexpectedDannError;
 import com.syncleus.dann.graph.AbstractBidirectedAdjacencyGraph;
+import com.syncleus.dann.graph.topological.StrongConnectivityOptimizedGraph;
 
 // TODO refactor this to be a generic following the patern of its parent classes.
 
@@ -35,7 +36,7 @@ import com.syncleus.dann.graph.AbstractBidirectedAdjacencyGraph;
  * @author Jeffrey Phillips Freeman
  * @since 1.0
  */
-public abstract class AbstractLocalBrain extends AbstractBidirectedAdjacencyGraph<Neuron, Synapse> implements Brain, Serializable
+public abstract class AbstractLocalBrain extends AbstractBidirectedAdjacencyGraph<Neuron, Synapse> implements Brain, Serializable, StrongConnectivityOptimizedGraph<Neuron, Synapse>
 {
 	private static class NodeConnectivity extends HashMap<Neuron, Set<Synapse>>
 	{
@@ -326,6 +327,12 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedAdjacencyGrap
 		jointSet.retainAll(inSet);
 
 		return (!jointSet.isEmpty());
+	}
+
+	@Override
+	public boolean isStronglyConnected()
+	{
+		throw new UnsupportedOperationException("This optimization is not supported");
 	}
 
 	public List<Neuron> getAdjacentNodes(final Neuron node)

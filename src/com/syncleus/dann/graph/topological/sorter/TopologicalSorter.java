@@ -21,6 +21,7 @@ package com.syncleus.dann.graph.topological.sorter;
 import java.util.List;
 import com.syncleus.dann.graph.*;
 
+// TODO make this follow the optimizer approach
 public interface TopologicalSorter<N>
 {
 	List<N> sort(BidirectedGraph<? extends N, ? extends DirectedEdge<? extends N>> graph);

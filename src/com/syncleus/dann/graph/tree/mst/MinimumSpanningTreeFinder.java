@@ -16,12 +16,12 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph.mst;
+package com.syncleus.dann.graph.tree.mst;
 
 import java.util.Set;
 import com.syncleus.dann.graph.*;
 
-public interface RootedMinimumSpanningTreeFinder<N, E extends Edge<N>> extends MinimumSpanningTreeFinder<N, E>
+public interface MinimumSpanningTreeFinder<N, E extends Edge<N>>
 {
-	Set<E> findMinimumSpanningTree(Graph<N, E> graph, N startNode);
+	Set<E> findMinimumSpanningTree(Graph<N, E> graph);
 }

@@ -37,29 +37,47 @@ public abstract class AbstractHyperAdjacencyGraph<N, E extends HyperEdge<N>> ext
 		super(nodes, edges);
 	}
 
-	public int getRank()
+	/**
+	 * This will always return false.
+	 *
+	 * @return always returns false
+	 */
+	@Override
+	public boolean hasMaximumAllowableRank()
+	{
+		return false;
+	}
+
+	/**
+	 * Always returns -1 since rank is not limited.
+	 *
+	 * @return Always returns -1
+	 */
+	@Override
+	public int getMaximumAllowableRank()
 	{
 		return -1;
 	}
 
-	public BidirectedGraph<N, BidirectedEdge<N>> getPrimal()
-	{
-		return null;
-	}
-
-	public boolean isPartial(final HyperGraph<N, E> partialGraph)
-	{
-		return false;
-	}
-
-	public boolean isHost(final HyperGraph<N, E> hostGraph)
+	/**
+	 * Always returns false since rank is not limited.
+	 *
+	 * @return Always returns false
+	 */
+	@Override
+	public boolean hasMinimumAllowableRank()
 	{
 		return false;
 	}
 
-	public boolean isUniform()
+	/**
+	 * Always returns -1 since rank is not limited
+	 * @return
+	 */
+	@Override
+	public int getMinimumAllowableRank()
 	{
-		return false;
+		return -1;
 	}
 
 	@Override

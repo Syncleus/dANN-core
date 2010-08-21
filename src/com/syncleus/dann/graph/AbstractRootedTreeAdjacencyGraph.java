@@ -21,8 +21,10 @@ package com.syncleus.dann.graph;
 import java.util.Set;
 import com.syncleus.dann.graph.topological.sorter.SimpleTopologicalSorter;
 import com.syncleus.dann.graph.topological.sorter.TopologicalSorter;
+import com.syncleus.dann.graph.tree.TreeOptimizedDirectedGraph;
+import com.syncleus.dann.graph.tree.Trees;
 
-public abstract class AbstractRootedTreeAdjacencyGraph<N, E extends DirectedEdge<N>> extends AbstractTreeAdjacencyGraph<N, E> implements RootedTreeGraph<N, E>
+public abstract class AbstractRootedTreeAdjacencyGraph<N, E extends DirectedEdge<N>> extends AbstractTreeAdjacencyGraph<N, E> implements RootedTreeGraph<N, E>, TreeOptimizedDirectedGraph<N, E>
 {
 	// TODO restrict all edgesd when added to make sure they conform to being a rooted tree
 	protected AbstractRootedTreeAdjacencyGraph()
@@ -33,7 +35,7 @@ public abstract class AbstractRootedTreeAdjacencyGraph<N, E extends DirectedEdge
 	protected AbstractRootedTreeAdjacencyGraph(final DirectedGraph<N, E> copyGraph)
 	{
 		super(copyGraph.getNodes(), copyGraph.getEdges());
-		if( !copyGraph.isRootedTree() )
+		if( !Trees.isRootedTree(copyGraph) )
 			throw new IllegalArgumentException("copyGraph is not a rooted tree");
 	}
 
@@ -44,16 +46,19 @@ public abstract class AbstractRootedTreeAdjacencyGraph<N, E extends DirectedEdge
 			throw new IllegalArgumentException("edges do not form a rooted tree");
 	}
 
+	@Override
 	public boolean isRootedTree()
 	{
 		return true;
 	}
 
+	@Override
 	public boolean isRootedForest()
 	{
 		return true;
 	}
 
+	@Override
 	public N getRoot()
 	{
 		if( this.getNodes().isEmpty() )

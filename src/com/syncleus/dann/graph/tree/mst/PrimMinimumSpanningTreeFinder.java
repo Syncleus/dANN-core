@@ -16,7 +16,7 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph.mst;
+package com.syncleus.dann.graph.tree.mst;
 
 import java.io.Serializable;
 import java.util.*;

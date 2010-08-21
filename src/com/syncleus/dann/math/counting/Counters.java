@@ -23,9 +23,10 @@ import java.util.*;
 
 public final class Counters
 {
+	//this is a utility class so it cant be instantiated, make the default constructor private
 	private Counters()
 	{
-		//this class can not be instantiated
+		throw new IllegalStateException("This is a utility class, it cant be instantiated");
 	}
 
 	public static <O> BigInteger everyCombinationCount(final Collection<O> superCollection)

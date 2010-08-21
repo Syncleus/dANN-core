@@ -21,6 +21,8 @@ package com.syncleus.dann.graph.search.optimization;
 import com.syncleus.dann.graph.*;
 import com.syncleus.dann.graph.search.LocalSearch;
 
+// TODO implement optimizer approach
+
 public class HillClimbingLocalSearch<G extends Graph<N, ?>, N extends Weighted> implements LocalSearch<N>
 {
 	private final G graph;

@@ -22,6 +22,8 @@ import java.util.Map;
 import com.syncleus.dann.graph.Graph;
 import com.syncleus.dann.math.Vector;
 
+// TODO use optimizer approach
+
 public interface GraphDrawer<G extends Graph<N, ?>, N>
 {
 	G getGraph();

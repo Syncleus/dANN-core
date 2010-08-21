@@ -37,32 +37,7 @@ public abstract class AbstractBidirectedAdjacencyGraph<N, E extends BidirectedEd
 		super(nodes, edges);
 	}
 
-	public boolean isPolytree()
-	{
-		return false;
-	}
-
 	@Override
-	public Set<Graph<N, E>> getMaximallyConnectedComponents()
-	{
-		return null;
-	}
-
-	@Override
-	public int getDegree(final N node)
-	{
-		final Set<E> adjacentEdges = this.getAdjacentEdges(node);
-		int degree = 0;
-		for(final E adjacentEdge : adjacentEdges)
-		{
-			if( adjacentEdge.isLoop() )
-				degree += 2;
-			else
-				degree++;
-		}
-		return degree;
-	}
-
 	public Set<E> getInEdges(final N node)
 	{
 		final Set<E> inEdges = new HashSet<E>();
@@ -76,16 +51,6 @@ public abstract class AbstractBidirectedAdjacencyGraph<N, E extends BidirectedEd
 				inEdges.add(edge);
 		}
 		return Collections.unmodifiableSet(inEdges);
-	}
-
-	public int getIndegree(final N node)
-	{
-		return this.getInEdges(node).size();
-	}
-
-	public int getOutdegree(final N node)
-	{
-		return this.getTraversableEdges(node).size();
 	}
 
 	@Override

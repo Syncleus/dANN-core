@@ -28,52 +28,34 @@ package com.syncleus.dann.graph;
 public interface HyperGraph<N, E extends HyperEdge<N>> extends Graph<N, E>
 {
 	/**
-	 * Determines the number of end points of the edge with the largest number of
-	 * end points. The graph must have at least one edge.
+	 * True if this graph enforces its edges to have a maximum rank.
 	 *
-	 * @return the number of end points of the edge with the largest number of end
-	 *         points. The graph must have at least one edge.
-	 * @throws IllegalStateException thrown if no edges exist.
 	 * @since 2.0
+	 * @return true if there is a maximum allowable rank for this graph, false otherwise.
 	 */
-	int getRank();
+	boolean hasMaximumAllowableRank();
+
 	/**
-	 * Determines if all edges have exactly the same number of end points, if so
-	 * this returns true, otherwise returns false.
+	 * Returns the maximum allowable rank for each edge, -1 if there is no limit.
 	 *
-	 * @return true if all edges have exactly the same number of end points,
-	 *         otherwise returns false.
-	 * @throws IllegalStateException thrown if no edges exist.
+	 * @return the maximum allowable rank for each edge, -1 if there is no limit.
 	 * @since 2.0
 	 */
-	boolean isUniform();
+	int getMaximumAllowableRank();
+
 	/**
-	 * Determines if the specifed graph has all the nodes in this graph and some
-	 * but not all of the edges.
+	 * True if this graph enforces its edges to have a minimum rank.
 	 *
-	 * @param partialGraph the graph to check if it is a partial hypergraph.
-	 * @return true if the specifed graph has all the nodes in this graph and some
-	 *         but not all of the edges.
+	 * @return true if there is a minimum allowable rank for this graph, false otherwise.
 	 * @since 2.0
 	 */
-	boolean isPartial(HyperGraph<N, E> partialGraph);
+	boolean hasMinimumAllowableRank();
+
 	/**
-	 * Determines if the specified graph has all the nodes in this graph and if for
-	 * every edge in this graph there is an induced connected subgraph in the
-	 * specified graph.
+	 * Returns the minimum allowable rank for each edge, -1 if there is no limit.
 	 *
-	 * @param hostGraph the graph to check if it is a host graph.
-	 * @return true if the specified graph is a host graph of this one.
+	 * @return the maximum allowable rank for each edge, -1 if there is no limit.
 	 * @since 2.0
 	 */
-	boolean isHost(HyperGraph<N, E> hostGraph);
-	/**
-	 * Creates a undirected graph that contains all the nodes of this graph and
-	 * each pair of nodes in every hyperedge has a undirected edge in the new
-	 * graph.
-	 *
-	 * @return the primal graph of this graph.
-	 * @since 2.0
-	 */
-	BidirectedGraph<N, BidirectedEdge<N>> getPrimal();
+	int getMinimumAllowableRank();
 }

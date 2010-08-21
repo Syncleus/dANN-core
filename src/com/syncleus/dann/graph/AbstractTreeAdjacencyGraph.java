@@ -19,8 +19,11 @@
 package com.syncleus.dann.graph;
 
 import java.util.Set;
+import com.syncleus.dann.graph.topological.Topography;
+import com.syncleus.dann.graph.tree.TreeOptimizedGraph;
+import com.syncleus.dann.graph.tree.Trees;
 
-public abstract class AbstractTreeAdjacencyGraph<N, E extends BidirectedEdge<N>> extends AbstractBidirectedAdjacencyGraph<N, E> implements TreeGraph<N, E>
+public abstract class AbstractTreeAdjacencyGraph<N, E extends BidirectedEdge<N>> extends AbstractBidirectedAdjacencyGraph<N, E> implements TreeGraph<N, E>, TreeOptimizedGraph<N,E>
 {
 	// TODO restrict tree's to only maximally connected trees or perhaps just tree in general
 
@@ -32,14 +35,14 @@ public abstract class AbstractTreeAdjacencyGraph<N, E extends BidirectedEdge<N>>
 	protected AbstractTreeAdjacencyGraph(final BidirectedGraph<N, E> copyGraph)
 	{
 		super(copyGraph.getNodes(), copyGraph.getEdges());
-		if( !copyGraph.isTree() )
+		if( !Trees.isTree(copyGraph) )
 			throw new IllegalArgumentException("copyGraph is not a Tree");
 	}
 
 	protected AbstractTreeAdjacencyGraph(final Set<N> nodes, final Set<E> edges)
 	{
 		super(nodes, edges);
-		if( ! super.isTree() )
+		if( ! Trees.isTree(this) )
 			throw new IllegalArgumentException("edges do not form a tree graph");
 	}
 
@@ -49,11 +52,25 @@ public abstract class AbstractTreeAdjacencyGraph<N, E extends BidirectedEdge<N>>
 		return true;
 	}
 
-	public boolean isLeaf(final N node)
+	@Override
+	public boolean isSpanningTree(Graph<N, E> subGraph)
 	{
-		return (this.getDegree(node) == 1);
+		throw new UnsupportedOperationException("We have not optimized for this, allow default algorithms to calcualte");
+	}
+	@Override
+	public boolean isForest()
+	{
+		//all trees are forests
+		return true;
 	}
 
+	@Override
+	public boolean isLeaf(final N node)
+	{
+		return (Topography.getDegree(this, node) == 1);
+	}
+
+	@Override
 	public boolean isLeaf(final E edge)
 	{
 		for(final N node : edge.getNodes())

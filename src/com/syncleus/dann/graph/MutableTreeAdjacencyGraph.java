@@ -19,6 +19,7 @@
 package com.syncleus.dann.graph;
 
 import java.util.*;
+import com.syncleus.dann.graph.tree.Trees;
 
 public class MutableTreeAdjacencyGraph<N, E extends BidirectedEdge<N>> extends AbstractTreeAdjacencyGraph<N, E> implements MutableTreeGraph<N, E>
 {
@@ -51,7 +52,7 @@ public class MutableTreeAdjacencyGraph<N, E extends BidirectedEdge<N>> extends A
 		Set<E> testEdges = new HashSet<E>(this.getEdges());
 		testEdges.add(newEdge);
 		Graph<N,E> testGraph = new ImmutableAdjacencyGraph(this.getNodes(), testEdges);
-		if( !testGraph.isTree() )
+		if( !Trees.isTree(testGraph) )
 			throw new IllegalArgumentException("adding newEdge can not be added because this graph would no longer be a tree");
 
 		if( this.getInternalEdges().add(newEdge) )
