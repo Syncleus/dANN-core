@@ -20,7 +20,7 @@ package com.syncleus.dann.graph.topological;
 
 import com.syncleus.dann.graph.*;
 
-public interface StrucutreOptimizedBidirectedGraph<N, E extends BidirectedEdge<N>> extends BidirectedGraph<N, E>
+public interface ConnectionismOptimizedBidirectedGraph<N, E extends BidirectedEdge<N>> extends BidirectedGraph<N, E>
 {
 	/**
 	 * Count all edges which traverse from the specified node. While the

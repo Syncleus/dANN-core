@@ -18,47 +18,19 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.topological;
 
-import com.syncleus.dann.graph.*;
+import com.syncleus.dann.graph.HyperEdge;
+import com.syncleus.dann.graph.HyperGraph;
 
-public interface StructureOptimizedHyperGraph<N, E extends HyperEdge<N>> extends HyperGraph<N, E>
+public interface ConnectionismOptimizedHyperGraph<N, E extends HyperEdge<N>> extends HyperGraph<N, E>
 {
 	/**
-	 * Determines if all edges have exactly the same number of end points, if so
-	 * this returns true, otherwise returns false.
+	 * Determines the number of end points of the edge with the largest number of
+	 * end points. The graph must have at least one edge.
 	 *
-	 * @return true if all edges have exactly the same number of end points,
-	 *         otherwise returns false.
+	 * @return the number of end points of the edge with the largest number of end
+	 *         points. The graph must have at least one edge.
 	 * @throws IllegalStateException thrown if no edges exist.
 	 * @since 2.0
 	 */
-	boolean isUniform();
-	/**
-	 * Determines if the specifed graph has all the nodes in this graph and some
-	 * but not all of the edges.
-	 *
-	 * @param partialGraph the graph to check if it is a partial hypergraph.
-	 * @return true if the specifed graph has all the nodes in this graph and some
-	 *         but not all of the edges.
-	 * @since 2.0
-	 */
-	boolean isPartial(HyperGraph<N, E> partialGraph);
-	/**
-	 * Determines if the specified graph has all the nodes in this graph and if for
-	 * every edge in this graph there is an induced connected subgraph in the
-	 * specified graph.
-	 *
-	 * @param hostGraph the graph to check if it is a host graph.
-	 * @return true if the specified graph is a host graph of this one.
-	 * @since 2.0
-	 */
-	boolean isHost(HyperGraph<N, E> hostGraph);
-	/**
-	 * Creates a undirected graph that contains all the nodes of this graph and
-	 * each pair of nodes in every hyperedge has a undirected edge in the new
-	 * graph.
-	 *
-	 * @return the primal graph of this graph.
-	 * @since 2.0
-	 */
-	BidirectedGraph<N, BidirectedEdge<N>> getPrimal();
+	int getRank();
 }

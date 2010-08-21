@@ -21,9 +21,6 @@ package com.syncleus.dann.graph.topological;
 import java.io.Serializable;
 import java.util.*;
 import com.syncleus.dann.graph.*;
-import com.syncleus.dann.graph.topological.sorter.SimpleTopologicalSorter;
-import com.syncleus.dann.graph.topological.sorter.TopologicalSorter;
-import com.syncleus.dann.graph.tree.TreeOptimizedBidirectedGraph;
 import com.syncleus.dann.math.counting.Counters;
 
 public final class Topography
@@ -46,11 +43,11 @@ public final class Topography
 	 */
 	public static <N, E extends Edge<N>> int getDegree(final Graph<N, E> graph, final N node)
 	{
-		if( graph instanceof StructureOptimizedGraph )
+		if( graph instanceof ConnectionismOptimizedGraph )
 		{
 			try
 			{
-				return ((StructureOptimizedGraph)graph).getDegree(node);
+				return ((ConnectionismOptimizedGraph)graph).getDegree(node);
 			}
 			catch(UnsupportedOperationException caught)
 			{
@@ -552,11 +549,11 @@ public final class Topography
 
 	public static <N, E extends Edge<N>> int getOrder(final Graph<N, E> graph)
 	{
-		if( graph instanceof StructureOptimizedGraph )
+		if( graph instanceof ConnectionismOptimizedGraph )
 		{
 			try
 			{
-				return ((StructureOptimizedGraph)graph).getOrder();
+				return ((ConnectionismOptimizedGraph)graph).getOrder();
 			}
 			catch(UnsupportedOperationException caught)
 			{
@@ -595,11 +592,11 @@ public final class Topography
 
 	public static <N, E extends Edge<N>> int getMinimumDegree(final Graph<N, E> graph)
 	{
-		if( graph instanceof StructureOptimizedGraph )
+		if( graph instanceof ConnectionismOptimizedGraph )
 		{
 			try
 			{
-				return ((StructureOptimizedGraph)graph).getMinimumDegree();
+				return ((ConnectionismOptimizedGraph)graph).getMinimumDegree();
 			}
 			catch(UnsupportedOperationException caught)
 			{
@@ -618,11 +615,11 @@ public final class Topography
 
 	public static <N, E extends Edge<N>> boolean isMultigraph(final Graph<N, E> graph)
 	{
-		if( graph instanceof StructureOptimizedGraph )
+		if( graph instanceof ConnectionismOptimizedGraph )
 		{
 			try
 			{
-				return ((StructureOptimizedGraph)graph).isMultigraph();
+				return ((ConnectionismOptimizedGraph)graph).isMultigraph();
 			}
 			catch(UnsupportedOperationException caught)
 			{
@@ -713,11 +710,11 @@ public final class Topography
 	 */
 	public static <N, E extends Edge<N>> boolean isSimple(final Graph<N, E> graph)
 	{
-		if( graph instanceof StructureOptimizedGraph )
+		if( graph instanceof ConnectionismOptimizedGraph )
 		{
 			try
 			{
-				return ((StructureOptimizedGraph)graph).isSimple();
+				return ((ConnectionismOptimizedGraph)graph).isSimple();
 			}
 			catch(UnsupportedOperationException caught)
 			{
@@ -746,11 +743,11 @@ public final class Topography
 	 */
 	public static <N, E extends Edge<N>> boolean isRegular(final Graph<N, E> graph)
 	{
-		if( graph instanceof StructureOptimizedGraph )
+		if( graph instanceof ConnectionismOptimizedGraph )
 		{
 			try
 			{
-				return ((StructureOptimizedGraph)graph).isRegular();
+				return ((ConnectionismOptimizedGraph)graph).isRegular();
 			}
 			catch(UnsupportedOperationException caught)
 			{
@@ -777,11 +774,11 @@ public final class Topography
 	 */
 	public static <N, E extends Edge<N>> int getRegularDegree(final Graph<N, E> graph)
 	{
-		if( graph instanceof StructureOptimizedGraph )
+		if( graph instanceof ConnectionismOptimizedGraph )
 		{
 			try
 			{
-				return ((StructureOptimizedGraph)graph).getRegularDegree();
+				return ((ConnectionismOptimizedGraph)graph).getRegularDegree();
 			}
 			catch(UnsupportedOperationException caught)
 			{
@@ -814,11 +811,11 @@ public final class Topography
 	 */
 	public static <N, E extends Edge<N>> int getMultiplicity(final Graph<N, E> graph)
 	{
-		if( graph instanceof StructureOptimizedGraph )
+		if( graph instanceof ConnectionismOptimizedGraph )
 		{
 			try
 			{
-				return ((StructureOptimizedGraph)graph).getMultiplicity();
+				return ((ConnectionismOptimizedGraph)graph).getMultiplicity();
 			}
 			catch(UnsupportedOperationException caught)
 			{
@@ -850,11 +847,11 @@ public final class Topography
 	 */
 	public static <N, E extends Edge<N>> int getMultiplicity(final Graph<N, E> graph, final E edge)
 	{
-		if( graph instanceof StructureOptimizedGraph )
+		if( graph instanceof ConnectionismOptimizedGraph )
 		{
 			try
 			{
-				return ((StructureOptimizedGraph)graph).getMultiplicity(edge);
+				return ((ConnectionismOptimizedGraph)graph).getMultiplicity(edge);
 			}
 			catch(UnsupportedOperationException caught)
 			{
@@ -895,11 +892,11 @@ public final class Topography
 	 */
 	public static <N, E extends Edge<N>> boolean isMultiple(final Graph<N, E> graph, final E edge)
 	{
-		if( graph instanceof StructureOptimizedGraph )
+		if( graph instanceof ConnectionismOptimizedGraph )
 		{
 			try
 			{
-				return ((StructureOptimizedGraph)graph).isMultiple(edge);
+				return ((ConnectionismOptimizedGraph)graph).isMultiple(edge);
 			}
 			catch(UnsupportedOperationException caught)
 			{
@@ -979,11 +976,11 @@ public final class Topography
 
 	public static <N, E extends BidirectedEdge<N>> int getIndegree(final BidirectedGraph<N, E> graph, final N node)
 	{
-		if( graph instanceof StrucutreOptimizedBidirectedGraph )
+		if( graph instanceof ConnectionismOptimizedBidirectedGraph )
 		{
 			try
 			{
-				return ((StrucutreOptimizedBidirectedGraph)graph).getIndegree(node);
+				return ((ConnectionismOptimizedBidirectedGraph)graph).getIndegree(node);
 			}
 			catch(UnsupportedOperationException caught)
 			{
@@ -996,11 +993,11 @@ public final class Topography
 
 	public static <N, E extends BidirectedEdge<N>> int getOutdegree(final BidirectedGraph<N, E> graph, final N node)
 	{
-		if( graph instanceof StrucutreOptimizedBidirectedGraph )
+		if( graph instanceof ConnectionismOptimizedBidirectedGraph )
 		{
 			try
 			{
-				return ((StrucutreOptimizedBidirectedGraph)graph).getOutdegree(node);
+				return ((ConnectionismOptimizedBidirectedGraph)graph).getOutdegree(node);
 			}
 			catch(UnsupportedOperationException caught)
 			{
@@ -1013,11 +1010,11 @@ public final class Topography
 
 	public static <N, E extends HyperEdge<N>> int getRank(final HyperGraph<N, E> graph)
 	{
-		if( graph instanceof StructureOptimizedHyperGraph )
+		if( graph instanceof ConnectionismOptimizedHyperGraph )
 		{
 			try
 			{
-				return ((StructureOptimizedHyperGraph)graph).getRank();
+				return ((ConnectionismOptimizedHyperGraph)graph).getRank();
 			}
 			catch(UnsupportedOperationException caught)
 			{
