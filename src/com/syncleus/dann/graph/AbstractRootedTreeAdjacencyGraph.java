@@ -19,7 +19,7 @@
 package com.syncleus.dann.graph;
 
 import java.util.Set;
-import com.syncleus.dann.graph.topological.sorter.SimpleTopologicalSorter;
+import com.syncleus.dann.graph.topological.sorter.SimpleTopologicalRanker;
 import com.syncleus.dann.graph.topological.sorter.TopologicalSorter;
 import com.syncleus.dann.graph.tree.TreeOptimizedDirectedGraph;
 import com.syncleus.dann.graph.tree.Trees;
@@ -64,7 +64,7 @@ public abstract class AbstractRootedTreeAdjacencyGraph<N, E extends DirectedEdge
 		if( this.getNodes().isEmpty() )
 			return null;
 
-		TopologicalSorter<N> sorter = new SimpleTopologicalSorter<N>();
+		TopologicalSorter<N> sorter = new SimpleTopologicalRanker<N>();
 		return sorter.sort(this).get(0);
 	}
 

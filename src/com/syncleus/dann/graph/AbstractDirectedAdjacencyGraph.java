@@ -19,8 +19,6 @@
 package com.syncleus.dann.graph;
 
 import java.util.*;
-import com.syncleus.dann.graph.topological.sorter.SimpleTopologicalSorter;
-import com.syncleus.dann.graph.topological.sorter.TopologicalSorter;
 
 public abstract class AbstractDirectedAdjacencyGraph<N, E extends DirectedEdge<N>> extends AbstractBidirectedAdjacencyGraph<N, E> implements DirectedGraph<N, E>
 {

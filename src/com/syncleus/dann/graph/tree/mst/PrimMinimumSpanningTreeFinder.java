@@ -22,7 +22,7 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.Map.Entry;
 import com.syncleus.dann.graph.*;
-import com.syncleus.dann.graph.topological.sorter.SimpleTopologicalSorter;
+import com.syncleus.dann.graph.topological.sorter.SimpleTopologicalRanker;
 import com.syncleus.dann.graph.topological.sorter.TopologicalSorter;
 
 public class PrimMinimumSpanningTreeFinder<N, E extends Edge<N>> implements RootedMinimumSpanningTreeFinder<N, E>
@@ -42,7 +42,7 @@ public class PrimMinimumSpanningTreeFinder<N, E extends Edge<N>> implements Root
 		final N startNode;
 		if( isDirected )
 		{
-			final TopologicalSorter<N> sorter = new SimpleTopologicalSorter<N>();
+			final TopologicalSorter<N> sorter = new SimpleTopologicalRanker<N>();
 			final List<N> sortedNodes = sorter.sort((BidirectedGraph) graph);
 			startNode = sortedNodes.get(0);
 		}

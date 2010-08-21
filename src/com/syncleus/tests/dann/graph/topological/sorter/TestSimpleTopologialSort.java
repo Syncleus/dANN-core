@@ -20,7 +20,7 @@ package com.syncleus.tests.dann.graph.topological.sorter;
 
 import java.util.*;
 import com.syncleus.dann.graph.*;
-import com.syncleus.dann.graph.topological.sorter.SimpleTopologicalSorter;
+import com.syncleus.dann.graph.topological.sorter.SimpleTopologicalRanker;
 import com.syncleus.dann.graph.topological.sorter.TopologicalSorter;
 import org.junit.*;
 
@@ -53,7 +53,7 @@ public class TestSimpleTopologialSort
 
 		final BidirectedGraph<Object, DirectedEdge<Object>> graph = new ImmutableDirectedAdjacencyGraph<Object, DirectedEdge<Object>>(nodes, edges);
 
-		final TopologicalSorter<Object> sorter = new SimpleTopologicalSorter<Object>();
+		final TopologicalSorter<Object> sorter = new SimpleTopologicalRanker<Object>();
 		final List<Object> sortedNodes = sorter.sort(graph);
 
 		Assert.assertTrue("center node is not the first node!", sortedNodes.get(0) == centerNode);

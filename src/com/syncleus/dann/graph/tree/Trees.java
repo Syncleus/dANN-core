@@ -23,8 +23,7 @@ import java.util.Set;
 import com.syncleus.dann.graph.*;
 import com.syncleus.dann.graph.cycle.Cycles;
 import com.syncleus.dann.graph.topological.Topography;
-import com.syncleus.dann.graph.topological.sorter.SimpleTopologicalSorter;
-import com.syncleus.dann.graph.topological.sorter.TopologicalSorter;
+import com.syncleus.dann.graph.topological.sorter.*;
 
 public final class Trees
 {
@@ -124,13 +123,13 @@ public final class Trees
 		if( !Trees.isTree(graph) )
 			return false;
 
-		TopologicalSorter<N> sorter = new SimpleTopologicalSorter<N>();
-		List<N> sortedNodes = sorter.sort(graph);
+		TopologicalRanker<N> ranker = new SimpleTopologicalRanker<N>();
+		List<Set<N>> rankedNodes = ranker.rank(graph);
 
-		if( sortedNodes.size() < 2 )
+		if( (rankedNodes.size() == 0) || ((rankedNodes.size() == 1) && (rankedNodes.get(0).size() < 2) ) )
 			return true;
 
-		return ( (Topography.getIndegree(graph, sortedNodes.get(0)) == 0) && (Topography.getIndegree(graph, sortedNodes.get(1)) > 0) );
+		return (rankedNodes.get(0).size() == 1);
 	}
 
 	public static <N, E extends DirectedEdge<N>> boolean isRootedForest(final DirectedGraph<N, E> graph)
