@@ -65,8 +65,8 @@ public class TestSimpleBooleanNetwork
 		public SimpleBooleanNetwork(final I initialState)
 		{
 			super();
-			this.influence = new SimpleBayesianNode<I>(initialState, this);
-			this.goal = new SimpleBayesianNode<BooleanState>(BooleanState.FALSE, this);
+			this.influence = new SimpleBayesianNode<I>(initialState);
+			this.goal = new SimpleBayesianNode<BooleanState>(BooleanState.FALSE);
 			this.goals = new HashSet<BayesianNode>();
 			this.influences = new HashSet<BayesianNode>();
 			//add nodes

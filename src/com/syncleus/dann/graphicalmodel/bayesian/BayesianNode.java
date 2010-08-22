@@ -29,4 +29,5 @@ public interface BayesianNode<S> extends XmlSerializable<BayesianNodeXml, Object
 	S getState();
 	void learnState();
 	double stateProbability();
+	void reset();
 }

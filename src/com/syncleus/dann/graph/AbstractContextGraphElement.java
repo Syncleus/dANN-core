@@ -20,10 +20,10 @@ package com.syncleus.dann.graph;
 
 import java.util.*;
 
-public abstract class AbstractContextGraphElement<N, E extends Edge<N>> implements ContextGraphElement<N,E>
+public abstract class AbstractContextGraphElement<N, E extends Edge<N>, G extends Graph<N,E>> implements ContextGraphElement<N,E,G>
 {
 	private final boolean allowJoiningMultipleGraphs;
-	private final Set<Graph<N,E>> joinedGraphs = new HashSet<Graph<N,E>>();
+	private final Set<G> joinedGraphs = new HashSet<G>();
 
 	protected AbstractContextGraphElement(final boolean allowJoiningMultipleGraphs)
 	{
@@ -31,7 +31,19 @@ public abstract class AbstractContextGraphElement<N, E extends Edge<N>> implemen
 	}
 
 	@Override
-	public boolean joiningGraph(Graph<N, E> graph)
+	public boolean isGraphMember()
+	{
+		return (!this.joinedGraphs.isEmpty());
+	}
+
+	@Override
+	public Set<G> getJoinedGraphs()
+	{
+		return Collections.unmodifiableSet(this.joinedGraphs);
+	}
+
+	@Override
+	public boolean joiningGraph(G graph)
 	{
 		if( graph == null )
 			throw new IllegalArgumentException("graph can not be null");
@@ -44,7 +56,7 @@ public abstract class AbstractContextGraphElement<N, E extends Edge<N>> implemen
 	}
 
 	@Override
-	public boolean leavingGraph(Graph<N, E> graph)
+	public boolean leavingGraph(G graph)
 	{
 		if( graph == null )
 			throw new IllegalArgumentException("graph can not be null");
@@ -59,10 +71,5 @@ public abstract class AbstractContextGraphElement<N, E extends Edge<N>> implemen
 	public boolean isAllowingMultipleGraphs()
 	{
 		return allowJoiningMultipleGraphs;
-	}
-
-	public final Set<Graph<N, E>> getJoinedGraphs()
-	{
-		return Collections.unmodifiableSet(joinedGraphs);
 	}
 }

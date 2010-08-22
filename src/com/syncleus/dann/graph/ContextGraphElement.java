@@ -18,9 +18,13 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface ContextGraphElement<N, E extends Edge<N>>
+import java.util.Set;
+
+public interface ContextGraphElement<N, E extends Edge<N>, G extends Graph<N,E>>
 {
 	boolean isAllowingMultipleGraphs();
-	boolean joiningGraph(Graph<N, E> graph);
-	boolean leavingGraph(Graph<N, E> graph);
+	boolean joiningGraph(G graph);
+	boolean leavingGraph(G graph);
+	boolean isGraphMember();
+	Set<G> getJoinedGraphs();
 }

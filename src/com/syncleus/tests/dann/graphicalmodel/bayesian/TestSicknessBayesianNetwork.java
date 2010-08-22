@@ -56,12 +56,12 @@ public class TestSicknessBayesianNetwork
 	private static final Random RANDOM = new Random();
 	private MutableBayesianAdjacencyNetwork network = new MutableBayesianAdjacencyNetwork();
 	//create nodes
-	private BayesianNode<SeasonState> season = new SimpleBayesianNode<SeasonState>(SeasonState.WINTER, this.network);
-	private BayesianNode<AgeState> age = new SimpleBayesianNode<AgeState>(AgeState.BABY, this.network);
-	private BayesianNode<BooleanState> stuffyNose = new SimpleBayesianNode<BooleanState>(BooleanState.TRUE, this.network);
-	private BayesianNode<FeverState> fever = new SimpleBayesianNode<FeverState>(FeverState.HOT, this.network);
-	private BayesianNode<BooleanState> tired = new SimpleBayesianNode<BooleanState>(BooleanState.FALSE, this.network);
-	private BayesianNode<BooleanState> sick = new SimpleBayesianNode<BooleanState>(BooleanState.FALSE, this.network);
+	private BayesianNode<SeasonState> season = new SimpleBayesianNode<SeasonState>(SeasonState.WINTER);
+	private BayesianNode<AgeState> age = new SimpleBayesianNode<AgeState>(AgeState.BABY);
+	private BayesianNode<BooleanState> stuffyNose = new SimpleBayesianNode<BooleanState>(BooleanState.TRUE);
+	private BayesianNode<FeverState> fever = new SimpleBayesianNode<FeverState>(FeverState.HOT);
+	private BayesianNode<BooleanState> tired = new SimpleBayesianNode<BooleanState>(BooleanState.FALSE);
+	private BayesianNode<BooleanState> sick = new SimpleBayesianNode<BooleanState>(BooleanState.FALSE);
 
     @Test
     public void testXml() throws Exception
@@ -92,12 +92,12 @@ public class TestSicknessBayesianNetwork
 			testOverall();
 
 			this.network = new MutableBayesianAdjacencyNetwork();
-			this.season = new SimpleBayesianNode<SeasonState>(SeasonState.WINTER, this.network);
-			this.age = new SimpleBayesianNode<AgeState>(AgeState.BABY, this.network);
-			this.stuffyNose = new SimpleBayesianNode<BooleanState>(BooleanState.TRUE, this.network);
-			this.fever = new SimpleBayesianNode<FeverState>(FeverState.HOT, this.network);
-			this.tired = new SimpleBayesianNode<BooleanState>(BooleanState.FALSE, this.network);
-			this.sick = new SimpleBayesianNode<BooleanState>(BooleanState.FALSE, this.network);
+			this.season = new SimpleBayesianNode<SeasonState>(SeasonState.WINTER);
+			this.age = new SimpleBayesianNode<AgeState>(AgeState.BABY);
+			this.stuffyNose = new SimpleBayesianNode<BooleanState>(BooleanState.TRUE);
+			this.fever = new SimpleBayesianNode<FeverState>(FeverState.HOT);
+			this.tired = new SimpleBayesianNode<BooleanState>(BooleanState.FALSE);
+			this.sick = new SimpleBayesianNode<BooleanState>(BooleanState.FALSE);
 		}
 	}
 

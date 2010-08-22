@@ -18,6 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.bayesian;
 
+import com.syncleus.dann.graph.AbstractContextNode;
+import com.syncleus.dann.graph.Graph;
 import com.syncleus.dann.graphicalmodel.bayesian.xml.BayesianNodeXml;
 import com.syncleus.dann.graphicalmodel.bayesian.xml.SimpleBayesianNodeElementXml;
 import com.syncleus.dann.graphicalmodel.bayesian.xml.SimpleBayesianNodeXml;
@@ -28,24 +30,41 @@ import com.syncleus.dann.xml.XmlSerializable;
 
 import java.util.*;
 
-public class SimpleBayesianNode<S> implements BayesianNode<S>
+public class SimpleBayesianNode<S> extends AbstractContextNode<BayesianNode<S>, BayesianEdge<BayesianNode<S>>, BayesianNetwork<BayesianNode<S>, BayesianEdge<BayesianNode<S>>>> implements BayesianNode<S>
 {
 	private EvidenceMap<S> evidence;
 	private S state;
 	private final SortedSet<S> learnedStates;
-	private final BayesianNetwork<SimpleBayesianNode<S>, ? extends BayesianEdge<SimpleBayesianNode<S>>> network;
 
-	public SimpleBayesianNode(final S initialState,
-							  final BayesianNetwork<SimpleBayesianNode<S>, ? extends BayesianEdge<SimpleBayesianNode<S>>> network)
+	public SimpleBayesianNode(final S initialState)
 	{
+		super(false);
+		
 		if( initialState == null )
 			throw new IllegalArgumentException("initialState can not be null");
-		if( network == null )
-			throw new IllegalArgumentException("network must not be null");
 
 		this.state = initialState;
-		this.network = network;
 		this.learnedStates = new TreeSet<S>();
+	}
+
+	//if we leave a networks lets clear the states
+	@Override
+	public boolean leavingGraph(BayesianNetwork<BayesianNode<S>, BayesianEdge<BayesianNode<S>>> graph)
+	{
+		if( super.leavingGraph(graph) )
+		{
+			this.reset();
+			return true;
+		}
+		else
+			return false;
+	}
+
+	@Override
+	public void reset()
+	{
+		this.evidence.clear();
+		this.learnedStates.clear();
 	}
 
     @Override
@@ -89,9 +108,13 @@ public class SimpleBayesianNode<S> implements BayesianNode<S>
 
 	private Map<BayesianNode, Object> getInputStates()
 	{
+		//TODO change this so it only cares if it has edges to work with and doesnt care what networks its a part of
+		if( !this.isGraphMember() )
+			throw new IllegalStateException("This bayesian node is not currently a member of any network");
+
 		final Map<BayesianNode, Object> inStates = new HashMap<BayesianNode, Object>();
 
-		final Set<? extends BayesianEdge<? extends BayesianNode<S>>> inEdges = this.network.getInEdges(this);
+		final Set<BayesianEdge< BayesianNode<S>>> inEdges = this.getJoinedGraphs().iterator().next().getInEdges(this);
 		for(final BayesianEdge<? extends BayesianNode> inEdge : inEdges)
 			inStates.put(inEdge.getSourceNode(), inEdge.getSourceNode().getState());
 
@@ -100,7 +123,11 @@ public class SimpleBayesianNode<S> implements BayesianNode<S>
 
 	protected Set<BayesianNode> getInfluencingNodes()
 	{
-		final Set<? extends BayesianEdge<? extends BayesianNode>> inEdges = this.network.getInEdges(this);
+		//TODO change this so it only cares if it has edges to work with and doesnt care what networks its a part of
+		if( !this.isGraphMember() )
+			throw new IllegalStateException("This bayesian node is not currently a member of any network");
+
+		final Set<BayesianEdge<BayesianNode<S>>> inEdges = this.getJoinedGraphs().iterator().next().getInEdges(this);
 		final Set<BayesianNode> inNodes = new HashSet<BayesianNode>();
 		for(final BayesianEdge<? extends BayesianNode> inEdge : inEdges)
 			inNodes.add((inEdge.getLeftNode().equals(this) ? inEdge.getRightNode() : inEdge.getLeftNode()));

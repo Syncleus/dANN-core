@@ -20,7 +20,7 @@ package com.syncleus.dann.graph;
 
 import java.util.*;
 
-public abstract class AbstractContextNode<N, E extends Edge<N>> extends AbstractContextGraphElement<N,E> implements ContextGraphElement<N,E>, ContextNode<N,E>
+public abstract class AbstractContextNode<N, E extends Edge<N>, G extends Graph<N,E>> extends AbstractContextGraphElement<N,E,G> implements ContextGraphElement<N,E,G>, ContextNode<N,E>
 {
 	private final Set<E> connectedEdges = new HashSet<E>();
 	private final Set<ContextEdge> contextEdges = new HashSet<ContextEdge>();
@@ -31,7 +31,7 @@ public abstract class AbstractContextNode<N, E extends Edge<N>> extends Abstract
 	}
 
 	@Override
-	public boolean joiningGraph(Graph<N, E> graph)
+	public boolean joiningGraph(G graph)
 	{
 		if(super.joiningGraph(graph))
 		{
@@ -44,7 +44,7 @@ public abstract class AbstractContextNode<N, E extends Edge<N>> extends Abstract
 	}
 
 	@Override
-	public boolean leavingGraph(Graph<N, E> graph)
+	public boolean leavingGraph(G graph)
 	{
 		if( super.leavingGraph(graph) )
 		{

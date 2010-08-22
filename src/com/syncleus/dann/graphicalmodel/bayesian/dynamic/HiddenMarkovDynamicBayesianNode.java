@@ -19,17 +19,16 @@
 package com.syncleus.dann.graphicalmodel.bayesian.dynamic;
 
 import java.util.Collections;
-import com.syncleus.dann.graphicalmodel.bayesian.BayesianNetwork;
 
 public class HiddenMarkovDynamicBayesianNode<S> extends SimpleDynamicBayesianNode<S>
 {
-	public HiddenMarkovDynamicBayesianNode(final S initialState, final BayesianNetwork network)
+	public HiddenMarkovDynamicBayesianNode(final S initialState)
 	{
-		super(0, initialState, network);
+		super(0, initialState);
 	}
 
-	public HiddenMarkovDynamicBayesianNode(final S lastState, final S initialState, final BayesianNetwork network)
+	public HiddenMarkovDynamicBayesianNode(final S lastState, final S initialState)
 	{
-		super(Collections.singletonList(lastState), initialState, network);
+		super(Collections.singletonList(lastState), initialState);
 	}
 }

@@ -26,45 +26,75 @@ import com.syncleus.dann.graphicalmodel.bayesian.xml.BayesianNodeXml;
 public class SimpleDynamicBayesianNode<S> extends SimpleBayesianNode<S> implements DynamicBayesianNode<S>
 {
 	//0 index is most recent
-	private final List<BayesianNode<S>> historicalNodes;
+	private final List<SimpleBayesianNode<S>> historicalNodes;
 
-	public SimpleDynamicBayesianNode(final int historyCapacity, final S initialState, final BayesianNetwork network)
+	public SimpleDynamicBayesianNode(final int historyCapacity, final S initialState)
 	{
-		super(initialState, network);
+		super(initialState);
 
 		if( historyCapacity < 0 )
 			throw new IllegalArgumentException("historyCapacity can not be less than 0");
 		if( initialState == null )
 			throw new IllegalArgumentException("initialState can not be null");
-		if( network == null )
-			throw new IllegalArgumentException("network can not be null");
 
-		final List<BayesianNode<S>> newHistoricalNodes = new ArrayList<BayesianNode<S>>(historyCapacity);
+		final List<SimpleBayesianNode<S>> newHistoricalNodes = new ArrayList<SimpleBayesianNode<S>>(historyCapacity);
 		for(int historyIndex = 0; historyIndex < historyCapacity; historyIndex++)
-			newHistoricalNodes.add(new SimpleBayesianNode<S>(null, network));
+			newHistoricalNodes.add(new SimpleBayesianNode<S>(null));
 		this.historicalNodes = Collections.unmodifiableList(newHistoricalNodes);
 	}
 
-	public SimpleDynamicBayesianNode(final List<S> history, final S initialState, final BayesianNetwork network)
+	public SimpleDynamicBayesianNode(final List<S> history, final S initialState)
 	{
-		super(initialState, network);
+		super(initialState);
 		if( history == null )
 			throw new IllegalArgumentException("history can not be null");
 		if( initialState == null )
 			throw new IllegalArgumentException("initialState can not be null");
-		if( network == null )
-			throw new IllegalArgumentException("network can not be null");
-		final List<BayesianNode<S>> newHistoricalNodes = new ArrayList<BayesianNode<S>>(history.size());
+		final List<SimpleBayesianNode<S>> newHistoricalNodes = new ArrayList<SimpleBayesianNode<S>>(history.size());
 		for(final S aHistory : history)
-			newHistoricalNodes.add(new com.syncleus.dann.graphicalmodel.bayesian.SimpleBayesianNode<S>(aHistory, network));
+			newHistoricalNodes.add(new com.syncleus.dann.graphicalmodel.bayesian.SimpleBayesianNode<S>(aHistory));
 		this.historicalNodes = Collections.unmodifiableList(newHistoricalNodes);
 	}
 
+	//if we leave a networks lets clear the states
+	@Override
+	public boolean joiningGraph(BayesianNetwork<BayesianNode<S>, BayesianEdge<BayesianNode<S>>> graph)
+	{
+		if( super.joiningGraph(graph) )
+		{
+			//let all our historical nodes also know were leaves
+			for(SimpleBayesianNode<S> historicalNode : this.historicalNodes)
+				if( !historicalNode.joiningGraph(graph))
+					throw new IllegalStateException("historical node will not attach to graph when its parent will");
+			return true;
+		}
+		else
+			return false;
+	}
+
+	//if we leave a networks lets clear the states
+	@Override
+	public boolean leavingGraph(BayesianNetwork<BayesianNode<S>, BayesianEdge<BayesianNode<S>>> graph)
+	{
+		if( super.leavingGraph(graph) )
+		{
+			//let all our historical nodes also know were leaves
+			for(SimpleBayesianNode<S> historicalNode : this.historicalNodes)
+				if( !historicalNode.leavingGraph(graph))
+					throw new IllegalStateException("historical node will not detach from graph when its parent will");
+			return true;
+		}
+		else
+			return false;
+	}
+
+	@Override
 	public int getStateHistoryCapacity()
 	{
 		return this.historicalNodes.size();
 	}
 
+	@Override
 	public List<S> getStateHistory()
 	{
 		final List<S> historyStates = new ArrayList<S>(this.getStateHistoryCapacity());
@@ -73,12 +103,14 @@ public class SimpleDynamicBayesianNode<S> extends SimpleBayesianNode<S> implemen
 		return Collections.unmodifiableList(historyStates);
 	}
 
+	@Override
 	public void setStateHistory(final List<S> history)
 	{
 		for(int historyIndex = 0; historyIndex < this.historicalNodes.size(); historyIndex++)
 			this.historicalNodes.get(historyIndex).setState((history.size() > historyIndex ? history.get(historyIndex) : null));
 	}
 
+	@Override
 	public void learnState(final boolean updateHistory)
 	{
 		super.learnState();

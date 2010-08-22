@@ -18,9 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface ContextEdge<N, E extends Edge<N>> extends Edge<N>
+public interface ContextEdge<N, E extends Edge<N>, G extends Graph<N,E>> extends Edge<N>
 {
-	void nodeJoiningGraph(Graph<N, E> graph, N node);
-	void nodeLeavingGraph(Graph<N, E> graph, N node);
+	void nodeJoiningGraph(G graph, N node);
+	void nodeLeavingGraph(G graph, N node);
 	// TODO add a void nodeStateChanged once symbols are transmitted across nodes
 }

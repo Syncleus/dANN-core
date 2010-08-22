@@ -27,7 +27,7 @@ import com.syncleus.dann.xml.Namer;
 import com.syncleus.dann.xml.XmlSerializable;
 import org.apache.log4j.Logger;
 
-public abstract class AbstractEdge<N> extends AbstractContextGraphElement<N, Edge<N>> implements Edge<N>
+public abstract class AbstractEdge<N> extends AbstractContextGraphElement<N, Edge<N>, Graph<N,Edge<N>>> implements Edge<N>
 {
 	private static final Logger LOGGER = Logger.getLogger(AbstractEdge.class);
 	private final boolean contextEnabled;

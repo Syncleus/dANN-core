@@ -19,6 +19,7 @@
 package com.syncleus.dann.graphicalmodel.bayesian;
 
 import java.util.*;
+import com.syncleus.dann.graph.ContextGraphElement;
 import com.syncleus.dann.graph.Graph;
 
 public class MutableBayesianAdjacencyNetwork<N extends BayesianNode, E extends BayesianEdge<N>> extends AbstractBayesianAdjacencyNetwork<N, E> implements MutableBayesianNetwork<N, E>
@@ -30,8 +31,6 @@ public class MutableBayesianAdjacencyNetwork<N extends BayesianNode, E extends B
 		super();
 	}
 
-	// TODO we cant copy because right now each bayesian node is hard linked to a parent graph, this should be fixed
-	/*
 	public MutableBayesianAdjacencyNetwork(final Graph<N, E> copyGraph)
 	{
 		super(copyGraph.getNodes(), copyGraph.getEdges());
@@ -41,14 +40,19 @@ public class MutableBayesianAdjacencyNetwork<N extends BayesianNode, E extends B
 	{
 		super(nodes, edges);
 	}
-	*/
 
+	@Override
 	public boolean add(final E newEdge)
 	{
 		if( newEdge == null )
 			throw new IllegalArgumentException("newEdge can not be null");
 		if( !this.getNodes().containsAll(newEdge.getNodes()) )
 			throw new IllegalArgumentException("newEdge has a node as an end point that is not part of the graph");
+
+		//if context is enabled lets check if it can join
+		if( this.isContextEnabled() && (newEdge instanceof ContextGraphElement))
+			if( !((ContextGraphElement)newEdge).joiningGraph(this) )
+				return false;
 
 		if( this.getInternalEdges().add(newEdge) )
 		{
@@ -67,23 +71,38 @@ public class MutableBayesianAdjacencyNetwork<N extends BayesianNode, E extends B
 		return false;
 	}
 
+	@Override
 	public boolean add(final N newNode)
 	{
 		if( newNode == null )
 			throw new IllegalArgumentException("newNode can not be null");
 
-		if( this.getNodes().contains(newNode) )
+		if( this.getInternalAdjacencyEdges().containsKey(newNode) )
 			return false;
+
+		//if context is enabled lets check if it can join
+		if( this.isContextEnabled() && (newNode instanceof ContextGraphElement))
+			if( !((ContextGraphElement)newNode).joiningGraph(this) )
+				return false;
 
 		this.getInternalAdjacencyEdges().put(newNode, new HashSet<E>());
 		this.getInternalAdjacencyNodes().put(newNode, new ArrayList<N>());
 		return true;
 	}
 
+	@Override
 	public boolean remove(final E edgeToRemove)
 	{
 		if( edgeToRemove == null )
 			throw new IllegalArgumentException("removeSynapse can not be null");
+
+		if( !this.getInternalEdges().contains(edgeToRemove) )
+			return false;
+
+		//if context is enabled lets check if it can join
+		if( this.isContextEnabled() && (edgeToRemove instanceof ContextGraphElement))
+			if( !((ContextGraphElement)edgeToRemove).leavingGraph(this) )
+				return false;
 
 		if( !this.getInternalEdges().remove(edgeToRemove) )
 			return false;
@@ -100,13 +119,19 @@ public class MutableBayesianAdjacencyNetwork<N extends BayesianNode, E extends B
 		return true;
 	}
 
+	@Override
 	public boolean remove(final N nodeToRemove)
 	{
 		if( nodeToRemove == null )
 			throw new IllegalArgumentException("node can not be null");
 
-		if( !this.getNodes().contains(nodeToRemove) )
+		if( !this.getInternalAdjacencyEdges().containsKey(nodeToRemove) )
 			return false;
+
+		//if context is enabled lets check if it can join
+		if( this.isContextEnabled() && (nodeToRemove instanceof ContextGraphElement))
+			if( !((ContextGraphElement)nodeToRemove).leavingGraph(this) )
+				return false;
 
 		final Set<E> removeEdges = this.getInternalAdjacencyEdges().get(nodeToRemove);
 
