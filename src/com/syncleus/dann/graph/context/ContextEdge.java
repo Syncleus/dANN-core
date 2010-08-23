@@ -16,29 +16,13 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph;
+package com.syncleus.dann.graph.context;
 
-import com.syncleus.dann.graph.context.ContextReporter;
-import com.syncleus.dann.graph.xml.EdgeXml;
-import com.syncleus.dann.xml.XmlSerializable;
-import java.io.Serializable;
-import java.util.List;
+import com.syncleus.dann.graph.Edge;
+import com.syncleus.dann.graph.Graph;
 
-public interface Edge<N> extends Serializable, Cloneable, XmlSerializable<EdgeXml, Object>, ContextReporter
+public interface ContextEdge<N, E extends Edge<N>, G extends Graph<N,E>> extends Edge<N>
 {
-	List<N> getNodes();
-	List<N> getTraversableNodes(N node);
-	boolean isTraversable(N node);
-	/**
-	 * returns an edge with the specified node disconnected, null if the entire
-	 * edge should be deleted as a result of removing the specified node.
-	 *
-	 * @param node node to remove from the returned edge.
-	 * @return an edge with the specified node disconnected, null if the entire
-	 *         edge should be deleted as a result of removing the specified node.
-	 * @since 2.0
-	 */
-	Edge<N> disconnect(N node);
-	Edge<N> disconnect(List<N> node);
-	Edge<N> clone();
+	void nodeJoiningGraph(G graph, N node);
+	void nodeLeavingGraph(G graph, N node);
 }

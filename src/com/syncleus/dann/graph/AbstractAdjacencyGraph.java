@@ -20,6 +20,7 @@ package com.syncleus.dann.graph;
 
 import java.util.*;
 import com.syncleus.dann.UnexpectedDannError;
+import com.syncleus.dann.graph.context.ContextGraphElement;
 import com.syncleus.dann.graph.xml.*;
 import com.syncleus.dann.xml.NameXml;
 import com.syncleus.dann.xml.NamedValueXml;

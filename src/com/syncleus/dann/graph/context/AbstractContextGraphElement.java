@@ -16,11 +16,62 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph;
+package com.syncleus.dann.graph.context;
 
-public interface ContextEdge<N, E extends Edge<N>, G extends Graph<N,E>> extends Edge<N>
+import java.util.*;
+import com.syncleus.dann.graph.Edge;
+import com.syncleus.dann.graph.Graph;
+
+public abstract class AbstractContextGraphElement<G extends Graph<?,?>> implements ContextGraphElement<G>
 {
-	void nodeJoiningGraph(G graph, N node);
-	void nodeLeavingGraph(G graph, N node);
-	// TODO add a void nodeStateChanged once symbols are transmitted across nodes
+	private final boolean allowJoiningMultipleGraphs;
+	private final Set<G> joinedGraphs = new HashSet<G>();
+
+	protected AbstractContextGraphElement(final boolean allowJoiningMultipleGraphs)
+	{
+		this.allowJoiningMultipleGraphs = allowJoiningMultipleGraphs;
+	}
+
+	@Override
+	public boolean isGraphMember()
+	{
+		return (!this.joinedGraphs.isEmpty());
+	}
+
+	@Override
+	public Set<G> getJoinedGraphs()
+	{
+		return Collections.unmodifiableSet(this.joinedGraphs);
+	}
+
+	@Override
+	public boolean joiningGraph(G graph)
+	{
+		if( graph == null )
+			throw new IllegalArgumentException("graph can not be null");
+
+		if( !this.allowJoiningMultipleGraphs && (joinedGraphs.size() > 0) )
+			return false;
+
+		this.joinedGraphs.add(graph);
+		return true;
+	}
+
+	@Override
+	public boolean leavingGraph(G graph)
+	{
+		if( graph == null )
+			throw new IllegalArgumentException("graph can not be null");
+		if( !this.joinedGraphs.contains(graph) )
+			throw new IllegalArgumentException("graph was never joined");
+
+		this.joinedGraphs.remove(graph);
+		return true;
+	}
+
+	@Override
+	public boolean isAllowingMultipleGraphs()
+	{
+		return allowJoiningMultipleGraphs;
+	}
 }

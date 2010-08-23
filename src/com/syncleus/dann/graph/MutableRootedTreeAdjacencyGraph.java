@@ -1,6 +1,7 @@
 package com.syncleus.dann.graph;
 
 import java.util.*;
+import com.syncleus.dann.graph.context.ContextGraphElement;
 
 public class MutableRootedTreeAdjacencyGraph<N, E extends DirectedEdge<N>> extends AbstractRootedTreeAdjacencyGraph<N, E> implements MutableRootedTreeGraph<N, E>
 {

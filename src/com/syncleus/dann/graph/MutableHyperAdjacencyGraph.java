@@ -19,6 +19,7 @@
 package com.syncleus.dann.graph;
 
 import java.util.*;
+import com.syncleus.dann.graph.context.ContextGraphElement;
 
 public class MutableHyperAdjacencyGraph<N, E extends HyperEdge<N>> extends AbstractHyperAdjacencyGraph<N, E> implements MutableHyperGraph<N, E>
 {

@@ -19,7 +19,7 @@
 package com.syncleus.dann.graphicalmodel.bayesian;
 
 import java.util.*;
-import com.syncleus.dann.graph.ContextGraphElement;
+import com.syncleus.dann.graph.context.ContextGraphElement;
 import com.syncleus.dann.graph.Graph;
 
 public class MutableBayesianAdjacencyNetwork<N extends BayesianNode, E extends BayesianEdge<N>> extends AbstractBayesianAdjacencyNetwork<N, E> implements MutableBayesianNetwork<N, E>

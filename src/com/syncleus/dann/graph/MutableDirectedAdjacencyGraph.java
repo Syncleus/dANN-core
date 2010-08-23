@@ -19,6 +19,7 @@
 package com.syncleus.dann.graph;
 
 import java.util.*;
+import com.syncleus.dann.graph.context.ContextGraphElement;
 
 public class MutableDirectedAdjacencyGraph<N, E extends DirectedEdge<N>> extends AbstractDirectedAdjacencyGraph<N, E> implements MutableDirectedGraph<N, E>
 {

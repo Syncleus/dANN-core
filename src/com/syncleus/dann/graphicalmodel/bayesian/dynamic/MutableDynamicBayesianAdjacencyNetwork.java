@@ -19,7 +19,7 @@
 package com.syncleus.dann.graphicalmodel.bayesian.dynamic;
 
 import java.util.*;
-import com.syncleus.dann.graph.ContextGraphElement;
+import com.syncleus.dann.graph.context.ContextGraphElement;
 import com.syncleus.dann.graph.Graph;
 import com.syncleus.dann.graphicalmodel.bayesian.BayesianEdge;
 

@@ -16,41 +16,35 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph;
+package com.syncleus.dann.graph.context;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
+import com.syncleus.dann.graph.Edge;
+import com.syncleus.dann.graph.Graph;
 
-public abstract class AbstractContextNode<N, E extends Edge<N>, G extends Graph<N,E>> extends AbstractContextGraphElement<N,E,G> implements ContextGraphElement<N,E,G>, ContextNode<N,E>
+public abstract class AbstractSignalContextNode<N, E extends Edge<N>, S> extends AbstractContextNode<N, E, Graph<N,E>> implements SignalContextNode<N, E, S>
 {
-	private final Set<E> connectedEdges = new HashSet<E>();
-	private final Set<ContextEdge> contextEdges = new HashSet<ContextEdge>();
+	private final Set<SignalingContextEdge<N,S>> contextEdges = new HashSet<SignalingContextEdge<N,S>>();
+	private transient S state = null;
 
-	protected AbstractContextNode(final boolean allowJoiningMultipleGraphs)
+	protected AbstractSignalContextNode(final boolean allowJoiningMultipleGraphs)
 	{
 		super(allowJoiningMultipleGraphs);
 	}
 
-	@Override
-	public boolean joiningGraph(G graph)
+	protected AbstractSignalContextNode()
 	{
-		if(super.joiningGraph(graph))
-		{
-			//notify all context edges that this node has joined a graph
-			for(ContextEdge contextEdge : this.contextEdges)
-				contextEdge.nodeJoiningGraph(graph, this);
-			return true;
-		}
-		else return false;
+		super(true);
 	}
 
 	@Override
-	public boolean leavingGraph(G graph)
+	public boolean connectingEdge(E edge)
 	{
-		if( super.leavingGraph(graph) )
+		if( super.connectingEdge(edge) )
 		{
-			//notify all context edges that this node is leaving a graph
-			for(ContextEdge contextEdge : this.contextEdges)
-				contextEdge.nodeLeavingGraph(graph, this);
+			if(edge instanceof SignalingContextEdge)
+				this.contextEdges.add((SignalingContextEdge)edge);
 			return true;
 		}
 		else
@@ -58,31 +52,33 @@ public abstract class AbstractContextNode<N, E extends Edge<N>, G extends Graph<
 	}
 
 	@Override
-	public boolean connectingEdge(E edge)
+	public boolean disconnectingEdge(E edge)
 	{
-		if( edge == null )
-			throw new IllegalArgumentException("edge can not be null");
-
-		this.connectedEdges.add(edge);
-		if(edge instanceof ContextEdge)
-			this.contextEdges.add((ContextEdge)edge);
-		return true;
+		if( super.disconnectingEdge(edge) )
+		{
+			if(edge instanceof SignalingContextEdge)
+				this.contextEdges.remove(edge);
+			return true;
+		}
+		else
+			return false;
 	}
 
 	@Override
-	public boolean disconnectingEdge(E edge)
+	public S getState()
 	{
-		if( edge == null )
-			throw new IllegalArgumentException("edge can not be null");
-
-		//remove all refrences to thsi edge
-		this.connectedEdges.remove(edge);
-		this.contextEdges.remove(edge);
-		return true;
+		return this.state;
 	}
 
-	public final Set<E> getConnectedEdges()
+	protected void setState(S state)
 	{
-		return Collections.unmodifiableSet(connectedEdges);
+		this.state = state;
+
+		//lets notify all edges
+		for(SignalingContextEdge edge : this.contextEdges)
+		{
+			if( edge.isTraversable(this) )
+				edge.nodeStateChanged(this, state);
+		}
 	}
 }

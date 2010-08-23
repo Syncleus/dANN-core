@@ -16,11 +16,37 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph;
+package com.syncleus.dann.graph.context;
 
-public interface ContextNode<N, E extends Edge<N>>
+import com.syncleus.dann.graph.Graph;
+
+public abstract class AbstractSignalingContextEdge<N,S> extends AbstractContextGraphElement<Graph<N,?>> implements SignalingContextEdge<N,S>
 {
-	boolean connectingEdge(E edge);
-	boolean disconnectingEdge(E edge);
-	// TODO add a void edgeStateChanged once symbols are transmitted across edges
+	protected AbstractSignalingContextEdge(final boolean allowJoiningMultipleGraphs)
+	{
+		super(allowJoiningMultipleGraphs);
+	}
+
+	protected AbstractSignalingContextEdge()
+	{
+		super(true);
+	}
+
+	/**
+	 * This method will retransmit the state to all traversable nodes even if context is disabled.
+	 */
+	@Override
+	public void nodeStateChanged(N node, S newState)
+	{
+		if( !this.getNodes().contains(node) )
+			throw new IllegalArgumentException("node is not an endpoint of this edge");
+
+		for(N traversableNode : this.getTraversableNodes(node))
+		{
+			if( traversableNode instanceof SignalContextNode)
+				((SignalContextNode)traversableNode).neighborNodeStateChanged(this, node, newState);
+		}
+	}
+
+	public abstract AbstractSignalingContextEdge<N,S> clone(); 
 }

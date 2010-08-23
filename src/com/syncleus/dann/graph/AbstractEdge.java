@@ -20,6 +20,8 @@ package com.syncleus.dann.graph;
 
 import java.util.*;
 import com.syncleus.dann.UnexpectedDannError;
+import com.syncleus.dann.graph.context.AbstractContextGraphElement;
+import com.syncleus.dann.graph.context.ContextNode;
 import com.syncleus.dann.graph.xml.*;
 import com.syncleus.dann.xml.NameXml;
 import com.syncleus.dann.xml.NamedValueXml;
@@ -27,7 +29,7 @@ import com.syncleus.dann.xml.Namer;
 import com.syncleus.dann.xml.XmlSerializable;
 import org.apache.log4j.Logger;
 
-public abstract class AbstractEdge<N> extends AbstractContextGraphElement<N, Edge<N>, Graph<N,Edge<N>>> implements Edge<N>
+public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<N,?>> implements Edge<N>
 {
 	private static final Logger LOGGER = Logger.getLogger(AbstractEdge.class);
 	private final boolean contextEnabled;

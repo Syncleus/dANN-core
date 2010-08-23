@@ -18,8 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.bayesian;
 
-import com.syncleus.dann.graph.AbstractContextNode;
-import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.context.AbstractContextNode;
 import com.syncleus.dann.graphicalmodel.bayesian.xml.BayesianNodeXml;
 import com.syncleus.dann.graphicalmodel.bayesian.xml.SimpleBayesianNodeElementXml;
 import com.syncleus.dann.graphicalmodel.bayesian.xml.SimpleBayesianNodeXml;
