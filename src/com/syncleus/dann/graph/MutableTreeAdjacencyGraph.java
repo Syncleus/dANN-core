@@ -169,6 +169,40 @@ public class MutableTreeAdjacencyGraph<N, E extends BidirectedEdge<N>> extends A
 		return true;
 	}
 
+	@Override
+	public boolean clear()
+	{
+		boolean removedSomething = false;
+
+		//first lets remove all the edges
+		for(E edge : this.getEdges())
+		{
+			//lets just make sure we arent some how getting an we dont actually own, this shouldnt be possible so its
+			//an assert. This ensures that if remove() comes back false it must be because the context didnt allow it.
+			assert this.getInternalEdges().contains(edge);
+
+			if( !this.remove(edge) )
+				throw new IllegalStateException("one of the edges will not allow itself to leave this graph");
+
+			removedSomething = true;
+		}
+
+		//now lets remove all the nodes
+		for(N node : this.getNodes())
+		{
+			//lets just make sure we arent some how getting an we dont actually own, this shouldnt be possible so its
+			//an assert. This ensures that if remove() comes back false it must be because the context didnt allow it.
+			assert ( !this.getInternalAdjacencyEdges().containsKey(node) );
+
+			if( !this.remove(node) )
+				throw new IllegalStateException("one of the nodes will not allow itself to leave this graph");
+
+			removedSomething = true;
+		}
+
+		return removedSomething;
+	}
+
 	//TODO make sure these clone methods done generate a non-tree TreeGraoh
 	@Override
 	public MutableTreeAdjacencyGraph<N, E> cloneAdd(final E newEdge)

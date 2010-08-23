@@ -24,4 +24,5 @@ public interface MutableGraph<N, E extends Edge<N>> extends Graph<N, E>
 	boolean add(N newNode);
 	boolean remove(E edgeToRemove);
 	boolean remove(N nodeToRemove);
+	boolean clear();
 }

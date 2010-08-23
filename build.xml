@@ -305,12 +305,14 @@
 
 	<target name="build-all" description="Clean, compile, then build">
 		<antcall target="clean"/>
+		<antcall target="jaxb"/>
 		<antcall target="compile"/>
 		<antcall target="build"/>
 	</target>
 
 	<target name="tests-all" description="clean, compile, build, then run tests-nocoverage">
 		<antcall target="clean"/>
+		<antcall target="jaxb"/>
 		<antcall target="compile"/>
 		<antcall target="build"/>
 		<antcall target="tests-nocoverage"/>
@@ -318,6 +320,7 @@
 
 	<target name="all" description="clean, javadoc, lint, compile, build, then run both tests-nocoverage and tests-coverage">
 		<antcall target="clean"/>
+		<antcall target="jaxb"/>
 		<antcall target="javadoc"/>
 		<antcall target="lint"/>
 		<antcall target="compile"/>

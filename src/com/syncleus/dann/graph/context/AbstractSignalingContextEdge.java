@@ -48,5 +48,6 @@ public abstract class AbstractSignalingContextEdge<N,S> extends AbstractContextG
 		}
 	}
 
+	@Override
 	public abstract AbstractSignalingContextEdge<N,S> clone(); 
 }
