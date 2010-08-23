@@ -16,7 +16,7 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.dataprocessing.language.stem;
+package com.syncleus.dann.dataprocessing.language.parsing.stem;
 
 import java.util.*;
 
@@ -136,7 +136,7 @@ public class PorterStemmer implements Stemmer
 	 * Returns the number of consonants in the stem via a complex linear
 	 * count.
 	 * @return The number of consonants in the stem.
-	 * @see com.syncleus.dann.dataprocessing.language.stem.PorterStemmer#isConsonant(int)
+	 * @see com.syncleus.dann.dataprocessing.language.parsing.stem.PorterStemmer#isConsonant(int)
 	 */
 	private int countConsonantsInStem()
 	{
@@ -178,7 +178,7 @@ public class PorterStemmer implements Stemmer
 	/**
 	 * Returns whether there is a vowel in the stem by a simple linear search.
 	 * @return Whether there is a vowel in the word stem.
-	 * @see com.syncleus.dann.dataprocessing.language.stem.PorterStemmer#isConsonant(int)
+	 * @see com.syncleus.dann.dataprocessing.language.parsing.stem.PorterStemmer#isConsonant(int)
 	 */
 	private boolean isVowelInStem()
 	{

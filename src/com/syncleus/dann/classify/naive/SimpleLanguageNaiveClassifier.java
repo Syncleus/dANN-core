@@ -19,7 +19,8 @@
 package com.syncleus.dann.classify.naive;
 
 import java.util.*;
-import com.syncleus.dann.dataprocessing.language.*;
+import com.syncleus.dann.dataprocessing.language.parsing.BasicWordParser;
+import com.syncleus.dann.dataprocessing.language.parsing.WordParser;
 
 /**
  * This is an implementation of a SimpleNaiveClassifier for language.
@@ -85,7 +86,7 @@ public class SimpleLanguageNaiveClassifier<C> extends SimpleNaiveClassifier<Stri
 
 	/**
 	 * This WordExtractor extracts words from Strings.
-	 * @see com.syncleus.dann.dataprocessing.language.BasicWordParser
+	 * @see com.syncleus.dann.dataprocessing.language.parsing.BasicWordParser
 	 */
 	private static class WordExtractor implements FeatureExtractor<String, String>
 	{
@@ -95,7 +96,7 @@ public class SimpleLanguageNaiveClassifier<C> extends SimpleNaiveClassifier<Stri
 		 * Gets the features from a given String.
 		 * @param item The item
 		 * @return The set of words
-		 * @see com.syncleus.dann.dataprocessing.language.BasicWordParser#getUniqueWords(String)
+		 * @see com.syncleus.dann.dataprocessing.language.parsing.BasicWordParser#getUniqueWords(String)
 		 */
 		@Override
 		public Set<String> getFeatures(final String item)

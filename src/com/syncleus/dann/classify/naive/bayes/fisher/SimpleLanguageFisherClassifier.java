@@ -20,7 +20,8 @@ package com.syncleus.dann.classify.naive.bayes.fisher;
 
 import java.util.*;
 import com.syncleus.dann.classify.naive.FeatureExtractor;
-import com.syncleus.dann.dataprocessing.language.*;
+import com.syncleus.dann.dataprocessing.language.parsing.BasicWordParser;
+import com.syncleus.dann.dataprocessing.language.parsing.WordParser;
 
 /**
  * A SimpleLanguageFisherClassifier classifies words as a SimpleFisherClassifier.

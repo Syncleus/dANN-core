@@ -16,28 +16,18 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.dataprocessing.language;
-
-import java.util.*;
+package com.syncleus.dann.dataprocessing.language.parsing.stem;
 
 /**
- * A WordParser splits a String into individual words.
+ * A Stemmer gets the <a href="http://en.wikipedia.org/wiki/Word_stem">word stem</a> from a word.
  * @author Jeffrey Phillips Freeman
  */
-public interface WordParser
+public interface Stemmer
 {
 	/**
-	 * Gets all words from the given String.
-	 * @param text The string to use
-	 * @return The list of all words
+	 * Gets the word stem from the given word.
+	 * @param word The word to get the stem from
+	 * @return The stem for the given word
 	 */
-	List<String> getWords(String text);
-
-	/**
-	 * Gets the unique words from the given STring.
-	 * @param text The string to use
-	 * @return The set of all unique words
-	 * @see com.syncleus.dann.dataprocessing.language.WordParser#getWords(String)
-	 */
-	Set<String> getUniqueWords(String text);
+	String stemWord(String word);
 }

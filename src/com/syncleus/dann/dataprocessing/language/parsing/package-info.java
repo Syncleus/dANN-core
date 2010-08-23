@@ -16,18 +16,9 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.dataprocessing.language.stem;
 
 /**
- * A Stemmer gets the <a href="http://en.wikipedia.org/wiki/Word_stem">word stem</a> from a word.
- * @author Jeffrey Phillips Freeman
+ * This package contains classes which parse Strings into individual words and word parts, for use
+ * in language processing.
  */
-public interface Stemmer
-{
-	/**
-	 * Gets the word stem from the given word.
-	 * @param word The word to get the stem from
-	 * @return The stem for the given word
-	 */
-	String stemWord(String word);
-}
+package comm.syncleus.dann.dataprocessing.language.parsing;

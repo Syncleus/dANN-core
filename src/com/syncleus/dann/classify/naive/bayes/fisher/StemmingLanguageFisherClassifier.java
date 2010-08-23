@@ -20,8 +20,8 @@ package com.syncleus.dann.classify.naive.bayes.fisher;
 
 import java.util.*;
 import com.syncleus.dann.classify.naive.FeatureExtractor;
-import com.syncleus.dann.dataprocessing.language.WordParser;
-import com.syncleus.dann.dataprocessing.language.stem.StemmingWordParser;
+import com.syncleus.dann.dataprocessing.language.parsing.WordParser;
+import com.syncleus.dann.dataprocessing.language.parsing.stem.StemmingWordParser;
 
 /**
  * A LanguageFisherClassifier that classifies according to word stems.

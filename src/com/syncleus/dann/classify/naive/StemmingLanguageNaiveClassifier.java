@@ -19,7 +19,7 @@
 package com.syncleus.dann.classify.naive;
 
 import java.util.*;
-import com.syncleus.dann.dataprocessing.language.stem.StemmingWordParser;
+import com.syncleus.dann.dataprocessing.language.parsing.stem.StemmingWordParser;
 
 /**
  * A StemmingLanguageNaiveClassifier separates words into items based on their word stems.

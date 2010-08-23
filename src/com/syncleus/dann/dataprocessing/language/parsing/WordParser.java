@@ -16,25 +16,28 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.tests.dann.dataprocessing.language.stem;
+package com.syncleus.dann.dataprocessing.language.parsing;
 
-import com.syncleus.dann.dataprocessing.language.stem.*;
-import org.junit.*;
+import java.util.*;
 
-public class TestPorterStemmer
+/**
+ * A WordParser splits a String into individual words.
+ * @author Jeffrey Phillips Freeman
+ */
+public interface WordParser
 {
-	@Test
-	public void testWords()
-	{
-		final Stemmer stemmer = new PorterStemmer();
+	/**
+	 * Gets all words from the given String.
+	 * @param text The string to use
+	 * @return The list of all words
+	 */
+	List<String> getWords(String text);
 
-		Assert.assertTrue("word stem incorrect!", stemmer.stemWord("bowling").compareToIgnoreCase("bowl") == 0);
-		Assert.assertTrue("word stem incorrect!", stemmer.stemWord("happiness").compareToIgnoreCase("happi") == 0);
-		Assert.assertTrue("word stem incorrect!", stemmer.stemWord("jeffrey").compareToIgnoreCase("jeffrei") == 0);
-		Assert.assertTrue("word stem incorrect!", stemmer.stemWord("running").compareToIgnoreCase("run") == 0);
-		Assert.assertTrue("word stem incorrect!", stemmer.stemWord("napping").compareToIgnoreCase("nap") == 0);
-		Assert.assertTrue("word stem incorrect!", stemmer.stemWord("runner").compareToIgnoreCase("runner") == 0);
-		Assert.assertTrue("word stem incorrect!", stemmer.stemWord("hiker").compareToIgnoreCase("hiker") == 0);
-		Assert.assertTrue("word stem incorrect!", stemmer.stemWord("Nonsense").compareToIgnoreCase("Nonsens") == 0);
-	}
+	/**
+	 * Gets the unique words from the given STring.
+	 * @param text The string to use
+	 * @return The set of all unique words
+	 * @see WordParser#getWords(String)
+	 */
+	Set<String> getUniqueWords(String text);
 }

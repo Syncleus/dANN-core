@@ -16,8 +16,25 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
+package com.syncleus.tests.dann.dataprocessing.language.parsing.stem.stem;
 
-/**
- * This package contains classes specific to Natural Language Processing.
- */
-package comm.syncleus.dann.dataprocessing.language;
+import com.syncleus.dann.dataprocessing.language.parsing.stem.*;
+import org.junit.*;
+
+public class TestPorterStemmer
+{
+	@Test
+	public void testWords()
+	{
+		final Stemmer stemmer = new PorterStemmer();
+
+		Assert.assertTrue("word stem incorrect!", stemmer.stemWord("bowling").compareToIgnoreCase("bowl") == 0);
+		Assert.assertTrue("word stem incorrect!", stemmer.stemWord("happiness").compareToIgnoreCase("happi") == 0);
+		Assert.assertTrue("word stem incorrect!", stemmer.stemWord("jeffrey").compareToIgnoreCase("jeffrei") == 0);
+		Assert.assertTrue("word stem incorrect!", stemmer.stemWord("running").compareToIgnoreCase("run") == 0);
+		Assert.assertTrue("word stem incorrect!", stemmer.stemWord("napping").compareToIgnoreCase("nap") == 0);
+		Assert.assertTrue("word stem incorrect!", stemmer.stemWord("runner").compareToIgnoreCase("runner") == 0);
+		Assert.assertTrue("word stem incorrect!", stemmer.stemWord("hiker").compareToIgnoreCase("hiker") == 0);
+		Assert.assertTrue("word stem incorrect!", stemmer.stemWord("Nonsense").compareToIgnoreCase("Nonsens") == 0);
+	}
+}

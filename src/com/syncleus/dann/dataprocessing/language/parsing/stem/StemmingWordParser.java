@@ -16,10 +16,10 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.dataprocessing.language.stem;
+package com.syncleus.dann.dataprocessing.language.parsing.stem;
 
 import java.util.*;
-import com.syncleus.dann.dataprocessing.language.BasicWordParser;
+import com.syncleus.dann.dataprocessing.language.parsing.BasicWordParser;
 
 /**
  * A StemmingWordParser parses Strings into their stems.
@@ -31,7 +31,7 @@ public class StemmingWordParser extends BasicWordParser implements Stemmer
 
 	/**
 	 * Creates a StemmingWordParser with the default Stemmer, a PorterStemmer.
-	 * @see com.syncleus.dann.dataprocessing.language.stem.PorterStemmer
+	 * @see com.syncleus.dann.dataprocessing.language.parsing.stem.PorterStemmer
 	 */
 	public StemmingWordParser()
 	{
@@ -63,7 +63,7 @@ public class StemmingWordParser extends BasicWordParser implements Stemmer
 	 * Convenience method for stemWord().
 	 * @param unstemmed The collection of unstemmed words
 	 * @return An unmodifiable list of the word stems from the given collection.
-	 * @see com.syncleus.dann.dataprocessing.language.stem.StemmingWordParser#stemWord(String)
+	 * @see com.syncleus.dann.dataprocessing.language.parsing.stem.StemmingWordParser#stemWord(String)
 	 */
 	private List<String> stemList(final Collection<String> unstemmed)
 	{
