@@ -16,7 +16,7 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.genetics.attributes.hat;
+package com.syncleus.dann.attributes.hat;
 
 import java.util.*;
 import com.syncleus.dann.graph.*;

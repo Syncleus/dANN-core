@@ -16,10 +16,9 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.genetics.attributes.hat;
+package com.syncleus.dann.attributes.hat;
 
-import java.util.Set;
-import com.syncleus.dann.genetics.attributes.*;
+import com.syncleus.dann.attributes.*;
 import com.syncleus.dann.graph.*;
 
 public abstract class AbstractHierarchicalAttributePool<T> extends AbstractAttributePool<T> implements HierarchicalAttributePool<T>

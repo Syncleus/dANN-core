@@ -16,9 +16,9 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.genetics.attributes.hat;
+package com.syncleus.dann.attributes.hat;
 
-import com.syncleus.dann.genetics.attributes.AttributePool;
+import com.syncleus.dann.attributes.AttributePool;
 
 public interface HierarchicalAttributePool<T> extends AttributePool<T>
 {

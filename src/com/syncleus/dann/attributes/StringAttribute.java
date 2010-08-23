@@ -1,4 +1,4 @@
-package com.syncleus.dann.genetics.attributes;
+package com.syncleus.dann.attributes;
 
 public class StringAttribute<T> extends SimpleAttribute<String, T>
 {

@@ -20,4 +20,4 @@
 /**
  ** Hierarchical Attribute Tree Package
  **/
-package com.syncleus.dann.genetics.attributes;
+package com.syncleus.dann.attributes;

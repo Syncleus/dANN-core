@@ -16,9 +16,10 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.genetics.attributes;
+package com.syncleus.dann.attributes.hat;
 
-public interface AttributeChangeListener<T>
+import com.syncleus.dann.graph.*;
+
+public interface HierarchicalAttributeTreeGraph<N extends HierarchicalAttributePool<T>, E extends DirectedEdge<N>, T> extends TreeGraph<N, E>
 {
-	<V extends T> void attributeChanged(Attribute<?, V> attribute, V attributeValue);
 }

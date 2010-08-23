@@ -16,12 +16,9 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.genetics.attributes.hat;
+package com.syncleus.dann.attributes;
 
-import com.syncleus.dann.graph.*;
-import com.syncleus.dann.graphicalmodel.bayesian.BayesianEdge;
-import com.syncleus.dann.graphicalmodel.bayesian.BayesianNode;
-
-public interface HierarchicalAttributeTreeGraph<N extends HierarchicalAttributePool<T>, E extends DirectedEdge<N>, T> extends TreeGraph<N, E>
+public interface AttributeChangeListener<T>
 {
+	<V extends T> void attributeChanged(Attribute<?, V> attribute, V attributeValue);
 }

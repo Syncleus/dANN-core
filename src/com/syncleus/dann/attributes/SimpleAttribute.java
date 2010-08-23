@@ -1,4 +1,4 @@
-package com.syncleus.dann.genetics.attributes;
+package com.syncleus.dann.attributes;
 
 public class SimpleAttribute<A, T> implements Attribute<A, T>
 {
