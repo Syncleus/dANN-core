@@ -20,77 +20,30 @@ package com.syncleus.dann.graph;
 
 import java.util.*;
 
-public class ImmutableUndirectedEdge<N> extends AbstractBidirectedEdge<N>
+public final class ImmutableUndirectedEdge<N> extends AbstractUndirectedEdge<N>
 {
-	private static final long serialVersionUID = -7729189071866403594L;
+	private static final long serialVersionUID = -1803274027851230L;
 
 	public ImmutableUndirectedEdge(final N leftNode, final N rightNode)
 	{
-		super(leftNode, EndState.NONE, rightNode, EndState.NONE);
+		super(leftNode, rightNode);
 	}
 
-	public List<N> getTraversableNodes(final N node)
+	public ImmutableUndirectedEdge(final N leftNode, final N rightNode, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
 	{
-		if( this.getLeftNode().equals(node) )
-			return Collections.singletonList(this.getRightNode());
-		else if( this.getRightNode().equals(node) )
-			return Collections.singletonList(this.getLeftNode());
-		else
-			throw new IllegalArgumentException("node is not one of the end points!");
+		super(leftNode, rightNode, allowJoiningMultipleGraphs, contextEnabled);
 	}
 
 	@Override
-	public boolean isIntroverted()
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isExtraverted()
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isDirected()
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isHalfEdge()
-	{
-		return false;
-	}
-
-	@Override
-	public boolean isLooseEdge()
-	{
-		return true;
-	}
-
-	@Override
-	public boolean isOrdinaryEdge()
-	{
-		return false;
-	}
-
 	public ImmutableUndirectedEdge<N> disconnect(final N node)
 	{
-		if( node == null )
-			throw new IllegalArgumentException("node can not be null");
-		if( !this.getNodes().contains(node) )
-			throw new IllegalArgumentException("node is not currently connected to");
-		return (ImmutableUndirectedEdge<N>) this.remove(node);
+		return (ImmutableUndirectedEdge<N>) super.disconnect(node);
 	}
 
+	@Override
 	public ImmutableUndirectedEdge<N> disconnect(final List<N> nodes)
 	{
-		if( nodes == null )
-			throw new IllegalArgumentException("node can not be null");
-		if( !this.getNodes().containsAll(nodes) )
-			throw new IllegalArgumentException("node is not currently connected to");
-		return (ImmutableUndirectedEdge<N>) this.remove(nodes);
+		return (ImmutableUndirectedEdge<N>) super.disconnect(nodes);
 	}
 
 	@Override

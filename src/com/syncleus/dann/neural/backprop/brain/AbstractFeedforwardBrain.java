@@ -22,13 +22,13 @@ import java.util.*;
 import java.util.concurrent.*;
 import com.syncleus.dann.*;
 import com.syncleus.dann.neural.*;
-import com.syncleus.dann.neural.backprop.BackpropNeuron;
+import com.syncleus.dann.neural.backprop.*;
 import org.apache.log4j.Logger;
 
-public abstract class AbstractFeedforwardBrain extends AbstractLocalBrain implements FeedforwardBackpropBrain
+public abstract class AbstractFeedforwardBrain<IN extends InputBackpropNeuron, ON extends OutputBackpropNeuron, N extends BackpropNeuron, S extends Synapse<N>> extends AbstractLocalBrain<IN,ON,N,S> implements FeedforwardBackpropBrain<IN,ON,N,S>
 {
 	private boolean initialized = false;
-	private final List<NeuronGroup<BackpropNeuron>> neuronLayers = new ArrayList<NeuronGroup<BackpropNeuron>>();
+	private final List<NeuronGroup<N>> neuronLayers = new ArrayList<NeuronGroup<N>>();
 	private int layerCount;
 	private static final Logger LOGGER = Logger.getLogger(AbstractFeedforwardBrain.class);
 
@@ -44,7 +44,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractLocalBrain implem
 
 		public void run()
 		{
-			this.neuron.propagate();
+			this.neuron.tick();
 		}
 	}
 
@@ -70,7 +70,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractLocalBrain implem
 	 * @param threadExecutor executor to use for executing tasks.
 	 * @since 2.0
 	 */
-	public AbstractFeedforwardBrain(final ExecutorService threadExecutor)
+	protected AbstractFeedforwardBrain(final ExecutorService threadExecutor)
 	{
 		super(threadExecutor);
 	}
@@ -81,7 +81,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractLocalBrain implem
 	 *
 	 * @since 2.0
 	 */
-	public AbstractFeedforwardBrain()
+	protected AbstractFeedforwardBrain()
 	{
 		super();
 	}
@@ -97,10 +97,10 @@ public abstract class AbstractFeedforwardBrain extends AbstractLocalBrain implem
 		int currentLayerCount = 0;
 		for(final int neuronCount : neuronsPerLayer)
 		{
-			final NeuronGroup<BackpropNeuron> currentGroup = new NeuronGroup<BackpropNeuron>();
+			final NeuronGroup<N> currentGroup = new NeuronGroup<N>();
 			for(int neuronIndex = 0; neuronIndex < neuronCount; neuronIndex++)
 			{
-				final BackpropNeuron currentNeuron = this.createNeuron(currentLayerCount, neuronIndex);
+				final N currentNeuron = this.createNeuron(currentLayerCount, neuronIndex);
 
 				currentGroup.add(currentNeuron);
 				this.add(currentNeuron);
@@ -120,18 +120,18 @@ public abstract class AbstractFeedforwardBrain extends AbstractLocalBrain implem
 	 * @return the neuronLayers for children to use for connection.
 	 * @since 2.0
 	 */
-	protected final List<NeuronGroup<BackpropNeuron>> getEditableLayers()
+	protected final List<NeuronGroup<N>> getEditableLayers()
 	{
 		return this.neuronLayers;
 	}
 
-	public final List<Set<BackpropNeuron>> getLayers()
+	public final List<Set<N>> getLayers()
 	{
-		final List<Set<BackpropNeuron>> layerList = new ArrayList<Set<BackpropNeuron>>();
-		for(final NeuronGroup<BackpropNeuron> layerGroup : this.neuronLayers)
+		final List<Set<N>> layerList = new ArrayList<Set<N>>();
+		for(final NeuronGroup<N> layerGroup : this.neuronLayers)
 		{
-			final Set<BackpropNeuron> layer = new HashSet<BackpropNeuron>();
-			for(final BackpropNeuron layerNeuron : layerGroup.getChildrenNeuronsRecursivly())
+			final Set<N> layer = new HashSet<N>();
+			for(final N layerNeuron : layerGroup.getChildrenNeuronsRecursivly())
 				layer.add(layerNeuron);
 			layerList.add(Collections.unmodifiableSet(layer));
 		}
@@ -151,9 +151,9 @@ public abstract class AbstractFeedforwardBrain extends AbstractLocalBrain implem
 		if( !this.initialized )
 			throw new IllegalStateException("An implementation of AbstractFeedforwardBrain did not initialize network");
 		//step forward through all the layers, except the last (output)
-		for(final com.syncleus.dann.neural.NeuronGroup<com.syncleus.dann.neural.backprop.BackpropNeuron> layer : this.neuronLayers)
+		for(final NeuronGroup<N> layer : this.neuronLayers)
 		{
-			final java.util.Set<com.syncleus.dann.neural.backprop.BackpropNeuron> layerNeurons = layer.getChildrenNeuronsRecursivly();
+			final Set<N> layerNeurons = layer.getChildrenNeuronsRecursivly();
 			if( this.getThreadExecutor() != null )
 			{
 				//begin processing all neurons in one layer simultaniously
@@ -179,7 +179,7 @@ public abstract class AbstractFeedforwardBrain extends AbstractLocalBrain implem
 			}
 			else
 				for(final com.syncleus.dann.neural.backprop.BackpropNeuron neuron : layerNeurons)
-					neuron.propagate();
+					neuron.tick();
 		}
 	}
 
@@ -191,8 +191,8 @@ public abstract class AbstractFeedforwardBrain extends AbstractLocalBrain implem
 		//step backwards through all the layers, except the first.
 		for(int layerIndex = (this.neuronLayers.size() - 1); layerIndex >= 0; layerIndex--)
 		{
-			final NeuronGroup<BackpropNeuron> layer = this.neuronLayers.get(layerIndex);
-			final Set<BackpropNeuron> layerNeurons = layer.getChildrenNeuronsRecursivly();
+			final NeuronGroup<N> layer = this.neuronLayers.get(layerIndex);
+			final Set<N> layerNeurons = layer.getChildrenNeuronsRecursivly();
 
 			if( this.getThreadExecutor() != null )
 			{
@@ -233,5 +233,5 @@ public abstract class AbstractFeedforwardBrain extends AbstractLocalBrain implem
 	 * @return The new SimpleBackpropNeuron to be added to the current layer.
 	 * @since 2.0
 	 */
-	protected abstract BackpropNeuron createNeuron(int layer, int index);
+	protected abstract N createNeuron(int layer, int index);
 }

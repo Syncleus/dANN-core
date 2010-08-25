@@ -30,9 +30,9 @@ import java.io.Serializable;
 public interface Neuron extends Serializable
 {
 	/**
-	 * Propogates the current output to all outgoing synapses.
+	 * Indicates the neuron has an opertunity to perform any processing of its IO.
 	 *
-	 * @since 1.0
+	 * @since 2.0
 	 */
-	public void propagate();
+	public void tick();
 }

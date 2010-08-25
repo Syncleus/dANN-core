@@ -33,12 +33,6 @@ public class TestSynapse
 		{
 			return super.add(newNeuron);
 		}
-
-		@Override
-		public boolean connect(final Neuron source, final Neuron destination)
-		{
-			return super.connect(source, destination);
-		}
 	}
 
 	private static final double INITIAL_WEIGHT = 0.01;

@@ -36,22 +36,22 @@ import com.syncleus.dann.graph.topological.StrongConnectivityOptimizedGraph;
  * @author Jeffrey Phillips Freeman
  * @since 1.0
  */
-public abstract class AbstractLocalBrain extends AbstractBidirectedAdjacencyGraph<Neuron, Synapse> implements Brain, Serializable, StrongConnectivityOptimizedGraph<Neuron, Synapse>
+public abstract class AbstractLocalBrain<IN extends InputNeuron, ON extends OutputNeuron, N extends Neuron, S extends Synapse<N>> extends AbstractBidirectedAdjacencyGraph<N, S> implements Brain<IN,ON,N,S>, Serializable, StrongConnectivityOptimizedGraph<N, S>
 {
-	private static class NodeConnectivity extends HashMap<Neuron, Set<Synapse>>
+	private class NodeConnectivity extends HashMap<N, Set<S>>
 	{
 		private static final long serialVersionUID = -2956514569529162804L;
 
 		@Override
-		public Set<Synapse> get(final Object keyObject)
+		public Set<S> get(final Object keyObject)
 		{
 			if( !(keyObject instanceof Neuron) )
 				throw new UnexpectedDannError("keyObject was not a Neuron");
-			Set<Synapse> edges = super.get((Neuron) keyObject);
+			Set<S> edges = super.get((N) keyObject);
 			if( edges == null )
 			{
-				edges = new HashSet<Synapse>();
-				final Neuron key = (Neuron) keyObject;
+				edges = new HashSet<S>();
+				final N key = (N) keyObject;
 				super.put(key, edges);
 			}
 			return edges;
@@ -59,12 +59,12 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedAdjacencyGrap
 	}
 
 	private static final long serialVersionUID = -7626975911198443367L;
-	private final Set<Neuron> neurons = new HashSet<Neuron>();
-	private final Set<OutputNeuron> outputNeurons = new HashSet<OutputNeuron>();
-	private final Set<InputNeuron> inputNeurons = new HashSet<InputNeuron>();
-	private final Set<Synapse> synapses = new HashSet<Synapse>();
-	private final Map<Neuron, Set<Synapse>> outMap = new NodeConnectivity();
-	private final Map<Neuron, Set<Synapse>> inMap = new NodeConnectivity();
+	private final Set<N> neurons = new HashSet<N>();
+	private final Set<ON> outputNeurons = new HashSet<ON>();
+	private final Set<IN> inputNeurons = new HashSet<IN>();
+	private final Set<S> synapses = new HashSet<S>();
+	private final Map<N, Set<S>> outMap = new NodeConnectivity();
+	private final Map<N, Set<S>> inMap = new NodeConnectivity();
 	private static final Random RANDOM = new Random();
 	private final ExecutorService threadExecutor;
 
@@ -74,7 +74,7 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedAdjacencyGrap
 	 * @param threadExecutor executor to use for executing tasks.
 	 * @since 2.0
 	 */
-	public AbstractLocalBrain(final ExecutorService threadExecutor)
+	protected AbstractLocalBrain(final ExecutorService threadExecutor)
 	{
 		this.threadExecutor = threadExecutor;
 	}
@@ -85,12 +85,12 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedAdjacencyGrap
 	 *
 	 * @since 2.0
 	 */
-	public AbstractLocalBrain()
+	protected AbstractLocalBrain()
 	{
 		this.threadExecutor = null;
 	}
 
-	protected boolean add(final Synapse newSynapse)
+	protected boolean add(final S newSynapse)
 	{
 		if( newSynapse == null )
 			throw new IllegalArgumentException("newSynapse can not be null");
@@ -114,19 +114,20 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedAdjacencyGrap
 	 * @param newNeuron The neuron to add to the brain.
 	 * @since 1.0
 	 */
-	protected boolean add(final Neuron newNeuron)
+	protected boolean add(final N newNeuron)
 	{
 		if( newNeuron == null )
 			throw new IllegalArgumentException("newNeuron can not be null");
 
 		if( this.neurons.add(newNeuron) )
 		{
-			this.outMap.put(newNeuron, new HashSet<Synapse>());
-			this.inMap.put(newNeuron, new HashSet<Synapse>());
+			this.outMap.put(newNeuron, new HashSet<S>());
+			this.inMap.put(newNeuron, new HashSet<S>());
+			// TODO fix this, its bad typing
 			if( newNeuron instanceof OutputNeuron )
-				this.outputNeurons.add((OutputNeuron) newNeuron);
+				this.outputNeurons.add((ON)newNeuron);
 			if( newNeuron instanceof InputNeuron )
-				this.inputNeurons.add((InputNeuron) newNeuron);
+				this.inputNeurons.add((IN) newNeuron);
 			return true;
 		}
 
@@ -140,7 +141,7 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedAdjacencyGrap
 	 * @param newNeurons The collection of neurons to add.
 	 * @since 1.0
 	 */
-	protected boolean add(final Collection<? extends Neuron> newNeurons)
+	protected boolean add(final Collection<? extends N> newNeurons)
 	{
 		if( newNeurons == null )
 			throw new IllegalArgumentException("newNeurons can not be null");
@@ -150,25 +151,30 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedAdjacencyGrap
 
 		final boolean added = this.neurons.addAll(newNeurons);
 
-		for(final Neuron newNeuron : newNeurons)
+		for(final N newNeuron : newNeurons)
 		{
-			this.outMap.put(newNeuron, new HashSet<Synapse>());
-			this.inMap.put(newNeuron, new HashSet<Synapse>());
+			this.outMap.put(newNeuron, new HashSet<S>());
+			this.inMap.put(newNeuron, new HashSet<S>());
+			// TODO fix this, its bad typing
 			if( newNeuron instanceof OutputNeuron )
-				this.outputNeurons.add((OutputNeuron) newNeuron);
+				this.outputNeurons.add((ON) newNeuron);
 			if( newNeuron instanceof InputNeuron )
-				this.inputNeurons.add((InputNeuron) newNeuron);
+				this.inputNeurons.add((IN) newNeuron);
 		}
 
 		return added;
 	}
 
-	protected boolean connect(final Neuron source, final Neuron destination)
+
+	protected boolean connect(final S synapse, final boolean initializeWeight)
 	{
-		return this.connect(source, destination, ((RANDOM.nextDouble() * 2.0) - 1.0) / 10000.0);
+		if(initializeWeight)
+			synapse.setWeight(((RANDOM.nextDouble() * 2.0) - 1.0) / 10000.0);
+		return this.connect(synapse);
 	}
 
-	protected boolean connect(final Neuron source, final Neuron destination, final double initialWeight)
+	/*
+	protected boolean connect(final N source, final N destination, final double initialWeight)
 	{
 		if( source == null )
 			throw new IllegalArgumentException("source can not be null");
@@ -179,9 +185,18 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedAdjacencyGrap
 		if( !this.neurons.contains(destination) )
 			throw new IllegalArgumentException("destination is not a member of this graph");
 
-		return this.add(new SimpleSynapse(source, destination, initialWeight));
+		return this.add((S)(new SimpleSynapse(source, destination, initialWeight)));
+	} */
+	protected boolean connect(final S synapse)
+	{
+		if( !this.neurons.containsAll(synapse.getNodes()) )
+			throw new IllegalArgumentException("the synapse contains nodes not in this brain");
+
+		return this.add(synapse);
 	}
 
+
+	/*
 	protected boolean disconnect(final Neuron source, final Neuron destination)
 	{
 		if( source == null )
@@ -194,9 +209,9 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedAdjacencyGrap
 			throw new IllegalArgumentException("destination is not a member of this graph");
 
 		return this.remove(new SimpleSynapse(source, destination, 0.0));
-	}
+	}*/
 
-	protected boolean remove(final Synapse removeSynapse)
+	protected boolean remove(final S removeSynapse)
 	{
 		if( removeSynapse == null )
 			throw new IllegalArgumentException("removeSynapse can not be null");
@@ -219,7 +234,7 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedAdjacencyGrap
 	 * @param removeNeuron The neuron to remove.
 	 * @since 1.0
 	 */
-	protected boolean remove(final Neuron removeNeuron)
+	protected boolean remove(final N removeNeuron)
 	{
 		if( removeNeuron == null )
 			throw new IllegalArgumentException("node can not be null");
@@ -234,9 +249,9 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedAdjacencyGrap
 			this.synapses.removeAll(removeEdges);
 
 			if( removeNeuron instanceof OutputNeuron )
-				this.outputNeurons.remove((OutputNeuron) removeNeuron);
+				this.outputNeurons.remove(removeNeuron);
 			if( removeNeuron instanceof InputNeuron )
-				this.inputNeurons.remove((InputNeuron) removeNeuron);
+				this.inputNeurons.remove(removeNeuron);
 
 			return true;
 		}
@@ -249,7 +264,8 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedAdjacencyGrap
 	 * @return An unmodifiable Set of InputNeurons.
 	 * @since 1.0
 	 */
-	public Set<InputNeuron> getInputNeurons()
+	@Override
+	public Set<IN> getInputNeurons()
 	{
 		return Collections.unmodifiableSet(this.inputNeurons);
 	}
@@ -260,7 +276,8 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedAdjacencyGrap
 	 * @return An unmodifiable Set of OutputNeurons
 	 * @since 1.0
 	 */
-	public Set<OutputNeuron> getOutputNeurons()
+	@Override
+	public Set<ON> getOutputNeurons()
 	{
 		return Collections.unmodifiableSet(this.outputNeurons);
 	}
@@ -272,20 +289,22 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedAdjacencyGrap
 	 * @return An unmodifiable Set of all Neurons.
 	 * @since 1.0
 	 */
-	public Set<Neuron> getNodes()
+	@Override
+	public Set<N> getNodes()
 	{
 		return Collections.unmodifiableSet(this.neurons);
 	}
 
 	@Override
-	public Set<Synapse> getEdges()
+	public Set<S> getEdges()
 	{
 		return Collections.unmodifiableSet(this.synapses);
 	}
 
-	public Set<Synapse> getAdjacentEdges(final Neuron node)
+	@Override
+	public Set<S> getAdjacentEdges(final N node)
 	{
-		final Set<Synapse> nodeSynapses = new HashSet<Synapse>();
+		final Set<S> nodeSynapses = new HashSet<S>();
 		if( this.outMap.containsKey(node) )
 			nodeSynapses.addAll(this.outMap.get(node));
 		if( this.inMap.containsKey(node) )
@@ -294,7 +313,7 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedAdjacencyGrap
 	}
 
 	@Override
-	public Set<Synapse> getTraversableEdges(final Neuron node)
+	public Set<S> getTraversableEdges(final N node)
 	{
 		if( this.inMap.containsKey(node) )
 			return Collections.unmodifiableSet(this.outMap.get(node));
@@ -302,7 +321,7 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedAdjacencyGrap
 	}
 
 	@Override
-	public Set<Synapse> getInEdges(final Neuron node)
+	public Set<S> getInEdges(final N node)
 	{
 		if( this.inMap.containsKey(node) )
 			return Collections.unmodifiableSet(this.inMap.get(node));
@@ -310,11 +329,11 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedAdjacencyGrap
 	}
 
 	@Override
-	public boolean isStronglyConnected(final Neuron leftNode, final Neuron rightNode)
+	public boolean isStronglyConnected(final N leftNode, final N rightNode)
 	{
-		final Set<Synapse> outSet = this.getTraversableEdges(leftNode);
-		final Set<Synapse> inSet = this.getInEdges(rightNode);
-		final Set<Synapse> jointSet = new HashSet<Synapse>(outSet);
+		final Set<S> outSet = this.getTraversableEdges(leftNode);
+		final Set<S> inSet = this.getInEdges(rightNode);
+		final Set<S> jointSet = new HashSet<S>(outSet);
 		jointSet.retainAll(inSet);
 
 		return (!jointSet.isEmpty());
@@ -326,11 +345,12 @@ public abstract class AbstractLocalBrain extends AbstractBidirectedAdjacencyGrap
 		throw new UnsupportedOperationException("This optimization is not supported");
 	}
 
-	public List<Neuron> getAdjacentNodes(final Neuron node)
+	@Override
+	public List<N> getAdjacentNodes(final N node)
 	{
-		final Set<Synapse> nodeSynapses = this.getAdjacentEdges(node);
-		final List<Neuron> neighbors = new ArrayList<Neuron>();
-		for(final Synapse nodeSynapse : nodeSynapses)
+		final Set<S> nodeSynapses = this.getAdjacentEdges(node);
+		final List<N> neighbors = new ArrayList<N>();
+		for(final S nodeSynapse : nodeSynapses)
 			neighbors.add((nodeSynapse.getLeftNode().equals(node) ? nodeSynapse.getRightNode() : nodeSynapse.getLeftNode()));
 		return Collections.unmodifiableList(neighbors);
 	}

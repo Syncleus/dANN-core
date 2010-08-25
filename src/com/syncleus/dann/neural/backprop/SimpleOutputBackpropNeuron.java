@@ -18,66 +18,68 @@
  ******************************************************************************/
 package com.syncleus.dann.neural.backprop;
 
-import java.util.Hashtable;
 import com.syncleus.dann.neural.*;
 import com.syncleus.dann.neural.activation.ActivationFunction;
 
 /**
- * The SimpleBackpropNeuron is the most fundemental component of a backprop
- * network; it is also the proccessor of the system. One neuron will usually
- * connect to many other Neurons through synapses and receive input from many
- * other Neurons in the same way.
+ * This is a special type of neuron that provides the output.
  *
  * @author Jeffrey Phillips Freeman
- * @see com.syncleus.dann.neural.SimpleSynapse
+ * @see SimpleInputBackpropNeuron
  * @since 1.0
  */
-public final class SimpleBackpropNeuron extends AbstractBackpropNeuron implements BackpropNeuron
+public final class SimpleOutputBackpropNeuron extends AbstractOutputBackpropNeuron
 {
-	private static final long serialVersionUID = 982375098231423L;
-
+	private static final long serialVersionUID = -2098502740983214L;
 	/**
-	 * Creates a new default instance of SimpleBackpropNeuron
+	 * holds the value for the current training set.
 	 *
 	 * @since 1.0
 	 */
-	public SimpleBackpropNeuron(final Brain brain)
+	protected double desired;
+
+	/**
+	 * Creates a new instance of OutputBackpropNeuron
+	 *
+	 * @since 1.0
+	 */
+	public SimpleOutputBackpropNeuron(final Brain brain)
 	{
 		super(brain);
 	}
 
 	/**
-	 * Creates a new instance of SimpleBackpropNeuron with the specified activation
-	 * function.
+	 * Creates a new instance of OutputBackpropNeuron using the specified
+	 * activation function.
 	 *
-	 * @param activationFunction The Neuron's activation function.
+	 * @param activationFunction The activation function to use.
 	 * @since 1.0
 	 */
-	public SimpleBackpropNeuron(final Brain brain, final ActivationFunction activationFunction)
+	public SimpleOutputBackpropNeuron(final Brain brain, final ActivationFunction activationFunction)
 	{
 		super(brain, activationFunction);
 	}
 
 	/**
-	 * Creates a new instance of a SimpleBackpropNeuron using the default
-	 * activation function with the specified learning rate.
+	 * Creates a new instance of this class using the specified learning rate.
 	 *
-	 * @param learningRate learning rate of this neuron.
+	 * @param learningRate The learning rate for this neuron.
 	 * @since 1.0
 	 */
-	public SimpleBackpropNeuron(final Brain brain, final double learningRate)
+	public SimpleOutputBackpropNeuron(final Brain brain, final double learningRate)
 	{
 		super(brain, learningRate);
 	}
 
 	/**
-	 * Creates a new instance of a SimpleBackpropNeuron with the specified
-	 * activtion function and learning rate.
+	 * Creates a new instance of this class with the specified activation function
+	 * and learning rate.
 	 *
-	 * @param activationFunction Activation function for this neuron.
-	 * @param learningRate Learning rate for this neuron.
+	 * @param activationFunction The activation used by this neuron.
+	 * @param learningRate The learning rate for this neuron.
+	 * @since 1.0
 	 */
-	public SimpleBackpropNeuron(final Brain brain, final ActivationFunction activationFunction, final double learningRate)
+	public SimpleOutputBackpropNeuron(final Brain brain, final ActivationFunction activationFunction, final double learningRate)
 	{
 		super(brain, activationFunction, learningRate);
 	}

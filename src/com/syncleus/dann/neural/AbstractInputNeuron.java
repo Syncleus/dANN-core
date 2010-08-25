@@ -16,14 +16,46 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.neural.backprop.brain;
+package com.syncleus.dann.neural;
 
-import java.util.*;
-import com.syncleus.dann.neural.*;
-import com.syncleus.dann.neural.backprop.*;
-
-public interface FeedforwardBackpropBrain<IN extends InputBackpropNeuron, ON extends OutputBackpropNeuron, N extends BackpropNeuron, S extends Synapse<N>> extends BackpropBrain<IN,ON,N,S>
+public abstract class AbstractInputNeuron extends AbstractNeuron implements InputNeuron
 {
-	int getLayerCount();
-	List<Set<N>> getLayers();
+	private static final long serialVersionUID = 4397150011892747140L;
+	private double input = 0.0;
+
+	protected AbstractInputNeuron(final Brain brain)
+	{
+		super(brain);
+	}
+
+	@Override
+	public void setInput(final double inputToSet)
+	{
+		if( Math.abs(inputToSet) > 1.0 )
+			throw new IllegalArgumentException("InputToSet must be between -1 and +1");
+
+		this.input = inputToSet;
+	}
+
+	@Override
+	public double getInput()
+	{
+		return this.input;
+	}
+
+	@Override
+	protected double getOutput()
+	{
+		return this.input;
+	}
+
+	@Override
+	public void tick()
+	{
+		//TODO fix this, bad typing
+//		for(final Synapse current : this.getBrain().getTraversableEdges(this))
+//			current.setInput(this.input);
+		for(final Object current : this.getBrain().getTraversableEdges(this))
+			((Synapse)current).setInput(this.input);
+	}
 }

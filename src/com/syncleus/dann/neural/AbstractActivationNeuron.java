@@ -30,7 +30,6 @@ import org.apache.log4j.Logger;
  */
 public abstract class AbstractActivationNeuron extends AbstractNeuron
 {
-	// <editor-fold defaultstate="collapsed" desc="Attributes">
 	/**
 	 * Represents the current excitation of the neuron from input signals
 	 *
@@ -52,8 +51,6 @@ public abstract class AbstractActivationNeuron extends AbstractNeuron
 	private double output;
 	private static final HyperbolicTangentActivationFunction DEFAULT_ACTIVATION_FUNCTION = new HyperbolicTangentActivationFunction();
 	private static final Logger LOGGER = Logger.getLogger(AbstractActivationNeuron.class);
-	// </editor-fold>
-	// <editor-fold defaultstate="collapsed" desc="Constructors">
 
 	/**
 	 * Creates a new instance of NeuronImpl with a RANDOM bias weight and
@@ -61,7 +58,7 @@ public abstract class AbstractActivationNeuron extends AbstractNeuron
 	 *
 	 * @since 1.0
 	 */
-	public AbstractActivationNeuron(final Brain brain)
+	protected AbstractActivationNeuron(final Brain brain)
 	{
 		super(brain);
 		this.activationFunction = DEFAULT_ACTIVATION_FUNCTION;
@@ -75,7 +72,7 @@ public abstract class AbstractActivationNeuron extends AbstractNeuron
 	 * output fromt he neuron's activity.
 	 * @since 1.0
 	 */
-	public AbstractActivationNeuron(final Brain brain, final ActivationFunction activationFunction)
+	protected AbstractActivationNeuron(final Brain brain, final ActivationFunction activationFunction)
 	{
 		super(brain);
 		if( activationFunction == null )
@@ -92,7 +89,7 @@ public abstract class AbstractActivationNeuron extends AbstractNeuron
 	 *
 	 * @return a bound value (between -1 and 1 if this function is not
 	 *         overwritten). It is a function of the neuron's current activity.
-	 * @see com.syncleus.dann.neural.backprop.BackpropNeuron#propagate
+	 * @see com.syncleus.dann.neural.backprop.BackpropNeuron#tick
 	 * @since 1.0
 	 */
 	protected final double activate()
@@ -121,6 +118,7 @@ public abstract class AbstractActivationNeuron extends AbstractNeuron
 	 * @return The current output.
 	 * @since 1.0
 	 */
+	@Override
 	protected double getOutput()
 	{
 		return this.output;
@@ -131,21 +129,26 @@ public abstract class AbstractActivationNeuron extends AbstractNeuron
 	 *
 	 * @since 1.0
 	 */
-	public void propagate()
+	@Override
+	public void tick()
 	{
+		//TODO fix this!
 		//calculate the current input activity
 		this.activity = 0;
-		for(final Synapse currentSynapse : this.getBrain().getInEdges(this))
-			this.activity += currentSynapse.getInput() * currentSynapse.getWeight();
+//		for(final Synapse currentSynapse : this.getBrain().getInEdges(this))
+//			this.activity += currentSynapse.getInput() * currentSynapse.getWeight();
+		for(final Object currentSynapse : this.getBrain().getInEdges(this))
+			this.activity += ((Synapse)currentSynapse).getInput() * ((Synapse)currentSynapse).getWeight();
 		//calculate the activity function and set the result as the output
 		this.output = this.activate();
-		for(final Synapse current : this.getBrain().getTraversableEdges(this))
-			current.setInput(this.output);
+//		for(final Synapse current : this.getBrain().getTraversableEdges(this))
+//			current.setInput(this.output);
+		for(final Object current : this.getBrain().getTraversableEdges(this))
+			((Synapse)current).setInput(this.output);
 	}
 
 	protected void setOutput(final double output)
 	{
 		this.output = output;
 	}
-	// </editor-fold>
 }

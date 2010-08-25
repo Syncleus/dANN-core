@@ -20,7 +20,7 @@ package com.syncleus.dann.graph;
 
 import java.util.List;
 
-public class ImmutableWeightedDirectedEdge<N> extends ImmutableDirectedEdge<N> implements WeightedDirectedEdge<N>
+public final class ImmutableWeightedDirectedEdge<N> extends AbstractDirectedEdge<N> implements WeightedDirectedEdge<N>
 {
 	private static final long serialVersionUID = -6843921044147012645L;
 	private final double weight;
@@ -31,6 +31,12 @@ public class ImmutableWeightedDirectedEdge<N> extends ImmutableDirectedEdge<N> i
 		this.weight = ourWeight;
 	}
 
+	public ImmutableWeightedDirectedEdge(final N source, final N destination, final double ourWeight, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
+	{
+		super(source, destination, allowJoiningMultipleGraphs, contextEnabled);
+		this.weight = ourWeight;
+	}
+
 	@Override
 	public double getWeight()
 	{
@@ -38,28 +44,20 @@ public class ImmutableWeightedDirectedEdge<N> extends ImmutableDirectedEdge<N> i
 	}
 
 	@Override
-	public SimpleWeightedDirectedEdge<N> disconnect(final N node)
+	public ImmutableWeightedDirectedEdge<N> disconnect(final N node)
 	{
-		if( node == null )
-			throw new IllegalArgumentException("node can not be null");
-		if( !this.getNodes().contains(node) )
-			throw new IllegalArgumentException("node is not currently connected to");
-		return (SimpleWeightedDirectedEdge<N>) this.remove(node);
+		return (ImmutableWeightedDirectedEdge<N>) super.disconnect(node);
 	}
 
 	@Override
-	public SimpleWeightedDirectedEdge<N> disconnect(final List<N> nodes)
+	public ImmutableWeightedDirectedEdge<N> disconnect(final List<N> nodes)
 	{
-		if( nodes == null )
-			throw new IllegalArgumentException("node can not be null");
-		if( !this.getNodes().containsAll(nodes) )
-			throw new IllegalArgumentException("node is not currently connected to");
-		return (SimpleWeightedDirectedEdge<N>) this.remove(nodes);
+		return (ImmutableWeightedDirectedEdge<N>) super.disconnect(nodes);
 	}
 
 	@Override
-	public SimpleWeightedDirectedEdge<N> clone()
+	public ImmutableWeightedDirectedEdge<N> clone()
 	{
-		return (SimpleWeightedDirectedEdge<N>) super.clone();
+		return (ImmutableWeightedDirectedEdge<N>) super.clone();
 	}
 }

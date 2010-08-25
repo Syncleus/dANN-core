@@ -24,6 +24,18 @@ public abstract class AbstractWeightedEdge<N> extends AbstractEdge<N> implements
 {
 	private final double weight;
 
+    protected AbstractWeightedEdge(final double weight)
+    {
+		super();
+		this.weight = weight;
+    }
+
+    protected AbstractWeightedEdge(final double weight, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
+    {
+		super(allowJoiningMultipleGraphs, contextEnabled);
+		this.weight = weight;
+	}
+
 	protected AbstractWeightedEdge(final List<N> nodes, final double ourWEight)
 	{
 		super(nodes);

@@ -21,19 +21,19 @@ package com.syncleus.dann.graph.drawing.hyperassociativemap;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import com.syncleus.dann.neural.*;
-import com.syncleus.dann.neural.backprop.BackpropNeuron;
+import com.syncleus.dann.neural.backprop.*;
 import com.syncleus.dann.neural.backprop.brain.FeedforwardBackpropBrain;
 
-public class LayeredBrainHyperassociativeMap extends HyperassociativeMap<FeedforwardBackpropBrain, Neuron>
+public class LayeredBrainHyperassociativeMap extends HyperassociativeMap<FeedforwardBackpropBrain<InputBackpropNeuron, OutputBackpropNeuron, BackpropNeuron, Synapse<BackpropNeuron>>, BackpropNeuron>
 {
 	private final boolean cached;
-	private final Map<BackpropNeuron, Map<Neuron, Double>> neighbors;
+	private final Map<BackpropNeuron, Map<BackpropNeuron, Double>> neighbors;
 
 	public LayeredBrainHyperassociativeMap(final FeedforwardBackpropBrain graph, final int dimensions, final double equilibriumDistance, final boolean useWeights, final ExecutorService threadExecutor, final boolean cache)
 	{
 		super(graph, dimensions, equilibriumDistance, useWeights, threadExecutor);
 		this.cached = cache;
-		this.neighbors = new HashMap<BackpropNeuron, Map<Neuron, Double>>();
+		this.neighbors = new HashMap<BackpropNeuron, Map<BackpropNeuron, Double>>();
 	}
 
 	public LayeredBrainHyperassociativeMap(final FeedforwardBackpropBrain graph, final int dimensions, final ExecutorService threadExecutor, final boolean cache)
@@ -72,7 +72,7 @@ public class LayeredBrainHyperassociativeMap extends HyperassociativeMap<Feedfor
 	}
 
 	@Override
-	Map<Neuron, Double> getNeighbors(final Neuron nodeToQuery)
+	Map<BackpropNeuron, Double> getNeighbors(final BackpropNeuron nodeToQuery)
 	{
 		if( !(nodeToQuery instanceof BackpropNeuron) )
 			throw new IllegalArgumentException("nodeToQuery must be BackpropNeuron");
@@ -82,13 +82,14 @@ public class LayeredBrainHyperassociativeMap extends HyperassociativeMap<Feedfor
 			return this.neighbors.get(neuronToQuery);
 
 		//populate initial associations based off edges
-		final Map<Neuron, Double> associations = new HashMap<Neuron, Double>();
+		final Map<BackpropNeuron, Double> associations = new HashMap<BackpropNeuron, Double>();
 		for(final Synapse neighborEdge : this.getGraph().getAdjacentEdges(nodeToQuery))
 		{
 			final Double currentWeight = (this.isUsingWeights() ? neighborEdge.getWeight() : this.getEquilibriumDistance());
-			for(final Neuron neighbor : neighborEdge.getNodes())
+			//TODO fix this typing
+			for(final Object neighbor : neighborEdge.getNodes())
 				if( !neighbor.equals(nodeToQuery) )
-					associations.put(neighbor, currentWeight);
+					associations.put((BackpropNeuron)neighbor, currentWeight);
 		}
 
 		//add aditional associations per layer.
@@ -98,9 +99,9 @@ public class LayeredBrainHyperassociativeMap extends HyperassociativeMap<Feedfor
 			{
 				for(final BackpropNeuron layerNeuron : layer)
 				{
-					if( (neuronToQuery instanceof StaticNeuron) && (layerNeuron instanceof StaticNeuron) )
+					if( (neuronToQuery instanceof BackpropStaticNeuron) && (layerNeuron instanceof BackpropStaticNeuron) )
 						associations.put(layerNeuron, this.getEquilibriumDistance());
-					else if( (!(neuronToQuery instanceof StaticNeuron)) && (!(layerNeuron instanceof StaticNeuron)) )
+					else if( (!(neuronToQuery instanceof BackpropStaticNeuron)) && (!(layerNeuron instanceof BackpropStaticNeuron)) )
 						associations.put(layerNeuron, this.getEquilibriumDistance());
 				}
 			}

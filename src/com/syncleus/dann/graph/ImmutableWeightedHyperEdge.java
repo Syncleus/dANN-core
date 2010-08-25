@@ -20,7 +20,7 @@ package com.syncleus.dann.graph;
 
 import java.util.List;
 
-public class ImmutableWeightedHyperEdge<N> extends ImmutableHyperEdge<N> implements WeightedEdge<N>
+public final class ImmutableWeightedHyperEdge<N> extends AbstractHyperEdge<N> implements WeightedEdge<N>
 {
 	private static final long serialVersionUID = 2622882478754498808L;
 	private final double weight;
@@ -31,6 +31,12 @@ public class ImmutableWeightedHyperEdge<N> extends ImmutableHyperEdge<N> impleme
 		this.weight = ourWeight;
 	}
 
+	public ImmutableWeightedHyperEdge(final List<N> nodes, final double ourWeight, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
+	{
+		super(nodes, allowJoiningMultipleGraphs, contextEnabled);
+		this.weight = ourWeight;
+	}
+
 	@Override
 	public double getWeight()
 	{
@@ -38,28 +44,20 @@ public class ImmutableWeightedHyperEdge<N> extends ImmutableHyperEdge<N> impleme
 	}
 
 	@Override
-	public SimpleWeightedHyperEdge<N> disconnect(final N node)
+	public ImmutableWeightedHyperEdge<N> disconnect(final N node)
 	{
-		if( node == null )
-			throw new IllegalArgumentException("node can not be null");
-		if( !this.getNodes().contains(node) )
-			throw new IllegalArgumentException("node is not currently connected to");
-		return (SimpleWeightedHyperEdge<N>) this.remove(node);
+		return (ImmutableWeightedHyperEdge<N>) super.remove(node);
 	}
 
 	@Override
-	public SimpleWeightedHyperEdge<N> disconnect(final List<N> nodes)
+	public ImmutableWeightedHyperEdge<N> disconnect(final List<N> nodes)
 	{
-		if( nodes == null )
-			throw new IllegalArgumentException("node can not be null");
-		if( !this.getNodes().containsAll(nodes) )
-			throw new IllegalArgumentException("node is not currently connected to");
-		return (SimpleWeightedHyperEdge<N>) this.remove(nodes);
+		return (ImmutableWeightedHyperEdge<N>) super.remove(nodes);
 	}
 
 	@Override
-	public SimpleWeightedHyperEdge<N> clone()
+	public ImmutableWeightedHyperEdge<N> clone()
 	{
-		return (SimpleWeightedHyperEdge<N>) super.clone();
+		return (ImmutableWeightedHyperEdge<N>) super.clone();
 	}
 }

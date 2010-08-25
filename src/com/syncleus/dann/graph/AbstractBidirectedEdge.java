@@ -40,9 +40,29 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implemen
         this.rightEndState = null;
     }
 
+    protected AbstractBidirectedEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
+    {
+		super(allowJoiningMultipleGraphs, contextEnabled);
+
+        this.leftNode = null;
+        this.rightNode = null;
+        this.leftEndState = null;
+        this.rightEndState = null;
+    }
+
 	protected AbstractBidirectedEdge(final N newLeftNode, final EndState newLeftEndState, final N newRightNode, final EndState newRightEndState)
 	{
 		super(packNodes(newLeftNode, newRightNode));
+
+		this.leftNode = newLeftNode;
+		this.rightNode = newRightNode;
+		this.leftEndState = newLeftEndState;
+		this.rightEndState = newRightEndState;
+	}
+
+	protected AbstractBidirectedEdge(final N newLeftNode, final EndState newLeftEndState, final N newRightNode, final EndState newRightEndState, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
+	{
+		super(packNodes(newLeftNode, newRightNode), allowJoiningMultipleGraphs, contextEnabled);
 
 		this.leftNode = newLeftNode;
 		this.rightNode = newRightNode;

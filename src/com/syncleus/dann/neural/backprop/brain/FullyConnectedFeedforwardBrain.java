@@ -19,10 +19,11 @@
 package com.syncleus.dann.neural.backprop.brain;
 
 import java.util.concurrent.ExecutorService;
+import com.syncleus.dann.neural.Synapse;
 import com.syncleus.dann.neural.activation.ActivationFunction;
 import com.syncleus.dann.neural.backprop.*;
 
-public class FullyConnectedFeedforwardBrain extends AbstractFullyConnectedFeedforwardBrain
+public final class FullyConnectedFeedforwardBrain<IN extends InputBackpropNeuron, ON extends OutputBackpropNeuron, N extends BackpropNeuron, S extends Synapse<N>> extends AbstractFullyConnectedFeedforwardBrain<IN,ON,N,S>
 {
 	private static final long serialVersionUID = 3666884827880527998L;
 	private final double learningRate;
@@ -67,13 +68,17 @@ public class FullyConnectedFeedforwardBrain extends AbstractFullyConnectedFeedfo
 	 * @return The new SimpleBackpropNeuron to be added to the current layer.
 	 * @since 2.0
 	 */
-	protected BackpropNeuron createNeuron(final int layer, final int index)
+	protected N createNeuron(final int layer, final int index)
 	{
+		final BackpropNeuron neuron;
 		if( layer == 0 )
-			return new InputBackpropNeuron(this);
+			neuron = new SimpleInputBackpropNeuron(this);
 		else if( layer >= (this.getLayerCount() - 1) )
-			return new OutputBackpropNeuron(this, this.activationFunction, this.learningRate);
+			neuron = new SimpleOutputBackpropNeuron(this, this.activationFunction, this.learningRate);
 		else
-			return new SimpleBackpropNeuron(this, this.activationFunction, this.learningRate);
+			neuron = new SimpleBackpropNeuron(this, this.activationFunction, this.learningRate);
+
+		//TODO fix this typing
+		return (N) neuron;
 	}
 }

@@ -18,9 +18,11 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.bayesian;
 
+import java.util.List;
+import com.syncleus.dann.graph.AbstractDirectedEdge;
 import com.syncleus.dann.graph.ImmutableDirectedEdge;
 
-public class SimpleBayesianEdge<N extends BayesianNode> extends ImmutableDirectedEdge<N> implements BayesianEdge<N>
+public final class SimpleBayesianEdge<N extends BayesianNode> extends AbstractDirectedEdge<N> implements BayesianEdge<N>
 {
 	private static final long serialVersionUID = 5817768183659411136L;
 
@@ -29,8 +31,31 @@ public class SimpleBayesianEdge<N extends BayesianNode> extends ImmutableDirecte
 		super(source, destination);
 	}
 
+	public SimpleBayesianEdge(final N source, final N destination, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
+	{
+		super(source, destination, allowJoiningMultipleGraphs, contextEnabled);
+	}
+
 	public Object getState()
 	{
 		return this.getSourceNode().getState();
+	}
+
+	@Override
+	public SimpleBayesianEdge<N> disconnect(final N node)
+	{
+		return (SimpleBayesianEdge<N>) this.remove(node);
+	}
+
+	@Override
+	public SimpleBayesianEdge<N> disconnect(final List<N> nodes)
+	{
+		return (SimpleBayesianEdge<N>) this.remove(nodes);
+	}
+
+	@Override
+	public SimpleBayesianEdge<N> clone()
+	{
+		return (SimpleBayesianEdge<N>) super.clone();
 	}
 }

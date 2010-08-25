@@ -16,14 +16,40 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.neural.backprop.brain;
+package com.syncleus.dann.neural.backprop;
 
-import java.util.*;
-import com.syncleus.dann.neural.*;
-import com.syncleus.dann.neural.backprop.*;
+import com.syncleus.dann.neural.Brain;
+import com.syncleus.dann.neural.Synapse;
 
-public interface FeedforwardBackpropBrain<IN extends InputBackpropNeuron, ON extends OutputBackpropNeuron, N extends BackpropNeuron, S extends Synapse<N>> extends BackpropBrain<IN,ON,N,S>
+public abstract class AbstractBackpropStaticNeuron extends AbstractBackpropNeuron
 {
-	int getLayerCount();
-	List<Set<N>> getLayers();
+	private static final long serialVersionUID = -20348709174097590L;
+	private final double output;
+
+	public AbstractBackpropStaticNeuron(final Brain brain, final double constantOutput)
+	{
+		super(brain);
+		this.output = constantOutput;
+	}
+
+	@Override
+	public void tick()
+	{
+		//TODO fix this,b ad typing
+//		for(final Synapse current : this.getBrain().getTraversableEdges(this))
+//			current.setInput(this.output);
+		for(final Object current : this.getBrain().getTraversableEdges(this))
+			((Synapse)current).setInput(this.output);
+	}
+
+	@Override
+	protected double getOutput()
+	{
+		return this.output;
+	}
+
+	@Override
+	public void backPropagate()
+	{
+	}
 }

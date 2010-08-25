@@ -20,6 +20,7 @@ package com.syncleus.dann.neural;
 
 import java.util.*;
 
+//TODO get rid of this, it essentially plays the role of a sub-graph
 /**
  * A special NetworkNode which can contain other NetworkNodes as children.
  *

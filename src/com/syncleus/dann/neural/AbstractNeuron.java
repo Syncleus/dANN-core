@@ -29,7 +29,7 @@ public abstract class AbstractNeuron implements Neuron
 	 * @since 1.0
 	 */
 	protected static final Random RANDOM = new Random();
-	private final Brain brain;
+	private final Brain<InputNeuron, OutputNeuron, Neuron, Synapse<Neuron>> brain;
 	private static final Logger LOGGER = Logger.getLogger(AbstractNeuron.class);
 
 	/**
@@ -38,14 +38,14 @@ public abstract class AbstractNeuron implements Neuron
 	 *
 	 * @since 1.0
 	 */
-	public AbstractNeuron(final Brain brain)
+	protected AbstractNeuron(final Brain<InputNeuron, OutputNeuron, Neuron, Synapse<Neuron>> brain)
 	{
 		if( brain == null )
 			throw new IllegalArgumentException("brain can not be null");
 		this.brain = brain;
 	}
 
-	protected Brain getBrain()
+	protected Brain<InputNeuron, OutputNeuron, Neuron, Synapse<Neuron>> getBrain()
 	{
 		return this.brain;
 	}

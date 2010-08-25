@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import com.syncleus.dann.neural.*;
 
-public class BrainHyperassociativeMap extends HyperassociativeMap<Brain, Neuron>
+public class BrainHyperassociativeMap extends HyperassociativeMap<Brain<InputNeuron, OutputNeuron, Neuron, Synapse<Neuron>>, Neuron>
 {
 	public BrainHyperassociativeMap(final Brain graph, final int dimensions, final double equilibriumDistance, final boolean useWeights, final ExecutorService threadExecutor)
 	{

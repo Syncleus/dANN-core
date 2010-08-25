@@ -33,12 +33,6 @@ public class TestNeuronGroup
 		{
 			return super.add(newNeuron);
 		}
-
-		@Override
-		public boolean connect(final Neuron source, final Neuron destination)
-		{
-			return super.connect(source, destination);
-		}
 	}
 
 	@Test
