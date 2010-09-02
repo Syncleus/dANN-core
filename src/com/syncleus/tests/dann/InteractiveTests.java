@@ -163,7 +163,7 @@ public class InteractiveTests
 			logProperties.setProperty("log4j.appender.console", "org.apache.log4j.ConsoleAppender");
 			logProperties.setProperty("log4j.appender.console.Target", "System.out");
 			logProperties.setProperty("log4j.appender.console.layout", "org.apache.log4j.PatternLayout");
-			logProperties.setProperty("log4j.appender.console.Threshold", "info");
+			logProperties.setProperty("log4j.appender.console.Threshold", "all");
 			PropertyConfigurator.configure(logProperties);
 
 			final Map<Class, Set<Method>> tests = InteractiveTests.getTestPoints();

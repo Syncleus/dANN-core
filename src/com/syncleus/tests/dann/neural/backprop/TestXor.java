@@ -23,7 +23,7 @@ import java.util.concurrent.*;
 import com.syncleus.dann.DannException;
 import com.syncleus.dann.neural.*;
 import com.syncleus.dann.neural.activation.*;
-import com.syncleus.dann.neural.backprop.OutputBackpropNeuron;
+import com.syncleus.dann.neural.backprop.SimpleOutputBackpropNeuron;
 import com.syncleus.dann.neural.backprop.brain.FullyConnectedFeedforwardBrain;
 import org.junit.*;
 
@@ -40,7 +40,7 @@ public class TestXor
 	private InputNeuron inputA = null;
 	private InputNeuron inputB = null;
 	private InputNeuron inputC = null;
-	private OutputBackpropNeuron output = null;
+	private SimpleOutputBackpropNeuron output = null;
 	private FullyConnectedFeedforwardBrain brain = null;
 	private static final int TRAINING_CYCLES = 1000;
 	private static final double LEARNING_RATE = 0.0175;
@@ -62,7 +62,7 @@ public class TestXor
 			this.inputB = inputs.get(1);
 			this.inputC = inputs.get(2);
 			final ArrayList<OutputNeuron> outputs = new ArrayList<OutputNeuron>(this.brain.getOutputNeurons());
-			this.output = (OutputBackpropNeuron) outputs.get(0);
+			this.output = (SimpleOutputBackpropNeuron) outputs.get(0);
 
 			train(TRAINING_CYCLES);
 

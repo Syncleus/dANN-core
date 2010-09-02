@@ -21,6 +21,7 @@ package com.syncleus.tests.dann.graph.drawing.hyperassociativemap;
 import java.util.concurrent.*;
 import com.syncleus.dann.graph.drawing.hyperassociativemap.HyperassociativeMap;
 import com.syncleus.dann.neural.*;
+import com.syncleus.dann.neural.backprop.BackpropNeuron;
 import com.syncleus.dann.neural.backprop.SimpleBackpropNeuron;
 import org.junit.*;
 
@@ -37,13 +38,13 @@ public class TestHyperassociativeMap
 		}
 
 		@Override
-		public boolean connect(final Neuron source, final Neuron destination)
+		public boolean connect(final Synapse synapse, final boolean initalize)
 		{
-			return super.connect(source, destination);
+			return super.connect(synapse, initalize);
 		}
 	}
 
-	private static class TestMap extends HyperassociativeMap<AbstractLocalBrain, Neuron>
+	private static class TestMap extends HyperassociativeMap<AbstractLocalBrain<InputNeuron, OutputNeuron, Neuron, Synapse<Neuron>>, Neuron>
 	{
 		public TestMap(final AbstractLocalBrain brain, final int dimensions, final ThreadPoolExecutor executor)
 		{
@@ -62,7 +63,8 @@ public class TestHyperassociativeMap
 		testBrain.add(neuron1);
 		testBrain.add(neuron2);
 
-		testBrain.connect(neuron1, neuron2);
+		Synapse<BackpropNeuron> synapse = new SimpleSynapse<BackpropNeuron>(neuron1, neuron2);
+		testBrain.connect(synapse, true);
 
 		final TestMap testMap;
 		final int cores = Runtime.getRuntime().availableProcessors();

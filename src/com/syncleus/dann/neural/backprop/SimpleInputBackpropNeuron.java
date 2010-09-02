@@ -16,40 +16,22 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.neural;
+package com.syncleus.dann.neural.backprop;
 
-public class SimpleInputNeuron extends AbstractNeuron implements InputNeuron
+import com.syncleus.dann.neural.*;
+
+/**
+ * This is a special type of SimpleBackpropNeuron that receives input.
+ *
+ * @author Jeffrey Phillips Freeman
+ * @since 1.0
+ */
+public final class SimpleInputBackpropNeuron extends AbstractInputBackpropNeuron
 {
-	private static final long serialVersionUID = 4397150011892747140L;
-	private double input = 0.0;
+	private static final long serialVersionUID = -183209470174312L;
 
-	public SimpleInputNeuron(final Brain brain)
+	public SimpleInputBackpropNeuron(final Brain brain)
 	{
 		super(brain);
-	}
-
-	public void setInput(final double inputToSet)
-	{
-		if( Math.abs(inputToSet) > 1.0 )
-			throw new IllegalArgumentException("InputToSet must be between -1 and +1");
-
-		this.input = inputToSet;
-	}
-
-	public double getInput()
-	{
-		return this.input;
-	}
-
-	protected double getOutput()
-	{
-		return this.input;
-	}
-
-	@Override
-	public void propagate()
-	{
-		for(final Synapse current : this.getBrain().getTraversableEdges(this))
-			current.setInput(this.input);
 	}
 }

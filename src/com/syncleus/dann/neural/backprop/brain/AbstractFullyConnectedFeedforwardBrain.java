@@ -19,10 +19,10 @@
 package com.syncleus.dann.neural.backprop.brain;
 
 import java.util.concurrent.ExecutorService;
-import com.syncleus.dann.neural.NeuronGroup;
+import com.syncleus.dann.neural.*;
 import com.syncleus.dann.neural.backprop.*;
 
-public abstract class AbstractFullyConnectedFeedforwardBrain extends AbstractFeedforwardBrain
+public abstract class AbstractFullyConnectedFeedforwardBrain<IN extends InputBackpropNeuron, ON extends OutputBackpropNeuron, N extends BackpropNeuron, S extends Synapse<N>> extends AbstractFeedforwardBrain<IN,ON,N,S>
 {
 	private final boolean hasBias;
 
@@ -72,25 +72,35 @@ public abstract class AbstractFullyConnectedFeedforwardBrain extends AbstractFee
 		//next layer
 		for(int layerIndex = 0; layerIndex < (this.getLayerCount() - 1); layerIndex++)
 		{
-			final NeuronGroup<BackpropNeuron> sourceLayer = this.getEditableLayers().get(layerIndex);
-			final NeuronGroup<BackpropNeuron> destinationLayer = this.getEditableLayers().get(layerIndex + 1);
-			for(final BackpropNeuron sourceNeuron : sourceLayer.getChildrenNeuronsRecursivly())
-				for(final BackpropNeuron destinationNeruon : destinationLayer.getChildrenNeuronsRecursivly())
-					this.connect(sourceNeuron, destinationNeruon);
+			final NeuronGroup<N> sourceLayer = this.getEditableLayers().get(layerIndex);
+			final NeuronGroup<N> destinationLayer = this.getEditableLayers().get(layerIndex + 1);
+			for(final N sourceNeuron : sourceLayer.getChildrenNeuronsRecursivly())
+				for(final N destinationNeruon : destinationLayer.getChildrenNeuronsRecursivly())
+				{
+					//TODO this is bad typing fix this!
+					Synapse<N> connection = new SimpleSynapse<N>((N)sourceNeuron, destinationNeruon);
+					//TODO this is bad typing fix this!
+					this.connect((S) connection, true);
+				}
 		}
 		//create and connect biases
 		for(int layerIndex = 1; layerIndex < this.getLayerCount(); layerIndex++)
 		{
-			for(final BackpropNeuron destinationNeuron : this.getEditableLayers().get(layerIndex).getChildrenNeuronsRecursivly())
+			for(final N destinationNeuron : this.getEditableLayers().get(layerIndex).getChildrenNeuronsRecursivly())
 			{
 				if( this.hasBias )
 				{
 					//create the bias neuron and add it
 					final BackpropNeuron biasNeuron = new BackpropStaticNeuron(this, 1.0);
-					this.getEditableLayers().get(layerIndex - 1).add(biasNeuron);
-					this.add(biasNeuron);
+					//TODO this is bad typing fix this!
+					this.getEditableLayers().get(layerIndex - 1).add((N)biasNeuron);
+					//TODO this is bad typing fix this!
+					this.add((N)biasNeuron);
 					//connect the new bias neuron to its destination neuron
-					this.connect(biasNeuron, destinationNeuron);
+					//TODO this is bad typing fix this!
+					Synapse<N> connection = new SimpleSynapse<N>((N)biasNeuron, destinationNeuron);
+					//TODO this is bad typing fix this!
+					this.connect((S) connection, true);
 				}
 			}
 		}

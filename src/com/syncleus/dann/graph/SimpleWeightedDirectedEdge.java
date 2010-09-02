@@ -20,7 +20,7 @@ package com.syncleus.dann.graph;
 
 import java.util.List;
 
-public class SimpleWeightedDirectedEdge<N> extends ImmutableDirectedEdge<N> implements WeightedDirectedEdge<N>, MutableWeighted
+public final class SimpleWeightedDirectedEdge<N> extends AbstractDirectedEdge<N> implements WeightedDirectedEdge<N>, MutableWeighted
 {
 	private static final long serialVersionUID = -6843921044147012645L;
 	private double weight;
@@ -28,6 +28,12 @@ public class SimpleWeightedDirectedEdge<N> extends ImmutableDirectedEdge<N> impl
 	public SimpleWeightedDirectedEdge(final N source, final N destination, final double ourWeight)
 	{
 		super(source, destination);
+		this.weight = ourWeight;
+	}
+
+	public SimpleWeightedDirectedEdge(final N source, final N destination, final double ourWeight, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
+	{
+		super(source, destination, allowJoiningMultipleGraphs, contextEnabled);
 		this.weight = ourWeight;
 	}
 
@@ -46,21 +52,13 @@ public class SimpleWeightedDirectedEdge<N> extends ImmutableDirectedEdge<N> impl
 	@Override
 	public SimpleWeightedDirectedEdge<N> disconnect(final N node)
 	{
-		if( node == null )
-			throw new IllegalArgumentException("node can not be null");
-		if( !this.getNodes().contains(node) )
-			throw new IllegalArgumentException("node is not currently connected to");
-		return (SimpleWeightedDirectedEdge<N>) this.remove(node);
+		return (SimpleWeightedDirectedEdge<N>) this.disconnect(node);
 	}
 
 	@Override
 	public SimpleWeightedDirectedEdge<N> disconnect(final List<N> nodes)
 	{
-		if( nodes == null )
-			throw new IllegalArgumentException("node can not be null");
-		if( !this.getNodes().containsAll(nodes) )
-			throw new IllegalArgumentException("node is not currently connected to");
-		return (SimpleWeightedDirectedEdge<N>) this.remove(nodes);
+		return (SimpleWeightedDirectedEdge<N>) this.disconnect(nodes);
 	}
 
 	@Override

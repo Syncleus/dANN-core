@@ -16,14 +16,15 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.neural.backprop.brain;
+package com.syncleus.dann.neural.som;
 
-import java.util.*;
-import com.syncleus.dann.neural.*;
-import com.syncleus.dann.neural.backprop.*;
+import com.syncleus.dann.neural.AbstractInputNeuron;
+import com.syncleus.dann.neural.Brain;
 
-public interface FeedforwardBackpropBrain<IN extends InputBackpropNeuron, ON extends OutputBackpropNeuron, N extends BackpropNeuron, S extends Synapse<N>> extends BackpropBrain<IN,ON,N,S>
+public abstract class AbstractSomInputNeuron extends AbstractInputNeuron implements SomInputNeuron
 {
-	int getLayerCount();
-	List<Set<N>> getLayers();
+	protected AbstractSomInputNeuron(final Brain brain)
+	{
+		super(brain);
+	}
 }

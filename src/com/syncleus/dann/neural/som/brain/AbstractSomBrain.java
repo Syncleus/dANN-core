@@ -24,7 +24,7 @@ import java.util.concurrent.*;
 import com.syncleus.dann.*;
 import com.syncleus.dann.math.Vector;
 import com.syncleus.dann.neural.*;
-import com.syncleus.dann.neural.som.SimpleSomNeuron;
+import com.syncleus.dann.neural.som.*;
 import org.apache.log4j.Logger;
 
 /**
@@ -36,41 +36,41 @@ import org.apache.log4j.Logger;
  * @author Jeffrey Phillips Freeman
  * @since 2.0
  */
-public abstract class AbstractSomBrain extends AbstractLocalBrain
+public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends SomOutputNeuron, N extends SomNeuron, S extends Synapse<N>> extends AbstractLocalBrain<IN,ON,N,S> implements SomBrain<IN,ON,N,S>
 {
 	private int iterationsTrained;
 	private Vector upperBounds;
 	private Vector lowerBounds;
-	private final List<InputNeuron> inputs;
-	private final Map<Vector, SimpleSomNeuron> outputs = new HashMap<Vector, SimpleSomNeuron>();
+	private final List<IN> inputs;
+	private final Map<Vector, ON> outputs = new HashMap<Vector, ON>();
 	private static final Logger LOGGER = Logger.getLogger(AbstractSomBrain.class);
 
-	private static class PropagateOutput implements Callable<Double>
+	private class PropagateOutput implements Callable<Double>
 	{
-		private final SimpleSomNeuron neuron;
-		private static final Logger LOGGER = Logger.getLogger(PropagateOutput.class);
+		private final ON neuron;
 
-		public PropagateOutput(final SimpleSomNeuron neuron)
+		public PropagateOutput(final ON neuron)
 		{
 			this.neuron = neuron;
 		}
 
+		@Override
 		public Double call()
 		{
-			this.neuron.propagate();
+			this.neuron.tick();
 			return this.neuron.getOutput();
 		}
 	}
 
 	private class TrainNeuron implements Runnable
 	{
-		private final SimpleSomNeuron neuron;
+		private final ON neuron;
 		private final Vector neuronPoint;
 		private final Vector bestMatchPoint;
 		private final double neighborhoodRadius;
 		private final double learningRate;
 
-		public TrainNeuron(final SimpleSomNeuron neuron, final Vector neuronPoint, final Vector bestMatchPoint, final double neighborhoodRadius, final double learningRate)
+		public TrainNeuron(final ON neuron, final Vector neuronPoint, final Vector bestMatchPoint, final double neighborhoodRadius, final double learningRate)
 		{
 			this.neuron = neuron;
 			this.neuronPoint = neuronPoint;
@@ -79,6 +79,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 			this.learningRate = learningRate;
 		}
 
+		@Override
 		public void run()
 		{
 			final double currentDistance = this.neuronPoint.calculateRelativeTo(this.bestMatchPoint).getDistance();
@@ -126,12 +127,15 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 
 		this.upperBounds = new Vector(dimentionality);
 		this.lowerBounds = new Vector(dimentionality);
-		final List<InputNeuron> newInputs = new ArrayList<InputNeuron>();
+		final List<IN> newInputs = new ArrayList<IN>();
 		for(int inputIndex = 0; inputIndex < inputCount; inputIndex++)
 		{
-			final InputNeuron newNeuron = new SimpleInputNeuron(this);
+			//TODO fix this it is type unsafe
+			SomInputNeuron safeNewNeuron = new SimpleSomInputNeuron(this);
+			final IN newNeuron = (IN) safeNewNeuron;
 			newInputs.add(newNeuron);
-			super.add(newNeuron);
+			//TODO fix this it is type unsafe
+			super.add((N)newNeuron);
 		}
 		this.inputs = Collections.unmodifiableList(newInputs);
 	}
@@ -169,12 +173,18 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 
 		//create and add the new output neuron
 		final SimpleSomNeuron outputNeuron = new SimpleSomNeuron(this);
-		this.outputs.put(position, outputNeuron);
-		this.add(outputNeuron);
+		//TODO fix this it is type unsafe
+		this.outputs.put(position, (ON)outputNeuron);
+		//TODO fix this it is type unsafe
+		this.add((N)outputNeuron);
 
 		//connect all inputs to the new neuron
+		//TODO fix this it is type unsafe
 		for(final InputNeuron input : this.inputs)
-			this.connect(input, outputNeuron);
+		{
+			Synapse<N> synapse = new SimpleSynapse<N>((N)input, (N)outputNeuron);
+			this.connect((S)synapse, true);
+		}
 	}
 
 	/**
@@ -205,11 +215,11 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	 */
 	public final double getOutput(final Vector position)
 	{
-		final SimpleSomNeuron outputNeuron = this.outputs.get(position);
+		final ON outputNeuron = this.outputs.get(position);
 		if( outputNeuron == null )
 			throw new IllegalArgumentException("position does not exist");
 
-		outputNeuron.propagate();
+		outputNeuron.tick();
 		return outputNeuron.getOutput();
 	}
 
@@ -245,14 +255,14 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 		{
 			//stick all the neurons in the queue to propogate
 			final Map<Vector, Future<Double>> futureOutput = new HashMap<Vector, Future<Double>>();
-			for(final Entry<Vector, SimpleSomNeuron> entry : this.outputs.entrySet())
+			for(final Entry<Vector, ON> entry : this.outputs.entrySet())
 			{
 				final PropagateOutput callable = new PropagateOutput(entry.getValue());
 				futureOutput.put(entry.getKey(), this.getThreadExecutor().submit(callable));
 			}
 
 			//find the best matching unit
-			for(final Entry<Vector, SimpleSomNeuron> entry : this.outputs.entrySet())
+			for(final Entry<Vector, ON> entry : this.outputs.entrySet())
 			{
 				final double output;
 				try
@@ -281,10 +291,10 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 		}
 		else
 		{
-			for(final Entry<Vector, SimpleSomNeuron> entry : this.outputs.entrySet())
+			for(final Entry<Vector, ON> entry : this.outputs.entrySet())
 			{
-				final SimpleSomNeuron neuron = entry.getValue();
-				neuron.propagate();
+				final ON neuron = entry.getValue();
+				neuron.tick();
 				final double output = neuron.getOutput();
 
 				if( bestMatchingUnit == null )
@@ -312,7 +322,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 		{
 			//add all the neuron trainingevents to the thread queue
 			final ArrayList<Future> futures = new ArrayList<Future>();
-			for(final Entry<Vector, SimpleSomNeuron> entry : this.outputs.entrySet())
+			for(final Entry<Vector, ON> entry : this.outputs.entrySet())
 			{
 				final TrainNeuron runnable = new TrainNeuron(entry.getValue(), entry.getKey(), bestMatchingUnit, neighborhoodRadius, learningRate);
 				futures.add(this.getThreadExecutor().submit(runnable));
@@ -337,7 +347,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 		}
 		else
 		{
-			for(final Entry<Vector, SimpleSomNeuron> entry : this.outputs.entrySet())
+			for(final Entry<Vector, ON> entry : this.outputs.entrySet())
 			{
 				final TrainNeuron runnable = new TrainNeuron(entry.getValue(), entry.getKey(), bestMatchingUnit, neighborhoodRadius, learningRate);
 				runnable.run();
@@ -403,7 +413,7 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 
 		final InputNeuron currentInput = this.inputs.get(inputIndex);
 		currentInput.setInput(inputValue);
-		currentInput.propagate();
+		currentInput.tick();
 	}
 
 	/**
@@ -428,13 +438,14 @@ public abstract class AbstractSomBrain extends AbstractLocalBrain
 	{
 		//iterate through the output lattice
 		final HashMap<Vector, double[]> weightVectors = new HashMap<Vector, double[]>();
-		for(final Entry<Vector, SimpleSomNeuron> output : this.outputs.entrySet())
+		for(final Entry<Vector, ON> output : this.outputs.entrySet())
 		{
 			final double[] weightVector = new double[this.inputs.size()];
-			final SimpleSomNeuron currentNeuron = output.getValue();
+			final ON currentNeuron = output.getValue();
 			final Vector currentPoint = output.getKey();
 			//iterate through the weight vectors of the current neuron
-			for(final Synapse source : this.getInEdges(currentNeuron))
+			//TODO fix this it is badly typed
+			for(final S source : this.getInEdges((N)currentNeuron))
 			{
 				assert (source.getSourceNode() instanceof InputNeuron);
 				final int sourceIndex = this.inputs.indexOf((InputNeuron) source.getSourceNode());

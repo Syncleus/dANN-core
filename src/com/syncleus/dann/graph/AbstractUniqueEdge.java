@@ -22,6 +22,16 @@ import java.util.List;
 
 public abstract class AbstractUniqueEdge<N> extends AbstractEdge<N>
 {
+    protected AbstractUniqueEdge()
+    {
+		super();
+    }
+
+    protected AbstractUniqueEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
+    {
+		super(allowJoiningMultipleGraphs, contextEnabled);
+	}
+
 	protected AbstractUniqueEdge(final List<N> nodes)
 	{
 		super(nodes);
@@ -30,6 +40,16 @@ public abstract class AbstractUniqueEdge<N> extends AbstractEdge<N>
 	protected AbstractUniqueEdge(final N... nodes)
 	{
 		super(nodes);
+	}
+
+	protected AbstractUniqueEdge(final List<N> nodes, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
+	{
+		super(nodes, allowJoiningMultipleGraphs, contextEnabled);
+	}
+
+	protected AbstractUniqueEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled, final N... nodes)
+	{
+		super(allowJoiningMultipleGraphs, contextEnabled, nodes);
 	}
 
 	@Override

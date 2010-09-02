@@ -20,7 +20,7 @@ package com.syncleus.dann.graph;
 
 import java.util.*;
 
-public class ImmutableHyperEdge<N> extends AbstractEdge<N> implements HyperEdge<N>
+public final class ImmutableHyperEdge<N> extends AbstractHyperEdge<N> implements HyperEdge<N>
 {
 	private static final long serialVersionUID = -3657973823101515199L;
 
@@ -34,59 +34,38 @@ public class ImmutableHyperEdge<N> extends AbstractEdge<N> implements HyperEdge<
 		super(nodes);
 	}
 
-	public List<N> getTraversableNodes(final N node)
+	public ImmutableHyperEdge(final List<N> nodes, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
 	{
-		final List<N> traversableNodes = new ArrayList<N>(this.getNodes());
-		if( !traversableNodes.remove(node) )
-			throw new IllegalArgumentException("node is not one of the end points!");
-		return Collections.unmodifiableList(traversableNodes);
+		super(nodes, allowJoiningMultipleGraphs, contextEnabled);
 	}
 
-	public int getDegree()
+	public ImmutableHyperEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled, final N... nodes)
 	{
-		return 0;
+		super(allowJoiningMultipleGraphs, contextEnabled, nodes);
 	}
 
-	public boolean isSymmetric(final HyperEdge symmetricEdge)
-	{
-		return false;
-	}
-
+	@Override
 	public ImmutableHyperEdge<N> connect(final N node)
 	{
-		if( node == null )
-			throw new IllegalArgumentException("node can not be null");
-		if( this.getNodes().contains(node) )
-			throw new IllegalArgumentException("node is already connected");
-		return (ImmutableHyperEdge<N>) this.add(node);
+		return (ImmutableHyperEdge<N>) super.connect(node);
 	}
 
+	@Override
 	public ImmutableHyperEdge<N> connect(final List<N> nodes)
 	{
-		if( nodes == null )
-			throw new IllegalArgumentException("node can not be null");
-		for(final N node : nodes)
-			if( this.getNodes().contains(node) )
-				throw new IllegalArgumentException("node is already connected");
-		return (ImmutableHyperEdge<N>) this.add(nodes);
+		return (ImmutableHyperEdge<N>) super.connect(nodes);
 	}
 
+	@Override
 	public ImmutableHyperEdge<N> disconnect(final N node)
 	{
-		if( node == null )
-			throw new IllegalArgumentException("node can not be null");
-		if( !this.getNodes().contains(node) )
-			throw new IllegalArgumentException("node is not currently connected to");
-		return (ImmutableHyperEdge<N>) this.remove(node);
+		return (ImmutableHyperEdge<N>) super.disconnect(node);
 	}
 
+	@Override
 	public ImmutableHyperEdge<N> disconnect(final List<N> nodes)
 	{
-		if( nodes == null )
-			throw new IllegalArgumentException("node can not be null");
-		if( !this.getNodes().containsAll(nodes) )
-			throw new IllegalArgumentException("node is not currently connected to");
-		return (ImmutableHyperEdge<N>) this.remove(nodes);
+		return (ImmutableHyperEdge<N>) super.disconnect(nodes);
 	}
 
 	@Override

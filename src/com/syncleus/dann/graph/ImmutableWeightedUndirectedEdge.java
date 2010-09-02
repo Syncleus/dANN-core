@@ -20,7 +20,7 @@ package com.syncleus.dann.graph;
 
 import java.util.List;
 
-public class ImmutableWeightedUndirectedEdge<N> extends ImmutableUndirectedEdge<N> implements WeightedBidirectedEdge<N>
+public final class ImmutableWeightedUndirectedEdge<N> extends AbstractUndirectedEdge<N> implements WeightedBidirectedEdge<N>
 {
 	private static final long serialVersionUID = 4622255810663472765L;
 	private final double weight;
@@ -31,6 +31,12 @@ public class ImmutableWeightedUndirectedEdge<N> extends ImmutableUndirectedEdge<
 		this.weight = ourWeight;
 	}
 
+	public ImmutableWeightedUndirectedEdge(final N left, final N right, final double ourWeight, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
+	{
+		super(left, right, allowJoiningMultipleGraphs, contextEnabled);
+		this.weight = ourWeight;
+	}
+
 	@Override
 	public double getWeight()
 	{
@@ -38,28 +44,20 @@ public class ImmutableWeightedUndirectedEdge<N> extends ImmutableUndirectedEdge<
 	}
 
 	@Override
-	public SimpleWeightedUndirectedEdge<N> disconnect(final N node)
+	public ImmutableWeightedUndirectedEdge<N> disconnect(final N node)
 	{
-		if( node == null )
-			throw new IllegalArgumentException("node can not be null");
-		if( !this.getNodes().contains(node) )
-			throw new IllegalArgumentException("node is not currently connected to");
-		return (SimpleWeightedUndirectedEdge<N>) this.remove(node);
+		return (ImmutableWeightedUndirectedEdge<N>) this.remove(node);
 	}
 
 	@Override
-	public SimpleWeightedUndirectedEdge<N> disconnect(final List<N> nodes)
+	public ImmutableWeightedUndirectedEdge<N> disconnect(final List<N> nodes)
 	{
-		if( nodes == null )
-			throw new IllegalArgumentException("node can not be null");
-		if( !this.getNodes().containsAll(nodes) )
-			throw new IllegalArgumentException("node is not currently connected to");
-		return (SimpleWeightedUndirectedEdge<N>) this.remove(nodes);
+		return (ImmutableWeightedUndirectedEdge<N>) this.remove(nodes);
 	}
 
 	@Override
-	public SimpleWeightedUndirectedEdge<N> clone()
+	public ImmutableWeightedUndirectedEdge<N> clone()
 	{
-		return (SimpleWeightedUndirectedEdge<N>) super.clone();
+		return (ImmutableWeightedUndirectedEdge<N>) super.clone();
 	}
 }

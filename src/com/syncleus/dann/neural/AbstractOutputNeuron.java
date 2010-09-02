@@ -16,14 +16,26 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.neural.backprop.brain;
+package com.syncleus.dann.neural;
 
-import java.util.*;
-import com.syncleus.dann.neural.*;
-import com.syncleus.dann.neural.backprop.*;
-
-public interface FeedforwardBackpropBrain<IN extends InputBackpropNeuron, ON extends OutputBackpropNeuron, N extends BackpropNeuron, S extends Synapse<N>> extends BackpropBrain<IN,ON,N,S>
+public abstract class AbstractOutputNeuron extends AbstractNeuron implements OutputNeuron
 {
-	int getLayerCount();
-	List<Set<N>> getLayers();
+	private static final long serialVersionUID = 913247029435234L;
+	private double output = 0.0;
+
+	protected AbstractOutputNeuron(final Brain brain)
+	{
+		super(brain);
+	}
+
+	@Override
+	public double getOutput()
+	{
+		return this.output;
+	}
+
+	protected void setOutput(double output)
+	{
+		this.output = output;
+	}
 }

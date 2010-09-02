@@ -48,10 +48,10 @@ public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<
 
 	protected AbstractEdge(final List<N> ourNodes)
 	{
-		this(true, true, ourNodes);
+		this(ourNodes, true, true);
 	}
 
-	protected AbstractEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled, final List<N> ourNodes)
+	protected AbstractEdge(final List<N> ourNodes, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
 	{
 		super(allowJoiningMultipleGraphs);
 		this.contextEnabled = contextEnabled;
@@ -79,7 +79,7 @@ public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<
 
 	protected AbstractEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled, final N... ourNodes)
 	{
-		this(allowJoiningMultipleGraphs, contextEnabled, Arrays.asList(ourNodes));
+		this(Arrays.asList(ourNodes), allowJoiningMultipleGraphs, contextEnabled);
 	}
 
 	@Override

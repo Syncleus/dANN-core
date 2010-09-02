@@ -20,7 +20,7 @@ package com.syncleus.dann.graph;
 
 import java.util.List;
 
-public class SimpleWeightedHyperEdge<N> extends ImmutableHyperEdge<N> implements WeightedEdge<N>, MutableWeighted
+public final class SimpleWeightedHyperEdge<N> extends AbstractHyperEdge<N> implements WeightedEdge<N>, MutableWeighted
 {
 	private static final long serialVersionUID = 2622882478754498808L;
 	private double weight;
@@ -28,6 +28,12 @@ public class SimpleWeightedHyperEdge<N> extends ImmutableHyperEdge<N> implements
 	public SimpleWeightedHyperEdge(final List<N> nodes, final double ourWeight)
 	{
 		super(nodes);
+		this.weight = ourWeight;
+	}
+
+	public SimpleWeightedHyperEdge(final List<N> nodes, final double ourWeight, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
+	{
+		super(nodes, allowJoiningMultipleGraphs, contextEnabled);
 		this.weight = ourWeight;
 	}
 
@@ -46,21 +52,13 @@ public class SimpleWeightedHyperEdge<N> extends ImmutableHyperEdge<N> implements
 	@Override
 	public SimpleWeightedHyperEdge<N> disconnect(final N node)
 	{
-		if( node == null )
-			throw new IllegalArgumentException("node can not be null");
-		if( !this.getNodes().contains(node) )
-			throw new IllegalArgumentException("node is not currently connected to");
-		return (SimpleWeightedHyperEdge<N>) this.remove(node);
+		return (SimpleWeightedHyperEdge<N>) this.disconnect(node);
 	}
 
 	@Override
 	public SimpleWeightedHyperEdge<N> disconnect(final List<N> nodes)
 	{
-		if( nodes == null )
-			throw new IllegalArgumentException("node can not be null");
-		if( !this.getNodes().containsAll(nodes) )
-			throw new IllegalArgumentException("node is not currently connected to");
-		return (SimpleWeightedHyperEdge<N>) this.remove(nodes);
+		return (SimpleWeightedHyperEdge<N>) this.disconnect(nodes);
 	}
 
 	@Override

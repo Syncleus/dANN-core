@@ -20,16 +20,12 @@ package com.syncleus.dann.neural.backprop;
 
 import com.syncleus.dann.neural.*;
 
-public class BackpropStaticNeuron extends StaticNeuron implements BackpropNeuron
+public final class BackpropStaticNeuron extends AbstractBackpropStaticNeuron
 {
 	private static final long serialVersionUID = -958292142062664899L;
 
 	public BackpropStaticNeuron(final Brain brain, final double constantOutput)
 	{
 		super(brain, constantOutput);
-	}
-
-	public void backPropagate()
-	{
 	}
 }
