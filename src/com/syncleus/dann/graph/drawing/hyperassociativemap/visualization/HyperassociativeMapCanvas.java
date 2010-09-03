@@ -18,6 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.drawing.hyperassociativemap.visualization;
 
+import com.syncleus.dann.ComponentUnavailableException;
 import javax.media.j3d.*;
 import javax.vecmath.*;
 import java.awt.GraphicsConfiguration;
@@ -26,6 +27,8 @@ import com.sun.j3d.utils.universe.SimpleUniverse;
 import com.syncleus.dann.graph.Graph;
 import com.syncleus.dann.graph.drawing.hyperassociativemap.HyperassociativeMap;
 import java.awt.BorderLayout;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
@@ -101,7 +104,7 @@ public class HyperassociativeMapCanvas<G extends Graph<N, ?>, N> extends JPanel 
      * @param ourMap The HyperassociativeMap to display.
      * @since 1.0
      */
-    public HyperassociativeMapCanvas(final HyperassociativeMap<G, N> ourMap) {
+    public HyperassociativeMapCanvas(final HyperassociativeMap<G, N> ourMap) throws ComponentUnavailableException {
         this(ourMap, SimpleUniverse.getPreferredConfiguration());
     }
 
@@ -114,7 +117,7 @@ public class HyperassociativeMapCanvas<G extends Graph<N, ?>, N> extends JPanel 
      * @param nodeRadius The radius of the spheres representing each node.
      * @since 1.0
      */
-    public HyperassociativeMapCanvas(final HyperassociativeMap<G, N> ourMap, final float nodeRadius) {
+    public HyperassociativeMapCanvas(final HyperassociativeMap<G, N> ourMap, final float nodeRadius) throws ComponentUnavailableException {
         this(ourMap, null, nodeRadius);
     }
 
@@ -127,7 +130,7 @@ public class HyperassociativeMapCanvas<G extends Graph<N, ?>, N> extends JPanel 
      * canvas.
      * @since 1.0
      */
-    public HyperassociativeMapCanvas(final HyperassociativeMap<G, N> ourMap, final GraphicsConfiguration configuration) {
+    public HyperassociativeMapCanvas(final HyperassociativeMap<G, N> ourMap, final GraphicsConfiguration configuration) throws ComponentUnavailableException {
         this(ourMap, configuration, NODE_RADIUS);
     }
 
@@ -140,41 +143,27 @@ public class HyperassociativeMapCanvas<G extends Graph<N, ?>, N> extends JPanel 
      * @param configuration The GraphicsConfiguration to use for configuring the
      * canvas.
      * @param nodeRadius The radius of the spheres representing each node.
+     * @throws Java3DUnavailableException if Java3D support is not available.
      * @since 1.0
      */
-    public HyperassociativeMapCanvas(final HyperassociativeMap<G, N> ourMap, GraphicsConfiguration configuration, final float nodeRadius) {
+    public HyperassociativeMapCanvas(final HyperassociativeMap<G, N> ourMap, GraphicsConfiguration configuration, final float nodeRadius) throws ComponentUnavailableException {
         super(new BorderLayout());
 
         this.map = ourMap;
         this.nodeRadius = nodeRadius;
 
-        
+
         try {
             if (configuration == null) {
                 //This is where Java3D will throw java.lang.UnsatisfiedLinkError: no j3dcore-ogl in java.library.path if Java3D not available.
-                configuration = SimpleUniverse.getPreferredConfiguration();                 
+                configuration = SimpleUniverse.getPreferredConfiguration();
             }
-                        
+
             c3d = new HyperassociativeMapCanvasCanvas(configuration);
             add(c3d, BorderLayout.CENTER);
+
         } catch (UnsatisfiedLinkError error) {
-
-            String msg = "<span style=\"font-size: 20pt\"><b>Java Component Missing:</b> " + error.toString() + "</span><br/><br/>";
-
-            if (error.toString().contains("j3d")) {
-                msg += "See <a href=\"http://www.oracle.com/technetwork/java/javase/tech/index-jsp-138252.html\">http://www.oracle.com/technetwork/java/javase/tech/index-jsp-138252.html</a> for Java3D installation instructions</a>.";
-
-            }
-            JTextPane msgArea = new JTextPane();
-
-            int bS = 6;
-            msgArea.setEditable(false);
-            msgArea.setOpaque(false);
-            msgArea.setContentType("text/html");
-            msgArea.setBorder(new EmptyBorder(bS, bS, bS, bS));
-            msgArea.setText("<html> " + msg + " </html>");
-
-            add(msgArea, BorderLayout.CENTER);
+            throw new ComponentUnavailableException(error);
 
         }
 
@@ -189,8 +178,9 @@ public class HyperassociativeMapCanvas<G extends Graph<N, ?>, N> extends JPanel 
      * @since 1.0
      */
     public void refresh() {
-        if (mapVisual!=null)
+        if (mapVisual != null) {
             mapVisual.refresh();
+        }
     }
 
     public HyperassociativeMap<G, N> getHyperassociativeMap() {
