@@ -153,7 +153,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 
 	private double getAverageMovement()
 	{
-		return this.totalMovement / ((double) Topography.getOrder(this.graph));
+		return this.totalMovement / ((double) Topography.getOrder((Graph<N, ?>) this.graph));
 	}
 
 	@Override
