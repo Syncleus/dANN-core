@@ -28,7 +28,7 @@ import com.syncleus.dann.math.ComplexNumber;
 
 /**
  * A CooleyTukeyFastFourierTransformer implements a fast fourier transform to reduce computation time
- * for O(N log N) for smooth numbers. See <a href="http://en.wikipedia.org/wiki/Cooley–Tukey_FFT_algorithm">the wikipedia page</a>
+ * for O(N log N) for smooth numbers. See <a href="http://en.wikipedia.org/wiki/Cooley-Tukey_FFT_algorithm">the wikipedia page</a>
  * for more information.
  * @author Jeffrey Phillips Freeman
  */
