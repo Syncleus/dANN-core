@@ -28,11 +28,12 @@ techniques inspired by biological systems. Some of the features included are:
 
 Getting The Files:
 
-There are several distributions available: you can export from svn, download
+There are several distributions available: you can export from SCM, download
 the source, or download the precompiled jar files. If you would like to export
-the latest version from svn to the current directory the command is:
+the latest version from SCM to the current directory, the command is:
 
-svn export svn://svn.syncleus.com/dANN/trunk/projects/java_dann/
+git clone git://git.syncleus.com/dANN.git
+cd dANN/projects/java_dann/
 
 If you would like to obtain one of the latest versioned distributions simply get
 one of the files found at:
