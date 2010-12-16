@@ -8,6 +8,10 @@
 	<path id="classpath.build">
 		<fileset dir="lib/build" includes="**/*.jar"/>
 	</path>
+	<path id="classpath.build.tests">
+		<fileset dir="lib/build" includes="**/*.jar"/>
+		<pathelement path="build/classes"/>
+	</path>
 	<path id="classpath.test">
 		<fileset dir="lib/test" includes="**/*.jar"/>
 		<fileset dir="build/jar" includes="dann.jar"/>
@@ -73,7 +77,7 @@
 			<fileset dir="build/javadoc" includes="**/*"/>
 		</delete>
 		<javadoc destdir="build/javadoc/" classpathref="classpath.build" useexternalfile="true">
-			<fileset dir="src/com/syncleus/dann" includes="**/*.java"/>
+			<fileset dir="src/main/java/com/syncleus/dann" includes="**/*.java"/>
 			<fileset dir="build/src-jaxb/com/syncleus/dann" includes="**/*.java"/>
 		</javadoc>
 	</target>
@@ -82,10 +86,14 @@
 		<mkdir dir="build/lint"/>
 		<lint4j packages="com.syncleus.*" level="5">
 			<sourcepath>
-				<dirset dir="src">
+				<dirset dir="src/main/java">
 					<include name="**/*.java" />
 				</dirset>
-				<pathelement path="src/" />
+				<pathelement path="src/main/java/" />
+				<dirset dir="src/test/java">
+					<include name="**/*.java" />
+				</dirset>
+				<pathelement path="src/test/java/" />
 			</sourcepath>
 			<classpath refid="classpath.build"/>
 			<formatters>
@@ -98,7 +106,7 @@
     <target  name="jaxb"  description="generate JAXB classes">
         <mkdir dir="build/src-jaxb"/>
         <xjc extension="true" destdir="build/src-jaxb">
-            <schema dir="schema/jaxb" includes="*.xsd"/>
+            <schema dir="src/main/resources" includes="*.xsd"/>
 			<arg line="-Xequals -XhashCode -Xannotate"/>
         </xjc>
     </target>
@@ -107,18 +115,17 @@
 		<delete dir="build/classes"/>
 
 		<mkdir dir="build/classes"/>
-		<javac destdir="build/classes" classpathref="classpath.build" debug="true" debuglevel="${debug.level}" excludes="com/syncleus/tests/**">
-            <src path="src"/>
+		<javac destdir="build/classes" classpathref="classpath.build" debug="true" debuglevel="${debug.level}">
+            <src path="src/main/java"/>
             <src path="build/src-jaxb"/>
         </javac>
 		<copy file="log4j.properties" todir="build/classes/"/>
 
 
 		<mkdir dir="build/tests/classes"/>
-		<javac destdir="build/tests/classes" classpathref="classpath.build" debug="true" debuglevel="${debug.level}">
-            <src path="src"/>
+		<javac destdir="build/tests/classes" classpathref="classpath.build.tests" debug="true" debuglevel="${debug.level}">
+            <src path="src/test/java"/>
             <src path="build/src-jaxb"/>
-			<include name="com/syncleus/tests/**"/>
 		</javac>
 		<delete dir="build/tests/classes/com/syncleus/dann"/>
 
@@ -135,20 +142,18 @@
 		<delete dir="build/classes"/>
 
 		<mkdir dir="build/classes"/>
-		<javac destdir="build/classes" classpathref="classpath.build" debug="true" debuglevel="${debug.level}" excludes="com/syncleus/tests/**">
-            <src path="src"/>
+		<javac destdir="build/classes" classpathref="classpath.build" debug="true" debuglevel="${debug.level}">
+            <src path="src/main/java"/>
             <src path="build/src-jaxb"/>
 			<compilerarg value="-Xlint"/>
 		</javac>
 
 		<mkdir dir="build/tests/classes"/>
-		<javac destdir="build/tests/classes" classpathref="classpath.build" debug="true" debuglevel="${debug.level}">
-            <src path="src"/>
+		<javac destdir="build/tests/classes" classpathref="classpath.build.tests" debug="true" debuglevel="${debug.level}">
+            <src path="src/test/java"/>
             <src path="build/src-jaxb"/>
-			<include name="com/syncleus/tests/**"/>
 			<compilerarg value="-Xlint"/>
 		</javac>
-		<delete dir="build/tests/classes/com/syncleus/dann"/>
 
 		<mkdir dir="build/coverage/classes"/>
 		<cobertura-instrument todir="build/coverage/classes">
@@ -211,8 +216,7 @@
 			<classpath refid="classpath.test"/>
 			<formatter type="xml"/>
 			<batchtest fork="yes" todir="build/tests">
-				<fileset dir="src">
-					<include name="com/syncleus/tests/**/Test*.java"/>
+				<fileset dir="src/test/java">
 					<exclude name="**/AllTests.java"/>
 				</fileset>
 			</batchtest>
@@ -225,15 +229,14 @@
 			<classpath refid="classpath.test.coverage"/>
 			<formatter type="xml"/>
 			<batchtest fork="yes" todir="build/coverage/tests">
-				<fileset dir="src">
-					<include name="com/syncleus/tests/**/Test*.java"/>
+				<fileset dir="src/test/java">
 					<exclude name="**/AllTests.java"/>
 				</fileset>
 			</batchtest>
 		</junit>
 
         <mkdir dir="build/coverage/reports"/>
-        <cobertura-report format="xml" srcdir="src/" destdir="build/coverage/reports"/>
+        <cobertura-report format="xml" srcdir="src/main/java/" destdir="build/coverage/reports"/>
 
 		<move file="./cobertura.ser" tofile="build/coverage/cobertura.ser"/>
 	</target>
@@ -249,7 +252,8 @@
 			<auxClasspath path="lib/run/java3d/vecmath.jar"/>
 			<auxClasspath path="lib/run/jaxb/jaxb2-basics-runtime-0.5.3.jar"/>
 			<auxClasspath path="lib/run/log4j/log4j-1.2.15.jar"/>
-			<sourcePath path="src/" />
+			<sourcePath path="src/main/java/" />
+			<sourcePath path="src/test/java/" />
 			<class location="build/jar/dann.jar" />
 		</findbugs>
 	</target>
@@ -257,8 +261,9 @@
 
 	<target name="checkstyle" description="run checkstyle checks on the source code">
 		<mkdir dir="build/checkstyle"/>
-		<checkstyle config="checks.xml" maxErrors="2147483647">
-			<fileset dir="src" includes="**/*.java"/>
+		<checkstyle config="src/main/resources/checks.xml" maxErrors="2147483647">
+			<fileset dir="src/main/java" includes="**/*.java"/>
+			<fileset dir="src/test/java" includes="**/*.java"/>
 			<formatter type="plain"/>
 			<formatter type="xml" toFile="build/checkstyle/checkstyle-report.xml"/>
 		</checkstyle>
@@ -266,9 +271,12 @@
 
 	<target name="pmd" description="run pmd checks on the source code">
 		<mkdir dir="build/pmd"/>
-		<pmd rulesetfiles="pmd.xml">
+		<pmd rulesetfiles="src/main/resources/pmd.xml">
 			<formatter type="xml" toFile="build/pmd/pmd-report.xml"/>
-			<fileset dir="src/">
+			<fileset dir="src/main/java/">
+				<include name="**/*.java"/>
+			</fileset>
+			<fileset dir="src/test/java/">
 				<include name="**/*.java"/>
 			</fileset>
 		</pmd>
