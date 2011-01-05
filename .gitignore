@@ -1,0 +1,11 @@
+.idea
+target
+build
+*.iml
+log.html
+log.htm
+junit*.properties
+cobertura.ser
+dist
+nbproject
+.DS_Store
