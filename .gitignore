@@ -1,11 +1,12 @@
 .idea
-target
-build
+target/
+build/
 *.iml
+*.jar
 log.html
 log.htm
 junit*.properties
 cobertura.ser
-dist
+dist/
 nbproject
 .DS_Store
