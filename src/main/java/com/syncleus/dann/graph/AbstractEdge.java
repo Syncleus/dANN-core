@@ -59,14 +59,14 @@ public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<
 		//make sure each node with context allows us to connect to it
 		if(contextEnabled)
 		{
-			List<N> nodes = new ArrayList<N>(ourNodes.size());
+			List<N> nodesCopy = new ArrayList<N>(ourNodes.size());
 			for(N ourNode : ourNodes)
 			{
 				if( this.contextEnabled && ( ourNode instanceof ContextNode ) && ( !((ContextNode)ourNode).connectingEdge(this) ))
 					continue;
-				nodes.add(ourNode);
+				nodesCopy.add(ourNode);
 			}
-			this.nodes = Collections.unmodifiableList(new ArrayList<N>(nodes));
+			this.nodes = Collections.unmodifiableList(new ArrayList<N>(nodesCopy));
 		}
 		else
 			this.nodes = Collections.unmodifiableList(new ArrayList<N>(ourNodes));
@@ -96,25 +96,7 @@ public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<
 		final List<N> newNodes = new ArrayList<N>(this.nodes);
 		newNodes.add(node);
 
-		try
-		{
-			AbstractEdge<N> clonedEdge = (AbstractEdge<N>) super.clone();
-			List<N> clonedNodes = new ArrayList<N>(this.nodes.size());
-			//add each node at a time to the clone considering context
-			for(N newNode : newNodes)
-			{
-				if( this.contextEnabled && (newNode instanceof ContextNode) && ( !((ContextNode)newNode).connectingEdge(clonedEdge) ) )
-					continue;
-				clonedNodes.add(newNode);
-			}
-			clonedEdge.nodes = Collections.unmodifiableList(clonedNodes);
-			return clonedEdge;
-		}
-		catch(CloneNotSupportedException caught)
-		{
-			LOGGER.error("Edge was unexpectidly not cloneable", caught);
-			throw new UnexpectedDannError("Edge was unexpectidly not cloneable", caught);
-		}
+		return createDeepCopy(newNodes);
 	}
 
 	protected AbstractEdge<N> add(final List<N> addNodes)
@@ -124,25 +106,7 @@ public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<
 		final List<N> newNodes = new ArrayList<N>(this.nodes);
 		newNodes.addAll(addNodes);
 
-		try
-		{
-			AbstractEdge<N> clonedEdge = (AbstractEdge<N>) super.clone();
-			List<N> clonedNodes = new ArrayList<N>(this.nodes.size());
-			//add each node at a time to the clone considering context
-			for(N newNode : newNodes)
-			{
-				if( this.contextEnabled && (newNode instanceof ContextNode) && ( !((ContextNode)newNode).connectingEdge(clonedEdge) ) )
-					continue;
-				clonedNodes.add(newNode);
-			}
-			clonedEdge.nodes = Collections.unmodifiableList(clonedNodes);
-			return clonedEdge;
-		}
-		catch(CloneNotSupportedException caught)
-		{
-			LOGGER.error("Edge was unexpectidly not cloneable", caught);
-			throw new UnexpectedDannError("Edge was unexpectidly not cloneable", caught);
-		}
+		return createDeepCopy(newNodes);
 	}
 
 	protected AbstractEdge<N> remove(final N node)
@@ -155,25 +119,7 @@ public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<
 		final List<N> newNodes = new ArrayList<N>(this.nodes);
 		newNodes.remove(node);
 
-		try
-		{
-			AbstractEdge<N> clonedEdge = (AbstractEdge<N>) super.clone();
-			List<N> clonedNodes = new ArrayList<N>(this.nodes.size());
-			//add each node at a time to the clone considering context
-			for(N newNode : newNodes)
-			{
-				if( this.contextEnabled && (newNode instanceof ContextNode) && ( !((ContextNode)newNode).connectingEdge(clonedEdge) ) )
-					continue;
-				clonedNodes.add(newNode);
-			}
-			clonedEdge.nodes = Collections.unmodifiableList(clonedNodes);
-			return clonedEdge;
-		}
-		catch(CloneNotSupportedException caught)
-		{
-			LOGGER.error("Edge was unexpectidly not cloneable", caught);
-			throw new UnexpectedDannError("Edge was unexpectidly not cloneable", caught);
-		}
+		return createDeepCopy(newNodes);
 	}
 
 	protected AbstractEdge<N> remove(final List<N> removeNodes)
@@ -186,6 +132,16 @@ public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<
 		for(final N node : removeNodes)
 			newNodes.remove(node);
 
+		return createDeepCopy(newNodes);
+	}
+
+	/**
+	 * Create a deep copy of this edge, but with a new set of nodes.
+	 * @param newNodes the set of nodes to use instead of the current ones.
+	 * @return a deep copy of this edge, but with a new set of nodes.
+	 */
+	private AbstractEdge<N> createDeepCopy(final List<N> newNodes)
+	{
 		try
 		{
 			AbstractEdge<N> clonedEdge = (AbstractEdge<N>) super.clone();
