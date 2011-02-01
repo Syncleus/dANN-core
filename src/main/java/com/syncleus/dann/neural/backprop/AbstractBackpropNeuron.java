@@ -18,7 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.neural.backprop;
 
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.Map;
 import com.syncleus.dann.neural.*;
 import com.syncleus.dann.neural.activation.ActivationFunction;
 
@@ -35,12 +36,12 @@ public abstract class AbstractBackpropNeuron extends AbstractActivationNeuron im
 	protected double deltaTrain = 0;
 	private double learningRate = 0.001;
 	/**
-	 * A hashtable which contains the current delta train for each of the
+	 * A map which contains the current delta train for each of the
 	 * destination synapses.
 	 *
 	 * @since 1.0
 	 */
-	protected final Hashtable<Synapse, Double> deltaTrainDestinations = new Hashtable<Synapse, Double>();
+	protected final Map<Synapse, Double> deltaTrainDestinations = new HashMap<Synapse, Double>();
 
 	/**
 	 * Creates a new default instance of SimpleBackpropNeuron.

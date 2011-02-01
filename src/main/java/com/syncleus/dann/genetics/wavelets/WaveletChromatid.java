@@ -18,9 +18,16 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
-import java.util.*;
+import java.util.Map;
 import com.syncleus.dann.UnexpectedDannError;
 import com.syncleus.dann.genetics.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 import org.apache.log4j.Logger;
 
 public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneable
@@ -134,7 +141,7 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 	public void tick()
 	{
 		//first we need to calculate the promotion of each site
-		final Hashtable<Integer, Double> promotions = new Hashtable<Integer, Double>();
+		final Map<Integer, Double> promotions = new HashMap<Integer, Double>();
 		for(final PromoterGene promoter : this.promoters)
 		{
 			final int promoterIndex = this.sequencedGenes.indexOf(promoter);
@@ -142,7 +149,7 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 			if( promotedIndex < this.sequencedGenes.size() )
 			{
 				double promotion = 0.0;
-				if( promotions.contains(promotedIndex) )
+				if( promotions.containsKey(promotedIndex) )
 					promotion = promotions.get(promotedIndex);
 				final double newPromotion = promotion + promoter.expressionActivity();
 				if( newPromotion != 0.0 )

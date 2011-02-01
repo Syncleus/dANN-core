@@ -22,13 +22,15 @@ import javax.media.j3d.*;
 import javax.vecmath.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.*;
+import java.util.Map;
+import java.util.HashMap;
 import com.sun.j3d.utils.geometry.*;
 import com.sun.j3d.utils.image.TextureLoader;
 import com.syncleus.dann.graph.Graph;
 import com.syncleus.dann.graph.drawing.GraphDrawer;
 import com.syncleus.dann.math.Vector;
 import com.syncleus.dann.neural.*;
+import java.util.Set;
 
 /**
  * A BranchGroup representing a HyperAssociativeMap.
@@ -86,7 +88,7 @@ public class HyperassociativeMapVisualization<D extends GraphDrawer<G, N>, G ext
 	public final void refresh()
 	{
 		boolean childrenRemoved = false;
-		final Hashtable<N, TransformGroup> newGraphicalNodes = new Hashtable<N, TransformGroup>();
+		final Map<N, TransformGroup> newGraphicalNodes = new HashMap<N, TransformGroup>();
 		final Map<N, Vector> coordinates = this.drawer.getCoordinates();
 		final Set<N> nodes = this.drawer.getGraph().getNodes();
 		for(final N node : nodes)
