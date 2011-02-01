@@ -92,7 +92,7 @@ public abstract class AbstractAttributePool<T> implements AttributePool<T>
 		if( attributeListeners == null )
 			return false;
 
-		assert attributeListeners.size() > 0;
+		assert !attributeListeners.isEmpty();
 
 		if( attributeListeners.remove(listener) )
 		{

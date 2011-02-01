@@ -204,7 +204,7 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 	 */
 	public final Set<Vector> getPositions()
 	{
-		final HashSet<Vector> positions = new HashSet<Vector>();
+		final Set<Vector> positions = new HashSet<Vector>();
 		for(final Vector position : this.outputs.keySet())
 			positions.add(new Vector(position));
 		return Collections.unmodifiableSet(positions);
