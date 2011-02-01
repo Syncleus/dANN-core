@@ -30,8 +30,8 @@ public class CombinationCounter implements Counter
 	private final int[] currentCombination;
 	private final int setSize;
 	private final int combinationSize;
-	private BigInteger remaining;
 	private final BigInteger total;
+	private BigInteger remaining;
 
 	public CombinationCounter(final int setSize, final int combinationSize)
 	{
@@ -45,9 +45,9 @@ public class CombinationCounter implements Counter
 		this.setSize = setSize;
 		this.combinationSize = combinationSize;
 		this.currentCombination = new int[combinationSize];
-		final BigInteger nFact = getFactorial(setSize);
-		final BigInteger rFact = getFactorial(combinationSize);
-		final BigInteger nminusrFact = getFactorial(setSize - combinationSize);
+		final BigInteger nFact = calculateFactorial(setSize);
+		final BigInteger rFact = calculateFactorial(combinationSize);
+		final BigInteger nminusrFact = calculateFactorial(setSize - combinationSize);
 		this.total = (setSize == 0 || combinationSize == 0 ? BigInteger.ZERO : nFact.divide(rFact.multiply(nminusrFact)));
 		reset();
 	}
@@ -64,17 +64,17 @@ public class CombinationCounter implements Counter
 		return this.remaining;
 	}
 
-	public boolean hasMore()
-	{
-		return remaining.compareTo(BigInteger.ZERO) == 1;
-	}
-
 	public BigInteger getTotal()
 	{
 		return this.total;
 	}
 
-	private static BigInteger getFactorial(final int n)
+	public boolean hasMore()
+	{
+		return remaining.compareTo(BigInteger.ZERO) == 1;
+	}
+
+	static BigInteger calculateFactorial(final int n)
 	{
 		BigInteger fact = BigInteger.ONE;
 		for(int i = n; i > 1; i--)

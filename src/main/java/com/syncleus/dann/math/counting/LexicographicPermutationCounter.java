@@ -18,20 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.math.counting;
 
-import java.math.BigInteger;
-
-public class LexicographicPermutationCounter implements Counter
+public class LexicographicPermutationCounter extends AbstractPermutationCounter
 {
-	private final int setSize;
-	private final int permutationSize;
-	private final BigInteger permutationsPerCombination;
-	private final Counter combinations;
-	private final int[] permutation;
-	private final BigInteger total;
-	private int[] combination;
-	private BigInteger combinationPermutationsRemaining;
-	private BigInteger remaining;
-
 	public LexicographicPermutationCounter(final int permutationSize)
 	{
 		this(permutationSize, permutationSize);
@@ -39,105 +27,9 @@ public class LexicographicPermutationCounter implements Counter
 
 	public LexicographicPermutationCounter(final int setSize, final int permutationSize)
 	{
-		if( permutationSize > setSize )
-			throw new IllegalArgumentException("permutationSize can not be larger than setSize");
-		if( permutationSize < 0 )
-			throw new IllegalArgumentException("permutation size must be larger than 0");
-		if( setSize < 0 )
-			throw new IllegalArgumentException("setSize must be greater than 0");
-
-		this.setSize = setSize;
-		this.permutationSize = permutationSize;
-		this.combinations = new CombinationCounter(setSize, permutationSize);
-
-		this.permutation = new int[permutationSize];
-		this.permutationsPerCombination = getFactorial(permutationSize);
-		this.total = (permutationSize == 0 || setSize == 0 ? BigInteger.ZERO : this.combinations.getTotal().multiply(this.permutationsPerCombination));
+		super(setSize, permutationSize);
 
 		reset();
-	}
-
-	public void reset()
-	{
-		this.resetPermutations();
-
-		this.combinations.reset();
-		this.remaining = this.total;
-		this.combination = this.combinations.getNext();
-	}
-
-	private void resetPermutations()
-	{
-		for(int i = 0; i < permutation.length; i++)
-			this.permutation[i] = i;
-		this.combinationPermutationsRemaining = this.permutationsPerCombination;
-	}
-
-	public BigInteger getRemaining()
-	{
-		return this.remaining;
-	}
-
-	public BigInteger getTotal()
-	{
-		return this.total;
-	}
-
-	public boolean hasMore()
-	{
-		return remaining.compareTo(BigInteger.ZERO) == 1;
-	}
-
-	private static BigInteger getFactorial(final int n)
-	{
-		BigInteger fact = BigInteger.ONE;
-		for(int i = n; i > 1; i--)
-			fact = fact.multiply(new BigInteger(Integer.toString(i)));
-		return fact;
-	}
-
-	private static int[] permutateCombination(final int[] combination, final int[] permutation)
-	{
-		final int[] permutated = new int[combination.length];
-		int permutatedIndex = 0;
-		for(final int combinationIndex : permutation)
-			permutated[permutatedIndex++] = combination[combinationIndex];
-		return permutated;
-	}
-
-	public int[] getNext()
-	{
-		if( !this.hasMore() )
-			return null;
-
-		if( this.combinationPermutationsRemaining.equals(BigInteger.ZERO) )
-		{
-			this.combination = this.combinations.getNext();
-			this.resetPermutations();
-		}
-
-		if( this.combinationPermutationsRemaining.equals(this.permutationsPerCombination) )
-		{
-			this.remaining = remaining.subtract(BigInteger.ONE);
-			this.combinationPermutationsRemaining = combinationPermutationsRemaining.subtract(BigInteger.ONE);
-			return permutateCombination(this.combination, this.permutation);
-		}
-
-		assert next(this.permutation);
-
-		this.combinationPermutationsRemaining = this.combinationPermutationsRemaining.subtract(BigInteger.ONE);
-		this.remaining = this.remaining.subtract(BigInteger.ONE);
-		return permutateCombination(this.combination, this.permutation);
-	}
-
-	public int getSetSize()
-	{
-		return this.setSize;
-	}
-
-	public int getPermutationSize()
-	{
-		return this.permutationSize;
 	}
 
 	private static void swap(final int[] permutation, final int firstIndex, final int secondIndex)
@@ -147,7 +39,8 @@ public class LexicographicPermutationCounter implements Counter
 		permutation[secondIndex] = first;
 	}
 
-	private static boolean next(final int[] permutation)
+	@Override
+	protected boolean next()
 	{
 		if( permutation.length == 1 )
 			return false;
