@@ -20,7 +20,6 @@ package com.syncleus.dann.graphicalmodel.bayesian;
 
 import java.util.*;
 import java.util.Map.Entry;
-import com.syncleus.dann.graph.Graph;
 
 public class ImmutableBayesianAdjacencyNetwork<N extends BayesianNode, E extends BayesianEdge<N>> extends AbstractBayesianAdjacencyNetwork<N, E>
 {

@@ -71,7 +71,7 @@ public abstract class AbstractHyperAdjacencyGraph<N, E extends HyperEdge<N>> ext
 	}
 
 	/**
-	 * Always returns -1 since rank is not limited
+	 * Always returns -1 since rank is not limited.
 	 * @return
 	 */
 	@Override

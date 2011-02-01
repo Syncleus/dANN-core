@@ -33,7 +33,7 @@ public final class Trees
 		throw new IllegalStateException("This is a utility class, it cant be instantiated");
 	}
 
-	public static <N, E extends Edge<N>> boolean isSpanningTree(final Graph<N,E> graph, final Graph<N,E> subGraph)
+	public static <N, E extends Edge<N>> boolean isSpanningTree(final Graph<N, E> graph, final Graph<N, E> subGraph)
 	{
 		if( graph instanceof TreeOptimizedGraph )
 		{
@@ -54,7 +54,7 @@ public final class Trees
 				&& (Cycles.isAcyclic(subGraph)));
 	}
 
-	public static <N, E extends Edge<N>> boolean isTree(final Graph<N,E> graph)
+	public static <N, E extends Edge<N>> boolean isTree(final Graph<N, E> graph)
 	{
 		if( graph instanceof TreeOptimizedGraph )
 		{
@@ -71,7 +71,7 @@ public final class Trees
 		return ((Topography.isWeaklyConnected(graph)) && (Cycles.isAcyclic(graph)) && (Topography.isSimple(graph)));
 	}
 
-	public static <N, E extends Edge<N>> boolean isForest(final Graph<N,E> graph)
+	public static <N, E extends Edge<N>> boolean isForest(final Graph<N, E> graph)
 	{
 		if( graph instanceof TreeOptimizedGraph )
 		{
@@ -147,10 +147,10 @@ public final class Trees
 		}
 
 		//TODO make this more efficient
-		Set<Graph<N,E>> components = Topography.getMaximallyConnectedComponents(graph);
-		for(Graph<N,E> component : components)
+		Set<Graph<N, E>> components = Topography.getMaximallyConnectedComponents(graph);
+		for(Graph<N, E> component : components)
 		{
-			DirectedGraph<N,E> directedComponent = new ImmutableDirectedAdjacencyGraph<N,E>(component);
+			DirectedGraph<N, E> directedComponent = new ImmutableDirectedAdjacencyGraph<N, E>(component);
 			if( !Trees.isRootedTree(directedComponent) )
 				return false;
 		}

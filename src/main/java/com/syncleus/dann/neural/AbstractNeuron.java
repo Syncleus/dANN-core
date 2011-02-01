@@ -24,7 +24,7 @@ import org.apache.log4j.Logger;
 public abstract class AbstractNeuron implements Neuron
 {
 	/**
-	 * Random number generator used toproduce any needed RANDOM values
+	 * Random number generator used to produce any needed RANDOM values.
 	 *
 	 * @since 1.0
 	 */

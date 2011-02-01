@@ -36,7 +36,7 @@ import org.apache.log4j.Logger;
  * @author Jeffrey Phillips Freeman
  * @since 2.0
  */
-public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends SomOutputNeuron, N extends SomNeuron, S extends Synapse<N>> extends AbstractLocalBrain<IN,ON,N,S> implements SomBrain<IN,ON,N,S>
+public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends SomOutputNeuron, N extends SomNeuron, S extends Synapse<N>> extends AbstractLocalBrain<IN, ON, N, S> implements SomBrain<IN, ON, N, S>
 {
 	private int iterationsTrained;
 	private Vector upperBounds;
@@ -429,7 +429,7 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 	}
 
 	/**
-	 * Obtains the weight vectors of the outputs
+	 * Obtains the weight vectors of the outputs.
 	 *
 	 * @return the weight vectors of each output in the output lattice
 	 * @since 2.0

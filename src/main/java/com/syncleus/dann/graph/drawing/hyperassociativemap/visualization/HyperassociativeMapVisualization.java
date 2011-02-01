@@ -31,7 +31,7 @@ import com.syncleus.dann.math.Vector;
 import com.syncleus.dann.neural.*;
 
 /**
- * A BranchGroup representing a HyperAssociativeMap
+ * A BranchGroup representing a HyperAssociativeMap.
  *
  * @author Jeffrey Phillips Freeman
  * @since 1.0
@@ -219,7 +219,7 @@ public class HyperassociativeMapVisualization<D extends GraphDrawer<G, N>, G ext
 	}
 
 	/**
-	 * Gets the drawer this class is representing
+	 * Gets the drawer this class is representing.
 	 *
 	 * @return The drawer this class is representing.
 	 * @since 1.0

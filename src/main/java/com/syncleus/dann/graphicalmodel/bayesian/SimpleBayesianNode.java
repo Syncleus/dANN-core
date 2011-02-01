@@ -38,7 +38,7 @@ public class SimpleBayesianNode<S> extends AbstractContextNode<BayesianNode<S>, 
 	public SimpleBayesianNode(final S initialState)
 	{
 		super(false);
-		
+
 		if( initialState == null )
 			throw new IllegalArgumentException("initialState can not be null");
 
@@ -113,7 +113,7 @@ public class SimpleBayesianNode<S> extends AbstractContextNode<BayesianNode<S>, 
 
 		final Map<BayesianNode, Object> inStates = new HashMap<BayesianNode, Object>();
 
-		final Set<BayesianEdge< BayesianNode<S>>> inEdges = this.getJoinedGraphs().iterator().next().getInEdges(this);
+		final Set<BayesianEdge<BayesianNode<S>>> inEdges = this.getJoinedGraphs().iterator().next().getInEdges(this);
 		for(final BayesianEdge<? extends BayesianNode> inEdge : inEdges)
 			inStates.put(inEdge.getSourceNode(), inEdge.getSourceNode().getState());
 
@@ -184,7 +184,7 @@ public class SimpleBayesianNode<S> extends AbstractContextNode<BayesianNode<S>, 
                 named.setValue(this.state);
             xml.getStateInstances().getStates().add(named);
         }
-        
+
         this.toXml(xml, namer);
 
         return xml;

@@ -33,7 +33,7 @@ public abstract class AbstractOutputBackpropNeuron extends AbstractBackpropNeuro
 	protected double desired;
 
 	/**
-	 * Creates a new instance of OutputBackpropNeuron
+	 * Creates a new instance of OutputBackpropNeuron.
 	 *
 	 * @since 1.0
 	 */
@@ -91,7 +91,7 @@ public abstract class AbstractOutputBackpropNeuron extends AbstractBackpropNeuro
 	}
 
 	/**
-	 * Calculates the Delta Train based on all the destination synapses
+	 * Calculates the Delta Train based on all the destination synapses.
 	 *
 	 * @see com.syncleus.dann.neural.backprop.SimpleBackpropNeuron#backPropagate
 	 * @since 1.0

@@ -21,7 +21,7 @@ package com.syncleus.dann.neural.backprop.brain;
 import com.syncleus.dann.neural.*;
 import com.syncleus.dann.neural.backprop.*;
 
-public interface BackpropBrain<IN extends InputBackpropNeuron, ON extends OutputBackpropNeuron, N extends BackpropNeuron, S extends Synapse<N>> extends Brain<IN,ON,N,S>
+public interface BackpropBrain<IN extends InputBackpropNeuron, ON extends OutputBackpropNeuron, N extends BackpropNeuron, S extends Synapse<N>> extends Brain<IN, ON, N, S>
 {
 	void propagate();
 	void backPropagate();

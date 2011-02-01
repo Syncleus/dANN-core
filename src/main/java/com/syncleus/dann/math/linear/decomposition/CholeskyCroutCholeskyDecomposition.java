@@ -109,7 +109,7 @@ public class CholeskyCroutCholeskyDecomposition<M extends Matrix<M, F>, F extend
 	}
 
 	/**
-	 * Solve A*X = solutionMatrix
+	 * Solve A*X = solutionMatrix.
 	 *
 	 * @param matrixToSolve A SimpleRealMatrix with as many rows as A and any
 	 * number of columns.

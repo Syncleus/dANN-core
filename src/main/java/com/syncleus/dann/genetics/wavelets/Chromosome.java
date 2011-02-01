@@ -99,9 +99,9 @@ public class Chromosome implements Cloneable
 	}
 
 	/**
-	 * Binds a SignalKeyConcentration to both Chromatids
+	 * Binds a SignalKeyConcentration to both Chromatids.
 	 * @param concentration The signal key concentration
-	 * @param isExternal Whether this signal is external to the Chromasome
+	 * @param isExternal Whether this signal is external to the Chromosome
 	 * @return Whether the bind was successful
 	 * @see com.syncleus.dann.genetics.wavelets.WaveletChromatid#bind(SignalKeyConcentration, boolean)
 	 */
@@ -125,7 +125,7 @@ public class Chromosome implements Cloneable
 	}
 
 	/**
-	 * Gets the right chromatid
+	 * Gets the right chromatid.
 	 * @return The right chromatid
 	 */
 	protected WaveletChromatid getRightChromatid()

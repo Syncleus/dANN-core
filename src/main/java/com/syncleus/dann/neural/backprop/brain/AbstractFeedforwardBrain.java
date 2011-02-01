@@ -25,7 +25,7 @@ import com.syncleus.dann.neural.*;
 import com.syncleus.dann.neural.backprop.*;
 import org.apache.log4j.Logger;
 
-public abstract class AbstractFeedforwardBrain<IN extends InputBackpropNeuron, ON extends OutputBackpropNeuron, N extends BackpropNeuron, S extends Synapse<N>> extends AbstractLocalBrain<IN,ON,N,S> implements FeedforwardBackpropBrain<IN,ON,N,S>
+public abstract class AbstractFeedforwardBrain<IN extends InputBackpropNeuron, ON extends OutputBackpropNeuron, N extends BackpropNeuron, S extends Synapse<N>> extends AbstractLocalBrain<IN, ON, N, S> implements FeedforwardBackpropBrain<IN, ON, N, S>
 {
 	private boolean initialized = false;
 	private final List<NeuronGroup<N>> neuronLayers = new ArrayList<NeuronGroup<N>>();
@@ -86,7 +86,7 @@ public abstract class AbstractFeedforwardBrain<IN extends InputBackpropNeuron, O
 		super();
 	}
 
-	protected void initalizeNetwork(final int neuronsPerLayer[])
+	protected void initalizeNetwork(final int[] neuronsPerLayer)
 	{
 		if( neuronsPerLayer.length < 2 )
 			throw new IllegalArgumentException("neuronsPerLayer must have atleast 2 elements");

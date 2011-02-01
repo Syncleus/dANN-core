@@ -175,7 +175,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 	}
 
 	/**
-	 * Gets the map of nodes to their associated set of edges
+	 * Gets the map of nodes to their associated set of edges.
 	 * @return The internal adjacency edges to nodes
 	 */
 	protected Map<N, Set<E>> getInternalAdjacencyEdges()
@@ -233,7 +233,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 	}
 
 	/**
-	 * Gets all nodes ajacent to the given node.
+	 * Gets all nodes adjacent to the given node.
 	 * @param node The whose neighbors are to be returned.
 	 * @return All adjacent nodes to the given node
 	 */
@@ -244,7 +244,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 	}
 
 	/**
-	 * Gets the traversable nodes adjacent to the given node
+	 * Gets the traversable nodes adjacent to the given node.
 	 * @param node The whose traversable neighbors are to be returned.
 	 * @return The traversable nodes adjacent to the given node
 	 * @see com.syncleus.dann.graph.Edge#getTraversableNodes(Object)
@@ -259,7 +259,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 	}
 
 	/**
-	 * Gets the traversable edges from this node
+	 * Gets the traversable edges from this node.
 	 * @param node edges returned will be traversable from this node.
 	 * @return The traversable edges from the given node
 	 * @see com.syncleus.dann.graph.Edge#isTraversable(Object)

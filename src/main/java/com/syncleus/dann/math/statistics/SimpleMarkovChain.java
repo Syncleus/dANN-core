@@ -52,20 +52,22 @@ public class SimpleMarkovChain<S> extends AbstractMarkovChain<S>
         for(final Entry<List<S>, Map<S, Double>> transitionProbability : transitionProbabilities.entrySet())
 		{
 			final List<S> rowHeader = Collections.unmodifiableList(new ArrayList<S>(transitionProbability.getKey()));
-            
-            S nextColumn;
-            if (rowHeader.isEmpty()) {
-                nextColumn = null;
-            }
-            else {
-                nextColumn = rowHeader.get(0);
-            }
 
-            if (!columnMapping.contains(nextColumn)) {
-                columnMapping.add(nextColumn);
-            }
-        }
+			S nextColumn;
+			if (rowHeader.isEmpty())
+			{
+				nextColumn = null;
+			}
+			else
+			{
+				nextColumn = rowHeader.get(0);
+			}
 
+			if (!columnMapping.contains(nextColumn))
+			{
+				columnMapping.add(nextColumn);
+			}
+		}
 
 		//iterate through all the new rows
 		int row = 0;
@@ -230,9 +232,9 @@ public class SimpleMarkovChain<S> extends AbstractMarkovChain<S>
 			final double currentProbability = simultaniousSolved.get(stateIndex, 0).doubleValue();
 			stateProbabilities.put(currentState, currentProbability);
 		}
-        
-        //System.out.println("xstate probabilities:\n" + stateProbabilities);
-        //System.out.println("---");
+
+		//System.out.println("xstate probabilities:\n" + stateProbabilities);
+		//System.out.println("---");
 
 		return Collections.unmodifiableMap(stateProbabilities);
 	}

@@ -20,7 +20,7 @@ package com.syncleus.dann.graph.context;
 
 import com.syncleus.dann.graph.Graph;
 
-public abstract class AbstractSignalingContextEdge<N,S> extends AbstractContextGraphElement<Graph<N,?>> implements SignalingContextEdge<N,S>
+public abstract class AbstractSignalingContextEdge<N, S> extends AbstractContextGraphElement<Graph<N, ?>> implements SignalingContextEdge<N, S>
 {
 	protected AbstractSignalingContextEdge(final boolean allowJoiningMultipleGraphs)
 	{
@@ -49,5 +49,5 @@ public abstract class AbstractSignalingContextEdge<N,S> extends AbstractContextG
 	}
 
 	@Override
-	public abstract AbstractSignalingContextEdge<N,S> clone(); 
+	public abstract AbstractSignalingContextEdge<N, S> clone();
 }

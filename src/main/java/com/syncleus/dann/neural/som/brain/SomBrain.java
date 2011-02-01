@@ -24,7 +24,7 @@ import com.syncleus.dann.math.Vector;
 import com.syncleus.dann.neural.*;
 import com.syncleus.dann.neural.som.*;
 
-public interface SomBrain<IN extends SomInputNeuron, ON extends SomOutputNeuron, N extends SomNeuron, S extends Synapse<N>> extends Brain<IN,ON,N,S>
+public interface SomBrain<IN extends SomInputNeuron, ON extends SomOutputNeuron, N extends SomNeuron, S extends Synapse<N>> extends Brain<IN, ON, N, S>
 {
 	void createOutput(final Vector position);
 	Set<Vector> getPositions();

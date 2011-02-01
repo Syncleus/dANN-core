@@ -22,7 +22,7 @@ import java.util.concurrent.ExecutorService;
 import com.syncleus.dann.neural.Synapse;
 import com.syncleus.dann.neural.som.*;
 
-public abstract class AbstractExponentialDecaySomBrain<IN extends SomInputNeuron, ON extends SomOutputNeuron, N extends SomNeuron, S extends Synapse<N>> extends AbstractSomBrain<IN,ON,N,S>
+public abstract class AbstractExponentialDecaySomBrain<IN extends SomInputNeuron, ON extends SomOutputNeuron, N extends SomNeuron, S extends Synapse<N>> extends AbstractSomBrain<IN, ON, N, S>
 {
 	private static final long serialVersionUID = 12374098245721L;
 	private final int iterationsToConverge;

@@ -31,7 +31,7 @@ import org.apache.log4j.Logger;
 public abstract class AbstractActivationNeuron extends AbstractNeuron
 {
 	/**
-	 * Represents the current excitation of the neuron from input signals
+	 * Represents the current excitation of the neuron from input signals.
 	 *
 	 * @since 1.0
 	 */
@@ -44,7 +44,7 @@ public abstract class AbstractActivationNeuron extends AbstractNeuron
 	 */
 	private final ActivationFunction activationFunction;
 	/**
-	 * Represents the current output of the neuron
+	 * Represents the current output of the neuron.
 	 *
 	 * @since 1.0
 	 */

@@ -20,8 +20,6 @@ package com.syncleus.dann.graphicalmodel.bayesian.dynamic;
 
 import java.util.*;
 import com.syncleus.dann.graphicalmodel.bayesian.*;
-import com.syncleus.dann.xml.Namer;
-import com.syncleus.dann.graphicalmodel.bayesian.xml.BayesianNodeXml;
 
 public class SimpleDynamicBayesianNode<S> extends SimpleBayesianNode<S> implements DynamicBayesianNode<S>
 {

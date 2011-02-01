@@ -29,7 +29,7 @@ import com.syncleus.dann.neural.som.*;
  * @author Jeffrey Phillips Freeman
  * @since 2.0
  */
-public final class ExponentialDecaySomBrain<IN extends SomInputNeuron, ON extends SomOutputNeuron, N extends SomNeuron, S extends Synapse<N>> extends AbstractExponentialDecaySomBrain<IN,ON,N,S>
+public final class ExponentialDecaySomBrain<IN extends SomInputNeuron, ON extends SomOutputNeuron, N extends SomNeuron, S extends Synapse<N>> extends AbstractExponentialDecaySomBrain<IN, ON, N, S>
 {
 	private static final long serialVersionUID = 4523396585666912034L;
 

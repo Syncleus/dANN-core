@@ -21,7 +21,6 @@ public class SimpleAttribute<A, T> implements Attribute<A, T>
 		return this.attributeValueType.isInstance(attributeValue);
 	}
 
-	
 	public final Class<T> getAttributeValueType()
 	{
 		return this.attributeValueType;

@@ -18,7 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.bayesian;
 
-import java.util.List;
 import com.syncleus.dann.graph.DirectedEdge;
 
 public interface BayesianEdge<N extends BayesianNode> extends DirectedEdge<N>

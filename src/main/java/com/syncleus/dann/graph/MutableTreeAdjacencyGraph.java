@@ -49,11 +49,11 @@ public class MutableTreeAdjacencyGraph<N, E extends BidirectedEdge<N>> extends A
 		if( !this.getNodes().containsAll(newEdge.getNodes()) )
 			throw new IllegalArgumentException("newEdge has a node as an end point that is not part of the graph");
 
-		//TODO make thsi more efficient
+		//TODO make this more efficient
 		//make sure after we add thsi edge this will still be a tree
 		Set<E> testEdges = new HashSet<E>(this.getEdges());
 		testEdges.add(newEdge);
-		Graph<N,E> testGraph = new ImmutableAdjacencyGraph(this.getNodes(), testEdges);
+		Graph<N, E> testGraph = new ImmutableAdjacencyGraph(this.getNodes(), testEdges);
 		if( !Trees.isTree(testGraph) )
 			throw new IllegalArgumentException("adding newEdge can not be added because this graph would no longer be a tree");
 

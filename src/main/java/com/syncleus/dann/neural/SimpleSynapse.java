@@ -19,8 +19,6 @@
 package com.syncleus.dann.neural;
 
 import java.util.*;
-import com.syncleus.dann.graph.AbstractDirectedEdge;
-import com.syncleus.dann.graph.ImmutableDirectedEdge;
 
 /**
  * The synapse acts as a bridge between connected neurons. It is also where the
@@ -34,9 +32,9 @@ public final class SimpleSynapse<N extends Neuron> extends AbstractSynapse<N>
 {
 	private static final long serialVersionUID = -209835498037456098L;
 	/**
-	 * Creates a new instance of SimpleSynapse
+	 * Creates a new instance of SimpleSynapse.
 	 *
-	 * @param sourceToSet The incomming neuron connection.
+	 * @param sourceToSet The incoming neuron connection.
 	 * @param destinationToSet The outgoing neuron connection.
 	 * @param initialWeight The initial weight of the synapse
 	 * @since 1.0
@@ -47,9 +45,9 @@ public final class SimpleSynapse<N extends Neuron> extends AbstractSynapse<N>
 	}
 
 	/**
-	 * Creates a new instance of SimpleSynapse
+	 * Creates a new instance of SimpleSynapse.
 	 *
-	 * @param sourceToSet The incomming neuron connection.
+	 * @param sourceToSet The incoming neuron connection.
 	 * @param destinationToSet The outgoing neuron connection.
 	 * @since 1.0
 	 */
@@ -59,9 +57,9 @@ public final class SimpleSynapse<N extends Neuron> extends AbstractSynapse<N>
 	}
 
 	/**
-	 * Creates a new instance of SimpleSynapse
+	 * Creates a new instance of SimpleSynapse.
 	 *
-	 * @param sourceToSet The incomming neuron connection.
+	 * @param sourceToSet The incoming neuron connection.
 	 * @param destinationToSet The outgoing neuron connection.
 	 * @param initialWeight The initial weight of the synapse
 	 * @since 1.0
@@ -72,9 +70,9 @@ public final class SimpleSynapse<N extends Neuron> extends AbstractSynapse<N>
 	}
 
 	/**
-	 * Creates a new instance of SimpleSynapse
+	 * Creates a new instance of SimpleSynapse.
 	 *
-	 * @param sourceToSet The incomming neuron connection.
+	 * @param sourceToSet The incoming neuron connection.
 	 * @param destinationToSet The outgoing neuron connection.
 	 * @since 1.0
 	 */

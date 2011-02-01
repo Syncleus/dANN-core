@@ -20,7 +20,6 @@ package com.syncleus.dann.graphicalmodel.bayesian;
 
 import com.syncleus.dann.graphicalmodel.bayesian.xml.EvidenceMapElementXml;
 import com.syncleus.dann.graphicalmodel.bayesian.xml.EvidenceMapXml;
-import com.syncleus.dann.graphicalmodel.bayesian.xml.StateEvidenceXml;
 import com.syncleus.dann.xml.NamedValueXml;
 import com.syncleus.dann.xml.Namer;
 import com.syncleus.dann.xml.XmlSerializable;

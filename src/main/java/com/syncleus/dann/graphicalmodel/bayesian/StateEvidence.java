@@ -116,7 +116,7 @@ public class StateEvidence<S> extends HashMap<S, Integer> implements XmlSerializ
 
         if( jaxbObject.getStates() == null)
             jaxbObject.setStates(new StateEvidenceXml.States());
-        for(Map.Entry<S,Integer> entry : this.entrySet())
+        for(Map.Entry<S, Integer> entry : this.entrySet())
         {
             StateEvidenceXml.States.State stateXml = new StateEvidenceXml.States.State();
             stateXml.setName(namer.getNameOrCreate(entry.getKey()));

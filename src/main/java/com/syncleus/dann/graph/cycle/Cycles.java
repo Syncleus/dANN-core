@@ -30,7 +30,7 @@ public final class Cycles
 	{
 		throw new IllegalStateException("This is a utility class, it cant be instantiated");
 	}
-	
+
 	public static int getCycleCount(Graph graph)
 	{
 		if( graph instanceof CycleOptimizedGraph )
@@ -96,7 +96,7 @@ public final class Cycles
 			}
 		}
 
-		return ! COLORED_DETECTOR.hasCycle(graph);
+		return !COLORED_DETECTOR.hasCycle(graph);
 	}
 
 	public static int getGirth(Graph graph)

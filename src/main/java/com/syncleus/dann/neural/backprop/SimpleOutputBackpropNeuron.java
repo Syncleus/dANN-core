@@ -39,7 +39,7 @@ public final class SimpleOutputBackpropNeuron extends AbstractOutputBackpropNeur
 	protected double desired;
 
 	/**
-	 * Creates a new instance of OutputBackpropNeuron
+	 * Creates a new instance of OutputBackpropNeuron.
 	 *
 	 * @since 1.0
 	 */

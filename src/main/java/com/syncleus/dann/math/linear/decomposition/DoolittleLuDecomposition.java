@@ -155,7 +155,7 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 	}
 
 	/**
-	 * Return lower triangular factor
+	 * Return lower triangular factor.
 	 *
 	 * @return lowerTriangularFactor
 	 */
@@ -172,7 +172,7 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 	}
 
 	/**
-	 * Return upper triangular factor
+	 * Return upper triangular factor.
 	 *
 	 * @return U
 	 */
@@ -187,7 +187,7 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 	}
 
 	/**
-	 * Return pivot permutation vector
+	 * Return pivot permutation vector.
 	 *
 	 * @return pivot
 	 */
@@ -199,7 +199,7 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 	}
 
 	/**
-	 * Determinant
+	 * Determinant.
 	 *
 	 * @return getDeterminant(matrixToDecompose)
 	 * @throws IllegalArgumentException SimpleRealMatrix must be square
@@ -221,7 +221,7 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 	}
 
 	/**
-	 * Solve matrixToDecompose*X = solutionMatrix
+	 * Solve matrixToDecompose*X = solutionMatrix.
 	 *
 	 * @param solutionMatrix matrixToDecompose SimpleRealMatrix with as many rows
 	 * as matrixToDecompose and any number of columns.
@@ -238,21 +238,21 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 			throw new ArithmeticException("Matrix is singular.");
 		// Copy right hand side with pivoting
 		final int nx = solutionMatrix.getWidth();
-		M Xmat = solutionMatrix.getSubmatrix(this.pivot, 0, nx - 1);
+		M xMat = solutionMatrix.getSubmatrix(this.pivot, 0, nx - 1);
 		// Solve lowerTriangularFactor*Y = solutionMatrix(pivot,:)
 		for(int k = 0; k < this.getWidth(); k++)
 			for(int i = k + 1; i < this.getWidth(); i++)
 				for(int j = 0; j < nx; j++)
-					Xmat = Xmat.set(i, j, Xmat.get(i, j).subtract(Xmat.get(k, j).multiply(this.matrix.get(i, k))));
+					xMat = xMat.set(i, j, xMat.get(i, j).subtract(xMat.get(k, j).multiply(this.matrix.get(i, k))));
 		// Solve U*X = Y;
 		for(int k = this.getWidth() - 1; k >= 0; k--)
 		{
 			for(int j = 0; j < nx; j++)
-				Xmat = Xmat.set(k, j, Xmat.get(k, j).divide(this.matrix.get(k, k)));
+				xMat = xMat.set(k, j, xMat.get(k, j).divide(this.matrix.get(k, k)));
 			for(int i = 0; i < k; i++)
 				for(int j = 0; j < nx; j++)
-					Xmat = Xmat.set(i, j, Xmat.get(i, j).subtract(Xmat.get(k, j).multiply(this.matrix.get(i, k))));
+					xMat = xMat.set(i, j, xMat.get(i, j).subtract(xMat.get(k, j).multiply(this.matrix.get(i, k))));
 		}
-		return Xmat;
+		return xMat;
 	}
 }

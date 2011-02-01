@@ -63,7 +63,7 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 	private final int n;
 
 	/**
-	 * Construct the singular value decomposition
+	 * Construct the singular value decomposition.
 	 *
 	 * @param matrix Rectangular matrix. Gives access to leftSingularMatrix, S and
 	 * rightSingularMatrix.
@@ -262,8 +262,8 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 			{
 				if( k == -1 )
 					break;
-				if( Math.abs(e[k]) <=
-						tiny + eps * (Math.abs(this.matrix[k]) + Math.abs(this.matrix[k + 1])) )
+				if( Math.abs(e[k])
+						<= tiny + eps * (Math.abs(this.matrix[k]) + Math.abs(this.matrix[k + 1])) )
 				{
 					e[k] = 0.0;
 					break;
@@ -278,8 +278,8 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 				{
 					if( ks == k )
 						break;
-					final double t = (ks != p ? Math.abs(e[ks]) : 0.) +
-							(ks != k + 1 ? Math.abs(e[ks - 1]) : 0.);
+					final double t = (ks != p ? Math.abs(e[ks]) : 0.0)
+							+ (ks != k + 1 ? Math.abs(e[ks - 1]) : 0.0);
 					if( Math.abs(this.matrix[ks]) <= tiny + eps * t )
 					{
 						this.matrix[ks] = 0.0;
@@ -456,7 +456,7 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 	}
 
 	/**
-	 * Return the left singular vectors
+	 * Return the left singular vectors.
 	 *
 	 * @return U
 	 */
@@ -468,7 +468,7 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 	}
 
 	/**
-	 * Return the right singular vectors
+	 * Return the right singular vectors.
 	 *
 	 * @return V
 	 */
@@ -481,7 +481,7 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 	}
 
 	/**
-	 * Return the one-dimensional array of singular values
+	 * Return the one-dimensional array of singular values.
 	 *
 	 * @return diagonal of S.
 	 */
@@ -494,7 +494,7 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 	}
 
 	/**
-	 * Return the diagonal matrix of singular values
+	 * Return the diagonal matrix of singular values.
 	 *
 	 * @return S
 	 */
@@ -511,7 +511,7 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 	}
 
 	/**
-	 * Two norm
+	 * Two norm.
 	 *
 	 * @return max(S)
 	 */
@@ -526,7 +526,7 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 	}
 
 	/**
-	 * Two norm condition number
+	 * Two norm condition number.
 	 *
 	 * @return max(S)/min(S)
 	 */
@@ -541,9 +541,9 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 	}
 
 	/**
-	 * Effective numerical matrix rank
+	 * Effective numerical matrix rank.
 	 *
-	 * @return Number of nonnegligible singular values.
+	 * @return Number of non-negligible singular values.
 	 */
 	public int rank()
 	{

@@ -27,11 +27,7 @@ import com.sun.j3d.utils.universe.SimpleUniverse;
 import com.syncleus.dann.graph.Graph;
 import com.syncleus.dann.graph.drawing.hyperassociativemap.HyperassociativeMap;
 import java.awt.BorderLayout;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextPane;
-import javax.swing.border.EmptyBorder;
 
 /**
  * A Canvas3D specifically for displaying a HyperassociativeMap.
@@ -39,8 +35,8 @@ import javax.swing.border.EmptyBorder;
  * @author Jeffrey Phillips Freeman
  * @since 1.0
  */
-public class HyperassociativeMapCanvas<G extends Graph<N, ?>, N> extends JPanel {
-
+public class HyperassociativeMapCanvas<G extends Graph<N, ?>, N> extends JPanel
+{
     private static final long serialVersionUID = -2387160322569579373L;
     private final HyperassociativeMap<G, N> map;
     private static final float NODE_RADIUS = 0.07F;
@@ -48,9 +44,10 @@ public class HyperassociativeMapCanvas<G extends Graph<N, ?>, N> extends JPanel 
     private HyperassociativeMapCanvasCanvas c3d;
     private HyperassociativeMapVisualization<HyperassociativeMap<G, N>, G, N> mapVisual;
 
-    public class HyperassociativeMapCanvasCanvas extends Canvas3D {
-
-        public HyperassociativeMapCanvasCanvas(GraphicsConfiguration config) {
+    public class HyperassociativeMapCanvasCanvas extends Canvas3D
+    {
+        public HyperassociativeMapCanvasCanvas(GraphicsConfiguration config)
+        {
             super(config);
 
             final BranchGroup root = newRoot();
@@ -73,7 +70,8 @@ public class HyperassociativeMapCanvas<G extends Graph<N, ?>, N> extends JPanel 
             universe.getViewingPlatform().setViewPlatformBehavior(mouseOrbital);
         }
 
-        private BranchGroup newRoot() {
+        private BranchGroup newRoot()
+        {
             // Create the branch group
             final BranchGroup branchGroup = new BranchGroup();
             // Create the bounding leaf node
@@ -104,7 +102,8 @@ public class HyperassociativeMapCanvas<G extends Graph<N, ?>, N> extends JPanel 
      * @param ourMap The HyperassociativeMap to display.
      * @since 1.0
      */
-    public HyperassociativeMapCanvas(final HyperassociativeMap<G, N> ourMap) throws ComponentUnavailableException {
+    public HyperassociativeMapCanvas(final HyperassociativeMap<G, N> ourMap) throws ComponentUnavailableException
+    {
         this(ourMap, SimpleUniverse.getPreferredConfiguration());
     }
 
@@ -117,7 +116,8 @@ public class HyperassociativeMapCanvas<G extends Graph<N, ?>, N> extends JPanel 
      * @param nodeRadius The radius of the spheres representing each node.
      * @since 1.0
      */
-    public HyperassociativeMapCanvas(final HyperassociativeMap<G, N> ourMap, final float nodeRadius) throws ComponentUnavailableException {
+    public HyperassociativeMapCanvas(final HyperassociativeMap<G, N> ourMap, final float nodeRadius) throws ComponentUnavailableException
+    {
         this(ourMap, null, nodeRadius);
     }
 
@@ -130,7 +130,8 @@ public class HyperassociativeMapCanvas<G extends Graph<N, ?>, N> extends JPanel 
      * canvas.
      * @since 1.0
      */
-    public HyperassociativeMapCanvas(final HyperassociativeMap<G, N> ourMap, final GraphicsConfiguration configuration) throws ComponentUnavailableException {
+    public HyperassociativeMapCanvas(final HyperassociativeMap<G, N> ourMap, final GraphicsConfiguration configuration) throws ComponentUnavailableException
+    {
         this(ourMap, configuration, NODE_RADIUS);
     }
 
@@ -146,15 +147,18 @@ public class HyperassociativeMapCanvas<G extends Graph<N, ?>, N> extends JPanel 
      * @throws Java3DUnavailableException if Java3D support is not available.
      * @since 1.0
      */
-    public HyperassociativeMapCanvas(final HyperassociativeMap<G, N> ourMap, GraphicsConfiguration configuration, final float nodeRadius) throws ComponentUnavailableException {
+    public HyperassociativeMapCanvas(final HyperassociativeMap<G, N> ourMap, GraphicsConfiguration configuration, final float nodeRadius) throws ComponentUnavailableException
+    {
         super(new BorderLayout());
 
         this.map = ourMap;
         this.nodeRadius = nodeRadius;
 
 
-        try {
-            if (configuration == null) {
+        try
+        {
+            if (configuration == null)
+            {
                 //This is where Java3D will throw java.lang.UnsatisfiedLinkError: no j3dcore-ogl in java.library.path if Java3D not available.
                 configuration = SimpleUniverse.getPreferredConfiguration();
             }
@@ -162,7 +166,8 @@ public class HyperassociativeMapCanvas<G extends Graph<N, ?>, N> extends JPanel 
             c3d = new HyperassociativeMapCanvasCanvas(configuration);
             add(c3d, BorderLayout.CENTER);
 
-        } catch (UnsatisfiedLinkError error) {
+        } catch (UnsatisfiedLinkError error)
+        {
             throw new ComponentUnavailableException(error);
 
         }
@@ -177,13 +182,16 @@ public class HyperassociativeMapCanvas<G extends Graph<N, ?>, N> extends JPanel 
      *
      * @since 1.0
      */
-    public void refresh() {
-        if (mapVisual != null) {
+    public void refresh()
+    {
+        if (mapVisual != null)
+        {
             mapVisual.refresh();
         }
     }
 
-    public HyperassociativeMap<G, N> getHyperassociativeMap() {
+    public HyperassociativeMap<G, N> getHyperassociativeMap()
+    {
         return this.map;
     }
 }

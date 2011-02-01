@@ -126,7 +126,7 @@ public class HouseholderQrDecomposition<M extends Matrix<M, F>, F extends Ordere
 	}
 
 	/**
-	 * Return the Householder vectors
+	 * Return the Householder vectors.
 	 *
 	 * @return Lower trapezoidal matrix whose columns define the reflections
 	 */
@@ -141,7 +141,7 @@ public class HouseholderQrDecomposition<M extends Matrix<M, F>, F extends Ordere
 	}
 
 	/**
-	 * Return the upper triangular factor
+	 * Return the upper triangular factor.
 	 *
 	 * @return factor
 	 */
@@ -158,7 +158,7 @@ public class HouseholderQrDecomposition<M extends Matrix<M, F>, F extends Ordere
 	}
 
 	/**
-	 * Generate and return the (economy-sized) orthogonal factor
+	 * Generate and return the (economy-sized) orthogonal factor.
 	 *
 	 * @return factor
 	 */
@@ -185,7 +185,7 @@ public class HouseholderQrDecomposition<M extends Matrix<M, F>, F extends Ordere
 	}
 
 	/**
-	 * Least squares solution of matrixToDecompose*X = solutionMatrix
+	 * Least squares solution of matrixToDecompose*X = solutionMatrix.
 	 *
 	 * @param solutionMatrix matrixToDecompose SimpleRealMatrix with as many rows
 	 * as matrixToDecompose and any number of columns.

@@ -47,7 +47,7 @@ public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S>
 	private void learnFromMemory(final Collection<S> stateMemoryCollection, final S nextState)
 	{
 		final List<S> stateMemory = Collections.unmodifiableList(new ArrayList<S>(stateMemoryCollection));
-		
+
 		//get the current evidence for this state
 		StateCounter<S> transitions = this.evidence.get(stateMemory);
 		//if there is no transistions then create a blank one
@@ -104,15 +104,15 @@ public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S>
 
 	public MarkovChain<S> getMarkovChain()
 	{
-		Map<List<S>, Map<S,Double>> transitionProbabilities = new LinkedHashMap<List<S>, Map<S,Double>>(this.evidence.size());
-		for(Map.Entry<List<S>,StateCounter<S>> countEntry : this.evidence.entrySet())
+		Map<List<S>, Map<S, Double>> transitionProbabilities = new LinkedHashMap<List<S>, Map<S, Double>>(this.evidence.size());
+		for(Map.Entry<List<S>, StateCounter<S>> countEntry : this.evidence.entrySet())
 			transitionProbabilities.put(countEntry.getKey(), countEntry.getValue().probabilities());
 		return new SimpleMarkovChain<S>(transitionProbabilities, this.order, this.observedStates);
 	}
 
 	private static class StateCounter<S>
 	{
-		private final Map<S, Integer> stateCount = new HashMap<S,Integer>();
+		private final Map<S, Integer> stateCount = new HashMap<S, Integer>();
 		private long totalEvidence;
 
 		public StateCounter()
@@ -140,8 +140,8 @@ public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S>
 
 		public Map<S, Double> probabilities()
 		{
-			Map<S, Double> prob = new HashMap<S,Double>(this.stateCount.size());
-			for(Map.Entry<S,Integer> countEntry : this.stateCount.entrySet())
+			Map<S, Double> prob = new HashMap<S, Double>(this.stateCount.size());
+			for(Map.Entry<S, Integer> countEntry : this.stateCount.entrySet())
 				prob.put(countEntry.getKey(), countEntry.getValue().doubleValue() / ((double)this.totalEvidence));
 			return prob;
 		}

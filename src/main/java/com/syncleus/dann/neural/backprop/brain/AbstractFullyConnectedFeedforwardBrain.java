@@ -22,7 +22,7 @@ import java.util.concurrent.ExecutorService;
 import com.syncleus.dann.neural.*;
 import com.syncleus.dann.neural.backprop.*;
 
-public abstract class AbstractFullyConnectedFeedforwardBrain<IN extends InputBackpropNeuron, ON extends OutputBackpropNeuron, N extends BackpropNeuron, S extends Synapse<N>> extends AbstractFeedforwardBrain<IN,ON,N,S>
+public abstract class AbstractFullyConnectedFeedforwardBrain<IN extends InputBackpropNeuron, ON extends OutputBackpropNeuron, N extends BackpropNeuron, S extends Synapse<N>> extends AbstractFeedforwardBrain<IN, ON, N, S>
 {
 	private final boolean hasBias;
 

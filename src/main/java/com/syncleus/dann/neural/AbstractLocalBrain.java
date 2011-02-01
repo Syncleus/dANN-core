@@ -30,13 +30,13 @@ import com.syncleus.dann.graph.topological.StrongConnectivityOptimizedGraph;
 /**
  * Represents a single artificial brain typically belonging to a single
  * artificial organism. It will contain a set of input and output neurons which
- * corelates to a specific dataset pattern.<br/> <br/> This class is abstract
+ * corelate to a specific dataset pattern.<br/> <br/> This class is abstract
  * and must be extended in order to be used.
  *
  * @author Jeffrey Phillips Freeman
  * @since 1.0
  */
-public abstract class AbstractLocalBrain<IN extends InputNeuron, ON extends OutputNeuron, N extends Neuron, S extends Synapse<N>> extends AbstractBidirectedAdjacencyGraph<N, S> implements Brain<IN,ON,N,S>, Serializable, StrongConnectivityOptimizedGraph<N, S>
+public abstract class AbstractLocalBrain<IN extends InputNeuron, ON extends OutputNeuron, N extends Neuron, S extends Synapse<N>> extends AbstractBidirectedAdjacencyGraph<N, S> implements Brain<IN, ON, N, S>, Serializable, StrongConnectivityOptimizedGraph<N, S>
 {
 	private static class NodeConnectivity<N extends Neuron, S extends Synapse<N>> extends HashMap<N, Set<S>>
 	{

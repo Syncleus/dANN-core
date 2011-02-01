@@ -7,11 +7,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
 
-public class ComponentUnavailableException extends Exception {
-
+public class ComponentUnavailableException extends Exception
+{
     private final UnsatisfiedLinkError unsatisfiedLinkError;
 
-    public ComponentUnavailableException(UnsatisfiedLinkError e) {
+    public ComponentUnavailableException(UnsatisfiedLinkError e)
+    {
         super(e.getMessage());
         this.unsatisfiedLinkError = e;
     }
@@ -20,9 +21,12 @@ public class ComponentUnavailableException extends Exception {
      * creates a JComponent (usually a JPanel) that provides instructions for to fix or activate the missing component.
      * @return Swing component
      */
-    public JComponent newPanel() {
-        if (unsatisfiedLinkError != null) {
-            if (unsatisfiedLinkError.getMessage().contains("j3d")) {
+    public JComponent newPanel()
+    {
+        if (unsatisfiedLinkError != null)
+        {
+            if (unsatisfiedLinkError.getMessage().contains("j3d"))
+            {
                 JPanel p = new JPanel(new BorderLayout());
                 String msg = "<span style=\"font-size: 20pt\"><b>Java Component Missing:</b> " + this.toString() + "</span><br/><br/>";
                 msg += "See <a href=\"http://www.oracle.com/technetwork/java/javase/tech/index-jsp-138252.html\">http://www.oracle.com/technetwork/java/javase/tech/index-jsp-138252.html</a> for Java3D installation instructions</a>.";

@@ -1,4 +1,4 @@
 /**
- * This package contains the common exceptions for dANN. 
+ * This package contains the common exceptions for dANN.
  */
 package com.syncleus.dann;

@@ -43,7 +43,7 @@ public abstract class AbstractBackpropNeuron extends AbstractActivationNeuron im
 	protected final Hashtable<Synapse, Double> deltaTrainDestinations = new Hashtable<Synapse, Double>();
 
 	/**
-	 * Creates a new default instance of SimpleBackpropNeuron
+	 * Creates a new default instance of SimpleBackpropNeuron.
 	 *
 	 * @since 1.0
 	 */
@@ -53,8 +53,8 @@ public abstract class AbstractBackpropNeuron extends AbstractActivationNeuron im
 	}
 
 	/**
-	 * Creates a new instance of SimpleBackpropNeuron with the specified activation
-	 * function.
+	 * Creates a new instance of SimpleBackpropNeuron with the specified
+	 * activation function.
 	 *
 	 * @param activationFunction The Neuron's activation function.
 	 * @since 1.0
@@ -79,7 +79,7 @@ public abstract class AbstractBackpropNeuron extends AbstractActivationNeuron im
 
 	/**
 	 * Creates a new instance of a SimpleBackpropNeuron with the specified
-	 * activtion function and learning rate.
+	 * activation function and learning rate.
 	 *
 	 * @param activationFunction Activation function for this neuron.
 	 * @param learningRate Learning rate for this neuron.
@@ -91,7 +91,7 @@ public abstract class AbstractBackpropNeuron extends AbstractActivationNeuron im
 	}
 
 	/**
-	 * Backpropogates the training data to all the incomming synapses.
+	 * Back-propogates the training data to all the incoming synapses.
 	 *
 	 * @since 1.0
 	 */
@@ -131,7 +131,7 @@ public abstract class AbstractBackpropNeuron extends AbstractActivationNeuron im
 	}
 
 	/**
-	 * Calculates the Delta Train based on all the destination synapses
+	 * Calculates the Delta Train based on all the destination synapses.
 	 *
 	 * @see com.syncleus.dann.neural.backprop.SimpleBackpropNeuron#backPropagate
 	 * @since 1.0

@@ -306,10 +306,10 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 	}
 
 	/**
-	 * Mutates by incorperating a new signal into the mutated result.<br/> <br/>
-	 * May mutate by:<br/> <ul> <li>adding the new signal</li> <ul>
+	 * Mutates by incorporating a new signal into the mutated result.<br/> <br/>
+	 * May mutate by:<br/> <ul> <li>adding the new signal</li> </ul>
 	 *
-	 * @param newSignal The new signal to incorperate.
+	 * @param newSignal The new signal to incorporate.
 	 * @return New mutated wavelet
 	 */
 	public SignalProcessingWavelet mutate(final double deviation, final SignalConcentration newSignal)

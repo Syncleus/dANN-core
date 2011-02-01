@@ -428,7 +428,7 @@ public final class Topography
 			}
 		}
 
-		return Topography.isCut(graph,Collections.<N>emptySet(), Collections.singleton(edge), begin, end);
+		return Topography.isCut(graph, Collections.<N>emptySet(), Collections.singleton(edge), begin, end);
 	}
 
 	public static <N, E extends Edge<N>> int getNodeConnectivity(final Graph<N, E> graph)
@@ -654,7 +654,7 @@ public final class Topography
 				//if its not supported lets handle it as if its not optimized
 			}
 		}
-		
+
 		return (Topography.isHomomorphic(graph, isomorphicGraph) && Topography.isHomomorphic(isomorphicGraph, graph));
 	}
 
@@ -754,7 +754,7 @@ public final class Topography
 				//if its not supported lets handle it as if its not optimized
 			}
 		}
-		
+
 		int degree = -1;
 		for(final N node : graph.getNodes())
 		{
@@ -903,7 +903,7 @@ public final class Topography
 				//if its not supported lets handle it as if its not optimized
 			}
 		}
-		
+
 		final List<N> edgeNodes = edge.getNodes();
 		final Set<E> potentialMultiples = graph.getAdjacentEdges(edge.getNodes().get(0));
 		for(final E potentialMultiple : potentialMultiples)
@@ -1139,7 +1139,7 @@ public final class Topography
 	}
 
 	/**
-	 * A SizeComparator compares two collections solely based on size
+	 * A SizeComparator compares two collections solely based on size.
 	 */
 	private static class SizeComparator implements Comparator<Collection<?>>, Serializable
 	{

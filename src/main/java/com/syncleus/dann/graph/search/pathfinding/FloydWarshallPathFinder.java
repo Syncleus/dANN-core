@@ -74,9 +74,9 @@ public class FloydWarshallPathFinder<N, E extends Edge<N>> implements PathFinder
 			for(final N nodeX : this.graph.getNodes())
 				for(final N nodeY : this.graph.getNodes())
 				{
-					if( !Double.isInfinite(this.walkWeight.get(nodeX).get(nodeK)) &&
-							!Double.isInfinite(this.walkWeight.get(nodeK).get(nodeY)) &&
-							this.walkWeight.get(nodeX).get(nodeK) + this.walkWeight.get(nodeK).get(nodeY) < this.walkWeight.get(nodeX).get(nodeY)
+					if( !Double.isInfinite(this.walkWeight.get(nodeX).get(nodeK))
+							&& !Double.isInfinite(this.walkWeight.get(nodeK).get(nodeY))
+							&& this.walkWeight.get(nodeX).get(nodeK) + this.walkWeight.get(nodeK).get(nodeY) < this.walkWeight.get(nodeX).get(nodeY)
 							)
 					{
 						final double newWeight = this.walkWeight.get(nodeX).get(nodeK) + this.walkWeight.get(nodeK).get(nodeY);

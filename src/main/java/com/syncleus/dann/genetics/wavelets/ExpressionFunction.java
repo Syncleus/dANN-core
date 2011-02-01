@@ -68,7 +68,7 @@ public class ExpressionFunction implements Cloneable
 	}
 
 	/**
-	 * Gets the resultant CombinedWaveletFunction from this ExpressionFunction
+	 * Gets the resultant CombinedWaveletFunction from this ExpressionFunction.
 	 * @return The CombinedWaveletFunction
 	 */
 	public CombinedWaveletFunction getWaveletMathFunction()
@@ -77,7 +77,7 @@ public class ExpressionFunction implements Cloneable
 	}
 
 	/**
-	 * Gets the number of waves expressed by this ExpressionFunction
+	 * Gets the number of waves expressed by this ExpressionFunction.
 	 * @return The number of expressed waves
 	 */
 	public int getWaveCount()
@@ -87,7 +87,7 @@ public class ExpressionFunction implements Cloneable
 	}
 
 	/**
-	 * Gets the receptors for this ExpressionFunction
+	 * Gets the receptors for this ExpressionFunction.
 	 * @return An unmodifiable set of ReceptorKey
 	 */
 	public Set<ReceptorKey> getReceptors()

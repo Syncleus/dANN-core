@@ -147,7 +147,7 @@ public class NonsymetricHessenbergReduction implements java.io.Serializable, Hes
 	}
 
 	/**
-	 * Return the eigenvector matrix
+	 * Return the eigenvector matrix.
 	 *
 	 * @return matrixElements
 	 */

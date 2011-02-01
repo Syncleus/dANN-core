@@ -304,9 +304,9 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 					r = r / s;
 					if( m == l )
 						break;
-					if( Math.abs(H[m][m - 1]) * (Math.abs(q) + Math.abs(r)) <
-							eps * (Math.abs(p) * (Math.abs(H[m - 1][m - 1]) + Math.abs(z) +
-									Math.abs(H[m + 1][m + 1]))) )
+					if( Math.abs(H[m][m - 1]) * (Math.abs(q) + Math.abs(r))
+							< eps * (Math.abs(p) * (Math.abs(H[m - 1][m - 1]) + Math.abs(z)
+									+ Math.abs(H[m + 1][m + 1]))) )
 						break;
 					m--;
 				}
@@ -508,8 +508,8 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 							vr = (d[i] - p) * (d[i] - p) + e[i] * e[i] - q * q;
 							vi = (d[i] - p) * 2.0 * q;
 							if( vr == 0.0 & vi == 0.0 )
-								vr = eps * norm * (Math.abs(w) + Math.abs(q) +
-										Math.abs(x) + Math.abs(y) + Math.abs(z));
+								vr = eps * norm * (Math.abs(w) + Math.abs(q)
+										+ Math.abs(x) + Math.abs(y) + Math.abs(z));
 							cdiv(x * r - z * ra + q * sa, x * s - z * sa - q * ra, vr, vi);
 							H[i][n - 1] = cdivr.getValue();
 							H[i][n] = cdivi.getValue();
@@ -565,7 +565,7 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 	}
 
 	/**
-	 * Return the eigenvector matrix
+	 * Return the eigenvector matrix.
 	 *
 	 * @return matrixElements
 	 */
@@ -575,7 +575,7 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 	}
 
 	/**
-	 * Return the real parts of the eigenvalues
+	 * Return the real parts of the eigenvalues.
 	 *
 	 * @return real(diag(D))
 	 */
@@ -585,7 +585,7 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 	}
 
 	/**
-	 * Return the imaginary parts of the eigenvalues
+	 * Return the imaginary parts of the eigenvalues.
 	 *
 	 * @return imag(diag(D))
 	 */
@@ -595,7 +595,7 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 	}
 
 	/**
-	 * Return the block diagonal eigenvalue matrix
+	 * Return the block diagonal eigenvalue matrix.
 	 *
 	 * @return D
 	 */

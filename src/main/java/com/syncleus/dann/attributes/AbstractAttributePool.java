@@ -85,7 +85,7 @@ public abstract class AbstractAttributePool<T> implements AttributePool<T>
 		//if this listener is global we cant remove it despite still listening so throw an exception
 		if( this.globalListeners.contains(listener) )
 			throw new IllegalArgumentException("listener is a global listener so we can not remove it for a single attribute");
-		
+
 		final Set<AttributeChangeListener<?>> attributeListeners = this.listeners.get(attribute);
 
 		if( attributeListeners == null )
