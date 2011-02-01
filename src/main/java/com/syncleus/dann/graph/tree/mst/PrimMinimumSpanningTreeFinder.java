@@ -62,7 +62,7 @@ public class PrimMinimumSpanningTreeFinder<N, E extends Edge<N>> implements Root
 	private Set<E> primCalculate(final Graph<N, E> graph, final N startNode)
 	{
 		final Set<E> mst = new HashSet<E>();
-		final PrimMap primMap = new PrimMap();
+		final PrimMap<N, E> primMap = new PrimMap<N, E>();
 		for(final N node : graph.getNodes())
 			primMap.put(node, null);
 
@@ -105,7 +105,7 @@ public class PrimMinimumSpanningTreeFinder<N, E extends Edge<N>> implements Root
 		return mst;
 	}
 
-	private class PrimMap extends HashMap<N, E>
+	private static class PrimMap<N, E> extends HashMap<N, E>
 	{
 		private static final long serialVersionUID = 6345120112273301259L;
 		private final Queue<Map.Entry<N, E>> weightedNodes = new PriorityQueue<Map.Entry<N, E>>(10, new EntryCompare());

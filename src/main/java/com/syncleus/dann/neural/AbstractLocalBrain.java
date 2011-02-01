@@ -38,7 +38,7 @@ import com.syncleus.dann.graph.topological.StrongConnectivityOptimizedGraph;
  */
 public abstract class AbstractLocalBrain<IN extends InputNeuron, ON extends OutputNeuron, N extends Neuron, S extends Synapse<N>> extends AbstractBidirectedAdjacencyGraph<N, S> implements Brain<IN,ON,N,S>, Serializable, StrongConnectivityOptimizedGraph<N, S>
 {
-	private class NodeConnectivity extends HashMap<N, Set<S>>
+	private static class NodeConnectivity<N extends Neuron, S extends Synapse<N>> extends HashMap<N, Set<S>>
 	{
 		private static final long serialVersionUID = -2956514569529162804L;
 
@@ -63,8 +63,8 @@ public abstract class AbstractLocalBrain<IN extends InputNeuron, ON extends Outp
 	private final Set<ON> outputNeurons = new HashSet<ON>();
 	private final Set<IN> inputNeurons = new HashSet<IN>();
 	private final Set<S> synapses = new HashSet<S>();
-	private final Map<N, Set<S>> outMap = new NodeConnectivity();
-	private final Map<N, Set<S>> inMap = new NodeConnectivity();
+	private final Map<N, Set<S>> outMap = new NodeConnectivity<N, S>();
+	private final Map<N, Set<S>> inMap = new NodeConnectivity<N, S>();
 	private static final Random RANDOM = new Random();
 	private final ExecutorService threadExecutor;
 

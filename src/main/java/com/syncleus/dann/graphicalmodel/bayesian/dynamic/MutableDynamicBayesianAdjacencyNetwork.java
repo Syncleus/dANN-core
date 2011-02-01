@@ -145,7 +145,7 @@ public class MutableDynamicBayesianAdjacencyNetwork<N extends DynamicBayesianNod
 		for(final E removeEdge : removeEdges)
 		{
 			E newEdge = (E) removeEdge.disconnect(nodeToRemove);
-			while( (newEdge.getNodes().contains(nodeToRemove)) && (newEdge != null) )
+			while( (newEdge != null) && (newEdge.getNodes().contains(nodeToRemove)) )
 				newEdge = (E) removeEdge.disconnect(nodeToRemove);
 			if( newEdge != null )
 				newEdges.add(newEdge);

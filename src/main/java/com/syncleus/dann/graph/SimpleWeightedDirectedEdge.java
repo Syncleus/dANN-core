@@ -52,13 +52,13 @@ public final class SimpleWeightedDirectedEdge<N> extends AbstractDirectedEdge<N>
 	@Override
 	public SimpleWeightedDirectedEdge<N> disconnect(final N node)
 	{
-		return (SimpleWeightedDirectedEdge<N>) this.disconnect(node);
+		return (SimpleWeightedDirectedEdge<N>) super.disconnect(node);
 	}
 
 	@Override
 	public SimpleWeightedDirectedEdge<N> disconnect(final List<N> nodes)
 	{
-		return (SimpleWeightedDirectedEdge<N>) this.disconnect(nodes);
+		return (SimpleWeightedDirectedEdge<N>) super.disconnect(nodes);
 	}
 
 	@Override

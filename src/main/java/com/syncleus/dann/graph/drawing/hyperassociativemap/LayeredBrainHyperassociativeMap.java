@@ -74,9 +74,7 @@ public class LayeredBrainHyperassociativeMap extends HyperassociativeMap<Feedfor
 	@Override
 	Map<BackpropNeuron, Double> getNeighbors(final BackpropNeuron nodeToQuery)
 	{
-		if( !(nodeToQuery instanceof BackpropNeuron) )
-			throw new IllegalArgumentException("nodeToQuery must be BackpropNeuron");
-		final BackpropNeuron neuronToQuery = (BackpropNeuron) nodeToQuery;
+		final BackpropNeuron neuronToQuery = nodeToQuery;
 
 		if( (this.cached) && (this.neighbors.containsKey(neuronToQuery)) )
 			return this.neighbors.get(neuronToQuery);

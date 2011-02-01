@@ -41,12 +41,9 @@ public abstract class AbstractDynamicBayesianAdjacencyNetwork<N extends DynamicB
 
 	public void learnStates(final boolean updateHistory)
 	{
-		for(final BayesianNode node : this.getNodes())
+		for(final N node : this.getNodes())
 		{
-			if( node instanceof DynamicBayesianNode )
-				((DynamicBayesianNode) node).learnState(updateHistory);
-			else
-				node.learnState();
+			node.learnState(updateHistory);
 		}
 	}
 

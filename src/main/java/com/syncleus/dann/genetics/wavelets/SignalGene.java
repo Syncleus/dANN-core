@@ -30,6 +30,7 @@ public class SignalGene extends AbstractWaveletGene implements Cloneable
 		super(initialReceptor);
 
 		this.outputSignal = initialSignal;
+		this.expressingConcentration = null;
 	}
 
 	public SignalGene(final SignalGene copy)

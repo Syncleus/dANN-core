@@ -181,11 +181,7 @@ public class EvidenceMap<S> extends HashMap<Map<BayesianNode, Object>, StateEvid
 
                 if( seenNodes.add(node) )
                 {
-                    final Object nodeXml;
-                    if(node instanceof XmlSerializable)
-                        nodeXml = ((XmlSerializable)node).toXml(namer);
-                    else
-                        nodeXml = node;
+                    final Object nodeXml = node.toXml(namer);
 
                     NamedValueXml encapsulation = new NamedValueXml();
                     encapsulation.setName( namer.getNameOrCreate(node) );

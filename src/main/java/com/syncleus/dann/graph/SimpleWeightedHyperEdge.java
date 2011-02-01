@@ -52,13 +52,13 @@ public final class SimpleWeightedHyperEdge<N> extends AbstractHyperEdge<N> imple
 	@Override
 	public SimpleWeightedHyperEdge<N> disconnect(final N node)
 	{
-		return (SimpleWeightedHyperEdge<N>) this.disconnect(node);
+		return (SimpleWeightedHyperEdge<N>) super.disconnect(node);
 	}
 
 	@Override
 	public SimpleWeightedHyperEdge<N> disconnect(final List<N> nodes)
 	{
-		return (SimpleWeightedHyperEdge<N>) this.disconnect(nodes);
+		return (SimpleWeightedHyperEdge<N>) super.disconnect(nodes);
 	}
 
 	@Override

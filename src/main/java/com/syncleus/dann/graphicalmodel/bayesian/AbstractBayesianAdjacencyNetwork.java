@@ -175,10 +175,7 @@ public abstract class AbstractBayesianAdjacencyNetwork<N extends BayesianNode, E
             //add the node
             NamedValueXml nodeXml = new NamedValueXml();
             nodeXml.setName(namer.getNameOrCreate(node));
-            if( node instanceof XmlSerializable)
-                nodeXml.setValue(((XmlSerializable)node).toXml(namer));
-            else
-                nodeXml.setValue(node);
+            nodeXml.setValue(node.toXml(namer));
             networkXml.getNodeInstances().getNodes().add(nodeXml);
 
             //add all the node's learned states

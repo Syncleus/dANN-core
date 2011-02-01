@@ -143,7 +143,7 @@ public class MutableHyperAdjacencyGraph<N, E extends HyperEdge<N>> extends Abstr
 		for(final E removeEdge : removeEdges)
 		{
 			E newEdge = (E) removeEdge.disconnect(nodeToRemove);
-			while( (newEdge.getNodes().contains(nodeToRemove)) && (newEdge != null) )
+			while( (newEdge != null) && (newEdge.getNodes().contains(nodeToRemove)) )
 				newEdge = (E) removeEdge.disconnect(nodeToRemove);
 			if( newEdge != null )
 				newEdges.add(newEdge);
