@@ -82,7 +82,8 @@ public abstract class AbstractAttributePool<T> implements AttributePool<T>
 
 	public final <C extends T> boolean removeListener(AttributeChangeListener<C> listener, Attribute<?, ? extends C> attribute)
 	{
-		//if this listener is global we cant remove it despite still listening so throw an exception
+		// if this listener is global we cant remove it despite still listening
+		// so throw an exception
 		if( this.globalListeners.contains(listener) )
 			throw new IllegalArgumentException("listener is a global listener so we can not remove it for a single attribute");
 

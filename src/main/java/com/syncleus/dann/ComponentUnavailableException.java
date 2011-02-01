@@ -18,7 +18,8 @@ public class ComponentUnavailableException extends Exception
     }
 
     /**
-     * creates a JComponent (usually a JPanel) that provides instructions for to fix or activate the missing component.
+     * Creates a JComponent (usually a JPanel) that provides instructions for to
+     * fix or activate the missing component.
      * @return Swing component
      */
     public JComponent newPanel()

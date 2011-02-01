@@ -24,13 +24,13 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Set;
 import com.sun.j3d.utils.geometry.*;
 import com.sun.j3d.utils.image.TextureLoader;
 import com.syncleus.dann.graph.Graph;
 import com.syncleus.dann.graph.drawing.GraphDrawer;
 import com.syncleus.dann.math.Vector;
 import com.syncleus.dann.neural.*;
-import java.util.Set;
 
 /**
  * A BranchGroup representing a HyperAssociativeMap.

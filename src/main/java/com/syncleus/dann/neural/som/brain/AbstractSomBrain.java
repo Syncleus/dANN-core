@@ -18,9 +18,18 @@
  ******************************************************************************/
 package com.syncleus.dann.neural.som.brain;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
-import java.util.concurrent.*;
+import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 import com.syncleus.dann.*;
 import com.syncleus.dann.math.Vector;
 import com.syncleus.dann.neural.*;
@@ -29,9 +38,9 @@ import org.apache.log4j.Logger;
 
 /**
  * A SomBrain acts as the parent class for all brains that use traditional SOM
- * agorithms. It implements a standard SOM leaving only the methods handling the
- * neighborhood and learning rate as abstract. These methods can be implemented
- * in several ways to alow for different types of SOM networks.
+ * algorithms. It implements a standard SOM leaving only the methods handling
+ * the neighborhood and learning rate as abstract. These methods can be
+ * implemented in several ways to alow for different types of SOM networks.
  *
  * @author Jeffrey Phillips Freeman
  * @since 2.0
@@ -106,7 +115,7 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 	}
 
 	/**
-	 * Called by chidren classes to instantiate a basic SomBrain with the given
+	 * Called by children classes to instantiate a basic SomBrain with the given
 	 * number of inputs and with an output lattice of the given number of
 	 * dimensions.
 	 *
@@ -203,14 +212,14 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 
 	/**
 	 * Gets the current output at the specified position in the output lattice if
-	 * the position doesnt have a SimpleSomNeuron associated with it then it throws
+	 * the position does not have a SimpleSomNeuron associated with it then it throws
 	 * an exception.
 	 *
 	 * @param position position in the output latice of the output you wish to
-	 * retreive.
+	 * retrieve.
 	 * @return The value of the specified SimpleSomNeuron, or null if there is no
 	 *         SimpleSomNeuron associated with the given position.
-	 * @throws IllegalArgumentException if position doesnt exist.
+	 * @throws IllegalArgumentException if position does not exist.
 	 * @since 2.0
 	 */
 	public final double getOutput(final Vector position)
@@ -458,12 +467,12 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 	}
 
 	/**
-	 * Determines the neighboorhood function based on the neurons distance from the
-	 * Best Matching Unit (BMU).
+	 * Determines the neighborhood function based on the neurons distance from
+	 * the Best Matching Unit (BMU).
 	 *
 	 * @param distanceFromBest The neuron's distance from the BMU.
-	 * @return the decay effecting the learning of the specified neuron due to its
-	 *         distance from the BMU.
+	 * @return the decay effecting the learning of the specified neuron due to
+	 *         its distance from the BMU.
 	 * @since 2.0
 	 */
 	protected abstract double neighborhoodFunction(double distanceFromBest);

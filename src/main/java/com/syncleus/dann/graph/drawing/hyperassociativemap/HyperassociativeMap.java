@@ -18,7 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.drawing.hyperassociativemap;
 
-import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.*;
 import com.syncleus.dann.*;
@@ -26,6 +25,12 @@ import com.syncleus.dann.graph.*;
 import com.syncleus.dann.graph.drawing.GraphDrawer;
 import com.syncleus.dann.graph.topological.Topography;
 import com.syncleus.dann.math.Vector;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import org.apache.log4j.Logger;
 
 public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawer<G, N>
