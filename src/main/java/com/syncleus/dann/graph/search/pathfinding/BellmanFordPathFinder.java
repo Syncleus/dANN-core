@@ -18,13 +18,19 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.search.pathfinding;
 
-import java.util.*;
-import com.syncleus.dann.graph.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import com.syncleus.dann.graph.DirectedEdge;
+import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.Weighted;
 
 public class BellmanFordPathFinder<N, E extends DirectedEdge<N>> implements PathFinder<N, E>
 {
 	private final Graph<N, E> graph;
-	Map<N, PathedStep> pathedSteps;
+	private Map<N, PathedStep> pathedSteps;
 
 	public BellmanFordPathFinder(final Graph<N, E> graph)
 	{

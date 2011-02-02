@@ -23,9 +23,12 @@
 */
 package com.syncleus.dann.math.linear.decomposition;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import com.syncleus.dann.math.RealNumber;
-import com.syncleus.dann.math.linear.*;
+import com.syncleus.dann.math.linear.RealMatrix;
+import com.syncleus.dann.math.linear.SimpleRealMatrix;
 
 /**
  * Eigenvalues and eigenvectors of a real matrix.
@@ -95,8 +98,9 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 		return this.matrix.getHeight();
 	}
 
-	// Symmetric Householder reduction to tridiagonal form.
-
+	/**
+	 * Symmetric Householder reduction to tridiagonal form.
+	 */
 	private void householderTridiagonalReduction()
 	{
 		final int n = this.getDimensionSize();
@@ -226,8 +230,9 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 		this.matrix = new SimpleRealMatrix(V);
 	}
 
-	// Symmetric tridiagonal QL algorithm.
-
+	/**
+	 * Symmetric tridiagonal QL algorithm.
+	 */
 	private void qlTridiagonalReduction()
 	{
 
@@ -362,40 +367,44 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 	}
 
 	/**
-	 * Return the eigenvector matrix
+	 * Returns the eigenvector matrix.
 	 *
 	 * @return matrixElements
 	 */
+	@Override
 	public RealMatrix getMatrix()
 	{
 		return this.matrix;
 	}
 
 	/**
-	 * Return the real parts of the eigenvalues
+	 * Returns the real parts of the eigenvalues.
 	 *
 	 * @return real(diag(D))
 	 */
+	@Override
 	public List<RealNumber> getRealEigenvalues()
 	{
 		return Collections.unmodifiableList(this.realEigenvalues);
 	}
 
 	/**
-	 * Return the imaginary parts of the eigenvalues
+	 * Returns the imaginary parts of the eigenvalues.
 	 *
 	 * @return imag(diag(D))
 	 */
+	@Override
 	public List<RealNumber> getImaginaryEigenvalues()
 	{
 		return Collections.unmodifiableList(this.imaginaryEigenvalues);
 	}
 
 	/**
-	 * Return the block diagonal eigenvalue matrix
+	 * Returns the block diagonal eigenvalue matrix.
 	 *
 	 * @return D
 	 */
+	@Override
 	public RealMatrix getBlockDiagonalMatrix()
 	{
 		final int n = this.getDimensionSize();

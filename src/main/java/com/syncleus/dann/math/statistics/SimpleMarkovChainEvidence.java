@@ -18,7 +18,16 @@
  ******************************************************************************/
 package com.syncleus.dann.math.statistics;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S>
 {
@@ -39,6 +48,7 @@ public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S>
 		this.observedStates.add(null);
 	}
 
+	@Override
 	public void newChain()
 	{
 		this.history.clear();
@@ -61,6 +71,7 @@ public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S>
 		transitions.increment(nextState);
 	}
 
+	@Override
 	public void learnStep(final S state)
 	{
 		//update the evidence
@@ -87,11 +98,13 @@ public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S>
 		this.observedStates.add(state);
 	}
 
+	@Override
 	public Set<S> getObservedStates()
 	{
 		return Collections.unmodifiableSet(this.observedStates);
 	}
 
+	@Override
 	public int getOrder()
 	{
 		return this.order;
@@ -102,6 +115,7 @@ public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S>
 		return this.isArbitraryStart;
 	}
 
+	@Override
 	public MarkovChain<S> getMarkovChain()
 	{
 		Map<List<S>, Map<S, Double>> transitionProbabilities = new LinkedHashMap<List<S>, Map<S, Double>>(this.evidence.size());
@@ -119,7 +133,7 @@ public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S>
 		{
 		}
 
-		public void increment(S state)
+		public void increment(final S state)
 		{
 			Integer count = this.stateCount.get(state);
 			if(count == null)
@@ -130,7 +144,7 @@ public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S>
 			this.totalEvidence++;
 		}
 
-		public double probability(S state)
+		public double probability(final S state)
 		{
 			Integer count = this.stateCount.get(state);
 			if(count == null)

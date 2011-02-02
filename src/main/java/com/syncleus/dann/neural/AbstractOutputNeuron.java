@@ -34,7 +34,7 @@ public abstract class AbstractOutputNeuron extends AbstractNeuron implements Out
 		return this.output;
 	}
 
-	protected void setOutput(double output)
+	protected void setOutput(final double output)
 	{
 		this.output = output;
 	}

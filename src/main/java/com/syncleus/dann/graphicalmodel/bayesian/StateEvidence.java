@@ -18,13 +18,13 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.bayesian;
 
+import java.util.HashMap;
+import java.util.Map;
 import com.syncleus.dann.graphicalmodel.bayesian.xml.StateEvidenceElementXml;
 import com.syncleus.dann.graphicalmodel.bayesian.xml.StateEvidenceXml;
 import com.syncleus.dann.xml.NamedValueXml;
 import com.syncleus.dann.xml.Namer;
 import com.syncleus.dann.xml.XmlSerializable;
-
-import java.util.*;
 
 public class StateEvidence<S> extends HashMap<S, Integer> implements XmlSerializable<StateEvidenceXml, Object>
 {
@@ -70,6 +70,7 @@ public class StateEvidence<S> extends HashMap<S, Integer> implements XmlSerializ
 		}
 	}
 
+    @Override
     public StateEvidenceXml toXml()
     {
         StateEvidenceElementXml xml = new StateEvidenceElementXml();
@@ -97,7 +98,8 @@ public class StateEvidence<S> extends HashMap<S, Integer> implements XmlSerializ
         return xml;
     }
 
-    public StateEvidenceXml toXml(Namer<Object> namer)
+    @Override
+    public StateEvidenceXml toXml(final Namer<Object> namer)
     {
         if(namer == null)
             throw new IllegalArgumentException("namer can not be null");
@@ -107,7 +109,8 @@ public class StateEvidence<S> extends HashMap<S, Integer> implements XmlSerializ
         return xml;
     }
 
-    public void toXml(StateEvidenceXml jaxbObject, Namer<Object> namer)
+    @Override
+    public void toXml(final StateEvidenceXml jaxbObject, final Namer<Object> namer)
     {
         if(namer == null)
             throw new IllegalArgumentException("nodeNames can not be null");

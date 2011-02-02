@@ -18,9 +18,17 @@
  ******************************************************************************/
 package com.syncleus.dann.math.statistics;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
-import com.syncleus.dann.math.linear.*;
+import java.util.Random;
+import java.util.Set;
+import com.syncleus.dann.math.linear.RealMatrix;
+import com.syncleus.dann.math.linear.SimpleRealMatrix;
 
 public class SimpleMarkovChain<S> extends AbstractMarkovChain<S>
 {
@@ -102,7 +110,7 @@ public class SimpleMarkovChain<S> extends AbstractMarkovChain<S>
 		this(packTransitions(transitionProbabilities), 1, states);
 	}
 
-	private static <S> Map<List<S>, Map<S, Double>> packTransitions(Map<S, Map<S, Double>> transitions)
+	private static <S> Map<List<S>, Map<S, Double>> packTransitions(final Map<S, Map<S, Double>> transitions)
 	{
 		Map<List<S>, Map<S, Double>> pack = new LinkedHashMap<List<S>, Map<S, Double>>(transitions.size());
 		for(Map.Entry<S, Map<S, Double>> transitionEntry : transitions.entrySet())
@@ -113,31 +121,37 @@ public class SimpleMarkovChain<S> extends AbstractMarkovChain<S>
 		return pack;
 	}
 
+	@Override
 	public List<S> getTransitionProbabilityColumns()
 	{
 		return Collections.unmodifiableList(this.columnMapping);
 	}
 
+	@Override
 	public List<List<S>> getTransitionProbabilityRows()
 	{
 		return Collections.unmodifiableList(this.rowMapping);
 	}
 
+	@Override
 	public RealMatrix getTransitionProbabilityMatrix()
 	{
 		return this.transitionProbabilityMatrix;
 	}
 
+	@Override
 	public int getOrder()
 	{
 		return this.order;
 	}
 
+	@Override
 	public Set<S> getStates()
 	{
 		return this.states;
 	}
 
+	@Override
 	public void transition(final S nextState)
 	{
 		this.history.add(nextState);
@@ -145,6 +159,7 @@ public class SimpleMarkovChain<S> extends AbstractMarkovChain<S>
 			this.history.poll();
 	}
 
+	@Override
 	public S generateTransition(final boolean step)
 	{
 		final List<S> currentState = this.getStateHistory();
@@ -169,16 +184,19 @@ public class SimpleMarkovChain<S> extends AbstractMarkovChain<S>
 		return nextStep;
 	}
 
+	@Override
 	public List<S> getStateHistory()
 	{
 		return Collections.unmodifiableList(new ArrayList<S>(this.history));
 	}
 
+	@Override
 	public void reset()
 	{
 		this.history.clear();
 	}
 
+	@Override
 	public Map<S, Double> getProbability(final int steps)
 	{
 		final List<S> currentState = this.getStateHistory();
@@ -198,6 +216,7 @@ public class SimpleMarkovChain<S> extends AbstractMarkovChain<S>
 		return Collections.unmodifiableMap(probability);
 	}
 
+	@Override
 	public Map<S, Double> getSteadyStateProbability()
 	{
 		final RealMatrix steadyStateMatrix = this.transitionProbabilityMatrix.subtract(SimpleRealMatrix.identity(this.transitionProbabilityMatrix.getHeight(), this.transitionProbabilityMatrix.getWidth())).flip();

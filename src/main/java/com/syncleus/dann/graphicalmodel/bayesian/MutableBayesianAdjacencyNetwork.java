@@ -18,7 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.bayesian;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import com.syncleus.dann.graph.context.ContextGraphElement;
 import com.syncleus.dann.graph.Graph;
 

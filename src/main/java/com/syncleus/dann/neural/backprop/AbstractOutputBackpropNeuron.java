@@ -30,7 +30,7 @@ public abstract class AbstractOutputBackpropNeuron extends AbstractBackpropNeuro
 	 *
 	 * @since 1.0
 	 */
-	protected double desired;
+	private double desired;
 
 	/**
 	 * Creates a new instance of OutputBackpropNeuron.

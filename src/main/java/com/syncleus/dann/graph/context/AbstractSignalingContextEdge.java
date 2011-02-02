@@ -36,7 +36,7 @@ public abstract class AbstractSignalingContextEdge<N, S> extends AbstractContext
 	 * This method will retransmit the state to all traversable nodes even if context is disabled.
 	 */
 	@Override
-	public void nodeStateChanged(N node, S newState)
+	public void nodeStateChanged(final N node, final S newState)
 	{
 		if( !this.getNodes().contains(node) )
 			throw new IllegalArgumentException("node is not an endpoint of this edge");

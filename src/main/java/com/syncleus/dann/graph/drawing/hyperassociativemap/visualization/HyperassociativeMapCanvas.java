@@ -18,16 +18,26 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.drawing.hyperassociativemap.visualization;
 
-import com.syncleus.dann.ComponentUnavailableException;
-import javax.media.j3d.*;
-import javax.vecmath.*;
 import java.awt.GraphicsConfiguration;
-import com.sun.j3d.utils.behaviors.vp.OrbitBehavior;
-import com.sun.j3d.utils.universe.SimpleUniverse;
-import com.syncleus.dann.graph.Graph;
-import com.syncleus.dann.graph.drawing.hyperassociativemap.HyperassociativeMap;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
+import javax.media.j3d.AmbientLight;
+import javax.media.j3d.Background;
+import javax.media.j3d.BoundingLeaf;
+import javax.media.j3d.BoundingSphere;
+import javax.media.j3d.BranchGroup;
+import javax.media.j3d.Canvas3D;
+import javax.media.j3d.DirectionalLight;
+import javax.media.j3d.Transform3D;
+import javax.media.j3d.TransformGroup;
+import javax.vecmath.Color3f;
+import javax.vecmath.Point3d;
+import javax.vecmath.Vector3f;
+import com.sun.j3d.utils.behaviors.vp.OrbitBehavior;
+import com.sun.j3d.utils.universe.SimpleUniverse;
+import com.syncleus.dann.ComponentUnavailableException;
+import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.drawing.hyperassociativemap.HyperassociativeMap;
 
 /**
  * A Canvas3D specifically for displaying a HyperassociativeMap.
@@ -46,7 +56,7 @@ public class HyperassociativeMapCanvas<G extends Graph<N, ?>, N> extends JPanel
 
     public class HyperassociativeMapCanvasCanvas extends Canvas3D
     {
-        public HyperassociativeMapCanvasCanvas(GraphicsConfiguration config)
+        public HyperassociativeMapCanvasCanvas(final GraphicsConfiguration config)
         {
             super(config);
 

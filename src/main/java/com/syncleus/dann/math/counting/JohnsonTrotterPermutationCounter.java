@@ -18,8 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.math.counting;
 
-import java.math.BigInteger;
-
 public class JohnsonTrotterPermutationCounter extends AbstractPermutationCounter
 {
 	/**

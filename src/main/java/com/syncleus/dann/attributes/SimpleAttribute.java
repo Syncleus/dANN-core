@@ -11,26 +11,31 @@ public class SimpleAttribute<A, T> implements Attribute<A, T>
 		this.attributeValueType = attributeValueType;
 	}
 
+	@Override
 	public final A getAttribute()
 	{
 		return this.attributeId;
 	}
 
-	public final boolean isAttributeValue(Object attributeValue)
+	@Override
+	public final boolean isAttributeValue(final Object attributeValue)
 	{
 		return this.attributeValueType.isInstance(attributeValue);
 	}
 
+	@Override
 	public final Class<T> getAttributeValueType()
 	{
 		return this.attributeValueType;
 	}
 
-	public final boolean equals(Object object)
+	@Override
+	public final boolean equals(final Object object)
 	{
 		return this.attributeId.equals(object);
 	}
 
+	@Override
 	public final int hashCode()
 	{
 		return this.attributeId.hashCode();

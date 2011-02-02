@@ -18,7 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.context;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import com.syncleus.dann.graph.Edge;
 import com.syncleus.dann.graph.Graph;
 
@@ -33,7 +35,7 @@ public abstract class AbstractContextNode<N, E extends Edge<N>, G extends Graph<
 	}
 
 	@Override
-	public boolean joiningGraph(G graph)
+	public boolean joiningGraph(final G graph)
 	{
 		if(super.joiningGraph(graph))
 		{
@@ -46,7 +48,7 @@ public abstract class AbstractContextNode<N, E extends Edge<N>, G extends Graph<
 	}
 
 	@Override
-	public boolean leavingGraph(G graph)
+	public boolean leavingGraph(final G graph)
 	{
 		if( super.leavingGraph(graph) )
 		{
@@ -60,7 +62,7 @@ public abstract class AbstractContextNode<N, E extends Edge<N>, G extends Graph<
 	}
 
 	@Override
-	public boolean connectingEdge(E edge)
+	public boolean connectingEdge(final E edge)
 	{
 		if( edge == null )
 			throw new IllegalArgumentException("edge can not be null");
@@ -72,7 +74,7 @@ public abstract class AbstractContextNode<N, E extends Edge<N>, G extends Graph<
 	}
 
 	@Override
-	public boolean disconnectingEdge(E edge)
+	public boolean disconnectingEdge(final E edge)
 	{
 		if( edge == null )
 			throw new IllegalArgumentException("edge can not be null");

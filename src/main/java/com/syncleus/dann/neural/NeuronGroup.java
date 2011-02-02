@@ -18,7 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.neural;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
 //TODO get rid of this, it essentially plays the role of a sub-graph
 /**
@@ -37,7 +40,7 @@ public class NeuronGroup<N extends Neuron> implements java.io.Serializable
 	 *
 	 * @since 1.0
 	 */
-	protected final HashSet<N> childrenNeurons = new HashSet<N>();
+	private final Set<N> childrenNeurons = new HashSet<N>();
 	/**
 	 * This contains all the neuronGroups considered to be a part of this layer.
 	 * Any one neuron can only belong to one layer. But one layer owns many
@@ -45,7 +48,7 @@ public class NeuronGroup<N extends Neuron> implements java.io.Serializable
 	 *
 	 * @since 1.0
 	 */
-	protected final HashSet<NeuronGroup<? extends N>> childrenNeuronGroups = new HashSet<NeuronGroup<? extends N>>();
+	private final HashSet<NeuronGroup<? extends N>> childrenNeuronGroups = new HashSet<NeuronGroup<? extends N>>();
 	/**
 	 * The RANDOM number generator used for this class.
 	 *

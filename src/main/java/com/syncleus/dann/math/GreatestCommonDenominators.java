@@ -57,7 +57,7 @@ public final class GreatestCommonDenominators
 
 	private GreatestCommonDenominators()
 	{
-		//this class is a utility class, it cant be instantiated
+		//this class is an utility class, it can not be instantiated
 	}
 
 	public static long euclideanGCD(final long firstNumerator, final long secondNumerator)

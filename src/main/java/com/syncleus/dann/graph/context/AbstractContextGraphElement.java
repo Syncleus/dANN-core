@@ -18,7 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.context;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import java.io.Serializable;
 import com.syncleus.dann.graph.Graph;
 
@@ -45,7 +47,7 @@ public abstract class AbstractContextGraphElement<G extends Graph<?, ?>> impleme
 	}
 
 	@Override
-	public boolean joiningGraph(G graph)
+	public boolean joiningGraph(final G graph)
 	{
 		if( graph == null )
 			throw new IllegalArgumentException("graph can not be null");
@@ -58,7 +60,7 @@ public abstract class AbstractContextGraphElement<G extends Graph<?, ?>> impleme
 	}
 
 	@Override
-	public boolean leavingGraph(G graph)
+	public boolean leavingGraph(final G graph)
 	{
 		if( graph == null )
 			throw new IllegalArgumentException("graph can not be null");

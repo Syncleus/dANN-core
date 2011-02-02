@@ -18,7 +18,13 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import com.syncleus.dann.UnexpectedDannError;
 import com.syncleus.dann.graph.context.ContextGraphElement;
 import com.syncleus.dann.graph.xml.*;
@@ -45,7 +51,8 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 
 
 	/**
-	 * Creates a new AbstractAdjacencyGraph with no edges and no adjacencies. nodeContext and edgeContext is enabled.
+	 * Creates a new AbstractAdjacencyGraph with no edges and no adjacencies.
+	 * nodeContext and edgeContext is enabled.
 	 */
 	protected AbstractAdjacencyGraph()
 	{
@@ -62,7 +69,8 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 	}
 
 	/**
-	 * Creates a new AbstractAdjacencyGraph as a copy of the current Graph. nodeContext is enabled.
+	 * Creates a new AbstractAdjacencyGraph as a copy of the current Graph.
+	 * nodeContext is enabled.
 	 * @param copyGraph The Graph to copy
 	 */
 	protected AbstractAdjacencyGraph(final Graph<N, E> copyGraph)
@@ -80,8 +88,10 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 	}
 
 	/**
-	 * Creates a new AbstractAdjacencyGraph from the given list of nodes, and the given list of ourEdges.
-	 * The adjacency lists are created from this structure. nodeContext is enabled.
+	 * Creates a new AbstractAdjacencyGraph from the given list of nodes, and
+	 * the given list of ourEdges.
+	 * The adjacency lists are created from this structure. nodeContext is
+	 * enabled.
 	 *
 	 * @param nodes The set of all nodes
 	 * @param edges The set of all ourEdges
@@ -92,7 +102,8 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 	}
 
 	/**
-	 * Creates a new AbstractAdjacencyGraph from the given list of nodes, and the given list of ourEdges.
+	 * Creates a new AbstractAdjacencyGraph from the given list of nodes, and
+	 * the given list of ourEdges.
 	 * The adjacency lists are created from this structure.
 	 *
 	 * @param attemptNodes The set of all nodes
@@ -132,7 +143,8 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 			for(E attemptEdge : attemptEdges)
 			{
 				if((this.contextEnabled) && (attemptEdge instanceof ContextGraphElement) )
-					//lets see if this ContextEdge will allow itself to join he graph
+					// lets see if this ContextEdge will allow itself to join
+					// the graph
 					if( !((ContextGraphElement)attemptEdge).joiningGraph(this) )
 						continue;
 
@@ -275,7 +287,8 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 	}
 
 	/**
-	 * Adds the given edge to a clone of this object. Returns null if the given edge could not be added.
+	 * Adds the given edge to a clone of this object. Returns null if the given
+	 * edge could not be added.
 	 * @param newEdge the edge to add to the cloned graph.
 	 * @return A clone, with the given edge added
 	 */
@@ -505,7 +518,8 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 			if(node instanceof XmlSerializable)
 				nodeXml = ((XmlSerializable)node).toXml(namer);
 			else
-				//if the object isnt XmlSerializable lets try to just serialize it as a regular JAXB object
+				// if the object isnt XmlSerializable lets try to just serialize
+				// it as a regular JAXB object
 				nodeXml = node;
 
 			NameXml encapsulation = new NameXml();

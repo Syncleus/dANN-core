@@ -18,8 +18,15 @@
  ******************************************************************************/
 package com.syncleus.dann.neural;
 
-import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import com.syncleus.dann.UnexpectedDannError;
 import com.syncleus.dann.graph.AbstractBidirectedAdjacencyGraph;

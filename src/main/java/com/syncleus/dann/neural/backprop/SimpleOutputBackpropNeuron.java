@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.neural.backprop;
 
-import com.syncleus.dann.neural.*;
+import com.syncleus.dann.neural.Brain;
 import com.syncleus.dann.neural.activation.ActivationFunction;
 
 /**
@@ -31,12 +31,6 @@ import com.syncleus.dann.neural.activation.ActivationFunction;
 public final class SimpleOutputBackpropNeuron extends AbstractOutputBackpropNeuron
 {
 	private static final long serialVersionUID = -2098502740983214L;
-	/**
-	 * holds the value for the current training set.
-	 *
-	 * @since 1.0
-	 */
-	protected double desired;
 
 	/**
 	 * Creates a new instance of OutputBackpropNeuron.

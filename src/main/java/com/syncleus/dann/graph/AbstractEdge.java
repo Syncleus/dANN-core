@@ -18,11 +18,17 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import com.syncleus.dann.UnexpectedDannError;
 import com.syncleus.dann.graph.context.AbstractContextGraphElement;
 import com.syncleus.dann.graph.context.ContextNode;
-import com.syncleus.dann.graph.xml.*;
+import com.syncleus.dann.graph.xml.EdgeElementXml;
+import com.syncleus.dann.graph.xml.EdgeXml;
 import com.syncleus.dann.xml.NameXml;
 import com.syncleus.dann.xml.NamedValueXml;
 import com.syncleus.dann.xml.Namer;

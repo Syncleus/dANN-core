@@ -18,13 +18,19 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.topological.sorter;
 
-import java.util.*;
-import com.syncleus.dann.graph.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import com.syncleus.dann.graph.BidirectedGraph;
+import com.syncleus.dann.graph.DirectedEdge;
 
 public class SimpleTopologicalRanker<N> implements TopologicalRanker<N>
 {
 	@Override
-	public List<Set<N>> rank(BidirectedGraph<? extends N, ? extends DirectedEdge<? extends N>> graph)
+	public List<Set<N>> rank(final BidirectedGraph<? extends N, ? extends DirectedEdge<? extends N>> graph)
 	{
 		//initialize data structures
 		final Set<N> remainingNodes = new HashSet<N>(graph.getNodes());

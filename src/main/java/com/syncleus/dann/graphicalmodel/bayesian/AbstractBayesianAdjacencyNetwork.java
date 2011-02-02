@@ -18,7 +18,12 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.bayesian;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import com.syncleus.dann.graph.*;
 import com.syncleus.dann.graphicalmodel.bayesian.xml.BayesianNetworkElementXml;
 import com.syncleus.dann.graphicalmodel.bayesian.xml.BayesianNetworkXml;
@@ -43,12 +48,14 @@ public abstract class AbstractBayesianAdjacencyNetwork<N extends BayesianNode, E
 		super(nodes, edges);
 	}
 
+	@Override
 	public void learnStates()
 	{
 		for(final N node : this.getNodes())
 			node.learnState();
 	}
 
+	@Override
 	public double jointProbability()
 	{
 		double probabilityProduct = 1.0;
@@ -57,6 +64,7 @@ public abstract class AbstractBayesianAdjacencyNetwork<N extends BayesianNode, E
 		return probabilityProduct;
 	}
 
+	@Override
 	public double conditionalProbability(final Set<N> goals, final Set<N> influences)
 	{
 		List<N> varyingNodes = new ArrayList<N>(this.getNodes());
@@ -213,7 +221,7 @@ public abstract class AbstractBayesianAdjacencyNetwork<N extends BayesianNode, E
     }
 
     @Override
-    public BayesianNetworkXml toXml(Namer<Object> namer)
+    public BayesianNetworkXml toXml(final Namer<Object> namer)
     {
         if(namer == null)
             throw new IllegalArgumentException("namer can not be null");

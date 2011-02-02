@@ -18,6 +18,13 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.bayesian;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import com.syncleus.dann.graph.context.AbstractContextNode;
 import com.syncleus.dann.graphicalmodel.bayesian.xml.BayesianNodeXml;
 import com.syncleus.dann.graphicalmodel.bayesian.xml.SimpleBayesianNodeElementXml;
@@ -26,8 +33,6 @@ import com.syncleus.dann.xml.NameXml;
 import com.syncleus.dann.xml.NamedValueXml;
 import com.syncleus.dann.xml.Namer;
 import com.syncleus.dann.xml.XmlSerializable;
-
-import java.util.*;
 
 public class SimpleBayesianNode<S> extends AbstractContextNode<BayesianNode<S>, BayesianEdge<BayesianNode<S>>, BayesianNetwork<BayesianNode<S>, BayesianEdge<BayesianNode<S>>>> implements BayesianNode<S>
 {
@@ -46,9 +51,11 @@ public class SimpleBayesianNode<S> extends AbstractContextNode<BayesianNode<S>, 
 		this.learnedStates = new TreeSet<S>();
 	}
 
-	//if we leave a networks lets clear the states
+	/**
+	 * If we leave a network, lets clear the states.
+	 */
 	@Override
-	public boolean leavingGraph(BayesianNetwork<BayesianNode<S>, BayesianEdge<BayesianNode<S>>> graph)
+	public boolean leavingGraph(final BayesianNetwork<BayesianNode<S>, BayesianEdge<BayesianNode<S>>> graph)
 	{
 		if( super.leavingGraph(graph) )
 		{
@@ -191,7 +198,7 @@ public class SimpleBayesianNode<S> extends AbstractContextNode<BayesianNode<S>, 
     }
 
     @Override
-    public SimpleBayesianNodeXml toXml(Namer<Object> namer)
+    public SimpleBayesianNodeXml toXml(final Namer<Object> namer)
     {
         if(namer == null)
             throw new IllegalArgumentException("namer can not be null");
@@ -202,7 +209,7 @@ public class SimpleBayesianNode<S> extends AbstractContextNode<BayesianNode<S>, 
     }
 
     @Override
-    public void toXml(BayesianNodeXml jaxbObject, Namer<Object> namer)
+    public void toXml(final BayesianNodeXml jaxbObject, final Namer<Object> namer)
     {
         //set learned states
         if(jaxbObject.getLearnedStates() == null)
