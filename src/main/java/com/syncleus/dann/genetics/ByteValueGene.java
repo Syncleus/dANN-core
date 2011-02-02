@@ -26,7 +26,7 @@ package com.syncleus.dann.genetics;
  * @author Jeffrey Phillips Freeman
  * @since 2.0
  */
-public class ByteValueGene extends AbstractValueGene<MutableByte> implements Cloneable
+public class ByteValueGene extends AbstractValueGene<MutableByte>
 {
 	/**
 	 * Initializes a new instance of this class with a value of 0.

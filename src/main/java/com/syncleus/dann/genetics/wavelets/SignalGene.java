@@ -20,7 +20,7 @@ package com.syncleus.dann.genetics.wavelets;
 
 import java.util.*;
 
-public class SignalGene extends AbstractWaveletGene implements Cloneable
+public class SignalGene extends AbstractWaveletGene
 {
 	private SignalKey outputSignal;
 	private SignalKeyConcentration expressingConcentration;

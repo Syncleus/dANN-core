@@ -22,7 +22,7 @@ import java.util.*;
 import com.syncleus.dann.graph.Edge;
 import com.syncleus.dann.graph.Graph;
 
-public abstract class AbstractContextNode<N, E extends Edge<N>, G extends Graph<N, E>> extends AbstractContextGraphElement<G> implements ContextGraphElement<G>, ContextNode<N, E>
+public abstract class AbstractContextNode<N, E extends Edge<N>, G extends Graph<N, E>> extends AbstractContextGraphElement<G> implements ContextNode<N, E>
 {
 	private final Set<E> connectedEdges = new HashSet<E>();
 	private final Set<ContextEdge> contextEdges = new HashSet<ContextEdge>();

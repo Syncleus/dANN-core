@@ -20,7 +20,7 @@ package com.syncleus.dann.graph;
 
 import java.util.*;
 
-public final class ImmutableHyperEdge<N> extends AbstractHyperEdge<N> implements HyperEdge<N>
+public final class ImmutableHyperEdge<N> extends AbstractHyperEdge<N>
 {
 	private static final long serialVersionUID = -3657973823101515199L;
 

@@ -31,7 +31,7 @@ import com.syncleus.dann.neural.activation.ActivationFunction;
  * @see com.syncleus.dann.neural.SimpleSynapse
  * @since 1.0
  */
-public final class SimpleBackpropNeuron extends AbstractBackpropNeuron implements BackpropNeuron
+public final class SimpleBackpropNeuron extends AbstractBackpropNeuron
 {
 	private static final long serialVersionUID = 982375098231423L;
 

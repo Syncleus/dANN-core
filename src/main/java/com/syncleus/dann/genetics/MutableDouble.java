@@ -25,7 +25,7 @@ package com.syncleus.dann.genetics;
  * @author Jeffrey Phillips Freeman
  * @since 2.0
  */
-public class MutableDouble extends MutableNumber<Double> implements Comparable<MutableDouble>, Cloneable
+public class MutableDouble extends MutableNumber<Double> implements Comparable<MutableDouble>
 {
 	private static final long serialVersionUID = 4321492908988214057L;
 

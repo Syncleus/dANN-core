@@ -21,7 +21,7 @@ package com.syncleus.dann.genetics.wavelets;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class ReceptorKey extends AbstractKey implements Cloneable
+public class ReceptorKey extends AbstractKey
 {
 	public ReceptorKey()
 	{

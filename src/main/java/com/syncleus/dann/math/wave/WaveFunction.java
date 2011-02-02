@@ -20,7 +20,7 @@ package com.syncleus.dann.math.wave;
 
 import com.syncleus.dann.math.AbstractFunction;
 
-public class WaveFunction extends AbstractFunction implements Cloneable
+public class WaveFunction extends AbstractFunction
 {
 	public WaveFunction()
 	{

@@ -22,7 +22,7 @@ import java.util.*;
 import com.syncleus.dann.math.AbstractFunction;
 import com.syncleus.dann.math.wave.WaveMultidimensionalFunction;
 
-public class CombinedWaveletFunction extends AbstractFunction implements Cloneable
+public class CombinedWaveletFunction extends AbstractFunction
 {
 	private Set<String> dimensions = new TreeSet<String>();
 	private List<WaveMultidimensionalFunction> waves = Collections.synchronizedList(new ArrayList<WaveMultidimensionalFunction>());

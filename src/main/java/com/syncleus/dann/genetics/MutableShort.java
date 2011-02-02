@@ -25,7 +25,7 @@ package com.syncleus.dann.genetics;
  * @author Jeffrey Phillips Freeman
  * @since 2.0
  */
-public class MutableShort extends MutableNumber<Short> implements Comparable<MutableShort>, Cloneable
+public class MutableShort extends MutableNumber<Short> implements Comparable<MutableShort>
 {
 	private static final long serialVersionUID = -3179941382201139819L;
 

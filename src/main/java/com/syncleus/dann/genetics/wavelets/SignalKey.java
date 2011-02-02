@@ -20,7 +20,7 @@ package com.syncleus.dann.genetics.wavelets;
 
 import java.util.Map;
 
-public class SignalKey extends AbstractKey implements Cloneable
+public class SignalKey extends AbstractKey
 {
 	public SignalKey()
 	{

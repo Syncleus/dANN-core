@@ -20,7 +20,7 @@ package com.syncleus.dann.genetics.wavelets;
 
 import java.util.Set;
 
-public class ExternalSignalGene extends SignalGene implements Cloneable
+public class ExternalSignalGene extends SignalGene
 {
 	private boolean outward;
 
