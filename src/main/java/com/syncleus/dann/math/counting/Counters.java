@@ -43,9 +43,9 @@ public final class Counters
 		if( superCollection == null )
 			throw new IllegalArgumentException("superCollection can not be null");
 
-		final BigInteger combinations = BigInteger.ZERO;
+		BigInteger combinations = BigInteger.ZERO;
 		for(int currentSequenceLength = 1; currentSequenceLength <= superCollection.size(); currentSequenceLength++)
-			combinations.add(fixedLengthCombinationCount(superCollection, currentSequenceLength));
+			combinations = combinations.add(fixedLengthCombinationCount(superCollection, currentSequenceLength));
 		return combinations;
 	}
 
@@ -150,9 +150,9 @@ public final class Counters
 		if( superCollection == null )
 			throw new IllegalArgumentException("superCollection can not be null");
 
-		final BigInteger combinations = BigInteger.ZERO;
+		BigInteger combinations = BigInteger.ZERO;
 		for(int currentSequenceLength = 1; currentSequenceLength <= superCollection.size(); currentSequenceLength++)
-			combinations.add(fixedLengthPermutationCount(superCollection, currentSequenceLength));
+			combinations = combinations.add(fixedLengthPermutationCount(superCollection, currentSequenceLength));
 		return combinations;
 	}
 
@@ -242,9 +242,9 @@ public final class Counters
 		if( superCollection == null )
 			throw new IllegalArgumentException("superCollection can not be null");
 
-		final BigInteger combinations = BigInteger.ZERO;
+		BigInteger combinations = BigInteger.ZERO;
 		for(int currentSequenceLength = 1; currentSequenceLength <= superCollection.size(); currentSequenceLength++)
-			combinations.add(fixedLengthLexicographicPermutationCount(superCollection, currentSequenceLength));
+			combinations = combinations.add(fixedLengthLexicographicPermutationCount(superCollection, currentSequenceLength));
 		return combinations;
 	}
 
@@ -334,9 +334,9 @@ public final class Counters
 		if( superCollection == null )
 			throw new IllegalArgumentException("superCollection can not be null");
 
-		final BigInteger combinations = BigInteger.ZERO;
+		BigInteger combinations = BigInteger.ZERO;
 		for(int currentSequenceLength = 1; currentSequenceLength <= superCollection.size(); currentSequenceLength++)
-			combinations.add(fixedLengthJohnsonTrotterPermutationCount(superCollection, currentSequenceLength));
+			combinations = combinations.add(fixedLengthJohnsonTrotterPermutationCount(superCollection, currentSequenceLength));
 		return combinations;
 	}
 
