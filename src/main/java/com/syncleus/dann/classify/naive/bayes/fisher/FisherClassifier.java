@@ -21,9 +21,10 @@ package com.syncleus.dann.classify.naive.bayes.fisher;
 import com.syncleus.dann.classify.naive.bayes.NaiveBayesClassifier;
 
 /**
- * A FisherClassifier classifies items into categories like a NaiveBayesClassifier does.
- * However, if a category does not exceed the given minimum level for the category, the category
- * is not returned as a result of getCategory() calls.
+ * A FisherClassifier classifies items into categories like a
+ * NaiveBayesClassifier does.
+ * However, if a category does not exceed the given minimum level for the
+ * category, it is not returned as a result of getCategory() calls.
  * @param <I> The type of item to classify
  * @param <F> The type of feature to use
  * @param <C> The type of classification to use

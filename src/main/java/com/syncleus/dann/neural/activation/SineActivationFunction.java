@@ -37,6 +37,7 @@ public class SineActivationFunction implements ActivationFunction
 	 * @return The result of the sine activation function bound between -1 and 1.
 	 * @since 1.0
 	 */
+	@Override
 	public double activate(final double activity)
 	{
 		return Math.sin(activity);
@@ -49,21 +50,25 @@ public class SineActivationFunction implements ActivationFunction
 	 * @return The result of the derivative of the sine activation function.
 	 * @since 1.0
 	 */
+	@Override
 	public double activateDerivative(final double activity)
 	{
 		return Math.cos(activity);
 	}
 
+	@Override
 	public boolean isBound()
 	{
 		return true;
 	}
 
+	@Override
 	public double getUpperLimit()
 	{
 		return UPPER_LIMIT;
 	}
 
+	@Override
 	public double getLowerLimit()
 	{
 		return LOWER_LIMIT;
