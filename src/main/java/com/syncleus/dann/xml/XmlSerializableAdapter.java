@@ -2,15 +2,17 @@ package com.syncleus.dann.xml;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-public class XmlSerializableAdapter<X, V extends XmlSerializable<X,?>> extends XmlAdapter<X, V>
+public class XmlSerializableAdapter<X, V extends XmlSerializable<X, ?>> extends XmlAdapter<X, V>
 {
-    public final X marshal(V graph)
-    {
-        return graph.toXml();
-    }
+	@Override
+	public final X marshal(final V graph)
+	{
+		return graph.toXml();
+	}
 
-    public V unmarshal(X graphXml)
-    {
-        throw new IllegalStateException("You can not unmarshal XML through this adapter");
-    }
+	@Override
+	public V unmarshal(final X graphXml)
+	{
+		throw new IllegalStateException("You can not unmarshal XML through this adapter");
+	}
 }
