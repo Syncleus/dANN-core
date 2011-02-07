@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.neural.backprop;
 
-import com.syncleus.dann.neural.*;
+import com.syncleus.dann.neural.Brain;
 
 public final class BackpropStaticNeuron extends AbstractBackpropStaticNeuron
 {

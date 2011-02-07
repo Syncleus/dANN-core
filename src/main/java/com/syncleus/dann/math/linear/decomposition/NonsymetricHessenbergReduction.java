@@ -62,7 +62,7 @@ public class NonsymetricHessenbergReduction implements java.io.Serializable, Hes
 	private void hessenbergReduction(final RealMatrix matrixToReduce)
 	{
 		final int height = matrixToReduce.getHeight();
-		final double[][] V = matrixToReduce.blank().toDoubleArray();
+		final double[][] eigenVectors = matrixToReduce.blank().toDoubleArray();
 		final double[][] hessenberg = matrixToReduce.toDoubleArray();
 		final double[] ort = new double[matrixToReduce.getHeight()];
 
@@ -124,7 +124,7 @@ public class NonsymetricHessenbergReduction implements java.io.Serializable, Hes
 		// Accumulate transformations (Algol's ortran).
 		for(int i = 0; i < height; i++)
 			for(int j = 0; j < height; j++)
-				V[i][j] = (i == j ? 1.0 : 0.0);
+				eigenVectors[i][j] = (i == j ? 1.0 : 0.0);
 
 		for(int m = high - 1; m >= 1; m--)
 			if( hessenberg[m][m - 1] != 0.0 )
@@ -135,15 +135,15 @@ public class NonsymetricHessenbergReduction implements java.io.Serializable, Hes
 				{
 					double g = 0.0;
 					for(int i = m; i <= high; i++)
-						g += ort[i] * V[i][j];
+						g += ort[i] * eigenVectors[i][j];
 					// Double division avoids possible underflow
 					g = (g / ort[m]) / hessenberg[m][m - 1];
 					for(int i = m; i <= high; i++)
-						V[i][j] += g * ort[i];
+						eigenVectors[i][j] += g * ort[i];
 				}
 			}
 
-		this.matrix = new SimpleRealMatrix(V);
+		this.matrix = new SimpleRealMatrix(eigenVectors);
 		this.hessenbergMatrix = new SimpleRealMatrix(hessenberg);
 	}
 

@@ -110,14 +110,14 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 		final double[] e = new double[this.imaginaryEigenvalues.size()];
 		for(int valueIndex = 0; valueIndex < d.length; valueIndex++)
 			e[valueIndex] = this.imaginaryEigenvalues.get(valueIndex).getValue();
-		final double[][] V = this.matrix.toDoubleArray();
+		final double[][] eigenVectors = this.matrix.toDoubleArray();
 
 
 		//  This is derived from the Algol procedures householderTridiagonalReduction by
 		//  Bowdler, Martin, Reinsch, and Wilkinson, Handbook for
 		//  Auto. Comp., Vol.ii-Linear Algebra, and the corresponding
 		//  Fortran subroutine in EISPACK.
-		System.arraycopy(V[n - 1], 0, d, 0, n);
+		System.arraycopy(eigenVectors[n - 1], 0, d, 0, n);
 
 		// Householder reduction to tridiagonal form.
 		for(int i = n - 1; i > 0; i--)
@@ -133,9 +133,9 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 				e[i] = d[i - 1];
 				for(int j = 0; j < i; j++)
 				{
-					d[j] = V[i - 1][j];
-					V[i][j] = 0.0;
-					V[j][i] = 0.0;
+					d[j] = eigenVectors[i - 1][j];
+					eigenVectors[i][j] = 0.0;
+					eigenVectors[j][i] = 0.0;
 				}
 			}
 			else
@@ -160,12 +160,12 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 				for(int j = 0; j < i; j++)
 				{
 					f = d[j];
-					V[j][i] = f;
-					g = e[j] + V[j][j] * f;
+					eigenVectors[j][i] = f;
+					g = e[j] + eigenVectors[j][j] * f;
 					for(int k = j + 1; k <= i - 1; k++)
 					{
-						g += V[k][j] * d[k];
-						e[k] += V[k][j] * f;
+						g += eigenVectors[k][j] * d[k];
+						e[k] += eigenVectors[k][j] * f;
 					}
 					e[j] = g;
 				}
@@ -183,9 +183,9 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 					f = d[j];
 					g = e[j];
 					for(int k = j; k <= i - 1; k++)
-						V[k][j] -= (f * e[k] + g * d[k]);
-					d[j] = V[i - 1][j];
-					V[i][j] = 0.0;
+						eigenVectors[k][j] -= (f * e[k] + g * d[k]);
+					d[j] = eigenVectors[i - 1][j];
+					eigenVectors[i][j] = 0.0;
 				}
 			}
 			d[i] = h;
@@ -194,31 +194,31 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 		// Accumulate transformations.
 		for(int i = 0; i < n - 1; i++)
 		{
-			V[n - 1][i] = V[i][i];
-			V[i][i] = 1.0;
+			eigenVectors[n - 1][i] = eigenVectors[i][i];
+			eigenVectors[i][i] = 1.0;
 			final double h = d[i + 1];
 			if( h != 0.0 )
 			{
 				for(int k = 0; k <= i; k++)
-					d[k] = V[k][i + 1] / h;
+					d[k] = eigenVectors[k][i + 1] / h;
 				for(int j = 0; j <= i; j++)
 				{
 					double g = 0.0;
 					for(int k = 0; k <= i; k++)
-						g += V[k][i + 1] * V[k][j];
+						g += eigenVectors[k][i + 1] * eigenVectors[k][j];
 					for(int k = 0; k <= i; k++)
-						V[k][j] -= g * d[k];
+						eigenVectors[k][j] -= g * d[k];
 				}
 			}
 			for(int k = 0; k <= i; k++)
-				V[k][i + 1] = 0.0;
+				eigenVectors[k][i + 1] = 0.0;
 		}
 		for(int j = 0; j < n; j++)
 		{
-			d[j] = V[n - 1][j];
-			V[n - 1][j] = 0.0;
+			d[j] = eigenVectors[n - 1][j];
+			eigenVectors[n - 1][j] = 0.0;
 		}
-		V[n - 1][n - 1] = 1.0;
+		eigenVectors[n - 1][n - 1] = 1.0;
 		e[0] = 0.0;
 
 		this.realEigenvalues = new ArrayList<RealNumber>(d.length);
@@ -227,7 +227,7 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 		this.imaginaryEigenvalues = new ArrayList<RealNumber>(e.length);
 		for(final double imaginaryValue : e)
 			this.imaginaryEigenvalues.add(new RealNumber(imaginaryValue));
-		this.matrix = new SimpleRealMatrix(V);
+		this.matrix = new SimpleRealMatrix(eigenVectors);
 	}
 
 	/**
@@ -247,7 +247,7 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 		final double[] e = new double[this.imaginaryEigenvalues.size()];
 		for(int valueIndex = 0; valueIndex < d.length; valueIndex++)
 			e[valueIndex] = this.imaginaryEigenvalues.get(valueIndex).getValue();
-		final double[][] V = this.matrix.toDoubleArray();
+		final double[][] eigenVectors = this.matrix.toDoubleArray();
 
 		System.arraycopy(e, 1, e, 0, n - 1);
 		e[n - 1] = 0.0;
@@ -316,9 +316,9 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 
 						for(int k = 0; k < n; k++)
 						{
-							h = V[k][i + 1];
-							V[k][i + 1] = s * V[k][i] + c * h;
-							V[k][i] = c * V[k][i] - s * h;
+							h = eigenVectors[k][i + 1];
+							eigenVectors[k][i + 1] = s * eigenVectors[k][i] + c * h;
+							eigenVectors[k][i] = c * eigenVectors[k][i] - s * h;
 						}
 					}
 					p = -s * s2 * c3 * el1 * e[l] / dl1;
@@ -350,9 +350,9 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 				d[i] = p;
 				for(int j = 0; j < n; j++)
 				{
-					p = V[j][i];
-					V[j][i] = V[j][k];
-					V[j][k] = p;
+					p = eigenVectors[j][i];
+					eigenVectors[j][i] = eigenVectors[j][k];
+					eigenVectors[j][k] = p;
 				}
 			}
 		}
@@ -363,7 +363,7 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 		this.imaginaryEigenvalues = new ArrayList<RealNumber>(e.length);
 		for(final double imaginaryValue : e)
 			this.imaginaryEigenvalues.add(new RealNumber(imaginaryValue));
-		this.matrix = new SimpleRealMatrix(V);
+		this.matrix = new SimpleRealMatrix(eigenVectors);
 	}
 
 	/**
@@ -415,17 +415,17 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
 		for(int valueIndex = 0; valueIndex < d.length; valueIndex++)
 			e[valueIndex] = this.imaginaryEigenvalues.get(valueIndex).getValue();
 
-		final double[][] D = new double[n][n];
+		final double[][] blockDiagonalMatrix = new double[n][n];
 		for(int i = 0; i < n; i++)
 		{
 			for(int j = 0; j < n; j++)
-				D[i][j] = 0.0;
-			D[i][i] = d[i];
+				blockDiagonalMatrix[i][j] = 0.0;
+			blockDiagonalMatrix[i][i] = d[i];
 			if( e[i] > 0 )
-				D[i][i + 1] = e[i];
+				blockDiagonalMatrix[i][i + 1] = e[i];
 			else if( e[i] < 0 )
-				D[i][i - 1] = e[i];
+				blockDiagonalMatrix[i][i - 1] = e[i];
 		}
-		return new SimpleRealMatrix(D);
+		return new SimpleRealMatrix(blockDiagonalMatrix);
 	}
 }

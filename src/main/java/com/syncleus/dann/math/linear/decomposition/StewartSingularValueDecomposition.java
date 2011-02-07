@@ -94,7 +94,7 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 
 		// Derived from LINPACK code.
 		// Initialize.
-		final double[][] A = matrix.toDoubleArray();
+		final double[][] transform = matrix.toDoubleArray();
 		this.matrix = new double[Math.min(this.m + 1, this.n)];
 		final double[] e = new double[n];
 		final double[] work = new double[m];
@@ -111,14 +111,14 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 				// Compute 2-norm of k-th column without under/overflow.
 				this.matrix[k] = 0;
 				for(int i = k; i < this.m; i++)
-					this.matrix[k] = Math.hypot(this.matrix[k], A[i][k]);
+					this.matrix[k] = Math.hypot(this.matrix[k], transform[i][k]);
 				if( this.matrix[k] != 0.0 )
 				{
-					if( A[k][k] < 0.0 )
+					if( transform[k][k] < 0.0 )
 						this.matrix[k] = -this.matrix[k];
 					for(int i = k; i < this.m; i++)
-						A[i][k] /= this.matrix[k];
-					A[k][k] += 1.0;
+						transform[i][k] /= this.matrix[k];
+					transform[k][k] += 1.0;
 				}
 				this.matrix[k] = -this.matrix[k];
 			}
@@ -129,20 +129,20 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 					// Apply the transformation.
 					double t = 0;
 					for(int i = k; i < this.m; i++)
-						t += A[i][k] * A[i][j];
-					t = -t / A[k][k];
+						t += transform[i][k] * transform[i][j];
+					t = -t / transform[k][k];
 					for(int i = k; i < this.m; i++)
-						A[i][j] += t * A[i][k];
+						transform[i][j] += t * transform[i][k];
 				}
 				// Place the k-th row of A into e for the
 				// subsequent calculation of the row transformation.
-				e[j] = A[k][j];
+				e[j] = transform[k][j];
 			}
 			if( this.hasLeftSingularMatrix && (k < nct) )
 				// Place the transformation in leftSingularMatrix for subsequent back
 				// multiplication.
 				for(int i = k; i < this.m; i++)
-					this.leftSingularMatrix[i][k] = A[i][k];
+					this.leftSingularMatrix[i][k] = transform[i][k];
 			if( k < nrt )
 			{
 				// Compute the k-th row transformation and place the
@@ -167,12 +167,12 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 						work[i] = 0.0;
 					for(int j = k + 1; j < this.n; j++)
 						for(int i = k + 1; i < this.m; i++)
-							work[i] += e[j] * A[i][j];
+							work[i] += e[j] * transform[i][j];
 					for(int j = k + 1; j < this.n; j++)
 					{
 						final double t = -e[j] / e[k + 1];
 						for(int i = k + 1; i < this.m; i++)
-							A[i][j] += t * work[i];
+							transform[i][j] += t * work[i];
 					}
 				}
 				if( this.hasRightSingularMatrix )
@@ -185,11 +185,11 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 		// Set up the final bidiagonal matrix or order p.
 		int p = Math.min(this.n, this.m + 1);
 		if( nct < this.n )
-			this.matrix[nct] = A[nct][nct];
+			this.matrix[nct] = transform[nct][nct];
 		if( this.m < p )
 			this.matrix[p - 1] = 0.0;
 		if( nrt + 1 < p )
-			e[nrt] = A[nrt][p - 1];
+			e[nrt] = transform[nrt][p - 1];
 		e[p - 1] = 0.0;
 		// If required, generate leftSingularMatrix.
 		if( this.hasLeftSingularMatrix )
@@ -507,14 +507,14 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 	@Override
 	public RealMatrix getMatrix()
 	{
-		final double[][] S = new double[n][n];
+		final double[][] singular = new double[n][n];
 		for(int i = 0; i < this.n; i++)
 		{
 			for(int j = 0; j < this.n; j++)
-				S[i][j] = 0.0;
-			S[i][i] = this.matrix[i];
+				singular[i][j] = 0.0;
+			singular[i][i] = this.matrix[i];
 		}
-		return new SimpleRealMatrix(S);
+		return new SimpleRealMatrix(singular);
 	}
 
 	/**
