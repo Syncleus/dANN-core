@@ -49,7 +49,7 @@ public abstract class AbstractHierarchicalAttributePool<T> extends AbstractAttri
 		if( !this.owner.getNodes().contains(newParent) )
 			throw new IllegalArgumentException("newParent is not in owning graph");
 
-		HierarchicalAttributePool<T> oldParent = this.parent;
+		final HierarchicalAttributePool<T> oldParent = this.parent;
 		if( oldParent != null )
 			oldParent.removeListener(this.listener);
 		if( newParent != null )
@@ -70,7 +70,7 @@ public abstract class AbstractHierarchicalAttributePool<T> extends AbstractAttri
 	{
 		public final <C extends T> void attributeChanged(final Attribute<?, C> attribute, final C attributeValue)
 		{
-			C modiffiedAttributeValue = AbstractHierarchicalAttributePool.this.modifyChangedAttribute(attribute, attributeValue);
+			final C modiffiedAttributeValue = AbstractHierarchicalAttributePool.this.modifyChangedAttribute(attribute, attributeValue);
 			AbstractHierarchicalAttributePool.this.notify(attribute, modiffiedAttributeValue);
 		}
 	}

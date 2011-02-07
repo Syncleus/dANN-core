@@ -18,7 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.dataprocessing.signal;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 
 /**
  * A SignalOutputStream is an OutputStream that writes signals.
@@ -30,8 +32,9 @@ public class SignalOutputStream extends OutputStream
 	private final ObjectOutputStream destStream;
 
 	/**
-	 * Creates a new SignalOutputStream around the provided OutputStream. If this stream is not
-	 * an ObjectOutputStream, it wraps the underlying stream in one.
+	 * Creates a new SignalOutputStream around the provided OutputStream.
+	 * If this stream is not an ObjectOutputStream, it wraps the underlying
+	 * stream in one.
 	 * @param outputStream The OutputStream to use
 	 * @throws IOException If an IOException occurs in the underlying stream
 	 */
@@ -90,26 +93,26 @@ public class SignalOutputStream extends OutputStream
 
 	/**
 	 * Writes an array of bytes.
-	 * @param b The bytes to write
+	 * @param buffer The bytes to write
 	 * @throws IOException If a write error occurs
 	 */
 	@Override
-	public void write(final byte[] b) throws IOException
+	public void write(final byte[] buffer) throws IOException
 	{
-		this.destStream.write(b);
+		this.destStream.write(buffer);
 	}
 
 	/**
 	 * Writes an array of bytes, with a provided offset and length.
-	 * @param b The bytes to write
+	 * @param buffer The bytes to write
 	 * @param off The offset
 	 * @param len The length
 	 * @throws IOException If a write error occurs
 	 */
 	@Override
-	public void write(final byte[] b, final int off, final int len) throws IOException
+	public void write(final byte[] buffer, final int off, final int len) throws IOException
 	{
-		this.destStream.write(b, off, len);
+		this.destStream.write(buffer, off, len);
 	}
 
 	/**
@@ -124,7 +127,8 @@ public class SignalOutputStream extends OutputStream
 
 	/**
 	 * Closes the stream.
-	 * @throws IOException If the stream is already closed, or another error occurs
+	 * @throws IOException If the stream is already closed, or another error
+	 *   occurs
 	 */
 	@Override
 	public void close() throws IOException

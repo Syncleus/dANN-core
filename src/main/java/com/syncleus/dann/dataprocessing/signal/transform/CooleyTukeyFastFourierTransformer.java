@@ -27,9 +27,10 @@ import java.util.Arrays;
 import com.syncleus.dann.math.ComplexNumber;
 
 /**
- * A CooleyTukeyFastFourierTransformer implements a fast fourier transform to reduce computation time
- * for O(N log N) for smooth numbers. See <a href="http://en.wikipedia.org/wiki/Cooley-Tukey_FFT_algorithm">the wikipedia page</a>
- * for more information.
+ * A CooleyTukeyFastFourierTransformer implements a fast fourier transform to
+ * reduce computation time for O(N log N) for smooth numbers. See
+ * <a href="http://en.wikipedia.org/wiki/Cooley-Tukey_FFT_algorithm">the
+ * wikipedia page</a> for more information.
  * @author Jeffrey Phillips Freeman
  */
 public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
@@ -39,9 +40,10 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 	private static final double EPSILON = .0000000001;
 
 	/**
-	 * Creates a new CooleyTukeyFastFourierTransformer with the given block size and bitrate.
+	 * Creates a new CooleyTukeyFastFourierTransformer with the given block size
+	 * and bit-rate.
 	 * @param ourBlockSize The block size to use
-	 * @param ourBitRate The bitrate to use.
+	 * @param ourBitRate The bit-rate to use.
 	 */
 	public CooleyTukeyFastFourierTransformer(final int ourBlockSize, final int ourBitRate)
 	{
@@ -65,7 +67,7 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 	/**
 	 * Inverts the transform. This the inverse of transform()
 	 * @param transform The transform to inverse
-	 * @return The orginal signal.
+	 * @return The original signal.
 	 * @see com.syncleus.dann.dataprocessing.signal.transform.CooleyTukeyFastFourierTransformer#transform(double[])
 	 */
 	@Override
@@ -76,7 +78,8 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 	}
 
 	/**
-	 * Pads the double arrays to complex arrays, then performs the circular convolution.
+	 * Pads the double arrays to complex arrays, then performs the circular
+	 * convolution.
 	 * @param first The first matrix of doubles
 	 * @param second The second matrix of doubles
 	 * @return The circular convolution as a double[]
@@ -152,8 +155,8 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 	}
 
 	/**
-	 * Converts a double[] to a ComplexNumber[], using each double as the real component with
-	 * a 0.0 imaginary component.
+	 * Converts a double[] to a ComplexNumber[], using each double as the real
+	 * component with a 0.0 imaginary component.
 	 * @param from The array to convert from
 	 * @return The complex result
 	 */
@@ -194,8 +197,8 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 
 	/**
 	 * Pads a ComplexNumber[] to have size equal to the current block size.
-	 * Returns a ComplexNumber[] of length equal to current block size, with uninitalized
-	 * elements equal to ComplexNumber.ZERO
+	 * Returns a ComplexNumber[] of length equal to current block size, with
+	 * uninitialized elements equal to ComplexNumber.ZERO.
 	 * @param signal The signal to pad
 	 * @return The padding
 	 * @see com.syncleus.dann.dataprocessing.signal.transform.CooleyTukeyFastFourierTransformer#pad(double[])
@@ -291,8 +294,9 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 	}
 
 	/**
-	 * Convolves two matrices linearly. This is accomplished by doubling the length of each array,
-	 * setting the remaining elements to zero, then performing a circular convolution.
+	 * Convolves two matrices linearly. This is accomplished by doubling the
+	 * length of each array, setting the remaining elements to zero, then
+	 * performing a circular convolution.
 	 * @param first The first matrix to convolve
 	 * @param second The second matrix to convolve
 	 * @return The linear convolution of the two matrices

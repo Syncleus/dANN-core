@@ -23,7 +23,9 @@
 */
 package com.syncleus.dann.math.linear.decomposition;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import com.syncleus.dann.math.OrderedAlgebraic;
 import com.syncleus.dann.math.linear.Matrix;
 
@@ -37,7 +39,7 @@ import com.syncleus.dann.math.linear.Matrix;
  * matrixToDecompose(pivot,:) = lowerTriangularFactor*U. If height < width, then
  * lowerTriangularFactor is height-by-height and U is height-by-width.
  * <p/>
- * The matrixToDecomposeElements decompostion with pivoting always exists, even
+ * The matrixToDecomposeElements decomposition with pivoting always exists, even
  * if the matrix is singular, so the constructor will never fail.  The primary
  * use of the matrixToDecomposeElements decomposition is in the solution of
  * square systems of simultaneous linear equations.  This will fail if
@@ -49,11 +51,11 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 	/**
 	 * Array for internal storage of decomposition.
 	 */
-	private M matrix;
+	private final M matrix;
 	/**
 	 * Row and column dimensions, and pivot sign.
 	 */
-	private int pivotSign;
+	private final int pivotSign;
 	/**
 	 * Internal storage of pivot vector.
 	 */
@@ -68,14 +70,14 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 	public DoolittleLuDecomposition(final M matrixToDecompose)
 	{
 		// Use a "left-looking", dot-product, Crout/Doolittle algorithm.
-		this.matrix = matrixToDecompose;
+		M myMatrix = matrixToDecompose;
 		final int height = matrixToDecompose.getHeight();
 		final int width = matrixToDecompose.getWidth();
 
 		this.pivot = new int[height];
 		for(int i = 0; i < height; i++)
 			this.pivot[i] = i;
-		this.pivotSign = 1;
+		int myPivotSign = 1;
 
 		final List<F> matrixColumn = new ArrayList<F>(height);
 		matrixColumn.addAll(Collections.nCopies(height, matrixToDecompose.getElementField().getZero()));
@@ -85,47 +87,51 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 		{
 			// Make a copy of the j-th column to localize references.
 			for(int i = 0; i < height; i++)
-				matrixColumn.set(i, this.matrix.get(i, j));
+				matrixColumn.set(i, myMatrix.get(i, j));
 
 			// Apply previous transformations.
 			for(int i = 0; i < height; i++)
 			{
 				// Most of the time is spent in the following dot product.
 				final int kmax = Math.min(i, j);
-				F s = matrixToDecompose.getElementField().getZero();
+				F sum = matrixToDecompose.getElementField().getZero();
 				for(int k = 0; k < kmax; k++)
-					s = s.add(this.matrix.get(i, k).multiply(matrixColumn.get(k)));
+					sum = sum.add(myMatrix.get(i, k).multiply(matrixColumn.get(k)));
 
-				matrixColumn.set(i, matrixColumn.get(i).subtract(s));
-				this.matrix = this.matrix.set(i, j, matrixColumn.get(i));
+				matrixColumn.set(i, matrixColumn.get(i).subtract(sum));
+				myMatrix = myMatrix.set(i, j, matrixColumn.get(i));
 			}
 
 			// Find pivot and exchange if necessary.
-			int p = j;
+			int pivotIndex = j;
 			for(int i = j + 1; i < height; i++)
-				if( matrixColumn.get(i).abs().compareTo(matrixColumn.get(p).abs()) > 0 )
-					p = i;
-			if( p != j )
+				if( matrixColumn.get(i).abs().compareTo(matrixColumn.get(pivotIndex).abs()) > 0 )
+					pivotIndex = i;
+			if( pivotIndex != j )
 			{
 				for(int k = 0; k < width; k++)
 				{
-					final F t = this.matrix.get(p, k);
-					this.matrix = this.matrix.set(p, k, this.matrix.get(j, k));
-					this.matrix = this.matrix.set(j, k, t);
+					final F tmp = myMatrix.get(pivotIndex, k);
+					myMatrix = myMatrix.set(pivotIndex, k, myMatrix.get(j, k));
+					myMatrix = myMatrix.set(j, k, tmp);
 				}
-				final int k = this.pivot[p];
-				this.pivot[p] = this.pivot[j];
-				this.pivot[j] = k;
-				this.pivotSign = -this.pivotSign;
+				final int tmp = this.pivot[pivotIndex];
+				this.pivot[pivotIndex] = this.pivot[j];
+				this.pivot[j] = tmp;
+				myPivotSign = -myPivotSign;
 			}
 
 			// Compute multipliers.
-			if( (j < height) && (!this.matrix.get(j, j).equals(this.matrix.getElementField().getZero())) )
+			if( (j < height) && (!myMatrix.get(j, j).equals(myMatrix.getElementField().getZero())) )
 				for(int i = j + 1; i < height; i++)
-					this.matrix = this.matrix.set(i, j, this.matrix.get(i, j).divide(this.matrix.get(j, j)));
+					myMatrix = myMatrix.set(i, j, myMatrix.get(i, j).divide(myMatrix.get(j, j)));
 		}
+
+		this.pivotSign = myPivotSign;
+		this.matrix = myMatrix;
 	}
 
+	@Override
 	public M getMatrix()
 	{
 		return this.matrix;
@@ -146,6 +152,7 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 	 *
 	 * @return true if U, and hence matrixToDecompose, is nonsingular.
 	 */
+	@Override
 	public boolean isNonsingular()
 	{
 		for(int j = 0; j < this.getWidth(); j++)
@@ -159,6 +166,7 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 	 *
 	 * @return lowerTriangularFactor
 	 */
+	@Override
 	public M getLowerTriangularFactor()
 	{
 		M lowerTriangularFactor = this.matrix;
@@ -176,14 +184,15 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 	 *
 	 * @return U
 	 */
+	@Override
 	public M getUpperTriangularFactor()
 	{
-		M U = this.matrix;
+		M upper = this.matrix;
 		for(int i = 0; i < this.getWidth(); i++)
 			for(int j = 0; j < this.getWidth(); j++)
 				if( i > j )
-					U = U.set(i, j, U.getElementField().getZero());
-		return U;
+					upper = upper.set(i, j, upper.getElementField().getZero());
+		return upper;
 	}
 
 	/**
@@ -191,11 +200,12 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 	 *
 	 * @return pivot
 	 */
+	@Override
 	public int[] getPivot()
 	{
-		final int[] p = new int[this.getHeight()];
-		System.arraycopy(this.pivot, 0, p, 0, this.getHeight());
-		return p;
+		final int[] pivot = new int[this.getHeight()];
+		System.arraycopy(this.pivot, 0, pivot, 0, this.getHeight());
+		return pivot;
 	}
 
 	/**
@@ -204,6 +214,7 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 	 * @return getDeterminant(matrixToDecompose)
 	 * @throws IllegalArgumentException SimpleRealMatrix must be square
 	 */
+	@Override
 	public F getDeterminant()
 	{
 		if( this.getHeight() != this.getWidth() )
@@ -230,6 +241,7 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 	 * agree.
 	 * @throws RuntimeException SimpleRealMatrix is singular.
 	 */
+	@Override
 	public M solve(final M solutionMatrix)
 	{
 		if( solutionMatrix.getHeight() != this.getHeight() )
@@ -237,20 +249,20 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 		if( !this.isNonsingular() )
 			throw new ArithmeticException("Matrix is singular.");
 		// Copy right hand side with pivoting
-		final int nx = solutionMatrix.getWidth();
-		M xMat = solutionMatrix.getSubmatrix(this.pivot, 0, nx - 1);
+		final int width = solutionMatrix.getWidth();
+		M xMat = solutionMatrix.getSubmatrix(this.pivot, 0, width - 1);
 		// Solve lowerTriangularFactor*Y = solutionMatrix(pivot,:)
 		for(int k = 0; k < this.getWidth(); k++)
 			for(int i = k + 1; i < this.getWidth(); i++)
-				for(int j = 0; j < nx; j++)
+				for(int j = 0; j < width; j++)
 					xMat = xMat.set(i, j, xMat.get(i, j).subtract(xMat.get(k, j).multiply(this.matrix.get(i, k))));
 		// Solve U*X = Y;
 		for(int k = this.getWidth() - 1; k >= 0; k--)
 		{
-			for(int j = 0; j < nx; j++)
+			for(int j = 0; j < width; j++)
 				xMat = xMat.set(k, j, xMat.get(k, j).divide(this.matrix.get(k, k)));
 			for(int i = 0; i < k; i++)
-				for(int j = 0; j < nx; j++)
+				for(int j = 0; j < width; j++)
 					xMat = xMat.set(i, j, xMat.get(i, j).subtract(xMat.get(k, j).multiply(this.matrix.get(i, k))));
 		}
 		return xMat;

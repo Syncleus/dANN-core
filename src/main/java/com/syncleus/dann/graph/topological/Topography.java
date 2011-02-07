@@ -19,8 +19,23 @@
 package com.syncleus.dann.graph.topological;
 
 import java.io.Serializable;
-import java.util.*;
-import com.syncleus.dann.graph.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import com.syncleus.dann.graph.BidirectedEdge;
+import com.syncleus.dann.graph.BidirectedGraph;
+import com.syncleus.dann.graph.Edge;
+import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.HyperEdge;
+import com.syncleus.dann.graph.HyperGraph;
+import com.syncleus.dann.graph.ImmutableAdjacencyGraph;
+import com.syncleus.dann.graph.ImmutableHyperEdge;
 import com.syncleus.dann.math.counting.Counters;
 
 public final class Topography
@@ -540,10 +555,14 @@ public final class Topography
 		if( !Topography.isSimple(graph) )
 			return false;
 		for(final N startNode : graph.getNodes())
+		{
 			for(final N endNode : graph.getNodes())
-				if( !startNode.equals(endNode) )
-					if( !graph.getAdjacentNodes(startNode).contains(endNode) )
-						return false;
+			{
+				if( !startNode.equals(endNode)
+						&& !graph.getAdjacentNodes(startNode).contains(endNode) )
+					return false;
+			}
+		}
 		return true;
 	}
 
@@ -681,9 +700,9 @@ public final class Topography
 			uncheckedNodes.remove(currentNode);
 
 			final List<N> neighborNodes = graph.getAdjacentNodes(currentNode);
-			if( !neighborNodes.isEmpty() )
-				if( !homomorphicNodes.contains(currentNode) )
-					return false;
+			if( !neighborNodes.isEmpty()
+					&& !homomorphicNodes.contains(currentNode) )
+				return false;
 			for(final N neighborNode : neighborNodes)
 			{
 				if( uncheckedNodes.contains(neighborNode) )

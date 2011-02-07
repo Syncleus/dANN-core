@@ -18,10 +18,13 @@
  ******************************************************************************/
 package com.syncleus.dann.dataprocessing.language.parsing.stem;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Locale;
 
 /**
- * This is an implementation of <a href="http://tartarus.org/~martin/PorterStemmer/">Martin Porter's stemming algorithm</a>.
+ * This is an implementation of
+ * <a href="http://tartarus.org/~martin/PorterStemmer/">
+ * Martin Porter's stemming algorithm</a>.
  * This algorithm efficiently separates word stems from words.
  * @author Jeffrey Phillips Freeman
  */
@@ -38,7 +41,8 @@ public class PorterStemmer implements Stemmer
 	private final Locale locale;
 
 	/**
-	 * Creates a new PorterStemmer with the default grow size and default locale.
+	 * Creates a new PorterStemmer with the default grow size and default
+	 * locale.
 	 */
 	public PorterStemmer()
 	{
@@ -46,7 +50,8 @@ public class PorterStemmer implements Stemmer
 	}
 
 	/**
-	 * Creates a new PorterStemmer with the supplied grow size and default locale.
+	 * Creates a new PorterStemmer with the supplied grow size and default
+	 * locale.
 	 * @param ourGrowSize The grow size to use.
 	 */
 	public PorterStemmer(final int ourGrowSize)
@@ -55,7 +60,8 @@ public class PorterStemmer implements Stemmer
 	}
 
 	/**
-	 * Creates a new PorterStemmer with the default grow size and the supplied locale.
+	 * Creates a new PorterStemmer with the default grow size and the supplied
+	 * locale.
 	 * @param ourLocale The locale to use
 	 */
 	public PorterStemmer(final Locale ourLocale)
@@ -64,7 +70,8 @@ public class PorterStemmer implements Stemmer
 	}
 
 	/**
-	 * Creates a new PorterStemmer with the supplied locale and the supplied grow size.
+	 * Creates a new PorterStemmer with the supplied locale and the supplied
+	 * grow size.
 	 * @param ourLocale The locale to use
 	 * @param ourGrowSize The grow size to use
 	 */
@@ -109,15 +116,17 @@ public class PorterStemmer implements Stemmer
 	}
 
 	/**
-	 * Returns whether the character at a given index is a consonant, by exclusion.
-	 * A, e, i, o, u are not consonants. y is a consonant when it's at the start of the stem,
-	 * or when it immediately follows a vowel. All other characters are consonants.
-	 * @param i The index to check
+	 * Returns whether the character at a given index is a consonant, by
+	 * exclusion.
+	 * A, e, i, o, u are not consonants. y is a consonant when it is at the
+	 * start of the stem, or when it immediately follows a vowel. All other
+	 * characters are consonants.
+	 * @param index The index to check
 	 * @return Whether it is a consonant
 	 */
-	private boolean isConsonant(final int i)
+	private boolean isConsonant(final int index)
 	{
-		switch(this.buffer[i])
+		switch(this.buffer[index])
 		{
 		case 'a':
 		case 'e':
@@ -126,7 +135,8 @@ public class PorterStemmer implements Stemmer
 		case 'u':
 			return false;
 		case 'y':
-			return (i == this.stemStartIndex) || !this.isConsonant(i - 1);
+			return (index == this.stemStartIndex)
+					|| !this.isConsonant(index - 1);
 		default:
 			return true;
 		}
@@ -140,38 +150,38 @@ public class PorterStemmer implements Stemmer
 	 */
 	private int countConsonantsInStem()
 	{
-		int n = 0;
-		int i = this.stemStartIndex;
+		int count = 0;
+		int index = this.stemStartIndex;
 		while( true )
 		{
-			if( i > this.stemEndIndex )
-				return n;
-			if( !this.isConsonant(i) )
+			if( index > this.stemEndIndex )
+				return count;
+			if( !this.isConsonant(index) )
 				break;
-			i++;
+			index++;
 		}
-		i++;
+		index++;
 		while( true )
 		{
 			while( true )
 			{
-				if( i > this.stemEndIndex )
-					return n;
-				if( this.isConsonant(i) )
+				if( index > this.stemEndIndex )
+					return count;
+				if( this.isConsonant(index) )
 					break;
-				i++;
+				index++;
 			}
-			i++;
-			n++;
+			index++;
+			count++;
 			while( true )
 			{
-				if( i > this.stemEndIndex )
-					return n;
-				if( !this.isConsonant(i) )
+				if( index > this.stemEndIndex )
+					return count;
+				if( !this.isConsonant(index) )
 					break;
-				i++;
+				index++;
 			}
-			i++;
+			index++;
 		}
 	}
 
@@ -189,10 +199,10 @@ public class PorterStemmer implements Stemmer
 	}
 
 	/**
-	 * Determines whether the given index is a consonant that appears twice in succession, once at the given index
-	 * and once before.
-	 * 'tall' has the repeated consonant 'l' at index 3. The theoretical word stem 'lawl' does not have such
-	 * a repeated consonant.
+	 * Determines whether the given index is a consonant that appears twice in
+	 * succession, once at the given index and once before.
+	 * 'tall' has the repeated consonant 'l' at index 3. The theoretical word
+	 * stem 'lawl' does not have such a repeated consonant.
 	 * @param testCharacterIndex The index of the character to check
 	 * @return Whether there is a repeated consonant at the given index
 	 */
@@ -202,19 +212,21 @@ public class PorterStemmer implements Stemmer
 	}
 
 	/**
-	 * Determines whether the given index is the third character in a consonant-vowel-consonant sequence.
+	 * Determines whether the given index is the third character in a
+	 * consonant-vowel-consonant sequence.
 	 * 'com' is an example of such a sequence.
 	 * @param i The index to check
 	 * @return Whether the index is a cvc sequence
 	 */
-	private boolean isConsonantVowelConsonant(final int i)
+	private boolean isConsonantVowelConsonant(final int index)
 	{
-		if( i < this.stemStartIndex + 2 || !this.isConsonant(i) || this.isConsonant(i - 1) || !this.isConsonant(i - 2) )
+		if( (index < (stemStartIndex + 2)) || !isConsonant(index)
+				|| isConsonant(index - 1) || !isConsonant(index - 2) )
 			return false;
 		else
 		{
-			final int ch = this.buffer[i];
-			if( ch == 'w' || ch == 'x' || ch == 'y' )
+			final int character = this.buffer[index];
+			if( character == 'w' || character == 'x' || character == 'y' )
 				return false;
 		}
 		return true;
@@ -228,11 +240,11 @@ public class PorterStemmer implements Stemmer
 	private boolean ends(final String possibleEnding)
 	{
 		final int possibleEndingLength = possibleEnding.length();
-		final int o = this.wordEndIndex - possibleEndingLength + 1;
-		if( o < this.stemStartIndex )
+		final int endIndex = this.wordEndIndex - possibleEndingLength + 1;
+		if( endIndex < this.stemStartIndex )
 			return false;
 		for(int i = 0; i < possibleEndingLength; i++)
-			if( this.buffer[o + i] != possibleEnding.charAt(i) )
+			if( this.buffer[endIndex + i] != possibleEnding.charAt(i) )
 				return false;
 		this.stemEndIndex = this.wordEndIndex - possibleEndingLength;
 		return true;
@@ -251,7 +263,8 @@ public class PorterStemmer implements Stemmer
 	}
 
 	/**
-	 * Sets the internal buffer to the given string if there are consonants in the stem.
+	 * Sets the internal buffer to the given string if there are consonants in
+	 * the stem.
 	 * @param setString The stream to use as the buffer
 	 */
 	private void setToConsonantStem(final String setString)
@@ -282,7 +295,8 @@ public class PorterStemmer implements Stemmer
 
 	/**
 	 * Removes plurals (-s), and stems of -ed or -ing.
-	 * Transforms "caresses" into "caress"-, "ponies" into "poni"-, and "meetings" into "meet"-
+	 * Transforms "caresses" into "caress"-, "ponies" into "poni"-, and
+	 * "meetings" into "meet"-.
 	 * Operates in-place.
 	 */
 	private void step1()
@@ -310,8 +324,8 @@ public class PorterStemmer implements Stemmer
 				setTo("ize");
 			else if( isRepeatedConsonant(this.wordEndIndex) )
 			{
-				final int ch = this.buffer[this.wordEndIndex--];
-				if( ch == 'l' || ch == 's' || ch == 'z' )
+				final int character = this.buffer[this.wordEndIndex--];
+				if( character == 'l' || character == 's' || character == 'z' )
 					this.wordEndIndex++;
 			}
 			else if( countConsonantsInStem() == 1 && isConsonantVowelConsonant(this.wordEndIndex) )
@@ -319,10 +333,10 @@ public class PorterStemmer implements Stemmer
 		}
 	}
 
-	/* step2() turns terminal y to bufferIndex when there is another vowel in the stem. */
-
 	/**
-	 * If the word ends in a y, and it's not the only vowel, change the terminal y to an i.
+	 * Turns terminal y to bufferIndex when there is another vowel in the stem.
+	 * If the word ends in a y, and it's not the only vowel, change the terminal
+	 * y to an i.
 	 */
 	private void step2()
 	{
@@ -334,8 +348,9 @@ public class PorterStemmer implements Stemmer
 	}
 
 	/**
-	 * step3() maps double suffices to single ones. so -ization ( = -ize plus
-	 * -ation) maps to -ize etc. note that the string before the suffix must give
+	 * Maps double suffices to single ones. So -ization ( = -ize plus -ation)
+	 * maps to -ize etc..
+	 * Note that the string before the suffix must give
 	 * countConsonantsInStem() > 0.
 	 */
 	private void step3()
@@ -409,7 +424,7 @@ public class PorterStemmer implements Stemmer
 	}
 
 	/**
-	 * step4() removes -ic-, -full, -ness, -icate, -ative, and -alize suffixes.
+	 * Removes -ic-, -full, -ness, -icate, -ative, and -alize suffixes.
 	 * @see PorterStemmer#step3()
 	 */
 	private void step4()
@@ -445,8 +460,8 @@ public class PorterStemmer implements Stemmer
 	}
 
 	/**
-	 * step5() removes -ant, -ence, -ance, -er, -ic, the -[st]ion endings, -ment, -ement,
-	 * ou, -ism, -iti, -ous, -ive, and -ize.
+	 * Removes -ant, -ence, -ance, -er, -ic, the -[st]ion endings, -ment,
+	 * -ement, ou, -ism, -iti, -ous, -ive, and -ize.
 	 */
 	private void step5()
 	{
@@ -534,11 +549,14 @@ public class PorterStemmer implements Stemmer
 		this.stemEndIndex = this.wordEndIndex;
 		if( this.buffer[this.wordEndIndex] == 'e' )
 		{
-			final int a = countConsonantsInStem();
-			if( a > 1 || a == 1 && !isConsonantVowelConsonant(this.wordEndIndex - 1) )
+			final int consonants = countConsonantsInStem();
+			if( (consonants > 1) || (consonants == 1)
+					&& !isConsonantVowelConsonant(this.wordEndIndex - 1) )
 				this.wordEndIndex--;
 		}
-		if( this.buffer[this.wordEndIndex] == 'l' && isRepeatedConsonant(this.wordEndIndex) && countConsonantsInStem() > 1 )
+		if( (this.buffer[this.wordEndIndex] == 'l')
+				&& isRepeatedConsonant(this.wordEndIndex)
+				&& (countConsonantsInStem() > 1) )
 			this.wordEndIndex--;
 	}
 

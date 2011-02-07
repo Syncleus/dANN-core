@@ -79,6 +79,7 @@ public class WaveFunction extends AbstractFunction
 		return this.getParameter(this.getParameterNameIndex("phase"));
 	}
 
+	@Override
 	public double calculate()
 	{
 		return Math.sin((this.getX() + (this.getPhase() / 360)) * 2 * Math.PI * this.getFrequency()) * this.getAmplitude();
@@ -90,6 +91,7 @@ public class WaveFunction extends AbstractFunction
 		return (WaveFunction) super.clone();
 	}
 
+	@Override
 	public String toString()
 	{
 		return this.toString("x");

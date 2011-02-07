@@ -112,7 +112,7 @@ public class SimpleMarkovChain<S> extends AbstractMarkovChain<S>
 
 	private static <S> Map<List<S>, Map<S, Double>> packTransitions(final Map<S, Map<S, Double>> transitions)
 	{
-		Map<List<S>, Map<S, Double>> pack = new LinkedHashMap<List<S>, Map<S, Double>>(transitions.size());
+		final Map<List<S>, Map<S, Double>> pack = new LinkedHashMap<List<S>, Map<S, Double>>(transitions.size());
 		for(Map.Entry<S, Map<S, Double>> transitionEntry : transitions.entrySet())
 			if(transitionEntry.getKey() == null)
 				pack.put(Collections.<S>emptyList(), transitionEntry.getValue());

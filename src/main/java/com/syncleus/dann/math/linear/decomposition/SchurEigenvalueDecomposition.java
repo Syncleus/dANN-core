@@ -23,9 +23,12 @@
  */
 package com.syncleus.dann.math.linear.decomposition;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import com.syncleus.dann.math.RealNumber;
-import com.syncleus.dann.math.linear.*;
+import com.syncleus.dann.math.linear.RealMatrix;
+import com.syncleus.dann.math.linear.SimpleRealMatrix;
 
 public class SchurEigenvalueDecomposition implements java.io.Serializable, EigenvalueDecomposition
 {
@@ -39,7 +42,7 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 	 */
 	private RealMatrix matrix;
 	/**
-	 * Array for internal storage of nonsymmetric Hessenberg form.
+	 * Array for internal storage of non-symmetric Hessenberg form.
 	 */
 	private RealMatrix hessenbergMatrix;
 
@@ -55,17 +58,17 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 	public SchurEigenvalueDecomposition(final RealMatrix matrixToDecompose)
 	{
 		final double[][] matrixToDecomposeElements = matrixToDecompose.toDoubleArray();
-		final int n = matrixToDecompose.getWidth();
-		final double[][] matrixElements = new double[n][n];
-		final double[][] hessenbergMatrixElements = new double[n][n];
+		final int width = matrixToDecompose.getWidth();
+		final double[][] matrixElements = new double[width][width];
+		final double[][] hessenbergMatrixElements = new double[width][width];
 
-		this.realEigenvalues = new ArrayList<RealNumber>(n);
-		this.realEigenvalues.addAll(Collections.nCopies(n, new RealNumber(0.0)));
-		this.imaginaryEigenvalues = new ArrayList<RealNumber>(n);
-		this.imaginaryEigenvalues.addAll(Collections.nCopies(n, new RealNumber(0.0)));
+		this.realEigenvalues = new ArrayList<RealNumber>(width);
+		this.realEigenvalues.addAll(Collections.nCopies(width, new RealNumber(0.0)));
+		this.imaginaryEigenvalues = new ArrayList<RealNumber>(width);
+		this.imaginaryEigenvalues.addAll(Collections.nCopies(width, new RealNumber(0.0)));
 
-		for(int j = 0; j < n; j++)
-			for(int i = 0; i < n; i++)
+		for(int j = 0; j < width; j++)
+			for(int i = 0; i < width; i++)
 				hessenbergMatrixElements[i][j] = matrixToDecomposeElements[i][j];
 		this.hessenbergMatrix = new SimpleRealMatrix(hessenbergMatrixElements);
 		this.matrix = new SimpleRealMatrix(matrixElements);
@@ -569,6 +572,7 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 	 *
 	 * @return matrixElements
 	 */
+	@Override
 	public RealMatrix getMatrix()
 	{
 		return this.matrix;
@@ -579,6 +583,7 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 	 *
 	 * @return real(diag(D))
 	 */
+	@Override
 	public List<RealNumber> getRealEigenvalues()
 	{
 		return Collections.unmodifiableList(this.realEigenvalues);
@@ -589,6 +594,7 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 	 *
 	 * @return imag(diag(D))
 	 */
+	@Override
 	public List<RealNumber> getImaginaryEigenvalues()
 	{
 		return Collections.unmodifiableList(this.imaginaryEigenvalues);
@@ -599,6 +605,7 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 	 *
 	 * @return D
 	 */
+	@Override
 	public RealMatrix getBlockDiagonalMatrix()
 	{
 		final int n = this.getDimensionSize();

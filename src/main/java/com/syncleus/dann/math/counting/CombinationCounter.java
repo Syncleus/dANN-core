@@ -52,6 +52,7 @@ public class CombinationCounter implements Counter
 		reset();
 	}
 
+	@Override
 	public final void reset()
 	{
 		for(int i = 0; i < currentCombination.length; i++)
@@ -59,25 +60,28 @@ public class CombinationCounter implements Counter
 		this.remaining = new BigInteger(total.toString());
 	}
 
+	@Override
 	public BigInteger getRemaining()
 	{
 		return this.remaining;
 	}
 
+	@Override
 	public BigInteger getTotal()
 	{
 		return this.total;
 	}
 
+	@Override
 	public boolean hasMore()
 	{
 		return remaining.compareTo(BigInteger.ZERO) == 1;
 	}
 
-	static BigInteger calculateFactorial(final int n)
+	static BigInteger calculateFactorial(final int number)
 	{
 		BigInteger fact = BigInteger.ONE;
-		for(int i = n; i > 1; i--)
+		for(int i = number; i > 1; i--)
 			fact = fact.multiply(new BigInteger(Integer.toString(i)));
 		return fact;
 	}
@@ -85,6 +89,7 @@ public class CombinationCounter implements Counter
 	//--------------------------------------------------------
 	// Generate next combination (algorithm from Rosen p. 286)
 	//--------------------------------------------------------
+	@Override
 	public int[] getNext()
 	{
 		if( remaining.equals(this.total) )
@@ -93,7 +98,7 @@ public class CombinationCounter implements Counter
 			return currentCombination.clone();
 		}
 		int i = this.combinationSize - 1;
-		while( this.currentCombination[i] == this.setSize - this.combinationSize + i )
+		while( this.currentCombination[i] == (this.setSize - this.combinationSize + i) )
 			i--;
 		this.currentCombination[i] = this.currentCombination[i] + 1;
 		for(int j = i + 1; j < this.combinationSize; j++)

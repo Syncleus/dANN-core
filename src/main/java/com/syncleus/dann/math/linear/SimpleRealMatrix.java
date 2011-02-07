@@ -204,11 +204,11 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	@Override
 	public RealNumber[][] toArray()
 	{
-		final RealNumber[][] C = new RealNumber[height][width];
+		final RealNumber[][] array = new RealNumber[height][width];
 		for(int i = 0; i < this.height; i++)
 			for(int j = 0; j < this.width; j++)
-				C[i][j] = new RealNumber(this.matrixElements[i][j]);
-		return C;
+				array[i][j] = new RealNumber(this.matrixElements[i][j]);
+		return array;
 	}
 
 	/**
@@ -219,10 +219,10 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	@Override
 	public double[][] toDoubleArray()
 	{
-		final double[][] C = new double[height][width];
+		final double[][] array = new double[height][width];
 		for(int i = 0; i < this.height; i++)
-			System.arraycopy(this.matrixElements[i], 0, C[i], 0, this.width);
-		return C;
+			System.arraycopy(this.matrixElements[i], 0, array[i], 0, this.width);
+		return array;
 	}
 
 	/**
@@ -500,15 +500,15 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	 */
 	public double norm1Double()
 	{
-		double f = 0;
+		double norm1 = 0;
 		for(int j = 0; j < this.width; j++)
 		{
-			double s = 0;
+			double sum = 0;
 			for(int i = 0; i < this.height; i++)
-				s += Math.abs(this.matrixElements[i][j]);
-			f = Math.max(f, s);
+				sum += Math.abs(this.matrixElements[i][j]);
+			norm1 = Math.max(norm1, sum);
 		}
-		return f;
+		return norm1;
 	}
 
 	@Override
@@ -540,15 +540,15 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	 */
 	public double normInfiniteDouble()
 	{
-		double f = 0;
+		double normInfinite = 0;
 		for(int i = 0; i < this.height; i++)
 		{
-			double s = 0;
+			double sum = 0;
 			for(int j = 0; j < this.width; j++)
-				s += Math.abs(this.matrixElements[i][j]);
-			f = Math.max(f, s);
+				sum += Math.abs(this.matrixElements[i][j]);
+			normInfinite = Math.max(normInfinite, sum);
 		}
-		return f;
+		return normInfinite;
 	}
 
 	@Override
@@ -564,11 +564,11 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	 */
 	public double normF()
 	{
-		double f = 0;
+		double normF = 0;
 		for(int i = 0; i < this.height; i++)
 			for(int j = 0; j < this.width; j++)
-				f = Math.hypot(f, this.matrixElements[i][j]);
-		return f;
+				normF = Math.hypot(normF, this.matrixElements[i][j]);
+		return normF;
 	}
 
 	/**
@@ -901,10 +901,10 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 			for(int i = 0; i < this.height; i++)
 			{
 				final double[] Arowi = this.matrixElements[i];
-				double s = 0;
+				double sum = 0;
 				for(int k = 0; k < this.width; k++)
-					s += Arowi[k] * Bcolj[k];
-				resultArray[i][j] = s;
+					sum += Arowi[k] * Bcolj[k];
+				resultArray[i][j] = sum;
 			}
 		}
 		return resultMatrix;
@@ -987,10 +987,10 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	 */
 	public double trace()
 	{
-		double t = 0;
+		double trace = 0;
 		for(int i = 0; i < Math.min(this.height, this.width); i++)
-			t += this.matrixElements[i][i];
-		return t;
+			trace += this.matrixElements[i][i];
+		return trace;
 	}
 
 	/**
@@ -1003,12 +1003,12 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	 */
 	public static SimpleRealMatrix random(final int height, final int width)
 	{
-		final SimpleRealMatrix A = new SimpleRealMatrix(height, width);
-		final double[][] X = A.matrixElements;
+		final SimpleRealMatrix randomMatrix = new SimpleRealMatrix(height, width);
+		final double[][] elements = randomMatrix.matrixElements;
 		for(int i = 0; i < height; i++)
 			for(int j = 0; j < width; j++)
-				X[i][j] = Math.random();
-		return A;
+				elements[i][j] = Math.random();
+		return randomMatrix;
 	}
 
 	/**

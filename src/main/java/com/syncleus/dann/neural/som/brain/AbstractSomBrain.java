@@ -30,10 +30,18 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
-import com.syncleus.dann.*;
+import com.syncleus.dann.UnexpectedDannError;
+import com.syncleus.dann.UnexpectedInterruptedException;
 import com.syncleus.dann.math.Vector;
-import com.syncleus.dann.neural.*;
-import com.syncleus.dann.neural.som.*;
+import com.syncleus.dann.neural.AbstractLocalBrain;
+import com.syncleus.dann.neural.InputNeuron;
+import com.syncleus.dann.neural.SimpleSynapse;
+import com.syncleus.dann.neural.Synapse;
+import com.syncleus.dann.neural.som.SimpleSomInputNeuron;
+import com.syncleus.dann.neural.som.SimpleSomNeuron;
+import com.syncleus.dann.neural.som.SomInputNeuron;
+import com.syncleus.dann.neural.som.SomNeuron;
+import com.syncleus.dann.neural.som.SomOutputNeuron;
 import org.apache.log4j.Logger;
 
 /**
@@ -140,7 +148,7 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 		for(int inputIndex = 0; inputIndex < inputCount; inputIndex++)
 		{
 			//TODO fix this it is type unsafe
-			SomInputNeuron safeNewNeuron = new SimpleSomInputNeuron(this);
+			final SomInputNeuron safeNewNeuron = new SimpleSomInputNeuron(this);
 			final IN newNeuron = (IN) safeNewNeuron;
 			newInputs.add(newNeuron);
 			//TODO fix this it is type unsafe
@@ -171,6 +179,7 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 	 * @param position The position of the new output in the latice.
 	 * @since 2.0
 	 */
+	@Override
 	public void createOutput(final Vector position)
 	{
 		//make sure we have the proper dimentionality
@@ -191,7 +200,7 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 		//TODO fix this it is type unsafe
 		for(final InputNeuron input : this.inputs)
 		{
-			Synapse<N> synapse = new SimpleSynapse<N>((N)input, (N)outputNeuron);
+			final Synapse<N> synapse = new SimpleSynapse<N>((N)input, (N)outputNeuron);
 			this.connect((S)synapse, true);
 		}
 	}
@@ -202,6 +211,7 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 	 * @return the positions of all the outputs in the output lattice.
 	 * @since 2.0
 	 */
+	@Override
 	public final Set<Vector> getPositions()
 	{
 		final Set<Vector> positions = new HashSet<Vector>();
@@ -222,6 +232,7 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 	 * @throws IllegalArgumentException if position does not exist.
 	 * @since 2.0
 	 */
+	@Override
 	public final double getOutput(final Vector position)
 	{
 		final ON outputNeuron = this.outputs.get(position);
@@ -238,6 +249,7 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 	 *
 	 * @return the BMU for the current input set.
 	 */
+	@Override
 	public final Vector getBestMatchingUnit()
 	{
 		return this.getBestMatchingUnit(true);
@@ -252,6 +264,7 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 	 * @return the BMU for the current input set.
 	 * @since 2.0
 	 */
+	@Override
 	public final Vector getBestMatchingUnit(final boolean train)
 	{
 		//make sure we have atleast one output
@@ -372,6 +385,7 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 	 * @return the iterationsTrained so far.
 	 * @since 2.0
 	 */
+	@Override
 	public final int getIterationsTrained()
 	{
 		return this.iterationsTrained;
@@ -405,6 +419,7 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 	 * @return The number of inputs.
 	 * @since 2.0
 	 */
+	@Override
 	public final int getInputCount()
 	{
 		return this.inputs.size();
@@ -415,6 +430,7 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 	 *
 	 * @since 2.0
 	 */
+	@Override
 	public final void setInput(final int inputIndex, final double inputValue)
 	{
 		if( inputIndex >= this.getInputCount() )
@@ -432,6 +448,7 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 	 * @return The current value for the specified input.
 	 * @since 2.0
 	 */
+	@Override
 	public final double getInput(final int index)
 	{
 		return this.inputs.get(index).getInput();
@@ -443,6 +460,7 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 	 * @return the weight vectors of each output in the output lattice
 	 * @since 2.0
 	 */
+	@Override
 	public final Map<Vector, double[]> getOutputWeightVectors()
 	{
 		//iterate through the output lattice

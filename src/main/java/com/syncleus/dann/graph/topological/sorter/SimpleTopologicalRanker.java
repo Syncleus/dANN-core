@@ -98,10 +98,10 @@ public class SimpleTopologicalRanker<N> implements TopologicalRanker<N>
 	@Override
 	public List<N> sort(final BidirectedGraph<? extends N, ? extends DirectedEdge<? extends N>> graph)
 	{
-		List<Set<N>> rankedNodes = this.rank(graph);
+		final List<Set<N>> rankedNodes = this.rank(graph);
 
 		//convert ranked nodes into sorted nodes
-		List<N> sortedNodes = new ArrayList<N>(graph.getNodes().size());
+		final List<N> sortedNodes = new ArrayList<N>(graph.getNodes().size());
 		for(Set<N> levelNodes : rankedNodes)
 			sortedNodes.addAll(levelNodes);
 

@@ -25,10 +25,12 @@ public final class Cycles
 	private static final CycleFinder EXHAUSTIVE_FINDER = new ExhaustiveDepthFirstSearchCycleFinder();
 	private static final CycleDetector COLORED_DETECTOR = new ColoredDepthFirstSearchDetector();
 
-	//this is a utility class so we cant instantiate it, make default constructor private
+	/**
+	 * This is an utility class so it can not be instantiated.
+	 */
 	private Cycles()
 	{
-		throw new IllegalStateException("This is a utility class, it cant be instantiated");
+		throw new IllegalStateException("This is an utility class, it can not be instantiated");
 	}
 
 	public static int getCycleCount(final Graph graph)

@@ -73,8 +73,8 @@ public class StateEvidence<S> extends HashMap<S, Integer> implements XmlSerializ
     @Override
     public StateEvidenceXml toXml()
     {
-        StateEvidenceElementXml xml = new StateEvidenceElementXml();
-        Namer<Object> namer = new Namer<Object>();
+        final StateEvidenceElementXml xml = new StateEvidenceElementXml();
+        final Namer<Object> namer = new Namer<Object>();
 
         xml.setStates(new StateEvidenceXml.States());
         for(S state : this.keySet())
@@ -87,7 +87,7 @@ public class StateEvidence<S> extends HashMap<S, Integer> implements XmlSerializ
             else
                 stateXml = state;
 
-            NamedValueXml encapsulation = new NamedValueXml();
+            final NamedValueXml encapsulation = new NamedValueXml();
             encapsulation.setName(name);
             encapsulation.setValue(stateXml);
 
@@ -104,7 +104,7 @@ public class StateEvidence<S> extends HashMap<S, Integer> implements XmlSerializ
         if(namer == null)
             throw new IllegalArgumentException("namer can not be null");
 
-        StateEvidenceXml xml = new StateEvidenceXml();
+        final StateEvidenceXml xml = new StateEvidenceXml();
         this.toXml(xml, namer);
         return xml;
     }
@@ -121,7 +121,7 @@ public class StateEvidence<S> extends HashMap<S, Integer> implements XmlSerializ
             jaxbObject.setStates(new StateEvidenceXml.States());
         for(Map.Entry<S, Integer> entry : this.entrySet())
         {
-            StateEvidenceXml.States.State stateXml = new StateEvidenceXml.States.State();
+            final StateEvidenceXml.States.State stateXml = new StateEvidenceXml.States.State();
             stateXml.setName(namer.getNameOrCreate(entry.getKey()));
             stateXml.setCount(entry.getValue());
             jaxbObject.getStates().getStates().add(stateXml);

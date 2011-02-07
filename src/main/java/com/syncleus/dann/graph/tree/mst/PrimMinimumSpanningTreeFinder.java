@@ -19,15 +19,28 @@
 package com.syncleus.dann.graph.tree.mst;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
-import com.syncleus.dann.graph.*;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.Set;
+import com.syncleus.dann.graph.BidirectedGraph;
+import com.syncleus.dann.graph.DirectedEdge;
+import com.syncleus.dann.graph.Edge;
+import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.Weighted;
 import com.syncleus.dann.graph.topological.sorter.SimpleTopologicalRanker;
 import com.syncleus.dann.graph.topological.sorter.TopologicalSorter;
 
 public class PrimMinimumSpanningTreeFinder<N, E extends Edge<N>> implements RootedMinimumSpanningTreeFinder<N, E>
 {
 	@SuppressWarnings("unchecked")
+	@Override
 	public Set<E> findMinimumSpanningTree(final Graph<N, E> graph)
 	{
 		boolean isDirected = false;
@@ -54,6 +67,7 @@ public class PrimMinimumSpanningTreeFinder<N, E extends Edge<N>> implements Root
 		return this.primCalculate(graph, startNode);
 	}
 
+	@Override
 	public Set<E> findMinimumSpanningTree(final Graph<N, E> graph, final N startNode)
 	{
 		return primCalculate(graph, startNode);
@@ -91,13 +105,11 @@ public class PrimMinimumSpanningTreeFinder<N, E extends Edge<N>> implements Root
 				}
 				for(final N neighborNode : neighborNodes)
 				{
-					if( primMap.containsKey(neighborNode) )
+					if( primMap.containsKey(neighborNode)
+							&& primMap.isLess(neighborNode, neighborEdge) )
 					{
-						if( primMap.isLess(neighborNode, neighborEdge) )
-						{
-							primMap.put(neighborNode, neighborEdge);
-							primMap.resort();
-						}
+						primMap.put(neighborNode, neighborEdge);
+						primMap.resort();
 					}
 				}
 			}
@@ -152,6 +164,7 @@ public class PrimMinimumSpanningTreeFinder<N, E extends Edge<N>> implements Root
 		{
 			private static final long serialVersionUID = -4356537864223227850L;
 
+			@Override
 			public int compare(final Map.Entry<N, E> first, final Map.Entry<N, E> second)
 			{
 				double firstWeight = 0;

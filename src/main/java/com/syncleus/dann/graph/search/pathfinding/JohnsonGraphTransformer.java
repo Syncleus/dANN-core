@@ -18,8 +18,18 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.search.pathfinding;
 
-import java.util.*;
-import com.syncleus.dann.graph.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import com.syncleus.dann.graph.BidirectedGraph;
+import com.syncleus.dann.graph.Edge;
+import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.ImmutableWeightedDirectedEdge;
+import com.syncleus.dann.graph.MutableDirectedAdjacencyGraph;
+import com.syncleus.dann.graph.SimpleWeightedDirectedEdge;
+import com.syncleus.dann.graph.Weighted;
+import com.syncleus.dann.graph.WeightedDirectedEdge;
 
 public class JohnsonGraphTransformer<N> implements GraphTransformer<BidirectedGraph<N, ? extends WeightedDirectedEdge<N>>>
 {
@@ -28,19 +38,22 @@ public class JohnsonGraphTransformer<N> implements GraphTransformer<BidirectedGr
 	private boolean containsInfinite(final Graph<N, ?> original)
 	{
 		for(final Edge edge : original.getEdges())
-			if( edge instanceof Weighted )
-				if( Double.isInfinite(((Weighted) edge).getWeight()) )
-					return true;
+		{
+			if( edge instanceof Weighted
+					&& Double.isInfinite(((Weighted) edge).getWeight()) )
+				return true;
+		}
 		return false;
 	}
 
 	@SuppressWarnings("unchecked")
+	@Override
 	public BidirectedGraph<N, WeightedDirectedEdge<N>> transform(final BidirectedGraph<N, ? extends WeightedDirectedEdge<N>> original)
 	{
 		if( original == null )
 			throw new IllegalArgumentException("original can not be null");
 		if( containsInfinite(original) )
-			throw new IllegalArgumentException("original cannot contain infinite weights");
+			throw new IllegalArgumentException("original can not contain infinite weights");
 		final Set<WeightedDirectedEdge<Object>> originalEdges = new HashSet<WeightedDirectedEdge<Object>>();
 		for(final WeightedDirectedEdge<N> originalEdge : original.getEdges())
 			originalEdges.add((WeightedDirectedEdge<Object>) originalEdge);

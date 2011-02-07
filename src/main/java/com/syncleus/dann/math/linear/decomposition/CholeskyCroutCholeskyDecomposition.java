@@ -33,7 +33,7 @@ public class CholeskyCroutCholeskyDecomposition<M extends Matrix<M, F>, F extend
 	/**
 	 * Symmetric and positive definite flag.
 	 */
-	private boolean isSpd;
+	private final boolean isSpd;
 
 	/**
 	 * Right Triangular Cholesky Decomposition.
@@ -48,13 +48,13 @@ public class CholeskyCroutCholeskyDecomposition<M extends Matrix<M, F>, F extend
 	 * constructor here until timing experiments confirm this suspicion.
 	 *
 	 * @param matrixToDecompose Square, symmetric matrix.
-	 * @param rightflag Actual value ignored.
+	 * @param rightflag Actual value, ignored.
 	 */
 	public CholeskyCroutCholeskyDecomposition(final M matrixToDecompose, final int rightflag)
 	{
 		// Initialize.
 		M newMatrix = matrixToDecompose;
-		this.isSpd = true;
+		boolean checkIsSpd = true;
 		// Main loop.
 		for(int j = 0; j < matrixToDecompose.getWidth(); j++)
 		{
@@ -67,14 +67,15 @@ public class CholeskyCroutCholeskyDecomposition<M extends Matrix<M, F>, F extend
 				s = s.divide(newMatrix.get(k, k));
 				newMatrix = newMatrix.set(k, j, s);
 				d = d.add(s.multiply(s));
-				this.isSpd = this.isSpd && (matrixToDecompose.get(k, j).equals(matrixToDecompose.get(j, k)));
+				checkIsSpd = checkIsSpd && (matrixToDecompose.get(k, j).equals(matrixToDecompose.get(j, k)));
 			}
 			d = matrixToDecompose.get(j, j).subtract(d);
-			this.isSpd = this.isSpd && (d.compareTo(d.getField().getZero()) > 0);
+			checkIsSpd = checkIsSpd && (d.compareTo(d.getField().getZero()) > 0);
 			newMatrix = newMatrix.set(j, j, d.max(d.getField().getZero()).sqrt());
 			for(int k = j + 1; k < matrixToDecompose.getWidth(); k++)
 				newMatrix = newMatrix.set(k, j, newMatrix.getElementField().getZero());
 		}
+		this.isSpd = checkIsSpd;
 		this.matrix = newMatrix;
 	}
 

@@ -27,8 +27,22 @@ public interface Matrix<M extends Matrix<? extends M, ? extends F>, F extends Fi
 	M flip();
 	boolean isSymmetric();
 	boolean isSquare();
-	F get(int i, int j);
-	M set(int i, int j, F s);
+	/**
+	 * Get a single element.
+	 *
+	 * @param heightIndex Row index.
+	 * @param widthIndex Column index.
+	 * @return value of the specified element.
+	 */
+	F get(int heightIndex, int widthIndex);
+	/**
+	 * Set a single element.
+	 *
+	 * @param heightIndex Row index.
+	 * @param widthIndex Column index.
+	 * @param fillValue value to set
+	 */
+	M set(final int heightIndex, final int widthIndex, final F fillValue);
 	int getWidth();
 	int getHeight();
 	M transpose();

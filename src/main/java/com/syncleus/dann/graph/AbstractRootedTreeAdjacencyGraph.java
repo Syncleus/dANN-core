@@ -64,7 +64,7 @@ public abstract class AbstractRootedTreeAdjacencyGraph<N, E extends DirectedEdge
 		if( this.getNodes().isEmpty() )
 			return null;
 
-		TopologicalSorter<N> sorter = new SimpleTopologicalRanker<N>();
+		final TopologicalSorter<N> sorter = new SimpleTopologicalRanker<N>();
 		return sorter.sort(this).get(0);
 	}
 

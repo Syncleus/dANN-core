@@ -113,7 +113,7 @@ public abstract class AbstractAttributePool<T> implements AttributePool<T>
 
 	protected final <C extends T> void notify(final Attribute<?, C> attribute, final C attributeValue)
 	{
-		Set<AttributeChangeListener<?>> attributeListeners = this.listeners.get(attribute);
+		final Set<AttributeChangeListener<?>> attributeListeners = this.listeners.get(attribute);
 
 		//lets notify everyone who is subscribed
 		for( AttributeChangeListener listener : attributeListeners )

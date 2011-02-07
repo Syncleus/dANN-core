@@ -18,9 +18,14 @@
  ******************************************************************************/
 package com.syncleus.dann.neural.backprop.brain;
 
+import com.syncleus.dann.neural.NeuronGroup;
+import com.syncleus.dann.neural.SimpleSynapse;
+import com.syncleus.dann.neural.Synapse;
+import com.syncleus.dann.neural.backprop.BackpropNeuron;
+import com.syncleus.dann.neural.backprop.BackpropStaticNeuron;
+import com.syncleus.dann.neural.backprop.InputBackpropNeuron;
+import com.syncleus.dann.neural.backprop.OutputBackpropNeuron;
 import java.util.concurrent.ExecutorService;
-import com.syncleus.dann.neural.*;
-import com.syncleus.dann.neural.backprop.*;
 
 public abstract class AbstractFullyConnectedFeedforwardBrain<IN extends InputBackpropNeuron, ON extends OutputBackpropNeuron, N extends BackpropNeuron, S extends Synapse<N>> extends AbstractFeedforwardBrain<IN, ON, N, S>
 {
@@ -78,7 +83,7 @@ public abstract class AbstractFullyConnectedFeedforwardBrain<IN extends InputBac
 				for(final N destinationNeruon : destinationLayer.getChildrenNeuronsRecursivly())
 				{
 					//TODO this is bad typing fix this!
-					Synapse<N> connection = new SimpleSynapse<N>((N)sourceNeuron, destinationNeruon);
+					final Synapse<N> connection = new SimpleSynapse<N>(sourceNeuron, destinationNeruon);
 					//TODO this is bad typing fix this!
 					this.connect((S) connection, true);
 				}
@@ -98,7 +103,7 @@ public abstract class AbstractFullyConnectedFeedforwardBrain<IN extends InputBac
 					this.add((N)biasNeuron);
 					//connect the new bias neuron to its destination neuron
 					//TODO this is bad typing fix this!
-					Synapse<N> connection = new SimpleSynapse<N>((N)biasNeuron, destinationNeuron);
+					final Synapse<N> connection = new SimpleSynapse<N>((N)biasNeuron, destinationNeuron);
 					//TODO this is bad typing fix this!
 					this.connect((S) connection, true);
 				}

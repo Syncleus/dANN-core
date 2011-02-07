@@ -18,7 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.bayesian.dynamic;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import com.syncleus.dann.graph.context.ContextGraphElement;
 import com.syncleus.dann.graph.Graph;
 import com.syncleus.dann.graphicalmodel.bayesian.BayesianEdge;
@@ -50,10 +53,10 @@ public class MutableDynamicBayesianAdjacencyNetwork<N extends DynamicBayesianNod
 		if( !this.getNodes().containsAll(newEdge.getNodes()) )
 			throw new IllegalArgumentException("newEdge has a node as an end point that is not part of the graph");
 
-		//if context is enabled lets check if it can join
-		if( this.isContextEnabled() && (newEdge instanceof ContextGraphElement))
-			if( !((ContextGraphElement)newEdge).joiningGraph(this) )
-				return false;
+		// if context is enabled lets check if it can join
+		if( this.isContextEnabled() && (newEdge instanceof ContextGraphElement)
+				&& !((ContextGraphElement)newEdge).joiningGraph(this) )
+			return false;
 
 		if( this.getInternalEdges().add(newEdge) )
 		{
@@ -81,10 +84,10 @@ public class MutableDynamicBayesianAdjacencyNetwork<N extends DynamicBayesianNod
 		if( this.getInternalAdjacencyEdges().containsKey(newNode) )
 			return false;
 
-		//if context is enabled lets check if it can join
-		if( this.isContextEnabled() && (newNode instanceof ContextGraphElement))
-			if( !((ContextGraphElement)newNode).joiningGraph(this) )
-				return false;
+		// if context is enabled lets check if it can join
+		if( this.isContextEnabled() && (newNode instanceof ContextGraphElement)
+				&& !((ContextGraphElement)newNode).joiningGraph(this) )
+			return false;
 
 		this.getInternalAdjacencyEdges().put(newNode, new HashSet<E>());
 		this.getInternalAdjacencyNodes().put(newNode, new ArrayList<N>());
@@ -100,10 +103,11 @@ public class MutableDynamicBayesianAdjacencyNetwork<N extends DynamicBayesianNod
 		if( !this.getInternalEdges().contains(edgeToRemove) )
 			return false;
 
-		//if context is enabled lets check if it can join
-		if( this.isContextEnabled() && (edgeToRemove instanceof ContextGraphElement))
-			if( !((ContextGraphElement)edgeToRemove).leavingGraph(this) )
-				return false;
+		// if context is enabled lets check if it can join
+		if( this.isContextEnabled()
+				&& (edgeToRemove instanceof ContextGraphElement)
+				&& !((ContextGraphElement)edgeToRemove).leavingGraph(this) )
+			return false;
 
 		if( !this.getInternalEdges().remove(edgeToRemove) )
 			return false;
@@ -129,10 +133,11 @@ public class MutableDynamicBayesianAdjacencyNetwork<N extends DynamicBayesianNod
 		if( !this.getInternalAdjacencyEdges().containsKey(nodeToRemove) )
 			return false;
 
-		//if context is enabled lets check if it can join
-		if( this.isContextEnabled() && (nodeToRemove instanceof ContextGraphElement))
-			if( !((ContextGraphElement)nodeToRemove).leavingGraph(this) )
-				return false;
+		// if context is enabled lets check if it can join
+		if( this.isContextEnabled()
+				&& (nodeToRemove instanceof ContextGraphElement)
+				&& !((ContextGraphElement)nodeToRemove).leavingGraph(this) )
+			return false;
 
 		final Set<E> removeEdges = this.getInternalAdjacencyEdges().get(nodeToRemove);
 

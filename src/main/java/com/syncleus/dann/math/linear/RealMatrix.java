@@ -22,8 +22,16 @@ import com.syncleus.dann.math.RealNumber;
 
 public interface RealMatrix extends OrderedMatrix<RealMatrix, RealNumber>
 {
+	@Override
 	com.syncleus.dann.math.OrderedField<RealNumber> getElementField();
-	double getDouble(int i, int j);
+	/**
+	 * Get a single element.
+	 *
+	 * @param heightIndex Row index.
+	 * @param widthIndex Column index.
+	 * @return value at the specified element
+	 */
+	double getDouble(int heightIndex, int widthIndex);
 	double[][] toDoubleArray();
 	double getDeterminant();
 	RealMatrix multiplyEquals(double value);

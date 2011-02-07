@@ -149,8 +149,8 @@ public class EvidenceMap<S> extends HashMap<Map<BayesianNode, Object>, StateEvid
 	@Override
     public EvidenceMapXml toXml()
     {
-        EvidenceMapElementXml xml = new EvidenceMapElementXml();
-        Namer<Object> namer = new Namer<Object>();
+        final EvidenceMapElementXml xml = new EvidenceMapElementXml();
+        final Namer<Object> namer = new Namer<Object>();
 
         final Set<BayesianNode> seenNodes = new HashSet<BayesianNode>();
         final Set<Object> seenStates = new HashSet<Object>();
@@ -165,8 +165,8 @@ public class EvidenceMap<S> extends HashMap<Map<BayesianNode, Object>, StateEvid
             //add instances for all the nodes and states from the influences
             for(Map.Entry<BayesianNode, Object> influenceEntry : influences.entrySet())
             {
-                BayesianNode node = influenceEntry.getKey();
-                Object state = influenceEntry.getValue();
+                final BayesianNode node = influenceEntry.getKey();
+                final Object state = influenceEntry.getValue();
 
                 if( seenStates.add(state) )
                 {
@@ -176,7 +176,7 @@ public class EvidenceMap<S> extends HashMap<Map<BayesianNode, Object>, StateEvid
                     else
                         stateXml = state;
 
-                    NamedValueXml encapsulation = new NamedValueXml();
+                    final NamedValueXml encapsulation = new NamedValueXml();
                     encapsulation.setName( namer.getNameOrCreate(state) );
                     encapsulation.setValue(stateXml);
                     xml.getStateInstances().getStates().add(encapsulation);
@@ -186,7 +186,7 @@ public class EvidenceMap<S> extends HashMap<Map<BayesianNode, Object>, StateEvid
                 {
                     final Object nodeXml = node.toXml(namer);
 
-                    NamedValueXml encapsulation = new NamedValueXml();
+                    final NamedValueXml encapsulation = new NamedValueXml();
                     encapsulation.setName( namer.getNameOrCreate(node) );
                     encapsulation.setValue(nodeXml);
                     xml.getNodeInstances().getNodes().add(encapsulation);
@@ -204,7 +204,7 @@ public class EvidenceMap<S> extends HashMap<Map<BayesianNode, Object>, StateEvid
                     else
                         stateXml = state;
 
-                    NamedValueXml encapsulation = new NamedValueXml();
+                    final NamedValueXml encapsulation = new NamedValueXml();
                     encapsulation.setName( namer.getNameOrCreate(state) );
                     encapsulation.setValue(stateXml);
                     xml.getStateInstances().getStates().add(encapsulation);
@@ -222,7 +222,7 @@ public class EvidenceMap<S> extends HashMap<Map<BayesianNode, Object>, StateEvid
         if(namer == null)
             throw new IllegalArgumentException("namer can not be null");
 
-        EvidenceMapXml xml = new EvidenceMapXml();
+        final EvidenceMapXml xml = new EvidenceMapXml();
         this.toXml(xml, namer);
         return xml;
     }
@@ -239,7 +239,8 @@ public class EvidenceMap<S> extends HashMap<Map<BayesianNode, Object>, StateEvid
             jaxbObject.setInfluencedEvidences(new EvidenceMapXml.InfluencedEvidences());
         for(Map.Entry<Map<BayesianNode, Object>, StateEvidence<S>> entry : this.entrySet())
         {
-            EvidenceMapXml.InfluencedEvidences.InfluencedEvidence influencedEvidence = new EvidenceMapXml.InfluencedEvidences.InfluencedEvidence();
+            final EvidenceMapXml.InfluencedEvidences.InfluencedEvidence influencedEvidence
+					= new EvidenceMapXml.InfluencedEvidences.InfluencedEvidence();
 
             //add the influences to the xml
             influencedEvidence.setInfluences(new EvidenceMapXml.InfluencedEvidences.InfluencedEvidence.Influences());

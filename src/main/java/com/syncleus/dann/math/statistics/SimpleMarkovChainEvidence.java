@@ -33,15 +33,15 @@ public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S>
 {
 	private final int order;
 	private final ArrayDeque<S> history;
-	private final boolean isArbitraryStart;
+	private final boolean arbitraryStart;
 	private final Map<List<S>, StateCounter<S>> evidence;
 	private final Set<S> observedStates;
 
-	public SimpleMarkovChainEvidence(final boolean isArbitraryStart, final int order)
+	public SimpleMarkovChainEvidence(final boolean arbitraryStart, final int order)
 	{
 		this.history = new ArrayDeque<S>(order);
 		this.order = order;
-		this.isArbitraryStart = isArbitraryStart;
+		this.arbitraryStart = arbitraryStart;
 		this.evidence = new LinkedHashMap<List<S>, StateCounter<S>>();
 		this.observedStates = new HashSet<S>();
 		// TODO observed states shouldnt need a null, instead the markov chain should know its an implicit state (it fails without this)
@@ -79,7 +79,7 @@ public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S>
 
 		//if there is an arbitrary starting place update the evidance for the
 		//various sub-states of shorter order
-		if( (this.isArbitraryStart) && (this.order > 1) )
+		if( (this.arbitraryStart) && (this.order > 1) )
 		{
 			final ArrayDeque<S> trainingMemory = new ArrayDeque<S>(this.history);
 			while( trainingMemory.size() > 1 )
@@ -112,13 +112,13 @@ public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S>
 
 	public boolean isArbitraryStart()
 	{
-		return this.isArbitraryStart;
+		return this.arbitraryStart;
 	}
 
 	@Override
 	public MarkovChain<S> getMarkovChain()
 	{
-		Map<List<S>, Map<S, Double>> transitionProbabilities = new LinkedHashMap<List<S>, Map<S, Double>>(this.evidence.size());
+		final Map<List<S>, Map<S, Double>> transitionProbabilities = new LinkedHashMap<List<S>, Map<S, Double>>(this.evidence.size());
 		for(Map.Entry<List<S>, StateCounter<S>> countEntry : this.evidence.entrySet())
 			transitionProbabilities.put(countEntry.getKey(), countEntry.getValue().probabilities());
 		return new SimpleMarkovChain<S>(transitionProbabilities, this.order, this.observedStates);
@@ -154,7 +154,7 @@ public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S>
 
 		public Map<S, Double> probabilities()
 		{
-			Map<S, Double> prob = new HashMap<S, Double>(this.stateCount.size());
+			final Map<S, Double> prob = new HashMap<S, Double>(this.stateCount.size());
 			for(Map.Entry<S, Integer> countEntry : this.stateCount.entrySet())
 				prob.put(countEntry.getKey(), countEntry.getValue().doubleValue() / ((double)this.totalEvidence));
 			return prob;

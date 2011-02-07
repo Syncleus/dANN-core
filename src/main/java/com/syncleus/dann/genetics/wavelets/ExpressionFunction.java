@@ -18,10 +18,15 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
-import java.util.*;
 import com.syncleus.dann.UnexpectedDannError;
 import com.syncleus.dann.math.wave.WaveMultidimensionalFunction;
 import com.syncleus.dann.math.wave.wavelet.CombinedWaveletFunction;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 import org.apache.log4j.Logger;
 
 public class ExpressionFunction implements Cloneable

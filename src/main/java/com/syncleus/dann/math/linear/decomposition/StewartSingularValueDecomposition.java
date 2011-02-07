@@ -22,9 +22,12 @@
 */
 package com.syncleus.dann.math.linear.decomposition;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import com.syncleus.dann.math.RealNumber;
-import com.syncleus.dann.math.linear.*;
+import com.syncleus.dann.math.linear.RealMatrix;
+import com.syncleus.dann.math.linear.SimpleRealMatrix;
 
 /**
  * Singular Value Decomposition.
@@ -37,10 +40,10 @@ import com.syncleus.dann.math.linear.*;
  * The singular values, sigma[k] = S[k][k], are ordered so that sigma[0] >=
  * sigma[1] >= ... >= sigma[n-1].
  * <p/>
- * The singular value decompostion always exists, so the constructor will never
+ * The singular value decomposition always exists, so the constructor will never
  * fail.  The matrix condition number and the effective numerical rank can be
- * computed from this decomposition.<br/> Algorithm taken from: g.w. stewart,
- * university of maryland, argonne national lab. c
+ * computed from this decomposition.<br/> Algorithm taken from: G.W. Stewart,
+ * university of Maryland, Argonne national lab. C
  */
 public class StewartSingularValueDecomposition implements java.io.Serializable, SingularValueDecomposition
 {
@@ -460,6 +463,7 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 	 *
 	 * @return U
 	 */
+	@Override
 	public RealMatrix getLeftSingularMatrix()
 	{
 		if( !this.hasLeftSingularMatrix )
@@ -472,6 +476,7 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 	 *
 	 * @return V
 	 */
+	@Override
 	public RealMatrix getRightSingularMatrix()
 	{
 		if( this.hasRightSingularMatrix )
@@ -485,6 +490,7 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 	 *
 	 * @return diagonal of S.
 	 */
+	@Override
 	public List<RealNumber> getSingularValues()
 	{
 		final List<RealNumber> singularValues = new ArrayList<RealNumber>(this.matrix.length);
@@ -498,6 +504,7 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 	 *
 	 * @return S
 	 */
+	@Override
 	public RealMatrix getMatrix()
 	{
 		final double[][] S = new double[n][n];
@@ -520,6 +527,7 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 		return this.matrix[0];
 	}
 
+	@Override
 	public RealNumber norm2()
 	{
 		return new RealNumber(this.norm2Double());
@@ -535,6 +543,7 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 		return this.matrix[0] / this.matrix[Math.min(this.m, this.n) - 1];
 	}
 
+	@Override
 	public RealNumber norm2Condition()
 	{
 		return new RealNumber(this.norm2ConditionDouble());
@@ -545,6 +554,7 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 	 *
 	 * @return Number of non-negligible singular values.
 	 */
+	@Override
 	public int rank()
 	{
 		final double eps = Math.pow(2.0, -52.0);

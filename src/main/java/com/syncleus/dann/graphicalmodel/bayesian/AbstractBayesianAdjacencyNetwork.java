@@ -172,16 +172,16 @@ public abstract class AbstractBayesianAdjacencyNetwork<N extends BayesianNode, E
     @Override
     public BayesianNetworkXml toXml()
     {
-        BayesianNetworkElementXml networkXml = new BayesianNetworkElementXml();
-        Namer<Object> namer = new Namer<Object>();
+        final BayesianNetworkElementXml networkXml = new BayesianNetworkElementXml();
+        final Namer<Object> namer = new Namer<Object>();
 
         networkXml.setNodeInstances( new BayesianNetworkElementXml.NodeInstances() );
         networkXml.setStateInstances( new BayesianNetworkElementXml.StateInstances() );
-        Set<Object> writtenStates = new HashSet<Object>();
+        final Set<Object> writtenStates = new HashSet<Object>();
         for( N node : this.getNodes() )
         {
             //add the node
-            NamedValueXml nodeXml = new NamedValueXml();
+            final NamedValueXml nodeXml = new NamedValueXml();
             nodeXml.setName(namer.getNameOrCreate(node));
             nodeXml.setValue(node.toXml(namer));
             networkXml.getNodeInstances().getNodes().add(nodeXml);
@@ -192,7 +192,7 @@ public abstract class AbstractBayesianAdjacencyNetwork<N extends BayesianNode, E
                 //only add the learnedState if it hasnt yet been added
                 if( writtenStates.add(learnedState) )
                 {
-                    NamedValueXml stateXml = new NamedValueXml();
+                    final NamedValueXml stateXml = new NamedValueXml();
                     stateXml.setName(namer.getNameOrCreate(learnedState));
                     if( learnedState instanceof XmlSerializable)
                         stateXml.setValue(((XmlSerializable) learnedState).toXml(namer));
@@ -203,10 +203,10 @@ public abstract class AbstractBayesianAdjacencyNetwork<N extends BayesianNode, E
             }
 
             //add the nodes current state if it wasnt already
-            Object state = node.getState();
+            final Object state = node.getState();
             if( writtenStates.add(state) )
             {
-                NamedValueXml stateXml = new NamedValueXml();
+                final NamedValueXml stateXml = new NamedValueXml();
                 stateXml.setName(namer.getNameOrCreate(state));
                 if( state instanceof XmlSerializable)
                     stateXml.setValue(((XmlSerializable)state).toXml(namer));
@@ -226,7 +226,7 @@ public abstract class AbstractBayesianAdjacencyNetwork<N extends BayesianNode, E
         if(namer == null)
             throw new IllegalArgumentException("namer can not be null");
 
-        BayesianNetworkXml xml = new BayesianNetworkXml();
+        final BayesianNetworkXml xml = new BayesianNetworkXml();
         this.toXml(xml, namer);
         return xml;
     }

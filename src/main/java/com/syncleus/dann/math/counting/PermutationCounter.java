@@ -48,6 +48,7 @@ public class PermutationCounter extends AbstractPermutationCounter
 	/**
 	 * Generates the next permutation (algorithm from Rosen p. 284)
 	 */
+	@Override
 	protected boolean next()
 	{
 		int temp;

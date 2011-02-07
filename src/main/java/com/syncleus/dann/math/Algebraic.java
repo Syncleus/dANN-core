@@ -26,7 +26,7 @@ public interface Algebraic<F extends Algebraic<? extends F>> extends FieldElemen
 	F exp();
 	F log();
 	F pow(F exponent);
-	List<F> root(int n);
+	List<F> root(int number);
 	F sqrt();
 	F hypot(F operand);
 }

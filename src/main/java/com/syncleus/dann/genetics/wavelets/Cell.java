@@ -18,11 +18,12 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Cell
 {
-	private final HashSet<SignalKeyConcentration> localConcentrations;
+	private final Set<SignalKeyConcentration> localConcentrations;
 	private final Nucleus nucleus;
 
 	public Cell(final Cell copy)

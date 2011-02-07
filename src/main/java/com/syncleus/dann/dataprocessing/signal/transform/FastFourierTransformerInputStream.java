@@ -18,7 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.dataprocessing.signal.transform;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.util.Arrays;
 
 public class FastFourierTransformerInputStream extends InputStream
@@ -220,8 +222,8 @@ public class FastFourierTransformerInputStream extends InputStream
 	}
 
 	@Override
-	public long skip(final long n) throws IOException
+	public long skip(final long numBytes) throws IOException
 	{
-		return this.srcStream.skip(n);
+		return this.srcStream.skip(numBytes);
 	}
 }

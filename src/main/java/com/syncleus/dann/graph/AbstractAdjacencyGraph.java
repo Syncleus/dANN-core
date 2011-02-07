@@ -125,10 +125,11 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		//add all the nodes before we worry about edges. check for NodeContext
 		for(final N attemptNode : attemptNodes)
 		{
-			if((this.contextEnabled) && (attemptNode instanceof ContextGraphElement) )
-				//lets see if this ContextEdge will allow itself to join he graph
-				if( !((ContextGraphElement)attemptNode).joiningGraph(this) )
-					continue;
+			// lets see if this ContextEdge will allow itself to join the graph
+			if(this.contextEnabled
+					&& (attemptNode instanceof ContextGraphElement)
+					&& !((ContextGraphElement)attemptNode).joiningGraph(this) )
+				continue;
 
 			this.adjacentNodes.put(attemptNode, new ArrayList<N>());
 			this.adjacentEdges.put(attemptNode, new HashSet<E>());
@@ -142,11 +143,12 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 			this.edges = new HashSet<E>(attemptEdges.size());
 			for(E attemptEdge : attemptEdges)
 			{
-				if((this.contextEnabled) && (attemptEdge instanceof ContextGraphElement) )
-					// lets see if this ContextEdge will allow itself to join
-					// the graph
-					if( !((ContextGraphElement)attemptEdge).joiningGraph(this) )
-						continue;
+				// lets see if this ContextEdge will allow itself to join the graph
+				if(this.contextEnabled
+						&& (attemptEdge instanceof ContextGraphElement)
+						&& !((ContextGraphElement)attemptEdge).joiningGraph(this) )
+					continue;
+
 
 				this.edges.add(attemptEdge);
 				//populate adjacency maps
@@ -380,7 +382,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 	{
 		try
 		{
-			 AbstractAdjacencyGraph<N, E> cloneGraph = (AbstractAdjacencyGraph<N, E>) super.clone();
+			 final AbstractAdjacencyGraph<N, E> cloneGraph = (AbstractAdjacencyGraph<N, E>) super.clone();
 
 			//lets instantiate some new datastructurs for our clone
 			cloneGraph.adjacentEdges = new HashMap<N, Set<E>>();
@@ -389,10 +391,11 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 			//add all the nodes before we worry about edges. check for NodeContext
 			for(N attemptNode : this.getNodes())
 			{
-				if((this.contextEnabled) && (attemptNode instanceof ContextGraphElement) )
-					//lets see if this ContextEdge will allow itself to join he graph
-					if( !((ContextGraphElement)attemptNode).joiningGraph(cloneGraph) )
-						continue;
+				// lets see if this ContextEdge will allow itself to join the graph
+				if(this.contextEnabled
+						&& (attemptNode instanceof ContextGraphElement)
+						&& !((ContextGraphElement)attemptNode).joiningGraph(cloneGraph) )
+					continue;
 
 				cloneGraph.adjacentNodes.put(attemptNode, new ArrayList<N>());
 				cloneGraph.adjacentEdges.put(attemptNode, new HashSet<E>());
@@ -406,10 +409,11 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 				cloneGraph.edges = new HashSet<E>(this.getEdges().size());
 				for(E attemptEdge : this.getEdges())
 				{
-					if((this.contextEnabled) && (attemptEdge instanceof ContextGraphElement) )
-						//lets see if this ContextEdge will allow itself to join he graph
-						if( !((ContextGraphElement)attemptEdge).joiningGraph(cloneGraph) )
-							continue;
+					// lets see if this ContextEdge will allow itself to join the graph
+					if(this.contextEnabled
+							&& (attemptEdge instanceof ContextGraphElement)
+							&& !((ContextGraphElement)attemptEdge).joiningGraph(cloneGraph) )
+						continue;
 
 					cloneGraph.edges.add(attemptEdge);
 					//populate adjacency maps
@@ -455,8 +459,8 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 	@Override
 	public GraphXml toXml()
 	{
-		GraphElementXml xml = new GraphElementXml();
-		Namer<Object> namer = new Namer<Object>();
+		final GraphElementXml xml = new GraphElementXml();
+		final Namer<Object> namer = new Namer<Object>();
 
 		xml.setNodeInstances(new GraphElementXml.NodeInstances());
 		for(N node : this.adjacentEdges.keySet())
@@ -470,7 +474,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 				//if the object isnt XmlSerializable lets try to just serialize it as a regular JAXB object
 				nodeXml = node;
 
-			NamedValueXml encapsulation = new NamedValueXml();
+			final NamedValueXml encapsulation = new NamedValueXml();
 			encapsulation.setName(nodeName);
 			encapsulation.setValue(nodeXml);
 
@@ -492,7 +496,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		if(namer == null)
 			throw new IllegalArgumentException("namer can not be null");
 
-		GraphXml xml = new GraphXml();
+		final GraphXml xml = new GraphXml();
 		this.toXml(xml, namer);
 		return xml;
 	}
@@ -522,7 +526,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 				// it as a regular JAXB object
 				nodeXml = node;
 
-			NameXml encapsulation = new NameXml();
+			final NameXml encapsulation = new NameXml();
 			encapsulation.setName(nodeName);
 
 			if( jaxbObject.getNodes() == null )
@@ -532,7 +536,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 
 		for(E edge : this.edges)
 		{
-			EdgeXml edgeXml = edge.toXml(namer);
+			final EdgeXml edgeXml = edge.toXml(namer);
 
 			if( jaxbObject.getEdges() == null )
 				jaxbObject.setEdges(new GraphXml.Edges());

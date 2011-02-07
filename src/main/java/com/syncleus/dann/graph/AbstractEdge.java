@@ -65,7 +65,7 @@ public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<
 		//make sure each node with context allows us to connect to it
 		if(contextEnabled)
 		{
-			List<N> nodesCopy = new ArrayList<N>(ourNodes.size());
+			final List<N> nodesCopy = new ArrayList<N>(ourNodes.size());
 			for(N ourNode : ourNodes)
 			{
 				if( this.contextEnabled && ( ourNode instanceof ContextNode ) && ( !((ContextNode)ourNode).connectingEdge(this) ))
@@ -150,8 +150,8 @@ public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<
 	{
 		try
 		{
-			AbstractEdge<N> clonedEdge = (AbstractEdge<N>) super.clone();
-			List<N> clonedNodes = new ArrayList<N>(this.nodes.size());
+			final AbstractEdge<N> clonedEdge = (AbstractEdge<N>) super.clone();
+			final List<N> clonedNodes = new ArrayList<N>(this.nodes.size());
 			//add each node at a time to the clone considering context
 			for(N newNode : newNodes)
 			{
@@ -197,8 +197,8 @@ public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<
 	{
 		try
 		{
-			AbstractEdge<N> clonedEdge = (AbstractEdge<N>) super.clone();
-			List<N> clonedNodes = new ArrayList<N>(this.nodes.size());
+			final AbstractEdge<N> clonedEdge = (AbstractEdge<N>) super.clone();
+			final List<N> clonedNodes = new ArrayList<N>(this.nodes.size());
 			//add each node at a time to the clone considering context
 			for(N node : this.nodes)
 			{
@@ -219,16 +219,16 @@ public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<
     @Override
     public EdgeXml toXml()
     {
-        Namer namer = new Namer();
-        EdgeElementXml xml = new EdgeElementXml();
+        final Namer namer = new Namer();
+        final EdgeElementXml xml = new EdgeElementXml();
 
         xml.setNodeInstances(new EdgeElementXml.NodeInstances());
-        Set<N> writtenNodes = new HashSet<N>();
+        final Set<N> writtenNodes = new HashSet<N>();
         for(N node : this.nodes)
         {
             if( writtenNodes.add(node) )
             {
-                NamedValueXml named = new NamedValueXml();
+                final NamedValueXml named = new NamedValueXml();
                 named.setName(namer.getNameOrCreate(node));
                 if(node instanceof XmlSerializable)
                     named.setValue(((XmlSerializable)node).toXml(namer));
@@ -248,7 +248,7 @@ public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<
         if(nodeNames == null)
             throw new IllegalArgumentException("nodeNames can not be null");
 
-        EdgeXml xml = new EdgeXml();
+        final EdgeXml xml = new EdgeXml();
         this.toXml(xml, nodeNames);
         return xml;
     }
@@ -265,7 +265,7 @@ public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<
             jaxbObject.setConnections(new EdgeXml.Connections());
         for(N node : this.nodes)
         {
-            NameXml connection = new NameXml();
+            final NameXml connection = new NameXml();
             connection.setName(nodeNames.getNameOrCreate(node));
             jaxbObject.getConnections().getNodes().add(connection);
         }

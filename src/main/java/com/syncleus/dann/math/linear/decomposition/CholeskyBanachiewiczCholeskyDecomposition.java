@@ -43,7 +43,7 @@ public class CholeskyBanachiewiczCholeskyDecomposition<M extends Matrix<M, F>, F
 	/**
 	 * Symmetric and positive definite flag.
 	 */
-	private boolean isSpd;
+	private final boolean isSpd;
 
 	/**
 	 * Cholesky algorithm for symmetric and positive definite matrix.
@@ -54,7 +54,7 @@ public class CholeskyBanachiewiczCholeskyDecomposition<M extends Matrix<M, F>, F
 	{
 		// Initialize.
 		M newMatrix = matrix;
-		this.isSpd = (matrix.getWidth() == matrix.getHeight());
+		boolean checkIsSpd = (matrix.getWidth() == matrix.getHeight());
 		// Main loop.
 		for(int j = 0; j < matrix.getHeight(); j++)
 		{
@@ -67,14 +67,15 @@ public class CholeskyBanachiewiczCholeskyDecomposition<M extends Matrix<M, F>, F
 				s = (matrix.get(j, k).subtract(s)).divide(newMatrix.get(k, k));
 				newMatrix = newMatrix.set(j, k, s);
 				d = d.add(s.multiply(s));
-				this.isSpd = this.isSpd && (matrix.get(k, j) == matrix.get(j, k));
+				checkIsSpd = checkIsSpd && (matrix.get(k, j) == matrix.get(j, k));
 			}
 			d = matrix.get(j, j).subtract(d);
-			this.isSpd = this.isSpd && (d.compareTo(newMatrix.getElementField().getZero()) > 0);
+			checkIsSpd = checkIsSpd && (d.compareTo(newMatrix.getElementField().getZero()) > 0);
 			newMatrix = newMatrix.set(j, j, d.max(newMatrix.getElementField().getZero()).sqrt());
 			for(int k = j + 1; k < matrix.getHeight(); k++)
 				newMatrix = newMatrix.set(j, k, newMatrix.getElementField().getZero());
 		}
+		this.isSpd = checkIsSpd;
 		this.matrix = newMatrix;
 	}
 

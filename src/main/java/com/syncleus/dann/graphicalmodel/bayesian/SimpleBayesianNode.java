@@ -162,16 +162,16 @@ public class SimpleBayesianNode<S> extends AbstractContextNode<BayesianNode<S>, 
     @Override
     public SimpleBayesianNodeXml toXml()
     {
-        Namer<Object> namer = new Namer<Object>();
-        SimpleBayesianNodeElementXml xml = new SimpleBayesianNodeElementXml();
+        final Namer<Object> namer = new Namer<Object>();
+        final SimpleBayesianNodeElementXml xml = new SimpleBayesianNodeElementXml();
 
         xml.setStateInstances(new SimpleBayesianNodeElementXml.StateInstances());
-        Set<S> writtenStates = new HashSet<S>();
+        final Set<S> writtenStates = new HashSet<S>();
         for(S learnedState : this.learnedStates)
         {
             if( writtenStates.add(learnedState) )
             {
-                NamedValueXml named = new NamedValueXml();
+                final NamedValueXml named = new NamedValueXml();
                 named.setName(namer.getNameOrCreate(learnedState));
                 if(learnedState instanceof XmlSerializable)
                     named.setValue(((XmlSerializable)learnedState).toXml(namer));
@@ -183,7 +183,7 @@ public class SimpleBayesianNode<S> extends AbstractContextNode<BayesianNode<S>, 
 
         if( writtenStates.add(this.state) )
         {
-            NamedValueXml named = new NamedValueXml();
+            final NamedValueXml named = new NamedValueXml();
             named.setName(namer.getNameOrCreate(this.state));
             if(this.state instanceof XmlSerializable)
                 named.setValue(((XmlSerializable)this.state).toXml(namer));
@@ -203,7 +203,7 @@ public class SimpleBayesianNode<S> extends AbstractContextNode<BayesianNode<S>, 
         if(namer == null)
             throw new IllegalArgumentException("namer can not be null");
 
-        SimpleBayesianNodeXml xml = new SimpleBayesianNodeXml();
+        final SimpleBayesianNodeXml xml = new SimpleBayesianNodeXml();
         this.toXml(xml, namer);
         return xml;
     }
@@ -216,7 +216,7 @@ public class SimpleBayesianNode<S> extends AbstractContextNode<BayesianNode<S>, 
             jaxbObject.setLearnedStates(new SimpleBayesianNodeXml.LearnedStates());
         for(S learnedState : learnedStates)
         {
-            NameXml stateXml = new NameXml();
+            final NameXml stateXml = new NameXml();
             stateXml.setName(namer.getNameOrCreate(learnedState));
             jaxbObject.getLearnedStates().getStates().add(stateXml);
         }

@@ -41,19 +41,20 @@ public class MutableDouble extends MutableNumber<Double> implements Comparable<M
 	}
 
 	/**
-	 * Initializes a new instance of this class from the value represented by the
-	 * specified string.
+	 * Initializes a new instance of this class from the value represented by
+	 * the specified string.
 	 *
-	 * @param s A string representing the value of this number.
+	 * @param str A string representing the value of this number.
 	 * @since 2.0
 	 */
-	public MutableDouble(final String s)
+	public MutableDouble(final String str)
 	{
-		super(Double.valueOf(s));
+		super(Double.valueOf(str));
 	}
 
 	/**
-	 * Initializes a new instance of this class as a copy of the specefied number.
+	 * Initializes a new instance of this class as a copy of the specified
+	 * number.
 	 *
 	 * @param value The value to copy
 	 * @since 2.0
@@ -76,17 +77,18 @@ public class MutableDouble extends MutableNumber<Double> implements Comparable<M
 	}
 
 	/**
-	 * This will make a copy of the object and mutate it. The mutation has a normal
-	 * distribution multiplied by the deviation. If the Number is mutated past its
-	 * largest or smallest representable number it will simply return the max or
-	 * min respectivly.
+	 * This will make a copy of the object and mutate it. The mutation has a
+	 * normal distribution multiplied by the deviation. If the Number is mutated
+	 * past its largest or smallest representable number it will simply return
+	 * the max or min respectively.
 	 *
-	 * @param deviation A double indicating how extreme the mutation will be. The
-	 * greater the deviation the more drastically the object will mutate. A
-	 * deviation of 0 should cause no mutation.
+	 * @param deviation A double indicating how extreme the mutation will be.
+	 *   The greater the deviation the more drastically the object will mutate.
+	 *   A deviation of 0 should cause no mutation.
 	 * @return A copy of the current object with potential mutations.
 	 * @since 2.0
 	 */
+	@Override
 	public MutableDouble mutate(final double deviation)
 	{
 		final double distributedRand = MutableNumber.getDistributedRandom(deviation);
@@ -102,13 +104,15 @@ public class MutableDouble extends MutableNumber<Double> implements Comparable<M
 	}
 
 	/**
-	 * Compares the value of this number against another object of the same type.
+	 * Compares the value of this number against another object of the same
+	 * type.
 	 * The backing number handles the comparison.
 	 *
 	 * @param compareWith Number to compare against.
 	 * @return the natural ordering of the backed number.
 	 * @since 2.0
 	 */
+	@Override
 	public int compareTo(final MutableDouble compareWith)
 	{
 		return this.getNumber().compareTo(compareWith.getNumber());

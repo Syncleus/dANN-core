@@ -9,12 +9,13 @@ import javax.swing.border.EmptyBorder;
 
 public class ComponentUnavailableException extends Exception
 {
+    private static final int BORDER_SPACE = 6;
     private final UnsatisfiedLinkError unsatisfiedLinkError;
 
-    public ComponentUnavailableException(UnsatisfiedLinkError e)
+    public ComponentUnavailableException(final UnsatisfiedLinkError error)
     {
-        super(e.getMessage());
-        this.unsatisfiedLinkError = e;
+        super(error.getMessage());
+        this.unsatisfiedLinkError = error;
     }
 
     /**
@@ -24,25 +25,41 @@ public class ComponentUnavailableException extends Exception
      */
     public JComponent newPanel()
     {
+        JComponent component;
+
         if (unsatisfiedLinkError != null)
         {
             if (unsatisfiedLinkError.getMessage().contains("j3d"))
             {
-                JPanel p = new JPanel(new BorderLayout());
-                String msg = "<span style=\"font-size: 20pt\"><b>Java Component Missing:</b> " + this.toString() + "</span><br/><br/>";
-                msg += "See <a href=\"http://www.oracle.com/technetwork/java/javase/tech/index-jsp-138252.html\">http://www.oracle.com/technetwork/java/javase/tech/index-jsp-138252.html</a> for Java3D installation instructions</a>.";
-                JTextPane msgArea = new JTextPane();
-                int bS = 6;
+                final JPanel panel = new JPanel(new BorderLayout());
+                final StringBuilder msg = new StringBuilder(
+						"<html> <span style=\"font-size: 20pt\"><b>"
+						+ "Java Component Missing:</b> ");
+                msg.append(this.toString()).append("</span><br/><br/>See"
+						+ " <a href=\""
+						+ "http://www.oracle.com/technetwork/java/javase/tech/index-jsp-138252.html\">"
+						+ "http://www.oracle.com/technetwork/java/javase/tech/index-jsp-138252.html</a>"
+						+ " for Java3D installation instructions</a>. </html>");
+                final JTextPane msgArea = new JTextPane();
                 msgArea.setEditable(false);
                 msgArea.setOpaque(false);
                 msgArea.setContentType("text/html");
-                msgArea.setBorder(new EmptyBorder(bS, bS, bS, bS));
-                msgArea.setText("<html> " + msg + " </html>");
-                p.add(msgArea, BorderLayout.CENTER);
-                return p;
+                msgArea.setBorder(new EmptyBorder(BORDER_SPACE, BORDER_SPACE,
+						BORDER_SPACE, BORDER_SPACE));
+                msgArea.setText(msg.toString());
+                panel.add(msgArea, BorderLayout.CENTER);
+                component = panel;
             }
-            return new JLabel(unsatisfiedLinkError.toString());
+            else
+            {
+                component = new JLabel(unsatisfiedLinkError.toString());
+            }
         }
-        return new JLabel(this.toString());
+        else
+        {
+            component = new JLabel(this.toString());
+        }
+
+        return component;
     }
 }

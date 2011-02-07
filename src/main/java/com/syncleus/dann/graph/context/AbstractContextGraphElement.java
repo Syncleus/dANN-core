@@ -52,7 +52,7 @@ public abstract class AbstractContextGraphElement<G extends Graph<?, ?>> impleme
 		if( graph == null )
 			throw new IllegalArgumentException("graph can not be null");
 
-		if( !this.allowJoiningMultipleGraphs && (joinedGraphs.size() > 0) )
+		if( !this.allowJoiningMultipleGraphs && !joinedGraphs.isEmpty() )
 			return false;
 
 		this.joinedGraphs.add(graph);

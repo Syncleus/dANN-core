@@ -18,7 +18,12 @@
  ******************************************************************************/
 package com.syncleus.dann.math.wave.wavelet;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import com.syncleus.dann.math.AbstractFunction;
 import com.syncleus.dann.math.wave.WaveMultidimensionalFunction;
 
@@ -38,7 +43,7 @@ public class CombinedWaveletFunction extends AbstractFunction
 		return this.waves.size();
 	}
 
-	public TreeSet<String> getDimensions()
+	public Set<String> getDimensions()
 	{
 		return new TreeSet<String>(this.dimensions);
 	}
@@ -58,6 +63,7 @@ public class CombinedWaveletFunction extends AbstractFunction
 		this.waves.add(wave);
 	}
 
+	@Override
 	public double calculate()
 	{
 		double waveTotal = 0.0;
@@ -81,6 +87,7 @@ public class CombinedWaveletFunction extends AbstractFunction
 		return copy;
 	}
 
+	@Override
 	public String toString()
 	{
 		final WaveMultidimensionalFunction[] waveArray = new WaveMultidimensionalFunction[this.waves.size()];
