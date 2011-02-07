@@ -92,7 +92,21 @@ public class HyperassociativeMapVisualization<D extends GraphDrawer<G, N>, G ext
 		final Map<N, Vector> coordinates = this.drawer.getCoordinates();
 		final Set<N> nodes = this.drawer.getGraph().getNodes();
 		for(final N node : nodes)
-			if( !this.nodeGraphics.containsKey(node) )
+			if( this.nodeGraphics.containsKey(node) )
+			{
+				final TransformGroup oldVisual = this.nodeGraphics.remove(node);
+				// Create the transform group node holding the sphere
+				final Transform3D neuronTransform = new Transform3D();
+				final Vector currentLocation = coordinates.get(node);
+				final Vector oldLocation = this.oldNodeLocations.get(node);
+				neuronTransform.set(-1f, new Vector3f((float) oldLocation.getCoordinate(1), (float) oldLocation.getCoordinate(2), (float) oldLocation.getCoordinate(3)));
+				oldVisual.setTransform(neuronTransform);
+				neuronTransform.set(1f, new Vector3f((float) currentLocation.getCoordinate(1), (float) currentLocation.getCoordinate(2), (float) currentLocation.getCoordinate(3)));
+				oldVisual.setTransform(neuronTransform);
+				this.oldNodeLocations.put(node, currentLocation);
+				newGraphicalNodes.put(node, oldVisual);
+			}
+			else
 			{
 				Color neuronColor = Color.GRAY;
 				if( node instanceof Neuron )
@@ -114,20 +128,6 @@ public class HyperassociativeMapVisualization<D extends GraphDrawer<G, N>, G ext
 				this.nestedRoot.addChild(newVisual);
 				newGraphicalNodes.put(node, newVisual);
 				this.oldNodeLocations.put(node, new Vector(coordinates.get(node).getDimensions()));
-			}
-			else
-			{
-				final TransformGroup oldVisual = this.nodeGraphics.remove(node);
-				// Create the transform group node holding the sphere
-				final Transform3D neuronTransform = new Transform3D();
-				final Vector currentLocation = coordinates.get(node);
-				final Vector oldLocation = this.oldNodeLocations.get(node);
-				neuronTransform.set(-1f, new Vector3f((float) oldLocation.getCoordinate(1), (float) oldLocation.getCoordinate(2), (float) oldLocation.getCoordinate(3)));
-				oldVisual.setTransform(neuronTransform);
-				neuronTransform.set(1f, new Vector3f((float) currentLocation.getCoordinate(1), (float) currentLocation.getCoordinate(2), (float) currentLocation.getCoordinate(3)));
-				oldVisual.setTransform(neuronTransform);
-				this.oldNodeLocations.put(node, currentLocation);
-				newGraphicalNodes.put(node, oldVisual);
 			}
 		//remove any stale nodes
 		for(final Map.Entry<N, TransformGroup> nTransformGroupEntry : this.nodeGraphics.entrySet())

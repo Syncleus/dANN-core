@@ -201,7 +201,13 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 				this.leftSingularMatrix[j][j] = 1.0;
 			}
 			for(int k = nct - 1; k >= 0; k--)
-				if( this.matrix[k] != 0.0 )
+				if( this.matrix[k] == 0.0 )
+				{
+					for(int i = 0; i < this.m; i++)
+						this.leftSingularMatrix[i][k] = 0.0;
+					this.leftSingularMatrix[k][k] = 1.0;
+				}
+				else
 				{
 					for(int j = k + 1; j < nu; j++)
 					{
@@ -217,12 +223,6 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 					this.leftSingularMatrix[k][k] = 1.0 + this.leftSingularMatrix[k][k];
 					for(int i = 0; i < k - 1; i++)
 						this.leftSingularMatrix[i][k] = 0.0;
-				}
-				else
-				{
-					for(int i = 0; i < this.m; i++)
-						this.leftSingularMatrix[i][k] = 0.0;
-					this.leftSingularMatrix[k][k] = 1.0;
 				}
 		}
 		// If required, generate rightSingularMatrix.
@@ -281,8 +281,8 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 				{
 					if( ks == k )
 						break;
-					final double t = (ks != p ? Math.abs(e[ks]) : 0.0)
-							+ (ks != k + 1 ? Math.abs(e[ks - 1]) : 0.0);
+					final double t = ((ks == p) ? 0.0 : Math.abs(e[ks]))
+							+ ((ks == (k + 1)) ? 0.0 : Math.abs(e[ks - 1]));
 					if( Math.abs(this.matrix[ks]) <= tiny + eps * t )
 					{
 						this.matrix[ks] = 0.0;

@@ -128,7 +128,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	public SimpleRealMatrix(final double[] packedMatrixElements, final int height)
 	{
 		this.height = height;
-		this.width = (height != 0 ? packedMatrixElements.length / height : 0);
+		this.width = ((height == 0) ? 0 : (packedMatrixElements.length / height));
 		if( height * this.width != packedMatrixElements.length )
 			throw new IllegalArgumentException("Array length must be a multiple of m.");
 		this.matrixElements = new double[height][width];

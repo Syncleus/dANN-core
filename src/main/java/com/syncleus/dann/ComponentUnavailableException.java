@@ -27,7 +27,11 @@ public class ComponentUnavailableException extends Exception
     {
         JComponent component;
 
-        if (unsatisfiedLinkError != null)
+        if (unsatisfiedLinkError == null)
+        {
+            component = new JLabel(this.toString());
+        }
+        else
         {
             if (unsatisfiedLinkError.getMessage().contains("j3d"))
             {
@@ -54,10 +58,6 @@ public class ComponentUnavailableException extends Exception
             {
                 component = new JLabel(unsatisfiedLinkError.toString());
             }
-        }
-        else
-        {
-            component = new JLabel(this.toString());
         }
 
         return component;

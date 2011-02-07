@@ -109,7 +109,7 @@ public class SimpleBayesianNode<S> extends AbstractContextNode<BayesianNode<S>, 
 		this.updateInfluence();
 
 		final StateEvidence<S> stateEvidence = this.evidence.get(this.getInputStates());
-		return (stateEvidence != null ? stateEvidence.getPercentage(this.state) : 0.0);
+		return ((stateEvidence == null) ? 0.0 : stateEvidence.getPercentage(this.state));
 	}
 
 	private Map<BayesianNode, Object> getInputStates()

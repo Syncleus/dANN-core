@@ -83,16 +83,16 @@ public class PrimMinimumSpanningTreeFinder<N, E extends Edge<N>> implements Root
 		N currentNode = null;
 		while( !primMap.isEmpty() )
 		{
-			if( currentNode != null )
+			if( currentNode == null )
+			{
+				primMap.remove(startNode);
+				currentNode = startNode;
+			}
+			else
 			{
 				final Entry<N, E> currentEntry = primMap.pop();
 				currentNode = currentEntry.getKey();
 				mst.add(currentEntry.getValue());
-			}
-			else
-			{
-				primMap.remove(startNode);
-				currentNode = startNode;
 			}
 
 			final Set<E> neighborEdges = graph.getTraversableEdges(currentNode);

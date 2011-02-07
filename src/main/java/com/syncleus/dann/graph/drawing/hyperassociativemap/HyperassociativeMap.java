@@ -179,7 +179,11 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 		this.totalMovement = DEFAULT_TOTAL_MOVEMENT;
 		this.maxMovement = DEFAULT_MAX_MOVEMENT;
 		Vector center;
-		if( this.threadExecutor != null )
+		if( this.threadExecutor == null )
+		{
+			center = this.processLocally();
+		}
+		else
 		{
 			//align all nodes in parallel
 			final List<Future<Vector>> futures = this.submitFutureAligns();
@@ -195,8 +199,6 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 				throw new UnexpectedInterruptedException("Unexpected interuption. Get should block indefinately", caught);
 			}
 		}
-		else
-			center = this.processLocally();
 
 		LOGGER.debug("maxMove: " + this.maxMovement + ", Average Move: " + this.getAverageMovement());
 

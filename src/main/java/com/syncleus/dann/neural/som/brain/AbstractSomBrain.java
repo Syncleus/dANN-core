@@ -273,7 +273,24 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 
 		Vector bestMatchingUnit = null;
 		double bestMatch = Double.POSITIVE_INFINITY;
-		if( this.getThreadExecutor() != null )
+		if( this.getThreadExecutor() == null )
+		{
+			for(final Entry<Vector, ON> entry : this.outputs.entrySet())
+			{
+				final ON neuron = entry.getValue();
+				neuron.tick();
+				final double output = neuron.getOutput();
+
+				if( bestMatchingUnit == null )
+					bestMatchingUnit = entry.getKey();
+				else if( output < bestMatch )
+				{
+					bestMatchingUnit = entry.getKey();
+					bestMatch = output;
+				}
+			}
+		}
+		else
 		{
 			//stick all the neurons in the queue to propogate
 			final Map<Vector, Future<Double>> futureOutput = new HashMap<Vector, Future<Double>>();
@@ -311,23 +328,6 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 				}
 			}
 		}
-		else
-		{
-			for(final Entry<Vector, ON> entry : this.outputs.entrySet())
-			{
-				final ON neuron = entry.getValue();
-				neuron.tick();
-				final double output = neuron.getOutput();
-
-				if( bestMatchingUnit == null )
-					bestMatchingUnit = entry.getKey();
-				else if( output < bestMatch )
-				{
-					bestMatchingUnit = entry.getKey();
-					bestMatch = output;
-				}
-			}
-		}
 
 		if( train )
 			this.train(bestMatchingUnit);
@@ -340,7 +340,15 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 		final double neighborhoodRadius = this.neighborhoodRadiusFunction();
 		final double learningRate = this.learningRateFunction();
 
-		if( this.getThreadExecutor() != null )
+		if( this.getThreadExecutor() == null )
+		{
+			for(final Entry<Vector, ON> entry : this.outputs.entrySet())
+			{
+				final TrainNeuron runnable = new TrainNeuron(entry.getValue(), entry.getKey(), bestMatchingUnit, neighborhoodRadius, learningRate);
+				runnable.run();
+			}
+		}
+		else
 		{
 			//add all the neuron trainingevents to the thread queue
 			final ArrayList<Future> futures = new ArrayList<Future>();
@@ -365,14 +373,6 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 			{
 				LOGGER.error("PropagateOutput had an unexpected problem executing.", caught);
 				throw new UnexpectedDannError("Unexpected execution exception. Get should block indefinately", caught);
-			}
-		}
-		else
-		{
-			for(final Entry<Vector, ON> entry : this.outputs.entrySet())
-			{
-				final TrainNeuron runnable = new TrainNeuron(entry.getValue(), entry.getKey(), bestMatchingUnit, neighborhoodRadius, learningRate);
-				runnable.run();
 			}
 		}
 

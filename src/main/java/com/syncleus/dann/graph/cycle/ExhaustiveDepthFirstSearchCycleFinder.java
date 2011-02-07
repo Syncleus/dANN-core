@@ -19,8 +19,18 @@
 package com.syncleus.dann.graph.cycle;
 
 import java.io.Serializable;
-import java.util.*;
-import com.syncleus.dann.graph.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.Stack;
+import java.util.TreeSet;
+import com.syncleus.dann.graph.Cycle;
+import com.syncleus.dann.graph.Edge;
+import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.SimpleCycle;
 import com.syncleus.dann.graph.topological.Topography;
 
 public class ExhaustiveDepthFirstSearchCycleFinder<N, E extends Edge<N>> extends ColoredDepthFirstSearchDetector implements CycleFinder<N, E>
@@ -121,11 +131,7 @@ public class ExhaustiveDepthFirstSearchCycleFinder<N, E extends Edge<N>> extends
 		{
 			for(final N neighborNode : neighborsFromEdge(unexploredPath, currentNode))
 			{
-				if( !parentNodes.contains(neighborNode) )
-				{
-					traverse(graph, untouchedNodes, cycles, parentNodes, parentEdges, unexploredPath, neighborNode);
-				}
-				else
+				if( parentNodes.contains(neighborNode) )
 				{
 					final List<N> parentNodesCopy = new ArrayList<N>(parentNodes);
 					final List<E> parentEdgesCopy = new ArrayList<E>(parentEdges);
@@ -154,6 +160,10 @@ public class ExhaustiveDepthFirstSearchCycleFinder<N, E extends Edge<N>> extends
 
 					cycles.add(new SimpleCycle<N, E>(cycleEdges, cycleNodes));
 					cyclesFound++;
+				}
+				else
+				{
+					traverse(graph, untouchedNodes, cycles, parentNodes, parentEdges, unexploredPath, neighborNode);
 				}
 			}
 		}

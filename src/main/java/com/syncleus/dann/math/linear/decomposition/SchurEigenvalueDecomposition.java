@@ -428,10 +428,10 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 					{
 						l = i;
 						if( e[i] == 0.0 )
-							if( w != 0.0 )
-								H[i][n] = -r / w;
-							else
+							if( w == 0.0 )
 								H[i][n] = -r / (eps * norm);
+							else
+								H[i][n] = -r / w;
 						else
 						{
 							x = H[i][i + 1];

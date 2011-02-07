@@ -51,7 +51,8 @@ public class FastFourierTransformerInputStream extends InputStream
 	public int transformsAvailable() throws IOException
 	{
 		final int numPerDouble = 8;
-		final int doublesAvailable = (this.buffer != null ? (this.available() / numPerDouble) + this.buffer.length : this.available() / numPerDouble);
+		final int doublesAvailable = (this.available() / numPerDouble)
+				+ ((this.buffer == null) ? 0 : this.buffer.length);
 		return doublesAvailable / this.transformer.getBlockSize();
 	}
 
@@ -192,6 +193,7 @@ public class FastFourierTransformerInputStream extends InputStream
 		return this.srcStream.markSupported();
 	}
 
+	@Override
 	public int read() throws IOException
 	{
 		return this.srcStream.read();

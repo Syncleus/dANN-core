@@ -39,10 +39,10 @@ public class StateEvidence<S> extends HashMap<S, Integer> implements XmlSerializ
 	public double getPercentage(final S key)
 	{
 		final Integer stateEvidence = this.get(key);
-		if( stateEvidence != null )
-			return this.get(key).doubleValue() / ((double) this.totalEvidence);
-		else
+		if( stateEvidence == null )
 			return 0.0;
+		else
+			return this.get(key).doubleValue() / ((double) this.totalEvidence);
 	}
 
 	@Override

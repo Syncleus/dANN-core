@@ -18,11 +18,22 @@
  ******************************************************************************/
 package com.syncleus.dann.neural.backprop.brain;
 
-import java.util.*;
-import java.util.concurrent.*;
-import com.syncleus.dann.*;
-import com.syncleus.dann.neural.*;
-import com.syncleus.dann.neural.backprop.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+import com.syncleus.dann.UnexpectedDannError;
+import com.syncleus.dann.UnexpectedInterruptedException;
+import com.syncleus.dann.neural.AbstractLocalBrain;
+import com.syncleus.dann.neural.NeuronGroup;
+import com.syncleus.dann.neural.Synapse;
+import com.syncleus.dann.neural.backprop.BackpropNeuron;
+import com.syncleus.dann.neural.backprop.InputBackpropNeuron;
+import com.syncleus.dann.neural.backprop.OutputBackpropNeuron;
 import org.apache.log4j.Logger;
 
 public abstract class AbstractFeedforwardBrain<IN extends InputBackpropNeuron, ON extends OutputBackpropNeuron, N extends BackpropNeuron, S extends Synapse<N>> extends AbstractLocalBrain<IN, ON, N, S> implements FeedforwardBackpropBrain<IN, ON, N, S>
@@ -35,13 +46,13 @@ public abstract class AbstractFeedforwardBrain<IN extends InputBackpropNeuron, O
 	private static class Propagate implements Runnable
 	{
 		private final BackpropNeuron neuron;
-		private static final Logger LOGGER = Logger.getLogger(Propagate.class);
 
 		public Propagate(final BackpropNeuron neuron)
 		{
 			this.neuron = neuron;
 		}
 
+		@Override
 		public void run()
 		{
 			this.neuron.tick();
@@ -58,6 +69,7 @@ public abstract class AbstractFeedforwardBrain<IN extends InputBackpropNeuron, O
 			this.neuron = neuron;
 		}
 
+		@Override
 		public void run()
 		{
 			this.neuron.backPropagate();
@@ -125,6 +137,7 @@ public abstract class AbstractFeedforwardBrain<IN extends InputBackpropNeuron, O
 		return this.neuronLayers;
 	}
 
+	@Override
 	public final List<Set<N>> getLayers()
 	{
 		final List<Set<N>> layerList = new ArrayList<Set<N>>();
@@ -141,11 +154,13 @@ public abstract class AbstractFeedforwardBrain<IN extends InputBackpropNeuron, O
 	/**
 	 * @return the layerCount
 	 */
+	@Override
 	public final int getLayerCount()
 	{
 		return this.layerCount;
 	}
 
+	@Override
 	public final void propagate()
 	{
 		if( !this.initialized )
@@ -154,7 +169,12 @@ public abstract class AbstractFeedforwardBrain<IN extends InputBackpropNeuron, O
 		for(final NeuronGroup<N> layer : this.neuronLayers)
 		{
 			final Set<N> layerNeurons = layer.getChildrenNeuronsRecursivly();
-			if( this.getThreadExecutor() != null )
+			if( this.getThreadExecutor() == null )
+			{
+				for(final com.syncleus.dann.neural.backprop.BackpropNeuron neuron : layerNeurons)
+					neuron.tick();
+			}
+			else
 			{
 				//begin processing all neurons in one layer simultaniously
 				final java.util.ArrayList<java.util.concurrent.Future> futures = new java.util.ArrayList<java.util.concurrent.Future>();
@@ -177,12 +197,10 @@ public abstract class AbstractFeedforwardBrain<IN extends InputBackpropNeuron, O
 					throw new com.syncleus.dann.UnexpectedDannError("Unexpected execution exception. Get should block indefinately", caught);
 				}
 			}
-			else
-				for(final com.syncleus.dann.neural.backprop.BackpropNeuron neuron : layerNeurons)
-					neuron.tick();
 		}
 	}
 
+	@Override
 	public final void backPropagate()
 	{
 		if( !this.initialized )
@@ -194,7 +212,12 @@ public abstract class AbstractFeedforwardBrain<IN extends InputBackpropNeuron, O
 			final NeuronGroup<N> layer = this.neuronLayers.get(layerIndex);
 			final Set<N> layerNeurons = layer.getChildrenNeuronsRecursivly();
 
-			if( this.getThreadExecutor() != null )
+			if( this.getThreadExecutor() == null )
+			{
+				for(final BackpropNeuron neuron : layerNeurons)
+					neuron.backPropagate();
+			}
+			else
 			{
 				//begin processing all neurons in one layer simultaniously
 				final ArrayList<Future> futures = new ArrayList<Future>();
@@ -218,9 +241,6 @@ public abstract class AbstractFeedforwardBrain<IN extends InputBackpropNeuron, O
 					throw new UnexpectedDannError("Unexpected execution exception. Get should block indefinately", caught);
 				}
 			}
-			else
-				for(final BackpropNeuron neuron : layerNeurons)
-					neuron.backPropagate();
 		}
 	}
 
@@ -228,7 +248,7 @@ public abstract class AbstractFeedforwardBrain<IN extends InputBackpropNeuron, O
 	 * Since a specific ActivationFunction or learning rate is needed then this
 	 * should be overridden in a child class.
 	 *
-	 * @param layer the currrent layer index for which we are creating the neuron.
+	 * @param layer the current layer index for which we are creating the neuron.
 	 * @param index The index of the new neuron within the layer.
 	 * @return The new SimpleBackpropNeuron to be added to the current layer.
 	 * @since 2.0

@@ -136,9 +136,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		}
 
 		//Add the edges checking for Edge Context.
-		if( !this.contextEnabled )
-			this.edges = new HashSet<E>(attemptEdges);
-		else
+		if( this.contextEnabled )
 		{
 			this.edges = new HashSet<E>(attemptEdges.size());
 			for(E attemptEdge : attemptEdges)
@@ -176,6 +174,10 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 					this.adjacentEdges.get(currentNode).add(attemptEdge);
 				}
 			}
+		}
+		else
+		{
+			this.edges = new HashSet<E>(attemptEdges);
 		}
 	}
 
@@ -402,9 +404,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 			}
 
 			//Add the edges checking for Edge Context.
-			if( !this.contextEnabled )
-				cloneGraph.edges = new HashSet<E>(this.getEdges());
-			else
+			if( this.contextEnabled )
 			{
 				cloneGraph.edges = new HashSet<E>(this.getEdges().size());
 				for(E attemptEdge : this.getEdges())
@@ -441,6 +441,10 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 						cloneGraph.adjacentEdges.get(currentNode).add(attemptEdge);
 					}
 				}
+			}
+			else
+			{
+				cloneGraph.edges = new HashSet<E>(this.getEdges());
 			}
 
 			return cloneGraph;
