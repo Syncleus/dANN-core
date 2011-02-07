@@ -52,27 +52,28 @@ public class PermutationCounter extends AbstractPermutationCounter
 	protected boolean next()
 	{
 		int temp;
-		// Find largest index j with permutation[j] < permutation[j+1]
-		int j = permutation.length - 2;
-		while( this.permutation[j] > this.permutation[j + 1] )
+		final int[] perm = this.getPermutation();
+		// Find largest index j with perm[j] < perm[j+1]
+		int j = perm.length - 2;
+		while( perm[j] > perm[j + 1] )
 			j--;
 		// Find index k such that permutation[k] is smallest integer
 		// greater than permutation[j] to the right of permutation[j]
-		int k = permutation.length - 1;
-		while( this.permutation[j] > this.permutation[k] )
+		int k = getPermutation().length - 1;
+		while( perm[j] > perm[k] )
 			k--;
 		// Interchange permutation[j] and permutation[k]
-		temp = this.permutation[k];
-		this.permutation[k] = this.permutation[j];
-		this.permutation[j] = temp;
+		temp = perm[k];
+		perm[k] = perm[j];
+		perm[j] = temp;
 		// Put tail end of permutation after jth position in increasing order
-		int r = permutation.length - 1;
+		int r = getPermutation().length - 1;
 		int s = j + 1;
 		while( r > s )
 		{
-			temp = this.permutation[s];
-			this.permutation[s] = this.permutation[r];
-			this.permutation[r] = temp;
+			temp = perm[s];
+			perm[s] = perm[r];
+			perm[r] = temp;
 			r--;
 			s++;
 		}

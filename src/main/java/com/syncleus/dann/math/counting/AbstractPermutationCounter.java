@@ -27,7 +27,7 @@ public abstract class AbstractPermutationCounter implements Counter
 	private final BigInteger permutationsPerCombination;
 	private final BigInteger total;
 	private final Counter combinations;
-	protected final int[] permutation;
+	private final int[] permutation;
 	private int[] combination;
 	private BigInteger combinationPermutationsRemaining;
 	private BigInteger remaining;
@@ -130,6 +130,10 @@ public abstract class AbstractPermutationCounter implements Counter
 	public int getPermutationSize()
 	{
 		return this.permutationSize;
+	}
+
+	protected int[] getPermutation() {
+		return permutation;
 	}
 
 	protected abstract boolean next();

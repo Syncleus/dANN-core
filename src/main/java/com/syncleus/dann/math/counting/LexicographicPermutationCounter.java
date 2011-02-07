@@ -42,21 +42,23 @@ public class LexicographicPermutationCounter extends AbstractPermutationCounter
 	@Override
 	protected boolean next()
 	{
-		if( permutation.length == 1 )
+		final int[] perm = this.getPermutation();
+
+		if( perm.length == 1 )
 			return false;
 
 		int permutationIndex;
-		for(permutationIndex = permutation.length - 2; permutationIndex >= 0; permutationIndex--)
-			if( permutation[permutationIndex] < permutation[permutationIndex + 1] )
+		for(permutationIndex = perm.length - 2; permutationIndex >= 0; permutationIndex--)
+			if( perm[permutationIndex] < perm[permutationIndex + 1] )
 				break;
 
-		int swapIndex = permutation.length - 1;
-		while( permutation[permutationIndex] > permutation[swapIndex] )
+		int swapIndex = perm.length - 1;
+		while( perm[permutationIndex] > perm[swapIndex] )
 			swapIndex--;
-		swap(permutation, swapIndex, permutationIndex);
+		swap(perm,swapIndex, permutationIndex);
 
-		for(int firstSwap = permutation.length - 1, secondSwap = permutationIndex + 1; firstSwap > secondSwap; firstSwap--, secondSwap++)
-			swap(permutation, firstSwap, secondSwap);
+		for(int firstSwap = perm.length - 1, secondSwap = permutationIndex + 1; firstSwap > secondSwap; firstSwap--, secondSwap++)
+			swap(perm,firstSwap, secondSwap);
 
 		return true;
 	}
