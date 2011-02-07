@@ -153,7 +153,7 @@ public class HyperassociativeMapCanvas<G extends Graph<N, ?>, N> extends JPanel
      * @param configuration The GraphicsConfiguration to use for configuring the
      * canvas.
      * @param nodeRadius The radius of the spheres representing each node.
-     * @throws Java3DUnavailableException if Java3D support is not available.
+     * @throws ComponentUnavailableException if Java3D support is not available.
      * @since 1.0
      */
     public HyperassociativeMapCanvas(final HyperassociativeMap<G, N> ourMap, final GraphicsConfiguration configuration, final float nodeRadius) throws ComponentUnavailableException
