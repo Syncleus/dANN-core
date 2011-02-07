@@ -24,6 +24,7 @@
 package com.syncleus.dann.math.linear.decomposition;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import com.syncleus.dann.math.OrderedAlgebraic;
@@ -203,9 +204,7 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
 	@Override
 	public int[] getPivot()
 	{
-		final int[] pivot = new int[this.getHeight()];
-		System.arraycopy(this.pivot, 0, pivot, 0, this.getHeight());
-		return pivot;
+		return Arrays.copyOf(pivot, this.getHeight());
 	}
 
 	/**
