@@ -44,6 +44,7 @@ import com.syncleus.dann.math.linear.SimpleRealMatrix;
  * fail.  The matrix condition number and the effective numerical rank can be
  * computed from this decomposition.<br/> Algorithm taken from: G.W. Stewart,
  * university of Maryland, Argonne national lab. C
+ * @author Jeffrey Phillips Freeman
  */
 public class StewartSingularValueDecomposition implements java.io.Serializable, SingularValueDecomposition
 {
@@ -67,19 +68,30 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 
 	/**
 	 * Construct the singular value decomposition.
+	 * Gives access to S, leftSingularMatrix and rightSingularMatrix.
 	 *
-	 * @param matrix Rectangular matrix. Gives access to leftSingularMatrix, S and
-	 * rightSingularMatrix.
+	 * @param rectangularMatrix Rectangular matrix.
 	 */
-	public StewartSingularValueDecomposition(final RealMatrix matrix)
+	public StewartSingularValueDecomposition(final RealMatrix rectangularMatrix)
 	{
-		this(matrix, true, true);
+		this(rectangularMatrix, true, true);
 	}
 
-	public StewartSingularValueDecomposition(final RealMatrix matrix, final boolean calculateRightSingularMatrix, final boolean calculateLeftSingularMatrix)
+	/**
+	 * Construct the singular value decomposition.
+	 * Gives access to S and optionally leftSingularMatrix and
+	 * rightSingularMatrix.
+	 *
+	 * @param rectangularMatrix Rectangular matrix
+	 * @param calculateRightSingularMatrix if true, allows accessing the
+	 *   rightSingularMatrix
+	 * @param calculateLeftSingularMatrix if true, allows accessing the
+	 *   leftSingularMatrix
+	 */
+	public StewartSingularValueDecomposition(final RealMatrix rectangularMatrix, final boolean calculateRightSingularMatrix, final boolean calculateLeftSingularMatrix)
 	{
-		this.m = matrix.getHeight();
-		this.n = matrix.getWidth();
+		this.m = rectangularMatrix.getHeight();
+		this.n = rectangularMatrix.getWidth();
 		final int nu = Math.min(this.m, this.n);
 		this.hasRightSingularMatrix = calculateRightSingularMatrix;
 		this.hasLeftSingularMatrix = calculateLeftSingularMatrix;
@@ -94,14 +106,99 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 
 		// Derived from LINPACK code.
 		// Initialize.
-		final double[][] transform = matrix.toDoubleArray();
 		this.matrix = new double[Math.min(this.m + 1, this.n)];
 		final double[] e = new double[n];
+		final int nct = Math.min(this.m - 1, this.n);
+		final int nrt = Math.max(0, Math.min(this.n - 2, this.m));
+		int p = reduceToBidiagonal(rectangularMatrix, e, nct, nrt);
+
+		generateLeftSingularMatrix(nct, nu);
+
+		generateRightSingularMatrix(e, nrt, nu);
+
+		// Main iteration loop for the singular values.
+		final int pp = p - 1;
+		int iter = 0;
+		final double eps = Math.pow(2.0, -52.0);
+		final double tiny = Math.pow(2.0, -966.0);
+		while( p > 0 )
+		{
+			int k;
+			// Here is where a test for too many iterations would go.
+			// This section of the program inspects for
+			// negligible elements in the matrix and e arrays.  On
+			// completion the variable k is set as follows.
+			// _task_
+			// deflate      if matrix(p) and e[k-1] are negligible and k < p
+			// split        if matrix(k) is negligible and k < p
+			// QR-step      if e[k-1] is negligible, k < p, and
+			//              matrix(k), ..., matrix(p) are not negligible.
+			// convergence  if e(p-1) is negligible.
+			for(k = p - 2; k >= -1; k--)
+			{
+				if( k == -1 )
+					break;
+				if( Math.abs(e[k])
+						<= tiny + eps * (Math.abs(this.matrix[k]) + Math.abs(this.matrix[k + 1])) )
+				{
+					e[k] = 0.0;
+					break;
+				}
+			}
+			if( k == p - 2 )
+			{
+				k++;
+				convergence(k, pp);
+				iter = 0;
+				p--;
+			}
+			else
+			{
+				int ks;
+				for(ks = p - 1; ks >= k; ks--)
+				{
+					if( ks == k )
+						break;
+					final double t = ((ks == p) ? 0.0 : Math.abs(e[ks]))
+							+ ((ks == (k + 1)) ? 0.0 : Math.abs(e[ks - 1]));
+					if( Math.abs(this.matrix[ks]) <= tiny + eps * t )
+					{
+						this.matrix[ks] = 0.0;
+						break;
+					}
+				}
+				if( ks == k )
+				{
+					k++;
+					oneQrStep(e, p, k);
+					iter = iter + 1;
+				}
+				else if( ks == p - 1 )
+				{
+					k++;
+					deflateNegligibleMatrix(e, p, k);
+				}
+				else
+				{
+					k = ks;
+					k++;
+					splitAtNegligibleMatrix(e, p, k);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Reduces the matrix to a bidiagonal form, storing the diagonal elements in
+	 * matrix and the super-diagonal elements in e.
+	 * @return order p
+	 */
+	private int reduceToBidiagonal(final RealMatrix rectangularMatrix, final double[] e, final int nct, final int nrt)
+	{
+		final double[][] transform = rectangularMatrix.toDoubleArray();
 		final double[] work = new double[m];
 		// Reduce A to bidiagonal form, storing the diagonal elements
 		// in matrix and the super-diagonal elements in e.
-		final int nct = Math.min(this.m - 1, this.n);
-		final int nrt = Math.max(0, Math.min(this.n - 2, this.m));
 		for(int k = 0; k < Math.max(nct, nrt); k++)
 		{
 			if( k < nct )
@@ -183,7 +280,7 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 			}
 		}
 		// Set up the final bidiagonal matrix or order p.
-		int p = Math.min(this.n, this.m + 1);
+		final int p = Math.min(this.n, this.m + 1);
 		if( nct < this.n )
 			this.matrix[nct] = transform[nct][nct];
 		if( this.m < p )
@@ -191,7 +288,20 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 		if( nrt + 1 < p )
 			e[nrt] = transform[nrt][p - 1];
 		e[p - 1] = 0.0;
-		// If required, generate leftSingularMatrix.
+
+		return p;
+	}
+
+
+
+
+
+
+	/**
+	 * Generates the left-singular-matrix, if required.
+	 */
+	private void generateLeftSingularMatrix(final int nct, final int nu)
+	{
 		if( this.hasLeftSingularMatrix )
 		{
 			for(int j = nct; j < nu; j++)
@@ -201,6 +311,7 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 				this.leftSingularMatrix[j][j] = 1.0;
 			}
 			for(int k = nct - 1; k >= 0; k--)
+			{
 				if( this.matrix[k] == 0.0 )
 				{
 					for(int i = 0; i < this.m; i++)
@@ -224,9 +335,17 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 					for(int i = 0; i < k - 1; i++)
 						this.leftSingularMatrix[i][k] = 0.0;
 				}
+			}
 		}
-		// If required, generate rightSingularMatrix.
+	}
+
+	/**
+	 * Generates the right-singular-matrix, if required.
+	 */
+	private void generateRightSingularMatrix(final double[] e, final int nrt, final int nu)
+	{
 		if( this.hasRightSingularMatrix )
+		{
 			for(int k = this.n - 1; k >= 0; k--)
 			{
 				if( (k < nrt) && (e[k] != 0.0) )
@@ -243,218 +362,151 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
 					this.rightSingularMatrix[i][k] = 0.0;
 				this.rightSingularMatrix[k][k] = 1.0;
 			}
-		// Main iteration loop for the singular values.
-		final int pp = p - 1;
-		int iter = 0;
-		final double eps = Math.pow(2.0, -52.0);
-		final double tiny = Math.pow(2.0, -966.0);
-		while( p > 0 )
+		}
+	}
+
+	private void deflateNegligibleMatrix(final double[] e, final int p, final int k)
+	{
+		double f = e[p - 2];
+		e[p - 2] = 0.0;
+		for(int j = p - 2; j >= k; j--)
 		{
-			int k;
-			final int kase;
-			// Here is where a test for too many iterations would go.
-			// This section of the program inspects for
-			// negligible elements in the matrix and e arrays.  On
-			// completion the variables kase and k are set as follows.
-			// kase = 1     if matrix(p) and e[k-1] are negligible and k<p
-			// kase = 2     if matrix(k) is negligible and k<p
-			// kase = 3     if e[k-1] is negligible, k<p, and
-			//              matrix(k), ..., matrix(p) are not negligible (qr step).
-			// kase = 4     if e(p-1) is negligible (convergence).
-			for(k = p - 2; k >= -1; k--)
+			double t = Math.hypot(this.matrix[j], f);
+			final double cs = this.matrix[j] / t;
+			final double sn = f / t;
+			this.matrix[j] = t;
+			if( j != k )
 			{
-				if( k == -1 )
-					break;
-				if( Math.abs(e[k])
-						<= tiny + eps * (Math.abs(this.matrix[k]) + Math.abs(this.matrix[k + 1])) )
-				{
-					e[k] = 0.0;
-					break;
-				}
+				f = -sn * e[j - 1];
+				e[j - 1] = cs * e[j - 1];
 			}
-			if( k == p - 2 )
-				kase = 4;
-			else
-			{
-				int ks;
-				for(ks = p - 1; ks >= k; ks--)
+			if( this.hasRightSingularMatrix )
+				for(int i = 0; i < this.n; i++)
 				{
-					if( ks == k )
-						break;
-					final double t = ((ks == p) ? 0.0 : Math.abs(e[ks]))
-							+ ((ks == (k + 1)) ? 0.0 : Math.abs(e[ks - 1]));
-					if( Math.abs(this.matrix[ks]) <= tiny + eps * t )
-					{
-						this.matrix[ks] = 0.0;
-						break;
-					}
+					t = cs * this.rightSingularMatrix[i][j] + sn * this.rightSingularMatrix[i][p - 1];
+					this.rightSingularMatrix[i][p - 1] = -sn * this.rightSingularMatrix[i][j] + cs * this.rightSingularMatrix[i][p - 1];
+					this.rightSingularMatrix[i][j] = t;
 				}
-				if( ks == k )
-					kase = 3;
-				else if( ks == p - 1 )
-					kase = 1;
-				else
+		}
+	}
+
+	private void splitAtNegligibleMatrix(final double[] e, final int p, final int k)
+	{
+		double f = e[k - 1];
+		e[k - 1] = 0.0;
+		for(int j = k; j < p; j++)
+		{
+			double t = Math.hypot(this.matrix[j], f);
+			final double cs = this.matrix[j] / t;
+			final double sn = f / t;
+			this.matrix[j] = t;
+			f = -sn * e[j];
+			e[j] = cs * e[j];
+			if( this.hasLeftSingularMatrix )
+				for(int i = 0; i < this.m; i++)
 				{
-					kase = 2;
-					k = ks;
+					t = cs * this.leftSingularMatrix[i][j] + sn * this.leftSingularMatrix[i][k - 1];
+					this.leftSingularMatrix[i][k - 1] = -sn * this.leftSingularMatrix[i][j] + cs * this.leftSingularMatrix[i][k - 1];
+					this.leftSingularMatrix[i][j] = t;
 				}
-			}
-			k++;
-			// Perform the task indicated by kase.
-			switch(kase)
-			{
-			// Deflate negligible matrix(p).
-			case 1:
-			{
-				double f = e[p - 2];
-				e[p - 2] = 0.0;
-				for(int j = p - 2; j >= k; j--)
+		}
+	}
+
+	private void oneQrStep(final double[] e, final int p, final int k)
+	{
+		// Calculate the shift.
+		final double scale = Math.max(Math.max(Math.max(Math.max(
+				Math.abs(this.matrix[p - 1]), Math.abs(this.matrix[p - 2])), Math.abs(e[p - 2])),
+				Math.abs(this.matrix[k])), Math.abs(e[k]));
+		final double sp = this.matrix[p - 1] / scale;
+		final double spm1 = this.matrix[p - 2] / scale;
+		final double epm1 = e[p - 2] / scale;
+		final double sk = this.matrix[k] / scale;
+		final double ek = e[k] / scale;
+		final double b = ((spm1 + sp) * (spm1 - sp) + epm1 * epm1) / 2.0;
+		final double c = (sp * epm1) * (sp * epm1);
+		double shift = 0.0;
+		if( (b != 0.0) | (c != 0.0) )
+		{
+			shift = Math.sqrt(b * b + c);
+			if( b < 0.0 )
+				shift = -shift;
+			shift = c / (b + shift);
+		}
+		double f = (sk + sp) * (sk - sp) + shift;
+		double g = sk * ek;
+		// Chase zeros.
+		for(int j = k; j < p - 1; j++)
+		{
+			double t = Math.hypot(f, g);
+			double cs = f / t;
+			double sn = g / t;
+			if( j != k )
+				e[j - 1] = t;
+			f = cs * this.matrix[j] + sn * e[j];
+			e[j] = cs * e[j] - sn * this.matrix[j];
+			g = sn * this.matrix[j + 1];
+			this.matrix[j + 1] = cs * this.matrix[j + 1];
+			if( this.hasRightSingularMatrix )
+				for(int i = 0; i < this.n; i++)
 				{
-					double t = Math.hypot(this.matrix[j], f);
-					final double cs = this.matrix[j] / t;
-					final double sn = f / t;
-					this.matrix[j] = t;
-					if( j != k )
-					{
-						f = -sn * e[j - 1];
-						e[j - 1] = cs * e[j - 1];
-					}
-					if( this.hasRightSingularMatrix )
-						for(int i = 0; i < this.n; i++)
-						{
-							t = cs * this.rightSingularMatrix[i][j] + sn * this.rightSingularMatrix[i][p - 1];
-							this.rightSingularMatrix[i][p - 1] = -sn * this.rightSingularMatrix[i][j] + cs * this.rightSingularMatrix[i][p - 1];
-							this.rightSingularMatrix[i][j] = t;
-						}
+					t = cs * this.rightSingularMatrix[i][j] + sn * this.rightSingularMatrix[i][j + 1];
+					this.rightSingularMatrix[i][j + 1] = -sn * this.rightSingularMatrix[i][j] + cs * this.rightSingularMatrix[i][j + 1];
+					this.rightSingularMatrix[i][j] = t;
 				}
-			}
-			break;
-			// Split at negligible matrix(k).
-			case 2:
-			{
-				double f = e[k - 1];
-				e[k - 1] = 0.0;
-				for(int j = k; j < p; j++)
+			t = Math.hypot(f, g);
+			cs = f / t;
+			sn = g / t;
+			this.matrix[j] = t;
+			f = cs * e[j] + sn * this.matrix[j + 1];
+			this.matrix[j + 1] = -sn * e[j] + cs * this.matrix[j + 1];
+			g = sn * e[j + 1];
+			e[j + 1] = cs * e[j + 1];
+			if( this.hasLeftSingularMatrix && (j < this.m - 1) )
+				for(int i = 0; i < this.m; i++)
 				{
-					double t = Math.hypot(this.matrix[j], f);
-					final double cs = this.matrix[j] / t;
-					final double sn = f / t;
-					this.matrix[j] = t;
-					f = -sn * e[j];
-					e[j] = cs * e[j];
-					if( this.hasLeftSingularMatrix )
-						for(int i = 0; i < this.m; i++)
-						{
-							t = cs * this.leftSingularMatrix[i][j] + sn * this.leftSingularMatrix[i][k - 1];
-							this.leftSingularMatrix[i][k - 1] = -sn * this.leftSingularMatrix[i][j] + cs * this.leftSingularMatrix[i][k - 1];
-							this.leftSingularMatrix[i][j] = t;
-						}
+					t = cs * this.leftSingularMatrix[i][j] + sn * this.leftSingularMatrix[i][j + 1];
+					this.leftSingularMatrix[i][j + 1] = -sn * this.leftSingularMatrix[i][j] + cs * this.leftSingularMatrix[i][j + 1];
+					this.leftSingularMatrix[i][j] = t;
 				}
-			}
-			break;
-			// Perform one qr step.
-			case 3:
-			{
-				// Calculate the shift.
-				final double scale = Math.max(Math.max(Math.max(Math.max(
-						Math.abs(this.matrix[p - 1]), Math.abs(this.matrix[p - 2])), Math.abs(e[p - 2])),
-						Math.abs(this.matrix[k])), Math.abs(e[k]));
-				final double sp = this.matrix[p - 1] / scale;
-				final double spm1 = this.matrix[p - 2] / scale;
-				final double epm1 = e[p - 2] / scale;
-				final double sk = this.matrix[k] / scale;
-				final double ek = e[k] / scale;
-				final double b = ((spm1 + sp) * (spm1 - sp) + epm1 * epm1) / 2.0;
-				final double c = (sp * epm1) * (sp * epm1);
-				double shift = 0.0;
-				if( (b != 0.0) | (c != 0.0) )
+		}
+		e[p - 2] = f;
+	}
+
+	private void convergence(final int k, final int pp)
+	{
+		// Make the singular values positive.
+		if( this.matrix[k] <= 0.0 )
+		{
+			this.matrix[k] = (this.matrix[k] < 0.0 ? -this.matrix[k] : 0.0);
+			if( this.hasRightSingularMatrix )
+				for(int i = 0; i <= pp; i++)
+					this.rightSingularMatrix[i][k] = -this.rightSingularMatrix[i][k];
+		}
+		// Order the singular values.
+		int kk = k;
+		while( kk < pp )
+		{
+			if( this.matrix[kk] >= this.matrix[kk + 1] )
+				break;
+			double t = this.matrix[kk];
+			this.matrix[kk] = this.matrix[kk + 1];
+			this.matrix[kk + 1] = t;
+			if( this.hasRightSingularMatrix && (kk < this.n - 1) )
+				for(int i = 0; i < this.n; i++)
 				{
-					shift = Math.sqrt(b * b + c);
-					if( b < 0.0 )
-						shift = -shift;
-					shift = c / (b + shift);
+					t = this.rightSingularMatrix[i][kk + 1];
+					this.rightSingularMatrix[i][kk + 1] = this.rightSingularMatrix[i][kk];
+					this.rightSingularMatrix[i][kk] = t;
 				}
-				double f = (sk + sp) * (sk - sp) + shift;
-				double g = sk * ek;
-				// Chase zeros.
-				for(int j = k; j < p - 1; j++)
+			if( this.hasLeftSingularMatrix && (kk < this.m - 1) )
+				for(int i = 0; i < this.m; i++)
 				{
-					double t = Math.hypot(f, g);
-					double cs = f / t;
-					double sn = g / t;
-					if( j != k )
-						e[j - 1] = t;
-					f = cs * this.matrix[j] + sn * e[j];
-					e[j] = cs * e[j] - sn * this.matrix[j];
-					g = sn * this.matrix[j + 1];
-					this.matrix[j + 1] = cs * this.matrix[j + 1];
-					if( this.hasRightSingularMatrix )
-						for(int i = 0; i < this.n; i++)
-						{
-							t = cs * this.rightSingularMatrix[i][j] + sn * this.rightSingularMatrix[i][j + 1];
-							this.rightSingularMatrix[i][j + 1] = -sn * this.rightSingularMatrix[i][j] + cs * this.rightSingularMatrix[i][j + 1];
-							this.rightSingularMatrix[i][j] = t;
-						}
-					t = Math.hypot(f, g);
-					cs = f / t;
-					sn = g / t;
-					this.matrix[j] = t;
-					f = cs * e[j] + sn * this.matrix[j + 1];
-					this.matrix[j + 1] = -sn * e[j] + cs * this.matrix[j + 1];
-					g = sn * e[j + 1];
-					e[j + 1] = cs * e[j + 1];
-					if( this.hasLeftSingularMatrix && (j < this.m - 1) )
-						for(int i = 0; i < this.m; i++)
-						{
-							t = cs * this.leftSingularMatrix[i][j] + sn * this.leftSingularMatrix[i][j + 1];
-							this.leftSingularMatrix[i][j + 1] = -sn * this.leftSingularMatrix[i][j] + cs * this.leftSingularMatrix[i][j + 1];
-							this.leftSingularMatrix[i][j] = t;
-						}
+					t = this.leftSingularMatrix[i][kk + 1];
+					this.leftSingularMatrix[i][kk + 1] = this.leftSingularMatrix[i][kk];
+					this.leftSingularMatrix[i][kk] = t;
 				}
-				e[p - 2] = f;
-				iter = iter + 1;
-			}
-			break;
-			// Convergence.
-			case 4:
-			{
-				// Make the singular values positive.
-				if( this.matrix[k] <= 0.0 )
-				{
-					this.matrix[k] = (this.matrix[k] < 0.0 ? -this.matrix[k] : 0.0);
-					if( this.hasRightSingularMatrix )
-						for(int i = 0; i <= pp; i++)
-							this.rightSingularMatrix[i][k] = -this.rightSingularMatrix[i][k];
-				}
-				// Order the singular values.
-				while( k < pp )
-				{
-					if( this.matrix[k] >= this.matrix[k + 1] )
-						break;
-					double t = this.matrix[k];
-					this.matrix[k] = this.matrix[k + 1];
-					this.matrix[k + 1] = t;
-					if( this.hasRightSingularMatrix && (k < this.n - 1) )
-						for(int i = 0; i < this.n; i++)
-						{
-							t = this.rightSingularMatrix[i][k + 1];
-							this.rightSingularMatrix[i][k + 1] = this.rightSingularMatrix[i][k];
-							this.rightSingularMatrix[i][k] = t;
-						}
-					if( this.hasLeftSingularMatrix && (k < this.m - 1) )
-						for(int i = 0; i < this.m; i++)
-						{
-							t = this.leftSingularMatrix[i][k + 1];
-							this.leftSingularMatrix[i][k + 1] = this.leftSingularMatrix[i][k];
-							this.leftSingularMatrix[i][k] = t;
-						}
-					k++;
-				}
-				iter = 0;
-				p--;
-			}
-			break;
-			}
+			kk++;
 		}
 	}
 
