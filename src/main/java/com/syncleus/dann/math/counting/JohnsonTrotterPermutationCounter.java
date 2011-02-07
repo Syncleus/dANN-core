@@ -79,12 +79,12 @@ public class JohnsonTrotterPermutationCounter extends AbstractPermutationCounter
 	protected boolean next()
 	{
 		final int[] perm = this.getPermutation();
-		final int largestIndex = largestMobileIndex(perm,mobility);
+		final int largestIndex = largestMobileIndex(perm, mobility);
 		if( largestIndex < 0 )
 			return false;
 
 		final int swapedValue = perm[largestIndex];
-		swap(perm,largestIndex, largestIndex + mobility[largestIndex]);
+		swap(perm, largestIndex, largestIndex + mobility[largestIndex]);
 		swap(mobility, largestIndex, largestIndex + mobility[largestIndex]);
 
 		for(int index = 0; index < getPermutationSize(); index++)

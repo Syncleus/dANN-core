@@ -55,10 +55,10 @@ public class LexicographicPermutationCounter extends AbstractPermutationCounter
 		int swapIndex = perm.length - 1;
 		while( perm[permutationIndex] > perm[swapIndex] )
 			swapIndex--;
-		swap(perm,swapIndex, permutationIndex);
+		swap(perm, swapIndex, permutationIndex);
 
 		for(int firstSwap = perm.length - 1, secondSwap = permutationIndex + 1; firstSwap > secondSwap; firstSwap--, secondSwap++)
-			swap(perm,firstSwap, secondSwap);
+			swap(perm, firstSwap, secondSwap);
 
 		return true;
 	}

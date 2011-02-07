@@ -132,7 +132,8 @@ public abstract class AbstractPermutationCounter implements Counter
 		return this.permutationSize;
 	}
 
-	protected int[] getPermutation() {
+	protected int[] getPermutation()
+	{
 		return permutation;
 	}
 
