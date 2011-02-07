@@ -105,6 +105,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 	{
 		public GlobalSignalConcentration()
 		{
+			super();
 		}
 
 		protected GlobalSignalConcentration(final GlobalSignalConcentration originalSignal)

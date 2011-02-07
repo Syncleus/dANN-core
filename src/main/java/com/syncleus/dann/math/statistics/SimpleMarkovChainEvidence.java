@@ -129,10 +129,6 @@ public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S>
 		private final Map<S, Integer> stateCount = new HashMap<S, Integer>();
 		private long totalEvidence;
 
-		public StateCounter()
-		{
-		}
-
 		public void increment(final S state)
 		{
 			Integer count = this.stateCount.get(state);

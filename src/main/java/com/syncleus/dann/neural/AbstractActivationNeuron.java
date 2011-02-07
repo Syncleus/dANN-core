@@ -18,8 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.neural;
 
-import com.syncleus.dann.neural.activation.*;
-import org.apache.log4j.Logger;
+import com.syncleus.dann.neural.activation.ActivationFunction;
+import com.syncleus.dann.neural.activation.HyperbolicTangentActivationFunction;
 
 /**
  * An abstract implementation of the Neuron interface. Included activation
@@ -49,8 +49,7 @@ public abstract class AbstractActivationNeuron extends AbstractNeuron
 	 * @since 1.0
 	 */
 	private double output;
-	private static final HyperbolicTangentActivationFunction DEFAULT_ACTIVATION_FUNCTION = new HyperbolicTangentActivationFunction();
-	private static final Logger LOGGER = Logger.getLogger(AbstractActivationNeuron.class);
+	private static final ActivationFunction DEFAULT_ACTIVATION_FUNCTION = new HyperbolicTangentActivationFunction();
 
 	/**
 	 * Creates a new instance of NeuronImpl with a RANDOM bias weight and
@@ -69,7 +68,7 @@ public abstract class AbstractActivationNeuron extends AbstractNeuron
 	 * specified activation function.
 	 *
 	 * @param activationFunction The activation function used to calculate the
-	 * output fromt he neuron's activity.
+	 * output from the neuron's activity.
 	 * @since 1.0
 	 */
 	protected AbstractActivationNeuron(final Brain brain, final ActivationFunction activationFunction)
@@ -125,7 +124,7 @@ public abstract class AbstractActivationNeuron extends AbstractNeuron
 	}
 
 	/**
-	 * Propogates the current output to all outgoing synapses.
+	 * Propagates the current output to all outgoing synapses.
 	 *
 	 * @since 1.0
 	 */

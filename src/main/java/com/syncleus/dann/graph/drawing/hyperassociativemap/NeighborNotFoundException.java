@@ -37,6 +37,7 @@ public class NeighborNotFoundException extends DannException
 	 */
 	public NeighborNotFoundException()
 	{
+		super();
 	}
 
 	/**

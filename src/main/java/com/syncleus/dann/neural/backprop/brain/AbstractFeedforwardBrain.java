@@ -62,7 +62,6 @@ public abstract class AbstractFeedforwardBrain<IN extends InputBackpropNeuron, O
 	private static class BackPropagate implements Runnable
 	{
 		private final BackpropNeuron neuron;
-		private static final Logger LOGGER = Logger.getLogger(BackPropagate.class);
 
 		public BackPropagate(final BackpropNeuron neuron)
 		{

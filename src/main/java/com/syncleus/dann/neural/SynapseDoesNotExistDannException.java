@@ -37,6 +37,7 @@ public class SynapseDoesNotExistDannException extends DannException
 	 */
 	public SynapseDoesNotExistDannException()
 	{
+		super();
 	}
 
 	/**
@@ -64,8 +65,8 @@ public class SynapseDoesNotExistDannException extends DannException
 	}
 
 	/**
-	 * Creates an exception containing the throwable which caused this exception to
-	 * be thrown.
+	 * Creates an exception containing the throwable which caused this exception
+	 * to be thrown.
 	 *
 	 * @param cause The throwable which caused this exception
 	 * @since 1.0

@@ -51,7 +51,6 @@ public class HyperassociativeMapCanvas<G extends Graph<N, ?>, N> extends JPanel
     private final HyperassociativeMap<G, N> map;
     private static final float NODE_RADIUS = 0.07F;
     private float nodeRadius;
-    private HyperassociativeMapCanvasCanvas c3d;
     private HyperassociativeMapVisualization<HyperassociativeMap<G, N>, G, N> mapVisual;
 
     public class HyperassociativeMapCanvasCanvas extends Canvas3D
@@ -157,33 +156,38 @@ public class HyperassociativeMapCanvas<G extends Graph<N, ?>, N> extends JPanel
      * @throws Java3DUnavailableException if Java3D support is not available.
      * @since 1.0
      */
-    public HyperassociativeMapCanvas(final HyperassociativeMap<G, N> ourMap, GraphicsConfiguration configuration, final float nodeRadius) throws ComponentUnavailableException
+    public HyperassociativeMapCanvas(final HyperassociativeMap<G, N> ourMap, final GraphicsConfiguration configuration, final float nodeRadius) throws ComponentUnavailableException
     {
         super(new BorderLayout());
 
         this.map = ourMap;
         this.nodeRadius = nodeRadius;
 
-
         try
         {
+			GraphicsConfiguration myGraphicsConfiguration;
             if (configuration == null)
             {
-                //This is where Java3D will throw java.lang.UnsatisfiedLinkError: no j3dcore-ogl in java.library.path if Java3D not available.
-                configuration = SimpleUniverse.getPreferredConfiguration();
+                // This is where Java3D will throw UnsatisfiedLinkError:
+				// "no j3dcore-ogl in java.library.path" if Java3D is not
+				// available.
+                myGraphicsConfiguration = SimpleUniverse.getPreferredConfiguration();
             }
+			else
+			{
+				myGraphicsConfiguration = configuration;
+			}
 
-            c3d = new HyperassociativeMapCanvasCanvas(configuration);
+            HyperassociativeMapCanvasCanvas c3d = new HyperassociativeMapCanvasCanvas(myGraphicsConfiguration);
             add(c3d, BorderLayout.CENTER);
-
-        } catch (UnsatisfiedLinkError error)
+        }
+		catch (UnsatisfiedLinkError error)
         {
             throw new ComponentUnavailableException(error);
 
         }
 
         updateUI();
-
     }
 
     /**

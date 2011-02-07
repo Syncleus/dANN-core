@@ -19,7 +19,6 @@
 package com.syncleus.dann.neural;
 
 import java.util.Random;
-import org.apache.log4j.Logger;
 
 public abstract class AbstractNeuron implements Neuron
 {
@@ -30,7 +29,6 @@ public abstract class AbstractNeuron implements Neuron
 	 */
 	protected static final Random RANDOM = new Random();
 	private final Brain<InputNeuron, OutputNeuron, Neuron, Synapse<Neuron>> brain;
-	private static final Logger LOGGER = Logger.getLogger(AbstractNeuron.class);
 
 	/**
 	 * Creates a new instance of NeuronImpl with a RANDOM bias weight and
