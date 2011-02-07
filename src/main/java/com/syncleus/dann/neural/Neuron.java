@@ -30,9 +30,10 @@ import java.io.Serializable;
 public interface Neuron extends Serializable
 {
 	/**
-	 * Indicates the neuron has an opertunity to perform any processing of its IO.
+	 * Indicates the neuron has an opportunity to perform any processing of its
+	 * IO.
 	 *
 	 * @since 2.0
 	 */
-	public void tick();
+	void tick();
 }

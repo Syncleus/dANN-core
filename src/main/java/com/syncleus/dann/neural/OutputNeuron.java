@@ -19,7 +19,7 @@
 package com.syncleus.dann.neural;
 
 /**
- * A Neuron which allows you to retreive its output. These neurons allow you to
+ * A Neuron which allows you to retrieve its output. These neurons allow you to
  * output data from the brain after processing.
  *
  * @author Jeffrey Phillips Freeman
@@ -32,5 +32,5 @@ public interface OutputNeuron extends Neuron
 	 *
 	 * @return The current output of the neuron.
 	 */
-	public double getOutput();
+	double getOutput();
 }

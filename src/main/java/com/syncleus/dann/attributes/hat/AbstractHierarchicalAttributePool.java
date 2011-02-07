@@ -63,12 +63,10 @@ public abstract class AbstractHierarchicalAttributePool<T> extends AbstractAttri
 		return attributeValue;
 	}
 
-	public abstract <I extends T> I getAttributeValue(Attribute<?, I> attribute);
-	public abstract <C extends T> C setAttributeValue(Attribute<?, C> attribute, C value);
-
 	private final class ParentListener implements AttributeChangeListener<T>
 	{
-		public final <C extends T> void attributeChanged(final Attribute<?, C> attribute, final C attributeValue)
+		@Override
+		public <C extends T> void attributeChanged(final Attribute<?, C> attribute, final C attributeValue)
 		{
 			final C modiffiedAttributeValue = AbstractHierarchicalAttributePool.this.modifyChangedAttribute(attribute, attributeValue);
 			AbstractHierarchicalAttributePool.this.notify(attribute, modiffiedAttributeValue);

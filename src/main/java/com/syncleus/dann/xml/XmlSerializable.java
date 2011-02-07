@@ -5,17 +5,17 @@ public interface XmlSerializable<T, N>
 	/**
 	 * Write stand alone element, including all instances.
 	 */
-	public T toXml();
+	T toXml();
 
 	/**
 	 * Write nested element assuming recurring instances of components are
 	 * already named.
 	 */
-	public T toXml(Namer<N> namer);
+	T toXml(Namer<N> namer);
 
 	/**
 	 * Write nested element assuming recurring instances of components are
 	 * already named, use preexisting XML objects.
 	 */
-	public void toXml(T jaxbObject, Namer<N> namer);
+	void toXml(T jaxbObject, Namer<N> namer);
 }
