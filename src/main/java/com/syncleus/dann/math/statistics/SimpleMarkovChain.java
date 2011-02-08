@@ -54,10 +54,10 @@ public class SimpleMarkovChain<S> extends AbstractMarkovChain<S>
 
 		//this.columnMapping = new ArrayList<S>(this.states);  // <-- didnt get the states in the correct order
 
-        //Generate the column mapping from the first element of each transition probability's entry key (which is a list of states)
-        //iterates through column mapping, matching rowheading leading elements
-        this.columnMapping = new ArrayList<S>();
-        for(final Entry<List<S>, Map<S, Double>> transitionProbability : transitionProbabilities.entrySet())
+		//Generate the column mapping from the first element of each transition probability's entry key (which is a list of states)
+		//iterates through column mapping, matching rowheading leading elements
+		this.columnMapping = new ArrayList<S>();
+		for(final Entry<List<S>, Map<S, Double>> transitionProbability : transitionProbabilities.entrySet())
 		{
 			final List<S> rowHeader = Collections.unmodifiableList(new ArrayList<S>(transitionProbability.getKey()));
 
@@ -231,18 +231,18 @@ public class SimpleMarkovChain<S> extends AbstractMarkovChain<S>
 			}
 		final RealMatrix simultaniousMatrix = new SimpleRealMatrix(simultaniousValues);
 
-        //System.out.println("steadyState matrix:\n" + steadyStateMatrix.toString());
-        //System.out.println("simultaneous matrix:\n" + simultaniousMatrix.toString());
+		//System.out.println("steadyState matrix:\n" + steadyStateMatrix.toString());
+		//System.out.println("simultaneous matrix:\n" + simultaniousMatrix.toString());
 
 		final double[][] solutionValues = new double[simultaniousValues.length][1];
 		solutionValues[simultaniousValues.length - 1][0] = 1.0;
 		final RealMatrix solutionMatrix = new SimpleRealMatrix(solutionValues);
 
-        //System.out.println("solution matrix:\n" + solutionMatrix.toString());
+		//System.out.println("solution matrix:\n" + solutionMatrix.toString());
 
 		final RealMatrix simultaniousSolved = simultaniousMatrix.solve(solutionMatrix);
 
-        //System.out.println("simultaneous solved:\n" + simultaniousSolved.toString());
+		//System.out.println("simultaneous solved:\n" + simultaniousSolved.toString());
 
 		final Map<S, Double> stateProbabilities = new LinkedHashMap<S, Double>();
 		for(int stateIndex = 0; stateIndex < simultaniousSolved.getHeight(); stateIndex++)

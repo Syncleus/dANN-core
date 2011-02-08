@@ -111,13 +111,13 @@ public class ImmutableAdjacencyGraph<N, E extends Edge<N>> extends AbstractAdjac
 
 	@Override
 	public GraphXml toXml(final Namer<Object> namer)
-    {
+	{
 		throw new UnsupportedOperationException("XML serialization not yet supported"); //TODO Implement serialization
 	}
 
 	@Override
 	public void toXml(final GraphXml jaxbObject, final Namer<Object> namer)
-    {
+	{
 		throw new UnsupportedOperationException("XML serialization not yet supported"); //TODO Implement serialization
 	}
 }

@@ -41,16 +41,16 @@ public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<
 	private final boolean contextEnabled;
 	private List<N> nodes;
 
-    protected AbstractEdge()
-    {
+	protected AbstractEdge()
+	{
 		this(true, true);
-    }
+	}
 
-    protected AbstractEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
-    {
+	protected AbstractEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
+	{
 		super(allowJoiningMultipleGraphs);
 		this.contextEnabled = contextEnabled;
-    }
+	}
 
 	protected AbstractEdge(final List<N> ourNodes)
 	{
@@ -169,13 +169,13 @@ public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<
 		}
 	}
 
-    @Override
+	@Override
 	public boolean isTraversable(final N node)
 	{
 		return (!this.getTraversableNodes(node).isEmpty());
 	}
 
-    @Override
+	@Override
 	public final List<N> getNodes()
 	{
 		return this.nodes;
@@ -216,58 +216,70 @@ public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<
 		}
 	}
 
-    @Override
-    public EdgeXml toXml()
-    {
-        final Namer namer = new Namer();
-        final EdgeElementXml xml = new EdgeElementXml();
+	@Override
+	public EdgeXml toXml()
+	{
+		final Namer namer = new Namer();
+		final EdgeElementXml xml = new EdgeElementXml();
 
-        xml.setNodeInstances(new EdgeElementXml.NodeInstances());
-        final Set<N> writtenNodes = new HashSet<N>();
-        for(N node : this.nodes)
-        {
-            if( writtenNodes.add(node) )
-            {
-                final NamedValueXml named = new NamedValueXml();
-                named.setName(namer.getNameOrCreate(node));
-                if(node instanceof XmlSerializable)
-                    named.setValue(((XmlSerializable)node).toXml(namer));
-                else
-                    named.setValue(node);
-                xml.getNodeInstances().getNodes().add(named);
-            }
-        }
-        this.toXml(xml, namer);
+		xml.setNodeInstances(new EdgeElementXml.NodeInstances());
+		final Set<N> writtenNodes = new HashSet<N>();
+		for (N node : this.nodes)
+		{
+			if (writtenNodes.add(node))
+			{
+				final NamedValueXml named = new NamedValueXml();
+				named.setName(namer.getNameOrCreate(node));
+				if (node instanceof XmlSerializable)
+				{
+					named.setValue(((XmlSerializable) node).toXml(namer));
+				}
+				else
+				{
+					named.setValue(node);
+				}
+				xml.getNodeInstances().getNodes().add(named);
+			}
+		}
+		this.toXml(xml, namer);
 
-        return xml;
-    }
+		return xml;
+	}
 
-    @Override
-    public EdgeXml toXml(final Namer<Object> nodeNames)
-    {
-        if(nodeNames == null)
-            throw new IllegalArgumentException("nodeNames can not be null");
+	@Override
+	public EdgeXml toXml(final Namer<Object> nodeNames)
+	{
+		if (nodeNames == null)
+		{
+			throw new IllegalArgumentException("nodeNames can not be null");
+		}
 
-        final EdgeXml xml = new EdgeXml();
-        this.toXml(xml, nodeNames);
-        return xml;
-    }
+		final EdgeXml xml = new EdgeXml();
+		this.toXml(xml, nodeNames);
+		return xml;
+	}
 
-    @Override
-    public void toXml(final EdgeXml jaxbObject, final Namer<Object> nodeNames)
-    {
-        if(nodeNames == null)
-            throw new IllegalArgumentException("nodeNames can not be null");
-        if(jaxbObject == null)
-            throw new IllegalArgumentException("jaxbObject can not be null");
+	@Override
+	public void toXml(final EdgeXml jaxbObject, final Namer<Object> nodeNames)
+	{
+		if (nodeNames == null)
+		{
+			throw new IllegalArgumentException("nodeNames can not be null");
+		}
+		if (jaxbObject == null)
+		{
+			throw new IllegalArgumentException("jaxbObject can not be null");
+		}
 
-        if(jaxbObject.getConnections() == null)
-            jaxbObject.setConnections(new EdgeXml.Connections());
-        for(N node : this.nodes)
-        {
-            final NameXml connection = new NameXml();
-            connection.setName(nodeNames.getNameOrCreate(node));
-            jaxbObject.getConnections().getNodes().add(connection);
-        }
-    }
+		if (jaxbObject.getConnections() == null)
+		{
+			jaxbObject.setConnections(new EdgeXml.Connections());
+		}
+		for (N node : this.nodes)
+		{
+			final NameXml connection = new NameXml();
+			connection.setName(nodeNames.getNameOrCreate(node));
+			jaxbObject.getConnections().getNodes().add(connection);
+		}
+	}
 }

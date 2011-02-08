@@ -169,67 +169,77 @@ public abstract class AbstractBayesianAdjacencyNetwork<N extends BayesianNode, E
 		return (AbstractBayesianAdjacencyNetwork<N, E>) super.clone();
 	}
 
-    @Override
-    public BayesianNetworkXml toXml()
-    {
-        final BayesianNetworkElementXml networkXml = new BayesianNetworkElementXml();
-        final Namer<Object> namer = new Namer<Object>();
+	@Override
+	public BayesianNetworkXml toXml()
+	{
+		final BayesianNetworkElementXml networkXml = new BayesianNetworkElementXml();
+		final Namer<Object> namer = new Namer<Object>();
 
-        networkXml.setNodeInstances( new BayesianNetworkElementXml.NodeInstances() );
-        networkXml.setStateInstances( new BayesianNetworkElementXml.StateInstances() );
-        final Set<Object> writtenStates = new HashSet<Object>();
-        for( N node : this.getNodes() )
-        {
-            //add the node
-            final NamedValueXml nodeXml = new NamedValueXml();
-            nodeXml.setName(namer.getNameOrCreate(node));
-            nodeXml.setValue(node.toXml(namer));
-            networkXml.getNodeInstances().getNodes().add(nodeXml);
+		networkXml.setNodeInstances(new BayesianNetworkElementXml.NodeInstances());
+		networkXml.setStateInstances(new BayesianNetworkElementXml.StateInstances());
+		final Set<Object> writtenStates = new HashSet<Object>();
+		for (N node : this.getNodes())
+		{
+			//add the node
+			final NamedValueXml nodeXml = new NamedValueXml();
+			nodeXml.setName(namer.getNameOrCreate(node));
+			nodeXml.setValue(node.toXml(namer));
+			networkXml.getNodeInstances().getNodes().add(nodeXml);
 
-            //add all the node's learned states
-            for( Object learnedState : node.getLearnedStates() )
-            {
-                //only add the learnedState if it hasnt yet been added
-                if( writtenStates.add(learnedState) )
-                {
-                    final NamedValueXml stateXml = new NamedValueXml();
-                    stateXml.setName(namer.getNameOrCreate(learnedState));
-                    if( learnedState instanceof XmlSerializable)
-                        stateXml.setValue(((XmlSerializable) learnedState).toXml(namer));
-                    else
-                        stateXml.setValue(learnedState);
-                    networkXml.getStateInstances().getStates().add(stateXml);
-                }
-            }
+			//add all the node's learned states
+			for (Object learnedState : node.getLearnedStates())
+			{
+				//only add the learnedState if it hasnt yet been added
+				if (writtenStates.add(learnedState))
+				{
+					final NamedValueXml stateXml = new NamedValueXml();
+					stateXml.setName(namer.getNameOrCreate(learnedState));
+					if (learnedState instanceof XmlSerializable)
+					{
+						stateXml.setValue(((XmlSerializable) learnedState).toXml(namer));
+					}
+					else
+					{
+						stateXml.setValue(learnedState);
+					}
+					networkXml.getStateInstances().getStates().add(stateXml);
+				}
+			}
 
-            //add the nodes current state if it wasnt already
-            final Object state = node.getState();
-            if( writtenStates.add(state) )
-            {
-                final NamedValueXml stateXml = new NamedValueXml();
-                stateXml.setName(namer.getNameOrCreate(state));
-                if( state instanceof XmlSerializable)
-                    stateXml.setValue(((XmlSerializable)state).toXml(namer));
-                else
-                    stateXml.setValue(state);
-                networkXml.getStateInstances().getStates().add(stateXml);
-            }
-        }
+			//add the nodes current state if it wasnt already
+			final Object state = node.getState();
+			if (writtenStates.add(state))
+			{
+				final NamedValueXml stateXml = new NamedValueXml();
+				stateXml.setName(namer.getNameOrCreate(state));
+				if (state instanceof XmlSerializable)
+				{
+					stateXml.setValue(((XmlSerializable) state).toXml(namer));
+				}
+				else
+				{
+					stateXml.setValue(state);
+				}
+				networkXml.getStateInstances().getStates().add(stateXml);
+			}
+		}
 
-        this.toXml(networkXml, namer);
-        return networkXml;
-    }
+		this.toXml(networkXml, namer);
+		return networkXml;
+	}
 
-    @Override
-    public BayesianNetworkXml toXml(final Namer<Object> namer)
-    {
-        if(namer == null)
-            throw new IllegalArgumentException("namer can not be null");
+	@Override
+	public BayesianNetworkXml toXml(final Namer<Object> namer)
+	{
+		if (namer == null)
+		{
+			throw new IllegalArgumentException("namer can not be null");
+		}
 
-        final BayesianNetworkXml xml = new BayesianNetworkXml();
-        this.toXml(xml, namer);
-        return xml;
-    }
+		final BayesianNetworkXml xml = new BayesianNetworkXml();
+		this.toXml(xml, namer);
+		return xml;
+	}
 
 	protected static class NodeConnectivity<N extends BayesianNode, E extends BayesianEdge<N>> extends HashMap<N, Set<E>>
 	{

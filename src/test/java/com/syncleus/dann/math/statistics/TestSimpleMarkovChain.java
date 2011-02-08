@@ -24,7 +24,7 @@ import org.junit.*;
 public class TestSimpleMarkovChain
 {
 	private static enum WeatherState
-    {
+	{
 		RAINY, SUNNY
 	}
 
@@ -58,8 +58,8 @@ public class TestSimpleMarkovChain
 		System.out.println("transition columns: " + simpleChain.getTransitionProbabilityColumns());
 		System.out.println("transition rows: " + simpleChain.getTransitionProbabilityRows());
 		System.out.println("transition matrix: " + simpleChain.getTransitionProbabilityMatrix());
-        System.out.println("steady state: " + simpleChain.getSteadyStateProbability(WeatherState.SUNNY) + " , " + simpleChain.getSteadyStateProbability(WeatherState.RAINY));
-        
+		System.out.println("steady state: " + simpleChain.getSteadyStateProbability(WeatherState.SUNNY) + " , " + simpleChain.getSteadyStateProbability(WeatherState.RAINY));
+
 		Assert.assertTrue("Sunny steady state incorrect: " + simpleChain.getSteadyStateProbability(WeatherState.SUNNY), Math.abs(simpleChain.getSteadyStateProbability(WeatherState.SUNNY) - 0.83333333333) < 0.0001);
 		Assert.assertTrue("Rainy steady state incorrect: " + simpleChain.getSteadyStateProbability(WeatherState.RAINY), Math.abs(simpleChain.getSteadyStateProbability(WeatherState.RAINY) - 0.16666666666) < 0.0001);
 		Assert.assertTrue("Sunny 1 step incorrect: " + simpleChain.getProbability(WeatherState.SUNNY, 1), Math.abs(simpleChain.getProbability(WeatherState.SUNNY, 1) - 0.9) < 0.0001);

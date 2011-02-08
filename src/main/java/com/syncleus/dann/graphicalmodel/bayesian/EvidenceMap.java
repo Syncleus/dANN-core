@@ -147,115 +147,130 @@ public class EvidenceMap<S> extends HashMap<Map<BayesianNode, Object>, StateEvid
 	}
 
 	@Override
-    public EvidenceMapXml toXml()
-    {
-        final EvidenceMapElementXml xml = new EvidenceMapElementXml();
-        final Namer<Object> namer = new Namer<Object>();
+	public EvidenceMapXml toXml()
+	{
+		final EvidenceMapElementXml xml = new EvidenceMapElementXml();
+		final Namer<Object> namer = new Namer<Object>();
 
-        final Set<BayesianNode> seenNodes = new HashSet<BayesianNode>();
-        final Set<Object> seenStates = new HashSet<Object>();
+		final Set<BayesianNode> seenNodes = new HashSet<BayesianNode>();
+		final Set<Object> seenStates = new HashSet<Object>();
 
-        xml.setNodeInstances(new EvidenceMapElementXml.NodeInstances());
-        xml.setStateInstances(new EvidenceMapElementXml.StateInstances());
-        for(Map.Entry<Map<BayesianNode, Object>, StateEvidence<S>> entry : this.entrySet())
-        {
-            final Map<BayesianNode, Object> influences = entry.getKey();
-            final StateEvidence<S> evidence = entry.getValue();
+		xml.setNodeInstances(new EvidenceMapElementXml.NodeInstances());
+		xml.setStateInstances(new EvidenceMapElementXml.StateInstances());
+		for (Map.Entry<Map<BayesianNode, Object>, StateEvidence<S>> entry : this.entrySet())
+		{
+			final Map<BayesianNode, Object> influences = entry.getKey();
+			final StateEvidence<S> evidence = entry.getValue();
 
-            //add instances for all the nodes and states from the influences
-            for(Map.Entry<BayesianNode, Object> influenceEntry : influences.entrySet())
-            {
-                final BayesianNode node = influenceEntry.getKey();
-                final Object state = influenceEntry.getValue();
+			//add instances for all the nodes and states from the influences
+			for (Map.Entry<BayesianNode, Object> influenceEntry : influences.entrySet())
+			{
+				final BayesianNode node = influenceEntry.getKey();
+				final Object state = influenceEntry.getValue();
 
-                if( seenStates.add(state) )
-                {
-                    final Object stateXml;
-                    if(state instanceof XmlSerializable)
-                        stateXml = ((XmlSerializable)state).toXml(namer);
-                    else
-                        stateXml = state;
+				if (seenStates.add(state))
+				{
+					final Object stateXml;
+					if (state instanceof XmlSerializable)
+					{
+						stateXml = ((XmlSerializable) state).toXml(namer);
+					}
+					else
+					{
+						stateXml = state;
+					}
 
-                    final NamedValueXml encapsulation = new NamedValueXml();
-                    encapsulation.setName( namer.getNameOrCreate(state) );
-                    encapsulation.setValue(stateXml);
-                    xml.getStateInstances().getStates().add(encapsulation);
-                }
+					final NamedValueXml encapsulation = new NamedValueXml();
+					encapsulation.setName(namer.getNameOrCreate(state));
+					encapsulation.setValue(stateXml);
+					xml.getStateInstances().getStates().add(encapsulation);
+				}
 
-                if( seenNodes.add(node) )
-                {
-                    final Object nodeXml = node.toXml(namer);
+				if (seenNodes.add(node))
+				{
+					final Object nodeXml = node.toXml(namer);
 
-                    final NamedValueXml encapsulation = new NamedValueXml();
-                    encapsulation.setName( namer.getNameOrCreate(node) );
-                    encapsulation.setValue(nodeXml);
-                    xml.getNodeInstances().getNodes().add(encapsulation);
-                }
-            }
+					final NamedValueXml encapsulation = new NamedValueXml();
+					encapsulation.setName(namer.getNameOrCreate(node));
+					encapsulation.setValue(nodeXml);
+					xml.getNodeInstances().getNodes().add(encapsulation);
+				}
+			}
 
-            //add instances for all states from the evidence
-            for(S state : evidence.keySet())
-            {
-                if( seenStates.add(state) )
-                {
-                    final Object stateXml;
-                    if(state instanceof XmlSerializable)
-                        stateXml = ((XmlSerializable)state).toXml(namer);
-                    else
-                        stateXml = state;
+			//add instances for all states from the evidence
+			for (S state : evidence.keySet())
+			{
+				if (seenStates.add(state))
+				{
+					final Object stateXml;
+					if (state instanceof XmlSerializable)
+					{
+						stateXml = ((XmlSerializable) state).toXml(namer);
+					}
+					else
+					{
+						stateXml = state;
+					}
 
-                    final NamedValueXml encapsulation = new NamedValueXml();
-                    encapsulation.setName( namer.getNameOrCreate(state) );
-                    encapsulation.setValue(stateXml);
-                    xml.getStateInstances().getStates().add(encapsulation);
-                }
-            }
-        }
+					final NamedValueXml encapsulation = new NamedValueXml();
+					encapsulation.setName(namer.getNameOrCreate(state));
+					encapsulation.setValue(stateXml);
+					xml.getStateInstances().getStates().add(encapsulation);
+				}
+			}
+		}
 
-        this.toXml(xml, namer);
-        return xml;
-    }
-
-	@Override
-    public EvidenceMapXml toXml(final Namer<Object> namer)
-    {
-        if(namer == null)
-            throw new IllegalArgumentException("namer can not be null");
-
-        final EvidenceMapXml xml = new EvidenceMapXml();
-        this.toXml(xml, namer);
-        return xml;
-    }
+		this.toXml(xml, namer);
+		return xml;
+	}
 
 	@Override
-    public void toXml(final EvidenceMapXml jaxbObject, final Namer<Object> namer)
-    {
-        if(namer == null)
-            throw new IllegalArgumentException("nodeNames can not be null");
-        if(jaxbObject == null)
-            throw new IllegalArgumentException("jaxbObject can not be null");
+	public EvidenceMapXml toXml(final Namer<Object> namer)
+	{
+		if (namer == null)
+		{
+			throw new IllegalArgumentException("namer can not be null");
+		}
 
-        if( jaxbObject.getInfluencedEvidences() == null)
-            jaxbObject.setInfluencedEvidences(new EvidenceMapXml.InfluencedEvidences());
-        for(Map.Entry<Map<BayesianNode, Object>, StateEvidence<S>> entry : this.entrySet())
-        {
-            final EvidenceMapXml.InfluencedEvidences.InfluencedEvidence influencedEvidence
-					= new EvidenceMapXml.InfluencedEvidences.InfluencedEvidence();
+		final EvidenceMapXml xml = new EvidenceMapXml();
+		this.toXml(xml, namer);
+		return xml;
+	}
 
-            //add the influences to the xml
-            influencedEvidence.setInfluences(new EvidenceMapXml.InfluencedEvidences.InfluencedEvidence.Influences());
-            for(Map.Entry<BayesianNode, Object> influenceEntry : entry.getKey().entrySet())
-            {
-                final EvidenceMapXml.InfluencedEvidences.InfluencedEvidence.Influences.Influence influenceXml = new EvidenceMapXml.InfluencedEvidences.InfluencedEvidence.Influences.Influence();
-                influenceXml.setNode(namer.getNameOrCreate(influenceEntry.getKey()));
-                influenceXml.setState(namer.getNameOrCreate(influenceEntry.getValue()));
-                influencedEvidence.getInfluences().getInfluences().add(influenceXml);
-            }
+	@Override
+	public void toXml(final EvidenceMapXml jaxbObject, final Namer<Object> namer)
+	{
+		if (namer == null)
+		{
+			throw new IllegalArgumentException("nodeNames can not be null");
+		}
+		if (jaxbObject == null)
+		{
+			throw new IllegalArgumentException("jaxbObject can not be null");
+		}
 
-            //add the state evidence to the xml
-            influencedEvidence.setStateEvidence(entry.getValue().toXml(namer));
+		if (jaxbObject.getInfluencedEvidences() == null)
+		{
+			jaxbObject.setInfluencedEvidences(new EvidenceMapXml.InfluencedEvidences());
+		}
+		for (Map.Entry<Map<BayesianNode, Object>, StateEvidence<S>> entry : this.entrySet())
+		{
+			final EvidenceMapXml.InfluencedEvidences.InfluencedEvidence influencedEvidence = new EvidenceMapXml.InfluencedEvidences.InfluencedEvidence();
 
-            jaxbObject.getInfluencedEvidences().getInfluencedEvidences().add(influencedEvidence);
-        }
-    }
+			//add the influences to the xml
+			influencedEvidence.setInfluences(new EvidenceMapXml.InfluencedEvidences.InfluencedEvidence.Influences());
+			for (Map.Entry<BayesianNode, Object> influenceEntry : entry.getKey().entrySet())
+			{
+				final EvidenceMapXml.InfluencedEvidences.InfluencedEvidence.Influences.Influence influenceXml = new EvidenceMapXml.InfluencedEvidences.InfluencedEvidence.Influences.Influence();
+				influenceXml.setNode(namer.getNameOrCreate(influenceEntry.getKey()));
+				influenceXml.setState(namer.getNameOrCreate(influenceEntry.getValue()));
+				influencedEvidence.getInfluences().getInfluences().add(influenceXml);
+			}
+
+			//add the state evidence to the xml
+			influencedEvidence.setStateEvidence(entry.getValue().toXml(namer));
+
+			jaxbObject.getInfluencedEvidences().getInfluencedEvidences().add(influencedEvidence);
+		}
+	}
 }
