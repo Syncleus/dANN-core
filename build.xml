@@ -65,12 +65,12 @@
 			</fileset>
 		</classpath>
 	</taskdef>
-    
+
 	<target name="clean" description="Cleans the build environment">
 		<delete dir="build"/>
 		<delete file="cobertura.ser"/>
 	</target>
-    
+
 	<target name="javadoc" description="Generate javadocs from code">
 		<mkdir dir="build/javadoc"/>
 		<delete includeemptydirs="true">
@@ -209,7 +209,7 @@
 			</manifest>
 		</jar>
 	</target>
-    
+
 	<target name="tests-nocoverage" description="run all unit tests without generating coverage information">
 		<mkdir dir="build/tests"/>
 		<junit printsummary="yes" haltonfailure="no" showoutput="yes">
@@ -240,7 +240,7 @@
 
 		<move file="./cobertura.ser" tofile="build/coverage/cobertura.ser"/>
 	</target>
-	
+
 	<target name="findbugs" description="run findbugs check on built jar writing output to a log file">
 		<mkdir dir="build/findbugs"/>
 		<findbugs home="lib/ant/findbugs/"
