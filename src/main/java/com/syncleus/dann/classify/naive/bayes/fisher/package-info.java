@@ -17,7 +17,6 @@
  *                                                                             *
  ******************************************************************************/
 
-
 /**
  * This package contains naive classifiers using Bayes' theorem plus
  * <a href="http://en.wikipedia.org/wiki/Fisher%27s_linear_discriminant">

@@ -48,6 +48,7 @@ public abstract class AbstractWeightedBidirectedEdge<N> extends AbstractBidirect
 		this.weight = ourWeight;
 	}
 
+	@Override
 	public double getWeight()
 	{
 		return this.weight;

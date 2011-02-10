@@ -20,6 +20,7 @@ package com.syncleus.dann.math;
 
 public interface OrderedFieldElement<F extends OrderedFieldElement<? extends F>> extends FieldElement<F>, Comparable<F>
 {
+	@Override
 	OrderedField<F> getField();
 	F max(F value);
 	F min(F value);

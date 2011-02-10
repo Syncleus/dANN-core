@@ -18,7 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.topological;
 
-import com.syncleus.dann.graph.*;
+import com.syncleus.dann.graph.BidirectedEdge;
+import com.syncleus.dann.graph.BidirectedGraph;
+import com.syncleus.dann.graph.HyperEdge;
+import com.syncleus.dann.graph.HyperGraph;
 
 public interface StructureOptimizedHyperGraph<N, E extends HyperEdge<N>> extends HyperGraph<N, E>
 {
@@ -33,19 +36,19 @@ public interface StructureOptimizedHyperGraph<N, E extends HyperEdge<N>> extends
 	 */
 	boolean isUniform();
 	/**
-	 * Determines if the specifed graph has all the nodes in this graph and some
-	 * but not all of the edges.
+	 * Determines if the specified graph has all the nodes in this graph and
+	 * some but not all of the edges.
 	 *
-	 * @param partialGraph the graph to check if it is a partial hypergraph.
-	 * @return true if the specifed graph has all the nodes in this graph and some
-	 *         but not all of the edges.
+	 * @param partialGraph the graph to check if it is a partial hyper-graph.
+	 * @return true if the specified graph has all the nodes in this graph and
+	 *   some but not all of the edges.
 	 * @since 2.0
 	 */
 	boolean isPartial(HyperGraph<N, E> partialGraph);
 	/**
-	 * Determines if the specified graph has all the nodes in this graph and if for
-	 * every edge in this graph there is an induced connected subgraph in the
-	 * specified graph.
+	 * Determines if the specified graph has all the nodes in this graph and if
+	 * for every edge in this graph there is an induced connected subgraph in
+	 * the specified graph.
 	 *
 	 * @param hostGraph the graph to check if it is a host graph.
 	 * @return true if the specified graph is a host graph of this one.
@@ -54,7 +57,7 @@ public interface StructureOptimizedHyperGraph<N, E extends HyperEdge<N>> extends
 	boolean isHost(HyperGraph<N, E> hostGraph);
 	/**
 	 * Creates a undirected graph that contains all the nodes of this graph and
-	 * each pair of nodes in every hyperedge has a undirected edge in the new
+	 * each pair of nodes in every hyper-edge has a undirected edge in the new
 	 * graph.
 	 *
 	 * @return the primal graph of this graph.

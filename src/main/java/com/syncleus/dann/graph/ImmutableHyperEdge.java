@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.*;
+import java.util.List;
 
 public final class ImmutableHyperEdge<N> extends AbstractHyperEdge<N>
 {

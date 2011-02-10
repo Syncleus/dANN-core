@@ -18,9 +18,12 @@
  ******************************************************************************/
 package com.syncleus.dann.neural.backprop.brain;
 
-import java.util.*;
-import com.syncleus.dann.neural.*;
-import com.syncleus.dann.neural.backprop.*;
+import java.util.List;
+import java.util.Set;
+import com.syncleus.dann.neural.Synapse;
+import com.syncleus.dann.neural.backprop.BackpropNeuron;
+import com.syncleus.dann.neural.backprop.InputBackpropNeuron;
+import com.syncleus.dann.neural.backprop.OutputBackpropNeuron;
 
 public interface FeedforwardBackpropBrain<IN extends InputBackpropNeuron, ON extends OutputBackpropNeuron, N extends BackpropNeuron, S extends Synapse<N>> extends BackpropBrain<IN, ON, N, S>
 {

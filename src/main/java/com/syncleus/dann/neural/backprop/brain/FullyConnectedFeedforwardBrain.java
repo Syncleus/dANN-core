@@ -21,7 +21,12 @@ package com.syncleus.dann.neural.backprop.brain;
 import java.util.concurrent.ExecutorService;
 import com.syncleus.dann.neural.Synapse;
 import com.syncleus.dann.neural.activation.ActivationFunction;
-import com.syncleus.dann.neural.backprop.*;
+import com.syncleus.dann.neural.backprop.BackpropNeuron;
+import com.syncleus.dann.neural.backprop.InputBackpropNeuron;
+import com.syncleus.dann.neural.backprop.OutputBackpropNeuron;
+import com.syncleus.dann.neural.backprop.SimpleBackpropNeuron;
+import com.syncleus.dann.neural.backprop.SimpleInputBackpropNeuron;
+import com.syncleus.dann.neural.backprop.SimpleOutputBackpropNeuron;
 
 public final class FullyConnectedFeedforwardBrain<IN extends InputBackpropNeuron, ON extends OutputBackpropNeuron, N extends BackpropNeuron, S extends Synapse<N>> extends AbstractFullyConnectedFeedforwardBrain<IN, ON, N, S>
 {
@@ -63,11 +68,12 @@ public final class FullyConnectedFeedforwardBrain<IN extends InputBackpropNeuron
 	 * Since a specific ActivationFunction or learning rate is needed then this
 	 * should be overridden in a child class.
 	 *
-	 * @param layer the currrent layer index for which we are creating the neuron.
+	 * @param layer the current layer index for which we are creating the neuron.
 	 * @param index The index of the new neuron within the layer.
 	 * @return The new SimpleBackpropNeuron to be added to the current layer.
 	 * @since 2.0
 	 */
+	@Override
 	protected N createNeuron(final int layer, final int index)
 	{
 		final BackpropNeuron neuron;

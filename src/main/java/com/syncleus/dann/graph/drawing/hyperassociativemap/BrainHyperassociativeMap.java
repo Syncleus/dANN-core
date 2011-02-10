@@ -20,7 +20,11 @@ package com.syncleus.dann.graph.drawing.hyperassociativemap;
 
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
-import com.syncleus.dann.neural.*;
+import com.syncleus.dann.neural.Brain;
+import com.syncleus.dann.neural.InputNeuron;
+import com.syncleus.dann.neural.Neuron;
+import com.syncleus.dann.neural.OutputNeuron;
+import com.syncleus.dann.neural.Synapse;
 
 public class BrainHyperassociativeMap extends HyperassociativeMap<Brain<InputNeuron, OutputNeuron, Neuron, Synapse<Neuron>>, Neuron>
 {

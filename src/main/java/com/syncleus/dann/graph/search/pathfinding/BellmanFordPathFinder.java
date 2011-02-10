@@ -39,6 +39,7 @@ public class BellmanFordPathFinder<N, E extends DirectedEdge<N>> implements Path
 		this.graph = graph;
 	}
 
+	@Override
 	public List<E> getBestPath(final N begin, final N end)
 	{
 		return this.getBestPath(begin, end, true);
@@ -95,11 +96,13 @@ public class BellmanFordPathFinder<N, E extends DirectedEdge<N>> implements Path
 		}
 	}
 
+	@Override
 	public boolean isReachable(final N begin, final N end)
 	{
 		return (this.getBestPath(begin, end) != null);
 	}
 
+	@Override
 	public boolean isConnected(final N begin, final N end)
 	{
 		return (this.getBestPath(begin, end) != null);
@@ -184,6 +187,7 @@ public class BellmanFordPathFinder<N, E extends DirectedEdge<N>> implements Path
 			return this.node.hashCode();
 		}
 
+		@Override
 		public int compareTo(final PathedStep compareWith)
 		{
 			//the natural ordering is inverse cause the smallest path weight is

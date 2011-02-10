@@ -18,8 +18,11 @@
  ******************************************************************************/
 package com.syncleus.dann.neural.backprop.brain;
 
-import com.syncleus.dann.neural.*;
-import com.syncleus.dann.neural.backprop.*;
+import com.syncleus.dann.neural.Brain;
+import com.syncleus.dann.neural.Synapse;
+import com.syncleus.dann.neural.backprop.BackpropNeuron;
+import com.syncleus.dann.neural.backprop.InputBackpropNeuron;
+import com.syncleus.dann.neural.backprop.OutputBackpropNeuron;
 
 public interface BackpropBrain<IN extends InputBackpropNeuron, ON extends OutputBackpropNeuron, N extends BackpropNeuron, S extends Synapse<N>> extends Brain<IN, ON, N, S>
 {

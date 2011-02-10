@@ -20,7 +20,8 @@ package com.syncleus.dann.graphicalmodel.bayesian.dynamic;
 
 import java.util.Set;
 import com.syncleus.dann.graph.Graph;
-import com.syncleus.dann.graphicalmodel.bayesian.*;
+import com.syncleus.dann.graphicalmodel.bayesian.AbstractBayesianAdjacencyNetwork;
+import com.syncleus.dann.graphicalmodel.bayesian.BayesianEdge;
 
 public abstract class AbstractDynamicBayesianAdjacencyNetwork<N extends DynamicBayesianNode, E extends BayesianEdge<N>> extends AbstractBayesianAdjacencyNetwork<N, E> implements DynamicBayesianNetwork<N, E>
 {
@@ -39,6 +40,7 @@ public abstract class AbstractDynamicBayesianAdjacencyNetwork<N extends DynamicB
 		super(nodes, edges);
 	}
 
+	@Override
 	public void learnStates(final boolean updateHistory)
 	{
 		for(final N node : this.getNodes())

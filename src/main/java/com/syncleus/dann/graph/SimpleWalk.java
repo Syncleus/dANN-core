@@ -18,7 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class SimpleWalk<N, E extends Edge<N>> extends AbstractWalk<N, E>
 {

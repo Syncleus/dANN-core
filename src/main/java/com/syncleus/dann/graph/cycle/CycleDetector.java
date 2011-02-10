@@ -18,7 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.cycle;
 
-import com.syncleus.dann.graph.*;
+import com.syncleus.dann.graph.Edge;
+import com.syncleus.dann.graph.Graph;
 
 public interface CycleDetector
 {

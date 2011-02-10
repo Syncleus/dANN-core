@@ -23,5 +23,6 @@ import com.syncleus.dann.math.linear.RealMatrix;
 public interface HessenbergDecomposition extends Decomposition<RealMatrix>
 {
 	RealMatrix getHessenbergMatrix();
+	@Override
 	RealMatrix getMatrix();
 }

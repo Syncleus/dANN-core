@@ -18,8 +18,14 @@
  ******************************************************************************/
 package com.syncleus.dann.dataprocessing.language.parsing;
 
-import java.util.*;
-import java.util.regex.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A BasicWordParser splits words into spaces.

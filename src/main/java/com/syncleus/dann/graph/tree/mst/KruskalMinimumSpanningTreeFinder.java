@@ -19,11 +19,19 @@
 package com.syncleus.dann.graph.tree.mst;
 
 import java.io.Serializable;
-import java.util.*;
-import com.syncleus.dann.graph.*;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.Set;
+import com.syncleus.dann.graph.Edge;
+import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.Weighted;
 
 public class KruskalMinimumSpanningTreeFinder<N, E extends Edge<N>> implements MinimumSpanningTreeFinder<N, E>
 {
+	@Override
 	public Set<E> findMinimumSpanningTree(final Graph<N, E> graph)
 	{
 		final Set<Set<N>> componentNodeSets = new HashSet<Set<N>>();
@@ -70,6 +78,7 @@ public class KruskalMinimumSpanningTreeFinder<N, E extends Edge<N>> implements M
 	{
 		private static final long serialVersionUID = 4497530556915589495L;
 
+		@Override
 		public int compare(final E first, final E second)
 		{
 			double firstWeight = 0;

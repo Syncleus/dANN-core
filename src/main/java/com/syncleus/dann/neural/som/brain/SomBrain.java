@@ -21,8 +21,11 @@ package com.syncleus.dann.neural.som.brain;
 import java.util.Map;
 import java.util.Set;
 import com.syncleus.dann.math.Vector;
-import com.syncleus.dann.neural.*;
-import com.syncleus.dann.neural.som.*;
+import com.syncleus.dann.neural.Brain;
+import com.syncleus.dann.neural.Synapse;
+import com.syncleus.dann.neural.som.SomInputNeuron;
+import com.syncleus.dann.neural.som.SomNeuron;
+import com.syncleus.dann.neural.som.SomOutputNeuron;
 
 public interface SomBrain<IN extends SomInputNeuron, ON extends SomOutputNeuron, N extends SomNeuron, S extends Synapse<N>> extends Brain<IN, ON, N, S>
 {

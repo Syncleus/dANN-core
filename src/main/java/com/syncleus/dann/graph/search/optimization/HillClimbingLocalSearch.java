@@ -18,7 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.search.optimization;
 
-import com.syncleus.dann.graph.*;
+import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.Weighted;
 import com.syncleus.dann.graph.search.LocalSearch;
 
 // TODO implement optimizer approach
@@ -34,6 +35,7 @@ public class HillClimbingLocalSearch<G extends Graph<N, ?>, N extends Weighted> 
 		this.graph = graph;
 	}
 
+	@Override
 	public N search(final N startNode)
 	{
 		if( startNode == null )

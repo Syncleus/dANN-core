@@ -18,7 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 public class SignalGene extends AbstractWaveletGene
 {
@@ -53,6 +55,7 @@ public class SignalGene extends AbstractWaveletGene
 		return bound;
 	}
 
+	@Override
 	public void tick(final double promotion)
 	{
 		super.tick(promotion);
@@ -62,7 +65,7 @@ public class SignalGene extends AbstractWaveletGene
 	@Override
 	public Set<AbstractKey> getKeys()
 	{
-		final HashSet<AbstractKey> allKeys = new HashSet<AbstractKey>(super.getKeys());
+		final Set<AbstractKey> allKeys = new HashSet<AbstractKey>(super.getKeys());
 		allKeys.add(this.outputSignal);
 		return Collections.unmodifiableSet(allKeys);
 	}

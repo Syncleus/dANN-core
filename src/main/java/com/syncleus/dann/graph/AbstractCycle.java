@@ -37,6 +37,7 @@ public abstract class AbstractCycle<N, E extends Edge<N>> extends AbstractWalk<N
 		return nodeSteps.get(0).equals(nodeSteps.get(nodeSteps.size() - 1));
 	}
 
+	@Override
 	public boolean isOddCycle()
 	{
 		return isOddCycle(this);

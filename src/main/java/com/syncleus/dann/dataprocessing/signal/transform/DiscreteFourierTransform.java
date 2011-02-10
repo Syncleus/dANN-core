@@ -18,11 +18,15 @@
  ******************************************************************************/
 package com.syncleus.dann.dataprocessing.signal.transform;
 
-import java.util.*;
-import com.syncleus.dann.math.*;
+import java.util.Collections;
+import java.util.NavigableMap;
+import java.util.SortedMap;
+import java.util.TreeMap;
+import com.syncleus.dann.math.Averages;
+import com.syncleus.dann.math.ComplexNumber;
 
 /**
- * A DiscreteFourierTransform is a fourier transform that operates on a discrete input function.
+ * A DiscreteFourierTransform is a Fourier transform that operates on a discrete input function.
  * @author Jeffrey Phillips Freeman
  */
 public class DiscreteFourierTransform
@@ -31,9 +35,10 @@ public class DiscreteFourierTransform
 	private final NavigableMap<Double, ComplexNumber> frequencies;
 
 	/**
-	 * Creates a new DiscreteFourierTransform with the given frequencies and the given bitrate.
+	 * Creates a new DiscreteFourierTransform with the given frequencies and the
+	 * given bit-rate.
 	 * @param ourFrequencies The frequencies to use
-	 * @param bitrate The bitrate to use
+	 * @param bitrate The bit-rate to use
 	 */
 	public DiscreteFourierTransform(final ComplexNumber[] ourFrequencies, final int bitrate)
 	{

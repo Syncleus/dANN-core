@@ -18,7 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.dataprocessing.language.parsing;
 
-import java.util.*;
+import java.util.List;
+import java.util.Set;
 
 /**
  * A WordParser splits a String into individual words.

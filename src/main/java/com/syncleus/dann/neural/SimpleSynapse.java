@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.neural;
 
-import java.util.*;
+import java.util.List;
 
 /**
  * The synapse acts as a bridge between connected neurons. It is also where the

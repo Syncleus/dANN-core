@@ -18,7 +18,11 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 import com.syncleus.dann.UnexpectedDannError;
 import com.syncleus.dann.genetics.Gene;
 import com.syncleus.dann.math.AbstractFunction;
