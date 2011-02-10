@@ -18,9 +18,9 @@
  ******************************************************************************/
 
 /*
-** Derived from the Public-Domain sources found at
-** http://www.cs.princeton.edu/introcs/97data/ as of 9/13/2009.
-*/
+ * Derived from the Public-Domain sources found at
+ * http://www.cs.princeton.edu/introcs/97data/ as of 9/13/2009.
+ */
 package com.syncleus.dann.math;
 
 import java.util.ArrayList;

@@ -18,8 +18,8 @@
  ******************************************************************************/
 
 /*
- ** Derived from Public-Domain source as indicated at
- ** http://www.merriampark.com/comb.htm as of 4/20/2010.
+ * Derived from Public-Domain source as indicated at
+ * http://www.merriampark.com/comb.htm as of 4/20/2010.
  */
 package com.syncleus.dann.math.counting;
 
