@@ -32,7 +32,7 @@ import com.syncleus.dann.UnexpectedDannError;
 import com.syncleus.dann.graph.AbstractBidirectedAdjacencyGraph;
 import com.syncleus.dann.graph.topological.StrongConnectivityOptimizedGraph;
 
-// TODO refactor this to be a generic following the patern of its parent classes. Specifically to use Mutable graph type.
+// TODO refactor this to be a generic following the pattern of its parent classes. Specifically to use Mutable graph type.
 
 /**
  * Represents a single artificial brain typically belonging to a single

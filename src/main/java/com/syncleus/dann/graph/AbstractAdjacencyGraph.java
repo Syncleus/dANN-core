@@ -384,7 +384,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 	{
 		try
 		{
-			 final AbstractAdjacencyGraph<N, E> cloneGraph = (AbstractAdjacencyGraph<N, E>) super.clone();
+			final AbstractAdjacencyGraph<N, E> cloneGraph = (AbstractAdjacencyGraph<N, E>) super.clone();
 
 			//lets instantiate some new datastructurs for our clone
 			cloneGraph.adjacentEdges = new HashMap<N, Set<E>>();

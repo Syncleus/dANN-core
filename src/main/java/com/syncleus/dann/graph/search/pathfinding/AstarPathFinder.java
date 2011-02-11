@@ -142,7 +142,7 @@ public class AstarPathFinder<N, E extends Edge<N>> implements PathFinder<N, E>
 			throw new IllegalArgumentException("heuristicPathCost can not be null");
 		if( !heuristicPathCost.isOptimistic() )
 			throw new IllegalArgumentException("heuristicPathCost must be admissible");
-//		TODO : Does the heuristic need to be consistent?
+//		TODO Does the heuristic need to be consistent?
 //		if( !heuristicPathCost.isConsistent() )
 //			throw new IllegalArgumentException("This implementation requires a consistent heuristic");
 
