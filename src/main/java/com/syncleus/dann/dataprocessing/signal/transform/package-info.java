@@ -20,4 +20,4 @@
 /**
  * This package includes transforms for use in signal processing.
  */
-package com.syncleus.dann.signal.transform;
+package com.syncleus.dann.dataprocessing.signal.transform;

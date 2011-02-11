@@ -20,4 +20,4 @@
 /**
  * Divides words into stems for language processing.
  */
-package comm.syncleus.dann.dataprocessing.language.stem;
+package com.syncleus.dann.dataprocessing.language.parsing.stem;
