@@ -181,9 +181,6 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 		return new SimpleRealMatrix(this.matrixElements);
 	}
 
-	/**
-	 * Clone the SimpleRealMatrix object.
-	 */
 	@Override
 	public SimpleRealMatrix clone()
 	{
@@ -212,11 +209,6 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 		return array;
 	}
 
-	/**
-	 * Copy the internal two-dimensional array.
-	 *
-	 * @return Two-dimensional array copy of matrix elements.
-	 */
 	@Override
 	public double[][] toDoubleArray()
 	{
@@ -249,54 +241,30 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	 */
 	public double[] getRowPackedCopy()
 	{
-		final double[] vals = new double[this.height * this.width];
+		final double[] values = new double[this.height * this.width];
 		for(int i = 0; i < this.height; i++)
-			System.arraycopy(this.matrixElements[i], 0, vals, i * this.width, this.width);
-		return vals;
+			System.arraycopy(this.matrixElements[i], 0, values, i * this.width, this.width);
+		return values;
 	}
 
-	/**
-	 * Get row dimension.
-	 *
-	 * @return height, the number of rows.
-	 */
 	@Override
 	public int getHeight()
 	{
 		return this.height;
 	}
 
-	/**
-	 * Get column dimension.
-	 *
-	 * @return height, the number of columns.
-	 */
 	@Override
 	public int getWidth()
 	{
 		return this.width;
 	}
 
-	/**
-	 * Get a single element.
-	 *
-	 * @param heightIndex Row index.
-	 * @param widthIndex Column index.
-	 * @return value at the specified element
-	 */
 	@Override
 	public double getDouble(final int heightIndex, final int widthIndex)
 	{
 		return this.matrixElements[heightIndex][widthIndex];
 	}
 
-	/**
-	 * Get a single element.
-	 *
-	 * @param heightIndex Row index.
-	 * @param widthIndex Column index.
-	 * @return RealNumber value of the specified element.
-	 */
 	@Override
 	public RealNumber get(final int heightIndex, final int widthIndex)
 	{
@@ -319,16 +287,6 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 		return new SimpleRealMatrix(flippedSolution);
 	}
 
-	/**
-	 * Get a sub-matrix.
-	 *
-	 * @param heightStart Initial row index
-	 * @param heightEnd Final row index
-	 * @param widthStart Initial column index
-	 * @param widthEnd Final column index
-	 * @return matrixElements(heightStart:heightEnd,widthStart:widthEnd)
-	 * @throws ArrayIndexOutOfBoundsException Sub-matrix indices
-	 */
 	@Override
 	public RealMatrix getSubmatrix(final int heightStart, final int heightEnd, final int widthStart, final int widthEnd)
 	{
@@ -339,14 +297,6 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 		return new SimpleRealMatrix(subMatrix);
 	}
 
-	/**
-	 * Get a sub-matrix.
-	 *
-	 * @param heightIndexes Array of row indices.
-	 * @param widthIndexes Array of column indices.
-	 * @return matrixElements(heightIndexes(:),widthIndexes(:))
-	 * @throws ArrayIndexOutOfBoundsException Sub-matrix indices
-	 */
 	@Override
 	public RealMatrix getSubmatrix(final int[] heightIndexes, final int[] widthIndexes)
 	{
@@ -359,15 +309,6 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 		return new SimpleRealMatrix(newMatrix);
 	}
 
-	/**
-	 * Get a sub-matrix.
-	 *
-	 * @param heightStart Initial row index
-	 * @param heightEnd Final row index
-	 * @param widthIndexes Array of column indices.
-	 * @return matrixElements(heightStart:heightEnd,widthIndexes(:))
-	 * @throws ArrayIndexOutOfBoundsException Sub-matrix indices
-	 */
 	@Override
 	public RealMatrix getSubmatrix(final int heightStart, final int heightEnd, final int[] widthIndexes)
 	{
@@ -380,15 +321,6 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 		return new SimpleRealMatrix(newMatrix);
 	}
 
-	/**
-	 * Get a sub-matrix.
-	 *
-	 * @param heightIndexes Array of row indices.
-	 * @param widthStart Initial column index
-	 * @param widthEnd Final column index
-	 * @return A RealMatrix represented the elements specified
-	 * @throws ArrayIndexOutOfBoundsException Sub-matrix indices
-	 */
 	@Override
 	public RealMatrix getSubmatrix(final int[] heightIndexes, final int widthStart, final int widthEnd)
 	{
@@ -399,13 +331,6 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 		return new SimpleRealMatrix(newMatrix);
 	}
 
-	/**
-	 * Set a single element.
-	 *
-	 * @param heightIndex Row index.
-	 * @param widthIndex Column index.
-	 * @param fillValue value to set
-	 */
 	@Override
 	public RealMatrix set(final int heightIndex, final int widthIndex, final RealNumber fillValue)
 	{
@@ -479,11 +404,6 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 				this.matrixElements[i][widthIndexes[j]] = fillMatrix.getDouble(i - heightStart, j);
 	}
 
-	/**
-	 * SimpleRealMatrix transpose.
-	 *
-	 * @return matrixElements'
-	 */
 	@Override
 	public RealMatrix transpose()
 	{
@@ -572,11 +492,6 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 		return normF;
 	}
 
-	/**
-	 * Unary subtract.
-	 *
-	 * @return -matrixElements
-	 */
 	@Override
 	public RealMatrix negate()
 	{
@@ -589,12 +504,6 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 		return new SimpleRealMatrix(negatedMatrix);
 	}
 
-	/**
-	 * resultArray = matrixElements + operand.
-	 *
-	 * @param operand another matrix
-	 * @return matrixElements + operand
-	 */
 	@Override
 	public RealMatrix add(final RealMatrix operand)
 	{
@@ -609,12 +518,6 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 		return new SimpleRealMatrix(resultArray);
 	}
 
-	/**
-	 * scalar addition matrixElements + operand.
-	 *
-	 * @param operand scalar value to add to each element in this matrix.
-	 * @return a new element containing the result of this scalar addition.
-	 */
 	@Override
 	public RealMatrix add(final RealNumber operand)
 	{
@@ -626,12 +529,6 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 		return newSimpleMatrix;
 	}
 
-	/**
-	 * scalar addition each element of this matrix added to scalar.
-	 *
-	 * @param scalar scalar value to add.
-	 * @return new matrix containing the result of this operation.
-	 */
 	@Override
 	public RealMatrix add(final double scalar)
 	{
@@ -643,12 +540,6 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 		return newMatrix;
 	}
 
-	/**
-	 * matrixElements = matrixElements + operand.
-	 *
-	 * @param operand another matrix
-	 * @return matrixElements + operand
-	 */
 	@Override
 	public RealMatrix addEquals(final RealMatrix operand)
 	{
@@ -660,12 +551,6 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 		return new SimpleRealMatrix(newMatrixElements);
 	}
 
-	/**
-	 * resultArray = matrixElements - operand.
-	 *
-	 * @param operand another matrix
-	 * @return matrixElements - operand
-	 */
 	@Override
 	public RealMatrix subtract(final RealMatrix operand)
 	{
@@ -690,12 +575,6 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 		return this.add(-1.0 * scalar);
 	}
 
-	/**
-	 * matrixElements = matrixElements - operand.
-	 *
-	 * @param operand another matrix
-	 * @return matrixElements - operand
-	 */
 	@Override
 	public RealMatrix subtractEquals(final RealMatrix operand)
 	{
@@ -708,12 +587,6 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 		return newMatrix;
 	}
 
-	/**
-	 * Element-by-element multiplication, resultArray = matrixElements.*operand.
-	 *
-	 * @param operand another matrix
-	 * @return matrixElements.*operand
-	 */
 	@Override
 	public RealMatrix arrayTimes(final RealMatrix operand)
 	{
@@ -726,13 +599,6 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 		return newMatrix;
 	}
 
-	/**
-	 * Element-by-element multiplication in place, matrixElements =
-	 * matrixElements.*operand.
-	 *
-	 * @param operand another matrix
-	 * @return matrixElements.*operand
-	 */
 	@Override
 	public RealMatrix arrayTimesEquals(final RealMatrix operand)
 	{
@@ -743,12 +609,6 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 		return this;
 	}
 
-	/**
-	 * Element-by-element right division, resultArray = matrixElements./operand.
-	 *
-	 * @param operand another matrix
-	 * @return matrixElements./operand
-	 */
 	@Override
 	public RealMatrix arrayRightDivide(final RealMatrix operand)
 	{
@@ -761,13 +621,6 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 		return matrix;
 	}
 
-	/**
-	 * Element-by-element right division in place, matrixElements =
-	 * matrixElements./operand.
-	 *
-	 * @param operand another matrix
-	 * @return matrixElements./operand
-	 */
 	@Override
 	public RealMatrix arrayRightDivideEquals(final RealMatrix operand)
 	{
@@ -778,12 +631,6 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 		return this;
 	}
 
-	/**
-	 * Element-by-element left division, resultArray = matrixElements.\operand.
-	 *
-	 * @param operand another matrix
-	 * @return matrixElements.\operand
-	 */
 	@Override
 	public RealMatrix arrayLeftDivide(final RealMatrix operand)
 	{
@@ -796,13 +643,6 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 		return matrix;
 	}
 
-	/**
-	 * Element-by-element left division in place, matrixElements =
-	 * matrixElements.\operand.
-	 *
-	 * @param operand another matrix
-	 * @return matrixElements.\operand
-	 */
 	@Override
 	public RealMatrix arrayLeftDivideEquals(final RealMatrix operand)
 	{
@@ -813,12 +653,6 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 		return this;
 	}
 
-	/**
-	 * Multiply a matrix by a scalar, resultArray = scalar*matrixElements.
-	 *
-	 * @param scalar scalar
-	 * @return scalar*matrixElements
-	 */
 	@Override
 	public RealMatrix multiply(final double scalar)
 	{
@@ -830,12 +664,6 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 		return matrix;
 	}
 
-	/**
-	 * Multiply a matrix by a scalar, resultArray = scalar*matrixElements.
-	 *
-	 * @param scalar scalar
-	 * @return scalar*matrixElements
-	 */
 	@Override
 	public RealMatrix multiply(final RealNumber scalar)
 	{
@@ -854,13 +682,6 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 		return this.multiply(1.0 / scalar);
 	}
 
-	/**
-	 * Multiply a matrix by a scalar in place, matrixElements =
-	 * scalar*matrixElements.
-	 *
-	 * @param scalar scalar
-	 * @return replace matrixElements by scalar*matrixElements
-	 */
 	@Override
 	public RealMatrix multiplyEquals(final double scalar)
 	{
@@ -879,14 +700,6 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 		return this;
 	}
 
-	/**
-	 * Linear algebraic matrix multiplication, matrixElements * operand.
-	 *
-	 * @param operand another matrix
-	 * @return SimpleRealMatrix product, matrixElements * operand
-	 * @throws IllegalArgumentException SimpleRealMatrix inner dimensions must
-	 * agree.
-	 */
 	@Override
 	public RealMatrix multiply(final RealMatrix operand)
 	{
@@ -911,50 +724,24 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 		return resultMatrix;
 	}
 
-	/**
-	 * Solve matrixElements*resultMatrix = operand.
-	 *
-	 * @param operand right hand side
-	 * @return solution if matrixElements is square, least squares solution
-	 *         otherwise
-	 */
 	@Override
 	public RealMatrix solve(final RealMatrix operand)
 	{
 		return (this.height == this.width ? (new DoolittleLuDecomposition<RealMatrix, RealNumber>(this)).solve(operand) : (new HouseholderQrDecomposition<RealMatrix, RealNumber>(this)).solve(operand));
 	}
 
-	/**
-	 * Solve resultMatrix*matrixElements = operand, which is also
-	 * matrixElements'*resultMatrix' = operand'.
-	 *
-	 * @param operand right hand side
-	 * @return solution if matrixElements is square, least squares solution
-	 *         otherwise.
-	 */
 	@Override
 	public RealMatrix solveTranspose(final RealMatrix operand)
 	{
 		return this.transpose().solve(operand.transpose());
 	}
 
-	/**
-	 * SimpleRealMatrix reciprocal or pseudo-inverse.
-	 *
-	 * @return reciprocal(matrixElements) if matrixElements is square,
-	 *         pseudo-inverse otherwise.
-	 */
 	@Override
 	public RealMatrix reciprocal()
 	{
 		return solve(identity(this.height, this.height));
 	}
 
-	/**
-	 * SimpleRealMatrix determinant.
-	 *
-	 * @return determinant
-	 */
 	@Override
 	public double getDeterminant()
 	{

@@ -22,7 +22,8 @@ import java.util.*;
 import com.syncleus.dann.classify.Classifier;
 
 /**
- * A NaiveClassifier classifies items into categories by virtue of their features.
+ * A NaiveClassifier classifies items into categories by virtue of their
+ * features.
  * @param <I> The type of Item to use
  * @param <F> The type of feature to use
  * @param <C> The type of category to use
@@ -41,7 +42,7 @@ public interface NaiveClassifier<I, F, C> extends Classifier<I, C>
 	 * Gets the weighted classification of a given feature.
 	 * @param feature The feature to use
 	 * @return The weighted classification of the feature
-	 * @see com.syncleus.dann.classify.naive.NaiveClassifier#featureClassification(Object)
+	 * @see #featureClassification(Object)
 	 */
 	C featureClassificationWeighted(F feature);
 
@@ -57,14 +58,9 @@ public interface NaiveClassifier<I, F, C> extends Classifier<I, C>
 	 * Gets the weighted probability that a feature is in a given category.
 	 * @param feature The feature to check
 	 * @param category The category to check
-	 * @return The weighted probability that the feature is in the given category
+	 * @return The weighted probability that the feature is in the given
+	 *   category
 	 */
-	//DOC how does this differ from the method directly above it?
+	// TODO DOC how does this differ from the method directly above it?
 	double featureClassificationWeightedProbability(F feature, C category);
-
-	//parent methods - currently commented out to avoid redundant javadoc. They're inherited.
-	/*C classification(I item);
-	Map<C, Double> getCategoryProbabilities(I item);
-	double classificationProbability(I item, C category);
-	Set<C> getCategories();*/
 }

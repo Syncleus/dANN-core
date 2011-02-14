@@ -18,7 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.classify;
 
-import java.util.*;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Groups a set of items, I, into members of group C.
@@ -36,8 +37,8 @@ public interface Classifier<I, C>
 	C classification(I item);
 
 	/**
-	 * Gets the possible categories for a given item, and the probability that it will
-	 * be assigned to a given one.
+	 * Gets the possible categories for a given item, and the probability that
+	 * it will be assigned to a given one.
 	 * @param item The item to get probabilities for
 	 * @return A map of category to probability for the item's classification
 	 */
@@ -47,7 +48,8 @@ public interface Classifier<I, C>
 	 * Gets the probability that the item will be assigned a given category.
 	 * @param item The item to categorize
 	 * @param category The category to check
-	 * @return The probability that <code>item</code> is in <code>category</code>.
+	 * @return The probability that <code>item</code> is in
+	 *   <code>category</code>.
 	 * @see Classifier#getCategoryProbabilities(Object)
 	 */
 	double classificationProbability(I item, C category);

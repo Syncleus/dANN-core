@@ -21,7 +21,7 @@ package com.syncleus.dann.classify.naive.bayes;
 import com.syncleus.dann.classify.naive.NaiveClassifier;
 
 /**
- * A NaiveBayesClassifier classifies items based on Bayes' Theorum.
+ * A NaiveBayesClassifier classifies items based on Bayes' Theorem.
  * @param <I> The item to classify
  * @param <F> The type of feature from the item
  * @param <C> The type of category

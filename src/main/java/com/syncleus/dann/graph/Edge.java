@@ -29,16 +29,27 @@ public interface Edge<N> extends Serializable, Cloneable, XmlSerializable<EdgeXm
 	List<N> getNodes();
 	List<N> getTraversableNodes(N node);
 	boolean isTraversable(N node);
+
 	/**
-	 * returns an edge with the specified node disconnected, null if the entire
-	 * edge should be deleted as a result of removing the specified node.
+	 * Returns an edge with the specified node disconnected.
 	 *
 	 * @param node node to remove from the returned edge.
-	 * @return an edge with the specified node disconnected, null if the entire
-	 *         edge should be deleted as a result of removing the specified node.
+	 * @return an edge with the specified node disconnected,
+	 *   <tt>null</tt> if the entire edge should be deleted as a result of
+	 *   removing the specified node.
 	 * @since 2.0
 	 */
 	Edge<N> disconnect(N node);
+
+	/**
+	 * Returns an edge with the specified nodes disconnected.
+	 *
+	 * @param node node to remove from the returned edge.
+	 * @return an edge with the specified nodes disconnected,
+	 *   <tt>null</tt> if the entire edge should be deleted as a result of
+	 *   removing the specified nodes.
+	 */
 	Edge<N> disconnect(List<N> node);
+
 	Edge<N> clone();
 }

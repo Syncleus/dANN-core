@@ -24,7 +24,7 @@ import com.syncleus.dann.graph.DirectedGraph;
 /**
  * Represents a single artificial brain typically belonging to a single
  * artificial organism. It will contain a set of input and output neurons which
- * corelate to a specific dataset pattern.
+ * correlate to a specific data-set pattern.
  *
  * @author Jeffrey Phillips Freeman
  * @since 1.0

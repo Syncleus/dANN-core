@@ -22,6 +22,18 @@ public interface OrderedFieldElement<F extends OrderedFieldElement<? extends F>>
 {
 	@Override
 	OrderedField<F> getField();
+
+	/**
+	 * Returns a constant holding the maximum value a field of this type can
+	 * have.
+	 * @return the maximum value a field of this type can have.
+	 */
 	F max(F value);
+
+	/**
+	 * Returns a constant holding the minimum value a field of this type can
+	 * have.
+	 * @return the minimum value a field of this type can have.
+	 */
 	F min(F value);
 }

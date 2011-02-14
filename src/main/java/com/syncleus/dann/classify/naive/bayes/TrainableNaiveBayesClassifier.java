@@ -21,7 +21,8 @@ package com.syncleus.dann.classify.naive.bayes;
 import com.syncleus.dann.classify.naive.TrainableNaiveClassifier;
 
 /**
- * A TrainableNaiveBayesClassifier is a trainable, naive classifier based on Bayes' theorem.
+ * A TrainableNaiveBayesClassifier is a trainable, naive classifier based on
+ * Bayes' Theorem.
  * @param <I> The type of item
  * @param <F> The type of feature
  * @param <C> The type of category

@@ -51,11 +51,6 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 		this.bitrate = ourBitRate;
 	}
 
-	/**
-	 * Transforms the given signal into a DiscreteFourierTransform.
-	 * @param signal The signal to transform
-	 * @return The DiscreteFourierTransform as a result.
-	 */
 	@Override
 	public DiscreteFourierTransform transform(final double[] signal)
 	{
@@ -64,12 +59,6 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 		return new DiscreteFourierTransform(frequencyDomain, this.bitrate);
 	}
 
-	/**
-	 * Inverts the transform. This the inverse of transform()
-	 * @param transform The transform to inverse
-	 * @return The original signal.
-	 * @see com.syncleus.dann.dataprocessing.signal.transform.CooleyTukeyFastFourierTransformer#transform(double[])
-	 */
 	@Override
 	public double[] inverseTransform(final DiscreteFourierTransform transform)
 	{
@@ -78,12 +67,8 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 	}
 
 	/**
-	 * Pads the double arrays to complex arrays, then performs the circular
-	 * convolution.
-	 * @param first The first matrix of doubles
-	 * @param second The second matrix of doubles
-	 * @return The circular convolution as a double[]
-	 * @see com.syncleus.dann.dataprocessing.signal.transform.CooleyTukeyFastFourierTransformer#circularConvolveMatrix(com.syncleus.dann.math.ComplexNumber[], com.syncleus.dann.math.ComplexNumber[])
+	 * {@inheritDoc}
+	 * @see #circularConvolveMatrix(com.syncleus.dann.math.ComplexNumber[], com.syncleus.dann.math.ComplexNumber[])
 	 */
 	@Override
 	public double[] circularConvolve(final double[] first, final double[] second)
@@ -105,10 +90,6 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 		return complexArrayToDoubleArray(resultComplex);
 	}
 
-	/**
-	 * Gets the current block size.
-	 * @return The current block size
-	 */
 	@Override
 	public int getBlockSize()
 	{
@@ -116,42 +97,34 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 	}
 
 	/**
-	 * Sets the block size to use. If the block size is a not a power of 2,
+	 * {@inheritDoc}
+	 * If the block size is a not a power of 2,
 	 * the block size is set to the next-largest power of two.
-	 * @param ourBlockSize The block size.
 	 */
 	@Override
-	public void setBlockSize(final int ourBlockSize)
+	public void setBlockSize(final int blockSize)
 	{
-		final double exponentOf2 = Math.log(ourBlockSize) / Math.log(2.0);
+		final double exponentOf2 = Math.log(blockSize) / Math.log(2.0);
 		if( Math.abs(exponentOf2 - Math.floor(exponentOf2)) > EPSILON)
 		{
 			this.blockSize = (int) Math.pow(2.0, Math.ceil(exponentOf2));
 		}
 		else
 		{
-			this.blockSize = ourBlockSize;
+			this.blockSize = blockSize;
 		}
 	}
 
-	/**
-	 * Gets the bitrate currently in use.
-	 * @return The current bitrate
-	 */
 	@Override
 	public int getBitrate()
 	{
 		return this.bitrate;
 	}
 
-	/**
-	 * Sets the current bitrate.
-	 * @param ourBitrate The bitrate to use
-	 */
 	@Override
-	public void setBitrate(final int ourBitrate)
+	public void setBitrate(final int bitRate)
 	{
-		this.bitrate = ourBitrate;
+		this.bitrate = bitRate;
 	}
 
 	/**

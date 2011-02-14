@@ -18,7 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.attributes.hat;
 
-import com.syncleus.dann.graph.*;
+import com.syncleus.dann.graph.DirectedEdge;
+import com.syncleus.dann.graph.MutableTreeGraph;
 
 public interface MutableHierarchicalAttributeTreeGraph<N extends HierarchicalAttributePool<T>, E extends DirectedEdge<N>, T> extends HierarchicalAttributeTreeGraph<N, E, T>, MutableTreeGraph<N, E>
 {
