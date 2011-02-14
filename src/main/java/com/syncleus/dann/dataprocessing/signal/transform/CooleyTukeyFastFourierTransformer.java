@@ -36,7 +36,7 @@ import com.syncleus.dann.math.ComplexNumber;
 public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 {
 	private int blockSize;
-	private int bitrate;
+	private int bitRate;
 	private static final double EPSILON = .0000000001;
 
 	/**
@@ -48,7 +48,7 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 	public CooleyTukeyFastFourierTransformer(final int ourBlockSize, final int ourBitRate)
 	{
 		this.setBlockSize(ourBlockSize);
-		this.bitrate = ourBitRate;
+		this.bitRate = ourBitRate;
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 	{
 		final double[] signalPadded = pad(signal);
 		final ComplexNumber[] frequencyDomain = transformMatrix(doubleArrayToComplexArray(signalPadded));
-		return new DiscreteFourierTransform(frequencyDomain, this.bitrate);
+		return new DiscreteFourierTransform(frequencyDomain, this.bitRate);
 	}
 
 	@Override
@@ -116,15 +116,15 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 	}
 
 	@Override
-	public int getBitrate()
+	public int getBitRate()
 	{
-		return this.bitrate;
+		return this.bitRate;
 	}
 
 	@Override
-	public void setBitrate(final int bitRate)
+	public void setBitRate(final int bitRate)
 	{
-		this.bitrate = bitRate;
+		this.bitRate = bitRate;
 	}
 
 	/**

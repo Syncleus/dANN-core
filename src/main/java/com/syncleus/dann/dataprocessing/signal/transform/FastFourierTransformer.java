@@ -62,11 +62,11 @@ public interface FastFourierTransformer
 	 * Gets the bit-rate currently in use.
 	 * @return The current bit-rate.
 	 */
-	int getBitrate();
+	int getBitRate();
 
 	/**
 	 * Sets the current bit-rate.
 	 * @param bitRate The bit-rate to use.
 	 */
-	void setBitrate(int bitRate);
+	void setBitRate(int bitRate);
 }

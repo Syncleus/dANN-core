@@ -162,7 +162,7 @@ public class FastFourierTransformerInputStream extends InputStream
 
 	public int getBitrate()
 	{
-		return this.transformer.getBitrate();
+		return this.transformer.getBitRate();
 	}
 
 	public int getInterval()

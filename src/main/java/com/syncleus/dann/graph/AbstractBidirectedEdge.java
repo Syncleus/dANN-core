@@ -107,13 +107,13 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implemen
 	@Override
 	public boolean isIntroverted()
 	{
-		return (this.rightEndState == com.syncleus.dann.graph.BidirectedEdge.EndState.INWARD) && (this.leftEndState == com.syncleus.dann.graph.BidirectedEdge.EndState.INWARD);
+		return (this.rightEndState == BidirectedEdge.EndState.INWARD) && (this.leftEndState == BidirectedEdge.EndState.INWARD);
 	}
 
 	@Override
-	public boolean isExtraverted()
+	public boolean isExtroverted()
 	{
-		return (this.rightEndState == com.syncleus.dann.graph.BidirectedEdge.EndState.OUTWARD) && (this.leftEndState == com.syncleus.dann.graph.BidirectedEdge.EndState.OUTWARD);
+		return (this.rightEndState == BidirectedEdge.EndState.OUTWARD) && (this.leftEndState == BidirectedEdge.EndState.OUTWARD);
 	}
 
 	@Override
@@ -139,7 +139,7 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implemen
 	@Override
 	public boolean isLooseEdge()
 	{
-		return (this.rightEndState == com.syncleus.dann.graph.BidirectedEdge.EndState.NONE) && (this.leftEndState == com.syncleus.dann.graph.BidirectedEdge.EndState.NONE);
+		return (this.rightEndState == BidirectedEdge.EndState.NONE) && (this.leftEndState == BidirectedEdge.EndState.NONE);
 	}
 
 	@Override
