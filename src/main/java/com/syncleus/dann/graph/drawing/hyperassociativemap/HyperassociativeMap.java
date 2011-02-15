@@ -33,6 +33,18 @@ import java.util.Map;
 import java.util.Random;
 import org.apache.log4j.Logger;
 
+/**
+ * A Hyperassociative Map is a new type of algorithm that organizes an arbitrary
+ * graph of interconnected nodes according to its associations to other nodes.
+ * Once a new Hyperassociative Map has been associated and aligned, nodes that
+ * are most closely associated will be closest to each other.
+ * For more info, please see the
+ * <a href ="http://wiki.syncleus.com/index.php/dANN:Hyperassociative_Map">
+ * Hyperassociative-Map dANN Wiki page</a>.
+ * @author Jeffrey Phillips Freeman
+ * @param <G> The graph type
+ * @param <N> The node type
+ */
 public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawer<G, N>
 {
 	private static final double REPULSIVE_WEAKNESS = 2.0;
@@ -150,10 +162,9 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 	@Override
 	public boolean isAligned()
 	{
-		if( this.isAlignable() )
-			return ((this.maxMovement < EQUILIBRIUM_ALIGNMENT_FACTOR * this.equilibriumDistance) && (this.maxMovement > DEFAULT_MAX_MOVEMENT));
-		else
-			return false;
+		return this.isAlignable()
+				&& (this.maxMovement < (EQUILIBRIUM_ALIGNMENT_FACTOR * equilibriumDistance))
+				&& (this.maxMovement > DEFAULT_MAX_MOVEMENT);
 	}
 
 	private double getAverageMovement()
