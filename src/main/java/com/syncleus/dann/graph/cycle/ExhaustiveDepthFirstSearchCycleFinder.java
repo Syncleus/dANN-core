@@ -35,6 +35,7 @@ import com.syncleus.dann.graph.topological.Topography;
 
 public class ExhaustiveDepthFirstSearchCycleFinder<N, E extends Edge<N>> extends ColoredDepthFirstSearchDetector implements CycleFinder<N, E>
 {
+	@Override
 	public boolean isPancyclic(final Graph<N, E> graph)
 	{
 		if( !Topography.isSimple(graph) )

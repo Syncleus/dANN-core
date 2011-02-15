@@ -99,7 +99,7 @@ public class PrimMinimumSpanningTreeFinder<N, E extends Edge<N>> implements Root
 			for(final E neighborEdge : neighborEdges)
 			{
 				final List<N> neighborNodes = new ArrayList<N>(neighborEdge.getNodes());
-				//remove all occurance of currentNode, not just the first
+				//remove all occurrences of currentNode, not just the first
 				while( neighborNodes.remove(currentNode) )
 				{
 				}

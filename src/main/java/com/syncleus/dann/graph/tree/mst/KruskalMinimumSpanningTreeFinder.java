@@ -29,6 +29,18 @@ import com.syncleus.dann.graph.Edge;
 import com.syncleus.dann.graph.Graph;
 import com.syncleus.dann.graph.Weighted;
 
+/**
+ * An implementation of
+ * <a href="http://en.wikipedia.org/wiki/Kruskal's_algorithm">
+ *     Kruskal's minimum spanning tree algorithm</a>.
+ * If the given graph is connected it computes the minimum spanning tree,
+ * otherwise it computes the minimum spanning forest. The algorithm runs in time
+ * O(E log E). This implementation uses the hashCode and equals method of the
+ * vertices.
+ * @author Jeffrey Phillips Freeman
+ * @param <N> The node type
+ * @param <E> The type of edge for the given node type
+ */
 public class KruskalMinimumSpanningTreeFinder<N, E extends Edge<N>> implements MinimumSpanningTreeFinder<N, E>
 {
 	@Override
