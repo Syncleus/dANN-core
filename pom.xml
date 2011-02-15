@@ -11,6 +11,7 @@
 	</parent>
 	<packaging>jar</packaging>
 
+	<groupId>syncleus.com</groupId>
 	<artifactId>dann-core</artifactId>
 	<name>dANN Core library</name>
 	<description>Artificial Intelligence and Artificial Genetics library - Core library</description>
