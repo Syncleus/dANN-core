@@ -32,7 +32,7 @@ public class ComponentUnavailableException extends Exception
 
 	public ComponentUnavailableException(final UnsatisfiedLinkError error)
 	{
-		super(error.getMessage());
+		super(error);
 		this.unsatisfiedLinkError = error;
 	}
 
