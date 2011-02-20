@@ -37,9 +37,9 @@ public class TestHyperassociativeMap
 		}
 
 		@Override
-		public boolean connect(final Synapse synapse, final boolean initalize)
+		public boolean connect(final Synapse synapse, final boolean initialize)
 		{
-			return super.connect(synapse, initalize);
+			return super.connect(synapse, initialize);
 		}
 	}
 
