@@ -18,8 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.drawing.hyperassociativemap.visualization;
 
-import java.awt.GraphicsConfiguration;
 import java.awt.BorderLayout;
+import java.awt.Canvas;
+import java.awt.GraphicsConfiguration;
 import javax.swing.JPanel;
 import javax.media.j3d.AmbientLight;
 import javax.media.j3d.Background;
@@ -53,6 +54,7 @@ public class HyperassociativeMapCanvas<G extends Graph<N, ?>, N> extends JPanel
 	private static final float NODE_RADIUS = 0.07F;
 	private float nodeRadius;
 	private HyperassociativeMapVisualization<HyperassociativeMap<G, N>, G, N> mapVisual;
+	private final Canvas canvas3D;
 
 	public class HyperassociativeMapCanvasCanvas extends Canvas3D
 	{
@@ -165,6 +167,7 @@ public class HyperassociativeMapCanvas<G extends Graph<N, ?>, N> extends JPanel
 		this.map = ourMap;
 		this.nodeRadius = nodeRadius;
 
+		HyperassociativeMapCanvasCanvas myCanvas3D = null;
 		try
 		{
 			GraphicsConfiguration myGraphicsConfiguration;
@@ -180,14 +183,14 @@ public class HyperassociativeMapCanvas<G extends Graph<N, ?>, N> extends JPanel
 				myGraphicsConfiguration = configuration;
 			}
 
-			HyperassociativeMapCanvasCanvas c3d = new HyperassociativeMapCanvasCanvas(myGraphicsConfiguration);
-			add(c3d, BorderLayout.CENTER);
+			myCanvas3D = new HyperassociativeMapCanvasCanvas(myGraphicsConfiguration);
+			add(myCanvas3D, BorderLayout.CENTER);
 		}
 		catch (UnsatisfiedLinkError error)
 		{
 			throw new ComponentUnavailableException(error);
-
 		}
+		this.canvas3D = myCanvas3D;
 
 		updateUI();
 	}
@@ -209,5 +212,10 @@ public class HyperassociativeMapCanvas<G extends Graph<N, ?>, N> extends JPanel
 	public HyperassociativeMap<G, N> getHyperassociativeMap()
 	{
 		return this.map;
+	}
+
+	public Canvas getCanvas3D()
+	{
+		return this.canvas3D;
 	}
 }
