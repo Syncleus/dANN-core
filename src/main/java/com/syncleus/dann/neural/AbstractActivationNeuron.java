@@ -57,7 +57,7 @@ public abstract class AbstractActivationNeuron extends AbstractNeuron
 	 *
 	 * @since 1.0
 	 */
-	protected AbstractActivationNeuron(final Brain brain)
+	protected AbstractActivationNeuron(final Brain<InputNeuron, OutputNeuron, Neuron, Synapse<Neuron>> brain)
 	{
 		super(brain);
 		this.activationFunction = DEFAULT_ACTIVATION_FUNCTION;
@@ -71,7 +71,7 @@ public abstract class AbstractActivationNeuron extends AbstractNeuron
 	 *   output from the neuron's activity.
 	 * @since 1.0
 	 */
-	protected AbstractActivationNeuron(final Brain brain, final ActivationFunction activationFunction)
+	protected AbstractActivationNeuron(final Brain<InputNeuron, OutputNeuron, Neuron, Synapse<Neuron>> brain, final ActivationFunction activationFunction)
 	{
 		super(brain);
 		if( activationFunction == null )

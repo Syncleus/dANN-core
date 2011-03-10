@@ -23,7 +23,7 @@ public abstract class AbstractOutputNeuron extends AbstractNeuron implements Out
 	private static final long serialVersionUID = 913247029435234L;
 	private double output = 0.0;
 
-	protected AbstractOutputNeuron(final Brain brain)
+	protected AbstractOutputNeuron(final Brain<InputNeuron, OutputNeuron, Neuron, Synapse<Neuron>> brain)
 	{
 		super(brain);
 	}

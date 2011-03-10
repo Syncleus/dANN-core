@@ -27,7 +27,7 @@ import com.syncleus.dann.graph.Graph;
 public abstract class AbstractContextNode<N, E extends Edge<N>, G extends Graph<N, E>> extends AbstractContextGraphElement<G> implements ContextNode<N, E>
 {
 	private final Set<E> connectedEdges = new HashSet<E>();
-	private final Set<ContextEdge> contextEdges = new HashSet<ContextEdge>();
+	private final Set<ContextEdge<N, E, G>> contextEdges = new HashSet<ContextEdge<N, E, G>>();
 
 	protected AbstractContextNode(final boolean allowJoiningMultipleGraphs)
 	{
@@ -40,8 +40,8 @@ public abstract class AbstractContextNode<N, E extends Edge<N>, G extends Graph<
 		if(super.joiningGraph(graph))
 		{
 			//notify all context edges that this node has joined a graph
-			for(ContextEdge contextEdge : this.contextEdges)
-				contextEdge.nodeJoiningGraph(graph, this);
+			for(ContextEdge<N, E, G> contextEdge : contextEdges)
+				contextEdge.nodeJoiningGraph(graph, (N) this);
 			return true;
 		}
 		else return false;
@@ -53,8 +53,8 @@ public abstract class AbstractContextNode<N, E extends Edge<N>, G extends Graph<
 		if( super.leavingGraph(graph) )
 		{
 			//notify all context edges that this node is leaving a graph
-			for(ContextEdge contextEdge : this.contextEdges)
-				contextEdge.nodeLeavingGraph(graph, this);
+			for(ContextEdge<N, E, G> contextEdge : contextEdges)
+				contextEdge.nodeLeavingGraph(graph, (N) this);
 			return true;
 		}
 		else
