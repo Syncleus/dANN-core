@@ -386,7 +386,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		{
 			final AbstractAdjacencyGraph<N, E> cloneGraph = (AbstractAdjacencyGraph<N, E>) super.clone();
 
-			//lets instantiate some new datastructurs for our clone
+			//lets instantiate some new data structures for our clone
 			cloneGraph.adjacentEdges = new HashMap<N, Set<E>>();
 			cloneGraph.adjacentNodes = new HashMap<N, List<N>>();
 
@@ -467,7 +467,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 		final Namer<Object> namer = new Namer<Object>();
 
 		xml.setNodeInstances(new GraphElementXml.NodeInstances());
-		for(N node : this.adjacentEdges.keySet())
+		for(N node : adjacentEdges.keySet())
 		{
 			final String nodeName = namer.getNameOrCreate(node);
 
@@ -475,7 +475,8 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 			if(node instanceof XmlSerializable)
 				nodeXml = ((XmlSerializable)node).toXml(namer);
 			else
-				//if the object isnt XmlSerializable lets try to just serialize it as a regular JAXB object
+				// if the object is not XmlSerializable lets try to just
+				// serialize it as a regular JAXB object
 				nodeXml = node;
 
 			final NamedValueXml encapsulation = new NamedValueXml();
@@ -485,7 +486,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 			xml.getNodeInstances().getNodes().add(encapsulation);
 		}
 
-		this.toXml(xml, namer);
+		toXml(xml, namer);
 		return xml;
 	}
 
@@ -501,7 +502,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 			throw new IllegalArgumentException("namer can not be null");
 
 		final GraphXml xml = new GraphXml();
-		this.toXml(xml, namer);
+		toXml(xml, namer);
 		return xml;
 	}
 
@@ -526,8 +527,8 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 			if(node instanceof XmlSerializable)
 				nodeXml = ((XmlSerializable)node).toXml(namer);
 			else
-				// if the object isnt XmlSerializable lets try to just serialize
-				// it as a regular JAXB object
+				// if the object is not XmlSerializable lets try to just
+				// serialize it as a regular JAXB object
 				nodeXml = node;
 
 			final NameXml encapsulation = new NameXml();

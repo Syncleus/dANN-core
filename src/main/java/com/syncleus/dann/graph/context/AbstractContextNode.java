@@ -64,12 +64,12 @@ public abstract class AbstractContextNode<N, E extends Edge<N>, G extends Graph<
 	@Override
 	public boolean connectingEdge(final E edge)
 	{
-		if( edge == null )
+		if (edge == null)
 			throw new IllegalArgumentException("edge can not be null");
 
-		this.connectedEdges.add(edge);
-		if(edge instanceof ContextEdge)
-			this.contextEdges.add((ContextEdge)edge);
+		connectedEdges.add(edge);
+		if (edge instanceof ContextEdge)
+			contextEdges.add((ContextEdge)edge);
 		return true;
 	}
 
@@ -79,9 +79,9 @@ public abstract class AbstractContextNode<N, E extends Edge<N>, G extends Graph<
 		if( edge == null )
 			throw new IllegalArgumentException("edge can not be null");
 
-		//remove all refrences to thsi edge
-		this.connectedEdges.remove(edge);
-		this.contextEdges.remove(edge);
+		//remove all references to this edge
+		connectedEdges.remove(edge);
+		contextEdges.remove(edge);
 		return true;
 	}
 

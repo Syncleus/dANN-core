@@ -64,11 +64,11 @@ public abstract class AbstractActivationNeuron extends AbstractNeuron
 	}
 
 	/**
-	 * Creates a new instance of NEuronImpl with a RANDOM bias weight and the
+	 * Creates a new instance of NeuronImpl with a RANDOM bias weight and the
 	 * specified activation function.
 	 *
 	 * @param activationFunction The activation function used to calculate the
-	 * output from the neuron's activity.
+	 *   output from the neuron's activity.
 	 * @since 1.0
 	 */
 	protected AbstractActivationNeuron(final Brain brain, final ActivationFunction activationFunction)
@@ -87,15 +87,16 @@ public abstract class AbstractActivationNeuron extends AbstractNeuron
 	 * neuron.
 	 *
 	 * @return a bound value (between -1 and 1 if this function is not
-	 *         overwritten). It is a function of the neuron's current activity.
+	 *   overwritten). It is a function of the neuron's current activity.
 	 * @see com.syncleus.dann.neural.backprop.BackpropNeuron#tick
 	 * @since 1.0
 	 */
 	protected final double activate()
 	{
-		return this.activationFunction.activate(this.activity);
+		return activationFunction.activate(activity);
 	}
 
+	// TODO rename because of spell error
 	/**
 	 * This must be the derivity of the ActivityFunction. As such it's output is
 	 * also based on the current activity of the neuron. If the activationFunction
@@ -108,7 +109,7 @@ public abstract class AbstractActivationNeuron extends AbstractNeuron
 	 */
 	protected final double activateDerivitive()
 	{
-		return this.activationFunction.activateDerivative(this.activity);
+		return activationFunction.activateDerivative(activity);
 	}
 
 	/**
@@ -120,7 +121,7 @@ public abstract class AbstractActivationNeuron extends AbstractNeuron
 	@Override
 	protected double getOutput()
 	{
-		return this.output;
+		return output;
 	}
 
 	/**
@@ -131,19 +132,18 @@ public abstract class AbstractActivationNeuron extends AbstractNeuron
 	@Override
 	public void tick()
 	{
-		//TODO fix this!
-		//calculate the current input activity
-		this.activity = 0;
-//		for(final Synapse currentSynapse : this.getBrain().getInEdges(this))
-//			this.activity += currentSynapse.getInput() * currentSynapse.getWeight();
-		for(final Object currentSynapse : this.getBrain().getInEdges(this))
-			this.activity += ((Synapse)currentSynapse).getInput() * ((Synapse)currentSynapse).getWeight();
-		//calculate the activity function and set the result as the output
-		this.output = this.activate();
-//		for(final Synapse current : this.getBrain().getTraversableEdges(this))
-//			current.setInput(this.output);
-		for(final Object current : this.getBrain().getTraversableEdges(this))
-			((Synapse)current).setInput(this.output);
+		// calculate the current input activity
+		activity = 0;
+		for (final Synapse<Neuron> currentSynapse : getBrain().getInEdges(this))
+		{
+			activity += currentSynapse.getInput() * currentSynapse.getWeight();
+		}
+		// calculate the activity function and set the result as the output
+		output = activate();
+		for (final Synapse<Neuron> current : getBrain().getTraversableEdges(this))
+		{
+			current.setInput(output);
+		}
 	}
 
 	protected void setOutput(final double output)

@@ -109,7 +109,7 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 	}
 
 	/**
-	 * Called by chidren classes to instantiate a basic SomBrain with the given
+	 * Called by children classes to instantiate a basic SomBrain with the given
 	 * number of inputs and with an output lattice of the given number of
 	 * dimensions.
 	 *
@@ -176,7 +176,7 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 	 * Creates a new point in the output lattice at the given position. This will
 	 * automatically have all inputs connected to it.
 	 *
-	 * @param position The position of the new output in the latice.
+	 * @param position The position of the new output in the lattice.
 	 * @since 2.0
 	 */
 	@Override
@@ -215,7 +215,7 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 	public final Set<Vector> getPositions()
 	{
 		final Set<Vector> positions = new HashSet<Vector>();
-		for(final Vector position : this.outputs.keySet())
+		for(final Vector position : outputs.keySet())
 			positions.add(new Vector(position));
 		return Collections.unmodifiableSet(positions);
 	}
@@ -225,17 +225,17 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 	 * the position does not have a SimpleSomNeuron associated with it then it throws
 	 * an exception.
 	 *
-	 * @param position position in the output latice of the output you wish to
+	 * @param position position in the output lattice of the output you wish to
 	 * retrieve.
-	 * @return The value of the specified SimpleSomNeuron, or null if there is no
-	 *         SimpleSomNeuron associated with the given position.
+	 * @return The value of the specified SimpleSomNeuron, or null if there is
+	 *   no SimpleSomNeuron associated with the given position.
 	 * @throws IllegalArgumentException if position does not exist.
 	 * @since 2.0
 	 */
 	@Override
 	public final double getOutput(final Vector position)
 	{
-		final ON outputNeuron = this.outputs.get(position);
+		final ON outputNeuron = outputs.get(position);
 		if( outputNeuron == null )
 			throw new IllegalArgumentException("position does not exist");
 
@@ -244,38 +244,38 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 	}
 
 	/**
-	 * Obtains the BMU (Best Matching Unit) for the current input set. This will
-	 * also train against the current input.
+	 * Obtains the BMU (Best Matching Unit) for the current input set.
+	 * This will also train against the current input.
 	 *
 	 * @return the BMU for the current input set.
 	 */
 	@Override
 	public final Vector getBestMatchingUnit()
 	{
-		return this.getBestMatchingUnit(true);
+		return getBestMatchingUnit(true);
 	}
 
 	/**
-	 * Obtains the BMU (Best Matching Unit) for the current input set. This will
-	 * also train against the current input when specified.
+	 * Obtains the BMU (Best Matching Unit) for the current input set.
+	 * This will also train against the current input when specified.
 	 *
 	 * @param train true to train against the input set, false if no training
-	 * occurs.
+	 *   occurs.
 	 * @return the BMU for the current input set.
 	 * @since 2.0
 	 */
 	@Override
 	public final Vector getBestMatchingUnit(final boolean train)
 	{
-		//make sure we have atleast one output
-		if( this.outputs.size() <= 0 )
-			throw new IllegalStateException("Must have atleast one output");
+		//make sure we have at least one output
+		if( outputs.size() <= 0 )
+			throw new IllegalStateException("Must have at least one output");
 
 		Vector bestMatchingUnit = null;
 		double bestMatch = Double.POSITIVE_INFINITY;
 		if( this.getThreadExecutor() == null )
 		{
-			for(final Entry<Vector, ON> entry : this.outputs.entrySet())
+			for(final Entry<Vector, ON> entry : outputs.entrySet())
 			{
 				final ON neuron = entry.getValue();
 				neuron.tick();
@@ -292,7 +292,7 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 		}
 		else
 		{
-			//stick all the neurons in the queue to propogate
+			//stick all the neurons in the queue to propagate
 			final Map<Vector, Future<Double>> futureOutput = new HashMap<Vector, Future<Double>>();
 			for(final Entry<Vector, ON> entry : this.outputs.entrySet())
 			{
@@ -310,13 +310,13 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 				}
 				catch(InterruptedException caught)
 				{
-					LOGGER.warn("PropagateOutput was unexpectidy interupted", caught);
-					throw new UnexpectedInterruptedException("Unexpected interuption. Get should block indefinately", caught);
+					LOGGER.warn("PropagateOutput was unexpectedly interrupted", caught);
+					throw new UnexpectedInterruptedException("Unexpected interrupted. Get should block indefinitely", caught);
 				}
 				catch(ExecutionException caught)
 				{
-					LOGGER.error("PropagateOutput was had an unexcepted problem executing.", caught);
-					throw new UnexpectedDannError("Unexpected execution exception. Get should block indefinately", caught);
+					LOGGER.error("PropagateOutput was had an unexpected problem executing.", caught);
+					throw new UnexpectedDannError("Unexpected execution exception. Get should block indefinitely", caught);
 				}
 
 				if( bestMatchingUnit == null )
@@ -350,9 +350,9 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 		}
 		else
 		{
-			//add all the neuron trainingevents to the thread queue
+			//add all the neuron training events to the thread queue
 			final ArrayList<Future> futures = new ArrayList<Future>();
-			for(final Entry<Vector, ON> entry : this.outputs.entrySet())
+			for(final Entry<Vector, ON> entry : outputs.entrySet())
 			{
 				final TrainNeuron runnable = new TrainNeuron(entry.getValue(), entry.getKey(), bestMatchingUnit, neighborhoodRadius, learningRate);
 				futures.add(this.getThreadExecutor().submit(runnable));
@@ -366,17 +366,17 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 			}
 			catch(InterruptedException caught)
 			{
-				LOGGER.warn("PropagateOutput was unexpectidy interupted", caught);
-				throw new UnexpectedInterruptedException("Unexpected interuption. Get should block indefinately", caught);
+				LOGGER.warn("PropagateOutput was unexpectedly interrupted", caught);
+				throw new UnexpectedInterruptedException("Unexpected interrupted. Get should block indefinitely", caught);
 			}
 			catch(ExecutionException caught)
 			{
-				LOGGER.error("PropagateOutput had an unexpected problem executing.", caught);
-				throw new UnexpectedDannError("Unexpected execution exception. Get should block indefinately", caught);
+				LOGGER.error("PropagateOutput was had an unexpected problem executing.", caught);
+				throw new UnexpectedDannError("Unexpected execution exception. Get should block indefinitely", caught);
 			}
 		}
 
-		this.iterationsTrained++;
+		iterationsTrained++;
 	}
 
 	/**
@@ -388,7 +388,7 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 	@Override
 	public final int getIterationsTrained()
 	{
-		return this.iterationsTrained;
+		return iterationsTrained;
 	}
 
 	/**
@@ -399,7 +399,7 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 	 */
 	protected final Vector getUpperBounds()
 	{
-		return this.upperBounds;
+		return upperBounds;
 	}
 
 	/**
@@ -410,7 +410,7 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 	 */
 	protected final Vector getLowerBounds()
 	{
-		return this.lowerBounds;
+		return lowerBounds;
 	}
 
 	/**
@@ -422,7 +422,7 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 	@Override
 	public final int getInputCount()
 	{
-		return this.inputs.size();
+		return inputs.size();
 	}
 
 	/**
@@ -433,10 +433,10 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 	@Override
 	public final void setInput(final int inputIndex, final double inputValue)
 	{
-		if( inputIndex >= this.getInputCount() )
+		if( inputIndex >= getInputCount() )
 			throw new IllegalArgumentException("inputIndex is out of bounds");
 
-		final InputNeuron currentInput = this.inputs.get(inputIndex);
+		final InputNeuron currentInput = inputs.get(inputIndex);
 		currentInput.setInput(inputValue);
 		currentInput.tick();
 	}
@@ -451,7 +451,7 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 	@Override
 	public final double getInput(final int index)
 	{
-		return this.inputs.get(index).getInput();
+		return inputs.get(index).getInput();
 	}
 
 	/**
@@ -465,17 +465,17 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 	{
 		//iterate through the output lattice
 		final HashMap<Vector, double[]> weightVectors = new HashMap<Vector, double[]>();
-		for(final Entry<Vector, ON> output : this.outputs.entrySet())
+		for(final Entry<Vector, ON> output : outputs.entrySet())
 		{
-			final double[] weightVector = new double[this.inputs.size()];
+			final double[] weightVector = new double[inputs.size()];
 			final ON currentNeuron = output.getValue();
 			final Vector currentPoint = output.getKey();
 			//iterate through the weight vectors of the current neuron
-			//TODO fix this it is badly typed
+			//TODO fix this, it is badly typed
 			for(final S source : this.getInEdges((N)currentNeuron))
 			{
 				assert (source.getSourceNode() instanceof InputNeuron);
-				final int sourceIndex = this.inputs.indexOf((InputNeuron) source.getSourceNode());
+				final int sourceIndex = inputs.indexOf((InputNeuron) source.getSourceNode());
 				weightVector[sourceIndex] = source.getWeight();
 			}
 			//add the current weight vector to the map

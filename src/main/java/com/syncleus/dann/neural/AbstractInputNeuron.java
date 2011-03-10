@@ -40,22 +40,21 @@ public abstract class AbstractInputNeuron extends AbstractNeuron implements Inpu
 	@Override
 	public double getInput()
 	{
-		return this.input;
+		return input;
 	}
 
 	@Override
 	protected double getOutput()
 	{
-		return this.input;
+		return input;
 	}
 
 	@Override
 	public void tick()
 	{
-		//TODO fix this, bad typing
-//		for(final Synapse current : this.getBrain().getTraversableEdges(this))
-//			current.setInput(this.input);
-		for(final Object current : this.getBrain().getTraversableEdges(this))
-			((Synapse)current).setInput(this.input);
+		for (final Synapse<Neuron> current : getBrain().getTraversableEdges(this))
+		{
+			current.setInput(input);
+		}
 	}
 }
