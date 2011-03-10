@@ -23,7 +23,7 @@ public abstract class AbstractInputNeuron extends AbstractNeuron implements Inpu
 	private static final long serialVersionUID = 4397150011892747140L;
 	private double input = 0.0;
 
-	protected AbstractInputNeuron(final Brain brain)
+	protected AbstractInputNeuron(final Brain<InputNeuron, OutputNeuron, Neuron, Synapse<Neuron>> brain)
 	{
 		super(brain);
 	}
