@@ -99,14 +99,14 @@ public class Nucleus implements Cloneable
 	}
 
 	@Override
-	public Nucleus clone()
+	public Object clone()
 	{
 		try
 		{
 			final Nucleus copy = (Nucleus) super.clone();
 			copy.chromosomes = new ArrayList<Chromosome>();
 			for(final Chromosome chromosome : this.chromosomes)
-				copy.chromosomes.add(chromosome.clone());
+				copy.chromosomes.add((Chromosome) chromosome.clone());
 			return copy;
 		}
 		catch(CloneNotSupportedException caught)

@@ -18,8 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.neural;
 
-import java.util.List;
-
 /**
  * The synapse acts as a bridge between connected neurons. It is also where the
  * connection weights are stores and manipulated.
@@ -79,23 +77,5 @@ public final class SimpleSynapse<N extends Neuron> extends AbstractSynapse<N>
 	public SimpleSynapse(final N sourceToSet, final N destinationToSet, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
 	{
 		super(sourceToSet, destinationToSet, allowJoiningMultipleGraphs, contextEnabled);
-	}
-
-	@Override
-	public SimpleSynapse<N> disconnect(final N node)
-	{
-		return (SimpleSynapse<N>) super.disconnect(node);
-	}
-
-	@Override
-	public SimpleSynapse<N> disconnect(final List<N> nodes)
-	{
-		return (SimpleSynapse<N>) super.disconnect(nodes);
-	}
-
-	@Override
-	public SimpleSynapse<N> clone()
-	{
-		return (SimpleSynapse<N>) super.clone();
 	}
 }

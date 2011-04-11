@@ -84,18 +84,6 @@ public class DoubleValueGene extends AbstractValueGene<MutableDouble>
 	}
 
 	/**
-	 * Creates a new instance of this object that is an exact copy.
-	 *
-	 * @return an exact copy of this object.
-	 * @since 2.0
-	 */
-	@Override
-	public DoubleValueGene clone()
-	{
-		return (DoubleValueGene) super.clone();
-	}
-
-	/**
 	 * This will make a copy of the object and mutate it. The mutation has a normal
 	 * distribution multiplied by the deviation.
 	 *
@@ -107,7 +95,7 @@ public class DoubleValueGene extends AbstractValueGene<MutableDouble>
 	 */
 	public DoubleValueGene mutate(final double deviation)
 	{
-		final DoubleValueGene copy = this.clone();
+		final DoubleValueGene copy = (DoubleValueGene) this.clone();
 		copy.internalMutate(deviation);
 
 		return copy;

@@ -59,13 +59,4 @@ public interface Chromatid<G extends Gene> extends Cloneable
 	 * @since 2.0
 	 */
 	void crossover(List<G> geneticSegment, int point);
-	/**
-	 * All children of this class should override this method and return their own
-	 * class type even if it is abstract. It should return a copy without any
-	 * mutation.
-	 *
-	 * @return an exact copy of this object.
-	 * @since 2.0
-	 */
-	Chromatid<G> clone();
 }

@@ -57,12 +57,6 @@ public class SharpenedWaveFunction extends WaveFunction
 	}
 
 	@Override
-	public SharpenedWaveFunction clone()
-	{
-		return (SharpenedWaveFunction) super.clone();
-	}
-
-	@Override
 	public String toString()
 	{
 		return this.toString("x");

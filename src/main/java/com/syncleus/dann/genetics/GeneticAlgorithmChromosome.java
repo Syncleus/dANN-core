@@ -153,7 +153,7 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>,
 	 * @since 2.0
 	 */
 	@Override
-	public GeneticAlgorithmChromosome clone()
+	public Object clone()
 	{
 		try
 		{
@@ -181,7 +181,7 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>,
 	 */
 	public GeneticAlgorithmChromosome mutate(final double deviation)
 	{
-		final GeneticAlgorithmChromosome mutated = this.clone();
+		final GeneticAlgorithmChromosome mutated = (GeneticAlgorithmChromosome) this.clone();
 		mutated.alleles.clear();
 		for(final AbstractValueGene allele : this.alleles)
 			mutated.alleles.add(allele.mutate(deviation));

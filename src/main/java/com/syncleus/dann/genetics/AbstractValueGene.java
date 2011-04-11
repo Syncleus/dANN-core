@@ -107,7 +107,7 @@ public abstract class AbstractValueGene<N extends MutableNumber> implements Valu
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public AbstractValueGene clone()
+	public Object clone()
 	{
 		try
 		{

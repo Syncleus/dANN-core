@@ -18,8 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.List;
-
 public final class SimpleWeightedDirectedEdge<N> extends AbstractDirectedEdge<N> implements WeightedDirectedEdge<N>, MutableWeighted
 {
 	private static final long serialVersionUID = -6843921044147012645L;
@@ -47,23 +45,5 @@ public final class SimpleWeightedDirectedEdge<N> extends AbstractDirectedEdge<N>
 	public void setWeight(final double newWeight)
 	{
 		this.weight = newWeight;
-	}
-
-	@Override
-	public SimpleWeightedDirectedEdge<N> disconnect(final N node)
-	{
-		return (SimpleWeightedDirectedEdge<N>) super.disconnect(node);
-	}
-
-	@Override
-	public SimpleWeightedDirectedEdge<N> disconnect(final List<N> nodes)
-	{
-		return (SimpleWeightedDirectedEdge<N>) super.disconnect(nodes);
-	}
-
-	@Override
-	public SimpleWeightedDirectedEdge<N> clone()
-	{
-		return (SimpleWeightedDirectedEdge<N>) super.clone();
 	}
 }

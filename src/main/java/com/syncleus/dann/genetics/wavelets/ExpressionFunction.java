@@ -103,7 +103,7 @@ public class ExpressionFunction implements Cloneable
 	public CombinedWaveletFunction getWavelet()
 	{
 		this.reconstructWavelet();
-		return this.wavelet.clone();
+		return (CombinedWaveletFunction) this.wavelet.clone();
 	}
 
 	public boolean receives(final SignalKey signal)
@@ -138,7 +138,7 @@ public class ExpressionFunction implements Cloneable
 	}
 
 	@Override
-	public ExpressionFunction clone()
+	public Object clone()
 	{
 		try
 		{
@@ -146,9 +146,9 @@ public class ExpressionFunction implements Cloneable
 			copy.receptors = new HashSet<ReceptorKey>(this.receptors);
 			final List<WaveMultidimensionalFunction> newWaves = new ArrayList<WaveMultidimensionalFunction>();
 			for(final WaveMultidimensionalFunction wave : this.waves)
-				newWaves.add(wave.clone());
+				newWaves.add((WaveMultidimensionalFunction) wave.clone());
 			copy.waves = newWaves;
-			copy.wavelet = this.wavelet.clone();
+			copy.wavelet = (CombinedWaveletFunction) this.wavelet.clone();
 			return copy;
 		}
 		catch(CloneNotSupportedException caught)
@@ -182,7 +182,7 @@ public class ExpressionFunction implements Cloneable
 	 */
 	public ExpressionFunction mutate(final double deviation)
 	{
-		final ExpressionFunction copy = this.clone();
+		final ExpressionFunction copy = (ExpressionFunction) this.clone();
 		final double changePercentage = 0.1;
 		while( RANDOM.nextFloat() < (float) changePercentage)
 		{
@@ -248,7 +248,7 @@ public class ExpressionFunction implements Cloneable
 	 */
 	public ExpressionFunction mutate(final double deviation, final ReceptorKey newReceptor)
 	{
-		final ExpressionFunction copy = this.clone();
+		final ExpressionFunction copy = (ExpressionFunction) this.clone();
 		copy.receptors.add(newReceptor);
 		if( copy.receptors.size() > this.receptors.size() )
 		{

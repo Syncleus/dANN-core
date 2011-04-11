@@ -53,10 +53,4 @@ public abstract class AbstractWeightedBidirectedEdge<N> extends AbstractBidirect
 	{
 		return this.weight;
 	}
-
-	@Override
-	public AbstractWeightedBidirectedEdge<N> clone()
-	{
-		return (AbstractWeightedBidirectedEdge<N>) super.clone();
-	}
 }

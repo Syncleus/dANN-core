@@ -202,7 +202,7 @@ public abstract class MutableNumber<N extends Number> extends Number implements 
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public MutableNumber<N> clone()
+	public Object clone()
 	{
 		try
 		{

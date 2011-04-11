@@ -20,6 +20,7 @@ package com.syncleus.dann.attributes.hat;
 
 import java.util.Set;
 import com.syncleus.dann.graph.DirectedEdge;
+import com.syncleus.dann.graph.Graph;
 import com.syncleus.dann.graph.MutableTreeAdjacencyGraph;
 
 // TODO we need to handle clone and cloneAdd and similar methods differently since the nodes here must know which graph it belongs to
@@ -59,49 +60,49 @@ public class MutableAttributeTreeAdjacencyGraph<N extends AbstractHierarchicalAt
 	}
 
 	@Override
-	public MutableAttributeTreeAdjacencyGraph<N, E, T> cloneAdd(final E newEdge)
+	public Graph<N, E> cloneAdd(final E newEdge)
 	{
 		// TODO Fix this!
 		throw new IllegalStateException("Operation not yet supported");
 	}
 
 	@Override
-	public MutableAttributeTreeAdjacencyGraph<N, E, T> cloneAdd(final N newNode)
+	public Graph<N, E> cloneAdd(final N newNode)
 	{
 		// TODO Fix this!
 		throw new IllegalStateException("Operation not yet supported");
 	}
 
 	@Override
-	public MutableAttributeTreeAdjacencyGraph<N, E, T> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
+	public Graph<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
 	{
 		// TODO Fix this!
 		throw new IllegalStateException("Operation not yet supported");
 	}
 
 	@Override
-	public MutableAttributeTreeAdjacencyGraph<N, E, T> cloneRemove(final E edgeToRemove)
+	public Graph<N, E> cloneRemove(final E edgeToRemove)
 	{
 		// TODO Fix this!
 		throw new IllegalStateException("Operation not yet supported");
 	}
 
 	@Override
-	public MutableAttributeTreeAdjacencyGraph<N, E, T> cloneRemove(final N nodeToRemove)
+	public Graph<N, E> cloneRemove(final N nodeToRemove)
 	{
 		// TODO Fix this!
 		throw new IllegalStateException("Operation not yet supported");
 	}
 
 	@Override
-	public MutableAttributeTreeAdjacencyGraph<N, E, T> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
+	public Graph<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
 	{
 		// TODO Fix this!
 		throw new IllegalStateException("Operation not yet supported");
 	}
 
 	@Override
-	public MutableAttributeTreeAdjacencyGraph<N, E, T> clone()
+	public Object clone()
 	{
 		// TODO Fix this!
 		throw new IllegalStateException("Operation not yet supported");

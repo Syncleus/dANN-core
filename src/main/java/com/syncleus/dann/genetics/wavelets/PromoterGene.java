@@ -45,11 +45,11 @@ public class PromoterGene extends AbstractWaveletGene
 	}
 
 	@Override
-	public PromoterGene clone()
+	public Object clone()
 	{
 		final PromoterGene copy = (PromoterGene) super.clone();
 
-		copy.targetDistance = this.targetDistance.clone();
+		copy.targetDistance = (MutableInteger) this.targetDistance.clone();
 
 		return copy;
 	}

@@ -18,8 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.List;
-
 public final class ImmutableWeightedUndirectedEdge<N> extends AbstractUndirectedEdge<N> implements WeightedBidirectedEdge<N>
 {
 	private static final long serialVersionUID = 4622255810663472765L;
@@ -41,23 +39,5 @@ public final class ImmutableWeightedUndirectedEdge<N> extends AbstractUndirected
 	public double getWeight()
 	{
 		return this.weight;
-	}
-
-	@Override
-	public ImmutableWeightedUndirectedEdge<N> disconnect(final N node)
-	{
-		return (ImmutableWeightedUndirectedEdge<N>) this.remove(node);
-	}
-
-	@Override
-	public ImmutableWeightedUndirectedEdge<N> disconnect(final List<N> nodes)
-	{
-		return (ImmutableWeightedUndirectedEdge<N>) this.remove(nodes);
-	}
-
-	@Override
-	public ImmutableWeightedUndirectedEdge<N> clone()
-	{
-		return (ImmutableWeightedUndirectedEdge<N>) super.clone();
 	}
 }

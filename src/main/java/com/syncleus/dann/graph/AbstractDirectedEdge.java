@@ -101,28 +101,22 @@ public abstract class AbstractDirectedEdge<N> extends AbstractBidirectedEdge<N> 
 	}
 
 	@Override
-	public AbstractDirectedEdge<N> disconnect(final N node)
+	public Edge<N> disconnect(final N node)
 	{
 		if( node == null )
 			throw new IllegalArgumentException("node can not be null");
 		if( !this.getNodes().contains(node) )
 			throw new IllegalArgumentException("node is not currently connected to");
-		return (AbstractDirectedEdge<N>) this.remove(node);
+		return this.remove(node);
 	}
 
 	@Override
-	public AbstractDirectedEdge<N> disconnect(final List<N> nodes)
+	public Edge<N> disconnect(final List<N> nodes)
 	{
 		if( nodes == null )
 			throw new IllegalArgumentException("node can not be null");
 		if( !this.getNodes().containsAll(nodes) )
 			throw new IllegalArgumentException("node is not currently connected to");
-		return (AbstractDirectedEdge<N>) this.remove(nodes);
-	}
-
-	@Override
-	public AbstractDirectedEdge<N> clone()
-	{
-		return (AbstractDirectedEdge<N>) super.clone();
+		return this.remove(nodes);
 	}
 }

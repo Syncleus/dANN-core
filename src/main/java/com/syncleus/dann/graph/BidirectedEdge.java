@@ -37,10 +37,4 @@ public interface BidirectedEdge<N> extends Edge<N>
 	boolean isLooseEdge();
 	boolean isOrdinaryEdge();
 	boolean isLoop();
-	@Override
-	BidirectedEdge<N> disconnect(N node);
-	@Override
-	BidirectedEdge<N> disconnect(List<N> node);
-	@Override
-	BidirectedEdge<N> clone();
 }

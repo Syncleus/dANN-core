@@ -129,48 +129,6 @@ public abstract class AbstractBayesianAdjacencyNetwork<N extends BayesianNode, E
 	}
 
 	@Override
-	public AbstractBayesianAdjacencyNetwork<N, E> cloneAdd(final E newEdge)
-	{
-		return (AbstractBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newEdge);
-	}
-
-	@Override
-	public AbstractBayesianAdjacencyNetwork<N, E> cloneAdd(final N newNode)
-	{
-		return (AbstractBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newNode);
-	}
-
-	@Override
-	public AbstractBayesianAdjacencyNetwork<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
-	{
-		return (AbstractBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newNodes, newEdges);
-	}
-
-	@Override
-	public AbstractBayesianAdjacencyNetwork<N, E> cloneRemove(final E edgeToRemove)
-	{
-		return (AbstractBayesianAdjacencyNetwork<N, E>) super.cloneRemove(edgeToRemove);
-	}
-
-	@Override
-	public AbstractBayesianAdjacencyNetwork<N, E> cloneRemove(final N nodeToRemove)
-	{
-		return (AbstractBayesianAdjacencyNetwork<N, E>) super.cloneRemove(nodeToRemove);
-	}
-
-	@Override
-	public AbstractBayesianAdjacencyNetwork<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
-	{
-		return (AbstractBayesianAdjacencyNetwork<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
-	}
-
-	@Override
-	public AbstractBayesianAdjacencyNetwork<N, E> clone()
-	{
-		return (AbstractBayesianAdjacencyNetwork<N, E>) super.clone();
-	}
-
-	@Override
 	public BayesianNetworkXml toXml()
 	{
 		final BayesianNetworkElementXml networkXml = new BayesianNetworkElementXml();

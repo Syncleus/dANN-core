@@ -198,46 +198,4 @@ public class MutableHyperAdjacencyGraph<N, E extends HyperEdge<N>> extends Abstr
 
 		return removedSomething;
 	}
-
-	@Override
-	public MutableHyperAdjacencyGraph<N, E> cloneAdd(final E newEdge)
-	{
-		return (MutableHyperAdjacencyGraph<N, E>) super.cloneAdd(newEdge);
-	}
-
-	@Override
-	public MutableHyperAdjacencyGraph<N, E> cloneAdd(final N newNode)
-	{
-		return (MutableHyperAdjacencyGraph<N, E>) super.cloneAdd(newNode);
-	}
-
-	@Override
-	public MutableHyperAdjacencyGraph<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
-	{
-		return (MutableHyperAdjacencyGraph<N, E>) super.cloneAdd(newNodes, newEdges);
-	}
-
-	@Override
-	public MutableHyperAdjacencyGraph<N, E> cloneRemove(final E edgeToRemove)
-	{
-		return (MutableHyperAdjacencyGraph<N, E>) super.cloneRemove(edgeToRemove);
-	}
-
-	@Override
-	public MutableHyperAdjacencyGraph<N, E> cloneRemove(final N nodeToRemove)
-	{
-		return (MutableHyperAdjacencyGraph<N, E>) super.cloneRemove(nodeToRemove);
-	}
-
-	@Override
-	public MutableHyperAdjacencyGraph<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
-	{
-		return (MutableHyperAdjacencyGraph<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
-	}
-
-	@Override
-	public MutableHyperAdjacencyGraph<N, E> clone()
-	{
-		return (MutableHyperAdjacencyGraph<N, E>) super.clone();
-	}
 }

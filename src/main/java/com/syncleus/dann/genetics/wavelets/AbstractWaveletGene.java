@@ -136,7 +136,7 @@ public abstract class AbstractWaveletGene implements Gene
 	}
 
 	@Override
-	public AbstractWaveletGene clone()
+	public Object clone()
 	{
 		try
 		{
@@ -144,7 +144,7 @@ public abstract class AbstractWaveletGene implements Gene
 
 			copy.currentActivity = this.currentActivity;
 			copy.pendingActivity = this.pendingActivity;
-			copy.expressionFunction = this.expressionFunction.clone();
+			copy.expressionFunction = (ExpressionFunction) this.expressionFunction.clone();
 			copy.mutability = this.mutability;
 			copy.receivingConcentrations = new HashSet<SignalKeyConcentration>(this.receivingConcentrations);
 

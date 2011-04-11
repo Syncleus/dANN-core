@@ -84,18 +84,6 @@ public class LongValueGene extends AbstractValueGene<MutableLong>
 	}
 
 	/**
-	 * Creates a new instance of this object that is an exact copy.
-	 *
-	 * @return an exact copy of this object.
-	 * @since 2.0
-	 */
-	@Override
-	public LongValueGene clone()
-	{
-		return (LongValueGene) super.clone();
-	}
-
-	/**
 	 * This will make a copy of the object and mutate it. The mutation has a normal
 	 * distribution multiplied by the deviation.
 	 *
@@ -107,7 +95,7 @@ public class LongValueGene extends AbstractValueGene<MutableLong>
 	 */
 	public LongValueGene mutate(final double deviation)
 	{
-		final LongValueGene copy = this.clone();
+		final LongValueGene copy = (LongValueGene) this.clone();
 		copy.internalMutate(deviation);
 
 		return copy;

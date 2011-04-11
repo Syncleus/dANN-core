@@ -68,49 +68,43 @@ public abstract class AbstractHyperEdge<N> extends AbstractEdge<N> implements Hy
 	}
 
 	@Override
-	public AbstractHyperEdge<N> connect(final N node)
+	public HyperEdge<N> connect(final N node)
 	{
 		if( node == null )
 			throw new IllegalArgumentException("node can not be null");
 		if( this.getNodes().contains(node) )
 			throw new IllegalArgumentException("node is already connected");
-		return (AbstractHyperEdge<N>) this.add(node);
+		return (HyperEdge<N>) this.add(node);
 	}
 
 	@Override
-	public AbstractHyperEdge<N> connect(final List<N> nodes)
+	public HyperEdge<N> connect(final List<N> nodes)
 	{
 		if( nodes == null )
 			throw new IllegalArgumentException("node can not be null");
 		for(final N node : nodes)
 			if( this.getNodes().contains(node) )
 				throw new IllegalArgumentException("node is already connected");
-		return (AbstractHyperEdge<N>) this.add(nodes);
+		return (HyperEdge<N>) this.add(nodes);
 	}
 
 	@Override
-	public AbstractHyperEdge<N> disconnect(final N node)
+	public Edge<N> disconnect(final N node)
 	{
 		if( node == null )
 			throw new IllegalArgumentException("node can not be null");
 		if( !this.getNodes().contains(node) )
 			throw new IllegalArgumentException("node is not currently connected to");
-		return (AbstractHyperEdge<N>) this.remove(node);
+		return this.remove(node);
 	}
 
 	@Override
-	public AbstractHyperEdge<N> disconnect(final List<N> nodes)
+	public Edge<N> disconnect(final List<N> nodes)
 	{
 		if( nodes == null )
 			throw new IllegalArgumentException("node can not be null");
 		if( !this.getNodes().containsAll(nodes) )
 			throw new IllegalArgumentException("node is not currently connected to");
-		return (AbstractHyperEdge<N>) this.remove(nodes);
-	}
-
-	@Override
-	public AbstractHyperEdge<N> clone()
-	{
-		return (AbstractHyperEdge<N>) super.clone();
+		return this.remove(nodes);
 	}
 }

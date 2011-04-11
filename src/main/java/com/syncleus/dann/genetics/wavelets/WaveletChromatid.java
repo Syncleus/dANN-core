@@ -68,13 +68,13 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 		this.externalSignalGenes = new ArrayList<ExternalSignalGene>();
 
 		for(final AbstractWaveletGene currentGene : copy.sequencedGenes)
-			this.sequencedGenes.add(currentGene.clone());
+			this.sequencedGenes.add((AbstractWaveletGene) currentGene.clone());
 		for(final PromoterGene currentGene : copy.promoters)
-			this.promoters.add(currentGene.clone());
+			this.promoters.add((PromoterGene) currentGene.clone());
 		for(final SignalGene currentGene : copy.localSignalGenes)
-			this.localSignalGenes.add(currentGene.clone());
+			this.localSignalGenes.add((SignalGene) currentGene.clone());
 		for(final ExternalSignalGene currentGene : copy.externalSignalGenes)
-			this.externalSignalGenes.add(currentGene.clone());
+			this.externalSignalGenes.add((ExternalSignalGene) currentGene.clone());
 	}
 
 	public static WaveletChromatid newRandomWaveletChromatid()
@@ -264,7 +264,7 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 	}
 
 	@Override
-	public WaveletChromatid clone()
+	public Object clone()
 	{
 		try
 		{
@@ -279,13 +279,13 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 			copy.externalSignalGenes = new ArrayList<ExternalSignalGene>();
 
 			for(final AbstractWaveletGene currentGene : this.sequencedGenes)
-				copy.sequencedGenes.add(currentGene.clone());
+				copy.sequencedGenes.add((AbstractWaveletGene) currentGene.clone());
 			for(final PromoterGene currentGene : this.promoters)
-				copy.promoters.add(currentGene.clone());
+				copy.promoters.add((PromoterGene) currentGene.clone());
 			for(final SignalGene currentGene : this.localSignalGenes)
-				copy.localSignalGenes.add(currentGene.clone());
+				copy.localSignalGenes.add((SignalGene) currentGene.clone());
 			for(final ExternalSignalGene currentGene : this.externalSignalGenes)
-				copy.externalSignalGenes.add(currentGene.clone());
+				copy.externalSignalGenes.add((ExternalSignalGene) currentGene.clone());
 
 			return copy;
 		}
@@ -328,7 +328,7 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 			ReceptorKey newReceptorKey = new ReceptorKey(randomKey(keyPool));
 			//mutate new receptorKey before using it
 			while( Mutations.mutationEvent(this.mutability) )
-				newReceptorKey = newReceptorKey.mutate(this.mutability);
+				newReceptorKey = (ReceptorKey) newReceptorKey.mutate(this.mutability);
 			//create a new gene using the new receptor
 			final AbstractWaveletGene newGene;
 			final SignalKey newSignalKey = new SignalKey(randomKey(keyPool));

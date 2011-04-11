@@ -18,7 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.neural;
 
-import java.util.List;
 import java.util.Random;
 import com.syncleus.dann.graph.AbstractDirectedEdge;
 
@@ -139,23 +138,5 @@ public abstract class AbstractSynapse<N extends Neuron> extends AbstractDirected
 	public double getInput()
 	{
 		return this.input;
-	}
-
-	@Override
-	public AbstractSynapse<N> disconnect(final N node)
-	{
-		return (AbstractSynapse<N>) super.disconnect(node);
-	}
-
-	@Override
-	public AbstractSynapse<N> disconnect(final List<N> nodes)
-	{
-		return (AbstractSynapse<N>) super.disconnect(nodes);
-	}
-
-	@Override
-	public AbstractSynapse<N> clone()
-	{
-		return (AbstractSynapse<N>) super.clone();
 	}
 }

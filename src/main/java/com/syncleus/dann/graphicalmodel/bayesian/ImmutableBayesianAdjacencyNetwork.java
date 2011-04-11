@@ -72,46 +72,4 @@ public class ImmutableBayesianAdjacencyNetwork<N extends BayesianNode, E extends
 			newAdjacentNodes.put(neighborNodeEntry.getKey(), new ArrayList<N>(neighborNodeEntry.getValue()));
 		return newAdjacentNodes;
 	}
-
-	@Override
-	public ImmutableBayesianAdjacencyNetwork<N, E> cloneAdd(final E newEdge)
-	{
-		return (ImmutableBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newEdge);
-	}
-
-	@Override
-	public ImmutableBayesianAdjacencyNetwork<N, E> cloneAdd(final N newNode)
-	{
-		return (ImmutableBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newNode);
-	}
-
-	@Override
-	public ImmutableBayesianAdjacencyNetwork<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
-	{
-		return (ImmutableBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newNodes, newEdges);
-	}
-
-	@Override
-	public ImmutableBayesianAdjacencyNetwork<N, E> cloneRemove(final E edgeToRemove)
-	{
-		return (ImmutableBayesianAdjacencyNetwork<N, E>) super.cloneRemove(edgeToRemove);
-	}
-
-	@Override
-	public ImmutableBayesianAdjacencyNetwork<N, E> cloneRemove(final N nodeToRemove)
-	{
-		return (ImmutableBayesianAdjacencyNetwork<N, E>) super.cloneRemove(nodeToRemove);
-	}
-
-	@Override
-	public ImmutableBayesianAdjacencyNetwork<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
-	{
-		return (ImmutableBayesianAdjacencyNetwork<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
-	}
-
-	@Override
-	public ImmutableBayesianAdjacencyNetwork<N, E> clone()
-	{
-		return (ImmutableBayesianAdjacencyNetwork<N, E>) super.clone();
-	}
 }

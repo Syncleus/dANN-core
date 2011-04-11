@@ -128,7 +128,7 @@ public abstract class AbstractKey implements Cloneable
 	}
 
 	@Override
-	public AbstractKey clone()
+	public Object clone()
 	{
 		try
 		{
@@ -155,7 +155,7 @@ public abstract class AbstractKey implements Cloneable
 		else
 			newPoints.remove(point.getNumber());
 
-		final AbstractKey copy = this.clone();
+		final AbstractKey copy = (AbstractKey) this.clone();
 		copy.points = Collections.unmodifiableMap(newPoints);
 		return copy;
 	}

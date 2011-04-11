@@ -198,46 +198,4 @@ public class MutableAdjacencyGraph<N, E extends Edge<N>> extends AbstractAdjacen
 
 		return removedSomething;
 	}
-
-	@Override
-	public MutableAdjacencyGraph<N, E> cloneAdd(final E newEdge)
-	{
-		return (MutableAdjacencyGraph<N, E>) super.cloneAdd(newEdge);
-	}
-
-	@Override
-	public MutableAdjacencyGraph<N, E> cloneAdd(final N newNode)
-	{
-		return (MutableAdjacencyGraph<N, E>) super.cloneAdd(newNode);
-	}
-
-	@Override
-	public MutableAdjacencyGraph<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
-	{
-		return (MutableAdjacencyGraph<N, E>) super.cloneAdd(newNodes, newEdges);
-	}
-
-	@Override
-	public MutableAdjacencyGraph<N, E> cloneRemove(final E edgeToRemove)
-	{
-		return (MutableAdjacencyGraph<N, E>) super.cloneRemove(edgeToRemove);
-	}
-
-	@Override
-	public MutableAdjacencyGraph<N, E> cloneRemove(final N nodeToRemove)
-	{
-		return (MutableAdjacencyGraph<N, E>) super.cloneRemove(nodeToRemove);
-	}
-
-	@Override
-	public MutableAdjacencyGraph<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
-	{
-		return (MutableAdjacencyGraph<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
-	}
-
-	@Override
-	public MutableAdjacencyGraph<N, E> clone()
-	{
-		return (MutableAdjacencyGraph<N, E>) super.clone();
-	}
 }

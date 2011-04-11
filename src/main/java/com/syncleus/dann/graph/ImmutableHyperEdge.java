@@ -43,34 +43,4 @@ public final class ImmutableHyperEdge<N> extends AbstractHyperEdge<N>
 	{
 		super(allowJoiningMultipleGraphs, contextEnabled, nodes);
 	}
-
-	@Override
-	public ImmutableHyperEdge<N> connect(final N node)
-	{
-		return (ImmutableHyperEdge<N>) super.connect(node);
-	}
-
-	@Override
-	public ImmutableHyperEdge<N> connect(final List<N> nodes)
-	{
-		return (ImmutableHyperEdge<N>) super.connect(nodes);
-	}
-
-	@Override
-	public ImmutableHyperEdge<N> disconnect(final N node)
-	{
-		return (ImmutableHyperEdge<N>) super.disconnect(node);
-	}
-
-	@Override
-	public ImmutableHyperEdge<N> disconnect(final List<N> nodes)
-	{
-		return (ImmutableHyperEdge<N>) super.disconnect(nodes);
-	}
-
-	@Override
-	public ImmutableHyperEdge<N> clone()
-	{
-		return (ImmutableHyperEdge<N>) super.clone();
-	}
 }

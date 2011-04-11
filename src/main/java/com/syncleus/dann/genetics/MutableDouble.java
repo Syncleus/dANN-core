@@ -65,18 +65,6 @@ public class MutableDouble extends MutableNumber<Double> implements Comparable<M
 	}
 
 	/**
-	 * An new exact copy of this object with the same value.
-	 *
-	 * @return a new exact copy of this object with the same value.
-	 * @since 2.0
-	 */
-	@Override
-	public MutableDouble clone()
-	{
-		return (MutableDouble) super.clone();
-	}
-
-	/**
 	 * This will make a copy of the object and mutate it. The mutation has a
 	 * normal distribution multiplied by the deviation. If the Number is mutated
 	 * past its largest or smallest representable number it will simply return

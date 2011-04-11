@@ -18,7 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.bayesian;
 
-import java.util.List;
 import com.syncleus.dann.graph.AbstractDirectedEdge;
 
 public final class SimpleBayesianEdge<N extends BayesianNode> extends AbstractDirectedEdge<N> implements BayesianEdge<N>
@@ -38,23 +37,5 @@ public final class SimpleBayesianEdge<N extends BayesianNode> extends AbstractDi
 	public Object getState()
 	{
 		return this.getSourceNode().getState();
-	}
-
-	@Override
-	public SimpleBayesianEdge<N> disconnect(final N node)
-	{
-		return (SimpleBayesianEdge<N>) this.remove(node);
-	}
-
-	@Override
-	public SimpleBayesianEdge<N> disconnect(final List<N> nodes)
-	{
-		return (SimpleBayesianEdge<N>) this.remove(nodes);
-	}
-
-	@Override
-	public SimpleBayesianEdge<N> clone()
-	{
-		return (SimpleBayesianEdge<N>) super.clone();
 	}
 }

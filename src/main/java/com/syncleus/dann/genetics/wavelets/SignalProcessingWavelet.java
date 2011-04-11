@@ -176,7 +176,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 	public CombinedWaveletFunction getWavelet()
 	{
 		this.reconstructWavelet();
-		return this.wavelet.clone();
+		return (CombinedWaveletFunction) this.wavelet.clone();
 	}
 
 	public void preTick()
@@ -195,7 +195,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 	}
 
 	@Override
-	public SignalProcessingWavelet clone()
+	public Object clone()
 	{
 		try
 		{
@@ -203,9 +203,9 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 			copy.signals = new TreeSet<SignalConcentration>(this.signals);
 			final List<WaveMultidimensionalFunction> newWaves = new ArrayList<WaveMultidimensionalFunction>();
 			for(final WaveMultidimensionalFunction wave : this.waves)
-				newWaves.add(wave.clone());
+				newWaves.add((WaveMultidimensionalFunction) wave.clone());
 			copy.waves = newWaves;
-			copy.wavelet = (this.wavelet == null ? null : this.wavelet.clone());
+			copy.wavelet = (this.wavelet == null ? null : (CombinedWaveletFunction) this.wavelet.clone());
 			return copy;
 		}
 		catch(CloneNotSupportedException caught)
@@ -246,7 +246,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 		final double waveGenerationChance = 0.8;
 		final double waveDeletionChance = 0.9;
 		final double exitChance = 0.1;
-		final SignalProcessingWavelet copy = this.clone();
+		final SignalProcessingWavelet copy = (SignalProcessingWavelet) this.clone();
 		copy.id = RANDOM.nextLong();
 		do
 		{
@@ -327,7 +327,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 	{
 		if( this.signals.contains(newSignal) )
 			return this.mutate(deviation);
-		final SignalProcessingWavelet copy = this.clone();
+		final SignalProcessingWavelet copy = (SignalProcessingWavelet) this.clone();
 		copy.signals.add(newSignal);
 		if( copy.signals.size() > this.signals.size() )
 		{
@@ -436,7 +436,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 			final WaveMultidimensionalFunction[] wavesArray = new WaveMultidimensionalFunction[this.waves.size()];
 			this.waves.toArray(wavesArray);
 			final WaveMultidimensionalFunction randomWave = wavesArray[RANDOM.nextInt(wavesArray.length)];
-			final WaveMultidimensionalFunction newWave = randomWave.clone();
+			final WaveMultidimensionalFunction newWave = (WaveMultidimensionalFunction) randomWave.clone();
 			// TODO clean this up
 			final double changeProbability = 1.0;
 			final double variableAdjustment = 2.0;

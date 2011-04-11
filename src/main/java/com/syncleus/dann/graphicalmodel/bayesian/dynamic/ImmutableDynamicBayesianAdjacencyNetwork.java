@@ -71,46 +71,4 @@ public class ImmutableDynamicBayesianAdjacencyNetwork<N extends DynamicBayesianN
 			newAdjacentNodes.put(neighborNodeEntry.getKey(), new ArrayList<N>(neighborNodeEntry.getValue()));
 		return newAdjacentNodes;
 	}
-
-	@Override
-	public ImmutableDynamicBayesianAdjacencyNetwork<N, E> cloneAdd(final E newEdge)
-	{
-		return (ImmutableDynamicBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newEdge);
-	}
-
-	@Override
-	public ImmutableDynamicBayesianAdjacencyNetwork<N, E> cloneAdd(final N newNode)
-	{
-		return (ImmutableDynamicBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newNode);
-	}
-
-	@Override
-	public ImmutableDynamicBayesianAdjacencyNetwork<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
-	{
-		return (ImmutableDynamicBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newNodes, newEdges);
-	}
-
-	@Override
-	public ImmutableDynamicBayesianAdjacencyNetwork<N, E> cloneRemove(final E edgeToRemove)
-	{
-		return (ImmutableDynamicBayesianAdjacencyNetwork<N, E>) super.cloneRemove(edgeToRemove);
-	}
-
-	@Override
-	public ImmutableDynamicBayesianAdjacencyNetwork<N, E> cloneRemove(final N nodeToRemove)
-	{
-		return (ImmutableDynamicBayesianAdjacencyNetwork<N, E>) super.cloneRemove(nodeToRemove);
-	}
-
-	@Override
-	public ImmutableDynamicBayesianAdjacencyNetwork<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
-	{
-		return (ImmutableDynamicBayesianAdjacencyNetwork<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
-	}
-
-	@Override
-	public ImmutableDynamicBayesianAdjacencyNetwork<N, E> clone()
-	{
-		return (ImmutableDynamicBayesianAdjacencyNetwork<N, E>) super.clone();
-	}
 }

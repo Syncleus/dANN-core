@@ -171,11 +171,11 @@ public class WaveMultidimensionalFunction extends AbstractFunction
 	}
 
 	@Override
-	public WaveMultidimensionalFunction clone()
+	public Object clone()
 	{
 		final WaveMultidimensionalFunction copy = (WaveMultidimensionalFunction) super.clone();
 
-		copy.wave = this.wave.clone();
+		copy.wave = (SharpenedWaveletFunction) this.wave.clone();
 		copy.dimensionNames = this.dimensionNames.clone();
 
 		return copy;

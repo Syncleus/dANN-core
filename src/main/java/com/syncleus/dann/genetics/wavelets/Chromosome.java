@@ -230,13 +230,13 @@ public class Chromosome implements Cloneable
 	 * @return A clone of a chromosome.
 	 */
 	@Override
-	public Chromosome clone()
+	public Object clone()
 	{
 		try
 		{
 			final Chromosome copy = (Chromosome) super.clone();
-			copy.leftChromatid = this.leftChromatid.clone();
-			copy.rightChromatid = this.rightChromatid.clone();
+			copy.leftChromatid = (WaveletChromatid) this.leftChromatid.clone();
+			copy.rightChromatid = (WaveletChromatid) this.rightChromatid.clone();
 			copy.mutability = this.mutability;
 			return copy;
 		}

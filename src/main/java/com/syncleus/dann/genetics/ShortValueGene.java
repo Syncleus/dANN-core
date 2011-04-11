@@ -84,18 +84,6 @@ public class ShortValueGene extends AbstractValueGene<MutableShort>
 	}
 
 	/**
-	 * Creates a new instance of this object that is an exact copy.
-	 *
-	 * @return an exact copy of this object.
-	 * @since 2.0
-	 */
-	@Override
-	public ShortValueGene clone()
-	{
-		return (ShortValueGene) super.clone();
-	}
-
-	/**
 	 * This will make a copy of the object and mutate it. The mutation has a normal
 	 * distribution multiplied by the deviation.
 	 *
@@ -107,7 +95,7 @@ public class ShortValueGene extends AbstractValueGene<MutableShort>
 	 */
 	public ShortValueGene mutate(final double deviation)
 	{
-		final ShortValueGene copy = this.clone();
+		final ShortValueGene copy = (ShortValueGene) this.clone();
 		copy.internalMutate(deviation);
 
 		return copy;

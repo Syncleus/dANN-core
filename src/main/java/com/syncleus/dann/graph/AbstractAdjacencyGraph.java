@@ -297,7 +297,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 	 * @return A clone, with the given edge added
 	 */
 	@Override
-	public AbstractAdjacencyGraph<N, E> cloneAdd(final E newEdge)
+	public Graph cloneAdd(final E newEdge)
 	{
 		if( newEdge == null )
 			throw new IllegalArgumentException("newEdge can not be null");
@@ -324,7 +324,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 					newAdjacentNodes.get(currentNode).add(currentAdjacentNode);
 			}
 
-			final AbstractAdjacencyGraph<N, E> copy = this.clone();
+			final AbstractAdjacencyGraph<N, E> copy = (AbstractAdjacencyGraph<N, E>) this.clone();
 			copy.edges = newEdges;
 			copy.adjacentEdges = newAdjacentEdges;
 			copy.adjacentNodes = newAdjacentNodes;
@@ -341,35 +341,35 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 	 * @return null
 	 */
 	@Override
-	public AbstractAdjacencyGraph<N, E> cloneAdd(final N newNode)
+	public Graph<N, E> cloneAdd(final N newNode)
 	{
 		// TODO fill this in
 		return null;
 	}
 
 	@Override
-	public AbstractAdjacencyGraph<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
+	public Graph<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
 	{
 		// TODO fill this in
 		return null;
 	}
 
 	@Override
-	public AbstractAdjacencyGraph<N, E> cloneRemove(final E edgeToRemove)
+	public Graph<N, E> cloneRemove(final E edgeToRemove)
 	{
 		// TODO fill this in
 		return null;
 	}
 
 	@Override
-	public AbstractAdjacencyGraph<N, E> cloneRemove(final N nodeToRemove)
+	public Graph<N, E> cloneRemove(final N nodeToRemove)
 	{
 		// TODO fill this in
 		return null;
 	}
 
 	@Override
-	public AbstractAdjacencyGraph<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
+	public Graph<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
 	{
 		// TODO fill this in
 		return null;
@@ -380,7 +380,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
 	 * @return A clone of the current object, with no changes
 	 */
 	@Override
-	public AbstractAdjacencyGraph<N, E> clone()
+	public Object clone()
 	{
 		try
 		{

@@ -86,12 +86,6 @@ public class WaveFunction extends AbstractFunction
 	}
 
 	@Override
-	public WaveFunction clone()
-	{
-		return (WaveFunction) super.clone();
-	}
-
-	@Override
 	public String toString()
 	{
 		return this.toString("x");

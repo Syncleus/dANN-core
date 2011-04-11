@@ -160,5 +160,4 @@ public interface Graph<N, E extends Edge<N>> extends Serializable, Cloneable, Xm
 	 * @since 2.0
 	 */
 	Graph<N, E> cloneRemove(Set<N> deleteNodes, Set<E> deleteEdges);
-	Graph<N, E> clone();
 }

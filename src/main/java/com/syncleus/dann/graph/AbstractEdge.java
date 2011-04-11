@@ -68,7 +68,7 @@ public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<
 			final List<N> nodesCopy = new ArrayList<N>(ourNodes.size());
 			for(N ourNode : ourNodes)
 			{
-				if( this.contextEnabled && ( ourNode instanceof ContextNode ) && ( !((ContextNode)ourNode).connectingEdge(this) ))
+				if (this.contextEnabled && (ourNode instanceof ContextNode) && (!((ContextNode)ourNode).connectingEdge(this)))
 					continue;
 				nodesCopy.add(ourNode);
 			}
@@ -193,7 +193,7 @@ public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<
 	}
 
 	@Override
-	public AbstractEdge<N> clone()
+	public Object clone()
 	{
 		try
 		{

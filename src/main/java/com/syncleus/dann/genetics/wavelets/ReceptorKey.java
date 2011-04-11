@@ -77,16 +77,4 @@ public class ReceptorKey extends AbstractKey
 
 		return false;
 	}
-
-	@Override
-	public ReceptorKey clone()
-	{
-		return (ReceptorKey) super.clone();
-	}
-
-	@Override
-	public ReceptorKey mutate(final double deviation)
-	{
-		return (ReceptorKey) super.mutate(deviation);
-	}
 }

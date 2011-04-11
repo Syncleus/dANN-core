@@ -62,12 +62,6 @@ public class ExternalSignalGene extends SignalGene
 	}
 
 	@Override
-	public ExternalSignalGene clone()
-	{
-		return (ExternalSignalGene) super.clone();
-	}
-
-	@Override
 	public void mutate(final Set<AbstractKey> keyPool)
 	{
 		super.mutate(keyPool);

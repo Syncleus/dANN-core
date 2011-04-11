@@ -86,7 +86,7 @@ public class SignalGene extends AbstractWaveletGene
 	}
 
 	@Override
-	public SignalGene clone()
+	public Object clone()
 	{
 		final SignalGene copy = (SignalGene) super.clone();
 		copy.outputSignal = this.outputSignal;
@@ -97,6 +97,6 @@ public class SignalGene extends AbstractWaveletGene
 	public void mutate(final Set<AbstractKey> keyPool)
 	{
 		super.mutate(keyPool);
-		this.outputSignal = this.outputSignal.mutate(this.getMutability());
+		this.outputSignal = (SignalKey) this.outputSignal.mutate(this.getMutability());
 	}
 }

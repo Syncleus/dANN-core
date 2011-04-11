@@ -84,18 +84,6 @@ public class ByteValueGene extends AbstractValueGene<MutableByte>
 	}
 
 	/**
-	 * Creates a new instance of this object that is an exact copy.
-	 *
-	 * @return an exact copy of this object.
-	 * @since 2.0
-	 */
-	@Override
-	public ByteValueGene clone()
-	{
-		return (ByteValueGene) super.clone();
-	}
-
-	/**
 	 * This will make a copy of the object and mutate it. The mutation has a normal
 	 * distribution multiplied by the deviation.
 	 *
@@ -107,7 +95,7 @@ public class ByteValueGene extends AbstractValueGene<MutableByte>
 	 */
 	public ByteValueGene mutate(final double deviation)
 	{
-		final ByteValueGene copy = this.clone();
+		final ByteValueGene copy = (ByteValueGene) this.clone();
 		copy.internalMutate(deviation);
 
 		return copy;

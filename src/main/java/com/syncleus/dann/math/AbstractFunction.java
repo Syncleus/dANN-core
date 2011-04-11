@@ -110,7 +110,7 @@ public abstract class AbstractFunction implements Cloneable, Function
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public AbstractFunction clone()
+	public Object clone()
 	{
 		try
 		{

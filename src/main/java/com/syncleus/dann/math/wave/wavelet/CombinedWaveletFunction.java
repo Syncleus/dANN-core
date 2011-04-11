@@ -79,7 +79,7 @@ public class CombinedWaveletFunction extends AbstractFunction
 	}
 
 	@Override
-	public CombinedWaveletFunction clone()
+	public Object clone()
 	{
 		final CombinedWaveletFunction copy = (CombinedWaveletFunction) super.clone();
 		copy.dimensions = new TreeSet<String>(this.dimensions);

@@ -84,18 +84,6 @@ public class FloatValueGene extends AbstractValueGene<MutableFloat>
 	}
 
 	/**
-	 * Creates a new instance of this object that is an exact copy.
-	 *
-	 * @return an exact copy of this object.
-	 * @since 2.0
-	 */
-	@Override
-	public FloatValueGene clone()
-	{
-		return (FloatValueGene) super.clone();
-	}
-
-	/**
 	 * This will make a copy of the object and mutate it. The mutation has a normal
 	 * distribution multiplied by the deviation.
 	 *
@@ -107,7 +95,7 @@ public class FloatValueGene extends AbstractValueGene<MutableFloat>
 	 */
 	public FloatValueGene mutate(final double deviation)
 	{
-		final FloatValueGene copy = this.clone();
+		final FloatValueGene copy = (FloatValueGene) this.clone();
 		copy.internalMutate(deviation);
 
 		return copy;

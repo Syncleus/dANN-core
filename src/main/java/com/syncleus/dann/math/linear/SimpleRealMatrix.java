@@ -182,7 +182,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	}
 
 	@Override
-	public SimpleRealMatrix clone()
+	public Object clone()
 	{
 		try
 		{

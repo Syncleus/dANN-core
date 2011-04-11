@@ -47,7 +47,4 @@ public abstract class AbstractSignalingContextEdge<N, S> extends AbstractContext
 				((SignalContextNode)traversableNode).neighborNodeStateChanged(this, node, newState);
 		}
 	}
-
-	@Override
-	public abstract AbstractSignalingContextEdge<N, S> clone();
 }

@@ -41,16 +41,4 @@ public class SignalKey extends AbstractKey
 	{
 		super(keyString);
 	}
-
-	@Override
-	public SignalKey clone()
-	{
-		return (SignalKey) super.clone();
-	}
-
-	@Override
-	public SignalKey mutate(final double deviation)
-	{
-		return (SignalKey) super.mutate(deviation);
-	}
 }

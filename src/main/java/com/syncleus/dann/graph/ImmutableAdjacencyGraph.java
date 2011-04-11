@@ -74,48 +74,6 @@ public class ImmutableAdjacencyGraph<N, E extends Edge<N>> extends AbstractAdjac
 	}
 
 	@Override
-	public ImmutableAdjacencyGraph<N, E> cloneAdd(final E newEdge)
-	{
-		return (ImmutableAdjacencyGraph<N, E>) super.cloneAdd(newEdge);
-	}
-
-	@Override
-	public ImmutableAdjacencyGraph<N, E> cloneAdd(final N newNode)
-	{
-		return (ImmutableAdjacencyGraph<N, E>) super.cloneAdd(newNode);
-	}
-
-	@Override
-	public ImmutableAdjacencyGraph<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
-	{
-		return (ImmutableAdjacencyGraph<N, E>) super.cloneAdd(newNodes, newEdges);
-	}
-
-	@Override
-	public ImmutableAdjacencyGraph<N, E> cloneRemove(final E edgeToRemove)
-	{
-		return (ImmutableAdjacencyGraph<N, E>) super.cloneRemove(edgeToRemove);
-	}
-
-	@Override
-	public ImmutableAdjacencyGraph<N, E> cloneRemove(final N nodeToRemove)
-	{
-		return (ImmutableAdjacencyGraph<N, E>) super.cloneRemove(nodeToRemove);
-	}
-
-	@Override
-	public ImmutableAdjacencyGraph<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
-	{
-		return (ImmutableAdjacencyGraph<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
-	}
-
-	@Override
-	public ImmutableAdjacencyGraph<N, E> clone()
-	{
-		return (ImmutableAdjacencyGraph<N, E>) super.clone();
-	}
-
-	@Override
 	public GraphXml toXml(final Namer<Object> namer)
 	{
 		throw new UnsupportedOperationException("XML serialization not yet supported"); //TODO Implement serialization
