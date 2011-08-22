@@ -128,7 +128,7 @@
 	<repositories>
 		<repository>
 			<id>snapshots</id>
-			<name>Syncleus Maven Snapshot Respository</name>
+			<name>Syncleus Maven Snapshot Repository</name>
 			<url>http://ezekiel2.syncleus.com:8080/archiva/repository/snapshots/</url>
 			<releases>
 				<enabled>true</enabled>

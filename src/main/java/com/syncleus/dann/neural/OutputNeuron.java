@@ -31,6 +31,7 @@ public interface OutputNeuron extends Neuron
 	 * Obtains the current output for this neuron.
 	 *
 	 * @return The current output of the neuron.
+	 * @since 1.0
 	 */
 	double getOutput();
 }

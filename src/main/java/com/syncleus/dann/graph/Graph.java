@@ -52,7 +52,7 @@ public interface Graph<N, E extends Edge<N>> extends Serializable, Cloneable, Xm
 	/**
 	 * Get a set of all edges in the graph. Two edges in the set, and in the graph,
 	 * may have the same end points unless equals in the edges used by this graph
-	 * restrict that possiblity.
+	 * restrict that possibility.
 	 *
 	 * @return An unmodifiable set of a all edges in the graph.
 	 * @since 2.0

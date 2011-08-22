@@ -242,7 +242,7 @@ public class ExpressionFunction implements Cloneable
 	 * Mutates by incorporating a new signal into the mutated result.<br/> <br/>
 	 * May mutate by:<br/> <ul> <li>adding the new signal</li> </ul>
 	 *
-	 * @param newReceptor The new receptor to possibly incorperate into mutation
+	 * @param newReceptor The new receptor to possibly incorporate into mutation
 	 * @param deviation RANDOM deviation for mutation.
 	 * @return New mutated wavelet
 	 */

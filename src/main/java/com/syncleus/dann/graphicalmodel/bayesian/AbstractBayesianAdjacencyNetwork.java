@@ -200,7 +200,8 @@ public abstract class AbstractBayesianAdjacencyNetwork<N extends BayesianNode, E
 		return xml;
 	}
 
-	protected static class NodeConnectivity<N extends BayesianNode, E extends BayesianEdge<N>> extends HashMap<N, Set<E>>
+	// TODO unused, remove?
+	private static class NodeConnectivity<N extends BayesianNode, E extends BayesianEdge<N>> extends HashMap<N, Set<E>>
 	{
 		private static final long serialVersionUID = -3068604309573134643L;
 

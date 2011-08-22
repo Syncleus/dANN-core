@@ -81,38 +81,48 @@ public class LayeredBrainHyperassociativeMap extends HyperassociativeMap<Feedfor
 	{
 		final BackpropNeuron neuronToQuery = nodeToQuery;
 
-		if( (this.cached) && (this.neighbors.containsKey(neuronToQuery)) )
-			return this.neighbors.get(neuronToQuery);
-
-		//populate initial associations based off edges
-		final Map<BackpropNeuron, Double> associations = new HashMap<BackpropNeuron, Double>();
-		for(final Synapse neighborEdge : this.getGraph().getAdjacentEdges(nodeToQuery))
+		if (cached && (neighbors.containsKey(neuronToQuery)))
 		{
-			final Double currentWeight = (this.isUsingWeights() ? neighborEdge.getWeight() : this.getEquilibriumDistance());
-			//TODO fix this typing
-			for(final Object neighbor : neighborEdge.getNodes())
-				if( !neighbor.equals(nodeToQuery) )
-					associations.put((BackpropNeuron)neighbor, currentWeight);
+			return neighbors.get(neuronToQuery);
 		}
 
-		//add aditional associations per layer.
-		for(final Set<BackpropNeuron> layer : this.getGraph().getLayers())
+		// populate initial associations based off edges
+		final Map<BackpropNeuron, Double> associations = new HashMap<BackpropNeuron, Double>();
+		for (final Synapse<BackpropNeuron> neighborEdge : getGraph().getAdjacentEdges(nodeToQuery))
 		{
-			if( layer.contains(neuronToQuery) )
+			final Double currentWeight = (isUsingWeights() ? neighborEdge.getWeight() : getEquilibriumDistance());
+			for (final BackpropNeuron neighbor : neighborEdge.getNodes())
 			{
-				for(final BackpropNeuron layerNeuron : layer)
+				if (!neighbor.equals(nodeToQuery))
 				{
-					if( (neuronToQuery instanceof BackpropStaticNeuron) && (layerNeuron instanceof BackpropStaticNeuron) )
-						associations.put(layerNeuron, this.getEquilibriumDistance());
-					else if( (!(neuronToQuery instanceof BackpropStaticNeuron)) && (!(layerNeuron instanceof BackpropStaticNeuron)) )
-						associations.put(layerNeuron, this.getEquilibriumDistance());
+					associations.put(neighbor, currentWeight);
+				}
+			}
+		}
+
+		// add aditional associations per layer.
+		for (final Set<BackpropNeuron> layer : getGraph().getLayers())
+		{
+			if (layer.contains(neuronToQuery))
+			{
+				for (final BackpropNeuron layerNeuron : layer)
+				{
+					if (((neuronToQuery instanceof BackpropStaticNeuron)
+							&& (layerNeuron instanceof BackpropStaticNeuron))
+						|| (!(neuronToQuery instanceof BackpropStaticNeuron)
+							&& !(layerNeuron instanceof BackpropStaticNeuron)))
+					{
+						associations.put(layerNeuron, getEquilibriumDistance());
+					}
 				}
 			}
 		}
 		associations.remove(nodeToQuery);
 
-		if( this.cached )
-			this.neighbors.put(neuronToQuery, associations);
+		if (cached)
+		{
+			neighbors.put(neuronToQuery, associations);
+		}
 
 		return associations;
 	}

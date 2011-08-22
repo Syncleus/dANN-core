@@ -51,11 +51,12 @@ public final class Trees
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
-		// TODO check if subgraph is actually a subgraph, another words that it is a subset of nodes and edges
+		// TODO check if subgraph is actually a subgraph; in other words, that it is a subset of nodes and edges
 		// TODO in fact we probably want to rethink this entirely
 		return ((graph.getNodes().containsAll(subGraph.getNodes()))
 				&& (Topography.isWeaklyConnected(subGraph))
@@ -72,7 +73,8 @@ public final class Trees
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -89,7 +91,8 @@ public final class Trees
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -106,11 +109,12 @@ public final class Trees
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
-		//TODO implement this
+		// TODO implement this
 		throw new UnsupportedOperationException();
 	}
 
@@ -124,7 +128,8 @@ public final class Trees
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -151,17 +156,20 @@ public final class Trees
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
-		//TODO make this more efficient
+		// TODO make this more efficient
 		final Set<Graph<N, E>> components = Topography.getMaximallyConnectedComponents(graph);
-		for(Graph<N, E> component : components)
+		for (Graph<N, E> component : components)
 		{
 			final DirectedGraph<N, E> directedComponent = new ImmutableDirectedAdjacencyGraph<N, E>(component);
-			if( !Trees.isRootedTree(directedComponent) )
+			if (!Trees.isRootedTree(directedComponent))
+			{
 				return false;
+			}
 		}
 		return true;
 	}
