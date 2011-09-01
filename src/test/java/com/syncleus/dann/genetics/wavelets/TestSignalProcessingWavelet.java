@@ -40,7 +40,7 @@ public class TestSignalProcessingWavelet
 	{
 		for(int testCount = 0; testCount < TEST_MUTATIONS_REPEATS; testCount++)
 		{
-			LOGGER.info("performing testMutations test #" + testCount);
+			LOGGER.debug("performing testMutations test #" + testCount);
 			testMutationOnce();
 		}
 	}
@@ -65,7 +65,7 @@ public class TestSignalProcessingWavelet
 	{
 		for(int testIndex = 0; testIndex < TEST_XOR_REPEATS; testIndex++)
 		{
-			LOGGER.info("performing testXorEvolves test #" + testIndex);
+			LOGGER.debug("performing testXorEvolves test #" + testIndex);
 			this.testXorEvolveOnce();
 		}
 	}
