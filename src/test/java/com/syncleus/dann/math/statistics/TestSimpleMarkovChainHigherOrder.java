@@ -20,6 +20,7 @@ package com.syncleus.dann.math.statistics;
 
 import java.util.*;
 import org.junit.*;
+import org.apache.log4j.*;
 
 public class TestSimpleMarkovChainHigherOrder
 {
@@ -29,6 +30,7 @@ public class TestSimpleMarkovChainHigherOrder
 	}
 
 	private final static Random RANDOM = new Random();
+	private static final Logger LOGGER = Logger.getLogger(TestSimpleMarkovChainHigherOrder.class);
 
 	protected void testChain(int order) {
 		final MarkovChainEvidence<WeatherState> chainEvidence = new SimpleMarkovChainEvidence<WeatherState>(true, order);
@@ -67,27 +69,25 @@ public class TestSimpleMarkovChainHigherOrder
 
 		final MarkovChain<WeatherState> simpleChain = chainEvidence.getMarkovChain();
 
-		System.out.println("transition matrix: " + simpleChain.getTransitionProbabilityMatrix());
+		LOGGER.info("transition matrix: " + simpleChain.getTransitionProbabilityMatrix());
 
 		//simpleChain.transition(WeatherState.SUNNY);
 
 		int generatedTransitions = 30;
 		for (int i = 0; i < generatedTransitions; i++) {
-			System.out.print(simpleChain.generateTransition() + " ");
+			LOGGER.info(simpleChain.generateTransition() + " ");
 		}
-		System.out.println();
 
-//		System.out.println("transition columns: " + simpleChain.getTransitionProbabilityColumns());
-//		System.out.println("transition rows: " + simpleChain.getTransitionProbabilityRows());
-//
-//        System.out.println("steady state: " + simpleChain.getSteadyStateProbability(WeatherState.SUNNY) + " , " + simpleChain.getSteadyStateProbability(WeatherState.RAINY));
-//
-//        Assert.assertTrue("Sunny steady state incorrect: " + simpleChain.getSteadyStateProbability(WeatherState.SUNNY), Math.abs(simpleChain.getSteadyStateProbability(WeatherState.SUNNY) - 0.83333333333) < 0.1);
-//		Assert.assertTrue("Rainy steady state incorrect: " + simpleChain.getSteadyStateProbability(WeatherState.RAINY), Math.abs(simpleChain.getSteadyStateProbability(WeatherState.RAINY) - 0.16666666666) < 0.1);
-//		Assert.assertTrue("Sunny 1 step incorrect: " + simpleChain.getProbability(WeatherState.SUNNY, 1), Math.abs(simpleChain.getProbability(WeatherState.SUNNY, 1) - 0.9) < 0.1);
-//		Assert.assertTrue("Rainy 1 step incorrect: " + simpleChain.getProbability(WeatherState.RAINY, 1), Math.abs(simpleChain.getProbability(WeatherState.RAINY, 1) - 0.1) < 0.1);
-//		Assert.assertTrue("Sunny 2 step incorrect: " + simpleChain.getProbability(WeatherState.SUNNY, 2), Math.abs(simpleChain.getProbability(WeatherState.SUNNY, 2) - 0.86) < 0.1);
-//		Assert.assertTrue("Rainy 2 step incorrect: " + simpleChain.getProbability(WeatherState.RAINY, 2), Math.abs(simpleChain.getProbability(WeatherState.RAINY, 2) - 0.14) < 0.1);
+		LOGGER.info("transition columns: " + simpleChain.getTransitionProbabilityColumns());
+		LOGGER.info("transition rows: " + simpleChain.getTransitionProbabilityRows());
+		LOGGER.info("steady state: " + simpleChain.getSteadyStateProbability(WeatherState.SUNNY) + " , " + simpleChain.getSteadyStateProbability(WeatherState.RAINY));
+
+		Assert.assertTrue("Sunny steady state incorrect: " + simpleChain.getSteadyStateProbability(WeatherState.SUNNY), Math.abs(simpleChain.getSteadyStateProbability(WeatherState.SUNNY) - 0.83333333333) < 0.1);
+		Assert.assertTrue("Rainy steady state incorrect: " + simpleChain.getSteadyStateProbability(WeatherState.RAINY), Math.abs(simpleChain.getSteadyStateProbability(WeatherState.RAINY) - 0.16666666666) < 0.1);
+		Assert.assertTrue("Sunny 1 step incorrect: " + simpleChain.getProbability(WeatherState.SUNNY, 1), Math.abs(simpleChain.getProbability(WeatherState.SUNNY, 1) - 0.9) < 0.1);
+		Assert.assertTrue("Rainy 1 step incorrect: " + simpleChain.getProbability(WeatherState.RAINY, 1), Math.abs(simpleChain.getProbability(WeatherState.RAINY, 1) - 0.1) < 0.1);
+		Assert.assertTrue("Sunny 2 step incorrect: " + simpleChain.getProbability(WeatherState.SUNNY, 2), Math.abs(simpleChain.getProbability(WeatherState.SUNNY, 2) - 0.86) < 0.1);
+		Assert.assertTrue("Rainy 2 step incorrect: " + simpleChain.getProbability(WeatherState.RAINY, 2), Math.abs(simpleChain.getProbability(WeatherState.RAINY, 2) - 0.14) < 0.1);
 
 	}
 
