@@ -20,6 +20,7 @@ package com.syncleus.dann.math.statistics;
 
 import java.util.*;
 import org.junit.*;
+import org.apache.log4j.*;
 
 public class TestSimpleMarkovChainEvidence
 {
@@ -29,6 +30,7 @@ public class TestSimpleMarkovChainEvidence
 	}
 
 	private final static Random RANDOM = new Random();
+	private static final Logger LOGGER = Logger.getLogger(TestSimpleMarkovChainEvidence.class);
 
 	@Test
 	public void testSimpleChain()
@@ -70,11 +72,11 @@ public class TestSimpleMarkovChainEvidence
 		final MarkovChain<WeatherState> simpleChain = chainEvidence.getMarkovChain();
 		simpleChain.transition(WeatherState.SUNNY);
 
-		System.out.println("transition columns: " + simpleChain.getTransitionProbabilityColumns());
-		System.out.println("transition rows: " + simpleChain.getTransitionProbabilityRows());
-		System.out.println("transition matrix: " + simpleChain.getTransitionProbabilityMatrix());
+		LOGGER.info("transition columns: " + simpleChain.getTransitionProbabilityColumns());
+		LOGGER.info("transition rows: " + simpleChain.getTransitionProbabilityRows());
+		LOGGER.info("transition matrix: " + simpleChain.getTransitionProbabilityMatrix());
 
-        System.out.println("steady state: " + simpleChain.getSteadyStateProbability(WeatherState.SUNNY) + " , " + simpleChain.getSteadyStateProbability(WeatherState.RAINY));
+        LOGGER.info("steady state: " + simpleChain.getSteadyStateProbability(WeatherState.SUNNY) + " , " + simpleChain.getSteadyStateProbability(WeatherState.RAINY));
 
         Assert.assertTrue("Sunny steady state incorrect: " + simpleChain.getSteadyStateProbability(WeatherState.SUNNY), Math.abs(simpleChain.getSteadyStateProbability(WeatherState.SUNNY) - 0.83333333333) < 0.1);
 		Assert.assertTrue("Rainy steady state incorrect: " + simpleChain.getSteadyStateProbability(WeatherState.RAINY), Math.abs(simpleChain.getSteadyStateProbability(WeatherState.RAINY) - 0.16666666666) < 0.1);
