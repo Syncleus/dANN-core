@@ -18,10 +18,15 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.drawing.hyperassociativemap;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
-import com.syncleus.dann.neural.*;
-import com.syncleus.dann.neural.backprop.*;
+import com.syncleus.dann.neural.Synapse;
+import com.syncleus.dann.neural.backprop.BackpropNeuron;
+import com.syncleus.dann.neural.backprop.BackpropStaticNeuron;
+import com.syncleus.dann.neural.backprop.InputBackpropNeuron;
+import com.syncleus.dann.neural.backprop.OutputBackpropNeuron;
 import com.syncleus.dann.neural.backprop.brain.FeedforwardBackpropBrain;
 
 public class LayeredBrainHyperassociativeMap extends HyperassociativeMap<FeedforwardBackpropBrain<InputBackpropNeuron, OutputBackpropNeuron, BackpropNeuron, Synapse<BackpropNeuron>>, BackpropNeuron>
@@ -74,9 +79,7 @@ public class LayeredBrainHyperassociativeMap extends HyperassociativeMap<Feedfor
 	@Override
 	Map<BackpropNeuron, Double> getNeighbors(final BackpropNeuron nodeToQuery)
 	{
-		if( !(nodeToQuery instanceof BackpropNeuron) )
-			throw new IllegalArgumentException("nodeToQuery must be BackpropNeuron");
-		final BackpropNeuron neuronToQuery = (BackpropNeuron) nodeToQuery;
+		final BackpropNeuron neuronToQuery = nodeToQuery;
 
 		if( (this.cached) && (this.neighbors.containsKey(neuronToQuery)) )
 			return this.neighbors.get(neuronToQuery);

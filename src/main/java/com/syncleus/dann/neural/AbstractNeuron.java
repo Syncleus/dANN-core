@@ -19,18 +19,16 @@
 package com.syncleus.dann.neural;
 
 import java.util.Random;
-import org.apache.log4j.Logger;
 
 public abstract class AbstractNeuron implements Neuron
 {
 	/**
-	 * Random number generator used toproduce any needed RANDOM values
+	 * Random number generator used to produce any needed RANDOM values.
 	 *
 	 * @since 1.0
 	 */
 	protected static final Random RANDOM = new Random();
 	private final Brain<InputNeuron, OutputNeuron, Neuron, Synapse<Neuron>> brain;
-	private static final Logger LOGGER = Logger.getLogger(AbstractNeuron.class);
 
 	/**
 	 * Creates a new instance of NeuronImpl with a RANDOM bias weight and

@@ -31,6 +31,7 @@ public class NegativeWeightCycleException extends DannRuntimeException
 	 */
 	public NegativeWeightCycleException()
 	{
+		super();
 	}
 
 	/**

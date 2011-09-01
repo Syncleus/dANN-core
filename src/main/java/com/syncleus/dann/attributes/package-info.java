@@ -18,6 +18,6 @@
  ******************************************************************************/
 
 /**
- ** Hierarchical Attribute Tree Package
- **/
+ * Hierarchical Attribute Tree Package.
+ */
 package com.syncleus.dann.attributes;

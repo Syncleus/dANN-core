@@ -24,12 +24,14 @@ import com.syncleus.dann.graph.DirectedGraph;
 /**
  * Represents a single artificial brain typically belonging to a single
  * artificial organism. It will contain a set of input and output neurons which
- * corelates to a specific dataset pattern.
+ * correlate to a specific data-set pattern.
  *
  * @author Jeffrey Phillips Freeman
  * @since 1.0
+ * @param <IN> The input-neuron type
+ * @param <ON> The output-neuron type
  */
-public interface Brain<IN extends InputNeuron, ON extends OutputNeuron, N extends Neuron, S extends Synapse<N>> extends DirectedGraph<N,S>
+public interface Brain<IN extends InputNeuron, ON extends OutputNeuron, N extends Neuron, S extends Synapse<N>> extends DirectedGraph<N, S>
 {
 	/**
 	 * Obtains all InputNeurons contained within the brain.
@@ -37,12 +39,12 @@ public interface Brain<IN extends InputNeuron, ON extends OutputNeuron, N extend
 	 * @return An unmodifiable Set of InputNeurons.
 	 * @since 1.0
 	 */
-	public abstract Set<IN> getInputNeurons();
+	Set<IN> getInputNeurons();
 	/**
 	 * Obtains all OutputNeurons contained within the brain.
 	 *
 	 * @return An unmodifiable Set of OutputNeurons
 	 * @since 1.0
 	 */
-	public abstract Set<ON> getOutputNeurons();
+	Set<ON> getOutputNeurons();
 }

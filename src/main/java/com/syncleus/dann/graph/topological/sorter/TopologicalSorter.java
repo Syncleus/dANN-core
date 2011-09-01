@@ -19,7 +19,8 @@
 package com.syncleus.dann.graph.topological.sorter;
 
 import java.util.List;
-import com.syncleus.dann.graph.*;
+import com.syncleus.dann.graph.BidirectedGraph;
+import com.syncleus.dann.graph.DirectedEdge;
 
 // TODO make this follow the optimizer approach
 public interface TopologicalSorter<N>

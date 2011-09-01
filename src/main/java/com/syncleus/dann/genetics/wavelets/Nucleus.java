@@ -18,7 +18,11 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import com.syncleus.dann.UnexpectedDannError;
 import org.apache.log4j.Logger;
 
@@ -29,22 +33,21 @@ import org.apache.log4j.Logger;
 public class Nucleus implements Cloneable
 {
 	private List<Chromosome> chromosomes;
-	private double mutability;
 	private static final Logger LOGGER = Logger.getLogger(Nucleus.class);
 	private static final double MUTABILITY_ADJUSTMENT = 10.0;
 
 	/**
-	 * Creates a new Nucleus with at least one chromosome. Additional chromosomes
-	 * could be added based on the random mutability factor.
+	 * Creates a new Nucleus with at least one chromosome. Additional
+	 * chromosomes could be added based on the random mutability factor.
 	 */
 	public Nucleus()
 	{
 		this.chromosomes = new ArrayList<Chromosome>();
-		this.mutability = Mutations.getRandom().nextDouble() * MUTABILITY_ADJUSTMENT;
+		final double mutability = Mutations.getRandom().nextDouble() * MUTABILITY_ADJUSTMENT;
 		//make sure there is at least one starting chromosome.
 		this.chromosomes.add(new Chromosome());
 		//there is a chance more chromosomes can be created
-		while( Mutations.mutationEvent(this.mutability) )
+		while( Mutations.mutationEvent(mutability) )
 			this.chromosomes.add(new Chromosome());
 	}
 
@@ -54,9 +57,7 @@ public class Nucleus implements Cloneable
 	 */
 	public Nucleus(final Nucleus copy)
 	{
-		this.chromosomes = new ArrayList<Chromosome>();
-		for(final Chromosome chromosome : copy.chromosomes)
-			this.chromosomes.add(new Chromosome(chromosome));
+		this.chromosomes = new ArrayList<Chromosome>(copy.getChromosomes());
 	}
 
 	/**
@@ -117,7 +118,7 @@ public class Nucleus implements Cloneable
 
 	public void mutate()
 	{
-		final HashSet<AbstractKey> allKeys = new HashSet<AbstractKey>();
+		final Set<AbstractKey> allKeys = new HashSet<AbstractKey>();
 		for(final Chromosome chromosome : this.chromosomes)
 			allKeys.addAll(chromosome.getKeys());
 
@@ -127,7 +128,7 @@ public class Nucleus implements Cloneable
 
 	public void mutate(final Set<AbstractKey> keyPool)
 	{
-		final HashSet<AbstractKey> allKeys = new HashSet<AbstractKey>(keyPool);
+		final Set<AbstractKey> allKeys = new HashSet<AbstractKey>(keyPool);
 		for(final Chromosome chromosome : this.chromosomes)
 			allKeys.addAll(chromosome.getKeys());
 
@@ -137,7 +138,7 @@ public class Nucleus implements Cloneable
 
 	Set<SignalKey> getExpressedSignals(final boolean external)
 	{
-		final HashSet<SignalKey> allSignals = new HashSet<SignalKey>();
+		final Set<SignalKey> allSignals = new HashSet<SignalKey>();
 		for(final Chromosome chromosome : this.chromosomes)
 			allSignals.addAll(chromosome.getExpressedSignals(external));
 		return Collections.unmodifiableSet(allSignals);

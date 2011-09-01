@@ -18,9 +18,14 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
-import java.util.*;
 import com.syncleus.dann.UnexpectedDannError;
 import com.syncleus.dann.genetics.MutableInteger;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import org.apache.log4j.Logger;
 
 public abstract class AbstractKey implements Cloneable
@@ -31,7 +36,7 @@ public abstract class AbstractKey implements Cloneable
 
 	protected AbstractKey()
 	{
-		final HashMap<Integer, Boolean> newPoints = new HashMap<Integer, Boolean>();
+		final Map<Integer, Boolean> newPoints = new HashMap<Integer, Boolean>();
 		newPoints.put(RANDOM.nextInt(), RANDOM.nextBoolean());
 		this.points = Collections.unmodifiableMap(newPoints);
 	}

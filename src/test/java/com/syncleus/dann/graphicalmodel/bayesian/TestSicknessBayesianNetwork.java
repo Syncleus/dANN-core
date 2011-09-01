@@ -28,25 +28,25 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 public class TestSicknessBayesianNetwork
 {
-    @XmlRootElement
+	@XmlRootElement
 	private static enum BooleanState
 	{
 		TRUE, FALSE
 	}
 
-    @XmlRootElement
+	@XmlRootElement
 	private static enum SeasonState
 	{
 		WINTER, SUMMER, SPRING, FALL
 	}
 
-    @XmlRootElement
+	@XmlRootElement
 	private static enum AgeState
 	{
 		BABY, CHILD, TEENAGER, ADULT, SENIOR
 	}
 
-    @XmlRootElement
+	@XmlRootElement
 	private static enum FeverState
 	{
 		LOW, NONE, WARM, HOT
@@ -62,26 +62,26 @@ public class TestSicknessBayesianNetwork
 	private BayesianNode<BooleanState> tired = new SimpleBayesianNode<BooleanState>(BooleanState.FALSE);
 	private BayesianNode<BooleanState> sick = new SimpleBayesianNode<BooleanState>(BooleanState.FALSE);
 
-    @Test
-    public void testXml() throws Exception
-    {
-        testOverall();
+	@Test
+	public void testXml() throws Exception
+	{
+		testOverall();
 
-        //mashall it
-        JAXBContext context = JAXBContext.newInstance(BayesianNetworkXml.class, TestSicknessBayesianNetwork.FeverState.class, TestSicknessBayesianNetwork.AgeState.class, TestSicknessBayesianNetwork.BooleanState.class, TestSicknessBayesianNetwork.SeasonState.class);
-        Marshaller marshal = context.createMarshaller();
+		//mashall it
+		JAXBContext context = JAXBContext.newInstance(BayesianNetworkXml.class, TestSicknessBayesianNetwork.FeverState.class, TestSicknessBayesianNetwork.AgeState.class, TestSicknessBayesianNetwork.BooleanState.class, TestSicknessBayesianNetwork.SeasonState.class);
+		Marshaller marshal = context.createMarshaller();
 
-        StringWriter writer = new StringWriter();
-        marshal.marshal(network.toXml(), writer);
+		StringWriter writer = new StringWriter();
+		marshal.marshal(network.toXml(), writer);
 
-        //unmarshall it
-        StringReader reader = new StringReader(writer.toString());
-        BayesianNetworkXml xml = JAXB.unmarshal(reader, BayesianNetworkXml.class);
+		//unmarshall it
+		StringReader reader = new StringReader(writer.toString());
+		BayesianNetworkXml xml = JAXB.unmarshal(reader, BayesianNetworkXml.class);
 
-        Assert.assertTrue("could not unmarshal object!", xml != null);
-        Assert.assertTrue("Wrong number of edges after unmarshaling: " + xml.getEdges().getEdges().size(), xml.getEdges().getEdges().size() == 14);
-        Assert.assertTrue("Wrong number of nodes after unmarshaling: " + xml.getNodes().getNodes().size(), xml.getNodes().getNodes().size() == 6);
-    }
+		Assert.assertTrue("could not unmarshal object!", xml != null);
+		Assert.assertTrue("Wrong number of edges after unmarshaling: " + xml.getEdges().getEdges().size(), xml.getEdges().getEdges().size() == 14);
+		Assert.assertTrue("Wrong number of nodes after unmarshaling: " + xml.getNodes().getNodes().size(), xml.getNodes().getNodes().size() == 6);
+	}
 
 	@Test
 	public void testOverallRepeated()

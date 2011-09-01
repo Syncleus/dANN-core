@@ -18,10 +18,15 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.bayesian.dynamic;
 
-import java.util.*;
-import com.syncleus.dann.graphicalmodel.bayesian.*;
-import com.syncleus.dann.xml.Namer;
-import com.syncleus.dann.graphicalmodel.bayesian.xml.BayesianNodeXml;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import com.syncleus.dann.graphicalmodel.bayesian.BayesianEdge;
+import com.syncleus.dann.graphicalmodel.bayesian.BayesianNetwork;
+import com.syncleus.dann.graphicalmodel.bayesian.BayesianNode;
+import com.syncleus.dann.graphicalmodel.bayesian.SimpleBayesianNode;
 
 public class SimpleDynamicBayesianNode<S> extends SimpleBayesianNode<S> implements DynamicBayesianNode<S>
 {
@@ -56,9 +61,11 @@ public class SimpleDynamicBayesianNode<S> extends SimpleBayesianNode<S> implemen
 		this.historicalNodes = Collections.unmodifiableList(newHistoricalNodes);
 	}
 
-	//if we leave a networks lets clear the states
+	/**
+	 * If we leave a network, lets clear the states.
+	 */
 	@Override
-	public boolean joiningGraph(BayesianNetwork<BayesianNode<S>, BayesianEdge<BayesianNode<S>>> graph)
+	public boolean joiningGraph(final BayesianNetwork<BayesianNode<S>, BayesianEdge<BayesianNode<S>>> graph)
 	{
 		if( super.joiningGraph(graph) )
 		{
@@ -72,9 +79,11 @@ public class SimpleDynamicBayesianNode<S> extends SimpleBayesianNode<S> implemen
 			return false;
 	}
 
-	//if we leave a networks lets clear the states
+	/**
+	 * If we leave a network, lets clear the states.
+	 */
 	@Override
-	public boolean leavingGraph(BayesianNetwork<BayesianNode<S>, BayesianEdge<BayesianNode<S>>> graph)
+	public boolean leavingGraph(final BayesianNetwork<BayesianNode<S>, BayesianEdge<BayesianNode<S>>> graph)
 	{
 		if( super.leavingGraph(graph) )
 		{

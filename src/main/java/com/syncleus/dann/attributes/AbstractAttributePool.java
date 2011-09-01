@@ -18,14 +18,18 @@
  ******************************************************************************/
 package com.syncleus.dann.attributes;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public abstract class AbstractAttributePool<T> implements AttributePool<T>
 {
 	private final Set<AttributeChangeListener<T>> globalListeners = new HashSet<AttributeChangeListener<T>>();
 	private final Map<Attribute<?, ? extends T>, Set<AttributeChangeListener<?>>> listeners = new HashMap<Attribute<?, ? extends T>, Set<AttributeChangeListener<?>>>();
 
-	public final <C extends T> boolean listen(AttributeChangeListener<C> listener, Attribute<?, ? extends C> attribute)
+	@Override
+	public final <C extends T> boolean listen(final AttributeChangeListener<C> listener, final Attribute<?, ? extends C> attribute)
 	{
 		if( attribute == null )
 			throw new IllegalArgumentException("attribute can not be null");
@@ -45,7 +49,8 @@ public abstract class AbstractAttributePool<T> implements AttributePool<T>
 		return attributesListeners.add(listener);
 	}
 
-	public final boolean listenAll(AttributeChangeListener<T> listener)
+	@Override
+	public final boolean listenAll(final AttributeChangeListener<T> listener)
 	{
 		if(listener == null)
 			throw new IllegalArgumentException("listener can not be null");
@@ -59,7 +64,8 @@ public abstract class AbstractAttributePool<T> implements AttributePool<T>
 		return this.globalListeners.add(listener);
 	}
 
-	public final boolean removeListener(AttributeChangeListener<?> listener)
+	@Override
+	public final boolean removeListener(final AttributeChangeListener<?> listener)
 	{
 		boolean removed = false;
 		for(Map.Entry<Attribute<?, ? extends T>, Set<AttributeChangeListener<?>>> listenerEntry : this.listeners.entrySet())
@@ -80,18 +86,20 @@ public abstract class AbstractAttributePool<T> implements AttributePool<T>
 		return removed;
 	}
 
-	public final <C extends T> boolean removeListener(AttributeChangeListener<C> listener, Attribute<?, ? extends C> attribute)
+	@Override
+	public final <C extends T> boolean removeListener(final AttributeChangeListener<C> listener, final Attribute<?, ? extends C> attribute)
 	{
-		//if this listener is global we cant remove it despite still listening so throw an exception
+		// if this listener is global we cant remove it despite still listening
+		// so throw an exception
 		if( this.globalListeners.contains(listener) )
 			throw new IllegalArgumentException("listener is a global listener so we can not remove it for a single attribute");
-		
+
 		final Set<AttributeChangeListener<?>> attributeListeners = this.listeners.get(attribute);
 
 		if( attributeListeners == null )
 			return false;
 
-		assert attributeListeners.size() > 0;
+		assert !attributeListeners.isEmpty();
 
 		if( attributeListeners.remove(listener) )
 		{
@@ -103,9 +111,9 @@ public abstract class AbstractAttributePool<T> implements AttributePool<T>
 		return false;
 	}
 
-	protected final <C extends T> void notify(Attribute<?, C> attribute, C attributeValue)
+	protected final <C extends T> void notify(final Attribute<?, C> attribute, final C attributeValue)
 	{
-		Set<AttributeChangeListener<?>> attributeListeners = this.listeners.get(attribute);
+		final Set<AttributeChangeListener<?>> attributeListeners = this.listeners.get(attribute);
 
 		//lets notify everyone who is subscribed
 		for( AttributeChangeListener listener : attributeListeners )

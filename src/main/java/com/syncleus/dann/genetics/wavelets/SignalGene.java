@@ -18,9 +18,11 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
-public class SignalGene extends AbstractWaveletGene implements Cloneable
+public class SignalGene extends AbstractWaveletGene
 {
 	private SignalKey outputSignal;
 	private SignalKeyConcentration expressingConcentration;
@@ -30,6 +32,7 @@ public class SignalGene extends AbstractWaveletGene implements Cloneable
 		super(initialReceptor);
 
 		this.outputSignal = initialSignal;
+		this.expressingConcentration = null;
 	}
 
 	public SignalGene(final SignalGene copy)
@@ -52,6 +55,7 @@ public class SignalGene extends AbstractWaveletGene implements Cloneable
 		return bound;
 	}
 
+	@Override
 	public void tick(final double promotion)
 	{
 		super.tick(promotion);
@@ -61,7 +65,7 @@ public class SignalGene extends AbstractWaveletGene implements Cloneable
 	@Override
 	public Set<AbstractKey> getKeys()
 	{
-		final HashSet<AbstractKey> allKeys = new HashSet<AbstractKey>(super.getKeys());
+		final Set<AbstractKey> allKeys = new HashSet<AbstractKey>(super.getKeys());
 		allKeys.add(this.outputSignal);
 		return Collections.unmodifiableSet(allKeys);
 	}

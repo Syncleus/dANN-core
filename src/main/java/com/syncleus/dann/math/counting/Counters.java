@@ -19,14 +19,23 @@
 package com.syncleus.dann.math.counting;
 
 import java.math.BigInteger;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public final class Counters
 {
-	//this is a utility class so it cant be instantiated, make the default constructor private
+	/**
+	 * This is an utility class, so it can not be instantiated.
+	 * We ensure this by making the default constructor private.
+	 * @throws InstantiationException
+	 */
 	private Counters()
 	{
-		throw new IllegalStateException("This is a utility class, it cant be instantiated");
+		throw new IllegalStateException("This is an utility class, it can not be instantiated");
 	}
 
 	public static <O> BigInteger everyCombinationCount(final Collection<O> superCollection)
@@ -34,9 +43,9 @@ public final class Counters
 		if( superCollection == null )
 			throw new IllegalArgumentException("superCollection can not be null");
 
-		final BigInteger combinations = BigInteger.ZERO;
+		BigInteger combinations = BigInteger.ZERO;
 		for(int currentSequenceLength = 1; currentSequenceLength <= superCollection.size(); currentSequenceLength++)
-			combinations.add(fixedLengthCombinationCount(superCollection, currentSequenceLength));
+			combinations = combinations.add(fixedLengthCombinationCount(superCollection, currentSequenceLength));
 		return combinations;
 	}
 
@@ -141,9 +150,9 @@ public final class Counters
 		if( superCollection == null )
 			throw new IllegalArgumentException("superCollection can not be null");
 
-		final BigInteger combinations = BigInteger.ZERO;
+		BigInteger combinations = BigInteger.ZERO;
 		for(int currentSequenceLength = 1; currentSequenceLength <= superCollection.size(); currentSequenceLength++)
-			combinations.add(fixedLengthPermutationCount(superCollection, currentSequenceLength));
+			combinations = combinations.add(fixedLengthPermutationCount(superCollection, currentSequenceLength));
 		return combinations;
 	}
 
@@ -233,9 +242,9 @@ public final class Counters
 		if( superCollection == null )
 			throw new IllegalArgumentException("superCollection can not be null");
 
-		final BigInteger combinations = BigInteger.ZERO;
+		BigInteger combinations = BigInteger.ZERO;
 		for(int currentSequenceLength = 1; currentSequenceLength <= superCollection.size(); currentSequenceLength++)
-			combinations.add(fixedLengthLexicographicPermutationCount(superCollection, currentSequenceLength));
+			combinations = combinations.add(fixedLengthLexicographicPermutationCount(superCollection, currentSequenceLength));
 		return combinations;
 	}
 
@@ -325,9 +334,9 @@ public final class Counters
 		if( superCollection == null )
 			throw new IllegalArgumentException("superCollection can not be null");
 
-		final BigInteger combinations = BigInteger.ZERO;
+		BigInteger combinations = BigInteger.ZERO;
 		for(int currentSequenceLength = 1; currentSequenceLength <= superCollection.size(); currentSequenceLength++)
-			combinations.add(fixedLengthJohnsonTrotterPermutationCount(superCollection, currentSequenceLength));
+			combinations = combinations.add(fixedLengthJohnsonTrotterPermutationCount(superCollection, currentSequenceLength));
 		return combinations;
 	}
 

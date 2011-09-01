@@ -20,7 +20,7 @@ package com.syncleus.dann.math.wave;
 
 import com.syncleus.dann.math.AbstractFunction;
 
-public class WaveFunction extends AbstractFunction implements Cloneable
+public class WaveFunction extends AbstractFunction
 {
 	public WaveFunction()
 	{
@@ -79,6 +79,7 @@ public class WaveFunction extends AbstractFunction implements Cloneable
 		return this.getParameter(this.getParameterNameIndex("phase"));
 	}
 
+	@Override
 	public double calculate()
 	{
 		return Math.sin((this.getX() + (this.getPhase() / 360)) * 2 * Math.PI * this.getFrequency()) * this.getAmplitude();
@@ -90,6 +91,7 @@ public class WaveFunction extends AbstractFunction implements Cloneable
 		return (WaveFunction) super.clone();
 	}
 
+	@Override
 	public String toString()
 	{
 		return this.toString("x");

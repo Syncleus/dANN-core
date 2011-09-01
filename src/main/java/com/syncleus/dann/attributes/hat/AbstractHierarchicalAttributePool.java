@@ -18,8 +18,11 @@
  ******************************************************************************/
 package com.syncleus.dann.attributes.hat;
 
-import com.syncleus.dann.attributes.*;
-import com.syncleus.dann.graph.*;
+import com.syncleus.dann.attributes.AbstractAttributePool;
+import com.syncleus.dann.attributes.Attribute;
+import com.syncleus.dann.attributes.AttributeChangeListener;
+import com.syncleus.dann.graph.DirectedEdge;
+import com.syncleus.dann.graph.MutableTreeGraph;
 
 public abstract class AbstractHierarchicalAttributePool<T> extends AbstractAttributePool<T> implements HierarchicalAttributePool<T>
 {
@@ -27,25 +30,26 @@ public abstract class AbstractHierarchicalAttributePool<T> extends AbstractAttri
 	private HierarchicalAttributePool<T> parent = null;
 	private final MutableTreeGraph<HierarchicalAttributePool, DirectedEdge<HierarchicalAttributePool>> owner;
 
-	protected AbstractHierarchicalAttributePool(MutableTreeGraph<HierarchicalAttributePool, DirectedEdge<HierarchicalAttributePool>> owner)
+	protected AbstractHierarchicalAttributePool(final MutableTreeGraph<HierarchicalAttributePool, DirectedEdge<HierarchicalAttributePool>> owner)
 	{
-		if(owner == null )
+		if (owner == null)
 			throw new IllegalArgumentException("owner can not be null");
 		this.owner = owner;
 	}
 
+	@Override
 	public final HierarchicalAttributePool<T> getParent()
 	{
 		return this.parent;
 	}
 
-	// TODO this has package level access because only a HAT graph should set parents consider changing this to an event / listener model
-	final HierarchicalAttributePool<T> setParent(HierarchicalAttributePool<T> newParent)
+	// TODO this has package level access because only a HAT graph should set parents. consider changing this to an event / listener model
+	final HierarchicalAttributePool<T> setParent(final HierarchicalAttributePool<T> newParent)
 	{
 		if( !this.owner.getNodes().contains(newParent) )
 			throw new IllegalArgumentException("newParent is not in owning graph");
 
-		HierarchicalAttributePool<T> oldParent = this.parent;
+		final HierarchicalAttributePool<T> oldParent = this.parent;
 		if( oldParent != null )
 			oldParent.removeListener(this.listener);
 		if( newParent != null )
@@ -54,19 +58,17 @@ public abstract class AbstractHierarchicalAttributePool<T> extends AbstractAttri
 		return oldParent;
 	}
 
-	protected <C extends T, V extends C> V modifyChangedAttribute(Attribute<?, C> attribute, V attributeValue)
+	protected <C extends T, V extends C> V modifyChangedAttribute(final Attribute<?, C> attribute, final V attributeValue)
 	{
 		return attributeValue;
 	}
 
-	public abstract <I extends T> I getAttributeValue(Attribute<?, I> attribute);
-	public abstract <C extends T> C setAttributeValue(Attribute<?, C> attribute, C value);
-
 	private final class ParentListener implements AttributeChangeListener<T>
 	{
-		public final <C extends T> void attributeChanged(Attribute<?, C> attribute, C attributeValue)
+		@Override
+		public <C extends T> void attributeChanged(final Attribute<?, C> attribute, final C attributeValue)
 		{
-			C modiffiedAttributeValue = AbstractHierarchicalAttributePool.this.modifyChangedAttribute(attribute, attributeValue);
+			final C modiffiedAttributeValue = AbstractHierarchicalAttributePool.this.modifyChangedAttribute(attribute, attributeValue);
 			AbstractHierarchicalAttributePool.this.notify(attribute, modiffiedAttributeValue);
 		}
 	}

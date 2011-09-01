@@ -23,7 +23,10 @@
  */
 package com.syncleus.dann.math.linear.decomposition;
 
-import java.util.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import com.syncleus.dann.math.OrderedAlgebraic;
 import com.syncleus.dann.math.linear.Matrix;
 
@@ -34,21 +37,21 @@ import com.syncleus.dann.math.linear.Matrix;
  * an m-by-n orthogonal matrix factor and an n-by-n upper triangular matrix
  * factor so that matrixToDecompose = factor*factor.
  * <p/>
- * The QR decompostion always exists, even if the matrix does not have full
+ * The QR decomposition always exists, even if the matrix does not have full
  * rank, so the constructor will never fail.  The primary use of the QR
- * decomposition is in the least squares solution of nonsquare systems of
+ * decomposition is in the least squares solution of non-square systems of
  * simultaneous linear equations.  This will fail if isFullRank() returns
  * false.
  */
-public class HouseholderQrDecomposition<M extends Matrix<M, F>, F extends OrderedAlgebraic<F>> implements java.io.Serializable, QrDecomposition<M, F>
+public class HouseholderQrDecomposition<M extends Matrix<M, F>, F extends OrderedAlgebraic<F>> implements Serializable, QrDecomposition<M, F>
 {
 	private static final long serialVersionUID = -2181312959012242588L;
 	/**
-	 * Array for internal storage of decomposition.
+	 * Internal storage of the decomposition matrix.
 	 */
-	private M matrix;
+	private final M matrix;
 	/**
-	 * Array for internal storage of diagonal of factor.
+	 * Internal storage of the diagonal compute factor.
 	 */
 	private final List<F> rDiagonal;
 
@@ -61,42 +64,46 @@ public class HouseholderQrDecomposition<M extends Matrix<M, F>, F extends Ordere
 	public HouseholderQrDecomposition(final M matrixToDecompose)
 	{
 		// Initialize.
-		this.matrix = matrixToDecompose;
-		this.rDiagonal = new ArrayList<F>(this.getWidth());
-		this.rDiagonal.addAll(Collections.nCopies(this.getWidth(), this.matrix.getElementField().getZero()));
+		M myMatrix = matrixToDecompose;
+		List<F> myRDiagonal = new ArrayList<F>(myMatrix.getWidth());
+		myRDiagonal.addAll(Collections.nCopies(myMatrix.getWidth(), myMatrix.getElementField().getZero()));
 
 		// Main loop.
-		for(int k = 0; k < this.getWidth(); k++)
+		for(int k = 0; k < myMatrix.getWidth(); k++)
 		{
 			// Compute 2-norm of k-th column without under/overflow.
-			F nrm = this.matrix.getElementField().getZero();
-			for(int i = k; i < this.getHeight(); i++)
-				nrm = nrm.hypot(this.matrix.get(i, k));
+			F nrm = myMatrix.getElementField().getZero();
+			for(int i = k; i < myMatrix.getHeight(); i++)
+				nrm = nrm.hypot(myMatrix.get(i, k));
 
-			if( !nrm.equals(this.matrix.getElementField().getZero()) )
+			if( !nrm.equals(myMatrix.getElementField().getZero()) )
 			{
 				// Form k-th Householder vector.
-				if( this.matrix.get(k, k).compareTo(this.matrix.getElementField().getZero()) < 0 )
+				if( myMatrix.get(k, k).compareTo(myMatrix.getElementField().getZero()) < 0 )
 					nrm = nrm.negate();
-				for(int i = k; i < this.getHeight(); i++)
-					this.matrix = this.matrix.set(i, k, this.matrix.get(i, k).divide(nrm));
-				this.matrix = this.matrix.set(k, k, this.matrix.get(k, k).add(this.matrix.getElementField().getOne()));
+				for(int i = k; i < myMatrix.getHeight(); i++)
+					myMatrix = myMatrix.set(i, k, myMatrix.get(i, k).divide(nrm));
+				myMatrix = myMatrix.set(k, k, myMatrix.get(k, k).add(myMatrix.getElementField().getOne()));
 
 				// Apply transformation to remaining columns.
-				for(int j = k + 1; j < this.getWidth(); j++)
+				for(int j = k + 1; j < myMatrix.getWidth(); j++)
 				{
-					F s = this.matrix.getElementField().getZero();
-					for(int i = k; i < this.getHeight(); i++)
-						s = s.add(this.matrix.get(i, k).multiply(this.matrix.get(i, j)));
-					s = s.negate().divide(this.matrix.get(k, k));
-					for(int i = k; i < this.getHeight(); i++)
-						this.matrix = this.matrix.set(i, j, this.matrix.get(i, j).add(s.multiply(this.matrix.get(i, k))));
+					F sum = myMatrix.getElementField().getZero();
+					for(int i = k; i < myMatrix.getHeight(); i++)
+						sum = sum.add(myMatrix.get(i, k).multiply(myMatrix.get(i, j)));
+					sum = sum.negate().divide(myMatrix.get(k, k));
+					for(int i = k; i < myMatrix.getHeight(); i++)
+						myMatrix = myMatrix.set(i, j, myMatrix.get(i, j).add(sum.multiply(myMatrix.get(i, k))));
 				}
 			}
-			this.rDiagonal.set(k, nrm.negate());
+			myRDiagonal.set(k, nrm.negate());
 		}
+
+		this.matrix = myMatrix;
+		this.rDiagonal = myRDiagonal;
 	}
 
+	@Override
 	public final M getMatrix()
 	{
 		return this.matrix;
@@ -117,6 +124,7 @@ public class HouseholderQrDecomposition<M extends Matrix<M, F>, F extends Ordere
 	 *
 	 * @return true if factor, and hence matrixToDecompose, has full rank.
 	 */
+	@Override
 	public boolean isFullRank()
 	{
 		for(int j = 0; j < this.getWidth(); j++)
@@ -126,10 +134,11 @@ public class HouseholderQrDecomposition<M extends Matrix<M, F>, F extends Ordere
 	}
 
 	/**
-	 * Return the Householder vectors
+	 * Return the Householder vectors.
 	 *
 	 * @return Lower trapezoidal matrix whose columns define the reflections
 	 */
+	@Override
 	public M getHouseholderMatrix()
 	{
 		M householderMatrix = this.matrix.blank();
@@ -141,10 +150,11 @@ public class HouseholderQrDecomposition<M extends Matrix<M, F>, F extends Ordere
 	}
 
 	/**
-	 * Return the upper triangular factor
+	 * Return the upper triangular factor.
 	 *
 	 * @return factor
 	 */
+	@Override
 	public M getUpperTriangularFactor()
 	{
 		M factor = this.matrix.blank();
@@ -158,10 +168,11 @@ public class HouseholderQrDecomposition<M extends Matrix<M, F>, F extends Ordere
 	}
 
 	/**
-	 * Generate and return the (economy-sized) orthogonal factor
+	 * Generate and return the (economy-sized) orthogonal factor.
 	 *
 	 * @return factor
 	 */
+	@Override
 	public M getOrthogonalFactor()
 	{
 		M factor = this.matrix.blank();
@@ -173,19 +184,19 @@ public class HouseholderQrDecomposition<M extends Matrix<M, F>, F extends Ordere
 			for(int j = k; j < this.getWidth(); j++)
 				if( !this.matrix.get(k, k).equals(this.matrix.getElementField().getOne()) )
 				{
-					F s = this.matrix.getElementField().getZero();
+					F sum = this.matrix.getElementField().getZero();
 					for(int i = k; i < this.getHeight(); i++)
-						s = s.add(this.matrix.get(i, k).multiply(factor.get(i, j)));
-					s = s.negate().divide(this.matrix.get(k, k));
+						sum = sum.add(this.matrix.get(i, k).multiply(factor.get(i, j)));
+					sum = sum.negate().divide(this.matrix.get(k, k));
 					for(int i = k; i < this.getHeight(); i++)
-						factor = factor.set(i, j, factor.get(i, j).add(s.multiply(this.matrix.get(i, k))));
+						factor = factor.set(i, j, factor.get(i, j).add(sum.multiply(this.matrix.get(i, k))));
 				}
 		}
 		return factor;
 	}
 
 	/**
-	 * Least squares solution of matrixToDecompose*X = solutionMatrix
+	 * Least squares solution of matrixToDecompose*X = solutionMatrix.
 	 *
 	 * @param solutionMatrix matrixToDecompose SimpleRealMatrix with as many rows
 	 * as matrixToDecompose and any number of columns.
@@ -194,6 +205,7 @@ public class HouseholderQrDecomposition<M extends Matrix<M, F>, F extends Ordere
 	 * agree.
 	 * @throws RuntimeException SimpleRealMatrix is rank deficient.
 	 */
+	@Override
 	public M solve(final M solutionMatrix)
 	{
 		if( solutionMatrix.getHeight() != this.getHeight() )
@@ -202,30 +214,30 @@ public class HouseholderQrDecomposition<M extends Matrix<M, F>, F extends Ordere
 			throw new ArithmeticException("Matrix is rank deficient.");
 
 		// Copy right hand side
-		final int nx = solutionMatrix.getWidth();
+		final int width = solutionMatrix.getWidth();
 		M solved = solutionMatrix;
 
 		// Compute Y = transpose(factor)*solutionMatrix
 		for(int k = 0; k < this.getWidth(); k++)
-			for(int j = 0; j < nx; j++)
+			for(int j = 0; j < width; j++)
 			{
-				F s = this.matrix.getElementField().getZero();
+				F sum = this.matrix.getElementField().getZero();
 				for(int i = k; i < this.getHeight(); i++)
-					s = s.add(this.matrix.get(i, k).multiply(solved.get(i, j)));
-				s = s.negate().divide(this.matrix.get(k, k));
+					sum = sum.add(this.matrix.get(i, k).multiply(solved.get(i, j)));
+				sum = sum.negate().divide(this.matrix.get(k, k));
 				for(int i = k; i < this.getHeight(); i++)
-					solved = solved.set(i, j, solved.get(i, j).add(s.multiply(this.matrix.get(i, k))));
+					solved = solved.set(i, j, solved.get(i, j).add(sum.multiply(this.matrix.get(i, k))));
 			}
 		// Solve factor*X = Y;
 		for(int k = this.getWidth() - 1; k >= 0; k--)
 		{
-			for(int j = 0; j < nx; j++)
+			for(int j = 0; j < width; j++)
 				solved = solved.set(k, j, solved.get(k, j).divide(this.rDiagonal.get(k)));
 			for(int i = 0; i < k; i++)
-				for(int j = 0; j < nx; j++)
+				for(int j = 0; j < width; j++)
 					solved = solved.set(i, j, solved.get(i, j).subtract(solved.get(k, j).multiply(this.matrix.get(i, k))));
 		}
 
-		return solved.getSubmatrix(0, this.getWidth() - 1, 0, nx - 1);
+		return solved.getSubmatrix(0, this.getWidth() - 1, 0, width - 1);
 	}
 }

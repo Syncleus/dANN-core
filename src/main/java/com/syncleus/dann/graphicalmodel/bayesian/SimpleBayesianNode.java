@@ -18,6 +18,13 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.bayesian;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import com.syncleus.dann.graph.context.AbstractContextNode;
 import com.syncleus.dann.graphicalmodel.bayesian.xml.BayesianNodeXml;
 import com.syncleus.dann.graphicalmodel.bayesian.xml.SimpleBayesianNodeElementXml;
@@ -26,8 +33,6 @@ import com.syncleus.dann.xml.NameXml;
 import com.syncleus.dann.xml.NamedValueXml;
 import com.syncleus.dann.xml.Namer;
 import com.syncleus.dann.xml.XmlSerializable;
-
-import java.util.*;
 
 public class SimpleBayesianNode<S> extends AbstractContextNode<BayesianNode<S>, BayesianEdge<BayesianNode<S>>, BayesianNetwork<BayesianNode<S>, BayesianEdge<BayesianNode<S>>>> implements BayesianNode<S>
 {
@@ -38,7 +43,7 @@ public class SimpleBayesianNode<S> extends AbstractContextNode<BayesianNode<S>, 
 	public SimpleBayesianNode(final S initialState)
 	{
 		super(false);
-		
+
 		if( initialState == null )
 			throw new IllegalArgumentException("initialState can not be null");
 
@@ -46,9 +51,11 @@ public class SimpleBayesianNode<S> extends AbstractContextNode<BayesianNode<S>, 
 		this.learnedStates = new TreeSet<S>();
 	}
 
-	//if we leave a networks lets clear the states
+	/**
+	 * If we leave a network, lets clear the states.
+	 */
 	@Override
-	public boolean leavingGraph(BayesianNetwork<BayesianNode<S>, BayesianEdge<BayesianNode<S>>> graph)
+	public boolean leavingGraph(final BayesianNetwork<BayesianNode<S>, BayesianEdge<BayesianNode<S>>> graph)
 	{
 		if( super.leavingGraph(graph) )
 		{
@@ -66,7 +73,7 @@ public class SimpleBayesianNode<S> extends AbstractContextNode<BayesianNode<S>, 
 		this.learnedStates.clear();
 	}
 
-    @Override
+	@Override
 	public void setState(final S newState)
 	{
 		if( newState == null )
@@ -75,19 +82,19 @@ public class SimpleBayesianNode<S> extends AbstractContextNode<BayesianNode<S>, 
 		this.state = newState;
 	}
 
-    @Override
+	@Override
 	public S getState()
 	{
 		return this.state;
 	}
 
-    @Override
+	@Override
 	public Set<S> getLearnedStates()
 	{
 		return Collections.unmodifiableSet(this.learnedStates);
 	}
 
-    @Override
+	@Override
 	public void learnState()
 	{
 		this.updateInfluence();
@@ -96,13 +103,13 @@ public class SimpleBayesianNode<S> extends AbstractContextNode<BayesianNode<S>, 
 		this.learnedStates.add(this.state);
 	}
 
-    @Override
+	@Override
 	public double stateProbability()
 	{
 		this.updateInfluence();
 
 		final StateEvidence<S> stateEvidence = this.evidence.get(this.getInputStates());
-		return (stateEvidence != null ? stateEvidence.getPercentage(this.state) : 0.0);
+		return ((stateEvidence == null) ? 0.0 : stateEvidence.getPercentage(this.state));
 	}
 
 	private Map<BayesianNode, Object> getInputStates()
@@ -113,7 +120,7 @@ public class SimpleBayesianNode<S> extends AbstractContextNode<BayesianNode<S>, 
 
 		final Map<BayesianNode, Object> inStates = new HashMap<BayesianNode, Object>();
 
-		final Set<BayesianEdge< BayesianNode<S>>> inEdges = this.getJoinedGraphs().iterator().next().getInEdges(this);
+		final Set<BayesianEdge<BayesianNode<S>>> inEdges = this.getJoinedGraphs().iterator().next().getInEdges(this);
 		for(final BayesianEdge<? extends BayesianNode> inEdge : inEdges)
 			inStates.put(inEdge.getSourceNode(), inEdge.getSourceNode().getState());
 
@@ -152,75 +159,91 @@ public class SimpleBayesianNode<S> extends AbstractContextNode<BayesianNode<S>, 
 		return false;
 	}
 
-    @Override
-    public SimpleBayesianNodeXml toXml()
-    {
-        Namer<Object> namer = new Namer<Object>();
-        SimpleBayesianNodeElementXml xml = new SimpleBayesianNodeElementXml();
+	@Override
+	public SimpleBayesianNodeXml toXml()
+	{
+		final Namer<Object> namer = new Namer<Object>();
+		final SimpleBayesianNodeElementXml xml = new SimpleBayesianNodeElementXml();
 
-        xml.setStateInstances(new SimpleBayesianNodeElementXml.StateInstances());
-        Set<S> writtenStates = new HashSet<S>();
-        for(S learnedState : this.learnedStates)
-        {
-            if( writtenStates.add(learnedState) )
-            {
-                NamedValueXml named = new NamedValueXml();
-                named.setName(namer.getNameOrCreate(learnedState));
-                if(learnedState instanceof XmlSerializable)
-                    named.setValue(((XmlSerializable)learnedState).toXml(namer));
-                else
-                    named.setValue(learnedState);
-                xml.getStateInstances().getStates().add(named);
-            }
-        }
+		xml.setStateInstances(new SimpleBayesianNodeElementXml.StateInstances());
+		final Set<S> writtenStates = new HashSet<S>();
+		for (S learnedState : this.learnedStates)
+		{
+			if (writtenStates.add(learnedState))
+			{
+				final NamedValueXml named = new NamedValueXml();
+				named.setName(namer.getNameOrCreate(learnedState));
+				if (learnedState instanceof XmlSerializable)
+				{
+					named.setValue(((XmlSerializable) learnedState).toXml(namer));
+				}
+				else
+				{
+					named.setValue(learnedState);
+				}
+				xml.getStateInstances().getStates().add(named);
+			}
+		}
 
-        if( writtenStates.add(this.state) )
-        {
-            NamedValueXml named = new NamedValueXml();
-            named.setName(namer.getNameOrCreate(this.state));
-            if(this.state instanceof XmlSerializable)
-                named.setValue(((XmlSerializable)this.state).toXml(namer));
-            else
-                named.setValue(this.state);
-            xml.getStateInstances().getStates().add(named);
-        }
-        
-        this.toXml(xml, namer);
+		if (writtenStates.add(this.state))
+		{
+			final NamedValueXml named = new NamedValueXml();
+			named.setName(namer.getNameOrCreate(this.state));
+			if (this.state instanceof XmlSerializable)
+			{
+				named.setValue(((XmlSerializable) this.state).toXml(namer));
+			}
+			else
+			{
+				named.setValue(this.state);
+			}
+			xml.getStateInstances().getStates().add(named);
+		}
 
-        return xml;
-    }
+		this.toXml(xml, namer);
 
-    @Override
-    public SimpleBayesianNodeXml toXml(Namer<Object> namer)
-    {
-        if(namer == null)
-            throw new IllegalArgumentException("namer can not be null");
+		return xml;
+	}
 
-        SimpleBayesianNodeXml xml = new SimpleBayesianNodeXml();
-        this.toXml(xml, namer);
-        return xml;
-    }
+	@Override
+	public SimpleBayesianNodeXml toXml(final Namer<Object> namer)
+	{
+		if (namer == null)
+		{
+			throw new IllegalArgumentException("namer can not be null");
+		}
 
-    @Override
-    public void toXml(BayesianNodeXml jaxbObject, Namer<Object> namer)
-    {
-        //set learned states
-        if(jaxbObject.getLearnedStates() == null)
-            jaxbObject.setLearnedStates(new SimpleBayesianNodeXml.LearnedStates());
-        for(S learnedState : learnedStates)
-        {
-            NameXml stateXml = new NameXml();
-            stateXml.setName(namer.getNameOrCreate(learnedState));
-            jaxbObject.getLearnedStates().getStates().add(stateXml);
-        }
+		final SimpleBayesianNodeXml xml = new SimpleBayesianNodeXml();
+		this.toXml(xml, namer);
+		return xml;
+	}
 
-        //set current state
-        if(jaxbObject.getState() == null)
-            jaxbObject.setState(new NameXml());
-        jaxbObject.getState().setName(namer.getNameOrCreate(this.state));
+	@Override
+	public void toXml(final BayesianNodeXml jaxbObject, final Namer<Object> namer)
+	{
+		//set learned states
+		if (jaxbObject.getLearnedStates() == null)
+		{
+			jaxbObject.setLearnedStates(new SimpleBayesianNodeXml.LearnedStates());
+		}
+		for (S learnedState : learnedStates)
+		{
+			final NameXml stateXml = new NameXml();
+			stateXml.setName(namer.getNameOrCreate(learnedState));
+			jaxbObject.getLearnedStates().getStates().add(stateXml);
+		}
 
-        //set evidence map
-        if((jaxbObject instanceof SimpleBayesianNodeXml) && (this.evidence != null) )
-            ((SimpleBayesianNodeXml)jaxbObject).setEvidence(this.evidence.toXml(namer));
-    }
+		//set current state
+		if (jaxbObject.getState() == null)
+		{
+			jaxbObject.setState(new NameXml());
+		}
+		jaxbObject.getState().setName(namer.getNameOrCreate(this.state));
+
+		//set evidence map
+		if ((jaxbObject instanceof SimpleBayesianNodeXml) && (this.evidence != null))
+		{
+			((SimpleBayesianNodeXml) jaxbObject).setEvidence(this.evidence.toXml(namer));
+		}
+	}
 }

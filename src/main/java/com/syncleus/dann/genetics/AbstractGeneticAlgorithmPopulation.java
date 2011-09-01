@@ -18,9 +18,22 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics;
 
-import java.util.*;
-import java.util.concurrent.*;
-import com.syncleus.dann.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import com.syncleus.dann.UnexpectedDannError;
+import com.syncleus.dann.UnexpectedInterruptedException;
 import org.apache.log4j.Logger;
 
 /**
@@ -48,13 +61,13 @@ public abstract class AbstractGeneticAlgorithmPopulation
 	private static class Process implements Runnable
 	{
 		private final AbstractGeneticAlgorithmFitnessFunction fitnessFunction;
-		private static final Logger LOGGER = Logger.getLogger(Process.class);
 
 		public Process(final AbstractGeneticAlgorithmFitnessFunction ourFitnessFunction)
 		{
 			this.fitnessFunction = ourFitnessFunction;
 		}
 
+		@Override
 		public void run()
 		{
 			this.fitnessFunction.process();
@@ -64,14 +77,15 @@ public abstract class AbstractGeneticAlgorithmPopulation
 	/**
 	 * Creates a new population with an initial population consisting of the
 	 * specified chromosomes and with the given Genetic Algorithm parameters.
-	 * The ThreadPoolExecutor is based off the current number of processors, with
-	 * the thread pool initial size equal to the number of processors.
+	 * The ThreadPoolExecutor is based off the current number of processors,
+	 * with the thread pool initial size equal to the number of processors.
 	 *
-	 * @param ourMutationDeviation The deviation used when mutating each chromosome in
-	 * the population.
-	 * @param ourCrossoverPercentage The percentage change crossover will take place.
-	 * @param ourDieOffPercentage The percentage of the population to die off in each
-	 * generation.
+	 * @param ourMutationDeviation The deviation used when mutating each
+	 *   chromosome in the population.
+	 * @param ourCrossoverPercentage The percentage change crossover will take
+	 *   place.
+	 * @param ourDieOffPercentage The percentage of the population to die off in
+	 *   each generation.
 	 * @since 2.0
 	 */
 	public AbstractGeneticAlgorithmPopulation(final double ourMutationDeviation, final double ourCrossoverPercentage, final double ourDieOffPercentage)
@@ -83,12 +97,14 @@ public abstract class AbstractGeneticAlgorithmPopulation
 	 * Creates a new population with an initial population consisting of the
 	 * specified chromosomes and with the given Genetic Algorithm parameters.
 	 *
-	 * @param ourMutationDeviation The deviation used when mutating each chromosome in
-	 * the population.
-	 * @param ourCrossoverPercentage The percentage change crossover will take place.
-	 * @param ourDieOffPercentage The percentage of the population to die off in each
-	 * generation.
-	 * @param ourThreadExecutor The ThreadPoolExecutor to execute genetic processes on
+	 * @param ourMutationDeviation The deviation used when mutating each
+	 *   chromosome in the population.
+	 * @param ourCrossoverPercentage The percentage change crossover will take
+	 *   place.
+	 * @param ourDieOffPercentage The percentage of the population to die off in
+	 *   each generation.
+	 * @param ourThreadExecutor The ThreadPoolExecutor to execute genetic
+	 *   processes on.
 	 * @since 2.0
 	 */
 	public AbstractGeneticAlgorithmPopulation(final double ourMutationDeviation, final double ourCrossoverPercentage, final double ourDieOffPercentage, final ThreadPoolExecutor ourThreadExecutor)
@@ -110,14 +126,15 @@ public abstract class AbstractGeneticAlgorithmPopulation
 	}
 
 	/**
-	 * Adds all chromosomes to the population, processing the fitness functions in parallel.
+	 * Adds all chromosomes to the population, processing the fitness functions
+	 * in parallel.
 	 * @param chromosomes The chromosomes to add
 	 */
 	public final void addAll(final Collection<GeneticAlgorithmChromosome> chromosomes)
 	{
 		//create all the fitness functions and then process them in parallel
-		final ArrayList<AbstractGeneticAlgorithmFitnessFunction> initialPopulation = new ArrayList<AbstractGeneticAlgorithmFitnessFunction>();
-		final ArrayList<Future> futures = new ArrayList<Future>();
+		final List<AbstractGeneticAlgorithmFitnessFunction> initialPopulation = new ArrayList<AbstractGeneticAlgorithmFitnessFunction>();
+		final List<Future> futures = new ArrayList<Future>();
 		for(final GeneticAlgorithmChromosome chromosome : chromosomes)
 		{
 			final AbstractGeneticAlgorithmFitnessFunction fitnessFunction = this.packageChromosome(chromosome);
@@ -149,13 +166,13 @@ public abstract class AbstractGeneticAlgorithmPopulation
 	 * Gets all the chromosomes consisting of the current generation of the
 	 * population.
 	 *
-	 * @return An unmodifiable set of GeneticAlgorithmChromosomes consiting of the
-	 *         current population.
+	 * @return An unmodifiable set of GeneticAlgorithmChromosomes consisting of
+	 *         the current population.
 	 * @since 2.0
 	 */
 	public final Set<GeneticAlgorithmChromosome> getChromosomes()
 	{
-		final HashSet<GeneticAlgorithmChromosome> chromosomes = new HashSet<GeneticAlgorithmChromosome>();
+		final Set<GeneticAlgorithmChromosome> chromosomes = new HashSet<GeneticAlgorithmChromosome>();
 		for(final AbstractGeneticAlgorithmFitnessFunction member : this.population)
 			chromosomes.add(member.getChromosome());
 
@@ -163,8 +180,8 @@ public abstract class AbstractGeneticAlgorithmPopulation
 	}
 
 	/**
-	 * Gets the most successful member of the current population according to its
-	 * fitness function.
+	 * Gets the most successful member of the current population according to
+	 * its fitness function.
 	 *
 	 * @return the most successful member of the current population according to
 	 *         its fitness function.
@@ -204,9 +221,9 @@ public abstract class AbstractGeneticAlgorithmPopulation
 	}
 
 	/**
-	 * Proceeds to the next generation of the population. This includes killing off
-	 * the worst preforming of the population and randomly selecting parents to
-	 * replace them. Parents produce children through mutation and crossover.
+	 * Proceeds to the next generation of the population. This includes killing
+	 * off the worst performing of the population and randomly selecting parents
+	 * to replace them. Parents produce children through mutation and crossover.
 	 *
 	 * @since 2.0
 	 */
@@ -256,8 +273,8 @@ public abstract class AbstractGeneticAlgorithmPopulation
 	}
 
 	/**
-	 * An abstract method that must be implemented to package a supplied chromosome
-	 * into an appropriate fitness function wrapper.
+	 * An abstract method that must be implemented to package a supplied
+	 * chromosome into an appropriate fitness function wrapper.
 	 *
 	 * @param chromosome Chromosome to wrap into a fitness function class.
 	 * @return A fitness function wrapping the chromosome.

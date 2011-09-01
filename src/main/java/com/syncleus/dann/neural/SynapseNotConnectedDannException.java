@@ -21,7 +21,7 @@ package com.syncleus.dann.neural;
 import com.syncleus.dann.DannException;
 
 /**
- * This means a synapse is not a connected synpase.
+ * This means a synapse is not a connected synapse.
  *
  * @author Jeffrey Phillips Freeman
  * @since 1.0
@@ -37,6 +37,7 @@ public class SynapseNotConnectedDannException extends DannException
 	 */
 	public SynapseNotConnectedDannException()
 	{
+		super();
 	}
 
 	/**
@@ -64,8 +65,8 @@ public class SynapseNotConnectedDannException extends DannException
 	}
 
 	/**
-	 * Creates an exception containing the throwable which caused this exception to
-	 * be thrown.
+	 * Creates an exception containing the throwable which caused this exception
+	 * to be thrown.
 	 *
 	 * @param cause The throwable which caused this exception
 	 * @since 1.0

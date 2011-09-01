@@ -42,8 +42,8 @@ public class TestLayeredLoopMap
 			//find the farthest nodes in layer 1 and 2
 			double adjacentTotal = 0.0;
 			double adjacentComponents = 0.0;
-			double seperatedTotal = 0.0;
-			double seperatedComponents = 0.0;
+			double separatedTotal = 0.0;
+			double separatedComponents = 0.0;
 			for(int primaryLayerIndex = 0; primaryLayerIndex < nodes[0].length; primaryLayerIndex++)
 			{
 				final SimpleNode currentPrimaryLayerNode = nodes[0][primaryLayerIndex];
@@ -58,19 +58,19 @@ public class TestLayeredLoopMap
 				}
 
 
-				for(int seperatedLayerIndex = 0; seperatedLayerIndex < nodes[nodes.length - 1].length; seperatedLayerIndex++)
+				for(int separatedLayerIndex = 0; separatedLayerIndex < nodes[nodes.length - 1].length; separatedLayerIndex++)
 				{
-					final SimpleNode currentSeperatedLayerNode = nodes[nodes.length - 1][seperatedLayerIndex];
-					final double currentDistance = testMap.getCoordinates().get(currentPrimaryLayerNode).calculateRelativeTo(testMap.getCoordinates().get(currentSeperatedLayerNode)).getDistance();
+					final SimpleNode currentSeparatedLayerNode = nodes[nodes.length - 1][separatedLayerIndex];
+					final double currentDistance = testMap.getCoordinates().get(currentPrimaryLayerNode).calculateRelativeTo(testMap.getCoordinates().get(currentSeparatedLayerNode)).getDistance();
 
-					seperatedTotal += currentDistance;
-					seperatedComponents++;
+					separatedTotal += currentDistance;
+					separatedComponents++;
 				}
 			}
 
-			final double averageSeperated = seperatedTotal / seperatedComponents;
+			final double averageSeparated = separatedTotal / separatedComponents;
 			final double averageAdjacent = adjacentTotal / adjacentComponents;
-			Assert.assertTrue("Associative Map did not properly align: averageAdjacent:" + averageAdjacent + " averageSeperated:" + averageSeperated, averageAdjacent < averageSeperated);
+			Assert.assertTrue("Associative Map did not properly align: averageAdjacent:" + averageAdjacent + " averageSeparated:" + averageSeparated, averageAdjacent < averageSeparated);
 		}
 		finally
 		{

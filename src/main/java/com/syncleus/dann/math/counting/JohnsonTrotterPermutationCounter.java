@@ -18,21 +18,12 @@
  ******************************************************************************/
 package com.syncleus.dann.math.counting;
 
-import java.math.BigInteger;
-
-public class JohnsonTrotterPermutationCounter implements Counter
+public class JohnsonTrotterPermutationCounter extends AbstractPermutationCounter
 {
-	private final int setSize;
-	private final int permutationSize;
-	private final BigInteger permutationsPerCombination;
-	private final BigInteger total;
-	private final Counter combinations;
-	private final int[] permutation;
-	// -1: left, 1: right
+	/**
+	 * -1: left, 1: right
+	 */
 	private final int[] mobility;
-	private int[] combination;
-	private BigInteger combinationPermutationsRemaining;
-	private BigInteger remaining;
 
 	public JohnsonTrotterPermutationCounter(final int permutationSize)
 	{
@@ -41,109 +32,21 @@ public class JohnsonTrotterPermutationCounter implements Counter
 
 	public JohnsonTrotterPermutationCounter(final int setSize, final int permutationSize)
 	{
-		if( permutationSize > setSize )
-			throw new IllegalArgumentException("permutationSize can not be larger than setSize");
-		if( permutationSize < 0 )
-			throw new IllegalArgumentException("permutation size must be larger than 0");
-		if( setSize < 0 )
-			throw new IllegalArgumentException("setSize must be greater than 0");
+		super(setSize, permutationSize);
 
-		this.setSize = setSize;
-		this.permutationSize = permutationSize;
-		this.combinations = new CombinationCounter(setSize, permutationSize);
-
-		this.permutation = new int[permutationSize];
 		this.mobility = new int[permutationSize];
-		this.permutationsPerCombination = getFactorial(permutationSize);
-		this.total = (permutationSize == 0 || setSize == 0 ? BigInteger.ZERO : this.combinations.getTotal().multiply(this.permutationsPerCombination));
 
 		reset();
 	}
 
-	public void reset()
+	@Override
+	protected void resetPermutations()
 	{
-		this.resetPermutations();
-
-		this.combinations.reset();
-		this.remaining = this.total;
-		this.combination = this.combinations.getNext();
-	}
-
-	private void resetPermutations()
-	{
-		for(int i = 0; i < this.permutationSize; i++)
+		super.resetPermutations();
+		for(int i = 0; i < getPermutationSize(); i++)
 		{
 			this.mobility[i] = -1;
-			this.permutation[i] = i;
 		}
-		this.combinationPermutationsRemaining = this.permutationsPerCombination;
-	}
-
-	public BigInteger getRemaining()
-	{
-		return this.remaining;
-	}
-
-	public BigInteger getTotal()
-	{
-		return this.total;
-	}
-
-	public boolean hasMore()
-	{
-		return remaining.compareTo(BigInteger.ZERO) == 1;
-	}
-
-	private static BigInteger getFactorial(final int n)
-	{
-		BigInteger fact = BigInteger.ONE;
-		for(int i = n; i > 1; i--)
-			fact = fact.multiply(new BigInteger(Integer.toString(i)));
-		return fact;
-	}
-
-	private static int[] permutateCombination(final int[] combination, final int[] permutation)
-	{
-		final int[] permutated = new int[combination.length];
-		int permutatedIndex = 0;
-		for(final int combinationIndex : permutation)
-			permutated[permutatedIndex++] = combination[combinationIndex];
-		return permutated;
-	}
-
-	public int[] getNext()
-	{
-		if( !this.hasMore() )
-			return null;
-
-		if( this.combinationPermutationsRemaining.equals(BigInteger.ZERO) )
-		{
-			this.combination = this.combinations.getNext();
-			this.resetPermutations();
-		}
-
-		if( this.combinationPermutationsRemaining.equals(this.permutationsPerCombination) )
-		{
-			this.remaining = remaining.subtract(BigInteger.ONE);
-			this.combinationPermutationsRemaining = combinationPermutationsRemaining.subtract(BigInteger.ONE);
-			return permutateCombination(this.combination, this.permutation);
-		}
-
-		assert next(this.permutation, this.mobility);
-
-		this.combinationPermutationsRemaining = this.combinationPermutationsRemaining.subtract(BigInteger.ONE);
-		this.remaining = this.remaining.subtract(BigInteger.ONE);
-		return permutateCombination(this.combination, this.permutation);
-	}
-
-	public int getSetSize()
-	{
-		return this.setSize;
-	}
-
-	public int getPermutationSize()
-	{
-		return this.permutationSize;
 	}
 
 	private static boolean isMobile(final int[] permutation, final int[] mobility, final int index)
@@ -173,18 +76,19 @@ public class JohnsonTrotterPermutationCounter implements Counter
 		return -1;
 	}
 
-	private static boolean next(final int[] permutation, final int[] mobility)
+	protected boolean next()
 	{
-		final int largestIndex = largestMobileIndex(permutation, mobility);
+		final int[] perm = this.getPermutation();
+		final int largestIndex = largestMobileIndex(perm, mobility);
 		if( largestIndex < 0 )
 			return false;
 
-		final int swapedValue = permutation[largestIndex];
-		swap(permutation, largestIndex, largestIndex + mobility[largestIndex]);
+		final int swapedValue = perm[largestIndex];
+		swap(perm, largestIndex, largestIndex + mobility[largestIndex]);
 		swap(mobility, largestIndex, largestIndex + mobility[largestIndex]);
 
-		for(int index = 0; index < permutation.length; index++)
-			if( permutation[index] > swapedValue )
+		for(int index = 0; index < getPermutationSize(); index++)
+			if( perm[index] > swapedValue )
 				mobility[index] *= -1;
 
 		return true;

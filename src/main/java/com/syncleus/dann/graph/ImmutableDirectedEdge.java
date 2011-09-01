@@ -18,8 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.*;
-
+import java.util.List;
 
 public final class ImmutableDirectedEdge<N> extends AbstractDirectedEdge<N>
 {

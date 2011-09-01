@@ -37,9 +37,9 @@ public class TestHyperassociativeMap
 		}
 
 		@Override
-		public boolean connect(final Synapse synapse, final boolean initalize)
+		public boolean connect(final Synapse synapse, final boolean initialize)
 		{
-			return super.connect(synapse, initalize);
+			return super.connect(synapse, initialize);
 		}
 	}
 
@@ -67,10 +67,10 @@ public class TestHyperassociativeMap
 
 		final TestMap testMap;
 		final int cores = Runtime.getRuntime().availableProcessors();
-		final ThreadPoolExecutor executer = new ThreadPoolExecutor(cores + 1, cores * 2, 20, TimeUnit.SECONDS, new LinkedBlockingQueue());
+		final ThreadPoolExecutor executor = new ThreadPoolExecutor(cores + 1, cores * 2, 20, TimeUnit.SECONDS, new LinkedBlockingQueue());
 		try
 		{
-			testMap = new TestMap(testBrain, 3, executer);
+			testMap = new TestMap(testBrain, 3, executor);
 			testMap.align();
 
 			Assert.assertTrue("neuron1 is not in the map", testMap.getGraph().getNodes().contains(neuron1));
@@ -81,7 +81,7 @@ public class TestHyperassociativeMap
 		}
 		finally
 		{
-			executer.shutdown();
+			executor.shutdown();
 		}
 	}
 }

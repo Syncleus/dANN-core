@@ -18,7 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 import com.syncleus.dann.UnexpectedDannError;
 import com.syncleus.dann.genetics.wavelets.Mutations;
 import org.apache.log4j.Logger;
@@ -33,17 +36,17 @@ import org.apache.log4j.Logger;
  */
 public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>, Cloneable
 {
-	private Vector<AbstractValueGene> alleles;
+	private List<AbstractValueGene> alleles;
 	private static final Random RANDOM = Mutations.getRandom();
 	private static final Logger LOGGER = Logger.getLogger(GeneticAlgorithmChromosome.class);
 
 	private GeneticAlgorithmChromosome()
 	{
-		this.alleles = new Vector<AbstractValueGene>();
+		this.alleles = new ArrayList<AbstractValueGene>();
 	}
 
 	/**
-	 * Initializes a new instance of this class that is a copy of the specefied
+	 * Initializes a new instance of this class that is a copy of the specified
 	 * object.
 	 *
 	 * @param copy The object to copy.
@@ -51,13 +54,13 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>,
 	 */
 	public GeneticAlgorithmChromosome(final GeneticAlgorithmChromosome copy)
 	{
-		this.alleles = new Vector<AbstractValueGene>(copy.alleles);
+		this.alleles = new ArrayList<AbstractValueGene>(copy.alleles);
 	}
 
 	/**
-	 * Initiates a new instance of this class with the specefied number of initial
-	 * geneCount. All initial genes will be DoubleGeneValue with an initial value
-	 * of 0.
+	 * Initiates a new instance of this class with the specified number of
+	 * initial geneCount. All initial genes will be DoubleGeneValue with an
+	 * initial value of 0.
 	 *
 	 * @param geneCount The number of genes to create in this chromosome.
 	 * @since 2.0
@@ -71,9 +74,10 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>,
 	}
 
 	/**
-	 * Initiates a new instance of this class with the specefied number of initial
-	 * geneCount. All initial genes will be DoubleGeneValue with an initial value
-	 * with a normal distribution around 0 multipled by maxDeviation.
+	 * Initiates a new instance of this class with the specified number of
+	 * initial geneCount. All initial genes will be DoubleGeneValue with an
+	 * initial value with a normal distribution around 0 multiplied by
+	 * maxDeviation.
 	 *
 	 * @param geneCount The number of genes to create in this chromosome.
 	 * @param maxDeviation The multiplier for the normal distribution of initial
@@ -89,8 +93,8 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>,
 	}
 
 	/**
-	 * Gets an unmodifiable List of all the genes. The index of the genes indicates
-	 * its position in the chromatid.
+	 * Gets an unmodifiable List of all the genes. The index of the genes
+	 * indicates its position in the chromatid.
 	 *
 	 * @return An unmodifiable List of all genes in the chromatid
 	 * @since 2.0
@@ -121,7 +125,7 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>,
 
 	/**
 	 * The second step in crossover. This will replace its own genetic code with
-	 * the specefied genetic segment at the specefied crossover point.
+	 * the specified genetic segment at the specified crossover point.
 	 *
 	 * @param geneticSegment Segmet of genetic code crossing over.
 	 * @param point Crossover point (index) where genes are spliced
@@ -136,7 +140,7 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>,
 			throw new IllegalArgumentException("point can not be larger than the number of alleles");
 
 		//remove allel replaced by crossover
-		this.alleles = new Vector<AbstractValueGene>(this.alleles.subList(0, point));
+		this.alleles = new ArrayList<AbstractValueGene>(this.alleles.subList(0, point));
 
 		//add the genetic segment to the end
 		this.alleles.addAll(geneticSegment);
@@ -154,7 +158,7 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>,
 		try
 		{
 			final GeneticAlgorithmChromosome copy = (GeneticAlgorithmChromosome) super.clone();
-			copy.alleles = new Vector<AbstractValueGene>(this.alleles);
+			copy.alleles = new ArrayList<AbstractValueGene>(this.alleles);
 			return copy;
 		}
 		catch(CloneNotSupportedException caught)

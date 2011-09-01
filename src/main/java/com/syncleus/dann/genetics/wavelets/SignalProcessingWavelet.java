@@ -18,7 +18,13 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import com.syncleus.dann.UnexpectedDannError;
 import com.syncleus.dann.math.wave.WaveMultidimensionalFunction;
 import com.syncleus.dann.math.wave.wavelet.CombinedWaveletFunction;
@@ -31,11 +37,13 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 
 	public abstract static class SignalConcentration implements Comparable<SignalConcentration>
 	{
-		private double value = 0.0;
-		private long id = RANDOM.nextLong();
+		private double value;
+		private final long id;
 
 		public SignalConcentration()
 		{
+			this.value = 0.0;
+			this.id = RANDOM.nextLong();
 		}
 
 		protected SignalConcentration(final SignalConcentration originalSignal)
@@ -65,6 +73,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 			return this.id;
 		}
 
+		@Override
 		public int compareTo(final SignalConcentration compareWith)
 		{
 			return (this.id < compareWith.id ? -1 : (this.id > compareWith.id ? 1 : 0));
@@ -96,6 +105,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 	{
 		public GlobalSignalConcentration()
 		{
+			super();
 		}
 
 		protected GlobalSignalConcentration(final GlobalSignalConcentration originalSignal)
@@ -132,13 +142,14 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 		return this.wavelet.getWaveCount();
 	}
 
-	public TreeSet<SignalConcentration> getSignals()
+	public SortedSet<SignalConcentration> getSignals()
 	{
-		final TreeSet<SignalConcentration> copy = new TreeSet<SignalConcentration>(this.signals);
+		final SortedSet<SignalConcentration> copy = new TreeSet<SignalConcentration>(this.signals);
 		copy.add(this.output);
 		return copy;
 	}
 
+	@Override
 	public int compareTo(final SignalProcessingWavelet compareWith)
 	{
 		if( this.id < compareWith.id )
@@ -306,10 +317,10 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 	}
 
 	/**
-	 * Mutates by incorperating a new signal into the mutated result.<br/> <br/>
-	 * May mutate by:<br/> <ul> <li>adding the new signal</li> <ul>
+	 * Mutates by incorporating a new signal into the mutated result.<br/> <br/>
+	 * May mutate by:<br/> <ul> <li>adding the new signal</li> </ul>
 	 *
-	 * @param newSignal The new signal to incorperate.
+	 * @param newSignal The new signal to incorporate.
 	 * @return New mutated wavelet
 	 */
 	public SignalProcessingWavelet mutate(final double deviation, final SignalConcentration newSignal)

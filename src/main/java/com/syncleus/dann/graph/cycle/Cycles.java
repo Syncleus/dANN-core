@@ -25,13 +25,15 @@ public final class Cycles
 	private static final CycleFinder EXHAUSTIVE_FINDER = new ExhaustiveDepthFirstSearchCycleFinder();
 	private static final CycleDetector COLORED_DETECTOR = new ColoredDepthFirstSearchDetector();
 
-	//this is a utility class so we cant instantiate it, make default constructor private
+	/**
+	 * This is an utility class so it can not be instantiated.
+	 */
 	private Cycles()
 	{
-		throw new IllegalStateException("This is a utility class, it cant be instantiated");
+		throw new IllegalStateException("This is an utility class, it can not be instantiated");
 	}
-	
-	public static int getCycleCount(Graph graph)
+
+	public static int getCycleCount(final Graph graph)
 	{
 		if( graph instanceof CycleOptimizedGraph )
 		{
@@ -48,7 +50,7 @@ public final class Cycles
 		return EXHAUSTIVE_FINDER.cycleCount(graph);
 	}
 
-	public static boolean isPancyclic(Graph graph)
+	public static boolean isPancyclic(final Graph graph)
 	{
 		if( graph instanceof CycleOptimizedGraph )
 		{
@@ -65,7 +67,7 @@ public final class Cycles
 		return EXHAUSTIVE_FINDER.isPancyclic(graph);
 	}
 
-	public static boolean isUnicyclic(Graph graph)
+	public static boolean isUnicyclic(final Graph graph)
 	{
 		if( graph instanceof CycleOptimizedGraph )
 		{
@@ -82,7 +84,7 @@ public final class Cycles
 		return EXHAUSTIVE_FINDER.isUnicyclic(graph);
 	}
 
-	public static boolean isAcyclic(Graph graph)
+	public static boolean isAcyclic(final Graph graph)
 	{
 		if( graph instanceof CycleOptimizedGraph )
 		{
@@ -96,10 +98,10 @@ public final class Cycles
 			}
 		}
 
-		return ! COLORED_DETECTOR.hasCycle(graph);
+		return !COLORED_DETECTOR.hasCycle(graph);
 	}
 
-	public static int getGirth(Graph graph)
+	public static int getGirth(final Graph graph)
 	{
 		if( graph instanceof CycleOptimizedGraph )
 		{
@@ -116,7 +118,7 @@ public final class Cycles
 		return EXHAUSTIVE_FINDER.girth(graph);
 	}
 
-	public static int getCircumference(Graph graph)
+	public static int getCircumference(final Graph graph)
 	{
 		if( graph instanceof CycleOptimizedGraph )
 		{

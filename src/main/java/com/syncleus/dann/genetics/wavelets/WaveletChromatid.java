@@ -18,9 +18,17 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 import com.syncleus.dann.UnexpectedDannError;
-import com.syncleus.dann.genetics.*;
+import com.syncleus.dann.genetics.Chromatid;
+import com.syncleus.dann.genetics.MutableInteger;
 import org.apache.log4j.Logger;
 
 public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneable
@@ -96,19 +104,13 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 
 			//check if the gene's signal is internal or external. continue if
 			//it doesnt match
-			if( external )
+			final boolean outward = (gene instanceof ExternalSignalGene)
+						&& (((ExternalSignalGene) gene).isOutward());
+			if( external != outward )
 			{
-				//if its not an outward pointing external gene then just skip it
-				if( !(gene instanceof ExternalSignalGene) )
-					continue;
-				else if( !((ExternalSignalGene) gene).isOutward() )
-					continue;
-			}
-			else
-			{
-				//if its an outward pointing external than just skip it.
-				if( (gene instanceof ExternalSignalGene) && (((ExternalSignalGene) gene).isOutward()) )
-					continue;
+				// we want external signals and the gene is pointing inwards,
+				// or vise versa -> uninteresting gene -> skip it
+				continue;
 			}
 
 			allSignals.add(gene.getOutputSignal());
@@ -134,7 +136,7 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 	public void tick()
 	{
 		//first we need to calculate the promotion of each site
-		final Hashtable<Integer, Double> promotions = new Hashtable<Integer, Double>();
+		final Map<Integer, Double> promotions = new HashMap<Integer, Double>();
 		for(final PromoterGene promoter : this.promoters)
 		{
 			final int promoterIndex = this.sequencedGenes.indexOf(promoter);
@@ -142,7 +144,7 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 			if( promotedIndex < this.sequencedGenes.size() )
 			{
 				double promotion = 0.0;
-				if( promotions.contains(promotedIndex) )
+				if( promotions.containsKey(promotedIndex) )
 					promotion = promotions.get(promotedIndex);
 				final double newPromotion = promotion + promoter.expressionActivity();
 				if( newPromotion != 0.0 )
@@ -205,6 +207,7 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
 			return Collections.unmodifiableList(this.sequencedGenes.subList(index, this.sequencedGenes.size()));
 	}
 
+	@Override
 	public void crossover(final List<AbstractWaveletGene> geneticSegment, final int point)
 	{
 		final int index = point + this.centromerePosition;

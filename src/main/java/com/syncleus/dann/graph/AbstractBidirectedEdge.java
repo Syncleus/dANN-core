@@ -18,12 +18,14 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import com.syncleus.dann.graph.xml.*;
 import com.syncleus.dann.xml.NamedValueXml;
 import com.syncleus.dann.xml.Namer;
 import com.syncleus.dann.xml.XmlSerializable;
-
-import java.util.*;
 
 public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implements BidirectedEdge<N>
 {
@@ -32,23 +34,23 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implemen
 	private final EndState leftEndState;
 	private final EndState rightEndState;
 
-    protected AbstractBidirectedEdge()
-    {
-        this.leftNode = null;
-        this.rightNode = null;
-        this.leftEndState = null;
-        this.rightEndState = null;
-    }
+	protected AbstractBidirectedEdge()
+	{
+		this.leftNode = null;
+		this.rightNode = null;
+		this.leftEndState = null;
+		this.rightEndState = null;
+	}
 
-    protected AbstractBidirectedEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
-    {
+	protected AbstractBidirectedEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
+	{
 		super(allowJoiningMultipleGraphs, contextEnabled);
 
-        this.leftNode = null;
-        this.rightNode = null;
-        this.leftEndState = null;
-        this.rightEndState = null;
-    }
+		this.leftNode = null;
+		this.rightNode = null;
+		this.leftEndState = null;
+		this.rightEndState = null;
+	}
 
 	protected AbstractBidirectedEdge(final N newLeftNode, final EndState newLeftEndState, final N newRightNode, final EndState newRightEndState)
 	{
@@ -78,36 +80,43 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implemen
 		return pack;
 	}
 
+	@Override
 	public final N getLeftNode()
 	{
 		return this.leftNode;
 	}
 
+	@Override
 	public final N getRightNode()
 	{
 		return this.rightNode;
 	}
 
+	@Override
 	public final EndState getLeftEndState()
 	{
 		return this.leftEndState;
 	}
 
+	@Override
 	public final EndState getRightEndState()
 	{
 		return this.rightEndState;
 	}
 
+	@Override
 	public boolean isIntroverted()
 	{
-		return (this.rightEndState == com.syncleus.dann.graph.BidirectedEdge.EndState.INWARD) && (this.leftEndState == com.syncleus.dann.graph.BidirectedEdge.EndState.INWARD);
+		return (this.rightEndState == BidirectedEdge.EndState.INWARD) && (this.leftEndState == BidirectedEdge.EndState.INWARD);
 	}
 
-	public boolean isExtraverted()
+	@Override
+	public boolean isExtroverted()
 	{
-		return (this.rightEndState == com.syncleus.dann.graph.BidirectedEdge.EndState.OUTWARD) && (this.leftEndState == com.syncleus.dann.graph.BidirectedEdge.EndState.OUTWARD);
+		return (this.rightEndState == BidirectedEdge.EndState.OUTWARD) && (this.leftEndState == BidirectedEdge.EndState.OUTWARD);
 	}
 
+	@Override
 	public boolean isDirected()
 	{
 		if( (this.rightEndState == EndState.INWARD) && (this.leftEndState == EndState.OUTWARD) )
@@ -117,6 +126,7 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implemen
 		return false;
 	}
 
+	@Override
 	public boolean isHalfEdge()
 	{
 		if( (this.rightEndState == EndState.NONE) && (this.leftEndState != EndState.NONE) )
@@ -126,16 +136,19 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implemen
 		return false;
 	}
 
+	@Override
 	public boolean isLooseEdge()
 	{
-		return (this.rightEndState == com.syncleus.dann.graph.BidirectedEdge.EndState.NONE) && (this.leftEndState == com.syncleus.dann.graph.BidirectedEdge.EndState.NONE);
+		return (this.rightEndState == BidirectedEdge.EndState.NONE) && (this.leftEndState == BidirectedEdge.EndState.NONE);
 	}
 
+	@Override
 	public boolean isOrdinaryEdge()
 	{
 		return (!this.isHalfEdge()) && (!this.isLooseEdge());
 	}
 
+	@Override
 	public boolean isLoop()
 	{
 		return this.leftEndState.equals(this.rightEndState);
@@ -170,58 +183,68 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implemen
 		return (AbstractBidirectedEdge<N>) super.clone();
 	}
 
-    @Override
-    public BidirectedEdgeXml toXml()
-    {
-        Namer namer = new Namer();
-        BidirectedEdgeElementXml xml = new BidirectedEdgeElementXml();
+	@Override
+	public BidirectedEdgeXml toXml()
+	{
+		final Namer namer = new Namer();
+		final BidirectedEdgeElementXml xml = new BidirectedEdgeElementXml();
 
-        xml.setNodeInstances(new BidirectedEdgeElementXml.NodeInstances());
-        Set<N> writtenNodes = new HashSet<N>();
-        for(N node : this.getNodes())
-        {
-            if( writtenNodes.add(node) )
-            {
-                NamedValueXml named = new NamedValueXml();
-                named.setName(namer.getNameOrCreate(node));
-                if(node instanceof XmlSerializable)
-                    named.setValue(((XmlSerializable)node).toXml(namer));
-                else
-                    named.setValue(node);
-                xml.getNodeInstances().getNodes().add(named);
-            }
-        }
+		xml.setNodeInstances(new BidirectedEdgeElementXml.NodeInstances());
+		final Set<N> writtenNodes = new HashSet<N>();
+		for (N node : this.getNodes())
+		{
+			if (writtenNodes.add(node))
+			{
+				final NamedValueXml named = new NamedValueXml();
+				named.setName(namer.getNameOrCreate(node));
+				if (node instanceof XmlSerializable)
+				{
+					named.setValue(((XmlSerializable) node).toXml(namer));
+				}
+				else
+				{
+					named.setValue(node);
+				}
+				xml.getNodeInstances().getNodes().add(named);
+			}
+		}
 
-        return xml;
-    }
+		return xml;
+	}
 
-    @Override
-    public BidirectedEdgeXml toXml(final Namer<Object> nodeNames)
-    {
-        if(nodeNames == null)
-            throw new IllegalArgumentException("nodeNames can not be null");
+	@Override
+	public BidirectedEdgeXml toXml(final Namer<Object> nodeNames)
+	{
+		if (nodeNames == null)
+		{
+			throw new IllegalArgumentException("nodeNames can not be null");
+		}
 
-        BidirectedEdgeXml xml = new BidirectedEdgeXml();
-        this.toXml(xml, nodeNames);
-        return xml;
-    }
+		final BidirectedEdgeXml xml = new BidirectedEdgeXml();
+		this.toXml(xml, nodeNames);
+		return xml;
+	}
 
-    @Override
-    public void toXml(final EdgeXml jaxbObject, final Namer<Object> nodeNames)
-    {
-        if(nodeNames == null)
-            throw new IllegalArgumentException("nodeNames can not be null");
-        if(jaxbObject == null)
-            throw new IllegalArgumentException("jaxbObject can not be null");
+	@Override
+	public void toXml(final EdgeXml jaxbObject, final Namer<Object> nodeNames)
+	{
+		if (nodeNames == null)
+		{
+			throw new IllegalArgumentException("nodeNames can not be null");
+		}
+		if (jaxbObject == null)
+		{
+			throw new IllegalArgumentException("jaxbObject can not be null");
+		}
 
-        super.toXml(jaxbObject, nodeNames);
+		super.toXml(jaxbObject, nodeNames);
 
-        if( jaxbObject instanceof BidirectedEdgeXml )
-        {
-            ((BidirectedEdgeXml)jaxbObject).setLeftNode(nodeNames.getNameOrCreate(this.leftNode));
-            ((BidirectedEdgeXml)jaxbObject).setRightNode(nodeNames.getNameOrCreate(this.rightNode));
-            ((BidirectedEdgeXml)jaxbObject).setLeftDirection(this.leftEndState.toString().toLowerCase());
-            ((BidirectedEdgeXml)jaxbObject).setRightDirection(this.rightEndState.toString().toLowerCase());
-        }
-    }
+		if (jaxbObject instanceof BidirectedEdgeXml)
+		{
+			((BidirectedEdgeXml) jaxbObject).setLeftNode(nodeNames.getNameOrCreate(this.leftNode));
+			((BidirectedEdgeXml) jaxbObject).setRightNode(nodeNames.getNameOrCreate(this.rightNode));
+			((BidirectedEdgeXml) jaxbObject).setLeftDirection(this.leftEndState.toString().toLowerCase());
+			((BidirectedEdgeXml) jaxbObject).setRightDirection(this.rightEndState.toString().toLowerCase());
+		}
+	}
 }

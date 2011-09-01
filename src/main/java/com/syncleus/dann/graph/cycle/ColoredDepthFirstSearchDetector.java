@@ -18,8 +18,14 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.cycle;
 
-import java.util.*;
-import com.syncleus.dann.graph.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import com.syncleus.dann.graph.Edge;
+import com.syncleus.dann.graph.Graph;
 
 public class ColoredDepthFirstSearchDetector implements CycleDetector
 {
@@ -32,9 +38,11 @@ public class ColoredDepthFirstSearchDetector implements CycleDetector
 		final Set<E> traversedEdges = new HashSet<E>();
 
 		for(final N node : graph.getNodes())
-			if( !colorMap.containsKey(node) )
-				if( visit(graph, colorMap, traversedEdges, node) )
-					return true;
+		{
+			if( !colorMap.containsKey(node)
+					&& visit(graph, colorMap, traversedEdges, node) )
+				return true;
+		}
 
 		return false;
 	}
@@ -55,9 +63,9 @@ public class ColoredDepthFirstSearchDetector implements CycleDetector
 				{
 					if( colorMap.get(neighborNode) == Boolean.FALSE )
 						return true;
-					else if( !colorMap.containsKey(neighborNode) )
-						if( visit(graph, colorMap, traversedEdges, neighborNode) )
-							return true;
+					else if( !colorMap.containsKey(neighborNode)
+							&& visit(graph, colorMap, traversedEdges, neighborNode) )
+						return true;
 				}
 			}
 		}

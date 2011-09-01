@@ -30,10 +30,10 @@ public abstract class AbstractOutputBackpropNeuron extends AbstractBackpropNeuro
 	 *
 	 * @since 1.0
 	 */
-	protected double desired;
+	private double desired;
 
 	/**
-	 * Creates a new instance of OutputBackpropNeuron
+	 * Creates a new instance of OutputBackpropNeuron.
 	 *
 	 * @since 1.0
 	 */
@@ -91,7 +91,7 @@ public abstract class AbstractOutputBackpropNeuron extends AbstractBackpropNeuro
 	}
 
 	/**
-	 * Calculates the Delta Train based on all the destination synapses
+	 * Calculates the Delta Train based on all the destination synapses.
 	 *
 	 * @see com.syncleus.dann.neural.backprop.SimpleBackpropNeuron#backPropagate
 	 * @since 1.0
@@ -99,14 +99,15 @@ public abstract class AbstractOutputBackpropNeuron extends AbstractBackpropNeuro
 	@Override
 	protected void calculateDeltaTrain()
 	{
-		this.deltaTrain = 0;
+		double newDeltaTrain = 0.0;
 		// TODO fix this, bad typing
 //		for(final Synapse currentSynapse : super.getBrain().getTraversableEdges(this))
 //			this.deltaTrain += (currentSynapse.getWeight() * this.deltaTrainDestinations.get(currentSynapse));
 		for(final Object currentSynapse : super.getBrain().getTraversableEdges(this))
-			this.deltaTrain += (((Synapse)currentSynapse).getWeight() * this.deltaTrainDestinations.get(currentSynapse));
-		this.deltaTrain += (this.desired - this.getOutput());
-		this.deltaTrain *= super.activateDerivitive();
+			newDeltaTrain += (((Synapse)currentSynapse).getWeight() * this.getDeltaTrainDestinations().get(currentSynapse));
+		newDeltaTrain += (this.desired - this.getOutput());
+		newDeltaTrain *= super.activateDerivitive();
+		setDeltaTrain(newDeltaTrain);
 	}
 
 	/**

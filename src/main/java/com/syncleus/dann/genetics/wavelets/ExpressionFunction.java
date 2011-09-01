@@ -18,10 +18,15 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
-import java.util.*;
 import com.syncleus.dann.UnexpectedDannError;
 import com.syncleus.dann.math.wave.WaveMultidimensionalFunction;
 import com.syncleus.dann.math.wave.wavelet.CombinedWaveletFunction;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 import org.apache.log4j.Logger;
 
 public class ExpressionFunction implements Cloneable
@@ -68,7 +73,7 @@ public class ExpressionFunction implements Cloneable
 	}
 
 	/**
-	 * Gets the resultant CombinedWaveletFunction from this ExpressionFunction
+	 * Gets the resultant CombinedWaveletFunction from this ExpressionFunction.
 	 * @return The CombinedWaveletFunction
 	 */
 	public CombinedWaveletFunction getWaveletMathFunction()
@@ -77,7 +82,7 @@ public class ExpressionFunction implements Cloneable
 	}
 
 	/**
-	 * Gets the number of waves expressed by this ExpressionFunction
+	 * Gets the number of waves expressed by this ExpressionFunction.
 	 * @return The number of expressed waves
 	 */
 	public int getWaveCount()
@@ -87,7 +92,7 @@ public class ExpressionFunction implements Cloneable
 	}
 
 	/**
-	 * Gets the receptors for this ExpressionFunction
+	 * Gets the receptors for this ExpressionFunction.
 	 * @return An unmodifiable set of ReceptorKey
 	 */
 	public Set<ReceptorKey> getReceptors()

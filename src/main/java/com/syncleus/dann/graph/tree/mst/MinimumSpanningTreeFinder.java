@@ -19,8 +19,13 @@
 package com.syncleus.dann.graph.tree.mst;
 
 import java.util.Set;
-import com.syncleus.dann.graph.*;
+import com.syncleus.dann.graph.Edge;
+import com.syncleus.dann.graph.Graph;
 
+/**
+ * @param <N> The node type
+ * @param <E> The type of edge for the given node type
+ */
 public interface MinimumSpanningTreeFinder<N, E extends Edge<N>>
 {
 	Set<E> findMinimumSpanningTree(Graph<N, E> graph);

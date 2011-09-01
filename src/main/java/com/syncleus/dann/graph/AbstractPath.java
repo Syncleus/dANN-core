@@ -18,7 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public abstract class AbstractPath<N, E extends Edge<N>> extends AbstractWalk<N, E> implements Path<N, E>
 {
@@ -35,6 +38,7 @@ public abstract class AbstractPath<N, E extends Edge<N>> extends AbstractWalk<N,
 		return !(nodeSteps.get(0).equals(nodeSteps.get(nodeSteps.size() - 1)));
 	}
 
+	@Override
 	public boolean isChain()
 	{
 		return isChain(this);
@@ -49,6 +53,7 @@ public abstract class AbstractPath<N, E extends Edge<N>> extends AbstractWalk<N,
 		return !(uniqueEdges.size() < path.getSteps().size());
 	}
 
+	@Override
 	public boolean isIndependent(final Path<N, E> path)
 	{
 		return AbstractPath.isIndependentUtility(this, path);

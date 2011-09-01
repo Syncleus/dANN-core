@@ -18,8 +18,8 @@
  ******************************************************************************/
 
 /*
- ** Derived from Public-Domain source as indicated at
- ** http://www.merriampark.com/comb.htm as of 4/20/2010.
+ * Derived from Public-Domain source as indicated at
+ * http://www.merriampark.com/comb.htm as of 4/20/2010.
  */
 package com.syncleus.dann.math.counting;
 
@@ -30,8 +30,8 @@ public class CombinationCounter implements Counter
 	private final int[] currentCombination;
 	private final int setSize;
 	private final int combinationSize;
-	private BigInteger remaining;
 	private final BigInteger total;
+	private BigInteger remaining;
 
 	public CombinationCounter(final int setSize, final int combinationSize)
 	{
@@ -45,13 +45,14 @@ public class CombinationCounter implements Counter
 		this.setSize = setSize;
 		this.combinationSize = combinationSize;
 		this.currentCombination = new int[combinationSize];
-		final BigInteger nFact = getFactorial(setSize);
-		final BigInteger rFact = getFactorial(combinationSize);
-		final BigInteger nminusrFact = getFactorial(setSize - combinationSize);
+		final BigInteger nFact = calculateFactorial(setSize);
+		final BigInteger rFact = calculateFactorial(combinationSize);
+		final BigInteger nminusrFact = calculateFactorial(setSize - combinationSize);
 		this.total = (setSize == 0 || combinationSize == 0 ? BigInteger.ZERO : nFact.divide(rFact.multiply(nminusrFact)));
 		reset();
 	}
 
+	@Override
 	public final void reset()
 	{
 		for(int i = 0; i < currentCombination.length; i++)
@@ -59,25 +60,28 @@ public class CombinationCounter implements Counter
 		this.remaining = new BigInteger(total.toString());
 	}
 
+	@Override
 	public BigInteger getRemaining()
 	{
 		return this.remaining;
 	}
 
-	public boolean hasMore()
-	{
-		return remaining.compareTo(BigInteger.ZERO) == 1;
-	}
-
+	@Override
 	public BigInteger getTotal()
 	{
 		return this.total;
 	}
 
-	private static BigInteger getFactorial(final int n)
+	@Override
+	public boolean hasMore()
+	{
+		return remaining.compareTo(BigInteger.ZERO) == 1;
+	}
+
+	static BigInteger calculateFactorial(final int number)
 	{
 		BigInteger fact = BigInteger.ONE;
-		for(int i = n; i > 1; i--)
+		for(int i = number; i > 1; i--)
 			fact = fact.multiply(new BigInteger(Integer.toString(i)));
 		return fact;
 	}
@@ -85,6 +89,7 @@ public class CombinationCounter implements Counter
 	//--------------------------------------------------------
 	// Generate next combination (algorithm from Rosen p. 286)
 	//--------------------------------------------------------
+	@Override
 	public int[] getNext()
 	{
 		if( remaining.equals(this.total) )
@@ -93,7 +98,7 @@ public class CombinationCounter implements Counter
 			return currentCombination.clone();
 		}
 		int i = this.combinationSize - 1;
-		while( this.currentCombination[i] == this.setSize - this.combinationSize + i )
+		while( this.currentCombination[i] == (this.setSize - this.combinationSize + i) )
 			i--;
 		this.currentCombination[i] = this.currentCombination[i] + 1;
 		for(int j = i + 1; j < this.combinationSize; j++)

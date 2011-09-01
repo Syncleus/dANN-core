@@ -18,10 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.math.visualization;
 
-import javax.vecmath.Color3b;
 import java.awt.Color;
-import com.syncleus.dann.math.Function;
+import javax.vecmath.Color3b;
 import org.freehep.j3d.plot.Binned2DData;
+import com.syncleus.dann.math.Function;
 
 public final class MathFunctionDataBinder implements Binned2DData
 {
@@ -138,7 +138,7 @@ public final class MathFunctionDataBinder implements Binned2DData
 		return this.function.calculate();
 	}
 
-	public Color3b colorAt(final int xIndex, final int yIndex)
+	private Color colorAtPoint(final int xIndex, final int yIndex)
 	{
 		final float xCoord = this.convertFromXIndex(xIndex);
 		final float yCoord = this.convertFromYIndex(yIndex);
@@ -149,49 +149,62 @@ public final class MathFunctionDataBinder implements Binned2DData
 
 
 		if( zCoord > this.maxZ )
-			return new Color3b(new Color(0.0f, 0.0f, 0.0f));
+			return new Color(0.0f, 0.0f, 0.0f);
 		else if( zCoord < this.minZ )
-			return new Color3b(new Color(0.0f, 0.0f, 0.0f));
+			return new Color(0.0f, 0.0f, 0.0f);
 		else
 		{
 			final float redValue = (float) (zCoord - this.minZ) / (this.maxZ - this.minZ);
 			final float blueValue = 1.0f - redValue;
 			final float greenValue = 0.0f;
 
-			return new Color3b(new Color(redValue, greenValue, blueValue));
+			return new Color(redValue, greenValue, blueValue);
 		}
 	}
 
+	@Override
+	public Color3b colorAt(final int xIndex, final int yIndex)
+	{
+		return new Color3b(colorAtPoint(xIndex, yIndex));
+	}
+
+	@Override
 	public int xBins()
 	{
 		return this.resolution;
 	}
 
+	@Override
 	public float xMax()
 	{
 		return this.maxX;
 	}
 
+	@Override
 	public float xMin()
 	{
 		return this.minX;
 	}
 
+	@Override
 	public int yBins()
 	{
 		return this.resolution;
 	}
 
+	@Override
 	public float yMax()
 	{
 		return this.maxY;
 	}
 
+	@Override
 	public float yMin()
 	{
 		return this.minY;
 	}
 
+	@Override
 	public float zAt(final int xIndex, final int yIndex)
 	{
 		final float xCoord = this.convertFromXIndex(xIndex);
@@ -212,11 +225,13 @@ public final class MathFunctionDataBinder implements Binned2DData
 			return zCoord;
 	}
 
+	@Override
 	public float zMax()
 	{
 		return this.maxZ;
 	}
 
+	@Override
 	public float zMin()
 	{
 		return this.minZ;

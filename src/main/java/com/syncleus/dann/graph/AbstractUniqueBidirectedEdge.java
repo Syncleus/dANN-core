@@ -20,13 +20,13 @@ package com.syncleus.dann.graph;
 
 public abstract class AbstractUniqueBidirectedEdge<N> extends AbstractBidirectedEdge<N>
 {
-    protected AbstractUniqueBidirectedEdge()
-    {
+	protected AbstractUniqueBidirectedEdge()
+	{
 		super();
-    }
+	}
 
-    protected AbstractUniqueBidirectedEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
-    {
+	protected AbstractUniqueBidirectedEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
+	{
 		super(allowJoiningMultipleGraphs, contextEnabled);
 	}
 

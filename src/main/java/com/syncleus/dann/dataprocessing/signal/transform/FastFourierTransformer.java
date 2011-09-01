@@ -20,12 +20,53 @@ package com.syncleus.dann.dataprocessing.signal.transform;
 
 public interface FastFourierTransformer
 {
+	/**
+	 * Transforms the given signal into a DiscreteFourierTransform.
+	 * @param signal The signal to transform
+	 * @return The DiscreteFourierTransform as a result.
+	 */
 	DiscreteFourierTransform transform(double[] signal);
+
+	/**
+	 * Inverts the transform. This is the inverse of transform()
+	 * @param transform The transform to inverse
+	 * @return The original signal.
+	 * @see #transform(double[])
+	 */
 	double[] inverseTransform(DiscreteFourierTransform transform);
+
+	/**
+	 * Pads the double arrays to complex arrays, then performs the circular
+	 * convolution.
+	 * @param first The first matrix of doubles
+	 * @param second The second matrix of doubles
+	 * @return The circular convolution as a double[]
+	 */
 	double[] circularConvolve(double[] first, double[] second);
+
 	double[] linearConvolve(double[] first, double[] second);
+
+	/**
+	 * Gets the current block size.
+	 * @return The current block size.
+	 */
 	int getBlockSize();
+
+	/**
+	 * Sets the block size to use.
+	 * @param blockSize The block size.
+	 */
 	void setBlockSize(int blockSize);
-	int getBitrate();
-	void setBitrate(int bitrate);
+
+	/**
+	 * Gets the bit-rate currently in use.
+	 * @return The current bit-rate.
+	 */
+	int getBitRate();
+
+	/**
+	 * Sets the current bit-rate.
+	 * @param bitRate The bit-rate to use.
+	 */
+	void setBitRate(int bitRate);
 }

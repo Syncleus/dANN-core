@@ -18,7 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.math;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import com.syncleus.dann.UnexpectedDannError;
 import org.apache.log4j.Logger;
 
@@ -40,7 +42,7 @@ public abstract class AbstractFunction implements Cloneable, Function
 	{
 		if( parameterNames.length <= 0 )
 		{
-			this.indexNames = new Hashtable<String, Integer>();
+			this.indexNames = new HashMap<String, Integer>();
 			this.parameters = null;
 			this.parameterNames = null;
 			return;

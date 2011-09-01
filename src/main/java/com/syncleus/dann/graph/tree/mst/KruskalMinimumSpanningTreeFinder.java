@@ -19,11 +19,31 @@
 package com.syncleus.dann.graph.tree.mst;
 
 import java.io.Serializable;
-import java.util.*;
-import com.syncleus.dann.graph.*;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.Set;
+import com.syncleus.dann.graph.Edge;
+import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.Weighted;
 
+/**
+ * An implementation of
+ * <a href="http://en.wikipedia.org/wiki/Kruskal's_algorithm">
+ *     Kruskal's minimum spanning tree algorithm</a>.
+ * If the given graph is connected it computes the minimum spanning tree,
+ * otherwise it computes the minimum spanning forest. The algorithm runs in time
+ * O(E log E). This implementation uses the hashCode and equals method of the
+ * vertices.
+ * @author Jeffrey Phillips Freeman
+ * @param <N> The node type
+ * @param <E> The type of edge for the given node type
+ */
 public class KruskalMinimumSpanningTreeFinder<N, E extends Edge<N>> implements MinimumSpanningTreeFinder<N, E>
 {
+	@Override
 	public Set<E> findMinimumSpanningTree(final Graph<N, E> graph)
 	{
 		final Set<Set<N>> componentNodeSets = new HashSet<Set<N>>();
@@ -70,6 +90,7 @@ public class KruskalMinimumSpanningTreeFinder<N, E extends Edge<N>> implements M
 	{
 		private static final long serialVersionUID = 4497530556915589495L;
 
+		@Override
 		public int compare(final E first, final E second)
 		{
 			double firstWeight = 0;

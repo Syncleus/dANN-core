@@ -18,7 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import com.syncleus.dann.graph.context.ContextGraphElement;
 
 public class MutableDirectedAdjacencyGraph<N, E extends DirectedEdge<N>> extends AbstractDirectedAdjacencyGraph<N, E> implements MutableDirectedGraph<N, E>
@@ -48,10 +51,10 @@ public class MutableDirectedAdjacencyGraph<N, E extends DirectedEdge<N>> extends
 		if( !this.getNodes().containsAll(newEdge.getNodes()) )
 			throw new IllegalArgumentException("newEdge has a node as an end point that is not part of the graph");
 
-		//if context is enabled lets check if it can join
-		if( this.isContextEnabled() && (newEdge instanceof ContextGraphElement))
-			if( !((ContextGraphElement)newEdge).joiningGraph(this) )
-				return false;
+		// if context is enabled lets check if it can join
+		if( this.isContextEnabled() && (newEdge instanceof ContextGraphElement)
+				&& !((ContextGraphElement)newEdge).joiningGraph(this) )
+			return false;
 
 		if( this.getInternalEdges().add(newEdge) )
 		{
@@ -79,10 +82,10 @@ public class MutableDirectedAdjacencyGraph<N, E extends DirectedEdge<N>> extends
 		if( this.getInternalAdjacencyEdges().containsKey(newNode) )
 			return false;
 
-		//if context is enabled lets check if it can join
-		if( this.isContextEnabled() && (newNode instanceof ContextGraphElement))
-			if( !((ContextGraphElement)newNode).joiningGraph(this) )
-				return false;
+		// if context is enabled lets check if it can join
+		if( this.isContextEnabled() && (newNode instanceof ContextGraphElement)
+				&& !((ContextGraphElement)newNode).joiningGraph(this) )
+			return false;
 
 		this.getInternalAdjacencyEdges().put(newNode, new HashSet<E>());
 		this.getInternalAdjacencyNodes().put(newNode, new ArrayList<N>());
@@ -98,10 +101,11 @@ public class MutableDirectedAdjacencyGraph<N, E extends DirectedEdge<N>> extends
 		if( !this.getInternalEdges().contains(edgeToRemove) )
 			return false;
 
-		//if context is enabled lets check if it can join
-		if( this.isContextEnabled() && (edgeToRemove instanceof ContextGraphElement))
-			if( !((ContextGraphElement)edgeToRemove).leavingGraph(this) )
-				return false;
+		// if context is enabled lets check if it can join
+		if( this.isContextEnabled()
+				&& (edgeToRemove instanceof ContextGraphElement)
+				&& !((ContextGraphElement)edgeToRemove).leavingGraph(this) )
+			return false;
 
 		if( !this.getInternalEdges().remove(edgeToRemove) )
 			return false;
@@ -127,10 +131,11 @@ public class MutableDirectedAdjacencyGraph<N, E extends DirectedEdge<N>> extends
 		if( !this.getInternalAdjacencyEdges().containsKey(nodeToRemove) )
 			return false;
 
-		//if context is enabled lets check if it can join
-		if( this.isContextEnabled() && (nodeToRemove instanceof ContextGraphElement))
-			if( !((ContextGraphElement)nodeToRemove).leavingGraph(this) )
-				return false;
+		// if context is enabled lets check if it can join
+		if( this.isContextEnabled()
+				&& (nodeToRemove instanceof ContextGraphElement)
+				&& !((ContextGraphElement)nodeToRemove).leavingGraph(this) )
+			return false;
 
 		final Set<E> removeEdges = this.getInternalAdjacencyEdges().get(nodeToRemove);
 
@@ -143,7 +148,7 @@ public class MutableDirectedAdjacencyGraph<N, E extends DirectedEdge<N>> extends
 		for(final E removeEdge : removeEdges)
 		{
 			E newEdge = (E) removeEdge.disconnect(nodeToRemove);
-			while( (newEdge.getNodes().contains(nodeToRemove)) && (newEdge != null) )
+			while( (newEdge != null) && (newEdge.getNodes().contains(nodeToRemove)) )
 				newEdge = (E) removeEdge.disconnect(nodeToRemove);
 			if( newEdge != null )
 				newEdges.add(newEdge);

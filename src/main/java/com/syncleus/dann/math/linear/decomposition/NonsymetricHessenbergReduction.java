@@ -23,7 +23,8 @@
  */
 package com.syncleus.dann.math.linear.decomposition;
 
-import com.syncleus.dann.math.linear.*;
+import com.syncleus.dann.math.linear.RealMatrix;
+import com.syncleus.dann.math.linear.SimpleRealMatrix;
 
 public class NonsymetricHessenbergReduction implements java.io.Serializable, HessenbergDecomposition
 {
@@ -33,7 +34,7 @@ public class NonsymetricHessenbergReduction implements java.io.Serializable, Hes
 	 */
 	private RealMatrix matrix;
 	/**
-	 * Array for internal storage of nonsymmetric Hessenberg form.
+	 * Array for internal storage of non-symmetric Hessenberg form.
 	 */
 	private RealMatrix hessenbergMatrix;
 
@@ -45,10 +46,10 @@ public class NonsymetricHessenbergReduction implements java.io.Serializable, Hes
 	 */
 	public NonsymetricHessenbergReduction(final RealMatrix matrixToDecompose)
 	{
-		final int n = matrixToDecompose.getWidth();
+		final int width = matrixToDecompose.getWidth();
 
 		// Reduce to Hessenberg form.
-		hessenbergReduction(matrixToDecompose.getSubmatrix(0, n, 0, n));
+		hessenbergReduction(matrixToDecompose.getSubmatrix(0, width, 0, width));
 	}
 
 	public int getDimensionSize()
@@ -60,9 +61,9 @@ public class NonsymetricHessenbergReduction implements java.io.Serializable, Hes
 
 	private void hessenbergReduction(final RealMatrix matrixToReduce)
 	{
-		final int n = matrixToReduce.getHeight();
-		final double[][] V = matrixToReduce.blank().toDoubleArray();
-		final double[][] H = matrixToReduce.toDoubleArray();
+		final int height = matrixToReduce.getHeight();
+		final double[][] eigenVectors = matrixToReduce.blank().toDoubleArray();
+		final double[][] hessenberg = matrixToReduce.toDoubleArray();
 		final double[] ort = new double[matrixToReduce.getHeight()];
 
 		//  This is derived from the Algol procedures hessenbergReduction and ortran,
@@ -70,21 +71,21 @@ public class NonsymetricHessenbergReduction implements java.io.Serializable, Hes
 		//  Vol.ii-Linear Algebra, and the corresponding
 		//  Fortran subroutines in EISPACK.
 
-		final int high = n - 1;
+		final int high = height - 1;
 
 		for(int m = 1; m <= high - 1; m++)
 		{
 			// Scale column.
 			double scale = 0.0;
 			for(int i = m; i <= high; i++)
-				scale = scale + Math.abs(H[i][m - 1]);
+				scale = scale + Math.abs(hessenberg[i][m - 1]);
 			if( scale != 0.0 )
 			{
 				// Compute Householder transformation.
 				double h = 0.0;
 				for(int i = high; i >= m; i--)
 				{
-					ort[i] = H[i][m - 1] / scale;
+					ort[i] = hessenberg[i][m - 1] / scale;
 					h += ort[i] * ort[i];
 				}
 				double g = Math.sqrt(h);
@@ -96,66 +97,68 @@ public class NonsymetricHessenbergReduction implements java.io.Serializable, Hes
 				// Apply Householder similarity transformation
 				// hessenbergMatrixElements = (I-u*u'/h)*hessenbergMatrixElements*(I-u*u')/h)
 
-				for(int j = m; j < n; j++)
+				for(int j = m; j < height; j++)
 				{
 					double f = 0.0;
 					for(int i = high; i >= m; i--)
-						f += ort[i] * H[i][j];
+						f += ort[i] * hessenberg[i][j];
 					f = f / h;
 					for(int i = m; i <= high; i++)
-						H[i][j] -= f * ort[i];
+						hessenberg[i][j] -= f * ort[i];
 				}
 
 				for(int i = 0; i <= high; i++)
 				{
 					double f = 0.0;
 					for(int j = high; j >= m; j--)
-						f += ort[j] * H[i][j];
+						f += ort[j] * hessenberg[i][j];
 					f = f / h;
 					for(int j = m; j <= high; j++)
-						H[i][j] -= f * ort[j];
+						hessenberg[i][j] -= f * ort[j];
 				}
 				ort[m] = scale * ort[m];
-				H[m][m - 1] = scale * g;
+				hessenberg[m][m - 1] = scale * g;
 			}
 		}
 
 		// Accumulate transformations (Algol's ortran).
-		for(int i = 0; i < n; i++)
-			for(int j = 0; j < n; j++)
-				V[i][j] = (i == j ? 1.0 : 0.0);
+		for(int i = 0; i < height; i++)
+			for(int j = 0; j < height; j++)
+				eigenVectors[i][j] = (i == j ? 1.0 : 0.0);
 
 		for(int m = high - 1; m >= 1; m--)
-			if( H[m][m - 1] != 0.0 )
+			if( hessenberg[m][m - 1] != 0.0 )
 			{
 				for(int i = m + 1; i <= high; i++)
-					ort[i] = H[i][m - 1];
+					ort[i] = hessenberg[i][m - 1];
 				for(int j = m; j <= high; j++)
 				{
 					double g = 0.0;
 					for(int i = m; i <= high; i++)
-						g += ort[i] * V[i][j];
+						g += ort[i] * eigenVectors[i][j];
 					// Double division avoids possible underflow
-					g = (g / ort[m]) / H[m][m - 1];
+					g = (g / ort[m]) / hessenberg[m][m - 1];
 					for(int i = m; i <= high; i++)
-						V[i][j] += g * ort[i];
+						eigenVectors[i][j] += g * ort[i];
 				}
 			}
 
-		this.matrix = new SimpleRealMatrix(V);
-		this.hessenbergMatrix = new SimpleRealMatrix(H);
+		this.matrix = new SimpleRealMatrix(eigenVectors);
+		this.hessenbergMatrix = new SimpleRealMatrix(hessenberg);
 	}
 
 	/**
-	 * Return the eigenvector matrix
+	 * Return the eigenvector matrix.
 	 *
 	 * @return matrixElements
 	 */
+	@Override
 	public RealMatrix getMatrix()
 	{
 		return this.matrix;
 	}
 
+	@Override
 	public RealMatrix getHessenbergMatrix()
 	{
 		return this.hessenbergMatrix;

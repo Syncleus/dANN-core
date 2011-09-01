@@ -30,7 +30,7 @@ import org.apache.log4j.Logger;
  * @author Jeffrey Phillips Freeman
  * @since 2.0
  */
-public abstract class AbstractValueGene<N extends MutableNumber> implements ValueGene<N>, Cloneable
+public abstract class AbstractValueGene<N extends MutableNumber> implements ValueGene<N>
 {
 	private N value;
 	private static final Logger LOGGER = Logger.getLogger(AbstractValueGene.class);

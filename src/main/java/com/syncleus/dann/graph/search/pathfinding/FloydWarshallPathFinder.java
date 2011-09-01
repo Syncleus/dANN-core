@@ -18,8 +18,14 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.search.pathfinding;
 
-import java.util.*;
-import com.syncleus.dann.graph.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.syncleus.dann.graph.Edge;
+import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.Weighted;
+import com.syncleus.dann.graph.WeightedEdge;
 
 public class FloydWarshallPathFinder<N, E extends Edge<N>> implements PathFinder<N, E>
 {
@@ -74,9 +80,9 @@ public class FloydWarshallPathFinder<N, E extends Edge<N>> implements PathFinder
 			for(final N nodeX : this.graph.getNodes())
 				for(final N nodeY : this.graph.getNodes())
 				{
-					if( !Double.isInfinite(this.walkWeight.get(nodeX).get(nodeK)) &&
-							!Double.isInfinite(this.walkWeight.get(nodeK).get(nodeY)) &&
-							this.walkWeight.get(nodeX).get(nodeK) + this.walkWeight.get(nodeK).get(nodeY) < this.walkWeight.get(nodeX).get(nodeY)
+					if( !Double.isInfinite(this.walkWeight.get(nodeX).get(nodeK))
+							&& !Double.isInfinite(this.walkWeight.get(nodeK).get(nodeY))
+							&& this.walkWeight.get(nodeX).get(nodeK) + this.walkWeight.get(nodeK).get(nodeY) < this.walkWeight.get(nodeX).get(nodeY)
 							)
 					{
 						final double newWeight = this.walkWeight.get(nodeX).get(nodeK) + this.walkWeight.get(nodeK).get(nodeY);

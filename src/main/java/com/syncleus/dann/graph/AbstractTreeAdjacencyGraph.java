@@ -23,7 +23,7 @@ import com.syncleus.dann.graph.topological.Topography;
 import com.syncleus.dann.graph.tree.TreeOptimizedGraph;
 import com.syncleus.dann.graph.tree.Trees;
 
-public abstract class AbstractTreeAdjacencyGraph<N, E extends BidirectedEdge<N>> extends AbstractBidirectedAdjacencyGraph<N, E> implements TreeGraph<N, E>, TreeOptimizedGraph<N,E>
+public abstract class AbstractTreeAdjacencyGraph<N, E extends BidirectedEdge<N>> extends AbstractBidirectedAdjacencyGraph<N, E> implements TreeGraph<N, E>, TreeOptimizedGraph<N, E>
 {
 	// TODO restrict tree's to only maximally connected trees or perhaps just tree in general
 
@@ -42,7 +42,7 @@ public abstract class AbstractTreeAdjacencyGraph<N, E extends BidirectedEdge<N>>
 	protected AbstractTreeAdjacencyGraph(final Set<N> nodes, final Set<E> edges)
 	{
 		super(nodes, edges);
-		if( ! Trees.isTree(this) )
+		if( !Trees.isTree(this) )
 			throw new IllegalArgumentException("edges do not form a tree graph");
 	}
 
@@ -53,7 +53,7 @@ public abstract class AbstractTreeAdjacencyGraph<N, E extends BidirectedEdge<N>>
 	}
 
 	@Override
-	public boolean isSpanningTree(Graph<N, E> subGraph)
+	public boolean isSpanningTree(final Graph<N, E> subGraph)
 	{
 		throw new UnsupportedOperationException("We have not optimized for this, allow default algorithms to calcualte");
 	}

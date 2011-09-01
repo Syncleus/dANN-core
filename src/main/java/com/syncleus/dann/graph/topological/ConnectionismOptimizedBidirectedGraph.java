@@ -18,7 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.topological;
 
-import com.syncleus.dann.graph.*;
+import com.syncleus.dann.graph.BidirectedEdge;
+import com.syncleus.dann.graph.BidirectedGraph;
 
 public interface ConnectionismOptimizedBidirectedGraph<N, E extends BidirectedEdge<N>> extends BidirectedGraph<N, E>
 {

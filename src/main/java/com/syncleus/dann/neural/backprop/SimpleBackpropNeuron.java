@@ -18,13 +18,12 @@
  ******************************************************************************/
 package com.syncleus.dann.neural.backprop;
 
-import java.util.Hashtable;
-import com.syncleus.dann.neural.*;
+import com.syncleus.dann.neural.Brain;
 import com.syncleus.dann.neural.activation.ActivationFunction;
 
 /**
- * The SimpleBackpropNeuron is the most fundemental component of a backprop
- * network; it is also the proccessor of the system. One neuron will usually
+ * The SimpleBackpropNeuron is the most fundamental component of a back-prop
+ * network; it is also the processor of the system. One neuron will usually
  * connect to many other Neurons through synapses and receive input from many
  * other Neurons in the same way.
  *
@@ -32,12 +31,12 @@ import com.syncleus.dann.neural.activation.ActivationFunction;
  * @see com.syncleus.dann.neural.SimpleSynapse
  * @since 1.0
  */
-public final class SimpleBackpropNeuron extends AbstractBackpropNeuron implements BackpropNeuron
+public final class SimpleBackpropNeuron extends AbstractBackpropNeuron
 {
 	private static final long serialVersionUID = 982375098231423L;
 
 	/**
-	 * Creates a new default instance of SimpleBackpropNeuron
+	 * Creates a new default instance of SimpleBackpropNeuron.
 	 *
 	 * @since 1.0
 	 */
@@ -47,8 +46,8 @@ public final class SimpleBackpropNeuron extends AbstractBackpropNeuron implement
 	}
 
 	/**
-	 * Creates a new instance of SimpleBackpropNeuron with the specified activation
-	 * function.
+	 * Creates a new instance of SimpleBackpropNeuron with the specified
+	 * activation function.
 	 *
 	 * @param activationFunction The Neuron's activation function.
 	 * @since 1.0
@@ -72,7 +71,7 @@ public final class SimpleBackpropNeuron extends AbstractBackpropNeuron implement
 
 	/**
 	 * Creates a new instance of a SimpleBackpropNeuron with the specified
-	 * activtion function and learning rate.
+	 * activation function and learning rate.
 	 *
 	 * @param activationFunction Activation function for this neuron.
 	 * @param learningRate Learning rate for this neuron.

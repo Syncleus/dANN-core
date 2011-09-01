@@ -18,27 +18,34 @@
  ******************************************************************************/
 package com.syncleus.dann.neural;
 
-import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import com.syncleus.dann.UnexpectedDannError;
 import com.syncleus.dann.graph.AbstractBidirectedAdjacencyGraph;
 import com.syncleus.dann.graph.topological.StrongConnectivityOptimizedGraph;
 
-// TODO refactor this to be a generic following the patern of its parent classes. Specifically to use Mutable graph type.
+// TODO refactor this to be a generic following the pattern of its parent classes. Specifically to use Mutable graph type.
 
 /**
  * Represents a single artificial brain typically belonging to a single
  * artificial organism. It will contain a set of input and output neurons which
- * corelates to a specific dataset pattern.<br/> <br/> This class is abstract
+ * corelate to a specific dataset pattern.<br/> <br/> This class is abstract
  * and must be extended in order to be used.
  *
  * @author Jeffrey Phillips Freeman
  * @since 1.0
  */
-public abstract class AbstractLocalBrain<IN extends InputNeuron, ON extends OutputNeuron, N extends Neuron, S extends Synapse<N>> extends AbstractBidirectedAdjacencyGraph<N, S> implements Brain<IN,ON,N,S>, Serializable, StrongConnectivityOptimizedGraph<N, S>
+public abstract class AbstractLocalBrain<IN extends InputNeuron, ON extends OutputNeuron, N extends Neuron, S extends Synapse<N>> extends AbstractBidirectedAdjacencyGraph<N, S> implements Brain<IN, ON, N, S>, StrongConnectivityOptimizedGraph<N, S>
 {
-	private class NodeConnectivity extends HashMap<N, Set<S>>
+	private static class NodeConnectivity<N extends Neuron, S extends Synapse<N>> extends HashMap<N, Set<S>>
 	{
 		private static final long serialVersionUID = -2956514569529162804L;
 
@@ -63,8 +70,8 @@ public abstract class AbstractLocalBrain<IN extends InputNeuron, ON extends Outp
 	private final Set<ON> outputNeurons = new HashSet<ON>();
 	private final Set<IN> inputNeurons = new HashSet<IN>();
 	private final Set<S> synapses = new HashSet<S>();
-	private final Map<N, Set<S>> outMap = new NodeConnectivity();
-	private final Map<N, Set<S>> inMap = new NodeConnectivity();
+	private final Map<N, Set<S>> outMap = new NodeConnectivity<N, S>();
+	private final Map<N, Set<S>> inMap = new NodeConnectivity<N, S>();
 	private static final Random RANDOM = new Random();
 	private final ExecutorService threadExecutor;
 

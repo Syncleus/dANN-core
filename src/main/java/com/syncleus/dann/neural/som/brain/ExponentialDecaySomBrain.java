@@ -20,16 +20,18 @@ package com.syncleus.dann.neural.som.brain;
 
 import java.util.concurrent.ExecutorService;
 import com.syncleus.dann.neural.Synapse;
-import com.syncleus.dann.neural.som.*;
+import com.syncleus.dann.neural.som.SomInputNeuron;
+import com.syncleus.dann.neural.som.SomNeuron;
+import com.syncleus.dann.neural.som.SomOutputNeuron;
 
 /**
- * A SomBrain which uses exponential decay over time for the neighboorhood
- * radius, neighboorhood function, and learning rate.
+ * A SomBrain which uses exponential decay over time for the neighborhood
+ * radius, neighborhood function, and learning rate.
  *
  * @author Jeffrey Phillips Freeman
  * @since 2.0
  */
-public final class ExponentialDecaySomBrain<IN extends SomInputNeuron, ON extends SomOutputNeuron, N extends SomNeuron, S extends Synapse<N>> extends AbstractExponentialDecaySomBrain<IN,ON,N,S>
+public final class ExponentialDecaySomBrain<IN extends SomInputNeuron, ON extends SomOutputNeuron, N extends SomNeuron, S extends Synapse<N>> extends AbstractExponentialDecaySomBrain<IN, ON, N, S>
 {
 	private static final long serialVersionUID = 4523396585666912034L;
 

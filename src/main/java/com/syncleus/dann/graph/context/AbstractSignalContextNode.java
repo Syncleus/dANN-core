@@ -23,9 +23,9 @@ import java.util.Set;
 import com.syncleus.dann.graph.Edge;
 import com.syncleus.dann.graph.Graph;
 
-public abstract class AbstractSignalContextNode<N, E extends Edge<N>, S> extends AbstractContextNode<N, E, Graph<N,E>> implements SignalContextNode<N, E, S>
+public abstract class AbstractSignalContextNode<N, E extends Edge<N>, S> extends AbstractContextNode<N, E, Graph<N, E>> implements SignalContextNode<N, E, S>
 {
-	private final Set<SignalingContextEdge<N,S>> contextEdges = new HashSet<SignalingContextEdge<N,S>>();
+	private final Set<SignalingContextEdge<N, S>> contextEdges = new HashSet<SignalingContextEdge<N, S>>();
 	private transient S state = null;
 
 	protected AbstractSignalContextNode(final boolean allowJoiningMultipleGraphs)
@@ -39,7 +39,7 @@ public abstract class AbstractSignalContextNode<N, E extends Edge<N>, S> extends
 	}
 
 	@Override
-	public boolean connectingEdge(E edge)
+	public boolean connectingEdge(final E edge)
 	{
 		if( super.connectingEdge(edge) )
 		{
@@ -52,7 +52,7 @@ public abstract class AbstractSignalContextNode<N, E extends Edge<N>, S> extends
 	}
 
 	@Override
-	public boolean disconnectingEdge(E edge)
+	public boolean disconnectingEdge(final E edge)
 	{
 		if( super.disconnectingEdge(edge) )
 		{
@@ -70,7 +70,7 @@ public abstract class AbstractSignalContextNode<N, E extends Edge<N>, S> extends
 		return this.state;
 	}
 
-	protected void setState(S state)
+	protected void setState(final S state)
 	{
 		this.state = state;
 

@@ -20,9 +20,11 @@ package com.syncleus.dann.neural.som.brain;
 
 import java.util.concurrent.ExecutorService;
 import com.syncleus.dann.neural.Synapse;
-import com.syncleus.dann.neural.som.*;
+import com.syncleus.dann.neural.som.SomInputNeuron;
+import com.syncleus.dann.neural.som.SomNeuron;
+import com.syncleus.dann.neural.som.SomOutputNeuron;
 
-public abstract class AbstractExponentialDecaySomBrain<IN extends SomInputNeuron, ON extends SomOutputNeuron, N extends SomNeuron, S extends Synapse<N>> extends AbstractSomBrain<IN,ON,N,S>
+public abstract class AbstractExponentialDecaySomBrain<IN extends SomInputNeuron, ON extends SomOutputNeuron, N extends SomNeuron, S extends Synapse<N>> extends AbstractSomBrain<IN, ON, N, S>
 {
 	private static final long serialVersionUID = 12374098245721L;
 	private final int iterationsToConverge;
@@ -59,12 +61,12 @@ public abstract class AbstractExponentialDecaySomBrain<IN extends SomInputNeuron
 	}
 
 	/**
-	 * Determines the neighboorhood function based on the neurons distance from the
-	 * BMU.
+	 * Determines the neighborhood function based on the neurons distance from
+	 * the BMU.
 	 *
 	 * @param distanceFromBest The neuron's distance from the BMU.
-	 * @return the decay effecting the learning of the specified neuron due to its
-	 *         distance from the BMU.
+	 * @return the decay effecting the learning of the specified neuron due to
+	 *   its distance from the BMU.
 	 * @since 2.0
 	 */
 	@Override

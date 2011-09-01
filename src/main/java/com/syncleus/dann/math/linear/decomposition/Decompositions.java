@@ -23,6 +23,10 @@ import com.syncleus.dann.math.linear.*;
 
 public final class Decompositions
 {
+	private Decompositions()
+	{
+	}
+
 	public static EigenvalueDecomposition createEigenvalueDecomposition(final RealMatrix matrixToDecompose)
 	{
 		if( matrixToDecompose.isSymmetric() )

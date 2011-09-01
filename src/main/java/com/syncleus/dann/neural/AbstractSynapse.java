@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Random;
 import com.syncleus.dann.graph.AbstractDirectedEdge;
 
-public abstract class AbstractSynapse<N extends Neuron> extends AbstractDirectedEdge<N> implements Synapse<N>, java.io.Serializable
+public abstract class AbstractSynapse<N extends Neuron> extends AbstractDirectedEdge<N> implements Synapse<N>
 {
 	private static final long serialVersionUID = -7939448149356677295L;
 	/**
@@ -40,9 +40,9 @@ public abstract class AbstractSynapse<N extends Neuron> extends AbstractDirected
 	private static final Random RANDOM = new Random();
 
 	/**
-	 * Creates a new instance of SimpleSynapse
+	 * Creates a new instance of AbstractSynapse.
 	 *
-	 * @param sourceToSet The incomming neuron connection.
+	 * @param sourceToSet The incoming neuron connection.
 	 * @param destinationToSet The outgoing neuron connection.
 	 * @param initialWeight The initial weight of the synapse
 	 * @since 1.0
@@ -54,9 +54,9 @@ public abstract class AbstractSynapse<N extends Neuron> extends AbstractDirected
 	}
 
 	/**
-	 * Creates a new instance of SimpleSynapse
+	 * Creates a new instance of AbstractSynapse.
 	 *
-	 * @param sourceToSet The incomming neuron connection.
+	 * @param sourceToSet The incoming neuron connection.
 	 * @param destinationToSet The outgoing neuron connection.
 	 * @since 1.0
 	 */
@@ -67,9 +67,9 @@ public abstract class AbstractSynapse<N extends Neuron> extends AbstractDirected
 	}
 
 	/**
-	 * Creates a new instance of SimpleSynapse
+	 * Creates a new instance of AbstractSynapse.
 	 *
-	 * @param sourceToSet The incomming neuron connection.
+	 * @param sourceToSet The incoming neuron connection.
 	 * @param destinationToSet The outgoing neuron connection.
 	 * @param initialWeight The initial weight of the synapse
 	 * @since 1.0
@@ -81,9 +81,9 @@ public abstract class AbstractSynapse<N extends Neuron> extends AbstractDirected
 	}
 
 	/**
-	 * Creates a new instance of SimpleSynapse
+	 * Creates a new instance of AbstractSynapse.
 	 *
-	 * @param sourceToSet The incomming neuron connection.
+	 * @param sourceToSet The incoming neuron connection.
 	 * @param destinationToSet The outgoing neuron connection.
 	 * @since 1.0
 	 */

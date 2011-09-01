@@ -26,7 +26,7 @@ package com.syncleus.dann.genetics;
  * @author Jeffrey Phillips Freeman
  * @since 2.0
  */
-public class DoubleValueGene extends AbstractValueGene<MutableDouble> implements Cloneable
+public class DoubleValueGene extends AbstractValueGene<MutableDouble>
 {
 	/**
 	 * Initializes a new instance of this class with a value of 0.

@@ -26,7 +26,7 @@ import com.syncleus.dann.graph.tree.Trees;
 
 public abstract class AbstractRootedTreeAdjacencyGraph<N, E extends DirectedEdge<N>> extends AbstractTreeAdjacencyGraph<N, E> implements RootedTreeGraph<N, E>, TreeOptimizedDirectedGraph<N, E>
 {
-	// TODO restrict all edgesd when added to make sure they conform to being a rooted tree
+	// TODO restrict all edges when added, to make sure they conform to being a rooted tree
 	protected AbstractRootedTreeAdjacencyGraph()
 	{
 		super();
@@ -64,7 +64,7 @@ public abstract class AbstractRootedTreeAdjacencyGraph<N, E extends DirectedEdge
 		if( this.getNodes().isEmpty() )
 			return null;
 
-		TopologicalSorter<N> sorter = new SimpleTopologicalRanker<N>();
+		final TopologicalSorter<N> sorter = new SimpleTopologicalRanker<N>();
 		return sorter.sort(this).get(0);
 	}
 

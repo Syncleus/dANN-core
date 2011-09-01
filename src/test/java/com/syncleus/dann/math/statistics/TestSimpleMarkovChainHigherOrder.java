@@ -30,7 +30,7 @@ public class TestSimpleMarkovChainHigherOrder
 
 	private final static Random RANDOM = new Random();
 
-    protected void testChain(int order) {
+	protected void testChain(int order) {
 		final MarkovChainEvidence<WeatherState> chainEvidence = new SimpleMarkovChainEvidence<WeatherState>(true, order);
 		//determine initial state
 		WeatherState lastState;
@@ -67,15 +67,15 @@ public class TestSimpleMarkovChainHigherOrder
 
 		final MarkovChain<WeatherState> simpleChain = chainEvidence.getMarkovChain();
 
-        System.out.println("transition matrix: " + simpleChain.getTransitionProbabilityMatrix());
+		System.out.println("transition matrix: " + simpleChain.getTransitionProbabilityMatrix());
 
-        //simpleChain.transition(WeatherState.SUNNY);
+		//simpleChain.transition(WeatherState.SUNNY);
 
-        int generatedTransitions = 30;
-        for (int i = 0; i < generatedTransitions; i++) {
-            System.out.print(simpleChain.generateTransition() + " ");
-        }
-        System.out.println();
+		int generatedTransitions = 30;
+		for (int i = 0; i < generatedTransitions; i++) {
+			System.out.print(simpleChain.generateTransition() + " ");
+		}
+		System.out.println();
 
 //		System.out.println("transition columns: " + simpleChain.getTransitionProbabilityColumns());
 //		System.out.println("transition rows: " + simpleChain.getTransitionProbabilityRows());
@@ -89,14 +89,14 @@ public class TestSimpleMarkovChainHigherOrder
 //		Assert.assertTrue("Sunny 2 step incorrect: " + simpleChain.getProbability(WeatherState.SUNNY, 2), Math.abs(simpleChain.getProbability(WeatherState.SUNNY, 2) - 0.86) < 0.1);
 //		Assert.assertTrue("Rainy 2 step incorrect: " + simpleChain.getProbability(WeatherState.RAINY, 2), Math.abs(simpleChain.getProbability(WeatherState.RAINY, 2) - 0.14) < 0.1);
 
-    }
+	}
 
 	@Test
 	public void testSimpleChain()
 	{
-        testChain(1);
-        testChain(2);
-        testChain(3);
-        testChain(4);
+		testChain(1);
+		testChain(2);
+		testChain(3);
+		testChain(4);
 	}
 }

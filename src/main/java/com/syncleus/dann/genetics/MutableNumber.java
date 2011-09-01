@@ -126,11 +126,12 @@ public abstract class MutableNumber<N extends Number> extends Number implements 
 	}
 
 	/**
-	 * int value representation of the number.
+	 * Integer value representation of the number.
 	 *
-	 * @return int representation of the value.
+	 * @return Integer representation of the value.
 	 * @since 2.0
 	 */
+	@Override
 	public final int intValue()
 	{
 		return this.number.intValue();
@@ -142,6 +143,7 @@ public abstract class MutableNumber<N extends Number> extends Number implements 
 	 * @return long representation of the value.
 	 * @since 2.0
 	 */
+	@Override
 	public final long longValue()
 	{
 		return this.number.longValue();
@@ -191,9 +193,9 @@ public abstract class MutableNumber<N extends Number> extends Number implements 
 	}
 
 	/**
-	 * All children of this class should override this method and return their own
-	 * class type even if it is abstract. It should return a copy without any
-	 * mutation.
+	 * All children of this class should override this method and return their
+	 * own class type even if it is abstract. It should return a copy without
+	 * any mutation.
 	 *
 	 * @return an exact copy of this object.
 	 * @since 2.0
@@ -216,14 +218,14 @@ public abstract class MutableNumber<N extends Number> extends Number implements 
 	}
 
 	/**
-	 * This will make a copy of the object and mutate it. The mutation has a normal
-	 * distribution multiplied by the deviation. If the Number is mutated past its
-	 * largest or smallest representable number it will simply return the max or
-	 * min respectivly.
+	 * This will make a copy of the object and mutate it. The mutation has a
+	 * normal distribution multiplied by the deviation. If the Number is mutated
+	 * past its largest or smallest representable number it will simply return
+	 * the max or min respectively.
 	 *
-	 * @param deviation A double indicating how extreme the mutation will be. The
-	 * greater the deviation the more drastically the object will mutate. A
-	 * deviation of 0 should cause no mutation.
+	 * @param deviation A double indicating how extreme the mutation will be.
+	 *   The greater the deviation the more drastically the object will mutate.
+	 *   A deviation of 0 should cause no mutation.
 	 * @return A copy of the current object with potential mutations.
 	 * @since 2.0
 	 */

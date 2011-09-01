@@ -18,7 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.neural;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
 //TODO get rid of this, it essentially plays the role of a sub-graph
 /**
@@ -30,14 +33,21 @@ import java.util.*;
 public class NeuronGroup<N extends Neuron> implements java.io.Serializable
 {
 	private static final long serialVersionUID = -7251026401945117794L;
-	// <editor-fold defaultstate="collapsed" desc="Attributes">
 	/**
-	 * This contains all the neurons considered to be a part of this layer. Any one
-	 * neuron can only belong to one layer. But one layer owns many neurons. <BR>
+	 * The RANDOM number generator used for this class.
 	 *
 	 * @since 1.0
 	 */
-	protected final HashSet<N> childrenNeurons = new HashSet<N>();
+	protected static final Random RANDOM = new Random();
+	// <editor-fold defaultstate="collapsed" desc="Attributes">
+	/**
+	 * This contains all the neurons considered to be a part of this layer.
+	 * Any one neuron can only belong to one layer. But one layer owns many
+	 * neurons. <BR>
+	 *
+	 * @since 1.0
+	 */
+	private final Set<N> childrenNeurons;
 	/**
 	 * This contains all the neuronGroups considered to be a part of this layer.
 	 * Any one neuron can only belong to one layer. But one layer owns many
@@ -45,23 +55,19 @@ public class NeuronGroup<N extends Neuron> implements java.io.Serializable
 	 *
 	 * @since 1.0
 	 */
-	protected final HashSet<NeuronGroup<? extends N>> childrenNeuronGroups = new HashSet<NeuronGroup<? extends N>>();
-	/**
-	 * The RANDOM number generator used for this class
-	 *
-	 * @since 1.0
-	 */
-	protected static final Random RANDOM = new Random();
+	private final Set<NeuronGroup<? extends N>> childrenNeuronGroups;
 	// </editor-fold>
 	// <editor-fold defaultstate="collapsed" desc="Constructors">
 
 	/**
-	 * Creates a new empty instance of NeuronGroup
+	 * Creates a new empty instance of NeuronGroup.
 	 *
 	 * @since 1.0
 	 */
 	public NeuronGroup()
 	{
+		this.childrenNeurons = new HashSet<N>();
+		this.childrenNeuronGroups = new HashSet<NeuronGroup<? extends N>>();
 	}
 
 	/**
@@ -72,11 +78,8 @@ public class NeuronGroup<N extends Neuron> implements java.io.Serializable
 	 */
 	public NeuronGroup(final NeuronGroup<? extends N> copyGroup)
 	{
-		this.childrenNeurons.addAll(copyGroup.childrenNeurons);
-		for(final NeuronGroup<? extends N> currentGroup : copyGroup.childrenNeuronGroups)
-		{
-			this.childrenNeuronGroups.add(currentGroup);
-		}
+		this.childrenNeurons = new HashSet<N>(copyGroup.getChildrenNeurons());
+		this.childrenNeuronGroups = new HashSet<NeuronGroup<? extends N>>(copyGroup.getChildrenNeuronGroups());
 	}
 
 	// </editor-fold>
@@ -126,7 +129,7 @@ public class NeuronGroup<N extends Neuron> implements java.io.Serializable
 	}
 
 	/**
-	 * Obtains all the NetworkNodes owned recursivly excluding
+	 * Obtains all the NetworkNodes owned recursively excluding
 	 * NeuronGroups.<BR>
 	 *
 	 * @since 1.0

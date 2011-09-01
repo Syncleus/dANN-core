@@ -20,7 +20,6 @@ package com.syncleus.dann.graphicalmodel.bayesian;
 
 import java.util.List;
 import com.syncleus.dann.graph.AbstractDirectedEdge;
-import com.syncleus.dann.graph.ImmutableDirectedEdge;
 
 public final class SimpleBayesianEdge<N extends BayesianNode> extends AbstractDirectedEdge<N> implements BayesianEdge<N>
 {

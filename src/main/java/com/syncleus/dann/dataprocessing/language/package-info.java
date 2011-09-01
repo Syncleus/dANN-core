@@ -20,4 +20,4 @@
 /**
  * This package contains classes specific to Natural Language Processing.
  */
-package comm.syncleus.dann.dataprocessing.language;
+package com.syncleus.dann.dataprocessing.language;

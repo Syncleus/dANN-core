@@ -18,8 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.search.pathfinding;
 
+import com.syncleus.dann.graph.BidirectedGraph;
+import com.syncleus.dann.graph.WeightedDirectedEdge;
 import java.util.List;
-import com.syncleus.dann.graph.*;
 
 public class JohnsonPathFinder<N, E extends WeightedDirectedEdge<N>> implements PathFinder<N, WeightedDirectedEdge<N>>
 {
@@ -33,6 +34,7 @@ public class JohnsonPathFinder<N, E extends WeightedDirectedEdge<N>> implements 
 		this.graph = graph;
 	}
 
+	@Override
 	public List<WeightedDirectedEdge<N>> getBestPath(final N begin, final N end)
 	{
 		final BidirectedGraph<N, WeightedDirectedEdge<N>> johnsonGraph = transformer.transform(this.graph);
@@ -43,11 +45,13 @@ public class JohnsonPathFinder<N, E extends WeightedDirectedEdge<N>> implements 
 		return pathWalk;
 	}
 
+	@Override
 	public boolean isReachable(final N begin, final N end)
 	{
 		return (this.getBestPath(begin, end) != null);
 	}
 
+	@Override
 	public boolean isConnected(final N begin, final N end)
 	{
 		return (this.getBestPath(begin, end) != null);

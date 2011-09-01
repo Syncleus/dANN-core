@@ -18,11 +18,14 @@
  ******************************************************************************/
 package com.syncleus.dann.neural.som;
 
-import com.syncleus.dann.neural.*;
-import com.syncleus.dann.neural.activation.*;
+import com.syncleus.dann.neural.AbstractNeuron;
+import com.syncleus.dann.neural.Brain;
+import com.syncleus.dann.neural.Synapse;
+import com.syncleus.dann.neural.activation.ActivationFunction;
+import com.syncleus.dann.neural.activation.SqrtActivationFunction;
 
 /**
- * A Som Nearon will calculate its euclidean distance to the input vector as its
+ * A SOM neuron will calculate its euclidian distance to the input vector as its
  * output.
  *
  * @author Jeffrey Phillips Freeman
@@ -48,10 +51,11 @@ public class SimpleSomNeuron extends AbstractNeuron implements SomOutputNeuron
 
 	/**
 	 * Trains the neuron to be closer to the input vector according to the
-	 * specefied parameters.
+	 * specified parameters.
 	 *
 	 * @since 2.0
 	 */
+	@Override
 	public void train(final double learningRate, final double neighborhoodAdjustment)
 	{
 		// TODO fix this, no object!
@@ -62,7 +66,7 @@ public class SimpleSomNeuron extends AbstractNeuron implements SomOutputNeuron
 	}
 
 	/**
-	 * Propogates all the inputs to determine to caculate the output.
+	 * Propagates all the inputs to determine to calculate the output.
 	 *
 	 * @since 2.0
 	 */

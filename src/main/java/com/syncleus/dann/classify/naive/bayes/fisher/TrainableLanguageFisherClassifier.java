@@ -21,7 +21,8 @@ package com.syncleus.dann.classify.naive.bayes.fisher;
 import com.syncleus.dann.classify.naive.bayes.TrainableLanguageNaiveBayesClassifier;
 
 /**
- * A TrainableLanguageFisherClassifier is a LanguageFisherClassifier that is also trainable.
+ * A TrainableLanguageFisherClassifier is a LanguageFisherClassifier that is
+ * also trainable.
  * @param <C> The type of class to use
  * @author Jeffrey Phillips Freeman
  */

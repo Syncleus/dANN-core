@@ -19,7 +19,8 @@
 package com.syncleus.dann.math.visualization;
 
 import com.syncleus.dann.math.Function;
-import org.freehep.j3d.plot.*;
+import org.freehep.j3d.plot.Binned2DData;
+import org.freehep.j3d.plot.SurfacePlot;
 
 public class MathFunctionCanvas extends SurfacePlot
 {

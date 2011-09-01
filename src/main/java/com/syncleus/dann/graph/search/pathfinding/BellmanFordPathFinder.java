@@ -18,13 +18,19 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.search.pathfinding;
 
-import java.util.*;
-import com.syncleus.dann.graph.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import com.syncleus.dann.graph.DirectedEdge;
+import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.Weighted;
 
 public class BellmanFordPathFinder<N, E extends DirectedEdge<N>> implements PathFinder<N, E>
 {
 	private final Graph<N, E> graph;
-	Map<N, PathedStep> pathedSteps;
+	private Map<N, PathedStep> pathedSteps;
 
 	public BellmanFordPathFinder(final Graph<N, E> graph)
 	{
@@ -33,6 +39,7 @@ public class BellmanFordPathFinder<N, E extends DirectedEdge<N>> implements Path
 		this.graph = graph;
 	}
 
+	@Override
 	public List<E> getBestPath(final N begin, final N end)
 	{
 		return this.getBestPath(begin, end, true);
@@ -89,11 +96,13 @@ public class BellmanFordPathFinder<N, E extends DirectedEdge<N>> implements Path
 		}
 	}
 
+	@Override
 	public boolean isReachable(final N begin, final N end)
 	{
 		return (this.getBestPath(begin, end) != null);
 	}
 
+	@Override
 	public boolean isConnected(final N begin, final N end)
 	{
 		return (this.getBestPath(begin, end) != null);
@@ -178,6 +187,7 @@ public class BellmanFordPathFinder<N, E extends DirectedEdge<N>> implements Path
 			return this.node.hashCode();
 		}
 
+		@Override
 		public int compareTo(final PathedStep compareWith)
 		{
 			//the natural ordering is inverse cause the smallest path weight is

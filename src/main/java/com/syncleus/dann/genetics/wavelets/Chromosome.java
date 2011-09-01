@@ -18,13 +18,18 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
-import java.util.*;
 import com.syncleus.dann.UnexpectedDannError;
 import com.syncleus.dann.genetics.MutableDouble;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 import org.apache.log4j.Logger;
 
 /**
- * A Chromosome is a mutable collection of Chromatids for use in a geneti algorithm.
+ * A Chromosome is a mutable collection of Chromatids for use in a genetic algorithm.
  */
 public class Chromosome implements Cloneable
 {
@@ -45,7 +50,7 @@ public class Chromosome implements Cloneable
 
 	/**
 	 * Creates a chromosome as a copy of another.
-	 * @param copy The chromosome to topy
+	 * @param copy The chromosome to copy
 	 */
 	public Chromosome(final Chromosome copy)
 	{
@@ -61,7 +66,7 @@ public class Chromosome implements Cloneable
 	 */
 	Set<SignalKey> getExpressedSignals(final boolean external)
 	{
-		final HashSet<SignalKey> allSignals = new HashSet<SignalKey>(this.leftChromatid.getExpressedSignals(external));
+		final Set<SignalKey> allSignals = new HashSet<SignalKey>(this.leftChromatid.getExpressedSignals(external));
 		allSignals.addAll(this.rightChromatid.getExpressedSignals(external));
 		return Collections.unmodifiableSet(allSignals);
 	}
@@ -99,9 +104,9 @@ public class Chromosome implements Cloneable
 	}
 
 	/**
-	 * Binds a SignalKeyConcentration to both Chromatids
+	 * Binds a SignalKeyConcentration to both Chromatids.
 	 * @param concentration The signal key concentration
-	 * @param isExternal Whether this signal is external to the Chromasome
+	 * @param isExternal Whether this signal is external to the Chromosome
 	 * @return Whether the bind was successful
 	 * @see com.syncleus.dann.genetics.wavelets.WaveletChromatid#bind(SignalKeyConcentration, boolean)
 	 */
@@ -125,7 +130,7 @@ public class Chromosome implements Cloneable
 	}
 
 	/**
-	 * Gets the right chromatid
+	 * Gets the right chromatid.
 	 * @return The right chromatid
 	 */
 	protected WaveletChromatid getRightChromatid()

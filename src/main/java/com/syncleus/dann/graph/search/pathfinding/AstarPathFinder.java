@@ -18,8 +18,16 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.search.pathfinding;
 
-import java.util.*;
-import com.syncleus.dann.graph.*;
+import com.syncleus.dann.graph.Edge;
+import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.Weighted;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Set;
 
 public class AstarPathFinder<N, E extends Edge<N>> implements PathFinder<N, E>
 {
@@ -104,6 +112,7 @@ public class AstarPathFinder<N, E extends Edge<N>> implements PathFinder<N, E>
 			return this.node.hashCode();
 		}
 
+		@Override
 		public int compareTo(final PathedStep compareWith)
 		{
 			//the natural ordering is inverse cause the smallest path weight is
@@ -133,7 +142,7 @@ public class AstarPathFinder<N, E extends Edge<N>> implements PathFinder<N, E>
 			throw new IllegalArgumentException("heuristicPathCost can not be null");
 		if( !heuristicPathCost.isOptimistic() )
 			throw new IllegalArgumentException("heuristicPathCost must be admissible");
-//		TODO : Does the heuristic need to be consistent?
+//		TODO Does the heuristic need to be consistent?
 //		if( !heuristicPathCost.isConsistent() )
 //			throw new IllegalArgumentException("This implementation requires a consistent heuristic");
 
@@ -141,6 +150,7 @@ public class AstarPathFinder<N, E extends Edge<N>> implements PathFinder<N, E>
 		this.heuristicPathCost = heuristicPathCost;
 	}
 
+	@Override
 	public List<E> getBestPath(final N begin, final N end)
 	{
 		if( begin == null )
@@ -201,11 +211,13 @@ public class AstarPathFinder<N, E extends Edge<N>> implements PathFinder<N, E>
 		return null;
 	}
 
+	@Override
 	public boolean isReachable(final N begin, final N end)
 	{
 		return (this.getBestPath(begin, end) != null);
 	}
 
+	@Override
 	public boolean isConnected(final N begin, final N end)
 	{
 		return (this.getBestPath(begin, end) != null);

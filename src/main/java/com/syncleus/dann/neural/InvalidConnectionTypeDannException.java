@@ -38,6 +38,7 @@ public class InvalidConnectionTypeDannException extends DannRuntimeException
 	 */
 	public InvalidConnectionTypeDannException()
 	{
+		super();
 	}
 
 	/**
@@ -65,8 +66,8 @@ public class InvalidConnectionTypeDannException extends DannRuntimeException
 	}
 
 	/**
-	 * Creates an exception containing the throwable which caused this exception to
-	 * be thrown.
+	 * Creates an exception containing the throwable which caused this exception
+	 * to be thrown.
 	 *
 	 * @param cause The throwable which caused this exception
 	 * @since 1.0

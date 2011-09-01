@@ -22,7 +22,10 @@ import java.util.List;
 
 public interface WeightedDirectedEdge<N> extends DirectedEdge<N>, Weighted
 {
+	@Override
 	WeightedDirectedEdge<N> disconnect(N node);
+	@Override
 	WeightedDirectedEdge<N> disconnect(List<N> node);
+	@Override
 	WeightedDirectedEdge<N> clone();
 }

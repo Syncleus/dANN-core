@@ -21,7 +21,7 @@ package com.syncleus.dann.math.wave;
 import com.syncleus.dann.math.AbstractFunction;
 import com.syncleus.dann.math.wave.wavelet.SharpenedWaveletFunction;
 
-public class WaveMultidimensionalFunction extends AbstractFunction implements Cloneable
+public class WaveMultidimensionalFunction extends AbstractFunction
 {
 	private boolean constantMode = false;
 	private double constantValue;

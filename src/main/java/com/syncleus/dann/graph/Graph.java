@@ -22,20 +22,23 @@ import com.syncleus.dann.graph.context.ContextReporter;
 import com.syncleus.dann.graph.xml.GraphXml;
 import com.syncleus.dann.xml.XmlSerializable;
 import java.io.Serializable;
-import java.util.*;
+import java.util.List;
+import java.util.Set;
 
 // TODO consider making all nodes extend from a connectable interface so you can embed other graphs as nodes if they too are connectable.
 
 /**
  * Represents a graph as a collection of nodes connected by edges. A graph does
- * not need to contain any nodes or edges however if there is atleast one edge
- * then there must be atleast one node. There can, however, be one or more nodes
- * with no edges present. Each edge must have 2 or more nodes it connects,
+ * not need to contain any nodes or edges however if there is at least one edge
+ * then there must be at least one node. There can, however, be one or more
+ * nodes with no edges present. Each edge must have 2 or more nodes it connects,
  * however they do not need to be different nodes. The implementation defines if
  * and how a graph can be traversed across nodes and edges.
  *
  * @author Jeffrey Phillips Freeman
  * @since 2.0
+ * @param <N> The node type
+ * @param <E> The type of edge for the given node type
  */
 public interface Graph<N, E extends Edge<N>> extends Serializable, Cloneable, XmlSerializable<GraphXml, Object>, ContextReporter
 {

@@ -18,12 +18,14 @@
  ******************************************************************************/
 
 /*
-** Derived from the Public-Domain sources found at
-** http://www.cs.princeton.edu/introcs/97data/ as of 9/13/2009.
-*/
+ * Derived from the Public-Domain sources found at
+ * http://www.cs.princeton.edu/introcs/97data/ as of 9/13/2009.
+ */
 package com.syncleus.dann.math;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 {
@@ -35,11 +37,13 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 		{
 		}
 
+		@Override
 		public ComplexNumber getZero()
 		{
 			return ComplexNumber.ZERO;
 		}
 
+		@Override
 		public ComplexNumber getOne()
 		{
 			return ComplexNumber.ONE;
@@ -69,6 +73,7 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 		this.imaginaryValue = imaginary;
 	}
 
+	@Override
 	public com.syncleus.dann.math.Field<ComplexNumber> getField()
 	{
 		return Field.FIELD;
@@ -79,6 +84,7 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 		return Math.hypot(this.realValue, this.imaginaryValue);
 	}
 
+	@Override
 	public final ComplexNumber abs()
 	{
 		return new ComplexNumber(this.absScalar(), 0.0);
@@ -90,6 +96,7 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 		return Math.atan2(this.imaginaryValue, this.realValue);
 	}
 
+	@Override
 	public final ComplexNumber add(final ComplexNumber value)
 	{
 		return new ComplexNumber(this.realValue + value.realValue, this.imaginaryValue + value.imaginaryValue);
@@ -100,6 +107,7 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 		return this.add(new ComplexNumber(value, 0.0));
 	}
 
+	@Override
 	public final ComplexNumber subtract(final ComplexNumber value)
 	{
 		return new ComplexNumber(this.realValue - value.realValue, this.imaginaryValue - value.imaginaryValue);
@@ -110,6 +118,7 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 		return this.subtract(new ComplexNumber(value, 0.0));
 	}
 
+	@Override
 	public final ComplexNumber multiply(final ComplexNumber value)
 	{
 		final double imaginary = this.realValue * value.imaginaryValue + this.imaginaryValue * value.realValue;
@@ -122,6 +131,7 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 		return new ComplexNumber(value * this.realValue, value * this.imaginaryValue);
 	}
 
+	@Override
 	public final ComplexNumber divide(final ComplexNumber value)
 	{
 		return this.multiply(value.reciprocal());
@@ -132,16 +142,19 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 		return this.divide(new ComplexNumber(value, 0.0));
 	}
 
+	@Override
 	public final ComplexNumber exp()
 	{
 		return new ComplexNumber(Math.exp(this.realValue) * Math.cos(this.imaginaryValue), Math.exp(this.realValue) * Math.sin(this.imaginaryValue));
 	}
 
+	@Override
 	public final ComplexNumber log()
 	{
 		return new ComplexNumber(Math.log(this.absScalar()), Math.atan2(this.imaginaryValue, this.realValue));
 	}
 
+	@Override
 	public final ComplexNumber pow(final ComplexNumber exponent)
 	{
 		if( exponent == null )
@@ -155,30 +168,32 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 		return this.log().multiply(exponent).exp();
 	}
 
-	public List<ComplexNumber> root(final int n)
+	@Override
+	public List<ComplexNumber> root(final int number)
 	{
-		if( n <= 0 )
-			throw new IllegalArgumentException("n must be greater than 0");
+		if( number <= 0 )
+			throw new IllegalArgumentException("number must be greater than 0");
 
 		final List<ComplexNumber> result = new ArrayList<ComplexNumber>();
 
-		double inner = this.phase() / n;
-		for(int nIndex = 0; nIndex < n; nIndex++)
+		double inner = this.phase() / number;
+		for(int nIndex = 0; nIndex < number; nIndex++)
 		{
-			result.add(new ComplexNumber(Math.cos(inner) * Math.pow(this.absScalar(), 1.0 / n), Math.sin(inner) * Math.pow(this.absScalar(), 1.0 / n)));
-			inner += 2 * Math.PI / n;
+			result.add(new ComplexNumber(Math.cos(inner) * Math.pow(this.absScalar(), 1.0 / number), Math.sin(inner) * Math.pow(this.absScalar(), 1.0 / number)));
+			inner += 2 * Math.PI / number;
 		}
 
 		return Collections.unmodifiableList(result);
 	}
 
+	@Override
 	public final ComplexNumber sqrt()
 	{
 		//The square-root of the complex number (a + i b) is
 		//sqrt(a + i b) = +/- (sqrt(radius + a) + i sqrt(radius - a) sign(b)) sqrt(2) / 2,
 		//where radius = sqrt(a^2 + b^2).
-		final double r = Math.sqrt((this.realValue * this.realValue) + (this.imaginaryValue * this.imaginaryValue));
-		final ComplexNumber intermediate = new ComplexNumber(Math.sqrt(r + this.realValue), Math.sqrt(r + this.realValue) * Math.signum(this.imaginaryValue));
+		final double radius = Math.sqrt((this.realValue * this.realValue) + (this.imaginaryValue * this.imaginaryValue));
+		final ComplexNumber intermediate = new ComplexNumber(Math.sqrt(radius + this.realValue), Math.sqrt(radius + this.realValue) * Math.signum(this.imaginaryValue));
 		return intermediate.multiply(Math.sqrt(2.0)).divide(2.0);
 	}
 
@@ -187,62 +202,74 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
 		return (new ComplexNumber(1.0, 0.0)).subtract(this.multiply(this)).sqrt();
 	}
 
+	@Override
 	public ComplexNumber hypot(final ComplexNumber operand)
 	{
 		return this.pow(2.0).add(operand.pow(2.0)).sqrt();
 	}
 
+	@Override
 	public final ComplexNumber sin()
 	{
 		return new ComplexNumber(Math.sin(this.realValue) * Math.cosh(this.imaginaryValue), Math.cos(this.realValue) * Math.sinh(this.imaginaryValue));
 	}
 
+	@Override
 	public final ComplexNumber asin()
 	{
 		return sqrt1Minus().add(this.multiply(ComplexNumber.I)).log().multiply(ComplexNumber.I.negate());
 	}
 
+	@Override
 	public final ComplexNumber sinh()
 	{
 		return new ComplexNumber(Math.sinh(this.realValue) * Math.cos(this.imaginaryValue), Math.cosh(this.realValue) * Math.sin(this.imaginaryValue));
 	}
 
+	@Override
 	public final ComplexNumber cos()
 	{
 		return new ComplexNumber(Math.cos(this.realValue) * Math.cosh(this.imaginaryValue), -Math.sin(this.realValue) * Math.sinh(this.imaginaryValue));
 	}
 
+	@Override
 	public final ComplexNumber acos()
 	{
 		return this.add(this.sqrt1Minus().multiply(ComplexNumber.I)).log().multiply(ComplexNumber.I.negate());
 	}
 
+	@Override
 	public final ComplexNumber cosh()
 	{
 		return new ComplexNumber(Math.cosh(this.realValue) * Math.cos(this.imaginaryValue), Math.sinh(this.realValue) * Math.sin(this.imaginaryValue));
 	}
 
+	@Override
 	public final ComplexNumber tan()
 	{
 		return sin().divide(cos());
 	}
 
+	@Override
 	public final ComplexNumber atan()
 	{
 		return this.add(ComplexNumber.I).divide(ComplexNumber.I.subtract(this)).log().multiply(ComplexNumber.I.divide(new ComplexNumber(2.0, 0.0)));
 	}
 
+	@Override
 	public final ComplexNumber tanh()
 	{
 		final double denominator = Math.cosh(2.0 * this.realValue) + Math.cos(2.0 * this.imaginaryValue);
 		return new ComplexNumber(Math.sinh(2.0 * this.realValue) / denominator, Math.sin(2.0 * this.imaginaryValue) / denominator);
 	}
 
+	@Override
 	public final ComplexNumber negate()
 	{
 		return new ComplexNumber(-this.realValue, -this.imaginaryValue);
 	}
 
+	@Override
 	public final ComplexNumber reciprocal()
 	{
 		final double scale = (this.realValue * this.realValue) + (this.imaginaryValue * this.imaginaryValue);

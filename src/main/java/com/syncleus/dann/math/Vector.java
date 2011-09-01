@@ -38,7 +38,7 @@ public class Vector implements Serializable
 
 	/**
 	 * Creates a Vector at the origin (all coordinates are 0) in the specified
-	 * number of dimensions
+	 * number of dimensions.
 	 *
 	 * @param dimensions number of dimensions of the point
 	 * @since 1.0
@@ -51,7 +51,7 @@ public class Vector implements Serializable
 	}
 
 	/**
-	 * Creates a hyperpoint with the specified coordinates. The number of
+	 * Creates a hyper-point with the specified coordinates. The number of
 	 * dimensions will be equal to the number of coordinates.
 	 *
 	 * @param coordinates The initial coordinates for this point.
@@ -67,7 +67,7 @@ public class Vector implements Serializable
 	}
 
 	/**
-	 * Creates a hyperpoint with the specified coordinates. The number of
+	 * Creates a hyper-point with the specified coordinates. The number of
 	 * dimensions will be equal to the number of coordinates.
 	 *
 	 * @param coordinates The initial coordinates for this point.
@@ -88,7 +88,8 @@ public class Vector implements Serializable
 	}
 
 	/**
-	 * Initializes a new hyperpoint that is a copy of the specified hyperpoint.
+	 * Initializes a new hyper-point that is a copy of the specified
+	 * hyper-point.
 	 *
 	 * @param copy the Vector to copy.
 	 * @since 1.0
@@ -147,7 +148,7 @@ public class Vector implements Serializable
 	}
 
 	/**
-	 * Sets the distance component of the hyperspherical representation of this
+	 * Sets the distance component of the hyper-spherical representation of this
 	 * point. It will leave all the angular components close to what they were
 	 * before this method was called if the distance argument is positive. If
 	 * the distance argument is negative it will invert the vector as well.
@@ -170,7 +171,7 @@ public class Vector implements Serializable
 	}
 
 	/**
-	 * Sets the one of the angular components of the hyperspherical
+	 * Sets the one of the angular components of the hyper-spherical
 	 * representation of this point. It will keep the other angles and distance
 	 * component close to the same.
 	 *
@@ -217,10 +218,10 @@ public class Vector implements Serializable
 	}
 
 	/**
-	 * Gets the distance component of the hyperspherical representation of this
+	 * Gets the distance component of the hyper-spherical representation of this
 	 * point.
 	 *
-	 * @return The distance component of this point using hyperspherical
+	 * @return The distance component of this point using hyper-spherical
 	 *         coordinates.
 	 * @since 1.0
 	 */
@@ -228,7 +229,7 @@ public class Vector implements Serializable
 	{
 		if( this.distanceCache == null )
 		{
-			final double currentCoords[] = this.coordinates.clone();
+			final double[] currentCoords = this.coordinates.clone();
 			double squaredSum = 0.0;
 			for(final double coordinate : currentCoords)
 				squaredSum += Math.pow(coordinate, 2);
@@ -252,7 +253,7 @@ public class Vector implements Serializable
 		if( (dimension - 1) > this.coordinates.length )
 			throw new IllegalArgumentException("dimensions is larger than the dimensionality (minus 1) of this point");
 
-		final double currentCoords[] = this.coordinates.clone();
+		final double[] currentCoords = this.coordinates.clone();
 		double squaredSum = 0.0;
 		for(int coordinateIndex = currentCoords.length - 1; coordinateIndex >= dimension; coordinateIndex--)
 			squaredSum += Math.pow(currentCoords[coordinateIndex], 2.0);
@@ -318,8 +319,8 @@ public class Vector implements Serializable
 		if( absolutePoint == null )
 			throw new IllegalArgumentException("absolutePoint can not be null!");
 
-		final double currentCoords[] = this.coordinates.clone();
-		final double absoluteCoords[] = absolutePoint.coordinates.clone();
+		final double[] currentCoords = this.coordinates.clone();
+		final double[] absoluteCoords = absolutePoint.coordinates.clone();
 
 		if( absoluteCoords.length != currentCoords.length )
 			throw new IllegalArgumentException("absolutePoint must have the same dimensions as this point");
@@ -343,8 +344,8 @@ public class Vector implements Serializable
 		if( pointToAdd == null )
 			throw new IllegalArgumentException("pointToAdd can not be null!");
 
-		final double currentCoords[] = this.coordinates.clone();
-		final double addCoords[] = pointToAdd.coordinates.clone();
+		final double[] currentCoords = this.coordinates.clone();
+		final double[] addCoords = pointToAdd.coordinates.clone();
 
 
 		if( addCoords.length != currentCoords.length )
@@ -362,8 +363,8 @@ public class Vector implements Serializable
 		if( pointToAdd == null )
 			throw new IllegalArgumentException("pointToAdd can not be null!");
 
-		final double currentCoords[] = this.coordinates.clone();
-		final double addCoords[] = pointToAdd.coordinates.clone();
+		final double[] currentCoords = this.coordinates.clone();
+		final double[] addCoords = pointToAdd.coordinates.clone();
 
 
 		if( addCoords.length != currentCoords.length )
@@ -427,7 +428,7 @@ public class Vector implements Serializable
 	@Override
 	public String toString()
 	{
-		final double currentCoords[] = this.coordinates.clone();
+		final double[] currentCoords = this.coordinates.clone();
 		final StringBuilder stringValue = new StringBuilder(currentCoords.length * 5 + 2);
 		stringValue.append('{');
 		for(int dimension = 0; dimension < currentCoords.length; dimension++)
@@ -441,9 +442,9 @@ public class Vector implements Serializable
 	}
 
 	/**
-	 * A string representation of this Vector in Hyperspherical coordinates.
+	 * A string representation of this Vector in Hyper-spherical coordinates.
 	 *
-	 * @return String representation of this Vector in Hyperspherical coordinates.
+	 * @return String representation of this Vector in Hyper-spherical coordinates.
 	 * @since 1.0
 	 */
 	public String toStringHypersphere()
@@ -464,9 +465,9 @@ public class Vector implements Serializable
 	}
 
 	/**
-	 * Generates a hash code based on thie coordinate values.
+	 * Generates a hash code based on the coordinate values.
 	 *
-	 * @return the hashcode representing this object.
+	 * @return the hash-code representing this object.
 	 * @since 2.0
 	 */
 	@Override
@@ -493,8 +494,8 @@ public class Vector implements Serializable
 
 		final Vector compareWith = (Vector) compareWithObject;
 
-		final double currentCoords[] = this.coordinates;
-		final double otherCoords[] = compareWith.coordinates;
+		final double[] currentCoords = this.coordinates;
+		final double[] otherCoords = compareWith.coordinates;
 
 		if( currentCoords.length != otherCoords.length )
 			return false;

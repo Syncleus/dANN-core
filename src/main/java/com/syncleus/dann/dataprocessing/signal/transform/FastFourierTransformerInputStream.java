@@ -18,7 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.dataprocessing.signal.transform;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.util.Arrays;
 
 public class FastFourierTransformerInputStream extends InputStream
@@ -49,7 +51,8 @@ public class FastFourierTransformerInputStream extends InputStream
 	public int transformsAvailable() throws IOException
 	{
 		final int numPerDouble = 8;
-		final int doublesAvailable = (this.buffer != null ? (this.available() / numPerDouble) + this.buffer.length : this.available() / numPerDouble);
+		final int doublesAvailable = (this.available() / numPerDouble)
+				+ ((this.buffer == null) ? 0 : this.buffer.length);
 		return doublesAvailable / this.transformer.getBlockSize();
 	}
 
@@ -159,7 +162,7 @@ public class FastFourierTransformerInputStream extends InputStream
 
 	public int getBitrate()
 	{
-		return this.transformer.getBitrate();
+		return this.transformer.getBitRate();
 	}
 
 	public int getInterval()
@@ -190,6 +193,7 @@ public class FastFourierTransformerInputStream extends InputStream
 		return this.srcStream.markSupported();
 	}
 
+	@Override
 	public int read() throws IOException
 	{
 		return this.srcStream.read();
@@ -220,8 +224,8 @@ public class FastFourierTransformerInputStream extends InputStream
 	}
 
 	@Override
-	public long skip(final long n) throws IOException
+	public long skip(final long numBytes) throws IOException
 	{
-		return this.srcStream.skip(n);
+		return this.srcStream.skip(numBytes);
 	}
 }

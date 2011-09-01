@@ -18,3 +18,6 @@
 *.xsd text
 *.rb text
 .git* export-ignore
+/doc/Neuron.gif large
+/doc/Neuron.vsd large
+/doc/Neuron.vsd -text

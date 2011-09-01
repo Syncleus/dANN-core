@@ -21,7 +21,7 @@ package com.syncleus.dann.genetics.wavelets;
 import java.util.Set;
 import com.syncleus.dann.genetics.MutableInteger;
 
-public class PromoterGene extends AbstractWaveletGene implements Cloneable
+public class PromoterGene extends AbstractWaveletGene
 {
 	private MutableInteger targetDistance;
 

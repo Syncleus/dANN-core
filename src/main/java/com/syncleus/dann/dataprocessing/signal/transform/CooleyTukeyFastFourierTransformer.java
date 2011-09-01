@@ -18,56 +18,47 @@
  ******************************************************************************/
 
 /*
-** Derived from the Public-Domain sources found at
-** http://www.cs.princeton.edu/introcs/97data/ as of 9/13/2009.
-*/
+ * Derived from the Public-Domain sources found at
+ * http://www.cs.princeton.edu/introcs/97data/ as of 9/13/2009.
+ */
 package com.syncleus.dann.dataprocessing.signal.transform;
 
 import java.util.Arrays;
 import com.syncleus.dann.math.ComplexNumber;
 
 /**
- * A CooleyTukeyFastFourierTransformer implements a fast fourier transform to reduce computation time
- * for O(N log N) for smooth numbers. See <a href="http://en.wikipedia.org/wiki/Cooley-Tukey_FFT_algorithm">the wikipedia page</a>
- * for more information.
+ * A CooleyTukeyFastFourierTransformer implements a fast fourier transform to
+ * reduce computation time for O(N log N) for smooth numbers. See
+ * <a href="http://en.wikipedia.org/wiki/Cooley-Tukey_FFT_algorithm">the
+ * wikipedia page</a> for more information.
  * @author Jeffrey Phillips Freeman
  */
 public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 {
 	private int blockSize;
-	private int bitrate;
+	private int bitRate;
 	private static final double EPSILON = .0000000001;
 
 	/**
-	 * Creates a new CooleyTukeyFastFourierTransformer with the given block size and bitrate.
+	 * Creates a new CooleyTukeyFastFourierTransformer with the given block size
+	 * and bit-rate.
 	 * @param ourBlockSize The block size to use
-	 * @param ourBitRate The bitrate to use.
+	 * @param ourBitRate The bit-rate to use.
 	 */
 	public CooleyTukeyFastFourierTransformer(final int ourBlockSize, final int ourBitRate)
 	{
 		this.setBlockSize(ourBlockSize);
-		this.bitrate = ourBitRate;
+		this.bitRate = ourBitRate;
 	}
 
-	/**
-	 * Transforms the given signal into a DiscreteFourierTransform.
-	 * @param signal The signal to transform
-	 * @return The DiscreteFourierTransform as a result.
-	 */
 	@Override
 	public DiscreteFourierTransform transform(final double[] signal)
 	{
 		final double[] signalPadded = pad(signal);
 		final ComplexNumber[] frequencyDomain = transformMatrix(doubleArrayToComplexArray(signalPadded));
-		return new DiscreteFourierTransform(frequencyDomain, this.bitrate);
+		return new DiscreteFourierTransform(frequencyDomain, this.bitRate);
 	}
 
-	/**
-	 * Inverts the transform. This the inverse of transform()
-	 * @param transform The transform to inverse
-	 * @return The orginal signal.
-	 * @see com.syncleus.dann.dataprocessing.signal.transform.CooleyTukeyFastFourierTransformer#transform(double[])
-	 */
 	@Override
 	public double[] inverseTransform(final DiscreteFourierTransform transform)
 	{
@@ -76,11 +67,8 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 	}
 
 	/**
-	 * Pads the double arrays to complex arrays, then performs the circular convolution.
-	 * @param first The first matrix of doubles
-	 * @param second The second matrix of doubles
-	 * @return The circular convolution as a double[]
-	 * @see com.syncleus.dann.dataprocessing.signal.transform.CooleyTukeyFastFourierTransformer#circularConvolveMatrix(com.syncleus.dann.math.ComplexNumber[], com.syncleus.dann.math.ComplexNumber[])
+	 * {@inheritDoc}
+	 * @see #circularConvolveMatrix(com.syncleus.dann.math.ComplexNumber[], com.syncleus.dann.math.ComplexNumber[])
 	 */
 	@Override
 	public double[] circularConvolve(final double[] first, final double[] second)
@@ -102,10 +90,6 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 		return complexArrayToDoubleArray(resultComplex);
 	}
 
-	/**
-	 * Gets the current block size.
-	 * @return The current block size
-	 */
 	@Override
 	public int getBlockSize()
 	{
@@ -113,47 +97,39 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 	}
 
 	/**
-	 * Sets the block size to use. If the block size is a not a power of 2,
+	 * {@inheritDoc}
+	 * If the block size is a not a power of 2,
 	 * the block size is set to the next-largest power of two.
-	 * @param ourBlockSize The block size.
 	 */
 	@Override
-	public void setBlockSize(final int ourBlockSize)
+	public void setBlockSize(final int blockSize)
 	{
-		final double exponentOf2 = Math.log(ourBlockSize) / Math.log(2.0);
+		final double exponentOf2 = Math.log(blockSize) / Math.log(2.0);
 		if( Math.abs(exponentOf2 - Math.floor(exponentOf2)) > EPSILON)
 		{
 			this.blockSize = (int) Math.pow(2.0, Math.ceil(exponentOf2));
 		}
 		else
 		{
-			this.blockSize = ourBlockSize;
+			this.blockSize = blockSize;
 		}
 	}
 
-	/**
-	 * Gets the bitrate currently in use.
-	 * @return The current bitrate
-	 */
 	@Override
-	public int getBitrate()
+	public int getBitRate()
 	{
-		return this.bitrate;
+		return this.bitRate;
+	}
+
+	@Override
+	public void setBitRate(final int bitRate)
+	{
+		this.bitRate = bitRate;
 	}
 
 	/**
-	 * Sets the current bitrate.
-	 * @param ourBitrate The bitrate to use
-	 */
-	@Override
-	public void setBitrate(final int ourBitrate)
-	{
-		this.bitrate = ourBitrate;
-	}
-
-	/**
-	 * Converts a double[] to a ComplexNumber[], using each double as the real component with
-	 * a 0.0 imaginary component.
+	 * Converts a double[] to a ComplexNumber[], using each double as the real
+	 * component with a 0.0 imaginary component.
 	 * @param from The array to convert from
 	 * @return The complex result
 	 */
@@ -194,8 +170,8 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 
 	/**
 	 * Pads a ComplexNumber[] to have size equal to the current block size.
-	 * Returns a ComplexNumber[] of length equal to current block size, with uninitalized
-	 * elements equal to ComplexNumber.ZERO
+	 * Returns a ComplexNumber[] of length equal to current block size, with
+	 * uninitialized elements equal to ComplexNumber.ZERO.
 	 * @param signal The signal to pad
 	 * @return The padding
 	 * @see com.syncleus.dann.dataprocessing.signal.transform.CooleyTukeyFastFourierTransformer#pad(double[])
@@ -291,8 +267,9 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 	}
 
 	/**
-	 * Convolves two matrices linearly. This is accomplished by doubling the length of each array,
-	 * setting the remaining elements to zero, then performing a circular convolution.
+	 * Convolves two matrices linearly. This is accomplished by doubling the
+	 * length of each array, setting the remaining elements to zero, then
+	 * performing a circular convolution.
 	 * @param first The first matrix to convolve
 	 * @param second The second matrix to convolve
 	 * @return The linear convolution of the two matrices

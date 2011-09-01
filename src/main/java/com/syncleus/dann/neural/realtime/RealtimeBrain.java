@@ -18,6 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.neural.realtime;
 
+// TODO unused. remove?
 public interface RealtimeBrain
 {
 }

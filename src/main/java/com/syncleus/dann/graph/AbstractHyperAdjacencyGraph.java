@@ -71,8 +71,8 @@ public abstract class AbstractHyperAdjacencyGraph<N, E extends HyperEdge<N>> ext
 	}
 
 	/**
-	 * Always returns -1 since rank is not limited
-	 * @return
+	 * Always returns -1 since rank is not limited.
+	 * @return always -1 since the rank is not limited.
 	 */
 	@Override
 	public int getMinimumAllowableRank()

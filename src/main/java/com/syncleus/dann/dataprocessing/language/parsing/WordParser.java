@@ -18,7 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.dataprocessing.language.parsing;
 
-import java.util.*;
+import java.util.List;
+import java.util.Set;
 
 /**
  * A WordParser splits a String into individual words.
@@ -34,7 +35,7 @@ public interface WordParser
 	List<String> getWords(String text);
 
 	/**
-	 * Gets the unique words from the given STring.
+	 * Gets the unique words from the given String.
 	 * @param text The string to use
 	 * @return The set of all unique words
 	 * @see WordParser#getWords(String)

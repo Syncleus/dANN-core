@@ -18,6 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
+// TODO convert to an interface?
 public abstract class AbstractOrganism
 {
 //	private HashSet<Cell> cells;

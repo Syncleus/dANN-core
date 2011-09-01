@@ -53,7 +53,7 @@ public abstract class AbstractUndirectedEdge<N> extends AbstractBidirectedEdge<N
 	}
 
 	@Override
-	public final boolean isExtraverted()
+	public final boolean isExtroverted()
 	{
 		return false;
 	}

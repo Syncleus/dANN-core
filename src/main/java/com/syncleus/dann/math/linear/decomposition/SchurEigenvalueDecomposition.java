@@ -23,9 +23,12 @@
  */
 package com.syncleus.dann.math.linear.decomposition;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import com.syncleus.dann.math.RealNumber;
-import com.syncleus.dann.math.linear.*;
+import com.syncleus.dann.math.linear.RealMatrix;
+import com.syncleus.dann.math.linear.SimpleRealMatrix;
 
 public class SchurEigenvalueDecomposition implements java.io.Serializable, EigenvalueDecomposition
 {
@@ -39,7 +42,7 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 	 */
 	private RealMatrix matrix;
 	/**
-	 * Array for internal storage of nonsymmetric Hessenberg form.
+	 * Array for internal storage of non-symmetric Hessenberg form.
 	 */
 	private RealMatrix hessenbergMatrix;
 
@@ -55,17 +58,17 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 	public SchurEigenvalueDecomposition(final RealMatrix matrixToDecompose)
 	{
 		final double[][] matrixToDecomposeElements = matrixToDecompose.toDoubleArray();
-		final int n = matrixToDecompose.getWidth();
-		final double[][] matrixElements = new double[n][n];
-		final double[][] hessenbergMatrixElements = new double[n][n];
+		final int width = matrixToDecompose.getWidth();
+		final double[][] matrixElements = new double[width][width];
+		final double[][] hessenbergMatrixElements = new double[width][width];
 
-		this.realEigenvalues = new ArrayList<RealNumber>(n);
-		this.realEigenvalues.addAll(Collections.nCopies(n, new RealNumber(0.0)));
-		this.imaginaryEigenvalues = new ArrayList<RealNumber>(n);
-		this.imaginaryEigenvalues.addAll(Collections.nCopies(n, new RealNumber(0.0)));
+		this.realEigenvalues = new ArrayList<RealNumber>(width);
+		this.realEigenvalues.addAll(Collections.nCopies(width, new RealNumber(0.0)));
+		this.imaginaryEigenvalues = new ArrayList<RealNumber>(width);
+		this.imaginaryEigenvalues.addAll(Collections.nCopies(width, new RealNumber(0.0)));
 
-		for(int j = 0; j < n; j++)
-			for(int i = 0; i < n; i++)
+		for(int j = 0; j < width; j++)
+			for(int i = 0; i < width; i++)
 				hessenbergMatrixElements[i][j] = matrixToDecomposeElements[i][j];
 		this.hessenbergMatrix = new SimpleRealMatrix(hessenbergMatrixElements);
 		this.matrix = new SimpleRealMatrix(matrixElements);
@@ -115,8 +118,8 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 		final double[] e = new double[this.imaginaryEigenvalues.size()];
 		for(int valueIndex = 0; valueIndex < d.length; valueIndex++)
 			e[valueIndex] = this.imaginaryEigenvalues.get(valueIndex).getValue();
-		final double[][] V = this.matrix.toDoubleArray();
-		final double[][] H = this.hessenbergMatrix.toDoubleArray();
+		final double[][] eigenVectors = this.matrix.toDoubleArray();
+		final double[][] hessenberg = this.hessenbergMatrix.toDoubleArray();
 
 		//  This is derived from the Algol procedure schurReduction,
 		//  by Martin and Wilkinson, Handbook for Auto. Comp.,
@@ -138,11 +141,11 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 		{
 			if( i < low | i > high )
 			{
-				d[i] = H[i][i];
+				d[i] = hessenberg[i][i];
 				e[i] = 0.0;
 			}
 			for(int j = Math.max(i - 1, 0); j < nn; j++)
-				norm = norm + Math.abs(H[i][j]);
+				norm = norm + Math.abs(hessenberg[i][j]);
 		}
 
 		// Outer loop over eigenvalue index
@@ -154,10 +157,10 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 			int l = n;
 			while( l > low )
 			{
-				s = Math.abs(H[l - 1][l - 1]) + Math.abs(H[l][l]);
+				s = Math.abs(hessenberg[l - 1][l - 1]) + Math.abs(hessenberg[l][l]);
 				if( s == 0.0 )
 					s = norm;
-				if( Math.abs(H[l][l - 1]) < eps * s )
+				if( Math.abs(hessenberg[l][l - 1]) < eps * s )
 					break;
 				l--;
 			}
@@ -166,8 +169,8 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 			// One root found
 			if( l == n )
 			{
-				H[n][n] = H[n][n] + exshift;
-				d[n] = H[n][n];
+				hessenberg[n][n] = hessenberg[n][n] + exshift;
+				d[n] = hessenberg[n][n];
 				e[n] = 0.0;
 				n--;
 				iter = 0;
@@ -176,13 +179,13 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 			}
 			else if( l == n - 1 )
 			{
-				w = H[n][n - 1] * H[n - 1][n];
-				p = (H[n - 1][n - 1] - H[n][n]) / 2.0;
+				w = hessenberg[n][n - 1] * hessenberg[n - 1][n];
+				p = (hessenberg[n - 1][n - 1] - hessenberg[n][n]) / 2.0;
 				q = p * p + w;
 				z = Math.sqrt(Math.abs(q));
-				H[n][n] = H[n][n] + exshift;
-				H[n - 1][n - 1] = H[n - 1][n - 1] + exshift;
-				x = H[n][n];
+				hessenberg[n][n] = hessenberg[n][n] + exshift;
+				hessenberg[n - 1][n - 1] = hessenberg[n - 1][n - 1] + exshift;
+				x = hessenberg[n][n];
 
 				// Real pair
 				if( q >= 0 )
@@ -197,7 +200,7 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 						d[n] = x - w / z;
 					e[n - 1] = 0.0;
 					e[n] = 0.0;
-					x = H[n][n - 1];
+					x = hessenberg[n][n - 1];
 					s = Math.abs(x) + Math.abs(z);
 					p = x / s;
 					q = z / s;
@@ -208,25 +211,25 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 					// Row modification
 					for(int j = n - 1; j < nn; j++)
 					{
-						z = H[n - 1][j];
-						H[n - 1][j] = q * z + p * H[n][j];
-						H[n][j] = q * H[n][j] - p * z;
+						z = hessenberg[n - 1][j];
+						hessenberg[n - 1][j] = q * z + p * hessenberg[n][j];
+						hessenberg[n][j] = q * hessenberg[n][j] - p * z;
 					}
 
 					// Column modification
 					for(int i = 0; i <= n; i++)
 					{
-						z = H[i][n - 1];
-						H[i][n - 1] = q * z + p * H[i][n];
-						H[i][n] = q * H[i][n] - p * z;
+						z = hessenberg[i][n - 1];
+						hessenberg[i][n - 1] = q * z + p * hessenberg[i][n];
+						hessenberg[i][n] = q * hessenberg[i][n] - p * z;
 					}
 
 					// Accumulate transformations
 					for(int i = low; i <= high; i++)
 					{
-						z = V[i][n - 1];
-						V[i][n - 1] = q * z + p * V[i][n];
-						V[i][n] = q * V[i][n] - p * z;
+						z = eigenVectors[i][n - 1];
+						eigenVectors[i][n - 1] = q * z + p * eigenVectors[i][n];
+						eigenVectors[i][n] = q * eigenVectors[i][n] - p * z;
 					}
 
 					// Complex pair
@@ -246,13 +249,13 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 			else
 			{
 				// Form shift
-				x = H[n][n];
+				x = hessenberg[n][n];
 				y = 0.0;
 				w = 0.0;
 				if( l < n )
 				{
-					y = H[n - 1][n - 1];
-					w = H[n][n - 1] * H[n - 1][n];
+					y = hessenberg[n - 1][n - 1];
+					w = hessenberg[n][n - 1] * hessenberg[n - 1][n];
 				}
 
 				// Wilkinson's original ad hoc shift
@@ -261,9 +264,10 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 				{
 					exshift += x;
 					for(int i = low; i <= n; i++)
-						H[i][i] -= x;
-					s = Math.abs(H[n][n - 1]) + Math.abs(H[n - 1][n - 2]);
-					x = y = 0.75 * s;
+						hessenberg[i][i] -= x;
+					s = Math.abs(hessenberg[n][n - 1]) + Math.abs(hessenberg[n - 1][n - 2]);
+					x = 0.75 * s;
+					y = x;
 					w = -0.4375 * s * s;
 				}
 
@@ -280,9 +284,11 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 							s = -s;
 						s = x - w / ((y - x) / 2.0 + s);
 						for(int i = low; i <= n; i++)
-							H[i][i] -= s;
+							hessenberg[i][i] -= s;
 						exshift += s;
-						x = y = w = 0.964;
+						x = 0.964;
+						y = x;
+						w = x;
 					}
 				}
 
@@ -292,30 +298,30 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 				int m = n - 2;
 				while( m >= l )
 				{
-					z = H[m][m];
+					z = hessenberg[m][m];
 					r = x - z;
 					s = y - z;
-					p = (r * s - w) / H[m + 1][m] + H[m][m + 1];
-					q = H[m + 1][m + 1] - z - r - s;
-					r = H[m + 2][m + 1];
+					p = (r * s - w) / hessenberg[m + 1][m] + hessenberg[m][m + 1];
+					q = hessenberg[m + 1][m + 1] - z - r - s;
+					r = hessenberg[m + 2][m + 1];
 					s = Math.abs(p) + Math.abs(q) + Math.abs(r);
 					p = p / s;
 					q = q / s;
 					r = r / s;
 					if( m == l )
 						break;
-					if( Math.abs(H[m][m - 1]) * (Math.abs(q) + Math.abs(r)) <
-							eps * (Math.abs(p) * (Math.abs(H[m - 1][m - 1]) + Math.abs(z) +
-									Math.abs(H[m + 1][m + 1]))) )
+					if( Math.abs(hessenberg[m][m - 1]) * (Math.abs(q) + Math.abs(r))
+							< eps * (Math.abs(p) * (Math.abs(hessenberg[m - 1][m - 1]) + Math.abs(z)
+									+ Math.abs(hessenberg[m + 1][m + 1]))) )
 						break;
 					m--;
 				}
 
 				for(int i = m + 2; i <= n; i++)
 				{
-					H[i][i - 2] = 0.0;
+					hessenberg[i][i - 2] = 0.0;
 					if( i > m + 2 )
-						H[i][i - 3] = 0.0;
+						hessenberg[i][i - 3] = 0.0;
 				}
 
 				// Double QR step involving rows l:n and columns m:n
@@ -324,9 +330,9 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 					final boolean notlast = (k != n - 1);
 					if( k != m )
 					{
-						p = H[k][k - 1];
-						q = H[k + 1][k - 1];
-						r = (notlast ? H[k + 2][k - 1] : 0.0);
+						p = hessenberg[k][k - 1];
+						q = hessenberg[k + 1][k - 1];
+						r = (notlast ? hessenberg[k + 2][k - 1] : 0.0);
 						x = Math.abs(p) + Math.abs(q) + Math.abs(r);
 						if( x != 0.0 )
 						{
@@ -343,9 +349,9 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 					if( s != 0 )
 					{
 						if( k != m )
-							H[k][k - 1] = -s * x;
+							hessenberg[k][k - 1] = -s * x;
 						else if( l != m )
-							H[k][k - 1] = -H[k][k - 1];
+							hessenberg[k][k - 1] = -hessenberg[k][k - 1];
 						p = p + s;
 						x = p / s;
 						y = q / s;
@@ -356,40 +362,40 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 						// Row modification
 						for(int j = k; j < nn; j++)
 						{
-							p = H[k][j] + q * H[k + 1][j];
+							p = hessenberg[k][j] + q * hessenberg[k + 1][j];
 							if( notlast )
 							{
-								p = p + r * H[k + 2][j];
-								H[k + 2][j] = H[k + 2][j] - p * z;
+								p = p + r * hessenberg[k + 2][j];
+								hessenberg[k + 2][j] = hessenberg[k + 2][j] - p * z;
 							}
-							H[k][j] = H[k][j] - p * x;
-							H[k + 1][j] = H[k + 1][j] - p * y;
+							hessenberg[k][j] = hessenberg[k][j] - p * x;
+							hessenberg[k + 1][j] = hessenberg[k + 1][j] - p * y;
 						}
 
 						// Column modification
 						for(int i = 0; i <= Math.min(n, k + 3); i++)
 						{
-							p = x * H[i][k] + y * H[i][k + 1];
+							p = x * hessenberg[i][k] + y * hessenberg[i][k + 1];
 							if( notlast )
 							{
-								p = p + z * H[i][k + 2];
-								H[i][k + 2] = H[i][k + 2] - p * r;
+								p = p + z * hessenberg[i][k + 2];
+								hessenberg[i][k + 2] = hessenberg[i][k + 2] - p * r;
 							}
-							H[i][k] = H[i][k] - p;
-							H[i][k + 1] = H[i][k + 1] - p * q;
+							hessenberg[i][k] = hessenberg[i][k] - p;
+							hessenberg[i][k + 1] = hessenberg[i][k + 1] - p * q;
 						}
 
 						// Accumulate transformations
 						for(int i = low; i <= high; i++)
 						{
-							p = x * V[i][k] + y * V[i][k + 1];
+							p = x * eigenVectors[i][k] + y * eigenVectors[i][k + 1];
 							if( notlast )
 							{
-								p = p + z * V[i][k + 2];
-								V[i][k + 2] = V[i][k + 2] - p * r;
+								p = p + z * eigenVectors[i][k + 2];
+								eigenVectors[i][k + 2] = eigenVectors[i][k + 2] - p * r;
 							}
-							V[i][k] = V[i][k] - p;
-							V[i][k + 1] = V[i][k + 1] - p * q;
+							eigenVectors[i][k] = eigenVectors[i][k] - p;
+							eigenVectors[i][k + 1] = eigenVectors[i][k + 1] - p * q;
 						}
 					}  // (s != 0)
 				}  // k loop
@@ -409,13 +415,13 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 			if( q == 0 )
 			{
 				int l = n;
-				H[n][n] = 1.0;
+				hessenberg[n][n] = 1.0;
 				for(int i = n - 1; i >= 0; i--)
 				{
-					w = H[i][i] - p;
+					w = hessenberg[i][i] - p;
 					r = 0.0;
 					for(int j = l; j <= n; j++)
-						r = r + H[i][j] * H[j][n];
+						r = r + hessenberg[i][j] * hessenberg[j][n];
 					if( e[i] < 0.0 )
 					{
 						z = w;
@@ -425,28 +431,28 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 					{
 						l = i;
 						if( e[i] == 0.0 )
-							if( w != 0.0 )
-								H[i][n] = -r / w;
+							if( w == 0.0 )
+								hessenberg[i][n] = -r / (eps * norm);
 							else
-								H[i][n] = -r / (eps * norm);
+								hessenberg[i][n] = -r / w;
 						else
 						{
-							x = H[i][i + 1];
-							y = H[i + 1][i];
+							x = hessenberg[i][i + 1];
+							y = hessenberg[i + 1][i];
 							q = (d[i] - p) * (d[i] - p) + e[i] * e[i];
 							t = (x * s - z * r) / q;
-							H[i][n] = t;
+							hessenberg[i][n] = t;
 							if( Math.abs(x) > Math.abs(z) )
-								H[i + 1][n] = (-r - w * t) / x;
+								hessenberg[i + 1][n] = (-r - w * t) / x;
 							else
-								H[i + 1][n] = (-s - y * t) / z;
+								hessenberg[i + 1][n] = (-s - y * t) / z;
 						}
 
 						// Overflow control
-						t = Math.abs(H[i][n]);
+						t = Math.abs(hessenberg[i][n]);
 						if( (eps * t) * t > 1 )
 							for(int j = i; j <= n; j++)
-								H[j][n] = H[j][n] / t;
+								hessenberg[j][n] = hessenberg[j][n] / t;
 					}
 				}
 
@@ -457,19 +463,19 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 				int l = n - 1;
 
 				// Last vector component imaginary so matrix is triangular
-				if( Math.abs(H[n][n - 1]) > Math.abs(H[n - 1][n]) )
+				if( Math.abs(hessenberg[n][n - 1]) > Math.abs(hessenberg[n - 1][n]) )
 				{
-					H[n - 1][n - 1] = q / H[n][n - 1];
-					H[n - 1][n] = -(H[n][n] - p) / H[n][n - 1];
+					hessenberg[n - 1][n - 1] = q / hessenberg[n][n - 1];
+					hessenberg[n - 1][n] = -(hessenberg[n][n] - p) / hessenberg[n][n - 1];
 				}
 				else
 				{
-					cdiv(0.0, -H[n - 1][n], H[n - 1][n - 1] - p, q);
-					H[n - 1][n - 1] = cdivr.getValue();
-					H[n - 1][n] = cdivi.getValue();
+					cdiv(0.0, -hessenberg[n - 1][n], hessenberg[n - 1][n - 1] - p, q);
+					hessenberg[n - 1][n - 1] = cdivr.getValue();
+					hessenberg[n - 1][n] = cdivi.getValue();
 				}
-				H[n][n - 1] = 0.0;
-				H[n][n] = 1.0;
+				hessenberg[n][n - 1] = 0.0;
+				hessenberg[n][n] = 1.0;
 				for(int i = n - 2; i >= 0; i--)
 				{
 					double ra;
@@ -480,10 +486,10 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 					sa = 0.0;
 					for(int j = l; j <= n; j++)
 					{
-						ra = ra + H[i][j] * H[j][n - 1];
-						sa = sa + H[i][j] * H[j][n];
+						ra = ra + hessenberg[i][j] * hessenberg[j][n - 1];
+						sa = sa + hessenberg[i][j] * hessenberg[j][n];
 					}
-					w = H[i][i] - p;
+					w = hessenberg[i][i] - p;
 
 					if( e[i] < 0.0 )
 					{
@@ -497,42 +503,42 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 						if( e[i] == 0 )
 						{
 							cdiv(-ra, -sa, w, q);
-							H[i][n - 1] = cdivr.getValue();
-							H[i][n] = cdivi.getValue();
+							hessenberg[i][n - 1] = cdivr.getValue();
+							hessenberg[i][n] = cdivi.getValue();
 						}
 						else
 						{
 							// Solve complex equations
-							x = H[i][i + 1];
-							y = H[i + 1][i];
+							x = hessenberg[i][i + 1];
+							y = hessenberg[i + 1][i];
 							vr = (d[i] - p) * (d[i] - p) + e[i] * e[i] - q * q;
 							vi = (d[i] - p) * 2.0 * q;
 							if( vr == 0.0 & vi == 0.0 )
-								vr = eps * norm * (Math.abs(w) + Math.abs(q) +
-										Math.abs(x) + Math.abs(y) + Math.abs(z));
+								vr = eps * norm * (Math.abs(w) + Math.abs(q)
+										+ Math.abs(x) + Math.abs(y) + Math.abs(z));
 							cdiv(x * r - z * ra + q * sa, x * s - z * sa - q * ra, vr, vi);
-							H[i][n - 1] = cdivr.getValue();
-							H[i][n] = cdivi.getValue();
+							hessenberg[i][n - 1] = cdivr.getValue();
+							hessenberg[i][n] = cdivi.getValue();
 							if( Math.abs(x) > (Math.abs(z) + Math.abs(q)) )
 							{
-								H[i + 1][n - 1] = (-ra - w * H[i][n - 1] + q * H[i][n]) / x;
-								H[i + 1][n] = (-sa - w * H[i][n] - q * H[i][n - 1]) / x;
+								hessenberg[i + 1][n - 1] = (-ra - w * hessenberg[i][n - 1] + q * hessenberg[i][n]) / x;
+								hessenberg[i + 1][n] = (-sa - w * hessenberg[i][n] - q * hessenberg[i][n - 1]) / x;
 							}
 							else
 							{
-								cdiv(-r - y * H[i][n - 1], -s - y * H[i][n], z, q);
-								H[i + 1][n - 1] = cdivr.getValue();
-								H[i + 1][n] = cdivi.getValue();
+								cdiv(-r - y * hessenberg[i][n - 1], -s - y * hessenberg[i][n], z, q);
+								hessenberg[i + 1][n - 1] = cdivr.getValue();
+								hessenberg[i + 1][n] = cdivi.getValue();
 							}
 						}
 
 						// Overflow control
-						t = Math.max(Math.abs(H[i][n - 1]), Math.abs(H[i][n]));
+						t = Math.max(Math.abs(hessenberg[i][n - 1]), Math.abs(hessenberg[i][n]));
 						if( (eps * t) * t > 1 )
 							for(int j = i; j <= n; j++)
 							{
-								H[j][n - 1] = H[j][n - 1] / t;
-								H[j][n] = H[j][n] / t;
+								hessenberg[j][n - 1] = hessenberg[j][n - 1] / t;
+								hessenberg[j][n] = hessenberg[j][n] / t;
 							}
 					}
 				}
@@ -542,7 +548,7 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 		// Vectors of isolated roots
 		for(int i = 0; i < nn; i++)
 			if( i < low | i > high )
-				System.arraycopy(H[i], i, V[i], i, nn - i);
+				System.arraycopy(hessenberg[i], i, eigenVectors[i], i, nn - i);
 
 		// Back transformation to get eigenvectors of original matrix
 		for(int j = nn - 1; j >= low; j--)
@@ -550,8 +556,8 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 			{
 				z = 0.0;
 				for(int k = low; k <= Math.min(j, high); k++)
-					z = z + V[i][k] * H[k][j];
-				V[i][j] = z;
+					z = z + eigenVectors[i][k] * hessenberg[k][j];
+				eigenVectors[i][j] = z;
 			}
 
 		this.realEigenvalues = new ArrayList<RealNumber>(d.length);
@@ -560,45 +566,49 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 		this.imaginaryEigenvalues = new ArrayList<RealNumber>(e.length);
 		for(final double imaginaryValue : e)
 			this.imaginaryEigenvalues.add(new RealNumber(imaginaryValue));
-		this.matrix = new SimpleRealMatrix(V);
-		this.hessenbergMatrix = new SimpleRealMatrix(H);
+		this.matrix = new SimpleRealMatrix(eigenVectors);
+		this.hessenbergMatrix = new SimpleRealMatrix(hessenberg);
 	}
 
 	/**
-	 * Return the eigenvector matrix
+	 * Return the eigenvector matrix.
 	 *
 	 * @return matrixElements
 	 */
+	@Override
 	public RealMatrix getMatrix()
 	{
 		return this.matrix;
 	}
 
 	/**
-	 * Return the real parts of the eigenvalues
+	 * Return the real parts of the eigenvalues.
 	 *
 	 * @return real(diag(D))
 	 */
+	@Override
 	public List<RealNumber> getRealEigenvalues()
 	{
 		return Collections.unmodifiableList(this.realEigenvalues);
 	}
 
 	/**
-	 * Return the imaginary parts of the eigenvalues
+	 * Return the imaginary parts of the eigenvalues.
 	 *
 	 * @return imag(diag(D))
 	 */
+	@Override
 	public List<RealNumber> getImaginaryEigenvalues()
 	{
 		return Collections.unmodifiableList(this.imaginaryEigenvalues);
 	}
 
 	/**
-	 * Return the block diagonal eigenvalue matrix
+	 * Return the block diagonal eigenvalue matrix.
 	 *
 	 * @return D
 	 */
+	@Override
 	public RealMatrix getBlockDiagonalMatrix()
 	{
 		final int n = this.getDimensionSize();
@@ -609,17 +619,17 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
 		for(int valueIndex = 0; valueIndex < d.length; valueIndex++)
 			e[valueIndex] = this.imaginaryEigenvalues.get(valueIndex).getValue();
 
-		final double[][] D = new double[n][n];
+		final double[][] blockDiagonalMatrix = new double[n][n];
 		for(int i = 0; i < n; i++)
 		{
 			for(int j = 0; j < n; j++)
-				D[i][j] = 0.0;
-			D[i][i] = d[i];
+				blockDiagonalMatrix[i][j] = 0.0;
+			blockDiagonalMatrix[i][i] = d[i];
 			if( e[i] > 0 )
-				D[i][i + 1] = e[i];
+				blockDiagonalMatrix[i][i + 1] = e[i];
 			else if( e[i] < 0 )
-				D[i][i - 1] = e[i];
+				blockDiagonalMatrix[i][i - 1] = e[i];
 		}
-		return new SimpleRealMatrix(D);
+		return new SimpleRealMatrix(blockDiagonalMatrix);
 	}
 }

@@ -18,8 +18,11 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.*;
-import com.syncleus.dann.graph.cycle.*;
+import com.syncleus.dann.graph.cycle.CycleFinder;
+import com.syncleus.dann.graph.cycle.ExhaustiveDepthFirstSearchCycleFinder;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public abstract class AbstractWalk<N, E extends Edge<N>> implements Walk<N, E>
 {
@@ -45,22 +48,26 @@ public abstract class AbstractWalk<N, E extends Edge<N>> implements Walk<N, E>
 		return edgeSteps.get(edgeSteps.size() - 1).getNodes().contains(nodeSteps.get(nextNodeIndex));
 	}
 
+	@Override
 	public boolean isClosed()
 	{
 		return this.getNodeSteps().get(0).equals(this.getNodeSteps().get(this.getNodeSteps().size() - 1));
 	}
 
+	@Override
 	public int getLength()
 	{
 		return this.getSteps().size();
 	}
 
+	@Override
 	public boolean isTrail()
 	{
 		final Set<E> edgeSet = new HashSet<E>(this.getSteps());
 		return edgeSet.size() >= this.getSteps().size();
 	}
 
+	@Override
 	public boolean isTour()
 	{
 		return (this.isTrail()) && (this.isClosed());
@@ -71,6 +78,7 @@ public abstract class AbstractWalk<N, E extends Edge<N>> implements Walk<N, E>
 		return this.getNodeSteps().get(0).equals(this.getNodeSteps().get(this.getNodeSteps().size() - 1));
 	}
 
+	@Override
 	public boolean hasChildCycles()
 	{
 		final Graph<N, E> graph = new ImmutableAdjacencyGraph<N, E>(new HashSet<N>(this.getNodeSteps()), new HashSet<E>(this.getSteps()));

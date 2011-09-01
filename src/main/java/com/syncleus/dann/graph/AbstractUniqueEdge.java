@@ -22,13 +22,13 @@ import java.util.List;
 
 public abstract class AbstractUniqueEdge<N> extends AbstractEdge<N>
 {
-    protected AbstractUniqueEdge()
-    {
+	protected AbstractUniqueEdge()
+	{
 		super();
-    }
+	}
 
-    protected AbstractUniqueEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
-    {
+	protected AbstractUniqueEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
+	{
 		super(allowJoiningMultipleGraphs, contextEnabled);
 	}
 

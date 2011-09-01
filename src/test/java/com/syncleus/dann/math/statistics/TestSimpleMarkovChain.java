@@ -25,7 +25,7 @@ import org.apache.log4j.*;
 public class TestSimpleMarkovChain
 {
 	private static enum WeatherState
-    {
+	{
 		RAINY, SUNNY
 	}
 
@@ -58,7 +58,7 @@ public class TestSimpleMarkovChain
 		LOGGER.info("transition rows: " + simpleChain.getTransitionProbabilityRows());
 		LOGGER.info("transition matrix: " + simpleChain.getTransitionProbabilityMatrix());
         LOGGER.info("steady state: " + simpleChain.getSteadyStateProbability(WeatherState.SUNNY) + " , " + simpleChain.getSteadyStateProbability(WeatherState.RAINY));
-        
+
 		Assert.assertTrue("Sunny steady state incorrect: " + simpleChain.getSteadyStateProbability(WeatherState.SUNNY), Math.abs(simpleChain.getSteadyStateProbability(WeatherState.SUNNY) - 0.83333333333) < 0.0001);
 		Assert.assertTrue("Rainy steady state incorrect: " + simpleChain.getSteadyStateProbability(WeatherState.RAINY), Math.abs(simpleChain.getSteadyStateProbability(WeatherState.RAINY) - 0.16666666666) < 0.0001);
 		Assert.assertTrue("Sunny 1 step incorrect: " + simpleChain.getProbability(WeatherState.SUNNY, 1), Math.abs(simpleChain.getProbability(WeatherState.SUNNY, 1) - 0.9) < 0.0001);
