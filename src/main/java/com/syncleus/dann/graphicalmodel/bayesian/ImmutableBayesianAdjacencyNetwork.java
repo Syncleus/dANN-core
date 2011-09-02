@@ -26,8 +26,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import com.syncleus.dann.graph.DirectedEdge;
+import com.syncleus.dann.graphicalmodel.AbstractGraphicalModelAdjacencyGraph;
+import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
 
-public class ImmutableBayesianAdjacencyNetwork<N extends BayesianNode, E extends BayesianEdge<N>> extends AbstractBayesianAdjacencyNetwork<N, E>
+public class ImmutableBayesianAdjacencyNetwork<N extends GraphicalModelNode, E extends DirectedEdge<N>> extends AbstractGraphicalModelAdjacencyGraph<N, E>
 {
 	private static final long serialVersionUID = -2944480631125238463L;
 

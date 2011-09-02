@@ -19,6 +19,10 @@
 package com.syncleus.dann.graphicalmodel.bayesian;
 
 import java.util.*;
+import com.syncleus.dann.graph.DirectedEdge;
+import com.syncleus.dann.graph.ImmutableDirectedEdge;
+import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
+import com.syncleus.dann.graphicalmodel.SimpleGraphicalModelNode;
 import org.junit.*;
 
 public class TestSimpleBayesianNetwork
@@ -32,13 +36,13 @@ public class TestSimpleBayesianNetwork
 	public void testDependentNode()
 	{
 		final MutableBayesianAdjacencyNetwork network = new MutableBayesianAdjacencyNetwork();
-		final BayesianNode<SimpleEnum> parentNode = new SimpleBayesianNode<SimpleEnum>(SimpleEnum.TRUE);
-		final BayesianNode<SimpleEnum> childNode = new SimpleBayesianNode<SimpleEnum>(SimpleEnum.TRUE);
+		final GraphicalModelNode<SimpleEnum> parentNode = new SimpleGraphicalModelNode<SimpleEnum>(SimpleEnum.TRUE);
+		final GraphicalModelNode<SimpleEnum> childNode = new SimpleGraphicalModelNode<SimpleEnum>(SimpleEnum.TRUE);
 
 		network.add(parentNode);
 		network.add(childNode);
 
-		final BayesianEdge<BayesianNode> testEdge = new SimpleBayesianEdge<BayesianNode>(parentNode, childNode);
+		final DirectedEdge<GraphicalModelNode> testEdge = new ImmutableDirectedEdge<GraphicalModelNode>(parentNode, childNode);
 		network.add(testEdge);
 
 		parentNode.setState(SimpleEnum.TRUE);
@@ -57,9 +61,9 @@ public class TestSimpleBayesianNetwork
 		childNode.setState(SimpleEnum.FALSE);
 		network.learnStates();
 
-		final Set<BayesianNode> goals = new HashSet<BayesianNode>();
+		final Set<GraphicalModelNode> goals = new HashSet<GraphicalModelNode>();
 		goals.add(childNode);
-		final Set<BayesianNode> influences = new HashSet<BayesianNode>();
+		final Set<GraphicalModelNode> influences = new HashSet<GraphicalModelNode>();
 		influences.add(parentNode);
 
 		parentNode.setState(SimpleEnum.TRUE);

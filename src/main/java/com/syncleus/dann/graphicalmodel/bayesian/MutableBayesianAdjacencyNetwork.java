@@ -22,10 +22,13 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import com.syncleus.dann.graph.DirectedEdge;
 import com.syncleus.dann.graph.context.ContextGraphElement;
 import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graphicalmodel.AbstractGraphicalModelAdjacencyGraph;
+import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
 
-public class MutableBayesianAdjacencyNetwork<N extends BayesianNode, E extends BayesianEdge<N>> extends AbstractBayesianAdjacencyNetwork<N, E> implements MutableBayesianNetwork<N, E>
+public class MutableBayesianAdjacencyNetwork<N extends GraphicalModelNode, E extends DirectedEdge<N>> extends AbstractGraphicalModelAdjacencyGraph<N, E> implements MutableBayesianNetwork<N, E>
 {
 	private static final long serialVersionUID = -7951102585507791756L;
 

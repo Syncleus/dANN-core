@@ -16,8 +16,11 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graphicalmodel.bayesian;
+package com.syncleus.dann.graphicalmodel;
 
+import com.syncleus.dann.graph.DirectedEdge;
+import com.syncleus.dann.graph.ImmutableDirectedEdge;
+import com.syncleus.dann.graphicalmodel.bayesian.MutableBayesianAdjacencyNetwork;
 import org.junit.*;
 
 public class TestSimpleBayesianNode
@@ -31,7 +34,7 @@ public class TestSimpleBayesianNode
 	public void testSingleNode()
 	{
 		final MutableBayesianAdjacencyNetwork network = new MutableBayesianAdjacencyNetwork();
-		final BayesianNode<SimpleEnum> testNode = new SimpleBayesianNode<SimpleEnum>(SimpleEnum.TRUE);
+		final GraphicalModelNode<SimpleEnum> testNode = new SimpleGraphicalModelNode<SimpleEnum>(SimpleEnum.TRUE);
 
 		network.add(testNode);
 
@@ -57,13 +60,13 @@ public class TestSimpleBayesianNode
 	public void testDependentNode()
 	{
 		final MutableBayesianAdjacencyNetwork network = new MutableBayesianAdjacencyNetwork();
-		final BayesianNode<SimpleEnum> parentNode = new SimpleBayesianNode<SimpleEnum>(SimpleEnum.TRUE);
-		final BayesianNode<SimpleEnum> childNode = new SimpleBayesianNode<SimpleEnum>(SimpleEnum.TRUE);
+		final GraphicalModelNode<SimpleEnum> parentNode = new SimpleGraphicalModelNode<SimpleEnum>(SimpleEnum.TRUE);
+		final GraphicalModelNode<SimpleEnum> childNode = new SimpleGraphicalModelNode<SimpleEnum>(SimpleEnum.TRUE);
 
 		network.add(parentNode);
 		network.add(childNode);
 
-		final BayesianEdge<BayesianNode<SimpleEnum>> testEdge = new SimpleBayesianEdge<BayesianNode<SimpleEnum>>(parentNode, childNode);
+		final DirectedEdge<GraphicalModelNode<SimpleEnum>> testEdge = new ImmutableDirectedEdge<GraphicalModelNode<SimpleEnum>>(parentNode, childNode);
 		network.add(testEdge);
 
 		parentNode.setState(SimpleEnum.TRUE);
@@ -84,18 +87,18 @@ public class TestSimpleBayesianNode
 
 		parentNode.setState(SimpleEnum.TRUE);
 		childNode.setState(SimpleEnum.TRUE);
-		Assert.assertTrue("bad state probability (TRUE,TRUE)!", Math.abs(childNode.stateProbability() - 0.25) < 0.0001);
+		Assert.assertTrue("bad state probability (TRUE,TRUE)! stateProbability: " + childNode.stateProbability(), Math.abs(childNode.stateProbability() - 0.25) < 0.0001);
 
 		parentNode.setState(SimpleEnum.TRUE);
 		childNode.setState(SimpleEnum.FALSE);
-		Assert.assertTrue("bad state probability (TRUE,FALSE)!", Math.abs(childNode.stateProbability() - 0.75) < 0.0001);
+		Assert.assertTrue("bad state probability (TRUE,FALSE)!: " + childNode.stateProbability(), Math.abs(childNode.stateProbability() - 0.75) < 0.0001);
 
 		parentNode.setState(SimpleEnum.FALSE);
 		childNode.setState(SimpleEnum.TRUE);
-		Assert.assertTrue("bad state probability (FALSE,TRUE)!", Math.abs(childNode.stateProbability() - 0.75) < 0.0001);
+		Assert.assertTrue("bad state probability (FALSE,TRUE)!: " + childNode.stateProbability(), Math.abs(childNode.stateProbability() - 0.75) < 0.0001);
 
 		parentNode.setState(SimpleEnum.FALSE);
 		childNode.setState(SimpleEnum.FALSE);
-		Assert.assertTrue("bad state probability (FALSE,FALSE)!", Math.abs(childNode.stateProbability() - 0.25) < 0.0001);
+		Assert.assertTrue("bad state probability (FALSE,FALSE)!: " + childNode.stateProbability(), Math.abs(childNode.stateProbability() - 0.25) < 0.0001);
 	}
 }

@@ -19,6 +19,10 @@
 package com.syncleus.dann.graphicalmodel.bayesian;
 
 import java.util.HashSet;
+import com.syncleus.dann.graph.DirectedEdge;
+import com.syncleus.dann.graph.ImmutableDirectedEdge;
+import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
+import com.syncleus.dann.graphicalmodel.SimpleGraphicalModelNode;
 import org.junit.*;
 
 /**
@@ -54,36 +58,36 @@ public class TestSimpleBooleanNetwork
 	 */
 	private static class SimpleBooleanNetwork<I> extends MutableBayesianAdjacencyNetwork
 	{
-		private final HashSet<BayesianNode> goals;
-		private final HashSet<BayesianNode> influences;
+		private final HashSet<GraphicalModelNode> goals;
+		private final HashSet<GraphicalModelNode> influences;
 		//create nodes
-		private final BayesianNode<I> influence;
-		private final BayesianNode<BooleanState> goal;
+		private final GraphicalModelNode<I> influence;
+		private final GraphicalModelNode<BooleanState> goal;
 		private static final long serialVersionUID = -5435852374754248557L;
 
 		public SimpleBooleanNetwork(final I initialState)
 		{
 			super();
-			this.influence = new SimpleBayesianNode<I>(initialState);
-			this.goal = new SimpleBayesianNode<BooleanState>(BooleanState.FALSE);
-			this.goals = new HashSet<BayesianNode>();
-			this.influences = new HashSet<BayesianNode>();
+			this.influence = new SimpleGraphicalModelNode<I>(initialState);
+			this.goal = new SimpleGraphicalModelNode<BooleanState>(BooleanState.FALSE);
+			this.goals = new HashSet<GraphicalModelNode>();
+			this.influences = new HashSet<GraphicalModelNode>();
 			//add nodes
 			add(this.influence);
 			add(this.goal);
 			//connect nodes
-			final BayesianEdge<BayesianNode> testEdge = new SimpleBayesianEdge<BayesianNode>(this.influence, this.goal);
+			final DirectedEdge<GraphicalModelNode> testEdge = new ImmutableDirectedEdge<GraphicalModelNode>(this.influence, this.goal);
 			this.add(testEdge);
 			goals.add(this.goal);
 			influences.add(this.influence);
 		}
 
-		public BayesianNode<BooleanState> getGoal()
+		public GraphicalModelNode<BooleanState> getGoal()
 		{
 			return this.goal;
 		}
 
-		public BayesianNode<I> getInfluence()
+		public GraphicalModelNode<I> getInfluence()
 		{
 			return this.influence;
 		}

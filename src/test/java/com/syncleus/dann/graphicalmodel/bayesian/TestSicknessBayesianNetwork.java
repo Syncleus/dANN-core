@@ -21,6 +21,9 @@ package com.syncleus.dann.graphicalmodel.bayesian;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.*;
+import com.syncleus.dann.graph.ImmutableDirectedEdge;
+import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
+import com.syncleus.dann.graphicalmodel.SimpleGraphicalModelNode;
 import com.syncleus.dann.graphicalmodel.bayesian.xml.BayesianNetworkXml;
 import org.junit.*;
 import javax.xml.bind.*;
@@ -55,12 +58,12 @@ public class TestSicknessBayesianNetwork
 	private static final Random RANDOM = new Random();
 	private MutableBayesianAdjacencyNetwork network = new MutableBayesianAdjacencyNetwork();
 	//create nodes
-	private BayesianNode<SeasonState> season = new SimpleBayesianNode<SeasonState>(SeasonState.WINTER);
-	private BayesianNode<AgeState> age = new SimpleBayesianNode<AgeState>(AgeState.BABY);
-	private BayesianNode<BooleanState> stuffyNose = new SimpleBayesianNode<BooleanState>(BooleanState.TRUE);
-	private BayesianNode<FeverState> fever = new SimpleBayesianNode<FeverState>(FeverState.HOT);
-	private BayesianNode<BooleanState> tired = new SimpleBayesianNode<BooleanState>(BooleanState.FALSE);
-	private BayesianNode<BooleanState> sick = new SimpleBayesianNode<BooleanState>(BooleanState.FALSE);
+	private GraphicalModelNode<SeasonState> season = new SimpleGraphicalModelNode<SeasonState>(SeasonState.WINTER);
+	private GraphicalModelNode<AgeState> age = new SimpleGraphicalModelNode<AgeState>(AgeState.BABY);
+	private GraphicalModelNode<BooleanState> stuffyNose = new SimpleGraphicalModelNode<BooleanState>(BooleanState.TRUE);
+	private GraphicalModelNode<FeverState> fever = new SimpleGraphicalModelNode<FeverState>(FeverState.HOT);
+	private GraphicalModelNode<BooleanState> tired = new SimpleGraphicalModelNode<BooleanState>(BooleanState.FALSE);
+	private GraphicalModelNode<BooleanState> sick = new SimpleGraphicalModelNode<BooleanState>(BooleanState.FALSE);
 
 	@Test
 	public void testXml() throws Exception
@@ -91,12 +94,12 @@ public class TestSicknessBayesianNetwork
 			testOverall();
 
 			this.network = new MutableBayesianAdjacencyNetwork();
-			this.season = new SimpleBayesianNode<SeasonState>(SeasonState.WINTER);
-			this.age = new SimpleBayesianNode<AgeState>(AgeState.BABY);
-			this.stuffyNose = new SimpleBayesianNode<BooleanState>(BooleanState.TRUE);
-			this.fever = new SimpleBayesianNode<FeverState>(FeverState.HOT);
-			this.tired = new SimpleBayesianNode<BooleanState>(BooleanState.FALSE);
-			this.sick = new SimpleBayesianNode<BooleanState>(BooleanState.FALSE);
+			this.season = new SimpleGraphicalModelNode<SeasonState>(SeasonState.WINTER);
+			this.age = new SimpleGraphicalModelNode<AgeState>(AgeState.BABY);
+			this.stuffyNose = new SimpleGraphicalModelNode<BooleanState>(BooleanState.TRUE);
+			this.fever = new SimpleGraphicalModelNode<FeverState>(FeverState.HOT);
+			this.tired = new SimpleGraphicalModelNode<BooleanState>(BooleanState.FALSE);
+			this.sick = new SimpleGraphicalModelNode<BooleanState>(BooleanState.FALSE);
 		}
 	}
 
@@ -111,27 +114,27 @@ public class TestSicknessBayesianNetwork
 		network.add(this.tired);
 		network.add(this.sick);
 		//connect nodes
-		network.add(new SimpleBayesianEdge<BayesianNode>(this.season, this.stuffyNose));
-		network.add(new SimpleBayesianEdge<BayesianNode>(this.season, this.fever));
-		network.add(new SimpleBayesianEdge<BayesianNode>(this.season, this.tired));
-		network.add(new SimpleBayesianEdge<BayesianNode>(this.season, this.sick));
-		network.add(new SimpleBayesianEdge<BayesianNode>(this.age, this.stuffyNose));
-		network.add(new SimpleBayesianEdge<BayesianNode>(this.age, this.fever));
-		network.add(new SimpleBayesianEdge<BayesianNode>(this.age, this.tired));
-		network.add(new SimpleBayesianEdge<BayesianNode>(this.age, this.sick));
-		network.add(new SimpleBayesianEdge<BayesianNode>(this.tired, this.fever));
-		network.add(new SimpleBayesianEdge<BayesianNode>(this.tired, this.stuffyNose));
-		network.add(new SimpleBayesianEdge<BayesianNode>(this.tired, this.sick));
-		network.add(new SimpleBayesianEdge<BayesianNode>(this.stuffyNose, this.fever));
-		network.add(new SimpleBayesianEdge<BayesianNode>(this.stuffyNose, this.sick));
-		network.add(new SimpleBayesianEdge<BayesianNode>(this.fever, this.sick));
+		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.season, this.stuffyNose));
+		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.season, this.fever));
+		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.season, this.tired));
+		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.season, this.sick));
+		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.age, this.stuffyNose));
+		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.age, this.fever));
+		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.age, this.tired));
+		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.age, this.sick));
+		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.tired, this.fever));
+		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.tired, this.stuffyNose));
+		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.tired, this.sick));
+		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.stuffyNose, this.fever));
+		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.stuffyNose, this.sick));
+		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.fever, this.sick));
 		//let the network learn
 		for(int sampleCount = 0; sampleCount < 10; sampleCount++)
 			this.sampleState();
 		//lets check some probabilities
-		final Set<BayesianNode> goals = new HashSet<BayesianNode>();
+		final Set<GraphicalModelNode> goals = new HashSet<GraphicalModelNode>();
 		goals.add(this.sick);
-		final Set<BayesianNode> influences = new HashSet<BayesianNode>();
+		final Set<GraphicalModelNode> influences = new HashSet<GraphicalModelNode>();
 		influences.add(this.fever);
 		sick.setState(BooleanState.TRUE);
 		fever.setState(FeverState.LOW);

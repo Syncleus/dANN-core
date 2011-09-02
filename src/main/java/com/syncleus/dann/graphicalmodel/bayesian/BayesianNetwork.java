@@ -18,12 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.bayesian;
 
-import java.util.Set;
-import com.syncleus.dann.graph.BidirectedGraph;
+import com.syncleus.dann.graph.DirectedEdge;
+import com.syncleus.dann.graphicalmodel.GraphicalModel;
+import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
 
-public interface BayesianNetwork<N extends BayesianNode, E extends BayesianEdge<N>> extends BidirectedGraph<N, E>
+public interface BayesianNetwork<N extends GraphicalModelNode, E extends DirectedEdge<N>> extends GraphicalModel<N, E>
 {
-	void learnStates();
-	double jointProbability();
-	double conditionalProbability(Set<N> goals, Set<N> influences);
 }

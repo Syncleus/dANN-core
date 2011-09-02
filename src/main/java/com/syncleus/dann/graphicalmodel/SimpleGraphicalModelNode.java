@@ -18,13 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 import com.syncleus.dann.graph.BidirectedEdge;
 import com.syncleus.dann.graph.context.AbstractContextNode;
 import com.syncleus.dann.math.counting.CombinationCounter;
@@ -122,12 +116,15 @@ public class SimpleGraphicalModelNode<S> extends AbstractContextNode<GraphicalMo
 
 		final Map<GraphicalModelNode, Object> inStates = new HashMap<GraphicalModelNode, Object>();
 
-		final Set<BidirectedEdge<GraphicalModelNode<S>>> inEdges = this.getJoinedGraphs().iterator().next().getTraversableEdges(this);
+		final Set<BidirectedEdge<GraphicalModelNode<S>>> inEdges = this.getJoinedGraphs().iterator().next().getAdjacentEdges(this);
 		for(final BidirectedEdge<GraphicalModelNode<S>> inEdge : inEdges)
 		{
 			//if it is traversable to this node it is an influence
-			if( inEdge.isTraversable(this) )
-				inStates.put(inEdge.getTraversableNodes(this).get(0), inEdge.getTraversableNodes(this).get(0).getState());
+			List<GraphicalModelNode<S>> otherNodes = new ArrayList<GraphicalModelNode<S>>(inEdge.getNodes());
+			otherNodes.remove(this);
+			GraphicalModelNode<S> otherNode = otherNodes.get(0);
+			if( inEdge.isTraversable(otherNode) )
+				inStates.put(otherNode, otherNode.getState());
 		}
 
 		return inStates;
@@ -139,10 +136,17 @@ public class SimpleGraphicalModelNode<S> extends AbstractContextNode<GraphicalMo
 		if( !this.isGraphMember() )
 			throw new IllegalStateException("This graphical model node is not currently a member of any network");
 
-		final Set<BidirectedEdge<GraphicalModelNode<S>>> inEdges = this.getJoinedGraphs().iterator().next().getTraversableEdges(this);
+		final Set<BidirectedEdge<GraphicalModelNode<S>>> inEdges = this.getJoinedGraphs().iterator().next().getAdjacentEdges(this);
 		final Set<GraphicalModelNode> inNodes = new HashSet<GraphicalModelNode>();
-		for(final BidirectedEdge<? extends GraphicalModelNode> inEdge : inEdges)
-			inNodes.add((inEdge.getLeftNode().equals(this) ? inEdge.getRightNode() : inEdge.getLeftNode()));
+		for(final BidirectedEdge<GraphicalModelNode<S>> inEdge : inEdges)
+		{
+			//if it is traversable to this node it is an influence
+			List<GraphicalModelNode<S>> otherNodes = new ArrayList<GraphicalModelNode<S>>(inEdge.getNodes());
+			otherNodes.remove(this);
+			GraphicalModelNode<S> otherNode = otherNodes.get(0);
+			if( inEdge.isTraversable(otherNode) )
+				inNodes.add(otherNode);
+		}
 		return Collections.unmodifiableSet(inNodes);
 	}
 

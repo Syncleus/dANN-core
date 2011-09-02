@@ -16,9 +16,10 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graphicalmodel.bayesian;
+package com.syncleus.dann.graphicalmodel;
 
 import java.util.*;
+import com.syncleus.dann.graphicalmodel.bayesian.MutableBayesianAdjacencyNetwork;
 import org.junit.*;
 
 public class TestEvidenceMap
@@ -32,11 +33,11 @@ public class TestEvidenceMap
 	public void testOverall()
 	{
 		final MutableBayesianAdjacencyNetwork network = new MutableBayesianAdjacencyNetwork();
-		final BayesianNode<TestEnum> influence1 = new SimpleBayesianNode<TestEnum>(TestEnum.FALSE);
-		final BayesianNode<TestEnum> influence2 = new SimpleBayesianNode<TestEnum>(TestEnum.FALSE);
-		final BayesianNode<TestEnum> influence3 = new SimpleBayesianNode<TestEnum>(TestEnum.FALSE);
+		final GraphicalModelNode<TestEnum> influence1 = new SimpleGraphicalModelNode<TestEnum>(TestEnum.FALSE);
+		final GraphicalModelNode<TestEnum> influence2 = new SimpleGraphicalModelNode<TestEnum>(TestEnum.FALSE);
+		final GraphicalModelNode<TestEnum> influence3 = new SimpleGraphicalModelNode<TestEnum>(TestEnum.FALSE);
 
-		final Set<BayesianNode> nodes = new HashSet<BayesianNode>();
+		final Set<GraphicalModelNode> nodes = new HashSet<GraphicalModelNode>();
 		nodes.add(influence1);
 		nodes.add(influence2);
 		nodes.add(influence3);
