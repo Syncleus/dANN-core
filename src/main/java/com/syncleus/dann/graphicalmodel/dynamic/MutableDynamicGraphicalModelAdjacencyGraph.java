@@ -16,31 +16,28 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graphicalmodel.bayesian.dynamic;
+package com.syncleus.dann.graphicalmodel.dynamic;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import com.syncleus.dann.graph.context.ContextGraphElement;
+import java.util.*;
+import com.syncleus.dann.graph.BidirectedEdge;
 import com.syncleus.dann.graph.Graph;
-import com.syncleus.dann.graphicalmodel.bayesian.BayesianEdge;
+import com.syncleus.dann.graph.context.ContextGraphElement;
 
-public class MutableDynamicBayesianAdjacencyNetwork<N extends DynamicBayesianNode, E extends BayesianEdge<N>> extends AbstractDynamicBayesianAdjacencyNetwork<N, E> implements MutableDynamicBayesianNetwork<N, E>
+public class MutableDynamicGraphicalModelAdjacencyGraph<N extends DynamicGraphicalModelNode, E extends BidirectedEdge<N>> extends AbstractDynamicGraphicalModel<N, E> implements MutableDynamicGraphicalModel<N, E>
 {
 	private static final long serialVersionUID = -7951102585507791756L;
 
-	public MutableDynamicBayesianAdjacencyNetwork()
+	public MutableDynamicGraphicalModelAdjacencyGraph()
 	{
 		super();
 	}
 
-	public MutableDynamicBayesianAdjacencyNetwork(final Graph<N, E> copyGraph)
+	public MutableDynamicGraphicalModelAdjacencyGraph(final Graph<N, E> copyGraph)
 	{
 		super(copyGraph.getNodes(), copyGraph.getEdges());
 	}
 
-	public MutableDynamicBayesianAdjacencyNetwork(final Set<N> nodes, final Set<E> edges)
+	public MutableDynamicGraphicalModelAdjacencyGraph(final Set<N> nodes, final Set<E> edges)
 	{
 		super(nodes, edges);
 	}
@@ -202,44 +199,44 @@ public class MutableDynamicBayesianAdjacencyNetwork<N extends DynamicBayesianNod
 	}
 
 	@Override
-	public MutableDynamicBayesianAdjacencyNetwork<N, E> cloneAdd(final E newEdge)
+	public MutableDynamicGraphicalModelAdjacencyGraph<N, E> cloneAdd(final E newEdge)
 	{
-		return (MutableDynamicBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newEdge);
+		return (MutableDynamicGraphicalModelAdjacencyGraph<N, E>) super.cloneAdd(newEdge);
 	}
 
 	@Override
-	public MutableDynamicBayesianAdjacencyNetwork<N, E> cloneAdd(final N newNode)
+	public MutableDynamicGraphicalModelAdjacencyGraph<N, E> cloneAdd(final N newNode)
 	{
-		return (MutableDynamicBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newNode);
+		return (MutableDynamicGraphicalModelAdjacencyGraph<N, E>) super.cloneAdd(newNode);
 	}
 
 	@Override
-	public MutableDynamicBayesianAdjacencyNetwork<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
+	public MutableDynamicGraphicalModelAdjacencyGraph<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
 	{
-		return (MutableDynamicBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newNodes, newEdges);
+		return (MutableDynamicGraphicalModelAdjacencyGraph<N, E>) super.cloneAdd(newNodes, newEdges);
 	}
 
 	@Override
-	public MutableDynamicBayesianAdjacencyNetwork<N, E> cloneRemove(final E edgeToRemove)
+	public MutableDynamicGraphicalModelAdjacencyGraph<N, E> cloneRemove(final E edgeToRemove)
 	{
-		return (MutableDynamicBayesianAdjacencyNetwork<N, E>) super.cloneRemove(edgeToRemove);
+		return (MutableDynamicGraphicalModelAdjacencyGraph<N, E>) super.cloneRemove(edgeToRemove);
 	}
 
 	@Override
-	public MutableDynamicBayesianAdjacencyNetwork<N, E> cloneRemove(final N nodeToRemove)
+	public MutableDynamicGraphicalModelAdjacencyGraph<N, E> cloneRemove(final N nodeToRemove)
 	{
-		return (MutableDynamicBayesianAdjacencyNetwork<N, E>) super.cloneRemove(nodeToRemove);
+		return (MutableDynamicGraphicalModelAdjacencyGraph<N, E>) super.cloneRemove(nodeToRemove);
 	}
 
 	@Override
-	public MutableDynamicBayesianAdjacencyNetwork<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
+	public MutableDynamicGraphicalModelAdjacencyGraph<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
 	{
-		return (MutableDynamicBayesianAdjacencyNetwork<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
+		return (MutableDynamicGraphicalModelAdjacencyGraph<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
 	}
 
 	@Override
-	public MutableDynamicBayesianAdjacencyNetwork<N, E> clone()
+	public MutableDynamicGraphicalModelAdjacencyGraph<N, E> clone()
 	{
-		return (MutableDynamicBayesianAdjacencyNetwork<N, E>) super.clone();
+		return (MutableDynamicGraphicalModelAdjacencyGraph<N, E>) super.clone();
 	}
 }

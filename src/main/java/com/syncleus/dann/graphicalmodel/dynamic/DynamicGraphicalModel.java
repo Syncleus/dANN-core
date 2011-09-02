@@ -16,11 +16,12 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graphicalmodel.bayesian.dynamic;
+package com.syncleus.dann.graphicalmodel.dynamic;
 
-import com.syncleus.dann.graph.MutableGraph;
-import com.syncleus.dann.graphicalmodel.bayesian.BayesianEdge;
+import com.syncleus.dann.graph.BidirectedEdge;
+import com.syncleus.dann.graphicalmodel.GraphicalModel;
 
-public interface MutableDynamicBayesianNetwork<N extends DynamicBayesianNode, E extends BayesianEdge<N>> extends DynamicBayesianNetwork<N, E>, MutableGraph<N, E>
+public interface DynamicGraphicalModel<N extends DynamicGraphicalModelNode, E extends BidirectedEdge<N>> extends GraphicalModel<N, E>
 {
+	void learnStates(boolean updateHistory);
 }
