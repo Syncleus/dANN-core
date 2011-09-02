@@ -16,10 +16,12 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graphicalmodel;
+package com.syncleus.dann.graphicalmodel.bayesian;
 
 import com.syncleus.dann.graph.DirectedEdge;
 import com.syncleus.dann.graph.ImmutableDirectedEdge;
+import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
+import com.syncleus.dann.graphicalmodel.SimpleGraphicalModelNode;
 import com.syncleus.dann.graphicalmodel.bayesian.MutableBayesianAdjacencyNetwork;
 import org.junit.*;
 
