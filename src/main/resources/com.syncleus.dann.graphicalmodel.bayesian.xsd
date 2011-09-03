@@ -44,7 +44,7 @@
 
     <!-- Graphs -->
 
-    <!-- BayesianNetwork Element, contains instances -->
+    <!-- MarkovRandomField Element, contains instances -->
     <xsd:element name="BayesianNetwork">
         <xsd:annotation>
             <xsd:appinfo>
@@ -90,7 +90,7 @@
             </xsd:complexContent>
         </xsd:complexType>
     </xsd:element>
-    <!-- BayesianNetwork Type, contains references to instanced objects -->
+    <!-- MarkovRandomField Type, contains references to instanced objects -->
     <xsd:complexType name="BayesianNetwork">
         <xsd:complexContent>
             <xsd:extension base="graph:Graph"/>

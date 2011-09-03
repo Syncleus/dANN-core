@@ -26,7 +26,7 @@ import com.syncleus.dann.graphicalmodel.SimpleGraphicalModelNode;
 import org.junit.*;
 
 /**
- * tests SimpleBooleanNetwork (extending BayesianNetwork)
+ * tests SimpleBooleanNetwork (extending MarkovRandomField)
  */
 public class TestSimpleBooleanNetwork
 {

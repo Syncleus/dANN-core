@@ -16,25 +16,19 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graphicalmodel.bayesian;
+package com.syncleus.dann.graphicalmodel.markovrandomfield;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
-import com.syncleus.dann.graph.DirectedEdge;
+import com.syncleus.dann.graph.UndirectedEdge;
 import com.syncleus.dann.graphicalmodel.AbstractGraphicalModelAdjacencyGraph;
 import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
 
-public class ImmutableBayesianAdjacencyNetwork<N extends GraphicalModelNode, E extends DirectedEdge<N>> extends AbstractGraphicalModelAdjacencyGraph<N, E>
+public class ImmutableMarkovRandomFieldAdjacencyGraph<N extends GraphicalModelNode, E extends UndirectedEdge<N>> extends AbstractGraphicalModelAdjacencyGraph<N, E>
 {
 	private static final long serialVersionUID = -2944480631125238463L;
 
-	public ImmutableBayesianAdjacencyNetwork()
+	public ImmutableMarkovRandomFieldAdjacencyGraph()
 	{
 		super();
 	}
@@ -47,7 +41,7 @@ public class ImmutableBayesianAdjacencyNetwork<N extends GraphicalModelNode, E e
 	}
 	*/
 
-	public ImmutableBayesianAdjacencyNetwork(final Set<N> nodes, final Set<E> edges)
+	public ImmutableMarkovRandomFieldAdjacencyGraph(final Set<N> nodes, final Set<E> edges)
 	{
 		super(nodes, edges);
 	}
@@ -77,44 +71,44 @@ public class ImmutableBayesianAdjacencyNetwork<N extends GraphicalModelNode, E e
 	}
 
 	@Override
-	public ImmutableBayesianAdjacencyNetwork<N, E> cloneAdd(final E newEdge)
+	public ImmutableMarkovRandomFieldAdjacencyGraph<N, E> cloneAdd(final E newEdge)
 	{
-		return (ImmutableBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newEdge);
+		return (ImmutableMarkovRandomFieldAdjacencyGraph<N, E>) super.cloneAdd(newEdge);
 	}
 
 	@Override
-	public ImmutableBayesianAdjacencyNetwork<N, E> cloneAdd(final N newNode)
+	public ImmutableMarkovRandomFieldAdjacencyGraph<N, E> cloneAdd(final N newNode)
 	{
-		return (ImmutableBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newNode);
+		return (ImmutableMarkovRandomFieldAdjacencyGraph<N, E>) super.cloneAdd(newNode);
 	}
 
 	@Override
-	public ImmutableBayesianAdjacencyNetwork<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
+	public ImmutableMarkovRandomFieldAdjacencyGraph<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
 	{
-		return (ImmutableBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newNodes, newEdges);
+		return (ImmutableMarkovRandomFieldAdjacencyGraph<N, E>) super.cloneAdd(newNodes, newEdges);
 	}
 
 	@Override
-	public ImmutableBayesianAdjacencyNetwork<N, E> cloneRemove(final E edgeToRemove)
+	public ImmutableMarkovRandomFieldAdjacencyGraph<N, E> cloneRemove(final E edgeToRemove)
 	{
-		return (ImmutableBayesianAdjacencyNetwork<N, E>) super.cloneRemove(edgeToRemove);
+		return (ImmutableMarkovRandomFieldAdjacencyGraph<N, E>) super.cloneRemove(edgeToRemove);
 	}
 
 	@Override
-	public ImmutableBayesianAdjacencyNetwork<N, E> cloneRemove(final N nodeToRemove)
+	public ImmutableMarkovRandomFieldAdjacencyGraph<N, E> cloneRemove(final N nodeToRemove)
 	{
-		return (ImmutableBayesianAdjacencyNetwork<N, E>) super.cloneRemove(nodeToRemove);
+		return (ImmutableMarkovRandomFieldAdjacencyGraph<N, E>) super.cloneRemove(nodeToRemove);
 	}
 
 	@Override
-	public ImmutableBayesianAdjacencyNetwork<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
+	public ImmutableMarkovRandomFieldAdjacencyGraph<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
 	{
-		return (ImmutableBayesianAdjacencyNetwork<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
+		return (ImmutableMarkovRandomFieldAdjacencyGraph<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
 	}
 
 	@Override
-	public ImmutableBayesianAdjacencyNetwork<N, E> clone()
+	public ImmutableMarkovRandomFieldAdjacencyGraph<N, E> clone()
 	{
-		return (ImmutableBayesianAdjacencyNetwork<N, E>) super.clone();
+		return (ImmutableMarkovRandomFieldAdjacencyGraph<N, E>) super.clone();
 	}
 }
