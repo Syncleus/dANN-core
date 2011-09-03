@@ -119,8 +119,7 @@ public class SimpleMarkovChain<S> extends AbstractMarkovChain<S>
         //if there is an empty set, representing an undefined starting point, then it is always the first row
 		if(rowHeadersLeft.remove(Collections.<S>emptyList()))
 		{
-			//this.rowMapping.add(Collections.<S>emptyList());
-			throw new RuntimeException("We should never have an empty state as row title");
+			this.rowMapping.add(Collections.<S>emptyList());
 		}
 
 		//first put the rows in order to match the columns
@@ -132,6 +131,11 @@ public class SimpleMarkovChain<S> extends AbstractMarkovChain<S>
 
 			rowHeadersLeft.remove(columnAsHeader);
 			this.rowMapping.add(columnAsHeader);
+		}
+
+		if(rowMapping.contains(Collections.<S>emptyList()))
+		{
+			this.columnMapping.add(0, null);
 		}
 
 		//Now add the remaining rowHeaders

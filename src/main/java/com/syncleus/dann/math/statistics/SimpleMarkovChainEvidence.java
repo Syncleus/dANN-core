@@ -58,11 +58,6 @@ public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S>
 	{
 		final List<S> stateMemory = Collections.unmodifiableList(new ArrayList<S>(stateMemoryCollection));
 
-		if (stateMemory.isEmpty())
-		{
-			return;
-		}
-
 		//get the current evidence for this state
 		StateCounter<S> transitions = this.evidence.get(stateMemory);
 		//if there is no transitions then create a blank one
