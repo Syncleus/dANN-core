@@ -18,9 +18,17 @@
  ******************************************************************************/
 package com.syncleus.dann.math.statistics;
 
-import java.util.*;
-import org.junit.*;
-import org.apache.log4j.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
+import java.util.TreeMap;
+import org.apache.log4j.Logger;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class TestSimpleMarkovChain
 {
