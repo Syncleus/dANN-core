@@ -82,4 +82,55 @@ public class TestSimpleBayesianNetwork
 		childNode.setState(SimpleEnum.FALSE);
 		Assert.assertTrue("bad state probability (FALSE,FALSE)!", Math.abs(network.conditionalProbability(goals, influences) - 0.25) < 0.0001);
 	}
+
+	@Test
+	public void testDependentNodeAsymmetrical()
+	{
+		final MutableBayesianAdjacencyNetwork network = new MutableBayesianAdjacencyNetwork();
+		final GraphicalModelNode<SimpleEnum> parentNode = new SimpleGraphicalModelNode<SimpleEnum>(SimpleEnum.TRUE);
+		final GraphicalModelNode<SimpleEnum> childNode = new SimpleGraphicalModelNode<SimpleEnum>(SimpleEnum.TRUE);
+
+		network.add(parentNode);
+		network.add(childNode);
+
+		final DirectedEdge<GraphicalModelNode> testEdge = new ImmutableDirectedEdge<GraphicalModelNode>(parentNode, childNode);
+		network.add(testEdge);
+
+		parentNode.setState(SimpleEnum.TRUE);
+		childNode.setState(SimpleEnum.FALSE);
+		network.learnStates();
+		network.learnStates();
+		network.learnStates();
+		childNode.setState(SimpleEnum.TRUE);
+		network.learnStates();
+
+		parentNode.setState(SimpleEnum.FALSE);
+		childNode.setState(SimpleEnum.TRUE);
+		network.learnStates();
+		network.learnStates();
+		childNode.setState(SimpleEnum.FALSE);
+		network.learnStates();
+		network.learnStates();
+
+		final Set<GraphicalModelNode> goals = new HashSet<GraphicalModelNode>();
+		goals.add(childNode);
+		final Set<GraphicalModelNode> influences = new HashSet<GraphicalModelNode>();
+		influences.add(parentNode);
+
+		parentNode.setState(SimpleEnum.TRUE);
+		childNode.setState(SimpleEnum.TRUE);
+		Assert.assertTrue("bad state probability (TRUE,TRUE)!", Math.abs(network.conditionalProbability(goals, influences) - 0.25) < 0.0001);
+
+		parentNode.setState(SimpleEnum.TRUE);
+		childNode.setState(SimpleEnum.FALSE);
+		Assert.assertTrue("bad state probability (TRUE,FALSE)!", Math.abs(network.conditionalProbability(goals, influences) - 0.75) < 0.0001);
+
+		parentNode.setState(SimpleEnum.FALSE);
+		childNode.setState(SimpleEnum.TRUE);
+		Assert.assertTrue("bad state probability (FALSE,TRUE)!", Math.abs(network.conditionalProbability(goals, influences) - 0.5) < 0.0001);
+
+		parentNode.setState(SimpleEnum.FALSE);
+		childNode.setState(SimpleEnum.FALSE);
+		Assert.assertTrue("bad state probability (FALSE,FALSE)!", Math.abs(network.conditionalProbability(goals, influences) - 0.5) < 0.0001);
+	}
 }
