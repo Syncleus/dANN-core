@@ -28,7 +28,7 @@ import com.syncleus.dann.graph.Graph;
 import com.syncleus.dann.graphicalmodel.AbstractGraphicalModelAdjacencyGraph;
 import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
 
-public class MutableBayesianAdjacencyNetwork<N extends GraphicalModelNode, E extends DirectedEdge<N>> extends AbstractGraphicalModelAdjacencyGraph<N, E> implements MutableBayesianNetwork<N, E>
+public class MutableBayesianAdjacencyNetwork<N extends GraphicalModelNode, E extends DirectedEdge<N>> extends AbstractBayesianAdjacencyNetwork<N, E> implements MutableBayesianNetwork<N, E>
 {
 	private static final long serialVersionUID = -7951102585507791756L;
 

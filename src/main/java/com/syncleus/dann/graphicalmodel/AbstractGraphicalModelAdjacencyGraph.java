@@ -18,13 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import com.sun.org.apache.xpath.internal.operations.Neg;
 import com.syncleus.dann.graph.*;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 //import com.syncleus.dann.graphicalmodel.bayesian.xml.BayesianNetworkElementXml;
 //import com.syncleus.dann.graphicalmodel.bayesian.xml.BayesianNetworkXml;
 //import com.syncleus.dann.xml.NamedValueXml;
@@ -58,51 +55,68 @@ public abstract class AbstractGraphicalModelAdjacencyGraph<N extends GraphicalMo
 	@Override
 	public double jointProbability()
 	{
-		double probabilityProduct = 1.0;
-		for(final N node : this.getNodes())
-			probabilityProduct *= node.stateProbability();
-		return probabilityProduct;
+		// TODO implement this!
+		throw new NotImplementedException();
 	}
 
 	@Override
 	public double conditionalProbability(final Set<N> goals, final Set<N> influences)
 	{
-		List<N> varyingNodes = new ArrayList<N>(this.getNodes());
-
-		//calculate numerator
-		varyingNodes.removeAll(influences);
-		varyingNodes.removeAll(goals);
-		resetNodeStates(varyingNodes);
-		double numerator = 0.0;
-		do
+		//first we need to preserve a map of all the starting states so we can reset the network back to its starting
+		//point when we are done
+		Map<N, Object> startingStates = new HashMap<N, Object>();
+		for(N node : this.getNodes())
 		{
-			numerator += this.jointProbability();
+			//we wont be changing influences nodes, so we can skip those
+			if( !influences.contains(node) )
+				startingStates.put(node, node.getState());
 		}
-		while( !incrementNodeStates(varyingNodes) );
 
-		//calculate denominator
-		varyingNodes = new ArrayList<N>(this.getNodes());
-		varyingNodes.removeAll(influences);
-		resetNodeStates(varyingNodes);
-		double denominator = 0.0;
-		do
+		try
 		{
-			denominator += this.jointProbability();
-		}
-		while( !incrementNodeStates(varyingNodes) );
+			List<N> varyingNodes = new ArrayList<N>(this.getNodes());
 
-		//all done
-		return numerator / denominator;
+			//calculate numerator
+			varyingNodes.removeAll(influences);
+			varyingNodes.removeAll(goals);
+			resetNodeStates(varyingNodes);
+			double numerator = 0.0;
+			do
+			{
+				numerator += this.jointProbability();
+			}
+			while( !incrementNodeStates(varyingNodes) );
+
+			//calculate denominator
+			varyingNodes = new ArrayList<N>(this.getNodes());
+			varyingNodes.removeAll(influences);
+			resetNodeStates(varyingNodes);
+			double denominator = 0.0;
+			do
+			{
+				denominator += this.jointProbability();
+			}
+			while( !incrementNodeStates(varyingNodes) );
+
+			//all done
+			return numerator / denominator;
+		}
+		finally
+		{
+			//restore the initial states when we are done
+			for(Map.Entry<N,Object> nodeState : startingStates.entrySet())
+				nodeState.getKey().setState(nodeState.getValue());
+		}
 	}
 
 	@SuppressWarnings("unchecked")
-	private static <N extends GraphicalModelNode> void resetNodeStates(final List<N> incNodes)
+	protected static <N extends GraphicalModelNode> void resetNodeStates(final Collection<N> incNodes)
 	{
 		for(final N incNode : incNodes)
 			incNode.setState((incNode.getLearnedStates().toArray())[0]);
 	}
 
-	private static <N extends GraphicalModelNode> boolean incrementNodeStates(final List<N> incNodes)
+	protected static <N extends GraphicalModelNode> boolean incrementNodeStates(final Collection<N> incNodes)
 	{
 		for(final N incNode : incNodes)
 			if( !incrementNodeState(incNode) )
@@ -111,7 +125,7 @@ public abstract class AbstractGraphicalModelAdjacencyGraph<N extends GraphicalMo
 	}
 
 	@SuppressWarnings("unchecked")
-	private static <N extends GraphicalModelNode> boolean incrementNodeState(final N incNode)
+	protected static <N extends GraphicalModelNode> boolean incrementNodeState(final N incNode)
 	{
 		final List stateTypes = Arrays.asList(incNode.getLearnedStates().toArray());
 		final int currentStateIndex = stateTypes.indexOf(incNode.getState());

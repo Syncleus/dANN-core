@@ -22,7 +22,6 @@ import java.util.HashSet;
 import com.syncleus.dann.graph.*;
 import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
 import com.syncleus.dann.graphicalmodel.SimpleGraphicalModelNode;
-import com.syncleus.dann.graphicalmodel.bayesian.MutableBayesianAdjacencyNetwork;
 import org.junit.Assert;
 import org.junit.Test;
 

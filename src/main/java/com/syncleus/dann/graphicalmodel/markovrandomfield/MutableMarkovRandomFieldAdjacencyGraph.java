@@ -22,10 +22,9 @@ import java.util.*;
 import com.syncleus.dann.graph.UndirectedEdge;
 import com.syncleus.dann.graph.Graph;
 import com.syncleus.dann.graph.context.ContextGraphElement;
-import com.syncleus.dann.graphicalmodel.AbstractGraphicalModelAdjacencyGraph;
 import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
 
-public class MutableMarkovRandomFieldAdjacencyGraph<N extends GraphicalModelNode, E extends UndirectedEdge<N>> extends AbstractGraphicalModelAdjacencyGraph<N, E> implements MutableMarkovRandomField<N, E>
+public class MutableMarkovRandomFieldAdjacencyGraph<N extends GraphicalModelNode, E extends UndirectedEdge<N>> extends AbstractMarkovRandomFieldAdjacencyGraph<N, E> implements MutableMarkovRandomField<N, E>
 {
 	private static final long serialVersionUID = -7951102585507791756L;
 

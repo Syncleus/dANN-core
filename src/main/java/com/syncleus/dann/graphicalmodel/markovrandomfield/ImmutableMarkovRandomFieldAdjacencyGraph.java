@@ -21,10 +21,9 @@ package com.syncleus.dann.graphicalmodel.markovrandomfield;
 import java.util.*;
 import java.util.Map.Entry;
 import com.syncleus.dann.graph.UndirectedEdge;
-import com.syncleus.dann.graphicalmodel.AbstractGraphicalModelAdjacencyGraph;
 import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
 
-public class ImmutableMarkovRandomFieldAdjacencyGraph<N extends GraphicalModelNode, E extends UndirectedEdge<N>> extends AbstractGraphicalModelAdjacencyGraph<N, E>
+public class ImmutableMarkovRandomFieldAdjacencyGraph<N extends GraphicalModelNode, E extends UndirectedEdge<N>> extends AbstractMarkovRandomFieldAdjacencyGraph<N, E>
 {
 	private static final long serialVersionUID = -2944480631125238463L;
 

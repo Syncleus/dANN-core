@@ -18,9 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.markovrandomfield;
 
-import java.util.Set;
+import java.util.*;
 import com.syncleus.dann.graph.*;
-import com.syncleus.dann.graph.topological.Topography;
 import com.syncleus.dann.graphicalmodel.AbstractGraphicalModelAdjacencyGraph;
 import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
 
@@ -44,20 +43,42 @@ public abstract class AbstractMarkovRandomFieldAdjacencyGraph<N extends Graphica
 	@Override
 	public double jointProbability()
 	{
-		//First we want to attempt clique factorization
-		//if the graph consists of a single clique, then the joint probability is the probability of any single node.
-		if( Topography.isStronglyConnected(this) )
-			if(!this.getNodes().isEmpty())
-				return this.getNodes().iterator().next().stateProbability();
-			else return 1.0;
+		//first we need to preserve a map of all the starting states so we can reset the network back to its starting
+		//point when we are done
+		Map<N, Object> startingStates = new HashMap<N, Object>();
+		for(N node : this.getNodes())
+			startingStates.put(node, node.getState());
 
-		//otherwise the joint probability is the product of all the cliques' probabilities within this graph
-		Set<Graph<N,E>> cliques = Topography.getMaximallyConnectedComponents(this);
-		double probabilityProduct = 1.0;
-		for(final Graph<N,E> clique : cliques)
+		try
 		{
-			probabilityProduct *= clique.getNodes().iterator().next().stateProbability();
+			final Set<N> seenNodes = new HashSet<N>();
+			double probabilityProduct = 1.0;
+			for(final N node : this.getNodes())
+			{
+				assert !seenNodes.contains(node);
+
+				//if none of its neighbors have been seen, then calculate it normally
+				final Set<N> nodesToVary = new HashSet<N>(seenNodes);
+				nodesToVary.retainAll(this.getAdjacentNodes(node));
+				resetNodeStates(nodesToVary);
+				double nodeStateProbability = 0.0;
+				do
+				{
+					nodeStateProbability += node.stateProbability();
+				}
+				while( !incrementNodeStates(nodesToVary) );
+
+				seenNodes.add(node);
+
+				probabilityProduct *= nodeStateProbability;
+			}
+			return probabilityProduct;
 		}
-		return probabilityProduct;
+		finally
+		{
+			//restore the initial states when we are done
+			for(Map.Entry<N,Object> nodeState : startingStates.entrySet())
+				nodeState.getKey().setState(nodeState.getValue());
+		}
 	}
 }
