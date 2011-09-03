@@ -21,6 +21,8 @@ package com.syncleus.dann.math.statistics;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,50 +45,53 @@ public class SimpleMarkovChain<S> extends AbstractMarkovChain<S>
 
 	public SimpleMarkovChain(final Map<List<S>, Map<S, Double>> transitionProbabilities, final int order, final Set<S> states)
 	{
-		this.history = new ArrayDeque<S>(order);
+		// because we add new states first, and then remove old ones, if there are too many, we need +1
+		this.history = new ArrayDeque<S>(order + 1);
 		this.order = order;
 		this.states = Collections.unmodifiableSet(states);
 		this.rowMapping = new ArrayList<List<S>>();
 
-		final int rows = transitionProbabilities.size();
-		final int columns = this.states.size();
+		final int columns = (this.states.size() > transitionProbabilities.size() ? this.states.size() : transitionProbabilities.size());
+		final int rows = columns;
+
 		final double[][] matrixValues = new double[rows][columns];
 
-		//this.columnMapping = new ArrayList<S>(this.states);  // <-- didnt get the states in the correct order
+		this.columnMapping = new ArrayList<S>(this.states);
 
-		//Generate the column mapping from the first element of each transition probability's entry key (which is a list of states)
-		//iterates through column mapping, matching rowheading leading elements
-		this.columnMapping = new ArrayList<S>();
-		for(final Entry<List<S>, Map<S, Double>> transitionProbability : transitionProbabilities.entrySet())
+
+		Set<List<S>> rowHeadersLeft = new HashSet<List<S>>(transitionProbabilities.keySet());
+
+        //if there is an empty set, representing an undefined starting point, then it is always the first row
+		if(rowHeadersLeft.remove(Collections.<S>emptyList()))
 		{
-			final List<S> rowHeader = Collections.unmodifiableList(new ArrayList<S>(transitionProbability.getKey()));
-
-			S nextColumn;
-			if (rowHeader.isEmpty())
-			{
-				nextColumn = null;
-			}
-			else
-			{
-				nextColumn = rowHeader.get(0);
-			}
-
-			if (!columnMapping.contains(nextColumn))
-			{
-				columnMapping.add(nextColumn);
-			}
+			this.rowMapping.add(Collections.<S>emptyList());
 		}
+
+		//first put the rows in order to match the columns
+		for(S currentColumn : this.columnMapping)
+		{
+			List<S> columnAsHeader = Collections.singletonList(currentColumn);
+
+			assert rowHeadersLeft.contains(columnAsHeader);
+
+			rowHeadersLeft.remove(columnAsHeader);
+			this.rowMapping.add(columnAsHeader);
+		}
+
+		if(rowMapping.contains(Collections.<S>emptyList()))
+		{
+			this.columnMapping.add(0, null);
+		}
+
+		//Now add the remaining rowHeaders
+		this.rowMapping.addAll(rowHeadersLeft);
+		rowHeadersLeft.clear();
 
 		//iterate through all the new rows
 		int row = 0;
-		for(final Entry<List<S>, Map<S, Double>> transitionProbability : transitionProbabilities.entrySet())
+		for(final List<S> rowHeader : rowMapping)
 		{
-			final List<S> rowHeader = Collections.unmodifiableList(new ArrayList<S>(transitionProbability.getKey()));
-			final Map<S, Double> rowTransition = Collections.unmodifiableMap(new LinkedHashMap<S, Double>(transitionProbability.getValue()));
-
-			assert !rowMapping.contains(rowHeader);
-
-			this.rowMapping.add(rowHeader);
+			final Map<S, Double> rowTransition = Collections.unmodifiableMap(new LinkedHashMap<S, Double>(transitionProbabilities.get(rowHeader)));
 
 			double rowSum = 0.0;
 			for(final Entry<S, Double> stateTransition : rowTransition.entrySet())
@@ -201,13 +206,13 @@ public class SimpleMarkovChain<S> extends AbstractMarkovChain<S>
 	{
 		final List<S> currentState = this.getStateHistory();
 		if( (currentState == null) || (currentState.size() <= 0) )
-			throw new IllegalStateException("probability can not be calculated without atleast one transition");
+			throw new IllegalStateException("probability can not be calculated without at least one transition");
 		RealMatrix futureMatrix = this.transitionProbabilityMatrix;
 		for(int currentStep = 0; currentStep < steps - 1; currentStep++)
 			futureMatrix = futureMatrix.multiply(this.transitionProbabilityMatrix);
 		final int row = this.rowMapping.indexOf(currentState);
 		final Map<S, Double> probability = new LinkedHashMap<S, Double>();
-		for(int columnIndex = 0; columnIndex < this.transitionProbabilityMatrix.getWidth(); columnIndex++)
+		for(int columnIndex = 0; columnIndex < this.columnMapping.size(); columnIndex++)
 		{
 			final double transitionProbability = futureMatrix.getDouble(row, columnIndex);
 			final S transitionState = this.columnMapping.get(columnIndex);
@@ -220,40 +225,30 @@ public class SimpleMarkovChain<S> extends AbstractMarkovChain<S>
 	public Map<S, Double> getSteadyStateProbability()
 	{
 		final RealMatrix steadyStateMatrix = this.transitionProbabilityMatrix.subtract(SimpleRealMatrix.identity(this.transitionProbabilityMatrix.getHeight(), this.transitionProbabilityMatrix.getWidth())).flip();
-		final double[][] simultaniousValues = new double[steadyStateMatrix.getHeight()  + 1][steadyStateMatrix.getWidth()];
-		for(int rowIndex = 0; rowIndex < simultaniousValues.length; rowIndex++)
-			for(int columnIndex = 0; columnIndex < simultaniousValues[0].length; columnIndex++)
+		final double[][] simultaneousValues = new double[steadyStateMatrix.getHeight()  + 1][steadyStateMatrix.getWidth()];
+		for(int rowIndex = 0; rowIndex < simultaneousValues.length; rowIndex++)
+			for(int columnIndex = 0; columnIndex < simultaneousValues[0].length; columnIndex++)
 			{
-				if( rowIndex >= simultaniousValues.length - 1 )
-					simultaniousValues[rowIndex][columnIndex] = 1.0;
+				if( rowIndex >= simultaneousValues.length - 1 )
+					simultaneousValues[rowIndex][columnIndex] = 1.0;
 				else
-					simultaniousValues[rowIndex][columnIndex] = steadyStateMatrix.get(rowIndex, columnIndex).doubleValue();
+					simultaneousValues[rowIndex][columnIndex] = steadyStateMatrix.get(rowIndex, columnIndex).doubleValue();
 			}
-		final RealMatrix simultaniousMatrix = new SimpleRealMatrix(simultaniousValues);
+		final RealMatrix simultaneousMatrix = new SimpleRealMatrix(simultaneousValues);
 
-		//System.out.println("steadyState matrix:\n" + steadyStateMatrix.toString());
-		//System.out.println("simultaneous matrix:\n" + simultaniousMatrix.toString());
-
-		final double[][] solutionValues = new double[simultaniousValues.length][1];
-		solutionValues[simultaniousValues.length - 1][0] = 1.0;
+		final double[][] solutionValues = new double[simultaneousValues.length][1];
+		solutionValues[simultaneousValues.length - 1][0] = 1.0;
 		final RealMatrix solutionMatrix = new SimpleRealMatrix(solutionValues);
 
-		//System.out.println("solution matrix:\n" + solutionMatrix.toString());
-
-		final RealMatrix simultaniousSolved = simultaniousMatrix.solve(solutionMatrix);
-
-		//System.out.println("simultaneous solved:\n" + simultaniousSolved.toString());
+		final RealMatrix simultaneousSolved = simultaneousMatrix.solve(solutionMatrix);
 
 		final Map<S, Double> stateProbabilities = new LinkedHashMap<S, Double>();
-		for(int stateIndex = 0; stateIndex < simultaniousSolved.getHeight(); stateIndex++)
+		for(int stateIndex = 0; stateIndex < this.columnMapping.size(); stateIndex++)
 		{
 			final S currentState = this.columnMapping.get(stateIndex);
-			final double currentProbability = simultaniousSolved.get(stateIndex, 0).doubleValue();
+			final double currentProbability = simultaneousSolved.get(stateIndex, 0).doubleValue();
 			stateProbabilities.put(currentState, currentProbability);
 		}
-
-		//System.out.println("xstate probabilities:\n" + stateProbabilities);
-		//System.out.println("---");
 
 		return Collections.unmodifiableMap(stateProbabilities);
 	}

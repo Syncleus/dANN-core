@@ -73,7 +73,7 @@ public class TestSignalProcessingWavelet
 	@Test
 	public void testXorEvolveOnce()
 	{
-		LOGGER.info("begining testXorEvolveOnce");
+		LOGGER.debug("begining testXorEvolveOnce");
 		final TreeMap<Double, SignalProcessingWavelet> population = new TreeMap<Double, SignalProcessingWavelet>();
 		//initialize the population
 		LOGGER.info("Initializing population");
@@ -89,7 +89,7 @@ public class TestSignalProcessingWavelet
 			LOGGER.debug("Initialized " + population.size() + " members, last members fitness: " + initialFitness);
 		}
 		//run through several generations
-		LOGGER.info("population initalized, proceeding with generations");
+		LOGGER.debug("population initalized, proceeding with generations");
 		int generationIndex;
 		for(generationIndex = 0; (generationIndex < GENERATIONS) && (population.lastKey() < 4.0); generationIndex++)
 		{
@@ -112,7 +112,7 @@ public class TestSignalProcessingWavelet
 			}
 		}
 		final double bestFitness = population.lastKey();
-		LOGGER.info("evolution completed in " + generationIndex + " generations.");
+		LOGGER.debug("evolution completed in " + generationIndex + " generations.");
 		if( bestFitness < 4.0 )
 			LOGGER.warn("did not successfully match XOR truth table: fitness: " + bestFitness);
 		Assert.assertTrue("did not successfully match XOR truth table: fitness: " + bestFitness, bestFitness >= 4.0);

@@ -18,9 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.math.statistics;
 
-import java.util.*;
-import org.junit.*;
-import org.apache.log4j.*;
+import java.util.Random;
+import org.apache.log4j.Logger;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class TestSimpleMarkovChainEvidence
 {
@@ -78,11 +79,11 @@ public class TestSimpleMarkovChainEvidence
 
         LOGGER.info("steady state: " + simpleChain.getSteadyStateProbability(WeatherState.SUNNY) + " , " + simpleChain.getSteadyStateProbability(WeatherState.RAINY));
 
-		Assert.assertTrue("Sunny steady state incorrect: " + simpleChain.getSteadyStateProbability(WeatherState.SUNNY), Math.abs(simpleChain.getSteadyStateProbability(WeatherState.SUNNY) - 0.83333333333) < 0.1);
-		Assert.assertTrue("Rainy steady state incorrect: " + simpleChain.getSteadyStateProbability(WeatherState.RAINY), Math.abs(simpleChain.getSteadyStateProbability(WeatherState.RAINY) - 0.16666666666) < 0.1);
-		Assert.assertTrue("Sunny 1 step incorrect: " + simpleChain.getProbability(WeatherState.SUNNY, 1), Math.abs(simpleChain.getProbability(WeatherState.SUNNY, 1) - 0.9) < 0.1);
-		Assert.assertTrue("Rainy 1 step incorrect: " + simpleChain.getProbability(WeatherState.RAINY, 1), Math.abs(simpleChain.getProbability(WeatherState.RAINY, 1) - 0.1) < 0.1);
-		Assert.assertTrue("Sunny 2 step incorrect: " + simpleChain.getProbability(WeatherState.SUNNY, 2), Math.abs(simpleChain.getProbability(WeatherState.SUNNY, 2) - 0.86) < 0.1);
-		Assert.assertTrue("Rainy 2 step incorrect: " + simpleChain.getProbability(WeatherState.RAINY, 2), Math.abs(simpleChain.getProbability(WeatherState.RAINY, 2) - 0.14) < 0.1);
+		Assert.assertEquals("Sunny steady state incorrect", 0.83333333333, Math.abs(simpleChain.getSteadyStateProbability(WeatherState.SUNNY)), 0.1);
+		Assert.assertEquals("Rainy steady state incorrect", 0.16666666666, Math.abs(simpleChain.getSteadyStateProbability(WeatherState.RAINY)), 0.1);
+		Assert.assertEquals("Sunny 1 step incorrect", 0.9, Math.abs(simpleChain.getProbability(WeatherState.SUNNY, 1)), 0.1);
+		Assert.assertEquals("Rainy 1 step incorrect", 0.1, Math.abs(simpleChain.getProbability(WeatherState.RAINY, 1)), 0.1);
+		Assert.assertEquals("Sunny 2 step incorrect", 0.86, Math.abs(simpleChain.getProbability(WeatherState.SUNNY, 2)), 0.1);
+		Assert.assertEquals("Rainy 2 step incorrect", 0.14, Math.abs(simpleChain.getProbability(WeatherState.RAINY, 2)), 0.1);
 	}
 }

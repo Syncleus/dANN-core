@@ -18,6 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.math.statistics;
 
+import java.security.KeyStore;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,6 +29,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import com.syncleus.dann.neural.OutputNeuron;
 
 public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S>
 {
@@ -44,8 +46,6 @@ public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S>
 		this.arbitraryStart = arbitraryStart;
 		this.evidence = new LinkedHashMap<List<S>, StateCounter<S>>();
 		this.observedStates = new HashSet<S>();
-		// TODO observed states shouldnt need a null, instead the markov chain should know its an implicit state (it fails without this)
-		this.observedStates.add(null);
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S>
 
 		//get the current evidence for this state
 		StateCounter<S> transitions = this.evidence.get(stateMemory);
-		//if there is no transistions then create a blank one
+		//if there is no transitions then create a blank one
 		if( transitions == null )
 		{
 			transitions = new StateCounter<S>();
@@ -77,7 +77,7 @@ public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S>
 		//update the evidence
 		learnFromMemory(this.history, state);
 
-		//if there is an arbitrary starting place update the evidance for the
+		//if there is an arbitrary starting place update the evidence for the
 		//various sub-states of shorter order
 		if( (this.arbitraryStart) && (this.order > 1) )
 		{
@@ -121,6 +121,7 @@ public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S>
 		final Map<List<S>, Map<S, Double>> transitionProbabilities = new LinkedHashMap<List<S>, Map<S, Double>>(this.evidence.size());
 		for(Map.Entry<List<S>, StateCounter<S>> countEntry : this.evidence.entrySet())
 			transitionProbabilities.put(countEntry.getKey(), countEntry.getValue().probabilities());
+
 		return new SimpleMarkovChain<S>(transitionProbabilities, this.order, this.observedStates);
 	}
 
