@@ -85,7 +85,6 @@ public class TestSimpleMarkovChain
 	@Test
 	public void testExplicitChainSecondOrder()
 	{
-System.out.println("===ESO begining===");
 		final Map<List<WeatherState>, Map<WeatherState, Double>> transitionProbabilities = new HashMap<List<WeatherState>, Map<WeatherState, Double>>();
 
 /*
@@ -95,7 +94,6 @@ System.out.println("===ESO begining===");
 		initialTransitions.put(WeatherState.RAINY, 0.16666666666);
 		transitionProbabilities.put(initialState, initialTransitions);
 */
-
 
 		final List<WeatherState> sunnyState = new ArrayList<WeatherState>();
 		sunnyState.add(WeatherState.SUNNY);
@@ -155,15 +153,13 @@ System.out.println("===ESO begining===");
 		LOGGER.info("transition rows: " + simpleChain.getTransitionProbabilityRows());
 		LOGGER.info("transition matrix: " + simpleChain.getTransitionProbabilityMatrix());
 		LOGGER.info("steady state: " + simpleChain.getSteadyStateProbability(WeatherState.SUNNY) + " , " + simpleChain.getSteadyStateProbability(WeatherState.RAINY));
-System.out.println("ESO testing sunny steady:");
+
 		Assert.assertEquals("Sunny steady state incorrect", 0.83333333333, Math.abs(simpleChain.getSteadyStateProbability(WeatherState.SUNNY)), 0.001);
-System.out.println("ESO sunny test done");
 		Assert.assertEquals("Rainy steady state incorrect", 0.16666666666, Math.abs(simpleChain.getSteadyStateProbability(WeatherState.RAINY)), 0.001);
 		Assert.assertEquals("Sunny 1 step incorrect", 0.9, Math.abs(simpleChain.getProbability(WeatherState.SUNNY, 1)), 0.001);
 		Assert.assertEquals("Rainy 1 step incorrect", 0.1, Math.abs(simpleChain.getProbability(WeatherState.RAINY, 1)), 0.001);
 		Assert.assertEquals("Sunny 2 step incorrect", 0.86, Math.abs(simpleChain.getProbability(WeatherState.SUNNY, 2)), 0.001);
 		Assert.assertEquals("Rainy 2 step incorrect", 0.14, Math.abs(simpleChain.getProbability(WeatherState.RAINY, 2)), 0.001);
-System.out.println("===ESO ending===");
 	}
 
 	@Test
@@ -274,28 +270,5 @@ System.out.println("===ESO ending===");
 		Assert.assertEquals("Rainy 1 step incorrect", 0.1, Math.abs(simpleChain.getProbability(WeatherState.RAINY, 1)), 0.025);
 		Assert.assertEquals("Sunny 2 step incorrect", 0.86, Math.abs(simpleChain.getProbability(WeatherState.SUNNY, 2)), 0.025);
 		Assert.assertEquals("Rainy 2 step incorrect", 0.14, Math.abs(simpleChain.getProbability(WeatherState.RAINY, 2)), 0.025);
-	}
-
-	@Test
-	public void testFailProbability()
-	{
-		final int RUNS = 10;
-		int failures = 0;
-		for(int run = 0; run < RUNS; run++)
-		{
-			try
-			{
-				testExplicitChainFirstOrder();
-				testExplicitChainSecondOrder();
-				testSampledChainFirstOrder();
-				testSampledChainSecondOrder();
-			}
-			catch (java.lang.AssertionError err)
-			{
-				err.printStackTrace();
-				failures++;
-			}
-		}
-		Assert.assertTrue("testSampledChainSecondOrder - failed runs: " + failures + "/" + RUNS + " -> " + ((double)failures / RUNS), failures == 0);
 	}
 }

@@ -122,28 +122,6 @@ public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S>
 		for(Map.Entry<List<S>, StateCounter<S>> countEntry : this.evidence.entrySet())
 			transitionProbabilities.put(countEntry.getKey(), countEntry.getValue().probabilities());
 
-System.out.println("all influences:");
-for(List<S> influences : transitionProbabilities.keySet())
-{
-	System.out.print(influences.size() + " influences: ");
-	for( S influence : influences )
-	{
-		if( influence != null )
-			System.out.print(influence + " ");
-		else
-			System.out.print("null ");
-	}
-	System.out.print(" -> ");
-
-//	StateCounter<S> counter = this.evidence.get(influences);
-	Map<S,Double> probabilities = transitionProbabilities.get(influences);
-	for( Map.Entry<S,Double> probabilityEntry : probabilities.entrySet())
-	{
-		System.out.print(probabilityEntry.getKey() + ":" + probabilityEntry.getValue() + " ");
-	}
-	System.out.println();
-}
-
 		return new SimpleMarkovChain<S>(transitionProbabilities, this.order, this.observedStates);
 	}
 
