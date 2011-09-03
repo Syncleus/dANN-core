@@ -118,7 +118,10 @@ public class SimpleMarkovChain<S> extends AbstractMarkovChain<S>
 
         //if there is an empty set, representing an undefined starting point, then it is always the first row
 		if(rowHeadersLeft.remove(Collections.<S>emptyList()))
-			this.rowMapping.add(Collections.<S>emptyList());
+		{
+			//this.rowMapping.add(Collections.<S>emptyList());
+			throw new RuntimeException("We should never have an empty state as row title");
+		}
 
 		//first put the rows in order to match the columns
 		for(S currentColumn : this.columnMapping)
@@ -137,10 +140,9 @@ public class SimpleMarkovChain<S> extends AbstractMarkovChain<S>
 
 		//iterate through all the new rows
 		int row = 0;
-		for(final Entry<List<S>, Map<S, Double>> transitionProbability : transitionProbabilities.entrySet())
+		for(final List<S> rowHeader : rowMapping)
 		{
-			final List<S> rowHeader = Collections.unmodifiableList(new ArrayList<S>(transitionProbability.getKey()));
-			final Map<S, Double> rowTransition = Collections.unmodifiableMap(new LinkedHashMap<S, Double>(transitionProbability.getValue()));
+			final Map<S, Double> rowTransition = Collections.unmodifiableMap(new LinkedHashMap<S, Double>(transitionProbabilities.get(rowHeader)));
 
 			double rowSum = 0.0;
 			for(final Entry<S, Double> stateTransition : rowTransition.entrySet())
