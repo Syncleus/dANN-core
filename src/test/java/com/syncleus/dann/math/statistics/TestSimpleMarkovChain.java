@@ -146,7 +146,7 @@ System.out.println("===ESO begining===");
 		LOGGER.info("transition columns: " + simpleChain.getTransitionProbabilityColumns());
 		LOGGER.info("transition rows: " + simpleChain.getTransitionProbabilityRows());
 		LOGGER.info("transition matrix: " + simpleChain.getTransitionProbabilityMatrix());
-        LOGGER.info("steady state: " + simpleChain.getSteadyStateProbability(WeatherState.SUNNY) + " , " + simpleChain.getSteadyStateProbability(WeatherState.RAINY));
+		LOGGER.info("steady state: " + simpleChain.getSteadyStateProbability(WeatherState.SUNNY) + " , " + simpleChain.getSteadyStateProbability(WeatherState.RAINY));
 System.out.println("ESO testing sunny steady:");
 		Assert.assertEquals("Sunny steady state incorrect", 0.83333333333, Math.abs(simpleChain.getSteadyStateProbability(WeatherState.SUNNY)), 0.001);
 System.out.println("ESO sunny test done");
@@ -266,5 +266,28 @@ System.out.println("===ESO ending===");
 		Assert.assertEquals("Rainy 1 step incorrect", 0.1, Math.abs(simpleChain.getProbability(WeatherState.RAINY, 1)), 0.025);
 		Assert.assertEquals("Sunny 2 step incorrect", 0.86, Math.abs(simpleChain.getProbability(WeatherState.SUNNY, 2)), 0.025);
 		Assert.assertEquals("Rainy 2 step incorrect", 0.14, Math.abs(simpleChain.getProbability(WeatherState.RAINY, 2)), 0.025);
+	}
+
+	@Test
+	public void testFailProbability()
+	{
+		final int RUNS = 10;
+		int failures = 0;
+		for(int run = 0; run < RUNS; run++)
+		{
+			try
+			{
+				testExplicitChainFirstOrder();
+				testExplicitChainSecondOrder();
+				testSampledChainFirstOrder();
+				testSampledChainSecondOrder();
+			}
+			catch (java.lang.AssertionError err)
+			{
+				err.printStackTrace();
+				failures++;
+			}
+		}
+		Assert.assertTrue("testSampledChainSecondOrder - failed runs: " + failures + "/" + RUNS + " -> " + ((double)failures / RUNS), failures == 0);
 	}
 }
