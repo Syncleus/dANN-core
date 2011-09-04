@@ -90,7 +90,7 @@ public class TestCooleyTukeyFastFourierTransformer
 	public void testRandomRanges()
 	{
 		final Random random = new Random();
-		for(int testIndex = 0; testIndex < 1000; testIndex++)
+		for(int testIndex = 0; testIndex < 50; testIndex++)
 		{
 			//(0.025-0.075, 0.125-0.175, 0.225-0.275... 0.925-0.975
 			double frequency = ((random.nextDouble() * 0.05) + 0.025) + (((double) random.nextInt(10) / 10.0));
@@ -115,7 +115,7 @@ public class TestCooleyTukeyFastFourierTransformer
 	public void testRandomFrequencies()
 	{
 		final Random random = new Random();
-		for(int testIndex = 0; testIndex < 1000; testIndex++)
+		for(int testIndex = 0; testIndex < 50; testIndex++)
 		{
 			//(0.0-0.09, 0.1-0.19, 0.2-0.29... 0.9-0.99
 			double frequency = (random.nextDouble() * 0.09) + (((double) random.nextInt(10) / 10.0));
