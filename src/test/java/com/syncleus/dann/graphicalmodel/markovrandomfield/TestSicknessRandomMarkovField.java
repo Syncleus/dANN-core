@@ -26,7 +26,7 @@ import java.util.*;
 import com.syncleus.dann.graph.ImmutableUndirectedEdge;
 import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
 import com.syncleus.dann.graphicalmodel.SimpleGraphicalModelNode;
-import com.syncleus.dann.graphicalmodel.bayesian.xml.BayesianNetworkXml;
+import com.syncleus.dann.graphicalmodel.xml.GraphicalModelXml;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -72,7 +72,7 @@ public class TestSicknessRandomMarkovField
 		testOverall();
 
 		//mashall it
-		JAXBContext context = JAXBContext.newInstance(BayesianNetworkXml.class, TestSicknessRandomMarkovField.FeverState.class, TestSicknessRandomMarkovField.AgeState.class, TestSicknessRandomMarkovField.BooleanState.class, TestSicknessRandomMarkovField.SeasonState.class);
+		JAXBContext context = JAXBContext.newInstance(GraphicalModelXml.class, TestSicknessRandomMarkovField.FeverState.class, TestSicknessRandomMarkovField.AgeState.class, TestSicknessRandomMarkovField.BooleanState.class, TestSicknessRandomMarkovField.SeasonState.class);
 		Marshaller marshal = context.createMarshaller();
 
 		StringWriter writer = new StringWriter();
@@ -80,7 +80,7 @@ public class TestSicknessRandomMarkovField
 
 		//unmarshall it
 		StringReader reader = new StringReader(writer.toString());
-		BayesianNetworkXml xml = JAXB.unmarshal(reader, BayesianNetworkXml.class);
+		GraphicalModelXml xml = JAXB.unmarshal(reader, GraphicalModelXml.class);
 
 		Assert.assertTrue("could not unmarshal object!", xml != null);
 		Assert.assertTrue("Wrong number of edges after unmarshaling: " + xml.getEdges().getEdges().size(), xml.getEdges().getEdges().size() == 14);

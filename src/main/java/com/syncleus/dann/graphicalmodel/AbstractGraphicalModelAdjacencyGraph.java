@@ -19,14 +19,12 @@
 package com.syncleus.dann.graphicalmodel;
 
 import java.util.*;
-import com.sun.org.apache.xpath.internal.operations.Neg;
 import com.syncleus.dann.graph.*;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-//import com.syncleus.dann.graphicalmodel.bayesian.xml.BayesianNetworkElementXml;
-//import com.syncleus.dann.graphicalmodel.bayesian.xml.BayesianNetworkXml;
-//import com.syncleus.dann.xml.NamedValueXml;
-//import com.syncleus.dann.xml.Namer;
-//import com.syncleus.dann.xml.XmlSerializable;
+import com.syncleus.dann.graphicalmodel.xml.GraphicalModelElementXml;
+import com.syncleus.dann.graphicalmodel.xml.GraphicalModelXml;
+import com.syncleus.dann.xml.NamedValueXml;
+import com.syncleus.dann.xml.Namer;
+import com.syncleus.dann.xml.XmlSerializable;
 
 public abstract class AbstractGraphicalModelAdjacencyGraph<N extends GraphicalModelNode, E extends BidirectedEdge<N>> extends AbstractBidirectedAdjacencyGraph<N, E> implements GraphicalModel<N, E>
 {
@@ -56,7 +54,7 @@ public abstract class AbstractGraphicalModelAdjacencyGraph<N extends GraphicalMo
 	public double jointProbability()
 	{
 		// TODO implement this!
-		throw new NotImplementedException();
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -183,15 +181,14 @@ public abstract class AbstractGraphicalModelAdjacencyGraph<N extends GraphicalMo
 		return (AbstractGraphicalModelAdjacencyGraph<N, E>) super.clone();
 	}
 
-/*
 	@Override
-	public BayesianNetworkXml toXml()
+	public GraphicalModelXml toXml()
 	{
-		final BayesianNetworkElementXml networkXml = new BayesianNetworkElementXml();
+		final GraphicalModelElementXml networkXml = new GraphicalModelElementXml();
 		final Namer<Object> namer = new Namer<Object>();
 
-		networkXml.setNodeInstances(new BayesianNetworkElementXml.NodeInstances());
-		networkXml.setStateInstances(new BayesianNetworkElementXml.StateInstances());
+		networkXml.setNodeInstances(new GraphicalModelElementXml.NodeInstances());
+		networkXml.setStateInstances(new GraphicalModelElementXml.StateInstances());
 		final Set<Object> writtenStates = new HashSet<Object>();
 		for (N node : this.getNodes())
 		{
@@ -244,19 +241,19 @@ public abstract class AbstractGraphicalModelAdjacencyGraph<N extends GraphicalMo
 	}
 
 	@Override
-	public BayesianNetworkXml toXml(final Namer<Object> namer)
+	public GraphicalModelXml toXml(final Namer<Object> namer)
 	{
 		if (namer == null)
 		{
 			throw new IllegalArgumentException("namer can not be null");
 		}
 
-		final BayesianNetworkXml xml = new BayesianNetworkXml();
+		final GraphicalModelXml xml = new GraphicalModelXml();
 		this.toXml(xml, namer);
 		return xml;
 	}
 
-	protected static class NodeConnectivity<N extends BayesianNode, E extends BayesianEdge<N>> extends HashMap<N, Set<E>>
+	protected static class NodeConnectivity<N extends GraphicalModelNode, E extends BidirectedEdge<N>> extends HashMap<N, Set<E>>
 	{
 		private static final long serialVersionUID = -3068604309573134643L;
 
@@ -272,5 +269,4 @@ public abstract class AbstractGraphicalModelAdjacencyGraph<N extends GraphicalMo
 			return edges;
 		}
 	}
-*/
 }

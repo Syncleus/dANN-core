@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema
+        xmlns="http://127.0.0.1:8080/Aide/com/syncleus/dann/graphicalmodel/xml"
+        xmlns:dann="http://127.0.0.1:8080/Aide/com/syncleus/dann/xml"
+        xmlns:graph="http://127.0.0.1:8080/Aide/com/syncleus/dann/graph/xml"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+        xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+        xmlns:annox="http://annox.dev.java.net"
+        xmlns:anno="http://annox.dev.java.net/javax.xml.bind.annotation"
+        targetNamespace="http://127.0.0.1:8080/Aide/com/syncleus/dann/graphicalmodel/xml"
+        jaxb:version="2.0"
+        jaxb:extensionBindingPrefixes="xjc annox"
+        attributeFormDefault="unqualified"
+        elementFormDefault="unqualified">
+
+
+    <xsd:import namespace="http://127.0.0.1:8080/Aide/com/syncleus/dann/xml"
+                schemaLocation="com.syncleus.dann.xml.xsd"/>
+    <xsd:import namespace="http://127.0.0.1:8080/Aide/com/syncleus/dann/graph/xml"
+                schemaLocation="com.syncleus.dann.graph.xml.xsd"/>
+
+
+    <!-- Global annotations -->
+    <xsd:annotation>
+        <xsd:appinfo>
+            <jaxb:globalBindings
+                    fixedAttributeAsConstantProperty="true"
+                    collectionType="java.util.ArrayList"
+                    typesafeEnumBase="xsd:NCName"
+                    choiceContentProperty="true"
+                    typesafeEnumMemberName="generateError"
+                    enableFailFastCheck="false"
+                    generateIsSetMethod="true"/>
+            <jaxb:schemaBindings>
+                <jaxb:package name="com.syncleus.dann.graphicalmodel.xml"/>
+                <jaxb:nameXmlTransform>
+                    <jaxb:typeName suffix="Xml"/>
+                </jaxb:nameXmlTransform>
+            </jaxb:schemaBindings>
+        </xsd:appinfo>
+    </xsd:annotation>
+
+
+    <!-- Graphs -->
+
+    <!-- MarkovRandomField Element, contains instances -->
+    <xsd:element name="GraphicalModel">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <jaxb:class name="GraphicalModelElementXml"/>
+                <annox:annotate target="class">
+                    <!-- this allows for proper unmarshalling, can not be used on classes which already generate this-->
+                    <anno:XmlSeeAlso value="GraphicalModelNodeXml"/>
+                </annox:annotate>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="GraphicalModel">
+                    <xsd:sequence>
+                        <xsd:element name="nodeInstances" maxOccurs="1">
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="node" type="dann:NamedValue" maxOccurs="unbounded">
+                                        <xsd:annotation>
+                                            <xsd:appinfo>
+                                                <jaxb:property name="nodes"/>
+                                            </xsd:appinfo>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                        <xsd:element name="stateInstances" maxOccurs="1">
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="learnedState" type="dann:NamedValue" maxOccurs="unbounded">
+                                        <xsd:annotation>
+                                            <xsd:appinfo>
+                                                <jaxb:property name="states"/>
+                                            </xsd:appinfo>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+    <!-- MarkovRandomField Type, contains references to instanced objects -->
+    <xsd:complexType name="GraphicalModel">
+        <xsd:complexContent>
+            <xsd:extension base="graph:Graph"/>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+
+    <!-- Nodes -->
+
+    <!-- BayesianNode Type, Abstract representing types common to all Bayesian Nodes -->
+    <xsd:complexType name="GraphicalModelNode" abstract="true">
+        <xsd:sequence>
+            <xsd:element name="learnedStates" maxOccurs="1">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="learnedState" type="dann:Name" maxOccurs="unbounded">
+                            <xsd:annotation>
+                                <xsd:appinfo>
+                                    <jaxb:property name="states"/>
+                                </xsd:appinfo>
+                            </xsd:annotation>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="State" type="dann:Name" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <!-- SimpleBayesianNode Element, contains instances -->
+    <xsd:element name="SimpleGraphicalModelNode">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <jaxb:class name="SimpleGraphicalModelNodeElementXml"/>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="SimpleGraphicalModelNode">
+                    <xsd:sequence>
+                        <xsd:element name="stateInstances" maxOccurs="1">
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="learnedState" type="dann:NamedValue" maxOccurs="unbounded">
+                                        <xsd:annotation>
+                                            <xsd:appinfo>
+                                                <jaxb:property name="states"/>
+                                            </xsd:appinfo>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+    <!-- SimpleBayesianNode Type, contains references to instanced objects -->
+    <xsd:complexType name="SimpleGraphicalModelNode">
+        <xsd:complexContent>
+            <xsd:extension base="GraphicalModelNode">
+                <xsd:sequence>
+                    <xsd:element name="Evidence" type="EvidenceMap" minOccurs="1" maxOccurs="1"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <!-- EvidenceMap Element, contains instances -->
+    <xsd:element name="EvidenceMap">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <jaxb:class name="EvidenceMapElementXml"/>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="EvidenceMap">
+                    <xsd:sequence>
+                        <xsd:element name="stateInstances" maxOccurs="1">
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="learnedState" type="dann:NamedValue" maxOccurs="unbounded">
+                                        <xsd:annotation>
+                                            <xsd:appinfo>
+                                                <jaxb:property name="states"/>
+                                            </xsd:appinfo>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                        <xsd:element name="nodeInstances" maxOccurs="1">
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="node" type="dann:NamedValue" maxOccurs="unbounded">
+                                        <xsd:annotation>
+                                            <xsd:appinfo>
+                                                <jaxb:property name="nodes"/>
+                                            </xsd:appinfo>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+    <!-- EvidenceMap Type, contains references to instanced objects -->
+    <xsd:complexType name="EvidenceMap">
+        <xsd:sequence>
+            <xsd:element name="influencedEvidences" maxOccurs="1">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="influencedEvidence" minOccurs="1" maxOccurs="unbounded">
+                            <xsd:annotation>
+                                <xsd:appinfo>
+                                    <jaxb:property name="influencedEvidences"/>
+                                </xsd:appinfo>
+                            </xsd:annotation>
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="Influences" minOccurs="1" maxOccurs="1">
+                                        <xsd:complexType>
+                                            <xsd:sequence>
+                                                <xsd:element name="influence" minOccurs="1" maxOccurs="unbounded">
+                                                    <xsd:annotation>
+                                                        <xsd:appinfo>
+                                                            <jaxb:property name="influences"/>
+                                                        </xsd:appinfo>
+                                                    </xsd:annotation>
+                                                    <xsd:complexType>
+                                                        <xsd:attribute name="node" use="required"/>
+                                                        <xsd:attribute name="state" use="required"/>
+                                                    </xsd:complexType>
+                                                </xsd:element>
+                                            </xsd:sequence>
+                                        </xsd:complexType>
+                                    </xsd:element>
+                                    <xsd:element name="StateEvidence" type="StateEvidence" minOccurs="1" maxOccurs="1"/>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <!-- StateEvidence Element, contains instances -->
+    <xsd:element name="StateEvidence">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <jaxb:class name="StateEvidenceElementXml"/>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="StateEvidence">
+                    <xsd:sequence>
+                        <xsd:element name="stateInstances" maxOccurs="1">
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="learnedState" type="dann:NamedValue" maxOccurs="unbounded">
+                                        <xsd:annotation>
+                                            <xsd:appinfo>
+                                                <jaxb:property name="states"/>
+                                            </xsd:appinfo>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+    <!-- StateEvidence Type, contains references to instanced objects -->
+    <xsd:complexType name="StateEvidence">
+        <xsd:sequence>
+            <xsd:element name="States">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="State" minOccurs="1" maxOccurs="unbounded">
+                            <xsd:annotation>
+                                <xsd:appinfo>
+                                    <jaxb:property name="states"/>
+                                </xsd:appinfo>
+                            </xsd:annotation>
+                            <xsd:complexType>
+                                <xsd:complexContent>
+                                    <xsd:extension base="dann:Name">
+                                        <xsd:attribute name="count" type="xsd:int" use="required"/>
+                                    </xsd:extension>
+                                </xsd:complexContent>
+                            </xsd:complexType>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+
+</xsd:schema>

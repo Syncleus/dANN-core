@@ -21,14 +21,13 @@ package com.syncleus.dann.graphicalmodel;
 import java.util.*;
 import com.syncleus.dann.graph.BidirectedEdge;
 import com.syncleus.dann.graph.context.AbstractContextNode;
-import com.syncleus.dann.math.counting.CombinationCounter;
-//import com.syncleus.dann.graphicalmodel.bayesian.xml.BayesianNodeXml;
-//import com.syncleus.dann.graphicalmodel.bayesian.xml.SimpleBayesianNodeElementXml;
-//import com.syncleus.dann.graphicalmodel.bayesian.xml.SimpleBayesianNodeXml;
-//import com.syncleus.dann.xml.NameXml;
-//import com.syncleus.dann.xml.NamedValueXml;
-//import com.syncleus.dann.xml.Namer;
-//import com.syncleus.dann.xml.XmlSerializable;
+import com.syncleus.dann.graphicalmodel.xml.GraphicalModelNodeXml;
+import com.syncleus.dann.graphicalmodel.xml.SimpleGraphicalModelNodeElementXml;
+import com.syncleus.dann.graphicalmodel.xml.SimpleGraphicalModelNodeXml;
+import com.syncleus.dann.xml.NameXml;
+import com.syncleus.dann.xml.NamedValueXml;
+import com.syncleus.dann.xml.Namer;
+import com.syncleus.dann.xml.XmlSerializable;
 
 public class SimpleGraphicalModelNode<S> extends AbstractContextNode<GraphicalModelNode<S>, BidirectedEdge<GraphicalModelNode<S>>, GraphicalModel<GraphicalModelNode<S>, BidirectedEdge<GraphicalModelNode<S>>>> implements GraphicalModelNode<S>
 {
@@ -169,14 +168,13 @@ public class SimpleGraphicalModelNode<S> extends AbstractContextNode<GraphicalMo
 		return false;
 	}
 
-/*
 	@Override
-	public SimpleBayesianNodeXml toXml()
+	public SimpleGraphicalModelNodeXml toXml()
 	{
 		final Namer<Object> namer = new Namer<Object>();
-		final SimpleBayesianNodeElementXml xml = new SimpleBayesianNodeElementXml();
+		final SimpleGraphicalModelNodeElementXml xml = new SimpleGraphicalModelNodeElementXml();
 
-		xml.setStateInstances(new SimpleBayesianNodeElementXml.StateInstances());
+		xml.setStateInstances(new SimpleGraphicalModelNodeElementXml.StateInstances());
 		final Set<S> writtenStates = new HashSet<S>();
 		for (S learnedState : this.learnedStates)
 		{
@@ -217,25 +215,25 @@ public class SimpleGraphicalModelNode<S> extends AbstractContextNode<GraphicalMo
 	}
 
 	@Override
-	public SimpleBayesianNodeXml toXml(final Namer<Object> namer)
+	public SimpleGraphicalModelNodeXml toXml(final Namer<Object> namer)
 	{
 		if (namer == null)
 		{
 			throw new IllegalArgumentException("namer can not be null");
 		}
 
-		final SimpleBayesianNodeXml xml = new SimpleBayesianNodeXml();
+		final SimpleGraphicalModelNodeXml xml = new SimpleGraphicalModelNodeXml();
 		this.toXml(xml, namer);
 		return xml;
 	}
 
 	@Override
-	public void toXml(final BayesianNodeXml jaxbObject, final Namer<Object> namer)
+	public void toXml(final GraphicalModelNodeXml jaxbObject, final Namer<Object> namer)
 	{
 		//set learned states
 		if (jaxbObject.getLearnedStates() == null)
 		{
-			jaxbObject.setLearnedStates(new SimpleBayesianNodeXml.LearnedStates());
+			jaxbObject.setLearnedStates(new SimpleGraphicalModelNodeXml.LearnedStates());
 		}
 		for (S learnedState : learnedStates)
 		{
@@ -252,10 +250,9 @@ public class SimpleGraphicalModelNode<S> extends AbstractContextNode<GraphicalMo
 		jaxbObject.getState().setName(namer.getNameOrCreate(this.state));
 
 		//set evidence map
-		if ((jaxbObject instanceof SimpleBayesianNodeXml) && (this.evidence != null))
+		if ((jaxbObject instanceof SimpleGraphicalModelNodeXml) && (this.evidence != null))
 		{
-			((SimpleBayesianNodeXml) jaxbObject).setEvidence(this.evidence.toXml(namer));
+			((SimpleGraphicalModelNodeXml) jaxbObject).setEvidence(this.evidence.toXml(namer));
 		}
 	}
-	*/
 }

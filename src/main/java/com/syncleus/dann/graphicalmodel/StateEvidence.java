@@ -20,11 +20,11 @@ package com.syncleus.dann.graphicalmodel;
 
 import java.util.HashMap;
 import java.util.Map;
-//import com.syncleus.dann.graphicalmodel.bayesian.xml.StateEvidenceElementXml;
-//import com.syncleus.dann.graphicalmodel.bayesian.xml.StateEvidenceXml;
-//import com.syncleus.dann.xml.*;
+import com.syncleus.dann.graphicalmodel.xml.StateEvidenceElementXml;
+import com.syncleus.dann.graphicalmodel.xml.StateEvidenceXml;
+import com.syncleus.dann.xml.*;
 
-public class StateEvidence<S> extends HashMap<S, Integer>// implements XmlSerializable<StateEvidenceXml, Object>
+public class StateEvidence<S> extends HashMap<S, Integer> implements XmlSerializable<StateEvidenceXml, Object>
 {
 	private static final long serialVersionUID = 4276706788994272957L;
 	private long totalEvidence;
@@ -68,7 +68,7 @@ public class StateEvidence<S> extends HashMap<S, Integer>// implements XmlSerial
 		}
 	}
 
-/*
+
 	@Override
 	public StateEvidenceXml toXml()
 	{
@@ -138,5 +138,4 @@ public class StateEvidence<S> extends HashMap<S, Integer>// implements XmlSerial
 			jaxbObject.getStates().getStates().add(stateXml);
 		}
 	}
-*/
 }

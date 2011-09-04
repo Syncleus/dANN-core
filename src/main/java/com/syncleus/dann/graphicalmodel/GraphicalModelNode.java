@@ -18,11 +18,11 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel;
 
-//import com.syncleus.dann.graphicalmodel.xml.GraphicalModelNodeXml;
-//import com.syncleus.dann.xml.XmlSerializable;
+import com.syncleus.dann.graphicalmodel.xml.GraphicalModelNodeXml;
+import com.syncleus.dann.xml.XmlSerializable;
 import java.util.Set;
 
-public interface GraphicalModelNode<S>// extends XmlSerializable<GraphicalModelNodeXml, Object>
+public interface GraphicalModelNode<S> extends XmlSerializable<GraphicalModelNodeXml, Object>
 {
 	Set<S> getLearnedStates();
 	void setState(S currentState);
