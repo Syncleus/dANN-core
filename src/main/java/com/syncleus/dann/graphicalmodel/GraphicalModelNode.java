@@ -16,15 +16,19 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graphicalmodel.bayesian.dynamic;
+package com.syncleus.dann.graphicalmodel;
 
-import java.util.List;
-import com.syncleus.dann.graphicalmodel.bayesian.BayesianNode;
+import com.syncleus.dann.graphicalmodel.xml.GraphicalModelNodeXml;
+import com.syncleus.dann.xml.XmlSerializable;
+import java.util.Set;
 
-public interface DynamicBayesianNode<S> extends BayesianNode<S>
+public interface GraphicalModelNode<S> extends XmlSerializable<GraphicalModelNodeXml, Object>
 {
-	int getStateHistoryCapacity();
-	List<S> getStateHistory();
-	void setStateHistory(List<S> history);
-	void learnState(boolean updateHistory);
+	Set<S> getLearnedStates();
+	void setState(S currentState);
+	S getState();
+	void learnState();
+	double stateProbability();
+	double stateProbability(Set<? extends GraphicalModelNode> ignoredInfluences);
+	void reset();
 }

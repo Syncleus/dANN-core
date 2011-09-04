@@ -16,20 +16,21 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graphicalmodel.bayesian;
+package com.syncleus.dann.graphicalmodel.markovrandomfield;
 
+import javax.xml.bind.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.*;
-import com.syncleus.dann.graph.ImmutableDirectedEdge;
+import com.syncleus.dann.graph.ImmutableUndirectedEdge;
 import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
 import com.syncleus.dann.graphicalmodel.SimpleGraphicalModelNode;
-import com.syncleus.dann.graphicalmodel.bayesian.xml.BayesianNetworkXml;
-import org.junit.*;
-import javax.xml.bind.*;
-import javax.xml.bind.annotation.XmlRootElement;
+import com.syncleus.dann.graphicalmodel.xml.GraphicalModelXml;
+import org.junit.Assert;
+import org.junit.Test;
 
-public class TestSicknessBayesianNetwork
+public class TestSicknessRandomMarkovField
 {
 	@XmlRootElement
 	private static enum BooleanState
@@ -56,7 +57,7 @@ public class TestSicknessBayesianNetwork
 	}
 
 	private static final Random RANDOM = new Random();
-	private MutableBayesianAdjacencyNetwork network = new MutableBayesianAdjacencyNetwork();
+	private MutableMarkovRandomFieldAdjacencyGraph network = new MutableMarkovRandomFieldAdjacencyGraph();
 	//create nodes
 	private GraphicalModelNode<SeasonState> season = new SimpleGraphicalModelNode<SeasonState>(SeasonState.WINTER);
 	private GraphicalModelNode<AgeState> age = new SimpleGraphicalModelNode<AgeState>(AgeState.BABY);
@@ -71,7 +72,7 @@ public class TestSicknessBayesianNetwork
 		testOverall();
 
 		//mashall it
-		JAXBContext context = JAXBContext.newInstance(BayesianNetworkXml.class, TestSicknessBayesianNetwork.FeverState.class, TestSicknessBayesianNetwork.AgeState.class, TestSicknessBayesianNetwork.BooleanState.class, TestSicknessBayesianNetwork.SeasonState.class);
+		JAXBContext context = JAXBContext.newInstance(GraphicalModelXml.class, TestSicknessRandomMarkovField.FeverState.class, TestSicknessRandomMarkovField.AgeState.class, TestSicknessRandomMarkovField.BooleanState.class, TestSicknessRandomMarkovField.SeasonState.class);
 		Marshaller marshal = context.createMarshaller();
 
 		StringWriter writer = new StringWriter();
@@ -79,7 +80,7 @@ public class TestSicknessBayesianNetwork
 
 		//unmarshall it
 		StringReader reader = new StringReader(writer.toString());
-		BayesianNetworkXml xml = JAXB.unmarshal(reader, BayesianNetworkXml.class);
+		GraphicalModelXml xml = JAXB.unmarshal(reader, GraphicalModelXml.class);
 
 		Assert.assertTrue("could not unmarshal object!", xml != null);
 		Assert.assertTrue("Wrong number of edges after unmarshaling: " + xml.getEdges().getEdges().size(), xml.getEdges().getEdges().size() == 14);
@@ -93,7 +94,7 @@ public class TestSicknessBayesianNetwork
 		{
 			testOverall();
 
-			this.network = new MutableBayesianAdjacencyNetwork();
+			this.network = new MutableMarkovRandomFieldAdjacencyGraph();
 			this.season = new SimpleGraphicalModelNode<SeasonState>(SeasonState.WINTER);
 			this.age = new SimpleGraphicalModelNode<AgeState>(AgeState.BABY);
 			this.stuffyNose = new SimpleGraphicalModelNode<BooleanState>(BooleanState.TRUE);
@@ -114,20 +115,20 @@ public class TestSicknessBayesianNetwork
 		network.add(this.tired);
 		network.add(this.sick);
 		//connect nodes
-		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.season, this.stuffyNose));
-		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.season, this.fever));
-		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.season, this.tired));
-		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.season, this.sick));
-		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.age, this.stuffyNose));
-		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.age, this.fever));
-		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.age, this.tired));
-		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.age, this.sick));
-		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.tired, this.fever));
-		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.tired, this.stuffyNose));
-		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.tired, this.sick));
-		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.stuffyNose, this.fever));
-		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.stuffyNose, this.sick));
-		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.fever, this.sick));
+		network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.season, this.stuffyNose));
+		network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.season, this.fever));
+		network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.season, this.tired));
+		network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.season, this.sick));
+		network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.age, this.stuffyNose));
+		network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.age, this.fever));
+		network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.age, this.tired));
+		network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.age, this.sick));
+		network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.tired, this.fever));
+		network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.tired, this.stuffyNose));
+		network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.tired, this.sick));
+		network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.stuffyNose, this.fever));
+		network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.stuffyNose, this.sick));
+		network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.fever, this.sick));
 		//let the network learn
 		for(int sampleCount = 0; sampleCount < 10; sampleCount++)
 			this.sampleState();

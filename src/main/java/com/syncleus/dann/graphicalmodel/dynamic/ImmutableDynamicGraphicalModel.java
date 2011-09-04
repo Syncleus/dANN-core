@@ -16,34 +16,28 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graphicalmodel.bayesian.dynamic;
+package com.syncleus.dann.graphicalmodel.dynamic;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
+import com.syncleus.dann.graph.BidirectedEdge;
 import com.syncleus.dann.graph.Graph;
-import com.syncleus.dann.graphicalmodel.bayesian.BayesianEdge;
 
-public class ImmutableDynamicBayesianAdjacencyNetwork<N extends DynamicBayesianNode, E extends BayesianEdge<N>> extends AbstractDynamicBayesianAdjacencyNetwork<N, E>
+public class ImmutableDynamicGraphicalModel<N extends DynamicGraphicalModelNode, E extends BidirectedEdge<N>> extends AbstractDynamicGraphicalModel<N, E>
 {
 	private static final long serialVersionUID = -77853282202899240L;
 
-	public ImmutableDynamicBayesianAdjacencyNetwork()
+	public ImmutableDynamicGraphicalModel()
 	{
 		super();
 	}
 
-	public ImmutableDynamicBayesianAdjacencyNetwork(final Graph<N, E> copyGraph)
+	public ImmutableDynamicGraphicalModel(final Graph<N, E> copyGraph)
 	{
 		super(copyGraph.getNodes(), copyGraph.getEdges());
 	}
 
-	public ImmutableDynamicBayesianAdjacencyNetwork(final Set<N> nodes, final Set<E> edges)
+	public ImmutableDynamicGraphicalModel(final Set<N> nodes, final Set<E> edges)
 	{
 		super(nodes, edges);
 	}
@@ -73,44 +67,44 @@ public class ImmutableDynamicBayesianAdjacencyNetwork<N extends DynamicBayesianN
 	}
 
 	@Override
-	public ImmutableDynamicBayesianAdjacencyNetwork<N, E> cloneAdd(final E newEdge)
+	public ImmutableDynamicGraphicalModel<N, E> cloneAdd(final E newEdge)
 	{
-		return (ImmutableDynamicBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newEdge);
+		return (ImmutableDynamicGraphicalModel<N, E>) super.cloneAdd(newEdge);
 	}
 
 	@Override
-	public ImmutableDynamicBayesianAdjacencyNetwork<N, E> cloneAdd(final N newNode)
+	public ImmutableDynamicGraphicalModel<N, E> cloneAdd(final N newNode)
 	{
-		return (ImmutableDynamicBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newNode);
+		return (ImmutableDynamicGraphicalModel<N, E>) super.cloneAdd(newNode);
 	}
 
 	@Override
-	public ImmutableDynamicBayesianAdjacencyNetwork<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
+	public ImmutableDynamicGraphicalModel<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
 	{
-		return (ImmutableDynamicBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newNodes, newEdges);
+		return (ImmutableDynamicGraphicalModel<N, E>) super.cloneAdd(newNodes, newEdges);
 	}
 
 	@Override
-	public ImmutableDynamicBayesianAdjacencyNetwork<N, E> cloneRemove(final E edgeToRemove)
+	public ImmutableDynamicGraphicalModel<N, E> cloneRemove(final E edgeToRemove)
 	{
-		return (ImmutableDynamicBayesianAdjacencyNetwork<N, E>) super.cloneRemove(edgeToRemove);
+		return (ImmutableDynamicGraphicalModel<N, E>) super.cloneRemove(edgeToRemove);
 	}
 
 	@Override
-	public ImmutableDynamicBayesianAdjacencyNetwork<N, E> cloneRemove(final N nodeToRemove)
+	public ImmutableDynamicGraphicalModel<N, E> cloneRemove(final N nodeToRemove)
 	{
-		return (ImmutableDynamicBayesianAdjacencyNetwork<N, E>) super.cloneRemove(nodeToRemove);
+		return (ImmutableDynamicGraphicalModel<N, E>) super.cloneRemove(nodeToRemove);
 	}
 
 	@Override
-	public ImmutableDynamicBayesianAdjacencyNetwork<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
+	public ImmutableDynamicGraphicalModel<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
 	{
-		return (ImmutableDynamicBayesianAdjacencyNetwork<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
+		return (ImmutableDynamicGraphicalModel<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
 	}
 
 	@Override
-	public ImmutableDynamicBayesianAdjacencyNetwork<N, E> clone()
+	public ImmutableDynamicGraphicalModel<N, E> clone()
 	{
-		return (ImmutableDynamicBayesianAdjacencyNetwork<N, E>) super.clone();
+		return (ImmutableDynamicGraphicalModel<N, E>) super.clone();
 	}
 }

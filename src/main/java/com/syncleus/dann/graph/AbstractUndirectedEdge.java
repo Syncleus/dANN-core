@@ -21,7 +21,7 @@ package com.syncleus.dann.graph;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class AbstractUndirectedEdge<N> extends AbstractBidirectedEdge<N>
+public abstract class AbstractUndirectedEdge<N> extends AbstractBidirectedEdge<N> implements UndirectedEdge<N>
 {
 	private static final long serialVersionUID = 83475809132709850L;
 

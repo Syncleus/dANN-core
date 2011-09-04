@@ -16,7 +16,7 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graphicalmodel.bayesian;
+package com.syncleus.dann.graphicalmodel;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,14 +26,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import com.syncleus.dann.graph.DirectedEdge;
-import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
+import com.syncleus.dann.graph.BidirectedEdge;
 
-public class ImmutableBayesianAdjacencyNetwork<N extends GraphicalModelNode, E extends DirectedEdge<N>> extends AbstractBayesianAdjacencyNetwork<N, E>
+public class ImmutableGraphicalModelAdjacencyGraph<N extends GraphicalModelNode, E extends BidirectedEdge<N>> extends AbstractGraphicalModelAdjacencyGraph<N, E>
 {
 	private static final long serialVersionUID = -2944480631125238463L;
 
-	public ImmutableBayesianAdjacencyNetwork()
+	public ImmutableGraphicalModelAdjacencyGraph()
 	{
 		super();
 	}
@@ -46,7 +45,7 @@ public class ImmutableBayesianAdjacencyNetwork<N extends GraphicalModelNode, E e
 	}
 	*/
 
-	public ImmutableBayesianAdjacencyNetwork(final Set<N> nodes, final Set<E> edges)
+	public ImmutableGraphicalModelAdjacencyGraph(final Set<N> nodes, final Set<E> edges)
 	{
 		super(nodes, edges);
 	}
@@ -76,44 +75,44 @@ public class ImmutableBayesianAdjacencyNetwork<N extends GraphicalModelNode, E e
 	}
 
 	@Override
-	public ImmutableBayesianAdjacencyNetwork<N, E> cloneAdd(final E newEdge)
+	public ImmutableGraphicalModelAdjacencyGraph<N, E> cloneAdd(final E newEdge)
 	{
-		return (ImmutableBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newEdge);
+		return (ImmutableGraphicalModelAdjacencyGraph<N, E>) super.cloneAdd(newEdge);
 	}
 
 	@Override
-	public ImmutableBayesianAdjacencyNetwork<N, E> cloneAdd(final N newNode)
+	public ImmutableGraphicalModelAdjacencyGraph<N, E> cloneAdd(final N newNode)
 	{
-		return (ImmutableBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newNode);
+		return (ImmutableGraphicalModelAdjacencyGraph<N, E>) super.cloneAdd(newNode);
 	}
 
 	@Override
-	public ImmutableBayesianAdjacencyNetwork<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
+	public ImmutableGraphicalModelAdjacencyGraph<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
 	{
-		return (ImmutableBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newNodes, newEdges);
+		return (ImmutableGraphicalModelAdjacencyGraph<N, E>) super.cloneAdd(newNodes, newEdges);
 	}
 
 	@Override
-	public ImmutableBayesianAdjacencyNetwork<N, E> cloneRemove(final E edgeToRemove)
+	public ImmutableGraphicalModelAdjacencyGraph<N, E> cloneRemove(final E edgeToRemove)
 	{
-		return (ImmutableBayesianAdjacencyNetwork<N, E>) super.cloneRemove(edgeToRemove);
+		return (ImmutableGraphicalModelAdjacencyGraph<N, E>) super.cloneRemove(edgeToRemove);
 	}
 
 	@Override
-	public ImmutableBayesianAdjacencyNetwork<N, E> cloneRemove(final N nodeToRemove)
+	public ImmutableGraphicalModelAdjacencyGraph<N, E> cloneRemove(final N nodeToRemove)
 	{
-		return (ImmutableBayesianAdjacencyNetwork<N, E>) super.cloneRemove(nodeToRemove);
+		return (ImmutableGraphicalModelAdjacencyGraph<N, E>) super.cloneRemove(nodeToRemove);
 	}
 
 	@Override
-	public ImmutableBayesianAdjacencyNetwork<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
+	public ImmutableGraphicalModelAdjacencyGraph<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
 	{
-		return (ImmutableBayesianAdjacencyNetwork<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
+		return (ImmutableGraphicalModelAdjacencyGraph<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
 	}
 
 	@Override
-	public ImmutableBayesianAdjacencyNetwork<N, E> clone()
+	public ImmutableGraphicalModelAdjacencyGraph<N, E> clone()
 	{
-		return (ImmutableBayesianAdjacencyNetwork<N, E>) super.clone();
+		return (ImmutableGraphicalModelAdjacencyGraph<N, E>) super.clone();
 	}
 }

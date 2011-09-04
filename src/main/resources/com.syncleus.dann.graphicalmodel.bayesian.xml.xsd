@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema
+        xmlns="http://127.0.0.1:8080/Aide/com/syncleus/dann/graphicalmodel/bayesian/xml"
+		xmlns:graphicalmodel="http://127.0.0.1:8080/Aide/com/syncleus/dann/graphicalmodel/xml"
+        xmlns:dann="http://127.0.0.1:8080/Aide/com/syncleus/dann/xml"
+        xmlns:graph="http://127.0.0.1:8080/Aide/com/syncleus/dann/graph/xml"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+        xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+        xmlns:annox="http://annox.dev.java.net"
+        xmlns:anno="http://annox.dev.java.net/javax.xml.bind.annotation"
+        targetNamespace="http://127.0.0.1:8080/Aide/com/syncleus/dann/graphicalmodel/bayesian/xml"
+        jaxb:version="2.0"
+        jaxb:extensionBindingPrefixes="xjc annox"
+        attributeFormDefault="unqualified"
+        elementFormDefault="unqualified">
+
+
+    <xsd:import namespace="http://127.0.0.1:8080/Aide/com/syncleus/dann/xml"
+                schemaLocation="com.syncleus.dann.xml.xsd"/>
+    <xsd:import namespace="http://127.0.0.1:8080/Aide/com/syncleus/dann/graph/xml"
+                schemaLocation="com.syncleus.dann.graph.xml.xsd"/>
+    <xsd:import namespace="http://127.0.0.1:8080/Aide/com/syncleus/dann/graphicalmodel/xml"
+                schemaLocation="com.syncleus.dann.graphicalmodel.xml.xsd"/>
+
+
+    <!-- Global annotations -->
+    <xsd:annotation>
+        <xsd:appinfo>
+            <jaxb:globalBindings
+                    fixedAttributeAsConstantProperty="true"
+                    collectionType="java.util.ArrayList"
+                    typesafeEnumBase="xsd:NCName"
+                    choiceContentProperty="true"
+                    typesafeEnumMemberName="generateError"
+                    enableFailFastCheck="false"
+                    generateIsSetMethod="true"/>
+            <jaxb:schemaBindings>
+                <jaxb:package name="com.syncleus.dann.graphicalmodel.bayesian.xml"/>
+                <jaxb:nameXmlTransform>
+                    <jaxb:typeName suffix="Xml"/>
+                </jaxb:nameXmlTransform>
+            </jaxb:schemaBindings>
+        </xsd:appinfo>
+    </xsd:annotation>
+
+
+    <!-- Graphs -->
+
+    <!-- MarkovRandomField Element, contains instances -->
+    <xsd:element name="BayesianNetwork">
+        <xsd:annotation>
+            <xsd:appinfo>
+                <jaxb:class name="BayesianNetworkElementXml"/>
+                <annox:annotate target="class">
+                    <!-- this allows for proper unmarshalling, can not be used on classes which already generate this-->
+                    <anno:XmlSeeAlso value="com.syncleus.dann.graphicalmodel.xml.GraphicalModelNodeXml"/>
+                </annox:annotate>
+            </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="BayesianNetwork">
+                    <xsd:sequence>
+                        <xsd:element name="nodeInstances" maxOccurs="1">
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="node" type="dann:NamedValue" maxOccurs="unbounded">
+                                        <xsd:annotation>
+                                            <xsd:appinfo>
+                                                <jaxb:property name="nodes"/>
+                                            </xsd:appinfo>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                        <xsd:element name="stateInstances" maxOccurs="1">
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="learnedState" type="dann:NamedValue" maxOccurs="unbounded">
+                                        <xsd:annotation>
+                                            <xsd:appinfo>
+                                                <jaxb:property name="states"/>
+                                            </xsd:appinfo>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+    <!-- MarkovRandomField Type, contains references to instanced objects -->
+    <xsd:complexType name="BayesianNetwork">
+        <xsd:complexContent>
+            <xsd:extension base="graphicalmodel:GraphicalModel"/>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+
+</xsd:schema>

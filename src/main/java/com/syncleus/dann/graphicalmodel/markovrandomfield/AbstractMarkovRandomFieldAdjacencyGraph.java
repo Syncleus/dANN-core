@@ -16,12 +16,43 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graphicalmodel.bayesian;
+package com.syncleus.dann.graphicalmodel.markovrandomfield;
 
-import com.syncleus.dann.graph.DirectedEdge;
-import com.syncleus.dann.graph.MutableGraph;
+import java.util.*;
+import com.syncleus.dann.graph.*;
+import com.syncleus.dann.graphicalmodel.AbstractGraphicalModelAdjacencyGraph;
 import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
 
-public interface MutableBayesianNetwork<N extends GraphicalModelNode, E extends DirectedEdge<N>> extends BayesianNetwork<N, E>, MutableGraph<N, E>
+public abstract class AbstractMarkovRandomFieldAdjacencyGraph<N extends GraphicalModelNode, E extends UndirectedEdge<N>> extends AbstractGraphicalModelAdjacencyGraph<N, E>
 {
+	protected AbstractMarkovRandomFieldAdjacencyGraph()
+	{
+		super();
+	}
+
+	protected AbstractMarkovRandomFieldAdjacencyGraph(final Graph<N, E> copyGraph)
+	{
+		super(copyGraph.getNodes(), copyGraph.getEdges());
+	}
+
+	protected AbstractMarkovRandomFieldAdjacencyGraph(final Set<N> nodes, final Set<E> edges)
+	{
+		super(nodes, edges);
+	}
+
+	@Override
+	public double jointProbability()
+	{
+		final Set<N> seenNodes = new HashSet<N>();
+		double probabilityProduct = 1.0;
+		for(final N node : this.getNodes())
+		{
+			assert !seenNodes.contains(node);
+
+			probabilityProduct *= node.stateProbability(seenNodes);
+
+			seenNodes.add(node);
+		}
+		return probabilityProduct;
+	}
 }

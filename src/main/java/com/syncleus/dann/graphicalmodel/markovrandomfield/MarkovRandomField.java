@@ -16,19 +16,12 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graphicalmodel.bayesian.dynamic;
+package com.syncleus.dann.graphicalmodel.markovrandomfield;
 
-import java.util.Collections;
+import com.syncleus.dann.graph.UndirectedEdge;
+import com.syncleus.dann.graphicalmodel.GraphicalModel;
+import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
 
-public class HiddenMarkovDynamicBayesianNode<S> extends SimpleDynamicBayesianNode<S>
+public interface MarkovRandomField<N extends GraphicalModelNode, E extends UndirectedEdge<N>> extends GraphicalModel<N, E>
 {
-	public HiddenMarkovDynamicBayesianNode(final S initialState)
-	{
-		super(0, initialState);
-	}
-
-	public HiddenMarkovDynamicBayesianNode(final S lastState, final S initialState)
-	{
-		super(Collections.singletonList(lastState), initialState);
-	}
 }

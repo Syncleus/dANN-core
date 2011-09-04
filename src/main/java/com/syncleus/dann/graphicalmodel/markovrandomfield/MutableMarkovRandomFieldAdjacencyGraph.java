@@ -16,32 +16,29 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graphicalmodel.bayesian;
+package com.syncleus.dann.graphicalmodel.markovrandomfield;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import com.syncleus.dann.graph.DirectedEdge;
-import com.syncleus.dann.graph.context.ContextGraphElement;
+import java.util.*;
+import com.syncleus.dann.graph.UndirectedEdge;
 import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.context.ContextGraphElement;
 import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
 
-public class MutableBayesianAdjacencyNetwork<N extends GraphicalModelNode, E extends DirectedEdge<N>> extends AbstractBayesianAdjacencyNetwork<N, E> implements MutableBayesianNetwork<N, E>
+public class MutableMarkovRandomFieldAdjacencyGraph<N extends GraphicalModelNode, E extends UndirectedEdge<N>> extends AbstractMarkovRandomFieldAdjacencyGraph<N, E> implements MutableMarkovRandomField<N, E>
 {
 	private static final long serialVersionUID = -7951102585507791756L;
 
-	public MutableBayesianAdjacencyNetwork()
+	public MutableMarkovRandomFieldAdjacencyGraph()
 	{
 		super();
 	}
 
-	public MutableBayesianAdjacencyNetwork(final Graph<N, E> copyGraph)
+	public MutableMarkovRandomFieldAdjacencyGraph(final Graph<N, E> copyGraph)
 	{
 		super(copyGraph.getNodes(), copyGraph.getEdges());
 	}
 
-	public MutableBayesianAdjacencyNetwork(final Set<N> nodes, final Set<E> edges)
+	public MutableMarkovRandomFieldAdjacencyGraph(final Set<N> nodes, final Set<E> edges)
 	{
 		super(nodes, edges);
 	}
@@ -203,44 +200,44 @@ public class MutableBayesianAdjacencyNetwork<N extends GraphicalModelNode, E ext
 	}
 
 	@Override
-	public MutableBayesianAdjacencyNetwork<N, E> cloneAdd(final E newEdge)
+	public MutableMarkovRandomFieldAdjacencyGraph<N, E> cloneAdd(final E newEdge)
 	{
-		return (MutableBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newEdge);
+		return (MutableMarkovRandomFieldAdjacencyGraph<N, E>) super.cloneAdd(newEdge);
 	}
 
 	@Override
-	public MutableBayesianAdjacencyNetwork<N, E> cloneAdd(final N newNode)
+	public MutableMarkovRandomFieldAdjacencyGraph<N, E> cloneAdd(final N newNode)
 	{
-		return (MutableBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newNode);
+		return (MutableMarkovRandomFieldAdjacencyGraph<N, E>) super.cloneAdd(newNode);
 	}
 
 	@Override
-	public MutableBayesianAdjacencyNetwork<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
+	public MutableMarkovRandomFieldAdjacencyGraph<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
 	{
-		return (MutableBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newNodes, newEdges);
+		return (MutableMarkovRandomFieldAdjacencyGraph<N, E>) super.cloneAdd(newNodes, newEdges);
 	}
 
 	@Override
-	public MutableBayesianAdjacencyNetwork<N, E> cloneRemove(final E edgeToRemove)
+	public MutableMarkovRandomFieldAdjacencyGraph<N, E> cloneRemove(final E edgeToRemove)
 	{
-		return (MutableBayesianAdjacencyNetwork<N, E>) super.cloneRemove(edgeToRemove);
+		return (MutableMarkovRandomFieldAdjacencyGraph<N, E>) super.cloneRemove(edgeToRemove);
 	}
 
 	@Override
-	public MutableBayesianAdjacencyNetwork<N, E> cloneRemove(final N nodeToRemove)
+	public MutableMarkovRandomFieldAdjacencyGraph<N, E> cloneRemove(final N nodeToRemove)
 	{
-		return (MutableBayesianAdjacencyNetwork<N, E>) super.cloneRemove(nodeToRemove);
+		return (MutableMarkovRandomFieldAdjacencyGraph<N, E>) super.cloneRemove(nodeToRemove);
 	}
 
 	@Override
-	public MutableBayesianAdjacencyNetwork<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
+	public MutableMarkovRandomFieldAdjacencyGraph<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
 	{
-		return (MutableBayesianAdjacencyNetwork<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
+		return (MutableMarkovRandomFieldAdjacencyGraph<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
 	}
 
 	@Override
-	public MutableBayesianAdjacencyNetwork<N, E> clone()
+	public MutableMarkovRandomFieldAdjacencyGraph<N, E> clone()
 	{
-		return (MutableBayesianAdjacencyNetwork<N, E>) super.clone();
+		return (MutableMarkovRandomFieldAdjacencyGraph<N, E>) super.clone();
 	}
 }

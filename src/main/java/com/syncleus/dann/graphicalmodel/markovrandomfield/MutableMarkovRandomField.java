@@ -16,11 +16,12 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graphicalmodel.bayesian;
+package com.syncleus.dann.graphicalmodel.markovrandomfield;
 
-import com.syncleus.dann.graph.DirectedEdge;
+import com.syncleus.dann.graph.UndirectedEdge;
+import com.syncleus.dann.graph.MutableGraph;
+import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
 
-public interface BayesianEdge<N extends BayesianNode> extends DirectedEdge<N>
+public interface MutableMarkovRandomField<N extends GraphicalModelNode, E extends UndirectedEdge<N>> extends MarkovRandomField<N, E>, MutableGraph<N, E>
 {
-	Object getState();
 }

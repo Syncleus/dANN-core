@@ -16,12 +16,16 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graphicalmodel.bayesian;
+package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.DirectedEdge;
-import com.syncleus.dann.graph.MutableGraph;
-import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
+import java.util.List;
 
-public interface MutableBayesianNetwork<N extends GraphicalModelNode, E extends DirectedEdge<N>> extends BayesianNetwork<N, E>, MutableGraph<N, E>
+public interface UndirectedEdge<N> extends BidirectedEdge<N>
 {
+	@Override
+	UndirectedEdge<N> disconnect(N node);
+	@Override
+	UndirectedEdge<N> disconnect(List<N> node);
+	@Override
+	UndirectedEdge<N> clone();
 }

@@ -16,45 +16,15 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graphicalmodel.bayesian;
+package com.syncleus.dann.graphicalmodel.dynamic;
 
 import java.util.List;
-import com.syncleus.dann.graph.AbstractDirectedEdge;
+import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
 
-public final class SimpleBayesianEdge<N extends BayesianNode> extends AbstractDirectedEdge<N> implements BayesianEdge<N>
+public interface DynamicGraphicalModelNode<S> extends GraphicalModelNode<S>
 {
-	private static final long serialVersionUID = 5817768183659411136L;
-
-	public SimpleBayesianEdge(final N source, final N destination)
-	{
-		super(source, destination);
-	}
-
-	public SimpleBayesianEdge(final N source, final N destination, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
-	{
-		super(source, destination, allowJoiningMultipleGraphs, contextEnabled);
-	}
-
-	public Object getState()
-	{
-		return this.getSourceNode().getState();
-	}
-
-	@Override
-	public SimpleBayesianEdge<N> disconnect(final N node)
-	{
-		return (SimpleBayesianEdge<N>) this.remove(node);
-	}
-
-	@Override
-	public SimpleBayesianEdge<N> disconnect(final List<N> nodes)
-	{
-		return (SimpleBayesianEdge<N>) this.remove(nodes);
-	}
-
-	@Override
-	public SimpleBayesianEdge<N> clone()
-	{
-		return (SimpleBayesianEdge<N>) super.clone();
-	}
+	int getStateHistoryCapacity();
+	List<S> getStateHistory();
+	void setStateHistory(List<S> history);
+	void learnState(boolean updateHistory);
 }

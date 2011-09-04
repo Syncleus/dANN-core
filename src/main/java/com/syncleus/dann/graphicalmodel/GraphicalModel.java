@@ -16,12 +16,15 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graphicalmodel.bayesian;
+package com.syncleus.dann.graphicalmodel;
 
-import com.syncleus.dann.graph.DirectedEdge;
-import com.syncleus.dann.graph.MutableGraph;
-import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
+import java.util.Set;
+import com.syncleus.dann.graph.BidirectedEdge;
+import com.syncleus.dann.graph.Graph;
 
-public interface MutableBayesianNetwork<N extends GraphicalModelNode, E extends DirectedEdge<N>> extends BayesianNetwork<N, E>, MutableGraph<N, E>
+public interface GraphicalModel<N extends GraphicalModelNode, E extends BidirectedEdge<N>> extends Graph<N, E>
 {
+	void learnStates();
+	double jointProbability();
+	double conditionalProbability(Set<N> goals, Set<N> influences);
 }

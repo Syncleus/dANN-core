@@ -16,19 +16,19 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graphicalmodel.bayesian;
+package com.syncleus.dann.graphicalmodel.markovrandomfield;
 
 import java.util.HashSet;
-import com.syncleus.dann.graph.DirectedEdge;
-import com.syncleus.dann.graph.ImmutableDirectedEdge;
+import com.syncleus.dann.graph.*;
 import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
 import com.syncleus.dann.graphicalmodel.SimpleGraphicalModelNode;
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * tests SimpleBooleanNetwork (extending MarkovRandomField)
  */
-public class TestSimpleBooleanNetwork
+public class TestSimpleBooleanField
 {
 	public static enum BooleanState
 	{
@@ -56,7 +56,7 @@ public class TestSimpleBooleanNetwork
 	/**
 	 * boolean-goaled bayesian network
 	 */
-	private static class SimpleBooleanNetwork<I> extends MutableBayesianAdjacencyNetwork
+	private static class SimpleBooleanNetwork<I> extends MutableMarkovRandomFieldAdjacencyGraph<GraphicalModelNode, UndirectedEdge<GraphicalModelNode>>
 	{
 		private final HashSet<GraphicalModelNode> goals;
 		private final HashSet<GraphicalModelNode> influences;
@@ -76,7 +76,7 @@ public class TestSimpleBooleanNetwork
 			add(this.influence);
 			add(this.goal);
 			//connect nodes
-			final DirectedEdge<GraphicalModelNode> testEdge = new ImmutableDirectedEdge<GraphicalModelNode>(this.influence, this.goal);
+			final UndirectedEdge<GraphicalModelNode> testEdge = new ImmutableUndirectedEdge<GraphicalModelNode>(this.influence, this.goal);
 			this.add(testEdge);
 			goals.add(this.goal);
 			influences.add(this.influence);

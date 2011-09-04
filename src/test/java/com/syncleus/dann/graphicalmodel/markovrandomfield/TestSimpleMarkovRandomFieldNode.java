@@ -16,15 +16,15 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graphicalmodel.bayesian;
+package com.syncleus.dann.graphicalmodel.markovrandomfield;
 
-import com.syncleus.dann.graph.DirectedEdge;
-import com.syncleus.dann.graph.ImmutableDirectedEdge;
+import com.syncleus.dann.graph.*;
 import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
 import com.syncleus.dann.graphicalmodel.SimpleGraphicalModelNode;
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Test;
 
-public class TestSimpleBayesianNode
+public class TestSimpleMarkovRandomFieldNode
 {
 	private static enum SimpleEnum
 	{
@@ -34,7 +34,7 @@ public class TestSimpleBayesianNode
 	@Test
 	public void testSingleNode()
 	{
-		final MutableBayesianAdjacencyNetwork network = new MutableBayesianAdjacencyNetwork();
+		final MutableMarkovRandomFieldAdjacencyGraph network = new MutableMarkovRandomFieldAdjacencyGraph();
 		final GraphicalModelNode<SimpleEnum> testNode = new SimpleGraphicalModelNode<SimpleEnum>(SimpleEnum.TRUE);
 
 		network.add(testNode);
@@ -60,14 +60,14 @@ public class TestSimpleBayesianNode
 	@Test
 	public void testDependentNode()
 	{
-		final MutableBayesianAdjacencyNetwork network = new MutableBayesianAdjacencyNetwork();
+		final MutableMarkovRandomFieldAdjacencyGraph network = new MutableMarkovRandomFieldAdjacencyGraph();
 		final GraphicalModelNode<SimpleEnum> parentNode = new SimpleGraphicalModelNode<SimpleEnum>(SimpleEnum.TRUE);
 		final GraphicalModelNode<SimpleEnum> childNode = new SimpleGraphicalModelNode<SimpleEnum>(SimpleEnum.TRUE);
 
 		network.add(parentNode);
 		network.add(childNode);
 
-		final DirectedEdge<GraphicalModelNode<SimpleEnum>> testEdge = new ImmutableDirectedEdge<GraphicalModelNode<SimpleEnum>>(parentNode, childNode);
+		final UndirectedEdge<GraphicalModelNode<SimpleEnum>> testEdge = new ImmutableUndirectedEdge<GraphicalModelNode<SimpleEnum>>(parentNode, childNode);
 		network.add(testEdge);
 
 		parentNode.setState(SimpleEnum.TRUE);

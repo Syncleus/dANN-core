@@ -16,12 +16,19 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graphicalmodel.bayesian.dynamic;
+package com.syncleus.dann.graphicalmodel.dynamic;
 
-import com.syncleus.dann.graphicalmodel.bayesian.BayesianEdge;
-import com.syncleus.dann.graphicalmodel.bayesian.BayesianNetwork;
+import java.util.Collections;
 
-public interface DynamicBayesianNetwork<N extends DynamicBayesianNode, E extends BayesianEdge<N>> extends BayesianNetwork<N, E>
+public class HiddenMarkovDynamicGraphicalModelNode<S> extends SimpleDynamicGraphicalModelNode<S>
 {
-	void learnStates(boolean updateHistory);
+	public HiddenMarkovDynamicGraphicalModelNode(final S initialState)
+	{
+		super(0, initialState);
+	}
+
+	public HiddenMarkovDynamicGraphicalModelNode(final S lastState, final S initialState)
+	{
+		super(Collections.singletonList(lastState), initialState);
+	}
 }

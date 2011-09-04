@@ -16,24 +16,18 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graphicalmodel.bayesian.dynamic;
+package com.syncleus.dann.graphicalmodel.dynamic;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import com.syncleus.dann.graphicalmodel.bayesian.BayesianEdge;
-import com.syncleus.dann.graphicalmodel.bayesian.BayesianNetwork;
-import com.syncleus.dann.graphicalmodel.bayesian.BayesianNode;
-import com.syncleus.dann.graphicalmodel.bayesian.SimpleBayesianNode;
+import java.util.*;
+import com.syncleus.dann.graph.BidirectedEdge;
+import com.syncleus.dann.graphicalmodel.*;
 
-public class SimpleDynamicBayesianNode<S> extends SimpleBayesianNode<S> implements DynamicBayesianNode<S>
+public class SimpleDynamicGraphicalModelNode<S> extends SimpleGraphicalModelNode<S> implements DynamicGraphicalModelNode<S>
 {
 	//0 index is most recent
-	private final List<SimpleBayesianNode<S>> historicalNodes;
+	private final List<SimpleGraphicalModelNode<S>> historicalNodes;
 
-	public SimpleDynamicBayesianNode(final int historyCapacity, final S initialState)
+	public SimpleDynamicGraphicalModelNode(final int historyCapacity, final S initialState)
 	{
 		super(initialState);
 
@@ -42,22 +36,22 @@ public class SimpleDynamicBayesianNode<S> extends SimpleBayesianNode<S> implemen
 		if( initialState == null )
 			throw new IllegalArgumentException("initialState can not be null");
 
-		final List<SimpleBayesianNode<S>> newHistoricalNodes = new ArrayList<SimpleBayesianNode<S>>(historyCapacity);
+		final List<SimpleGraphicalModelNode<S>> newHistoricalNodes = new ArrayList<SimpleGraphicalModelNode<S>>(historyCapacity);
 		for(int historyIndex = 0; historyIndex < historyCapacity; historyIndex++)
-			newHistoricalNodes.add(new SimpleBayesianNode<S>(null));
+			newHistoricalNodes.add(new SimpleGraphicalModelNode<S>(null));
 		this.historicalNodes = Collections.unmodifiableList(newHistoricalNodes);
 	}
 
-	public SimpleDynamicBayesianNode(final List<S> history, final S initialState)
+	public SimpleDynamicGraphicalModelNode(final List<S> history, final S initialState)
 	{
 		super(initialState);
 		if( history == null )
 			throw new IllegalArgumentException("history can not be null");
 		if( initialState == null )
 			throw new IllegalArgumentException("initialState can not be null");
-		final List<SimpleBayesianNode<S>> newHistoricalNodes = new ArrayList<SimpleBayesianNode<S>>(history.size());
+		final List<SimpleGraphicalModelNode<S>> newHistoricalNodes = new ArrayList<SimpleGraphicalModelNode<S>>(history.size());
 		for(final S aHistory : history)
-			newHistoricalNodes.add(new com.syncleus.dann.graphicalmodel.bayesian.SimpleBayesianNode<S>(aHistory));
+			newHistoricalNodes.add(new SimpleGraphicalModelNode<S>(aHistory));
 		this.historicalNodes = Collections.unmodifiableList(newHistoricalNodes);
 	}
 
@@ -65,12 +59,12 @@ public class SimpleDynamicBayesianNode<S> extends SimpleBayesianNode<S> implemen
 	 * If we leave a network, lets clear the states.
 	 */
 	@Override
-	public boolean joiningGraph(final BayesianNetwork<BayesianNode<S>, BayesianEdge<BayesianNode<S>>> graph)
+	public boolean joiningGraph(final GraphicalModel<GraphicalModelNode<S>, BidirectedEdge<GraphicalModelNode<S>>> graph)
 	{
 		if( super.joiningGraph(graph) )
 		{
 			//let all our historical nodes also know were leaves
-			for(SimpleBayesianNode<S> historicalNode : this.historicalNodes)
+			for(SimpleGraphicalModelNode<S> historicalNode : this.historicalNodes)
 				if( !historicalNode.joiningGraph(graph))
 					throw new IllegalStateException("historical node will not attach to graph when its parent will");
 			return true;
@@ -83,12 +77,12 @@ public class SimpleDynamicBayesianNode<S> extends SimpleBayesianNode<S> implemen
 	 * If we leave a network, lets clear the states.
 	 */
 	@Override
-	public boolean leavingGraph(final BayesianNetwork<BayesianNode<S>, BayesianEdge<BayesianNode<S>>> graph)
+	public boolean leavingGraph(final GraphicalModel<GraphicalModelNode<S>, BidirectedEdge<GraphicalModelNode<S>>> graph)
 	{
 		if( super.leavingGraph(graph) )
 		{
 			//let all our historical nodes also know were leaves
-			for(SimpleBayesianNode<S> historicalNode : this.historicalNodes)
+			for(SimpleGraphicalModelNode<S> historicalNode : this.historicalNodes)
 				if( !historicalNode.leavingGraph(graph))
 					throw new IllegalStateException("historical node will not detach from graph when its parent will");
 			return true;
@@ -107,7 +101,7 @@ public class SimpleDynamicBayesianNode<S> extends SimpleBayesianNode<S> implemen
 	public List<S> getStateHistory()
 	{
 		final List<S> historyStates = new ArrayList<S>(this.getStateHistoryCapacity());
-		for(final BayesianNode<S> node : this.historicalNodes)
+		for(final SimpleGraphicalModelNode<S> node : this.historicalNodes)
 			historyStates.add(node.getState());
 		return Collections.unmodifiableList(historyStates);
 	}
@@ -142,9 +136,9 @@ public class SimpleDynamicBayesianNode<S> extends SimpleBayesianNode<S> implemen
 	}
 
 	@Override
-	protected Set<BayesianNode> getInfluencingNodes()
+	protected Set<GraphicalModelNode> getInfluencingNodes()
 	{
-		final Set<BayesianNode> influences = new HashSet<BayesianNode>(super.getInfluencingNodes());
+		final Set<GraphicalModelNode> influences = new HashSet<GraphicalModelNode>(super.getInfluencingNodes());
 		influences.addAll(this.historicalNodes);
 		return Collections.unmodifiableSet(influences);
 	}

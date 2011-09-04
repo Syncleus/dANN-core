@@ -16,18 +16,11 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graphicalmodel.bayesian;
+package com.syncleus.dann.graphicalmodel.dynamic;
 
-import com.syncleus.dann.graphicalmodel.bayesian.xml.BayesianNodeXml;
-import com.syncleus.dann.xml.XmlSerializable;
-import java.util.Set;
+import com.syncleus.dann.graph.BidirectedEdge;
+import com.syncleus.dann.graph.MutableGraph;
 
-public interface BayesianNode<S> extends XmlSerializable<BayesianNodeXml, Object>
+public interface MutableDynamicGraphicalModel<N extends DynamicGraphicalModelNode, E extends BidirectedEdge<N>> extends DynamicGraphicalModel<N, E>, MutableGraph<N, E>
 {
-	Set<S> getLearnedStates();
-	void setState(S currentState);
-	S getState();
-	void learnState();
-	double stateProbability();
-	void reset();
 }

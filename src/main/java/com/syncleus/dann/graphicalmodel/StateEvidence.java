@@ -16,15 +16,13 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graphicalmodel.bayesian;
+package com.syncleus.dann.graphicalmodel;
 
 import java.util.HashMap;
 import java.util.Map;
-import com.syncleus.dann.graphicalmodel.bayesian.xml.StateEvidenceElementXml;
-import com.syncleus.dann.graphicalmodel.bayesian.xml.StateEvidenceXml;
-import com.syncleus.dann.xml.NamedValueXml;
-import com.syncleus.dann.xml.Namer;
-import com.syncleus.dann.xml.XmlSerializable;
+import com.syncleus.dann.graphicalmodel.xml.StateEvidenceElementXml;
+import com.syncleus.dann.graphicalmodel.xml.StateEvidenceXml;
+import com.syncleus.dann.xml.*;
 
 public class StateEvidence<S> extends HashMap<S, Integer> implements XmlSerializable<StateEvidenceXml, Object>
 {
@@ -69,6 +67,7 @@ public class StateEvidence<S> extends HashMap<S, Integer> implements XmlSerializ
 			this.totalEvidence = (this.totalEvidence - oldEvidence) + newEvidence;
 		}
 	}
+
 
 	@Override
 	public StateEvidenceXml toXml()

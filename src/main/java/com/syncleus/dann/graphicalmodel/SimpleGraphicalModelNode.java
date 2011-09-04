@@ -16,31 +16,26 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graphicalmodel.bayesian;
+package com.syncleus.dann.graphicalmodel;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
+import com.syncleus.dann.graph.BidirectedEdge;
 import com.syncleus.dann.graph.context.AbstractContextNode;
-import com.syncleus.dann.graphicalmodel.bayesian.xml.BayesianNodeXml;
-import com.syncleus.dann.graphicalmodel.bayesian.xml.SimpleBayesianNodeElementXml;
-import com.syncleus.dann.graphicalmodel.bayesian.xml.SimpleBayesianNodeXml;
+import com.syncleus.dann.graphicalmodel.xml.GraphicalModelNodeXml;
+import com.syncleus.dann.graphicalmodel.xml.SimpleGraphicalModelNodeElementXml;
+import com.syncleus.dann.graphicalmodel.xml.SimpleGraphicalModelNodeXml;
 import com.syncleus.dann.xml.NameXml;
 import com.syncleus.dann.xml.NamedValueXml;
 import com.syncleus.dann.xml.Namer;
 import com.syncleus.dann.xml.XmlSerializable;
 
-public class SimpleBayesianNode<S> extends AbstractContextNode<BayesianNode<S>, BayesianEdge<BayesianNode<S>>, BayesianNetwork<BayesianNode<S>, BayesianEdge<BayesianNode<S>>>> implements BayesianNode<S>
+public class SimpleGraphicalModelNode<S> extends AbstractContextNode<GraphicalModelNode<S>, BidirectedEdge<GraphicalModelNode<S>>, GraphicalModel<GraphicalModelNode<S>, BidirectedEdge<GraphicalModelNode<S>>>> implements GraphicalModelNode<S>
 {
 	private EvidenceMap<S> evidence;
 	private S state;
 	private final SortedSet<S> learnedStates;
 
-	public SimpleBayesianNode(final S initialState)
+	public SimpleGraphicalModelNode(final S initialState)
 	{
 		super(false);
 
@@ -55,7 +50,7 @@ public class SimpleBayesianNode<S> extends AbstractContextNode<BayesianNode<S>, 
 	 * If we leave a network, lets clear the states.
 	 */
 	@Override
-	public boolean leavingGraph(final BayesianNetwork<BayesianNode<S>, BayesianEdge<BayesianNode<S>>> graph)
+	public boolean leavingGraph(final GraphicalModel<GraphicalModelNode<S>, BidirectedEdge<GraphicalModelNode<S>>> graph)
 	{
 		if( super.leavingGraph(graph) )
 		{
@@ -99,7 +94,7 @@ public class SimpleBayesianNode<S> extends AbstractContextNode<BayesianNode<S>, 
 	{
 		this.updateInfluence();
 
-		this.evidence.incrementState(this.getInputStates(), this.state);
+		this.evidence.incrementState(this.getInfluencingStates(), this.state);
 		this.learnedStates.add(this.state);
 	}
 
@@ -108,41 +103,89 @@ public class SimpleBayesianNode<S> extends AbstractContextNode<BayesianNode<S>, 
 	{
 		this.updateInfluence();
 
-		final StateEvidence<S> stateEvidence = this.evidence.get(this.getInputStates());
+		final StateEvidence<S> stateEvidence = this.evidence.get(this.getInfluencingStates());
 		return ((stateEvidence == null) ? 0.0 : stateEvidence.getPercentage(this.state));
 	}
 
-	private Map<BayesianNode, Object> getInputStates()
+	@Override
+	public double stateProbability(Set<? extends GraphicalModelNode> ignoredInfluences)
+	{
+		final Set<GraphicalModelNode> influences = new HashSet<GraphicalModelNode>(this.getInfluencingNodes());
+		influences.removeAll(ignoredInfluences);
+
+		int evidenceOccurrence = 0;
+		int totalOccurrence = 0;
+
+		NextEvidence:
+		for(final Map.Entry<Map<GraphicalModelNode, Object>, StateEvidence<S>> evidenceEntry : this.evidence.entrySet())
+		{
+			final Map<GraphicalModelNode, Object> influencingEvidence = evidenceEntry.getKey();
+			for(GraphicalModelNode influence : influences)
+			{
+				final Object influencingEvidenceState = influencingEvidence.get(influence);
+				if( (influencingEvidenceState == null)||(!influencingEvidenceState.equals(influence.getState())) )
+					continue NextEvidence;
+			}
+
+			final StateEvidence<S> evidence = evidenceEntry.getValue();
+
+			final Integer currentEvidenceOccurrence = evidence.get(this.getState());
+			if( currentEvidenceOccurrence != null )
+				evidenceOccurrence += evidence.get(this.getState());
+			totalOccurrence += evidence.getTotalEvidence();
+		}
+
+		if( totalOccurrence == 0 )
+			return 0.0;
+
+		return ((double)evidenceOccurrence) / ((double)totalOccurrence);
+	}
+
+	private Map<GraphicalModelNode, Object> getInfluencingStates()
 	{
 		//TODO change this so it only cares if it has edges to work with and doesnt care what networks its a part of
 		if( !this.isGraphMember() )
-			throw new IllegalStateException("This bayesian node is not currently a member of any network");
+			throw new IllegalStateException("This graphical model node is not currently a member of any network");
 
-		final Map<BayesianNode, Object> inStates = new HashMap<BayesianNode, Object>();
+		final Map<GraphicalModelNode, Object> inStates = new HashMap<GraphicalModelNode, Object>();
 
-		final Set<BayesianEdge<BayesianNode<S>>> inEdges = this.getJoinedGraphs().iterator().next().getInEdges(this);
-		for(final BayesianEdge<? extends BayesianNode> inEdge : inEdges)
-			inStates.put(inEdge.getSourceNode(), inEdge.getSourceNode().getState());
+		final Set<BidirectedEdge<GraphicalModelNode<S>>> inEdges = this.getJoinedGraphs().iterator().next().getAdjacentEdges(this);
+		for(final BidirectedEdge<GraphicalModelNode<S>> inEdge : inEdges)
+		{
+			//if it is traversable to this node it is an influence
+			List<GraphicalModelNode<S>> otherNodes = new ArrayList<GraphicalModelNode<S>>(inEdge.getNodes());
+			otherNodes.remove(this);
+			GraphicalModelNode<S> otherNode = otherNodes.get(0);
+			if( inEdge.isTraversable(otherNode) )
+				inStates.put(otherNode, otherNode.getState());
+		}
 
 		return inStates;
 	}
 
-	protected Set<BayesianNode> getInfluencingNodes()
+	protected Set<GraphicalModelNode> getInfluencingNodes()
 	{
 		//TODO change this so it only cares if it has edges to work with and doesnt care what networks its a part of
 		if( !this.isGraphMember() )
-			throw new IllegalStateException("This bayesian node is not currently a member of any network");
+			throw new IllegalStateException("This graphical model node is not currently a member of any network");
 
-		final Set<BayesianEdge<BayesianNode<S>>> inEdges = this.getJoinedGraphs().iterator().next().getInEdges(this);
-		final Set<BayesianNode> inNodes = new HashSet<BayesianNode>();
-		for(final BayesianEdge<? extends BayesianNode> inEdge : inEdges)
-			inNodes.add((inEdge.getLeftNode().equals(this) ? inEdge.getRightNode() : inEdge.getLeftNode()));
+		final Set<BidirectedEdge<GraphicalModelNode<S>>> inEdges = this.getJoinedGraphs().iterator().next().getAdjacentEdges(this);
+		final Set<GraphicalModelNode> inNodes = new HashSet<GraphicalModelNode>();
+		for(final BidirectedEdge<GraphicalModelNode<S>> inEdge : inEdges)
+		{
+			//if it is traversable to this node it is an influence
+			List<GraphicalModelNode<S>> otherNodes = new ArrayList<GraphicalModelNode<S>>(inEdge.getNodes());
+			otherNodes.remove(this);
+			GraphicalModelNode<S> otherNode = otherNodes.get(0);
+			if( inEdge.isTraversable(otherNode) )
+				inNodes.add(otherNode);
+		}
 		return Collections.unmodifiableSet(inNodes);
 	}
 
 	private boolean updateInfluence()
 	{
-		final Set<BayesianNode> currentInfluences = this.getInfluencingNodes();
+		final Set<GraphicalModelNode> currentInfluences = this.getInfluencingNodes();
 		if( this.evidence == null )
 		{
 			this.evidence = new EvidenceMap<S>(currentInfluences);
@@ -160,12 +203,12 @@ public class SimpleBayesianNode<S> extends AbstractContextNode<BayesianNode<S>, 
 	}
 
 	@Override
-	public SimpleBayesianNodeXml toXml()
+	public SimpleGraphicalModelNodeXml toXml()
 	{
 		final Namer<Object> namer = new Namer<Object>();
-		final SimpleBayesianNodeElementXml xml = new SimpleBayesianNodeElementXml();
+		final SimpleGraphicalModelNodeElementXml xml = new SimpleGraphicalModelNodeElementXml();
 
-		xml.setStateInstances(new SimpleBayesianNodeElementXml.StateInstances());
+		xml.setStateInstances(new SimpleGraphicalModelNodeElementXml.StateInstances());
 		final Set<S> writtenStates = new HashSet<S>();
 		for (S learnedState : this.learnedStates)
 		{
@@ -206,25 +249,25 @@ public class SimpleBayesianNode<S> extends AbstractContextNode<BayesianNode<S>, 
 	}
 
 	@Override
-	public SimpleBayesianNodeXml toXml(final Namer<Object> namer)
+	public SimpleGraphicalModelNodeXml toXml(final Namer<Object> namer)
 	{
 		if (namer == null)
 		{
 			throw new IllegalArgumentException("namer can not be null");
 		}
 
-		final SimpleBayesianNodeXml xml = new SimpleBayesianNodeXml();
+		final SimpleGraphicalModelNodeXml xml = new SimpleGraphicalModelNodeXml();
 		this.toXml(xml, namer);
 		return xml;
 	}
 
 	@Override
-	public void toXml(final BayesianNodeXml jaxbObject, final Namer<Object> namer)
+	public void toXml(final GraphicalModelNodeXml jaxbObject, final Namer<Object> namer)
 	{
 		//set learned states
 		if (jaxbObject.getLearnedStates() == null)
 		{
-			jaxbObject.setLearnedStates(new SimpleBayesianNodeXml.LearnedStates());
+			jaxbObject.setLearnedStates(new SimpleGraphicalModelNodeXml.LearnedStates());
 		}
 		for (S learnedState : learnedStates)
 		{
@@ -241,9 +284,9 @@ public class SimpleBayesianNode<S> extends AbstractContextNode<BayesianNode<S>, 
 		jaxbObject.getState().setName(namer.getNameOrCreate(this.state));
 
 		//set evidence map
-		if ((jaxbObject instanceof SimpleBayesianNodeXml) && (this.evidence != null))
+		if ((jaxbObject instanceof SimpleGraphicalModelNodeXml) && (this.evidence != null))
 		{
-			((SimpleBayesianNodeXml) jaxbObject).setEvidence(this.evidence.toXml(namer));
+			((SimpleGraphicalModelNodeXml) jaxbObject).setEvidence(this.evidence.toXml(namer));
 		}
 	}
 }
