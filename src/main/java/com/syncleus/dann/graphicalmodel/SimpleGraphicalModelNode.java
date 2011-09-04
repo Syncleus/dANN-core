@@ -107,6 +107,40 @@ public class SimpleGraphicalModelNode<S> extends AbstractContextNode<GraphicalMo
 		return ((stateEvidence == null) ? 0.0 : stateEvidence.getPercentage(this.state));
 	}
 
+	@Override
+	public double stateProbability(Set<? extends GraphicalModelNode> ignoredInfluences)
+	{
+		final Set<GraphicalModelNode> influences = new HashSet<GraphicalModelNode>(this.getInfluencingNodes());
+		influences.removeAll(ignoredInfluences);
+
+		int evidenceOccurrence = 0;
+		int totalOccurrence = 0;
+
+		NextEvidence:
+		for(final Map.Entry<Map<GraphicalModelNode, Object>, StateEvidence<S>> evidenceEntry : this.evidence.entrySet())
+		{
+			final Map<GraphicalModelNode, Object> influencingEvidence = evidenceEntry.getKey();
+			for(GraphicalModelNode influence : influences)
+			{
+				final Object influencingEvidenceState = influencingEvidence.get(influence);
+				if( (influencingEvidenceState == null)||(!influencingEvidenceState.equals(influence.getState())) )
+					continue NextEvidence;
+			}
+
+			final StateEvidence<S> evidence = evidenceEntry.getValue();
+
+			final Integer currentEvidenceOccurrence = evidence.get(this.getState());
+			if( currentEvidenceOccurrence != null )
+				evidenceOccurrence += evidence.get(this.getState());
+			totalOccurrence += evidence.getTotalEvidence();
+		}
+
+		if( totalOccurrence == 0 )
+			return 0.0;
+
+		return ((double)evidenceOccurrence) / ((double)totalOccurrence);
+	}
+
 	private Map<GraphicalModelNode, Object> getInfluencingStates()
 	{
 		//TODO change this so it only cares if it has edges to work with and doesnt care what networks its a part of

@@ -29,5 +29,6 @@ public interface GraphicalModelNode<S> extends XmlSerializable<GraphicalModelNod
 	S getState();
 	void learnState();
 	double stateProbability();
+	double stateProbability(Set<? extends GraphicalModelNode> ignoredInfluences);
 	void reset();
 }
