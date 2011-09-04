@@ -21,7 +21,7 @@
     <xsd:import namespace="http://127.0.0.1:8080/Aide/com/syncleus/dann/graph/xml"
                 schemaLocation="com.syncleus.dann.graph.xml.xsd"/>
     <xsd:import namespace="http://127.0.0.1:8080/Aide/com/syncleus/dann/graphicalmodel/xml"
-                schemaLocation="com.syncleus.dann.graphicalmodel.xsd"/>
+                schemaLocation="com.syncleus.dann.graphicalmodel.xml.xsd"/>
 
 
     <!-- Global annotations -->
