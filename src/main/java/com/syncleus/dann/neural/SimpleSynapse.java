@@ -28,7 +28,7 @@ import java.util.List;
  * @see com.syncleus.dann.neural.Neuron
  * @since 1.0
  */
-public final class SimpleSynapse<N extends Neuron> extends AbstractSynapse<N>
+public final class SimpleSynapse<N> extends AbstractSynapse<N>
 {
 	private static final long serialVersionUID = -209835498037456098L;
 	/**

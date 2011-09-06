@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Random;
 import com.syncleus.dann.graph.AbstractDirectedEdge;
 
-public abstract class AbstractSynapse<N extends Neuron> extends AbstractDirectedEdge<N> implements Synapse<N>
+public abstract class AbstractSynapse<N> extends AbstractDirectedEdge<N> implements Synapse<N>
 {
 	private static final long serialVersionUID = -7939448149356677295L;
 	/**
