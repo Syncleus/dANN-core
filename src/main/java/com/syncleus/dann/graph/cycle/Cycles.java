@@ -26,7 +26,7 @@ public final class Cycles
 	private static final CycleDetector COLORED_DETECTOR = new ColoredDepthFirstSearchDetector();
 
 	/**
-	 * This is an utility class so it can not be instantiated.
+	 * This is an utility class, so it can not be instantiated.
 	 */
 	private Cycles()
 	{

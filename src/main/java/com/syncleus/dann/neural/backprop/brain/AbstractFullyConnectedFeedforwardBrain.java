@@ -27,6 +27,7 @@ import com.syncleus.dann.neural.backprop.InputBackpropNeuron;
 import com.syncleus.dann.neural.backprop.OutputBackpropNeuron;
 import java.util.concurrent.ExecutorService;
 
+// TODO rename bad camel-casing
 public abstract class AbstractFullyConnectedFeedforwardBrain<IN extends InputBackpropNeuron, ON extends OutputBackpropNeuron, N extends BackpropNeuron, S extends Synapse<N>> extends AbstractFeedforwardBrain<IN, ON, N, S>
 {
 	private final boolean hasBias;
@@ -67,10 +68,11 @@ public abstract class AbstractFullyConnectedFeedforwardBrain<IN extends InputBac
 		this.hasBias = hasBias;
 	}
 
+	// TODO rename (spell error)
 	@Override
 	protected final void initalizeNetwork(final int[] neuronsPerLayer)
 	{
-		//makse sure the parent has a chance to create the unconnected network.
+		// make sure the parent has a chance to create the unconnected network.
 		super.initalizeNetwork(neuronsPerLayer);
 
 		//iterate through all layers (except the last) and connect it to the
@@ -80,10 +82,10 @@ public abstract class AbstractFullyConnectedFeedforwardBrain<IN extends InputBac
 			final NeuronGroup<N> sourceLayer = this.getEditableLayers().get(layerIndex);
 			final NeuronGroup<N> destinationLayer = this.getEditableLayers().get(layerIndex + 1);
 			for(final N sourceNeuron : sourceLayer.getChildrenNeuronsRecursivly())
-				for(final N destinationNeruon : destinationLayer.getChildrenNeuronsRecursivly())
+				for(final N destinationNeuron : destinationLayer.getChildrenNeuronsRecursivly())
 				{
 					//TODO this is bad typing fix this!
-					final Synapse<N> connection = new SimpleSynapse<N>(sourceNeuron, destinationNeruon);
+					final Synapse<N> connection = new SimpleSynapse<N>(sourceNeuron, destinationNeuron);
 					//TODO this is bad typing fix this!
 					this.connect((S) connection, true);
 				}

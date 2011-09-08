@@ -109,7 +109,7 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 	}
 
 	/**
-	 * Called by chidren classes to instantiate a basic SomBrain with the given
+	 * Called by children classes to instantiate a basic SomBrain with the given
 	 * number of inputs and with an output lattice of the given number of
 	 * dimensions.
 	 *
@@ -176,7 +176,7 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 	 * Creates a new point in the output lattice at the given position. This will
 	 * automatically have all inputs connected to it.
 	 *
-	 * @param position The position of the new output in the latice.
+	 * @param position The position of the new output in the lattice.
 	 * @since 2.0
 	 */
 	@Override
@@ -225,10 +225,10 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 	 * the position does not have a SimpleSomNeuron associated with it then it throws
 	 * an exception.
 	 *
-	 * @param position position in the output latice of the output you wish to
+	 * @param position position in the output lattice of the output you wish to
 	 * retrieve.
-	 * @return The value of the specified SimpleSomNeuron, or null if there is no
-	 *         SimpleSomNeuron associated with the given position.
+	 * @return The value of the specified SimpleSomNeuron, or null if there is
+	 *   no SimpleSomNeuron associated with the given position.
 	 * @throws IllegalArgumentException if position does not exist.
 	 * @since 2.0
 	 */
@@ -244,32 +244,32 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 	}
 
 	/**
-	 * Obtains the BMU (Best Matching Unit) for the current input set. This will
-	 * also train against the current input.
+	 * Obtains the BMU (Best Matching Unit) for the current input set.
+	 * This will also train against the current input.
 	 *
 	 * @return the BMU for the current input set.
 	 */
 	@Override
 	public final Vector getBestMatchingUnit()
 	{
-		return this.getBestMatchingUnit(true);
+		return getBestMatchingUnit(true);
 	}
 
 	/**
-	 * Obtains the BMU (Best Matching Unit) for the current input set. This will
-	 * also train against the current input when specified.
+	 * Obtains the BMU (Best Matching Unit) for the current input set.
+	 * This will also train against the current input when specified.
 	 *
 	 * @param train true to train against the input set, false if no training
-	 * occurs.
+	 *   occurs.
 	 * @return the BMU for the current input set.
 	 * @since 2.0
 	 */
 	@Override
 	public final Vector getBestMatchingUnit(final boolean train)
 	{
-		//make sure we have atleast one output
-		if( this.outputs.size() <= 0 )
-			throw new IllegalStateException("Must have atleast one output");
+		//make sure we have at least one output
+		if( outputs.size() <= 0 )
+			throw new IllegalStateException("Must have at least one output");
 
 		Vector bestMatchingUnit = null;
 		double bestMatch = Double.POSITIVE_INFINITY;
@@ -292,7 +292,7 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 		}
 		else
 		{
-			//stick all the neurons in the queue to propogate
+			//stick all the neurons in the queue to propagate
 			final Map<Vector, Future<Double>> futureOutput = new HashMap<Vector, Future<Double>>();
 			for(final Entry<Vector, ON> entry : this.outputs.entrySet())
 			{
@@ -310,13 +310,13 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 				}
 				catch(InterruptedException caught)
 				{
-					LOGGER.warn("PropagateOutput was unexpectidy interupted", caught);
-					throw new UnexpectedInterruptedException("Unexpected interuption. Get should block indefinately", caught);
+					LOGGER.warn("PropagateOutput was unexpectedly interrupted", caught);
+					throw new UnexpectedInterruptedException("Unexpected interrupted. Get should block indefinitely", caught);
 				}
 				catch(ExecutionException caught)
 				{
-					LOGGER.error("PropagateOutput was had an unexcepted problem executing.", caught);
-					throw new UnexpectedDannError("Unexpected execution exception. Get should block indefinately", caught);
+					LOGGER.error("PropagateOutput was had an unexpected problem executing.", caught);
+					throw new UnexpectedDannError("Unexpected execution exception. Get should block indefinitely", caught);
 				}
 
 				if( bestMatchingUnit == null )
@@ -350,7 +350,7 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 		}
 		else
 		{
-			//add all the neuron trainingevents to the thread queue
+			//add all the neuron training events to the thread queue
 			final ArrayList<Future> futures = new ArrayList<Future>();
 			for(final Entry<Vector, ON> entry : this.outputs.entrySet())
 			{
@@ -366,13 +366,13 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 			}
 			catch(InterruptedException caught)
 			{
-				LOGGER.warn("PropagateOutput was unexpectidy interupted", caught);
-				throw new UnexpectedInterruptedException("Unexpected interuption. Get should block indefinately", caught);
+				LOGGER.warn("PropagateOutput was unexpectedly interrupted", caught);
+				throw new UnexpectedInterruptedException("Unexpected interrupted. Get should block indefinitely", caught);
 			}
 			catch(ExecutionException caught)
 			{
-				LOGGER.error("PropagateOutput had an unexpected problem executing.", caught);
-				throw new UnexpectedDannError("Unexpected execution exception. Get should block indefinately", caught);
+				LOGGER.error("PropagateOutput was had an unexpected problem executing.", caught);
+				throw new UnexpectedDannError("Unexpected execution exception. Get should block indefinitely", caught);
 			}
 		}
 
@@ -471,7 +471,7 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 			final ON currentNeuron = output.getValue();
 			final Vector currentPoint = output.getKey();
 			//iterate through the weight vectors of the current neuron
-			//TODO fix this it is badly typed
+			//TODO fix this, it is badly typed
 			for(final S source : this.getInEdges((N)currentNeuron))
 			{
 				assert (source.getSourceNode() instanceof InputNeuron);

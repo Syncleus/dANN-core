@@ -121,7 +121,7 @@ public abstract class AbstractAttributePool<T> implements AttributePool<T>
 			listener.attributeChanged(attribute, attributeValue);
 		}
 
-		//now lets hangle global listeners
+		//now lets handle global listeners
 		for( AttributeChangeListener<T> listener : this.globalListeners )
 		{
 			listener.attributeChanged(attribute, attributeValue);
