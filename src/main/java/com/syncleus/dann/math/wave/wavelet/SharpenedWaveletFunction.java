@@ -80,6 +80,7 @@ public class SharpenedWaveletFunction extends SharpenedWaveFunction
 		return (1 / (this.getDistribution() * Math.sqrt(2 * Math.PI))) * Math.exp(-1 * (Math.pow((this.getX() - this.getCenter()), 2)) / (2 * Math.pow(this.getDistribution(), 2)));
 	}
 
+	@Override
 	public double calculate()
 	{
 		if( this.constantMode )

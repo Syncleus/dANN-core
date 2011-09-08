@@ -66,8 +66,8 @@ public abstract class AbstractOutputBackpropNeuron extends AbstractBackpropNeuro
 	}
 
 	/**
-	 * Creates a new instance of this class with the specified activation function
-	 * and learning rate.
+	 * Creates a new instance of this class with the specified activation
+	 * function and learning rate.
 	 *
 	 * @param activationFunction The activation used by this neuron.
 	 * @param learningRate The learning rate for this neuron.
@@ -90,31 +90,19 @@ public abstract class AbstractOutputBackpropNeuron extends AbstractBackpropNeuro
 		this.desired = trainingToSet;
 	}
 
-	/**
-	 * Calculates the Delta Train based on all the destination synapses.
-	 *
-	 * @see com.syncleus.dann.neural.backprop.SimpleBackpropNeuron#backPropagate
-	 * @since 1.0
-	 */
 	@Override
 	protected void calculateDeltaTrain()
 	{
 		double newDeltaTrain = 0.0;
-		// TODO fix this, bad typing
-//		for(final Synapse currentSynapse : super.getBrain().getTraversableEdges(this))
-//			this.deltaTrain += (currentSynapse.getWeight() * this.deltaTrainDestinations.get(currentSynapse));
-		for(final Object currentSynapse : super.getBrain().getTraversableEdges(this))
-			newDeltaTrain += (((Synapse)currentSynapse).getWeight() * this.getDeltaTrainDestinations().get(currentSynapse));
-		newDeltaTrain += (this.desired - this.getOutput());
-		newDeltaTrain *= super.activateDerivitive();
+		for (final Synapse currentSynapse : getBrain().getTraversableEdges(this))
+		{
+			newDeltaTrain += currentSynapse.getWeight() * getDeltaTrainDestinations().get(currentSynapse);
+		}
+		newDeltaTrain += desired - getOutput();
+		newDeltaTrain *= activateDerivitive();
 		setDeltaTrain(newDeltaTrain);
 	}
 
-	/**
-	 * Obtains the current output for this neuron.
-	 *
-	 * @return The current output of the neuron.
-	 */
 	@Override
 	public double getOutput()
 	{

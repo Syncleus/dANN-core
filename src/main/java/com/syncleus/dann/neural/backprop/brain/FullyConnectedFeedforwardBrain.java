@@ -64,27 +64,25 @@ public final class FullyConnectedFeedforwardBrain<IN extends InputBackpropNeuron
 		this.initalizeNetwork(neuronsPerLayer);
 	}
 
-	/**
-	 * Since a specific ActivationFunction or learning rate is needed then this
-	 * should be overridden in a child class.
-	 *
-	 * @param layer the current layer index for which we are creating the neuron.
-	 * @param index The index of the new neuron within the layer.
-	 * @return The new SimpleBackpropNeuron to be added to the current layer.
-	 * @since 2.0
-	 */
 	@Override
 	protected N createNeuron(final int layer, final int index)
 	{
 		final BackpropNeuron neuron;
-		if( layer == 0 )
-			neuron = new SimpleInputBackpropNeuron(this);
-		else if( layer >= (this.getLayerCount() - 1) )
-			neuron = new SimpleOutputBackpropNeuron(this, this.activationFunction, this.learningRate);
-		else
-			neuron = new SimpleBackpropNeuron(this, this.activationFunction, this.learningRate);
 
-		//TODO fix this typing
+		if (layer == 0)
+		{
+			neuron = new SimpleInputBackpropNeuron(this);
+		}
+		else if (layer >= (getLayerCount() - 1))
+		{
+			neuron = new SimpleOutputBackpropNeuron(this, activationFunction, learningRate);
+		}
+		else
+		{
+			neuron = new SimpleBackpropNeuron(this, activationFunction, learningRate);
+		}
+
+		// TODO fix typing
 		return (N) neuron;
 	}
 }

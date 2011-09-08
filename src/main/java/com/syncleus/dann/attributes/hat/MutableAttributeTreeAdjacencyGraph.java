@@ -61,49 +61,49 @@ public class MutableAttributeTreeAdjacencyGraph<N extends AbstractHierarchicalAt
 	@Override
 	public MutableAttributeTreeAdjacencyGraph<N, E, T> cloneAdd(final E newEdge)
 	{
-		// TODO Fix this!
+		// TODO Implement this method
 		throw new IllegalStateException("Operation not yet supported");
 	}
 
 	@Override
 	public MutableAttributeTreeAdjacencyGraph<N, E, T> cloneAdd(final N newNode)
 	{
-		// TODO Fix this!
+		// TODO Implement this method
 		throw new IllegalStateException("Operation not yet supported");
 	}
 
 	@Override
 	public MutableAttributeTreeAdjacencyGraph<N, E, T> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
 	{
-		// TODO Fix this!
+		// TODO Implement this method
 		throw new IllegalStateException("Operation not yet supported");
 	}
 
 	@Override
 	public MutableAttributeTreeAdjacencyGraph<N, E, T> cloneRemove(final E edgeToRemove)
 	{
-		// TODO Fix this!
+		// TODO Implement this method
 		throw new IllegalStateException("Operation not yet supported");
 	}
 
 	@Override
 	public MutableAttributeTreeAdjacencyGraph<N, E, T> cloneRemove(final N nodeToRemove)
 	{
-		// TODO Fix this!
+		// TODO Implement this method
 		throw new IllegalStateException("Operation not yet supported");
 	}
 
 	@Override
 	public MutableAttributeTreeAdjacencyGraph<N, E, T> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
 	{
-		// TODO Fix this!
+		// TODO Implement this method
 		throw new IllegalStateException("Operation not yet supported");
 	}
 
 	@Override
 	public MutableAttributeTreeAdjacencyGraph<N, E, T> clone()
 	{
-		// TODO Fix this!
+		// TODO Implement this method
 		throw new IllegalStateException("Operation not yet supported");
 	}
 }

@@ -222,7 +222,7 @@ public class Vector implements Serializable
 	 * point.
 	 *
 	 * @return The distance component of this point using hyper-spherical
-	 *         coordinates.
+	 *         coordinates, in [0, Double.MAX_VALUE].
 	 * @since 1.0
 	 */
 	public double getDistance()

@@ -40,10 +40,10 @@ import com.syncleus.dann.math.counting.Counters;
 
 public final class Topography
 {
-	//this is a utility class so we cant instantiate it, make default constructor private
+	// this is an utility class so we cant instantiate it, make default constructor private
 	private Topography()
 	{
-		throw new IllegalStateException("This is a utility class, it cant be instantiated");
+		throw new IllegalStateException("This is an utility class, it can not be instantiated");
 	}
 
 	/**
@@ -66,7 +66,8 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -96,9 +97,10 @@ public final class Topography
 	}
 
 	/**
-	 * Determines whether this graph is strongly connected. A graph is strongly connected if and only if
-	 * every node is strongly connected to every other node.
-	 * @return If this graph is strongly connected
+	 * Determines whether this graph is strongly connected.
+	 * A graph is strongly connected if, and only if every node is strongly
+	 * connected to every other node.
+	 * @return whether this graph is strongly connected
 	 * @see com.syncleus.dann.graph.topological.Topography#isStronglyConnected(Graph)
 	 */
 	public static <N, E extends Edge<N>> boolean isStronglyConnected(final Graph<N, E> graph)
@@ -111,7 +113,8 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -139,7 +142,8 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -176,7 +180,8 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -223,7 +228,8 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -261,11 +267,12 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
-		// TODO fill this in
+		// TODO implement this
 		throw new UnsupportedOperationException();
 	}
 
@@ -288,24 +295,25 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
 		if( !Topography.isSubGraph(graph, subGraph) )
 			return false;
-		//findCycles all edges in the parent graph, but not in the subgraph
+		// findCycles all edges in the parent graph, but not in the subgraph
 		final Set<E> exclusiveParentEdges = new HashSet<E>(graph.getEdges());
 		final Set<? extends E> subedges = subGraph.getEdges();
 		exclusiveParentEdges.removeAll(subedges);
-		//check to make sure none of the edges exclusive to the parent graph
-		//connect to any of the nodes in the subgraph.
+		// check to make sure none of the edges exclusive to the parent graph
+		// connect to any of the nodes in the subgraph.
 		final Set<? extends N> subnodes = subGraph.getNodes();
 		for(final E exclusiveParentEdge : exclusiveParentEdges)
 			for(final N exclusiveParentNode : exclusiveParentEdge.getNodes())
 				if( subnodes.contains(exclusiveParentNode) )
 					return false;
-		//passed all the tests, must be maximal
+		// passed all the tests, must be maximal
 		return true;
 	}
 
@@ -320,7 +328,8 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -337,7 +346,8 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -354,7 +364,8 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -371,7 +382,8 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -388,7 +400,8 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -405,7 +418,8 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -422,7 +436,8 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -439,7 +454,8 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -456,7 +472,8 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -479,7 +496,8 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -502,7 +520,8 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -525,7 +544,8 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -548,7 +568,8 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -576,7 +597,8 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -593,7 +615,8 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -619,7 +642,8 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -642,7 +666,8 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -670,7 +695,8 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -687,7 +713,8 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -737,7 +764,8 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -770,7 +798,8 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -801,7 +830,8 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -838,7 +868,8 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -874,7 +905,8 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -919,7 +951,8 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -966,11 +999,12 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
-		// TODO fill this in
+		// TODO implement this
 		throw new UnsupportedOperationException();
 	}
 
@@ -984,11 +1018,12 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
-		// TODO fill this in
+		// TODO implement this
 		throw new UnsupportedOperationException();
 	}
 
@@ -1003,7 +1038,8 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -1020,7 +1056,8 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -1037,7 +1074,8 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -1055,7 +1093,8 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -1073,7 +1112,8 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -1091,7 +1131,8 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -1109,7 +1150,8 @@ public final class Topography
 			}
 			catch(UnsupportedOperationException caught)
 			{
-				//if its not supported lets handle it as if its not optimized
+				// if it is not supported, lets handle it as if it was not
+				// optimized
 			}
 		}
 
@@ -1118,25 +1160,25 @@ public final class Topography
 	}
 
 	/**
-	 * Removes a set of nodes and a set of edges from the given graph. First, it removes all nodes from the graph.
-	 * Then, it removes all edges in the edges to remove that are not connected to the given node. It then
-	 * returns an ImmutableAdjacencyGraph with the given nodes and edges removed.
+	 * Removes a set of nodes and a set of edges from the given graph.
+	 * First, it removes all nodes from the graph.
+	 * Then, it removes all edges in the edges to remove that are not connected to the given node.
 	 * @param deleteNodes The nodes to remove
 	 * @param deleteEdges The edges to remove in addition to the nodes
-	 * @return A graph of the remaining nodes
+	 * @return an ImmutableAdjacencyGraph with the given nodes and edges removed
 	 */
 	private static <N, E extends Edge<N>> ImmutableAdjacencyGraph<N, Edge<N>> deleteFromGraph(final Graph<N, E> graph, final Set<N> deleteNodes, final Set<E> deleteEdges)
 	{
-		//remove the deleteNodes
+		// remove the deleteNodes
 		final Set<N> cutNodes = graph.getNodes();
 		cutNodes.removeAll(deleteNodes);
-		//remove the deleteEdges
+		// remove the deleteEdges
 		final Set<Edge<N>> cutEdges = new HashSet<Edge<N>>(deleteEdges);
-		for(final E edge : deleteEdges)
+		for (final E edge : deleteEdges)
 			cutEdges.remove(edge);
-		//remove any remaining deleteEdges which connect to removed deleteNodes
-		//also replace deleteEdges that have one removed node but still have
-		//2 or more remaining deleteNodes with a new edge.
+		// remove any remaining deleteEdges which connect to removed deleteNodes
+		// also replace deleteEdges that have one removed node but still have
+		// 2 or more remaining deleteNodes with a new edge.
 		final Set<Edge<N>> removeEdges = new HashSet<Edge<N>>();
 		final Set<Edge<N>> addEdges = new HashSet<Edge<N>>();
 		for(final Edge<N> cutEdge : cutEdges)
@@ -1152,8 +1194,8 @@ public final class Topography
 		for(final Edge<N> removeEdge : removeEdges)
 			cutEdges.remove(removeEdge);
 		cutEdges.addAll(addEdges);
-		//check if a graph from the new set of deleteEdges and deleteNodes is still
-		//connected
+		// check if a graph from the new set of deleteEdges and deleteNodes is
+		// still connected
 		return new ImmutableAdjacencyGraph<N, Edge<N>>(cutNodes, cutEdges);
 	}
 

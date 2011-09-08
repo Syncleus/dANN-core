@@ -284,6 +284,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 		final Map<N, Double> neighbors = getNeighbors(nodeToAlign);
 
 		Vector compositeVector = new Vector(location.getDimensions());
+		// align with neighbours
 		for (final Entry<N, Double> neighborEntry : neighbors.entrySet())
 		{
 			final N neighbor = neighborEntry.getKey();

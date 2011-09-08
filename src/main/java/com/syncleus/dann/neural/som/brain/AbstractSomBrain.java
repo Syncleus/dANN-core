@@ -147,11 +147,11 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 		final List<IN> newInputs = new ArrayList<IN>();
 		for(int inputIndex = 0; inputIndex < inputCount; inputIndex++)
 		{
-			//TODO fix this it is type unsafe
+			// TODO fix typing
 			final SomInputNeuron safeNewNeuron = new SimpleSomInputNeuron(this);
 			final IN newNeuron = (IN) safeNewNeuron;
 			newInputs.add(newNeuron);
-			//TODO fix this it is type unsafe
+			// TODO fix typing
 			super.add((N)newNeuron);
 		}
 		this.inputs = Collections.unmodifiableList(newInputs);
@@ -182,22 +182,22 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 	@Override
 	public void createOutput(final Vector position)
 	{
-		//make sure we have the proper dimentionality
+		// make sure we have the proper dimentionality
 		if( position.getDimensions() != this.upperBounds.getDimensions() )
 			throw new IllegalArgumentException("Dimentionality mismatch");
 
-		//increase the upper bounds if needed
+		// increase the upper bounds if needed
 		this.updateBounds(position);
 
-		//create and add the new output neuron
+		// create and add the new output neuron
 		final SimpleSomNeuron outputNeuron = new SimpleSomNeuron(this);
-		//TODO fix this it is type unsafe
+		// TODO fix typing
 		this.outputs.put(position, (ON)outputNeuron);
-		//TODO fix this it is type unsafe
+		// TODO fix typing
 		this.add((N)outputNeuron);
 
-		//connect all inputs to the new neuron
-		//TODO fix this it is type unsafe
+		// connect all inputs to the new neuron
+		// TODO fix typing
 		for(final InputNeuron input : this.inputs)
 		{
 			final Synapse<N> synapse = new SimpleSynapse<N>((N)input, (N)outputNeuron);
@@ -442,7 +442,7 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 	}
 
 	/**
-	 * Gets the current input value at the specied index.
+	 * Gets the current input value at the specified index.
 	 *
 	 * @param index Index of the input to get.
 	 * @return The current value for the specified input.
@@ -463,22 +463,22 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 	@Override
 	public final Map<Vector, double[]> getOutputWeightVectors()
 	{
-		//iterate through the output lattice
+		// iterate through the output lattice
 		final HashMap<Vector, double[]> weightVectors = new HashMap<Vector, double[]>();
 		for(final Entry<Vector, ON> output : this.outputs.entrySet())
 		{
 			final double[] weightVector = new double[this.inputs.size()];
 			final ON currentNeuron = output.getValue();
 			final Vector currentPoint = output.getKey();
-			//iterate through the weight vectors of the current neuron
-			//TODO fix this, it is badly typed
+			// iterate through the weight vectors of the current neuron
+			// TODO fix typing
 			for(final S source : this.getInEdges((N)currentNeuron))
 			{
 				assert (source.getSourceNode() instanceof InputNeuron);
 				final int sourceIndex = this.inputs.indexOf((InputNeuron) source.getSourceNode());
 				weightVector[sourceIndex] = source.getWeight();
 			}
-			//add the current weight vector to the map
+			// add the current weight vector to the map
 			weightVectors.put(currentPoint, weightVector);
 		}
 		return Collections.unmodifiableMap(weightVectors);

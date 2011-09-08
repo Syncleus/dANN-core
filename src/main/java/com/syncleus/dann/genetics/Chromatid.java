@@ -51,7 +51,7 @@ public interface Chromatid<G extends Gene> extends Cloneable
 	List<? extends G> crossover(int point);
 	/**
 	 * The second step in crossover. This will replace its own genetic code with
-	 * the specefied genetic segment at the specefied crossover point.
+	 * the specified genetic segment at the specified crossover point.
 	 *
 	 * @param geneticSegment Segmet of genetic code crossing over.
 	 * @param point Crossover point (index) where genes are spliced

@@ -47,7 +47,7 @@ public abstract class AbstractNeuron implements Neuron
 	{
 		return this.brain;
 	}
-	// TODO consider making this public and moving it to the neuron interface
 
+	// TODO consider making this public and moving it to the neuron interface
 	protected abstract double getOutput();
 }
