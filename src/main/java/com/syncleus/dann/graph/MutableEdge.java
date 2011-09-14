@@ -18,10 +18,13 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface MutableEdge<N> extends Edge<N>
+public interface MutableEdge<
+	  	T,
+	  	EP extends Edge.Endpoint<T>
+	  > extends Edge<T, EP>
 {
-	interface Endpoint<NN, EN extends NN> extends Edge.Endpoint<NN, EN>
+	interface Endpoint<T> extends Edge.Endpoint<T>
 	{
-		void setTarget(EN newTarget) throws InvalidEdgeException;
+		void setTarget(T newTarget) throws InvalidEdgeException;
 	};
 }

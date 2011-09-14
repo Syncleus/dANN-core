@@ -21,27 +21,40 @@ package com.syncleus.dann.graph;
 import java.util.Map;
 import java.util.Set;
 
-public interface MutableGraph<N, E extends Edge<N>> extends AssignableGraph<N,E>
+public interface MutableGraph<
+	  	PA,
+	  	N extends PA,
+	  	E extends Edge<N,? extends Edge.Endpoint<N>>,
+	  	NEP extends MutableGraph.NodeEndpoint<N, E>,
+	  	EEP extends MutableGraph.EdgeEndpoint<N, E>
+	  > extends AssignableGraph<PA,N,E,NEP,EEP>
 {
-	interface NodeEndpoint<ON, MN extends ON, OE extends Edge<? extends ON>> extends AssignableGraph.NodeEndpoint<ON,MN,OE>, MutableHyperEdge.Endpoint<Object, MN>
+	interface NodeEndpoint<
+		  ON,
+		  OE extends Edge<ON,? extends Edge.Endpoint<ON>>
+	  > extends AssignableGraph.NodeEndpoint<ON,OE>
 	{
 	};
 
-	interface EdgeEndpoint<ON, OE extends Edge<? extends ON>, ME extends OE> extends AssignableGraph.EdgeEndpoint<ON,OE,ME>, MutableHyperEdge.Endpoint<Object, ME>
+	interface EdgeEndpoint<
+		  ON,
+		  OE extends Edge<ON,? extends Edge.Endpoint<ON>>
+	  > extends AssignableGraph.EdgeEndpoint<ON,OE>
 	{
 	};
 
-	NodeEndpoint<N,? extends N,E> join(final N node) throws InvalidEdgeException;
-	Map<N, ? extends NodeEndpoint<N, ? extends N,E>> joinNodes(final Set<? extends N> nodes) throws InvalidEdgeException;
-	void leave(final NodeEndpoint<? extends N, ? extends N,? extends E> endPoint) throws InvalidEdgeException;
-	void leaveNodes(final Set<? extends NodeEndpoint<? extends N, ? extends N,? extends E>> endPoint) throws InvalidEdgeException;
+	NEP joinNode(N node) throws InvalidGraphException;
+	Map<N, NEP> joinNodes(Set<? extends N> nodes) throws InvalidGraphException;
+	void leaveNode(NEP endPoint) throws InvalidGraphException;
+	void leaveNodes(Set<NEP> endPoint) throws InvalidGraphException;
 
-	EdgeEndpoint<N, E, ? extends E> join(final E edge) throws InvalidEdgeException;
-	Map<N, ? extends EdgeEndpoint<N, E, ? extends E>> joinEdges(final Set<? extends E> edges) throws InvalidEdgeException;
-	void leave(final EdgeEndpoint<? extends N, ? extends E, ? extends E> endPoint) throws InvalidEdgeException;
-	void leaveEdges(final Set<? extends EdgeEndpoint<? extends N, ? extends E, ? extends E>> endPoint) throws InvalidEdgeException;
+	EEP joinEdge(E edge) throws InvalidGraphException;
+	Map<N, EEP> joinEdges(Set<? extends E> edges) throws InvalidGraphException;
+	void leaveEdge(EEP endPoint) throws InvalidGraphException;
+	void leaveEdges(Set<EEP> endPoint) throws InvalidGraphException;
 
-	void clear() throws InvalidEdgeException;
+	void clear() throws InvalidGraphException;
+	void clearEdges() throws InvalidGraphException;
 
-	Map<? extends Object, ? extends Graph.Endpoint<? extends N, ? extends N>> reconfigure(final Set<? extends N> addNodes, final Set<? extends E> addEdges, final Set<? extends Graph.Endpoint<? extends N, ? extends N>> disconnectEndPoints) throws InvalidEdgeException;
+	Map<PA, ? extends Graph.Endpoint<N,E,PA>> reconfigure(Set<? extends N> addNodes, Set<? extends E> addEdges, final Set<? extends Graph.Endpoint<N,E,? extends PA>> disconnectEndPoints) throws InvalidGraphException;
 }

@@ -20,16 +20,19 @@ package com.syncleus.dann.graph;
 
 import java.util.*;
 
-public interface MutableHyperEdge<N> extends HyperEdge<N>, MutableEdge<N>
+public interface MutableHyperEdge<
+	  	T,
+	  	EP extends Edge.Endpoint<T>
+	  > extends HyperEdge<T,EP>, MutableEdge<T,EP>
 {
 	interface Endpoint<NN, EN extends NN> extends HyperEdge.Endpoint<NN, EN>, MutableEdge.Endpoint<NN, EN>
 	{
 	};
 
-	Endpoint<N, N> join(final N node) throws InvalidEdgeException;
-	Map<N,Endpoint<N, N>> join(final Set<N> nodes) throws InvalidEdgeException;
-	void leave(final Endpoint<N, N> endPoint) throws InvalidEdgeException;
-	void leave(final Set<Endpoint<N, N>> endPoint) throws InvalidEdgeException;
+	Endpoint<T, T> join(final T node) throws InvalidEdgeException;
+	Map<T,Endpoint<T, T>> join(final Set<T> nodes) throws InvalidEdgeException;
+	void leave(final Endpoint<T, T> endPoint) throws InvalidEdgeException;
+	void leave(final Set<Endpoint<T, T>> endPoint) throws InvalidEdgeException;
 	void clear() throws InvalidEdgeException;
-	Map<N,Endpoint<N, N>> reconfigure(final Set<N> connectNodes, final Set<Endpoint<N, N>> disconnectEndPoints) throws InvalidEdgeException;
+	Map<T,Endpoint<T, T>> reconfigure(final Set<T> connectNodes, final Set<Endpoint<T, T>> disconnectEndPoints) throws InvalidEdgeException;
 }

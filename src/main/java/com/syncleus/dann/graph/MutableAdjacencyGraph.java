@@ -20,114 +20,96 @@ package com.syncleus.dann.graph;
 
 import java.util.*;
 
-public class MutableAdjacencyGraph<N, E extends Edge<N>> extends AbstractAdjacencyGraph<N, E> implements MutableGraph<N, E>
+public class MutableAdjacencyGraph<
+	  	PA,
+	  	N extends PA,
+	  	E extends Edge<N,? extends Edge.Endpoint<N>>,
+	  	NEP extends MutableGraph.NodeEndpoint<N, E>,
+	  	EEP extends MutableGraph.EdgeEndpoint<N, E>
+	  > extends AbstractAdjacencyGraph<PA, N, E, NEP, EEP> implements MutableGraph<PA, N, E, NEP, EEP>
 {
 	private static final long serialVersionUID = -4613327727609060678L;
 
-/*
-	public MutableAdjacencyGraph()
-	{
-		super();
-	}
-
-	public MutableAdjacencyGraph(final Graph<N, E> copyGraph)
-	{
-		super(copyGraph);
-	}
-
-	public MutableAdjacencyGraph(final Set<N> nodes, final Set<E> edges)
-	{
-		super(nodes, edges);
-	}
-
 	@Override
-	public boolean add(final E newEdge)
-	{
-		return super.add(newEdge);
-	}
-
-	@Override
-	public boolean add(final N newNode)
-	{
-		return super.add(newNode);
-	}
-
-	@Override
-	public boolean remove(final E edgeToRemove)
-	{
-		return super.remove(edgeToRemove);
-	}
-
-	@Override
-	public boolean remove(final N nodeToRemove)
-	{
-		return super.remove(nodeToRemove);
-	}
-
-	@Override
-	public boolean clear()
-	{
-		return super.clear();
-	}
-
-	@Override
-	protected MutableAdjacencyGraph<N, E> clone()
-	{
-		return (MutableAdjacencyGraph<N, E>) super.clone();
-	}
-*/
-	final private Map<NodeEndpoint<N,E>,EdgeEndpoint<E, ? extends E>> nodeAdjacency = new HashMap<NodeEndpoint<N, E>, EdgeEndpoint<E, ? extends E>>();
-
-	@Override
-	protected Set<EdgeEndpoint<E, ? extends E>> getAdjacentEdgeEndPoint(Graph.NodeEndpoint<? extends N, E> nodeEndPoint)
+	protected Set<EdgeEndpoint<N, E>> getAdjacentEdgeEndPoint(Graph.NodeEndpoint<N, E> nodeEndPoint)
 	{
 		return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	@Override
-	public Set<? extends EdgeEndpoint<E, ? extends E>> getEdgeEndpoints()
+	public NEP joinNode(N node) throws InvalidGraphException
 	{
 		return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	@Override
-	public Set<? extends NodeEndpoint<? extends N, E>> getNodeEndpoints()
+	public Map<N, NEP> joinNodes(Set<? extends N> nodes) throws InvalidGraphException
 	{
 		return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	@Override
-	public MutableHyperEdge.Endpoint<Object, Object> join(Object node) throws InvalidEdgeException
-	{
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
-	}
-
-	@Override
-	public Map<Object, MutableHyperEdge.Endpoint<Object, Object>> join(Set<Object> nodes) throws InvalidEdgeException
-	{
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
-	}
-
-	@Override
-	public void leave(MutableHyperEdge.Endpoint<Object, Object> endPoint) throws InvalidEdgeException
+	public void leaveNode(NEP endPoint) throws InvalidGraphException
 	{
 		//To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	@Override
-	public void leave(Set<MutableHyperEdge.Endpoint<Object, Object>> endPoint) throws InvalidEdgeException
+	public void leaveNodes(Set<NEP> endPoint) throws InvalidGraphException
 	{
 		//To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	@Override
-	public void clear() throws InvalidEdgeException
+	public EEP joinEdge(E edge) throws InvalidGraphException
+	{
+		return null;  //To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public Map<N, EEP> joinEdges(Set<? extends E> edges) throws InvalidGraphException
+	{
+		return null;  //To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public void leaveEdge(EEP endPoint) throws InvalidGraphException
 	{
 		//To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	@Override
-	public Map<Object, MutableHyperEdge.Endpoint<Object, Object>> reconfigure(Set<Object> connectNodes, Set<MutableHyperEdge.Endpoint<Object, Object>> disconnectEndPoints) throws InvalidEdgeException
+	public void leaveEdges(Set<EEP> endPoint) throws InvalidGraphException
+	{
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public void clear() throws InvalidGraphException
+	{
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public void clearEdges() throws InvalidGraphException
+	{
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public Map<PA, ? extends Graph.Endpoint<N, E, PA>> reconfigure(Set<? extends N> addNodes, Set<? extends E> addEdges, Set<? extends Graph.Endpoint<N, E, ? extends PA>> disconnectEndPoints) throws InvalidGraphException
+	{
+		return null;  //To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public Set<EEP> getEdgeEndpoints()
+	{
+		return null;  //To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public Set<NEP> getNodeEndpoints()
 	{
 		return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}

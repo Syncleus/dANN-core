@@ -35,13 +35,6 @@ import java.util.*;
  */
 @XmlJavaTypeAdapter( com.syncleus.dann.xml.XmlSerializableAdapter.class )
 public abstract class AbstractAdjacencyGraph<
-/*
-	  	PA,
-	  	N extends PA,
-	  	E extends Edge<? extends N,? extends Edge.Endpoint<? extends N, ? extends N>>,
-	  	NEP extends Graph.NodeEndpoint<? extends N,? extends N,? extends E>,
-	  	EEP extends Graph.EdgeEndpoint<? extends N,? extends E,? extends E>
-*/
 	  	PA,
 	  	N extends PA,
 	  	E extends Edge<N,? extends Edge.Endpoint<N>>,

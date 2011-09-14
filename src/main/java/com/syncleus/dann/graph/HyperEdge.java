@@ -18,7 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface HyperEdge<N> extends Edge<N>
+public interface HyperEdge<
+	  	N,
+	  	EP extends Edge.Endpoint<N>
+	  > extends Edge<N, EP>
 {
 	interface Endpoint<NN, EN extends NN> extends Edge.Endpoint<NN, EN>
 	{
