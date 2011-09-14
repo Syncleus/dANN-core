@@ -42,8 +42,8 @@ public interface Edge<
 		T getTarget();
 	};
 
-	Set<EP> getEndPoints();
-	Set<EP> getEndPoints(T node);
+	Set<EP> getEndpoints();
+	Set<EP> getEndpoints(T node);
 	boolean contains(T node);
 	Set<T> getTargets();
 	Set<T> getNeighbors(T source);

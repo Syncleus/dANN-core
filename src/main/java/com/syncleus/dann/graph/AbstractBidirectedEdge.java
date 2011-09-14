@@ -33,7 +33,7 @@ public abstract class AbstractBidirectedEdge<N, LN extends N, RN extends N> exte
 	public abstract AbstractEndpoint<RN,LN> getRightEndPoint();
 
 	@Override
-	public final Set<Endpoint<N, N>> getEndPoints()
+	public final Set<Endpoint<N, N>> getEndpoints()
 	{
 		return new EndPointsSet();
 	}

@@ -37,7 +37,7 @@ public abstract class AbstractEdge<
 	@Override
 	public boolean contains(final PA node)
 	{
-		for( EP endpoint : this.getEndPoints() )
+		for( EP endpoint : this.getEndpoints() )
 			if( endpoint.getTarget().equals(node))
 				return true;
 		return false;
@@ -47,17 +47,17 @@ public abstract class AbstractEdge<
 	public Set<PA> getTargets()
 	{
 		final Set<PA> nodes = new HashSet<PA>();
-		for( EP endpoint : this.getEndPoints() )
+		for( EP endpoint : this.getEndpoints() )
 			nodes.add(endpoint.getTarget());
 
 		return Collections.unmodifiableSet(nodes);
 	}
 
 	@Override
-	public Set<EP> getEndPoints(PA node)
+	public Set<EP> getEndpoints(PA node)
 	{
 		final Set<EP> nodesEndpoints = new HashSet<EP>();
-		for( EP endpoint : this.getEndPoints() )
+		for( EP endpoint : this.getEndpoints() )
 			if( endpoint.getTarget().equals(node))
 				nodesEndpoints.add(endpoint);
 
@@ -68,7 +68,7 @@ public abstract class AbstractEdge<
 	public Set<PA> getNeighbors(final PA source)
 	{
 		final Set<PA> nodes = new HashSet<PA>();
-		for( final EP sourceEndpoint : this.getEndPoints(source) )
+		for( final EP sourceEndpoint : this.getEndpoints(source) )
 			for( final Edge.Endpoint<PA> fromEndpoint : sourceEndpoint.getNeighbors())
 				nodes.add(fromEndpoint.getTarget());
 
@@ -79,7 +79,7 @@ public abstract class AbstractEdge<
 	public Set<PA> getTraversableFrom(PA source)
 	{
 		final Set<PA> nodes = new HashSet<PA>();
-		for( final EP sourceEndpoint : this.getEndPoints(source) )
+		for( final EP sourceEndpoint : this.getEndpoints(source) )
 			for( final Edge.Endpoint<PA> fromEndpoint : sourceEndpoint.getTraversableNeighborsFrom())
 				nodes.add(fromEndpoint.getTarget());
 
@@ -90,7 +90,7 @@ public abstract class AbstractEdge<
 	public Set<PA> getTraversableTo(PA destination)
 	{
 		final Set<PA> nodes = new HashSet<PA>();
-		for( final EP destinationEndpoint : this.getEndPoints(destination) )
+		for( final EP destinationEndpoint : this.getEndpoints(destination) )
 			for( final Edge.Endpoint<PA> fromEndpoint : destinationEndpoint.getTraversableNeighborsTo())
 				nodes.add(fromEndpoint.getTarget());
 
@@ -257,7 +257,7 @@ public abstract class AbstractEdge<
 			public boolean isEmpty()
 			{
 				assert !getTargets().isEmpty();
-				return ( getEndPoints().size() <= 1 ? true : false );
+				return ( getEndpoints().size() <= 1 ? true : false );
 			}
 
 			@Override
@@ -265,7 +265,7 @@ public abstract class AbstractEdge<
 			{
 				if( getTarget().equals(o) )
 					return false;
-				return getEndPoints().contains(o);
+				return getEndpoints().contains(o);
 			}
 
 			@Override
@@ -277,7 +277,7 @@ public abstract class AbstractEdge<
 			@Override
 			public Object[] toArray()
 			{
-				final Set<EP> copiedNodes = new HashSet<EP>(getEndPoints());
+				final Set<EP> copiedNodes = new HashSet<EP>(getEndpoints());
 				copiedNodes.remove(getTarget());
 				return copiedNodes.toArray();
 			}
@@ -285,7 +285,7 @@ public abstract class AbstractEdge<
 			@Override
 			public <PA> PA[] toArray(PA[] a)
 			{
-				final Set<EP> copiedNodes = new HashSet<EP>(getEndPoints());
+				final Set<EP> copiedNodes = new HashSet<EP>(getEndpoints());
 				copiedNodes.remove(getTarget());
 				return copiedNodes.toArray(a);
 			}
@@ -307,7 +307,7 @@ public abstract class AbstractEdge<
 			{
 				if( c.contains(AbstractEndpoint.this) )
 					return false;
-				return getEndPoints().containsAll(c);
+				return getEndpoints().containsAll(c);
 			}
 
 			@Override
@@ -335,19 +335,19 @@ public abstract class AbstractEdge<
 			@Override
 			public void clear()
 			{
-				if( getEndPoints().size() <= 1 )
+				if( getEndpoints().size() <= 1 )
 					return;
 				throw new UnsupportedOperationException("This set is read-only!");
 			}
 
 			private class NeighborIterator implements Iterator<Edge.Endpoint<PA>>
 			{
-				private int nextLeft = (getEndPoints().size()-1);
+				private int nextLeft = (getEndpoints().size()-1);
 				final private Iterator<EP> iterator;
 
 				public NeighborIterator()
 				{
-					this.iterator = getEndPoints().iterator();
+					this.iterator = getEndpoints().iterator();
 				}
 
 				@Override

@@ -121,7 +121,7 @@ public class SimpleHyperEdge<N> extends AbstractHyperEdge<N> implements MutableH
 	}
 
 	@Override
-	public Set<Endpoint<N, N>> getEndPoints()
+	public Set<Endpoint<N, N>> getEndpoints()
 	{
 	}
 
