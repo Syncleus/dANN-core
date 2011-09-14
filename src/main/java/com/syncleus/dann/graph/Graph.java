@@ -18,9 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import javax.management.OperationsException;
 import com.syncleus.dann.graph.context.ContextReporter;
-import com.syncleus.dann.neural.OutputNeuron;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -41,83 +39,40 @@ public interface Graph<
 	  	PA,
 	  	N extends PA,
 	  	E extends Edge<N,? extends Edge.Endpoint<N>>,
-	  	NEP extends Graph.NodeEndpoint<PA, N, E>,
-	  	EEP extends Graph.EdgeEndpoint<PA, N, E>
-	  > extends Edge<PA,Graph.Endpoint<PA,N,E,PA>>, Serializable, Cloneable, ContextReporter
+	  	NEP extends Graph.NodeEndpoint<N, E>,
+	  	EEP extends Graph.EdgeEndpoint<N, E>
+	  > extends Edge<PA,Graph.Endpoint<N,E,PA>>, Serializable, Cloneable, ContextReporter
 {
-/*
 	interface Endpoint<
-	  	PA
-	  > extends Edge.Endpoint<PA>
-	{
-		Set<Graph.Endpoint<PA>> getAdjacent();
-		Set<Graph.Endpoint<PA>> getTraversableAdjacentTo();
-		Set<Graph.Endpoint<PA>> getTraversableAdjacentFrom();
-	};
-
-	interface NodeEndpoint<
-	  	PA,
-	  	ON extends PA,
-	  	OE extends Edge<ON,? extends Edge.Endpoint<? extends ON>>
-	  > extends Graph.Endpoint<ON>
-	{
-		Set<Graph.NodeEndpoint<PA, ON, OE>> getAdjacentNodes();
-		Set<Graph.NodeEndpoint<PA, ON, OE>> getTraversableAdjacentNodesTo();
-		Set<Graph.NodeEndpoint<PA, ON, OE>> getTraversableAdjacentNodesFrom();
-
-		Set<Graph.EdgeEndpoint<PA, ON, OE>> getAdjacentEdges();
-		Set<Graph.EdgeEndpoint<PA, ON, OE>> getTraversableAdjacentEdgesTo();
-		Set<Graph.EdgeEndpoint<PA, ON, OE>> getTraversableAdjacentEdgesFrom();
-	};
-
-	interface EdgeEndpoint<
-	  	PA,
-	  	ON extends PA,
-	  	OE extends Edge<ON,? extends Edge.Endpoint<? extends ON>>
-			> extends Graph.Endpoint<OE>
-	{
-		Set<Graph.EdgeEndpoint<PA, ON, OE>> getAdjacentEdges();
-		Set<Graph.EdgeEndpoint<PA, ON, OE>> getTraversableAdjacentEdgesTo();
-		Set<Graph.EdgeEndpoint<PA, ON, OE>> getTraversableAdjacentEdgesFrom();
-
-		Set<Graph.NodeEndpoint<PA, ON, OE>> getAdjacentNodes();
-		Set<Graph.NodeEndpoint<PA, ON, OE>> getTraversableAdjacentNodesTo();
-		Set<Graph.NodeEndpoint<PA, ON, OE>> getTraversableAdjacentNodesFrom();
-	};
-*/
-	interface Endpoint<
-	  	PA,
-	  	ON extends PA,
+		ON,
 	  	OE extends Edge<ON,? extends Edge.Endpoint<? extends ON>>,
 	  	T
 	  > extends Edge.Endpoint<T>
 	{
-		Set<Graph.Endpoint<PA,ON,OE,T>> getAdjacent();
-		Set<Graph.Endpoint<PA,ON,OE,T>> getTraversableAdjacentTo();
-		Set<Graph.Endpoint<PA,ON,OE,T>> getTraversableAdjacentFrom();
+		Set<Graph.Endpoint<ON,OE,T>> getAdjacent();
+		Set<Graph.Endpoint<ON,OE,T>> getTraversableAdjacentTo();
+		Set<Graph.Endpoint<ON,OE,T>> getTraversableAdjacentFrom();
 
-		Set<Graph.NodeEndpoint<PA, ON, OE>> getAdjacentNodes();
-		Set<Graph.NodeEndpoint<PA, ON, OE>> getTraversableAdjacentNodesTo();
-		Set<Graph.NodeEndpoint<PA, ON, OE>> getTraversableAdjacentNodesFrom();
+		Set<Graph.NodeEndpoint<ON, OE>> getAdjacentNodes();
+		Set<Graph.NodeEndpoint<ON, OE>> getTraversableAdjacentNodesTo();
+		Set<Graph.NodeEndpoint<ON, OE>> getTraversableAdjacentNodesFrom();
 
-		Set<Graph.EdgeEndpoint<PA, ON, OE>> getAdjacentEdges();
-		Set<Graph.EdgeEndpoint<PA, ON, OE>> getTraversableAdjacentEdgesTo();
-		Set<Graph.EdgeEndpoint<PA, ON, OE>> getTraversableAdjacentEdgesFrom();
+		Set<Graph.EdgeEndpoint<ON, OE>> getAdjacentEdges();
+		Set<Graph.EdgeEndpoint<ON, OE>> getTraversableAdjacentEdgesTo();
+		Set<Graph.EdgeEndpoint<ON, OE>> getTraversableAdjacentEdgesFrom();
 	};
 
 	interface NodeEndpoint<
-	  	PA,
-	  	ON extends PA,
-	  	OE extends Edge<ON,? extends Edge.Endpoint<? extends ON>>
-	  > extends Graph.Endpoint<PA,ON,OE,ON>
+		  ON,
+		  OE extends Edge<ON,? extends Edge.Endpoint<? extends ON>>
+	  > extends Graph.Endpoint<ON,OE,ON>
 	{
 	};
 
 	interface EdgeEndpoint<
-	  	PA,
-	  	ON extends PA,
-	  	OE extends Edge<ON,? extends Edge.Endpoint<? extends ON>>
-			> extends Graph.Endpoint<PA,ON,OE,OE>
+		  	ON,
+		  	OE extends Edge<ON,? extends Edge.Endpoint<? extends ON>>
+		> extends Graph.Endpoint<ON,OE,OE>
 	{
 	};
 

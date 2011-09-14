@@ -19,7 +19,6 @@
 package com.syncleus.dann.graph;
 
 import java.util.*;
-import com.syncleus.dann.graph.context.ContextGraphElement;
 
 public class MutableAdjacencyGraph<N, E extends Edge<N>> extends AbstractAdjacencyGraph<N, E> implements MutableGraph<N, E>
 {
@@ -77,22 +76,22 @@ public class MutableAdjacencyGraph<N, E extends Edge<N>> extends AbstractAdjacen
 		return (MutableAdjacencyGraph<N, E>) super.clone();
 	}
 */
-	final private Map<NodeEndpoint<N,N,E>,EdgeEndpoint<N, E, ? extends E>> nodeAdjacency = new HashMap<NodeEndpoint<N, N, E>, EdgeEndpoint<N, E, ? extends E>>();
+	final private Map<NodeEndpoint<N,E>,EdgeEndpoint<E, ? extends E>> nodeAdjacency = new HashMap<NodeEndpoint<N, E>, EdgeEndpoint<E, ? extends E>>();
 
 	@Override
-	protected Set<EdgeEndpoint<N, E, ? extends E>> getAdjacentEdgeEndPoint(Graph.NodeEndpoint<N, ? extends N, E> nodeEndPoint)
+	protected Set<EdgeEndpoint<E, ? extends E>> getAdjacentEdgeEndPoint(Graph.NodeEndpoint<? extends N, E> nodeEndPoint)
 	{
 		return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	@Override
-	public Set<? extends EdgeEndpoint<N, E, ? extends E>> getEdgeEndpoints()
+	public Set<? extends EdgeEndpoint<E, ? extends E>> getEdgeEndpoints()
 	{
 		return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	@Override
-	public Set<? extends NodeEndpoint<N, ? extends N, E>> getNodeEndpoints()
+	public Set<? extends NodeEndpoint<? extends N, E>> getNodeEndpoints()
 	{
 		return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
