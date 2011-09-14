@@ -43,12 +43,12 @@ public interface Edge<
 	};
 
 	Set<EP> getEndPoints();
-	Set<EP> getEndPoints(final T node);
-	boolean contains(final T node);
+	Set<EP> getEndPoints(T node);
+	boolean contains(T node);
 	Set<T> getTargets();
-	Set<T> getNeighbors(final T source);
-	Set<T> getTraversableFrom(final T source);
-	Set<T> getTraversableTo(final T destination);
-	boolean isTraversable(final T source, final T destination);
+	Set<T> getNeighbors(T source);
+	Set<T> getTraversableFrom(T source);
+	Set<T> getTraversableTo(T destination);
+	boolean isTraversable(T source, T destination);
 	int getDegree();
 }
