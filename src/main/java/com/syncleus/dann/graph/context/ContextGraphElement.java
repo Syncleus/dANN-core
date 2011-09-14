@@ -23,9 +23,6 @@ import com.syncleus.dann.graph.Graph;
 
 public interface ContextGraphElement<G extends Graph<?, ?>>
 {
-	boolean isAllowingMultipleGraphs();
-	boolean joiningGraph(G graph);
-	boolean leavingGraph(G graph);
-	boolean isGraphMember();
-	Set<G> getJoinedGraphs();
+	void changingJoinedGraphs(Set<G> joiningGraphs, Set<G> leavingGraphs) throws RejectedContextException;
+	void changedJoinedGraphs(Set<G> joinedGraphs, Set<G> leftGraphs);
 }

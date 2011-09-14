@@ -18,19 +18,18 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
-public abstract class AbstractUndirectedEdge<N> extends AbstractBidirectedEdge<N> implements UndirectedEdge<N>
+public abstract class AbstractUndirectedEdge<N, LN extends N, RN extends N> extends AbstractBidirectedEdge<N, LN,RN> implements MixableBidirectedEdge<N, LN,RN>
 {
 	private static final long serialVersionUID = 83475809132709850L;
 
-	protected AbstractUndirectedEdge(final N leftNode, final N rightNode)
+	protected AbstractUndirectedEdge(final LN leftNode, final RN rightNode)
 	{
 		super(leftNode, EndState.NONE, rightNode, EndState.NONE);
 	}
 
-	protected AbstractUndirectedEdge(final N leftNode, final N rightNode, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
+	protected AbstractUndirectedEdge(final LN leftNode, final RN rightNode, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
 	{
 		super(leftNode, EndState.NONE, rightNode, EndState.NONE, allowJoiningMultipleGraphs, contextEnabled);
 	}
@@ -83,28 +82,8 @@ public abstract class AbstractUndirectedEdge<N> extends AbstractBidirectedEdge<N
 	}
 
 	@Override
-	public AbstractUndirectedEdge<N> disconnect(final N node)
+	protected AbstractUndirectedEdge<N, LN,RN> clone()
 	{
-		if( node == null )
-			throw new IllegalArgumentException("node can not be null");
-		if( !this.getNodes().contains(node) )
-			throw new IllegalArgumentException("node is not currently connected to");
-		return (AbstractUndirectedEdge<N>) this.remove(node);
-	}
-
-	@Override
-	public AbstractUndirectedEdge<N> disconnect(final List<N> nodes)
-	{
-		if( nodes == null )
-			throw new IllegalArgumentException("node can not be null");
-		if( !this.getNodes().containsAll(nodes) )
-			throw new IllegalArgumentException("node is not currently connected to");
-		return (AbstractUndirectedEdge<N>) this.remove(nodes);
-	}
-
-	@Override
-	public AbstractUndirectedEdge<N> clone()
-	{
-		return (AbstractUndirectedEdge<N>) super.clone();
+		return (AbstractUndirectedEdge<N, LN,RN>) super.clone();
 	}
 }

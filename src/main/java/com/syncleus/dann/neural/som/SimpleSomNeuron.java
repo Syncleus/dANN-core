@@ -83,9 +83,9 @@ public class SimpleSomNeuron extends AbstractNeuron implements SomOutputNeuron
 
 		//calculate the activity function and set the result as the output
 		this.output = this.activationFunction.activate(activity);
-//		for(final Synapse current : this.getBrain().getTraversableEdges(this))
+//		for(final Synapse current : this.getBrain().getTraversableAdjacentEdges(this))
 //			current.setInput(this.output);
-		for(final Object current : this.getBrain().getTraversableEdges(this))
+		for(final Object current : this.getBrain().getTraversableAdjacentEdges(this))
 			((Synapse)current).setInput(this.output);
 	}
 

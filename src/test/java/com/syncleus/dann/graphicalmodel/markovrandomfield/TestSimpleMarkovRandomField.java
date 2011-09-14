@@ -43,7 +43,7 @@ public class TestSimpleMarkovRandomField
 		network.add(parentNode);
 		network.add(childNode);
 
-		final UndirectedEdge<GraphicalModelNode> testEdge = new ImmutableUndirectedEdge<GraphicalModelNode>(parentNode, childNode);
+		final UndirectedEdge<GraphicalModelNode> testEdge = new SimpleUndirectedEdge<GraphicalModelNode>(parentNode, childNode);
 		network.add(testEdge);
 
 		parentNode.setState(SimpleEnum.TRUE);
@@ -98,7 +98,7 @@ public class TestSimpleMarkovRandomField
 		network.add(parentNode);
 		network.add(childNode);
 
-		final UndirectedEdge<GraphicalModelNode> testEdge = new ImmutableUndirectedEdge<GraphicalModelNode>(parentNode, childNode);
+		final UndirectedEdge<GraphicalModelNode> testEdge = new SimpleUndirectedEdge<GraphicalModelNode>(parentNode, childNode);
 		network.add(testEdge);
 
 		parentNode.setState(SimpleEnum.TRUE);

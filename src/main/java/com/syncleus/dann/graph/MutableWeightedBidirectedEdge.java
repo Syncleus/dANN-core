@@ -16,12 +16,11 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph.context;
+package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.Edge;
-
-public interface SignalContextNode<N, E extends Edge<N>, S>
+public interface MutableWeightedBidirectedEdge<N> extends MutableWeightedMixableBidirectedEdge<N, N,N>, WeightedBidirectedEdge<N>, MutableBidirectedEdge<N>
 {
-	void neighborNodeStateChanged(E edge, N node, S newState);
-	S getState();
+	interface Endpoint<NN, EN extends NN, ON extends NN> extends MutableWeightedMixableBidirectedEdge.Endpoint<NN, EN,ON>, WeightedBidirectedEdge.Endpoint<NN, EN,ON>, MutableBidirectedEdge.Endpoint<NN, EN,ON>
+	{
+	};
 }

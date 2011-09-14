@@ -57,7 +57,7 @@ public final class Trees
 
 		// TODO check if subgraph is actually a subgraph, another words that it is a subset of nodes and edges
 		// TODO in fact we probably want to rethink this entirely
-		return ((graph.getNodes().containsAll(subGraph.getNodes()))
+		return ((graph.getTargets().containsAll(subGraph.getTargets()))
 				&& (Topography.isWeaklyConnected(subGraph))
 				&& (Cycles.isAcyclic(subGraph)));
 	}

@@ -47,7 +47,7 @@ public class KruskalMinimumSpanningTreeFinder<N, E extends Edge<N>> implements M
 	public Set<E> findMinimumSpanningTree(final Graph<N, E> graph)
 	{
 		final Set<Set<N>> componentNodeSets = new HashSet<Set<N>>();
-		for(final N node : graph.getNodes())
+		for(final N node : graph.getTargets())
 			componentNodeSets.add(Collections.singleton(node));
 		final Queue<E> edgeQueue = new PriorityQueue<E>(graph.getEdges().size(), new WeightComparator<E>());
 		edgeQueue.addAll(graph.getEdges());
@@ -62,7 +62,7 @@ public class KruskalMinimumSpanningTreeFinder<N, E extends Edge<N>> implements M
 			final Set<Set<N>> setContainingEndNodes = new HashSet<Set<N>>();
 			for(final Set<N> component : componentNodeSets)
 			{
-				for(final N endNode : queuedEdge.getNodes())
+				for(final N endNode : queuedEdge.getTargets())
 				{
 					if( component.contains(endNode) )
 					{

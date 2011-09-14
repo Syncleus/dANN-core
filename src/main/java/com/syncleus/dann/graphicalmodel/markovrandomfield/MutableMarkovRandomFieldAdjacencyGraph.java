@@ -35,7 +35,7 @@ public class MutableMarkovRandomFieldAdjacencyGraph<N extends GraphicalModelNode
 
 	public MutableMarkovRandomFieldAdjacencyGraph(final Graph<N, E> copyGraph)
 	{
-		super(copyGraph.getNodes(), copyGraph.getEdges());
+		super(copyGraph.getTargets(), copyGraph.getEdges());
 	}
 
 	public MutableMarkovRandomFieldAdjacencyGraph(final Set<N> nodes, final Set<E> edges)
@@ -48,7 +48,7 @@ public class MutableMarkovRandomFieldAdjacencyGraph<N extends GraphicalModelNode
 	{
 		if( newEdge == null )
 			throw new IllegalArgumentException("newEdge can not be null");
-		if( !this.getNodes().containsAll(newEdge.getNodes()) )
+		if( !this.getTargets().containsAll(newEdge.getNodes()) )
 			throw new IllegalArgumentException("newEdge has a node as an end point that is not part of the graph");
 
 		// if context is enabled lets check if it can join
@@ -184,7 +184,7 @@ public class MutableMarkovRandomFieldAdjacencyGraph<N extends GraphicalModelNode
 		}
 
 		//now lets remove all the nodes
-		for(N node : this.getNodes())
+		for(N node : this.getTargets())
 		{
 			//lets just make sure we arent some how getting an we dont actually own, this shouldnt be possible so its
 			//an assert. This ensures that if remove() comes back false it must be because the context didnt allow it.

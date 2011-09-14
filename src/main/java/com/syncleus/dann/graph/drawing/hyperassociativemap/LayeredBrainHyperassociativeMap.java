@@ -90,7 +90,7 @@ public class LayeredBrainHyperassociativeMap extends HyperassociativeMap<Feedfor
 		{
 			final Double currentWeight = (this.isUsingWeights() ? neighborEdge.getWeight() : this.getEquilibriumDistance());
 			//TODO fix this typing
-			for(final Object neighbor : neighborEdge.getNodes())
+			for(final Object neighbor : neighborEdge.getTargets())
 				if( !neighbor.equals(nodeToQuery) )
 					associations.put((BackpropNeuron)neighbor, currentWeight);
 		}

@@ -45,13 +45,13 @@ public class SimpleUndirectedGraph extends AbstractBidirectedAdjacencyGraph<Simp
 				this.neighborNodes.put(this.nodes[layerIndex][nodeIndex], new ArrayList<SimpleNode>());
 			}
 		}
-		//connect nodes
+		//join nodes
 		for(int layerIndex = 0; layerIndex < (layers - 1); layerIndex++)
 			for(int nodeIndex = 0; nodeIndex < nodesPerLayer; nodeIndex++)
 			{
 				for(int nodeIndex2 = 0; nodeIndex2 < nodesPerLayer; nodeIndex2++)
 				{
-					final ImmutableUndirectedEdge<SimpleNode> newEdge = new ImmutableUndirectedEdge<SimpleNode>(this.nodes[layerIndex][nodeIndex], this.nodes[layerIndex + 1][nodeIndex2]);
+					final SimpleUndirectedEdge<SimpleNode> newEdge = new SimpleUndirectedEdge<SimpleNode>(this.nodes[layerIndex][nodeIndex], this.nodes[layerIndex + 1][nodeIndex2]);
 					this.edges.add(newEdge);
 					this.neighborEdges.get(this.nodes[layerIndex][nodeIndex]).add(newEdge);
 					this.neighborNodes.get(this.nodes[layerIndex][nodeIndex]).add(this.nodes[layerIndex + 1][nodeIndex2]);
@@ -73,7 +73,7 @@ public class SimpleUndirectedGraph extends AbstractBidirectedAdjacencyGraph<Simp
 		return this.nodes[layer][index];
 	}
 
-	public Set<SimpleNode> getNodes()
+	public Set<SimpleNode> getTargets()
 	{
 		return Collections.unmodifiableSet(this.nodeSet);
 	}
@@ -101,7 +101,7 @@ public class SimpleUndirectedGraph extends AbstractBidirectedAdjacencyGraph<Simp
 
 	public int getOutdegree(final SimpleNode node)
 	{
-		return this.getTraversableEdges(node).size();
+		return this.getTraversableAdjacentEdges(node).size();
 	}
 
 	public List<SimpleNode> getAdjacentNodes(final SimpleNode node)

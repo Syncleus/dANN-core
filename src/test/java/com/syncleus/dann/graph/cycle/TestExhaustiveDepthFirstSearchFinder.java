@@ -39,11 +39,11 @@ public class TestExhaustiveDepthFirstSearchFinder
 		nodes.add(rightNode);
 
 		final Set<DirectedEdge<Object>> edges = new HashSet<DirectedEdge<Object>>();
-		final DirectedEdge<Object> topRightEdge = new ImmutableDirectedEdge<Object>(topNode, rightNode);
+		final DirectedEdge<Object> topRightEdge = new SimpleDirectedEdge<Object>(topNode, rightNode);
 		edges.add(topRightEdge);
-		final DirectedEdge<Object> rightLeftEdge = new ImmutableDirectedEdge<Object>(rightNode, leftNode);
+		final DirectedEdge<Object> rightLeftEdge = new SimpleDirectedEdge<Object>(rightNode, leftNode);
 		edges.add(rightLeftEdge);
-		final DirectedEdge<Object> topLeftEdge = new ImmutableDirectedEdge<Object>(topNode, leftNode);
+		final DirectedEdge<Object> topLeftEdge = new SimpleDirectedEdge<Object>(topNode, leftNode);
 		edges.add(topLeftEdge);
 
 		final BidirectedGraph<Object, DirectedEdge<Object>> graph = new ImmutableDirectedAdjacencyGraph<Object, DirectedEdge<Object>>(nodes, edges);
@@ -71,19 +71,19 @@ public class TestExhaustiveDepthFirstSearchFinder
 		nodes.add(bottomNode);
 
 		final Set<DirectedEdge<Object>> edges = new HashSet<DirectedEdge<Object>>();
-		final DirectedEdge<Object> bottomLeftEdge = new ImmutableDirectedEdge<Object>(bottomNode, leftNode);
+		final DirectedEdge<Object> bottomLeftEdge = new SimpleDirectedEdge<Object>(bottomNode, leftNode);
 		edges.add(bottomLeftEdge);
-		final DirectedEdge<Object> letRightEdge = new ImmutableDirectedEdge<Object>(leftNode, rightNode);
+		final DirectedEdge<Object> letRightEdge = new SimpleDirectedEdge<Object>(leftNode, rightNode);
 		edges.add(letRightEdge);
-		final DirectedEdge<Object> rightBottomEdge = new ImmutableDirectedEdge<Object>(rightNode, bottomNode);
+		final DirectedEdge<Object> rightBottomEdge = new SimpleDirectedEdge<Object>(rightNode, bottomNode);
 		edges.add(rightBottomEdge);
-		final DirectedEdge<Object> leftTopEdge = new ImmutableDirectedEdge<Object>(leftNode, topNode);
+		final DirectedEdge<Object> leftTopEdge = new SimpleDirectedEdge<Object>(leftNode, topNode);
 		edges.add(leftTopEdge);
-		final DirectedEdge<Object> topRightEdge = new ImmutableDirectedEdge<Object>(topNode, rightNode);
+		final DirectedEdge<Object> topRightEdge = new SimpleDirectedEdge<Object>(topNode, rightNode);
 		edges.add(topRightEdge);
-		final DirectedEdge<Object> leftTippyTopEdge = new ImmutableDirectedEdge<Object>(leftNode, tippyTopNode);
+		final DirectedEdge<Object> leftTippyTopEdge = new SimpleDirectedEdge<Object>(leftNode, tippyTopNode);
 		edges.add(leftTippyTopEdge);
-		final DirectedEdge<Object> tippyTopRightEdge = new ImmutableDirectedEdge<Object>(tippyTopNode, rightNode);
+		final DirectedEdge<Object> tippyTopRightEdge = new SimpleDirectedEdge<Object>(tippyTopNode, rightNode);
 		edges.add(tippyTopRightEdge);
 
 		final BidirectedGraph<Object, DirectedEdge<Object>> graph = new ImmutableDirectedAdjacencyGraph<Object, DirectedEdge<Object>>(nodes, edges);
@@ -109,11 +109,11 @@ public class TestExhaustiveDepthFirstSearchFinder
 		nodes.add(rightNode);
 
 		final Set<BidirectedEdge<Object>> edges = new HashSet<BidirectedEdge<Object>>();
-		final BidirectedEdge<Object> centerTopEdge = new ImmutableUndirectedEdge<Object>(centerNode, topNode);
+		final BidirectedEdge<Object> centerTopEdge = new SimpleUndirectedEdge<Object>(centerNode, topNode);
 		edges.add(centerTopEdge);
-		final BidirectedEdge<Object> centerLeftEdge = new ImmutableUndirectedEdge<Object>(centerNode, leftNode);
+		final BidirectedEdge<Object> centerLeftEdge = new SimpleUndirectedEdge<Object>(centerNode, leftNode);
 		edges.add(centerLeftEdge);
-		final BidirectedEdge<Object> centerRightEdge = new ImmutableUndirectedEdge<Object>(centerNode, rightNode);
+		final BidirectedEdge<Object> centerRightEdge = new SimpleUndirectedEdge<Object>(centerNode, rightNode);
 		edges.add(centerRightEdge);
 
 		final Graph<Object, BidirectedEdge<Object>> graph = new ImmutableAdjacencyGraph<Object, BidirectedEdge<Object>>(nodes, edges);
@@ -139,15 +139,15 @@ public class TestExhaustiveDepthFirstSearchFinder
 		nodes.add(rightNode);
 
 		final Set<BidirectedEdge<Object>> edges = new HashSet<BidirectedEdge<Object>>();
-		final BidirectedEdge<Object> rightBottomEdge = new ImmutableUndirectedEdge<Object>(rightNode, bottomNode);
+		final BidirectedEdge<Object> rightBottomEdge = new SimpleUndirectedEdge<Object>(rightNode, bottomNode);
 		edges.add(rightBottomEdge);
-		final BidirectedEdge<Object> bottomLeftEdge = new ImmutableUndirectedEdge<Object>(bottomNode, leftNode);
+		final BidirectedEdge<Object> bottomLeftEdge = new SimpleUndirectedEdge<Object>(bottomNode, leftNode);
 		edges.add(bottomLeftEdge);
-		final BidirectedEdge<Object> topRightEdge = new ImmutableUndirectedEdge<Object>(topNode, rightNode);
+		final BidirectedEdge<Object> topRightEdge = new SimpleUndirectedEdge<Object>(topNode, rightNode);
 		edges.add(topRightEdge);
-		final BidirectedEdge<Object> rightLeftEdge = new ImmutableUndirectedEdge<Object>(rightNode, leftNode);
+		final BidirectedEdge<Object> rightLeftEdge = new SimpleUndirectedEdge<Object>(rightNode, leftNode);
 		edges.add(rightLeftEdge);
-		final BidirectedEdge<Object> leftTopEdge = new ImmutableUndirectedEdge<Object>(leftNode, topNode);
+		final BidirectedEdge<Object> leftTopEdge = new SimpleUndirectedEdge<Object>(leftNode, topNode);
 		edges.add(leftTopEdge);
 
 		final Graph<Object, BidirectedEdge<Object>> graph = new ImmutableAdjacencyGraph<Object, BidirectedEdge<Object>>(nodes, edges);
@@ -173,13 +173,13 @@ public class TestExhaustiveDepthFirstSearchFinder
 		nodes.add(rightNode);
 
 		final Set<BidirectedEdge<Object>> edges = new HashSet<BidirectedEdge<Object>>();
-		final BidirectedEdge<Object> centerTopEdge = new ImmutableUndirectedEdge<Object>(centerNode, topNode);
+		final BidirectedEdge<Object> centerTopEdge = new SimpleUndirectedEdge<Object>(centerNode, topNode);
 		edges.add(centerTopEdge);
-		final BidirectedEdge<Object> centerLeftEdge = new ImmutableUndirectedEdge<Object>(centerNode, leftNode);
+		final BidirectedEdge<Object> centerLeftEdge = new SimpleUndirectedEdge<Object>(centerNode, leftNode);
 		edges.add(centerLeftEdge);
-		final BidirectedEdge<Object> centerRightEdge = new ImmutableUndirectedEdge<Object>(centerNode, rightNode);
+		final BidirectedEdge<Object> centerRightEdge = new SimpleUndirectedEdge<Object>(centerNode, rightNode);
 		edges.add(centerRightEdge);
-		final BidirectedEdge<Object> centerRightEdge2 = new ImmutableUndirectedEdge<Object>(centerNode, rightNode);
+		final BidirectedEdge<Object> centerRightEdge2 = new SimpleUndirectedEdge<Object>(centerNode, rightNode);
 		edges.add(centerRightEdge2);
 
 		final Graph<Object, BidirectedEdge<Object>> graph = new ImmutableAdjacencyGraph<Object, BidirectedEdge<Object>>(nodes, edges);

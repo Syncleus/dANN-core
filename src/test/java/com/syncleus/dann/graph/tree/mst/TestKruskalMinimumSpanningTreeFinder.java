@@ -44,24 +44,24 @@ public class TestKruskalMinimumSpanningTreeFinder
 		nodes.add(rightNode);
 
 		final Set<BidirectedEdge<Object>> edges = new HashSet<BidirectedEdge<Object>>();
-		final BidirectedEdge<Object> centerTopEdge = new ImmutableUndirectedEdge<Object>(centerNode, topNode);
+		final BidirectedEdge<Object> centerTopEdge = new SimpleUndirectedEdge<Object>(centerNode, topNode);
 		edges.add(centerTopEdge);
-		final BidirectedEdge<Object> centerLeftEdge = new ImmutableUndirectedEdge<Object>(centerNode, leftNode);
+		final BidirectedEdge<Object> centerLeftEdge = new SimpleUndirectedEdge<Object>(centerNode, leftNode);
 		edges.add(centerLeftEdge);
-		final BidirectedEdge<Object> centerRightEdge = new ImmutableUndirectedEdge<Object>(centerNode, rightNode);
+		final BidirectedEdge<Object> centerRightEdge = new SimpleUndirectedEdge<Object>(centerNode, rightNode);
 		edges.add(centerRightEdge);
-		final BidirectedEdge<Object> topRightEdge = new ImmutableUndirectedEdge<Object>(topNode, rightNode);
+		final BidirectedEdge<Object> topRightEdge = new SimpleUndirectedEdge<Object>(topNode, rightNode);
 		edges.add(topRightEdge);
-		final BidirectedEdge<Object> rightLeftEdge = new ImmutableUndirectedEdge<Object>(rightNode, leftNode);
+		final BidirectedEdge<Object> rightLeftEdge = new SimpleUndirectedEdge<Object>(rightNode, leftNode);
 		edges.add(rightLeftEdge);
-		final BidirectedEdge<Object> leftTopEdge = new ImmutableUndirectedEdge<Object>(leftNode, topNode);
+		final BidirectedEdge<Object> leftTopEdge = new SimpleUndirectedEdge<Object>(leftNode, topNode);
 		edges.add(leftTopEdge);
 
 		final Graph<Object, BidirectedEdge<Object>> graph = new ImmutableAdjacencyGraph<Object, BidirectedEdge<Object>>(nodes, edges);
 
 		final MinimumSpanningTreeFinder<Object, BidirectedEdge<Object>> finder = new KruskalMinimumSpanningTreeFinder<Object, BidirectedEdge<Object>>();
 		final Set<BidirectedEdge<Object>> mstEdges = finder.findMinimumSpanningTree(graph);
-		final TreeGraph<Object, BidirectedEdge<Object>> mst = new ImmutableTreeAdjacencyGraph<Object, BidirectedEdge<Object>>(graph.getNodes(), mstEdges);
+		final TreeGraph<Object, BidirectedEdge<Object>> mst = new ImmutableTreeAdjacencyGraph<Object, BidirectedEdge<Object>>(graph.getTargets(), mstEdges);
 
 		LOGGER.info("mst edges:");
 		for(final Edge edge : mst.getEdges())
@@ -70,11 +70,11 @@ public class TestKruskalMinimumSpanningTreeFinder
 		final CycleDetector detector = new ColoredDepthFirstSearchDetector();
 		LOGGER.info("mst is cyclic: " + detector.hasCycle(mst));
 		LOGGER.info("mst is connected: " + Topography.isStronglyConnected(mst));
-		LOGGER.info("mst is contains all nodes: " + mst.getNodes().containsAll(graph.getNodes()));
+		LOGGER.info("mst is contains all nodes: " + mst.getTargets().containsAll(graph.getTargets()));
 
 		Assert.assertTrue("mst was not acyclic", !detector.hasCycle(mst));
 		Assert.assertTrue("mst was not connected", Topography.isStronglyConnected(mst));
-		Assert.assertTrue("mst did not contain all the nodes of the paret graph", mst.getNodes().containsAll(graph.getNodes()));
+		Assert.assertTrue("mst did not contain all the nodes of the paret graph", mst.getTargets().containsAll(graph.getTargets()));
 	}
 
 	@Test
@@ -91,24 +91,24 @@ public class TestKruskalMinimumSpanningTreeFinder
 		nodes.add(rightNode);
 
 		final Set<BidirectedEdge<Object>> edges = new LinkedHashSet<BidirectedEdge<Object>>();
-		final BidirectedEdge<Object> centerRightEdge = new ImmutableUndirectedEdge<Object>(centerNode, rightNode);
+		final BidirectedEdge<Object> centerRightEdge = new SimpleUndirectedEdge<Object>(centerNode, rightNode);
 		edges.add(centerRightEdge);
-		final BidirectedEdge<Object> rightLeftEdge = new ImmutableUndirectedEdge<Object>(rightNode, leftNode);
+		final BidirectedEdge<Object> rightLeftEdge = new SimpleUndirectedEdge<Object>(rightNode, leftNode);
 		edges.add(rightLeftEdge);
-		final BidirectedEdge<Object> topRightEdge = new ImmutableUndirectedEdge<Object>(topNode, rightNode);
+		final BidirectedEdge<Object> topRightEdge = new SimpleUndirectedEdge<Object>(topNode, rightNode);
 		edges.add(topRightEdge);
-		final BidirectedEdge<Object> centerTopEdge = new ImmutableUndirectedEdge<Object>(centerNode, topNode);
+		final BidirectedEdge<Object> centerTopEdge = new SimpleUndirectedEdge<Object>(centerNode, topNode);
 		edges.add(centerTopEdge);
-		final BidirectedEdge<Object> centerLeftEdge = new ImmutableUndirectedEdge<Object>(centerNode, leftNode);
+		final BidirectedEdge<Object> centerLeftEdge = new SimpleUndirectedEdge<Object>(centerNode, leftNode);
 		edges.add(centerLeftEdge);
-		final BidirectedEdge<Object> leftTopEdge = new ImmutableUndirectedEdge<Object>(leftNode, topNode);
+		final BidirectedEdge<Object> leftTopEdge = new SimpleUndirectedEdge<Object>(leftNode, topNode);
 		edges.add(leftTopEdge);
 
 		final Graph<Object, BidirectedEdge<Object>> graph = new LinkedGraph<Object, BidirectedEdge<Object>>(nodes, edges);
 
 		final MinimumSpanningTreeFinder<Object, BidirectedEdge<Object>> finder = new KruskalMinimumSpanningTreeFinder<Object, BidirectedEdge<Object>>();
 		final Set<BidirectedEdge<Object>> mstEdges = finder.findMinimumSpanningTree(graph);
-		final TreeGraph<Object, BidirectedEdge<Object>> mst = new ImmutableTreeAdjacencyGraph<Object, BidirectedEdge<Object>>(graph.getNodes(), mstEdges);
+		final TreeGraph<Object, BidirectedEdge<Object>> mst = new ImmutableTreeAdjacencyGraph<Object, BidirectedEdge<Object>>(graph.getTargets(), mstEdges);
 
 		LOGGER.info("Linkedgraph objects:");
 		for(final Object node : nodes)
@@ -124,10 +124,10 @@ public class TestKruskalMinimumSpanningTreeFinder
 		final CycleDetector detector = new ColoredDepthFirstSearchDetector();
 		LOGGER.info("Linked mst is cyclic: " + detector.hasCycle(mst));
 		LOGGER.info("Linked mst is connected: " + Topography.isStronglyConnected(mst));
-		LOGGER.info("Linked mst is contains all nodes: " + mst.getNodes().containsAll(graph.getNodes()));
+		LOGGER.info("Linked mst is contains all nodes: " + mst.getTargets().containsAll(graph.getTargets()));
 
 		Assert.assertTrue("Linked mst was not acyclic", !detector.hasCycle(mst));
 		Assert.assertTrue("Linked mst was not connected", Topography.isStronglyConnected(mst));
-		Assert.assertTrue("Linked mst did not contain all the nodes of the paret graph", mst.getNodes().containsAll(graph.getNodes()));
+		Assert.assertTrue("Linked mst did not contain all the nodes of the paret graph", mst.getTargets().containsAll(graph.getTargets()));
 	}
 }

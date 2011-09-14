@@ -18,10 +18,11 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.context;
 
+import java.util.Set;
 import com.syncleus.dann.graph.Edge;
 
 public interface ContextNode<N, E extends Edge<N>>
 {
-	boolean connectingEdge(E edge);
-	boolean disconnectingEdge(E edge);
+	void changingConnectedEdges(Set<E> connectingEdges, Set<E> disconnectingEdges) throws RejectedContextException;
+	void changedConnectedEdges(Set<E> connectedEdges, Set<E> disconnectedEdges);
 }

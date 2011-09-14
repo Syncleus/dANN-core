@@ -35,7 +35,7 @@ import com.syncleus.dann.graph.Graph;
 import com.syncleus.dann.graph.HyperEdge;
 import com.syncleus.dann.graph.HyperGraph;
 import com.syncleus.dann.graph.ImmutableAdjacencyGraph;
-import com.syncleus.dann.graph.ImmutableHyperEdge;
+import com.syncleus.dann.graph.SimpleHyperEdge;
 import com.syncleus.dann.math.counting.Counters;
 
 public final class Topography
@@ -49,8 +49,8 @@ public final class Topography
 	/**
 	 * Gets the degree of a given node. The degree of a node is how many adjacent edges link to
 	 * this node, as opposed to how many nodes this node links to. A typical adjacent edge will
-	 * connect once to this edge and to one or more other nodes, counting once towards the
-	 * degree. However, loop edges can connect twice or more to this node counting multiple
+	 * join once to this edge and to one or more other nodes, counting once towards the
+	 * degree. However, loop edges can join twice or more to this node counting multiple
 	 * times.
 	 * @param node The node whose degree is to be returned
 	 * @return The degree of this node
@@ -88,7 +88,7 @@ public final class Topography
 			final Set<E> adjacentNodesEdges = graph.getAdjacentEdges(node);
 			int degree = 0;
 			for(final E adjacentEdge : adjacentNodesEdges)
-				for(final N adjacentNode : adjacentEdge.getNodes())
+				for(final N adjacentNode : adjacentEdge.getTargets())
 					if( adjacentNode.equals(node) )
 						degree++;
 			return degree;
@@ -115,7 +115,7 @@ public final class Topography
 			}
 		}
 
-		final Set<N> nodes = graph.getNodes();
+		final Set<N> nodes = graph.getTargets();
 		for(final N fromNode : nodes)
 			for(final N toNode : nodes)
 				if( (toNode != fromNode) && (!Topography.isStronglyConnected(graph, toNode, fromNode)) )
@@ -143,7 +143,7 @@ public final class Topography
 			}
 		}
 
-		final List<N> remainingNodes = new ArrayList<N>(graph.getNodes());
+		final List<N> remainingNodes = new ArrayList<N>(graph.getTargets());
 		while( remainingNodes.size() >= 2 )
 		{
 			final N fromNode = remainingNodes.get(0);
@@ -230,7 +230,7 @@ public final class Topography
 		final Set<N> visited = new HashSet<N>();
 		visited.add(leftNode);
 		final Set<N> toVisit = new HashSet<N>();
-		toVisit.addAll(graph.getTraversableNodes(leftNode));
+		toVisit.addAll(graph.getTraversableAdjacentNodes(leftNode));
 		while( !toVisit.isEmpty() )
 		{
 			final N node = toVisit.iterator().next();
@@ -238,7 +238,7 @@ public final class Topography
 				return true;
 			visited.add(node);
 			toVisit.remove(node);
-			toVisit.addAll(graph.getTraversableNodes(node));
+			toVisit.addAll(graph.getTraversableAdjacentNodes(node));
 			toVisit.removeAll(visited);
 		}
 		return false;
@@ -272,7 +272,7 @@ public final class Topography
 	/**
 	 * Determines whether the given graph is a maximal subgraph of the current graph.
 	 * A subgraph is maximal if none of the edges of the parent graph not in the subgraph
-	 * connect to any nodes in the subgraph.
+	 * join to any nodes in the subgraph.
 	 * @param subGraph A subgraph of this graph to be checked if maximally
 	 * connected.
 	 * @return Whether this is a maximal subgraph
@@ -299,10 +299,10 @@ public final class Topography
 		final Set<? extends E> subedges = subGraph.getEdges();
 		exclusiveParentEdges.removeAll(subedges);
 		//check to make sure none of the edges exclusive to the parent graph
-		//connect to any of the nodes in the subgraph.
-		final Set<? extends N> subnodes = subGraph.getNodes();
+		//join to any of the nodes in the subgraph.
+		final Set<? extends N> subnodes = subGraph.getTargets();
 		for(final E exclusiveParentEdge : exclusiveParentEdges)
-			for(final N exclusiveParentNode : exclusiveParentEdge.getNodes())
+			for(final N exclusiveParentNode : exclusiveParentEdge.getTargets())
 				if( subnodes.contains(exclusiveParentNode) )
 					return false;
 		//passed all the tests, must be maximal
@@ -460,13 +460,13 @@ public final class Topography
 			}
 		}
 
-		final Set<Set<N>> combinations = Counters.everyCombination(graph.getNodes());
+		final Set<Set<N>> combinations = Counters.everyCombination(graph.getTargets());
 		final SortedSet<Set<N>> sortedCombinations = new TreeSet<Set<N>>(new SizeComparator());
 		sortedCombinations.addAll(combinations);
 		for(final Set<N> cutNodes : sortedCombinations)
 			if( Topography.isCut(graph, cutNodes, Collections.<E>emptySet()) )
 				return cutNodes.size();
-		return graph.getNodes().size();
+		return graph.getTargets().size();
 	}
 
 	public static <N, E extends Edge<N>> int getEdgeConnectivity(final Graph<N, E> graph)
@@ -506,13 +506,13 @@ public final class Topography
 			}
 		}
 
-		final Set<Set<N>> combinations = Counters.everyCombination(graph.getNodes());
+		final Set<Set<N>> combinations = Counters.everyCombination(graph.getTargets());
 		final SortedSet<Set<N>> sortedCombinations = new TreeSet<Set<N>>(new SizeComparator());
 		sortedCombinations.addAll(combinations);
 		for(final Set<N> cutNodes : sortedCombinations)
 			if( Topography.isCut(graph, cutNodes, Collections.<E>emptySet(), begin, end) )
 				return cutNodes.size();
-		return graph.getNodes().size();
+		return graph.getTargets().size();
 	}
 
 	public static <N, E extends Edge<N>> int getEdgeConnectivity(final Graph<N, E> graph, final N begin, final N end)
@@ -554,9 +554,9 @@ public final class Topography
 
 		if( !Topography.isSimple(graph) )
 			return false;
-		for(final N startNode : graph.getNodes())
+		for(final N startNode : graph.getTargets())
 		{
-			for(final N endNode : graph.getNodes())
+			for(final N endNode : graph.getTargets())
 			{
 				if( !startNode.equals(endNode)
 						&& !graph.getAdjacentNodes(startNode).contains(endNode) )
@@ -580,7 +580,7 @@ public final class Topography
 			}
 		}
 
-		return graph.getNodes().size();
+		return graph.getTargets().size();
 	}
 
 	public static <N, E extends Edge<N>> boolean isSubGraph(final Graph<N, E> graph, final Graph<N, E> subgraph)
@@ -597,8 +597,8 @@ public final class Topography
 			}
 		}
 
-		final Set<N> nodes = graph.getNodes();
-		final Set<N> subnodes = subgraph.getNodes();
+		final Set<N> nodes = graph.getTargets();
+		final Set<N> subnodes = subgraph.getTargets();
 		for(final N subnode : subnodes)
 			if( !nodes.contains(subnode) )
 				return false;
@@ -623,10 +623,10 @@ public final class Topography
 			}
 		}
 
-		if( graph.getNodes().isEmpty() )
+		if( graph.getTargets().isEmpty() )
 			throw new IllegalStateException("This graph has no nodes!");
 		int minimumDegree = Integer.MAX_VALUE;
-		for(final N node : graph.getNodes())
+		for(final N node : graph.getTargets())
 			if( Topography.getDegree(graph, node) < minimumDegree )
 				minimumDegree = Topography.getDegree(graph, node);
 		return minimumDegree;
@@ -646,7 +646,7 @@ public final class Topography
 			}
 		}
 
-		for(final N currentNode : graph.getNodes())
+		for(final N currentNode : graph.getTargets())
 		{
 			final List<N> neighbors = new ArrayList<N>(graph.getAdjacentNodes(currentNode));
 			while( neighbors.remove(currentNode) )
@@ -691,8 +691,8 @@ public final class Topography
 			}
 		}
 
-		final Set<N> uncheckedNodes = new HashSet<N>(graph.getNodes());
-		final Set<N> homomorphicNodes = homomorphicGraph.getNodes();
+		final Set<N> uncheckedNodes = new HashSet<N>(graph.getTargets());
+		final Set<N> homomorphicNodes = homomorphicGraph.getTargets();
 
 		while( !uncheckedNodes.isEmpty() )
 		{
@@ -741,7 +741,7 @@ public final class Topography
 			}
 		}
 
-		for(final N currentNode : graph.getNodes())
+		for(final N currentNode : graph.getTargets())
 		{
 			final List<N> neighbors = graph.getAdjacentNodes(currentNode);
 			final Set<N> uniqueNeighbors = new HashSet<N>(neighbors);
@@ -775,7 +775,7 @@ public final class Topography
 		}
 
 		int degree = -1;
-		for(final N node : graph.getNodes())
+		for(final N node : graph.getTargets())
 		{
 			if( degree == -1 )
 				degree = Topography.getDegree(graph, node);
@@ -806,7 +806,7 @@ public final class Topography
 		}
 
 		int degree = -1;
-		for(final N node : graph.getNodes())
+		for(final N node : graph.getTargets())
 		{
 			if( degree == -1 )
 				degree = Topography.getDegree(graph, node);
@@ -879,13 +879,13 @@ public final class Topography
 		}
 
 		int multiplicity = 0;
-		final List<N> edgeNodes = edge.getNodes();
-		final Set<E> potentialMultiples = graph.getAdjacentEdges(edge.getNodes().get(0));
+		final List<N> edgeNodes = edge.getTargets();
+		final Set<E> potentialMultiples = graph.getAdjacentEdges(edge.getTargets().get(0));
 		for(final E potentialMultiple : potentialMultiples)
 		{
 			if( potentialMultiple.equals(edge) )
 				continue;
-			final List<N> potentialNodes = new ArrayList<N>(potentialMultiple.getNodes());
+			final List<N> potentialNodes = new ArrayList<N>(potentialMultiple.getTargets());
 			if( potentialNodes.size() != edgeNodes.size() )
 				continue;
 			for(final N edgeNode : edgeNodes)
@@ -923,13 +923,13 @@ public final class Topography
 			}
 		}
 
-		final List<N> edgeNodes = edge.getNodes();
-		final Set<E> potentialMultiples = graph.getAdjacentEdges(edge.getNodes().get(0));
+		final List<N> edgeNodes = edge.getTargets();
+		final Set<E> potentialMultiples = graph.getAdjacentEdges(edge.getTargets().get(0));
 		for(final E potentialMultiple : potentialMultiples)
 		{
 			if( potentialMultiple.equals(edge) )
 				continue;
-			final List<N> potentialNodes = new ArrayList<N>(potentialMultiple.getNodes());
+			final List<N> potentialNodes = new ArrayList<N>(potentialMultiple.getTargets());
 			if( potentialNodes.size() != edgeNodes.size() )
 				continue;
 			for(final N edgeNode : edgeNodes)
@@ -945,7 +945,7 @@ public final class Topography
 	 * set, and once the set is entered there is no path to traverse outside of the
 	 * set. if the specified nodes each have at least one traversable edge, all
 	 * traversable edges go to other nodes in the knot, no traversable edges
-	 * connect to a node outside of the knot, and there is at least one traversable
+	 * join to a node outside of the knot, and there is at least one traversable
 	 * edge from a node outside of the knot to a node in the knot. It is important
 	 * to note that while the knot is not a maximally connected component of the
 	 * graph it is weakly connected amongst itself.
@@ -1024,7 +1024,7 @@ public final class Topography
 			}
 		}
 
-		return graph.getTraversableEdges(node).size();
+		return graph.getTraversableAdjacentEdges(node).size();
 	}
 
 	public static <N, E extends HyperEdge<N>> int getRank(final HyperGraph<N, E> graph)
@@ -1128,26 +1128,26 @@ public final class Topography
 	private static <N, E extends Edge<N>> ImmutableAdjacencyGraph<N, Edge<N>> deleteFromGraph(final Graph<N, E> graph, final Set<N> deleteNodes, final Set<E> deleteEdges)
 	{
 		//remove the deleteNodes
-		final Set<N> cutNodes = graph.getNodes();
+		final Set<N> cutNodes = graph.getTargets();
 		cutNodes.removeAll(deleteNodes);
 		//remove the deleteEdges
 		final Set<Edge<N>> cutEdges = new HashSet<Edge<N>>(deleteEdges);
 		for(final E edge : deleteEdges)
 			cutEdges.remove(edge);
-		//remove any remaining deleteEdges which connect to removed deleteNodes
+		//remove any remaining deleteEdges which join to removed deleteNodes
 		//also replace deleteEdges that have one removed node but still have
 		//2 or more remaining deleteNodes with a new edge.
 		final Set<Edge<N>> removeEdges = new HashSet<Edge<N>>();
 		final Set<Edge<N>> addEdges = new HashSet<Edge<N>>();
 		for(final Edge<N> cutEdge : cutEdges)
 		{
-			final List<N> cutEdgeNeighbors = cutEdge.getNodes();
+			final List<N> cutEdgeNeighbors = cutEdge.getTargets();
 			cutEdgeNeighbors.removeAll(cutNodes);
-			if( cutEdgeNeighbors.size() != cutEdge.getNodes().size() )
+			if( cutEdgeNeighbors.size() != cutEdge.getTargets().size() )
 				removeEdges.add(cutEdge);
 			if( cutEdgeNeighbors.size() > 1 )
-				// TODO instead of ImmutableHyperEdge implement clone or something
-				addEdges.add(new ImmutableHyperEdge<N>(cutEdgeNeighbors));
+				// TODO instead of SimpleHyperEdge implement clone or something
+				addEdges.add(new SimpleHyperEdge<N>(cutEdgeNeighbors));
 		}
 		for(final Edge<N> removeEdge : removeEdges)
 			cutEdges.remove(removeEdge);

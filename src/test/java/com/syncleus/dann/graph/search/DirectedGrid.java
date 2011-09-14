@@ -46,36 +46,36 @@ public class DirectedGrid extends AbstractBidirectedAdjacencyGraph<GridNode, Dir
 				this.outNeighborEdges.put(this.nodes[y][x], new HashSet<DirectedEdge<GridNode>>());
 				this.outNeighborNodes.put(this.nodes[y][x], new HashSet<GridNode>());
 			}
-		//connect nodes
+		//join nodes
 		for(int y = 0; y < nodes.length; y++)
 			for(int x = 0; x < this.nodes[0].length; x++)
 			{
-				//connect to the right
+				//join to the right
 				if( x < this.nodes[0].length - 1 )
 				{
-					ImmutableDirectedEdge<GridNode> newEdge = new ImmutableDirectedEdge<GridNode>(this.nodes[y][x], this.nodes[y][x + 1]);
+					SimpleDirectedEdge<GridNode> newEdge = new SimpleDirectedEdge<GridNode>(this.nodes[y][x], this.nodes[y][x + 1]);
 					this.edges.add(newEdge);
 					this.outNeighborEdges.get(this.nodes[y][x]).add(newEdge);
 					this.inNeighborEdges.get(this.nodes[y][x + 1]).add(newEdge);
 					this.outNeighborNodes.get(this.nodes[y][x]).add(this.nodes[y][x + 1]);
 					this.inNeighborNodes.get(this.nodes[y][x + 1]).add(this.nodes[y][x]);
-					newEdge = new ImmutableDirectedEdge<GridNode>(this.nodes[y][x + 1], this.nodes[y][x]);
+					newEdge = new SimpleDirectedEdge<GridNode>(this.nodes[y][x + 1], this.nodes[y][x]);
 					this.edges.add(newEdge);
 					this.inNeighborEdges.get(this.nodes[y][x]).add(newEdge);
 					this.outNeighborEdges.get(this.nodes[y][x + 1]).add(newEdge);
 					this.inNeighborNodes.get(this.nodes[y][x]).add(this.nodes[y][x + 1]);
 					this.outNeighborNodes.get(this.nodes[y][x + 1]).add(this.nodes[y][x]);
 				}
-				//connect to the bottom
+				//join to the bottom
 				if( y < nodes.length - 1 )
 				{
-					ImmutableDirectedEdge<GridNode> newEdge = new ImmutableDirectedEdge<GridNode>(this.nodes[y][x], this.nodes[y + 1][x]);
+					SimpleDirectedEdge<GridNode> newEdge = new SimpleDirectedEdge<GridNode>(this.nodes[y][x], this.nodes[y + 1][x]);
 					this.edges.add(newEdge);
 					this.outNeighborEdges.get(this.nodes[y][x]).add(newEdge);
 					this.inNeighborEdges.get(this.nodes[y + 1][x]).add(newEdge);
 					this.outNeighborNodes.get(this.nodes[y][x]).add(this.nodes[y + 1][x]);
 					this.inNeighborNodes.get(this.nodes[y + 1][x]).add(this.nodes[y][x]);
-					newEdge = new ImmutableDirectedEdge<GridNode>(this.nodes[y + 1][x], this.nodes[y][x]);
+					newEdge = new SimpleDirectedEdge<GridNode>(this.nodes[y + 1][x], this.nodes[y][x]);
 					this.edges.add(newEdge);
 					this.inNeighborEdges.get(this.nodes[y][x]).add(newEdge);
 					this.outNeighborEdges.get(this.nodes[y + 1][x]).add(newEdge);
@@ -92,7 +92,7 @@ public class DirectedGrid extends AbstractBidirectedAdjacencyGraph<GridNode, Dir
 		return this.nodes[y][x];
 	}
 
-	public Set<GridNode> getNodes()
+	public Set<GridNode> getTargets()
 	{
 		return Collections.unmodifiableSet(this.nodeSet);
 	}
@@ -110,7 +110,7 @@ public class DirectedGrid extends AbstractBidirectedAdjacencyGraph<GridNode, Dir
 		return Collections.unmodifiableSet(newEdges);
 	}
 
-	public Set<DirectedEdge<GridNode>> getTraversableEdges(final GridNode node)
+	public Set<DirectedEdge<GridNode>> getTraversableAdjacentEdges(final GridNode node)
 	{
 		final Set<DirectedEdge<GridNode>> newEdges = new HashSet<DirectedEdge<GridNode>>(this.outNeighborEdges.get(node));
 		return Collections.unmodifiableSet(newEdges);
@@ -118,7 +118,7 @@ public class DirectedGrid extends AbstractBidirectedAdjacencyGraph<GridNode, Dir
 
 	public Set<DirectedEdge<GridNode>> getOutEdges(final GridNode node)
 	{
-		return this.getTraversableEdges(node);
+		return this.getTraversableAdjacentEdges(node);
 	}
 
 	public Set<DirectedEdge<GridNode>> getInEdges(final GridNode node)
@@ -149,7 +149,7 @@ public class DirectedGrid extends AbstractBidirectedAdjacencyGraph<GridNode, Dir
 		return Collections.unmodifiableList(newNeighbors);
 	}
 
-	public List<GridNode> getTraversableNodes(final GridNode node)
+	public List<GridNode> getTraversableAdjacentNodes(final GridNode node)
 	{
 		final ArrayList<GridNode> newNeighbors = new ArrayList<GridNode>(this.outNeighborNodes.get(node));
 		return Collections.unmodifiableList(newNeighbors);

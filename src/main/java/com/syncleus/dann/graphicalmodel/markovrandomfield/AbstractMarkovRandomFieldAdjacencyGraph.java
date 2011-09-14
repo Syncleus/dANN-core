@@ -32,7 +32,7 @@ public abstract class AbstractMarkovRandomFieldAdjacencyGraph<N extends Graphica
 
 	protected AbstractMarkovRandomFieldAdjacencyGraph(final Graph<N, E> copyGraph)
 	{
-		super(copyGraph.getNodes(), copyGraph.getEdges());
+		super(copyGraph.getTargets(), copyGraph.getEdges());
 	}
 
 	protected AbstractMarkovRandomFieldAdjacencyGraph(final Set<N> nodes, final Set<E> edges)
@@ -45,7 +45,7 @@ public abstract class AbstractMarkovRandomFieldAdjacencyGraph<N extends Graphica
 	{
 		final Set<N> seenNodes = new HashSet<N>();
 		double probabilityProduct = 1.0;
-		for(final N node : this.getNodes())
+		for(final N node : this.getTargets())
 		{
 			assert !seenNodes.contains(node);
 

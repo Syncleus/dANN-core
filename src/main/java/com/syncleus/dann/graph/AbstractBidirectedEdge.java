@@ -18,58 +18,24 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import com.syncleus.dann.graph.xml.*;
 import com.syncleus.dann.xml.NamedValueXml;
 import com.syncleus.dann.xml.Namer;
 import com.syncleus.dann.xml.XmlSerializable;
 
-public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implements BidirectedEdge<N>
+public abstract class AbstractBidirectedEdge<N, LN extends N, RN extends N> extends AbstractEdge<N> implements MixableBidirectedEdge<N, LN,RN>
 {
-	private final N leftNode;
-	private final N rightNode;
-	private final EndState leftEndState;
-	private final EndState rightEndState;
+	@Override
+	public abstract AbstractEndpoint<LN,RN> getLeftEndPoint();
 
-	protected AbstractBidirectedEdge()
+	@Override
+	public abstract AbstractEndpoint<RN,LN> getRightEndPoint();
+
+	@Override
+	public final Set<Endpoint<N, N>> getEndPoints()
 	{
-		this.leftNode = null;
-		this.rightNode = null;
-		this.leftEndState = null;
-		this.rightEndState = null;
-	}
-
-	protected AbstractBidirectedEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
-	{
-		super(allowJoiningMultipleGraphs, contextEnabled);
-
-		this.leftNode = null;
-		this.rightNode = null;
-		this.leftEndState = null;
-		this.rightEndState = null;
-	}
-
-	protected AbstractBidirectedEdge(final N newLeftNode, final EndState newLeftEndState, final N newRightNode, final EndState newRightEndState)
-	{
-		super(packNodes(newLeftNode, newRightNode));
-
-		this.leftNode = newLeftNode;
-		this.rightNode = newRightNode;
-		this.leftEndState = newLeftEndState;
-		this.rightEndState = newRightEndState;
-	}
-
-	protected AbstractBidirectedEdge(final N newLeftNode, final EndState newLeftEndState, final N newRightNode, final EndState newRightEndState, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
-	{
-		super(packNodes(newLeftNode, newRightNode), allowJoiningMultipleGraphs, contextEnabled);
-
-		this.leftNode = newLeftNode;
-		this.rightNode = newRightNode;
-		this.leftEndState = newLeftEndState;
-		this.rightEndState = newRightEndState;
+		return new EndPointsSet();
 	}
 
 	private static <N> List<N> packNodes(final N leftNode, final N rightNode)
@@ -81,47 +47,23 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implemen
 	}
 
 	@Override
-	public final N getLeftNode()
-	{
-		return this.leftNode;
-	}
-
-	@Override
-	public final N getRightNode()
-	{
-		return this.rightNode;
-	}
-
-	@Override
-	public final EndState getLeftEndState()
-	{
-		return this.leftEndState;
-	}
-
-	@Override
-	public final EndState getRightEndState()
-	{
-		return this.rightEndState;
-	}
-
-	@Override
 	public boolean isIntroverted()
 	{
-		return (this.rightEndState == BidirectedEdge.EndState.INWARD) && (this.leftEndState == BidirectedEdge.EndState.INWARD);
+		return (this.getRightEndPoint().getDirection() == MixableBidirectedEdge.Endpoint.Direction.INWARD) && (this.getLeftEndPoint().getDirection() == MixableBidirectedEdge.Endpoint.Direction.INWARD);
 	}
 
 	@Override
 	public boolean isExtroverted()
 	{
-		return (this.rightEndState == BidirectedEdge.EndState.OUTWARD) && (this.leftEndState == BidirectedEdge.EndState.OUTWARD);
+		return (this.getRightEndPoint().getDirection() == MixableBidirectedEdge.Endpoint.Direction.OUTWARD) && (this.getLeftEndPoint().getDirection() == MixableBidirectedEdge.Endpoint.Direction.OUTWARD);
 	}
 
 	@Override
 	public boolean isDirected()
 	{
-		if( (this.rightEndState == EndState.INWARD) && (this.leftEndState == EndState.OUTWARD) )
+		if( (this.getRightEndPoint().getDirection() == MixableBidirectedEdge.Endpoint.Direction.INWARD) && (this.getLeftEndPoint().getDirection() == MixableBidirectedEdge.Endpoint.Direction.OUTWARD) )
 			return true;
-		else if( (this.rightEndState == EndState.OUTWARD) && (this.leftEndState == EndState.INWARD) )
+		else if( (this.getRightEndPoint().getDirection() == MixableBidirectedEdge.Endpoint.Direction.OUTWARD) && (this.getLeftEndPoint().getDirection() == MixableBidirectedEdge.Endpoint.Direction.INWARD) )
 			return true;
 		return false;
 	}
@@ -129,9 +71,9 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implemen
 	@Override
 	public boolean isHalfEdge()
 	{
-		if( (this.rightEndState == EndState.NONE) && (this.leftEndState != EndState.NONE) )
+		if( (this.getRightEndPoint().getDirection() == MixableBidirectedEdge.Endpoint.Direction.NONE) && (this.getLeftEndPoint().getDirection() != MixableBidirectedEdge.Endpoint.Direction.NONE) )
 			return true;
-		else if( (this.rightEndState != EndState.NONE) && (this.leftEndState == EndState.NONE) )
+		else if( (this.getRightEndPoint().getDirection() != MixableBidirectedEdge.Endpoint.Direction.NONE) && (this.getLeftEndPoint().getDirection() == MixableBidirectedEdge.Endpoint.Direction.NONE) )
 			return true;
 		return false;
 	}
@@ -139,7 +81,7 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implemen
 	@Override
 	public boolean isLooseEdge()
 	{
-		return (this.rightEndState == BidirectedEdge.EndState.NONE) && (this.leftEndState == BidirectedEdge.EndState.NONE);
+		return (this.getRightEndPoint().getDirection() == MixableBidirectedEdge.Endpoint.Direction.NONE) && (this.getLeftEndPoint().getDirection() == MixableBidirectedEdge.Endpoint.Direction.NONE);
 	}
 
 	@Override
@@ -151,20 +93,20 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implemen
 	@Override
 	public boolean isLoop()
 	{
-		return this.leftEndState.equals(this.rightEndState);
+		return this.getLeftEndPoint().getDirection().equals(this.getRightEndPoint().getDirection());
 	}
 
 	@Override
 	public String toString()
 	{
-		return this.leftNode.toString()
-				+ endStateToString(this.leftEndState, true)
+		return this.getLeftEndPoint().getTarget().toString()
+				+ endStateToString(this.getLeftEndPoint().getDirection(), true)
 				+ '-'
-				+ endStateToString(this.rightEndState, false)
-				+ this.rightNode;
+				+ endStateToString(this.getRightEndPoint().getDirection(), false)
+				+ this.getRightEndPoint().getTarget();
 	}
 
-	private static String endStateToString(final EndState state, final boolean isLeft)
+	private static String endStateToString(final MixableBidirectedEdge.Endpoint.Direction state, final boolean isLeft)
 	{
 		switch(state)
 		{
@@ -178,9 +120,9 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implemen
 	}
 
 	@Override
-	public AbstractBidirectedEdge<N> clone()
+	protected AbstractBidirectedEdge<N, LN,RN> clone()
 	{
-		return (AbstractBidirectedEdge<N>) super.clone();
+		return (AbstractBidirectedEdge<N, LN,RN>) super.clone();
 	}
 
 	@Override
@@ -191,7 +133,7 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implemen
 
 		xml.setNodeInstances(new BidirectedEdgeElementXml.NodeInstances());
 		final Set<N> writtenNodes = new HashSet<N>();
-		for (N node : this.getNodes())
+		for (N node : this.getTargets())
 		{
 			if (writtenNodes.add(node))
 			{
@@ -241,10 +183,186 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implemen
 
 		if (jaxbObject instanceof BidirectedEdgeXml)
 		{
-			((BidirectedEdgeXml) jaxbObject).setLeftNode(nodeNames.getNameOrCreate(this.leftNode));
-			((BidirectedEdgeXml) jaxbObject).setRightNode(nodeNames.getNameOrCreate(this.rightNode));
-			((BidirectedEdgeXml) jaxbObject).setLeftDirection(this.leftEndState.toString().toLowerCase());
-			((BidirectedEdgeXml) jaxbObject).setRightDirection(this.rightEndState.toString().toLowerCase());
+			((BidirectedEdgeXml) jaxbObject).setLeftNode(nodeNames.getNameOrCreate(this.getLeftEndPoint().getTarget()));
+			((BidirectedEdgeXml) jaxbObject).setRightNode(nodeNames.getNameOrCreate(this.getRightEndPoint().getTarget()));
+			((BidirectedEdgeXml) jaxbObject).setLeftDirection(this.getLeftEndPoint().getDirection().toString().toLowerCase());
+			((BidirectedEdgeXml) jaxbObject).setRightDirection(this.getRightEndPoint().getDirection().toString().toLowerCase());
 		}
 	}
+
+	private final class EndPointsSet implements Set<Endpoint<N, N>>
+	{
+		public EndPointsSet()
+		{
+		}
+
+		@Override
+		public int size()
+		{
+			return 2;
+		}
+
+		@Override
+		public boolean isEmpty()
+		{
+			return false;
+		}
+
+		@Override
+		public boolean contains(Object o)
+		{
+			if( (getLeftEndPoint().equals(o)) || (getRightEndPoint().equals(o)) )
+				return true;
+			return false;
+		}
+
+		@Override
+		public Iterator<Endpoint<N, N>> iterator()
+		{
+			return new EndPointIterator();
+		}
+
+		@Override
+		public Endpoint<N, N>[] toArray()
+		{
+			return new Endpoint[]{getLeftEndPoint(),getRightEndPoint()};
+		}
+
+		@Override
+		public <T> T[] toArray(T[] a)
+		{
+			a[0] = (T) getLeftEndPoint();
+			a[1] = (T) getRightEndPoint();
+			return a;
+		}
+
+		@Override
+		public boolean add(Endpoint<N, N> nnEndpoint)
+		{
+			throw new UnsupportedOperationException("This Set is read-only!");
+		}
+
+		@Override
+		public boolean remove(Object o)
+		{
+			throw new UnsupportedOperationException("This Set is read-only!");
+		}
+
+		@Override
+		public boolean containsAll(Collection<?> c)
+		{
+			for(Object object : c)
+				if( !this.contains(object) )
+					return false;
+			return true;
+		}
+
+		@Override
+		public boolean addAll(Collection<? extends Endpoint<N, N>> c)
+		{
+			throw new UnsupportedOperationException("This Set is read-only!");
+		}
+
+		@Override
+		public boolean retainAll(Collection<?> c)
+		{
+			throw new UnsupportedOperationException("This Set is read-only!");
+		}
+
+		@Override
+		public boolean removeAll(Collection<?> c)
+		{
+			throw new UnsupportedOperationException("This Set is read-only!");
+		}
+
+		@Override
+		public void clear()
+		{
+			throw new UnsupportedOperationException("This Set is read-only!");
+		}
+
+		private class EndPointIterator implements Iterator<Endpoint<N, N>>
+		{
+			private Boolean stage = Boolean.TRUE;
+
+			public EndPointIterator()
+			{
+			}
+
+			@Override
+			public boolean hasNext()
+			{
+				if(stage == null)
+					return false;
+				return true;
+			}
+
+			@Override
+			public Endpoint<N, N> next()
+			{
+				if(stage == Boolean.TRUE)
+				{
+					stage = false;
+					return getLeftEndPoint();
+				}
+				else if(stage == Boolean.FALSE)
+				{
+					stage = null;
+					return getRightEndPoint();
+				}
+
+				throw new NoSuchElementException("no elements left!");
+			}
+
+			@Override
+			public void remove()
+			{
+				throw new UnsupportedOperationException("This iterator is read-only!");
+			}
+		};
+	}
+
+	protected abstract class AbstractEndpoint<EN extends N, ON extends N> extends AbstractEdge<N>.AbstractEndpoint<EN> implements MixableBidirectedEdge.Endpoint<N, EN,ON>
+	{
+		private EN node = null;
+		private Direction direction;
+
+		protected AbstractEndpoint(Direction direction)
+		{
+			super();
+
+			if( direction == null )
+				throw new IllegalArgumentException("direction can not be null!");
+			this.direction = direction;
+		}
+
+		protected AbstractEndpoint(EN node, Direction direction)
+		{
+			this(direction);
+
+			this.node = node;
+		}
+
+		@Override
+		public EN getTarget()
+		{
+			return this.node;
+		}
+
+		public void setTarget(final EN node)
+		{
+			this.node = node;
+		}
+
+		@Override
+		public Direction getDirection()
+		{
+			return this.direction;
+		}
+
+		public void setDirection(final Direction direction)
+		{
+			this.direction = direction;
+		}
+	};
 }

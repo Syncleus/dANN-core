@@ -33,14 +33,14 @@ public class SimpleTopologicalRanker<N> implements TopologicalRanker<N>
 	public List<Set<N>> rank(final BidirectedGraph<? extends N, ? extends DirectedEdge<? extends N>> graph)
 	{
 		//initialize data structures
-		final Set<N> remainingNodes = new HashSet<N>(graph.getNodes());
+		final Set<N> remainingNodes = new HashSet<N>(graph.getTargets());
 		final Set<DirectedEdge<? extends N>> remainingEdges = new HashSet<DirectedEdge<? extends N>>(graph.getEdges());
 		final Map<N, Set<DirectedEdge<? extends N>>> remainingNeighborEdges = new HashMap<N, Set<DirectedEdge<? extends N>>>();
 
 		//construct the remainingNeighborEdges with the entire graphs adjacency
 		for(final DirectedEdge<? extends N> edge : remainingEdges )
 		{
-			for(final N edgeNode : edge.getNodes())
+			for(final N edgeNode : edge.getTargets())
 			{
 				if( !remainingNodes.contains(edgeNode) )
 					throw new IllegalArgumentException("A node that is an end point in one of the edges was not in the nodes list");
@@ -74,7 +74,7 @@ public class SimpleTopologicalRanker<N> implements TopologicalRanker<N>
 				final Set<DirectedEdge<? extends N>> neighbors = remainingNeighborEdges.get(node);
 				for(final DirectedEdge<? extends N> neighbor : neighbors)
 				{
-					final List<N> adjacentNodes = new ArrayList<N>(neighbor.getNodes());
+					final List<N> adjacentNodes = new ArrayList<N>(neighbor.getTargets());
 					adjacentNodes.remove(node);
 					final N adjacentNode = adjacentNodes.get(0);
 
@@ -101,7 +101,7 @@ public class SimpleTopologicalRanker<N> implements TopologicalRanker<N>
 		final List<Set<N>> rankedNodes = this.rank(graph);
 
 		//convert ranked nodes into sorted nodes
-		final List<N> sortedNodes = new ArrayList<N>(graph.getNodes().size());
+		final List<N> sortedNodes = new ArrayList<N>(graph.getTargets().size());
 		for(Set<N> levelNodes : rankedNodes)
 			sortedNodes.addAll(levelNodes);
 

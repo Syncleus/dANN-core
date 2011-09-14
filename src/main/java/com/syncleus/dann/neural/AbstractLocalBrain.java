@@ -101,7 +101,7 @@ public abstract class AbstractLocalBrain<IN extends InputNeuron, ON extends Outp
 	{
 		if( newSynapse == null )
 			throw new IllegalArgumentException("newSynapse can not be null");
-		if( !this.neurons.containsAll(newSynapse.getNodes()) )
+		if( !this.neurons.containsAll(newSynapse.getTargets()) )
 			throw new IllegalArgumentException("newSynapse has a node as an end point that is not part of the graph");
 
 		if( this.synapses.add(newSynapse) )
@@ -181,7 +181,7 @@ public abstract class AbstractLocalBrain<IN extends InputNeuron, ON extends Outp
 	}
 
 	/*
-	protected boolean connect(final N source, final N destination, final double initialWeight)
+	protected boolean join(final N source, final N destination, final double initialWeight)
 	{
 		if( source == null )
 			throw new IllegalArgumentException("source can not be null");
@@ -196,7 +196,7 @@ public abstract class AbstractLocalBrain<IN extends InputNeuron, ON extends Outp
 	} */
 	protected boolean connect(final S synapse)
 	{
-		if( !this.neurons.containsAll(synapse.getNodes()) )
+		if( !this.neurons.containsAll(synapse.getTargets()) )
 			throw new IllegalArgumentException("the synapse contains nodes not in this brain");
 
 		return this.add(synapse);
@@ -204,7 +204,7 @@ public abstract class AbstractLocalBrain<IN extends InputNeuron, ON extends Outp
 
 
 	/*
-	protected boolean disconnect(final Neuron source, final Neuron destination)
+	protected boolean leave(final Neuron source, final Neuron destination)
 	{
 		if( source == null )
 			throw new IllegalArgumentException("source can not be null");
@@ -236,7 +236,7 @@ public abstract class AbstractLocalBrain<IN extends InputNeuron, ON extends Outp
 
 	/**
 	 * Removes the specified neuron from the brain. This only removes it from
-	 * the collection of neurons it does not disconnect it from other neurons.
+	 * the collection of neurons it does not leave it from other neurons.
 	 *
 	 * @param removeNeuron The neuron to remove.
 	 * @since 1.0
@@ -297,7 +297,7 @@ public abstract class AbstractLocalBrain<IN extends InputNeuron, ON extends Outp
 	 * @since 1.0
 	 */
 	@Override
-	public Set<N> getNodes()
+	public Set<N> getTargets()
 	{
 		return Collections.unmodifiableSet(this.neurons);
 	}
@@ -320,7 +320,7 @@ public abstract class AbstractLocalBrain<IN extends InputNeuron, ON extends Outp
 	}
 
 	@Override
-	public Set<S> getTraversableEdges(final N node)
+	public Set<S> getTraversableAdjacentEdges(final N node)
 	{
 		if( this.inMap.containsKey(node) )
 			return Collections.unmodifiableSet(this.outMap.get(node));
@@ -338,7 +338,7 @@ public abstract class AbstractLocalBrain<IN extends InputNeuron, ON extends Outp
 	@Override
 	public boolean isStronglyConnected(final N leftNode, final N rightNode)
 	{
-		final Set<S> outSet = this.getTraversableEdges(leftNode);
+		final Set<S> outSet = this.getTraversableAdjacentEdges(leftNode);
 		final Set<S> inSet = this.getInEdges(rightNode);
 		final Set<S> jointSet = new HashSet<S>(outSet);
 		jointSet.retainAll(inSet);

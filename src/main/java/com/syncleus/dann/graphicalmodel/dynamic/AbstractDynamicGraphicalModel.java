@@ -32,7 +32,7 @@ public abstract class AbstractDynamicGraphicalModel<N extends DynamicGraphicalMo
 
 	protected AbstractDynamicGraphicalModel(final Graph<N, E> copyGraph)
 	{
-		super(copyGraph.getNodes(), copyGraph.getEdges());
+		super(copyGraph.getTargets(), copyGraph.getEdges());
 	}
 
 	protected AbstractDynamicGraphicalModel(final Set<N> nodes, final Set<E> edges)
@@ -43,7 +43,7 @@ public abstract class AbstractDynamicGraphicalModel<N extends DynamicGraphicalMo
 	@Override
 	public void learnStates(final boolean updateHistory)
 	{
-		for(final N node : this.getNodes())
+		for(final N node : this.getTargets())
 		{
 			node.learnState(updateHistory);
 		}

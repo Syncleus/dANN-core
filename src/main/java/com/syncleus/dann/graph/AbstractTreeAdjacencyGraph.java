@@ -34,7 +34,7 @@ public abstract class AbstractTreeAdjacencyGraph<N, E extends BidirectedEdge<N>>
 
 	protected AbstractTreeAdjacencyGraph(final BidirectedGraph<N, E> copyGraph)
 	{
-		super(copyGraph.getNodes(), copyGraph.getEdges());
+		super(copyGraph.getTargets(), copyGraph.getEdges());
 		if( !Trees.isTree(copyGraph) )
 			throw new IllegalArgumentException("copyGraph is not a Tree");
 	}
@@ -73,51 +73,14 @@ public abstract class AbstractTreeAdjacencyGraph<N, E extends BidirectedEdge<N>>
 	@Override
 	public boolean isLeaf(final E edge)
 	{
-		for(final N node : edge.getNodes())
+		for(final N node : edge.getTargets())
 			if( this.isLeaf(node) )
 				return true;
 		return false;
 	}
 
-	// TODO make sure these clones cant produce non-tree graphs.
 	@Override
-	public AbstractTreeAdjacencyGraph<N, E> cloneAdd(final E newEdge)
-	{
-		return (AbstractTreeAdjacencyGraph<N, E>) super.cloneAdd(newEdge);
-	}
-
-	@Override
-	public AbstractTreeAdjacencyGraph<N, E> cloneAdd(final N newNode)
-	{
-		return (AbstractTreeAdjacencyGraph<N, E>) super.cloneAdd(newNode);
-	}
-
-	@Override
-	public AbstractTreeAdjacencyGraph<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
-	{
-		return (AbstractTreeAdjacencyGraph<N, E>) super.cloneAdd(newNodes, newEdges);
-	}
-
-	@Override
-	public AbstractTreeAdjacencyGraph<N, E> cloneRemove(final E edgeToRemove)
-	{
-		return (AbstractTreeAdjacencyGraph<N, E>) super.cloneRemove(edgeToRemove);
-	}
-
-	@Override
-	public AbstractTreeAdjacencyGraph<N, E> cloneRemove(final N nodeToRemove)
-	{
-		return (AbstractTreeAdjacencyGraph<N, E>) super.cloneRemove(nodeToRemove);
-	}
-
-	@Override
-	public AbstractTreeAdjacencyGraph<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
-	{
-		return (AbstractTreeAdjacencyGraph<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
-	}
-
-	@Override
-	public AbstractTreeAdjacencyGraph<N, E> clone()
+	protected AbstractTreeAdjacencyGraph<N, E> clone()
 	{
 		return (AbstractTreeAdjacencyGraph<N, E>) super.clone();
 	}

@@ -38,7 +38,7 @@ public class ImmutableTreeAdjacencyGraph<N, E extends BidirectedEdge<N>> extends
 
 	public ImmutableTreeAdjacencyGraph(final Graph<N, E> copyGraph)
 	{
-		super(copyGraph.getNodes(), copyGraph.getEdges());
+		super(copyGraph.getTargets(), copyGraph.getEdges());
 	}
 
 	public ImmutableTreeAdjacencyGraph(final Set<N> nodes, final Set<E> edges)
@@ -71,43 +71,7 @@ public class ImmutableTreeAdjacencyGraph<N, E extends BidirectedEdge<N>> extends
 	}
 
 	@Override
-	public ImmutableTreeAdjacencyGraph<N, E> cloneAdd(final E newEdge)
-	{
-		return (ImmutableTreeAdjacencyGraph<N, E>) super.cloneAdd(newEdge);
-	}
-
-	@Override
-	public ImmutableTreeAdjacencyGraph<N, E> cloneAdd(final N newNode)
-	{
-		return (ImmutableTreeAdjacencyGraph<N, E>) super.cloneAdd(newNode);
-	}
-
-	@Override
-	public ImmutableTreeAdjacencyGraph<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
-	{
-		return (ImmutableTreeAdjacencyGraph<N, E>) super.cloneAdd(newNodes, newEdges);
-	}
-
-	@Override
-	public ImmutableTreeAdjacencyGraph<N, E> cloneRemove(final E edgeToRemove)
-	{
-		return (ImmutableTreeAdjacencyGraph<N, E>) super.cloneRemove(edgeToRemove);
-	}
-
-	@Override
-	public ImmutableTreeAdjacencyGraph<N, E> cloneRemove(final N nodeToRemove)
-	{
-		return (ImmutableTreeAdjacencyGraph<N, E>) super.cloneRemove(nodeToRemove);
-	}
-
-	@Override
-	public ImmutableTreeAdjacencyGraph<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
-	{
-		return (ImmutableTreeAdjacencyGraph<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
-	}
-
-	@Override
-	public ImmutableTreeAdjacencyGraph<N, E> clone()
+	protected ImmutableTreeAdjacencyGraph<N, E> clone()
 	{
 		return (ImmutableTreeAdjacencyGraph<N, E>) super.clone();
 	}

@@ -38,27 +38,27 @@ public class FloydWarshallPathFinder<N, E extends Edge<N>> implements PathFinder
 		this.graph = graph;
 
 		//initialize
-		this.walkWeight = new HashMap<N, Map<N, Double>>(this.graph.getNodes().size());
-		this.nextNode = new HashMap<N, Map<N, N>>(this.graph.getNodes().size());
-		for(final N nodeX : this.graph.getNodes())
+		this.walkWeight = new HashMap<N, Map<N, Double>>(this.graph.getTargets().size());
+		this.nextNode = new HashMap<N, Map<N, N>>(this.graph.getTargets().size());
+		for(final N nodeX : this.graph.getTargets())
 		{
-			final Map<N, Double> weightMapX = new HashMap<N, Double>(this.graph.getNodes().size());
+			final Map<N, Double> weightMapX = new HashMap<N, Double>(this.graph.getTargets().size());
 			this.walkWeight.put(nodeX, weightMapX);
 
-			final Map<N, N> nodeMapX = new HashMap<N, N>(this.graph.getNodes().size());
+			final Map<N, N> nodeMapX = new HashMap<N, N>(this.graph.getTargets().size());
 			this.nextNode.put(nodeX, nodeMapX);
 
-			for(final N nodeY : this.graph.getNodes())
+			for(final N nodeY : this.graph.getTargets())
 			{
 				double initialWeight = Double.POSITIVE_INFINITY;
 
 				if( nodeX.equals(nodeY) )
 					initialWeight = 0.0;
-				else if( this.graph.getTraversableNodes(nodeX).contains(nodeY) )
+				else if( this.graph.getTraversableAdjacentNodes(nodeX).contains(nodeY) )
 				{
 					E connectedEdge = null;
-					for(final E edge : this.graph.getTraversableEdges(nodeX))
-						if( edge.getNodes().contains(nodeY) )
+					for(final E edge : this.graph.getTraversableAdjacentEdges(nodeX))
+						if( edge.getTargets().contains(nodeY) )
 							connectedEdge = edge;
 					assert connectedEdge != null;
 					initialWeight = (connectedEdge instanceof WeightedEdge ? ((WeightedEdge) connectedEdge).getWeight() : 1.0);
@@ -76,9 +76,9 @@ public class FloydWarshallPathFinder<N, E extends Edge<N>> implements PathFinder
 
 	private void calculatePaths()
 	{
-		for(final N nodeK : this.graph.getNodes())
-			for(final N nodeX : this.graph.getNodes())
-				for(final N nodeY : this.graph.getNodes())
+		for(final N nodeK : this.graph.getTargets())
+			for(final N nodeX : this.graph.getTargets())
+				for(final N nodeY : this.graph.getTargets())
 				{
 					if( !Double.isInfinite(this.walkWeight.get(nodeX).get(nodeK))
 							&& !Double.isInfinite(this.walkWeight.get(nodeK).get(nodeY))
@@ -105,9 +105,9 @@ public class FloydWarshallPathFinder<N, E extends Edge<N>> implements PathFinder
 			final N toNode = nodePath.get(nodeIndex + 1);
 			E stepEdge = null;
 			double stepEdgeWeight = Double.MAX_VALUE;
-			for(final E edge : this.graph.getTraversableEdges(fromNode))
+			for(final E edge : this.graph.getTraversableAdjacentEdges(fromNode))
 			{
-				if( edge.getNodes().contains(toNode) )
+				if( edge.getTargets().contains(toNode) )
 				{
 					if( stepEdge == null )
 						stepEdge = edge;

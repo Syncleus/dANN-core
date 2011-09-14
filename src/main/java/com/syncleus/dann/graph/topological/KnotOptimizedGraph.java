@@ -29,7 +29,7 @@ public interface KnotOptimizedGraph<N, E extends Edge<N>> extends Graph<N, E>
 	 * set, and once the set is entered there is no path to traverse outside of the
 	 * set. If the specified nodes each have atleast one traversable edge in the
 	 * specified edges, all specified traversable edges go to other nodes in the
-	 * knot, no traversable edges connect to a node outside of the knot (even if it
+	 * knot, no traversable edges join to a node outside of the knot (even if it
 	 * isnt specified, and there is atleast onentraversable edge from a node
 	 * outside of the knot to a node in the knot (obviously not specified in
 	 * knotedEdges). It is important to note that while the knot is not a maximally
@@ -49,7 +49,7 @@ public interface KnotOptimizedGraph<N, E extends Edge<N>> extends Graph<N, E>
 	 * set, and once the set is entered there is no path to traverse outside of the
 	 * set. if the specified nodes each have atleast one traversable edge, all
 	 * traversable edges go to other nodes in the knot, no traversable edges
-	 * connect to a node outside of the know, and there is atleast one traversable
+	 * join to a node outside of the know, and there is atleast one traversable
 	 * edge from a node outside of the knot to a node in the knot. It is important
 	 * to note that while the knot is not a maximally connected component of the
 	 * graph it is weakly connected amongst itself.

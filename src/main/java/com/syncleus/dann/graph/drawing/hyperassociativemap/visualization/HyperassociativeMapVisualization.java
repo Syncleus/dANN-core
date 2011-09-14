@@ -90,7 +90,7 @@ public class HyperassociativeMapVisualization<D extends GraphDrawer<G, N>, G ext
 		boolean childrenRemoved = false;
 		final Map<N, TransformGroup> newGraphicalNodes = new HashMap<N, TransformGroup>();
 		final Map<N, Vector> coordinates = this.drawer.getCoordinates();
-		final Set<N> nodes = this.drawer.getGraph().getNodes();
+		final Set<N> nodes = this.drawer.getGraph().getTargets();
 		for(final N node : nodes)
 			if( this.nodeGraphics.containsKey(node) )
 			{

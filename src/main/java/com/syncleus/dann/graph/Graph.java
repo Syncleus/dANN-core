@@ -18,14 +18,11 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
+import javax.management.OperationsException;
 import com.syncleus.dann.graph.context.ContextReporter;
-import com.syncleus.dann.graph.xml.GraphXml;
-import com.syncleus.dann.xml.XmlSerializable;
+import com.syncleus.dann.neural.OutputNeuron;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Set;
-
-// TODO consider making all nodes extend from a connectable interface so you can embed other graphs as nodes if they too are connectable.
 
 /**
  * Represents a graph as a collection of nodes connected by edges. A graph does
@@ -40,8 +37,96 @@ import java.util.Set;
  * @param <N> The node type
  * @param <E> The type of edge for the given node type
  */
-public interface Graph<N, E extends Edge<N>> extends Serializable, Cloneable, XmlSerializable<GraphXml, Object>, ContextReporter
+public interface Graph<
+	  	PA,
+	  	N extends PA,
+	  	E extends Edge<N,? extends Edge.Endpoint<N>>,
+	  	NEP extends Graph.NodeEndpoint<PA, N, E>,
+	  	EEP extends Graph.EdgeEndpoint<PA, N, E>
+	  > extends Edge<PA,Graph.Endpoint<PA,N,E,PA>>, Serializable, Cloneable, ContextReporter
 {
+/*
+	interface Endpoint<
+	  	PA
+	  > extends Edge.Endpoint<PA>
+	{
+		Set<Graph.Endpoint<PA>> getAdjacent();
+		Set<Graph.Endpoint<PA>> getTraversableAdjacentTo();
+		Set<Graph.Endpoint<PA>> getTraversableAdjacentFrom();
+	};
+
+	interface NodeEndpoint<
+	  	PA,
+	  	ON extends PA,
+	  	OE extends Edge<ON,? extends Edge.Endpoint<? extends ON>>
+	  > extends Graph.Endpoint<ON>
+	{
+		Set<Graph.NodeEndpoint<PA, ON, OE>> getAdjacentNodes();
+		Set<Graph.NodeEndpoint<PA, ON, OE>> getTraversableAdjacentNodesTo();
+		Set<Graph.NodeEndpoint<PA, ON, OE>> getTraversableAdjacentNodesFrom();
+
+		Set<Graph.EdgeEndpoint<PA, ON, OE>> getAdjacentEdges();
+		Set<Graph.EdgeEndpoint<PA, ON, OE>> getTraversableAdjacentEdgesTo();
+		Set<Graph.EdgeEndpoint<PA, ON, OE>> getTraversableAdjacentEdgesFrom();
+	};
+
+	interface EdgeEndpoint<
+	  	PA,
+	  	ON extends PA,
+	  	OE extends Edge<ON,? extends Edge.Endpoint<? extends ON>>
+			> extends Graph.Endpoint<OE>
+	{
+		Set<Graph.EdgeEndpoint<PA, ON, OE>> getAdjacentEdges();
+		Set<Graph.EdgeEndpoint<PA, ON, OE>> getTraversableAdjacentEdgesTo();
+		Set<Graph.EdgeEndpoint<PA, ON, OE>> getTraversableAdjacentEdgesFrom();
+
+		Set<Graph.NodeEndpoint<PA, ON, OE>> getAdjacentNodes();
+		Set<Graph.NodeEndpoint<PA, ON, OE>> getTraversableAdjacentNodesTo();
+		Set<Graph.NodeEndpoint<PA, ON, OE>> getTraversableAdjacentNodesFrom();
+	};
+*/
+	interface Endpoint<
+	  	PA,
+	  	ON extends PA,
+	  	OE extends Edge<ON,? extends Edge.Endpoint<? extends ON>>,
+	  	T
+	  > extends Edge.Endpoint<T>
+	{
+		Set<Graph.Endpoint<PA,ON,OE,T>> getAdjacent();
+		Set<Graph.Endpoint<PA,ON,OE,T>> getTraversableAdjacentTo();
+		Set<Graph.Endpoint<PA,ON,OE,T>> getTraversableAdjacentFrom();
+
+		Set<Graph.NodeEndpoint<PA, ON, OE>> getAdjacentNodes();
+		Set<Graph.NodeEndpoint<PA, ON, OE>> getTraversableAdjacentNodesTo();
+		Set<Graph.NodeEndpoint<PA, ON, OE>> getTraversableAdjacentNodesFrom();
+
+		Set<Graph.EdgeEndpoint<PA, ON, OE>> getAdjacentEdges();
+		Set<Graph.EdgeEndpoint<PA, ON, OE>> getTraversableAdjacentEdgesTo();
+		Set<Graph.EdgeEndpoint<PA, ON, OE>> getTraversableAdjacentEdgesFrom();
+	};
+
+	interface NodeEndpoint<
+	  	PA,
+	  	ON extends PA,
+	  	OE extends Edge<ON,? extends Edge.Endpoint<? extends ON>>
+	  > extends Graph.Endpoint<PA,ON,OE,ON>
+	{
+	};
+
+	interface EdgeEndpoint<
+	  	PA,
+	  	ON extends PA,
+	  	OE extends Edge<ON,? extends Edge.Endpoint<? extends ON>>
+			> extends Graph.Endpoint<PA,ON,OE,OE>
+	{
+	};
+
+	Set<EEP> getEdgeEndpoints();
+	Set<EEP> getEdgeEndpoints(E edge);
+
+	Set<NEP> getNodeEndpoints();
+	Set<NEP> getNodeEndpoints(N node);
+
 	/**
 	 * Get a set of all nodes in the graph.
 	 *
@@ -70,19 +155,37 @@ public interface Graph<N, E extends Edge<N>> extends Serializable, Cloneable, Xm
 	 *         node has no edges.
 	 * @since 2.0
 	 */
-	List<N> getAdjacentNodes(N node);
+	Set<N> getAdjacentNodes(N node);
 	/**
 	 * Get a set of all edges which is connected to node (adjacent). You may not be
 	 * able to traverse from the specified node to all of these edges returned. If
-	 * you only want edges you can traverse then see getTraversableEdges.
+	 * you only want edges you can traverse then see getTraversableAdjacentEdges.
 	 *
 	 * @param node the end point for all edges to retrieve.
 	 * @return An unmodifiable set of all edges that has node as an end point.
 	 * @throws IllegalArgumentException if specified node is not in the graph.
-	 * @see Graph#getTraversableEdges
 	 * @since 2.0
 	 */
 	Set<E> getAdjacentEdges(N node);
+
+	Set<E> getTraversableEdgesFrom(final N source);
+	Set<E> getTraversableEdgesFrom(final E source);
+	Set<E> getTraversableEdgesTo(final N destination);
+	Set<E> getTraversableEdgesTo(final E destination);
+
+	Set<N> getTraversableNodesFrom(final N source);
+	Set<N> getTraversableNodesFrom(final E source);
+	Set<N> getTraversableNodesTo(final N destination);
+	Set<N> getTraversableNodesTo(final E destination);
+
+	Set<E> getTraversableAdjacentEdgesFrom(final N source);
+	Set<E> getTraversableAdjacentEdgesFrom(final E source);
+	Set<E> getTraversableAdjacentEdgesTo(final N destination);
+	Set<E> getTraversableAdjacentEdgesTo(final E destination);
+
+	Set<N> getTraversableAdjacentNodesFrom(final N source);
+	Set<N> getTraversableAdjacentNodesFrom(final E source);
+
 	/**
 	 * Get a list of all reachable nodes adjacent to node. All edges connected to
 	 * node and is traversable from node will have its destination node(s) added to
@@ -91,74 +194,21 @@ public interface Graph<N, E extends Edge<N>> extends Serializable, Cloneable, Xm
 	 * the end point will appear multiple times in the list, once for each hop to
 	 * the end point.
 	 *
-	 * @param node The whose traversable neighbors are to be returned.
+	 * @param destination The whose traversable neighbors are to be returned.
 	 * @return A list of all nodes adjacent to the specified node and traversable
 	 *         from the spevified node, empty set if the node has no edges.
 	 * @since 2.0
 	 */
-	List<N> getTraversableNodes(N node);
+	Set<N> getTraversableAdjacentNodesTo(final N destination);
+
 	/**
 	 * Get a set of all edges which you can traverse from node. Of course node will
 	 * always be an end point for each edge returned. Throws an
 	 * IllegalArgumentException if node is not in the graph.
 	 *
-	 * @param node edges returned will be traversable from this node.
+	 * @param destination edges returned will be traversable from this node.
 	 * @return An unmodifiable set of all edges that can be traversed from node.
 	 * @since 2.0
 	 */
-	Set<E> getTraversableEdges(N node);
-	/**
-	 * Adds the specified edge to a clone of this class.
-	 *
-	 * @param newEdge the edge to add to the cloned graph.
-	 * @return a clone of this graph with the specified edge added to it. null if
-	 *         the edge already exists.
-	 * @since 2.0
-	 */
-	Graph<N, E> cloneAdd(E newEdge);
-	/**
-	 * Adds the specified node to a clone of this class.
-	 *
-	 * @param newNode the node to add to the cloned graph.
-	 * @return a clone of this graph with the specified node added to it.
-	 * @since 2.0
-	 */
-	Graph<N, E> cloneAdd(N newNode);
-	/**
-	 * Adds the specified nodes and edges to a clone of this class.
-	 *
-	 * @param newNodes the nodes to add to the cloned graph.
-	 * @param newEdges the edges to add to the cloned graph.
-	 * @return a clone of this graph with the specified nodes and edges added to
-	 *         it.
-	 * @since 2.0
-	 */
-	Graph<N, E> cloneAdd(Set<N> newNodes, Set<E> newEdges);
-	/**
-	 * Removed the specified edge from a clone of this class.
-	 *
-	 * @param edgeToRemove the edge to remove from the cloned graph.
-	 * @return a clone of this graph with the specified edge removed to it.
-	 * @since 2.0
-	 */
-	Graph<N, E> cloneRemove(E edgeToRemove);
-	/**
-	 * Removed the specified edge to a clone of this class.
-	 *
-	 * @param nodeToRemove the edge to remove from the cloned graph.
-	 * @return a clone of this graph with the specified edge removed from it.
-	 * @since 2.0
-	 */
-	Graph<N, E> cloneRemove(N nodeToRemove);
-	/**
-	 * Removed the specified nodes and edges from a clone of this class.
-	 *
-	 * @param deleteNodes the nodes to remove from the cloned graph.
-	 * @param deleteEdges the edges to remove from the cloned graph.
-	 * @return a clone of this graph with the specified nodes and edges removed
-	 *         from it.
-	 * @since 2.0
-	 */
-	Graph<N, E> cloneRemove(Set<N> deleteNodes, Set<E> deleteEdges);
-	Graph<N, E> clone();
+	Set<N> getTraversableAdjacentNodesTo(final E destination);
 }

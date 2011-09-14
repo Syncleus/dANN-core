@@ -34,7 +34,7 @@ public class ImmutableDynamicGraphicalModel<N extends DynamicGraphicalModelNode,
 
 	public ImmutableDynamicGraphicalModel(final Graph<N, E> copyGraph)
 	{
-		super(copyGraph.getNodes(), copyGraph.getEdges());
+		super(copyGraph.getTargets(), copyGraph.getEdges());
 	}
 
 	public ImmutableDynamicGraphicalModel(final Set<N> nodes, final Set<E> edges)

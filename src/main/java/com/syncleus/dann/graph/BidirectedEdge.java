@@ -18,29 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.List;
-
-public interface BidirectedEdge<N> extends Edge<N>
+public interface BidirectedEdge<N> extends MixableBidirectedEdge<N, N, N>
 {
-	public enum EndState
+	interface Endpoint<NN, EN extends NN, ON extends NN> extends MixableBidirectedEdge.Endpoint<NN, EN,ON>
 	{
-		OUTWARD, INWARD, NONE
-	}
-	N getLeftNode();
-	N getRightNode();
-	EndState getLeftEndState();
-	EndState getRightEndState();
-	boolean isIntroverted();
-	boolean isExtroverted();
-	boolean isDirected();
-	boolean isHalfEdge();
-	boolean isLooseEdge();
-	boolean isOrdinaryEdge();
-	boolean isLoop();
-	@Override
-	BidirectedEdge<N> disconnect(N node);
-	@Override
-	BidirectedEdge<N> disconnect(List<N> node);
-	@Override
-	BidirectedEdge<N> clone();
+	};
 }

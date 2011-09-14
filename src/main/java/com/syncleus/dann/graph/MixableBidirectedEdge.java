@@ -18,37 +18,26 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.List;
-
-public final class ImmutableUndirectedEdge<N> extends AbstractUndirectedEdge<N>
+public interface MixableBidirectedEdge<N, LN extends N, RN extends N> extends Edge<N>
 {
-	private static final long serialVersionUID = -1803274027851230L;
-
-	public ImmutableUndirectedEdge(final N leftNode, final N rightNode)
+	interface Endpoint<NN, EN extends NN, ON extends NN> extends Edge.Endpoint<NN, EN>
 	{
-		super(leftNode, rightNode);
-	}
+		enum Direction
+		{
+			OUTWARD, INWARD, NONE
+		}
 
-	public ImmutableUndirectedEdge(final N leftNode, final N rightNode, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
-	{
-		super(leftNode, rightNode, allowJoiningMultipleGraphs, contextEnabled);
-	}
+		Direction getDirection();
+		Endpoint<NN, ON,EN> getNeighbor();
+	};
 
-	@Override
-	public ImmutableUndirectedEdge<N> disconnect(final N node)
-	{
-		return (ImmutableUndirectedEdge<N>) super.disconnect(node);
-	}
-
-	@Override
-	public ImmutableUndirectedEdge<N> disconnect(final List<N> nodes)
-	{
-		return (ImmutableUndirectedEdge<N>) super.disconnect(nodes);
-	}
-
-	@Override
-	public ImmutableUndirectedEdge<N> clone()
-	{
-		return (ImmutableUndirectedEdge<N>) super.clone();
-	}
+	Endpoint<N, LN,RN> getLeftEndPoint();
+	Endpoint<N, RN,LN> getRightEndPoint();
+	boolean isIntroverted();
+	boolean isExtroverted();
+	boolean isDirected();
+	boolean isHalfEdge();
+	boolean isLooseEdge();
+	boolean isOrdinaryEdge();
+	boolean isLoop();
 }

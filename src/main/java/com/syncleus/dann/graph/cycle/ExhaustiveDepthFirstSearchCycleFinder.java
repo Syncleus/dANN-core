@@ -91,7 +91,7 @@ public class ExhaustiveDepthFirstSearchCycleFinder<N, E extends Edge<N>> extends
 
 	public Set<Cycle<N, E>> findCycles(final Graph<N, E> graph)
 	{
-		final Set<N> untouchedNodes = new HashSet<N>(graph.getNodes());
+		final Set<N> untouchedNodes = new HashSet<N>(graph.getTargets());
 		final Set<Cycle<N, E>> cycles = new HashSet<Cycle<N, E>>();
 		while( !untouchedNodes.isEmpty() )
 		{
@@ -112,7 +112,7 @@ public class ExhaustiveDepthFirstSearchCycleFinder<N, E extends Edge<N>> extends
 
 	private static <N, E extends Edge<N>> List<N> neighborsFromEdge(final E edge, final N sourceNode)
 	{
-		final List<N> destinations = new ArrayList<N>(edge.getNodes());
+		final List<N> destinations = new ArrayList<N>(edge.getTargets());
 		destinations.remove(sourceNode);
 		return destinations;
 	}
@@ -123,7 +123,7 @@ public class ExhaustiveDepthFirstSearchCycleFinder<N, E extends Edge<N>> extends
 		parentNodes.push(currentNode);
 		parentEdges.push(lastEdge);
 
-		final List<E> unexploredPaths = new ArrayList<E>(graph.getTraversableEdges(currentNode));
+		final List<E> unexploredPaths = new ArrayList<E>(graph.getTraversableAdjacentEdges(currentNode));
 		if( lastEdge != null )
 			unexploredPaths.remove(lastEdge);
 		int cyclesFound = 0;

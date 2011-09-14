@@ -40,13 +40,13 @@ public class TestSimpleTopologialSort
 		nodes.add(rightNode);
 
 		final Set<DirectedEdge<Object>> edges = new HashSet<DirectedEdge<Object>>();
-		final DirectedEdge<Object> centerTopEdge = new ImmutableDirectedEdge<Object>(centerNode, topNode);
+		final DirectedEdge<Object> centerTopEdge = new SimpleDirectedEdge<Object>(centerNode, topNode);
 		edges.add(centerTopEdge);
-		final DirectedEdge<Object> centerLeftEdge = new ImmutableDirectedEdge<Object>(centerNode, leftNode);
+		final DirectedEdge<Object> centerLeftEdge = new SimpleDirectedEdge<Object>(centerNode, leftNode);
 		edges.add(centerLeftEdge);
-		final DirectedEdge<Object> leftLeftiestEdge = new ImmutableDirectedEdge<Object>(leftNode, leftiestNode);
+		final DirectedEdge<Object> leftLeftiestEdge = new SimpleDirectedEdge<Object>(leftNode, leftiestNode);
 		edges.add(leftLeftiestEdge);
-		final DirectedEdge<Object> centerRightEdge = new ImmutableDirectedEdge<Object>(centerNode, rightNode);
+		final DirectedEdge<Object> centerRightEdge = new SimpleDirectedEdge<Object>(centerNode, rightNode);
 		edges.add(centerRightEdge);
 
 		final BidirectedGraph<Object, DirectedEdge<Object>> graph = new ImmutableDirectedAdjacencyGraph<Object, DirectedEdge<Object>>(nodes, edges);

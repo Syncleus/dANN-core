@@ -22,7 +22,7 @@ import java.io.Serializable;
 
 /**
  * Interface representing the general methods common to all types of neurons.
- * All neurons will connect to other neurons as well as be able to disconnect.
+ * All neurons will join to other neurons as well as be able to leave.
  *
  * @author Jeffrey Phillips Freeman
  * @since 1.0

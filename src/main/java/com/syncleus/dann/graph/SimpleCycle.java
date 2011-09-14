@@ -46,14 +46,14 @@ public class SimpleCycle<N, E extends Edge<N>> extends SimpleWalk<N, E> implemen
 	private static <N, E extends Edge<N>> N startNodeFromSteps(final List<E> steps)
 	{
 		if( steps.size() == 1 )
-			return steps.get(0).getNodes().get(0);
+			return steps.get(0).getTargets().get(0);
 
-		final List<N> exclusiveFirstNodes = new ArrayList<N>(steps.get(0).getNodes());
-		exclusiveFirstNodes.removeAll(steps.get(1).getNodes());
+		final List<N> exclusiveFirstNodes = new ArrayList<N>(steps.get(0).getTargets());
+		exclusiveFirstNodes.removeAll(steps.get(1).getTargets());
 		if( exclusiveFirstNodes.size() == 1 )
 			return exclusiveFirstNodes.get(0);
 		else if( exclusiveFirstNodes.isEmpty() )
-			return steps.get(0).getNodes().get(0);
+			return steps.get(0).getTargets().get(0);
 		else
 			throw new IllegalArgumentException("steps does not form a path");
 	}
@@ -79,7 +79,7 @@ public class SimpleCycle<N, E extends Edge<N>> extends SimpleWalk<N, E> implemen
 			if( !(edgeStep instanceof BidirectedEdge) )
 				throw new IllegalArgumentException("all steps are not BidirectedEdge");
 			newNodeSteps.add(nextNodeStep);
-			final List<N> nextNodes = new ArrayList<N>(edgeStep.getNodes());
+			final List<N> nextNodes = new ArrayList<N>(edgeStep.getTargets());
 			nextNodes.remove(nextNodeStep);
 			nextNodeStep = nextNodes.get(0);
 		}

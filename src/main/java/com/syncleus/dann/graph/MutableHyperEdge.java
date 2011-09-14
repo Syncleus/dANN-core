@@ -16,38 +16,20 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph.context;
+package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.Graph;
+import java.util.*;
 
-public abstract class AbstractSignalingContextEdge<N, S> extends AbstractContextGraphElement<Graph<N, ?>> implements SignalingContextEdge<N, S>
+public interface MutableHyperEdge<N> extends HyperEdge<N>, MutableEdge<N>
 {
-	protected AbstractSignalingContextEdge(final boolean allowJoiningMultipleGraphs)
+	interface Endpoint<NN, EN extends NN> extends HyperEdge.Endpoint<NN, EN>, MutableEdge.Endpoint<NN, EN>
 	{
-		super(allowJoiningMultipleGraphs);
-	}
+	};
 
-	protected AbstractSignalingContextEdge()
-	{
-		super(true);
-	}
-
-	/**
-	 * This method will retransmit the state to all traversable nodes even if context is disabled.
-	 */
-	@Override
-	public void nodeStateChanged(final N node, final S newState)
-	{
-		if( !this.getNodes().contains(node) )
-			throw new IllegalArgumentException("node is not an endpoint of this edge");
-
-		for(N traversableNode : this.getTraversableNodes(node))
-		{
-			if( traversableNode instanceof SignalContextNode)
-				((SignalContextNode)traversableNode).neighborNodeStateChanged(this, node, newState);
-		}
-	}
-
-	@Override
-	public abstract AbstractSignalingContextEdge<N, S> clone();
+	Endpoint<N, N> join(final N node) throws InvalidEdgeException;
+	Map<N,Endpoint<N, N>> join(final Set<N> nodes) throws InvalidEdgeException;
+	void leave(final Endpoint<N, N> endPoint) throws InvalidEdgeException;
+	void leave(final Set<Endpoint<N, N>> endPoint) throws InvalidEdgeException;
+	void clear() throws InvalidEdgeException;
+	Map<N,Endpoint<N, N>> reconfigure(final Set<N> connectNodes, final Set<Endpoint<N, N>> disconnectEndPoints) throws InvalidEdgeException;
 }

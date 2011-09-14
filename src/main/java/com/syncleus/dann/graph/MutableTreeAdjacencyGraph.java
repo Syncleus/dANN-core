@@ -49,14 +49,14 @@ public class MutableTreeAdjacencyGraph<N, E extends BidirectedEdge<N>> extends A
 	{
 		if( newEdge == null )
 			throw new IllegalArgumentException("newEdge can not be null");
-		if( !this.getNodes().containsAll(newEdge.getNodes()) )
+		if( !this.getTargets().containsAll(newEdge.getTargets()) )
 			throw new IllegalArgumentException("newEdge has a node as an end point that is not part of the graph");
 
 		//TODO make this more efficient
 		//make sure after we add thsi edge this will still be a tree
 		final Set<E> testEdges = new HashSet<E>(this.getEdges());
 		testEdges.add(newEdge);
-		final Graph<N, E> testGraph = new ImmutableAdjacencyGraph(this.getNodes(), testEdges);
+		final Graph<N, E> testGraph = new ImmutableAdjacencyGraph(this.getTargets(), testEdges);
 		if( !Trees.isTree(testGraph) )
 			throw new IllegalArgumentException("adding newEdge can not be added because this graph would no longer be a tree");
 
@@ -67,11 +67,11 @@ public class MutableTreeAdjacencyGraph<N, E extends BidirectedEdge<N>> extends A
 
 		if( this.getInternalEdges().add(newEdge) )
 		{
-			for(final N currentNode : newEdge.getNodes())
+			for(final N currentNode : newEdge.getTargets())
 			{
 				this.getInternalAdjacencyEdges().get(currentNode).add(newEdge);
 
-				final List<N> newAdjacentNodes = new ArrayList<N>(newEdge.getNodes());
+				final List<N> newAdjacentNodes = new ArrayList<N>(newEdge.getTargets());
 				newAdjacentNodes.remove(currentNode);
 				for(final N newAdjacentNode : newAdjacentNodes)
 					this.getInternalAdjacencyNodes().get(currentNode).add(newAdjacentNode);
@@ -119,11 +119,11 @@ public class MutableTreeAdjacencyGraph<N, E extends BidirectedEdge<N>> extends A
 		if( !this.getInternalEdges().remove(edgeToRemove) )
 			return false;
 
-		for(final N removeNode : edgeToRemove.getNodes())
+		for(final N removeNode : edgeToRemove.getTargets())
 		{
 			this.getInternalAdjacencyEdges().get(removeNode).remove(edgeToRemove);
 
-			final List<N> removeAdjacentNodes = new ArrayList<N>(edgeToRemove.getNodes());
+			final List<N> removeAdjacentNodes = new ArrayList<N>(edgeToRemove.getTargets());
 			removeAdjacentNodes.remove(removeNode);
 			for(final N removeAdjacentNode : removeAdjacentNodes)
 				this.getInternalAdjacencyNodes().get(removeNode).remove(removeAdjacentNode);
@@ -157,7 +157,7 @@ public class MutableTreeAdjacencyGraph<N, E extends BidirectedEdge<N>> extends A
 		for(final E removeEdge : removeEdges)
 		{
 			E newEdge = (E) removeEdge.disconnect(nodeToRemove);
-			while( (newEdge != null) && (newEdge.getNodes().contains(nodeToRemove)) )
+			while( (newEdge != null) && (newEdge.getTargets().contains(nodeToRemove)) )
 				newEdge = (E) removeEdge.disconnect(nodeToRemove);
 			if( newEdge != null )
 				newEdges.add(newEdge);
@@ -193,7 +193,7 @@ public class MutableTreeAdjacencyGraph<N, E extends BidirectedEdge<N>> extends A
 		}
 
 		//now lets remove all the nodes
-		for(N node : this.getNodes())
+		for(N node : this.getTargets())
 		{
 			//lets just make sure we arent some how getting an we dont actually own, this shouldnt be possible so its
 			//an assert. This ensures that if remove() comes back false it must be because the context didnt allow it.
@@ -208,45 +208,8 @@ public class MutableTreeAdjacencyGraph<N, E extends BidirectedEdge<N>> extends A
 		return removedSomething;
 	}
 
-	//TODO make sure these clone methods done generate a non-tree TreeGraoh
 	@Override
-	public MutableTreeAdjacencyGraph<N, E> cloneAdd(final E newEdge)
-	{
-		return (MutableTreeAdjacencyGraph<N, E>) super.cloneAdd(newEdge);
-	}
-
-	@Override
-	public MutableTreeAdjacencyGraph<N, E> cloneAdd(final N newNode)
-	{
-		return (MutableTreeAdjacencyGraph<N, E>) super.cloneAdd(newNode);
-	}
-
-	@Override
-	public MutableTreeAdjacencyGraph<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
-	{
-		return (MutableTreeAdjacencyGraph<N, E>) super.cloneAdd(newNodes, newEdges);
-	}
-
-	@Override
-	public MutableTreeAdjacencyGraph<N, E> cloneRemove(final E edgeToRemove)
-	{
-		return (MutableTreeAdjacencyGraph<N, E>) super.cloneRemove(edgeToRemove);
-	}
-
-	@Override
-	public MutableTreeAdjacencyGraph<N, E> cloneRemove(final N nodeToRemove)
-	{
-		return (MutableTreeAdjacencyGraph<N, E>) super.cloneRemove(nodeToRemove);
-	}
-
-	@Override
-	public MutableTreeAdjacencyGraph<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
-	{
-		return (MutableTreeAdjacencyGraph<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
-	}
-
-	@Override
-	public MutableTreeAdjacencyGraph<N, E> clone()
+	protected MutableTreeAdjacencyGraph<N, E> clone()
 	{
 		return (MutableTreeAdjacencyGraph<N, E>) super.clone();
 	}

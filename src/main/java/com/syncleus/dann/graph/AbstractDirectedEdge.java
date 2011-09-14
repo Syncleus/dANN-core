@@ -18,45 +18,29 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
-public abstract class AbstractDirectedEdge<N> extends AbstractBidirectedEdge<N> implements DirectedEdge<N>
+public abstract class AbstractDirectedEdge<N, SN extends N, DN extends N> extends AbstractBidirectedEdge<N, SN,DN> implements MixableDirectedEdge<N, SN,DN>
 {
 	private static final long serialVersionUID = -7589242369886611386L;
 
-	protected AbstractDirectedEdge(final N source, final N destination)
+	@Override
+	public final AbstractSourceEndpoint getLeftEndPoint()
 	{
-		super(source, EndState.INWARD, destination, EndState.OUTWARD);
-	}
-
-	protected AbstractDirectedEdge(final N source, final N destination, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
-	{
-		super(source, EndState.INWARD, destination, EndState.OUTWARD, allowJoiningMultipleGraphs, contextEnabled);
+		return this.getSourceEndPoint();
 	}
 
 	@Override
-	public N getSourceNode()
+	public final AbstractDestinationEndpoint getRightEndPoint()
 	{
-		return this.getLeftNode();
+		return this.getDestinationEndPoint();
 	}
 
 	@Override
-	public N getDestinationNode()
-	{
-		return this.getRightNode();
-	}
+	public abstract AbstractSourceEndpoint getSourceEndPoint();
 
 	@Override
-	public List<N> getTraversableNodes(final N node)
-	{
-		if( this.getSourceNode().equals(node) )
-			return Collections.singletonList(this.getDestinationNode());
-		else if( this.getDestinationNode().equals(node) )
-			return Collections.emptyList();
-		else
-			throw new IllegalArgumentException("node is not one of the end points!");
-	}
+	public abstract AbstractDestinationEndpoint getDestinationEndPoint();
 
 	@Override
 	public final boolean isIntroverted()
@@ -97,32 +81,125 @@ public abstract class AbstractDirectedEdge<N> extends AbstractBidirectedEdge<N> 
 	@Override
 	public String toString()
 	{
-		return this.getSourceNode() + "->" + this.getDestinationNode();
+		return this.getSourceEndPoint().getTarget() + "->" + this.getDestinationEndPoint().getTarget();
 	}
 
 	@Override
-	public AbstractDirectedEdge<N> disconnect(final N node)
+	protected AbstractDirectedEdge<N, SN,DN> clone()
 	{
-		if( node == null )
-			throw new IllegalArgumentException("node can not be null");
-		if( !this.getNodes().contains(node) )
-			throw new IllegalArgumentException("node is not currently connected to");
-		return (AbstractDirectedEdge<N>) this.remove(node);
+		return (AbstractDirectedEdge<N, SN,DN>) super.clone();
 	}
 
-	@Override
-	public AbstractDirectedEdge<N> disconnect(final List<N> nodes)
-	{
-		if( nodes == null )
-			throw new IllegalArgumentException("node can not be null");
-		if( !this.getNodes().containsAll(nodes) )
-			throw new IllegalArgumentException("node is not currently connected to");
-		return (AbstractDirectedEdge<N>) this.remove(nodes);
-	}
 
-	@Override
-	public AbstractDirectedEdge<N> clone()
+
+	protected abstract class AbstractSourceEndpoint extends AbstractEndpoint<SN,DN> implements MixableDirectedEdge.Endpoint<N, SN,DN>
 	{
-		return (AbstractDirectedEdge<N>) super.clone();
-	}
+		public AbstractSourceEndpoint()
+		{
+			super(Direction.INWARD);
+		}
+
+		public AbstractSourceEndpoint(SN node)
+		{
+			super(node, Direction.INWARD);
+		}
+
+		@Override
+		public final MixableBidirectedEdge.Endpoint<N, DN,SN> getNeighbor()
+		{
+			return getDestinationEndPoint();
+		}
+
+		@Override
+		public final Set<Endpoint<N, N>> getTraversableNeighborsTo()
+		{
+			return Collections.<Endpoint<N, N>>singleton(getDestinationEndPoint());
+		}
+
+		@Override
+		public final Set<Endpoint<N, N>> getTraversableNeighborsFrom()
+		{
+			return Collections.emptySet();
+		}
+
+		@Override
+		public final boolean isTraversable()
+		{
+			return true;
+		}
+
+		@Override
+		public final boolean isTraversable(Endpoint<N, N> destination)
+		{
+			if( destination == null )
+				throw new IllegalArgumentException("destination can not be null");
+
+			return destination.equals(this.getNeighbor());
+		}
+
+		@Override
+		public final boolean isTraversable(N destination)
+		{
+			if(destination == null)
+			{
+				if(this.getNeighbor().getTarget() == null)
+					return true;
+				else
+					return false;
+			}
+			else if(this.getNeighbor().getTarget() == null)
+				return false;
+
+			return destination.equals(this.getNeighbor().getTarget());
+		}
+	};
+
+	protected abstract class AbstractDestinationEndpoint extends AbstractEndpoint<DN,SN> implements MixableDirectedEdge.Endpoint<N, DN,SN>
+	{
+		public AbstractDestinationEndpoint()
+		{
+			super(Direction.OUTWARD);
+		}
+
+		public AbstractDestinationEndpoint(DN node)
+		{
+			super(node, Direction.OUTWARD);
+		}
+
+		@Override
+		public final MixableBidirectedEdge.Endpoint<N, SN,DN> getNeighbor()
+		{
+			return getDestinationEndPoint();
+		}
+
+		@Override
+		public final Set<Endpoint<N, N>> getTraversableNeighborsTo()
+		{
+			return Collections.emptySet();
+		}
+
+		@Override
+		public final Set<Endpoint<N, N>> getTraversableNeighborsFrom()
+		{
+			return Collections.<Endpoint<N, N>>singleton(getSourceEndPoint());
+		}
+
+		@Override
+		public final boolean isTraversable()
+		{
+			return false;
+		}
+
+		@Override
+		public final boolean isTraversable(Endpoint<N, N> destination)
+		{
+			return false;
+		}
+
+		@Override
+		public final boolean isTraversable(N destination)
+		{
+			return false;
+		}
+	};
 }

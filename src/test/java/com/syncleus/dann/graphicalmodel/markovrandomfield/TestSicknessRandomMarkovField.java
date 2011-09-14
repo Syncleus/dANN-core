@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.*;
-import com.syncleus.dann.graph.ImmutableUndirectedEdge;
+import com.syncleus.dann.graph.SimpleUndirectedEdge;
 import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
 import com.syncleus.dann.graphicalmodel.SimpleGraphicalModelNode;
 import com.syncleus.dann.graphicalmodel.xml.GraphicalModelXml;
@@ -114,21 +114,21 @@ public class TestSicknessRandomMarkovField
 		network.add(this.fever);
 		network.add(this.tired);
 		network.add(this.sick);
-		//connect nodes
-		network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.season, this.stuffyNose));
-		network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.season, this.fever));
-		network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.season, this.tired));
-		network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.season, this.sick));
-		network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.age, this.stuffyNose));
-		network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.age, this.fever));
-		network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.age, this.tired));
-		network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.age, this.sick));
-		network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.tired, this.fever));
-		network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.tired, this.stuffyNose));
-		network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.tired, this.sick));
-		network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.stuffyNose, this.fever));
-		network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.stuffyNose, this.sick));
-		network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.fever, this.sick));
+		//join nodes
+		network.add(new SimpleUndirectedEdge<GraphicalModelNode>(this.season, this.stuffyNose));
+		network.add(new SimpleUndirectedEdge<GraphicalModelNode>(this.season, this.fever));
+		network.add(new SimpleUndirectedEdge<GraphicalModelNode>(this.season, this.tired));
+		network.add(new SimpleUndirectedEdge<GraphicalModelNode>(this.season, this.sick));
+		network.add(new SimpleUndirectedEdge<GraphicalModelNode>(this.age, this.stuffyNose));
+		network.add(new SimpleUndirectedEdge<GraphicalModelNode>(this.age, this.fever));
+		network.add(new SimpleUndirectedEdge<GraphicalModelNode>(this.age, this.tired));
+		network.add(new SimpleUndirectedEdge<GraphicalModelNode>(this.age, this.sick));
+		network.add(new SimpleUndirectedEdge<GraphicalModelNode>(this.tired, this.fever));
+		network.add(new SimpleUndirectedEdge<GraphicalModelNode>(this.tired, this.stuffyNose));
+		network.add(new SimpleUndirectedEdge<GraphicalModelNode>(this.tired, this.sick));
+		network.add(new SimpleUndirectedEdge<GraphicalModelNode>(this.stuffyNose, this.fever));
+		network.add(new SimpleUndirectedEdge<GraphicalModelNode>(this.stuffyNose, this.sick));
+		network.add(new SimpleUndirectedEdge<GraphicalModelNode>(this.fever, this.sick));
 		//let the network learn
 		for(int sampleCount = 0; sampleCount < 10; sampleCount++)
 			this.sampleState();

@@ -27,65 +27,55 @@ import com.syncleus.dann.graph.Graph;
 public abstract class AbstractContextNode<N, E extends Edge<N>, G extends Graph<N, E>> extends AbstractContextGraphElement<G> implements ContextNode<N, E>
 {
 	private final Set<E> connectedEdges = new HashSet<E>();
-	private final Set<ContextEdge> contextEdges = new HashSet<ContextEdge>();
 
 	protected AbstractContextNode(final boolean allowJoiningMultipleGraphs)
 	{
 		super(allowJoiningMultipleGraphs);
 	}
 
-	@Override
-	public boolean joiningGraph(final G graph)
+	public void changingConnectedEdges(Set<E> connectingEdges, Set<E> disconnectingEdges) throws RejectedContextException
 	{
-		if(super.joiningGraph(graph))
+		if( ((connectingEdges == null)||(connectingEdges.isEmpty())) && ((disconnectingEdges == null)||(disconnectingEdges.isEmpty())) )
+			throw new IllegalArgumentException("No edges specified for joining or leaving!");
+
+		if( (connectingEdges != null) && (!connectingEdges.isEmpty()) )
 		{
-			//notify all context edges that this node has joined a graph
-			for(ContextEdge contextEdge : this.contextEdges)
-				contextEdge.nodeJoiningGraph(graph, this);
-			return true;
+			if( connectingEdges.contains(null) )
+				throw new IllegalArgumentException("connectingEdges can not have a null element!");
 		}
-		else return false;
-	}
-
-	@Override
-	public boolean leavingGraph(final G graph)
-	{
-		if( super.leavingGraph(graph) )
+		if( (disconnectingEdges != null) && (!disconnectingEdges.isEmpty()) )
 		{
-			//notify all context edges that this node is leaving a graph
-			for(ContextEdge contextEdge : this.contextEdges)
-				contextEdge.nodeLeavingGraph(graph, this);
-			return true;
+			if( disconnectingEdges.contains(null) )
+				throw new IllegalArgumentException("disconnectingEdges can not have a null element!");
+
+			if( !this.connectedEdges.containsAll(disconnectingEdges) )
+				throw new IllegalArgumentException("One of the graphs being left has not been joined");
 		}
-		else
-			return false;
 	}
 
-	@Override
-	public boolean connectingEdge(final E edge)
+	public void changedConnectedEdges(Set<E> newConnectedEdges, Set<E> newDisconnectedEdges)
 	{
-		if( edge == null )
-			throw new IllegalArgumentException("edge can not be null");
+		if( ((newConnectedEdges == null)||(newConnectedEdges.isEmpty())) && ((newDisconnectedEdges == null)||(newDisconnectedEdges.isEmpty())) )
+			throw new IllegalArgumentException("No edges specified for joining or leaving!");
 
-		this.connectedEdges.add(edge);
-		if(edge instanceof ContextEdge)
-			this.contextEdges.add((ContextEdge)edge);
-		return true;
+		if( (newConnectedEdges != null) && (!newConnectedEdges.isEmpty()) )
+		{
+			if( newConnectedEdges.contains(null) )
+				throw new IllegalArgumentException("newConnectedEdges can not have a null element!");
+
+			this.connectedEdges.addAll(newConnectedEdges);
+		}
+
+		if( (newDisconnectedEdges != null) && (!newDisconnectedEdges.isEmpty()) )
+		{
+			if( newDisconnectedEdges.contains(null) )
+				throw new IllegalArgumentException("newDisconnectedEdges can not have a null element!");
+
+			this.connectedEdges.removeAll(newDisconnectedEdges);
+		}
 	}
 
-	@Override
-	public boolean disconnectingEdge(final E edge)
-	{
-		if( edge == null )
-			throw new IllegalArgumentException("edge can not be null");
-
-		//remove all refrences to thsi edge
-		this.connectedEdges.remove(edge);
-		this.contextEdges.remove(edge);
-		return true;
-	}
-
-	public final Set<E> getConnectedEdges()
+	protected final Set<E> getConnectedEdges()
 	{
 		return Collections.unmodifiableSet(connectedEdges);
 	}

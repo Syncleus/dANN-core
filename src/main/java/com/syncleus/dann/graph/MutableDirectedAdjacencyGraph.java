@@ -48,7 +48,7 @@ public class MutableDirectedAdjacencyGraph<N, E extends DirectedEdge<N>> extends
 	{
 		if( newEdge == null )
 			throw new IllegalArgumentException("newEdge can not be null");
-		if( !this.getNodes().containsAll(newEdge.getNodes()) )
+		if( !this.getTargets().containsAll(newEdge.getTargets()) )
 			throw new IllegalArgumentException("newEdge has a node as an end point that is not part of the graph");
 
 		// if context is enabled lets check if it can join
@@ -58,11 +58,11 @@ public class MutableDirectedAdjacencyGraph<N, E extends DirectedEdge<N>> extends
 
 		if( this.getInternalEdges().add(newEdge) )
 		{
-			for(final N currentNode : newEdge.getNodes())
+			for(final N currentNode : newEdge.getTargets())
 			{
 				this.getInternalAdjacencyEdges().get(currentNode).add(newEdge);
 
-				final List<N> newAdjacentNodes = new ArrayList<N>(newEdge.getNodes());
+				final List<N> newAdjacentNodes = new ArrayList<N>(newEdge.getTargets());
 				newAdjacentNodes.remove(currentNode);
 				for(final N newAdjacentNode : newAdjacentNodes)
 					this.getInternalAdjacencyNodes().get(currentNode).add(newAdjacentNode);
@@ -110,11 +110,11 @@ public class MutableDirectedAdjacencyGraph<N, E extends DirectedEdge<N>> extends
 		if( !this.getInternalEdges().remove(edgeToRemove) )
 			return false;
 
-		for(final N removeNode : edgeToRemove.getNodes())
+		for(final N removeNode : edgeToRemove.getTargets())
 		{
 			this.getInternalAdjacencyEdges().get(removeNode).remove(edgeToRemove);
 
-			final List<N> removeAdjacentNodes = new ArrayList<N>(edgeToRemove.getNodes());
+			final List<N> removeAdjacentNodes = new ArrayList<N>(edgeToRemove.getTargets());
 			removeAdjacentNodes.remove(removeNode);
 			for(final N removeAdjacentNode : removeAdjacentNodes)
 				this.getInternalAdjacencyNodes().get(removeNode).remove(removeAdjacentNode);
@@ -148,7 +148,7 @@ public class MutableDirectedAdjacencyGraph<N, E extends DirectedEdge<N>> extends
 		for(final E removeEdge : removeEdges)
 		{
 			E newEdge = (E) removeEdge.disconnect(nodeToRemove);
-			while( (newEdge != null) && (newEdge.getNodes().contains(nodeToRemove)) )
+			while( (newEdge != null) && (newEdge.getTargets().contains(nodeToRemove)) )
 				newEdge = (E) removeEdge.disconnect(nodeToRemove);
 			if( newEdge != null )
 				newEdges.add(newEdge);
@@ -184,7 +184,7 @@ public class MutableDirectedAdjacencyGraph<N, E extends DirectedEdge<N>> extends
 		}
 
 		//now lets remove all the nodes
-		for(N node : this.getNodes())
+		for(N node : this.getTargets())
 		{
 			//lets just make sure we arent some how getting an we dont actually own, this shouldnt be possible so its
 			//an assert. This ensures that if remove() comes back false it must be because the context didnt allow it.
@@ -200,43 +200,7 @@ public class MutableDirectedAdjacencyGraph<N, E extends DirectedEdge<N>> extends
 	}
 
 	@Override
-	public MutableDirectedAdjacencyGraph<N, E> cloneAdd(final E newEdge)
-	{
-		return (MutableDirectedAdjacencyGraph<N, E>) super.cloneAdd(newEdge);
-	}
-
-	@Override
-	public MutableDirectedAdjacencyGraph<N, E> cloneAdd(final N newNode)
-	{
-		return (MutableDirectedAdjacencyGraph<N, E>) super.cloneAdd(newNode);
-	}
-
-	@Override
-	public MutableDirectedAdjacencyGraph<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
-	{
-		return (MutableDirectedAdjacencyGraph<N, E>) super.cloneAdd(newNodes, newEdges);
-	}
-
-	@Override
-	public MutableDirectedAdjacencyGraph<N, E> cloneRemove(final E edgeToRemove)
-	{
-		return (MutableDirectedAdjacencyGraph<N, E>) super.cloneRemove(edgeToRemove);
-	}
-
-	@Override
-	public MutableDirectedAdjacencyGraph<N, E> cloneRemove(final N nodeToRemove)
-	{
-		return (MutableDirectedAdjacencyGraph<N, E>) super.cloneRemove(nodeToRemove);
-	}
-
-	@Override
-	public MutableDirectedAdjacencyGraph<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
-	{
-		return (MutableDirectedAdjacencyGraph<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
-	}
-
-	@Override
-	public MutableDirectedAdjacencyGraph<N, E> clone()
+	protected MutableDirectedAdjacencyGraph<N, E> clone()
 	{
 		return (MutableDirectedAdjacencyGraph<N, E>) super.clone();
 	}

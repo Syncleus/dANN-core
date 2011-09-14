@@ -73,7 +73,7 @@ public abstract class AbstractFullyConnectedFeedforwardBrain<IN extends InputBac
 		//makse sure the parent has a chance to create the unconnected network.
 		super.initalizeNetwork(neuronsPerLayer);
 
-		//iterate through all layers (except the last) and connect it to the
+		//iterate through all layers (except the last) and join it to the
 		//next layer
 		for(int layerIndex = 0; layerIndex < (this.getLayerCount() - 1); layerIndex++)
 		{
@@ -88,7 +88,7 @@ public abstract class AbstractFullyConnectedFeedforwardBrain<IN extends InputBac
 					this.connect((S) connection, true);
 				}
 		}
-		//create and connect biases
+		//create and join biases
 		for(int layerIndex = 1; layerIndex < this.getLayerCount(); layerIndex++)
 		{
 			for(final N destinationNeuron : this.getEditableLayers().get(layerIndex).getChildrenNeuronsRecursivly())
@@ -101,7 +101,7 @@ public abstract class AbstractFullyConnectedFeedforwardBrain<IN extends InputBac
 					this.getEditableLayers().get(layerIndex - 1).add((N)biasNeuron);
 					//TODO this is bad typing fix this!
 					this.add((N)biasNeuron);
-					//connect the new bias neuron to its destination neuron
+					//join the new bias neuron to its destination neuron
 					//TODO this is bad typing fix this!
 					final Synapse<N> connection = new SimpleSynapse<N>((N)biasNeuron, destinationNeuron);
 					//TODO this is bad typing fix this!

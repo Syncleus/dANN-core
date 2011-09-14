@@ -42,7 +42,7 @@ public class ImmutableBayesianAdjacencyNetwork<N extends GraphicalModelNode, E e
 	/*
 	public ImmutableMarkovRandomFieldAdjacencyGraph(final Graph<N, E> copyGraph)
 	{
-		super(copyGraph.getNodes(), copyGraph.getEdges());
+		super(copyGraph.getTargets(), copyGraph.getEdges());
 	}
 	*/
 

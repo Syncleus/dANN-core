@@ -79,6 +79,9 @@
     </xsd:element>
     <!-- Graph Type, contains references to instanced objects -->
     <xsd:complexType name="Graph">
+        <xsd:complexContent>
+            <xsd:extension base="Edge"/>
+        </xsd:complexContent>
         <xsd:sequence>
             <xsd:element name="nodes" maxOccurs="1">
                 <xsd:complexType>

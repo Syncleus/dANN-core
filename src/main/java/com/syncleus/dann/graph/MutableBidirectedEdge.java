@@ -18,37 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.List;
-
-public final class ImmutableDirectedEdge<N> extends AbstractDirectedEdge<N>
+public interface MutableBidirectedEdge<N> extends MutableMixableBidirectedEdge<N, N,N>, BidirectedEdge<N>
 {
-	private static final long serialVersionUID = 94357801283489L;
-
-	public ImmutableDirectedEdge(final N source, final N destination)
+	interface Endpoint<NN, EN extends NN, ON extends NN> extends MutableMixableBidirectedEdge.Endpoint<NN, EN,ON>, BidirectedEdge.Endpoint<NN, EN,ON>
 	{
-		super(source, destination);
-	}
-
-	public ImmutableDirectedEdge(final N source, final N destination, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
-	{
-		super(source, destination, allowJoiningMultipleGraphs, contextEnabled);
-	}
-
-	@Override
-	public ImmutableDirectedEdge<N> disconnect(final N node)
-	{
-		return (ImmutableDirectedEdge<N>) super.disconnect(node);
-	}
-
-	@Override
-	public ImmutableDirectedEdge<N> disconnect(final List<N> nodes)
-	{
-		return (ImmutableDirectedEdge<N>) super.disconnect(nodes);
-	}
-
-	@Override
-	public ImmutableDirectedEdge<N> clone()
-	{
-		return (ImmutableDirectedEdge<N>) super.clone();
-	}
+	};
 }

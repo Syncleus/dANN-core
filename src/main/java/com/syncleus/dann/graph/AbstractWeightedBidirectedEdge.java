@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public abstract class AbstractWeightedBidirectedEdge<N> extends AbstractBidirectedEdge<N> implements WeightedBidirectedEdge<N>
+public abstract class AbstractWeightedBidirectedEdge<N, LN extends N, RN extends N> extends AbstractBidirectedEdge<N, LN,RN> implements WeightedMixableBidirectedEdge<LN,RN,N>
 {
 	private final double weight;
 
@@ -34,14 +34,14 @@ public abstract class AbstractWeightedBidirectedEdge<N> extends AbstractBidirect
 		this.weight = weight;
 	}
 
-	protected AbstractWeightedBidirectedEdge(final N leftNode, final EndState leftEndState, final N rightNode, final EndState rightEndState, final double ourWeight)
+	protected AbstractWeightedBidirectedEdge(final LN leftNode, final EndState leftEndState, final RN rightNode, final EndState rightEndState, final double ourWeight)
 	{
 		super(leftNode, leftEndState, rightNode, rightEndState);
 
 		this.weight = ourWeight;
 	}
 
-	protected AbstractWeightedBidirectedEdge(final N leftNode, final EndState leftEndState, final N rightNode, final EndState rightEndState, final double ourWeight, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
+	protected AbstractWeightedBidirectedEdge(final LN leftNode, final EndState leftEndState, final RN rightNode, final EndState rightEndState, final double ourWeight, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
 	{
 		super(leftNode, leftEndState, rightNode, rightEndState, allowJoiningMultipleGraphs, contextEnabled);
 
@@ -55,8 +55,8 @@ public abstract class AbstractWeightedBidirectedEdge<N> extends AbstractBidirect
 	}
 
 	@Override
-	public AbstractWeightedBidirectedEdge<N> clone()
+	protected AbstractWeightedBidirectedEdge<N, LN,RN> clone()
 	{
-		return (AbstractWeightedBidirectedEdge<N>) super.clone();
+		return (AbstractWeightedBidirectedEdge<N, LN,RN>) super.clone();
 	}
 }

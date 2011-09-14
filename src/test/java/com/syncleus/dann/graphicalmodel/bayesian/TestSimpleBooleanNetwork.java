@@ -20,7 +20,7 @@ package com.syncleus.dann.graphicalmodel.bayesian;
 
 import java.util.HashSet;
 import com.syncleus.dann.graph.DirectedEdge;
-import com.syncleus.dann.graph.ImmutableDirectedEdge;
+import com.syncleus.dann.graph.SimpleDirectedEdge;
 import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
 import com.syncleus.dann.graphicalmodel.SimpleGraphicalModelNode;
 import org.junit.*;
@@ -75,8 +75,8 @@ public class TestSimpleBooleanNetwork
 			//add nodes
 			add(this.influence);
 			add(this.goal);
-			//connect nodes
-			final DirectedEdge<GraphicalModelNode> testEdge = new ImmutableDirectedEdge<GraphicalModelNode>(this.influence, this.goal);
+			//join nodes
+			final DirectedEdge<GraphicalModelNode> testEdge = new SimpleDirectedEdge<GraphicalModelNode>(this.influence, this.goal);
 			this.add(testEdge);
 			goals.add(this.goal);
 			influences.add(this.influence);

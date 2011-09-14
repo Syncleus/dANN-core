@@ -101,7 +101,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 		this.useWeights = useWeights;
 
 		// refresh all nodes
-		for (final N node : this.graph.getNodes())
+		for (final N node : this.graph.getTargets())
 		{
 			this.coordinates.put(node, randomCoordinates(this.dimensions));
 		}
@@ -180,10 +180,10 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 	public void align()
 	{
 		// refresh all nodes
-		if (!coordinates.keySet().equals(graph.getNodes()))
+		if (!coordinates.keySet().equals(graph.getTargets()))
 		{
 			final Map<N, Vector> newCoordinates = new HashMap<N, Vector>();
-			for (final N node : graph.getNodes())
+			for (final N node : graph.getTargets())
 			{
 				if (coordinates.containsKey(node))
 				{
@@ -229,7 +229,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 		// points
 		for (int dimensionIndex = 1; dimensionIndex <= dimensions; dimensionIndex++)
 		{
-			center = center.setCoordinate(center.getCoordinate(dimensionIndex) / graph.getNodes().size(), dimensionIndex);
+			center = center.setCoordinate(center.getCoordinate(dimensionIndex) / graph.getTargets().size(), dimensionIndex);
 		}
 
 		recenterNodes(center);
@@ -249,7 +249,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 
 	private void recenterNodes(final Vector center)
 	{
-		for (final N node : graph.getNodes())
+		for (final N node : graph.getTargets())
 		{
 			coordinates.put(node, coordinates.get(node).calculateRelativeTo(center));
 		}
@@ -266,7 +266,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 		for (final Edge<N> neighborEdge : graph.getAdjacentEdges(nodeToQuery))
 		{
 			final Double currentWeight = (((neighborEdge instanceof Weighted) && useWeights) ? ((Weighted) neighborEdge).getWeight() : equilibriumDistance);
-			for (final N neighbor : neighborEdge.getNodes())
+			for (final N neighbor : neighborEdge.getTargets())
 			{
 				if (!neighbor.equals(nodeToQuery))
 				{
@@ -313,7 +313,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 			compositeVector = compositeVector.add(neighborVector);
 		}
 		// calculate repulsion with all non-neighbors
-		for (final N node : graph.getNodes())
+		for (final N node : graph.getTargets())
 		{
 			if ((!neighbors.containsKey(node)) && (node != nodeToAlign)
 					&& (!graph.getAdjacentNodes(node).contains(nodeToAlign)))
@@ -396,7 +396,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 	private List<Future<Vector>> submitFutureAligns()
 	{
 		final ArrayList<Future<Vector>> futures = new ArrayList<Future<Vector>>();
-		for (final N node : graph.getNodes())
+		for (final N node : graph.getTargets())
 		{
 			futures.add(threadExecutor.submit(new Align(node)));
 		}
@@ -406,7 +406,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 	private Vector processLocally()
 	{
 		Vector pointSum = new Vector(dimensions);
-		for (final N node : graph.getNodes())
+		for (final N node : graph.getTargets())
 		{
 			final Vector newPoint = align(node);
 			for (int dimensionIndex = 1; dimensionIndex <= dimensions; dimensionIndex++)

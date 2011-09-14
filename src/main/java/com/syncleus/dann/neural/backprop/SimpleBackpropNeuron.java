@@ -24,7 +24,7 @@ import com.syncleus.dann.neural.activation.ActivationFunction;
 /**
  * The SimpleBackpropNeuron is the most fundamental component of a back-prop
  * network; it is also the processor of the system. One neuron will usually
- * connect to many other Neurons through synapses and receive input from many
+ * join to many other Neurons through synapses and receive input from many
  * other Neurons in the same way.
  *
  * @author Jeffrey Phillips Freeman

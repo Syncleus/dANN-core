@@ -18,18 +18,11 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.List;
-
 public interface HyperEdge<N> extends Edge<N>
 {
-	int getDegree();
-	boolean isSymmetric(HyperEdge symmetricEdge);
-	HyperEdge<N> connect(N node);
-	HyperEdge<N> connect(List<N> node);
-	@Override
-	HyperEdge<N> disconnect(N node);
-	@Override
-	HyperEdge<N> disconnect(List<N> node);
-	@Override
-	HyperEdge<N> clone();
+	interface Endpoint<NN, EN extends NN> extends Edge.Endpoint<NN, EN>
+	{
+	};
+
+	boolean isSymmetric(HyperEdge<N> symmetricEdge);
 }

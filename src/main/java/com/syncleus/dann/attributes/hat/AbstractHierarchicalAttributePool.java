@@ -46,7 +46,7 @@ public abstract class AbstractHierarchicalAttributePool<T> extends AbstractAttri
 	// TODO this has package level access because only a HAT graph should set parents. consider changing this to an event / listener model
 	final HierarchicalAttributePool<T> setParent(final HierarchicalAttributePool<T> newParent)
 	{
-		if( !this.owner.getNodes().contains(newParent) )
+		if( !this.owner.getTargets().contains(newParent) )
 			throw new IllegalArgumentException("newParent is not in owning graph");
 
 		final HierarchicalAttributePool<T> oldParent = this.parent;

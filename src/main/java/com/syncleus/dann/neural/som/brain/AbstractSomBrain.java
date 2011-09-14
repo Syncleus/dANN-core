@@ -196,7 +196,7 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 		//TODO fix this it is type unsafe
 		this.add((N)outputNeuron);
 
-		//connect all inputs to the new neuron
+		//join all inputs to the new neuron
 		//TODO fix this it is type unsafe
 		for(final InputNeuron input : this.inputs)
 		{

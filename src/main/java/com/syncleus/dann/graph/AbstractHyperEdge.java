@@ -18,38 +18,87 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 public abstract class AbstractHyperEdge<N> extends AbstractEdge<N> implements HyperEdge<N>
 {
 	private static final long serialVersionUID = -3657973823101515199L;
 
-	protected AbstractHyperEdge(final List<N> nodes)
-	{
-		super(nodes);
-	}
-
-	protected AbstractHyperEdge(final N... nodes)
-	{
-		super(nodes);
-	}
-
+/*
 	protected AbstractHyperEdge(final List<N> nodes, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
 	{
 		super(nodes, allowJoiningMultipleGraphs, contextEnabled);
+
+		if(this.contextEnabled)
+		{
+			this.nodes = new ArrayList<N>(ourNodes.size());
+			try
+			{
+				for( N node : ourNodes )
+				{
+					if( node instanceof ContextNode )
+						((ContextNode)node).connectingEdge(this);
+
+					this.nodes.add(node);
+					if( node instanceof ContextNode )
+						((ContextNode)node).connectedEdge(this);
+				}
+			}
+			catch(RejectedContextException caught)
+			{
+				//we need to remove any connections we established before we bail
+				for(N node : this.nodes)
+					if( node instanceof ContextNode )
+						((ContextNode)node).disconnectedEdge(this);
+				throw new InvalidContextException(caught);
+			}
+		}
+		else
+			this.nodes = new ArrayList<N>(ourNodes);
 	}
+
 
 	protected AbstractHyperEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled, final N... nodes)
 	{
 		super(allowJoiningMultipleGraphs, contextEnabled, nodes);
 	}
 
+	protected void addNode(final N node)
+	{
+		try
+		{
+			if( this.contextEnabled && (node instanceof ContextNode) )
+				((ContextNode)node).connectingEdge(this);
+		}
+		catch(RejectedContextException caught)
+		{
+			throw new InvalidContextException(caught);
+		}
+
+		this.nodes.add(node);
+		if( this.contextEnabled && (node instanceof ContextNode) )
+			((ContextNode)node).connectedEdge(this);
+	}
+
+	protected void removeNode(final N node)
+	{
+		try
+		{
+			if( this.contextEnabled && (node instanceof ContextNode) )
+				((ContextNode)node).disconnectingEdge(this);
+		}
+		catch(RejectedContextException caught)
+		{
+			throw new InvalidContextException(caught);
+		}
+
+		this.nodes.remove(node);
+		if( this.contextEnabled && (node instanceof ContextNode) )
+			((ContextNode)node).disconnectedEdge(this);
+	}
+
 	@Override
 	public List<N> getTraversableNodes(final N node)
 	{
-		final List<N> traversableNodes = new ArrayList<N>(this.getNodes());
+		final List<N> traversableNodes = new ArrayList<N>(this.getTargets());
 		if( !traversableNodes.remove(node) )
 			throw new IllegalArgumentException("node is not one of the end points!");
 		return Collections.unmodifiableList(traversableNodes);
@@ -58,9 +107,10 @@ public abstract class AbstractHyperEdge<N> extends AbstractEdge<N> implements Hy
 	@Override
 	public int getDegree()
 	{
-		return this.getNodes().size();
+		return this.getTargets().size();
 	}
-
+*/
+	// TODO : Implement This!
 	@Override
 	public boolean isSymmetric(final HyperEdge symmetricEdge)
 	{
@@ -68,49 +118,65 @@ public abstract class AbstractHyperEdge<N> extends AbstractEdge<N> implements Hy
 	}
 
 	@Override
-	public AbstractHyperEdge<N> connect(final N node)
-	{
-		if( node == null )
-			throw new IllegalArgumentException("node can not be null");
-		if( this.getNodes().contains(node) )
-			throw new IllegalArgumentException("node is already connected");
-		return (AbstractHyperEdge<N>) this.add(node);
-	}
-
-	@Override
-	public AbstractHyperEdge<N> connect(final List<N> nodes)
-	{
-		if( nodes == null )
-			throw new IllegalArgumentException("node can not be null");
-		for(final N node : nodes)
-			if( this.getNodes().contains(node) )
-				throw new IllegalArgumentException("node is already connected");
-		return (AbstractHyperEdge<N>) this.add(nodes);
-	}
-
-	@Override
-	public AbstractHyperEdge<N> disconnect(final N node)
-	{
-		if( node == null )
-			throw new IllegalArgumentException("node can not be null");
-		if( !this.getNodes().contains(node) )
-			throw new IllegalArgumentException("node is not currently connected to");
-		return (AbstractHyperEdge<N>) this.remove(node);
-	}
-
-	@Override
-	public AbstractHyperEdge<N> disconnect(final List<N> nodes)
-	{
-		if( nodes == null )
-			throw new IllegalArgumentException("node can not be null");
-		if( !this.getNodes().containsAll(nodes) )
-			throw new IllegalArgumentException("node is not currently connected to");
-		return (AbstractHyperEdge<N>) this.remove(nodes);
-	}
-
-	@Override
-	public AbstractHyperEdge<N> clone()
+	protected AbstractHyperEdge<N> clone()
 	{
 		return (AbstractHyperEdge<N>) super.clone();
+/*
+		final AbstractHyperEdge<N> clonedEdge = (AbstractHyperEdge<N>) super.clone();
+
+		if( !this.contextEnabled )
+			return clonedEdge;
+
+		List<ContextNode> connectedNodes = new ArrayList<ContextNode>();
+		try
+		{
+			for(N node : this.nodes)
+			{
+				if( node instanceof ContextNode )
+				{
+					ContextNode contextNode = (ContextNode)node;
+					contextNode.connectingEdge(clonedEdge);
+					contextNode.connectedEdge(clonedEdge);
+					connectedNodes.add(contextNode);
+				}
+			}
+		}
+		catch(RejectedContextException caught)
+		{
+			//we need to leave all the connections we made
+			for(ContextNode connectedNode : connectedNodes)
+				connectedNode.disconnectedEdge(clonedEdge);
+			throw new InvalidContextException(caught);
+		}
+
+		return clonedEdge;
+*/
 	}
+
+	protected abstract class AbstractEndpoint<EN extends N, ON extends N> extends AbstractEdge.AbstractEndpoint<EN> implements HyperEdge.Endpoint<N, EN>
+	{
+		private EN node = null;
+
+		protected AbstractEndpoint()
+		{
+			super();
+		}
+
+		protected AbstractEndpoint(EN node)
+		{
+			super();
+			this.node = node;
+		}
+
+		@Override
+		public EN getTarget()
+		{
+			return this.node;
+		}
+
+		public void setTarget(final EN node)
+		{
+			this.node = node;
+		}
+	};
 }

@@ -23,6 +23,11 @@ import com.syncleus.dann.graph.Graph;
 
 public class DijkstraPathFinder<N, E extends Edge<N>> extends AstarPathFinder<N, E>
 {
+	public DijkstraPathFinder(final Graph<N, E> graph)
+	{
+		super(graph, new ZeroHeuristicPathCost<N>());
+	}
+
 	public static final class ZeroHeuristicPathCost<N> implements HeuristicPathCost<N>
 	{
 		@Override
@@ -42,10 +47,5 @@ public class DijkstraPathFinder<N, E extends Edge<N>> extends AstarPathFinder<N,
 		{
 			return true;
 		}
-	}
-
-	public DijkstraPathFinder(final Graph<N, E> graph)
-	{
-		super(graph, new ZeroHeuristicPathCost<N>());
-	}
+	};
 }

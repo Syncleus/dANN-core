@@ -31,6 +31,113 @@ import java.util.Set;
 
 public class AstarPathFinder<N, E extends Edge<N>> implements PathFinder<N, E>
 {
+	private final Graph<N, E> graph;
+	private final HeuristicPathCost<N> heuristicPathCost;
+
+	public AstarPathFinder(final Graph<N, E> graph, final HeuristicPathCost<N> heuristicPathCost)
+	{
+		if( graph == null )
+			throw new IllegalArgumentException("graph can not be null");
+		if( heuristicPathCost == null )
+			throw new IllegalArgumentException("heuristicPathCost can not be null");
+		if( !heuristicPathCost.isOptimistic() )
+			throw new IllegalArgumentException("heuristicPathCost must be admissible");
+//		TODO Does the heuristic need to be consistent?
+//		if( !heuristicPathCost.isConsistent() )
+//			throw new IllegalArgumentException("This implementation requires a consistent heuristic");
+
+		this.graph = graph;
+		this.heuristicPathCost = heuristicPathCost;
+	}
+
+	@Override
+	public List<E> getBestPath(final N begin, final N end)
+	{
+		if( begin == null )
+			throw new IllegalArgumentException("begin can not be null");
+		if( end == null )
+			throw new IllegalArgumentException("end can not be null");
+		if( begin.equals(end) )
+			throw new IllegalArgumentException("begin can not be equal to end");
+
+		//initalize candidate nodes queue containing potential edges as a
+		//solution
+		final Map<N, PathedStep> nodeStepMapping = new HashMap<N, PathedStep>();
+		final PriorityQueue<PathedStep> candidateSteps = new PriorityQueue<PathedStep>();
+		final PathedStep beginStep = new PathedStep(begin, end);
+		nodeStepMapping.put(begin, beginStep);
+		candidateSteps.add(beginStep);
+
+		//all nodes that have been closed can no longer be traversed
+		final Set<PathedStep> closedSteps = new HashSet<PathedStep>();
+
+		//lets iterate through each step from the begining
+		while( !candidateSteps.isEmpty() )
+		{
+			final PathedStep currentStep = candidateSteps.poll();
+			if( currentStep.getNode().equals(end) )
+				return pathedStepToWalk(currentStep);
+
+			for(final E edge : this.graph.getTraversableAdjacentEdgesTo(currentStep.node))
+			{
+				for(final N neighborNode : edge.getTargets())
+				{
+					if( neighborNode.equals(currentStep.node) )
+						continue;
+
+					final PathedStep neighborStep;
+					if( nodeStepMapping.containsKey(neighborNode) )
+						neighborStep = nodeStepMapping.get(neighborNode);
+					else
+					{
+						neighborStep = new PathedStep(neighborNode, end);
+						nodeStepMapping.put(neighborNode, neighborStep);
+					}
+
+					if( !neighborNode.equals(begin) )
+						neighborStep.updateParent(currentStep, edge);
+
+					if( !closedSteps.contains(neighborStep) )
+					{
+						candidateSteps.remove(neighborStep);
+						candidateSteps.add(neighborStep);
+					}
+				}
+			}
+
+			closedSteps.add(currentStep);
+		}
+
+		return null;
+	}
+
+	@Override
+	public boolean isReachable(final N begin, final N end)
+	{
+		return (this.getBestPath(begin, end) != null);
+	}
+
+	@Override
+	public boolean isConnected(final N begin, final N end)
+	{
+		return (this.getBestPath(begin, end) != null);
+	}
+
+	private List<E> pathedStepToWalk(final PathedStep endPathedStep)
+	{
+		final List<E> edges = new ArrayList<E>();
+
+		PathedStep currentStep = endPathedStep;
+		while( currentStep != null )
+		{
+			if( currentStep.getParentEdge() != null )
+				edges.add(0, currentStep.getParentEdge());
+			currentStep = currentStep.getParent();
+		}
+
+		return edges;
+	}
+
 	private final class PathedStep implements Comparable<PathedStep>
 	{
 		private final N node;
@@ -129,112 +236,5 @@ public class AstarPathFinder<N, E extends Edge<N>> implements PathFinder<N, E>
 		{
 			return this.parentEdge;
 		}
-	}
-
-	private final Graph<N, E> graph;
-	private final HeuristicPathCost<N> heuristicPathCost;
-
-	public AstarPathFinder(final Graph<N, E> graph, final HeuristicPathCost<N> heuristicPathCost)
-	{
-		if( graph == null )
-			throw new IllegalArgumentException("graph can not be null");
-		if( heuristicPathCost == null )
-			throw new IllegalArgumentException("heuristicPathCost can not be null");
-		if( !heuristicPathCost.isOptimistic() )
-			throw new IllegalArgumentException("heuristicPathCost must be admissible");
-//		TODO Does the heuristic need to be consistent?
-//		if( !heuristicPathCost.isConsistent() )
-//			throw new IllegalArgumentException("This implementation requires a consistent heuristic");
-
-		this.graph = graph;
-		this.heuristicPathCost = heuristicPathCost;
-	}
-
-	@Override
-	public List<E> getBestPath(final N begin, final N end)
-	{
-		if( begin == null )
-			throw new IllegalArgumentException("begin can not be null");
-		if( end == null )
-			throw new IllegalArgumentException("end can not be null");
-		if( begin.equals(end) )
-			throw new IllegalArgumentException("begin can not be equal to end");
-
-		//initalize candidate nodes queue containing potential edges as a
-		//solution
-		final Map<N, PathedStep> nodeStepMapping = new HashMap<N, PathedStep>();
-		final PriorityQueue<PathedStep> candidateSteps = new PriorityQueue<PathedStep>();
-		final PathedStep beginStep = new PathedStep(begin, end);
-		nodeStepMapping.put(begin, beginStep);
-		candidateSteps.add(beginStep);
-
-		//all nodes that have been closed can no longer be traversed
-		final Set<PathedStep> closedSteps = new HashSet<PathedStep>();
-
-		//lets iterate through each step from the begining
-		while( !candidateSteps.isEmpty() )
-		{
-			final PathedStep currentStep = candidateSteps.poll();
-			if( currentStep.getNode().equals(end) )
-				return pathedStepToWalk(currentStep);
-
-			for(final E edge : this.graph.getTraversableEdges(currentStep.node))
-			{
-				for(final N neighborNode : edge.getNodes())
-				{
-					if( neighborNode.equals(currentStep.node) )
-						continue;
-
-					final PathedStep neighborStep;
-					if( nodeStepMapping.containsKey(neighborNode) )
-						neighborStep = nodeStepMapping.get(neighborNode);
-					else
-					{
-						neighborStep = new PathedStep(neighborNode, end);
-						nodeStepMapping.put(neighborNode, neighborStep);
-					}
-
-					if( !neighborNode.equals(begin) )
-						neighborStep.updateParent(currentStep, edge);
-
-					if( !closedSteps.contains(neighborStep) )
-					{
-						candidateSteps.remove(neighborStep);
-						candidateSteps.add(neighborStep);
-					}
-				}
-			}
-
-			closedSteps.add(currentStep);
-		}
-
-		return null;
-	}
-
-	@Override
-	public boolean isReachable(final N begin, final N end)
-	{
-		return (this.getBestPath(begin, end) != null);
-	}
-
-	@Override
-	public boolean isConnected(final N begin, final N end)
-	{
-		return (this.getBestPath(begin, end) != null);
-	}
-
-	private List<E> pathedStepToWalk(final PathedStep endPathedStep)
-	{
-		final List<E> edges = new ArrayList<E>();
-
-		PathedStep currentStep = endPathedStep;
-		while( currentStep != null )
-		{
-			if( currentStep.getParentEdge() != null )
-				edges.add(0, currentStep.getParentEdge());
-			currentStep = currentStep.getParent();
-		}
-
-		return edges;
-	}
+	};
 }

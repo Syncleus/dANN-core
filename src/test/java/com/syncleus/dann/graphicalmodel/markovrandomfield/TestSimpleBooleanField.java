@@ -75,8 +75,8 @@ public class TestSimpleBooleanField
 			//add nodes
 			add(this.influence);
 			add(this.goal);
-			//connect nodes
-			final UndirectedEdge<GraphicalModelNode> testEdge = new ImmutableUndirectedEdge<GraphicalModelNode>(this.influence, this.goal);
+			//join nodes
+			final UndirectedEdge<GraphicalModelNode> testEdge = new SimpleUndirectedEdge<GraphicalModelNode>(this.influence, this.goal);
 			this.add(testEdge);
 			goals.add(this.goal);
 			influences.add(this.influence);

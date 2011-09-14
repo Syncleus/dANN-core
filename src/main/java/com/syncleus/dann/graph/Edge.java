@@ -22,34 +22,33 @@ import com.syncleus.dann.graph.context.ContextReporter;
 import com.syncleus.dann.graph.xml.EdgeXml;
 import com.syncleus.dann.xml.XmlSerializable;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
-public interface Edge<N> extends Serializable, Cloneable, XmlSerializable<EdgeXml, Object>, ContextReporter
+public interface Edge<
+	  	T,
+	  	EP extends Edge.Endpoint<T>
+	  > extends Serializable, Cloneable, XmlSerializable<EdgeXml, Object>, ContextReporter
 {
-	List<N> getNodes();
-	List<N> getTraversableNodes(N node);
-	boolean isTraversable(N node);
+	interface Endpoint<
+		  	T
+		  >
+	{
+		Set<Edge.Endpoint<T>> getNeighbors();
+		Set<Edge.Endpoint<T>> getTraversableNeighborsTo();
+		Set<Edge.Endpoint<T>> getTraversableNeighborsFrom();
+		boolean isTraversable();
+		boolean isTraversable(final Edge.Endpoint<T> destination);
+		boolean isTraversable(final T destination);
+		T getTarget();
+	};
 
-	/**
-	 * Returns an edge with the specified node disconnected.
-	 *
-	 * @param node node to remove from the returned edge.
-	 * @return an edge with the specified node disconnected,
-	 *   <tt>null</tt> if the entire edge should be deleted as a result of
-	 *   removing the specified node.
-	 * @since 2.0
-	 */
-	Edge<N> disconnect(N node);
-
-	/**
-	 * Returns an edge with the specified nodes disconnected.
-	 *
-	 * @param node node to remove from the returned edge.
-	 * @return an edge with the specified nodes disconnected,
-	 *   <tt>null</tt> if the entire edge should be deleted as a result of
-	 *   removing the specified nodes.
-	 */
-	Edge<N> disconnect(List<N> node);
-
-	Edge<N> clone();
+	Set<EP> getEndPoints();
+	Set<EP> getEndPoints(final T node);
+	boolean contains(final T node);
+	Set<T> getTargets();
+	Set<T> getNeighbors(final T source);
+	Set<T> getTraversableFrom(final T source);
+	Set<T> getTraversableTo(final T destination);
+	boolean isTraversable(final T source, final T destination);
+	int getDegree();
 }

@@ -42,24 +42,24 @@ public class Grid extends AbstractBidirectedAdjacencyGraph<GridNode, BidirectedE
 				this.neighborEdges.put(this.nodes[y][x], new HashSet<BidirectedEdge<GridNode>>());
 				this.neighborNodes.put(this.nodes[y][x], new HashSet<GridNode>());
 			}
-		//connect nodes
+		//join nodes
 		for(int y = 0; y < nodes.length; y++)
 			for(int x = 0; x < this.nodes[0].length; x++)
 			{
-				//connect to the right
+				//join to the right
 				if( x < this.nodes[0].length - 1 )
 				{
-					final ImmutableUndirectedEdge<GridNode> newEdge = new ImmutableUndirectedEdge<GridNode>(this.nodes[y][x], this.nodes[y][x + 1]);
+					final SimpleUndirectedEdge<GridNode> newEdge = new SimpleUndirectedEdge<GridNode>(this.nodes[y][x], this.nodes[y][x + 1]);
 					this.edges.add(newEdge);
 					this.neighborEdges.get(this.nodes[y][x]).add(newEdge);
 					this.neighborEdges.get(this.nodes[y][x + 1]).add(newEdge);
 					this.neighborNodes.get(this.nodes[y][x]).add(this.nodes[y][x + 1]);
 					this.neighborNodes.get(this.nodes[y][x + 1]).add(this.nodes[y][x]);
 				}
-				//connect to the bottom
+				//join to the bottom
 				if( y < nodes.length - 1 )
 				{
-					final ImmutableUndirectedEdge<GridNode> newEdge = new ImmutableUndirectedEdge<GridNode>(this.nodes[y][x], this.nodes[y + 1][x]);
+					final SimpleUndirectedEdge<GridNode> newEdge = new SimpleUndirectedEdge<GridNode>(this.nodes[y][x], this.nodes[y + 1][x]);
 					this.edges.add(newEdge);
 					this.neighborEdges.get(this.nodes[y][x]).add(newEdge);
 					this.neighborEdges.get(this.nodes[y + 1][x]).add(newEdge);
@@ -76,7 +76,7 @@ public class Grid extends AbstractBidirectedAdjacencyGraph<GridNode, BidirectedE
 		return this.nodes[y][x];
 	}
 
-	public Set<GridNode> getNodes()
+	public Set<GridNode> getTargets()
 	{
 		return Collections.unmodifiableSet(this.nodeSet);
 	}
@@ -92,7 +92,7 @@ public class Grid extends AbstractBidirectedAdjacencyGraph<GridNode, BidirectedE
 		return Collections.unmodifiableSet(this.neighborEdges.get(node));
 	}
 
-	public Set<BidirectedEdge<GridNode>> getTraversableEdges(final GridNode node)
+	public Set<BidirectedEdge<GridNode>> getTraversableAdjacentEdges(final GridNode node)
 	{
 		return this.getAdjacentEdges(node);
 	}
@@ -127,7 +127,7 @@ public class Grid extends AbstractBidirectedAdjacencyGraph<GridNode, BidirectedE
 		return Collections.unmodifiableList(new ArrayList<GridNode>(this.neighborNodes.get(node)));
 	}
 
-	public List<GridNode> getTraversableNodes(final GridNode node)
+	public List<GridNode> getTraversableAdjacentNodes(final GridNode node)
 	{
 		return this.getAdjacentNodes(node);
 	}

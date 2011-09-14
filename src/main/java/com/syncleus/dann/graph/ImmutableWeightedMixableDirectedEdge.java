@@ -18,59 +18,32 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.List;
-
-public final class ImmutableHyperEdge<N> extends AbstractHyperEdge<N>
+public final class ImmutableWeightedMixableDirectedEdge<N, SN extends N, DN extends N> extends AbstractDirectedEdge<N, SN,DN> implements WeightedMixableDirectedEdge<SN,DN,N>
 {
-	private static final long serialVersionUID = -3657973823101515199L;
+	private static final long serialVersionUID = -6842352444147012645L;
+	private final double weight;
 
-	public ImmutableHyperEdge(final List<N> nodes)
+	public ImmutableWeightedMixableDirectedEdge(final SN source, final DN destination, final double ourWeight)
 	{
-		super(nodes);
+		super(source, destination);
+		this.weight = ourWeight;
 	}
 
-	public ImmutableHyperEdge(final N... nodes)
+	public ImmutableWeightedMixableDirectedEdge(final SN source, final DN destination, final double ourWeight, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
 	{
-		super(nodes);
-	}
-
-	public ImmutableHyperEdge(final List<N> nodes, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
-	{
-		super(nodes, allowJoiningMultipleGraphs, contextEnabled);
-	}
-
-	public ImmutableHyperEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled, final N... nodes)
-	{
-		super(allowJoiningMultipleGraphs, contextEnabled, nodes);
+		super(source, destination, allowJoiningMultipleGraphs, contextEnabled);
+		this.weight = ourWeight;
 	}
 
 	@Override
-	public ImmutableHyperEdge<N> connect(final N node)
+	public double getWeight()
 	{
-		return (ImmutableHyperEdge<N>) super.connect(node);
+		return this.weight;
 	}
 
 	@Override
-	public ImmutableHyperEdge<N> connect(final List<N> nodes)
+	protected ImmutableWeightedMixableDirectedEdge<N, SN,DN> clone()
 	{
-		return (ImmutableHyperEdge<N>) super.connect(nodes);
-	}
-
-	@Override
-	public ImmutableHyperEdge<N> disconnect(final N node)
-	{
-		return (ImmutableHyperEdge<N>) super.disconnect(node);
-	}
-
-	@Override
-	public ImmutableHyperEdge<N> disconnect(final List<N> nodes)
-	{
-		return (ImmutableHyperEdge<N>) super.disconnect(nodes);
-	}
-
-	@Override
-	public ImmutableHyperEdge<N> clone()
-	{
-		return (ImmutableHyperEdge<N>) super.clone();
+		return (ImmutableWeightedMixableDirectedEdge<N, SN,DN>) super.clone();
 	}
 }

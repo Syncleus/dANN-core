@@ -33,7 +33,7 @@ public abstract class AbstractBidirectedAdjacencyGraph<N, E extends BidirectedEd
 
 	protected AbstractBidirectedAdjacencyGraph(final Graph<N, E> copyGraph)
 	{
-		super(copyGraph.getNodes(), copyGraph.getEdges());
+		super(copyGraph.getTargets(), copyGraph.getEdges());
 	}
 
 	protected AbstractBidirectedAdjacencyGraph(final Set<N> nodes, final Set<E> edges)
@@ -47,7 +47,7 @@ public abstract class AbstractBidirectedAdjacencyGraph<N, E extends BidirectedEd
 		final Set<E> inEdges = new HashSet<E>();
 		for(final E edge : this.getEdges())
 		{
-			final List<N> adjacentNodes = new ArrayList<N>(edge.getNodes());
+			final List<N> adjacentNodes = new ArrayList<N>(edge.getTargets());
 			adjacentNodes.remove(node);
 			final N adjacentNode = adjacentNodes.get(0);
 
@@ -58,43 +58,7 @@ public abstract class AbstractBidirectedAdjacencyGraph<N, E extends BidirectedEd
 	}
 
 	@Override
-	public AbstractBidirectedAdjacencyGraph<N, E> cloneAdd(final E newEdge)
-	{
-		return (AbstractBidirectedAdjacencyGraph<N, E>) super.cloneAdd(newEdge);
-	}
-
-	@Override
-	public AbstractBidirectedAdjacencyGraph<N, E> cloneAdd(final N newNode)
-	{
-		return (AbstractBidirectedAdjacencyGraph<N, E>) super.cloneAdd(newNode);
-	}
-
-	@Override
-	public AbstractBidirectedAdjacencyGraph<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
-	{
-		return (AbstractBidirectedAdjacencyGraph<N, E>) super.cloneAdd(newNodes, newEdges);
-	}
-
-	@Override
-	public AbstractBidirectedAdjacencyGraph<N, E> cloneRemove(final E edgeToRemove)
-	{
-		return (AbstractBidirectedAdjacencyGraph<N, E>) super.cloneRemove(edgeToRemove);
-	}
-
-	@Override
-	public AbstractBidirectedAdjacencyGraph<N, E> cloneRemove(final N nodeToRemove)
-	{
-		return (AbstractBidirectedAdjacencyGraph<N, E>) super.cloneRemove(nodeToRemove);
-	}
-
-	@Override
-	public AbstractBidirectedAdjacencyGraph<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
-	{
-		return (AbstractBidirectedAdjacencyGraph<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
-	}
-
-	@Override
-	public AbstractBidirectedAdjacencyGraph<N, E> clone()
+	protected AbstractBidirectedAdjacencyGraph<N, E> clone()
 	{
 		return (AbstractBidirectedAdjacencyGraph<N, E>) super.clone();
 	}

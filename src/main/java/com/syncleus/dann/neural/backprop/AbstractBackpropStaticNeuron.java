@@ -36,9 +36,9 @@ public abstract class AbstractBackpropStaticNeuron extends AbstractBackpropNeuro
 	public void tick()
 	{
 		//TODO fix this, bad typing
-//		for(final Synapse current : this.getBrain().getTraversableEdges(this))
+//		for(final Synapse current : this.getBrain().getTraversableAdjacentEdges(this))
 //			current.setInput(this.output);
-		for(final Object current : this.getBrain().getTraversableEdges(this))
+		for(final Object current : this.getBrain().getTraversableAdjacentEdges(this))
 			((Synapse)current).setInput(this.output);
 	}
 

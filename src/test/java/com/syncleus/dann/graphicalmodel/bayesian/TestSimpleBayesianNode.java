@@ -19,7 +19,7 @@
 package com.syncleus.dann.graphicalmodel.bayesian;
 
 import com.syncleus.dann.graph.DirectedEdge;
-import com.syncleus.dann.graph.ImmutableDirectedEdge;
+import com.syncleus.dann.graph.SimpleDirectedEdge;
 import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
 import com.syncleus.dann.graphicalmodel.SimpleGraphicalModelNode;
 import org.junit.*;
@@ -67,7 +67,7 @@ public class TestSimpleBayesianNode
 		network.add(parentNode);
 		network.add(childNode);
 
-		final DirectedEdge<GraphicalModelNode<SimpleEnum>> testEdge = new ImmutableDirectedEdge<GraphicalModelNode<SimpleEnum>>(parentNode, childNode);
+		final DirectedEdge<GraphicalModelNode<SimpleEnum>> testEdge = new SimpleDirectedEdge<GraphicalModelNode<SimpleEnum>>(parentNode, childNode);
 		network.add(testEdge);
 
 		parentNode.setState(SimpleEnum.TRUE);

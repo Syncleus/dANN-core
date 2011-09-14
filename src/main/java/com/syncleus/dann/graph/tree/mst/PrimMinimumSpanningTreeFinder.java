@@ -61,7 +61,7 @@ public class PrimMinimumSpanningTreeFinder<N, E extends Edge<N>> implements Root
 		}
 		else
 		{
-			startNode = graph.getNodes().iterator().next();
+			startNode = graph.getTargets().iterator().next();
 		}
 
 		return this.primCalculate(graph, startNode);
@@ -77,7 +77,7 @@ public class PrimMinimumSpanningTreeFinder<N, E extends Edge<N>> implements Root
 	{
 		final Set<E> mst = new HashSet<E>();
 		final PrimMap<N, E> primMap = new PrimMap<N, E>();
-		for(final N node : graph.getNodes())
+		for(final N node : graph.getTargets())
 			primMap.put(node, null);
 
 		N currentNode = null;
@@ -95,10 +95,10 @@ public class PrimMinimumSpanningTreeFinder<N, E extends Edge<N>> implements Root
 				mst.add(currentEntry.getValue());
 			}
 
-			final Set<E> neighborEdges = graph.getTraversableEdges(currentNode);
+			final Set<E> neighborEdges = graph.getTraversableAdjacentEdges(currentNode);
 			for(final E neighborEdge : neighborEdges)
 			{
-				final List<N> neighborNodes = new ArrayList<N>(neighborEdge.getNodes());
+				final List<N> neighborNodes = new ArrayList<N>(neighborEdge.getTargets());
 				//remove all occurrences of currentNode, not just the first
 				while( neighborNodes.remove(currentNode) )
 				{

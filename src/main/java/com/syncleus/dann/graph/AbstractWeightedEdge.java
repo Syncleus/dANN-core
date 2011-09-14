@@ -55,7 +55,7 @@ public abstract class AbstractWeightedEdge<N> extends AbstractEdge<N> implements
 	}
 
 	@Override
-	public AbstractWeightedEdge<N> clone()
+	protected AbstractWeightedEdge<N> clone()
 	{
 		return (AbstractWeightedEdge<N>) super.clone();
 	}

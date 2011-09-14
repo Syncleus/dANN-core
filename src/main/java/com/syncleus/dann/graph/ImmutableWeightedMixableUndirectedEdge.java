@@ -18,60 +18,32 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.List;
-
-public abstract class AbstractUniqueEdge<N> extends AbstractEdge<N>
+public final class ImmutableWeightedMixableUndirectedEdge<N, LN extends N, RN extends N> extends AbstractUndirectedEdge<N, LN,RN> implements WeightedMixableBidirectedEdge<LN,RN,N>
 {
-	protected AbstractUniqueEdge()
+	private static final long serialVersionUID = -298347598212765L;
+	private final double weight;
+
+	public ImmutableWeightedMixableUndirectedEdge(final LN left, final RN right, final double ourWeight)
 	{
-		super();
+		super(left, right);
+		this.weight = ourWeight;
 	}
 
-	protected AbstractUniqueEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
+	public ImmutableWeightedMixableUndirectedEdge(final LN left, final RN right, final double ourWeight, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
 	{
-		super(allowJoiningMultipleGraphs, contextEnabled);
-	}
-
-	protected AbstractUniqueEdge(final List<N> nodes)
-	{
-		super(nodes);
-	}
-
-	protected AbstractUniqueEdge(final N... nodes)
-	{
-		super(nodes);
-	}
-
-	protected AbstractUniqueEdge(final List<N> nodes, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
-	{
-		super(nodes, allowJoiningMultipleGraphs, contextEnabled);
-	}
-
-	protected AbstractUniqueEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled, final N... nodes)
-	{
-		super(allowJoiningMultipleGraphs, contextEnabled, nodes);
+		super(left, right, allowJoiningMultipleGraphs, contextEnabled);
+		this.weight = ourWeight;
 	}
 
 	@Override
-	public boolean equals(final Object compareToObj)
+	public double getWeight()
 	{
-		if( compareToObj == null )
-			return false;
-
-		if( !(compareToObj instanceof Edge) )
-			return false;
-
-		final Edge compareTo = (Edge) compareToObj;
-		return (compareTo.getNodes().equals(this.getNodes()))
-				&& (this.getNodes().equals(compareTo.getNodes()));
+		return this.weight;
 	}
 
 	@Override
-	public int hashCode()
+	protected ImmutableWeightedMixableUndirectedEdge<N, LN,RN> clone()
 	{
-		int hash = 0;
-		for(final N node : this.getNodes())
-			hash += node.hashCode();
-		return hash;
+		return (ImmutableWeightedMixableUndirectedEdge<N, LN,RN>) super.clone();
 	}
 }

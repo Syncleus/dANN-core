@@ -33,7 +33,7 @@ public abstract class AbstractBayesianAdjacencyNetwork<N extends GraphicalModelN
 
 	protected AbstractBayesianAdjacencyNetwork(final Graph<N, E> copyGraph)
 	{
-		super(copyGraph.getNodes(), copyGraph.getEdges());
+		super(copyGraph.getTargets(), copyGraph.getEdges());
 	}
 
 	protected AbstractBayesianAdjacencyNetwork(final Set<N> nodes, final Set<E> edges)
@@ -45,7 +45,7 @@ public abstract class AbstractBayesianAdjacencyNetwork<N extends GraphicalModelN
 	public double jointProbability()
 	{
 		double probabilityProduct = 1.0;
-		for(final N node : this.getNodes())
+		for(final N node : this.getTargets())
 			probabilityProduct *= node.stateProbability();
 		return probabilityProduct;
 	}

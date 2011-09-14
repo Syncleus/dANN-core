@@ -35,7 +35,7 @@ public abstract class AbstractGraphicalModelAdjacencyGraph<N extends GraphicalMo
 
 	protected AbstractGraphicalModelAdjacencyGraph(final Graph<N, E> copyGraph)
 	{
-		super(copyGraph.getNodes(), copyGraph.getEdges());
+		super(copyGraph.getTargets(), copyGraph.getEdges());
 	}
 
 	protected AbstractGraphicalModelAdjacencyGraph(final Set<N> nodes, final Set<E> edges)
@@ -46,7 +46,7 @@ public abstract class AbstractGraphicalModelAdjacencyGraph<N extends GraphicalMo
 	@Override
 	public void learnStates()
 	{
-		for(final N node : this.getNodes())
+		for(final N node : this.getTargets())
 			node.learnState();
 	}
 
@@ -63,7 +63,7 @@ public abstract class AbstractGraphicalModelAdjacencyGraph<N extends GraphicalMo
 		//first we need to preserve a map of all the starting states so we can reset the network back to its starting
 		//point when we are done
 		Map<N, Object> startingStates = new HashMap<N, Object>();
-		for(N node : this.getNodes())
+		for(N node : this.getTargets())
 		{
 			//we wont be changing influences nodes, so we can skip those
 			if( !influences.contains(node) )
@@ -72,7 +72,7 @@ public abstract class AbstractGraphicalModelAdjacencyGraph<N extends GraphicalMo
 
 		try
 		{
-			List<N> varyingNodes = new ArrayList<N>(this.getNodes());
+			List<N> varyingNodes = new ArrayList<N>(this.getTargets());
 
 			//calculate numerator
 			varyingNodes.removeAll(influences);
@@ -86,7 +86,7 @@ public abstract class AbstractGraphicalModelAdjacencyGraph<N extends GraphicalMo
 			while( !incrementNodeStates(varyingNodes) );
 
 			//calculate denominator
-			varyingNodes = new ArrayList<N>(this.getNodes());
+			varyingNodes = new ArrayList<N>(this.getTargets());
 			varyingNodes.removeAll(influences);
 			resetNodeStates(varyingNodes);
 			double denominator = 0.0;
@@ -190,7 +190,7 @@ public abstract class AbstractGraphicalModelAdjacencyGraph<N extends GraphicalMo
 		networkXml.setNodeInstances(new GraphicalModelElementXml.NodeInstances());
 		networkXml.setStateInstances(new GraphicalModelElementXml.StateInstances());
 		final Set<Object> writtenStates = new HashSet<Object>();
-		for (N node : this.getNodes())
+		for (N node : this.getTargets())
 		{
 			//add the node
 			final NamedValueXml nodeXml = new NamedValueXml();

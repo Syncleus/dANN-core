@@ -31,7 +31,7 @@ public class LinkedGraph<N, E extends Edge<N>> extends AbstractAdjacencyGraph<N,
 
 	public LinkedGraph(final Graph<N, E> copyGraph)
 	{
-		this(copyGraph.getNodes(), copyGraph.getEdges());
+		this(copyGraph.getTargets(), copyGraph.getEdges());
 	}
 
 	public LinkedGraph(final Set<N> nodes, final Set<E> edges)
@@ -40,7 +40,7 @@ public class LinkedGraph<N, E extends Edge<N>> extends AbstractAdjacencyGraph<N,
 		this.edges = new LinkedHashSet<E>(edges);
 		for(final E edge : edges)
 		{
-			final List<N> edgeNodes = edge.getNodes();
+			final List<N> edgeNodes = edge.getTargets();
 			for(int startNodeIndex = 0; startNodeIndex < edgeNodes.size(); startNodeIndex++)
 			{
 				if( !this.nodes.contains(edgeNodes.get(startNodeIndex)) )
@@ -72,7 +72,7 @@ public class LinkedGraph<N, E extends Edge<N>> extends AbstractAdjacencyGraph<N,
 		}
 	}
 
-	public Set<N> getNodes()
+	public Set<N> getTargets()
 	{
 		return Collections.unmodifiableSet(this.nodes);
 	}

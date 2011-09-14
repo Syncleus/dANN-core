@@ -18,15 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import com.syncleus.dann.UnexpectedDannError;
-import com.syncleus.dann.graph.context.AbstractContextGraphElement;
-import com.syncleus.dann.graph.context.ContextNode;
+import java.util.*;
 import com.syncleus.dann.graph.xml.EdgeElementXml;
 import com.syncleus.dann.graph.xml.EdgeXml;
 import com.syncleus.dann.xml.NameXml;
@@ -35,157 +27,87 @@ import com.syncleus.dann.xml.Namer;
 import com.syncleus.dann.xml.XmlSerializable;
 import org.apache.log4j.Logger;
 
-public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<N, ?>> implements Edge<N>
+public abstract class AbstractEdge<
+	  	PA,
+	  	EP extends Edge.Endpoint<PA>
+	  > implements Edge<PA,EP>
 {
 	private static final Logger LOGGER = Logger.getLogger(AbstractEdge.class);
-	private final boolean contextEnabled;
-	private List<N> nodes;
 
-	protected AbstractEdge()
+	@Override
+	public boolean contains(final PA node)
 	{
-		this(true, true);
-	}
-
-	protected AbstractEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
-	{
-		super(allowJoiningMultipleGraphs);
-		this.contextEnabled = contextEnabled;
-	}
-
-	protected AbstractEdge(final List<N> ourNodes)
-	{
-		this(ourNodes, true, true);
-	}
-
-	protected AbstractEdge(final List<N> ourNodes, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
-	{
-		super(allowJoiningMultipleGraphs);
-		this.contextEnabled = contextEnabled;
-
-		//make sure each node with context allows us to connect to it
-		if(contextEnabled)
-		{
-			final List<N> nodesCopy = new ArrayList<N>(ourNodes.size());
-			for(N ourNode : ourNodes)
-			{
-				if( this.contextEnabled && ( ourNode instanceof ContextNode ) && ( !((ContextNode)ourNode).connectingEdge(this) ))
-					continue;
-				nodesCopy.add(ourNode);
-			}
-			this.nodes = Collections.unmodifiableList(new ArrayList<N>(nodesCopy));
-		}
-		else
-			this.nodes = Collections.unmodifiableList(new ArrayList<N>(ourNodes));
-	}
-
-	protected AbstractEdge(final N... ourNodes)
-	{
-		this(true, true, ourNodes);
-	}
-
-	protected AbstractEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled, final N... ourNodes)
-	{
-		this(Arrays.asList(ourNodes), allowJoiningMultipleGraphs, contextEnabled);
+		for( EP endpoint : this.getEndPoints() )
+			if( endpoint.getTarget().equals(node))
+				return true;
+		return false;
 	}
 
 	@Override
-	public boolean isContextEnabled()
+	public Set<PA> getTargets()
 	{
-		return this.contextEnabled;
-	}
+		final Set<PA> nodes = new HashSet<PA>();
+		for( EP endpoint : this.getEndPoints() )
+			nodes.add(endpoint.getTarget());
 
-	protected AbstractEdge<N> add(final N node)
-	{
-		if( node == null )
-			throw new IllegalArgumentException("node can not be null");
-
-		final List<N> newNodes = new ArrayList<N>(this.nodes);
-		newNodes.add(node);
-
-		return createDeepCopy(newNodes);
-	}
-
-	protected AbstractEdge<N> add(final List<N> addNodes)
-	{
-		if( addNodes == null )
-			throw new IllegalArgumentException("node can not be null");
-		final List<N> newNodes = new ArrayList<N>(this.nodes);
-		newNodes.addAll(addNodes);
-
-		return createDeepCopy(newNodes);
-	}
-
-	protected AbstractEdge<N> remove(final N node)
-	{
-		if( node == null )
-			throw new IllegalArgumentException("node can not be null");
-		if( !this.nodes.contains(node) )
-			throw new IllegalArgumentException("is not an endpoint");
-
-		final List<N> newNodes = new ArrayList<N>(this.nodes);
-		newNodes.remove(node);
-
-		return createDeepCopy(newNodes);
-	}
-
-	protected AbstractEdge<N> remove(final List<N> removeNodes)
-	{
-		if( removeNodes == null )
-			throw new IllegalArgumentException("removeNodes can not be null");
-		if( !this.nodes.containsAll(removeNodes) )
-			throw new IllegalArgumentException("removeNodes do not contain all valid end points");
-		final List<N> newNodes = new ArrayList<N>(this.nodes);
-		for(final N node : removeNodes)
-			newNodes.remove(node);
-
-		return createDeepCopy(newNodes);
-	}
-
-	/**
-	 * Create a deep copy of this edge, but with a new set of nodes.
-	 * @param newNodes the set of nodes to use instead of the current ones.
-	 * @return a deep copy of this edge, but with a new set of nodes.
-	 */
-	private AbstractEdge<N> createDeepCopy(final List<N> newNodes)
-	{
-		try
-		{
-			final AbstractEdge<N> clonedEdge = (AbstractEdge<N>) super.clone();
-			final List<N> clonedNodes = new ArrayList<N>(this.nodes.size());
-			//add each node at a time to the clone considering context
-			for(N newNode : newNodes)
-			{
-				if( this.contextEnabled && (newNode instanceof ContextNode) && ( !((ContextNode)newNode).connectingEdge(clonedEdge) ) )
-					continue;
-				clonedNodes.add(newNode);
-			}
-			clonedEdge.nodes = Collections.unmodifiableList(clonedNodes);
-			return clonedEdge;
-		}
-		catch(CloneNotSupportedException caught)
-		{
-			LOGGER.error("Edge was unexpectidly not cloneable", caught);
-			throw new UnexpectedDannError("Edge was unexpectidly not cloneable", caught);
-		}
+		return Collections.unmodifiableSet(nodes);
 	}
 
 	@Override
-	public boolean isTraversable(final N node)
+	public Set<EP> getEndPoints(PA node)
 	{
-		return (!this.getTraversableNodes(node).isEmpty());
+		final Set<EP> nodesEndpoints = new HashSet<EP>();
+		for( EP endpoint : this.getEndPoints() )
+			if( endpoint.getTarget().equals(node))
+				nodesEndpoints.add(endpoint);
+
+		return Collections.unmodifiableSet(nodesEndpoints);
 	}
 
 	@Override
-	public final List<N> getNodes()
+	public Set<PA> getNeighbors(final PA source)
 	{
-		return this.nodes;
+		final Set<PA> nodes = new HashSet<PA>();
+		for( final EP sourceEndpoint : this.getEndPoints(source) )
+			for( final Edge.Endpoint<PA> fromEndpoint : sourceEndpoint.getNeighbors())
+				nodes.add(fromEndpoint.getTarget());
+
+		return Collections.unmodifiableSet(nodes);
+	}
+
+	@Override
+	public Set<PA> getTraversableFrom(PA source)
+	{
+		final Set<PA> nodes = new HashSet<PA>();
+		for( final EP sourceEndpoint : this.getEndPoints(source) )
+			for( final Edge.Endpoint<PA> fromEndpoint : sourceEndpoint.getTraversableNeighborsFrom())
+				nodes.add(fromEndpoint.getTarget());
+
+		return Collections.unmodifiableSet(nodes);
+	}
+
+	@Override
+	public Set<PA> getTraversableTo(PA destination)
+	{
+		final Set<PA> nodes = new HashSet<PA>();
+		for( final EP destinationEndpoint : this.getEndPoints(destination) )
+			for( final Edge.Endpoint<PA> fromEndpoint : destinationEndpoint.getTraversableNeighborsTo())
+				nodes.add(fromEndpoint.getTarget());
+
+		return Collections.unmodifiableSet(nodes);
+	}
+
+	@Override
+	public int getDegree()
+	{
+		return this.getTargets().size();
 	}
 
 	@Override
 	public String toString()
 	{
-		final StringBuilder outString = new StringBuilder(this.nodes.size() * 10);
-		for(final N node : this.nodes)
+		final StringBuilder outString = new StringBuilder(this.getTargets().size() * 10);
+		for(final PA node : this.getTargets())
 		{
 			outString.append(':').append(node);
 		}
@@ -193,26 +115,16 @@ public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<
 	}
 
 	@Override
-	public AbstractEdge<N> clone()
+	protected AbstractEdge<PA,EP> clone()
 	{
 		try
 		{
-			final AbstractEdge<N> clonedEdge = (AbstractEdge<N>) super.clone();
-			final List<N> clonedNodes = new ArrayList<N>(this.nodes.size());
-			//add each node at a time to the clone considering context
-			for(N node : this.nodes)
-			{
-				if( this.contextEnabled && (node instanceof ContextNode) && ( !((ContextNode)node).connectingEdge(clonedEdge) ) )
-					continue;
-				clonedNodes.add(node);
-			}
-			clonedEdge.nodes = Collections.unmodifiableList(clonedNodes);
-			return clonedEdge;
+			return (AbstractEdge<PA,EP>) super.clone();
 		}
 		catch(CloneNotSupportedException caught)
 		{
 			LOGGER.error("Edge was unexpectidly not cloneable", caught);
-			throw new UnexpectedDannError("Edge was unexpectidly not cloneable", caught);
+			throw new Error("Edge was unexpectidly not cloneable", caught);
 		}
 	}
 
@@ -223,8 +135,8 @@ public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<
 		final EdgeElementXml xml = new EdgeElementXml();
 
 		xml.setNodeInstances(new EdgeElementXml.NodeInstances());
-		final Set<N> writtenNodes = new HashSet<N>();
-		for (N node : this.nodes)
+		final Set<PA> writtenNodes = new HashSet<PA>();
+		for (PA node : this.getTargets())
 		{
 			if (writtenNodes.add(node))
 			{
@@ -275,11 +187,192 @@ public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<
 		{
 			jaxbObject.setConnections(new EdgeXml.Connections());
 		}
-		for (N node : this.nodes)
+		for (PA node : this.getTargets())
 		{
 			final NameXml connection = new NameXml();
 			connection.setName(nodeNames.getNameOrCreate(node));
 			jaxbObject.getConnections().getNodes().add(connection);
 		}
 	}
+
+	protected abstract class AbstractEndpoint implements Edge.Endpoint<PA>
+	{
+		protected AbstractEndpoint()
+		{
+		}
+
+		@Override
+		public Set<Edge.Endpoint<PA>> getNeighbors()
+		{
+			return new NeighborSet();
+		}
+
+		@Override
+		public Set<Edge.Endpoint<PA>> getTraversableNeighborsTo()
+		{
+			final Set<Edge.Endpoint<PA>> traversables = new HashSet<Edge.Endpoint<PA>>();
+			for(Edge.Endpoint<PA> neighbor : this.getNeighbors())
+				if( AbstractEdge.this.isTraversable(this.getTarget(),neighbor.getTarget()) )
+					traversables.add(neighbor);
+			return Collections.unmodifiableSet(traversables);
+		}
+
+		@Override
+		public Set<Edge.Endpoint<PA>> getTraversableNeighborsFrom()
+		{
+			final Set<Edge.Endpoint<PA>> traversables = new HashSet<Edge.Endpoint<PA>>();
+			for(Edge.Endpoint<PA> neighbor : this.getNeighbors())
+				if( AbstractEdge.this.isTraversable(this.getTarget(),neighbor.getTarget()) )
+					traversables.add(neighbor);
+			return Collections.unmodifiableSet(traversables);
+		}
+
+		@Override
+		public boolean isTraversable()
+		{
+			return (this.getTraversableNeighborsTo().size() > 0);
+		}
+
+		@Override
+		public boolean isTraversable(Edge.Endpoint<PA> destination)
+		{
+			return AbstractEdge.this.isTraversable(this.getTarget(), destination.getTarget());
+		}
+
+		@Override
+		public boolean isTraversable(PA destination)
+		{
+			return AbstractEdge.this.isTraversable(this.getTarget(), destination);
+		}
+
+		private class NeighborSet implements Set<Edge.Endpoint<PA>>
+		{
+			@Override
+			public int size()
+			{
+				return getTargets().size() - 1;
+			}
+
+			@Override
+			public boolean isEmpty()
+			{
+				assert !getTargets().isEmpty();
+				return ( getEndPoints().size() <= 1 ? true : false );
+			}
+
+			@Override
+			public boolean contains(Object o)
+			{
+				if( getTarget().equals(o) )
+					return false;
+				return getEndPoints().contains(o);
+			}
+
+			@Override
+			public Iterator<Edge.Endpoint<PA>> iterator()
+			{
+				return new NeighborIterator();
+			}
+
+			@Override
+			public Object[] toArray()
+			{
+				final Set<EP> copiedNodes = new HashSet<EP>(getEndPoints());
+				copiedNodes.remove(getTarget());
+				return copiedNodes.toArray();
+			}
+
+			@Override
+			public <PA> PA[] toArray(PA[] a)
+			{
+				final Set<EP> copiedNodes = new HashSet<EP>(getEndPoints());
+				copiedNodes.remove(getTarget());
+				return copiedNodes.toArray(a);
+			}
+
+			@Override
+			public boolean add(Edge.Endpoint<PA> nEndpoint)
+			{
+				throw new UnsupportedOperationException("This set is read-only!");
+			}
+
+			@Override
+			public boolean remove(Object o)
+			{
+				throw new UnsupportedOperationException("This set is read-only!");
+			}
+
+			@Override
+			public boolean containsAll(Collection<?> c)
+			{
+				if( c.contains(AbstractEndpoint.this) )
+					return false;
+				return getEndPoints().containsAll(c);
+			}
+
+			@Override
+			public boolean addAll(Collection<? extends Edge.Endpoint<PA>> c)
+			{
+				throw new UnsupportedOperationException("This set is read-only!");
+			}
+
+			@Override
+			public boolean retainAll(Collection<?> c)
+			{
+				if( c.containsAll(this) )
+					return false;
+				throw new UnsupportedOperationException("This set is read-only!");
+			}
+
+			@Override
+			public boolean removeAll(Collection<?> c)
+			{
+				if( Collections.disjoint(this, c) )
+					return false;
+				throw new UnsupportedOperationException("This set is read-only!");
+			}
+
+			@Override
+			public void clear()
+			{
+				if( getEndPoints().size() <= 1 )
+					return;
+				throw new UnsupportedOperationException("This set is read-only!");
+			}
+
+			private class NeighborIterator implements Iterator<Edge.Endpoint<PA>>
+			{
+				private int nextLeft = (getEndPoints().size()-1);
+				final private Iterator<EP> iterator;
+
+				public NeighborIterator()
+				{
+					this.iterator = getEndPoints().iterator();
+				}
+
+				@Override
+				public boolean hasNext()
+				{
+					return (nextLeft > 0 ? true : false);
+				}
+
+				@Override
+				public Edge.Endpoint<PA> next()
+				{
+					Edge.Endpoint<PA> nextEndpoint = this.iterator.next();
+					this.nextLeft--;
+
+					if( !AbstractEndpoint.this.equals(nextEndpoint) )
+						return nextEndpoint;
+					return next();
+				}
+
+				@Override
+				public void remove()
+				{
+					throw new UnsupportedOperationException("This iterator is read-only!");
+				}
+			};
+		};
+	};
 }

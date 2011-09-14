@@ -36,7 +36,7 @@ public class ImmutableMarkovRandomFieldAdjacencyGraph<N extends GraphicalModelNo
 	/*
 	public ImmutableMarkovRandomFieldAdjacencyGraph(final Graph<N, E> copyGraph)
 	{
-		super(copyGraph.getNodes(), copyGraph.getEdges());
+		super(copyGraph.getTargets(), copyGraph.getEdges());
 	}
 	*/
 

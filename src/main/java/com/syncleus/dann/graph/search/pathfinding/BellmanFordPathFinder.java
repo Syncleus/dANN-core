@@ -58,7 +58,7 @@ public class BellmanFordPathFinder<N, E extends DirectedEdge<N>> implements Path
 
 	public void calculateSteps(final N begin)
 	{
-		final Set<? extends N> nodes = this.graph.getNodes();
+		final Set<? extends N> nodes = this.graph.getTargets();
 		final Set<? extends E> edges = this.graph.getEdges();
 		this.pathedSteps = new HashMap<N, PathedStep>(nodes.size());
 		//relax edges

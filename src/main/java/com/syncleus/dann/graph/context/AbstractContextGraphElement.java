@@ -34,45 +34,62 @@ public abstract class AbstractContextGraphElement<G extends Graph<?, ?>> impleme
 		this.allowJoiningMultipleGraphs = allowJoiningMultipleGraphs;
 	}
 
-	@Override
-	public boolean isGraphMember()
+	protected boolean isGraphMember()
 	{
 		return (!this.joinedGraphs.isEmpty());
 	}
 
-	@Override
-	public Set<G> getJoinedGraphs()
+	protected Set<G> getJoinedGraphs()
 	{
 		return Collections.unmodifiableSet(this.joinedGraphs);
 	}
 
-	@Override
-	public boolean joiningGraph(final G graph)
+	public void changingJoinedGraphs(Set<G> joiningGraphs, Set<G> leavingGraphs) throws RejectedContextException
 	{
-		if( graph == null )
-			throw new IllegalArgumentException("graph can not be null");
+		if( ((joiningGraphs == null)||(joiningGraphs.isEmpty())) && ((leavingGraphs == null)||(leavingGraphs.isEmpty())) )
+			throw new IllegalArgumentException("No graphs specified for joining or leaving!");
 
-		if( !this.allowJoiningMultipleGraphs && !joinedGraphs.isEmpty() )
-			return false;
+		if( (joiningGraphs != null) && (!joiningGraphs.isEmpty()) )
+		{
+			if( joiningGraphs.contains(null) )
+				throw new IllegalArgumentException("joiningGraphs can not have a null element!");
 
-		this.joinedGraphs.add(graph);
-		return true;
+			if( !this.allowJoiningMultipleGraphs && ((!this.joinedGraphs.isEmpty()) || (joiningGraphs.size() - leavingGraphs.size() > 1) ) )
+				throw new RejectedContextException("Can not join multiple graphs at the same time!");
+		}
+		if( (leavingGraphs != null) && (!leavingGraphs.isEmpty()) )
+		{
+			if( leavingGraphs.contains(null) )
+				throw new IllegalArgumentException("leavingGraphs can not have a null element!");
+
+			if( !this.joinedGraphs.containsAll(leavingGraphs) )
+				throw new IllegalArgumentException("One of the graphs being left has not been joined");
+		}
 	}
 
-	@Override
-	public boolean leavingGraph(final G graph)
+	public void changedJoinedGraphs(Set<G> newJoinedGraphs, Set<G> newLeftGraphs)
 	{
-		if( graph == null )
-			throw new IllegalArgumentException("graph can not be null");
-		if( !this.joinedGraphs.contains(graph) )
-			throw new IllegalArgumentException("graph was never joined");
+		if( ((newJoinedGraphs == null)||(newJoinedGraphs.isEmpty())) && ((newLeftGraphs == null)||(newLeftGraphs.isEmpty())) )
+			throw new IllegalArgumentException("No graphs specified for joining or leaving!");
 
-		this.joinedGraphs.remove(graph);
-		return true;
+		if( (newJoinedGraphs != null) && (!newJoinedGraphs.isEmpty()) )
+		{
+			if( newJoinedGraphs.contains(null) )
+				throw new IllegalArgumentException("newJoinedGraphs can not have a null element!");
+
+			this.joinedGraphs.addAll(newJoinedGraphs);
+		}
+
+		if( (newLeftGraphs != null) && (!newLeftGraphs.isEmpty()) )
+		{
+			if( newLeftGraphs.contains(null) )
+				throw new IllegalArgumentException("newLeftGraphs can not have a null element!");
+
+			this.joinedGraphs.removeAll(newLeftGraphs);
+		}
 	}
 
-	@Override
-	public boolean isAllowingMultipleGraphs()
+	protected boolean isAllowingMultipleGraphs()
 	{
 		return allowJoiningMultipleGraphs;
 	}

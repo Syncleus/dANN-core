@@ -46,11 +46,11 @@ public class WeightedDirectedGrid extends AbstractBidirectedAdjacencyGraph<GridN
 				this.outNeighborEdges.put(this.nodes[y][x], new HashSet<WeightedDirectedEdge<GridNode>>());
 				this.outNeighborNodes.put(this.nodes[y][x], new HashSet<GridNode>());
 			}
-		//connect nodes
+		//join nodes
 		for(int y = 0; y < nodes.length; y++)
 			for(int x = 0; x < this.nodes[0].length; x++)
 			{
-				//connect to the right
+				//join to the right
 				if( x < this.nodes[0].length - 1 )
 				{
 					SimpleWeightedDirectedEdge<GridNode> newEdge = new SimpleWeightedDirectedEdge<GridNode>(this.nodes[y][x], this.nodes[y][x + 1], this.nodes[y][x + 1].getWeight());
@@ -66,7 +66,7 @@ public class WeightedDirectedGrid extends AbstractBidirectedAdjacencyGraph<GridN
 					this.inNeighborNodes.get(this.nodes[y][x]).add(this.nodes[y][x + 1]);
 					this.outNeighborNodes.get(this.nodes[y][x + 1]).add(this.nodes[y][x]);
 				}
-				//connect to the bottom
+				//join to the bottom
 				if( y < nodes.length - 1 )
 				{
 					SimpleWeightedDirectedEdge<GridNode> newEdge = new SimpleWeightedDirectedEdge<GridNode>(this.nodes[y][x], this.nodes[y + 1][x], this.nodes[y + 1][x].getWeight());
@@ -92,7 +92,7 @@ public class WeightedDirectedGrid extends AbstractBidirectedAdjacencyGraph<GridN
 		return this.nodes[y][x];
 	}
 
-	public Set<GridNode> getNodes()
+	public Set<GridNode> getTargets()
 	{
 		return Collections.unmodifiableSet(this.nodeSet);
 	}
@@ -110,7 +110,7 @@ public class WeightedDirectedGrid extends AbstractBidirectedAdjacencyGraph<GridN
 		return Collections.unmodifiableSet(newEdges);
 	}
 
-	public Set<WeightedDirectedEdge<GridNode>> getTraversableEdges(final GridNode node)
+	public Set<WeightedDirectedEdge<GridNode>> getTraversableAdjacentEdges(final GridNode node)
 	{
 		final Set<WeightedDirectedEdge<GridNode>> newEdges = new HashSet<WeightedDirectedEdge<GridNode>>(this.outNeighborEdges.get(node));
 		return Collections.unmodifiableSet(newEdges);
@@ -118,7 +118,7 @@ public class WeightedDirectedGrid extends AbstractBidirectedAdjacencyGraph<GridN
 
 	public Set<WeightedDirectedEdge<GridNode>> getOutEdges(final GridNode node)
 	{
-		return this.getTraversableEdges(node);
+		return this.getTraversableAdjacentEdges(node);
 	}
 
 	public Set<WeightedDirectedEdge<GridNode>> getInEdges(final GridNode node)
@@ -149,7 +149,7 @@ public class WeightedDirectedGrid extends AbstractBidirectedAdjacencyGraph<GridN
 		return Collections.unmodifiableList(newNeighbors);
 	}
 
-	public List<GridNode> getTraversableNodes(final GridNode node)
+	public List<GridNode> getTraversableAdjacentNodes(final GridNode node)
 	{
 		final ArrayList<GridNode> newNeighbors = new ArrayList<GridNode>(this.outNeighborNodes.get(node));
 		return Collections.unmodifiableList(newNeighbors);

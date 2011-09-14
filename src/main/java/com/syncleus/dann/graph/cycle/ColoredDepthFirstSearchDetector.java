@@ -37,7 +37,7 @@ public class ColoredDepthFirstSearchDetector implements CycleDetector
 
 		final Set<E> traversedEdges = new HashSet<E>();
 
-		for(final N node : graph.getNodes())
+		for(final N node : graph.getTargets())
 		{
 			if( !colorMap.containsKey(node)
 					&& visit(graph, colorMap, traversedEdges, node) )
@@ -51,13 +51,13 @@ public class ColoredDepthFirstSearchDetector implements CycleDetector
 	{
 		colorMap.put(node, Boolean.FALSE);
 
-		final Set<E> traversableEdges = graph.getTraversableEdges(node);
+		final Set<E> traversableEdges = graph.getTraversableAdjacentEdges(node);
 		for(final E neighborEdge : traversableEdges)
 		{
 			if( !ColoredDepthFirstSearchDetector.<E>traversed(traversedEdges, neighborEdge) )
 			{
 				traversedEdges.add(neighborEdge);
-				final List<N> neighborNodes = new ArrayList<N>(neighborEdge.getNodes());
+				final List<N> neighborNodes = new ArrayList<N>(neighborEdge.getTargets());
 				neighborNodes.remove(node);
 				for(final N neighborNode : neighborNodes)
 				{

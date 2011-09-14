@@ -101,9 +101,9 @@ public abstract class AbstractOutputBackpropNeuron extends AbstractBackpropNeuro
 	{
 		double newDeltaTrain = 0.0;
 		// TODO fix this, bad typing
-//		for(final Synapse currentSynapse : super.getBrain().getTraversableEdges(this))
+//		for(final Synapse currentSynapse : super.getBrain().getTraversableAdjacentEdges(this))
 //			this.deltaTrain += (currentSynapse.getWeight() * this.deltaTrainDestinations.get(currentSynapse));
-		for(final Object currentSynapse : super.getBrain().getTraversableEdges(this))
+		for(final Object currentSynapse : super.getBrain().getTraversableAdjacentEdges(this))
 			newDeltaTrain += (((Synapse)currentSynapse).getWeight() * this.getDeltaTrainDestinations().get(currentSynapse));
 		newDeltaTrain += (this.desired - this.getOutput());
 		newDeltaTrain *= super.activateDerivitive();
