@@ -36,10 +36,10 @@ import java.util.*;
 @XmlJavaTypeAdapter( com.syncleus.dann.xml.XmlSerializableAdapter.class )
 public abstract class AbstractAdjacencyGraph<
 	  	N,
-	  	E extends Edge<? extends N,? extends Edge.Endpoint<? extends N>>,
+	  	E extends Edge<N,? extends Edge.Endpoint<N>>,
 	  	NEP extends Graph.NodeEndpoint<N, E>,
 	  	EEP extends Graph.EdgeEndpoint<N, E>
-	  > extends AbstractEdge<Object,Graph.Endpoint<? extends N,? extends E,?>> implements Graph<N, E, NEP, EEP>
+	  > extends AbstractEdge<Object,Graph.Endpoint<N,E,?>> implements Graph<N, E, NEP, EEP>
 {
 	private static final Logger LOGGER = Logger.getLogger(AbstractAdjacencyGraph.class);
 //	private Set<E> edges;
@@ -606,12 +606,12 @@ public abstract class AbstractAdjacencyGraph<
 	}
 
 	@Override
-	public Set<Graph.Endpoint<? extends N, ? extends E, ?>> getEndpoints()
+	public Set<Graph.Endpoint<N, E, ?>> getEndpoints()
 	{
-		final Set<Graph.Endpoint<? extends N,? extends E,?>> endpoints = new HashSet<Graph.Endpoint<? extends N,? extends E,?>>();
+		final Set<Graph.Endpoint<N,E,?>> endpoints = new HashSet<Graph.Endpoint<N,E,?>>();
 		endpoints.addAll(this.getNodeEndpoints());
 		endpoints.addAll(this.getEdgeEndpoints());
-		return Collections.unmodifiableSet(endpoints);
+		return Collections.<Graph.Endpoint<N, E, ?>>unmodifiableSet(endpoints);
 	}
 
 	@Override
@@ -1052,7 +1052,7 @@ public abstract class AbstractAdjacencyGraph<
 		}
 	};
 
-	protected abstract class AbstractEdgeEndpoint extends AbstractEdge<E,Graph.Endpoint<N,E,? extends E>>.AbstractEndpoint implements Graph.EdgeEndpoint<N,E>
+	protected abstract class AbstractEdgeEndpoint extends AbstractEdge<E,Graph.Endpoint<N,E,E>>.AbstractEndpoint implements Graph.EdgeEndpoint<N,E>
 	{
 		@Override
 		public Set<Graph.NodeEndpoint<N, E>> getAdjacentNodes()

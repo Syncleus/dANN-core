@@ -37,14 +37,14 @@ import java.util.Set;
  */
 public interface Graph<
 	  	N,
-	  	E extends Edge<? extends N,? extends Edge.Endpoint<? extends N>>,
-	  	NEP extends Graph.NodeEndpoint<? extends N, ? extends E>,
-	  	EEP extends Graph.EdgeEndpoint<? extends N, ? extends E>
-	  > extends Edge<Object,Graph.Endpoint<? extends N,? extends E,?>>, Serializable, Cloneable, ContextReporter
+	  	E extends Edge<N,? extends Edge.Endpoint<N>>,
+	  	NEP extends Graph.NodeEndpoint<N, E>,
+	  	EEP extends Graph.EdgeEndpoint<N, E>
+	  > extends Edge<Object,Graph.Endpoint<N,E,?>>, Serializable, Cloneable, ContextReporter
 {
 	interface Endpoint<
 		ON,
-	  	OE extends Edge<? extends ON,? extends Edge.Endpoint<? extends ON>>,
+	  	OE extends Edge<ON,? extends Edge.Endpoint<ON>>,
 	  	T
 	  > extends Edge.Endpoint<T>
 	{
@@ -63,14 +63,14 @@ public interface Graph<
 
 	interface NodeEndpoint<
 		  ON,
-		  OE extends Edge<? extends ON,? extends Edge.Endpoint<? extends ON>>
+		  OE extends Edge<ON,? extends Edge.Endpoint<ON>>
 	  > extends Graph.Endpoint<ON,OE,ON>
 	{
 	};
 
 	interface EdgeEndpoint<
 		  	ON,
-		  	OE extends Edge<? extends ON,? extends Edge.Endpoint<? extends ON>>
+		  	OE extends Edge<ON,? extends Edge.Endpoint<ON>>
 		> extends Graph.Endpoint<ON,OE,OE>
 	{
 	};

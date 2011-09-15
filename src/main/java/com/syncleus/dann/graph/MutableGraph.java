@@ -23,9 +23,9 @@ import java.util.Set;
 
 public interface MutableGraph<
 	  	N,
-	  	E extends Edge<? extends N,? extends Edge.Endpoint<? extends N>>,
-	  	NEP extends MutableGraph.NodeEndpoint<? extends N, ? extends E>,
-	  	EEP extends MutableGraph.EdgeEndpoint<? extends N, ? extends E>
+	  	E extends Edge<N,? extends Edge.Endpoint<N>>,
+	  	NEP extends MutableGraph.NodeEndpoint<N, E>,
+	  	EEP extends MutableGraph.EdgeEndpoint<N, E>
 	  > extends AssignableGraph<N,E,NEP,EEP>
 {
 	interface NodeEndpoint<

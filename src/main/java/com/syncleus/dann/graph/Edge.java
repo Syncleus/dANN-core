@@ -30,9 +30,7 @@ public interface Edge<
 	  	EP extends Edge.Endpoint<? extends T>
 	  > extends Serializable, Cloneable, XmlSerializable<EdgeXml, Object>, ContextReporter
 {
-	interface Endpoint<
-		  	T
-		  >
+	interface Endpoint<T>
 	{
 		Set<Edge.Endpoint<T>> getNeighbors();
 		Set<Edge.Endpoint<T>> getTraversableNeighborsTo();
