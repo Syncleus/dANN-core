@@ -22,11 +22,12 @@ import com.syncleus.dann.graph.context.ContextReporter;
 import com.syncleus.dann.graph.xml.EdgeXml;
 import com.syncleus.dann.xml.XmlSerializable;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Set;
 
 public interface Edge<
 	  	T,
-	  	EP extends Edge.Endpoint<T>
+	  	EP extends Edge.Endpoint<? extends T>
 	  > extends Serializable, Cloneable, XmlSerializable<EdgeXml, Object>, ContextReporter
 {
 	interface Endpoint<
@@ -37,18 +38,20 @@ public interface Edge<
 		Set<Edge.Endpoint<T>> getTraversableNeighborsTo();
 		Set<Edge.Endpoint<T>> getTraversableNeighborsFrom();
 		boolean isTraversable();
-		boolean isTraversable(final Edge.Endpoint<T> destination);
-		boolean isTraversable(final T destination);
+		boolean isTraversable(Edge.Endpoint<?> destination);
+		boolean isTraversable(Object destination);
 		T getTarget();
 	};
 
 	Set<EP> getEndpoints();
-	Set<EP> getEndpoints(T node);
-	boolean contains(T node);
+	Set<EP> getEndpoints(Object node);
+	boolean contains(Object node);
+	boolean containsAny(Collection<?> nodes);
+	boolean containsAll(Collection<?> nodes);
 	Set<T> getTargets();
-	Set<T> getNeighbors(T source);
-	Set<T> getTraversableFrom(T source);
-	Set<T> getTraversableTo(T destination);
-	boolean isTraversable(T source, T destination);
+	Set<T> getNeighbors(Object source);
+	Set<T> getTraversableFrom(Object source);
+	Set<T> getTraversableTo(Object destination);
+	boolean isTraversable(Object source, Object destination);
 	int getDegree();
 }

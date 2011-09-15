@@ -19,12 +19,11 @@
 package com.syncleus.dann.graph;
 
 public interface AssignableGraph<
-	  	PA,
-	  	N extends PA,
+	  	N,
 	  	E extends Edge<N,? extends Edge.Endpoint<N>>,
 	  	NEP extends AssignableGraph.NodeEndpoint<N, E>,
 	  	EEP extends AssignableGraph.EdgeEndpoint<N, E>
-	  >  extends Graph<PA,N,E,NEP,EEP>, MutableEdge<PA,Graph.Endpoint<N,E,PA>>
+	  >  extends Graph<N,E,NEP,EEP>, MutableEdge<Object,Graph.Endpoint<?,?,?>>
 //public interface AssignableGraph<P extends Edge<N>, N extends P, E extends P> extends Graph<N,E>, Edge<P>, MutableEdge<P>
 //public interface AssignableGraph<P extends AssignableGraph.Foo, N extends P, E extends Edge<N> & AssignableGraph.Foo> extends Graph<N,E>, Edge<P>, MutableEdge<P>
 {

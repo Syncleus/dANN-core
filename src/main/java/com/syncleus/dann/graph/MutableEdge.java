@@ -20,7 +20,7 @@ package com.syncleus.dann.graph;
 
 public interface MutableEdge<
 	  	T,
-	  	EP extends Edge.Endpoint<T>
+	  	EP extends Edge.Endpoint<? extends T>
 	  > extends Edge<T, EP>
 {
 	interface Endpoint<T> extends Edge.Endpoint<T>

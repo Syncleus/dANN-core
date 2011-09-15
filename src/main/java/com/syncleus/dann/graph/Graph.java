@@ -36,12 +36,11 @@ import java.util.Set;
  * @param <E> The type of edge for the given node type
  */
 public interface Graph<
-	  	PA,
-	  	N extends PA,
+	  	N,
 	  	E extends Edge<N,? extends Edge.Endpoint<N>>,
 	  	NEP extends Graph.NodeEndpoint<N, E>,
 	  	EEP extends Graph.EdgeEndpoint<N, E>
-	  > extends Edge<PA,Graph.Endpoint<N,E,PA>>, Serializable, Cloneable, ContextReporter
+	  > extends Edge<Object,Graph.Endpoint<?,?,?>>, Serializable, Cloneable, ContextReporter
 {
 	interface Endpoint<
 		ON,
@@ -77,10 +76,10 @@ public interface Graph<
 	};
 
 	Set<EEP> getEdgeEndpoints();
-	Set<EEP> getEdgeEndpoints(E edge);
+	Set<EEP> getEdgeEndpoints(Edge<? extends N,? extends Edge.Endpoint<? extends N>> edge);
 
 	Set<NEP> getNodeEndpoints();
-	Set<NEP> getNodeEndpoints(N node);
+	Set<NEP> getNodeEndpoints(Object node);
 
 	/**
 	 * Get a set of all nodes in the graph.
@@ -110,7 +109,7 @@ public interface Graph<
 	 *         node has no edges.
 	 * @since 2.0
 	 */
-	Set<N> getAdjacentNodes(N node);
+	Set<N> getAdjacentNodes(Object node);
 	/**
 	 * Get a set of all edges which is connected to node (adjacent). You may not be
 	 * able to traverse from the specified node to all of these edges returned. If
@@ -121,25 +120,25 @@ public interface Graph<
 	 * @throws IllegalArgumentException if specified node is not in the graph.
 	 * @since 2.0
 	 */
-	Set<E> getAdjacentEdges(N node);
+	Set<E> getAdjacentEdges(Object node);
 
-	Set<E> getTraversableEdgesFrom(N source);
-	Set<E> getTraversableEdgesFrom(E source);
-	Set<E> getTraversableEdgesTo(N destination);
-	Set<E> getTraversableEdgesTo(E destination);
+	Set<E> getTraversableEdgesFrom(Object source);
+	Set<E> getTraversableEdgesFrom(Edge<? extends N,? extends Edge.Endpoint<? extends N>> source);
+	Set<E> getTraversableEdgesTo(Object destination);
+	Set<E> getTraversableEdgesTo(Edge<? extends N,? extends Edge.Endpoint<? extends N>> destination);
 
-	Set<N> getTraversableNodesFrom(N source);
-	Set<N> getTraversableNodesFrom(E source);
-	Set<N> getTraversableNodesTo(N destination);
-	Set<N> getTraversableNodesTo(E destination);
+	Set<N> getTraversableNodesFrom(Object source);
+	Set<N> getTraversableNodesFrom(Edge<? extends N,? extends Edge.Endpoint<? extends N>> source);
+	Set<N> getTraversableNodesTo(Object destination);
+	Set<N> getTraversableNodesTo(Edge<? extends N,? extends Edge.Endpoint<? extends N>> destination);
 
-	Set<E> getTraversableAdjacentEdgesFrom(N source);
-	Set<E> getTraversableAdjacentEdgesFrom(E source);
-	Set<E> getTraversableAdjacentEdgesTo(N destination);
-	Set<E> getTraversableAdjacentEdgesTo(E destination);
+	Set<E> getTraversableAdjacentEdgesFrom(Object source);
+	Set<E> getTraversableAdjacentEdgesFrom(Edge<? extends N,? extends Edge.Endpoint<? extends N>> source);
+	Set<E> getTraversableAdjacentEdgesTo(Object destination);
+	Set<E> getTraversableAdjacentEdgesTo(Edge<? extends N,? extends Edge.Endpoint<? extends N>> destination);
 
-	Set<N> getTraversableAdjacentNodesFrom(N source);
-	Set<N> getTraversableAdjacentNodesFrom(E source);
+	Set<N> getTraversableAdjacentNodesFrom(Object source);
+	Set<N> getTraversableAdjacentNodesFrom(Edge<? extends N,? extends Edge.Endpoint<? extends N>> source);
 
 	/**
 	 * Get a list of all reachable nodes adjacent to node. All edges connected to
@@ -154,7 +153,7 @@ public interface Graph<
 	 *         from the spevified node, empty set if the node has no edges.
 	 * @since 2.0
 	 */
-	Set<N> getTraversableAdjacentNodesTo(N destination);
+	Set<N> getTraversableAdjacentNodesTo(Object destination);
 
 	/**
 	 * Get a set of all edges which you can traverse from node. Of course node will
@@ -165,5 +164,5 @@ public interface Graph<
 	 * @return An unmodifiable set of all edges that can be traversed from node.
 	 * @since 2.0
 	 */
-	Set<N> getTraversableAdjacentNodesTo(E destination);
+	Set<N> getTraversableAdjacentNodesTo(Edge<? extends N,? extends Edge.Endpoint<? extends N>> destination);
 }

@@ -20,99 +20,14 @@ package com.syncleus.dann.graph;
 
 import java.util.*;
 
-public class MutableAdjacencyGraph<
-	  	PA,
-	  	N extends PA,
-	  	E extends Edge<N,? extends Edge.Endpoint<N>>,
-	  	NEP extends MutableGraph.NodeEndpoint<N, E>,
-	  	EEP extends MutableGraph.EdgeEndpoint<N, E>
-	  > extends AbstractAdjacencyGraph<PA, N, E, NEP, EEP> implements MutableGraph<PA, N, E, NEP, EEP>
+public final class MutableAdjacencyGraph<
+	  	N,
+	  	E extends Edge<N,? extends Edge.Endpoint<N>>
+	  >
+	  extends AbstractMutableAdjacencyGraph<Object, N, E, MutableGraph.NodeEndpoint<N, E>, MutableGraph.EdgeEndpoint<N, E>>
+	  implements MutableGraph<Object, N, E, MutableGraph.NodeEndpoint<N, E>, MutableGraph.EdgeEndpoint<N, E>>
 {
 	private static final long serialVersionUID = -4613327727609060678L;
-
-	@Override
-	protected Set<EdgeEndpoint<N, E>> getAdjacentEdgeEndPoint(Graph.NodeEndpoint<N, E> nodeEndPoint)
-	{
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
-	}
-
-	@Override
-	public NEP joinNode(N node) throws InvalidGraphException
-	{
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
-	}
-
-	@Override
-	public Map<N, NEP> joinNodes(Set<? extends N> nodes) throws InvalidGraphException
-	{
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
-	}
-
-	@Override
-	public void leaveNode(NEP endPoint) throws InvalidGraphException
-	{
-		//To change body of implemented methods use File | Settings | File Templates.
-	}
-
-	@Override
-	public void leaveNodes(Set<NEP> endPoint) throws InvalidGraphException
-	{
-		//To change body of implemented methods use File | Settings | File Templates.
-	}
-
-	@Override
-	public EEP joinEdge(E edge) throws InvalidGraphException
-	{
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
-	}
-
-	@Override
-	public Map<N, EEP> joinEdges(Set<? extends E> edges) throws InvalidGraphException
-	{
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
-	}
-
-	@Override
-	public void leaveEdge(EEP endPoint) throws InvalidGraphException
-	{
-		//To change body of implemented methods use File | Settings | File Templates.
-	}
-
-	@Override
-	public void leaveEdges(Set<EEP> endPoint) throws InvalidGraphException
-	{
-		//To change body of implemented methods use File | Settings | File Templates.
-	}
-
-	@Override
-	public void clear() throws InvalidGraphException
-	{
-		//To change body of implemented methods use File | Settings | File Templates.
-	}
-
-	@Override
-	public void clearEdges() throws InvalidGraphException
-	{
-		//To change body of implemented methods use File | Settings | File Templates.
-	}
-
-	@Override
-	public Map<PA, ? extends Graph.Endpoint<N, E, PA>> reconfigure(Set<? extends N> addNodes, Set<? extends E> addEdges, Set<? extends Graph.Endpoint<N, E, ? extends PA>> disconnectEndPoints) throws InvalidGraphException
-	{
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
-	}
-
-	@Override
-	public Set<EEP> getEdgeEndpoints()
-	{
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
-	}
-
-	@Override
-	public Set<NEP> getNodeEndpoints()
-	{
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
-	}
 
 	@Override
 	public boolean isContextEnabled()

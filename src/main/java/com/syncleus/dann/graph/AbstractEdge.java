@@ -29,16 +29,34 @@ import org.apache.log4j.Logger;
 
 public abstract class AbstractEdge<
 	  	PA,
-	  	EP extends Edge.Endpoint<PA>
+	  	EP extends Edge.Endpoint<? extends PA>
 	  > implements Edge<PA,EP>
 {
 	private static final Logger LOGGER = Logger.getLogger(AbstractEdge.class);
 
 	@Override
-	public boolean contains(final PA node)
+	public boolean contains(final Object node)
 	{
 		for( EP endpoint : this.getEndpoints() )
 			if( endpoint.getTarget().equals(node))
+				return true;
+		return false;
+	}
+
+	@Override
+	public boolean containsAll(final Collection<?> nodes)
+	{
+		for( Object node : nodes )
+			if( !this.contains(node) )
+				return false;
+		return true;
+	}
+
+	@Override
+	public boolean containsAny(final Collection<?> nodes)
+	{
+		for( Object node : nodes )
+			if( this.contains(node) )
 				return true;
 		return false;
 	}
@@ -54,7 +72,7 @@ public abstract class AbstractEdge<
 	}
 
 	@Override
-	public Set<EP> getEndpoints(PA node)
+	public Set<EP> getEndpoints(Object node)
 	{
 		final Set<EP> nodesEndpoints = new HashSet<EP>();
 		for( EP endpoint : this.getEndpoints() )
@@ -65,33 +83,33 @@ public abstract class AbstractEdge<
 	}
 
 	@Override
-	public Set<PA> getNeighbors(final PA source)
+	public Set<PA> getNeighbors(final Object source)
 	{
 		final Set<PA> nodes = new HashSet<PA>();
 		for( final EP sourceEndpoint : this.getEndpoints(source) )
-			for( final Edge.Endpoint<PA> fromEndpoint : sourceEndpoint.getNeighbors())
+			for( final Edge.Endpoint<? extends PA> fromEndpoint : sourceEndpoint.getNeighbors())
 				nodes.add(fromEndpoint.getTarget());
 
 		return Collections.unmodifiableSet(nodes);
 	}
 
 	@Override
-	public Set<PA> getTraversableFrom(PA source)
+	public Set<PA> getTraversableFrom(Object source)
 	{
 		final Set<PA> nodes = new HashSet<PA>();
 		for( final EP sourceEndpoint : this.getEndpoints(source) )
-			for( final Edge.Endpoint<PA> fromEndpoint : sourceEndpoint.getTraversableNeighborsFrom())
+			for( final Edge.Endpoint<? extends PA> fromEndpoint : sourceEndpoint.getTraversableNeighborsFrom())
 				nodes.add(fromEndpoint.getTarget());
 
 		return Collections.unmodifiableSet(nodes);
 	}
 
 	@Override
-	public Set<PA> getTraversableTo(PA destination)
+	public Set<PA> getTraversableTo(Object destination)
 	{
 		final Set<PA> nodes = new HashSet<PA>();
 		for( final EP destinationEndpoint : this.getEndpoints(destination) )
-			for( final Edge.Endpoint<PA> fromEndpoint : destinationEndpoint.getTraversableNeighborsTo())
+			for( final Edge.Endpoint<? extends PA> fromEndpoint : destinationEndpoint.getTraversableNeighborsTo())
 				nodes.add(fromEndpoint.getTarget());
 
 		return Collections.unmodifiableSet(nodes);
@@ -234,13 +252,13 @@ public abstract class AbstractEdge<
 		}
 
 		@Override
-		public boolean isTraversable(Edge.Endpoint<PA> destination)
+		public boolean isTraversable(Edge.Endpoint<?> destination)
 		{
 			return AbstractEdge.this.isTraversable(this.getTarget(), destination.getTarget());
 		}
 
 		@Override
-		public boolean isTraversable(PA destination)
+		public boolean isTraversable(Object destination)
 		{
 			return AbstractEdge.this.isTraversable(this.getTarget(), destination);
 		}
@@ -359,11 +377,11 @@ public abstract class AbstractEdge<
 				@Override
 				public Edge.Endpoint<PA> next()
 				{
-					Edge.Endpoint<PA> nextEndpoint = this.iterator.next();
+					Edge.Endpoint<? extends PA> nextEndpoint = this.iterator.next();
 					this.nextLeft--;
 
 					if( !AbstractEndpoint.this.equals(nextEndpoint) )
-						return nextEndpoint;
+						return (Edge.Endpoint<PA>) nextEndpoint;
 					return next();
 				}
 
