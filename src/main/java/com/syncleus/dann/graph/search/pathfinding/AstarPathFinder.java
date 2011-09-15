@@ -29,12 +29,12 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
-public class AstarPathFinder<N, E extends Edge<N>> implements PathFinder<N, E>
+public class AstarPathFinder<N, E extends Edge<? extends N, ? extends Edge.Endpoint<? extends N>>> implements PathFinder<N, E>
 {
-	private final Graph<N, E> graph;
+	private final Graph<N, E, ?, ?> graph;
 	private final HeuristicPathCost<N> heuristicPathCost;
 
-	public AstarPathFinder(final Graph<N, E> graph, final HeuristicPathCost<N> heuristicPathCost)
+	public AstarPathFinder(final Graph<N, E, ?, ?> graph, final HeuristicPathCost<N> heuristicPathCost)
 	{
 		if( graph == null )
 			throw new IllegalArgumentException("graph can not be null");

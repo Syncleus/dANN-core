@@ -20,10 +20,10 @@ package com.syncleus.dann.graph;
 
 public interface AssignableGraph<
 	  	N,
-	  	E extends Edge<N,? extends Edge.Endpoint<N>>,
-	  	NEP extends AssignableGraph.NodeEndpoint<N, E>,
-	  	EEP extends AssignableGraph.EdgeEndpoint<N, E>
-	  >  extends Graph<N,E,NEP,EEP>, MutableEdge<Object,Graph.Endpoint<?,?,?>>
+	  	E extends Edge<? extends N,? extends Edge.Endpoint<? extends N>>,
+	  	NEP extends AssignableGraph.NodeEndpoint<? extends N, ? extends E>,
+	  	EEP extends AssignableGraph.EdgeEndpoint<? extends N, ? extends E>
+	  >  extends Graph<N,E,NEP,EEP>, MutableEdge<Object,Graph.Endpoint<? extends N,? extends E,?>>
 //public interface AssignableGraph<P extends Edge<N>, N extends P, E extends P> extends Graph<N,E>, Edge<P>, MutableEdge<P>
 //public interface AssignableGraph<P extends AssignableGraph.Foo, N extends P, E extends Edge<N> & AssignableGraph.Foo> extends Graph<N,E>, Edge<P>, MutableEdge<P>
 {
@@ -45,7 +45,7 @@ public interface AssignableGraph<
 
 	interface NodeEndpoint<
 		  ON,
-		  OE extends Edge<ON,? extends Edge.Endpoint<ON>>
+		  OE extends Edge<? extends ON,? extends Edge.Endpoint<? extends ON>>
 	  > extends Graph.NodeEndpoint<ON,OE>, MutableEdge.Endpoint<ON>
 	{
 		void setTarget(ON newTarget) throws InvalidGraphException;
@@ -53,7 +53,7 @@ public interface AssignableGraph<
 
 	interface EdgeEndpoint<
 		  ON,
-		  OE extends Edge<ON,? extends Edge.Endpoint<ON>>
+		  OE extends Edge<? extends ON,? extends Edge.Endpoint<? extends ON>>
 	  > extends Graph.EdgeEndpoint<ON,OE>, MutableEdge.Endpoint<OE>
 	{
 		void setTarget(OE newTarget) throws InvalidGraphException;

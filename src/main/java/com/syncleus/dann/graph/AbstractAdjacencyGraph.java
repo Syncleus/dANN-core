@@ -36,10 +36,10 @@ import java.util.*;
 @XmlJavaTypeAdapter( com.syncleus.dann.xml.XmlSerializableAdapter.class )
 public abstract class AbstractAdjacencyGraph<
 	  	N,
-	  	E extends Edge<N,? extends Edge.Endpoint<N>>,
+	  	E extends Edge<? extends N,? extends Edge.Endpoint<? extends N>>,
 	  	NEP extends Graph.NodeEndpoint<N, E>,
 	  	EEP extends Graph.EdgeEndpoint<N, E>
-	  > extends AbstractEdge<Object,Graph.Endpoint<?,?,?>> implements Graph<N, E, NEP, EEP>
+	  > extends AbstractEdge<Object,Graph.Endpoint<? extends N,? extends E,?>> implements Graph<N, E, NEP, EEP>
 {
 	private static final Logger LOGGER = Logger.getLogger(AbstractAdjacencyGraph.class);
 //	private Set<E> edges;
@@ -555,7 +555,7 @@ public abstract class AbstractAdjacencyGraph<
 	}
 
 	@Override
-	public Set<EEP> getEdgeEndpoints(Edge<? extends N,? extends Edge.Endpoint<? extends N>> edge)
+	public Set<EEP> getEdgeEndpoints(Edge<?,? extends Edge.Endpoint<?>> edge)
 	{
 		Set<EEP> matchingEndpoints  = new HashSet<EEP>();
 		for(final EEP endpoint : this.getEdgeEndpoints() )
@@ -599,16 +599,16 @@ public abstract class AbstractAdjacencyGraph<
 		final Set<E> sourceEdges = new HashSet<E>();
 
 		for(NEP destinationEndpoint : this.getNodeEndpoints(node) )
-			for(Graph.EdgeEndpoint<N, E> sourceEndpoint : destinationEndpoint.getAdjacentEdges())
+			for(Graph.EdgeEndpoint<? extends N, ? extends E> sourceEndpoint : destinationEndpoint.getAdjacentEdges())
 				sourceEdges.add(sourceEndpoint.getTarget());
 
 		return Collections.unmodifiableSet(sourceEdges);
 	}
 
 	@Override
-	public Set<Graph.Endpoint<?, ?, ?>> getEndpoints()
+	public Set<Graph.Endpoint<? extends N, ? extends E, ?>> getEndpoints()
 	{
-		final Set<Graph.Endpoint<?,?,?>> endpoints = new HashSet<Graph.Endpoint<?,?,?>>();
+		final Set<Graph.Endpoint<? extends N,? extends E,?>> endpoints = new HashSet<Graph.Endpoint<? extends N,? extends E,?>>();
 		endpoints.addAll(this.getNodeEndpoints());
 		endpoints.addAll(this.getEdgeEndpoints());
 		return Collections.unmodifiableSet(endpoints);
@@ -671,7 +671,7 @@ public abstract class AbstractAdjacencyGraph<
 	}
 
 	@Override
-	public Set<E> getTraversableEdgesFrom(Edge<? extends N,? extends Edge.Endpoint<? extends N>> source)
+	public Set<E> getTraversableEdgesFrom(Edge<?,? extends Edge.Endpoint<?>> source)
 	{
 		if( !this.getEdges().contains(source) )
 			throw new IllegalArgumentException("source does not belong to this graph");
@@ -701,7 +701,7 @@ public abstract class AbstractAdjacencyGraph<
 	}
 
 	@Override
-	public Set<E> getTraversableEdgesTo(Edge<? extends N,? extends Edge.Endpoint<? extends N>> destination)
+	public Set<E> getTraversableEdgesTo(Edge<?,? extends Edge.Endpoint<?>> destination)
 	{
 		if( !this.getEdges().contains(destination) )
 			throw new IllegalArgumentException("source does not belong to this graph");
@@ -731,7 +731,7 @@ public abstract class AbstractAdjacencyGraph<
 	}
 
 	@Override
-	public Set<N> getTraversableNodesFrom(Edge<? extends N,? extends Edge.Endpoint<? extends N>> source)
+	public Set<N> getTraversableNodesFrom(Edge<?,? extends Edge.Endpoint<?>> source)
 	{
 		if( !this.getEdges().contains(source) )
 			throw new IllegalArgumentException("source does not belong to this graph");
@@ -761,7 +761,7 @@ public abstract class AbstractAdjacencyGraph<
 	}
 
 	@Override
-	public Set<N> getTraversableNodesTo(Edge<? extends N,? extends Edge.Endpoint<? extends N>> destination)
+	public Set<N> getTraversableNodesTo(Edge<?,? extends Edge.Endpoint<?>> destination)
 	{
 		if( !this.getEdges().contains(destination) )
 			throw new IllegalArgumentException("source does not belong to this graph");
@@ -781,19 +781,19 @@ public abstract class AbstractAdjacencyGraph<
 		final Set<E> destinationEdges = new HashSet<E>();
 
 		for(NEP sourceEndpoint : this.getNodeEndpoints(source) )
-			for(Graph.EdgeEndpoint<N, E> destinationEndpoint : sourceEndpoint.getTraversableAdjacentEdgesFrom())
+			for(Graph.EdgeEndpoint<? extends N, ? extends E> destinationEndpoint : sourceEndpoint.getTraversableAdjacentEdgesFrom())
 				destinationEdges.add(destinationEndpoint.getTarget());
 
 		return Collections.unmodifiableSet(destinationEdges);
 	}
 
 	@Override
-	public Set<E> getTraversableAdjacentEdgesFrom(Edge<? extends N,? extends Edge.Endpoint<? extends N>> source)
+	public Set<E> getTraversableAdjacentEdgesFrom(Edge<?,? extends Edge.Endpoint<?>> source)
 	{
 		final Set<E> destinationEdges = new HashSet<E>();
 
 		for(EEP sourceEndpoint : this.getEdgeEndpoints(source) )
-			for(Graph.EdgeEndpoint<N, E> destinationEndpoint : sourceEndpoint.getTraversableAdjacentEdgesFrom())
+			for(Graph.EdgeEndpoint<? extends N, ? extends E> destinationEndpoint : sourceEndpoint.getTraversableAdjacentEdgesFrom())
 				destinationEdges.add(destinationEndpoint.getTarget());
 
 		return Collections.unmodifiableSet(destinationEdges);
@@ -806,19 +806,19 @@ public abstract class AbstractAdjacencyGraph<
 		final Set<E> sourceEdges = new HashSet<E>();
 
 		for(NEP destinationEndpoint : this.getNodeEndpoints(destination) )
-			for(Graph.EdgeEndpoint<N, E> sourceEndpoint : destinationEndpoint.getTraversableAdjacentEdgesTo())
+			for(Graph.EdgeEndpoint<? extends N, ? extends E> sourceEndpoint : destinationEndpoint.getTraversableAdjacentEdgesTo())
 				sourceEdges.add(sourceEndpoint.getTarget());
 
 		return Collections.unmodifiableSet(sourceEdges);
 	}
 
 	@Override
-	public Set<E> getTraversableAdjacentEdgesTo(Edge<? extends N,? extends Edge.Endpoint<? extends N>> destination)
+	public Set<E> getTraversableAdjacentEdgesTo(Edge<?,? extends Edge.Endpoint<?>> destination)
 	{
 		final Set<E> destinationEdges = new HashSet<E>();
 
 		for(EEP destinationEndpoint : this.getEdgeEndpoints(destination) )
-			for(Graph.EdgeEndpoint<N, E> sourceEndpoint : destinationEndpoint.getTraversableAdjacentEdgesFrom())
+			for(Graph.EdgeEndpoint<? extends N, ? extends E> sourceEndpoint : destinationEndpoint.getTraversableAdjacentEdgesFrom())
 				destinationEdges.add(sourceEndpoint.getTarget());
 
 		return Collections.unmodifiableSet(destinationEdges);
@@ -830,20 +830,20 @@ public abstract class AbstractAdjacencyGraph<
 		final Set<N> destinationNodes = new HashSet<N>();
 
 		for(NEP sourceEndpoint : this.getNodeEndpoints(source) )
-			for(Graph.EdgeEndpoint<N, E> destinationEndpoint : sourceEndpoint.getTraversableAdjacentEdgesTo())
-				for(Graph.NodeEndpoint<N, E> nodeEndpoint : destinationEndpoint.getTraversableAdjacentNodesTo())
+			for(Graph.EdgeEndpoint<? extends N, ? extends E> destinationEndpoint : sourceEndpoint.getTraversableAdjacentEdgesTo())
+				for(Graph.NodeEndpoint<? extends N, ? extends E> nodeEndpoint : destinationEndpoint.getTraversableAdjacentNodesTo())
 					destinationNodes.add(nodeEndpoint.getTarget());
 
 		return Collections.unmodifiableSet(destinationNodes);
 	}
 
 	@Override
-	public Set<N> getTraversableAdjacentNodesFrom(Edge<? extends N,? extends Edge.Endpoint<? extends N>> source)
+	public Set<N> getTraversableAdjacentNodesFrom(Edge<?,? extends Edge.Endpoint<?>> source)
 	{
 		final Set<N> destinationNodes = new HashSet<N>();
 
 		for(EEP sourceEndpoint : this.getEdgeEndpoints(source) )
-			for(Graph.NodeEndpoint<N, E> destinationEndpoint : sourceEndpoint.getTraversableAdjacentNodesTo())
+			for(Graph.NodeEndpoint<? extends N, ? extends E> destinationEndpoint : sourceEndpoint.getTraversableAdjacentNodesTo())
 					destinationNodes.add(destinationEndpoint.getTarget());
 
 		return Collections.unmodifiableSet(destinationNodes);
@@ -855,20 +855,20 @@ public abstract class AbstractAdjacencyGraph<
 		final Set<N> sourceNodes = new HashSet<N>();
 
 		for(NEP destinationEndpoint : this.getNodeEndpoints(destination) )
-			for(Graph.EdgeEndpoint<N, E> sourceEndpoint : destinationEndpoint.getTraversableAdjacentEdgesFrom())
-				for(Graph.NodeEndpoint<N, E> nodeEndpoint : sourceEndpoint.getTraversableAdjacentNodesFrom())
+			for(Graph.EdgeEndpoint<? extends N, ? extends E> sourceEndpoint : destinationEndpoint.getTraversableAdjacentEdgesFrom())
+				for(Graph.NodeEndpoint<? extends N, ? extends E> nodeEndpoint : sourceEndpoint.getTraversableAdjacentNodesFrom())
 					sourceNodes.add(nodeEndpoint.getTarget());
 
 		return Collections.unmodifiableSet(sourceNodes);
 	}
 
 	@Override
-	public Set<N> getTraversableAdjacentNodesTo(Edge<? extends N,? extends Edge.Endpoint<? extends N>> destination)
+	public Set<N> getTraversableAdjacentNodesTo(Edge<?,? extends Edge.Endpoint<?>> destination)
 	{
 		final Set<N> sourceNodes = new HashSet<N>();
 
 		for(EEP destinationEndpoint : this.getEdgeEndpoints(destination) )
-			for(Graph.NodeEndpoint<N, E> sourceEndpoint : destinationEndpoint.getTraversableAdjacentNodesFrom())
+			for(Graph.NodeEndpoint<? extends N, ? extends E> sourceEndpoint : destinationEndpoint.getTraversableAdjacentNodesFrom())
 					sourceNodes.add(sourceEndpoint.getTarget());
 
 		return Collections.unmodifiableSet(sourceNodes);
@@ -977,7 +977,7 @@ public abstract class AbstractAdjacencyGraph<
 		}
 	}
 */
-	protected abstract class AbstractNodeEndpoint extends AbstractEdge<N,Graph.Endpoint<N,E,N>>.AbstractEndpoint implements Graph.NodeEndpoint<N,E>
+	protected abstract class AbstractNodeEndpoint extends AbstractEdge<N,Graph.NodeEndpoint<N,E>>.AbstractEndpoint implements Graph.NodeEndpoint<N,E>
 	{
 
 		@Override
@@ -996,7 +996,7 @@ public abstract class AbstractAdjacencyGraph<
 					for( Edge.Endpoint<? extends N> adjacentNodeEndpoint : nodeEndpoint.getNeighbors() )
 						adjacentNodes.addAll(AbstractAdjacencyGraph.this.getNodeEndpoints(adjacentNodeEndpoint.getTarget()));
 
-			return Collections.unmodifiableSet(adjacentNodes);
+			return Collections.<Graph.NodeEndpoint<N, E>>unmodifiableSet(adjacentNodes);
 		}
 
 		@Override
