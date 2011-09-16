@@ -23,7 +23,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import com.syncleus.dann.graph.DirectedEdge;
-import com.syncleus.dann.graph.context.ContextGraphNode;
+import com.syncleus.dann.graph.event.context.ContextGraphNode;
 import com.syncleus.dann.graph.Graph;
 import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
 

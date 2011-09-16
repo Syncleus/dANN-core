@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import com.syncleus.dann.graph.context.ContextGraphNode;
+import com.syncleus.dann.graph.event.context.ContextGraphNode;
 
 public class MutableRootedTreeAdjacencyGraph<N, E extends DirectedEdge<N>> extends AbstractRootedTreeAdjacencyGraph<N, E> implements MutableRootedTreeGraph<N, E>
 {

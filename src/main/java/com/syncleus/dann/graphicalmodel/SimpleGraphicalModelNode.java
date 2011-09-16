@@ -20,7 +20,7 @@ package com.syncleus.dann.graphicalmodel;
 
 import java.util.*;
 import com.syncleus.dann.graph.BidirectedEdge;
-import com.syncleus.dann.graph.context.AbstractContextNode;
+import com.syncleus.dann.graph.event.context.AbstractContextNode;
 import com.syncleus.dann.graphicalmodel.xml.GraphicalModelNodeXml;
 import com.syncleus.dann.graphicalmodel.xml.SimpleGraphicalModelNodeElementXml;
 import com.syncleus.dann.graphicalmodel.xml.SimpleGraphicalModelNodeXml;

@@ -16,13 +16,13 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph.context;
+package com.syncleus.dann.graph.event.context;
 
 import java.util.Set;
-import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.Cloud;
 
-public interface ContextGraphElement< GE extends Graph.Endpoint<?, ?,?> >
+public interface ContextCloudElement< CE extends Cloud.Endpoint<?> >
 {
-	void changingGraphContext( Set<? extends GE> joiningAsNode, Set<? extends GE> joiningAsEdge, Set<?> leavingContexts) throws RejectedContextException;
-	void changedGraphContext(Set<? extends GE> joinedAsNode, Set<? extends GE> joinedAsEdge, Set<?> leftContexts);
+	void changingCloudContext(Set<? extends CE> joiningContexts, Set<? extends Cloud<?,? extends Cloud.Endpoint<?>>> leavingContexts) throws RejectedContextException;
+	void changedCloudContext(Set<? extends CE> joinedContexts, Set<? extends Cloud<?,? extends Cloud.Endpoint<?>>> leftContexts);
 }

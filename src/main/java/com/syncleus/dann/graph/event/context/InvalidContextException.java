@@ -16,14 +16,22 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph.context;
+package com.syncleus.dann.graph.event.context;
 
-import java.util.Set;
-import com.syncleus.dann.graph.Cloud;
-import com.syncleus.dann.graph.Graph;
-
-public interface ContextGraphEdge< GEE extends Graph.EdgeEndpoint<?,?> >
+//This class is a runtime class to encapsulate the RejectedContextException. This allows the context to be optional
+//without having actions blocked by context events needing to explicitly handle exceptions (as you do with non-runtime
+//exceptions)
+public class InvalidContextException extends RuntimeException
 {
-	void changingGraphEdgeContext( Set<? extends GEE> joiningContexts, Set<?> leavingContexts) throws RejectedContextException;
-	void changedGraphEdgeContext(Set<? extends GEE> joinedContexts, Set<?> leftContexts);
+	private static final long serialVersionUID = 1385401237548091754L;
+
+	public InvalidContextException(final String msg, final RejectedContextException cause)
+	{
+		super(msg, cause);
+	}
+
+	public InvalidContextException(final RejectedContextException cause)
+	{
+		super(cause);
+	}
 }

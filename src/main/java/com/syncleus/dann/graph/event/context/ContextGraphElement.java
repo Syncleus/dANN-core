@@ -16,29 +16,13 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph.context;
+package com.syncleus.dann.graph.event.context;
 
-public class RejectedContextException extends Exception
+import java.util.Set;
+import com.syncleus.dann.graph.Graph;
+
+public interface ContextGraphElement< GE extends Graph.Endpoint<?, ?,?> >
 {
-	private static final long serialVersionUID = -2983740921347809174L;
-
-	public RejectedContextException()
-	{
-		super();
-	}
-
-	public RejectedContextException(final String msg)
-	{
-		super(msg);
-	}
-
-	public RejectedContextException(final String msg, final Throwable cause)
-	{
-		super(msg, cause);
-	}
-
-	public RejectedContextException(final Throwable cause)
-	{
-		super(cause);
-	}
+	void changingGraphContext( Set<? extends GE> joiningAsNode, Set<? extends GE> joiningAsEdge, Set<?> leavingContexts) throws RejectedContextException;
+	void changedGraphContext(Set<? extends GE> joinedAsNode, Set<? extends GE> joinedAsEdge, Set<?> leftContexts);
 }

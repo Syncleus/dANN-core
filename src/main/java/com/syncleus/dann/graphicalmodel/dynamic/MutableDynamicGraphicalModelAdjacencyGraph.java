@@ -21,7 +21,7 @@ package com.syncleus.dann.graphicalmodel.dynamic;
 import java.util.*;
 import com.syncleus.dann.graph.BidirectedEdge;
 import com.syncleus.dann.graph.Graph;
-import com.syncleus.dann.graph.context.ContextGraphNode;
+import com.syncleus.dann.graph.event.context.ContextGraphNode;
 
 public class MutableDynamicGraphicalModelAdjacencyGraph<N extends DynamicGraphicalModelNode, E extends BidirectedEdge<N>> extends AbstractDynamicGraphicalModel<N, E> implements MutableDynamicGraphicalModel<N, E>
 {

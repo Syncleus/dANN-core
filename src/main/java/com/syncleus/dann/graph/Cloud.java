@@ -21,7 +21,7 @@ package com.syncleus.dann.graph;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Set;
-import com.syncleus.dann.graph.context.ContextReporter;
+import com.syncleus.dann.graph.event.context.ContextReporter;
 import com.syncleus.dann.graph.xml.EdgeXml;
 import com.syncleus.dann.xml.XmlSerializable;
 

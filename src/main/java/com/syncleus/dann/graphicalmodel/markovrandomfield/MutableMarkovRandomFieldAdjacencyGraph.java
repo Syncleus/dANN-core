@@ -21,7 +21,7 @@ package com.syncleus.dann.graphicalmodel.markovrandomfield;
 import java.util.*;
 import com.syncleus.dann.graph.UndirectedEdge;
 import com.syncleus.dann.graph.Graph;
-import com.syncleus.dann.graph.context.ContextGraphNode;
+import com.syncleus.dann.graph.event.context.ContextGraphNode;
 import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
 
 public class MutableMarkovRandomFieldAdjacencyGraph<N extends GraphicalModelNode, E extends UndirectedEdge<N>> extends AbstractMarkovRandomFieldAdjacencyGraph<N, E> implements MutableMarkovRandomField<N, E>
