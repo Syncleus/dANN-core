@@ -53,23 +53,11 @@ public final class MutableAdjacencyGraph<
 	}
 
 	@Override
-	public void leaveNode(MutableGraph.NodeEndpoint<?, ?> endpoint) throws InvalidGraphException
-	{
-		this.internalLeaveNode(endpoint);
-	}
-
-	@Override
 	public MutableGraph.EdgeEndpoint<N, E> joinEdge(E edge) throws InvalidGraphException
 	{
 		final EdgeEndpoint endpoint = new EdgeEndpoint(edge);
 		this.internalJoinEdge(endpoint);
 		return endpoint;
-	}
-
-	@Override
-	public void leaveEdge(MutableGraph.EdgeEndpoint<?, ?> endpoint) throws InvalidGraphException
-	{
-		this.internalLeaveEdge(endpoint);
 	}
 
 	protected final class NodeEndpoint extends AbstractContextMutableAdjacencyGraph<N,E,MutableGraph.NodeEndpoint<N, E>,MutableGraph.EdgeEndpoint<N, E>>.AbstractNodeEndpoint

@@ -95,6 +95,18 @@ public abstract class AbstractMutableAdjacencyGraph<
 	}
 
 	@Override
+	public void leaveNode(MutableGraph.NodeEndpoint<?, ?> endpoint) throws InvalidGraphException
+	{
+		this.internalLeaveNode(endpoint);
+	}
+
+	@Override
+	public void leaveEdge(MutableGraph.EdgeEndpoint<?, ?> endpoint) throws InvalidGraphException
+	{
+		this.internalLeaveEdge(endpoint);
+	}
+
+	@Override
 	public Map<N, NE> joinNodes(Set<? extends N> nodes) throws InvalidGraphException
 	{
 		final Map<N, NE> endpoints = new HashMap<N,NE>();
