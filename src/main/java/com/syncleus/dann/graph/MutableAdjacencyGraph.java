@@ -18,9 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.Set;
-import com.syncleus.dann.xml.Namer;
-
 public final class MutableAdjacencyGraph<
 	  	N,
 	  	E extends Cloud<N,? extends Cloud.Endpoint<N>>

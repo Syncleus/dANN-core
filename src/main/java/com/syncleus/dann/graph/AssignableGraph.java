@@ -23,30 +23,13 @@ public interface AssignableGraph<
 	  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N>>,
 	  	NEP extends AssignableGraph.NodeEndpoint<N, E>,
 	  	EEP extends AssignableGraph.EdgeEndpoint<N, E>
-	  >  extends Graph<N,E,NEP,EEP>, MutableEdge<Object,Graph.Endpoint<?, N,E>>
-//public interface AssignableGraph<P extends Cloud<N>, N extends P, E extends P> extends Graph<N,E>, Cloud<P>, MutableEdge<P>
-//public interface AssignableGraph<P extends AssignableGraph.Foo, N extends P, E extends Cloud<N> & AssignableGraph.Foo> extends Graph<N,E>, Cloud<P>, MutableEdge<P>
+	  >  extends Graph<N,E,NEP,EEP>
 {
-/*
-	@Override
-	Set<? extends Graph.EdgeEndpoint<? extends Foo, N, E, E>> getEdgeEndpoints();
-
-	void test()
-	{
-		Graph.EdgeEndpoint<? extends Object, N, E, E> test = ((Graph<N,E>)this).getEdgeEndpoints().iterator().next();
-		Graph.EdgeEndpoint<? extends Foo, N, E, E> test2 = this.getEdgeEndpoints().iterator().next();
-	}
-
-	interface Foo
-	{
-	}
-*/
-
 
 	interface NodeEndpoint<
 		  ON,
 		  OE extends Cloud<ON,? extends Cloud.Endpoint<? extends ON>>
-	  > extends Graph.NodeEndpoint<ON,OE>, MutableEdge.Endpoint<ON>
+	  > extends Graph.NodeEndpoint<ON,OE>, Cloud.AssignableEndpoint<ON>
 	{
 		void setTarget(ON newTarget) throws InvalidGraphException;
 	};
@@ -54,14 +37,8 @@ public interface AssignableGraph<
 	interface EdgeEndpoint<
 		  ON,
 		  OE extends Cloud<ON,? extends Cloud.Endpoint<? extends ON>>
-	  > extends Graph.EdgeEndpoint<ON,OE>, MutableEdge.Endpoint<OE>
+	  > extends Graph.EdgeEndpoint<ON,OE>, Cloud.AssignableEndpoint<OE>
 	{
 		void setTarget(OE newTarget) throws InvalidGraphException;
 	};
-
-/*
-	interface Endpoint<PN, EN extends PN, NN extends PN, MN extends PN> extends Graph.Endpoint<MN,EN,NN,PN>, MutableEdge.Endpoint<PN, MN>
-	{
-	};
-*/
 }

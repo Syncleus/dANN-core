@@ -40,6 +40,11 @@ public interface Cloud<
 		T getTarget();
 	};
 
+	interface AssignableEndpoint<T> extends Cloud.Endpoint<T>
+	{
+		void setTarget(T newTarget) throws InvalidEdgeException;
+	};
+
 	Set<EP> getEndpoints();
 	Set<EP> getEndpoints(Object target);
 	Set<T> getTargets();

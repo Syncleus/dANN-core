@@ -36,8 +36,6 @@ public abstract class AbstractMutableAdjacencyGraph<
 	{
 	}
 
-
-
 	protected void internalJoinNode(final MutableGraph.NodeEndpoint<N, E> endpoint) throws InvalidGraphException
 	{
 		if(endpoint == null)
@@ -203,95 +201,6 @@ public abstract class AbstractMutableAdjacencyGraph<
 		return false;
 	}
 
-/*
-		private class NodeTargetSet extends AbstractTargetSet<N>
-		{
-			@Override
-			public int size()
-			{
-				return nodeAdjacency.size();
-			}
-
-			@Override
-			public boolean isEmpty()
-			{
-				return nodeAdjacency.isEmpty();
-			}
-
-			@Override
-			public boolean contains(N o)
-			{
-				return nodeAdjacency.containsKey(o);
-			}
-
-			@Override
-			public Iterator<N> iterator()
-			{
-				return Collections.unmodifiableSet(nodeAdjacency.keySet()).iterator();
-			}
-
-			@Override
-			public Object[] toArray()
-			{
-				Object[] array = new Object[this.size()];
-				int arrayIndex = 0;
-				for(NEP nodeEndpoint : nodeAdjacency.keySet())
-				{
-					array[arrayIndex] = nodeEndpoint.getTarget();
-					arrayIndex++;
-				}
-				return array;
-			}
-
-			@Override
-			public <T> T[] toArray(T[] a)
-			{
-				return nodeAdjacency.keySet().toArray(a);
-			}
-
-			@Override
-			public boolean add(N n)
-			{
-				throw new UnsupportedOperationException("This set is read-only!");
-			}
-
-			@Override
-			public boolean remove(Object o)
-			{
-				throw new UnsupportedOperationException("This set is read-only!");
-			}
-
-			@Override
-			public boolean containsAll(Collection<?> c)
-			{
-				return nodeAdjacency.keySet()
-			}
-
-			@Override
-			public boolean addAll(Collection<? extends N> c)
-			{
-				return false;  //To change body of implemented methods use File | Settings | File Templates.
-			}
-
-			@Override
-			public boolean retainAll(Collection<?> c)
-			{
-				return false;  //To change body of implemented methods use File | Settings | File Templates.
-			}
-
-			@Override
-			public boolean removeAll(Collection<?> c)
-			{
-				return false;  //To change body of implemented methods use File | Settings | File Templates.
-			}
-
-			@Override
-			public void clear()
-			{
-				//To change body of implemented methods use File | Settings | File Templates.
-			}
-		};
-*/
 
 	protected abstract class AbstractNodeEndpoint extends AbstractAdjacencyGraph<N,E,NE,EE>.AbstractNodeEndpoint implements MutableGraph.NodeEndpoint<N, E>
 	{

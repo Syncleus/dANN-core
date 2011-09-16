@@ -20,11 +20,10 @@ package com.syncleus.dann.graph;
 
 public interface MutableEdge<
 	  	T,
-	  	EP extends Edge.Endpoint<? extends T>
-	  > extends Edge<T, EP>
+	  	EP extends MutableEdge.Endpoint<? extends T>
+	  > extends Edge<T, EP>, AssignableCloud<T,EP>
 {
-	interface Endpoint<T> extends Cloud.Endpoint<T>
+	interface Endpoint<T> extends Edge.Endpoint<T>, AssignableCloud.Endpoint<T>
 	{
-		void setTarget(T newTarget) throws InvalidEdgeException;
 	};
 }
