@@ -35,7 +35,7 @@ public abstract class AbstractCloud<
 	private static final Logger LOGGER = Logger.getLogger(AbstractCloud.class);
 
 	@Override
-	public boolean contains(final Object node)
+	public boolean containsTarget(final Object node)
 	{
 		for( EP endpoint : this.getEndpoints() )
 			if( endpoint.getTarget().equals(node))
@@ -44,19 +44,46 @@ public abstract class AbstractCloud<
 	}
 
 	@Override
-	public boolean containsAll(final Collection<?> nodes)
+	public boolean containsAllTargets(final Collection<?> nodes)
 	{
 		for( Object node : nodes )
-			if( !this.contains(node) )
+			if( !this.containsTarget(node) )
 				return false;
 		return true;
 	}
 
 	@Override
-	public boolean containsAny(final Collection<?> nodes)
+	public boolean containsAnyTargets(final Collection<?> nodes)
 	{
 		for( Object node : nodes )
-			if( this.contains(node) )
+			if( this.containsTarget(node) )
+				return true;
+		return false;
+	}
+
+	@Override
+	public boolean contains(final Object endpoint)
+	{
+		for( EP otherEndpoint : this.getEndpoints() )
+			if( otherEndpoint.equals(endpoint))
+				return true;
+		return false;
+	}
+
+	@Override
+	public boolean containsAll(final Collection<? extends Endpoint<?>> endpoints)
+	{
+		for( Object endpoint : endpoints )
+			if( !this.contains(endpoint) )
+				return false;
+		return true;
+	}
+
+	@Override
+	public boolean containsAny(final Collection<? extends Endpoint<?>> endpoints)
+	{
+		for( Object endpoint : endpoints )
+			if( this.contains(endpoint) )
 				return true;
 		return false;
 	}
@@ -215,8 +242,43 @@ public abstract class AbstractCloud<
 
 	protected abstract class AbstractEndpoint<T> implements Cloud.Endpoint<T>
 	{
-		protected AbstractEndpoint()
+		protected abstract boolean isTargetEquals();
+
+		/**
+		 * By default this relies on the target to define equals, this means there can be only one instance of any
+		 * endpoint. This should be overridden to allow for an edge to have the same element more than once.
+		 */
+		@Override
+		public int hashCode()
 		{
+			if(!this.isTargetEquals())
+				return super.hashCode();
+			else if(this.getTarget() == null)
+				return 0;
+			else
+				return this.getTarget().hashCode();
+		}
+
+		/**
+		 * By default this relies on the target to define equals, this means there can be only one instance of any
+		 * endpoint. This should be overridden to allow for an edge to have the same element more than once.
+		 */
+		@Override
+		public boolean equals(Object obj)
+		{
+			if(!this.isTargetEquals())
+				return super.equals(obj);
+			else if( obj == null )
+				if( this.getTarget() == null )
+					return true;
+				else
+					return false;
+			else if( this.getTarget() == null)
+				return false;
+			else if( obj instanceof Cloud.Endpoint )
+				return ((Cloud.Endpoint<?>)obj).equals(this.getTarget());
+			else
+				return this.getTarget().equals(obj);
 		}
 
 		@Override

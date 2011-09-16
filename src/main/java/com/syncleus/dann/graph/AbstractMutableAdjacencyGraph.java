@@ -23,84 +23,95 @@ import java.util.*;
 public abstract class AbstractMutableAdjacencyGraph<
 	  	N,
 	  	E extends Cloud<N,? extends Cloud.Endpoint<N>>,
-	  	NEP extends MutableGraph.NodeEndpoint<N, E>,
-	  	EEP extends MutableGraph.EdgeEndpoint<N, E>
+	  	NE extends MutableGraph.NodeEndpoint<N, E>,
+	  	EE extends MutableGraph.EdgeEndpoint<N, E>
 	  >
-	  extends AbstractAdjacencyGraph<N, E, NEP, EEP>
-	  implements MutableGraph<N, E, NEP, EEP>
+	  extends AbstractAdjacencyGraph<N, E, NE, EE>
+	  implements MutableGraph<N, E, NE, EE>
 {
 	private static final long serialVersionUID = -4613327727609060678L;
-	private final AdjacencyMapping<NEP,EEP> adjacency = new HashAdjacencyMapping<NEP, EEP>();
-	private final boolean uniqueNodes;
-	private final boolean uniqueEdges;
+	private final AdjacencyMapping<MutableGraph.NodeEndpoint<N, E>,MutableGraph.EdgeEndpoint<N, E>,Cloud.Endpoint<N>> adjacency = new HashAdjacencyMapping<MutableGraph.NodeEndpoint<N, E>,MutableGraph.EdgeEndpoint<N, E>,Cloud.Endpoint<N>>();
 
 	protected AbstractMutableAdjacencyGraph()
 	{
-		this(false);
 	}
 
-	protected AbstractMutableAdjacencyGraph(final boolean uniqueEdges)
+
+
+	protected void internalJoinNode(final MutableGraph.NodeEndpoint<N, E> endpoint) throws InvalidGraphException
 	{
-		this(uniqueEdges,true);
+		if(endpoint == null)
+			throw new IllegalArgumentException(("endpoint can not be null"));
+		else if( this.contains(endpoint) )
+			throw new IllegalArgumentException("endpoint is already a member of this graph!");
+
+		this.adjacency.putLeftKey(endpoint);
 	}
 
-	protected AbstractMutableAdjacencyGraph(final boolean uniqueEdges, final boolean uniqueNodes)
+	protected void internalLeaveNode(MutableGraph.NodeEndpoint<?, ?> endpoint) throws InvalidGraphException
 	{
-		this.uniqueEdges = uniqueEdges;
-		this.uniqueNodes = uniqueNodes;
+		if(endpoint == null)
+			throw new IllegalArgumentException(("endpoint can not be null"));
+		else if( !this.adjacency.getLeftKeys().contains(endpoint) )
+			throw new IllegalArgumentException("endpoint is not an endpoint in this graph");
+		else if( this.getAdjacentEdgeEndpoints(endpoint).size() > 0)
+			throw new InvalidGraphException("Node must be an orphan in the graph to remove it");
+
+		this.adjacency.removeLeftKey(endpoint);
 	}
 
-	protected final boolean isUniqueEdges()
+	protected void internalJoinEdge(final MutableGraph.EdgeEndpoint<N, E> endpoint) throws InvalidGraphException
 	{
-		return this.uniqueEdges;
+		if(endpoint == null)
+			throw new IllegalArgumentException(("endpoint can not be null"));
+		//make sure all of the edge's node already belong to this graph
+		else if( !this.containsAllTargets(endpoint.getTarget().getTargets()) )
+			throw new InvalidGraphException("All of the edge's targets must already exist in this graph");
+		//we cant do anything if the endpoint already exists in the key, they are unique representations of
+		//a single membership to the graph
+		else if(this.contains(endpoint))
+			throw new IllegalArgumentException("endpoint is already a member of this graph!");
+
+		for( final Cloud.Endpoint<N> targetEndpoint : endpoint.getTarget().getEndpoints() )
+			for( final NE nodeEndpoint : this.getNodeEndpoints(targetEndpoint.getTarget()))
+				this.adjacency.put(nodeEndpoint,endpoint,targetEndpoint);
 	}
 
-	protected final boolean isUniqueNodes()
+
+	protected void internalLeaveEdge(MutableGraph.EdgeEndpoint<?, ?> endpoint) throws InvalidGraphException
 	{
-		return this.uniqueNodes;
+		if(endpoint == null)
+			throw new IllegalArgumentException(("endpoint can not be null"));
+		else if( !this.adjacency.getRightKeys().contains(endpoint) )
+			throw new IllegalArgumentException("endpoint is not an endpoint in this graph");
+
+		this.adjacency.removeRightKey(endpoint);
 	}
 
 	@Override
-	protected Set<Graph.EdgeEndpoint<N,E>> getAdjacentEdgeEndpoints(Graph.NodeEndpoint<? extends N, ? extends E> nodeEndpoint)
+	protected Set<Graph.EdgeEndpoint<N,E>> getAdjacentEdgeEndpoints(Graph.NodeEndpoint<?, ?> nodeEndpoint)
 	{
 		if( !this.adjacency.getLeftKeys().contains(nodeEndpoint) )
 			throw new IllegalArgumentException("nodeEndpoint is not an endpoint for this graph");
 		return Collections.<EdgeEndpoint<N,E>>unmodifiableSet(this.adjacency.getLeftAdjacency(nodeEndpoint));
 	}
 
-	protected abstract NEP createNodeEndpoint(N node) throws InvalidGraphException;
-	protected abstract EEP createEdgeEndpoint(E node) throws InvalidGraphException;
-
 	@Override
-	public NEP joinNode(N node) throws InvalidGraphException
+	public Map<N, NE> joinNodes(Set<? extends N> nodes) throws InvalidGraphException
 	{
-		if(this.uniqueNodes && this.contains(node))
-			return this.getNodeEndpoints(node).iterator().next();
-
-		final NEP endpoint = this.createNodeEndpoint(node);
-		assert !this.adjacency.getLeftKeys().contains(endpoint);
-
-		this.adjacency.putLeftKey(endpoint);
-
-		return endpoint;
-	}
-
-	@Override
-	public Map<N, NEP> joinNodes(Set<? extends N> nodes) throws InvalidGraphException
-	{
-		final Map<N, NEP> endpoints = new HashMap<N,NEP>();
+		final Map<N, NE> endpoints = new HashMap<N,NE>();
 		for(N node : nodes)
 			endpoints.put(node, this.joinNode(node));
 		return Collections.unmodifiableMap(endpoints);
 	}
 
 	@Override
-	public Map<N, Set<NEP>> joinNodes(Map<? extends N, ? extends Integer> nodes) throws InvalidGraphException
+	public Map<N, Set<NE>> joinNodes(Map<? extends N, ? extends Integer> nodes) throws InvalidGraphException
 	{
-		final Map<N,Set<NEP>> joinMapping = new HashMap<N, Set<NEP>>(nodes.size());
+		final Map<N,Set<NE>> joinMapping = new HashMap<N, Set<NE>>(nodes.size());
 		for(final Map.Entry<? extends N,? extends Integer> nodeEntry : nodes.entrySet())
 		{
-			final Set<NEP> newEndpoints = new HashSet<NEP>(nodeEntry.getValue());
+			final Set<NE> newEndpoints = new HashSet<NE>(nodeEntry.getValue());
 			for(int count = 0; count < nodeEntry.getValue(); count++)
 				newEndpoints.add(this.joinNode(nodeEntry.getKey()));
 			joinMapping.put(nodeEntry.getKey(),newEndpoints);
@@ -109,61 +120,28 @@ public abstract class AbstractMutableAdjacencyGraph<
 	}
 
 	@Override
-	public Set<EEP> leaveNode(MutableGraph.NodeEndpoint<?, ? extends Cloud<?,? extends Endpoint<?>>> endpoint) throws InvalidGraphException
+	public void leaveNodes(Set<? extends MutableGraph.NodeEndpoint<?, ?>> nodeEndpoints) throws InvalidGraphException
 	{
-		if( !this.adjacency.getLeftKeys().contains(endpoint) )
-			throw new IllegalArgumentException("endpoint is not an enpoint in this graph");
-
-		//first we need to remove all associated edges
-		final Set<EEP> orphanEdges = this.adjacency.getLeftAdjacency(endpoint);
-		this.adjacency.getRightKeys().removeAll(orphanEdges);
-		this.adjacency.removeLeftKey(endpoint);
-
-		return Collections.unmodifiableSet(orphanEdges);
-	}
-
-	@Override
-	public Set<EEP> leaveNodes(Set<? extends MutableGraph.NodeEndpoint<?, ? extends Cloud<?,? extends Endpoint<?>>>> nodeEndpoints) throws InvalidGraphException
-	{
-		final Set<EEP> edgeEndpoints = new HashSet<EEP>();
 		for(MutableGraph.NodeEndpoint<?, ? extends Cloud<?,? extends Endpoint<?>>> node : nodeEndpoints)
-			edgeEndpoints.addAll(this.leaveNode(node));
-		return Collections.unmodifiableSet(edgeEndpoints);
+			this.leaveNode(node);
 	}
 
 	@Override
-	public EEP joinEdge(E edge) throws InvalidGraphException
+	public Map<E, EE> joinEdges(Set<? extends E> edges) throws InvalidGraphException
 	{
-		//make sure all of the edge's node already belong to this graph
-		if( !this.containsAll(edge.getTargets()) )
-			throw new IllegalArgumentException("All of the edge's targets must already exist in this graph");
-
-		if(this.uniqueEdges && this.contains(edge))
-			return this.getEdgeEndpoints(edge).iterator().next();
-
-		final EEP edgeEndpoint = this.createEdgeEndpoint(edge);
-		for( final N node : edge.getTargets() )
-			this.adjacency.put(this.getNodeEndpoints(node).iterator().next(),edgeEndpoint);
-
-		return edgeEndpoint;
-	}
-
-	@Override
-	public Map<E, EEP> joinEdges(Set<? extends E> edges) throws InvalidGraphException
-	{
-		final Map<E, EEP> endpoints = new HashMap<E,EEP>();
+		final Map<E, EE> endpoints = new HashMap<E,EE>();
 		for(E edge : edges)
 			endpoints.put(edge, this.joinEdge(edge));
 		return Collections.unmodifiableMap(endpoints);
 	}
 
 	@Override
-	public Map<E, Set<EEP>> joinEdges(Map<? extends E, ? extends Integer> edges) throws InvalidGraphException
+	public Map<E, Set<EE>> joinEdges(Map<? extends E, ? extends Integer> edges) throws InvalidGraphException
 	{
-		final Map<E,Set<EEP>> joinMapping = new HashMap<E, Set<EEP>>(edges.size());
+		final Map<E,Set<EE>> joinMapping = new HashMap<E, Set<EE>>(edges.size());
 		for(final Map.Entry<? extends E,? extends Integer> edgeEntry : edges.entrySet())
 		{
-			final Set<EEP> newEndpoints = new HashSet<EEP>(edgeEntry.getValue());
+			final Set<EE> newEndpoints = new HashSet<EE>(edgeEntry.getValue());
 			for(int count = 0; count < edgeEntry.getValue(); count++)
 				newEndpoints.add(this.joinEdge(edgeEntry.getKey()));
 			joinMapping.put(edgeEntry.getKey(),newEndpoints);
@@ -172,16 +150,7 @@ public abstract class AbstractMutableAdjacencyGraph<
 	}
 
 	@Override
-	public void leaveEdge(MutableGraph.EdgeEndpoint<?, ? extends Cloud<?,? extends Endpoint<?>>> edgeEndpoint) throws InvalidGraphException
-	{
-		if( !this.adjacency.getRightKeys().contains(edgeEndpoint) )
-			throw new IllegalArgumentException("endpoint is not an enpoint in this graph");
-
-		this.adjacency.removeRightKey(edgeEndpoint);
-	}
-
-	@Override
-	public void leaveEdges(Set<? extends MutableGraph.EdgeEndpoint<?, ? extends Cloud<?,? extends Endpoint<?>>>> edgeEndpoints) throws InvalidGraphException
+	public void leaveEdges(Set<? extends MutableGraph.EdgeEndpoint<?, ?>> edgeEndpoints) throws InvalidGraphException
 	{
 		for(final MutableGraph.EdgeEndpoint<?, ? extends Cloud<?,? extends Endpoint<?>>> edgeEndpoint : edgeEndpoints)
 			this.leaveEdge(edgeEndpoint);
@@ -202,25 +171,36 @@ public abstract class AbstractMutableAdjacencyGraph<
 	@Override
 	public Map<?, Graph.Endpoint<?, N, E>> reconfigure(Set<? extends N> addNodes, Set<? extends E> addEdges, Set<? extends Graph.Endpoint<?, ?, ?>> disconnectEndpoints) throws InvalidGraphException
 	{
-		for(final Graph.Endpoint<?, ?,?> disconnectEndpoint : disconnectEndpoints)
-			this.adjacency.remove(disconnectEndpoint.getTarget());
+		if( disconnectEndpoints != null )
+		{
+			for(final Graph.Endpoint<?, ?,?> disconnectEndpoint : disconnectEndpoints)
+				this.adjacency.remove(disconnectEndpoint.getTarget());
+		}
 
 		Map<Object, Graph.Endpoint<?, N,E>> newEndpoints = new HashMap<Object, Graph.Endpoint<?, N, E>>();
-		newEndpoints.putAll(this.joinNodes(addNodes));
-		newEndpoints.putAll(this.joinEdges(addEdges));
+		if( addNodes != null )
+			newEndpoints.putAll(this.joinNodes(addNodes));
+		if( addEdges != null )
+			newEndpoints.putAll(this.joinEdges(addEdges));
 		return newEndpoints;
 	}
 
 	@Override
-	public Set<EEP> getEdgeEndpoints()
+	public Set<EE> getEdgeEndpoints()
 	{
 		return Collections.unmodifiableSet(this.adjacency.getRightKeys());
 	}
 
 	@Override
-	public Set<NEP> getNodeEndpoints()
+	public Set<NE> getNodeEndpoints()
 	{
 		return Collections.unmodifiableSet(this.adjacency.getLeftKeys());
+	}
+
+	@Override
+	public boolean isContextEnabled()
+	{
+		return false;
 	}
 
 /*
@@ -313,11 +293,63 @@ public abstract class AbstractMutableAdjacencyGraph<
 		};
 */
 
-	protected abstract class AbstractNodeEndpoint extends AbstractAdjacencyGraph<N,E,NEP,EEP>.AbstractNodeEndpoint implements MutableGraph.NodeEndpoint<N, E>
+	protected abstract class AbstractNodeEndpoint extends AbstractAdjacencyGraph<N,E,NE,EE>.AbstractNodeEndpoint implements MutableGraph.NodeEndpoint<N, E>
 	{
-	}
+		private N target;
 
-	protected abstract class AbstractEdgeEndpoint extends AbstractAdjacencyGraph<N,E,NEP,EEP>.AbstractEdgeEndpoint implements MutableGraph.EdgeEndpoint<N, E>
+		protected AbstractNodeEndpoint(final N target)
+		{
+			this.target = target;
+		}
+
+		@Override
+		public void setTarget(N newTarget) throws InvalidGraphException
+		{
+			if(this.target != null && this.target.equals(newTarget) )
+			{
+				this.target = newTarget;
+				return;
+			}
+
+			internalLeaveNode(this);
+			this.target = newTarget;
+			internalJoinNode(this);
+		}
+
+		@Override
+		public N getTarget()
+		{
+			return this.target;
+		}
+	};
+
+	protected abstract class AbstractEdgeEndpoint extends AbstractAdjacencyGraph<N,E,NE,EE>.AbstractEdgeEndpoint implements MutableGraph.EdgeEndpoint<N, E>
 	{
-	}
+		private E target;
+
+		protected AbstractEdgeEndpoint(final E target)
+		{
+			this.target = target;
+		}
+
+		@Override
+		public void setTarget(E newTarget) throws InvalidGraphException
+		{
+			if(this.target != null && this.target.equals(newTarget) )
+			{
+				this.target = newTarget;
+				return;
+			}
+
+			internalLeaveEdge(this);
+			this.target = newTarget;
+			internalJoinEdge(this);
+		}
+
+		@Override
+		public E getTarget()
+		{
+			return this.target;
+		}
+	};
 }

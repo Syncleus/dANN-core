@@ -18,10 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.Map;
 import java.util.Set;
+import sun.awt.SunHints;
 
-public interface AdjacencyMapping<LK,RK> extends Set<AdjacencyMapping.Adjacency<LK,RK>>
+public interface AdjacencyMapping<LK,RK,V> extends Set<AdjacencyMapping.Adjacency<LK,RK>>
 {
 	interface Adjacency<LK,RK>
 	{
@@ -35,6 +35,8 @@ public interface AdjacencyMapping<LK,RK> extends Set<AdjacencyMapping.Adjacency<
 	boolean putLeftKey(LK leftKey);
 	boolean putRightKey(RK rightKey);
 	boolean put(LK leftKey, RK rightKey);
+	boolean put(LK leftKey, RK rightKey, V value);
+	V get(Object leftKey, Object rightKey);
 	boolean contains(Object leftKey, Object rightKey);
 	Set<RK> getRightKeys();
 	Set<LK> getLeftKeys();

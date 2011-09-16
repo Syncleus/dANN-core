@@ -21,8 +21,11 @@ package com.syncleus.dann.graph.event.context;
 import java.util.Set;
 import com.syncleus.dann.graph.Graph;
 
-public interface ContextGraphNode< GNE extends Graph.NodeEndpoint<?,?> >
+public interface ContextGraphNode<
+	  	GNE extends Graph.NodeEndpoint<?,?>,
+	  	G extends Graph<?, ?, ? extends GNE, ?>
+	  >
 {
-	void changingGraphNodeContext( Set<? extends GNE> joiningContexts, Set<?> leavingContexts) throws RejectedContextException;
+	void changingGraphNodeContext( Set<? extends G> joiningContexts, Set<?> leavingContexts) throws RejectedContextException;
 	void changedGraphNodeContext(Set<? extends GNE> joinedContexts, Set<?> leftContexts);
 }

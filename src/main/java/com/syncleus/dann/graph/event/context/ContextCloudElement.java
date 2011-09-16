@@ -21,8 +21,11 @@ package com.syncleus.dann.graph.event.context;
 import java.util.Set;
 import com.syncleus.dann.graph.Cloud;
 
-public interface ContextCloudElement< CE extends Cloud.Endpoint<?> >
+public interface ContextCloudElement<
+		  CE extends Cloud.Endpoint<?>,
+		  C extends Cloud<?, ? extends CE>
+	  >
 {
-	void changingCloudContext(Set<? extends CE> joiningContexts, Set<? extends Cloud<?,? extends Cloud.Endpoint<?>>> leavingContexts) throws RejectedContextException;
-	void changedCloudContext(Set<? extends CE> joinedContexts, Set<? extends Cloud<?,? extends Cloud.Endpoint<?>>> leftContexts);
+	void changingCloudContext(Set<? extends C> joiningContexts, Set<?> leavingContexts) throws RejectedContextException;
+	void changedCloudContext(Set<? extends CE> joinedContexts, Set<?> leftContexts);
 }

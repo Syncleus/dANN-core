@@ -18,34 +18,88 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
+import java.util.Set;
+import com.syncleus.dann.xml.Namer;
+
 public final class MutableAdjacencyGraph<
 	  	N,
-	  	E extends Cloud<N,Cloud.Endpoint<N>>
-	  > extends AbstractMutableAdjacencyGraph<N,E,MutableGraph.NodeEndpoint<N, E>,MutableGraph.EdgeEndpoint<N, E>>
-/*
-	  <
-	  	N,
 	  	E extends Cloud<N,? extends Cloud.Endpoint<N>>
-	  >*/
-//	  extends AbstractMutableAdjacencyGraph<N, E, MutableGraph.NodeEndpoint<N, E>//, MutableGraph.EdgeEndpoint<N, E>>
+	  >
+	  extends AbstractContextMutableAdjacencyGraph<N, E, MutableGraph.NodeEndpoint<N, E>, MutableGraph.EdgeEndpoint<N, E>>
 {
 	private static final long serialVersionUID = -4613327727609060678L;
+	private final boolean areNodesUnique;
+	private final boolean areEdgesUnique;
 
-	@Override
-	public boolean isContextEnabled()
+	public MutableAdjacencyGraph()
 	{
-		return false;
+		this(false,true);
+	}
+
+	public MutableAdjacencyGraph(final boolean areEdgesUnique)
+	{
+		this(areEdgesUnique, true);
+	}
+
+	public MutableAdjacencyGraph(final boolean areEdgesUnique, final boolean areNodesUnique)
+	{
+		this.areEdgesUnique = areEdgesUnique;
+		this.areNodesUnique = areNodesUnique;
 	}
 
 	@Override
-	protected MutableGraph.NodeEndpoint<N, E> createNodeEndpoint(N node) throws InvalidGraphException
+	public MutableGraph.NodeEndpoint<N, E> joinNode(N node) throws InvalidGraphException
 	{
-		return null;
+		final NodeEndpoint endpoint = new NodeEndpoint(node);
+		this.internalJoinNode(endpoint);
+		return endpoint;
 	}
 
 	@Override
-	protected MutableGraph.EdgeEndpoint<N, E> createEdgeEndpoint(E node) throws InvalidGraphException
+	public void leaveNode(MutableGraph.NodeEndpoint<?, ?> endpoint) throws InvalidGraphException
 	{
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
+		this.internalLeaveNode(endpoint);
 	}
+
+	@Override
+	public MutableGraph.EdgeEndpoint<N, E> joinEdge(E edge) throws InvalidGraphException
+	{
+		final EdgeEndpoint endpoint = new EdgeEndpoint(edge);
+		this.internalJoinEdge(endpoint);
+		return endpoint;
+	}
+
+	@Override
+	public void leaveEdge(MutableGraph.EdgeEndpoint<?, ?> endpoint) throws InvalidGraphException
+	{
+		this.internalLeaveEdge(endpoint);
+	}
+
+	protected final class NodeEndpoint extends AbstractContextMutableAdjacencyGraph<N,E,MutableGraph.NodeEndpoint<N, E>,MutableGraph.EdgeEndpoint<N, E>>.AbstractNodeEndpoint
+	{
+		protected NodeEndpoint(final N target)
+		{
+			super(target);
+		}
+
+		@Override
+		protected boolean isTargetEquals()
+		{
+			return areNodesUnique;
+		}
+	};
+
+	protected final class EdgeEndpoint extends AbstractContextMutableAdjacencyGraph<N,E,MutableGraph.NodeEndpoint<N, E>,MutableGraph.EdgeEndpoint<N, E>>.AbstractEdgeEndpoint
+	{
+		protected EdgeEndpoint(final E target)
+		{
+			super(target);
+		}
+
+		@Override
+		protected boolean isTargetEquals()
+		{
+			return areEdgesUnique;
+		}
+	};
 }

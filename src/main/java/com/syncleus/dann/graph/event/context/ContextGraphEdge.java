@@ -21,8 +21,11 @@ package com.syncleus.dann.graph.event.context;
 import java.util.Set;
 import com.syncleus.dann.graph.Graph;
 
-public interface ContextGraphEdge< GEE extends Graph.EdgeEndpoint<?,?> >
+public interface ContextGraphEdge<
+	  	GEE extends Graph.EdgeEndpoint<?,?>,
+	  	G extends Graph<?, ?, ?, ? extends GEE>
+	  >
 {
-	void changingGraphEdgeContext( Set<? extends GEE> joiningContexts, Set<?> leavingContexts) throws RejectedContextException;
+	void changingGraphEdgeContext( Set<? extends G> joiningContexts, Set<?> leavingContexts) throws RejectedContextException;
 	void changedGraphEdgeContext(Set<? extends GEE> joinedContexts, Set<?> leftContexts);
 }

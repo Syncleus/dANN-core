@@ -45,17 +45,17 @@ public interface MutableGraph<
 	NE joinNode(N node) throws InvalidGraphException;
 	Map<N, NE> joinNodes(Set<? extends N> nodes) throws InvalidGraphException;
 	Map<N, Set<NE>> joinNodes(Map<? extends N,? extends Integer> nodes) throws InvalidGraphException;
-	Set<EE> leaveNode(MutableGraph.NodeEndpoint<?, ? extends Cloud<?,? extends Cloud.Endpoint<?>>> endpoint) throws InvalidGraphException;
-	Set<EE> leaveNodes(Set<? extends MutableGraph.NodeEndpoint<?, ? extends Cloud<?,? extends Cloud.Endpoint<?>>>> endpoint) throws InvalidGraphException;
+	void leaveNode(MutableGraph.NodeEndpoint<?,?> endpoint) throws InvalidGraphException;
+	void leaveNodes(Set<? extends MutableGraph.NodeEndpoint<?,?>> endpoint) throws InvalidGraphException;
 
 	EE joinEdge(E edge) throws InvalidGraphException;
 	Map<E, EE> joinEdges(Set<? extends E> edges) throws InvalidGraphException;
 	Map<E, Set<EE>> joinEdges(Map<? extends E,? extends Integer> edges) throws InvalidGraphException;
-	void leaveEdge(MutableGraph.EdgeEndpoint<?, ? extends Cloud<?,? extends Cloud.Endpoint<?>>> endpoint) throws InvalidGraphException;
-	void leaveEdges(Set<? extends MutableGraph.EdgeEndpoint<?, ? extends Cloud<?,? extends Cloud.Endpoint<?>>>> endpoints) throws InvalidGraphException;
+	void leaveEdge(MutableGraph.EdgeEndpoint<?, ?> endpoint) throws InvalidGraphException;
+	void leaveEdges(Set<? extends MutableGraph.EdgeEndpoint<?, ?>> endpoints) throws InvalidGraphException;
 
 	void clear() throws InvalidGraphException;
 	void clearEdges() throws InvalidGraphException;
 
-	Map<?, Graph.Endpoint<?, N,E>> reconfigure(Set<? extends N> addNodes, Set<? extends E> addEdges, final Set<? extends Graph.Endpoint<?, ?,?>> disconnectEndpoints) throws InvalidGraphException;
+	Map<?, Graph.Endpoint<?, N,E>> reconfigure(Set<? extends N> addNodes, Set<? extends E> addEdges, final Set<? extends Graph.Endpoint<?,?,?>> disconnectEndpoints) throws InvalidGraphException;
 }

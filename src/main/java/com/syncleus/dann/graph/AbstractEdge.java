@@ -23,7 +23,11 @@ public abstract class AbstractEdge<
 	  	EP extends Edge.Endpoint<? extends T>
 	  > extends AbstractCloud<T,EP> implements Edge<T,EP>
 {
-	protected abstract class AbstractEndpoint<T> implements AbstractCloud.Endpoint<T>
+	protected abstract class AbstractEndpoint<TT> extends AbstractCloud<T,EP>.AbstractEndpoint<TT>
 	{
+		protected AbstractEndpoint(final boolean isTargetEquals)
+		{
+			super(isTargetEquals);
+		}
 	}
 }

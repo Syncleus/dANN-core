@@ -41,14 +41,17 @@ public interface Cloud<
 	};
 
 	Set<EP> getEndpoints();
-	Set<EP> getEndpoints(Object node);
-	boolean contains(Object node);
-	boolean containsAny(Collection<?> nodes);
-	boolean containsAll(Collection<?> nodes);
+	Set<EP> getEndpoints(Object target);
 	Set<T> getTargets();
-	Set<T> getNeighbors(Object source);
-	Set<T> getTraversableFrom(Object source);
-	Set<T> getTraversableTo(Object destination);
-	boolean isTraversable(Object source, Object destination);
+	Set<T> getNeighbors(Object target);
+	Set<T> getTraversableFrom(Object target);
+	Set<T> getTraversableTo(Object target);
+	boolean isTraversable(Object sourceTarget, Object destinationTarget);
 	int getDegree();
+	boolean contains( Object endpoint);
+	boolean containsAny(Collection<? extends Endpoint<?>> endpoint);
+	boolean containsAll(Collection<? extends Endpoint<?>> endpoint);
+	boolean containsTarget(Object target);
+	boolean containsAnyTargets(Collection<?> target);
+	boolean containsAllTargets(Collection<?> target);
 }

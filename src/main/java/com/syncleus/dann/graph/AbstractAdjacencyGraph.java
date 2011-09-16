@@ -37,9 +37,9 @@ import java.util.*;
 public abstract class AbstractAdjacencyGraph<
 	  	N,
 	  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N>>,
-	  	NEP extends Graph.NodeEndpoint<N, E>,
-	  	EEP extends Graph.EdgeEndpoint<N, E>
-	  > extends AbstractCloud<Object,Graph.Endpoint<?, N,E>> implements Graph<N, E, NEP, EEP>
+	  	NE extends Graph.NodeEndpoint<N, E>,
+	  	EE extends Graph.EdgeEndpoint<N, E>
+	  > extends AbstractCloud<Object,Graph.Endpoint<?, N,E>> implements Graph<N, E, NE, EE>
 {
 	private static final Logger LOGGER = Logger.getLogger(AbstractAdjacencyGraph.class);
 //	private Set<E> edges;
@@ -529,7 +529,7 @@ public abstract class AbstractAdjacencyGraph<
 	}
 */
 
-	protected abstract Set<EdgeEndpoint<N,E>> getAdjacentEdgeEndpoints(Graph.NodeEndpoint<? extends N, ? extends E> nodeEndpoint);
+	protected abstract Set<EdgeEndpoint<N,E>> getAdjacentEdgeEndpoints(Graph.NodeEndpoint<?, ?> nodeEndpoint);
 
 	protected PathFinder<N,E> getPathFinder()
 	{
@@ -540,7 +540,7 @@ public abstract class AbstractAdjacencyGraph<
 	public Set<N> getNodes()
 	{
 		final Set<N> nodes = new HashSet<N>();
-		for(NEP destinationEndpoint : this.getNodeEndpoints() )
+		for(NE destinationEndpoint : this.getNodeEndpoints() )
 			nodes.add(destinationEndpoint.getTarget());
 		return Collections.unmodifiableSet(nodes);
 	}
@@ -549,16 +549,16 @@ public abstract class AbstractAdjacencyGraph<
 	public Set<E> getEdges()
 	{
 		final Set<E> edges = new HashSet<E>();
-		for(EEP destinationEndpoint : this.getEdgeEndpoints() )
+		for(EE destinationEndpoint : this.getEdgeEndpoints() )
 			edges.add(destinationEndpoint.getTarget());
 		return Collections.unmodifiableSet(edges);
 	}
 
 	@Override
-	public Set<EEP> getEdgeEndpoints(Cloud<?,? extends Cloud.Endpoint<?>> cloud)
+	public Set<EE> getEdgeEndpoints(Cloud<?,? extends Cloud.Endpoint<?>> cloud)
 	{
-		Set<EEP> matchingEndpoints  = new HashSet<EEP>();
-		for(final EEP endpoint : this.getEdgeEndpoints() )
+		Set<EE> matchingEndpoints  = new HashSet<EE>();
+		for(final EE endpoint : this.getEdgeEndpoints() )
 		{
 			if( endpoint.getTarget().equals(cloud))
 				matchingEndpoints.add(endpoint);
@@ -568,10 +568,10 @@ public abstract class AbstractAdjacencyGraph<
 	}
 
 	@Override
-	public Set<NEP> getNodeEndpoints(Object node)
+	public Set<NE> getNodeEndpoints(Object node)
 	{
-		Set<NEP> matchingEndpoints  = new HashSet<NEP>();
-		for(NEP endpoint : this.getNodeEndpoints() )
+		Set<NE> matchingEndpoints  = new HashSet<NE>();
+		for(NE endpoint : this.getNodeEndpoints() )
 		{
 			if( endpoint.getTarget().equals(node))
 				matchingEndpoints.add(endpoint);
@@ -585,7 +585,7 @@ public abstract class AbstractAdjacencyGraph<
 	{
 		final Set<N> sourceNodes = new HashSet<N>();
 
-		for(NEP destinationEndpoint : this.getNodeEndpoints(node) )
+		for(NE destinationEndpoint : this.getNodeEndpoints(node) )
 			for(Graph.EdgeEndpoint<? extends N, ? extends E> sourceEndpoint : destinationEndpoint.getAdjacentEdges())
 				for(Graph.NodeEndpoint<? extends N, ? extends E> nodeEndpoint : sourceEndpoint.getAdjacentNodes())
 					sourceNodes.add(nodeEndpoint.getTarget());
@@ -598,7 +598,7 @@ public abstract class AbstractAdjacencyGraph<
 	{
 		final Set<E> sourceEdges = new HashSet<E>();
 
-		for(NEP destinationEndpoint : this.getNodeEndpoints(node) )
+		for(NE destinationEndpoint : this.getNodeEndpoints(node) )
 			for(Graph.EdgeEndpoint<? extends N, ? extends E> sourceEndpoint : destinationEndpoint.getAdjacentEdges())
 				sourceEdges.add(sourceEndpoint.getTarget());
 
@@ -780,7 +780,7 @@ public abstract class AbstractAdjacencyGraph<
 	{
 		final Set<E> destinationEdges = new HashSet<E>();
 
-		for(NEP sourceEndpoint : this.getNodeEndpoints(source) )
+		for(NE sourceEndpoint : this.getNodeEndpoints(source) )
 			for(Graph.EdgeEndpoint<? extends N, ? extends E> destinationEndpoint : sourceEndpoint.getTraversableAdjacentEdgesFrom())
 				destinationEdges.add(destinationEndpoint.getTarget());
 
@@ -792,7 +792,7 @@ public abstract class AbstractAdjacencyGraph<
 	{
 		final Set<E> destinationEdges = new HashSet<E>();
 
-		for(EEP sourceEndpoint : this.getEdgeEndpoints(source) )
+		for(EE sourceEndpoint : this.getEdgeEndpoints(source) )
 			for(Graph.EdgeEndpoint<? extends N, ? extends E> destinationEndpoint : sourceEndpoint.getTraversableAdjacentEdgesFrom())
 				destinationEdges.add(destinationEndpoint.getTarget());
 
@@ -805,7 +805,7 @@ public abstract class AbstractAdjacencyGraph<
 	{
 		final Set<E> sourceEdges = new HashSet<E>();
 
-		for(NEP destinationEndpoint : this.getNodeEndpoints(destination) )
+		for(NE destinationEndpoint : this.getNodeEndpoints(destination) )
 			for(Graph.EdgeEndpoint<? extends N, ? extends E> sourceEndpoint : destinationEndpoint.getTraversableAdjacentEdgesTo())
 				sourceEdges.add(sourceEndpoint.getTarget());
 
@@ -817,7 +817,7 @@ public abstract class AbstractAdjacencyGraph<
 	{
 		final Set<E> destinationEdges = new HashSet<E>();
 
-		for(EEP destinationEndpoint : this.getEdgeEndpoints(destination) )
+		for(EE destinationEndpoint : this.getEdgeEndpoints(destination) )
 			for(Graph.EdgeEndpoint<? extends N, ? extends E> sourceEndpoint : destinationEndpoint.getTraversableAdjacentEdgesFrom())
 				destinationEdges.add(sourceEndpoint.getTarget());
 
@@ -829,7 +829,7 @@ public abstract class AbstractAdjacencyGraph<
 	{
 		final Set<N> destinationNodes = new HashSet<N>();
 
-		for(NEP sourceEndpoint : this.getNodeEndpoints(source) )
+		for(NE sourceEndpoint : this.getNodeEndpoints(source) )
 			for(Graph.EdgeEndpoint<? extends N, ? extends E> destinationEndpoint : sourceEndpoint.getTraversableAdjacentEdgesTo())
 				for(Graph.NodeEndpoint<? extends N, ? extends E> nodeEndpoint : destinationEndpoint.getTraversableAdjacentNodesTo())
 					destinationNodes.add(nodeEndpoint.getTarget());
@@ -842,7 +842,7 @@ public abstract class AbstractAdjacencyGraph<
 	{
 		final Set<N> destinationNodes = new HashSet<N>();
 
-		for(EEP sourceEndpoint : this.getEdgeEndpoints(source) )
+		for(EE sourceEndpoint : this.getEdgeEndpoints(source) )
 			for(Graph.NodeEndpoint<? extends N, ? extends E> destinationEndpoint : sourceEndpoint.getTraversableAdjacentNodesTo())
 					destinationNodes.add(destinationEndpoint.getTarget());
 
@@ -854,7 +854,7 @@ public abstract class AbstractAdjacencyGraph<
 	{
 		final Set<N> sourceNodes = new HashSet<N>();
 
-		for(NEP destinationEndpoint : this.getNodeEndpoints(destination) )
+		for(NE destinationEndpoint : this.getNodeEndpoints(destination) )
 			for(Graph.EdgeEndpoint<? extends N, ? extends E> sourceEndpoint : destinationEndpoint.getTraversableAdjacentEdgesFrom())
 				for(Graph.NodeEndpoint<? extends N, ? extends E> nodeEndpoint : sourceEndpoint.getTraversableAdjacentNodesFrom())
 					sourceNodes.add(nodeEndpoint.getTarget());
@@ -867,7 +867,7 @@ public abstract class AbstractAdjacencyGraph<
 	{
 		final Set<N> sourceNodes = new HashSet<N>();
 
-		for(EEP destinationEndpoint : this.getEdgeEndpoints(destination) )
+		for(EE destinationEndpoint : this.getEdgeEndpoints(destination) )
 			for(Graph.NodeEndpoint<? extends N, ? extends E> sourceEndpoint : destinationEndpoint.getTraversableAdjacentNodesFrom())
 					sourceNodes.add(sourceEndpoint.getTarget());
 
@@ -879,9 +879,9 @@ public abstract class AbstractAdjacencyGraph<
 	 * @return A clone of the current object, with no changes
 	 */
 	@Override
-	protected AbstractAdjacencyGraph<N, E, NEP, EEP> clone()
+	protected AbstractAdjacencyGraph<N, E, NE, EE> clone()
 	{
-		return (AbstractAdjacencyGraph<N, E, NEP, EEP>) super.clone();
+		return (AbstractAdjacencyGraph<N, E, NE, EE>) super.clone();
 	}
 
 	/**
@@ -980,9 +980,6 @@ public abstract class AbstractAdjacencyGraph<
 
 	protected abstract class AbstractNodeEndpoint extends AbstractCloud<? super N,Graph.Endpoint<? super N, N,E>>.AbstractEndpoint<N> implements Graph.NodeEndpoint<N,E>
 	{
-		protected AbstractNodeEndpoint()
-		{
-		}
 
 		@Override
 		public Set<Graph.EdgeEndpoint<N, E>> getAdjacentEdges()
@@ -1076,10 +1073,6 @@ public abstract class AbstractAdjacencyGraph<
 
 	protected abstract class AbstractEdgeEndpoint extends AbstractCloud<? super E,Graph.Endpoint<? super E, N,E>>.AbstractEndpoint<E> implements Graph.EdgeEndpoint<N,E>
 	{
-		protected AbstractEdgeEndpoint()
-		{
-		}
-
 		@Override
 		public Set<Graph.NodeEndpoint<N, E>> getAdjacent()
 		{
@@ -1115,7 +1108,7 @@ public abstract class AbstractAdjacencyGraph<
 			final Set<Graph.EdgeEndpoint<N, E>> adjacentEdges = new HashSet<Graph.EdgeEndpoint<N, E>>();
 
 			for(Endpoint<? extends N> sourceEndpoint : this.getTarget().getEndpoints())
-				for( NEP neighborNode : AbstractAdjacencyGraph.this.getNodeEndpoints(sourceEndpoint.getTarget()) )
+				for( NE neighborNode : AbstractAdjacencyGraph.this.getNodeEndpoints(sourceEndpoint.getTarget()) )
 					adjacentEdges.addAll(AbstractAdjacencyGraph.this.getAdjacentEdgeEndpoints(neighborNode));
 
 			adjacentEdges.remove(this);
@@ -1129,7 +1122,7 @@ public abstract class AbstractAdjacencyGraph<
 
 			for(Endpoint<? extends N> sourceEndpoint : this.getTarget().getEndpoints())
 				if( sourceEndpoint.getTraversableNeighborsFrom().size() > 0 )
-					for( NEP adjacentNode : AbstractAdjacencyGraph.this.getNodeEndpoints(sourceEndpoint.getTarget()))
+					for( NE adjacentNode : AbstractAdjacencyGraph.this.getNodeEndpoints(sourceEndpoint.getTarget()))
 						for( Graph.EdgeEndpoint<N, E> adjacentEdge : AbstractAdjacencyGraph.this.getAdjacentEdgeEndpoints(adjacentNode) )
 						 	if( adjacentEdge.getTarget().getTraversableFrom(adjacentNode.getTarget()).size() > 0 )
 								 adjacentEdges.add(adjacentEdge);
@@ -1144,7 +1137,7 @@ public abstract class AbstractAdjacencyGraph<
 
 			for(Endpoint<? extends N> sourceEndpoint : this.getTarget().getEndpoints())
 				if( sourceEndpoint.getTraversableNeighborsTo().size() > 0 )
-					for( NEP adjacentNode : AbstractAdjacencyGraph.this.getNodeEndpoints(sourceEndpoint.getTarget()))
+					for( NE adjacentNode : AbstractAdjacencyGraph.this.getNodeEndpoints(sourceEndpoint.getTarget()))
 						for( Graph.EdgeEndpoint<N, E> adjacentEdge : AbstractAdjacencyGraph.this.getAdjacentEdgeEndpoints(adjacentNode) )
 						 	if( adjacentEdge.getTarget().getTraversableTo(adjacentNode.getTarget()).size() > 0 )
 								 adjacentEdges.add(adjacentEdge);

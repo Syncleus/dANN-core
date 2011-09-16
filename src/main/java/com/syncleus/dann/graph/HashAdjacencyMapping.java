@@ -20,18 +20,19 @@ package com.syncleus.dann.graph;
 
 import java.util.*;
 
-public class HashAdjacencyMapping<LK,RK> extends AbstractSet<AdjacencyMapping.Adjacency<LK,RK>> implements AdjacencyMapping<LK,RK>
+public class HashAdjacencyMapping<LK,RK,V> extends AbstractSet<AdjacencyMapping.Adjacency<LK,RK>> implements AdjacencyMapping<LK,RK,V>
 {
 	private Integer size = 0;
 	private final Map<LK, WeakRightKeySet> leftAdjacency = new HashMap<LK, WeakRightKeySet>();
 	private final Map<RK, WeakLeftKeySet> rightAdjacency = new HashMap<RK, WeakLeftKeySet>();
+	private final Map<LK,Map<RK,V>> valueMapping = new HashMap<LK, Map<RK,V>>();
 
 	@Override
 	public boolean contains(Object o)
 	{
 		if(!(o instanceof Adjacency))
 			return false;
-		Adjacency<? extends Object,? extends Object> adjacency = (Adjacency<? extends Object,? extends Object>) o;
+		Adjacency<?,?> adjacency = (Adjacency<?,?>) o;
 
 		return this.contains((LK)adjacency.getLeftKey(),(RK)adjacency.getRightKey());
 	}
@@ -356,8 +357,7 @@ public class HashAdjacencyMapping<LK,RK> extends AbstractSet<AdjacencyMapping.Ad
 		return true;
 	}
 
-	@Override
-	public boolean put(LK leftKey, RK rightKey)
+	private boolean put(LK leftKey, RK rightKey, boolean eraseValue)
 	{
 		if(leftKey == null)
 		{
@@ -416,11 +416,68 @@ public class HashAdjacencyMapping<LK,RK> extends AbstractSet<AdjacencyMapping.Ad
 			assert size >= 1;
 		}
 
+		if( eraseValue )
+		{
+			final Map<RK,V> mappings = this.valueMapping.get(leftKey);
+			if( mappings == null )
+				return true;
+			mappings.remove(rightKey);
+			if( mappings.isEmpty() )
+				this.valueMapping.remove(leftKey);
+		}
+
 		return true;
 	}
 
 	@Override
-	public boolean add(Adjacency<LK, RK> adjacency)
+	public boolean put(LK leftKey, RK rightKey)
+	{
+		return this.put(leftKey, rightKey, true);
+	}
+
+	@Override
+	public boolean put(LK leftKey, RK rightKey, V value)
+	{
+		if( (leftKey == null || rightKey == null) && value != null)
+			throw new IllegalArgumentException("Can not associated a value with an orphaned key");
+
+		final KeyPairing keyPair = new KeyPairing(leftKey, rightKey);
+		final boolean valueChanged = this.put(leftKey, rightKey, false);
+
+		Map<RK,V> mappings = this.valueMapping.get(leftKey);
+		if( mappings == null )
+		{
+			mappings = new WeakHashMap<RK, V>();
+			this.valueMapping.put(leftKey,mappings);
+		}
+
+		if( mappings.put(rightKey, value) == value )
+			return valueChanged;
+		else
+			return true;
+	}
+
+	@Override
+	public V get(Object leftKey, Object rightKey)
+	{
+		if(leftKey == null || rightKey == null)
+			throw new IllegalArgumentException("Can not associated a value with an orphaned key");
+
+		final Map<RK,V> mappings = this.valueMapping.get(leftKey);
+		if( mappings == null )
+			return null;
+
+		final V value = mappings.get(rightKey);
+		if( !this.contains(leftKey,rightKey) )
+		{
+			mappings.remove(rightKey);
+			return null;
+		}
+		return value;
+	}
+
+	@Override
+	public boolean add(AdjacencyMapping.Adjacency<LK, RK> adjacency)
 	{
 		return put(adjacency.getLeftKey(), adjacency.getRightKey());
 	}
@@ -448,6 +505,9 @@ public class HashAdjacencyMapping<LK,RK> extends AbstractSet<AdjacencyMapping.Ad
 			}
 			assert adjacentRight.size() > 0;
 			this.size = null;
+
+			//cleanup our weak refrences
+			adjacentRight = null;
 		}
 		assert this.size == null || this.size >= 0;
 
@@ -477,6 +537,9 @@ public class HashAdjacencyMapping<LK,RK> extends AbstractSet<AdjacencyMapping.Ad
 			}
 			assert adjacentLeft.size() > 0;
 			this.size = null;
+
+			//cleanup our weak refrences
+			adjacentLeft = null;
 		}
 		assert this.size == null || this.size >= 0;
 
@@ -560,6 +623,8 @@ public class HashAdjacencyMapping<LK,RK> extends AbstractSet<AdjacencyMapping.Ad
 	{
 		if(this.size != null)
 			return this.size;
+
+		System.gc();
 
 		int newSize = 0;
 		for(final Map.Entry<LK,WeakRightKeySet> entry : this.leftAdjacency.entrySet())
@@ -698,50 +763,112 @@ public class HashAdjacencyMapping<LK,RK> extends AbstractSet<AdjacencyMapping.Ad
 		}
 	}
 
-	private class WeakHashSet<E> implements Set<E>
+	private static class WeakHashSet<E> implements Set<E>
 	{
-		private final Map<E, Object> backingMap = new WeakHashMap<E, Object>();
+		private final Map<E, Object> references = new WeakHashMap<E, Object>();
+//		private final Set<WeakReference<E>> references = new HashSet<WeakReference<E>>();
+//		private final ReferenceQueue<E> queue = new ReferenceQueue<E>();
+/*
+		private final class ElementReference
+		{
+			private final WeakReference<E> reference;
+
+			public ElementReference(E element)
+			{
+				if( element != null )
+					this.reference = new WeakReference<E>(element, queue);
+				else
+					this.reference = null;
+			}
+
+			public E get()
+			{
+				if( !isClearTag() )
+					return this.reference.get();
+				return
+					  null;
+			}
+
+			private boolean isClearTag()
+			{
+				return reference == null;
+			}
+
+			@Override
+			public int hashCode()
+			{
+				if( this.isClearTag() )
+					return 0;
+
+				final E element = reference.get();
+				if( element == null )
+					return 0;
+				else
+					return element.hashCode();
+			}
+
+			@Override
+			public boolean equals(Object obj)
+			{
+				if(obj == null)
+					return false;
+				if( !(obj instanceof ElementReference) )
+					return false;
+				final ElementReference otherElementReference = (ElementReference) obj;
+
+				final E otherElement = otherElementReference.get();
+				if( otherElement == null )
+					return false;
+
+				final E element = reference.get();
+				if( element == null )
+					return super.;
+
+				return element.equals(otherElement);
+			}
+		};
+*/
 
 		@Override
 		public int size()
 		{
-			return this.backingMap.size();
+			return this.references.size();
 		}
 
 		@Override
 		public boolean isEmpty()
 		{
-			return this.backingMap.isEmpty();
+			return this.references.isEmpty();
 		}
 
 		@Override
 		public boolean contains(Object o)
 		{
-			return this.backingMap.containsKey(o);
+			return this.references.containsKey(o);
 		}
 
 		@Override
 		public Iterator<E> iterator()
 		{
-			return this.backingMap.keySet().iterator();
+			return this.references.keySet().iterator();
 		}
 
 		@Override
 		public Object[] toArray()
 		{
-			return this.backingMap.keySet().toArray();
+			return this.references.keySet().toArray();
 		}
 
 		@Override
 		public <T> T[] toArray(T[] a)
 		{
-			return this.backingMap.keySet().toArray(a);
+			return this.references.keySet().toArray(a);
 		}
 
 		@Override
 		public boolean add(E ee)
 		{
-			if( this.backingMap.put(ee, null) == null )
+			if( this.references.put(ee, null) == null )
 				return true;
 			return false;
 		}
@@ -749,13 +876,13 @@ public class HashAdjacencyMapping<LK,RK> extends AbstractSet<AdjacencyMapping.Ad
 		@Override
 		public boolean remove(Object o)
 		{
-			return this.backingMap.keySet().remove(0);
+			return this.references.keySet().remove(0);
 		}
 
 		@Override
 		public boolean containsAll(Collection<?> c)
 		{
-			return this.backingMap.keySet().containsAll(c);
+			return this.references.keySet().containsAll(c);
 		}
 
 		@Override
@@ -771,23 +898,23 @@ public class HashAdjacencyMapping<LK,RK> extends AbstractSet<AdjacencyMapping.Ad
 		@Override
 		public boolean retainAll(Collection<?> c)
 		{
-			return this.backingMap.keySet().retainAll(c);
+			return this.references.keySet().retainAll(c);
 		}
 
 		@Override
 		public boolean removeAll(Collection<?> c)
 		{
-			return this.backingMap.keySet().removeAll(c);
+			return this.references.keySet().removeAll(c);
 		}
 
 		@Override
 		public void clear()
 		{
-			this.backingMap.clear();
+			this.references.clear();
 		}
 	};
 
-	private abstract class WeakGraphElementSet<E> extends WeakHashSet<E>
+	private static abstract class WeakGraphElementSet<E> extends WeakHashSet<E>
 	{
 		protected abstract void clean();
 
@@ -876,9 +1003,7 @@ public class HashAdjacencyMapping<LK,RK> extends AbstractSet<AdjacencyMapping.Ad
 			this.clean();
 			return super.removeAll(c);	//To change body of overridden methods use File | Settings | File Templates.
 		}
-	}
-
-	;
+	};
 
 	private final class WeakLeftKeySet extends WeakGraphElementSet<LK>
 	{
@@ -888,9 +1013,7 @@ public class HashAdjacencyMapping<LK,RK> extends AbstractSet<AdjacencyMapping.Ad
 				return;
 			this.retainAll(leftAdjacency.keySet());
 		}
-	}
-
-	;
+	};
 
 	private final class WeakRightKeySet extends WeakGraphElementSet<RK>
 	{
@@ -900,7 +1023,57 @@ public class HashAdjacencyMapping<LK,RK> extends AbstractSet<AdjacencyMapping.Ad
 				return;
 			this.retainAll(rightAdjacency.keySet());
 		}
-	}
+	};
 
-	;
+	private final class KeyPairing implements AdjacencyMapping.Adjacency<LK,RK>
+	{
+		private final LK leftKey;
+		private final RK rightKey;
+
+		public KeyPairing(LK leftKey, RK rightKey)
+		{
+			this.leftKey = leftKey;
+			this.rightKey = rightKey;
+		}
+
+		public LK getLeftKey()
+		{
+			return this.leftKey;
+		}
+
+		public RK getRightKey()
+		{
+			return this.rightKey;
+		}
+
+		@Override
+		public int hashCode()
+		{
+			return (leftKey == null ? 0 : leftKey.hashCode()) + (rightKey == null ? 0 : rightKey.hashCode());
+		}
+
+		@Override
+		public boolean equals(Object obj)
+		{
+			if( obj == null )
+				return false;
+			else if( !(obj instanceof KeyPairing) )
+				return false;
+
+			final KeyPairing keyPair = (KeyPairing) obj;
+			if(
+				  (
+				  	(this.leftKey != null && (this.leftKey.equals(keyPair.getLeftKey()))) ||
+					(this.leftKey == null && keyPair.getLeftKey() == null)
+				  ) &&
+				  (
+				  	(this.rightKey != null && (this.rightKey.equals(keyPair.getRightKey()))) ||
+					(this.rightKey == null && keyPair.getRightKey() == null)
+				  )
+				)
+				return true;
+
+			return false;
+		}
+	};
 }
