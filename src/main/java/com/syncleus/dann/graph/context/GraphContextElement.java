@@ -16,14 +16,22 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph;
+package com.syncleus.dann.graph.context;
 
-public interface Edge<
-	  	T,
-	  	EP extends Edge.Endpoint<? extends T>
-	  > extends Cloud<T,EP>
+import java.util.Set;
+import com.syncleus.dann.graph.Edge;
+import com.syncleus.dann.graph.Graph;
+import sun.security.ec.ECParameters;
+
+public interface GraphContextElement<
+	  	G extends Graph<
+				?,
+				Edge<?,? extends Edge.Endpoint<?>>,
+				? extends Graph.NodeEndpoint<?,?>,
+				? extends Graph.EdgeEndpoint<?,?>
+				>
+	  >
 {
-	interface Endpoint<T> extends Cloud.Endpoint<T>
-	{
-	};
+	void changingNodeContext( Set<? extends G> joiningGraphContexts, Set<?> leavingGraphContexts) throws RejectedContextException;
+	void changedNodeContext(Set<? extends G> joinedGraphContexts, Set<?> leftGraphContexts);
 }
