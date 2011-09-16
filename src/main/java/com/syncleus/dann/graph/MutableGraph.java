@@ -23,21 +23,21 @@ import java.util.Set;
 
 public interface MutableGraph<
 	  	N,
-	  	E extends Edge<N,? extends Edge.Endpoint<N>>,
+	  	E extends Edge<N,? extends Edge.Endpoint<? extends N>>,
 	  	NEP extends MutableGraph.NodeEndpoint<N, E>,
 	  	EEP extends MutableGraph.EdgeEndpoint<N, E>
 	  > extends AssignableGraph<N,E,NEP,EEP>
 {
 	interface NodeEndpoint<
 		  ON,
-		  OE extends Edge<ON,? extends Edge.Endpoint<ON>>
+		  OE extends Edge<ON,? extends Edge.Endpoint<? extends ON>>
 	  > extends AssignableGraph.NodeEndpoint<ON,OE>
 	{
 	};
 
 	interface EdgeEndpoint<
 		  ON,
-		  OE extends Edge<ON,? extends Edge.Endpoint<ON>>
+		  OE extends Edge<ON,? extends Edge.Endpoint<? extends ON>>
 	  > extends AssignableGraph.EdgeEndpoint<ON,OE>
 	{
 	};

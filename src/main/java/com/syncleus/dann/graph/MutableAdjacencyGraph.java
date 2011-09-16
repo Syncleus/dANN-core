@@ -22,28 +22,39 @@ import java.util.*;
 
 public final class MutableAdjacencyGraph<
 	  	N,
+	  	E extends Edge<N,Edge.Endpoint<N>>
+	  > extends AbstractMutableAdjacencyGraph<N,E,MutableGraph.NodeEndpoint<N, E>,MutableGraph.EdgeEndpoint<N, E>>
+/*
+	  <
+	  	N,
 	  	E extends Edge<N,? extends Edge.Endpoint<N>>
-	  >
-	  extends AbstractMutableAdjacencyGraph<N, E, MutableGraph.NodeEndpoint<N, E>, MutableGraph.EdgeEndpoint<N, E>>
-	  implements MutableGraph<N, E, MutableGraph.NodeEndpoint<N, E>, MutableGraph.EdgeEndpoint<N, E>>
+	  >*/
+//	  extends AbstractMutableAdjacencyGraph<N, E, MutableGraph.NodeEndpoint<N, E>//, MutableGraph.EdgeEndpoint<N, E>>
 {
 	private static final long serialVersionUID = -4613327727609060678L;
 
 	@Override
 	public boolean isContextEnabled()
 	{
-		return false;  //To change body of implemented methods use File | Settings | File Templates.
+		return false;
 	}
 
 	@Override
 	protected MutableGraph.NodeEndpoint<N, E> createNodeEndpoint(N node) throws InvalidGraphException
 	{
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	@Override
 	protected MutableGraph.EdgeEndpoint<N, E> createEdgeEndpoint(E node) throws InvalidGraphException
 	{
 		return null;  //To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	private final class NodeEndpoint extends AbstractNodeEndpoint
+	{
+	}
+
+	private final class EdgeEndpoint extends AbstractEdgeEndpoint
+	{
 	}
 }

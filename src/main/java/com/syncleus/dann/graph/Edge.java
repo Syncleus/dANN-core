@@ -32,12 +32,11 @@ public interface Edge<
 {
 	interface Endpoint<T>
 	{
-		Set<Edge.Endpoint<T>> getNeighbors();
-		Set<Edge.Endpoint<T>> getTraversableNeighborsTo();
-		Set<Edge.Endpoint<T>> getTraversableNeighborsFrom();
+		Set<? extends Edge.Endpoint<? extends T>> getNeighbors();
+		Set<? extends Edge.Endpoint<? extends T>> getTraversableNeighborsTo();
+		Set<? extends Edge.Endpoint<? extends T>> getTraversableNeighborsFrom();
 		boolean isTraversable();
 		boolean isTraversable(Edge.Endpoint<?> destination);
-		boolean isTraversable(Object destination);
 		T getTarget();
 	};
 

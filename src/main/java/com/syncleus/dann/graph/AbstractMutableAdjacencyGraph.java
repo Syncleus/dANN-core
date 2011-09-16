@@ -23,8 +23,8 @@ import java.util.*;
 public abstract class AbstractMutableAdjacencyGraph<
 	  	N,
 	  	E extends Edge<N,? extends Edge.Endpoint<N>>,
-	  	NEP extends MutableGraph.NodeEndpoint<? extends N, ? extends E>,
-	  	EEP extends MutableGraph.EdgeEndpoint<? extends N, ? extends E>
+	  	NEP extends MutableGraph.NodeEndpoint<N, E>,
+	  	EEP extends MutableGraph.EdgeEndpoint<N, E>
 	  >
 	  extends AbstractAdjacencyGraph<N, E, NEP, EEP>
 	  implements MutableGraph<N, E, NEP, EEP>
@@ -61,11 +61,11 @@ public abstract class AbstractMutableAdjacencyGraph<
 	}
 
 	@Override
-	protected Set<Graph.EdgeEndpoint<? extends N,? extends E>> getAdjacentEdgeEndpoint(Graph.NodeEndpoint<? extends N,? extends E> nodeEndpoint)
+	protected Set<Graph.EdgeEndpoint<N,E>> getAdjacentEdgeEndpoints(Graph.NodeEndpoint<? extends N, ? extends E> nodeEndpoint)
 	{
 		if( !this.adjacency.getLeftKeys().contains(nodeEndpoint) )
 			throw new IllegalArgumentException("nodeEndpoint is not an endpoint for this graph");
-		return Collections.<EdgeEndpoint<? extends N,? extends E>>unmodifiableSet(this.adjacency.getLeftAdjacency(nodeEndpoint));
+		return Collections.<EdgeEndpoint<N,E>>unmodifiableSet(this.adjacency.getLeftAdjacency(nodeEndpoint));
 	}
 
 	protected abstract NEP createNodeEndpoint(N node) throws InvalidGraphException;
@@ -202,6 +202,13 @@ public abstract class AbstractMutableAdjacencyGraph<
 	@Override
 	public Map<?, Graph.Endpoint<N, E, ?>> reconfigure(Set<? extends N> addNodes, Set<? extends E> addEdges, Set<? extends Graph.Endpoint<?, ?, ?>> disconnectEndpoints) throws InvalidGraphException
 	{
+		for(final Graph.Endpoint<?,?,?> disconnectEndpoint : disconnectEndpoints)
+			this.adjacency.remove(disconnectEndpoint.getTarget());
+
+		Map<Object, Graph.Endpoint<N,E,?>> newEndpoints = new HashMap<Object, Graph.Endpoint<N, E, ?>>();
+		newEndpoints.putAll(this.joinNodes(addNodes));
+		newEndpoints.putAll(this.joinEdges(addEdges));
+		return newEndpoints;
 	}
 
 	@Override
@@ -305,4 +312,12 @@ public abstract class AbstractMutableAdjacencyGraph<
 			}
 		};
 */
+
+	protected abstract class AbstractNodeEndpoint extends AbstractAdjacencyGraph<N,E,NEP,EEP>.AbstractNodeEndpoint implements MutableGraph.NodeEndpoint<N, E>
+	{
+	}
+
+	protected abstract class AbstractEdgeEndpoint extends AbstractAdjacencyGraph<N,E,NEP,EEP>.AbstractEdgeEndpoint implements MutableGraph.EdgeEndpoint<N, E>
+	{
+	}
 }

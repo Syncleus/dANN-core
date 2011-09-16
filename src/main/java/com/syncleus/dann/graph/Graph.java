@@ -37,40 +37,40 @@ import java.util.Set;
  */
 public interface Graph<
 	  	N,
-	  	E extends Edge<N,? extends Edge.Endpoint<N>>,
+	  	E extends Edge<N,? extends Edge.Endpoint<? extends N>>,
 	  	NEP extends Graph.NodeEndpoint<N, E>,
 	  	EEP extends Graph.EdgeEndpoint<N, E>
 	  > extends Edge<Object,Graph.Endpoint<N,E,?>>, Serializable, Cloneable, ContextReporter
 {
 	interface Endpoint<
 		ON,
-	  	OE extends Edge<ON,? extends Edge.Endpoint<ON>>,
+	  	OE extends Edge<ON,? extends Edge.Endpoint<? extends ON>>,
 	  	T
 	  > extends Edge.Endpoint<T>
 	{
-		Set<Graph.Endpoint<ON,OE,T>> getAdjacent();
-		Set<Graph.Endpoint<ON,OE,T>> getTraversableAdjacentTo();
-		Set<Graph.Endpoint<ON,OE,T>> getTraversableAdjacentFrom();
+		Set<? extends Graph.Endpoint<ON,OE,?>> getAdjacent();
+		Set<? extends Graph.Endpoint<ON,OE,?>> getTraversableAdjacentTo();
+		Set<? extends Graph.Endpoint<ON,OE,?>> getTraversableAdjacentFrom();
 
-		Set<Graph.NodeEndpoint<ON, OE>> getAdjacentNodes();
-		Set<Graph.NodeEndpoint<ON, OE>> getTraversableAdjacentNodesTo();
-		Set<Graph.NodeEndpoint<ON, OE>> getTraversableAdjacentNodesFrom();
+		Set<? extends Graph.NodeEndpoint<ON, OE>> getAdjacentNodes();
+		Set<? extends Graph.NodeEndpoint<ON, OE>> getTraversableAdjacentNodesTo();
+		Set<? extends Graph.NodeEndpoint<ON, OE>> getTraversableAdjacentNodesFrom();
 
-		Set<Graph.EdgeEndpoint<ON, OE>> getAdjacentEdges();
-		Set<Graph.EdgeEndpoint<ON, OE>> getTraversableAdjacentEdgesTo();
-		Set<Graph.EdgeEndpoint<ON, OE>> getTraversableAdjacentEdgesFrom();
+		Set<? extends Graph.EdgeEndpoint<ON, OE>> getAdjacentEdges();
+		Set<? extends Graph.EdgeEndpoint<ON, OE>> getTraversableAdjacentEdgesTo();
+		Set<? extends Graph.EdgeEndpoint<ON, OE>> getTraversableAdjacentEdgesFrom();
 	};
 
 	interface NodeEndpoint<
 		  ON,
-		  OE extends Edge<ON,? extends Edge.Endpoint<ON>>
+		  OE extends Edge<ON,? extends Edge.Endpoint<? extends ON>>
 	  > extends Graph.Endpoint<ON,OE,ON>
 	{
 	};
 
 	interface EdgeEndpoint<
 		  	ON,
-		  	OE extends Edge<ON,? extends Edge.Endpoint<ON>>
+		  	OE extends Edge<ON,? extends Edge.Endpoint<? extends ON>>
 		> extends Graph.Endpoint<ON,OE,OE>
 	{
 	};
