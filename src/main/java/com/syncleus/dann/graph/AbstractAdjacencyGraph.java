@@ -39,7 +39,7 @@ public abstract class AbstractAdjacencyGraph<
 	  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N>>,
 	  	NEP extends Graph.NodeEndpoint<N, E>,
 	  	EEP extends Graph.EdgeEndpoint<N, E>
-	  > extends AbstractCloud<Object,Graph.Endpoint<N,E,?>> implements Graph<N, E, NEP, EEP>
+	  > extends AbstractCloud<Object,Graph.Endpoint<?, N,E>> implements Graph<N, E, NEP, EEP>
 {
 	private static final Logger LOGGER = Logger.getLogger(AbstractAdjacencyGraph.class);
 //	private Set<E> edges;
@@ -132,8 +132,8 @@ public abstract class AbstractAdjacencyGraph<
 
 			// lets see if this ContextEdge will allow itself to join the graph
 			if(this.contextEnabled
-					&& (attemptNode instanceof ContextGraphElement)
-					&& !((ContextGraphElement)attemptNode).joiningGraph(this) )
+					&& (attemptNode instanceof ContextGraphNode)
+					&& !((ContextGraphNode)attemptNode).joiningGraph(this) )
 				continue;
 
 			this.adjacentNodes.put(attemptNode, new ArrayList<N>());
@@ -148,8 +148,8 @@ public abstract class AbstractAdjacencyGraph<
 			{
 				// lets see if this ContextEdge will allow itself to join the graph
 				if(this.contextEnabled
-						&& (attemptEdge instanceof ContextGraphElement)
-						&& !((ContextGraphElement)attemptEdge).joiningGraph(this) )
+						&& (attemptEdge instanceof ContextGraphNode)
+						&& !((ContextGraphNode)attemptEdge).joiningGraph(this) )
 					continue;
 
 
@@ -303,8 +303,8 @@ public abstract class AbstractAdjacencyGraph<
 			throw new IllegalArgumentException("newEdge has a node as an end point that is not part of the graph");
 
 		// if context is enabled lets check if it can join
-		if( this.isContextEnabled() && (newEdge instanceof ContextGraphElement)
-				&& !((ContextGraphElement)newEdge).joiningGraph(this) )
+		if( this.isContextEnabled() && (newEdge instanceof ContextGraphNode)
+				&& !((ContextGraphNode)newEdge).joiningGraph(this) )
 			return false;
 
 		if( this.getInternalEdges().add(newEdge) )
@@ -333,8 +333,8 @@ public abstract class AbstractAdjacencyGraph<
 			return false;
 
 		// if context is enabled lets check if it can join
-		if( this.isContextEnabled() && (newNode instanceof ContextGraphElement)
-				&& !((ContextGraphElement)newNode).joiningGraph(this) )
+		if( this.isContextEnabled() && (newNode instanceof ContextGraphNode)
+				&& !((ContextGraphNode)newNode).joiningGraph(this) )
 			return false;
 
 		this.getInternalAdjacencyEdges().put(newNode, new HashSet<E>());
@@ -352,8 +352,8 @@ public abstract class AbstractAdjacencyGraph<
 
 		// if context is enabled lets check if it can join
 		if( this.isContextEnabled()
-				&& (edgeToRemove instanceof ContextGraphElement)
-				&& !((ContextGraphElement)edgeToRemove).leavingGraph(this) )
+				&& (edgeToRemove instanceof ContextGraphNode)
+				&& !((ContextGraphNode)edgeToRemove).leavingGraph(this) )
 			return false;
 
 		if( !this.getInternalEdges().remove(edgeToRemove) )
@@ -381,8 +381,8 @@ public abstract class AbstractAdjacencyGraph<
 
 		// if context is enabled lets check if it can join
 		if( this.isContextEnabled()
-				&& (nodeToRemove instanceof ContextGraphElement)
-				&& !((ContextGraphElement)nodeToRemove).leavingGraph(this) )
+				&& (nodeToRemove instanceof ContextGraphNode)
+				&& !((ContextGraphNode)nodeToRemove).leavingGraph(this) )
 			return false;
 
 		final Set<E> removeEdges = this.getInternalAdjacencyEdges().get(nodeToRemove);
@@ -467,8 +467,8 @@ public abstract class AbstractAdjacencyGraph<
 			{
 				// lets see if this ContextEdge will allow itself to join the graph
 				if(this.contextEnabled
-						&& (attemptNode instanceof ContextGraphElement)
-						&& !((ContextGraphElement)attemptNode).joiningGraph(cloneGraph) )
+						&& (attemptNode instanceof ContextGraphNode)
+						&& !((ContextGraphNode)attemptNode).joiningGraph(cloneGraph) )
 					continue;
 
 				cloneGraph.adjacentNodes.put(attemptNode, new ArrayList<N>());
@@ -483,8 +483,8 @@ public abstract class AbstractAdjacencyGraph<
 				{
 					// lets see if this ContextEdge will allow itself to join the graph
 					if(this.contextEnabled
-							&& (attemptEdge instanceof ContextGraphElement)
-							&& !((ContextGraphElement)attemptEdge).joiningGraph(cloneGraph) )
+							&& (attemptEdge instanceof ContextGraphNode)
+							&& !((ContextGraphNode)attemptEdge).joiningGraph(cloneGraph) )
 						continue;
 
 					cloneGraph.edges.add(attemptEdge);
@@ -606,12 +606,12 @@ public abstract class AbstractAdjacencyGraph<
 	}
 
 	@Override
-	public Set<Graph.Endpoint<N, E, ?>> getEndpoints()
+	public Set<Graph.Endpoint<?, N, E>> getEndpoints()
 	{
-		final Set<Graph.Endpoint<N,E,?>> endpoints = new HashSet<Graph.Endpoint<N,E,?>>();
+		final Set<Graph.Endpoint<?, N,E>> endpoints = new HashSet<Graph.Endpoint<?, N,E>>();
 		endpoints.addAll(this.getNodeEndpoints());
 		endpoints.addAll(this.getEdgeEndpoints());
-		return Collections.<Graph.Endpoint<N, E, ?>>unmodifiableSet(endpoints);
+		return Collections.<Graph.Endpoint<?, N, E>>unmodifiableSet(endpoints);
 	}
 
 	@Override
@@ -978,7 +978,7 @@ public abstract class AbstractAdjacencyGraph<
 	}
 */
 
-	protected abstract class AbstractNodeEndpoint extends AbstractCloud<? super N,Graph.Endpoint<N,E,? super N>>.AbstractEndpoint<N> implements Graph.NodeEndpoint<N,E>
+	protected abstract class AbstractNodeEndpoint extends AbstractCloud<? super N,Graph.Endpoint<? super N, N,E>>.AbstractEndpoint<N> implements Graph.NodeEndpoint<N,E>
 	{
 		protected AbstractNodeEndpoint()
 		{
@@ -1074,7 +1074,7 @@ public abstract class AbstractAdjacencyGraph<
 		}
 	};
 
-	protected abstract class AbstractEdgeEndpoint extends AbstractCloud<? super E,Graph.Endpoint<N,E,? super E>>.AbstractEndpoint<E> implements Graph.EdgeEndpoint<N,E>
+	protected abstract class AbstractEdgeEndpoint extends AbstractCloud<? super E,Graph.Endpoint<? super E, N,E>>.AbstractEndpoint<E> implements Graph.EdgeEndpoint<N,E>
 	{
 		protected AbstractEdgeEndpoint()
 		{

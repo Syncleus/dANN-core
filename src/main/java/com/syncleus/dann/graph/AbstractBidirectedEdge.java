@@ -24,7 +24,7 @@ import com.syncleus.dann.xml.NamedValueXml;
 import com.syncleus.dann.xml.Namer;
 import com.syncleus.dann.xml.XmlSerializable;
 
-public abstract class AbstractBidirectedEdge<N, LN extends N, RN extends N> extends AbstractCloud<N> implements MixableBidirectedEdge<N, LN,RN>
+public abstract class AbstractBidirectedEdge<N, LN extends N, RN extends N> extends AbstractEdge<N> implements MixableBidirectedEdge<N, LN,RN>
 {
 	@Override
 	public abstract AbstractEndpoint<LN,RN> getLeftEndPoint();
@@ -322,7 +322,7 @@ public abstract class AbstractBidirectedEdge<N, LN extends N, RN extends N> exte
 		};
 	}
 
-	protected abstract class AbstractEndpoint<EN extends N, ON extends N> extends AbstractCloud<N>.AbstractEndpoint<EN> implements MixableBidirectedEdge.Endpoint<N, EN,ON>
+	protected abstract class AbstractEndpoint<EN extends N, ON extends N> extends AbstractEdge<N>.AbstractEndpoint<EN> implements MixableBidirectedEdge.Endpoint<N, EN,ON>
 	{
 		private EN node = null;
 		private Direction direction;

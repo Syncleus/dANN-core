@@ -23,7 +23,7 @@ public interface AssignableGraph<
 	  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N>>,
 	  	NEP extends AssignableGraph.NodeEndpoint<N, E>,
 	  	EEP extends AssignableGraph.EdgeEndpoint<N, E>
-	  >  extends Graph<N,E,NEP,EEP>, MutableEdge<Object,Graph.Endpoint<N,E,?>>
+	  >  extends Graph<N,E,NEP,EEP>, MutableEdge<Object,Graph.Endpoint<?, N,E>>
 //public interface AssignableGraph<P extends Cloud<N>, N extends P, E extends P> extends Graph<N,E>, Cloud<P>, MutableEdge<P>
 //public interface AssignableGraph<P extends AssignableGraph.Foo, N extends P, E extends Cloud<N> & AssignableGraph.Foo> extends Graph<N,E>, Cloud<P>, MutableEdge<P>
 {

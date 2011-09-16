@@ -40,19 +40,12 @@ public final class MutableAdjacencyGraph<
 	@Override
 	protected MutableGraph.NodeEndpoint<N, E> createNodeEndpoint(N node) throws InvalidGraphException
 	{
+		return null;
 	}
 
 	@Override
 	protected MutableGraph.EdgeEndpoint<N, E> createEdgeEndpoint(E node) throws InvalidGraphException
 	{
 		return null;  //To change body of implemented methods use File | Settings | File Templates.
-	}
-
-	private final class NodeEndpoint extends AbstractNodeEndpoint
-	{
-	}
-
-	private final class EdgeEndpoint extends AbstractEdgeEndpoint
-	{
 	}
 }

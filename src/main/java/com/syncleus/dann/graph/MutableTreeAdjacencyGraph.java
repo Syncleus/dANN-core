@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.context.ContextGraphElement;
+import com.syncleus.dann.graph.context.ContextGraphNode;
 import com.syncleus.dann.graph.tree.Trees;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -61,8 +61,8 @@ public class MutableTreeAdjacencyGraph<N, E extends BidirectedEdge<N>> extends A
 			throw new IllegalArgumentException("adding newEdge can not be added because this graph would no longer be a tree");
 
 		// if context is enabled lets check if it can join
-		if( this.isContextEnabled() && (newEdge instanceof ContextGraphElement)
-				&& !((ContextGraphElement)newEdge).joiningGraph(this) )
+		if( this.isContextEnabled() && (newEdge instanceof ContextGraphNode)
+				&& !((ContextGraphNode)newEdge).joiningGraph(this) )
 			return false;
 
 		if( this.getInternalEdges().add(newEdge) )
@@ -92,8 +92,8 @@ public class MutableTreeAdjacencyGraph<N, E extends BidirectedEdge<N>> extends A
 			return false;
 
 		// if context is enabled lets check if it can join
-		if( this.isContextEnabled() && (newNode instanceof ContextGraphElement)
-				&& !((ContextGraphElement)newNode).joiningGraph(this) )
+		if( this.isContextEnabled() && (newNode instanceof ContextGraphNode)
+				&& !((ContextGraphNode)newNode).joiningGraph(this) )
 			return false;
 
 		this.getInternalAdjacencyEdges().put(newNode, new HashSet<E>());
@@ -112,8 +112,8 @@ public class MutableTreeAdjacencyGraph<N, E extends BidirectedEdge<N>> extends A
 
 		// if context is enabled lets check if it can join
 		if( this.isContextEnabled()
-				&& (edgeToRemove instanceof ContextGraphElement)
-				&& !((ContextGraphElement)edgeToRemove).leavingGraph(this) )
+				&& (edgeToRemove instanceof ContextGraphNode)
+				&& !((ContextGraphNode)edgeToRemove).leavingGraph(this) )
 			return false;
 
 		if( !this.getInternalEdges().remove(edgeToRemove) )
@@ -142,8 +142,8 @@ public class MutableTreeAdjacencyGraph<N, E extends BidirectedEdge<N>> extends A
 
 		// if context is enabled lets check if it can join
 		if( this.isContextEnabled()
-				&& (nodeToRemove instanceof ContextGraphElement)
-				&& !((ContextGraphElement)nodeToRemove).leavingGraph(this) )
+				&& (nodeToRemove instanceof ContextGraphNode)
+				&& !((ContextGraphNode)nodeToRemove).leavingGraph(this) )
 			return false;
 
 		final Set<E> removeEdges = this.getInternalAdjacencyEdges().get(nodeToRemove);

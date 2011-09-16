@@ -200,12 +200,12 @@ public abstract class AbstractMutableAdjacencyGraph<
 	}
 
 	@Override
-	public Map<?, Graph.Endpoint<N, E, ?>> reconfigure(Set<? extends N> addNodes, Set<? extends E> addEdges, Set<? extends Graph.Endpoint<?, ?, ?>> disconnectEndpoints) throws InvalidGraphException
+	public Map<?, Graph.Endpoint<?, N, E>> reconfigure(Set<? extends N> addNodes, Set<? extends E> addEdges, Set<? extends Graph.Endpoint<?, ?, ?>> disconnectEndpoints) throws InvalidGraphException
 	{
-		for(final Graph.Endpoint<?,?,?> disconnectEndpoint : disconnectEndpoints)
+		for(final Graph.Endpoint<?, ?,?> disconnectEndpoint : disconnectEndpoints)
 			this.adjacency.remove(disconnectEndpoint.getTarget());
 
-		Map<Object, Graph.Endpoint<N,E,?>> newEndpoints = new HashMap<Object, Graph.Endpoint<N, E, ?>>();
+		Map<Object, Graph.Endpoint<?, N,E>> newEndpoints = new HashMap<Object, Graph.Endpoint<?, N, E>>();
 		newEndpoints.putAll(this.joinNodes(addNodes));
 		newEndpoints.putAll(this.joinEdges(addEdges));
 		return newEndpoints;

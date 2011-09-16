@@ -21,7 +21,7 @@ package com.syncleus.dann.graphicalmodel.markovrandomfield;
 import java.util.*;
 import com.syncleus.dann.graph.UndirectedEdge;
 import com.syncleus.dann.graph.Graph;
-import com.syncleus.dann.graph.context.ContextGraphElement;
+import com.syncleus.dann.graph.context.ContextGraphNode;
 import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
 
 public class MutableMarkovRandomFieldAdjacencyGraph<N extends GraphicalModelNode, E extends UndirectedEdge<N>> extends AbstractMarkovRandomFieldAdjacencyGraph<N, E> implements MutableMarkovRandomField<N, E>
@@ -52,8 +52,8 @@ public class MutableMarkovRandomFieldAdjacencyGraph<N extends GraphicalModelNode
 			throw new IllegalArgumentException("newEdge has a node as an end point that is not part of the graph");
 
 		// if context is enabled lets check if it can join
-		if( this.isContextEnabled() && (newEdge instanceof ContextGraphElement)
-				&& !((ContextGraphElement)newEdge).joiningGraph(this) )
+		if( this.isContextEnabled() && (newEdge instanceof ContextGraphNode)
+				&& !((ContextGraphNode)newEdge).joiningGraph(this) )
 			return false;
 
 		if( this.getInternalEdges().add(newEdge) )
@@ -83,8 +83,8 @@ public class MutableMarkovRandomFieldAdjacencyGraph<N extends GraphicalModelNode
 			return false;
 
 		// if context is enabled lets check if it can join
-		if( this.isContextEnabled() && (newNode instanceof ContextGraphElement)
-				&& !((ContextGraphElement)newNode).joiningGraph(this) )
+		if( this.isContextEnabled() && (newNode instanceof ContextGraphNode)
+				&& !((ContextGraphNode)newNode).joiningGraph(this) )
 			return false;
 
 		this.getInternalAdjacencyEdges().put(newNode, new HashSet<E>());
@@ -103,8 +103,8 @@ public class MutableMarkovRandomFieldAdjacencyGraph<N extends GraphicalModelNode
 
 		// if context is enabled lets check if it can join
 		if( this.isContextEnabled()
-				&& (edgeToRemove instanceof ContextGraphElement)
-				&& !((ContextGraphElement)edgeToRemove).leavingGraph(this) )
+				&& (edgeToRemove instanceof ContextGraphNode)
+				&& !((ContextGraphNode)edgeToRemove).leavingGraph(this) )
 			return false;
 
 		if( !this.getInternalEdges().remove(edgeToRemove) )
@@ -133,8 +133,8 @@ public class MutableMarkovRandomFieldAdjacencyGraph<N extends GraphicalModelNode
 
 		// if context is enabled lets check if it can join
 		if( this.isContextEnabled()
-				&& (nodeToRemove instanceof ContextGraphElement)
-				&& !((ContextGraphElement)nodeToRemove).leavingGraph(this) )
+				&& (nodeToRemove instanceof ContextGraphNode)
+				&& !((ContextGraphNode)nodeToRemove).leavingGraph(this) )
 			return false;
 
 		final Set<E> removeEdges = this.getInternalAdjacencyEdges().get(nodeToRemove);

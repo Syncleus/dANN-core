@@ -24,7 +24,7 @@ import java.util.Set;
 import java.io.Serializable;
 import com.syncleus.dann.graph.Graph;
 
-public abstract class AbstractContextGraphElement<G extends Graph<?, ?>> implements ContextGraphElement<G>, Serializable
+public abstract class AbstractContextGraphElement<G extends Graph<?, ?>> implements ContextGraphNode<G>, Serializable
 {
 	private final boolean allowJoiningMultipleGraphs;
 	private final Set<G> joinedGraphs = new HashSet<G>();

@@ -16,13 +16,14 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph.context;
+package com.syncleus.dann.graph;
 
-import java.util.Set;
-import com.syncleus.dann.graph.Cloud;
-
-public interface GraphEdgeContextElement
+public abstract class AbstractEdge<
+	  	T,
+	  	EP extends Edge.Endpoint<? extends T>
+	  > extends AbstractCloud<T,EP> implements Edge<T,EP>
 {
-	void changingEdgeContext(Set<? extends E> joinedGraphContexts, Set<? extends Cloud<?,? extends Cloud.Endpoint<?>>> leftGraphContexts);
-	void changedEdgeContext(Set<? extends E> joinedGraphContexts, Set<? extends Cloud<?,? extends Cloud.Endpoint<?>>> leftGraphContexts);
+	protected abstract class AbstractEndpoint<T> implements AbstractCloud.Endpoint<T>
+	{
+	}
 }

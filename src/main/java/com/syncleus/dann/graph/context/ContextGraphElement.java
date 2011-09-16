@@ -21,8 +21,8 @@ package com.syncleus.dann.graph.context;
 import java.util.Set;
 import com.syncleus.dann.graph.Graph;
 
-public interface ContextGraphElement<G extends Graph<?, ?>>
+public interface ContextGraphElement< GE extends Graph.Endpoint<?, ?,?> >
 {
-	void changingJoinedGraphs(Set<G> joiningGraphs, Set<G> leavingGraphs) throws RejectedContextException;
-	void changedJoinedGraphs(Set<G> joinedGraphs, Set<G> leftGraphs);
+	void changingGraphContext( Set<? extends GE> joiningAsNode, Set<? extends GE> joiningAsEdge, Set<?> leavingContexts) throws RejectedContextException;
+	void changedGraphContext(Set<? extends GE> joinedAsNode, Set<? extends GE> joinedAsEdge, Set<?> leftContexts);
 }

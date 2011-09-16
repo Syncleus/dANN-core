@@ -23,7 +23,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import com.syncleus.dann.graph.BidirectedEdge;
-import com.syncleus.dann.graph.context.ContextGraphElement;
+import com.syncleus.dann.graph.context.ContextGraphNode;
 import com.syncleus.dann.graph.Graph;
 
 public class MutableGraphicalModelAdjacencyGraph<N extends GraphicalModelNode, E extends BidirectedEdge<N>> extends AbstractGraphicalModelAdjacencyGraph<N, E> implements MutableGraphicalModel<N, E>
@@ -54,8 +54,8 @@ public class MutableGraphicalModelAdjacencyGraph<N extends GraphicalModelNode, E
 			throw new IllegalArgumentException("newEdge has a node as an end point that is not part of the graph");
 
 		// if context is enabled lets check if it can join
-		if( this.isContextEnabled() && (newEdge instanceof ContextGraphElement) )
-			((ContextGraphElement)newEdge).joiningGraph(this);
+		if( this.isContextEnabled() && (newEdge instanceof ContextGraphNode) )
+			((ContextGraphNode)newEdge).joiningGraph(this);
 
 		if( this.getInternalEdges().add(newEdge) )
 		{
@@ -84,8 +84,8 @@ public class MutableGraphicalModelAdjacencyGraph<N extends GraphicalModelNode, E
 			return false;
 
 		// if context is enabled lets check if it can join
-		if( this.isContextEnabled() && (newNode instanceof ContextGraphElement)
-				&& !((ContextGraphElement)newNode).joiningGraph(this) )
+		if( this.isContextEnabled() && (newNode instanceof ContextGraphNode)
+				&& !((ContextGraphNode)newNode).joiningGraph(this) )
 			return false;
 
 		this.getInternalAdjacencyEdges().put(newNode, new HashSet<E>());
@@ -104,8 +104,8 @@ public class MutableGraphicalModelAdjacencyGraph<N extends GraphicalModelNode, E
 
 		// if context is enabled lets check if it can join
 		if( this.isContextEnabled()
-				&& (edgeToRemove instanceof ContextGraphElement)
-				&& !((ContextGraphElement)edgeToRemove).leavingGraph(this) )
+				&& (edgeToRemove instanceof ContextGraphNode)
+				&& !((ContextGraphNode)edgeToRemove).leavingGraph(this) )
 			return false;
 
 		if( !this.getInternalEdges().remove(edgeToRemove) )
@@ -134,8 +134,8 @@ public class MutableGraphicalModelAdjacencyGraph<N extends GraphicalModelNode, E
 
 		// if context is enabled lets check if it can join
 		if( this.isContextEnabled()
-				&& (nodeToRemove instanceof ContextGraphElement)
-				&& !((ContextGraphElement)nodeToRemove).leavingGraph(this) )
+				&& (nodeToRemove instanceof ContextGraphNode)
+				&& !((ContextGraphNode)nodeToRemove).leavingGraph(this) )
 			return false;
 
 		final Set<E> removeEdges = this.getInternalAdjacencyEdges().get(nodeToRemove);
