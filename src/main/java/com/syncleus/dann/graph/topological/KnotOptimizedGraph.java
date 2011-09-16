@@ -19,10 +19,10 @@
 package com.syncleus.dann.graph.topological;
 
 import java.util.Set;
-import com.syncleus.dann.graph.Edge;
+import com.syncleus.dann.graph.Cloud;
 import com.syncleus.dann.graph.Graph;
 
-public interface KnotOptimizedGraph<N, E extends Edge<N>> extends Graph<N, E>
+public interface KnotOptimizedGraph<N, E extends Cloud<N>> extends Graph<N, E>
 {
 	/**
 	 * Determines if the specified nodes can be traversed to from outside of the

@@ -21,10 +21,10 @@ package com.syncleus.dann.graph.context;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import com.syncleus.dann.graph.Edge;
+import com.syncleus.dann.graph.Cloud;
 import com.syncleus.dann.graph.Graph;
 
-public abstract class AbstractContextNode<N, E extends Edge<N>, G extends Graph<N, E>> extends AbstractContextGraphElement<G> implements ContextNode<N, E>
+public abstract class AbstractContextNode<N, E extends Cloud<N>, G extends Graph<N, E>> extends AbstractContextGraphElement<G> implements ContextNode<N, E>
 {
 	private final Set<E> connectedEdges = new HashSet<E>();
 

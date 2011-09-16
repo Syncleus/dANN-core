@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public abstract class AbstractHyperEdge<N> extends AbstractEdge<N> implements HyperEdge<N>
+public abstract class AbstractHyperEdge<N> extends AbstractCloud<N> implements HyperEdge<N>
 {
 	private static final long serialVersionUID = -3657973823101515199L;
 
@@ -153,7 +153,7 @@ public abstract class AbstractHyperEdge<N> extends AbstractEdge<N> implements Hy
 */
 	}
 
-	protected abstract class AbstractEndpoint<EN extends N, ON extends N> extends AbstractEdge.AbstractEndpoint<EN> implements HyperEdge.Endpoint<N, EN>
+	protected abstract class AbstractEndpoint<EN extends N, ON extends N> extends AbstractCloud.AbstractEndpoint<EN> implements HyperEdge.Endpoint<N, EN>
 	{
 		private EN node = null;
 

@@ -19,12 +19,12 @@
 package com.syncleus.dann.graph.context;
 
 import java.util.Set;
-import com.syncleus.dann.graph.Edge;
+import com.syncleus.dann.graph.Cloud;
 
 public interface ContextElement<
-	  	E extends Edge<?, ? extends Edge.Endpoint<?>>
+	  	E extends Cloud<?, ? extends Cloud.Endpoint<?>>
 	  >
 {
-	void changingContext(Set<? extends E> joiningContexts, Set<? extends Edge<?,? extends Edge.Endpoint<?>>> leavingContexts) throws RejectedContextException;
-	void changedContext(Set<? extends E> joinedContexts, Set<? extends Edge<?,? extends Edge.Endpoint<?>>> leftContexts);
+	void changingContext(Set<? extends E> joiningContexts, Set<? extends Cloud<?,? extends Cloud.Endpoint<?>>> leavingContexts) throws RejectedContextException;
+	void changedContext(Set<? extends E> joinedContexts, Set<? extends Cloud<?,? extends Cloud.Endpoint<?>>> leftContexts);
 }

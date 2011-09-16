@@ -99,7 +99,7 @@
             <xsd:element name="edges" maxOccurs="1">
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element name="edge" maxOccurs="unbounded" type="Edge">
+                        <xsd:element name="cloud" maxOccurs="unbounded" type="Edge">
                             <xsd:annotation>
                                 <xsd:appinfo>
                                     <jaxb:property name="edges"/>
@@ -115,7 +115,7 @@
 
     <!-- Edges -->
 
-    <!-- Edge Element, contains instances -->
+    <!-- Cloud Element, contains instances -->
     <xsd:element name="Edge">
         <xsd:annotation>
             <xsd:appinfo>
@@ -144,7 +144,7 @@
             </xsd:complexContent>
         </xsd:complexType>
     </xsd:element>
-    <!-- Edge Type, contains references to instanced objects -->
+    <!-- Cloud Type, contains references to instanced objects -->
     <xsd:complexType name="Edge">
         <xsd:sequence>
             <xsd:element name="connections" maxOccurs="1">

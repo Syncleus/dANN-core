@@ -19,11 +19,10 @@
 package com.syncleus.dann.graph.cycle;
 
 import java.util.Set;
-import com.syncleus.dann.graph.Cycle;
-import com.syncleus.dann.graph.Edge;
-import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.*;
+import com.syncleus.dann.graph.Cloud;
 
-public interface CycleFinder<N, E extends Edge<N>> extends CycleDetector
+public interface CycleFinder<N, E extends Cloud<N>> extends CycleDetector
 {
 	int cycleCount(Graph<N, E> graph);
 	Set<Cycle<N, E>> findCycles(Graph<N, E> graph);

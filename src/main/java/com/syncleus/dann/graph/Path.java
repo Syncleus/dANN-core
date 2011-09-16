@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface Path<N, E extends Edge<N>> extends Walk<N, E>
+public interface Path<N, E extends Cloud<N>> extends Walk<N, E>
 {
 	N getFirstNode();
 	N getLastNode();

@@ -18,10 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.tree;
 
-import com.syncleus.dann.graph.Edge;
+import com.syncleus.dann.graph.Cloud;
 import com.syncleus.dann.graph.Graph;
 
-public interface TreeOptimizedGraph<N, E extends Edge<N>> extends Graph<N, E>
+public interface TreeOptimizedGraph<N, E extends Cloud<N>> extends Graph<N, E>
 {
 	/**
 	 * Determines if the specified graph is a spanning tree of this graph. This

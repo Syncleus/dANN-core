@@ -31,13 +31,13 @@ import java.util.Queue;
 import java.util.Set;
 import com.syncleus.dann.graph.BidirectedGraph;
 import com.syncleus.dann.graph.DirectedEdge;
-import com.syncleus.dann.graph.Edge;
+import com.syncleus.dann.graph.Cloud;
 import com.syncleus.dann.graph.Graph;
 import com.syncleus.dann.graph.Weighted;
 import com.syncleus.dann.graph.topological.sorter.SimpleTopologicalRanker;
 import com.syncleus.dann.graph.topological.sorter.TopologicalSorter;
 
-public class PrimMinimumSpanningTreeFinder<N, E extends Edge<N>> implements RootedMinimumSpanningTreeFinder<N, E>
+public class PrimMinimumSpanningTreeFinder<N, E extends Cloud<N>> implements RootedMinimumSpanningTreeFinder<N, E>
 {
 	@SuppressWarnings("unchecked")
 	@Override

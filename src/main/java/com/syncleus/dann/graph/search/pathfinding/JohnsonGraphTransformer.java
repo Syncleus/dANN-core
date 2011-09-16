@@ -31,10 +31,10 @@ public class JohnsonGraphTransformer<N> implements GraphTransformer<BidirectedGr
 
 	private boolean containsInfinite(final Graph<N, ?> original)
 	{
-		for(final Edge edge : original.getEdges())
+		for(final Cloud cloud : original.getEdges())
 		{
-			if( edge instanceof Weighted
-					&& Double.isInfinite(((Weighted) edge).getWeight()) )
+			if( cloud instanceof Weighted
+					&& Double.isInfinite(((Weighted) cloud).getWeight()) )
 				return true;
 		}
 		return false;

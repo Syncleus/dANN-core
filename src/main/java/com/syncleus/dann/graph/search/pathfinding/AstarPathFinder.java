@@ -18,9 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.search.pathfinding;
 
-import com.syncleus.dann.graph.Edge;
-import com.syncleus.dann.graph.Graph;
-import com.syncleus.dann.graph.Weighted;
+import com.syncleus.dann.graph.*;
+import com.syncleus.dann.graph.Cloud;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -29,7 +28,7 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
-public class AstarPathFinder<N, E extends Edge<? extends N, ? extends Edge.Endpoint<? extends N>>> implements PathFinder<N, E>
+public class AstarPathFinder<N, E extends Cloud<? extends N, ? extends Cloud.Endpoint<? extends N>>> implements PathFinder<N, E>
 {
 	private final Graph<N, E, ?, ?> graph;
 	private final HeuristicPathCost<N> heuristicPathCost;

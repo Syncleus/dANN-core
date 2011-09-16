@@ -23,7 +23,7 @@ public interface MutableEdge<
 	  	EP extends Edge.Endpoint<? extends T>
 	  > extends Edge<T, EP>
 {
-	interface Endpoint<T> extends Edge.Endpoint<T>
+	interface Endpoint<T> extends Cloud.Endpoint<T>
 	{
 		void setTarget(T newTarget) throws InvalidEdgeException;
 	};

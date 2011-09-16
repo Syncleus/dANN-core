@@ -28,12 +28,12 @@ import java.util.SortedSet;
 import java.util.Stack;
 import java.util.TreeSet;
 import com.syncleus.dann.graph.Cycle;
-import com.syncleus.dann.graph.Edge;
+import com.syncleus.dann.graph.Cloud;
 import com.syncleus.dann.graph.Graph;
 import com.syncleus.dann.graph.SimpleCycle;
 import com.syncleus.dann.graph.topological.Topography;
 
-public class ExhaustiveDepthFirstSearchCycleFinder<N, E extends Edge<N>> extends ColoredDepthFirstSearchDetector implements CycleFinder<N, E>
+public class ExhaustiveDepthFirstSearchCycleFinder<N, E extends Cloud<N>> extends ColoredDepthFirstSearchDetector implements CycleFinder<N, E>
 {
 	@Override
 	public boolean isPancyclic(final Graph<N, E> graph)
@@ -102,7 +102,7 @@ public class ExhaustiveDepthFirstSearchCycleFinder<N, E extends Edge<N>> extends
 		return cycles;
 	}
 
-	private static <N, E extends Edge<N>> void cyclesFromStart(final Graph<N, E> graph, final Set<N> untouchedNodes, final Set<Cycle<N, E>> cycles, final N startNode)
+	private static <N, E extends Cloud<N>> void cyclesFromStart(final Graph<N, E> graph, final Set<N> untouchedNodes, final Set<Cycle<N, E>> cycles, final N startNode)
 	{
 		final Stack<N> parentNodes = new Stack<N>();
 		final Stack<E> parentEdges = new Stack<E>();
@@ -110,14 +110,14 @@ public class ExhaustiveDepthFirstSearchCycleFinder<N, E extends Edge<N>> extends
 		ExhaustiveDepthFirstSearchCycleFinder.<N, E>traverse(graph, untouchedNodes, cycles, parentNodes, parentEdges, null, startNode);
 	}
 
-	private static <N, E extends Edge<N>> List<N> neighborsFromEdge(final E edge, final N sourceNode)
+	private static <N, E extends Cloud<N>> List<N> neighborsFromEdge(final E edge, final N sourceNode)
 	{
 		final List<N> destinations = new ArrayList<N>(edge.getTargets());
 		destinations.remove(sourceNode);
 		return destinations;
 	}
 
-	private static <N, E extends Edge<N>> void traverse(final Graph<N, E> graph, final Set<N> untouchedNodes, final Set<Cycle<N, E>> cycles, final Stack<N> parentNodes, final Stack<E> parentEdges, final E lastEdge, final N currentNode)
+	private static <N, E extends Cloud<N>> void traverse(final Graph<N, E> graph, final Set<N> untouchedNodes, final Set<Cycle<N, E>> cycles, final Stack<N> parentNodes, final Stack<E> parentEdges, final E lastEdge, final N currentNode)
 	{
 		untouchedNodes.remove(currentNode);
 		parentNodes.push(currentNode);
@@ -173,7 +173,7 @@ public class ExhaustiveDepthFirstSearchCycleFinder<N, E extends Edge<N>> extends
 		parentEdges.pop();
 	}
 
-	private static class CycleLengthComparator<N, E extends Edge<N>> implements Comparator<Cycle<N, E>>, Serializable
+	private static class CycleLengthComparator<N, E extends Cloud<N>> implements Comparator<Cycle<N, E>>, Serializable
 	{
 		private static final long serialVersionUID = 5175815460016788908L;
 

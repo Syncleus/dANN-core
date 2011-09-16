@@ -27,12 +27,12 @@ import com.syncleus.dann.xml.Namer;
 import com.syncleus.dann.xml.XmlSerializable;
 import org.apache.log4j.Logger;
 
-public abstract class AbstractEdge<
+public abstract class AbstractCloud<
 	  	T,
-	  	EP extends Edge.Endpoint<? extends T>
-	  > implements Edge<T,EP>
+	  	EP extends Cloud.Endpoint<? extends T>
+	  > implements Cloud<T,EP>
 {
-	private static final Logger LOGGER = Logger.getLogger(AbstractEdge.class);
+	private static final Logger LOGGER = Logger.getLogger(AbstractCloud.class);
 
 	@Override
 	public boolean contains(final Object node)
@@ -87,7 +87,7 @@ public abstract class AbstractEdge<
 	{
 		final Set<T> nodes = new HashSet<T>();
 		for( final EP sourceEndpoint : this.getEndpoints(source) )
-			for( final Edge.Endpoint<? extends T> fromEndpoint : sourceEndpoint.getNeighbors())
+			for( final Cloud.Endpoint<? extends T> fromEndpoint : sourceEndpoint.getNeighbors())
 				nodes.add(fromEndpoint.getTarget());
 
 		return Collections.unmodifiableSet(nodes);
@@ -98,7 +98,7 @@ public abstract class AbstractEdge<
 	{
 		final Set<T> nodes = new HashSet<T>();
 		for( final EP sourceEndpoint : this.getEndpoints(source) )
-			for( final Edge.Endpoint<? extends T> fromEndpoint : sourceEndpoint.getTraversableNeighborsFrom())
+			for( final Cloud.Endpoint<? extends T> fromEndpoint : sourceEndpoint.getTraversableNeighborsFrom())
 				nodes.add(fromEndpoint.getTarget());
 
 		return Collections.unmodifiableSet(nodes);
@@ -109,7 +109,7 @@ public abstract class AbstractEdge<
 	{
 		final Set<T> nodes = new HashSet<T>();
 		for( final EP destinationEndpoint : this.getEndpoints(destination) )
-			for( final Edge.Endpoint<? extends T> fromEndpoint : destinationEndpoint.getTraversableNeighborsTo())
+			for( final Cloud.Endpoint<? extends T> fromEndpoint : destinationEndpoint.getTraversableNeighborsTo())
 				nodes.add(fromEndpoint.getTarget());
 
 		return Collections.unmodifiableSet(nodes);
@@ -133,16 +133,16 @@ public abstract class AbstractEdge<
 	}
 
 	@Override
-	protected AbstractEdge<T,EP> clone()
+	protected AbstractCloud<T,EP> clone()
 	{
 		try
 		{
-			return (AbstractEdge<T,EP>) super.clone();
+			return (AbstractCloud<T,EP>) super.clone();
 		}
 		catch(CloneNotSupportedException caught)
 		{
-			LOGGER.error("Edge was unexpectidly not cloneable", caught);
-			throw new Error("Edge was unexpectidly not cloneable", caught);
+			LOGGER.error("Cloud was unexpectidly not cloneable", caught);
+			throw new Error("Cloud was unexpectidly not cloneable", caught);
 		}
 	}
 
@@ -213,34 +213,34 @@ public abstract class AbstractEdge<
 		}
 	}
 
-	protected abstract class AbstractEndpoint<T> implements Edge.Endpoint<T>
+	protected abstract class AbstractEndpoint<T> implements Cloud.Endpoint<T>
 	{
 		protected AbstractEndpoint()
 		{
 		}
 
 		@Override
-		public Set<Edge.Endpoint<? extends T>> getNeighbors()
+		public Set<Cloud.Endpoint<? extends T>> getNeighbors()
 		{
 			return new NeighborSet();
 		}
 
 		@Override
-		public Set<Edge.Endpoint<? extends T>> getTraversableNeighborsTo()
+		public Set<Cloud.Endpoint<? extends T>> getTraversableNeighborsTo()
 		{
-			final Set<Edge.Endpoint<? extends T>> traversables = new HashSet<Edge.Endpoint<? extends T>>();
-			for(Edge.Endpoint<? extends T> neighbor : this.getNeighbors())
-				if( AbstractEdge.this.isTraversable(this.getTarget(),neighbor.getTarget()) )
+			final Set<Cloud.Endpoint<? extends T>> traversables = new HashSet<Cloud.Endpoint<? extends T>>();
+			for(Cloud.Endpoint<? extends T> neighbor : this.getNeighbors())
+				if( AbstractCloud.this.isTraversable(this.getTarget(),neighbor.getTarget()) )
 					traversables.add(neighbor);
 			return Collections.unmodifiableSet(traversables);
 		}
 
 		@Override
-		public Set<Edge.Endpoint<? extends T>> getTraversableNeighborsFrom()
+		public Set<Cloud.Endpoint<? extends T>> getTraversableNeighborsFrom()
 		{
-			final Set<Edge.Endpoint<? extends T>> traversables = new HashSet<Edge.Endpoint<? extends T>>();
-			for(Edge.Endpoint<? extends T> neighbor : this.getNeighbors())
-				if( AbstractEdge.this.isTraversable(this.getTarget(),neighbor.getTarget()) )
+			final Set<Cloud.Endpoint<? extends T>> traversables = new HashSet<Cloud.Endpoint<? extends T>>();
+			for(Cloud.Endpoint<? extends T> neighbor : this.getNeighbors())
+				if( AbstractCloud.this.isTraversable(this.getTarget(),neighbor.getTarget()) )
 					traversables.add(neighbor);
 			return Collections.unmodifiableSet(traversables);
 		}
@@ -252,12 +252,12 @@ public abstract class AbstractEdge<
 		}
 
 		@Override
-		public boolean isTraversable(Edge.Endpoint<?> destination)
+		public boolean isTraversable(Cloud.Endpoint<?> destination)
 		{
-			return AbstractEdge.this.isTraversable(this.getTarget(), destination.getTarget());
+			return AbstractCloud.this.isTraversable(this.getTarget(), destination.getTarget());
 		}
 
-		private class NeighborSet implements Set<Edge.Endpoint<? extends T>>
+		private class NeighborSet implements Set<Cloud.Endpoint<? extends T>>
 		{
 			@Override
 			public int size()
@@ -281,7 +281,7 @@ public abstract class AbstractEdge<
 			}
 
 			@Override
-			public Iterator<Edge.Endpoint<? extends T>> iterator()
+			public Iterator<Cloud.Endpoint<? extends T>> iterator()
 			{
 				return new NeighborIterator();
 			}
@@ -303,7 +303,7 @@ public abstract class AbstractEdge<
 			}
 
 			@Override
-			public boolean add(Edge.Endpoint<? extends T> nEndpoint)
+			public boolean add(Cloud.Endpoint<? extends T> nEndpoint)
 			{
 				throw new UnsupportedOperationException("This set is read-only!");
 			}
@@ -323,7 +323,7 @@ public abstract class AbstractEdge<
 			}
 
 			@Override
-			public boolean addAll(Collection<? extends Edge.Endpoint<? extends T>> c)
+			public boolean addAll(Collection<? extends Cloud.Endpoint<? extends T>> c)
 			{
 				throw new UnsupportedOperationException("This set is read-only!");
 			}
@@ -352,7 +352,7 @@ public abstract class AbstractEdge<
 				throw new UnsupportedOperationException("This set is read-only!");
 			}
 
-			private class NeighborIterator implements Iterator<Edge.Endpoint<? extends T>>
+			private class NeighborIterator implements Iterator<Cloud.Endpoint<? extends T>>
 			{
 				private int nextLeft = (getEndpoints().size()-1);
 				final private Iterator<? extends Endpoint<?>> iterator;
@@ -369,13 +369,13 @@ public abstract class AbstractEdge<
 				}
 
 				@Override
-				public Edge.Endpoint<T> next()
+				public Cloud.Endpoint<T> next()
 				{
-					Edge.Endpoint<?> nextEndpoint = this.iterator.next();
+					Cloud.Endpoint<?> nextEndpoint = this.iterator.next();
 					this.nextLeft--;
 
 					if( !AbstractEndpoint.this.equals(nextEndpoint) )
-						return (Edge.Endpoint<T>) nextEndpoint;
+						return (Cloud.Endpoint<T>) nextEndpoint;
 					return next();
 				}
 

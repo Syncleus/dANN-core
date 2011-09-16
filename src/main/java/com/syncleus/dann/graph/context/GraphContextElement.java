@@ -19,14 +19,13 @@
 package com.syncleus.dann.graph.context;
 
 import java.util.Set;
-import com.syncleus.dann.graph.Edge;
+import com.syncleus.dann.graph.Cloud;
 import com.syncleus.dann.graph.Graph;
-import sun.security.ec.ECParameters;
 
 public interface GraphContextElement<
 	  	G extends Graph<
 				?,
-				Edge<?,? extends Edge.Endpoint<?>>,
+				Cloud<?,? extends Cloud.Endpoint<?>>,
 				? extends Graph.NodeEndpoint<?,?>,
 				? extends Graph.EdgeEndpoint<?,?>
 				>

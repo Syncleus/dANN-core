@@ -20,13 +20,8 @@ package com.syncleus.dann.graph.tree;
 
 import java.util.List;
 import java.util.Set;
-import com.syncleus.dann.graph.BidirectedEdge;
-import com.syncleus.dann.graph.BidirectedGraph;
-import com.syncleus.dann.graph.DirectedEdge;
-import com.syncleus.dann.graph.DirectedGraph;
-import com.syncleus.dann.graph.Edge;
-import com.syncleus.dann.graph.Graph;
-import com.syncleus.dann.graph.ImmutableDirectedAdjacencyGraph;
+import com.syncleus.dann.graph.*;
+import com.syncleus.dann.graph.Cloud;
 import com.syncleus.dann.graph.cycle.Cycles;
 import com.syncleus.dann.graph.topological.Topography;
 import com.syncleus.dann.graph.topological.sorter.*;
@@ -41,7 +36,7 @@ public final class Trees
 		throw new IllegalStateException("This is an utility class, it can not be instantiated");
 	}
 
-	public static <N, E extends Edge<N>> boolean isSpanningTree(final Graph<N, E> graph, final Graph<N, E> subGraph)
+	public static <N, E extends Cloud<N>> boolean isSpanningTree(final Graph<N, E> graph, final Graph<N, E> subGraph)
 	{
 		if( graph instanceof TreeOptimizedGraph )
 		{
@@ -62,7 +57,7 @@ public final class Trees
 				&& (Cycles.isAcyclic(subGraph)));
 	}
 
-	public static <N, E extends Edge<N>> boolean isTree(final Graph<N, E> graph)
+	public static <N, E extends Cloud<N>> boolean isTree(final Graph<N, E> graph)
 	{
 		if( graph instanceof TreeOptimizedGraph )
 		{
@@ -79,7 +74,7 @@ public final class Trees
 		return ((Topography.isWeaklyConnected(graph)) && (Cycles.isAcyclic(graph)) && (Topography.isSimple(graph)));
 	}
 
-	public static <N, E extends Edge<N>> boolean isForest(final Graph<N, E> graph)
+	public static <N, E extends Cloud<N>> boolean isForest(final Graph<N, E> graph)
 	{
 		if( graph instanceof TreeOptimizedGraph )
 		{

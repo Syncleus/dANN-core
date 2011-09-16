@@ -20,7 +20,7 @@ package com.syncleus.dann.graph;
 
 public interface Edge<
 	  	T,
-	  	EP extends Edge.Endpoint<? extends T>
+	  	EP extends Cloud.Endpoint<? extends T>
 	  > extends Cloud<T,EP>
 {
 	interface Endpoint<T> extends Cloud.Endpoint<T>

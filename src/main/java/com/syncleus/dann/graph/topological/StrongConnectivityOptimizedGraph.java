@@ -18,10 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.topological;
 
-import com.syncleus.dann.graph.Edge;
+import com.syncleus.dann.graph.Cloud;
 import com.syncleus.dann.graph.Graph;
 
-public interface StrongConnectivityOptimizedGraph<N, E extends Edge<N>> extends Graph<N, E>
+public interface StrongConnectivityOptimizedGraph<N, E extends Cloud<N>> extends Graph<N, E>
 {
 	/**
 	 * Determines if there is a path from the firstNode to the lastNode. There may

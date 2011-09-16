@@ -18,10 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.search.pathfinding;
 
-import com.syncleus.dann.graph.Edge;
+import com.syncleus.dann.graph.Cloud;
 import com.syncleus.dann.graph.Graph;
 
-public class DijkstraPathFinder<N, E extends Edge<? extends N, ? extends Edge.Endpoint<? extends N>>> extends AstarPathFinder<N, E>
+public class DijkstraPathFinder<N, E extends Cloud<? extends N, ? extends Cloud.Endpoint<? extends N>>> extends AstarPathFinder<N, E>
 {
 	public DijkstraPathFinder(final Graph<N, E,?,?> graph)
 	{

@@ -23,21 +23,21 @@ import java.util.Set;
 
 public interface MutableGraph<
 	  	N,
-	  	E extends Edge<N,? extends Edge.Endpoint<? extends N>>,
+	  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N>>,
 	  	NEP extends MutableGraph.NodeEndpoint<N, E>,
 	  	EEP extends MutableGraph.EdgeEndpoint<N, E>
 	  > extends AssignableGraph<N,E,NEP,EEP>
 {
 	interface NodeEndpoint<
 		  ON,
-		  OE extends Edge<ON,? extends Edge.Endpoint<? extends ON>>
+		  OE extends Cloud<ON,? extends Cloud.Endpoint<? extends ON>>
 	  > extends AssignableGraph.NodeEndpoint<ON,OE>
 	{
 	};
 
 	interface EdgeEndpoint<
 		  ON,
-		  OE extends Edge<ON,? extends Edge.Endpoint<? extends ON>>
+		  OE extends Cloud<ON,? extends Cloud.Endpoint<? extends ON>>
 	  > extends AssignableGraph.EdgeEndpoint<ON,OE>
 	{
 	};
@@ -45,14 +45,14 @@ public interface MutableGraph<
 	NEP joinNode(N node) throws InvalidGraphException;
 	Map<N, NEP> joinNodes(Set<? extends N> nodes) throws InvalidGraphException;
 	Map<N, Set<NEP>> joinNodes(Map<? extends N,? extends Integer> nodes) throws InvalidGraphException;
-	Set<EEP> leaveNode(MutableGraph.NodeEndpoint<?, ? extends Edge<?,? extends Edge.Endpoint<?>>> endpoint) throws InvalidGraphException;
-	Set<EEP> leaveNodes(Set<? extends MutableGraph.NodeEndpoint<?, ? extends Edge<?,? extends Edge.Endpoint<?>>>> endpoint) throws InvalidGraphException;
+	Set<EEP> leaveNode(MutableGraph.NodeEndpoint<?, ? extends Cloud<?,? extends Cloud.Endpoint<?>>> endpoint) throws InvalidGraphException;
+	Set<EEP> leaveNodes(Set<? extends MutableGraph.NodeEndpoint<?, ? extends Cloud<?,? extends Cloud.Endpoint<?>>>> endpoint) throws InvalidGraphException;
 
 	EEP joinEdge(E edge) throws InvalidGraphException;
 	Map<E, EEP> joinEdges(Set<? extends E> edges) throws InvalidGraphException;
 	Map<E, Set<EEP>> joinEdges(Map<? extends E,? extends Integer> edges) throws InvalidGraphException;
-	void leaveEdge(MutableGraph.EdgeEndpoint<?, ? extends Edge<?,? extends Edge.Endpoint<?>>> endpoint) throws InvalidGraphException;
-	void leaveEdges(Set<? extends MutableGraph.EdgeEndpoint<?, ? extends Edge<?,? extends Edge.Endpoint<?>>>> endpoints) throws InvalidGraphException;
+	void leaveEdge(MutableGraph.EdgeEndpoint<?, ? extends Cloud<?,? extends Cloud.Endpoint<?>>> endpoint) throws InvalidGraphException;
+	void leaveEdges(Set<? extends MutableGraph.EdgeEndpoint<?, ? extends Cloud<?,? extends Cloud.Endpoint<?>>>> endpoints) throws InvalidGraphException;
 
 	void clear() throws InvalidGraphException;
 	void clearEdges() throws InvalidGraphException;

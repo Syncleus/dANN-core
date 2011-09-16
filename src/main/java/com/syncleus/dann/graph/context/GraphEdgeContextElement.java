@@ -19,10 +19,10 @@
 package com.syncleus.dann.graph.context;
 
 import java.util.Set;
-import com.syncleus.dann.graph.Edge;
+import com.syncleus.dann.graph.Cloud;
 
 public interface GraphEdgeContextElement
 {
-	void changingEdgeContext(Set<? extends E> joinedGraphContexts, Set<? extends Edge<?,? extends Edge.Endpoint<?>>> leftGraphContexts);
-	void changedEdgeContext(Set<? extends E> joinedGraphContexts, Set<? extends Edge<?,? extends Edge.Endpoint<?>>> leftGraphContexts);
+	void changingEdgeContext(Set<? extends E> joinedGraphContexts, Set<? extends Cloud<?,? extends Cloud.Endpoint<?>>> leftGraphContexts);
+	void changedEdgeContext(Set<? extends E> joinedGraphContexts, Set<? extends Cloud<?,? extends Cloud.Endpoint<?>>> leftGraphContexts);
 }

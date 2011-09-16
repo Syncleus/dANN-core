@@ -18,16 +18,14 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.*;
-
 public final class MutableAdjacencyGraph<
 	  	N,
-	  	E extends Edge<N,Edge.Endpoint<N>>
+	  	E extends Cloud<N,Cloud.Endpoint<N>>
 	  > extends AbstractMutableAdjacencyGraph<N,E,MutableGraph.NodeEndpoint<N, E>,MutableGraph.EdgeEndpoint<N, E>>
 /*
 	  <
 	  	N,
-	  	E extends Edge<N,? extends Edge.Endpoint<N>>
+	  	E extends Cloud<N,? extends Cloud.Endpoint<N>>
 	  >*/
 //	  extends AbstractMutableAdjacencyGraph<N, E, MutableGraph.NodeEndpoint<N, E>//, MutableGraph.EdgeEndpoint<N, E>>
 {

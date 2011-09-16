@@ -22,7 +22,7 @@ import java.util.*;
 
 public abstract class AbstractMutableAdjacencyGraph<
 	  	N,
-	  	E extends Edge<N,? extends Edge.Endpoint<N>>,
+	  	E extends Cloud<N,? extends Cloud.Endpoint<N>>,
 	  	NEP extends MutableGraph.NodeEndpoint<N, E>,
 	  	EEP extends MutableGraph.EdgeEndpoint<N, E>
 	  >
@@ -109,7 +109,7 @@ public abstract class AbstractMutableAdjacencyGraph<
 	}
 
 	@Override
-	public Set<EEP> leaveNode(MutableGraph.NodeEndpoint<?, ? extends Edge<?,? extends Edge.Endpoint<?>>> endpoint) throws InvalidGraphException
+	public Set<EEP> leaveNode(MutableGraph.NodeEndpoint<?, ? extends Cloud<?,? extends Endpoint<?>>> endpoint) throws InvalidGraphException
 	{
 		if( !this.adjacency.getLeftKeys().contains(endpoint) )
 			throw new IllegalArgumentException("endpoint is not an enpoint in this graph");
@@ -123,10 +123,10 @@ public abstract class AbstractMutableAdjacencyGraph<
 	}
 
 	@Override
-	public Set<EEP> leaveNodes(Set<? extends MutableGraph.NodeEndpoint<?, ? extends Edge<?,? extends Edge.Endpoint<?>>>> nodeEndpoints) throws InvalidGraphException
+	public Set<EEP> leaveNodes(Set<? extends MutableGraph.NodeEndpoint<?, ? extends Cloud<?,? extends Endpoint<?>>>> nodeEndpoints) throws InvalidGraphException
 	{
 		final Set<EEP> edgeEndpoints = new HashSet<EEP>();
-		for(MutableGraph.NodeEndpoint<?, ? extends Edge<?,? extends Edge.Endpoint<?>>> node : nodeEndpoints)
+		for(MutableGraph.NodeEndpoint<?, ? extends Cloud<?,? extends Endpoint<?>>> node : nodeEndpoints)
 			edgeEndpoints.addAll(this.leaveNode(node));
 		return Collections.unmodifiableSet(edgeEndpoints);
 	}
@@ -172,7 +172,7 @@ public abstract class AbstractMutableAdjacencyGraph<
 	}
 
 	@Override
-	public void leaveEdge(MutableGraph.EdgeEndpoint<?, ? extends Edge<?,? extends Edge.Endpoint<?>>> edgeEndpoint) throws InvalidGraphException
+	public void leaveEdge(MutableGraph.EdgeEndpoint<?, ? extends Cloud<?,? extends Endpoint<?>>> edgeEndpoint) throws InvalidGraphException
 	{
 		if( !this.adjacency.getRightKeys().contains(edgeEndpoint) )
 			throw new IllegalArgumentException("endpoint is not an enpoint in this graph");
@@ -181,9 +181,9 @@ public abstract class AbstractMutableAdjacencyGraph<
 	}
 
 	@Override
-	public void leaveEdges(Set<? extends MutableGraph.EdgeEndpoint<?, ? extends Edge<?,? extends Edge.Endpoint<?>>>> edgeEndpoints) throws InvalidGraphException
+	public void leaveEdges(Set<? extends MutableGraph.EdgeEndpoint<?, ? extends Cloud<?,? extends Endpoint<?>>>> edgeEndpoints) throws InvalidGraphException
 	{
-		for(final MutableGraph.EdgeEndpoint<?, ? extends Edge<?,? extends Edge.Endpoint<?>>> edgeEndpoint : edgeEndpoints)
+		for(final MutableGraph.EdgeEndpoint<?, ? extends Cloud<?,? extends Endpoint<?>>> edgeEndpoint : edgeEndpoints)
 			this.leaveEdge(edgeEndpoint);
 	}
 

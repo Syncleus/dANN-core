@@ -30,7 +30,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-public class ImmutableAdjacencyGraph<N, E extends Edge<N>> extends AbstractAdjacencyGraph<N, E>
+public class ImmutableAdjacencyGraph<N, E extends Cloud<N>> extends AbstractAdjacencyGraph<N, E>
 {
 	private static final long serialVersionUID = -2280425133666367243L;
 

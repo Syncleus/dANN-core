@@ -18,9 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface WeightedEdge<N> extends Edge<N>, Weighted
+public interface WeightedEdge<N> extends Cloud<N>, Weighted
 {
-	interface Endpoint<NN, EN extends NN> extends Edge.Endpoint<NN, EN>
+	interface Endpoint<NN, EN extends NN> extends Cloud.Endpoint<NN, EN>
 	{
 	};
 }

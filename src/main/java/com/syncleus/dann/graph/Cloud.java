@@ -18,48 +18,37 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Set;
+import com.syncleus.dann.graph.context.ContextReporter;
+import com.syncleus.dann.graph.xml.EdgeXml;
+import com.syncleus.dann.xml.XmlSerializable;
 
-public class SimpleWalk<N, E extends Cloud<N>> extends AbstractWalk<N, E>
+public interface Cloud<
+	  	T,
+	  	EP extends Cloud.Endpoint<? extends T>
+	  > extends Serializable, Cloneable, XmlSerializable<EdgeXml, Object>, ContextReporter
 {
-	private static final double DEFAULT_WEIGHT = 0.0;
-
-	private final List<E> steps;
-	private final List<N> nodeSteps;
-	private final double totalWeight;
-
-	public SimpleWalk(final List<E> ourSteps, final List<N> ourNodeSteps, final double defaultWeight)
+	interface Endpoint<T>
 	{
-		if( !this.verify(ourNodeSteps, ourSteps) )
-			throw new IllegalArgumentException("Steps and ourNodeSteps is not consistent with a walk");
+		Set<? extends Cloud.Endpoint<? extends T>> getNeighbors();
+		Set<? extends Cloud.Endpoint<? extends T>> getTraversableNeighborsTo();
+		Set<? extends Cloud.Endpoint<? extends T>> getTraversableNeighborsFrom();
+		boolean isTraversable();
+		boolean isTraversable(Cloud.Endpoint<?> destination);
+		T getTarget();
+	};
 
-		this.steps = Collections.unmodifiableList(new ArrayList<E>(ourSteps));
-		this.nodeSteps = Collections.unmodifiableList(new ArrayList<N>(ourNodeSteps));
-		this.totalWeight = calculateWeight(defaultWeight);
-	}
-
-	public SimpleWalk(final List<E> ourSteps, final List<N> ourNodeSteps)
-	{
-		this(ourSteps, ourNodeSteps, DEFAULT_WEIGHT);
-	}
-
-	@Override
-	public final List<E> getSteps()
-	{
-		return this.steps;
-	}
-
-	@Override
-	public final List<N> getNodeSteps()
-	{
-		return this.nodeSteps;
-	}
-
-	@Override
-	public final double getWeight()
-	{
-		return this.totalWeight;
-	}
+	Set<EP> getEndpoints();
+	Set<EP> getEndpoints(Object node);
+	boolean contains(Object node);
+	boolean containsAny(Collection<?> nodes);
+	boolean containsAll(Collection<?> nodes);
+	Set<T> getTargets();
+	Set<T> getNeighbors(Object source);
+	Set<T> getTraversableFrom(Object source);
+	Set<T> getTraversableTo(Object destination);
+	boolean isTraversable(Object source, Object destination);
+	int getDegree();
 }

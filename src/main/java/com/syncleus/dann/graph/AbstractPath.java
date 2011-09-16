@@ -23,7 +23,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public abstract class AbstractPath<N, E extends Edge<N>> extends AbstractWalk<N, E> implements Path<N, E>
+public abstract class AbstractPath<N, E extends Cloud<N>> extends AbstractWalk<N, E> implements Path<N, E>
 {
 	@Override
 	protected boolean verify(final List<N> nodeSteps, final List<E> edgeSteps)
@@ -31,7 +31,7 @@ public abstract class AbstractPath<N, E extends Edge<N>> extends AbstractWalk<N,
 		return ((super.verify(nodeSteps, edgeSteps)) && (verifyUtility(nodeSteps, edgeSteps)));
 	}
 
-	static <N, E extends Edge<N>> boolean verifyUtility(final List<N> nodeSteps, final List<E> edgeSteps)
+	static <N, E extends Cloud<N>> boolean verifyUtility(final List<N> nodeSteps, final List<E> edgeSteps)
 	{
 		if( nodeSteps.size() < 2 )
 			throw new IllegalArgumentException("Wrong number of nodes or steps");
@@ -44,7 +44,7 @@ public abstract class AbstractPath<N, E extends Edge<N>> extends AbstractWalk<N,
 		return isChain(this);
 	}
 
-	protected static <N, E extends Edge<N>> boolean isChain(final Path<N, E> path)
+	protected static <N, E extends Cloud<N>> boolean isChain(final Path<N, E> path)
 	{
 		final Set<N> uniqueNodes = new HashSet<N>(path.getNodeSteps());
 		final Set<E> uniqueEdges = new HashSet<E>(path.getSteps());
@@ -59,7 +59,7 @@ public abstract class AbstractPath<N, E extends Edge<N>> extends AbstractWalk<N,
 		return AbstractPath.isIndependentUtility(this, path);
 	}
 
-	static <N, E extends Edge<N>> boolean isIndependentUtility(final Path<N, E> firstPath, final Path<N, E> secondPath)
+	static <N, E extends Cloud<N>> boolean isIndependentUtility(final Path<N, E> firstPath, final Path<N, E> secondPath)
 	{
 		if( !firstPath.getFirstNode().equals(secondPath.getFirstNode()) )
 			return false;
