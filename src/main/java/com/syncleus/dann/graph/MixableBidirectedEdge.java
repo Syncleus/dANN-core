@@ -18,9 +18,18 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface MixableBidirectedEdge<N, LN extends N, RN extends N> extends Edge<N>
+public interface MixableBidirectedEdge<
+	  	T,
+	  	LT extends T,
+	  	RT extends T,
+	  	EP extends MixableBidirectedEdge.Endpoint<? extends T, ? extends LT, ? extends RT>
+	  > extends Edge<T, EP>
 {
-	interface Endpoint<NN, EN extends NN, ON extends NN> extends Edge.Endpoint<NN, EN>
+	interface Endpoint<
+			  NN,
+			  EN extends NN,
+			  ON extends NN
+		  > extends Edge.Endpoint<NN>
 	{
 		enum Direction
 		{
@@ -31,8 +40,8 @@ public interface MixableBidirectedEdge<N, LN extends N, RN extends N> extends Ed
 		Endpoint<NN, ON,EN> getNeighbor();
 	};
 
-	Endpoint<N, LN,RN> getLeftEndPoint();
-	Endpoint<N, RN,LN> getRightEndPoint();
+	EP getLeftEndPoint();
+	EP getRightEndPoint();
 	boolean isIntroverted();
 	boolean isExtroverted();
 	boolean isDirected();

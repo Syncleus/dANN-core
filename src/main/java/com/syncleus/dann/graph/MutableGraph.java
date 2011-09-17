@@ -24,21 +24,22 @@ import java.util.Set;
 public interface MutableGraph<
 	  	N,
 	  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N>>,
-	  	NE extends MutableGraph.NodeEndpoint<N, E>,
-	  	EE extends MutableGraph.EdgeEndpoint<N, E>
-	  > extends AssignableGraph<N,E,NE,EE>
+	  	NEP extends MutableGraph.NodeEndpoint<N, E>,
+	  	EEP extends MutableGraph.EdgeEndpoint<N, E>
+	  >  extends Graph<N,E,NEP,EEP>
 {
+
 	interface NodeEndpoint<
-		  N,
-		  E extends Cloud<N,? extends Cloud.Endpoint<? extends N>>
-	  > extends AssignableGraph.NodeEndpoint<N,E>
+		  ON,
+		  OE extends Cloud<ON,? extends Cloud.Endpoint<? extends ON>>
+	  > extends Graph.NodeEndpoint<ON,OE>, PartibleCloud.Endpoint<ON>
 	{
 	};
 
 	interface EdgeEndpoint<
 		  ON,
 		  OE extends Cloud<ON,? extends Cloud.Endpoint<? extends ON>>
-	  > extends AssignableGraph.EdgeEndpoint<ON,OE>
+	  > extends Graph.EdgeEndpoint<ON,OE>, PartibleCloud.Endpoint<OE>
 	{
 	};
 

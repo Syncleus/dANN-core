@@ -19,13 +19,13 @@
 package com.syncleus.dann.graph;
 
 public interface HyperEdge<
-	  	N,
-	  	EP extends Edge.Endpoint<N>
-	  > extends Edge<N, EP>
+	  	T,
+	  	EP extends HyperEdge.Endpoint<? extends T>
+	  > extends Edge<T, EP>
 {
-	interface Endpoint<NN, EN extends NN> extends Edge.Endpoint<NN, EN>
+	interface Endpoint<NN> extends Edge.Endpoint<NN>
 	{
 	};
 
-	boolean isSymmetric(HyperEdge<N> symmetricEdge);
+	boolean isSymmetric(HyperEdge<T,EP> symmetricEdge);
 }

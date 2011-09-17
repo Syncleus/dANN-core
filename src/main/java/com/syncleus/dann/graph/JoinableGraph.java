@@ -18,40 +18,25 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.Set;
-import com.syncleus.dann.graph.event.context.ContextReporter;
-import com.syncleus.dann.graph.xml.EdgeXml;
-import com.syncleus.dann.xml.XmlSerializable;
-
-public interface Cloud<
-	  	T,
-	  	EP extends Cloud.Endpoint<? extends T>
-	  > extends Serializable, Cloneable, XmlSerializable<EdgeXml, Object>, ContextReporter
+public interface JoinableGraph<
+	  	N,
+	  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N>>,
+	  	NEP extends JoinableGraph.NodeEndpoint<N, E>,
+	  	EEP extends JoinableGraph.EdgeEndpoint<N, E>
+	  >  extends Graph<N,E,NEP,EEP>
 {
-	interface Endpoint<T>
+
+	interface NodeEndpoint<
+		  ON,
+		  OE extends Cloud<ON,? extends Cloud.Endpoint<? extends ON>>
+	  > extends Graph.NodeEndpoint<ON,OE>, JoinableCloud.Endpoint<ON>
 	{
-		Set<? extends Cloud.Endpoint<? extends T>> getNeighbors();
-		Set<? extends Cloud.Endpoint<? extends T>> getTraversableNeighborsTo();
-		Set<? extends Cloud.Endpoint<? extends T>> getTraversableNeighborsFrom();
-		boolean isTraversable();
-		boolean isTraversable(Cloud.Endpoint<?> destination);
-		T getTarget();
 	};
 
-	Set<EP> getEndpoints();
-	Set<EP> getEndpoints(Object target);
-	Set<T> getTargets();
-	Set<T> getNeighbors(Object target);
-	Set<T> getTraversableFrom(Object target);
-	Set<T> getTraversableTo(Object target);
-	boolean isTraversable(Object sourceTarget, Object destinationTarget);
-	int getDegree();
-	boolean contains( Object endpoint);
-	boolean containsAny(Collection<? extends Endpoint<?>> endpoint);
-	boolean containsAll(Collection<? extends Endpoint<?>> endpoint);
-	boolean containsTarget(Object target);
-	boolean containsAnyTargets(Collection<?> target);
-	boolean containsAllTargets(Collection<?> target);
+	interface EdgeEndpoint<
+		  ON,
+		  OE extends Cloud<ON,? extends Cloud.Endpoint<? extends ON>>
+	  > extends Graph.EdgeEndpoint<ON,OE>, JoinableCloud.Endpoint<OE>
+	{
+	};
 }

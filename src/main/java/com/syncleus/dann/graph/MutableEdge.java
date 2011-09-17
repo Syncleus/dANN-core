@@ -21,9 +21,9 @@ package com.syncleus.dann.graph;
 public interface MutableEdge<
 	  	T,
 	  	EP extends MutableEdge.Endpoint<? extends T>
-	  > extends Edge<T, EP>, AssignableCloud<T,EP>
+	  > extends AssignableEdge<T, EP>, JoinableEdge<T,EP>, PartibleEdge<T,EP>, MutableCloud<T,EP>
 {
-	interface Endpoint<T> extends Edge.Endpoint<T>, AssignableCloud.Endpoint<T>
+	interface Endpoint<T> extends AssignableEdge.Endpoint<T>, JoinableEdge.Endpoint<T>, PartibleEdge.Endpoint<T>, MutableCloud.Endpoint<T>
 	{
 	};
 }

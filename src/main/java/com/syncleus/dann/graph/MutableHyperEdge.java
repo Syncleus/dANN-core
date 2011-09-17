@@ -22,17 +22,10 @@ import java.util.*;
 
 public interface MutableHyperEdge<
 	  	T,
-	  	EP extends Edge.Endpoint<T>
+	  	EP extends MutableHyperEdge.Endpoint<? extends T>
 	  > extends HyperEdge<T,EP>, MutableEdge<T,EP>
 {
-	interface Endpoint<NN, EN extends NN> extends HyperEdge.Endpoint<NN, EN>, MutableEdge.Endpoint<NN, EN>
+	interface Endpoint<NN> extends HyperEdge.Endpoint<NN>, MutableEdge.Endpoint<NN>
 	{
 	};
-
-	Endpoint<T, T> join(final T node) throws InvalidEdgeException;
-	Map<T,Endpoint<T, T>> join(final Set<T> nodes) throws InvalidEdgeException;
-	void leave(final Endpoint<T, T> endPoint) throws InvalidEdgeException;
-	void leave(final Set<Endpoint<T, T>> endPoint) throws InvalidEdgeException;
-	void clear() throws InvalidEdgeException;
-	Map<T,Endpoint<T, T>> reconfigure(final Set<T> connectNodes, final Set<Endpoint<T, T>> disconnectEndPoints) throws InvalidEdgeException;
 }

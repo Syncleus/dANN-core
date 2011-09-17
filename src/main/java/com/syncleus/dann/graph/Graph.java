@@ -19,6 +19,7 @@
 package com.syncleus.dann.graph;
 
 import java.util.Set;
+import com.sun.xml.internal.org.jvnet.fastinfoset.ExternalVocabulary;
 
 /**
  * Represents a graph as a collection of nodes connected by edges. A graph does
@@ -34,11 +35,13 @@ import java.util.Set;
  * @param <E> The type of edge for the given node type
  */
 public interface Graph<
+	  	A,
 	  	N,
 	  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N>>,
+	  	AE extends Graph.Endpoint<A, N, E>,
 	  	NE extends Graph.NodeEndpoint<N, E>,
 	  	EE extends Graph.EdgeEndpoint<N, E>
-	  > extends Cloud<Object,Graph.Endpoint<?, N,E>>
+	  > extends Cloud<A,AE>
 {
 	interface Endpoint<
 			  T,
