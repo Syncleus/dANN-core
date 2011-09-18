@@ -33,10 +33,6 @@ public interface Cloud<
 	interface Endpoint<T>
 	{
 		Set<? extends Cloud.Endpoint<? extends T>> getNeighbors();
-		Set<? extends Cloud.Endpoint<? extends T>> getTraversableNeighborsTo();
-		Set<? extends Cloud.Endpoint<? extends T>> getTraversableNeighborsFrom();
-		boolean isTraversable();
-		boolean isTraversable(Cloud.Endpoint<?> destination);
 		T getTarget();
 	};
 
@@ -44,14 +40,11 @@ public interface Cloud<
 	Set<EP> getEndpoints(Object target);
 	Set<T> getTargets();
 	Set<T> getNeighbors(Object target);
-	Set<T> getTraversableFrom(Object target);
-	Set<T> getTraversableTo(Object target);
-	boolean isTraversable(Object sourceTarget, Object destinationTarget);
-	int getDegree();
 	boolean contains( Object endpoint);
 	boolean containsAny(Collection<? extends Endpoint<?>> endpoint);
 	boolean containsAll(Collection<? extends Endpoint<?>> endpoint);
 	boolean containsTarget(Object target);
 	boolean containsAnyTargets(Collection<?> target);
 	boolean containsAllTargets(Collection<?> target);
+	int getDegree();
 }

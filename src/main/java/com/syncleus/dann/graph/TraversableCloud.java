@@ -16,15 +16,23 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph.annotation;
+package com.syncleus.dann.graph;
 
-import java.lang.annotation.*;
+import java.util.Set;
 
-@Inherited
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface FixedEndpoints
+public interface TraversableCloud<
+	  	T,
+	  	EP extends TraversableCloud.Endpoint<? extends T>
+	  > extends Cloud<T,EP>
 {
-    int count() default -1;
+	interface Endpoint<T> extends Cloud.Endpoint<T>
+	{
+		Set<? extends Cloud.Endpoint<? extends T>> getTraversableNeighborsTo();
+		Set<? extends Cloud.Endpoint<? extends T>> getTraversableNeighborsFrom();
+		boolean isTraversable(Cloud.Endpoint<?> destination);
+	}
+
+	Set<T> getTraversableFrom(Object target);
+	Set<T> getTraversableTo(Object target);
+	boolean isTraversable(Object sourceTarget, Object destinationTarget);
 }
