@@ -18,6 +18,34 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface MutableBidirectedGraph<N, E extends BidirectedEdge<N>> extends BidirectedGraph<N, E>, MutableGraph<N, E>
+public interface DynamicDirectedGraph<
+	  	N,
+	  	E extends DirectedEdge<N,? extends BidirectedEdge.Endpoint<? extends N>> & AssignableCloud<? extends N, ? extends AssignableCloud.Endpoint<? extends N, ? extends N>>,
+	  	AE extends DynamicDirectedGraph.Endpoint<Object, N, E>,
+	  	NE extends DynamicDirectedGraph.NodeEndpoint<N, E>,
+	  	EE extends DynamicDirectedGraph.EdgeEndpoint<N, E>
+	  > extends DirectedGraph<N, E, AE, NE, EE>, DynamicBidirectedGraph<N, E, AE, NE, EE>
 {
+	interface Endpoint<
+		  	T,
+		  	N,
+		  	E extends DirectedEdge<N,? extends BidirectedEdge.Endpoint<? extends N>> & AssignableCloud<? extends N, ? extends AssignableCloud.Endpoint<? extends N, ? extends N>>
+		  >
+		  extends DirectedGraph.Endpoint<T,N,E>, DynamicBidirectedGraph.Endpoint<T,N,E>
+	{
+	};
+
+	interface NodeEndpoint<
+		  	N,
+		  	E extends DirectedEdge<N,? extends BidirectedEdge.Endpoint<? extends N>> & AssignableCloud<? extends N, ? extends AssignableCloud.Endpoint<? extends N, ? extends N>>
+	  > extends DirectedGraph.NodeEndpoint<N,E>, DynamicBidirectedGraph.NodeEndpoint<N,E>, Endpoint<N,N,E>
+	{
+	};
+
+	interface EdgeEndpoint<
+		  	N,
+		  	E extends DirectedEdge<N,? extends BidirectedEdge.Endpoint<? extends N>> & AssignableCloud<? extends N, ? extends AssignableCloud.Endpoint<? extends N, ? extends N>>
+		> extends DirectedGraph.EdgeEndpoint<N,E>, DynamicBidirectedGraph.EdgeEndpoint<N,E>, Endpoint<E,N,E>
+	{
+	};
 }

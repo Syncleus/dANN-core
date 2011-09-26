@@ -25,7 +25,7 @@ public interface AssignableCloud<
 	  	E extends AssignableCloud.Endpoint<T, ? extends T>
 	  > extends Cloud<T,E>
 {
-	interface Endpoint<P, T extends P> extends Cloud.Endpoint<P, T>
+	interface Endpoint<P, T> extends Cloud.Endpoint<P, T>
 	{
 		void setTarget(T newTarget) throws InvalidEdgeException;
 	}

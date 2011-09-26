@@ -22,7 +22,7 @@ public final class MutableAdjacencyGraph<
 	  	N,
 	  	E extends Cloud<N,? extends Cloud.Endpoint<N>>
 	  >
-	  extends AbstractContextMutableAdjacencyGraph<N, E, MutableGraph.NodeEndpoint<N, E>, MutableGraph.EdgeEndpoint<N, E>>
+	  extends AbstractContextMutableAdjacencyGraph<N, E, MutableCloudGraph.NodeEndpoint<N, E>, MutableCloudGraph.EdgeEndpoint<N, E>>
 {
 	private static final long serialVersionUID = -4613327727609060678L;
 	private final boolean areNodesUnique;
@@ -45,7 +45,7 @@ public final class MutableAdjacencyGraph<
 	}
 
 	@Override
-	public MutableGraph.NodeEndpoint<N, E> joinNode(N node) throws InvalidGraphException
+	public MutableCloudGraph.NodeEndpoint<N, E> joinNode(N node) throws InvalidGraphException
 	{
 		final NodeEndpoint endpoint = new NodeEndpoint(node);
 		this.internalJoinNode(endpoint);
@@ -53,14 +53,14 @@ public final class MutableAdjacencyGraph<
 	}
 
 	@Override
-	public MutableGraph.EdgeEndpoint<N, E> joinEdge(E edge) throws InvalidGraphException
+	public MutableCloudGraph.EdgeEndpoint<N, E> joinEdge(E edge) throws InvalidGraphException
 	{
 		final EdgeEndpoint endpoint = new EdgeEndpoint(edge);
 		this.internalJoinEdge(endpoint);
 		return endpoint;
 	}
 
-	protected final class NodeEndpoint extends AbstractContextMutableAdjacencyGraph<N,E,MutableGraph.NodeEndpoint<N, E>,MutableGraph.EdgeEndpoint<N, E>>.AbstractNodeEndpoint
+	protected final class NodeEndpoint extends AbstractContextMutableAdjacencyGraph<N,E,MutableCloudGraph.NodeEndpoint<N, E>,MutableCloudGraph.EdgeEndpoint<N, E>>.AbstractNodeEndpoint
 	{
 		protected NodeEndpoint(final N target)
 		{
@@ -74,7 +74,7 @@ public final class MutableAdjacencyGraph<
 		}
 	};
 
-	protected final class EdgeEndpoint extends AbstractContextMutableAdjacencyGraph<N,E,MutableGraph.NodeEndpoint<N, E>,MutableGraph.EdgeEndpoint<N, E>>.AbstractEdgeEndpoint
+	protected final class EdgeEndpoint extends AbstractContextMutableAdjacencyGraph<N,E,MutableCloudGraph.NodeEndpoint<N, E>,MutableCloudGraph.EdgeEndpoint<N, E>>.AbstractEdgeEndpoint
 	{
 		protected EdgeEndpoint(final E target)
 		{

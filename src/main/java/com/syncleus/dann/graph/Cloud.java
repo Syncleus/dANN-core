@@ -30,7 +30,7 @@ public interface Cloud<
 	  	EP extends Cloud.Endpoint<T, ? extends T>
 	  > extends Serializable, Cloneable, XmlSerializable<EdgeXml, Object>, ContextReporter
 {
-	interface Endpoint<P, T extends P>
+	interface Endpoint<P, T>
 	{
 		Set<Endpoint<P,P>> getNeighbors();
 		T getTarget();

@@ -25,12 +25,12 @@ public interface PartibleCloud<
 	  	EP extends PartibleCloud.Endpoint<T, ? extends T>
 	  > extends Cloud<T,EP>
 {
-	interface Endpoint<P, T extends P> extends Cloud.Endpoint<P, T>
+	interface Endpoint<P, T> extends Cloud.Endpoint<P, T>
 	{
 		void part() throws InvalidEdgeException;
 	}
 
-	void leave(MutableGraph.EdgeEndpoint<?, ?> endpoint) throws InvalidGraphException;
-	void leave(Set<? extends MutableGraph.EdgeEndpoint<?, ?>> endpoints) throws InvalidGraphException;
+	void leave(PartibleCloud.Endpoint<?, ?> endpoint) throws InvalidGraphException;
+	void leave(Set<? extends PartibleCloud.Endpoint<?, ?>> endpoints) throws InvalidGraphException;
 	void clear() throws InvalidGraphException;
 }

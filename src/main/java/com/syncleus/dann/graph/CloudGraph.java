@@ -37,42 +37,45 @@ public interface CloudGraph<
 	  	A,
 	  	N,
 	  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>,
-	  	AE extends CloudGraph.Endpoint<A, N, E>,
-	  	NE extends CloudGraph.NodeEndpoint<N, E>,
-	  	EE extends CloudGraph.EdgeEndpoint<N, E>
+	  	AE extends CloudGraph.Endpoint<A, A, N, E>,
+	  	NE extends CloudGraph.NodeEndpoint<A, N, E>,
+	  	EE extends CloudGraph.EdgeEndpoint<A, N, E>
 	  > extends Cloud<A,AE>
 {
 	interface Endpoint<
-			  T,
-			  N,
-			  E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>
+		  	P,
+		  	T,
+		  	N,
+		  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>
 		  >
-		  extends Cloud.Endpoint<T,T>
+		  extends Cloud.Endpoint<P,T>
 	{
-		Set<? extends CloudGraph.Endpoint<?, N,E>> getAdjacent();
-		Set<? extends CloudGraph.Endpoint<?, N,E>> getTraversableAdjacentTo();
-		Set<? extends CloudGraph.Endpoint<?, N,E>> getTraversableAdjacentFrom();
+		Set<? extends CloudGraph.Endpoint<P,T,N,E>> getAdjacent();
+		Set<? extends CloudGraph.Endpoint<P,T,N,E>> getTraversableAdjacentTo();
+		Set<? extends CloudGraph.Endpoint<P,T,N,E>> getTraversableAdjacentFrom();
 
-		Set<? extends CloudGraph.NodeEndpoint<N, E>> getAdjacentNodes();
-		Set<? extends CloudGraph.NodeEndpoint<N, E>> getTraversableAdjacentNodesTo();
-		Set<? extends CloudGraph.NodeEndpoint<N, E>> getTraversableAdjacentNodesFrom();
+		Set<? extends CloudGraph.NodeEndpoint<P, N, E>> getAdjacentNodes();
+		Set<? extends CloudGraph.NodeEndpoint<P, N, E>> getTraversableAdjacentNodesTo();
+		Set<? extends CloudGraph.NodeEndpoint<P, N, E>> getTraversableAdjacentNodesFrom();
 
-		Set<? extends CloudGraph.EdgeEndpoint<N, E>> getAdjacentEdges();
-		Set<? extends CloudGraph.EdgeEndpoint<N, E>> getTraversableAdjacentEdgesTo();
-		Set<? extends CloudGraph.EdgeEndpoint<N, E>> getTraversableAdjacentEdgesFrom();
+		Set<? extends CloudGraph.EdgeEndpoint<P, N, E>> getAdjacentEdges();
+		Set<? extends CloudGraph.EdgeEndpoint<P, N, E>> getTraversableAdjacentEdgesTo();
+		Set<? extends CloudGraph.EdgeEndpoint<P, N, E>> getTraversableAdjacentEdgesFrom();
 	};
 
 	interface NodeEndpoint<
-		  N,
-		  E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>
-	  > extends CloudGraph.Endpoint<N, N, E>
+		  	P,
+		  	N,
+		  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>
+	  > extends CloudGraph.Endpoint<P, N, N, E>
 	{
 	};
 
 	interface EdgeEndpoint<
+		  	P,
 		  	N,
 		  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>
-		> extends CloudGraph.Endpoint<E, N, E>
+		> extends CloudGraph.Endpoint<P, E, N, E>
 	{
 	};
 

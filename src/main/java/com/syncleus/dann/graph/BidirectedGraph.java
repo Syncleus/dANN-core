@@ -33,8 +33,37 @@ import java.util.Set;
  * @author Jeffrey Phillips Freeman
  * @since 2.0
  */
-public interface BidirectedGraph<N, E extends BidirectedEdge<N>> extends CloudGraph<N, E>
+public interface BidirectedGraph<
+	  	N,
+	  	E extends BidirectedEdge<N,? extends BidirectedEdge.Endpoint<? extends N>>,
+	  	AE extends BidirectedGraph.Endpoint<Object, N, E>,
+	  	NE extends BidirectedGraph.NodeEndpoint<N, E>,
+	  	EE extends BidirectedGraph.EdgeEndpoint<N, E>
+	  > extends TraversableGraph<N, E, AE, NE, EE>
 {
+	interface Endpoint<
+		  	T,
+		  	N,
+		  	E extends BidirectedEdge<N,? extends BidirectedEdge.Endpoint<? extends N>>
+		  >
+		  extends TraversableGraph.Endpoint<T,N,E>
+	{
+	};
+
+	interface NodeEndpoint<
+		  	N,
+		  	E extends BidirectedEdge<N,? extends BidirectedEdge.Endpoint<? extends N>>
+	  > extends TraversableGraph.NodeEndpoint<N,E>, Endpoint<N,N,E>
+	{
+	};
+
+	interface EdgeEndpoint<
+		  	N,
+		  	E extends BidirectedEdge<N,? extends BidirectedEdge.Endpoint<? extends N>>
+		> extends TraversableGraph.EdgeEndpoint<N,E>, Endpoint<E,N,E>
+	{
+	};
+
 	/**
 	 * Get all edges which traverse to the specified node. While the combination of
 	 * out edges and in edges will usually result in all the adjacent edges for a

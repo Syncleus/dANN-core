@@ -18,25 +18,38 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface JoinableGraph<
+public interface TraversableCloudGraph<
+	  	A,
 	  	N,
-	  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N>>,
-	  	NEP extends JoinableGraph.NodeEndpoint<N, E>,
-	  	EEP extends JoinableGraph.EdgeEndpoint<N, E>
-	  >  extends CloudGraph<N,E,NEP,EEP>
+	  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>,
+	  	AE extends TraversableCloudGraph.Endpoint<A, A, N, E>,
+	  	NE extends TraversableCloudGraph.NodeEndpoint<A, N, E>,
+	  	EE extends TraversableCloudGraph.EdgeEndpoint<A, N, E>
+	  >  extends CloudGraph<A,N,E,AE,NE,EE>, TraversableCloud<A, AE>
 {
+	interface Endpoint<
+		  	P,
+		  	T,
+		  	N,
+		  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>
+		  >
+		  extends CloudGraph.Endpoint<P,T,N,E>, TraversableCloud.Endpoint<P,T>
+	{
+	};
 
 	interface NodeEndpoint<
-		  ON,
-		  OE extends Cloud<ON,? extends Cloud.Endpoint<? extends ON>>
-	  > extends CloudGraph.NodeEndpoint<ON,OE>, JoinableCloud.Endpoint<ON>
+		  	P,
+		  	N,
+		  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>
+	  > extends CloudGraph.NodeEndpoint<P,N,E>, TraversableCloud.Endpoint<P,N>, Endpoint<P,N,N,E>
 	{
 	};
 
 	interface EdgeEndpoint<
-		  ON,
-		  OE extends Cloud<ON,? extends Cloud.Endpoint<? extends ON>>
-	  > extends CloudGraph.EdgeEndpoint<ON,OE>, JoinableCloud.Endpoint<OE>
+		  	P,
+		  	N,
+		  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>
+		> extends CloudGraph.EdgeEndpoint<P,N,E>, TraversableCloud.Endpoint<P,E>, Endpoint<P,E,N,E>
 	{
 	};
 }

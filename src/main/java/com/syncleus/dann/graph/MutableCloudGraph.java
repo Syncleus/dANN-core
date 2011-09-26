@@ -18,71 +18,43 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
+import java.util.Map;
 import java.util.Set;
 
-public abstract class AbstractHyperAdjacencyGraph<N, E extends Hyperedge<N>> extends AbstractAdjacencyGraph<N, E> implements HyperGraph<N, E>
+public interface MutableCloudGraph<
+	  	A,
+	  	N,
+	  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>,
+	  	AE extends MutableCloudGraph.Endpoint<A, A, N, E>,
+	  	NE extends MutableCloudGraph.NodeEndpoint<A, N, E>,
+	  	EE extends MutableCloudGraph.EdgeEndpoint<A, N, E>
+	  >  extends JoinableCloudGraph<A,N,E,AE,NE,EE>, PartibleCloudGraph<A,N,E,AE,NE,EE>, AssignableCloudGraph<A,N,E,AE,NE,EE>, MutableCloud<A,AE>
 {
-	protected AbstractHyperAdjacencyGraph()
+	interface Endpoint<
+		  	P,
+		  	T,
+		  	N,
+		  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>
+		  >
+		  extends JoinableCloudGraph.Endpoint<P,T,N,E>, PartibleCloudGraph.Endpoint<P,T,N,E>, AssignableCloudGraph.Endpoint<P,T,N,E>, MutableCloud.Endpoint<P,T>
 	{
-		super();
-	}
+	};
 
-	protected AbstractHyperAdjacencyGraph(final CloudGraph<N, E> copyGraph)
+	interface NodeEndpoint<
+		  	P,
+		  	N,
+		  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>
+	  > extends JoinableCloudGraph.NodeEndpoint<P,N,E>, PartibleCloudGraph.NodeEndpoint<P,N,E>, AssignableCloudGraph.NodeEndpoint<P,N,E>, Endpoint<P,N,N,E>
 	{
-		super(copyGraph.getTargets(), copyGraph.getEdges());
-	}
+	};
 
-	protected AbstractHyperAdjacencyGraph(final Set<N> nodes, final Set<E> edges)
+	interface EdgeEndpoint<
+		  	P,
+		  	N,
+		  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>
+		> extends JoinableCloudGraph.EdgeEndpoint<P,N,E>, PartibleCloudGraph.EdgeEndpoint<P,N,E>, AssignableCloudGraph.EdgeEndpoint<P,N,E>, Endpoint<P,E,N,E>
 	{
-		super(nodes, edges);
-	}
+	};
 
-	/**
-	 * This will always return false.
-	 *
-	 * @return always returns false
-	 */
-	@Override
-	public boolean hasMaximumAllowableRank()
-	{
-		return false;
-	}
-
-	/**
-	 * Always returns -1 since rank is not limited.
-	 *
-	 * @return Always returns -1
-	 */
-	@Override
-	public int getMaximumAllowableRank()
-	{
-		return -1;
-	}
-
-	/**
-	 * Always returns false since rank is not limited.
-	 *
-	 * @return Always returns false
-	 */
-	@Override
-	public boolean hasMinimumAllowableRank()
-	{
-		return false;
-	}
-
-	/**
-	 * Always returns -1 since rank is not limited.
-	 * @return always -1 since the rank is not limited.
-	 */
-	@Override
-	public int getMinimumAllowableRank()
-	{
-		return -1;
-	}
-
-	@Override
-	protected AbstractHyperAdjacencyGraph<N, E> clone()
-	{
-		return (AbstractHyperAdjacencyGraph<N, E>) super.clone();
-	}
+	Map<?, CloudGraph.Endpoint<?, ?, N,E>> reconfigure(Set<? extends N> addNodes, Set<? extends E> addEdges, final Set<? extends CloudGraph.Endpoint<?,?,?,?>> disconnectEndpoints) throws InvalidGraphException;
 }

@@ -22,7 +22,7 @@ public interface DynamicCloud<
 	  	E extends DynamicCloud.Endpoint<T, ? extends T>
 	  > extends MutableCloud<T,E>, TraversableCloud<T,E>
 {
-	interface Endpoint<P, T extends P> extends MutableCloud.Endpoint<P, T>, TraversableCloud.Endpoint<P, T>
+	interface Endpoint<P, T> extends MutableCloud.Endpoint<P, T>, TraversableCloud.Endpoint<P, T>
 	{
 	}
 }

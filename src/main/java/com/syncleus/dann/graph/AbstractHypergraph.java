@@ -18,40 +18,71 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-/**
- * A type of graph consisting of bidirected edges that is weakly connected,
- * acyclic, and simple.
- *
- * @author Jeffrey Phillips Freeman
- * @since 2.0
- */
-public interface TreeGraph<N, E extends BidirectedEdge<N>> extends BidirectedGraph<N, E>
+import java.util.Set;
+
+public abstract class AbstractHypergraph<N, E extends Hyperedge<N>> extends AbstractAdjacencyGraph<N, E> implements Hypergraph<N, E>
 {
+	protected AbstractHypergraph()
+	{
+		super();
+	}
+
+	protected AbstractHypergraph(final CloudGraph<N, E> copyGraph)
+	{
+		super(copyGraph.getTargets(), copyGraph.getEdges());
+	}
+
+	protected AbstractHypergraph(final Set<N> nodes, final Set<E> edges)
+	{
+		super(nodes, edges);
+	}
+
 	/**
-	 * Determines if the specified node has exactly one incomming traversable edge,
-	 * and no outgoing traversable edges. In the case of undirected edges if the
-	 * node hs a degree of exactly one it is a leaf. In the case of directed edges
-	 * a leaf has exactly one incomming edge and no other outgoing edges. Edges
-	 * whitch are not traversable in either direction are not counted. returns
-	 * false if the node has no edges or has no incomming edges.
+	 * This will always return false.
 	 *
-	 * @param node the node to check if it is a leaf.
-	 * @return true if the specified node has exactly one incomming traversable
-	 *         edge, and no outgoing traversable edges.
-	 * @throws IllegalArgumentException if node does not exist in the graph.
-	 * @since 2.0
+	 * @return always returns false
 	 */
-	boolean isLeaf(N node);
+	@Override
+	public boolean hasMaximumAllowableRank()
+	{
+		return false;
+	}
+
 	/**
-	 * Determines if the specified edge is traversable and has a leaf node as its
-	 * destination. The edge must exist in the graph.
+	 * Always returns -1 since rank is not limited.
 	 *
-	 * @param edge the edge to check if it is a leaf.
-	 * @return true if the specified edge is traversable and has a leaf node as its
-	 *         destination.
-	 * @throws IllegalArgumentException if edge does not exist in the graph.
-	 * @see TreeGraph#isLeaf(java.lang.Object)
-	 * @since 2.0
+	 * @return Always returns -1
 	 */
-	boolean isLeaf(E edge);
+	@Override
+	public int getMaximumAllowableRank()
+	{
+		return -1;
+	}
+
+	/**
+	 * Always returns false since rank is not limited.
+	 *
+	 * @return Always returns false
+	 */
+	@Override
+	public boolean hasMinimumAllowableRank()
+	{
+		return false;
+	}
+
+	/**
+	 * Always returns -1 since rank is not limited.
+	 * @return always -1 since the rank is not limited.
+	 */
+	@Override
+	public int getMinimumAllowableRank()
+	{
+		return -1;
+	}
+
+	@Override
+	protected AbstractHypergraph<N, E> clone()
+	{
+		return (AbstractHypergraph<N, E>) super.clone();
+	}
 }

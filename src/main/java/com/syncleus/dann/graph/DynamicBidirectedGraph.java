@@ -18,25 +18,34 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface PartibleGraph<
+public interface DynamicBidirectedGraph<
 	  	N,
-	  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N>>,
-	  	NEP extends PartibleGraph.NodeEndpoint<N, E>,
-	  	EEP extends PartibleGraph.EdgeEndpoint<N, E>
-	  >  extends CloudGraph<N,E,NEP,EEP>
+	  	E extends BidirectedEdge<N,? extends BidirectedEdge.Endpoint<? extends N>> & AssignableCloud<? extends N, ? extends AssignableCloud.Endpoint<? extends N, ? extends N>>,
+	  	AE extends DynamicBidirectedGraph.Endpoint<Object, N, E>,
+	  	NE extends DynamicBidirectedGraph.NodeEndpoint<N, E>,
+	  	EE extends DynamicBidirectedGraph.EdgeEndpoint<N, E>
+	  > extends BidirectedGraph<N, E, AE, NE, EE>, DynamicGraph<N, E, AE, NE, EE>
 {
+	interface Endpoint<
+		  	T,
+		  	N,
+		  	E extends BidirectedEdge<N,? extends BidirectedEdge.Endpoint<? extends N>> & AssignableCloud<? extends N, ? extends AssignableCloud.Endpoint<? extends N, ? extends N>>
+		  >
+		  extends BidirectedGraph.Endpoint<T,N,E>, DynamicGraph.Endpoint<T,N,E>
+	{
+	};
 
 	interface NodeEndpoint<
-		  ON,
-		  OE extends Cloud<ON,? extends Cloud.Endpoint<? extends ON>>
-	  > extends CloudGraph.NodeEndpoint<ON,OE>, PartibleCloud.Endpoint<ON>
+		  	N,
+		  	E extends BidirectedEdge<N,? extends BidirectedEdge.Endpoint<? extends N>> & AssignableCloud<? extends N, ? extends AssignableCloud.Endpoint<? extends N, ? extends N>>
+	  > extends BidirectedGraph.NodeEndpoint<N,E>, DynamicGraph.NodeEndpoint<N,E>, Endpoint<N,N,E>
 	{
 	};
 
 	interface EdgeEndpoint<
-		  ON,
-		  OE extends Cloud<ON,? extends Cloud.Endpoint<? extends ON>>
-	  > extends CloudGraph.EdgeEndpoint<ON,OE>, PartibleCloud.Endpoint<OE>
+		  	N,
+		  	E extends BidirectedEdge<N,? extends BidirectedEdge.Endpoint<? extends N>> & AssignableCloud<? extends N, ? extends AssignableCloud.Endpoint<? extends N, ? extends N>>
+		> extends BidirectedGraph.EdgeEndpoint<N,E>, DynamicGraph.EdgeEndpoint<N,E>, Endpoint<E,N,E>
 	{
 	};
 }

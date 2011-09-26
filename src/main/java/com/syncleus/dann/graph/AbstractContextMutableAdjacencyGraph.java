@@ -24,8 +24,8 @@ import com.syncleus.dann.graph.event.context.*;
 public abstract class AbstractContextMutableAdjacencyGraph<
 	  	N,
 	  	E extends Cloud<N,? extends Cloud.Endpoint<N>>,
-	  	NE extends MutableGraph.NodeEndpoint<N, E>,
-	  	EE extends MutableGraph.EdgeEndpoint<N, E>
+	  	NE extends MutableCloudGraph.NodeEndpoint<N, E>,
+	  	EE extends MutableCloudGraph.EdgeEndpoint<N, E>
 	  >
 	  extends AbstractMutableAdjacencyGraph<N, E, NE, EE>
 {
@@ -36,7 +36,7 @@ public abstract class AbstractContextMutableAdjacencyGraph<
 	}
 
 	@Override
-	protected void internalJoinNode(MutableGraph.NodeEndpoint<N, E> endpoint) throws InvalidGraphException
+	protected void internalJoinNode(MutableCloudGraph.NodeEndpoint<N, E> endpoint) throws InvalidGraphException
 	{
 		if(endpoint == null)
 			throw new IllegalArgumentException(("endpoint can not be null"));
@@ -66,7 +66,7 @@ public abstract class AbstractContextMutableAdjacencyGraph<
 	}
 
 	@Override
-	protected void internalLeaveNode(MutableGraph.NodeEndpoint<?, ?> endpoint) throws InvalidGraphException
+	protected void internalLeaveNode(MutableCloudGraph.NodeEndpoint<?, ?> endpoint) throws InvalidGraphException
 	{
 		if(endpoint == null)
 			throw new IllegalArgumentException(("endpoint can not be null"));
@@ -96,7 +96,7 @@ public abstract class AbstractContextMutableAdjacencyGraph<
 	}
 
 	@Override
-	protected void internalJoinEdge(MutableGraph.EdgeEndpoint<N, E> endpoint) throws InvalidGraphException
+	protected void internalJoinEdge(MutableCloudGraph.EdgeEndpoint<N, E> endpoint) throws InvalidGraphException
 	{
 		if(endpoint == null)
 			throw new IllegalArgumentException(("endpoint can not be null"));
@@ -126,7 +126,7 @@ public abstract class AbstractContextMutableAdjacencyGraph<
 	}
 
 	@Override
-	protected void internalLeaveEdge(MutableGraph.EdgeEndpoint<?, ?> endpoint) throws InvalidGraphException
+	protected void internalLeaveEdge(MutableCloudGraph.EdgeEndpoint<?, ?> endpoint) throws InvalidGraphException
 	{
 		if(endpoint == null)
 			throw new IllegalArgumentException(("endpoint can not be null"));

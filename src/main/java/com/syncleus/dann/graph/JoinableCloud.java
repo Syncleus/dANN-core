@@ -26,7 +26,7 @@ public interface JoinableCloud<
 	  	EP extends JoinableCloud.Endpoint<T, ? extends T>
 	  > extends Cloud<T,EP>
 {
-	interface Endpoint<P, T extends P> extends Cloud.Endpoint<P, T>
+	interface Endpoint<P, T> extends Cloud.Endpoint<P, T>
 	{
 	}
 

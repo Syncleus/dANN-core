@@ -25,8 +25,37 @@ package com.syncleus.dann.graph;
  * @author Jeffrey Phillips Freeman
  * @since 2.0
  */
-public interface HyperGraph<N, E extends Hyperedge<N>> extends CloudGraph<N, E>
+public interface Hypergraph<
+	  	N,
+	  	E extends Hyperedge<N,? extends Hyperedge.Endpoint<? extends N, ? extends N>>,
+	  	AE extends Hypergraph.Endpoint<Object, N, E>,
+	  	NE extends Hypergraph.NodeEndpoint<N, E>,
+	  	EE extends Hypergraph.EdgeEndpoint<N, E>
+	  > extends CloudGraph<Object, N, E, AE, NE, EE>
 {
+	interface Endpoint<
+		  	T,
+		  	N,
+		  	E extends Hyperedge<N,? extends Hyperedge.Endpoint<? extends N, ? extends N>>
+		  >
+		  extends CloudGraph.Endpoint<Object,T,N,E>
+	{
+	};
+
+	interface NodeEndpoint<
+		  	N,
+		  	E extends Hyperedge<N,? extends Hyperedge.Endpoint<? extends N, ? extends N>>
+	  > extends CloudGraph.NodeEndpoint<Object,N,E>, Endpoint<N,N,E>
+	{
+	};
+
+	interface EdgeEndpoint<
+		  	N,
+		  	E extends Hyperedge<N,? extends Hyperedge.Endpoint<? extends N, ? extends N>>
+		> extends CloudGraph.EdgeEndpoint<Object,N,E>, Endpoint<E,N,E>
+	{
+	};
+
 	/**
 	 * True if this graph enforces its edges to have a maximum rank.
 	 *

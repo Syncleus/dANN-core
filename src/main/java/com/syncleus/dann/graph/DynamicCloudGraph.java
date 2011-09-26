@@ -18,12 +18,38 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface MutableCloud<
-	  	T,
-	  	EP extends MutableCloud.Endpoint<T, ? extends T>
-	  > extends AssignableCloud<T,EP>, JoinableCloud<T,EP>, PartibleCloud<T, EP>
+public interface DynamicCloudGraph<
+	  	A,
+	  	N,
+	  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>,
+	  	AE extends DynamicCloudGraph.Endpoint<A, A, N, E>,
+	  	NE extends DynamicCloudGraph.NodeEndpoint<A, N, E>,
+	  	EE extends DynamicCloudGraph.EdgeEndpoint<A, N, E>
+	  >  extends TraversableCloudGraph<A,N,E,AE,NE,EE>, DynamicCloud<A, AE>
 {
-	interface Endpoint<P, T> extends AssignableCloud.Endpoint<P, T>, JoinableCloud.Endpoint<P, T>, PartibleCloud.Endpoint<P, T>
+	interface Endpoint<
+		  	P,
+		  	T,
+		  	N,
+		  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>
+		  >
+		  extends TraversableCloudGraph.Endpoint<P,T,N,E>, DynamicCloud.Endpoint<P,T>
 	{
-	}
+	};
+
+	interface NodeEndpoint<
+		  	P,
+		  	N,
+		  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>
+	  > extends TraversableCloudGraph.NodeEndpoint<P,N,E>, DynamicCloud.Endpoint<P,N>, Endpoint<P,N,N,E>
+	{
+	};
+
+	interface EdgeEndpoint<
+		  	P,
+		  	N,
+		  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>
+		> extends TraversableCloudGraph.EdgeEndpoint<P,N,E>, DynamicCloud.Endpoint<P,E>, Endpoint<P,E,N,E>
+	{
+	};
 }

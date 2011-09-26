@@ -18,7 +18,34 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface RootedTreeGraph<N, E extends DirectedEdge<N>> extends TreeGraph<N, E>, DirectedGraph<N, E>
+public interface TraversableGraph<
+	  	N,
+	  	E extends Edge<N,? extends Edge.Endpoint<? extends N>> & TraversableCloud<? extends N, ? extends TraversableCloud.Endpoint<? extends N, ? extends N>>,
+	  	AE extends TraversableGraph.Endpoint<Object, N, E>,
+	  	NE extends TraversableGraph.NodeEndpoint<N, E>,
+	  	EE extends TraversableGraph.EdgeEndpoint<N, E>
+	  > extends TraversableCloudGraph<Object, N, E, AE, NE, EE>, Graph<N,E,AE,NE,EE>
 {
-	N getRoot();
+	interface Endpoint<
+		  	T,
+		  	N,
+		  	E extends Edge<N,? extends Edge.Endpoint<? extends N>> & TraversableCloud<? extends N, ? extends TraversableCloud.Endpoint<? extends N, ? extends N>>
+		  >
+		  extends TraversableCloudGraph.Endpoint<Object,T,N,E>, Graph.Endpoint<T,N,E>
+	{
+	};
+
+	interface NodeEndpoint<
+		  	N,
+		  	E extends Edge<N,? extends Edge.Endpoint<? extends N>> & TraversableCloud<? extends N, ? extends TraversableCloud.Endpoint<? extends N, ? extends N>>
+	  > extends TraversableCloudGraph.NodeEndpoint<Object,N,E>, Graph.NodeEndpoint<N,E>, Endpoint<N,N,E>
+	{
+	};
+
+	interface EdgeEndpoint<
+		  	N,
+		  	E extends Edge<N,? extends Edge.Endpoint<? extends N>> & TraversableCloud<? extends N, ? extends TraversableCloud.Endpoint<? extends N, ? extends N>>
+		> extends TraversableCloudGraph.EdgeEndpoint<Object,N,E>, Graph.EdgeEndpoint<N,E>, Endpoint<E,N,E>
+	{
+	};
 }

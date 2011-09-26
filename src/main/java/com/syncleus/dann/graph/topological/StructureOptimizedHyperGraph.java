@@ -21,9 +21,9 @@ package com.syncleus.dann.graph.topological;
 import com.syncleus.dann.graph.BidirectedEdge;
 import com.syncleus.dann.graph.BidirectedGraph;
 import com.syncleus.dann.graph.Hyperedge;
-import com.syncleus.dann.graph.HyperGraph;
+import com.syncleus.dann.graph.Hypergraph;
 
-public interface StructureOptimizedHyperGraph<N, E extends Hyperedge<N>> extends HyperGraph<N, E>
+public interface StructureOptimizedHypergraph<N, E extends Hyperedge<N>> extends Hypergraph<N, E>
 {
 	/**
 	 * Determines if all edges have exactly the same number of end points, if so
@@ -44,7 +44,7 @@ public interface StructureOptimizedHyperGraph<N, E extends Hyperedge<N>> extends
 	 *   some but not all of the edges.
 	 * @since 2.0
 	 */
-	boolean isPartial(HyperGraph<N, E> partialGraph);
+	boolean isPartial(Hypergraph<N, E> partialGraph);
 	/**
 	 * Determines if the specified graph has all the nodes in this graph and if
 	 * for every edge in this graph there is an induced connected subgraph in
@@ -54,7 +54,7 @@ public interface StructureOptimizedHyperGraph<N, E extends Hyperedge<N>> extends
 	 * @return true if the specified graph is a host graph of this one.
 	 * @since 2.0
 	 */
-	boolean isHost(HyperGraph<N, E> hostGraph);
+	boolean isHost(Hypergraph<N, E> hostGraph);
 	/**
 	 * Creates a undirected graph that contains all the nodes of this graph and
 	 * each pair of nodes in every hyper-edge has a undirected edge in the new

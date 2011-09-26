@@ -25,20 +25,20 @@ import com.syncleus.dann.graph.adjacency.HashAdjacencyMapping;
 public abstract class AbstractMutableAdjacencyGraph<
 	  	N,
 	  	E extends Cloud<N,? extends Cloud.Endpoint<N>>,
-	  	NE extends MutableGraph.NodeEndpoint<N, E>,
-	  	EE extends MutableGraph.EdgeEndpoint<N, E>
+	  	NE extends MutableCloudGraph.NodeEndpoint<N, E>,
+	  	EE extends MutableCloudGraph.EdgeEndpoint<N, E>
 	  >
 	  extends AbstractAdjacencyGraph<N, E, NE, EE>
-	  implements MutableGraph<N, E, NE, EE>
+	  implements MutableCloudGraph<N, E, NE, EE>
 {
 	private static final long serialVersionUID = -4613327727609060678L;
-	private final AdjacencyMapping<MutableGraph.NodeEndpoint<N, E>,MutableGraph.EdgeEndpoint<N, E>,Endpoint<N>> adjacency = new HashAdjacencyMapping<MutableGraph.NodeEndpoint<N, E>,MutableGraph.EdgeEndpoint<N, E>,Endpoint<N>>();
+	private final AdjacencyMapping<MutableCloudGraph.NodeEndpoint<N, E>,MutableCloudGraph.EdgeEndpoint<N, E>,Endpoint<N>> adjacency = new HashAdjacencyMapping<MutableCloudGraph.NodeEndpoint<N, E>,MutableCloudGraph.EdgeEndpoint<N, E>,Endpoint<N>>();
 
 	protected AbstractMutableAdjacencyGraph()
 	{
 	}
 
-	protected void internalJoinNode(final MutableGraph.NodeEndpoint<N, E> endpoint) throws InvalidGraphException
+	protected void internalJoinNode(final MutableCloudGraph.NodeEndpoint<N, E> endpoint) throws InvalidGraphException
 	{
 		if(endpoint == null)
 			throw new IllegalArgumentException(("endpoint can not be null"));
@@ -48,7 +48,7 @@ public abstract class AbstractMutableAdjacencyGraph<
 		this.adjacency.putLeftKey(endpoint);
 	}
 
-	protected void internalLeaveNode(MutableGraph.NodeEndpoint<?, ?> endpoint) throws InvalidGraphException
+	protected void internalLeaveNode(MutableCloudGraph.NodeEndpoint<?, ?> endpoint) throws InvalidGraphException
 	{
 		if(endpoint == null)
 			throw new IllegalArgumentException(("endpoint can not be null"));
@@ -60,7 +60,7 @@ public abstract class AbstractMutableAdjacencyGraph<
 		this.adjacency.removeLeftKey(endpoint);
 	}
 
-	protected void internalJoinEdge(final MutableGraph.EdgeEndpoint<N, E> endpoint) throws InvalidGraphException
+	protected void internalJoinEdge(final MutableCloudGraph.EdgeEndpoint<N, E> endpoint) throws InvalidGraphException
 	{
 		if(endpoint == null)
 			throw new IllegalArgumentException(("endpoint can not be null"));
@@ -78,7 +78,7 @@ public abstract class AbstractMutableAdjacencyGraph<
 	}
 
 
-	protected void internalLeaveEdge(MutableGraph.EdgeEndpoint<?, ?> endpoint) throws InvalidGraphException
+	protected void internalLeaveEdge(MutableCloudGraph.EdgeEndpoint<?, ?> endpoint) throws InvalidGraphException
 	{
 		if(endpoint == null)
 			throw new IllegalArgumentException(("endpoint can not be null"));
@@ -97,13 +97,13 @@ public abstract class AbstractMutableAdjacencyGraph<
 	}
 
 	@Override
-	public void leaveNode(MutableGraph.NodeEndpoint<?, ?> endpoint) throws InvalidGraphException
+	public void leaveNode(MutableCloudGraph.NodeEndpoint<?, ?> endpoint) throws InvalidGraphException
 	{
 		this.internalLeaveNode(endpoint);
 	}
 
 	@Override
-	public void leaveEdge(MutableGraph.EdgeEndpoint<?, ?> endpoint) throws InvalidGraphException
+	public void leaveEdge(MutableCloudGraph.EdgeEndpoint<?, ?> endpoint) throws InvalidGraphException
 	{
 		this.internalLeaveEdge(endpoint);
 	}
@@ -132,9 +132,9 @@ public abstract class AbstractMutableAdjacencyGraph<
 	}
 
 	@Override
-	public void leaveNodes(Set<? extends MutableGraph.NodeEndpoint<?, ?>> nodeEndpoints) throws InvalidGraphException
+	public void leaveNodes(Set<? extends MutableCloudGraph.NodeEndpoint<?, ?>> nodeEndpoints) throws InvalidGraphException
 	{
-		for(MutableGraph.NodeEndpoint<?, ? extends Cloud<?,? extends Endpoint<?>>> node : nodeEndpoints)
+		for(MutableCloudGraph.NodeEndpoint<?, ? extends Cloud<?,? extends Endpoint<?>>> node : nodeEndpoints)
 			this.leaveNode(node);
 	}
 
@@ -162,9 +162,9 @@ public abstract class AbstractMutableAdjacencyGraph<
 	}
 
 	@Override
-	public void leaveEdges(Set<? extends MutableGraph.EdgeEndpoint<?, ?>> edgeEndpoints) throws InvalidGraphException
+	public void leaveEdges(Set<? extends MutableCloudGraph.EdgeEndpoint<?, ?>> edgeEndpoints) throws InvalidGraphException
 	{
-		for(final MutableGraph.EdgeEndpoint<?, ? extends Cloud<?,? extends Endpoint<?>>> edgeEndpoint : edgeEndpoints)
+		for(final MutableCloudGraph.EdgeEndpoint<?, ? extends Cloud<?,? extends Endpoint<?>>> edgeEndpoint : edgeEndpoints)
 			this.leaveEdge(edgeEndpoint);
 	}
 
@@ -216,7 +216,7 @@ public abstract class AbstractMutableAdjacencyGraph<
 	}
 
 
-	protected abstract class AbstractNodeEndpoint extends AbstractAdjacencyGraph<N,E,NE,EE>.AbstractNodeEndpoint implements MutableGraph.NodeEndpoint<N, E>
+	protected abstract class AbstractNodeEndpoint extends AbstractAdjacencyGraph<N,E,NE,EE>.AbstractNodeEndpoint implements MutableCloudGraph.NodeEndpoint<N, E>
 	{
 		private N target;
 
@@ -246,7 +246,7 @@ public abstract class AbstractMutableAdjacencyGraph<
 		}
 	};
 
-	protected abstract class AbstractEdgeEndpoint extends AbstractAdjacencyGraph<N,E,NE,EE>.AbstractEdgeEndpoint implements MutableGraph.EdgeEndpoint<N, E>
+	protected abstract class AbstractEdgeEndpoint extends AbstractAdjacencyGraph<N,E,NE,EE>.AbstractEdgeEndpoint implements MutableCloudGraph.EdgeEndpoint<N, E>
 	{
 		private E target;
 

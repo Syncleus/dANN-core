@@ -28,14 +28,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import com.syncleus.dann.graph.BidirectedEdge;
-import com.syncleus.dann.graph.BidirectedGraph;
-import com.syncleus.dann.graph.Cloud;
-import com.syncleus.dann.graph.CloudGraph;
-import com.syncleus.dann.graph.Hyperedge;
-import com.syncleus.dann.graph.HyperGraph;
-import com.syncleus.dann.graph.ImmutableAdjacencyGraph;
-import com.syncleus.dann.graph.SimpleHyperedge;
+import com.syncleus.dann.graph.*;
+import com.syncleus.dann.graph.Hypergraph;
 import com.syncleus.dann.math.counting.Counters;
 
 public final class Topography
@@ -1027,13 +1021,13 @@ public final class Topography
 		return graph.getTraversableAdjacentEdges(node).size();
 	}
 
-	public static <N, E extends Hyperedge<N>> int getRank(final HyperGraph<N, E> graph)
+	public static <N, E extends Hyperedge<N>> int getRank(final Hypergraph<N, E> graph)
 	{
-		if( graph instanceof ConnectionismOptimizedHyperGraph )
+		if( graph instanceof ConnectionismOptimizedHypergraph )
 		{
 			try
 			{
-				return ((ConnectionismOptimizedHyperGraph)graph).getRank();
+				return ((ConnectionismOptimizedHypergraph)graph).getRank();
 			}
 			catch(UnsupportedOperationException caught)
 			{
@@ -1045,13 +1039,13 @@ public final class Topography
 		throw new UnsupportedOperationException();
 	}
 
-	public static <N, E extends Hyperedge<N>> BidirectedGraph<N, BidirectedEdge<N>> getPrimal(final HyperGraph<N, E> graph)
+	public static <N, E extends Hyperedge<N>> BidirectedGraph<N, BidirectedEdge<N>> getPrimal(final Hypergraph<N, E> graph)
 	{
-		if( graph instanceof StructureOptimizedHyperGraph )
+		if( graph instanceof StructureOptimizedHypergraph )
 		{
 			try
 			{
-				return ((StructureOptimizedHyperGraph)graph).getPrimal();
+				return ((StructureOptimizedHypergraph)graph).getPrimal();
 			}
 			catch(UnsupportedOperationException caught)
 			{
@@ -1063,13 +1057,13 @@ public final class Topography
 		throw new UnsupportedOperationException();
 	}
 
-	public static <N, E extends Hyperedge<N>> boolean isPartial(final HyperGraph<N, E> graph, final HyperGraph<N, E> partialGraph)
+	public static <N, E extends Hyperedge<N>> boolean isPartial(final Hypergraph<N, E> graph, final Hypergraph<N, E> partialGraph)
 	{
-		if( graph instanceof StructureOptimizedHyperGraph )
+		if( graph instanceof StructureOptimizedHypergraph )
 		{
 			try
 			{
-				return ((StructureOptimizedHyperGraph)graph).isPartial(partialGraph);
+				return ((StructureOptimizedHypergraph)graph).isPartial(partialGraph);
 			}
 			catch(UnsupportedOperationException caught)
 			{
@@ -1081,13 +1075,13 @@ public final class Topography
 		throw new UnsupportedOperationException();
 	}
 
-	public static <N, E extends Hyperedge<N>> boolean isHost(final HyperGraph<N, E> graph, final HyperGraph<N, E> hostGraph)
+	public static <N, E extends Hyperedge<N>> boolean isHost(final Hypergraph<N, E> graph, final Hypergraph<N, E> hostGraph)
 	{
-		if( graph instanceof StructureOptimizedHyperGraph )
+		if( graph instanceof StructureOptimizedHypergraph )
 		{
 			try
 			{
-				return ((StructureOptimizedHyperGraph)graph).isHost(hostGraph);
+				return ((StructureOptimizedHypergraph)graph).isHost(hostGraph);
 			}
 			catch(UnsupportedOperationException caught)
 			{
@@ -1099,13 +1093,31 @@ public final class Topography
 		throw new UnsupportedOperationException();
 	}
 
-	public static <N, E extends Hyperedge<N>> boolean isUniform(final HyperGraph<N, E> graph)
+	public static <N, E extends Hyperedge<N>> boolean isUniform(final Hypergraph<N, E> graph)
 	{
-		if( graph instanceof StructureOptimizedHyperGraph )
+		if( graph instanceof StructureOptimizedHypergraph )
 		{
 			try
 			{
-				return ((StructureOptimizedHyperGraph)graph).isUniform();
+				return ((StructureOptimizedHypergraph)graph).isUniform();
+			}
+			catch(UnsupportedOperationException caught)
+			{
+				//if its not supported lets handle it as if its not optimized
+			}
+		}
+
+		//TODO implement this
+		throw new UnsupportedOperationException();
+	}
+
+	public static <N, E extends Cloud<N>> boolean isTree(final CloudGraph<N, E> graph)
+	{
+		if( graph instanceof StructureOptimizedGraph )
+		{
+			try
+			{
+				return ((StructureOptimizedGraph)graph).isTree(subgraph);
 			}
 			catch(UnsupportedOperationException caught)
 			{

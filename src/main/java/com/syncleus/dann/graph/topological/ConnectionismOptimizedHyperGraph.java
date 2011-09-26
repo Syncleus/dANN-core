@@ -19,9 +19,9 @@
 package com.syncleus.dann.graph.topological;
 
 import com.syncleus.dann.graph.Hyperedge;
-import com.syncleus.dann.graph.HyperGraph;
+import com.syncleus.dann.graph.Hypergraph;
 
-public interface ConnectionismOptimizedHyperGraph<N, E extends Hyperedge<N>> extends HyperGraph<N, E>
+public interface ConnectionismOptimizedHypergraph<N, E extends Hyperedge<N>> extends Hypergraph<N, E>
 {
 	/**
 	 * Determines the number of end points of the edge with the largest number of

@@ -18,34 +18,51 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface MutableHypergraph<
+import java.util.Map;
+import java.util.Set;
+
+public interface JoinableCloudGraph<
+	  	A,
 	  	N,
-	  	E extends Hyperedge<N,? extends Hyperedge.Endpoint<? extends N, ? extends N>> & MutableCloud<? extends N, ? extends MutableCloud.Endpoint<? extends N, ? extends N>>,
-	  	AE extends MutableHypergraph.Endpoint<Object, N, E>,
-	  	NE extends MutableHypergraph.NodeEndpoint<N, E>,
-	  	EE extends MutableHypergraph.EdgeEndpoint<N, E>
-	  > extends MutableCloudGraph<Object, N, E, AE, NE, EE>, Hypergraph<N,E,AE,NE,EE>
+	  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>,
+	  	AE extends JoinableCloudGraph.Endpoint<A, A, N, E>,
+	  	NE extends JoinableCloudGraph.NodeEndpoint<A, N, E>,
+	  	EE extends JoinableCloudGraph.EdgeEndpoint<A, N, E>
+	  >  extends CloudGraph<A,N,E,AE,NE,EE>, JoinableCloud<A, AE>
 {
 	interface Endpoint<
+		  	P,
 		  	T,
 		  	N,
-		  	E extends Hyperedge<N,? extends Hyperedge.Endpoint<? extends N, ? extends N>> & MutableCloud<? extends N, ? extends MutableCloud.Endpoint<? extends N, ? extends N>>
+		  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>
 		  >
-		  extends MutableCloudGraph.Endpoint<Object,T,N,E>, Hypergraph.Endpoint<T,N,E>
+		  extends CloudGraph.Endpoint<P,T,N,E>, JoinableCloud.Endpoint<P,T>
 	{
 	};
 
 	interface NodeEndpoint<
+		  	P,
 		  	N,
-		  	E extends Hyperedge<N,? extends Hyperedge.Endpoint<? extends N, ? extends N>> & MutableCloud<? extends N, ? extends MutableCloud.Endpoint<? extends N, ? extends N>>
-	  > extends MutableCloudGraph.NodeEndpoint<Object,N,E>, Hypergraph.NodeEndpoint<N,E>, Endpoint<N,N,E>
+		  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>
+	  > extends CloudGraph.NodeEndpoint<P,N,E>, JoinableCloud.Endpoint<P,N>, Endpoint<P,N,N,E>
 	{
 	};
 
 	interface EdgeEndpoint<
+		  	P,
 		  	N,
-		  	E extends Hyperedge<N,? extends Hyperedge.Endpoint<? extends N, ? extends N>> & MutableCloud<? extends N, ? extends MutableCloud.Endpoint<? extends N, ? extends N>>
-		> extends MutableCloudGraph.EdgeEndpoint<Object,N,E>, Hypergraph.EdgeEndpoint<N,E>, Endpoint<E,N,E>
+		  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>
+		> extends CloudGraph.EdgeEndpoint<P,N,E>, JoinableCloud.Endpoint<P,E>, Endpoint<P,E,N,E>
 	{
 	};
+
+	NE joinNode(N node) throws InvalidGraphException;
+	Map<N, NE> joinNodes(Set<? extends N> nodes) throws InvalidGraphException;
+	Map<N, Set<NE>> joinNodes(Map<? extends N,? extends Integer> nodes) throws InvalidGraphException;
+
+	EE joinEdge(E edge) throws InvalidGraphException;
+	Map<E, EE> joinEdges(Set<? extends E> edges) throws InvalidGraphException;
+	Map<E, Set<EE>> joinEdges(Map<? extends E,? extends Integer> edges) throws InvalidGraphException;
+
+	Map<?, CloudGraph.Endpoint<?, ?, N,E>> joinAll(Set<? extends N> addNodes, Set<? extends E> addEdges) throws InvalidGraphException;
 }

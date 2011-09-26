@@ -19,8 +19,8 @@
 package com.syncleus.dann.graphicalmodel;
 
 import com.syncleus.dann.graph.BidirectedEdge;
-import com.syncleus.dann.graph.MutableGraph;
+import com.syncleus.dann.graph.MutableCloudGraph;
 
-public interface MutableGraphicalModel<N extends GraphicalModelNode, E extends BidirectedEdge<N>> extends GraphicalModel<N, E>, MutableGraph<N, E>
+public interface MutableGraphicalModel<N extends GraphicalModelNode, E extends BidirectedEdge<N>> extends GraphicalModel<N, E>, MutableCloudGraph<N, E>
 {
 }

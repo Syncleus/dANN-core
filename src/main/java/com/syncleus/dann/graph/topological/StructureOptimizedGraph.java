@@ -67,4 +67,6 @@ public interface StructureOptimizedGraph<N, E extends Cloud<N>> extends CloudGra
 	 * @since 2.0
 	 */
 	boolean isHomomorphic(CloudGraph<N, E> homomorphicGraph);
+
+	boolean isTree(CloudGraph<N, E> graph);
 }

@@ -22,7 +22,7 @@ public interface BidirectedCloud<
 	  EP extends BidirectedCloud.Endpoint<T, ? extends T>
 	  > extends TraversableCloud<T, EP>
 {
-	interface Endpoint<P, T extends P> extends TraversableCloud.Endpoint<P, T>
+	interface Endpoint<P, T> extends TraversableCloud.Endpoint<P, T>
 	{
 		enum Direction
 		{

@@ -18,45 +18,34 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.Map;
-import java.util.Set;
-
 public interface MutableGraph<
 	  	N,
-	  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N>>,
-	  	NEP extends MutableGraph.NodeEndpoint<N, E>,
-	  	EEP extends MutableGraph.EdgeEndpoint<N, E>
-	  >  extends CloudGraph<N,E,NEP,EEP>
+	  	E extends Edge<N,? extends Edge.Endpoint<? extends N>> & AssignableCloud<? extends N, ? extends AssignableCloud.Endpoint<? extends N, ? extends N>>,
+	  	AE extends MutableGraph.Endpoint<Object, N, E>,
+	  	NE extends MutableGraph.NodeEndpoint<N, E>,
+	  	EE extends MutableGraph.EdgeEndpoint<N, E>
+	  > extends MutableCloudGraph<Object, N, E, AE, NE, EE>, Graph<N,E,AE,NE,EE>
 {
+	interface Endpoint<
+		  	T,
+		  	N,
+		  	E extends Edge<N,? extends Edge.Endpoint<? extends N>> & AssignableCloud<? extends N, ? extends AssignableCloud.Endpoint<? extends N, ? extends N>>
+		  >
+		  extends MutableCloudGraph.Endpoint<Object,T,N,E>, Graph.Endpoint<T,N,E>
+	{
+	};
 
 	interface NodeEndpoint<
-		  ON,
-		  OE extends Cloud<ON,? extends Cloud.Endpoint<? extends ON>>
-	  > extends CloudGraph.NodeEndpoint<ON,OE>, PartibleCloud.Endpoint<ON>
+		  	N,
+		  	E extends Edge<N,? extends Edge.Endpoint<? extends N>> & AssignableCloud<? extends N, ? extends AssignableCloud.Endpoint<? extends N, ? extends N>>
+	  > extends MutableCloudGraph.NodeEndpoint<Object,N,E>, Graph.NodeEndpoint<N,E>, Endpoint<N,N,E>
 	{
 	};
 
 	interface EdgeEndpoint<
-		  ON,
-		  OE extends Cloud<ON,? extends Cloud.Endpoint<? extends ON>>
-	  > extends CloudGraph.EdgeEndpoint<ON,OE>, PartibleCloud.Endpoint<OE>
+		  	N,
+		  	E extends Edge<N,? extends Edge.Endpoint<? extends N>> & AssignableCloud<? extends N, ? extends AssignableCloud.Endpoint<? extends N, ? extends N>>
+		> extends MutableCloudGraph.EdgeEndpoint<Object,N,E>, Graph.EdgeEndpoint<N,E>, Endpoint<E,N,E>
 	{
 	};
-
-	NE joinNode(N node) throws InvalidGraphException;
-	Map<N, NE> joinNodes(Set<? extends N> nodes) throws InvalidGraphException;
-	Map<N, Set<NE>> joinNodes(Map<? extends N,? extends Integer> nodes) throws InvalidGraphException;
-	void leaveNode(MutableGraph.NodeEndpoint<?,?> endpoint) throws InvalidGraphException;
-	void leaveNodes(Set<? extends MutableGraph.NodeEndpoint<?,?>> endpoint) throws InvalidGraphException;
-
-	EE joinEdge(E edge) throws InvalidGraphException;
-	Map<E, EE> joinEdges(Set<? extends E> edges) throws InvalidGraphException;
-	Map<E, Set<EE>> joinEdges(Map<? extends E,? extends Integer> edges) throws InvalidGraphException;
-	void leaveEdge(MutableGraph.EdgeEndpoint<?, ?> endpoint) throws InvalidGraphException;
-	void leaveEdges(Set<? extends MutableGraph.EdgeEndpoint<?, ?>> endpoints) throws InvalidGraphException;
-
-	void clear() throws InvalidGraphException;
-	void clearEdges() throws InvalidGraphException;
-
-	Map<?, CloudGraph.Endpoint<?, N,E>> reconfigure(Set<? extends N> addNodes, Set<? extends E> addEdges, final Set<? extends CloudGraph.Endpoint<?,?,?>> disconnectEndpoints) throws InvalidGraphException;
 }
