@@ -81,7 +81,7 @@ public abstract class AbstractWalk<N, E extends Cloud<N>> implements Walk<N, E>
 	@Override
 	public boolean hasChildCycles()
 	{
-		final Graph<N, E> graph = new ImmutableAdjacencyGraph<N, E>(new HashSet<N>(this.getNodeSteps()), new HashSet<E>(this.getSteps()));
+		final CloudGraph<N, E> graph = new ImmutableAdjacencyGraph<N, E>(new HashSet<N>(this.getNodeSteps()), new HashSet<E>(this.getSteps()));
 		final CycleFinder<N, E> finder = new ExhaustiveDepthFirstSearchCycleFinder<N, E>();
 		if( this.isCycle() )
 			if( finder.cycleCount(graph) > 1 )

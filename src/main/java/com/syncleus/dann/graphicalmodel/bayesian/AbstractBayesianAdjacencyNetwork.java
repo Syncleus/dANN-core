@@ -19,8 +19,8 @@
 package com.syncleus.dann.graphicalmodel.bayesian;
 
 import java.util.Set;
+import com.syncleus.dann.graph.CloudGraph;
 import com.syncleus.dann.graph.DirectedEdge;
-import com.syncleus.dann.graph.Graph;
 import com.syncleus.dann.graphicalmodel.AbstractGraphicalModelAdjacencyGraph;
 import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
 
@@ -31,7 +31,7 @@ public abstract class AbstractBayesianAdjacencyNetwork<N extends GraphicalModelN
 		super();
 	}
 
-	protected AbstractBayesianAdjacencyNetwork(final Graph<N, E> copyGraph)
+	protected AbstractBayesianAdjacencyNetwork(final CloudGraph<N, E> copyGraph)
 	{
 		super(copyGraph.getTargets(), copyGraph.getEdges());
 	}

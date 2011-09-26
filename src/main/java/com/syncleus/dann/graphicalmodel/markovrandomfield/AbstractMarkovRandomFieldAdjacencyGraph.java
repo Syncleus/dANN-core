@@ -30,7 +30,7 @@ public abstract class AbstractMarkovRandomFieldAdjacencyGraph<N extends Graphica
 		super();
 	}
 
-	protected AbstractMarkovRandomFieldAdjacencyGraph(final Graph<N, E> copyGraph)
+	protected AbstractMarkovRandomFieldAdjacencyGraph(final CloudGraph<N, E> copyGraph)
 	{
 		super(copyGraph.getTargets(), copyGraph.getEdges());
 	}

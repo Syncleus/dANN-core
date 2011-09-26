@@ -18,14 +18,14 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface HyperEdge<
+public interface Hyperedge<
 	  	T,
-	  	EP extends HyperEdge.Endpoint<? extends T>
-	  > extends Edge<T, EP>
+	  	EP extends Hyperedge.Endpoint<T, ? extends T>
+	  > extends Cloud<T, EP>
 {
-	interface Endpoint<NN> extends Edge.Endpoint<NN>
+	interface Endpoint<P, T extends P> extends Cloud.Endpoint<P, T>
 	{
 	};
 
-	boolean isSymmetric(HyperEdge<T,EP> symmetricEdge);
+	boolean isSymmetric(Hyperedge<T,EP> symmetricEdge);
 }

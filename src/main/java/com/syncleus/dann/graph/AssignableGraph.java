@@ -23,28 +23,28 @@ public interface AssignableGraph<
 	  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N>>,
 	  	NEP extends AssignableGraph.NodeEndpoint<N, E>,
 	  	EEP extends AssignableGraph.EdgeEndpoint<N, E>
-	  >  extends Graph<N,E,NEP,EEP>, AssignableCloud<Object,AssignableGraph.Endpoint<?, N,E>>
+	  >  extends CloudGraph<N,E,NEP,EEP>, AssignableCloud<Object,AssignableGraph.Endpoint<?, N,E>>
 {
 	interface Endpoint<
 			  T,
 			  N,
 			  E extends Cloud<N,? extends Cloud.Endpoint<? extends N>>
 		  >
-		  extends Graph.Endpoint<T,N,E>, AssignableCloud.Endpoint<T>
+		  extends CloudGraph.Endpoint<T,N,E>, AssignableCloud.Endpoint<T>
 	{
 	};
 
 	interface NodeEndpoint<
 		  ON,
 		  OE extends Cloud<ON,? extends Cloud.Endpoint<? extends ON>>
-	  > extends Graph.NodeEndpoint<ON,OE>, AssignableCloud.Endpoint<ON>
+	  > extends CloudGraph.NodeEndpoint<ON,OE>, AssignableCloud.Endpoint<ON>
 	{
 	};
 
 	interface EdgeEndpoint<
 		  ON,
 		  OE extends Cloud<ON,? extends Cloud.Endpoint<? extends ON>>
-	  > extends Graph.EdgeEndpoint<ON,OE>, AssignableCloud.Endpoint<OE>
+	  > extends CloudGraph.EdgeEndpoint<ON,OE>, AssignableCloud.Endpoint<OE>
 	{
 	};
 }

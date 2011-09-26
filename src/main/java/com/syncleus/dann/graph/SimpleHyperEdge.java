@@ -20,28 +20,28 @@ package com.syncleus.dann.graph;
 
 import java.util.*;
 
-public class SimpleHyperEdge<N> extends AbstractHyperEdge<N> implements MutableHyperEdge<N>
+public class SimpleHyperedge<N> extends AbstractHyperedge<N> implements MutableHyperedge<N>
 {
 	private static final long serialVersionUID = -3657973823101515199L;
 	private final boolean contextEnabled;
 	private final Set<SimpleEndpoint> endPoints;
 
-	public SimpleHyperEdge()
+	public SimpleHyperedge()
 	{
 		this(false);
 	}
 
-	public SimpleHyperEdge(final Set<N> nodes)
+	public SimpleHyperedge(final Set<N> nodes)
 	{
 		this(nodes, false);
 	}
 
-	public SimpleHyperEdge(final N... nodes)
+	public SimpleHyperedge(final N... nodes)
 	{
 		this(false, nodes);
 	}
 
-	public SimpleHyperEdge(final boolean contextEnabled)
+	public SimpleHyperedge(final boolean contextEnabled)
 	{
 		super();
 		this.contextEnabled = contextEnabled;
@@ -49,7 +49,7 @@ public class SimpleHyperEdge<N> extends AbstractHyperEdge<N> implements MutableH
 		this.endPoints = new HashSet<SimpleEndpoint>();
 	}
 
-	public SimpleHyperEdge(final Set<N> nodes, final boolean contextEnabled)
+	public SimpleHyperedge(final Set<N> nodes, final boolean contextEnabled)
 	{
 		super();
 		this.contextEnabled = contextEnabled;
@@ -59,7 +59,7 @@ public class SimpleHyperEdge<N> extends AbstractHyperEdge<N> implements MutableH
 			this.endPoints.add(new SimpleEndpoint(node));
 	}
 
-	public SimpleHyperEdge(final boolean contextEnabled, final N... nodes)
+	public SimpleHyperedge(final boolean contextEnabled, final N... nodes)
 	{
 		super();
 		this.contextEnabled = contextEnabled;
@@ -77,46 +77,46 @@ public class SimpleHyperEdge<N> extends AbstractHyperEdge<N> implements MutableH
 
 /*
 	@Override
-	public SimpleHyperEdge<N> join(final N node)
+	public SimpleHyperedge<N> join(final N node)
 	{
-		return (SimpleHyperEdge<N>) super.join(node);
+		return (SimpleHyperedge<N>) super.join(node);
 	}
 
 	@Override
-	public SimpleHyperEdge<N> join(final List<N> nodes)
+	public SimpleHyperedge<N> join(final List<N> nodes)
 	{
-		return (SimpleHyperEdge<N>) super.join(nodes);
+		return (SimpleHyperedge<N>) super.join(nodes);
 	}
 */
 
 	@Override
-	protected SimpleHyperEdge<N> clone()
+	protected SimpleHyperedge<N> clone()
 	{
-		return (SimpleHyperEdge<N>) super.clone();
+		return (SimpleHyperedge<N>) super.clone();
 	}
 
 	@Override
-	public MutableHyperEdge.Endpoint<N, N> join(N node) throws InvalidEdgeException
-	{
-	}
-
-	@Override
-	public Map<N, MutableHyperEdge.Endpoint<N, N>> join(Set<N> nodes) throws InvalidEdgeException
+	public MutableHyperedge.Endpoint<N, N> join(N node) throws InvalidEdgeException
 	{
 	}
 
 	@Override
-	public void leave(MutableHyperEdge.Endpoint<N, N> nnEndPoint) throws InvalidEdgeException
+	public Map<N, MutableHyperedge.Endpoint<N, N>> join(Set<N> nodes) throws InvalidEdgeException
 	{
 	}
 
 	@Override
-	public void leave(Set<MutableHyperEdge.Endpoint<N, N>> endPoint) throws InvalidEdgeException
+	public void leave(MutableHyperedge.Endpoint<N, N> nnEndPoint) throws InvalidEdgeException
 	{
 	}
 
 	@Override
-	public Map<N, MutableHyperEdge.Endpoint<N, N>> reconfigure(Set<N> connectNodes, Set<MutableHyperEdge.Endpoint<N, N>> disconnectEndPoints) throws InvalidEdgeException
+	public void leave(Set<MutableHyperedge.Endpoint<N, N>> endPoint) throws InvalidEdgeException
+	{
+	}
+
+	@Override
+	public Map<N, MutableHyperedge.Endpoint<N, N>> reconfigure(Set<N> connectNodes, Set<MutableHyperedge.Endpoint<N, N>> disconnectEndPoints) throws InvalidEdgeException
 	{
 	}
 
@@ -125,7 +125,7 @@ public class SimpleHyperEdge<N> extends AbstractHyperEdge<N> implements MutableH
 	{
 	}
 
-	private class SimpleEndpoint extends AbstractEndpoint<N,N> implements MutableHyperEdge.Endpoint<N, N>
+	private class SimpleEndpoint extends AbstractEndpoint<N,N> implements MutableHyperedge.Endpoint<N, N>
 	{
 		public SimpleEndpoint()
 		{

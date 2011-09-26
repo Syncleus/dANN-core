@@ -20,7 +20,7 @@ package com.syncleus.dann.graph.tree.mst;
 
 import java.util.Set;
 import com.syncleus.dann.graph.Cloud;
-import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.CloudGraph;
 
 /**
  * @param <N> The node type
@@ -28,5 +28,5 @@ import com.syncleus.dann.graph.Graph;
  */
 public interface MinimumSpanningTreeFinder<N, E extends Cloud<N>>
 {
-	Set<E> findMinimumSpanningTree(Graph<N, E> graph);
+	Set<E> findMinimumSpanningTree(CloudGraph<N, E> graph);
 }

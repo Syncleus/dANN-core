@@ -22,9 +22,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import com.syncleus.dann.graph.Cloud;
-import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.CloudGraph;
 
-public abstract class AbstractContextNode<N, E extends Cloud<N>, G extends Graph<N, E>> extends AbstractContextGraphElement<G> implements ContextNode<N, E>
+public abstract class AbstractContextNode<N, E extends Cloud<N>, G extends CloudGraph<N, E>> extends AbstractContextGraphElement<G> implements ContextNode<N, E>
 {
 	private final Set<E> connectedEdges = new HashSet<E>();
 

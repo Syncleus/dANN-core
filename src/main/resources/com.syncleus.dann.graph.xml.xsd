@@ -48,7 +48,7 @@
 
     <!-- Graphs -->
 
-    <!-- Graph Element, contains instances -->
+    <!-- CloudGraph Element, contains instances -->
     <xsd:element name="Graph">
         <xsd:annotation>
             <xsd:appinfo>
@@ -77,7 +77,7 @@
             </xsd:complexContent>
         </xsd:complexType>
     </xsd:element>
-    <!-- Graph Type, contains references to instanced objects -->
+    <!-- CloudGraph Type, contains references to instanced objects -->
     <xsd:complexType name="Graph">
         <xsd:complexContent>
             <xsd:extension base="Edge"/>

@@ -36,7 +36,7 @@ public class ImmutableDirectedAdjacencyGraph<N, E extends DirectedEdge<N>> exten
 		super();
 	}
 
-	public ImmutableDirectedAdjacencyGraph(final Graph<N, E> copyGraph)
+	public ImmutableDirectedAdjacencyGraph(final CloudGraph<N, E> copyGraph)
 	{
 		super(copyGraph);
 	}

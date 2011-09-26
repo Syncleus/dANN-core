@@ -33,7 +33,7 @@ import java.util.Set;
  * @author Jeffrey Phillips Freeman
  * @since 2.0
  */
-public interface BidirectedGraph<N, E extends BidirectedEdge<N>> extends Graph<N, E>
+public interface BidirectedGraph<N, E extends BidirectedEdge<N>> extends CloudGraph<N, E>
 {
 	/**
 	 * Get all edges which traverse to the specified node. While the combination of

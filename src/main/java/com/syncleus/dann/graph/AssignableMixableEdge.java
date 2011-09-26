@@ -18,9 +18,18 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface MutableWeightedMixableBidirectedEdge<N, LN extends N, RN extends N> extends MutableWeightedEdge<N>, WeightedMixableBidirectedEdge<LN,RN,N>, MutableMixableBidirectedEdge<N, LN,RN>
+public interface AssignableMixableEdge<
+	  	T,
+	  	LT extends T,
+	  	RT extends T,
+	  	E extends AssignableMixableEdge.Endpoint<T, ? extends T, ? extends T>,
+	  	LE extends AssignableMixableEdge.Endpoint<T, LT, RT>,
+	  	RE extends AssignableMixableEdge.Endpoint<T, RT, LT>
+	  > extends MixableEdge<T, LT, RT, E, LE, RE>, AssignableCloud<T, E>
 {
-	interface Endpoint<NN, EN extends NN, ON extends NN> extends MutableWeightedEdge.Endpoint<NN, EN>, WeightedMixableBidirectedEdge.Endpoint<EN,ON,NN>, MutableMixableBidirectedEdge.Endpoint<NN, EN,ON>
+	interface Endpoint<P, T extends P, N extends P> extends MixableEdge.Endpoint<P, T, N>, AssignableCloud.Endpoint<P, T>
 	{
 	};
+
+	void reassign(LT newLeftNode, RT newRightNode) throws InvalidEdgeException;
 }

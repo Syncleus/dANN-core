@@ -19,9 +19,9 @@
 package com.syncleus.dann.graph.topological;
 
 import com.syncleus.dann.graph.Cloud;
-import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.CloudGraph;
 
-public interface ConnectionismOptimizedGraph<N, E extends Cloud<N>> extends Graph<N, E>
+public interface ConnectionismOptimizedGraph<N, E extends Cloud<N>> extends CloudGraph<N, E>
 {
 	/**
 	 * The total degree of the specified node. This is essentially the number of
@@ -31,7 +31,7 @@ public interface ConnectionismOptimizedGraph<N, E extends Cloud<N>> extends Grap
 	 *
 	 * @param node The node whose degree is to be returned
 	 * @return the degree of the specified node.
-	 * @see com.syncleus.dann.graph.Graph#getAdjacentEdges
+	 * @see com.syncleus.dann.graph.CloudGraph#getAdjacentEdges
 	 * @since 2.0
 	 */
 	int getDegree(N node);

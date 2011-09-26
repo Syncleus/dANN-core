@@ -18,13 +18,13 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.search.optimization;
 
-import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.CloudGraph;
 import com.syncleus.dann.graph.Weighted;
 import com.syncleus.dann.graph.search.LocalSearch;
 
 // TODO implement optimizer approach
 
-public class HillClimbingLocalSearch<G extends Graph<N, ?>, N extends Weighted> implements LocalSearch<N>
+public class HillClimbingLocalSearch<G extends CloudGraph<N, ?>, N extends Weighted> implements LocalSearch<N>
 {
 	private final G graph;
 

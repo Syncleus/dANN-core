@@ -31,7 +31,7 @@ public abstract class AbstractBidirectedAdjacencyGraph<N, E extends BidirectedEd
 		super();
 	}
 
-	protected AbstractBidirectedAdjacencyGraph(final Graph<N, E> copyGraph)
+	protected AbstractBidirectedAdjacencyGraph(final CloudGraph<N, E> copyGraph)
 	{
 		super(copyGraph.getTargets(), copyGraph.getEdges());
 	}

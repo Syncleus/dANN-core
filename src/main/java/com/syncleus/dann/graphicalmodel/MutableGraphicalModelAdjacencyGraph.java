@@ -23,8 +23,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import com.syncleus.dann.graph.BidirectedEdge;
+import com.syncleus.dann.graph.CloudGraph;
 import com.syncleus.dann.graph.event.context.ContextGraphNode;
-import com.syncleus.dann.graph.Graph;
 
 public class MutableGraphicalModelAdjacencyGraph<N extends GraphicalModelNode, E extends BidirectedEdge<N>> extends AbstractGraphicalModelAdjacencyGraph<N, E> implements MutableGraphicalModel<N, E>
 {
@@ -35,7 +35,7 @@ public class MutableGraphicalModelAdjacencyGraph<N extends GraphicalModelNode, E
 		super();
 	}
 
-	public MutableGraphicalModelAdjacencyGraph(final Graph<N, E> copyGraph)
+	public MutableGraphicalModelAdjacencyGraph(final CloudGraph<N, E> copyGraph)
 	{
 		super(copyGraph.getTargets(), copyGraph.getEdges());
 	}

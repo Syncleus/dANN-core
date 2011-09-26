@@ -53,7 +53,7 @@ public abstract class AbstractTreeAdjacencyGraph<N, E extends BidirectedEdge<N>>
 	}
 
 	@Override
-	public boolean isSpanningTree(final Graph<N, E> subGraph)
+	public boolean isSpanningTree(final CloudGraph<N, E> subGraph)
 	{
 		throw new UnsupportedOperationException("We have not optimized for this, allow default algorithms to calcualte");
 	}

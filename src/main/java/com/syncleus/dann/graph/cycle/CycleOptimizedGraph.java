@@ -19,9 +19,9 @@
 package com.syncleus.dann.graph.cycle;
 
 import com.syncleus.dann.graph.Cloud;
-import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.CloudGraph;
 
-public interface CycleOptimizedGraph<N, E extends Cloud<N>> extends Graph<N, E>
+public interface CycleOptimizedGraph<N, E extends Cloud<N>> extends CloudGraph<N, E>
 {
 	/**
 	 * Calculates the number of cylces in the graph. A cycle is any walk that

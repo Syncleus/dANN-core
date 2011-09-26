@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.*;
 
 /**
- * An AbstractAdjacencyGraph is a Graph implemented using adjacency lists.
+ * An AbstractAdjacencyGraph is a CloudGraph implemented using adjacency lists.
  * @param <N> The node type
  * @param <E> The type of edge for the given node type
  */
@@ -37,12 +37,12 @@ import java.util.*;
 public abstract class AbstractAdjacencyGraph<
 	  	N,
 	  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N>>,
-	  	NE extends Graph.NodeEndpoint<N, E>,
-	  	EE extends Graph.EdgeEndpoint<N, E>
-	  > extends AbstractCloud<Object,Graph.Endpoint<?, N,E>> implements Graph<N, E, NE, EE>
+	  	NE extends CloudGraph.NodeEndpoint<N, E>,
+	  	EE extends CloudGraph.EdgeEndpoint<N, E>
+	  > extends AbstractCloud<Object,CloudGraph.Endpoint<?, N,E>> implements CloudGraph<N, E, NE, EE>
 {
 	private static final Logger LOGGER = Logger.getLogger(AbstractAdjacencyGraph.class);
-	protected abstract Set<EdgeEndpoint<N,E>> getAdjacentEdgeEndpoints(Graph.NodeEndpoint<?, ?> nodeEndpoint);
+	protected abstract Set<EdgeEndpoint<N,E>> getAdjacentEdgeEndpoints(CloudGraph.NodeEndpoint<?, ?> nodeEndpoint);
 
 	protected PathFinder<N,E> getPathFinder()
 	{
@@ -99,8 +99,8 @@ public abstract class AbstractAdjacencyGraph<
 		final Set<N> sourceNodes = new HashSet<N>();
 
 		for(NE destinationEndpoint : this.getNodeEndpoints(node) )
-			for(Graph.EdgeEndpoint<? extends N, ? extends E> sourceEndpoint : destinationEndpoint.getAdjacentEdges())
-				for(Graph.NodeEndpoint<? extends N, ? extends E> nodeEndpoint : sourceEndpoint.getAdjacentNodes())
+			for(CloudGraph.EdgeEndpoint<? extends N, ? extends E> sourceEndpoint : destinationEndpoint.getAdjacentEdges())
+				for(CloudGraph.NodeEndpoint<? extends N, ? extends E> nodeEndpoint : sourceEndpoint.getAdjacentNodes())
 					sourceNodes.add(nodeEndpoint.getTarget());
 
 		return Collections.unmodifiableSet(sourceNodes);
@@ -112,19 +112,19 @@ public abstract class AbstractAdjacencyGraph<
 		final Set<E> sourceEdges = new HashSet<E>();
 
 		for(NE destinationEndpoint : this.getNodeEndpoints(node) )
-			for(Graph.EdgeEndpoint<? extends N, ? extends E> sourceEndpoint : destinationEndpoint.getAdjacentEdges())
+			for(CloudGraph.EdgeEndpoint<? extends N, ? extends E> sourceEndpoint : destinationEndpoint.getAdjacentEdges())
 				sourceEdges.add(sourceEndpoint.getTarget());
 
 		return Collections.unmodifiableSet(sourceEdges);
 	}
 
 	@Override
-	public Set<Graph.Endpoint<?, N, E>> getEndpoints()
+	public Set<CloudGraph.Endpoint<?, N, E>> getEndpoints()
 	{
-		final Set<Graph.Endpoint<?, N,E>> endpoints = new HashSet<Graph.Endpoint<?, N,E>>();
+		final Set<CloudGraph.Endpoint<?, N,E>> endpoints = new HashSet<CloudGraph.Endpoint<?, N,E>>();
 		endpoints.addAll(this.getNodeEndpoints());
 		endpoints.addAll(this.getEdgeEndpoints());
-		return Collections.<Graph.Endpoint<?, N, E>>unmodifiableSet(endpoints);
+		return Collections.<CloudGraph.Endpoint<?, N, E>>unmodifiableSet(endpoints);
 	}
 
 	@Override
@@ -294,7 +294,7 @@ public abstract class AbstractAdjacencyGraph<
 		final Set<E> destinationEdges = new HashSet<E>();
 
 		for(NE sourceEndpoint : this.getNodeEndpoints(source) )
-			for(Graph.EdgeEndpoint<? extends N, ? extends E> destinationEndpoint : sourceEndpoint.getTraversableAdjacentEdgesFrom())
+			for(CloudGraph.EdgeEndpoint<? extends N, ? extends E> destinationEndpoint : sourceEndpoint.getTraversableAdjacentEdgesFrom())
 				destinationEdges.add(destinationEndpoint.getTarget());
 
 		return Collections.unmodifiableSet(destinationEdges);
@@ -306,7 +306,7 @@ public abstract class AbstractAdjacencyGraph<
 		final Set<E> destinationEdges = new HashSet<E>();
 
 		for(EE sourceEndpoint : this.getEdgeEndpoints(source) )
-			for(Graph.EdgeEndpoint<? extends N, ? extends E> destinationEndpoint : sourceEndpoint.getTraversableAdjacentEdgesFrom())
+			for(CloudGraph.EdgeEndpoint<? extends N, ? extends E> destinationEndpoint : sourceEndpoint.getTraversableAdjacentEdgesFrom())
 				destinationEdges.add(destinationEndpoint.getTarget());
 
 		return Collections.unmodifiableSet(destinationEdges);
@@ -319,7 +319,7 @@ public abstract class AbstractAdjacencyGraph<
 		final Set<E> sourceEdges = new HashSet<E>();
 
 		for(NE destinationEndpoint : this.getNodeEndpoints(destination) )
-			for(Graph.EdgeEndpoint<? extends N, ? extends E> sourceEndpoint : destinationEndpoint.getTraversableAdjacentEdgesTo())
+			for(CloudGraph.EdgeEndpoint<? extends N, ? extends E> sourceEndpoint : destinationEndpoint.getTraversableAdjacentEdgesTo())
 				sourceEdges.add(sourceEndpoint.getTarget());
 
 		return Collections.unmodifiableSet(sourceEdges);
@@ -331,7 +331,7 @@ public abstract class AbstractAdjacencyGraph<
 		final Set<E> destinationEdges = new HashSet<E>();
 
 		for(EE destinationEndpoint : this.getEdgeEndpoints(destination) )
-			for(Graph.EdgeEndpoint<? extends N, ? extends E> sourceEndpoint : destinationEndpoint.getTraversableAdjacentEdgesFrom())
+			for(CloudGraph.EdgeEndpoint<? extends N, ? extends E> sourceEndpoint : destinationEndpoint.getTraversableAdjacentEdgesFrom())
 				destinationEdges.add(sourceEndpoint.getTarget());
 
 		return Collections.unmodifiableSet(destinationEdges);
@@ -343,8 +343,8 @@ public abstract class AbstractAdjacencyGraph<
 		final Set<N> destinationNodes = new HashSet<N>();
 
 		for(NE sourceEndpoint : this.getNodeEndpoints(source) )
-			for(Graph.EdgeEndpoint<? extends N, ? extends E> destinationEndpoint : sourceEndpoint.getTraversableAdjacentEdgesTo())
-				for(Graph.NodeEndpoint<? extends N, ? extends E> nodeEndpoint : destinationEndpoint.getTraversableAdjacentNodesTo())
+			for(CloudGraph.EdgeEndpoint<? extends N, ? extends E> destinationEndpoint : sourceEndpoint.getTraversableAdjacentEdgesTo())
+				for(CloudGraph.NodeEndpoint<? extends N, ? extends E> nodeEndpoint : destinationEndpoint.getTraversableAdjacentNodesTo())
 					destinationNodes.add(nodeEndpoint.getTarget());
 
 		return Collections.unmodifiableSet(destinationNodes);
@@ -356,7 +356,7 @@ public abstract class AbstractAdjacencyGraph<
 		final Set<N> destinationNodes = new HashSet<N>();
 
 		for(EE sourceEndpoint : this.getEdgeEndpoints(source) )
-			for(Graph.NodeEndpoint<? extends N, ? extends E> destinationEndpoint : sourceEndpoint.getTraversableAdjacentNodesTo())
+			for(CloudGraph.NodeEndpoint<? extends N, ? extends E> destinationEndpoint : sourceEndpoint.getTraversableAdjacentNodesTo())
 					destinationNodes.add(destinationEndpoint.getTarget());
 
 		return Collections.unmodifiableSet(destinationNodes);
@@ -368,8 +368,8 @@ public abstract class AbstractAdjacencyGraph<
 		final Set<N> sourceNodes = new HashSet<N>();
 
 		for(NE destinationEndpoint : this.getNodeEndpoints(destination) )
-			for(Graph.EdgeEndpoint<? extends N, ? extends E> sourceEndpoint : destinationEndpoint.getTraversableAdjacentEdgesFrom())
-				for(Graph.NodeEndpoint<? extends N, ? extends E> nodeEndpoint : sourceEndpoint.getTraversableAdjacentNodesFrom())
+			for(CloudGraph.EdgeEndpoint<? extends N, ? extends E> sourceEndpoint : destinationEndpoint.getTraversableAdjacentEdgesFrom())
+				for(CloudGraph.NodeEndpoint<? extends N, ? extends E> nodeEndpoint : sourceEndpoint.getTraversableAdjacentNodesFrom())
 					sourceNodes.add(nodeEndpoint.getTarget());
 
 		return Collections.unmodifiableSet(sourceNodes);
@@ -381,7 +381,7 @@ public abstract class AbstractAdjacencyGraph<
 		final Set<N> sourceNodes = new HashSet<N>();
 
 		for(EE destinationEndpoint : this.getEdgeEndpoints(destination) )
-			for(Graph.NodeEndpoint<? extends N, ? extends E> sourceEndpoint : destinationEndpoint.getTraversableAdjacentNodesFrom())
+			for(CloudGraph.NodeEndpoint<? extends N, ? extends E> sourceEndpoint : destinationEndpoint.getTraversableAdjacentNodesFrom())
 					sourceNodes.add(sourceEndpoint.getTarget());
 
 		return Collections.unmodifiableSet(sourceNodes);
@@ -491,52 +491,52 @@ public abstract class AbstractAdjacencyGraph<
 	}
 */
 
-	protected abstract class AbstractNodeEndpoint extends AbstractCloud<? super N,Graph.Endpoint<? super N, N,E>>.AbstractEndpoint<N> implements Graph.NodeEndpoint<N,E>
+	protected abstract class AbstractNodeEndpoint extends AbstractCloud<? super N,CloudGraph.Endpoint<? super N, N,E>>.AbstractEndpoint<N> implements CloudGraph.NodeEndpoint<N,E>
 	{
 
 		@Override
-		public Set<Graph.EdgeEndpoint<N, E>> getAdjacentEdges()
+		public Set<CloudGraph.EdgeEndpoint<N, E>> getAdjacentEdges()
 		{
 			return getAdjacentEdgeEndpoints(this);
 		}
 
 		@Override
-		public Set<? extends Graph.EdgeEndpoint<N, E>> getAdjacent()
+		public Set<? extends CloudGraph.EdgeEndpoint<N, E>> getAdjacent()
 		{
 			return getAdjacentEdges();
 		}
 
 		@Override
-		public Set<? extends Graph.EdgeEndpoint<N, E>> getTraversableAdjacentTo()
+		public Set<? extends CloudGraph.EdgeEndpoint<N, E>> getTraversableAdjacentTo()
 		{
 			return this.getTraversableAdjacentEdgesTo();
 		}
 
 		@Override
-		public Set<? extends Graph.EdgeEndpoint<N, E>> getTraversableAdjacentFrom()
+		public Set<? extends CloudGraph.EdgeEndpoint<N, E>> getTraversableAdjacentFrom()
 		{
 			return this.getTraversableAdjacentEdgesFrom();
 		}
 
 		@Override
-		public Set<Graph.NodeEndpoint<N, E>> getAdjacentNodes()
+		public Set<CloudGraph.NodeEndpoint<N, E>> getAdjacentNodes()
 		{
-			final Set<Graph.NodeEndpoint<N, E>> adjacentNodes = new HashSet<Graph.NodeEndpoint<N, E>>();
+			final Set<CloudGraph.NodeEndpoint<N, E>> adjacentNodes = new HashSet<CloudGraph.NodeEndpoint<N, E>>();
 
-			for(Graph.EdgeEndpoint<N, E> adjacentEndpoint : this.getAdjacentEdges() )
+			for(CloudGraph.EdgeEndpoint<N, E> adjacentEndpoint : this.getAdjacentEdges() )
 				for( Cloud.Endpoint<? extends N> nodeEndpoint : adjacentEndpoint.getTarget().getEndpoints(this.getTarget()) )
 					for( Cloud.Endpoint<? extends N> adjacentNodeEndpoint : nodeEndpoint.getNeighbors() )
 						adjacentNodes.addAll(AbstractAdjacencyGraph.this.getNodeEndpoints(adjacentNodeEndpoint.getTarget()));
 
-			return Collections.<Graph.NodeEndpoint<N, E>>unmodifiableSet(adjacentNodes);
+			return Collections.<CloudGraph.NodeEndpoint<N, E>>unmodifiableSet(adjacentNodes);
 		}
 
 		@Override
-		public Set<Graph.NodeEndpoint<N, E>> getTraversableAdjacentNodesTo()
+		public Set<CloudGraph.NodeEndpoint<N, E>> getTraversableAdjacentNodesTo()
 		{
-			final Set<Graph.NodeEndpoint<N, E>> adjacentNodes = new HashSet<Graph.NodeEndpoint<N, E>>();
+			final Set<CloudGraph.NodeEndpoint<N, E>> adjacentNodes = new HashSet<CloudGraph.NodeEndpoint<N, E>>();
 
-			for(Graph.EdgeEndpoint<N, E> adjacentEndpoint : this.getAdjacentEdges() )
+			for(CloudGraph.EdgeEndpoint<N, E> adjacentEndpoint : this.getAdjacentEdges() )
 				for( Cloud.Endpoint<? extends N> nodeEndpoint : adjacentEndpoint.getTarget().getEndpoints(this.getTarget()) )
 					for( Cloud.Endpoint<? extends N> adjacentNodeEndpoint : nodeEndpoint.getTraversableNeighborsTo() )
 						adjacentNodes.addAll(AbstractAdjacencyGraph.this.getNodeEndpoints(adjacentNodeEndpoint.getTarget()));
@@ -545,11 +545,11 @@ public abstract class AbstractAdjacencyGraph<
 		}
 
 		@Override
-		public Set<Graph.NodeEndpoint<N, E>> getTraversableAdjacentNodesFrom()
+		public Set<CloudGraph.NodeEndpoint<N, E>> getTraversableAdjacentNodesFrom()
 		{
-			final Set<Graph.NodeEndpoint<N, E>> adjacentNodes = new HashSet<Graph.NodeEndpoint<N, E>>();
+			final Set<CloudGraph.NodeEndpoint<N, E>> adjacentNodes = new HashSet<CloudGraph.NodeEndpoint<N, E>>();
 
-			for(Graph.EdgeEndpoint<N, E> adjacentEndpoint : this.getAdjacentEdges() )
+			for(CloudGraph.EdgeEndpoint<N, E> adjacentEndpoint : this.getAdjacentEdges() )
 				for( Cloud.Endpoint<? extends N> nodeEndpoint : adjacentEndpoint.getTarget().getEndpoints(this.getTarget()) )
 					for( Cloud.Endpoint<? extends N> adjacentNodeEndpoint : nodeEndpoint.getTraversableNeighborsFrom() )
 						adjacentNodes.addAll(AbstractAdjacencyGraph.this.getNodeEndpoints(adjacentNodeEndpoint.getTarget()));
@@ -558,11 +558,11 @@ public abstract class AbstractAdjacencyGraph<
 		}
 
 		@Override
-		public Set<Graph.EdgeEndpoint<N, E>> getTraversableAdjacentEdgesTo()
+		public Set<CloudGraph.EdgeEndpoint<N, E>> getTraversableAdjacentEdgesTo()
 		{
-			final Set<Graph.EdgeEndpoint<N, E>> adjacentEdges = new HashSet<Graph.EdgeEndpoint<N, E>>();
+			final Set<CloudGraph.EdgeEndpoint<N, E>> adjacentEdges = new HashSet<CloudGraph.EdgeEndpoint<N, E>>();
 
-			for(Graph.EdgeEndpoint<N, E> adjacentEndpoint : this.getAdjacentEdges() )
+			for(CloudGraph.EdgeEndpoint<N, E> adjacentEndpoint : this.getAdjacentEdges() )
 				for( Cloud.Endpoint<? extends N> nodeEndpoint : adjacentEndpoint.getTarget().getEndpoints(this.getTarget()) )
 					if( nodeEndpoint.isTraversable() )
 						adjacentEdges.add(adjacentEndpoint);
@@ -571,11 +571,11 @@ public abstract class AbstractAdjacencyGraph<
 		}
 
 		@Override
-		public Set<Graph.EdgeEndpoint<N, E>> getTraversableAdjacentEdgesFrom()
+		public Set<CloudGraph.EdgeEndpoint<N, E>> getTraversableAdjacentEdgesFrom()
 		{
-			final Set<Graph.EdgeEndpoint<N, E>> adjacentEdges = new HashSet<Graph.EdgeEndpoint<N, E>>();
+			final Set<CloudGraph.EdgeEndpoint<N, E>> adjacentEdges = new HashSet<CloudGraph.EdgeEndpoint<N, E>>();
 
-			for(Graph.EdgeEndpoint<N, E> adjacentEndpoint : this.getAdjacentEdges() )
+			for(CloudGraph.EdgeEndpoint<N, E> adjacentEndpoint : this.getAdjacentEdges() )
 				for( Cloud.Endpoint<? extends N> nodeEndpoint : adjacentEndpoint.getTarget().getEndpoints(this.getTarget()) )
 					if( nodeEndpoint.isTraversable() )
 						adjacentEdges.add(adjacentEndpoint);
@@ -584,30 +584,30 @@ public abstract class AbstractAdjacencyGraph<
 		}
 	};
 
-	protected abstract class AbstractEdgeEndpoint extends AbstractCloud<? super E,Graph.Endpoint<? super E, N,E>>.AbstractEndpoint<E> implements Graph.EdgeEndpoint<N,E>
+	protected abstract class AbstractEdgeEndpoint extends AbstractCloud<? super E,CloudGraph.Endpoint<? super E, N,E>>.AbstractEndpoint<E> implements CloudGraph.EdgeEndpoint<N,E>
 	{
 		@Override
-		public Set<Graph.NodeEndpoint<N, E>> getAdjacent()
+		public Set<CloudGraph.NodeEndpoint<N, E>> getAdjacent()
 		{
 			return this.getAdjacentNodes();
 		}
 
 		@Override
-		public Set<Graph.NodeEndpoint<N, E>> getTraversableAdjacentTo()
+		public Set<CloudGraph.NodeEndpoint<N, E>> getTraversableAdjacentTo()
 		{
 			return this.getTraversableAdjacentNodesTo();
 		}
 
 		@Override
-		public Set<Graph.NodeEndpoint<N, E>> getTraversableAdjacentFrom()
+		public Set<CloudGraph.NodeEndpoint<N, E>> getTraversableAdjacentFrom()
 		{
 			return this.getTraversableAdjacentNodesFrom();
 		}
 
 		@Override
-		public Set<Graph.NodeEndpoint<N, E>> getAdjacentNodes()
+		public Set<CloudGraph.NodeEndpoint<N, E>> getAdjacentNodes()
 		{
-			final Set<Graph.NodeEndpoint<N, E>> adjacentNodes = new HashSet<Graph.NodeEndpoint<N, E>>();
+			final Set<CloudGraph.NodeEndpoint<N, E>> adjacentNodes = new HashSet<CloudGraph.NodeEndpoint<N, E>>();
 
 			for(Endpoint<? extends N> adjacentEndpoint : this.getTarget().getEndpoints())
 				adjacentNodes.addAll(AbstractAdjacencyGraph.this.getNodeEndpoints(adjacentEndpoint.getTarget()));
@@ -616,9 +616,9 @@ public abstract class AbstractAdjacencyGraph<
 		}
 
 		@Override
-		public Set<Graph.EdgeEndpoint<N, E>> getAdjacentEdges()
+		public Set<CloudGraph.EdgeEndpoint<N, E>> getAdjacentEdges()
 		{
-			final Set<Graph.EdgeEndpoint<N, E>> adjacentEdges = new HashSet<Graph.EdgeEndpoint<N, E>>();
+			final Set<CloudGraph.EdgeEndpoint<N, E>> adjacentEdges = new HashSet<CloudGraph.EdgeEndpoint<N, E>>();
 
 			for(Endpoint<? extends N> sourceEndpoint : this.getTarget().getEndpoints())
 				for( NE neighborNode : AbstractAdjacencyGraph.this.getNodeEndpoints(sourceEndpoint.getTarget()) )
@@ -629,14 +629,14 @@ public abstract class AbstractAdjacencyGraph<
 		}
 
 		@Override
-		public Set<Graph.EdgeEndpoint<N, E>> getTraversableAdjacentEdgesTo()
+		public Set<CloudGraph.EdgeEndpoint<N, E>> getTraversableAdjacentEdgesTo()
 		{
-			final Set<Graph.EdgeEndpoint<N, E>> adjacentEdges = new HashSet<Graph.EdgeEndpoint<N, E>>();
+			final Set<CloudGraph.EdgeEndpoint<N, E>> adjacentEdges = new HashSet<CloudGraph.EdgeEndpoint<N, E>>();
 
 			for(Endpoint<? extends N> sourceEndpoint : this.getTarget().getEndpoints())
 				if( sourceEndpoint.getTraversableNeighborsFrom().size() > 0 )
 					for( NE adjacentNode : AbstractAdjacencyGraph.this.getNodeEndpoints(sourceEndpoint.getTarget()))
-						for( Graph.EdgeEndpoint<N, E> adjacentEdge : AbstractAdjacencyGraph.this.getAdjacentEdgeEndpoints(adjacentNode) )
+						for( CloudGraph.EdgeEndpoint<N, E> adjacentEdge : AbstractAdjacencyGraph.this.getAdjacentEdgeEndpoints(adjacentNode) )
 						 	if( adjacentEdge.getTarget().getTraversableFrom(adjacentNode.getTarget()).size() > 0 )
 								 adjacentEdges.add(adjacentEdge);
 
@@ -644,14 +644,14 @@ public abstract class AbstractAdjacencyGraph<
 		}
 
 		@Override
-		public Set<Graph.EdgeEndpoint<N, E>> getTraversableAdjacentEdgesFrom()
+		public Set<CloudGraph.EdgeEndpoint<N, E>> getTraversableAdjacentEdgesFrom()
 		{
-			final Set<Graph.EdgeEndpoint<N, E>> adjacentEdges = new HashSet<Graph.EdgeEndpoint<N, E>>();
+			final Set<CloudGraph.EdgeEndpoint<N, E>> adjacentEdges = new HashSet<CloudGraph.EdgeEndpoint<N, E>>();
 
 			for(Endpoint<? extends N> sourceEndpoint : this.getTarget().getEndpoints())
 				if( sourceEndpoint.getTraversableNeighborsTo().size() > 0 )
 					for( NE adjacentNode : AbstractAdjacencyGraph.this.getNodeEndpoints(sourceEndpoint.getTarget()))
-						for( Graph.EdgeEndpoint<N, E> adjacentEdge : AbstractAdjacencyGraph.this.getAdjacentEdgeEndpoints(adjacentNode) )
+						for( CloudGraph.EdgeEndpoint<N, E> adjacentEdge : AbstractAdjacencyGraph.this.getAdjacentEdgeEndpoints(adjacentNode) )
 						 	if( adjacentEdge.getTarget().getTraversableTo(adjacentNode.getTarget()).size() > 0 )
 								 adjacentEdges.add(adjacentEdge);
 
@@ -659,9 +659,9 @@ public abstract class AbstractAdjacencyGraph<
 		}
 
 		@Override
-		public Set<Graph.NodeEndpoint<N, E>> getTraversableAdjacentNodesTo()
+		public Set<CloudGraph.NodeEndpoint<N, E>> getTraversableAdjacentNodesTo()
 		{
-			final Set<Graph.NodeEndpoint<N, E>> adjacentNodes = new HashSet<Graph.NodeEndpoint<N, E>>();
+			final Set<CloudGraph.NodeEndpoint<N, E>> adjacentNodes = new HashSet<CloudGraph.NodeEndpoint<N, E>>();
 
 			for(Endpoint<? extends N> sourceEndpoint : this.getTarget().getEndpoints())
 				if( sourceEndpoint.getTraversableNeighborsFrom().size() > 0 )
@@ -671,9 +671,9 @@ public abstract class AbstractAdjacencyGraph<
 		}
 
 		@Override
-		public Set<Graph.NodeEndpoint<N, E>> getTraversableAdjacentNodesFrom()
+		public Set<CloudGraph.NodeEndpoint<N, E>> getTraversableAdjacentNodesFrom()
 		{
-			final Set<Graph.NodeEndpoint<N, E>> adjacentNodes = new HashSet<Graph.NodeEndpoint<N, E>>();
+			final Set<CloudGraph.NodeEndpoint<N, E>> adjacentNodes = new HashSet<CloudGraph.NodeEndpoint<N, E>>();
 
 			for(Endpoint<? extends N> sourceEndpoint : this.getTarget().getEndpoints())
 				if( sourceEndpoint.getTraversableNeighborsTo().size() > 0 )

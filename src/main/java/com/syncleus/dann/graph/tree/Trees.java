@@ -36,7 +36,7 @@ public final class Trees
 		throw new IllegalStateException("This is an utility class, it can not be instantiated");
 	}
 
-	public static <N, E extends Cloud<N>> boolean isSpanningTree(final Graph<N, E> graph, final Graph<N, E> subGraph)
+	public static <N, E extends Cloud<N>> boolean isSpanningTree(final CloudGraph<N, E> graph, final CloudGraph<N, E> subGraph)
 	{
 		if( graph instanceof TreeOptimizedGraph )
 		{
@@ -57,7 +57,7 @@ public final class Trees
 				&& (Cycles.isAcyclic(subGraph)));
 	}
 
-	public static <N, E extends Cloud<N>> boolean isTree(final Graph<N, E> graph)
+	public static <N, E extends Cloud<N>> boolean isTree(final CloudGraph<N, E> graph)
 	{
 		if( graph instanceof TreeOptimizedGraph )
 		{
@@ -74,7 +74,7 @@ public final class Trees
 		return ((Topography.isWeaklyConnected(graph)) && (Cycles.isAcyclic(graph)) && (Topography.isSimple(graph)));
 	}
 
-	public static <N, E extends Cloud<N>> boolean isForest(final Graph<N, E> graph)
+	public static <N, E extends Cloud<N>> boolean isForest(final CloudGraph<N, E> graph)
 	{
 		if( graph instanceof TreeOptimizedGraph )
 		{
@@ -151,8 +151,8 @@ public final class Trees
 		}
 
 		//TODO make this more efficient
-		final Set<Graph<N, E>> components = Topography.getMaximallyConnectedComponents(graph);
-		for(Graph<N, E> component : components)
+		final Set<CloudGraph<N, E>> components = Topography.getMaximallyConnectedComponents(graph);
+		for(CloudGraph<N, E> component : components)
 		{
 			final DirectedGraph<N, E> directedComponent = new ImmutableDirectedAdjacencyGraph<N, E>(component);
 			if( !Trees.isRootedTree(directedComponent) )

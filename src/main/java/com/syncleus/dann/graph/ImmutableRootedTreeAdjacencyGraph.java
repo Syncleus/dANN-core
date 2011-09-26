@@ -35,7 +35,7 @@ public class ImmutableRootedTreeAdjacencyGraph<N, E extends DirectedEdge<N>> ext
 		super();
 	}
 
-	public ImmutableRootedTreeAdjacencyGraph(final Graph<N, E> copyGraph)
+	public ImmutableRootedTreeAdjacencyGraph(final CloudGraph<N, E> copyGraph)
 	{
 		super(copyGraph.getTargets(), copyGraph.getEdges());
 	}

@@ -27,12 +27,12 @@ import com.syncleus.dann.xml.XmlSerializable;
 
 public interface Cloud<
 	  	T,
-	  	EP extends Cloud.Endpoint<? extends T>
+	  	EP extends Cloud.Endpoint<T, ? extends T>
 	  > extends Serializable, Cloneable, XmlSerializable<EdgeXml, Object>, ContextReporter
 {
-	interface Endpoint<T>
+	interface Endpoint<P, T extends P>
 	{
-		Set<? extends Cloud.Endpoint<? extends T>> getNeighbors();
+		Set<Endpoint<P,P>> getNeighbors();
 		T getTarget();
 	};
 
@@ -41,8 +41,8 @@ public interface Cloud<
 	Set<T> getTargets();
 	Set<T> getNeighbors(Object target);
 	boolean contains( Object endpoint);
-	boolean containsAny(Collection<? extends Endpoint<?>> endpoint);
-	boolean containsAll(Collection<? extends Endpoint<?>> endpoint);
+	boolean containsAny(Collection<? extends Endpoint<?,?>> endpoint);
+	boolean containsAll(Collection<? extends Endpoint<?,?>> endpoint);
 	boolean containsTarget(Object target);
 	boolean containsAnyTargets(Collection<?> target);
 	boolean containsAllTargets(Collection<?> target);

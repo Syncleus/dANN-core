@@ -18,9 +18,20 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface WeightedMixableDirectedEdge<SN extends N, DN extends N, N> extends  MixableDirectedEdge<N, SN,DN>, WeightedMixableBidirectedEdge<SN,DN,N>
+public interface MixableEdge<
+	  	T,
+	  	LT extends T,
+	  	RT extends T,
+	  	E extends MixableEdge.Endpoint<T, ? extends T, ? extends T>,
+	  	LE extends MixableEdge.Endpoint<T, LT, RT>,
+	  	RE extends MixableEdge.Endpoint<T, RT, LT>
+	  > extends Hyperedge<T, E>
 {
-	interface Endpoint<EN extends NN, ON extends NN, NN> extends MixableDirectedEdge.Endpoint<NN, EN,ON>, WeightedMixableBidirectedEdge.Endpoint<EN,ON,NN>
+	interface Endpoint<P, T extends P, N extends P> extends Hyperedge.Endpoint<P, T>
 	{
+		Endpoint<P,N,T> getNeighbor();
 	};
+
+	LE getLeftEndpoint();
+	RE getRightEndpoint();
 }

@@ -29,14 +29,14 @@ import java.util.Stack;
 import java.util.TreeSet;
 import com.syncleus.dann.graph.Cycle;
 import com.syncleus.dann.graph.Cloud;
-import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.CloudGraph;
 import com.syncleus.dann.graph.SimpleCycle;
 import com.syncleus.dann.graph.topological.Topography;
 
 public class ExhaustiveDepthFirstSearchCycleFinder<N, E extends Cloud<N>> extends ColoredDepthFirstSearchDetector implements CycleFinder<N, E>
 {
 	@Override
-	public boolean isPancyclic(final Graph<N, E> graph)
+	public boolean isPancyclic(final CloudGraph<N, E> graph)
 	{
 		if( !Topography.isSimple(graph) )
 			return false;
@@ -63,17 +63,17 @@ public class ExhaustiveDepthFirstSearchCycleFinder<N, E extends Cloud<N>> extend
 		return false;
 	}
 
-	public boolean isUnicyclic(final Graph<N, E> graph)
+	public boolean isUnicyclic(final CloudGraph<N, E> graph)
 	{
 		return ((this.findCycles(graph).size() == 1) && (Topography.isSimple(graph)));
 	}
 
-	public int cycleCount(final Graph<N, E> graph)
+	public int cycleCount(final CloudGraph<N, E> graph)
 	{
 		return this.findCycles(graph).size();
 	}
 
-	public int girth(final Graph<N, E> graph)
+	public int girth(final CloudGraph<N, E> graph)
 	{
 		final Set<Cycle<N, E>> cycles = this.findCycles(graph);
 		final SortedSet<Cycle<N, E>> sortedCycles = new TreeSet<Cycle<N, E>>(new CycleLengthComparator<N, E>());
@@ -81,7 +81,7 @@ public class ExhaustiveDepthFirstSearchCycleFinder<N, E extends Cloud<N>> extend
 		return sortedCycles.first().getLength();
 	}
 
-	public int circumference(final Graph<N, E> graph)
+	public int circumference(final CloudGraph<N, E> graph)
 	{
 		final Set<Cycle<N, E>> cycles = this.findCycles(graph);
 		final SortedSet<Cycle<N, E>> sortedCycles = new TreeSet<Cycle<N, E>>(new CycleLengthComparator<N, E>());
@@ -89,7 +89,7 @@ public class ExhaustiveDepthFirstSearchCycleFinder<N, E extends Cloud<N>> extend
 		return sortedCycles.last().getLength();
 	}
 
-	public Set<Cycle<N, E>> findCycles(final Graph<N, E> graph)
+	public Set<Cycle<N, E>> findCycles(final CloudGraph<N, E> graph)
 	{
 		final Set<N> untouchedNodes = new HashSet<N>(graph.getTargets());
 		final Set<Cycle<N, E>> cycles = new HashSet<Cycle<N, E>>();
@@ -102,7 +102,7 @@ public class ExhaustiveDepthFirstSearchCycleFinder<N, E extends Cloud<N>> extend
 		return cycles;
 	}
 
-	private static <N, E extends Cloud<N>> void cyclesFromStart(final Graph<N, E> graph, final Set<N> untouchedNodes, final Set<Cycle<N, E>> cycles, final N startNode)
+	private static <N, E extends Cloud<N>> void cyclesFromStart(final CloudGraph<N, E> graph, final Set<N> untouchedNodes, final Set<Cycle<N, E>> cycles, final N startNode)
 	{
 		final Stack<N> parentNodes = new Stack<N>();
 		final Stack<E> parentEdges = new Stack<E>();
@@ -117,7 +117,7 @@ public class ExhaustiveDepthFirstSearchCycleFinder<N, E extends Cloud<N>> extend
 		return destinations;
 	}
 
-	private static <N, E extends Cloud<N>> void traverse(final Graph<N, E> graph, final Set<N> untouchedNodes, final Set<Cycle<N, E>> cycles, final Stack<N> parentNodes, final Stack<E> parentEdges, final E lastEdge, final N currentNode)
+	private static <N, E extends Cloud<N>> void traverse(final CloudGraph<N, E> graph, final Set<N> untouchedNodes, final Set<Cycle<N, E>> cycles, final Stack<N> parentNodes, final Stack<E> parentEdges, final E lastEdge, final N currentNode)
 	{
 		untouchedNodes.remove(currentNode);
 		parentNodes.push(currentNode);

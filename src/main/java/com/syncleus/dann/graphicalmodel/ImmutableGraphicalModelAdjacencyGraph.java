@@ -39,7 +39,7 @@ public class ImmutableGraphicalModelAdjacencyGraph<N extends GraphicalModelNode,
 
 	// TODO we cant copy because right now each bayesian node is hard linked to a parent graph, this should be fixed
 	/*
-	public ImmutableMarkovRandomFieldAdjacencyGraph(final Graph<N, E> copyGraph)
+	public ImmutableMarkovRandomFieldAdjacencyGraph(final CloudGraph<N, E> copyGraph)
 	{
 		super(copyGraph.getTargets(), copyGraph.getEdges());
 	}

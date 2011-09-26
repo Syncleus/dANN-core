@@ -27,11 +27,11 @@ import com.syncleus.dann.graph.Cloud;
 
 public class FloydWarshallPathFinder<N, E extends Cloud<N>> implements PathFinder<N, E>
 {
-	private final Graph<N, E> graph;
+	private final CloudGraph<N, E> graph;
 	private final Map<N, Map<N, Double>> walkWeight;
 	private final Map<N, Map<N, N>> nextNode;
 
-	public FloydWarshallPathFinder(final Graph<N, E> graph)
+	public FloydWarshallPathFinder(final CloudGraph<N, E> graph)
 	{
 		this.graph = graph;
 

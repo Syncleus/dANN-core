@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Set;
 import com.syncleus.dann.graph.DirectedEdge;
 import com.syncleus.dann.graph.event.context.ContextGraphNode;
-import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.CloudGraph;
 import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
 
 public class MutableBayesianAdjacencyNetwork<N extends GraphicalModelNode, E extends DirectedEdge<N>> extends AbstractBayesianAdjacencyNetwork<N, E> implements MutableBayesianNetwork<N, E>
@@ -36,7 +36,7 @@ public class MutableBayesianAdjacencyNetwork<N extends GraphicalModelNode, E ext
 		super();
 	}
 
-	public MutableBayesianAdjacencyNetwork(final Graph<N, E> copyGraph)
+	public MutableBayesianAdjacencyNetwork(final CloudGraph<N, E> copyGraph)
 	{
 		super(copyGraph.getTargets(), copyGraph.getEdges());
 	}

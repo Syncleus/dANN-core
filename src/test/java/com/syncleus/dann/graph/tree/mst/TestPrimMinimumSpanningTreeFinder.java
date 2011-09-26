@@ -57,7 +57,7 @@ public class TestPrimMinimumSpanningTreeFinder
 		final BidirectedEdge<Object> leftTopEdge = new SimpleUndirectedEdge<Object>(leftNode, topNode);
 		edges.add(leftTopEdge);
 
-		final Graph<Object, BidirectedEdge<Object>> graph = new ImmutableAdjacencyGraph<Object, BidirectedEdge<Object>>(nodes, edges);
+		final CloudGraph<Object, BidirectedEdge<Object>> graph = new ImmutableAdjacencyGraph<Object, BidirectedEdge<Object>>(nodes, edges);
 
 		final RootedMinimumSpanningTreeFinder<Object, BidirectedEdge<Object>> finder = new PrimMinimumSpanningTreeFinder<Object, BidirectedEdge<Object>>();
 		final Set<BidirectedEdge<Object>> mstEdges = finder.findMinimumSpanningTree(graph);

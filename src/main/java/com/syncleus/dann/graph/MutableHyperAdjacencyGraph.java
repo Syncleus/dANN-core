@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Set;
 import com.syncleus.dann.graph.event.context.ContextGraphNode;
 
-public class MutableHyperAdjacencyGraph<N, E extends HyperEdge<N>> extends AbstractHyperAdjacencyGraph<N, E> implements MutableHyperGraph<N, E>
+public class MutableHyperAdjacencyGraph<N, E extends Hyperedge<N>> extends AbstractHyperAdjacencyGraph<N, E> implements MutableHyperGraph<N, E>
 {
 	private static final long serialVersionUID = 3675634360942901918L;
 
@@ -33,7 +33,7 @@ public class MutableHyperAdjacencyGraph<N, E extends HyperEdge<N>> extends Abstr
 		super();
 	}
 
-	public MutableHyperAdjacencyGraph(final Graph<N, E> copyGraph)
+	public MutableHyperAdjacencyGraph(final CloudGraph<N, E> copyGraph)
 	{
 		super(copyGraph);
 	}

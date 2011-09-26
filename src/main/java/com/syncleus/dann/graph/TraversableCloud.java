@@ -22,14 +22,14 @@ import java.util.Set;
 
 public interface TraversableCloud<
 	  	T,
-	  	EP extends TraversableCloud.Endpoint<? extends T>
+	  	EP extends TraversableCloud.Endpoint<T, ? extends T>
 	  > extends Cloud<T,EP>
 {
-	interface Endpoint<T> extends Cloud.Endpoint<T>
+	interface Endpoint<P, T extends P> extends Cloud.Endpoint<P, T>
 	{
-		Set<? extends Cloud.Endpoint<? extends T>> getTraversableNeighborsTo();
-		Set<? extends Cloud.Endpoint<? extends T>> getTraversableNeighborsFrom();
-		boolean isTraversable(Cloud.Endpoint<?> destination);
+		Set<Endpoint<P,P>> getTraversableNeighborsTo();
+		Set<Endpoint<P,P>> getTraversableNeighborsFrom();
+		boolean isTraversable(Cloud.Endpoint<?,?> destination);
 	}
 
 	Set<T> getTraversableFrom(Object target);

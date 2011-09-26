@@ -21,7 +21,7 @@ package com.syncleus.dann.graphicalmodel.dynamic;
 import java.util.*;
 import java.util.Map.Entry;
 import com.syncleus.dann.graph.BidirectedEdge;
-import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.CloudGraph;
 
 public class ImmutableDynamicGraphicalModel<N extends DynamicGraphicalModelNode, E extends BidirectedEdge<N>> extends AbstractDynamicGraphicalModel<N, E>
 {
@@ -32,7 +32,7 @@ public class ImmutableDynamicGraphicalModel<N extends DynamicGraphicalModelNode,
 		super();
 	}
 
-	public ImmutableDynamicGraphicalModel(final Graph<N, E> copyGraph)
+	public ImmutableDynamicGraphicalModel(final CloudGraph<N, E> copyGraph)
 	{
 		super(copyGraph.getTargets(), copyGraph.getEdges());
 	}

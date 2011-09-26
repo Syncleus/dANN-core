@@ -56,7 +56,7 @@ public class MutableTreeAdjacencyGraph<N, E extends BidirectedEdge<N>> extends A
 		//make sure after we add thsi edge this will still be a tree
 		final Set<E> testEdges = new HashSet<E>(this.getEdges());
 		testEdges.add(newEdge);
-		final Graph<N, E> testGraph = new ImmutableAdjacencyGraph(this.getTargets(), testEdges);
+		final CloudGraph<N, E> testGraph = new ImmutableAdjacencyGraph(this.getTargets(), testEdges);
 		if( !Trees.isTree(testGraph) )
 			throw new IllegalArgumentException("adding newEdge can not be added because this graph would no longer be a tree");
 

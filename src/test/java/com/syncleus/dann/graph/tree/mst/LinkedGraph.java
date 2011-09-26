@@ -29,7 +29,7 @@ public class LinkedGraph<N, E extends Cloud<N>> extends AbstractAdjacencyGraph<N
 	private final Map<N, List<N>> neighborNodes = new HashMap<N, List<N>>();
 	private static final long serialVersionUID = -5301697513399013407L;
 
-	public LinkedGraph(final Graph<N, E> copyGraph)
+	public LinkedGraph(final CloudGraph<N, E> copyGraph)
 	{
 		this(copyGraph.getTargets(), copyGraph.getEdges());
 	}

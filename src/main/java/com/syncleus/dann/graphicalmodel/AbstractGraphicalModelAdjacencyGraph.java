@@ -33,7 +33,7 @@ public abstract class AbstractGraphicalModelAdjacencyGraph<N extends GraphicalMo
 		super();
 	}
 
-	protected AbstractGraphicalModelAdjacencyGraph(final Graph<N, E> copyGraph)
+	protected AbstractGraphicalModelAdjacencyGraph(final CloudGraph<N, E> copyGraph)
 	{
 		super(copyGraph.getTargets(), copyGraph.getEdges());
 	}

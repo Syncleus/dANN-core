@@ -45,7 +45,7 @@ import org.apache.log4j.Logger;
  * @param <G> The graph type
  * @param <N> The node type
  */
-public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawer<G, N>
+public class HyperassociativeMap<G extends CloudGraph<N, ?>, N> implements GraphDrawer<G, N>
 {
 	private static final double REPULSIVE_WEAKNESS = 2.0;
 	private static final double ATTRACTION_STRENGTH = 4.0;
@@ -90,7 +90,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 	public HyperassociativeMap(final G graph, final int dimensions, final double equilibriumDistance, final boolean useWeights, final ExecutorService threadExecutor)
 	{
 		if (graph == null)
-			throw new IllegalArgumentException("Graph can not be null");
+			throw new IllegalArgumentException("CloudGraph can not be null");
 		if (dimensions <= 0)
 			throw new IllegalArgumentException("dimensions must be 1 or more");
 
@@ -173,7 +173,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 
 	private double getAverageMovement()
 	{
-		return totalMovement / Topography.getOrder((Graph<N, ?>) graph);
+		return totalMovement / Topography.getOrder((CloudGraph<N, ?>) graph);
 	}
 
 	@Override

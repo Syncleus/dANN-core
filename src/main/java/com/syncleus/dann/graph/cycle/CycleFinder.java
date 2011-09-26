@@ -24,10 +24,10 @@ import com.syncleus.dann.graph.Cloud;
 
 public interface CycleFinder<N, E extends Cloud<N>> extends CycleDetector
 {
-	int cycleCount(Graph<N, E> graph);
-	Set<Cycle<N, E>> findCycles(Graph<N, E> graph);
-	boolean isPancyclic(Graph<N, E> graph);
-	boolean isUnicyclic(Graph<N, E> graph);
-	int girth(Graph<N, E> graph);
-	int circumference(Graph<N, E> graph);
+	int cycleCount(CloudGraph<N, E> graph);
+	Set<Cycle<N, E>> findCycles(CloudGraph<N, E> graph);
+	boolean isPancyclic(CloudGraph<N, E> graph);
+	boolean isUnicyclic(CloudGraph<N, E> graph);
+	int girth(CloudGraph<N, E> graph);
+	int circumference(CloudGraph<N, E> graph);
 }

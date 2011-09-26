@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-public class ImmutableHyperAdjacencyGraph<N, E extends HyperEdge<N>> extends AbstractHyperAdjacencyGraph<N, E>
+public class ImmutableHyperAdjacencyGraph<N, E extends Hyperedge<N>> extends AbstractHyperAdjacencyGraph<N, E>
 {
 	private static final long serialVersionUID = 8503954045220921240L;
 
@@ -36,7 +36,7 @@ public class ImmutableHyperAdjacencyGraph<N, E extends HyperEdge<N>> extends Abs
 		super();
 	}
 
-	public ImmutableHyperAdjacencyGraph(final Graph<N, E> copyGraph)
+	public ImmutableHyperAdjacencyGraph(final CloudGraph<N, E> copyGraph)
 	{
 		super(copyGraph);
 	}

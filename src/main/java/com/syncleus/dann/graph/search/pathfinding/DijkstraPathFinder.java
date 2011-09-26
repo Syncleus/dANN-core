@@ -19,11 +19,11 @@
 package com.syncleus.dann.graph.search.pathfinding;
 
 import com.syncleus.dann.graph.Cloud;
-import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.CloudGraph;
 
 public class DijkstraPathFinder<N, E extends Cloud<? extends N, ? extends Cloud.Endpoint<? extends N>>> extends AstarPathFinder<N, E>
 {
-	public DijkstraPathFinder(final Graph<N, E,?,?> graph)
+	public DijkstraPathFinder(final CloudGraph<N, E,?,?> graph)
 	{
 		super(graph, new ZeroHeuristicPathCost<N>());
 	}

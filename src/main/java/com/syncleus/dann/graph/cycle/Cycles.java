@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.cycle;
 
-import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.CloudGraph;
 
 public final class Cycles
 {
@@ -33,7 +33,7 @@ public final class Cycles
 		throw new IllegalStateException("This is an utility class, it can not be instantiated");
 	}
 
-	public static int getCycleCount(final Graph graph)
+	public static int getCycleCount(final CloudGraph graph)
 	{
 		if( graph instanceof CycleOptimizedGraph )
 		{
@@ -50,7 +50,7 @@ public final class Cycles
 		return EXHAUSTIVE_FINDER.cycleCount(graph);
 	}
 
-	public static boolean isPancyclic(final Graph graph)
+	public static boolean isPancyclic(final CloudGraph graph)
 	{
 		if( graph instanceof CycleOptimizedGraph )
 		{
@@ -67,7 +67,7 @@ public final class Cycles
 		return EXHAUSTIVE_FINDER.isPancyclic(graph);
 	}
 
-	public static boolean isUnicyclic(final Graph graph)
+	public static boolean isUnicyclic(final CloudGraph graph)
 	{
 		if( graph instanceof CycleOptimizedGraph )
 		{
@@ -84,7 +84,7 @@ public final class Cycles
 		return EXHAUSTIVE_FINDER.isUnicyclic(graph);
 	}
 
-	public static boolean isAcyclic(final Graph graph)
+	public static boolean isAcyclic(final CloudGraph graph)
 	{
 		if( graph instanceof CycleOptimizedGraph )
 		{
@@ -101,7 +101,7 @@ public final class Cycles
 		return !COLORED_DETECTOR.hasCycle(graph);
 	}
 
-	public static int getGirth(final Graph graph)
+	public static int getGirth(final CloudGraph graph)
 	{
 		if( graph instanceof CycleOptimizedGraph )
 		{
@@ -118,7 +118,7 @@ public final class Cycles
 		return EXHAUSTIVE_FINDER.girth(graph);
 	}
 
-	public static int getCircumference(final Graph graph)
+	public static int getCircumference(final CloudGraph graph)
 	{
 		if( graph instanceof CycleOptimizedGraph )
 		{

@@ -36,7 +36,7 @@ public class ImmutableTreeAdjacencyGraph<N, E extends BidirectedEdge<N>> extends
 		super();
 	}
 
-	public ImmutableTreeAdjacencyGraph(final Graph<N, E> copyGraph)
+	public ImmutableTreeAdjacencyGraph(final CloudGraph<N, E> copyGraph)
 	{
 		super(copyGraph.getTargets(), copyGraph.getEdges());
 	}

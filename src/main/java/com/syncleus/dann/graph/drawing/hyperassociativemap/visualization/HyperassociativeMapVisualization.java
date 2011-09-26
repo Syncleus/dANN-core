@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Set;
 import com.sun.j3d.utils.geometry.*;
 import com.sun.j3d.utils.image.TextureLoader;
-import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.CloudGraph;
 import com.syncleus.dann.graph.drawing.GraphDrawer;
 import com.syncleus.dann.math.Vector;
 import com.syncleus.dann.neural.*;
@@ -38,7 +38,7 @@ import com.syncleus.dann.neural.*;
  * @author Jeffrey Phillips Freeman
  * @since 1.0
  */
-public class HyperassociativeMapVisualization<D extends GraphDrawer<G, N>, G extends Graph<N, ?>, N> extends BranchGroup
+public class HyperassociativeMapVisualization<D extends GraphDrawer<G, N>, G extends CloudGraph<N, ?>, N> extends BranchGroup
 {
 	private static final float NODE_RADIUS = 0.01F;
 

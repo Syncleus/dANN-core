@@ -18,9 +18,12 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface MutableWeightedBidirectedEdge<N> extends MutableWeightedMixableBidirectedEdge<N, N,N>, WeightedBidirectedEdge<N>, MutableBidirectedEdge<N>
+public interface DynamicBidirectedCloud<
+	  	T,
+	  	E extends DynamicBidirectedCloud.Endpoint<T, ? extends T>
+	  > extends DynamicCloud<T,E>, AssignableBidirectedCloud<T,E>
 {
-	interface Endpoint<NN, EN extends NN, ON extends NN> extends MutableWeightedMixableBidirectedEdge.Endpoint<NN, EN,ON>, WeightedBidirectedEdge.Endpoint<NN, EN,ON>, MutableBidirectedEdge.Endpoint<NN, EN,ON>
+	interface Endpoint<P, T extends P> extends DynamicCloud.Endpoint<P, T>, AssignableBidirectedCloud.Endpoint<P, T>
 	{
-	};
+	}
 }

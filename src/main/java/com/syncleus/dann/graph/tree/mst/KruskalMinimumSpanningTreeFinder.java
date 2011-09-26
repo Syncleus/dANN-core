@@ -43,7 +43,7 @@ import com.syncleus.dann.graph.Cloud;
 public class KruskalMinimumSpanningTreeFinder<N, E extends Cloud<N>> implements MinimumSpanningTreeFinder<N, E>
 {
 	@Override
-	public Set<E> findMinimumSpanningTree(final Graph<N, E> graph)
+	public Set<E> findMinimumSpanningTree(final CloudGraph<N, E> graph)
 	{
 		final Set<Set<N>> componentNodeSets = new HashSet<Set<N>>();
 		for(final N node : graph.getTargets())

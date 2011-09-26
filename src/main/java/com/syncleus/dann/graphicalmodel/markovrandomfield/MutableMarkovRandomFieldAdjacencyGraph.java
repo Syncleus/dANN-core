@@ -19,8 +19,8 @@
 package com.syncleus.dann.graphicalmodel.markovrandomfield;
 
 import java.util.*;
+import com.syncleus.dann.graph.CloudGraph;
 import com.syncleus.dann.graph.UndirectedEdge;
-import com.syncleus.dann.graph.Graph;
 import com.syncleus.dann.graph.event.context.ContextGraphNode;
 import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
 
@@ -33,7 +33,7 @@ public class MutableMarkovRandomFieldAdjacencyGraph<N extends GraphicalModelNode
 		super();
 	}
 
-	public MutableMarkovRandomFieldAdjacencyGraph(final Graph<N, E> copyGraph)
+	public MutableMarkovRandomFieldAdjacencyGraph(final CloudGraph<N, E> copyGraph)
 	{
 		super(copyGraph.getTargets(), copyGraph.getEdges());
 	}

@@ -23,20 +23,20 @@ public interface JoinableGraph<
 	  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N>>,
 	  	NEP extends JoinableGraph.NodeEndpoint<N, E>,
 	  	EEP extends JoinableGraph.EdgeEndpoint<N, E>
-	  >  extends Graph<N,E,NEP,EEP>
+	  >  extends CloudGraph<N,E,NEP,EEP>
 {
 
 	interface NodeEndpoint<
 		  ON,
 		  OE extends Cloud<ON,? extends Cloud.Endpoint<? extends ON>>
-	  > extends Graph.NodeEndpoint<ON,OE>, JoinableCloud.Endpoint<ON>
+	  > extends CloudGraph.NodeEndpoint<ON,OE>, JoinableCloud.Endpoint<ON>
 	{
 	};
 
 	interface EdgeEndpoint<
 		  ON,
 		  OE extends Cloud<ON,? extends Cloud.Endpoint<? extends ON>>
-	  > extends Graph.EdgeEndpoint<ON,OE>, JoinableCloud.Endpoint<OE>
+	  > extends CloudGraph.EdgeEndpoint<ON,OE>, JoinableCloud.Endpoint<OE>
 	{
 	};
 }

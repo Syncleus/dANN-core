@@ -24,15 +24,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import com.syncleus.dann.graph.DirectedEdge;
-import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.CloudGraph;
 import com.syncleus.dann.graph.Weighted;
 
 public class BellmanFordPathFinder<N, E extends DirectedEdge<N>> implements PathFinder<N, E>
 {
-	private final Graph<N, E> graph;
+	private final CloudGraph<N, E> graph;
 	private Map<N, PathedStep> pathedSteps;
 
-	public BellmanFordPathFinder(final Graph<N, E> graph)
+	public BellmanFordPathFinder(final CloudGraph<N, E> graph)
 	{
 		if( graph == null )
 			throw new IllegalArgumentException("graph can not be null");

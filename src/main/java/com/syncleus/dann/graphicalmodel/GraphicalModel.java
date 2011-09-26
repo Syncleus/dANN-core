@@ -20,9 +20,9 @@ package com.syncleus.dann.graphicalmodel;
 
 import java.util.Set;
 import com.syncleus.dann.graph.BidirectedEdge;
-import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.CloudGraph;
 
-public interface GraphicalModel<N extends GraphicalModelNode, E extends BidirectedEdge<N>> extends Graph<N, E>
+public interface GraphicalModel<N extends GraphicalModelNode, E extends BidirectedEdge<N>> extends CloudGraph<N, E>
 {
 	void learnStates();
 	double jointProbability();

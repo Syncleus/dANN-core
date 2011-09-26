@@ -29,7 +29,7 @@ public class JohnsonGraphTransformer<N> implements GraphTransformer<BidirectedGr
 {
 	private static final Object BLANK_NODE = new Object();
 
-	private boolean containsInfinite(final Graph<N, ?> original)
+	private boolean containsInfinite(final CloudGraph<N, ?> original)
 	{
 		for(final Cloud cloud : original.getEdges())
 		{

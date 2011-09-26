@@ -20,10 +20,10 @@ package com.syncleus.dann.graph;
 
 public interface AssignableEdge<
 	  	T,
-	  	EP extends AssignableEdge.Endpoint<? extends T>
-	  > extends Edge<T, EP>, AssignableCloud<T,EP>
+	  	E extends AssignableEdge.Endpoint<T>
+	  > extends AssignableMixableEdge<T,T,T,E,E,E>
 {
-	interface Endpoint<T> extends Edge.Endpoint<T>, AssignableCloud.Endpoint<T>
+	interface Endpoint<T> extends AssignableMixableEdge.Endpoint<T, T, T>
 	{
 	};
 }

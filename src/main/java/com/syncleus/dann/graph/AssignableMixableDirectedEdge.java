@@ -18,28 +18,18 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.Set;
-import sun.awt.SunHints;
-
-public interface AdjacencyMapping<LK,RK,V> extends Set<AdjacencyMapping.Adjacency<LK,RK>>
+public interface AssignableMixableDirectedEdge<
+	  	T,
+	  	ST extends T,
+	  	DT extends T,
+	  	E extends AssignableMixableDirectedEdge.Endpoint<T, ? extends T, ? extends T>,
+	  	SE extends AssignableMixableDirectedEdge.Endpoint<T, ST, DT>,
+	  	DE extends AssignableMixableDirectedEdge.Endpoint<T, DT, ST>
+	  > extends AssignableMixableBidirectedEdge<T, ST, DT, E, SE, DE>, MixableDirectedEdge<T, ST, DT, E, SE, DE>
 {
-	interface Adjacency<LK,RK>
+	interface Endpoint<P, T extends P, N extends P> extends AssignableMixableBidirectedEdge.Endpoint<P, T, N>, MixableDirectedEdge.Endpoint<P, T, N>
 	{
-		public LK getLeftKey();
-		public RK getRightKey();
-	}
+	};
 
-	boolean removeLeftKey(Object leftKey);
-	boolean removeRightKey(Object rightKey);
-	boolean remove(Object leftKey, Object rightKey);
-	boolean putLeftKey(LK leftKey);
-	boolean putRightKey(RK rightKey);
-	boolean put(LK leftKey, RK rightKey);
-	boolean put(LK leftKey, RK rightKey, V value);
-	V get(Object leftKey, Object rightKey);
-	boolean contains(Object leftKey, Object rightKey);
-	Set<RK> getRightKeys();
-	Set<LK> getLeftKeys();
-	Set<RK> getLeftAdjacency(Object leftKey);
-	Set<LK> getRightAdjacency(Object rightKey);
+	void reassign(ST newSourceNode, DT newDestinationNode) throws InvalidEdgeException;
 }

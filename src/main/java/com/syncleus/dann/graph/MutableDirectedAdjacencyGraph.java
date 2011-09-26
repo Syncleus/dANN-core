@@ -33,7 +33,7 @@ public class MutableDirectedAdjacencyGraph<N, E extends DirectedEdge<N>> extends
 		super();
 	}
 
-	public MutableDirectedAdjacencyGraph(final Graph<N, E> copyGraph)
+	public MutableDirectedAdjacencyGraph(final CloudGraph<N, E> copyGraph)
 	{
 		super(copyGraph);
 	}

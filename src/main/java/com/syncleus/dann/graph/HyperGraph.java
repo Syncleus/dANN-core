@@ -25,7 +25,7 @@ package com.syncleus.dann.graph;
  * @author Jeffrey Phillips Freeman
  * @since 2.0
  */
-public interface HyperGraph<N, E extends HyperEdge<N>> extends Graph<N, E>
+public interface HyperGraph<N, E extends Hyperedge<N>> extends CloudGraph<N, E>
 {
 	/**
 	 * True if this graph enforces its edges to have a maximum rank.

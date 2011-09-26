@@ -19,12 +19,11 @@
 package com.syncleus.dann.graph.event.context;
 
 import java.util.Set;
-import com.syncleus.dann.genetics.Gene;
-import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.CloudGraph;
 
 public interface ContextGraphElement<
-	  	GE extends Graph.Endpoint<?, ?,?>,
-	  	G extends Graph<?, ?, ? extends GE, ? extends GE>
+	  	GE extends CloudGraph.Endpoint<?, ?,?>,
+	  	G extends CloudGraph<?, ?, ? extends GE, ? extends GE>
 	  >
 {
 	void changingGraphContext( Set<? extends G> joiningAsNode, Set<? extends GE> joiningAsEdge, Set<?> leavingContexts) throws RejectedContextException;

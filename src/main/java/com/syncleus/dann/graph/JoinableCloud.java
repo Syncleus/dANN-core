@@ -23,10 +23,10 @@ import java.util.Set;
 
 public interface JoinableCloud<
 	  	T,
-	  	EP extends JoinableCloud.Endpoint<? extends T>
+	  	EP extends JoinableCloud.Endpoint<T, ? extends T>
 	  > extends Cloud<T,EP>
 {
-	interface Endpoint<T> extends Cloud.Endpoint<T>
+	interface Endpoint<P, T extends P> extends Cloud.Endpoint<P, T>
 	{
 	}
 

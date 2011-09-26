@@ -20,9 +20,9 @@ package com.syncleus.dann.graph.topological;
 
 import java.util.Set;
 import com.syncleus.dann.graph.Cloud;
-import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.CloudGraph;
 
-public interface WeakConnectivityOptimizedGraph<N, E extends Cloud<N>> extends Graph<N, E>
+public interface WeakConnectivityOptimizedGraph<N, E extends Cloud<N>> extends CloudGraph<N, E>
 {
 	/**
 	 * Determines if there is a path between the firstNode and the lastNode. If
@@ -59,7 +59,7 @@ public interface WeakConnectivityOptimizedGraph<N, E extends Cloud<N>> extends G
 	 * @return a unmodifiable set of all the maximally connected components.
 	 * @since 2.0
 	 */
-	Set<Graph<N, E>> getMaximallyConnectedComponents();
+	Set<CloudGraph<N, E>> getMaximallyConnectedComponents();
 	/**
 	 * Determines if the subgraph is a maximally connected component. A subgraph is
 	 * maximally connected if every node in the subgraph has every edge from the
@@ -72,7 +72,7 @@ public interface WeakConnectivityOptimizedGraph<N, E extends Cloud<N>> extends G
 	 *         graph. False otherwise.
 	 * @since 2.0
 	 */
-	boolean isMaximalSubgraph(Graph<N, E> subgraph);
+	boolean isMaximalSubgraph(CloudGraph<N, E> subgraph);
 	/**
 	 * Determines if the set of nodes and edges form a cut. They are a cut if by
 	 * removing all the specified nodes and edges the number of maximally connected

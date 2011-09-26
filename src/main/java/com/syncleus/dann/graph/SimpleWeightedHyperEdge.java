@@ -20,18 +20,18 @@ package com.syncleus.dann.graph;
 
 import java.util.List;
 
-public final class SimpleWeightedHyperEdge<N> extends AbstractHyperEdge<N> implements MutableWeightedHyperEdge<N>
+public final class SimpleWeightedHyperedge<N> extends AbstractHyperedge<N> implements MutableWeightedHyperedge<N>
 {
 	private static final long serialVersionUID = 2622882478754498808L;
 	private double weight;
 
-	public SimpleWeightedHyperEdge(final List<N> nodes, final double ourWeight)
+	public SimpleWeightedHyperedge(final List<N> nodes, final double ourWeight)
 	{
 		super(nodes);
 		this.weight = ourWeight;
 	}
 
-	public SimpleWeightedHyperEdge(final List<N> nodes, final double ourWeight, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
+	public SimpleWeightedHyperedge(final List<N> nodes, final double ourWeight, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
 	{
 		super(nodes, allowJoiningMultipleGraphs, contextEnabled);
 		this.weight = ourWeight;
@@ -50,8 +50,8 @@ public final class SimpleWeightedHyperEdge<N> extends AbstractHyperEdge<N> imple
 	}
 
 	@Override
-	protected SimpleWeightedHyperEdge<N> clone()
+	protected SimpleWeightedHyperedge<N> clone()
 	{
-		return (SimpleWeightedHyperEdge<N>) super.clone();
+		return (SimpleWeightedHyperedge<N>) super.clone();
 	}
 }

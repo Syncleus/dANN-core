@@ -22,9 +22,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.io.Serializable;
-import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.CloudGraph;
 
-public abstract class AbstractContextGraphElement<G extends Graph<?, ?>> implements ContextGraphNode<G>, Serializable
+public abstract class AbstractContextGraphElement<G extends CloudGraph<?, ?>> implements ContextGraphNode<G>, Serializable
 {
 	private final boolean allowJoiningMultipleGraphs;
 	private final Set<G> joinedGraphs = new HashSet<G>();

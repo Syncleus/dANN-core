@@ -20,7 +20,7 @@ package com.syncleus.dann.graphicalmodel.dynamic;
 
 import java.util.*;
 import com.syncleus.dann.graph.BidirectedEdge;
-import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.CloudGraph;
 import com.syncleus.dann.graph.event.context.ContextGraphNode;
 
 public class MutableDynamicGraphicalModelAdjacencyGraph<N extends DynamicGraphicalModelNode, E extends BidirectedEdge<N>> extends AbstractDynamicGraphicalModel<N, E> implements MutableDynamicGraphicalModel<N, E>
@@ -32,7 +32,7 @@ public class MutableDynamicGraphicalModelAdjacencyGraph<N extends DynamicGraphic
 		super();
 	}
 
-	public MutableDynamicGraphicalModelAdjacencyGraph(final Graph<N, E> copyGraph)
+	public MutableDynamicGraphicalModelAdjacencyGraph(final CloudGraph<N, E> copyGraph)
 	{
 		super(copyGraph.getTargets(), copyGraph.getEdges());
 	}

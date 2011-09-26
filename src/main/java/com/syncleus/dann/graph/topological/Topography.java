@@ -31,11 +31,11 @@ import java.util.TreeSet;
 import com.syncleus.dann.graph.BidirectedEdge;
 import com.syncleus.dann.graph.BidirectedGraph;
 import com.syncleus.dann.graph.Cloud;
-import com.syncleus.dann.graph.Graph;
-import com.syncleus.dann.graph.HyperEdge;
+import com.syncleus.dann.graph.CloudGraph;
+import com.syncleus.dann.graph.Hyperedge;
 import com.syncleus.dann.graph.HyperGraph;
 import com.syncleus.dann.graph.ImmutableAdjacencyGraph;
-import com.syncleus.dann.graph.SimpleHyperEdge;
+import com.syncleus.dann.graph.SimpleHyperedge;
 import com.syncleus.dann.math.counting.Counters;
 
 public final class Topography
@@ -54,9 +54,9 @@ public final class Topography
 	 * times.
 	 * @param node The node whose degree is to be returned
 	 * @return The degree of this node
-	 * @see com.syncleus.dann.graph.topological.Topography#getDegree(Graph,Object)
+	 * @see com.syncleus.dann.graph.topological.Topography#getDegree(com.syncleus.dann.graph.CloudGraph,Object)
 	 */
-	public static <N, E extends Cloud<N>> int getDegree(final Graph<N, E> graph, final N node)
+	public static <N, E extends Cloud<N>> int getDegree(final CloudGraph<N, E> graph, final N node)
 	{
 		if( graph instanceof ConnectionismOptimizedGraph )
 		{
@@ -99,9 +99,9 @@ public final class Topography
 	 * Determines whether this graph is strongly connected. A graph is strongly connected if and only if
 	 * every node is strongly connected to every other node.
 	 * @return If this graph is strongly connected
-	 * @see com.syncleus.dann.graph.topological.Topography#isStronglyConnected(Graph)
+	 * @see com.syncleus.dann.graph.topological.Topography#isStronglyConnected(com.syncleus.dann.graph.CloudGraph)
 	 */
-	public static <N, E extends Cloud<N>> boolean isStronglyConnected(final Graph<N, E> graph)
+	public static <N, E extends Cloud<N>> boolean isStronglyConnected(final CloudGraph<N, E> graph)
 	{
 		if( graph instanceof StrongConnectivityOptimizedGraph )
 		{
@@ -127,9 +127,9 @@ public final class Topography
 	 * Determines whether this graph is weakly connected. A graph is weakly connected if
 	 * there is only one node or every node is weakly connected to every other node.
 	 * @return If this graph is weakly connected
-	 * @see com.syncleus.dann.graph.topological.Topography#isWeaklyConnected(Graph)
+	 * @see com.syncleus.dann.graph.topological.Topography#isWeaklyConnected(com.syncleus.dann.graph.CloudGraph)
 	 */
-	public static <N, E extends Cloud<N>> boolean isWeaklyConnected(final Graph<N, E> graph)
+	public static <N, E extends Cloud<N>> boolean isWeaklyConnected(final CloudGraph<N, E> graph)
 	{
 		if( graph instanceof WeakConnectivityOptimizedGraph )
 		{
@@ -164,9 +164,9 @@ public final class Topography
 	 * @param leftNode The left node
 	 * @param rightNode The right node
 	 * @return Whether there is any connection between the two nodes
-	 * @see com.syncleus.dann.graph.topological.Topography#isWeaklyConnected(Graph, Object, Object)
+	 * @see com.syncleus.dann.graph.topological.Topography#isWeaklyConnected(com.syncleus.dann.graph.CloudGraph, Object, Object)
 	 */
-	public static <N, E extends Cloud<N>> boolean isWeaklyConnected(final Graph<N, E> graph, final N leftNode, final N rightNode)
+	public static <N, E extends Cloud<N>> boolean isWeaklyConnected(final CloudGraph<N, E> graph, final N leftNode, final N rightNode)
 	{
 		if( graph instanceof WeakConnectivityOptimizedGraph )
 		{
@@ -210,10 +210,10 @@ public final class Topography
 	 * @param leftNode The first node to check
 	 * @param rightNode The second node to check
 	 * @return Whether these nodes are strongly connected
-	 * @see com.syncleus.dann.graph.topological.Topography#isWeaklyConnected(Graph, Object, Object)
-	 * @see com.syncleus.dann.graph.topological.Topography#isStronglyConnected(Graph, Object, Object)
+	 * @see com.syncleus.dann.graph.topological.Topography#isWeaklyConnected(com.syncleus.dann.graph.CloudGraph, Object, Object)
+	 * @see com.syncleus.dann.graph.topological.Topography#isStronglyConnected(com.syncleus.dann.graph.CloudGraph, Object, Object)
 	 */
-	public static <N, E extends Cloud<N>> boolean isStronglyConnected(final Graph<N, E> graph, final N leftNode, final N rightNode)
+	public static <N, E extends Cloud<N>> boolean isStronglyConnected(final CloudGraph<N, E> graph, final N leftNode, final N rightNode)
 	{
 		if( graph instanceof StrongConnectivityOptimizedGraph )
 		{
@@ -249,9 +249,9 @@ public final class Topography
 	 * components are those with the most connections to other nodes.
 	 * NOTE: This method currently returns null.
 	 * @return <code>null</code>
-	 * @see com.syncleus.dann.graph.topological.Topography#getMaximallyConnectedComponents(Graph)
+	 * @see com.syncleus.dann.graph.topological.Topography#getMaximallyConnectedComponents(com.syncleus.dann.graph.CloudGraph)
 	 */
-	public static <N, E extends Cloud<N>> Set<Graph<N, E>> getMaximallyConnectedComponents(final Graph<N, E> graph)
+	public static <N, E extends Cloud<N>> Set<CloudGraph<N, E>> getMaximallyConnectedComponents(final CloudGraph<N, E> graph)
 	{
 		if( graph instanceof WeakConnectivityOptimizedGraph )
 		{
@@ -276,9 +276,9 @@ public final class Topography
 	 * @param subGraph A subgraph of this graph to be checked if maximally
 	 * connected.
 	 * @return Whether this is a maximal subgraph
-	 * @see com.syncleus.dann.graph.topological.Topography#isMaximalSubgraph(Graph, Graph)
+	 * @see com.syncleus.dann.graph.topological.Topography#isMaximalSubgraph(com.syncleus.dann.graph.CloudGraph, com.syncleus.dann.graph.CloudGraph)
 	 */
-	public static <N, E extends Cloud<N>> boolean isMaximalSubgraph(final Graph<N, E> graph, final Graph<N, E> subGraph)
+	public static <N, E extends Cloud<N>> boolean isMaximalSubgraph(final CloudGraph<N, E> graph, final CloudGraph<N, E> subGraph)
 	{
 		if( graph instanceof WeakConnectivityOptimizedGraph )
 		{
@@ -310,7 +310,7 @@ public final class Topography
 	}
 
 
-	public static <N, E extends Cloud<N>> boolean isCut(final Graph<N, E> graph, final Set<N> cutNodes, final Set<E> cutEdges)
+	public static <N, E extends Cloud<N>> boolean isCut(final CloudGraph<N, E> graph, final Set<N> cutNodes, final Set<E> cutEdges)
 	{
 		if( graph instanceof WeakConnectivityOptimizedGraph )
 		{
@@ -327,7 +327,7 @@ public final class Topography
 		return Topography.isStronglyConnected(Topography.deleteFromGraph(graph, cutNodes, cutEdges));
 	}
 
-	public static <N, E extends Cloud<N>> boolean isCut(final Graph<N, E> graph, final Set<N> cutNodes, final Set<E> cutEdges, final N begin, final N end)
+	public static <N, E extends Cloud<N>> boolean isCut(final CloudGraph<N, E> graph, final Set<N> cutNodes, final Set<E> cutEdges, final N begin, final N end)
 	{
 		if( graph instanceof WeakConnectivityOptimizedGraph )
 		{
@@ -344,7 +344,7 @@ public final class Topography
 		return Topography.isStronglyConnected(Topography.deleteFromGraph(graph, cutNodes, cutEdges), begin, end);
 	}
 
-	public static <N, E extends Cloud<N>> boolean isCut(final Graph<N, E> graph, final Set<E> cutEdges)
+	public static <N, E extends Cloud<N>> boolean isCut(final CloudGraph<N, E> graph, final Set<E> cutEdges)
 	{
 		if( graph instanceof WeakConnectivityOptimizedGraph )
 		{
@@ -361,7 +361,7 @@ public final class Topography
 		return Topography.isCut(graph, Collections.<N>emptySet(), cutEdges);
 	}
 
-	public static <N, E extends Cloud<N>> boolean isCut(final Graph<N, E> graph, final N node)
+	public static <N, E extends Cloud<N>> boolean isCut(final CloudGraph<N, E> graph, final N node)
 	{
 		if( graph instanceof WeakConnectivityOptimizedGraph )
 		{
@@ -378,7 +378,7 @@ public final class Topography
 		return Topography.isCut(graph, Collections.singleton(node), Collections.<E>emptySet());
 	}
 
-	public static <N, E extends Cloud<N>> boolean isCut(final Graph<N, E> graph, final E edge)
+	public static <N, E extends Cloud<N>> boolean isCut(final CloudGraph<N, E> graph, final E edge)
 	{
 		if( graph instanceof WeakConnectivityOptimizedGraph )
 		{
@@ -395,7 +395,7 @@ public final class Topography
 		return Topography.isCut(graph, Collections.<N>emptySet(), Collections.singleton(edge));
 	}
 
-	public static <N, E extends Cloud<N>> boolean isCut(final Graph<N, E> graph, final Set<E> cutEdges, final N begin, final N end)
+	public static <N, E extends Cloud<N>> boolean isCut(final CloudGraph<N, E> graph, final Set<E> cutEdges, final N begin, final N end)
 	{
 		if( graph instanceof WeakConnectivityOptimizedGraph )
 		{
@@ -412,7 +412,7 @@ public final class Topography
 		return Topography.isCut(graph, Collections.<N>emptySet(), cutEdges, begin, end);
 	}
 
-	public static <N, E extends Cloud<N>> boolean isCut(final Graph<N, E> graph, final N node, final N begin, final N end)
+	public static <N, E extends Cloud<N>> boolean isCut(final CloudGraph<N, E> graph, final N node, final N begin, final N end)
 	{
 		if( graph instanceof WeakConnectivityOptimizedGraph )
 		{
@@ -429,7 +429,7 @@ public final class Topography
 		return Topography.isCut(graph, Collections.singleton(node), Collections.<E>emptySet(), begin, end);
 	}
 
-	public static <N, E extends Cloud<N>> boolean isCut(final Graph<N, E> graph, final E edge, final N begin, final N end)
+	public static <N, E extends Cloud<N>> boolean isCut(final CloudGraph<N, E> graph, final E edge, final N begin, final N end)
 	{
 		if( graph instanceof WeakConnectivityOptimizedGraph )
 		{
@@ -446,7 +446,7 @@ public final class Topography
 		return Topography.isCut(graph, Collections.<N>emptySet(), Collections.singleton(edge), begin, end);
 	}
 
-	public static <N, E extends Cloud<N>> int getNodeConnectivity(final Graph<N, E> graph)
+	public static <N, E extends Cloud<N>> int getNodeConnectivity(final CloudGraph<N, E> graph)
 	{
 		if( graph instanceof WeakConnectivityOptimizedGraph )
 		{
@@ -469,7 +469,7 @@ public final class Topography
 		return graph.getTargets().size();
 	}
 
-	public static <N, E extends Cloud<N>> int getEdgeConnectivity(final Graph<N, E> graph)
+	public static <N, E extends Cloud<N>> int getEdgeConnectivity(final CloudGraph<N, E> graph)
 	{
 		if( graph instanceof WeakConnectivityOptimizedGraph )
 		{
@@ -492,7 +492,7 @@ public final class Topography
 		return graph.getEdges().size();
 	}
 
-	public static <N, E extends Cloud<N>> int getNodeConnectivity(final Graph<N, E> graph, final N begin, final N end)
+	public static <N, E extends Cloud<N>> int getNodeConnectivity(final CloudGraph<N, E> graph, final N begin, final N end)
 	{
 		if( graph instanceof WeakConnectivityOptimizedGraph )
 		{
@@ -515,7 +515,7 @@ public final class Topography
 		return graph.getTargets().size();
 	}
 
-	public static <N, E extends Cloud<N>> int getEdgeConnectivity(final Graph<N, E> graph, final N begin, final N end)
+	public static <N, E extends Cloud<N>> int getEdgeConnectivity(final CloudGraph<N, E> graph, final N begin, final N end)
 	{
 		if( graph instanceof WeakConnectivityOptimizedGraph )
 		{
@@ -538,7 +538,7 @@ public final class Topography
 		return graph.getEdges().size();
 	}
 
-	public static <N, E extends Cloud<N>> boolean isComplete(final Graph<N, E> graph)
+	public static <N, E extends Cloud<N>> boolean isComplete(final CloudGraph<N, E> graph)
 	{
 		if( graph instanceof WeakConnectivityOptimizedGraph )
 		{
@@ -566,7 +566,7 @@ public final class Topography
 		return true;
 	}
 
-	public static <N, E extends Cloud<N>> int getOrder(final Graph<N, E> graph)
+	public static <N, E extends Cloud<N>> int getOrder(final CloudGraph<N, E> graph)
 	{
 		if( graph instanceof ConnectionismOptimizedGraph )
 		{
@@ -583,7 +583,7 @@ public final class Topography
 		return graph.getTargets().size();
 	}
 
-	public static <N, E extends Cloud<N>> boolean isSubGraph(final Graph<N, E> graph, final Graph<N, E> subgraph)
+	public static <N, E extends Cloud<N>> boolean isSubGraph(final CloudGraph<N, E> graph, final CloudGraph<N, E> subgraph)
 	{
 		if( graph instanceof StructureOptimizedGraph )
 		{
@@ -609,7 +609,7 @@ public final class Topography
 		return true;
 	}
 
-	public static <N, E extends Cloud<N>> int getMinimumDegree(final Graph<N, E> graph)
+	public static <N, E extends Cloud<N>> int getMinimumDegree(final CloudGraph<N, E> graph)
 	{
 		if( graph instanceof ConnectionismOptimizedGraph )
 		{
@@ -632,7 +632,7 @@ public final class Topography
 		return minimumDegree;
 	}
 
-	public static <N, E extends Cloud<N>> boolean isMultigraph(final Graph<N, E> graph)
+	public static <N, E extends Cloud<N>> boolean isMultigraph(final CloudGraph<N, E> graph)
 	{
 		if( graph instanceof ConnectionismOptimizedGraph )
 		{
@@ -660,7 +660,7 @@ public final class Topography
 		return false;
 	}
 
-	public static <N, E extends Cloud<N>> boolean isIsomorphic(final Graph<N, E> graph, final Graph<N, E> isomorphicGraph)
+	public static <N, E extends Cloud<N>> boolean isIsomorphic(final CloudGraph<N, E> graph, final CloudGraph<N, E> isomorphicGraph)
 	{
 		if( graph instanceof StructureOptimizedGraph )
 		{
@@ -677,7 +677,7 @@ public final class Topography
 		return (Topography.isHomomorphic(graph, isomorphicGraph) && Topography.isHomomorphic(isomorphicGraph, graph));
 	}
 
-	public static <N, E extends Cloud<N>> boolean isHomomorphic(final Graph<N, E> graph, final Graph<N, E> homomorphicGraph)
+	public static <N, E extends Cloud<N>> boolean isHomomorphic(final CloudGraph<N, E> graph, final CloudGraph<N, E> homomorphicGraph)
 	{
 		if( graph instanceof StructureOptimizedGraph )
 		{
@@ -725,9 +725,9 @@ public final class Topography
 	 *
 	 * @return true if graph has no loops, and all edges have a multiplicity of 0.
 	 * @since 2.0
-	 * @see com.syncleus.dann.graph.topological.Topography#isSimple(Graph)
+	 * @see com.syncleus.dann.graph.topological.Topography#isSimple(com.syncleus.dann.graph.CloudGraph)
 	 */
-	public static <N, E extends Cloud<N>> boolean isSimple(final Graph<N, E> graph)
+	public static <N, E extends Cloud<N>> boolean isSimple(final CloudGraph<N, E> graph)
 	{
 		if( graph instanceof ConnectionismOptimizedGraph )
 		{
@@ -758,9 +758,9 @@ public final class Topography
 	 * @return true if every node in this graph has the same degree or there are no
 	 *         nodes, false otherwise.
 	 * @since 2.0
-	 * @see com.syncleus.dann.graph.topological.Topography#isRegular(Graph)
+	 * @see com.syncleus.dann.graph.topological.Topography#isRegular(com.syncleus.dann.graph.CloudGraph)
 	 */
-	public static <N, E extends Cloud<N>> boolean isRegular(final Graph<N, E> graph)
+	public static <N, E extends Cloud<N>> boolean isRegular(final CloudGraph<N, E> graph)
 	{
 		if( graph instanceof ConnectionismOptimizedGraph )
 		{
@@ -789,9 +789,9 @@ public final class Topography
 	 * Gets the degree of the regular graph.
 	 * @throws IllegalStateException If this graph has no nodes, or the graph is not regular
 	 * @return The degree of the regular graph
-	 * @see com.syncleus.dann.graph.topological.Topography#getRegularDegree(Graph)
+	 * @see com.syncleus.dann.graph.topological.Topography#getRegularDegree(com.syncleus.dann.graph.CloudGraph)
 	 */
-	public static <N, E extends Cloud<N>> int getRegularDegree(final Graph<N, E> graph)
+	public static <N, E extends Cloud<N>> int getRegularDegree(final CloudGraph<N, E> graph)
 	{
 		if( graph instanceof ConnectionismOptimizedGraph )
 		{
@@ -826,9 +826,9 @@ public final class Topography
 	 *
 	 * @return the largest multiplicty of any node in the graph and return it.
 	 * @since 2.0
-	 * @see com.syncleus.dann.graph.topological.Topography#getMultiplicity(Graph)
+	 * @see com.syncleus.dann.graph.topological.Topography#getMultiplicity(com.syncleus.dann.graph.CloudGraph)
 	 */
-	public static <N, E extends Cloud<N>> int getMultiplicity(final Graph<N, E> graph)
+	public static <N, E extends Cloud<N>> int getMultiplicity(final CloudGraph<N, E> graph)
 	{
 		if( graph instanceof ConnectionismOptimizedGraph )
 		{
@@ -862,9 +862,9 @@ public final class Topography
 	 * @throws IllegalArgumentException if the specified edge is not present in the
 	 * graph.
 	 * @since 2.0
-	 * @see com.syncleus.dann.graph.topological.Topography#getMultiplicity(Graph, com.syncleus.dann.graph.Cloud)
+	 * @see com.syncleus.dann.graph.topological.Topography#getMultiplicity(com.syncleus.dann.graph.CloudGraph, com.syncleus.dann.graph.Cloud)
 	 */
-	public static <N, E extends Cloud<N>> int getMultiplicity(final Graph<N, E> graph, final E edge)
+	public static <N, E extends Cloud<N>> int getMultiplicity(final CloudGraph<N, E> graph, final E edge)
 	{
 		if( graph instanceof ConnectionismOptimizedGraph )
 		{
@@ -909,7 +909,7 @@ public final class Topography
 	 * graph.
 	 * @since 2.0
 	 */
-	public static <N, E extends Cloud<N>> boolean isMultiple(final Graph<N, E> graph, final E edge)
+	public static <N, E extends Cloud<N>> boolean isMultiple(final CloudGraph<N, E> graph, final E edge)
 	{
 		if( graph instanceof ConnectionismOptimizedGraph )
 		{
@@ -956,7 +956,7 @@ public final class Topography
 	 * @return false
 	 * @since 2.0
 	 */
-	public static <N, E extends Cloud<N>> boolean isKnot(final Graph<N, E> graph, final Set<N> knotedNodes)
+	public static <N, E extends Cloud<N>> boolean isKnot(final CloudGraph<N, E> graph, final Set<N> knotedNodes)
 	{
 		if( graph instanceof KnotOptimizedGraph )
 		{
@@ -974,7 +974,7 @@ public final class Topography
 		throw new UnsupportedOperationException();
 	}
 
-	public static <N, E extends Cloud<N>> boolean isKnot(final Graph<N, E> graph, final Set<N> knotedNodes, final Set<E> knotedEdges)
+	public static <N, E extends Cloud<N>> boolean isKnot(final CloudGraph<N, E> graph, final Set<N> knotedNodes, final Set<E> knotedEdges)
 	{
 		if( graph instanceof KnotOptimizedGraph )
 		{
@@ -1027,7 +1027,7 @@ public final class Topography
 		return graph.getTraversableAdjacentEdges(node).size();
 	}
 
-	public static <N, E extends HyperEdge<N>> int getRank(final HyperGraph<N, E> graph)
+	public static <N, E extends Hyperedge<N>> int getRank(final HyperGraph<N, E> graph)
 	{
 		if( graph instanceof ConnectionismOptimizedHyperGraph )
 		{
@@ -1045,7 +1045,7 @@ public final class Topography
 		throw new UnsupportedOperationException();
 	}
 
-	public static <N, E extends HyperEdge<N>> BidirectedGraph<N, BidirectedEdge<N>> getPrimal(final HyperGraph<N, E> graph)
+	public static <N, E extends Hyperedge<N>> BidirectedGraph<N, BidirectedEdge<N>> getPrimal(final HyperGraph<N, E> graph)
 	{
 		if( graph instanceof StructureOptimizedHyperGraph )
 		{
@@ -1063,7 +1063,7 @@ public final class Topography
 		throw new UnsupportedOperationException();
 	}
 
-	public static <N, E extends HyperEdge<N>> boolean isPartial(final HyperGraph<N, E> graph, final HyperGraph<N, E> partialGraph)
+	public static <N, E extends Hyperedge<N>> boolean isPartial(final HyperGraph<N, E> graph, final HyperGraph<N, E> partialGraph)
 	{
 		if( graph instanceof StructureOptimizedHyperGraph )
 		{
@@ -1081,7 +1081,7 @@ public final class Topography
 		throw new UnsupportedOperationException();
 	}
 
-	public static <N, E extends HyperEdge<N>> boolean isHost(final HyperGraph<N, E> graph, final HyperGraph<N, E> hostGraph)
+	public static <N, E extends Hyperedge<N>> boolean isHost(final HyperGraph<N, E> graph, final HyperGraph<N, E> hostGraph)
 	{
 		if( graph instanceof StructureOptimizedHyperGraph )
 		{
@@ -1099,7 +1099,7 @@ public final class Topography
 		throw new UnsupportedOperationException();
 	}
 
-	public static <N, E extends HyperEdge<N>> boolean isUniform(final HyperGraph<N, E> graph)
+	public static <N, E extends Hyperedge<N>> boolean isUniform(final HyperGraph<N, E> graph)
 	{
 		if( graph instanceof StructureOptimizedHyperGraph )
 		{
@@ -1125,7 +1125,7 @@ public final class Topography
 	 * @param deleteEdges The edges to remove in addition to the nodes
 	 * @return A graph of the remaining nodes
 	 */
-	private static <N, E extends Cloud<N>> ImmutableAdjacencyGraph<N, Cloud<N>> deleteFromGraph(final Graph<N, E> graph, final Set<N> deleteNodes, final Set<E> deleteEdges)
+	private static <N, E extends Cloud<N>> ImmutableAdjacencyGraph<N, Cloud<N>> deleteFromGraph(final CloudGraph<N, E> graph, final Set<N> deleteNodes, final Set<E> deleteEdges)
 	{
 		//remove the deleteNodes
 		final Set<N> cutNodes = graph.getTargets();
@@ -1146,8 +1146,8 @@ public final class Topography
 			if( cutEdgeNeighbors.size() != cutCloud.getTargets().size() )
 				removeClouds.add(cutCloud);
 			if( cutEdgeNeighbors.size() > 1 )
-				// TODO instead of SimpleHyperEdge implement clone or something
-				addClouds.add(new SimpleHyperEdge<N>(cutEdgeNeighbors));
+				// TODO instead of SimpleHyperedge implement clone or something
+				addClouds.add(new SimpleHyperedge<N>(cutEdgeNeighbors));
 		}
 		for(final Cloud<N> removeCloud : removeClouds )
 			cutClouds.remove(removeCloud);

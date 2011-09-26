@@ -37,7 +37,7 @@ import javax.vecmath.Vector3f;
 import com.sun.j3d.utils.behaviors.vp.OrbitBehavior;
 import com.sun.j3d.utils.universe.SimpleUniverse;
 import com.syncleus.dann.ComponentUnavailableException;
-import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.CloudGraph;
 import com.syncleus.dann.graph.drawing.hyperassociativemap.HyperassociativeMap;
 
 /**
@@ -46,7 +46,7 @@ import com.syncleus.dann.graph.drawing.hyperassociativemap.HyperassociativeMap;
  * @author Jeffrey Phillips Freeman
  * @since 1.0
  */
-public class HyperassociativeMapCanvas<G extends Graph<N, ?>, N> extends JPanel
+public class HyperassociativeMapCanvas<G extends CloudGraph<N, ?>, N> extends JPanel
 {
 
 	private static final long serialVersionUID = -2387160322569579373L;

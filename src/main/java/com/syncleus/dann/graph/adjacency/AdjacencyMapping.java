@@ -16,14 +16,29 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph;
+package com.syncleus.dann.graph.adjacency;
 
-public interface PartibleEdge<
-	  	T,
-	  	EP extends PartibleEdge.Endpoint<? extends T>
-	  > extends Edge<T, EP>, PartibleCloud<T,EP>
+import java.util.Set;
+
+public interface AdjacencyMapping<LK,RK,V> extends Set<AdjacencyMapping.Adjacency<LK,RK>>
 {
-	interface Endpoint<T> extends Edge.Endpoint<T>, PartibleCloud.Endpoint<T>
+	interface Adjacency<LK,RK>
 	{
-	};
+		public LK getLeftKey();
+		public RK getRightKey();
+	}
+
+	boolean removeLeftKey(Object leftKey);
+	boolean removeRightKey(Object rightKey);
+	boolean remove(Object leftKey, Object rightKey);
+	boolean putLeftKey(LK leftKey);
+	boolean putRightKey(RK rightKey);
+	boolean put(LK leftKey, RK rightKey);
+	boolean put(LK leftKey, RK rightKey, V value);
+	V get(Object leftKey, Object rightKey);
+	boolean contains(Object leftKey, Object rightKey);
+	Set<RK> getRightKeys();
+	Set<LK> getLeftKeys();
+	Set<RK> getLeftAdjacency(Object leftKey);
+	Set<LK> getRightAdjacency(Object rightKey);
 }

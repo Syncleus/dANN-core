@@ -19,9 +19,9 @@
 package com.syncleus.dann.graph.tree;
 
 import com.syncleus.dann.graph.Cloud;
-import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.CloudGraph;
 
-public interface TreeOptimizedGraph<N, E extends Cloud<N>> extends Graph<N, E>
+public interface TreeOptimizedGraph<N, E extends Cloud<N>> extends CloudGraph<N, E>
 {
 	/**
 	 * Determines if the specified graph is a spanning tree of this graph. This
@@ -33,7 +33,7 @@ public interface TreeOptimizedGraph<N, E extends Cloud<N>> extends Graph<N, E>
 	 *         is weakly connected, and is acyclic, otherwise it returns false.
 	 * @since 2.0
 	 */
-	boolean isSpanningTree(Graph<N, E> subGraph);
+	boolean isSpanningTree(CloudGraph<N, E> subGraph);
 	/**
 	 * Determines if this graph is weakly connected, acyclic, and simple, another
 	 * words a Tree. Some rooted tree's are directed trees, however not all

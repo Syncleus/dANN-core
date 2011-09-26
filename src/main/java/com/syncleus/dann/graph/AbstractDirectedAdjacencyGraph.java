@@ -27,7 +27,7 @@ public abstract class AbstractDirectedAdjacencyGraph<N, E extends DirectedEdge<N
 		super();
 	}
 
-	protected AbstractDirectedAdjacencyGraph(final Graph<N, E> copyGraph)
+	protected AbstractDirectedAdjacencyGraph(final CloudGraph<N, E> copyGraph)
 	{
 		super(copyGraph.getTargets(), copyGraph.getEdges());
 	}

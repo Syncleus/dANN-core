@@ -39,7 +39,7 @@ public class ImmutableAdjacencyGraph<N, E extends Cloud<N>> extends AbstractAdja
 		super();
 	}
 
-	public ImmutableAdjacencyGraph(final Graph<N, E> copyGraph)
+	public ImmutableAdjacencyGraph(final CloudGraph<N, E> copyGraph)
 	{
 		super(copyGraph);
 	}

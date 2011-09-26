@@ -26,20 +26,20 @@ public interface MutableGraph<
 	  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N>>,
 	  	NEP extends MutableGraph.NodeEndpoint<N, E>,
 	  	EEP extends MutableGraph.EdgeEndpoint<N, E>
-	  >  extends Graph<N,E,NEP,EEP>
+	  >  extends CloudGraph<N,E,NEP,EEP>
 {
 
 	interface NodeEndpoint<
 		  ON,
 		  OE extends Cloud<ON,? extends Cloud.Endpoint<? extends ON>>
-	  > extends Graph.NodeEndpoint<ON,OE>, PartibleCloud.Endpoint<ON>
+	  > extends CloudGraph.NodeEndpoint<ON,OE>, PartibleCloud.Endpoint<ON>
 	{
 	};
 
 	interface EdgeEndpoint<
 		  ON,
 		  OE extends Cloud<ON,? extends Cloud.Endpoint<? extends ON>>
-	  > extends Graph.EdgeEndpoint<ON,OE>, PartibleCloud.Endpoint<OE>
+	  > extends CloudGraph.EdgeEndpoint<ON,OE>, PartibleCloud.Endpoint<OE>
 	{
 	};
 
@@ -58,5 +58,5 @@ public interface MutableGraph<
 	void clear() throws InvalidGraphException;
 	void clearEdges() throws InvalidGraphException;
 
-	Map<?, Graph.Endpoint<?, N,E>> reconfigure(Set<? extends N> addNodes, Set<? extends E> addEdges, final Set<? extends Graph.Endpoint<?,?,?>> disconnectEndpoints) throws InvalidGraphException;
+	Map<?, CloudGraph.Endpoint<?, N,E>> reconfigure(Set<? extends N> addNodes, Set<? extends E> addEdges, final Set<? extends CloudGraph.Endpoint<?,?,?>> disconnectEndpoints) throws InvalidGraphException;
 }

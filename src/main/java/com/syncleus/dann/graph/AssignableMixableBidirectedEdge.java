@@ -18,9 +18,19 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface WeightedBidirectedEdge<N> extends BidirectedEdge<N>, WeightedMixableBidirectedEdge<N,N,N>
+public interface AssignableMixableBidirectedEdge<
+	  	T,
+	  	LT extends T,
+	  	RT extends T,
+	  	E extends AssignableMixableBidirectedEdge.Endpoint<T, ? extends T, ? extends T>,
+	  	LE extends AssignableMixableBidirectedEdge.Endpoint<T, LT, RT>,
+	  	RE extends AssignableMixableBidirectedEdge.Endpoint<T, RT, LT>
+	  > extends MixableEdge<T, LT, RT, E, LE, RE>, AssignableCloud<T, E>
 {
-	interface Endpoint<NN, EN extends NN, ON extends NN> extends BidirectedEdge.Endpoint<NN, EN,ON>, WeightedMixableBidirectedEdge.Endpoint<EN,ON,NN>
+	interface Endpoint<P, T extends P, N extends P> extends MixableBidirectedEdge.Endpoint<P, T, N>, AssignableMixableEdge.Endpoint<P, T, N>
 	{
 	};
+
+	void invertDirection() throws InvalidEdgeDirectionException;
+	void reassign(LT newLeftNode, Endpoint.Direction newLeftDirection, RT newRightNode, Endpoint.Direction newRightDirection) throws InvalidEdgeException;
 }

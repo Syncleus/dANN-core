@@ -18,9 +18,22 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface WeightedDirectedEdge<N> extends WeightedBidirectedEdge<N>, DirectedEdge<N>, WeightedMixableDirectedEdge<N,N,N>
+import java.util.Map;
+
+public interface AssignableBidirectedCloud<
+	  	T,
+	  	E extends AssignableBidirectedCloud.Endpoint<T, ? extends T>
+	  > extends AssignableCloud<T,E>, BidirectedCloud<T,E>
 {
-	interface Endpoint<NN, EN extends NN, ON extends NN> extends WeightedBidirectedEdge.Endpoint<NN, EN,ON>, DirectedEdge.Endpoint<NN, EN,ON>, WeightedMixableDirectedEdge.Endpoint<EN,ON,NN>
+	interface Endpoint<P, T extends P> extends AssignableCloud.Endpoint<P, T>, BidirectedCloud.Endpoint<P, T>
 	{
-	};
+	}
+
+	interface ReassignmentPair<T>
+	{
+		T getTarget();
+		Endpoint.Direction getDirection();
+	}
+
+	void reassignDirection(Map<? extends E, ReassignmentPair<? extends T>> reassignments) throws InvalidGraphException;
 }

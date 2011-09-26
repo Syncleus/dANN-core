@@ -19,6 +19,8 @@
 package com.syncleus.dann.graph;
 
 import java.util.*;
+import com.syncleus.dann.graph.adjacency.AdjacencyMapping;
+import com.syncleus.dann.graph.adjacency.HashAdjacencyMapping;
 
 public abstract class AbstractMutableAdjacencyGraph<
 	  	N,
@@ -30,7 +32,7 @@ public abstract class AbstractMutableAdjacencyGraph<
 	  implements MutableGraph<N, E, NE, EE>
 {
 	private static final long serialVersionUID = -4613327727609060678L;
-	private final AdjacencyMapping<MutableGraph.NodeEndpoint<N, E>,MutableGraph.EdgeEndpoint<N, E>,Cloud.Endpoint<N>> adjacency = new HashAdjacencyMapping<MutableGraph.NodeEndpoint<N, E>,MutableGraph.EdgeEndpoint<N, E>,Cloud.Endpoint<N>>();
+	private final AdjacencyMapping<MutableGraph.NodeEndpoint<N, E>,MutableGraph.EdgeEndpoint<N, E>,Endpoint<N>> adjacency = new HashAdjacencyMapping<MutableGraph.NodeEndpoint<N, E>,MutableGraph.EdgeEndpoint<N, E>,Endpoint<N>>();
 
 	protected AbstractMutableAdjacencyGraph()
 	{
@@ -87,7 +89,7 @@ public abstract class AbstractMutableAdjacencyGraph<
 	}
 
 	@Override
-	protected Set<Graph.EdgeEndpoint<N,E>> getAdjacentEdgeEndpoints(Graph.NodeEndpoint<?, ?> nodeEndpoint)
+	protected Set<CloudGraph.EdgeEndpoint<N,E>> getAdjacentEdgeEndpoints(CloudGraph.NodeEndpoint<?, ?> nodeEndpoint)
 	{
 		if( !this.adjacency.getLeftKeys().contains(nodeEndpoint) )
 			throw new IllegalArgumentException("nodeEndpoint is not an endpoint for this graph");
@@ -179,15 +181,15 @@ public abstract class AbstractMutableAdjacencyGraph<
 	}
 
 	@Override
-	public Map<?, Graph.Endpoint<?, N, E>> reconfigure(Set<? extends N> addNodes, Set<? extends E> addEdges, Set<? extends Graph.Endpoint<?, ?, ?>> disconnectEndpoints) throws InvalidGraphException
+	public Map<?, CloudGraph.Endpoint<?, N, E>> reconfigure(Set<? extends N> addNodes, Set<? extends E> addEdges, Set<? extends CloudGraph.Endpoint<?, ?, ?>> disconnectEndpoints) throws InvalidGraphException
 	{
 		if( disconnectEndpoints != null )
 		{
-			for(final Graph.Endpoint<?, ?,?> disconnectEndpoint : disconnectEndpoints)
+			for(final CloudGraph.Endpoint<?, ?,?> disconnectEndpoint : disconnectEndpoints)
 				this.adjacency.remove(disconnectEndpoint.getTarget());
 		}
 
-		Map<Object, Graph.Endpoint<?, N,E>> newEndpoints = new HashMap<Object, Graph.Endpoint<?, N, E>>();
+		Map<Object, CloudGraph.Endpoint<?, N,E>> newEndpoints = new HashMap<Object, CloudGraph.Endpoint<?, N, E>>();
 		if( addNodes != null )
 			newEndpoints.putAll(this.joinNodes(addNodes));
 		if( addEdges != null )

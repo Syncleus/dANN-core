@@ -25,11 +25,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import com.syncleus.dann.graph.Cloud;
-import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.CloudGraph;
 
 public class ColoredDepthFirstSearchDetector implements CycleDetector
 {
-	public <N, E extends Cloud<N>> boolean hasCycle(final Graph<N, E> graph)
+	public <N, E extends Cloud<N>> boolean hasCycle(final CloudGraph<N, E> graph)
 	{
 		//A map of the current Node colors. Key is the node, value is null for
 		//white, false for grey, true for black.
@@ -47,7 +47,7 @@ public class ColoredDepthFirstSearchDetector implements CycleDetector
 		return false;
 	}
 
-	private static <N, E extends Cloud<N>> boolean visit(final Graph<N, E> graph, final Map<N, Boolean> colorMap, final Set<E> traversedEdges, final N node)
+	private static <N, E extends Cloud<N>> boolean visit(final CloudGraph<N, E> graph, final Map<N, Boolean> colorMap, final Set<E> traversedEdges, final N node)
 	{
 		colorMap.put(node, Boolean.FALSE);
 

@@ -32,7 +32,7 @@ import java.util.Set;
 import com.syncleus.dann.graph.BidirectedGraph;
 import com.syncleus.dann.graph.DirectedEdge;
 import com.syncleus.dann.graph.Cloud;
-import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.CloudGraph;
 import com.syncleus.dann.graph.Weighted;
 import com.syncleus.dann.graph.topological.sorter.SimpleTopologicalRanker;
 import com.syncleus.dann.graph.topological.sorter.TopologicalSorter;
@@ -41,7 +41,7 @@ public class PrimMinimumSpanningTreeFinder<N, E extends Cloud<N>> implements Roo
 {
 	@SuppressWarnings("unchecked")
 	@Override
-	public Set<E> findMinimumSpanningTree(final Graph<N, E> graph)
+	public Set<E> findMinimumSpanningTree(final CloudGraph<N, E> graph)
 	{
 		boolean isDirected = false;
 		if( graph instanceof BidirectedGraph )
@@ -68,12 +68,12 @@ public class PrimMinimumSpanningTreeFinder<N, E extends Cloud<N>> implements Roo
 	}
 
 	@Override
-	public Set<E> findMinimumSpanningTree(final Graph<N, E> graph, final N startNode)
+	public Set<E> findMinimumSpanningTree(final CloudGraph<N, E> graph, final N startNode)
 	{
 		return primCalculate(graph, startNode);
 	}
 
-	private Set<E> primCalculate(final Graph<N, E> graph, final N startNode)
+	private Set<E> primCalculate(final CloudGraph<N, E> graph, final N startNode)
 	{
 		final Set<E> mst = new HashSet<E>();
 		final PrimMap<N, E> primMap = new PrimMap<N, E>();

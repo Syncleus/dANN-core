@@ -19,7 +19,6 @@
 package com.syncleus.dann.graph;
 
 import java.util.Set;
-import com.sun.xml.internal.org.jvnet.fastinfoset.ExternalVocabulary;
 
 /**
  * Represents a graph as a collection of nodes connected by edges. A graph does
@@ -34,51 +33,51 @@ import com.sun.xml.internal.org.jvnet.fastinfoset.ExternalVocabulary;
  * @param <N> The node type
  * @param <E> The type of edge for the given node type
  */
-public interface Graph<
+public interface CloudGraph<
 	  	A,
 	  	N,
-	  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N>>,
-	  	AE extends Graph.Endpoint<A, N, E>,
-	  	NE extends Graph.NodeEndpoint<N, E>,
-	  	EE extends Graph.EdgeEndpoint<N, E>
+	  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>,
+	  	AE extends CloudGraph.Endpoint<A, N, E>,
+	  	NE extends CloudGraph.NodeEndpoint<N, E>,
+	  	EE extends CloudGraph.EdgeEndpoint<N, E>
 	  > extends Cloud<A,AE>
 {
 	interface Endpoint<
 			  T,
 			  N,
-			  E extends Cloud<N,? extends Cloud.Endpoint<? extends N>>
+			  E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>
 		  >
-		  extends Cloud.Endpoint<T>
+		  extends Cloud.Endpoint<T,T>
 	{
-		Set<? extends Graph.Endpoint<?, N,E>> getAdjacent();
-		Set<? extends Graph.Endpoint<?, N,E>> getTraversableAdjacentTo();
-		Set<? extends Graph.Endpoint<?, N,E>> getTraversableAdjacentFrom();
+		Set<? extends CloudGraph.Endpoint<?, N,E>> getAdjacent();
+		Set<? extends CloudGraph.Endpoint<?, N,E>> getTraversableAdjacentTo();
+		Set<? extends CloudGraph.Endpoint<?, N,E>> getTraversableAdjacentFrom();
 
-		Set<? extends Graph.NodeEndpoint<N, E>> getAdjacentNodes();
-		Set<? extends Graph.NodeEndpoint<N, E>> getTraversableAdjacentNodesTo();
-		Set<? extends Graph.NodeEndpoint<N, E>> getTraversableAdjacentNodesFrom();
+		Set<? extends CloudGraph.NodeEndpoint<N, E>> getAdjacentNodes();
+		Set<? extends CloudGraph.NodeEndpoint<N, E>> getTraversableAdjacentNodesTo();
+		Set<? extends CloudGraph.NodeEndpoint<N, E>> getTraversableAdjacentNodesFrom();
 
-		Set<? extends Graph.EdgeEndpoint<N, E>> getAdjacentEdges();
-		Set<? extends Graph.EdgeEndpoint<N, E>> getTraversableAdjacentEdgesTo();
-		Set<? extends Graph.EdgeEndpoint<N, E>> getTraversableAdjacentEdgesFrom();
+		Set<? extends CloudGraph.EdgeEndpoint<N, E>> getAdjacentEdges();
+		Set<? extends CloudGraph.EdgeEndpoint<N, E>> getTraversableAdjacentEdgesTo();
+		Set<? extends CloudGraph.EdgeEndpoint<N, E>> getTraversableAdjacentEdgesFrom();
 	};
 
 	interface NodeEndpoint<
 		  N,
-		  E extends Cloud<N,? extends Cloud.Endpoint<? extends N>>
-	  > extends Graph.Endpoint<N, N, E>
+		  E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>
+	  > extends CloudGraph.Endpoint<N, N, E>
 	{
 	};
 
 	interface EdgeEndpoint<
 		  	N,
-		  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N>>
-		> extends Graph.Endpoint<E, N, E>
+		  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>
+		> extends CloudGraph.Endpoint<E, N, E>
 	{
 	};
 
 	Set<EE> getEdgeEndpoints();
-	Set<EE> getEdgeEndpoints(Cloud<?,? extends Cloud.Endpoint<?>> cloud);
+	Set<EE> getEdgeEndpoints(Cloud<?,? extends Cloud.Endpoint<?,?>> cloud);
 
 	Set<NE> getNodeEndpoints();
 	Set<NE> getNodeEndpoints(Object node);
@@ -125,22 +124,22 @@ public interface Graph<
 	Set<E> getAdjacentEdges(Object node);
 
 	Set<E> getTraversableEdgesFrom(Object source);
-	Set<E> getTraversableEdgesFrom(Cloud<?,? extends Cloud.Endpoint<?>> source);
+	Set<E> getTraversableEdgesFrom(Cloud<?,? extends Cloud.Endpoint<?,?>> source);
 	Set<E> getTraversableEdgesTo(Object destination);
-	Set<E> getTraversableEdgesTo(Cloud<?,? extends Cloud.Endpoint<?>> destination);
+	Set<E> getTraversableEdgesTo(Cloud<?,? extends Cloud.Endpoint<?,?>> destination);
 
 	Set<N> getTraversableNodesFrom(Object source);
-	Set<N> getTraversableNodesFrom(Cloud<?,? extends Cloud.Endpoint<?>> source);
+	Set<N> getTraversableNodesFrom(Cloud<?,? extends Cloud.Endpoint<?,?>> source);
 	Set<N> getTraversableNodesTo(Object destination);
-	Set<N> getTraversableNodesTo(Cloud<?,? extends Cloud.Endpoint<?>> destination);
+	Set<N> getTraversableNodesTo(Cloud<?,? extends Cloud.Endpoint<?,?>> destination);
 
 	Set<E> getTraversableAdjacentEdgesFrom(Object source);
-	Set<E> getTraversableAdjacentEdgesFrom(Cloud<?,? extends Cloud.Endpoint<?>> source);
+	Set<E> getTraversableAdjacentEdgesFrom(Cloud<?,? extends Cloud.Endpoint<?,?>> source);
 	Set<E> getTraversableAdjacentEdgesTo(Object destination);
-	Set<E> getTraversableAdjacentEdgesTo(Cloud<?,? extends Cloud.Endpoint<?>> destination);
+	Set<E> getTraversableAdjacentEdgesTo(Cloud<?,? extends Cloud.Endpoint<?,?>> destination);
 
 	Set<N> getTraversableAdjacentNodesFrom(Object source);
-	Set<N> getTraversableAdjacentNodesFrom(Cloud<?,? extends Cloud.Endpoint<?>> source);
+	Set<N> getTraversableAdjacentNodesFrom(Cloud<?,? extends Cloud.Endpoint<?,?>> source);
 
 	/**
 	 * Get a list of all reachable nodes adjacent to node. All edges connected to
@@ -166,5 +165,5 @@ public interface Graph<
 	 * @return An unmodifiable set of all edges that can be traversed from node.
 	 * @since 2.0
 	 */
-	Set<N> getTraversableAdjacentNodesTo(Cloud<?,? extends Cloud.Endpoint<?>> destination);
+	Set<N> getTraversableAdjacentNodesTo(Cloud<?,? extends Cloud.Endpoint<?,?>> destination);
 }

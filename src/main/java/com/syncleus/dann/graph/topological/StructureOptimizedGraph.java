@@ -19,9 +19,9 @@
 package com.syncleus.dann.graph.topological;
 
 import com.syncleus.dann.graph.Cloud;
-import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.CloudGraph;
 
-public interface StructureOptimizedGraph<N, E extends Cloud<N>> extends Graph<N, E>
+public interface StructureOptimizedGraph<N, E extends Cloud<N>> extends CloudGraph<N, E>
 {
 	/**
 	 * Determines if the specified graph only contains nodes and edges that are
@@ -32,7 +32,7 @@ public interface StructureOptimizedGraph<N, E extends Cloud<N>> extends Graph<N,
 	 *         also present in this graph.
 	 * @since 2.0
 	 */
-	boolean isSubGraph(Graph<N, E> graph);
+	boolean isSubGraph(CloudGraph<N, E> graph);
 	/**
 	 * Determines if all the nodes in the specified graph contains all the same
 	 * nodes as this graph and every pair of nodes that are adjacent in this graph
@@ -48,7 +48,7 @@ public interface StructureOptimizedGraph<N, E extends Cloud<N>> extends Graph<N,
 	 *         and all the same pairs of adjacecy betwee them. False otherwise.
 	 * @since 2.0
 	 */
-	boolean isIsomorphic(Graph<N, E> isomorphicGraph);
+	boolean isIsomorphic(CloudGraph<N, E> isomorphicGraph);
 	/**
 	 * Determines if all the nodes in the specified graph contains all the same
 	 * nodes as this graph and every pair of nodes that are adjacent in this graph
@@ -66,5 +66,5 @@ public interface StructureOptimizedGraph<N, E extends Cloud<N>> extends Graph<N,
 	 *         and adjacent in the specified graph.
 	 * @since 2.0
 	 */
-	boolean isHomomorphic(Graph<N, E> homomorphicGraph);
+	boolean isHomomorphic(CloudGraph<N, E> homomorphicGraph);
 }

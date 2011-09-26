@@ -18,12 +18,12 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public abstract class AbstractHyperEdge<N> extends AbstractEdge<N> implements HyperEdge<N>
+public abstract class AbstractHyperedge<N> extends AbstractEdge<N> implements Hyperedge<N>
 {
 	private static final long serialVersionUID = -3657973823101515199L;
 
 /*
-	protected AbstractHyperEdge(final List<N> nodes, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
+	protected AbstractHyperedge(final List<N> nodes, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
 	{
 		super(nodes, allowJoiningMultipleGraphs, contextEnabled);
 
@@ -56,7 +56,7 @@ public abstract class AbstractHyperEdge<N> extends AbstractEdge<N> implements Hy
 	}
 
 
-	protected AbstractHyperEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled, final N... nodes)
+	protected AbstractHyperedge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled, final N... nodes)
 	{
 		super(allowJoiningMultipleGraphs, contextEnabled, nodes);
 	}
@@ -112,17 +112,17 @@ public abstract class AbstractHyperEdge<N> extends AbstractEdge<N> implements Hy
 */
 	// TODO : Implement This!
 	@Override
-	public boolean isSymmetric(final HyperEdge symmetricEdge)
+	public boolean isSymmetric(final Hyperedge symmetricEdge)
 	{
 		throw new UnsupportedOperationException("this operation is not yet supported");
 	}
 
 	@Override
-	protected AbstractHyperEdge<N> clone()
+	protected AbstractHyperedge<N> clone()
 	{
-		return (AbstractHyperEdge<N>) super.clone();
+		return (AbstractHyperedge<N>) super.clone();
 /*
-		final AbstractHyperEdge<N> clonedEdge = (AbstractHyperEdge<N>) super.clone();
+		final AbstractHyperedge<N> clonedEdge = (AbstractHyperedge<N>) super.clone();
 
 		if( !this.contextEnabled )
 			return clonedEdge;
@@ -153,7 +153,7 @@ public abstract class AbstractHyperEdge<N> extends AbstractEdge<N> implements Hy
 */
 	}
 
-	protected abstract class AbstractEndpoint<EN extends N, ON extends N> extends AbstractEdge.AbstractEndpoint<EN> implements HyperEdge.Endpoint<N, EN>
+	protected abstract class AbstractEndpoint<EN extends N, ON extends N> extends AbstractEdge.AbstractEndpoint<EN> implements Hyperedge.Endpoint<N, EN>
 	{
 		private EN node = null;
 

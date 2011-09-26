@@ -18,9 +18,12 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface MutableWeightedEdge<N> extends WeightedEdge<N>, MutableWeighted
+public interface AssignableDirectedEdge<
+	  	T,
+	  	E extends AssignableDirectedEdge.Endpoint<T>
+	  > extends AssignableMixableDirectedEdge<T,T,T,E,E,E>, AssignableBidirectedEdge<T,E>
 {
-	interface Endpoint<NN, EN extends NN> extends WeightedEdge.Endpoint<NN, EN>
+	interface Endpoint<T> extends AssignableMixableDirectedEdge.Endpoint<T, T, T>, AssignableBidirectedEdge.Endpoint<T>
 	{
 	};
 }

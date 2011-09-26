@@ -22,26 +22,15 @@ public interface MixableBidirectedEdge<
 	  	T,
 	  	LT extends T,
 	  	RT extends T,
-	  	EP extends MixableBidirectedEdge.Endpoint<? extends T, ? extends LT, ? extends RT>
-	  > extends Edge<T, EP>
+	  	E extends MixableBidirectedEdge.Endpoint<T, ? extends T, ? extends T>,
+	  	LE extends MixableBidirectedEdge.Endpoint<T, LT, RT>,
+	  	RE extends MixableBidirectedEdge.Endpoint<T, RT, LT>
+	  > extends MixableEdge<T, LT, RT, E, LE, RE>, BidirectedCloud<T, E>
 {
-	interface Endpoint<
-			  NN,
-			  EN extends NN,
-			  ON extends NN
-		  > extends Edge.Endpoint<NN>
+	interface Endpoint<P, T extends P, N extends P> extends MixableEdge.Endpoint<P, T, N>, BidirectedCloud.Endpoint<P, T>
 	{
-		enum Direction
-		{
-			OUTWARD, INWARD, NONE
-		}
-
-		Direction getDirection();
-		Endpoint<NN, ON,EN> getNeighbor();
 	};
 
-	EP getLeftEndPoint();
-	EP getRightEndPoint();
 	boolean isIntroverted();
 	boolean isExtroverted();
 	boolean isDirected();

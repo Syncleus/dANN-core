@@ -20,14 +20,14 @@ package com.syncleus.dann.graph;
 
 import java.util.Set;
 
-public abstract class AbstractHyperAdjacencyGraph<N, E extends HyperEdge<N>> extends AbstractAdjacencyGraph<N, E> implements HyperGraph<N, E>
+public abstract class AbstractHyperAdjacencyGraph<N, E extends Hyperedge<N>> extends AbstractAdjacencyGraph<N, E> implements HyperGraph<N, E>
 {
 	protected AbstractHyperAdjacencyGraph()
 	{
 		super();
 	}
 
-	protected AbstractHyperAdjacencyGraph(final Graph<N, E> copyGraph)
+	protected AbstractHyperAdjacencyGraph(final CloudGraph<N, E> copyGraph)
 	{
 		super(copyGraph.getTargets(), copyGraph.getEdges());
 	}
