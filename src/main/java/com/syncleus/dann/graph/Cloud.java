@@ -32,7 +32,7 @@ public interface Cloud<
 {
 	interface Endpoint<P, T>
 	{
-		Set<Endpoint<P,P>> getNeighbors();
+		Set<? extends Endpoint<P,P>> getNeighbors();
 		T getTarget();
 	};
 
