@@ -26,35 +26,30 @@ package com.syncleus.dann.graph;
  * @since 2.0
  */
 public interface Hypergraph<
-	  	N,
-	  	E extends Hyperedge<N,? extends Hyperedge.Endpoint<? extends N, ? extends N>>,
-	  	AE extends Hypergraph.Endpoint<Object, N, E>,
-	  	NE extends Hypergraph.NodeEndpoint<N, E>,
-	  	EE extends Hypergraph.EdgeEndpoint<N, E>
-	  > extends CloudGraph<Object, N, E, AE, NE, EE>
+	  	NE extends Hypergraph.NodeEndpoint<?>,
+	  	EE extends Hypergraph.EdgeEndpoint<?>
+	  > extends CloudGraph<NE, EE>
 {
 	interface Endpoint<
-		  	T,
-		  	N,
-		  	E extends Hyperedge<N,? extends Hyperedge.Endpoint<? extends N, ? extends N>>
+		  	T
 		  >
-		  extends CloudGraph.Endpoint<Object,T,N,E>
+		  extends CloudGraph.Endpoint<T>
 	{
 	};
 
 	interface NodeEndpoint<
-		  	N,
-		  	E extends Hyperedge<N,? extends Hyperedge.Endpoint<? extends N, ? extends N>>
-	  > extends CloudGraph.NodeEndpoint<Object,N,E>, Endpoint<N,N,E>
+		  	T
+	  > extends CloudGraph.NodeEndpoint<T>, Endpoint<T>
 	{
 	};
 
 	interface EdgeEndpoint<
-		  	N,
-		  	E extends Hyperedge<N,? extends Hyperedge.Endpoint<? extends N, ? extends N>>
-		> extends CloudGraph.EdgeEndpoint<Object,N,E>, Endpoint<E,N,E>
+		  	T extends Hyperedge<?>
+		> extends CloudGraph.EdgeEndpoint<T>, Endpoint<T>
 	{
 	};
+
+	boolean isUniform();
 
 	/**
 	 * True if this graph enforces its edges to have a maximum rank.

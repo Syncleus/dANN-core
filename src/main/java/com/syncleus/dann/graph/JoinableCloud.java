@@ -23,14 +23,14 @@ import java.util.Set;
 
 public interface JoinableCloud<
 	  	T,
-	  	EP extends JoinableCloud.Endpoint<T, ? extends T>
-	  > extends Cloud<T,EP>
+	  	E extends JoinableCloud.Endpoint<T>
+	  > extends Cloud<E>
 {
-	interface Endpoint<P, T> extends Cloud.Endpoint<P, T>
+	interface Endpoint<T> extends Cloud.Endpoint<T>
 	{
 	}
 
-	EP join(T edge) throws InvalidGraphException;
-	Map<T, EP> joins(Set<? extends T> edges) throws InvalidGraphException;
-	Map<T, Set<EP>> joins(Map<? extends T,? extends Integer> edges) throws InvalidGraphException;
+	E join(T target) throws InvalidGraphException;
+	Set<E> joins(Set<? extends T> targets) throws InvalidGraphException;
+	Set<E> joins(Map<? extends T,? extends Integer> targets) throws InvalidGraphException;
 }

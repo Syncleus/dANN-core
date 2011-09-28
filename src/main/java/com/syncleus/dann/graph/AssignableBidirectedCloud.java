@@ -21,11 +21,10 @@ package com.syncleus.dann.graph;
 import java.util.Map;
 
 public interface AssignableBidirectedCloud<
-	  	T,
-	  	E extends AssignableBidirectedCloud.Endpoint<T, ? extends T>
-	  > extends AssignableCloud<T,E>, BidirectedCloud<T,E>
+	  	E extends AssignableBidirectedCloud.Endpoint<?>
+	  > extends AssignableCloud<E>, BidirectedCloud<E>
 {
-	interface Endpoint<P, T extends P> extends AssignableCloud.Endpoint<P, T>, BidirectedCloud.Endpoint<P, T>
+	interface Endpoint<T> extends AssignableCloud.Endpoint<T>, BidirectedCloud.Endpoint<T>
 	{
 	}
 
@@ -35,5 +34,5 @@ public interface AssignableBidirectedCloud<
 		Endpoint.Direction getDirection();
 	}
 
-	void reassignDirection(Map<? extends E, ReassignmentPair<? extends T>> reassignments) throws InvalidGraphException;
+	<T, TE extends AssignableBidirectedCloud.Endpoint<? super T>> void reassignDirection(Map<TE,? extends ReassignmentPair<? extends T>> reassignments) throws InvalidGraphException;
 }

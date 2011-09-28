@@ -18,6 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
+import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -34,139 +35,45 @@ import java.util.Set;
  * @param <E> The type of edge for the given node type
  */
 public interface CloudGraph<
-	  	A,
-	  	N,
-	  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>,
-	  	AE extends CloudGraph.Endpoint<A, A, N, E>,
-	  	NE extends CloudGraph.NodeEndpoint<A, N, E>,
-	  	EE extends CloudGraph.EdgeEndpoint<A, N, E>
-	  > extends Cloud<A,AE>
+	  	NE extends CloudGraph.NodeEndpoint<?>,
+	  	EE extends CloudGraph.EdgeEndpoint<? extends Cloud<?>>
+	  > extends Cloud<NE>
 {
 	interface Endpoint<
-		  	P,
-		  	T,
-		  	N,
-		  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>
+		  	T
 		  >
-		  extends Cloud.Endpoint<P,T>
+		  extends Cloud.Endpoint<T>
 	{
-		Set<? extends CloudGraph.Endpoint<P,T,N,E>> getAdjacent();
-		Set<? extends CloudGraph.Endpoint<P,T,N,E>> getTraversableAdjacentTo();
-		Set<? extends CloudGraph.Endpoint<P,T,N,E>> getTraversableAdjacentFrom();
-
-		Set<? extends CloudGraph.NodeEndpoint<P, N, E>> getAdjacentNodes();
-		Set<? extends CloudGraph.NodeEndpoint<P, N, E>> getTraversableAdjacentNodesTo();
-		Set<? extends CloudGraph.NodeEndpoint<P, N, E>> getTraversableAdjacentNodesFrom();
-
-		Set<? extends CloudGraph.EdgeEndpoint<P, N, E>> getAdjacentEdges();
-		Set<? extends CloudGraph.EdgeEndpoint<P, N, E>> getTraversableAdjacentEdgesTo();
-		Set<? extends CloudGraph.EdgeEndpoint<P, N, E>> getTraversableAdjacentEdgesFrom();
 	};
 
 	interface NodeEndpoint<
-		  	P,
-		  	N,
-		  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>
-	  > extends CloudGraph.Endpoint<P, N, N, E>
+		  	T
+	  > extends Endpoint<T>
 	{
 	};
 
 	interface EdgeEndpoint<
-		  	P,
-		  	N,
-		  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>
-		> extends CloudGraph.Endpoint<P, E, N, E>
+		  	T extends Cloud<?>
+		> extends Endpoint<T>
 	{
 	};
 
+	interface EndpointSets<NE extends NodeEndpoint<?>,EE extends EdgeEndpoint<?>> extends Set<Endpoint<?>>
+	{
+		Set<NE> getNodeEndpoints();
+		Set<EE> getEdgeEndpoints();
+	};
+
+	EndpointSets<NE,EE> getAdjacent(Endpoint<?> endpoint);
+
 	Set<EE> getEdgeEndpoints();
-	Set<EE> getEdgeEndpoints(Cloud<?,? extends Cloud.Endpoint<?,?>> cloud);
+	Set<EE> getEdgeEndpoints(Cloud<?> cloud);
+	Set<EE> getEdgeNeighbors(Endpoint<?> endpoint);
 
-	Set<NE> getNodeEndpoints();
-	Set<NE> getNodeEndpoints(Object node);
-
-	/**
-	 * Get a set of all nodes in the graph.
-	 *
-	 * @return An unmodifiable set of all nodes in the graph.
-	 * @since 2.0
-	 */
-	Set<N> getNodes();
-	/**
-	 * Get a set of all edges in the graph. Two edges in the set, and in the graph,
-	 * may have the same end points unless equals in the edges used by this graph
-	 * restrict that possiblity.
-	 *
-	 * @return An unmodifiable set of a all edges in the graph.
-	 * @since 2.0
-	 */
-	Set<E> getEdges();
-	/**
-	 * Get a list of all nodes adjacent to the specified node. All edges connected
-	 * to this node has its other end points added to the list returned. The
-	 * specified node itself will appear in the list once for every loop. If there
-	 * are multiple edges connecting node with a particular end point it will
-	 * appear multiple times in the list, once for each hop to the end point.
-	 *
-	 * @param node The whose neighbors are to be returned.
-	 * @return A list of all nodes adjacent to the specified node, empty set if the
-	 *         node has no edges.
-	 * @since 2.0
-	 */
-	Set<N> getAdjacentNodes(Object node);
-	/**
-	 * Get a set of all edges which is connected to node (adjacent). You may not be
-	 * able to traverse from the specified node to all of these edges returned. If
-	 * you only want edges you can traverse then see getTraversableAdjacentEdges.
-	 *
-	 * @param node the end point for all edges to retrieve.
-	 * @return An unmodifiable set of all edges that has node as an end point.
-	 * @throws IllegalArgumentException if specified node is not in the graph.
-	 * @since 2.0
-	 */
-	Set<E> getAdjacentEdges(Object node);
-
-	Set<E> getTraversableEdgesFrom(Object source);
-	Set<E> getTraversableEdgesFrom(Cloud<?,? extends Cloud.Endpoint<?,?>> source);
-	Set<E> getTraversableEdgesTo(Object destination);
-	Set<E> getTraversableEdgesTo(Cloud<?,? extends Cloud.Endpoint<?,?>> destination);
-
-	Set<N> getTraversableNodesFrom(Object source);
-	Set<N> getTraversableNodesFrom(Cloud<?,? extends Cloud.Endpoint<?,?>> source);
-	Set<N> getTraversableNodesTo(Object destination);
-	Set<N> getTraversableNodesTo(Cloud<?,? extends Cloud.Endpoint<?,?>> destination);
-
-	Set<E> getTraversableAdjacentEdgesFrom(Object source);
-	Set<E> getTraversableAdjacentEdgesFrom(Cloud<?,? extends Cloud.Endpoint<?,?>> source);
-	Set<E> getTraversableAdjacentEdgesTo(Object destination);
-	Set<E> getTraversableAdjacentEdgesTo(Cloud<?,? extends Cloud.Endpoint<?,?>> destination);
-
-	Set<N> getTraversableAdjacentNodesFrom(Object source);
-	Set<N> getTraversableAdjacentNodesFrom(Cloud<?,? extends Cloud.Endpoint<?,?>> source);
-
-	/**
-	 * Get a list of all reachable nodes adjacent to node. All edges connected to
-	 * node and is traversable from node will have its destination node(s) added to
-	 * the returned list. node itself will appear in the list once for every loop.
-	 * If there are multiple edges connecting node with a particular end point then
-	 * the end point will appear multiple times in the list, once for each hop to
-	 * the end point.
-	 *
-	 * @param destination The whose traversable neighbors are to be returned.
-	 * @return A list of all nodes adjacent to the specified node and traversable
-	 *         from the spevified node, empty set if the node has no edges.
-	 * @since 2.0
-	 */
-	Set<N> getTraversableAdjacentNodesTo(Object destination);
-
-	/**
-	 * Get a set of all edges which you can traverse from node. Of course node will
-	 * always be an end point for each edge returned. Throws an
-	 * IllegalArgumentException if node is not in the graph.
-	 *
-	 * @param destination edges returned will be traversable from this node.
-	 * @return An unmodifiable set of all edges that can be traversed from node.
-	 * @since 2.0
-	 */
-	Set<N> getTraversableAdjacentNodesTo(Cloud<?,? extends Cloud.Endpoint<?,?>> destination);
+	boolean containsEdge( EdgeEndpoint<?> endpoint);
+	boolean containsAnyEdge(Collection<? extends EdgeEndpoint<?>> endpoint);
+	boolean containsAllEdge(Collection<? extends EdgeEndpoint<?>> endpoint);
+	boolean containsEdgeTarget(Cloud<?> target);
+	boolean containsAnyEdgeTargets(Collection<? extends Cloud<?>> targets);
+	boolean containsAllEdgeTargets(Collection<? extends Cloud<?>> targets);
 }

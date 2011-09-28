@@ -18,52 +18,37 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.Map;
 import java.util.Set;
 
 public interface PartibleCloudGraph<
-	  	A,
-	  	N,
-	  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>,
-	  	AE extends PartibleCloudGraph.Endpoint<A, A, N, E>,
-	  	NE extends PartibleCloudGraph.NodeEndpoint<A, N, E>,
-	  	EE extends PartibleCloudGraph.EdgeEndpoint<A, N, E>
-	  >  extends CloudGraph<A,N,E,AE,NE,EE>, PartibleCloud<A, AE>
+	  	NE extends PartibleCloudGraph.NodeEndpoint<?>,
+	  	EE extends PartibleCloudGraph.EdgeEndpoint<? extends Cloud<?>>
+	  >  extends CloudGraph<NE,EE>, PartibleCloud<NE>
 {
 	interface Endpoint<
-		  	P,
-		  	T,
-		  	N,
-		  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>
+		  	T
 		  >
-		  extends CloudGraph.Endpoint<P,T,N,E>, PartibleCloud.Endpoint<P,T>
+		  extends CloudGraph.Endpoint<T>, PartibleCloud.Endpoint<T>
 	{
 	};
 
 	interface NodeEndpoint<
-		  	P,
-		  	N,
-		  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>
-	  > extends CloudGraph.NodeEndpoint<P,N,E>, PartibleCloud.Endpoint<P,N>, Endpoint<P,N,N,E>
+		  	T
+	  > extends CloudGraph.NodeEndpoint<T>, PartibleCloud.Endpoint<T>, Endpoint<T>
 	{
 	};
 
 	interface EdgeEndpoint<
-		  	P,
-		  	N,
-		  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>
-		> extends CloudGraph.EdgeEndpoint<P,N,E>, PartibleCloud.Endpoint<P,E>, Endpoint<P,E,N,E>
+		  	T extends Cloud<?>
+		> extends CloudGraph.EdgeEndpoint<T>, PartibleCloud.Endpoint<T>, Endpoint<T>
 	{
 	};
 
-	void leaveNode(MutableCloudGraph.NodeEndpoint<?,?,?> endpoint) throws InvalidGraphException;
-	void leaveNodes(Set<? extends MutableCloudGraph.NodeEndpoint<?,?,?>> endpoint) throws InvalidGraphException;
-
-	void leaveEdge(MutableCloudGraph.EdgeEndpoint<?, ?, ?> endpoint) throws InvalidGraphException;
-	void leaveEdges(Set<? extends MutableCloudGraph.EdgeEndpoint<?, ?, ?>> endpoints) throws InvalidGraphException;
-
-	void clear() throws InvalidGraphException;
+	void leaveEdge(EdgeEndpoint<?> endpoint) throws InvalidGraphException;
+	void leaveEdges(Set<? extends EdgeEndpoint<?>> endpoints) throws InvalidGraphException;
 	void clearEdges() throws InvalidGraphException;
 
-	Map<?, CloudGraph.Endpoint<?, ?, N,E>> leaveAll(final Set<? extends CloudGraph.Endpoint<?,?,?,?>> disconnectEndpoints) throws InvalidGraphException;
+	void leaveAll(final Set<? extends Endpoint<?>> disconnectEndpoints) throws InvalidGraphException;
+	Set<EE> recursiveLeaveAll(final Set<? extends Endpoint<?>> disconnectEndpoints) throws InvalidGraphException;
+	void clearAll() throws InvalidGraphException;
 }

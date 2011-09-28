@@ -20,32 +20,27 @@ package com.syncleus.dann.graph;
 
 public interface DynamicGraph<
 	  	N,
-	  	E extends Edge<N,? extends Edge.Endpoint<? extends N>> & TraversableCloud<? extends N, ? extends TraversableCloud.Endpoint<? extends N, ? extends N>> & AssignableCloud<? extends N, ? extends AssignableCloud.Endpoint<? extends N, ? extends N>>,
-	  	AE extends DynamicGraph.Endpoint<Object, N, E>,
-	  	NE extends DynamicGraph.NodeEndpoint<N, E>,
-	  	EE extends DynamicGraph.EdgeEndpoint<N, E>
-	  > extends DynamicCloudGraph<Object, N, E, AE, NE, EE>, TraversableGraph<N,E,AE,NE,EE>, MutableGraph<N,E,AE,NE,EE>
+	  	NE extends DynamicGraph.NodeEndpoint<N>,
+		E extends Edge<? extends Edge.Endpoint<N>> & TraversableCloud<? extends TraversableCloud.Endpoint<N>>,
+	  	EE extends DynamicGraph.EdgeEndpoint<E>
+	  > extends DynamicCloudGraph<N, NE, E, EE>, TraversableGraph<NE,EE>, MutableGraph<N,NE,E,EE>
 {
 	interface Endpoint<
-		  	T,
-		  	N,
-		  	E extends Edge<N,? extends Edge.Endpoint<? extends N>> & TraversableCloud<? extends N, ? extends TraversableCloud.Endpoint<? extends N, ? extends N>> & AssignableCloud<? extends N, ? extends AssignableCloud.Endpoint<? extends N, ? extends N>>
+		  	T
 		  >
-		  extends DynamicCloudGraph.Endpoint<Object,T,N,E>, TraversableGraph.Endpoint<T,N,E>, MutableGraph.Endpoint<T,N,E>
+		  extends DynamicCloudGraph.Endpoint<T>, TraversableGraph.Endpoint<T>, MutableGraph.Endpoint<T>
 	{
 	};
 
 	interface NodeEndpoint<
-		  	N,
-		  	E extends Edge<N,? extends Edge.Endpoint<? extends N>> & TraversableCloud<? extends N, ? extends TraversableCloud.Endpoint<? extends N, ? extends N>> & AssignableCloud<? extends N, ? extends AssignableCloud.Endpoint<? extends N, ? extends N>>
-	  > extends DynamicCloudGraph.NodeEndpoint<Object,N,E>, TraversableGraph.NodeEndpoint<N,E>, MutableGraph.NodeEndpoint<N,E>, Endpoint<N,N,E>
+		  	T
+	  > extends DynamicCloudGraph.NodeEndpoint<T>, TraversableGraph.NodeEndpoint<T>, MutableGraph.NodeEndpoint<T>, Endpoint<T>
 	{
 	};
 
 	interface EdgeEndpoint<
-		  	N,
-		  	E extends Edge<N,? extends Edge.Endpoint<? extends N>> & TraversableCloud<? extends N, ? extends TraversableCloud.Endpoint<? extends N, ? extends N>> & AssignableCloud<? extends N, ? extends AssignableCloud.Endpoint<? extends N, ? extends N>>
-		> extends DynamicCloudGraph.EdgeEndpoint<Object,N,E>, TraversableGraph.EdgeEndpoint<N,E>, MutableGraph.EdgeEndpoint<N,E>, Endpoint<E,N,E>
+		  	T extends Edge<?> & TraversableCloud<?>
+		> extends DynamicCloudGraph.EdgeEndpoint<T>, TraversableGraph.EdgeEndpoint<T>, MutableGraph.EdgeEndpoint<T>, Endpoint<T>
 	{
 	};
 }

@@ -19,33 +19,26 @@
 package com.syncleus.dann.graph;
 
 public interface DirectedGraph<
-	  	N,
-	  	E extends DirectedEdge<N,? extends BidirectedEdge.Endpoint<? extends N>>,
-	  	AE extends DirectedGraph.Endpoint<Object, N, E>,
-	  	NE extends DirectedGraph.NodeEndpoint<N, E>,
-	  	EE extends DirectedGraph.EdgeEndpoint<N, E>
-	  > extends BidirectedGraph<N, E, AE, NE, EE>
+	  	NE extends DirectedGraph.NodeEndpoint<?>,
+	  	EE extends DirectedGraph.EdgeEndpoint<?>
+	  > extends BidirectedGraph<NE, EE>
 {
 	interface Endpoint<
-		  	T,
-		  	N,
-		  	E extends DirectedEdge<N,? extends BidirectedEdge.Endpoint<? extends N>>
+		  	T
 		  >
-		  extends BidirectedGraph.Endpoint<T,N,E>
+		  extends BidirectedGraph.Endpoint<T>
 	{
 	};
 
 	interface NodeEndpoint<
-		  	N,
-		  	E extends DirectedEdge<N,? extends BidirectedEdge.Endpoint<? extends N>>
-	  > extends BidirectedGraph.NodeEndpoint<N,E>, Endpoint<N,N,E>
+		  	T
+	  > extends BidirectedGraph.NodeEndpoint<T>, Endpoint<T>
 	{
 	};
 
 	interface EdgeEndpoint<
-		  	N,
-		  	E extends DirectedEdge<N,? extends BidirectedEdge.Endpoint<? extends N>>
-		> extends BidirectedGraph.EdgeEndpoint<N,E>, Endpoint<E,N,E>
+		  	T extends DirectedEdge<?>
+		> extends BidirectedGraph.EdgeEndpoint<T>, Endpoint<T>
 	{
 	};
 }

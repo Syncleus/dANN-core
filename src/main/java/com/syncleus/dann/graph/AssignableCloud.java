@@ -21,14 +21,13 @@ package com.syncleus.dann.graph;
 import java.util.Map;
 
 public interface AssignableCloud<
-	  	T,
-	  	E extends AssignableCloud.Endpoint<T, ? extends T>
-	  > extends Cloud<T,E>
+	  	E extends AssignableCloud.Endpoint<?>
+	  > extends Cloud<E>
 {
-	interface Endpoint<P, T> extends Cloud.Endpoint<P, T>
+	interface Endpoint<T> extends Cloud.Endpoint<T>
 	{
 		void setTarget(T newTarget) throws InvalidEdgeException;
 	}
 
-	void reassign(Map<? extends E,? extends T> reassignments) throws InvalidGraphException;
+	<T, TE extends AssignableCloud.Endpoint<? super T>> void reassign(Map<TE,? extends T> reassignments) throws InvalidGraphException;
 }

@@ -21,16 +21,15 @@ package com.syncleus.dann.graph;
 import java.util.Set;
 
 public interface PartibleCloud<
-	  	T,
-	  	EP extends PartibleCloud.Endpoint<T, ? extends T>
-	  > extends Cloud<T,EP>
+	  	E extends PartibleCloud.Endpoint<?>
+	  > extends Cloud<E>
 {
-	interface Endpoint<P, T> extends Cloud.Endpoint<P, T>
+	interface Endpoint<T> extends Cloud.Endpoint<T>
 	{
 		void part() throws InvalidEdgeException;
 	}
 
-	void leave(PartibleCloud.Endpoint<?, ?> endpoint) throws InvalidGraphException;
-	void leave(Set<? extends PartibleCloud.Endpoint<?, ?>> endpoints) throws InvalidGraphException;
+	void leave(PartibleCloud.Endpoint<?> endpoint) throws InvalidGraphException;
+	void leave(Set<? extends PartibleCloud.Endpoint<?>> endpoints) throws InvalidGraphException;
 	void clear() throws InvalidGraphException;
 }

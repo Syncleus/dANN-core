@@ -21,18 +21,17 @@ package com.syncleus.dann.graph;
 import java.util.Set;
 
 public interface TraversableCloud<
-	  	T,
-	  	EP extends TraversableCloud.Endpoint<T, ? extends T>
-	  > extends Cloud<T,EP>
+	  	E extends TraversableCloud.Endpoint<?>
+	  > extends Cloud<E>
 {
-	interface Endpoint<P, T> extends Cloud.Endpoint<P, T>
+	interface Endpoint<T> extends Cloud.Endpoint<T>
 	{
-		Set<Endpoint<P,P>> getTraversableNeighborsTo();
-		Set<Endpoint<P,P>> getTraversableNeighborsFrom();
-		boolean isTraversable(Cloud.Endpoint<?,?> destination);
 	}
 
-	Set<T> getTraversableFrom(Object target);
-	Set<T> getTraversableTo(Object target);
-	boolean isTraversable(Object sourceTarget, Object destinationTarget);
+	Set<E> getTraversableFrom(Endpoint<?> target);
+	Set<E> getTraversableTo(Endpoint<?> target);
+	boolean isTraversable(Endpoint<?> sourceTarget, Endpoint<?> destinationTarget);
+
+	Set<E> getTraversableNeighborsTo(Endpoint<?> fromEndpoint);
+	Set<E> getTraversableNeighborsFrom(Endpoint<?> toEndpoint);
 }

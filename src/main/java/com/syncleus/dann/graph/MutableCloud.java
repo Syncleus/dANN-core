@@ -20,10 +20,10 @@ package com.syncleus.dann.graph;
 
 public interface MutableCloud<
 	  	T,
-	  	EP extends MutableCloud.Endpoint<T, ? extends T>
-	  > extends AssignableCloud<T,EP>, JoinableCloud<T,EP>, PartibleCloud<T, EP>
+	  	E extends MutableCloud.Endpoint<T>
+	  > extends AssignableCloud<E>, JoinableCloud<T,E>, PartibleCloud<E>
 {
-	interface Endpoint<P, T> extends AssignableCloud.Endpoint<P, T>, JoinableCloud.Endpoint<P, T>, PartibleCloud.Endpoint<P, T>
+	interface Endpoint<T> extends AssignableCloud.Endpoint<T>, JoinableCloud.Endpoint<T>, PartibleCloud.Endpoint<T>
 	{
 	}
 }

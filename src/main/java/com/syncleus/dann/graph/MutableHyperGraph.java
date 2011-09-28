@@ -20,32 +20,27 @@ package com.syncleus.dann.graph;
 
 public interface MutableHypergraph<
 	  	N,
-	  	E extends Hyperedge<N,? extends Hyperedge.Endpoint<? extends N, ? extends N>> & MutableCloud<? extends N, ? extends MutableCloud.Endpoint<? extends N, ? extends N>>,
-	  	AE extends MutableHypergraph.Endpoint<Object, N, E>,
-	  	NE extends MutableHypergraph.NodeEndpoint<N, E>,
-	  	EE extends MutableHypergraph.EdgeEndpoint<N, E>
-	  > extends MutableCloudGraph<Object, N, E, AE, NE, EE>, Hypergraph<N,E,AE,NE,EE>
+	  	NE extends MutableHypergraph.NodeEndpoint<N>,
+	  	E extends Hyperedge<? extends Hyperedge.Endpoint<N>>,
+	  	EE extends MutableHypergraph.EdgeEndpoint<E>
+	  > extends MutableCloudGraph<N, NE, E, EE>, Hypergraph<NE,EE>
 {
 	interface Endpoint<
-		  	T,
-		  	N,
-		  	E extends Hyperedge<N,? extends Hyperedge.Endpoint<? extends N, ? extends N>> & MutableCloud<? extends N, ? extends MutableCloud.Endpoint<? extends N, ? extends N>>
+		  	T
 		  >
-		  extends MutableCloudGraph.Endpoint<Object,T,N,E>, Hypergraph.Endpoint<T,N,E>
+		  extends MutableCloudGraph.Endpoint<T>, Hypergraph.Endpoint<T>
 	{
 	};
 
 	interface NodeEndpoint<
-		  	N,
-		  	E extends Hyperedge<N,? extends Hyperedge.Endpoint<? extends N, ? extends N>> & MutableCloud<? extends N, ? extends MutableCloud.Endpoint<? extends N, ? extends N>>
-	  > extends MutableCloudGraph.NodeEndpoint<Object,N,E>, Hypergraph.NodeEndpoint<N,E>, Endpoint<N,N,E>
+		  	T
+	  > extends MutableCloudGraph.NodeEndpoint<T>, Hypergraph.NodeEndpoint<T>, Endpoint<T>
 	{
 	};
 
 	interface EdgeEndpoint<
-		  	N,
-		  	E extends Hyperedge<N,? extends Hyperedge.Endpoint<? extends N, ? extends N>> & MutableCloud<? extends N, ? extends MutableCloud.Endpoint<? extends N, ? extends N>>
-		> extends MutableCloudGraph.EdgeEndpoint<Object,N,E>, Hypergraph.EdgeEndpoint<N,E>, Endpoint<E,N,E>
+		  	T extends Hyperedge<?>
+		> extends MutableCloudGraph.EdgeEndpoint<T>, Hypergraph.EdgeEndpoint<T>, Endpoint<T>
 	{
 	};
 }

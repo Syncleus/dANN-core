@@ -34,46 +34,26 @@ import java.util.Set;
  * @since 2.0
  */
 public interface BidirectedGraph<
-	  	N,
-	  	E extends BidirectedEdge<N,? extends BidirectedEdge.Endpoint<? extends N>>,
-	  	AE extends BidirectedGraph.Endpoint<Object, N, E>,
-	  	NE extends BidirectedGraph.NodeEndpoint<N, E>,
-	  	EE extends BidirectedGraph.EdgeEndpoint<N, E>
-	  > extends TraversableGraph<N, E, AE, NE, EE>
+	  	NE extends BidirectedGraph.NodeEndpoint<?>,
+	  	EE extends BidirectedGraph.EdgeEndpoint<?>
+	  > extends TraversableGraph<NE, EE>, BidirectedCloud<NE>
 {
 	interface Endpoint<
-		  	T,
-		  	N,
-		  	E extends BidirectedEdge<N,? extends BidirectedEdge.Endpoint<? extends N>>
+		  	T
 		  >
-		  extends TraversableGraph.Endpoint<T,N,E>
+		  extends TraversableGraph.Endpoint<T>, BidirectedCloud.Endpoint<T>
 	{
 	};
 
 	interface NodeEndpoint<
-		  	N,
-		  	E extends BidirectedEdge<N,? extends BidirectedEdge.Endpoint<? extends N>>
-	  > extends TraversableGraph.NodeEndpoint<N,E>, Endpoint<N,N,E>
+		  	T
+	  > extends TraversableGraph.NodeEndpoint<T>, Endpoint<T>
 	{
 	};
 
 	interface EdgeEndpoint<
-		  	N,
-		  	E extends BidirectedEdge<N,? extends BidirectedEdge.Endpoint<? extends N>>
-		> extends TraversableGraph.EdgeEndpoint<N,E>, Endpoint<E,N,E>
+		  	T extends BidirectedEdge<?>
+		> extends TraversableGraph.EdgeEndpoint<T>, Endpoint<T>
 	{
 	};
-
-	/**
-	 * Get all edges which traverse to the specified node. While the combination of
-	 * out edges and in edges will usually result in all the adjacent edges for a
-	 * node this is not strictly required.
-	 *
-	 * @param node The destination node the returned edges will traverse to.
-	 * @return an unmodifiable set of all edges which traverse to the specified
-	 *         node.
-	 * @throws IllegalArgumentException if node does not exist in the graph.
-	 * @since 2.0
-	 */
-	Set<E> getInEdges(N node);
 }

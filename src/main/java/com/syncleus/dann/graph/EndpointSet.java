@@ -18,6 +18,12 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface MutableRootedTreeGraph<N, E extends DirectedEdge<N>> extends RootedTreeGraph<N, E>, MutableTreeGraph<N, E>
+import java.util.Map;
+import java.util.Set;
+
+interface EndpointSet<T, E extends Cloud.Endpoint<? extends T>> extends Set<E>
 {
+	Map<T, EndpointSet<T,E>> getTargets();
+	Set<T> getTargetSet();
+	int targetCount(Object target);
 }

@@ -19,11 +19,10 @@
 package com.syncleus.dann.graph;
 
 public interface AssignableDirectedEdge<
-	  	T,
-	  	E extends AssignableDirectedEdge.Endpoint<T>
-	  > extends AssignableMixableDirectedEdge<T,T,T,E,E,E>, AssignableBidirectedEdge<T,E>
+	  	E extends AssignableDirectedEdge.Endpoint<?>
+	  > extends AssignableMixableDirectedEdge<E,E,E>, AssignableBidirectedEdge<E>
 {
-	interface Endpoint<T> extends AssignableMixableDirectedEdge.Endpoint<T, T, T>, AssignableBidirectedEdge.Endpoint<T>
+	interface Endpoint<T> extends AssignableMixableDirectedEdge.Endpoint<T>, AssignableBidirectedEdge.Endpoint<T>
 	{
 	};
 }

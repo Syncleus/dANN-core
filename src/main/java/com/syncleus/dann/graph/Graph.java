@@ -19,33 +19,26 @@
 package com.syncleus.dann.graph;
 
 public interface Graph<
-	  	N,
-	  	E extends Edge<N,? extends Edge.Endpoint<? extends N>>,
-	  	AE extends Graph.Endpoint<Object, N, E>,
-	  	NE extends Graph.NodeEndpoint<N, E>,
-	  	EE extends Graph.EdgeEndpoint<N, E>
-	  > extends Hypergraph<N, E, AE, NE, EE>
+	  	NE extends Graph.NodeEndpoint<?>,
+	  	EE extends Graph.EdgeEndpoint<? extends Edge<?>>
+	  > extends Hypergraph<NE, EE>
 {
 	interface Endpoint<
-		  	T,
-		  	N,
-		  	E extends Edge<N,? extends Edge.Endpoint<? extends N>>
+		  	T
 		  >
-		  extends Hypergraph.Endpoint<T,N,E>
+		  extends Hypergraph.Endpoint<T>
 	{
 	};
 
 	interface NodeEndpoint<
-		  	N,
-		  	E extends Edge<N,? extends Edge.Endpoint<? extends N>>
-	  > extends Hypergraph.NodeEndpoint<N,E>, Endpoint<N,N,E>
+		  	T
+	  > extends Hypergraph.NodeEndpoint<T>, Endpoint<T>
 	{
 	};
 
 	interface EdgeEndpoint<
-		  	N,
-		  	E extends Edge<N,? extends Edge.Endpoint<? extends N>>
-		> extends Hypergraph.EdgeEndpoint<N,E>, Endpoint<E,N,E>
+		  	T extends Edge<?>
+		> extends Hypergraph.EdgeEndpoint<T>, Endpoint<T>
 	{
 	};
 }

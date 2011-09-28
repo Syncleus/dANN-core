@@ -20,10 +20,10 @@ package com.syncleus.dann.graph;
 
 public interface DynamicBidirectedCloud<
 	  	T,
-	  	E extends DynamicBidirectedCloud.Endpoint<T, ? extends T>
-	  > extends DynamicCloud<T,E>, AssignableBidirectedCloud<T,E>
+	  	E extends DynamicBidirectedCloud.Endpoint<T>
+	  > extends DynamicCloud<T,E>, AssignableBidirectedCloud<E>
 {
-	interface Endpoint<P, T extends P> extends DynamicCloud.Endpoint<P, T>, AssignableBidirectedCloud.Endpoint<P, T>
+	interface Endpoint<T> extends DynamicCloud.Endpoint<T>, AssignableBidirectedCloud.Endpoint<T>
 	{
 	}
 }

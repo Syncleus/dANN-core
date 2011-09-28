@@ -18,6 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface MutableTreeGraph<N, E extends BidirectedEdge<N>> extends TreeGraph<N, E>, DynamicBidirectedGraph<N, E>
+final class HashEndpointSet<T, E extends Cloud.Endpoint<? extends T>> extends EndpointSet<T,E>
 {
 }

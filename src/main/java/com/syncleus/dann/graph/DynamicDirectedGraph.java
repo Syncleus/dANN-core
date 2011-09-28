@@ -20,32 +20,27 @@ package com.syncleus.dann.graph;
 
 public interface DynamicDirectedGraph<
 	  	N,
-	  	E extends DirectedEdge<N,? extends BidirectedEdge.Endpoint<? extends N>> & AssignableCloud<? extends N, ? extends AssignableCloud.Endpoint<? extends N, ? extends N>>,
-	  	AE extends DynamicDirectedGraph.Endpoint<Object, N, E>,
-	  	NE extends DynamicDirectedGraph.NodeEndpoint<N, E>,
-	  	EE extends DynamicDirectedGraph.EdgeEndpoint<N, E>
-	  > extends DirectedGraph<N, E, AE, NE, EE>, DynamicBidirectedGraph<N, E, AE, NE, EE>
+	  	NE extends DynamicDirectedGraph.NodeEndpoint<N>,
+	  	E extends DirectedEdge<? extends DirectedEdge.Endpoint<N>>,
+	  	EE extends DynamicDirectedGraph.EdgeEndpoint<E>
+	  > extends DirectedGraph<NE, EE>, DynamicBidirectedGraph<N, NE, E, EE>
 {
 	interface Endpoint<
-		  	T,
-		  	N,
-		  	E extends DirectedEdge<N,? extends BidirectedEdge.Endpoint<? extends N>> & AssignableCloud<? extends N, ? extends AssignableCloud.Endpoint<? extends N, ? extends N>>
+		  	T
 		  >
-		  extends DirectedGraph.Endpoint<T,N,E>, DynamicBidirectedGraph.Endpoint<T,N,E>
+		  extends DirectedGraph.Endpoint<T>, DynamicBidirectedGraph.Endpoint<T>
 	{
 	};
 
 	interface NodeEndpoint<
-		  	N,
-		  	E extends DirectedEdge<N,? extends BidirectedEdge.Endpoint<? extends N>> & AssignableCloud<? extends N, ? extends AssignableCloud.Endpoint<? extends N, ? extends N>>
-	  > extends DirectedGraph.NodeEndpoint<N,E>, DynamicBidirectedGraph.NodeEndpoint<N,E>, Endpoint<N,N,E>
+		  	T
+	  > extends DirectedGraph.NodeEndpoint<T>, DynamicBidirectedGraph.NodeEndpoint<T>, Endpoint<T>
 	{
 	};
 
 	interface EdgeEndpoint<
-		  	N,
-		  	E extends DirectedEdge<N,? extends BidirectedEdge.Endpoint<? extends N>> & AssignableCloud<? extends N, ? extends AssignableCloud.Endpoint<? extends N, ? extends N>>
-		> extends DirectedGraph.EdgeEndpoint<N,E>, DynamicBidirectedGraph.EdgeEndpoint<N,E>, Endpoint<E,N,E>
+		  	T extends DirectedEdge<?>
+		> extends DirectedGraph.EdgeEndpoint<T>, DynamicBidirectedGraph.EdgeEndpoint<T>, Endpoint<T>
 	{
 	};
 }

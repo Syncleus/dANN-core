@@ -19,11 +19,10 @@
 package com.syncleus.dann.graph;
 
 public interface Edge<
-	  	T,
-	  	E extends Edge.Endpoint<T>
-	  > extends MixableEdge<T,T,T,E,E,E>
+	  	E extends Edge.Endpoint<?>
+	  > extends MixableEdge<E,E,E>
 {
-	interface Endpoint<T> extends MixableEdge.Endpoint<T, T, T>
+	interface Endpoint<T> extends MixableEdge.Endpoint<T>
 	{
 	};
 }

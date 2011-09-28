@@ -19,17 +19,12 @@
 package com.syncleus.dann.graph;
 
 public interface AssignableMixableDirectedEdge<
-	  	T,
-	  	ST extends T,
-	  	DT extends T,
-	  	E extends AssignableMixableDirectedEdge.Endpoint<T, ? extends T, ? extends T>,
-	  	SE extends AssignableMixableDirectedEdge.Endpoint<T, ST, DT>,
-	  	DE extends AssignableMixableDirectedEdge.Endpoint<T, DT, ST>
-	  > extends AssignableMixableBidirectedEdge<T, ST, DT, E, SE, DE>, MixableDirectedEdge<T, ST, DT, E, SE, DE>
+	  	E extends AssignableMixableDirectedEdge.Endpoint<?>,
+	  	SE extends E,
+	  	DE extends E
+	  > extends AssignableMixableBidirectedEdge<E, SE, DE>, MixableDirectedEdge<E, SE, DE>
 {
-	interface Endpoint<P, T extends P, N extends P> extends AssignableMixableBidirectedEdge.Endpoint<P, T, N>, MixableDirectedEdge.Endpoint<P, T, N>
+	interface Endpoint<T> extends AssignableMixableBidirectedEdge.Endpoint<T>, MixableDirectedEdge.Endpoint<T>
 	{
 	};
-
-	void reassign(ST newSourceNode, DT newDestinationNode) throws InvalidEdgeException;
 }

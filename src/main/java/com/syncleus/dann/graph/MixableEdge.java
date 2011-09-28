@@ -19,17 +19,13 @@
 package com.syncleus.dann.graph;
 
 public interface MixableEdge<
-	  	T,
-	  	LT extends T,
-	  	RT extends T,
-	  	E extends MixableEdge.Endpoint<T, ? extends T, ? extends T>,
-	  	LE extends MixableEdge.Endpoint<T, LT, RT>,
-	  	RE extends MixableEdge.Endpoint<T, RT, LT>
-	  > extends Hyperedge<T, E>
+	  	E extends MixableEdge.Endpoint<?>,
+	  	LE extends E,
+	  	RE extends E
+	  > extends Hyperedge<E>
 {
-	interface Endpoint<P, T extends P, N extends P> extends Hyperedge.Endpoint<P, T>
+	interface Endpoint<T> extends Hyperedge.Endpoint<T>
 	{
-		Endpoint<P,N,T> getNeighbor();
 	};
 
 	LE getLeftEndpoint();

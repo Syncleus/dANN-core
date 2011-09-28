@@ -20,32 +20,27 @@ package com.syncleus.dann.graph;
 
 public interface MutableGraph<
 	  	N,
-	  	E extends Edge<N,? extends Edge.Endpoint<? extends N>> & AssignableCloud<? extends N, ? extends AssignableCloud.Endpoint<? extends N, ? extends N>>,
-	  	AE extends MutableGraph.Endpoint<Object, N, E>,
-	  	NE extends MutableGraph.NodeEndpoint<N, E>,
-	  	EE extends MutableGraph.EdgeEndpoint<N, E>
-	  > extends MutableCloudGraph<Object, N, E, AE, NE, EE>, Graph<N,E,AE,NE,EE>
+	  	NE extends MutableGraph.NodeEndpoint<N>,
+	  	E extends Edge<? extends Edge.Endpoint<N>>,
+	  	EE extends MutableGraph.EdgeEndpoint<E>
+	  > extends MutableCloudGraph<N, NE, E, EE>, Graph<NE,EE>
 {
 	interface Endpoint<
-		  	T,
-		  	N,
-		  	E extends Edge<N,? extends Edge.Endpoint<? extends N>> & AssignableCloud<? extends N, ? extends AssignableCloud.Endpoint<? extends N, ? extends N>>
+		  	T
 		  >
-		  extends MutableCloudGraph.Endpoint<Object,T,N,E>, Graph.Endpoint<T,N,E>
+		  extends MutableCloudGraph.Endpoint<T>, Graph.Endpoint<T>
 	{
 	};
 
 	interface NodeEndpoint<
-		  	N,
-		  	E extends Edge<N,? extends Edge.Endpoint<? extends N>> & AssignableCloud<? extends N, ? extends AssignableCloud.Endpoint<? extends N, ? extends N>>
-	  > extends MutableCloudGraph.NodeEndpoint<Object,N,E>, Graph.NodeEndpoint<N,E>, Endpoint<N,N,E>
+		  	T
+	  > extends MutableCloudGraph.NodeEndpoint<T>, Graph.NodeEndpoint<T>, Endpoint<T>
 	{
 	};
 
 	interface EdgeEndpoint<
-		  	N,
-		  	E extends Edge<N,? extends Edge.Endpoint<? extends N>> & AssignableCloud<? extends N, ? extends AssignableCloud.Endpoint<? extends N, ? extends N>>
-		> extends MutableCloudGraph.EdgeEndpoint<Object,N,E>, Graph.EdgeEndpoint<N,E>, Endpoint<E,N,E>
+		  	T extends Edge<?>
+		> extends MutableCloudGraph.EdgeEndpoint<T>, Graph.EdgeEndpoint<T>, Endpoint<T>
 	{
 	};
 }

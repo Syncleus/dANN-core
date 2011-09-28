@@ -19,32 +19,28 @@
 package com.syncleus.dann.graph;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Set;
+import java.util.*;
 import com.syncleus.dann.graph.event.context.ContextReporter;
 import com.syncleus.dann.graph.xml.EdgeXml;
 import com.syncleus.dann.xml.XmlSerializable;
 
 public interface Cloud<
-	  	T,
-	  	EP extends Cloud.Endpoint<T, ? extends T>
+	  	E extends Cloud.Endpoint<?>
 	  > extends Serializable, Cloneable, XmlSerializable<EdgeXml, Object>, ContextReporter
 {
-	interface Endpoint<P, T>
+	interface Endpoint<T>
 	{
-		Set<? extends Endpoint<P,P>> getNeighbors();
 		T getTarget();
 	};
 
-	Set<EP> getEndpoints();
-	Set<EP> getEndpoints(Object target);
-	Set<T> getTargets();
-	Set<T> getNeighbors(Object target);
-	boolean contains( Object endpoint);
-	boolean containsAny(Collection<? extends Endpoint<?,?>> endpoint);
-	boolean containsAll(Collection<? extends Endpoint<?,?>> endpoint);
+	Set<E> getEndpoints();
+	Set<E> getEndpoints(Object target);
+	Set<E> getNeighbors(Cloud.Endpoint<?> endpoint);
+	boolean contains( Endpoint<?> endpoint);
+	boolean containsAny(Collection<? extends Endpoint<?>> endpoint);
+	boolean containsAll(Collection<? extends Endpoint<?>> endpoint);
 	boolean containsTarget(Object target);
-	boolean containsAnyTargets(Collection<?> target);
-	boolean containsAllTargets(Collection<?> target);
+	boolean containsAnyTargets(Collection<?> targets);
+	boolean containsAllTargets(Collection<?> targets);
 	int getDegree();
 }

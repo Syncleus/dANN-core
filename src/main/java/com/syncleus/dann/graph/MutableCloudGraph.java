@@ -22,39 +22,31 @@ import java.util.Map;
 import java.util.Set;
 
 public interface MutableCloudGraph<
-	  	A,
 	  	N,
-	  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>,
-	  	AE extends MutableCloudGraph.Endpoint<A, A, N, E>,
-	  	NE extends MutableCloudGraph.NodeEndpoint<A, N, E>,
-	  	EE extends MutableCloudGraph.EdgeEndpoint<A, N, E>
-	  >  extends JoinableCloudGraph<A,N,E,AE,NE,EE>, PartibleCloudGraph<A,N,E,AE,NE,EE>, AssignableCloudGraph<A,N,E,AE,NE,EE>, MutableCloud<A,AE>
+	  	NE extends MutableCloudGraph.NodeEndpoint<N>,
+	  	E extends Cloud<? extends Cloud.Endpoint<? extends N>>,
+	  	EE extends MutableCloudGraph.EdgeEndpoint<E>
+	  >  extends JoinableCloudGraph<N,NE,E,EE>, PartibleCloudGraph<NE,EE>, AssignableCloudGraph<NE,EE>, MutableCloud<N,NE>
 {
 	interface Endpoint<
-		  	P,
-		  	T,
-		  	N,
-		  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>
+		  	T
 		  >
-		  extends JoinableCloudGraph.Endpoint<P,T,N,E>, PartibleCloudGraph.Endpoint<P,T,N,E>, AssignableCloudGraph.Endpoint<P,T,N,E>, MutableCloud.Endpoint<P,T>
+		  extends JoinableCloudGraph.Endpoint<T>, PartibleCloudGraph.Endpoint<T>, AssignableCloudGraph.Endpoint<T>, MutableCloud.Endpoint<T>
 	{
 	};
 
 	interface NodeEndpoint<
-		  	P,
-		  	N,
-		  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>
-	  > extends JoinableCloudGraph.NodeEndpoint<P,N,E>, PartibleCloudGraph.NodeEndpoint<P,N,E>, AssignableCloudGraph.NodeEndpoint<P,N,E>, Endpoint<P,N,N,E>
+		  	T
+	  > extends JoinableCloudGraph.NodeEndpoint<T>, PartibleCloudGraph.NodeEndpoint<T>, AssignableCloudGraph.NodeEndpoint<T>, Endpoint<T>
 	{
 	};
 
 	interface EdgeEndpoint<
-		  	P,
-		  	N,
-		  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>
-		> extends JoinableCloudGraph.EdgeEndpoint<P,N,E>, PartibleCloudGraph.EdgeEndpoint<P,N,E>, AssignableCloudGraph.EdgeEndpoint<P,N,E>, Endpoint<P,E,N,E>
+		  	T extends Cloud<?>
+		> extends JoinableCloudGraph.EdgeEndpoint<T>, PartibleCloudGraph.EdgeEndpoint<T>, AssignableCloudGraph.EdgeEndpoint<T>, Endpoint<T>
 	{
 	};
 
-	Map<?, CloudGraph.Endpoint<?, ?, N,E>> reconfigure(Set<? extends N> addNodes, Set<? extends E> addEdges, final Set<? extends CloudGraph.Endpoint<?,?,?,?>> disconnectEndpoints) throws InvalidGraphException;
+	EndpointSets<NE,EE> reconfigure(Set<? extends N> addNodes, Set<? extends E> addEdges, Set<? extends Endpoint<?>> disconnectEndpoints) throws InvalidGraphException;
+	EndpointSets<NE,EE> reconfigure(Map<? extends N,? extends Integer> addNodes, Map<? extends E,? extends Integer> addEdges, Set<? extends Endpoint<?>> disconnectEndpoints) throws InvalidGraphException;
 }

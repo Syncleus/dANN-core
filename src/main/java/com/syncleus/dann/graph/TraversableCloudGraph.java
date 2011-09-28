@@ -18,38 +18,59 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
+import java.util.Set;
+
 public interface TraversableCloudGraph<
-	  	A,
-	  	N,
-	  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>,
-	  	AE extends TraversableCloudGraph.Endpoint<A, A, N, E>,
-	  	NE extends TraversableCloudGraph.NodeEndpoint<A, N, E>,
-	  	EE extends TraversableCloudGraph.EdgeEndpoint<A, N, E>
-	  >  extends CloudGraph<A,N,E,AE,NE,EE>, TraversableCloud<A, AE>
+	  	NE extends TraversableCloudGraph.NodeEndpoint<?>,
+	  	EE extends TraversableCloudGraph.EdgeEndpoint<? extends TraversableCloud<?>>
+	  >  extends CloudGraph<NE,EE>, TraversableCloud<NE>
 {
 	interface Endpoint<
-		  	P,
-		  	T,
-		  	N,
-		  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>
+		  	T
 		  >
-		  extends CloudGraph.Endpoint<P,T,N,E>, TraversableCloud.Endpoint<P,T>
+		  extends CloudGraph.Endpoint<T>, TraversableCloud.Endpoint<T>
 	{
 	};
 
 	interface NodeEndpoint<
-		  	P,
-		  	N,
-		  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>
-	  > extends CloudGraph.NodeEndpoint<P,N,E>, TraversableCloud.Endpoint<P,N>, Endpoint<P,N,N,E>
+		  	T
+	  > extends CloudGraph.NodeEndpoint<T>, Endpoint<T>
 	{
 	};
 
 	interface EdgeEndpoint<
-		  	P,
-		  	N,
-		  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N, ? extends N>>
-		> extends CloudGraph.EdgeEndpoint<P,N,E>, TraversableCloud.Endpoint<P,E>, Endpoint<P,E,N,E>
+		  	T extends TraversableCloud<?>
+		> extends CloudGraph.EdgeEndpoint<T>, Endpoint<T>
 	{
 	};
+
+
+	Set<EE> getTraversableEdgesFrom(Endpoint<?> source);
+	Set<EE> getTraversableEdgesTo(Endpoint<?> destination);
+
+	/**
+	 * Get a list of all reachable nodes adjacent to node. All edges connected to
+	 * node and is traversable from node will have its destination node(s) added to
+	 * the returned list. node itself will appear in the list once for every loop.
+	 * If there are multiple edges connecting node with a particular end point then
+	 * the end point will appear multiple times in the list, once for each hop to
+	 * the end point.
+	 *
+	 * @param destination The whose traversable neighbors are to be returned.
+	 * @return A list of all nodes adjacent to the specified node and traversable
+	 *         from the spevified node, empty set if the node has no edges.
+	 * @since 2.0
+	 */
+	EndpointSets<NE,EE> getTraversableAdjacentTo(Endpoint<?> destination);
+
+	/**
+	 * Get a set of all edges which you can traverse from node. Of course node will
+	 * always be an end point for each edge returned. Throws an
+	 * IllegalArgumentException if node is not in the graph.
+	 *
+	 * @param destination edges returned will be traversable from this node.
+	 * @return An unmodifiable set of all edges that can be traversed from node.
+	 * @since 2.0
+	 */
+	EndpointSets<NE,EE> getTraversableAdjacentFrom(Endpoint<?> destination);
 }

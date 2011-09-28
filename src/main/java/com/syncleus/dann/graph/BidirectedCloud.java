@@ -18,11 +18,10 @@
 package com.syncleus.dann.graph;
 
 public interface BidirectedCloud<
-	  T,
-	  EP extends BidirectedCloud.Endpoint<T, ? extends T>
-	  > extends TraversableCloud<T, EP>
+	  E extends BidirectedCloud.Endpoint<?>
+	  > extends TraversableCloud<E>
 {
-	interface Endpoint<P, T> extends TraversableCloud.Endpoint<P, T>
+	interface Endpoint<T> extends TraversableCloud.Endpoint<T>
 	{
 		enum Direction
 		{
