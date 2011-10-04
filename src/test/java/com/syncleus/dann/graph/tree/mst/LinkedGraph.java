@@ -21,7 +21,7 @@ package com.syncleus.dann.graph.tree.mst;
 import java.util.*;
 import com.syncleus.dann.graph.*;
 
-public class LinkedGraph<N, E extends Cloud<N>> extends AbstractAdjacencyGraph<N, E>
+public class LinkedGraph<N, E extends Cloud<N>> extends AbstractCloudGraph<N, E>
 {
 	private final Set<N> nodes;
 	private final Set<E> edges;

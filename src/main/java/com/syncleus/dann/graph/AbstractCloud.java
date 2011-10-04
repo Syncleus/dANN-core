@@ -19,25 +19,24 @@
 package com.syncleus.dann.graph;
 
 import java.util.*;
-import com.syncleus.dann.graph.xml.EdgeElementXml;
-import com.syncleus.dann.graph.xml.EdgeXml;
-import com.syncleus.dann.xml.NameXml;
-import com.syncleus.dann.xml.NamedValueXml;
-import com.syncleus.dann.xml.Namer;
-import com.syncleus.dann.xml.XmlSerializable;
 import org.apache.log4j.Logger;
 
 public abstract class AbstractCloud<
-	  	T,
-	  	EP extends Cloud.Endpoint<T,? extends T>
-	  > implements Cloud<T,EP>
+	  	E extends Cloud.Endpoint<?>
+	  > implements Cloud<E>
 {
 	private static final Logger LOGGER = Logger.getLogger(AbstractCloud.class);
 
 	@Override
+	public final boolean isFinite()
+	{
+		return true;
+	}
+
+	@Override
 	public boolean containsTarget(final Object node)
 	{
-		for( EP endpoint : this.getEndpoints() )
+		for( E endpoint : this.getEndpoints() )
 			if( endpoint.getTarget().equals(node))
 				return true;
 		return false;
@@ -62,47 +61,37 @@ public abstract class AbstractCloud<
 	}
 
 	@Override
-	public boolean contains(final Object endpoint)
+	public boolean contains(final Cloud.Endpoint<?> endpoint)
 	{
-		for( EP otherEndpoint : this.getEndpoints() )
+		for( E otherEndpoint : this.getEndpoints() )
 			if( otherEndpoint.equals(endpoint))
 				return true;
 		return false;
 	}
 
 	@Override
-	public boolean containsAll(final Collection<? extends Endpoint<?,?>> endpoints)
+	public boolean containsAll(final Collection<? extends Cloud.Endpoint<?>> endpoints)
 	{
-		for( Object endpoint : endpoints )
+		for( Endpoint<?> endpoint : endpoints )
 			if( !this.contains(endpoint) )
 				return false;
 		return true;
 	}
 
 	@Override
-	public boolean containsAny(final Collection<? extends Endpoint<?,?>> endpoints)
+	public boolean containsAny(final Collection<? extends Cloud.Endpoint<?>> endpoints)
 	{
-		for( Object endpoint : endpoints )
+		for( Endpoint<?> endpoint : endpoints )
 			if( this.contains(endpoint) )
 				return true;
 		return false;
 	}
 
 	@Override
-	public Set<T> getTargets()
+	public Set<E> getEndpoints(Object node)
 	{
-		final Set<T> nodes = new HashSet<T>();
-		for( EP endpoint : this.getEndpoints() )
-			nodes.add(endpoint.getTarget());
-
-		return Collections.unmodifiableSet(nodes);
-	}
-
-	@Override
-	public Set<EP> getEndpoints(Object node)
-	{
-		final Set<EP> nodesEndpoints = new HashSet<EP>();
-		for( EP endpoint : this.getEndpoints() )
+		final Set<E> nodesEndpoints = new HashSet<E>();
+		for( E endpoint : this.getEndpoints() )
 			if( endpoint.getTarget().equals(node))
 				nodesEndpoints.add(endpoint);
 
@@ -110,39 +99,34 @@ public abstract class AbstractCloud<
 	}
 
 	@Override
-	public Set<T> getNeighbors(final Object source)
+	public boolean areNeighbors(Cloud.Endpoint<?> neighbor, Cloud.Endpoint<?> otherNeighbor)
 	{
-		final Set<T> nodes = new HashSet<T>();
-		for( final EP sourceEndpoint : this.getEndpoints(source) )
-			for( final Cloud.Endpoint<? extends T,? extends T> fromEndpoint : sourceEndpoint.getNeighbors())
-				nodes.add(fromEndpoint.getTarget());
-
-		return Collections.unmodifiableSet(nodes);
+		return this.getNeighbors(neighbor).contains(otherNeighbor);
 	}
 
 	@Override
 	public int getDegree()
 	{
-		return this.getTargets().size();
+		return this.getEndpoints().size();
 	}
 
 	@Override
 	public String toString()
 	{
-		final StringBuilder outString = new StringBuilder(this.getTargets().size() * 10);
-		for(final T node : this.getTargets())
+		final StringBuilder outString = new StringBuilder(this.getDegree() * 10);
+		for(final E endpoint : this.getEndpoints())
 		{
-			outString.append(':').append(node);
+			outString.append(':').append(endpoint);
 		}
 		return outString.toString();
 	}
 
 	@Override
-	protected AbstractCloud<T,EP> clone()
+	protected AbstractCloud<E> clone()
 	{
 		try
 		{
-			return (AbstractCloud<T,EP>) super.clone();
+			return (AbstractCloud<E>) super.clone();
 		}
 		catch(CloneNotSupportedException caught)
 		{
@@ -151,27 +135,29 @@ public abstract class AbstractCloud<
 		}
 	}
 
+	// TODO : Clean this
+/*
 	@Override
 	public EdgeXml toXml()
 	{
-		final Namer namer = new Namer();
+		final Namer<Object> namer = new Namer();
 		final EdgeElementXml xml = new EdgeElementXml();
 
 		xml.setNodeInstances(new EdgeElementXml.NodeInstances());
-		final Set<T> writtenNodes = new HashSet<T>();
-		for (T node : this.getTargets())
+		final Set<E> writtenNodes = new HashSet<E>();
+		for (E endpoint : this.getEndpoints())
 		{
-			if (writtenNodes.add(node))
+			if (writtenNodes.add(endpoint))
 			{
 				final NamedValueXml named = new NamedValueXml();
-				named.setName(namer.getNameOrCreate(node));
-				if (node instanceof XmlSerializable)
+				named.setName(namer.getNameOrCreate(endpoint));
+				if (endpoint instanceof XmlSerializable)
 				{
-					named.setValue(((XmlSerializable) node).toXml(namer));
+					named.setValue(((XmlSerializable) endpoint).toXml(namer));
 				}
 				else
 				{
-					named.setValue(node);
+					named.setValue(endpoint);
 				}
 				xml.getNodeInstances().getNodes().add(named);
 			}
@@ -217,10 +203,170 @@ public abstract class AbstractCloud<
 			jaxbObject.getConnections().getNodes().add(connection);
 		}
 	}
+*/
 
-	protected abstract class AbstractEndpoint implements Cloud.Endpoint<T, T>
+	private class NeighborSet implements Set<E>
 	{
+		private final E target;
+
+		public NeighborSet(E target)
+		{
+			this.target = target;
+		}
+
+		@Override
+		public int size()
+		{
+			return getDegree() - 1;
+		}
+
+		@Override
+		public boolean isEmpty()
+		{
+			assert !getEndpoints().isEmpty();
+			return ( getDegree() <= 1 ? true : false );
+		}
+
+		@Override
+		public boolean contains(Object o)
+		{
+			if( this.target.equals(o) )
+				return false;
+			return getEndpoints().contains(o);
+		}
+
+		@Override
+		public Iterator<E> iterator()
+		{
+			return new NeighborIterator();
+		}
+
+		@Override
+		public Object[] toArray()
+		{
+			final Set<E> copiedNodes = new HashSet<E>(getEndpoints());
+			copiedNodes.remove(this.target);
+			return copiedNodes.toArray();
+		}
+
+		@Override
+		public <PA> PA[] toArray(PA[] a)
+		{
+			final Set<E> copiedNodes = new HashSet<E>(getEndpoints());
+			copiedNodes.remove(this.target);
+			return copiedNodes.toArray(a);
+		}
+
+		@Override
+		public boolean add(E nEndpoint)
+		{
+			throw new UnsupportedOperationException("This set is read-only!");
+		}
+
+		@Override
+		public boolean remove(Object o)
+		{
+			throw new UnsupportedOperationException("This set is read-only!");
+		}
+
+		@Override
+		public boolean containsAll(Collection<?> c)
+		{
+			if( c.contains(this.target) )
+				return false;
+			return getEndpoints().containsAll(c);
+		}
+
+		@Override
+		public boolean addAll(Collection<? extends E> c)
+		{
+			throw new UnsupportedOperationException("This set is read-only!");
+		}
+
+		@Override
+		public boolean retainAll(Collection<?> c)
+		{
+			if( this.containsAll(c) )
+				return false;
+			throw new UnsupportedOperationException("This set is read-only!");
+		}
+
+		@Override
+		public boolean removeAll(Collection<?> c)
+		{
+			if( Collections.disjoint(this, c) )
+				return false;
+			throw new UnsupportedOperationException("This set is read-only!");
+		}
+
+		@Override
+		public void clear()
+		{
+			if( this.size() <= 0 )
+				return;
+			throw new UnsupportedOperationException("This set is read-only!");
+		}
+
+		private class NeighborIterator implements Iterator<E>
+		{
+			private int nextLeft = (getEndpoints().size()-1);
+			final private Iterator<E> iterator;
+
+			public NeighborIterator()
+			{
+				this.iterator = getEndpoints().iterator();
+			}
+
+			@Override
+			public boolean hasNext()
+			{
+				return (nextLeft > 0 ? true : false);
+			}
+
+			@Override
+			public E next()
+			{
+				E nextEndpoint = this.iterator.next();
+				this.nextLeft--;
+
+				if( !target.equals(nextEndpoint) )
+					return nextEndpoint;
+				return this.iterator.next();
+			}
+
+			@Override
+			public void remove()
+			{
+				throw new UnsupportedOperationException("This iterator is read-only!");
+			}
+		};
+	};
+
+	protected abstract class AbstractEndpoint<T> implements Cloud.Endpoint<T>
+	{
+		private T target = null;
+
+		protected AbstractEndpoint()
+		{
+		}
+
+		protected AbstractEndpoint(T target)
+		{
+			this.target = target;
+		}
+
 		protected abstract boolean isTargetEquals();
+
+		@Override
+		public T getTarget()
+		{
+			return this.target;
+		}
+
+		protected void setTarget(final T target)
+		{
+			this.target = target;
+		}
 
 		/**
 		 * By default this relies on the target to define equals, this means there can be only one instance of any
@@ -254,145 +400,9 @@ public abstract class AbstractCloud<
 			else if( this.getTarget() == null)
 				return false;
 			else if( obj instanceof Cloud.Endpoint )
-				return ((Cloud.Endpoint<?,?>)obj).equals(this.getTarget());
+				return ((Cloud.Endpoint<?>)obj).equals(this.getTarget());
 			else
 				return this.getTarget().equals(obj);
 		}
-
-		@Override
-		public Set<Cloud.Endpoint<P,P>> getNeighbors()
-		{
-			return new NeighborSet();
-		}
-
-		private class NeighborSet implements Set<Cloud.Endpoint<P,P>>
-		{
-			@Override
-			public int size()
-			{
-				return getTargets().size() - 1;
-			}
-
-			@Override
-			public boolean isEmpty()
-			{
-				assert !getTargets().isEmpty();
-				return ( getEndpoints().size() <= 1 ? true : false );
-			}
-
-			@Override
-			public boolean contains(Object o)
-			{
-				if( getTarget().equals(o) )
-					return false;
-				return getEndpoints().contains(o);
-			}
-
-			@Override
-			public Iterator<Cloud.Endpoint<P,P>> iterator()
-			{
-				return new NeighborIterator();
-			}
-
-			@Override
-			public Object[] toArray()
-			{
-				final Set<EP> copiedNodes = new HashSet<EP>(getEndpoints());
-				copiedNodes.remove(getTarget());
-				return copiedNodes.toArray();
-			}
-
-			@Override
-			public <PA> PA[] toArray(PA[] a)
-			{
-				final Set<EP> copiedNodes = new HashSet<EP>(getEndpoints());
-				copiedNodes.remove(getTarget());
-				return copiedNodes.toArray(a);
-			}
-
-			@Override
-			public boolean add(Cloud.Endpoint<P,P> nEndpoint)
-			{
-				throw new UnsupportedOperationException("This set is read-only!");
-			}
-
-			@Override
-			public boolean remove(Object o)
-			{
-				throw new UnsupportedOperationException("This set is read-only!");
-			}
-
-			@Override
-			public boolean containsAll(Collection<?> c)
-			{
-				if( c.contains(AbstractEndpoint.this) )
-					return false;
-				return getEndpoints().containsAll(c);
-			}
-
-			@Override
-			public boolean addAll(Collection<? extends Cloud.Endpoint<P,P>> c)
-			{
-				throw new UnsupportedOperationException("This set is read-only!");
-			}
-
-			@Override
-			public boolean retainAll(Collection<?> c)
-			{
-				if( c.containsAll(this) )
-					return false;
-				throw new UnsupportedOperationException("This set is read-only!");
-			}
-
-			@Override
-			public boolean removeAll(Collection<?> c)
-			{
-				if( Collections.disjoint(this, c) )
-					return false;
-				throw new UnsupportedOperationException("This set is read-only!");
-			}
-
-			@Override
-			public void clear()
-			{
-				if( getEndpoints().size() <= 1 )
-					return;
-				throw new UnsupportedOperationException("This set is read-only!");
-			}
-
-			private class NeighborIterator implements Iterator<Cloud.Endpoint<P,P>>
-			{
-				private int nextLeft = (getEndpoints().size()-1);
-				final private Iterator<? extends Endpoint<?,?>> iterator;
-
-				public NeighborIterator()
-				{
-					this.iterator = getEndpoints().iterator();
-				}
-
-				@Override
-				public boolean hasNext()
-				{
-					return (nextLeft > 0 ? true : false);
-				}
-
-				@Override
-				public Cloud.Endpoint<P,P> next()
-				{
-					Cloud.Endpoint<?,?> nextEndpoint = this.iterator.next();
-					this.nextLeft--;
-
-					if( !AbstractEndpoint.this.equals(nextEndpoint) )
-						return (Cloud.Endpoint<P,P>) nextEndpoint;
-					return next();
-				}
-
-				@Override
-				public void remove()
-				{
-					throw new UnsupportedOperationException("This iterator is read-only!");
-				}
-			};
-		};
 	};
 }

@@ -1,4 +1,4 @@
 [submodule "lib"]
-    path = lib
+    walk = lib
     url = git://git.syncleus.com/dANN-core-lib.git
 

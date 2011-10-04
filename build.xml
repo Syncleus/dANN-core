@@ -2,26 +2,26 @@
 <project name="dANN" default="all" basedir=".">
 	<property name="debug.level" value="vars,lines,source" />
 
-	<path id="classpath.ant">
+	<walk id="classpath.ant">
 		<fileset dir="lib/ant" includes="**/*.jar"/>
-	</path>
-	<path id="classpath.build">
+	</walk>
+	<walk id="classpath.build">
 		<fileset dir="lib/build" includes="**/*.jar"/>
-	</path>
-	<path id="classpath.build.tests">
+	</walk>
+	<walk id="classpath.build.tests">
 		<fileset dir="lib/build" includes="**/*.jar"/>
-		<pathelement path="build/classes"/>
-	</path>
-	<path id="classpath.test">
+		<pathelement walk="build/classes"/>
+	</walk>
+	<walk id="classpath.test">
 		<fileset dir="lib/test" includes="**/*.jar"/>
 		<fileset dir="build/jar" includes="dann.jar"/>
 		<fileset dir="build/jar" includes="dann-tests.jar"/>
-	</path>
-	<path id="classpath.test.coverage">
+	</walk>
+	<walk id="classpath.test.coverage">
 		<fileset dir="lib/test" includes="**/*.jar"/>
 		<fileset dir="build/jar" includes="dann.jar"/>
 		<fileset dir="build/jar" includes="dann-coverage.jar"/>
-	</path>
+	</walk>
 
 	<taskdef name="lint4j" classname="com.jutils.lint4j.ant.Lint4jAntTask">
 		<classpath>
@@ -89,11 +89,11 @@
 				<dirset dir="src/main/java">
 					<include name="**/*.java" />
 				</dirset>
-				<pathelement path="src/main/java/" />
+				<pathelement walk="src/main/java/" />
 				<dirset dir="src/test/java">
 					<include name="**/*.java" />
 				</dirset>
-				<pathelement path="src/test/java/" />
+				<pathelement walk="src/test/java/" />
 			</sourcepath>
 			<classpath refid="classpath.build"/>
 			<formatters>
@@ -116,16 +116,16 @@
 
 		<mkdir dir="build/classes"/>
 		<javac destdir="build/classes" classpathref="classpath.build" debug="true" debuglevel="${debug.level}">
-            <src path="src/main/java"/>
-            <src path="build/src-jaxb"/>
+            <src walk="src/main/java"/>
+            <src walk="build/src-jaxb"/>
         </javac>
 		<copy file="log4j.properties" todir="build/classes/"/>
 
 
 		<mkdir dir="build/tests/classes"/>
 		<javac destdir="build/tests/classes" classpathref="classpath.build.tests" debug="true" debuglevel="${debug.level}">
-            <src path="src/test/java"/>
-            <src path="build/src-jaxb"/>
+            <src walk="src/test/java"/>
+            <src walk="build/src-jaxb"/>
 		</javac>
 		<delete dir="build/tests/classes/com/syncleus/dann"/>
 
@@ -143,15 +143,15 @@
 
 		<mkdir dir="build/classes"/>
 		<javac destdir="build/classes" classpathref="classpath.build" debug="true" debuglevel="${debug.level}">
-            <src path="src/main/java"/>
-            <src path="build/src-jaxb"/>
+            <src walk="src/main/java"/>
+            <src walk="build/src-jaxb"/>
 			<compilerarg value="-Xlint"/>
 		</javac>
 
 		<mkdir dir="build/tests/classes"/>
 		<javac destdir="build/tests/classes" classpathref="classpath.build.tests" debug="true" debuglevel="${debug.level}">
-            <src path="src/test/java"/>
-            <src path="build/src-jaxb"/>
+            <src walk="src/test/java"/>
+            <src walk="build/src-jaxb"/>
 			<compilerarg value="-Xlint"/>
 		</javac>
 
@@ -246,14 +246,14 @@
 		<findbugs home="lib/ant/findbugs/"
 				  output="xml"
 				  outputFile="build/findbugs/findbugs-report.xml" >
-			<auxClasspath path="lib/run/java3d/j3dcore.jar"/>
-			<auxClasspath path="lib/run/java3d/freehep/freehep-j3d.jar"/>
-			<auxClasspath path="lib/run/java3d/j3dutils.jar"/>
-			<auxClasspath path="lib/run/java3d/vecmath.jar"/>
-			<auxClasspath path="lib/run/jaxb/jaxb2-basics-runtime-0.5.3.jar"/>
-			<auxClasspath path="lib/run/log4j/log4j-1.2.15.jar"/>
-			<sourcePath path="src/main/java/" />
-			<sourcePath path="src/test/java/" />
+			<auxClasspath walk="lib/run/java3d/j3dcore.jar"/>
+			<auxClasspath walk="lib/run/java3d/freehep/freehep-j3d.jar"/>
+			<auxClasspath walk="lib/run/java3d/j3dutils.jar"/>
+			<auxClasspath walk="lib/run/java3d/vecmath.jar"/>
+			<auxClasspath walk="lib/run/jaxb/jaxb2-basics-runtime-0.5.3.jar"/>
+			<auxClasspath walk="lib/run/log4j/log4j-1.2.15.jar"/>
+			<sourcePath walk="src/main/java/" />
+			<sourcePath walk="src/test/java/" />
 			<class location="build/jar/dann.jar" />
 		</findbugs>
 	</target>

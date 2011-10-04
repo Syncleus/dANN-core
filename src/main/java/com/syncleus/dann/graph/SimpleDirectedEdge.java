@@ -46,13 +46,13 @@ public class SimpleDirectedEdge<N> extends AbstractDirectedEdge<N, N,N> implemen
 	}
 
 	@Override
-	public AbstractSourceEndpoint getSourceEndPoint()
+	public AbstractSourceEndpoint getSourceEndpoint()
 	{
 		return this.source;
 	}
 
 	@Override
-	public AbstractDestinationEndpoint getDestinationEndPoint()
+	public AbstractDestinationEndpoint getDestinationEndpoint()
 	{
 		return this.destination;
 	}

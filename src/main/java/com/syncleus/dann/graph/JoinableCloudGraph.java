@@ -51,6 +51,6 @@ public interface JoinableCloudGraph<
 	Set<EE> joinEdges(Set<? extends E> edges) throws InvalidGraphException;
 	Set<EE> joinEdges(Map<? extends E,? extends Integer> edges) throws InvalidGraphException;
 
-	EndpointSets<NE,EE> joinAll(Set<? extends N> addNodes, Set<? extends E> addEdges) throws InvalidGraphException;
-	EndpointSets<NE,EE> joinAll(Map<? extends N,? extends Integer> addNodes, Map<? extends E,? extends Integer> addEdges) throws InvalidGraphException;
+	Endpoints<NE,EE> joinAll(Set<? extends N> addNodes, Set<? extends E> addEdges) throws InvalidGraphException;
+	Endpoints<NE,EE> joinAll(Map<? extends N,? extends Integer> addNodes, Map<? extends E,? extends Integer> addEdges) throws InvalidGraphException;
 }

@@ -18,32 +18,19 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.search.pathfinding.DijkstraPathFinder;
-import com.syncleus.dann.graph.search.pathfinding.PathFinder;
-import com.syncleus.dann.graph.xml.*;
-import com.syncleus.dann.xml.NamedValueXml;
-import com.syncleus.dann.xml.Namer;
-import com.syncleus.dann.xml.XmlSerializable;
 import org.apache.log4j.Logger;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.*;
 
-/**
- * An AbstractAdjacencyGraph is a CloudGraph implemented using adjacency lists.
- * @param <N> The node type
- * @param <E> The type of edge for the given node type
- */
 @XmlJavaTypeAdapter( com.syncleus.dann.xml.XmlSerializableAdapter.class )
-public abstract class AbstractAdjacencyGraph<
-	  	N,
-	  	E extends Cloud<N,? extends Cloud.Endpoint<? extends N>>,
-	  	NE extends CloudGraph.NodeEndpoint<N, E>,
-	  	EE extends CloudGraph.EdgeEndpoint<N, E>
-	  > extends AbstractCloud<Object,CloudGraph.Endpoint<?, N,E>> implements CloudGraph<N, E, NE, EE>
+public abstract class AbstractCloudGraph<
+	  	NE extends CloudGraph.NodeEndpoint<?>,
+	  	EE extends CloudGraph.EdgeEndpoint<? extends Cloud<?>>
+	  > extends AbstractCloud<NE> implements CloudGraph<NE, EE>
 {
-	private static final Logger LOGGER = Logger.getLogger(AbstractAdjacencyGraph.class);
-	protected abstract Set<EdgeEndpoint<N,E>> getAdjacentEdgeEndpoints(CloudGraph.NodeEndpoint<?, ?> nodeEndpoint);
+	private static final Logger LOGGER = Logger.getLogger(AbstractCloudGraph.class);
 
+/*
 	protected PathFinder<N,E> getPathFinder()
 	{
 		return new DijkstraPathFinder<N,E>(this);
@@ -66,9 +53,16 @@ public abstract class AbstractAdjacencyGraph<
 			edges.add(destinationEndpoint.getTarget());
 		return Collections.unmodifiableSet(edges);
 	}
+*/
 
 	@Override
-	public Set<EE> getEdgeEndpoints(Cloud<?,? extends Cloud.Endpoint<?>> cloud)
+	public final boolean areEdgesFinite()
+	{
+		return true;
+	}
+
+	@Override
+	public Set<EE> getEdgeEndpoints(Cloud<?> cloud)
 	{
 		Set<EE> matchingEndpoints  = new HashSet<EE>();
 		for(final EE endpoint : this.getEdgeEndpoints() )
@@ -81,18 +75,60 @@ public abstract class AbstractAdjacencyGraph<
 	}
 
 	@Override
-	public Set<NE> getNodeEndpoints(Object node)
+	public boolean containsEdgeTarget(final Cloud<?> edge)
 	{
-		Set<NE> matchingEndpoints  = new HashSet<NE>();
-		for(NE endpoint : this.getNodeEndpoints() )
-		{
-			if( endpoint.getTarget().equals(node))
-				matchingEndpoints.add(endpoint);
-		}
-
-		return Collections.unmodifiableSet(matchingEndpoints);
+		for( EE endpoint : this.getEdgeEndpoints() )
+			if( endpoint.getTarget().equals(edge))
+				return true;
+		return false;
 	}
 
+	@Override
+	public boolean containsAllEdgeTargets(final Collection<? extends Cloud<?>> edges)
+	{
+		for( Cloud<?> edge : edges )
+			if( !this.containsEdgeTarget(edge) )
+				return false;
+		return true;
+	}
+
+	@Override
+	public boolean containsAnyEdgeTargets(final Collection<? extends Cloud<?>> edges)
+	{
+		for( Cloud<?> edge : edges )
+			if( this.containsTarget(edge) )
+				return true;
+		return false;
+	}
+
+	@Override
+	public boolean containsEdge(final Cloud.Endpoint<?> endpoint)
+	{
+		for( EE otherEndpoint : this.getEdgeEndpoints() )
+			if( otherEndpoint.equals(endpoint))
+				return true;
+		return false;
+	}
+
+	@Override
+	public boolean containsAllEdges(final Collection<? extends Cloud.Endpoint<?>> endpoints)
+	{
+		for( Cloud.Endpoint<?> endpoint : endpoints )
+			if( !this.containsEdge(endpoint) )
+				return false;
+		return true;
+	}
+
+	@Override
+	public boolean containsAnyEdges(final Collection<? extends Cloud.Endpoint<?>> endpoints)
+	{
+		for( Cloud.Endpoint<?> endpoint : endpoints )
+			if( this.containsEdge(endpoint) )
+				return true;
+		return false;
+	}
+
+/*
 	@Override
 	public Set<N> getAdjacentNodes(Object node)
 	{
@@ -126,6 +162,7 @@ public abstract class AbstractAdjacencyGraph<
 		endpoints.addAll(this.getEdgeEndpoints());
 		return Collections.<CloudGraph.Endpoint<?, N, E>>unmodifiableSet(endpoints);
 	}
+
 
 	@Override
 	public boolean isTraversable(Object source, Object destination)
@@ -386,114 +423,67 @@ public abstract class AbstractAdjacencyGraph<
 
 		return Collections.unmodifiableSet(sourceNodes);
 	}
+*/
 
 	/**
 	 * Clones the current object.
 	 * @return A clone of the current object, with no changes
 	 */
 	@Override
-	protected AbstractAdjacencyGraph<N, E, NE, EE> clone()
+	protected AbstractCloudGraph<NE, EE> clone()
 	{
-		return (AbstractAdjacencyGraph<N, E, NE, EE>) super.clone();
+		return (AbstractCloudGraph<NE, EE>) super.clone();
 	}
 
-	/**
-	 * Converts the current AbstractAdjacencyGraph to a GraphXML.
-	 * @return The GraphXML representation of this AbstractAdjacencyGraph
-	 */
-	@Override
-	public GraphXml toXml()
+	protected class Endpoints implements CloudGraph.Endpoints<NE,EE>
 	{
-		final GraphElementXml xml = new GraphElementXml();
-		final Namer<Object> namer = new Namer<Object>();
+		private final Set<NE> nodeEndpoints;
+		private final Set<EE> edgeEndpoints;
 
-		xml.setNodeInstances(new GraphElementXml.NodeInstances());
-		for(N node : this.getNodes())
+		public Endpoints(final Set<NE> nodeEndpoints, final Set<EE> edgeEndpoints)
 		{
-			final String nodeName = namer.getNameOrCreate(node);
-
-			final Object nodeXml;
-			if(node instanceof XmlSerializable)
-				nodeXml = ((XmlSerializable)node).toXml(namer);
-			else
-				//if the object isnt XmlSerializable lets try to just serialize it as a regular JAXB object
-				nodeXml = node;
-
-			final NamedValueXml encapsulation = new NamedValueXml();
-			encapsulation.setName(nodeName);
-			encapsulation.setValue(nodeXml);
-
-			xml.getNodeInstances().getNodes().add(encapsulation);
+			this.nodeEndpoints = nodeEndpoints;
+			this.edgeEndpoints = edgeEndpoints;
 		}
 
-		this.toXml(xml, namer);
-		return xml;
+		@Override
+		public Set<NE> getNodeEndpoints()
+		{
+			return nodeEndpoints;
+		}
+
+		@Override
+		public Set<EE> getEdgeEndpoints()
+		{
+			return edgeEndpoints;
+		}
 	}
 
-	/**
-	 * Converts a given Namer to its GraphXML representation.
-	 * @param namer The namer to convert
-	 * @return The GraphXML representation of this namer
-	 */
-	@Override
-	public GraphXml toXml(final Namer<Object> namer)
+	protected abstract class AbstractNodeEndpoint<T> extends AbstractCloud<NE>.AbstractEndpoint<T> implements CloudGraph.NodeEndpoint<T>
 	{
-		if(namer == null)
-			throw new IllegalArgumentException("namer can not be null");
 
-		final GraphXml xml = new GraphXml();
-		this.toXml(xml, namer);
-		return xml;
-	}
+		protected AbstractNodeEndpoint()
+		{
+		}
+
+		protected AbstractNodeEndpoint(T target)
+		{
+			super(target);
+		}
+
+		@Override
+		public final boolean isNodeEndpoint()
+		{
+			return true;
+		}
+
+		@Override
+		public boolean isEdgeEndpoint()
+		{
+			return false;
+		}
+
 /*
-	/**
-	 * Adds a current Namer to the given GraphXML object.
-	 * @param jaxbObject The graph to add the object to
-	 * @param namer THe namer to add to the GraphXML
-	 */
-/*
-	@Override
-	public void toXml(final GraphXml jaxbObject, final Namer<Object> namer)
-	{
-		if(namer == null)
-			throw new IllegalArgumentException("nodeNames can not be null");
-		if(jaxbObject == null)
-			throw new IllegalArgumentException("jaxbObject can not be null");
-
-		for(N node : this.getNodes())
-		{
-			final String nodeName = namer.getNameOrCreate(node);
-
-			final Object nodeXml;
-			if(node instanceof XmlSerializable)
-				nodeXml = ((XmlSerializable)node).toXml(namer);
-			else
-				// if the object isnt XmlSerializable lets try to just serialize
-				// it as a regular JAXB object
-				nodeXml = node;
-
-			final NameXml encapsulation = new NameXml();
-			encapsulation.setName(nodeName);
-
-			if( jaxbObject.getNodes() == null )
-				jaxbObject.setNodes(new GraphXml.Nodes());
-			jaxbObject.getNodes().getNodes().add(encapsulation);
-		}
-
-		for(E edge : this.getEdges())
-		{
-			final EdgeXml edgeXml = edge.toXml(namer);
-
-			if( jaxbObject.getEdges() == null )
-				jaxbObject.setEdges(new GraphXml.Edges());
-			jaxbObject.getEdges().getEdges().add(edgeXml);
-		}
-	}
-*/
-
-	protected abstract class AbstractNodeEndpoint extends AbstractCloud<? super N,CloudGraph.Endpoint<? super N, N,E>>.AbstractEndpoint<N> implements CloudGraph.NodeEndpoint<N,E>
-	{
-
 		@Override
 		public Set<CloudGraph.EdgeEndpoint<N, E>> getAdjacentEdges()
 		{
@@ -526,7 +516,7 @@ public abstract class AbstractAdjacencyGraph<
 			for(CloudGraph.EdgeEndpoint<N, E> adjacentEndpoint : this.getAdjacentEdges() )
 				for( Cloud.Endpoint<? extends N> nodeEndpoint : adjacentEndpoint.getTarget().getEndpoints(this.getTarget()) )
 					for( Cloud.Endpoint<? extends N> adjacentNodeEndpoint : nodeEndpoint.getNeighbors() )
-						adjacentNodes.addAll(AbstractAdjacencyGraph.this.getNodeEndpoints(adjacentNodeEndpoint.getTarget()));
+						adjacentNodes.addAll(AbstractCloudGraph.this.getNodeEndpoints(adjacentNodeEndpoint.getTarget()));
 
 			return Collections.<CloudGraph.NodeEndpoint<N, E>>unmodifiableSet(adjacentNodes);
 		}
@@ -539,7 +529,7 @@ public abstract class AbstractAdjacencyGraph<
 			for(CloudGraph.EdgeEndpoint<N, E> adjacentEndpoint : this.getAdjacentEdges() )
 				for( Cloud.Endpoint<? extends N> nodeEndpoint : adjacentEndpoint.getTarget().getEndpoints(this.getTarget()) )
 					for( Cloud.Endpoint<? extends N> adjacentNodeEndpoint : nodeEndpoint.getTraversableNeighborsTo() )
-						adjacentNodes.addAll(AbstractAdjacencyGraph.this.getNodeEndpoints(adjacentNodeEndpoint.getTarget()));
+						adjacentNodes.addAll(AbstractCloudGraph.this.getNodeEndpoints(adjacentNodeEndpoint.getTarget()));
 
 			return Collections.unmodifiableSet(adjacentNodes);
 		}
@@ -552,7 +542,7 @@ public abstract class AbstractAdjacencyGraph<
 			for(CloudGraph.EdgeEndpoint<N, E> adjacentEndpoint : this.getAdjacentEdges() )
 				for( Cloud.Endpoint<? extends N> nodeEndpoint : adjacentEndpoint.getTarget().getEndpoints(this.getTarget()) )
 					for( Cloud.Endpoint<? extends N> adjacentNodeEndpoint : nodeEndpoint.getTraversableNeighborsFrom() )
-						adjacentNodes.addAll(AbstractAdjacencyGraph.this.getNodeEndpoints(adjacentNodeEndpoint.getTarget()));
+						adjacentNodes.addAll(AbstractCloudGraph.this.getNodeEndpoints(adjacentNodeEndpoint.getTarget()));
 
 			return Collections.unmodifiableSet(adjacentNodes);
 		}
@@ -582,10 +572,33 @@ public abstract class AbstractAdjacencyGraph<
 
 			return Collections.unmodifiableSet(adjacentEdges);
 		}
+*/
 	};
 
-	protected abstract class AbstractEdgeEndpoint extends AbstractCloud<? super E,CloudGraph.Endpoint<? super E, N,E>>.AbstractEndpoint<E> implements CloudGraph.EdgeEndpoint<N,E>
+	protected abstract class AbstractEdgeEndpoint<T extends Cloud<?>> extends AbstractCloud<NE>.AbstractEndpoint<T> implements CloudGraph.EdgeEndpoint<T>
 	{
+		protected AbstractEdgeEndpoint()
+		{
+		}
+
+		protected AbstractEdgeEndpoint(T target)
+		{
+			super(target);
+		}
+
+		@Override
+		public boolean isNodeEndpoint()
+		{
+			return false;
+		}
+
+		@Override
+		public final boolean isEdgeEndpoint()
+		{
+			return true;
+		}
+
+/*
 		@Override
 		public Set<CloudGraph.NodeEndpoint<N, E>> getAdjacent()
 		{
@@ -610,7 +623,7 @@ public abstract class AbstractAdjacencyGraph<
 			final Set<CloudGraph.NodeEndpoint<N, E>> adjacentNodes = new HashSet<CloudGraph.NodeEndpoint<N, E>>();
 
 			for(Endpoint<? extends N> adjacentEndpoint : this.getTarget().getEndpoints())
-				adjacentNodes.addAll(AbstractAdjacencyGraph.this.getNodeEndpoints(adjacentEndpoint.getTarget()));
+				adjacentNodes.addAll(AbstractCloudGraph.this.getNodeEndpoints(adjacentEndpoint.getTarget()));
 
 			return Collections.unmodifiableSet(adjacentNodes);
 		}
@@ -621,8 +634,8 @@ public abstract class AbstractAdjacencyGraph<
 			final Set<CloudGraph.EdgeEndpoint<N, E>> adjacentEdges = new HashSet<CloudGraph.EdgeEndpoint<N, E>>();
 
 			for(Endpoint<? extends N> sourceEndpoint : this.getTarget().getEndpoints())
-				for( NE neighborNode : AbstractAdjacencyGraph.this.getNodeEndpoints(sourceEndpoint.getTarget()) )
-					adjacentEdges.addAll(AbstractAdjacencyGraph.this.getAdjacentEdgeEndpoints(neighborNode));
+				for( NE neighborNode : AbstractCloudGraph.this.getNodeEndpoints(sourceEndpoint.getTarget()) )
+					adjacentEdges.addAll(AbstractCloudGraph.this.getAdjacentEdgeEndpoints(neighborNode));
 
 			adjacentEdges.remove(this);
 			return Collections.unmodifiableSet(adjacentEdges);
@@ -635,8 +648,8 @@ public abstract class AbstractAdjacencyGraph<
 
 			for(Endpoint<? extends N> sourceEndpoint : this.getTarget().getEndpoints())
 				if( sourceEndpoint.getTraversableNeighborsFrom().size() > 0 )
-					for( NE adjacentNode : AbstractAdjacencyGraph.this.getNodeEndpoints(sourceEndpoint.getTarget()))
-						for( CloudGraph.EdgeEndpoint<N, E> adjacentEdge : AbstractAdjacencyGraph.this.getAdjacentEdgeEndpoints(adjacentNode) )
+					for( NE adjacentNode : AbstractCloudGraph.this.getNodeEndpoints(sourceEndpoint.getTarget()))
+						for( CloudGraph.EdgeEndpoint<N, E> adjacentEdge : AbstractCloudGraph.this.getAdjacentEdgeEndpoints(adjacentNode) )
 						 	if( adjacentEdge.getTarget().getTraversableFrom(adjacentNode.getTarget()).size() > 0 )
 								 adjacentEdges.add(adjacentEdge);
 
@@ -650,8 +663,8 @@ public abstract class AbstractAdjacencyGraph<
 
 			for(Endpoint<? extends N> sourceEndpoint : this.getTarget().getEndpoints())
 				if( sourceEndpoint.getTraversableNeighborsTo().size() > 0 )
-					for( NE adjacentNode : AbstractAdjacencyGraph.this.getNodeEndpoints(sourceEndpoint.getTarget()))
-						for( CloudGraph.EdgeEndpoint<N, E> adjacentEdge : AbstractAdjacencyGraph.this.getAdjacentEdgeEndpoints(adjacentNode) )
+					for( NE adjacentNode : AbstractCloudGraph.this.getNodeEndpoints(sourceEndpoint.getTarget()))
+						for( CloudGraph.EdgeEndpoint<N, E> adjacentEdge : AbstractCloudGraph.this.getAdjacentEdgeEndpoints(adjacentNode) )
 						 	if( adjacentEdge.getTarget().getTraversableTo(adjacentNode.getTarget()).size() > 0 )
 								 adjacentEdges.add(adjacentEdge);
 
@@ -665,7 +678,7 @@ public abstract class AbstractAdjacencyGraph<
 
 			for(Endpoint<? extends N> sourceEndpoint : this.getTarget().getEndpoints())
 				if( sourceEndpoint.getTraversableNeighborsFrom().size() > 0 )
-					adjacentNodes.addAll(AbstractAdjacencyGraph.this.getNodeEndpoints(sourceEndpoint.getTarget()));
+					adjacentNodes.addAll(AbstractCloudGraph.this.getNodeEndpoints(sourceEndpoint.getTarget()));
 
 			return Collections.unmodifiableSet(adjacentNodes);
 		}
@@ -677,9 +690,10 @@ public abstract class AbstractAdjacencyGraph<
 
 			for(Endpoint<? extends N> sourceEndpoint : this.getTarget().getEndpoints())
 				if( sourceEndpoint.getTraversableNeighborsTo().size() > 0 )
-					adjacentNodes.addAll(AbstractAdjacencyGraph.this.getNodeEndpoints(sourceEndpoint.getTarget()));
+					adjacentNodes.addAll(AbstractCloudGraph.this.getNodeEndpoints(sourceEndpoint.getTarget()));
 
 			return Collections.unmodifiableSet(adjacentNodes);
 		}
+*/
 	};
 }

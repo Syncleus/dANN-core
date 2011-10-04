@@ -20,7 +20,7 @@ package com.syncleus.dann.graph;
 
 import java.util.Set;
 
-public abstract class AbstractHypergraph<N, E extends Hyperedge<N>> extends AbstractAdjacencyGraph<N, E> implements Hypergraph<N, E>
+public abstract class AbstractHypergraph<N, E extends Hyperedge<N>> extends AbstractCloudGraph<N, E> implements Hypergraph<N, E>
 {
 	protected AbstractHypergraph()
 	{

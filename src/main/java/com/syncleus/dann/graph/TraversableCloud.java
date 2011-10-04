@@ -26,12 +26,15 @@ public interface TraversableCloud<
 {
 	interface Endpoint<T> extends Cloud.Endpoint<T>
 	{
+		boolean isTraversableFrom(Cloud.Endpoint<?> target);
+		boolean isTraversableTo(Cloud.Endpoint<?> target);
+		boolean isTraversableFrom();
+		boolean isTraversableTo();
 	}
 
-	Set<E> getTraversableFrom(Endpoint<?> target);
-	Set<E> getTraversableTo(Endpoint<?> target);
-	boolean isTraversable(Endpoint<?> sourceTarget, Endpoint<?> destinationTarget);
-
-	Set<E> getTraversableNeighborsTo(Endpoint<?> fromEndpoint);
-	Set<E> getTraversableNeighborsFrom(Endpoint<?> toEndpoint);
+	Set<E> getTraversableFrom(Cloud.Endpoint<?> target);
+	Set<E> getTraversableTo(Cloud.Endpoint<?> target);
+	boolean isTraversable(Cloud.Endpoint<?> sourceTarget, Cloud.Endpoint<?> destinationTarget);
+	boolean isTraversableFrom(Cloud.Endpoint<?> source);
+	boolean isTraversableTo(Cloud.Endpoint<?> destination);
 }

@@ -21,26 +21,31 @@ package com.syncleus.dann.graph;
 import java.io.Serializable;
 import java.util.*;
 import com.syncleus.dann.graph.event.context.ContextReporter;
-import com.syncleus.dann.graph.xml.EdgeXml;
-import com.syncleus.dann.xml.XmlSerializable;
 
+// TODO : Make this XMLSerializable again
 public interface Cloud<
 	  	E extends Cloud.Endpoint<?>
-	  > extends Serializable, Cloneable, XmlSerializable<EdgeXml, Object>, ContextReporter
+	  > extends Serializable, Cloneable, ContextReporter
 {
 	interface Endpoint<T>
 	{
 		T getTarget();
+		boolean isNeighbor(Cloud.Endpoint<?> neighbor);
 	};
+
+	int getDegree();
+	boolean isFinite();
 
 	Set<E> getEndpoints();
 	Set<E> getEndpoints(Object target);
+
 	Set<E> getNeighbors(Cloud.Endpoint<?> endpoint);
-	boolean contains( Endpoint<?> endpoint);
-	boolean containsAny(Collection<? extends Endpoint<?>> endpoint);
-	boolean containsAll(Collection<? extends Endpoint<?>> endpoint);
+	boolean areNeighbors(Cloud.Endpoint<?> neighbor, Cloud.Endpoint<?> otherNeighbor);
+
+	boolean contains( Cloud.Endpoint<?> endpoint);
+	boolean containsAny(Collection<? extends Cloud.Endpoint<?>> endpoint);
+	boolean containsAll(Collection<? extends Cloud.Endpoint<?>> endpoint);
 	boolean containsTarget(Object target);
 	boolean containsAnyTargets(Collection<?> targets);
 	boolean containsAllTargets(Collection<?> targets);
-	int getDegree();
 }

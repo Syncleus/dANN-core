@@ -28,7 +28,7 @@ public abstract class AbstractMutableAdjacencyGraph<
 	  	NE extends MutableCloudGraph.NodeEndpoint<N, E>,
 	  	EE extends MutableCloudGraph.EdgeEndpoint<N, E>
 	  >
-	  extends AbstractAdjacencyGraph<N, E, NE, EE>
+	  extends AbstractCloudGraph<N, E, NE, EE>
 	  implements MutableCloudGraph<N, E, NE, EE>
 {
 	private static final long serialVersionUID = -4613327727609060678L;
@@ -216,7 +216,7 @@ public abstract class AbstractMutableAdjacencyGraph<
 	}
 
 
-	protected abstract class AbstractNodeEndpoint extends AbstractAdjacencyGraph<N,E,NE,EE>.AbstractNodeEndpoint implements MutableCloudGraph.NodeEndpoint<N, E>
+	protected abstract class AbstractNodeEndpoint extends AbstractCloudGraph<N,E,NE,EE>.AbstractNodeEndpoint implements MutableCloudGraph.NodeEndpoint<N, E>
 	{
 		private N target;
 
@@ -246,7 +246,7 @@ public abstract class AbstractMutableAdjacencyGraph<
 		}
 	};
 
-	protected abstract class AbstractEdgeEndpoint extends AbstractAdjacencyGraph<N,E,NE,EE>.AbstractEdgeEndpoint implements MutableCloudGraph.EdgeEndpoint<N, E>
+	protected abstract class AbstractEdgeEndpoint extends AbstractCloudGraph<N,E,NE,EE>.AbstractEdgeEndpoint implements MutableCloudGraph.EdgeEndpoint<N, E>
 	{
 		private E target;
 

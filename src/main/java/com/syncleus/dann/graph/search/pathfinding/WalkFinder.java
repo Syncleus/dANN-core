@@ -16,18 +16,10 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph;
+package com.syncleus.dann.graph.search.pathfinding;
 
-public interface MixableDirectedEdge<
-	  	E extends MixableBidirectedEdge.Endpoint<?>,
-	  	SE extends E,
-	  	DE extends E
-	  > extends MixableBidirectedEdge<E, SE, DE>
+import com.syncleus.dann.graph.Walk;
+
+public interface WalkFinder<W extends Walk<?,?>> extends PathFinder<W>
 {
-	interface Endpoint<T> extends MixableBidirectedEdge.Endpoint<T>
-	{
-	};
-
-	SE getSourceEndpoint();
-	DE getDestinationEndpoint();
 }

@@ -18,72 +18,18 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.*;
-
-public abstract class AbstractUndirectedEdge<N, LN extends N, RN extends N> extends AbstractBidirectedEdge<N, LN,RN> implements MixableBidirectedEdge<N, LN,RN>
+public abstract class AbstractUndirectedEdge<E extends BidirectedEdge.Endpoint<?>> extends AbstractMixableUndirectedEdge<E,E,E> implements BidirectedEdge<E>
 {
-	private static final long serialVersionUID = 83475809132709850L;
-
-	protected AbstractUndirectedEdge(final LN leftNode, final RN rightNode)
+	protected abstract class AbstractEndpoint<T> extends AbstractMixableUndirectedEdge<E,E,E>.AbstractEndpoint<T> implements BidirectedEdge.Endpoint<T>
 	{
-		super(leftNode, EndState.NONE, rightNode, EndState.NONE);
-	}
+		protected AbstractEndpoint(Direction direction)
+		{
+			super(direction);
+		}
 
-	protected AbstractUndirectedEdge(final LN leftNode, final RN rightNode, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
-	{
-		super(leftNode, EndState.NONE, rightNode, EndState.NONE, allowJoiningMultipleGraphs, contextEnabled);
-	}
-
-	@Override
-	public List<N> getTraversableNodes(final N node)
-	{
-		if( this.getLeftNode().equals(node) )
-			return Collections.singletonList(this.getRightNode());
-		else if( this.getRightNode().equals(node) )
-			return Collections.singletonList(this.getLeftNode());
-		else
-			throw new IllegalArgumentException("node is not one of the end points!");
-	}
-
-	@Override
-	public final boolean isIntroverted()
-	{
-		return false;
-	}
-
-	@Override
-	public final boolean isExtroverted()
-	{
-		return false;
-	}
-
-	@Override
-	public final boolean isDirected()
-	{
-		return false;
-	}
-
-	@Override
-	public final boolean isHalfEdge()
-	{
-		return false;
-	}
-
-	@Override
-	public final boolean isLooseEdge()
-	{
-		return true;
-	}
-
-	@Override
-	public final boolean isOrdinaryEdge()
-	{
-		return false;
-	}
-
-	@Override
-	protected AbstractUndirectedEdge<N, LN,RN> clone()
-	{
-		return (AbstractUndirectedEdge<N, LN,RN>) super.clone();
-	}
+		protected AbstractEndpoint(T target, Direction direction)
+		{
+			super(target, direction);
+		}
+	};
 }

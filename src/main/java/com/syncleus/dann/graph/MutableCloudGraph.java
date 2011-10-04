@@ -47,6 +47,6 @@ public interface MutableCloudGraph<
 	{
 	};
 
-	EndpointSets<NE,EE> reconfigure(Set<? extends N> addNodes, Set<? extends E> addEdges, Set<? extends Endpoint<?>> disconnectEndpoints) throws InvalidGraphException;
-	EndpointSets<NE,EE> reconfigure(Map<? extends N,? extends Integer> addNodes, Map<? extends E,? extends Integer> addEdges, Set<? extends Endpoint<?>> disconnectEndpoints) throws InvalidGraphException;
+	Endpoints<NE,EE> reconfigure(Set<? extends N> addNodes, Set<? extends E> addEdges, Set<? extends Cloud.Endpoint<?>> disconnectEndpoints) throws InvalidGraphException;
+	Endpoints<NE,EE> reconfigure(Map<? extends N,? extends Integer> addNodes, Map<? extends E,? extends Integer> addEdges, Set<? extends Cloud.Endpoint<?>> disconnectEndpoints) throws InvalidGraphException;
 }

@@ -29,7 +29,7 @@ public interface PartibleCloud<
 		void part() throws InvalidEdgeException;
 	}
 
-	void leave(PartibleCloud.Endpoint<?> endpoint) throws InvalidGraphException;
-	void leave(Set<? extends PartibleCloud.Endpoint<?>> endpoints) throws InvalidGraphException;
+	void leave(Cloud.Endpoint<?> endpoint) throws InvalidGraphException;
+	void leave(Set<? extends Cloud.Endpoint<?>> endpoints) throws InvalidGraphException;
 	void clear() throws InvalidGraphException;
 }

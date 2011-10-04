@@ -18,128 +18,99 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.cycle.CycleFinder;
-import com.syncleus.dann.graph.cycle.ExhaustiveDepthFirstSearchCycleFinder;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public abstract class AbstractWalk<N, E extends Cloud<N>> implements Walk<N, E>
+public abstract class AbstractWalk<N, E extends Cloud<N>> extends AbstractPath<N, E> implements Walk<N, E>
 {
+	@Override
 	protected boolean verify(final List<N> nodeSteps, final List<E> edgeSteps)
 	{
-		if( edgeSteps == null )
-			throw new IllegalArgumentException("steps can not be null");
-		if( edgeSteps.contains(null) )
-			throw new IllegalArgumentException("steps can not contain a null");
-		if( nodeSteps == null )
-			throw new IllegalArgumentException("nodeSteps can not be null");
-		if( nodeSteps.contains(null) )
-			throw new IllegalArgumentException("nodeSteps can not contain a null");
-		if( (nodeSteps.size() != (edgeSteps.size() + 1)) || (nodeSteps.size() < 2) || (edgeSteps.size() < 1) )
+		return ((super.verify(nodeSteps, edgeSteps)) && (verifyUtility(nodeSteps, edgeSteps)));
+	}
+
+	static <N, E extends Cloud<N>> boolean verifyUtility(final List<N> nodeSteps, final List<E> edgeSteps)
+	{
+		if( nodeSteps.size() < 2 )
 			throw new IllegalArgumentException("Wrong number of nodes or steps");
-		int nextNodeIndex = 0;
-		for(final E edgeStep : edgeSteps)
-		{
-			if( !edgeStep.getTargets().contains(nodeSteps.get(nextNodeIndex)) )
-				return false;
-			nextNodeIndex++;
-		}
-		return edgeSteps.get(edgeSteps.size() - 1).getTargets().contains(nodeSteps.get(nextNodeIndex));
+		return !(nodeSteps.get(0).equals(nodeSteps.get(nodeSteps.size() - 1)));
 	}
 
 	@Override
-	public boolean isClosed()
+	public boolean isChain()
 	{
-		return this.getNodeSteps().get(0).equals(this.getNodeSteps().get(this.getNodeSteps().size() - 1));
+		return isChain(this);
+	}
+
+	protected static <N, E extends Cloud<N>> boolean isChain(final Walk<N, E> walk)
+	{
+		final Set<N> uniqueNodes = new HashSet<N>(walk.getNodeSteps());
+		final Set<E> uniqueEdges = new HashSet<E>(walk.getSteps());
+		if( uniqueNodes.size() < walk.getNodeSteps().size() )
+			return false;
+		return !(uniqueEdges.size() < walk.getSteps().size());
 	}
 
 	@Override
-	public int getLength()
+	public boolean isIndependent(final Walk<N, E> walk)
 	{
-		return this.getSteps().size();
+		return AbstractWalk.isIndependentUtility(this, walk);
+	}
+
+	static <N, E extends Cloud<N>> boolean isIndependentUtility(final Walk<N, E> firstWalk, final Walk<N, E> secondWalk)
+	{
+		if( !firstWalk.getFirstNode().equals(secondWalk.getFirstNode()) )
+			return false;
+		if( !firstWalk.getLastNode().equals(secondWalk.getLastNode()) )
+			return false;
+		final List<N> exclusiveFirstNodes = new ArrayList<N>(firstWalk.getNodeSteps());
+		exclusiveFirstNodes.remove(exclusiveFirstNodes.size() - 1);
+		exclusiveFirstNodes.remove(0);
+		final List<N> secondNodes = new ArrayList<N>(secondWalk.getNodeSteps());
+		secondNodes.remove(secondNodes.size() - 1);
+		secondNodes.remove(0);
+		exclusiveFirstNodes.removeAll(secondNodes);
+		return !(exclusiveFirstNodes.size() < firstWalk.getNodeSteps().size());
 	}
 
 	@Override
-	public boolean isTrail()
-	{
-		final Set<E> edgeSet = new HashSet<E>(this.getSteps());
-		return edgeSet.size() >= this.getSteps().size();
-	}
-
-	@Override
-	public boolean isTour()
-	{
-		return (this.isTrail()) && (this.isClosed());
-	}
-
 	public boolean isCycle()
 	{
-		return this.getNodeSteps().get(0).equals(this.getNodeSteps().get(this.getNodeSteps().size() - 1));
-	}
-
-	@Override
-	public boolean hasChildCycles()
-	{
-		final CloudGraph<N, E> graph = new ImmutableAdjacencyGraph<N, E>(new HashSet<N>(this.getNodeSteps()), new HashSet<E>(this.getSteps()));
-		final CycleFinder<N, E> finder = new ExhaustiveDepthFirstSearchCycleFinder<N, E>();
-		if( this.isCycle() )
-			if( finder.cycleCount(graph) > 1 )
-				return true;
-			else if( finder.hasCycle(graph) )
-				return true;
 		return false;
 	}
 
-	protected double calculateWeight(final double defaultWeight)
+	static int hashCodeUtility(final Walk walk)
 	{
-		double newTotalWeight = 0.0;
-		for(final E step : this.getSteps())
-		{
-			if( step instanceof Weighted )
-				newTotalWeight += ((Weighted) step).getWeight();
-			else
-				newTotalWeight += defaultWeight;
-		}
-		for(final N step : this.getNodeSteps())
-		{
-			if( step instanceof Weighted )
-				newTotalWeight += ((Weighted) step).getWeight();
-			else
-				newTotalWeight += defaultWeight;
-		}
-		return newTotalWeight;
+		return (walk.getNodeSteps().hashCode() + walk.getSteps().hashCode()) * walk.getSteps().hashCode();
+	}
+
+	static boolean equalsUtility(final Walk walk, final Object object)
+	{
+		if( (walk == null) || (object == null) )
+			return false;
+		final Walk secondWalk = (Walk) object;
+		if( !(secondWalk.getNodeSteps().equals(walk.getNodeSteps())) )
+			return false;
+		return secondWalk.getSteps().equals(walk.getSteps());
 	}
 
 	@Override
 	public int hashCode()
 	{
-		final Set<N> uniqueNodes = new HashSet<N>(this.getNodeSteps());
-		final Set<E> uniqueEdges = new HashSet<E>(this.getSteps());
-		return (uniqueNodes.hashCode() + uniqueEdges.hashCode()) * uniqueEdges.hashCode();
+		return AbstractWalk.hashCodeUtility(this);
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public boolean equals(final Object object)
 	{
 		if( object == null )
 			return false;
-		if( object.getClass() != this.getClass() )
-			return false;
-		final Walk walk = (Walk) object;
-		final Set uniqueNodes = new HashSet<N>(this.getNodeSteps());
-		final Set uniqueEdges = new HashSet<E>(this.getSteps());
-		final Set otherUniqueNodes = new HashSet(walk.getNodeSteps());
-		final Set otherUniqueEdges = new HashSet(walk.getSteps());
-		if( !(uniqueNodes.equals(otherUniqueNodes)) )
-			return false;
-		return uniqueEdges.equals(otherUniqueEdges);
-	}
 
-	@Override
-	public String toString()
-	{
-		return this.getSteps().toString();
+		if( !(object instanceof Walk) )
+			return false;
+
+		return AbstractWalk.equalsUtility(this, object);
 	}
 }

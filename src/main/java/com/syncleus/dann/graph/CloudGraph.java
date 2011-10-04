@@ -44,6 +44,8 @@ public interface CloudGraph<
 		  >
 		  extends Cloud.Endpoint<T>
 	{
+		boolean isNodeEndpoint();
+		boolean isEdgeEndpoint();
 	};
 
 	interface NodeEndpoint<
@@ -58,21 +60,26 @@ public interface CloudGraph<
 	{
 	};
 
-	interface EndpointSets<NE extends NodeEndpoint<?>,EE extends EdgeEndpoint<?>> extends Set<Endpoint<?>>
+	interface Endpoints<NE extends NodeEndpoint<?>,EE extends EdgeEndpoint<? extends Cloud<?>>>
 	{
 		Set<NE> getNodeEndpoints();
 		Set<EE> getEdgeEndpoints();
 	};
 
-	EndpointSets<NE,EE> getAdjacent(Endpoint<?> endpoint);
+/*
+	Endpoints<NE,EE> getAdjacent(NE endpoint);
+	Set<NE> getEdgeAdjacent(EE endpoint);
+*/
+	Endpoints<NE,EE> getAdjacent(Cloud.Endpoint<?> endpoint);
+
+	boolean areEdgesFinite();
 
 	Set<EE> getEdgeEndpoints();
 	Set<EE> getEdgeEndpoints(Cloud<?> cloud);
-	Set<EE> getEdgeNeighbors(Endpoint<?> endpoint);
 
-	boolean containsEdge( EdgeEndpoint<?> endpoint);
-	boolean containsAnyEdge(Collection<? extends EdgeEndpoint<?>> endpoint);
-	boolean containsAllEdge(Collection<? extends EdgeEndpoint<?>> endpoint);
+	boolean containsEdge( Cloud.Endpoint<?> endpoint);
+	boolean containsAnyEdges(Collection<? extends Cloud.Endpoint<?>> endpoint);
+	boolean containsAllEdges(Collection<? extends Cloud.Endpoint<?>> endpoint);
 	boolean containsEdgeTarget(Cloud<?> target);
 	boolean containsAnyEdgeTargets(Collection<? extends Cloud<?>> targets);
 	boolean containsAllEdgeTargets(Collection<? extends Cloud<?>> targets);

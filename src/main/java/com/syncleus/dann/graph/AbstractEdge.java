@@ -19,15 +19,10 @@
 package com.syncleus.dann.graph;
 
 public abstract class AbstractEdge<
-	  	T,
-	  	EP extends Edge.Endpoint<? extends T>
-	  > extends AbstractCloud<T,EP> implements Edge<T,EP>
+	  	E extends Edge.Endpoint<?>
+	  > extends AbstractMixableEdge<E,E,E> implements Edge<E>
 {
-	protected abstract class AbstractEndpoint<TT> extends AbstractCloud<T,EP>.AbstractEndpoint<TT>
+	protected abstract class AbstractEndpoint<T> extends AbstractMixableEdge<E,E,E>.AbstractEndpoint<T> implements Edge.Endpoint<T>
 	{
-		protected AbstractEndpoint(final boolean isTargetEquals)
-		{
-			super(isTargetEquals);
-		}
 	}
 }

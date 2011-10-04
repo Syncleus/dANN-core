@@ -44,11 +44,11 @@ public interface PartibleCloudGraph<
 	{
 	};
 
-	void leaveEdge(EdgeEndpoint<?> endpoint) throws InvalidGraphException;
-	void leaveEdges(Set<? extends EdgeEndpoint<?>> endpoints) throws InvalidGraphException;
+	void leaveEdge(Cloud.Endpoint<?> endpoint) throws InvalidGraphException;
+	void leaveEdges(Set<? extends Cloud.Endpoint<?>> endpoints) throws InvalidGraphException;
 	void clearEdges() throws InvalidGraphException;
 
-	void leaveAll(final Set<? extends Endpoint<?>> disconnectEndpoints) throws InvalidGraphException;
-	Set<EE> recursiveLeaveAll(final Set<? extends Endpoint<?>> disconnectEndpoints) throws InvalidGraphException;
+	void leaveAll(final Set<? extends Cloud.Endpoint<?>> disconnectEndpoints) throws InvalidGraphException;
+	Set<EE> recursiveLeaveAll(final Set<? extends Cloud.Endpoint<?>> disconnectEndpoints) throws InvalidGraphException;
 	void clearAll() throws InvalidGraphException;
 }

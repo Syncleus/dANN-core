@@ -22,7 +22,7 @@ import java.util.Set;
 
 public interface TraversableCloudGraph<
 	  	NE extends TraversableCloudGraph.NodeEndpoint<?>,
-	  	EE extends TraversableCloudGraph.EdgeEndpoint<? extends TraversableCloud<?>>
+	  	EE extends TraversableCloudGraph.EdgeEndpoint<? extends Cloud<?>>
 	  >  extends CloudGraph<NE,EE>, TraversableCloud<NE>
 {
 	interface Endpoint<
@@ -39,14 +39,18 @@ public interface TraversableCloudGraph<
 	};
 
 	interface EdgeEndpoint<
-		  	T extends TraversableCloud<?>
+		  	T extends Cloud<?>
 		> extends CloudGraph.EdgeEndpoint<T>, Endpoint<T>
 	{
 	};
 
+	CloudTraverser<? super Cloud<?>> getCloudTraverser();
 
-	Set<EE> getTraversableEdgesFrom(Endpoint<?> source);
-	Set<EE> getTraversableEdgesTo(Endpoint<?> destination);
+//	Set<EE> getTraversableEdgesFrom(NE source);
+//	Set<EE> getTraversableEdgesTo(NE destination);
+
+	Endpoints<NE,EE> getGraphTraversableFrom(Cloud.Endpoint<?> source);
+	Endpoints<NE,EE> getGraphTraversableTo(Cloud.Endpoint<?> destination);
 
 	/**
 	 * Get a list of all reachable nodes adjacent to node. All edges connected to
@@ -61,7 +65,7 @@ public interface TraversableCloudGraph<
 	 *         from the spevified node, empty set if the node has no edges.
 	 * @since 2.0
 	 */
-	EndpointSets<NE,EE> getTraversableAdjacentTo(Endpoint<?> destination);
+	Endpoints<NE,EE> getTraversableAdjacentTo(Cloud.Endpoint<?> destination);
 
 	/**
 	 * Get a set of all edges which you can traverse from node. Of course node will
@@ -72,5 +76,5 @@ public interface TraversableCloudGraph<
 	 * @return An unmodifiable set of all edges that can be traversed from node.
 	 * @since 2.0
 	 */
-	EndpointSets<NE,EE> getTraversableAdjacentFrom(Endpoint<?> destination);
+	Endpoints<NE,EE> getTraversableAdjacentFrom(Cloud.Endpoint<?> destination);
 }

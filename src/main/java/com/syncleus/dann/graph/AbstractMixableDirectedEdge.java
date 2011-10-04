@@ -18,16 +18,84 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface MixableDirectedEdge<
-	  	E extends MixableBidirectedEdge.Endpoint<?>,
+public abstract class AbstractMixableDirectedEdge<
+	    E extends MixableDirectedEdge.Endpoint<?>,
 	  	SE extends E,
 	  	DE extends E
-	  > extends MixableBidirectedEdge<E, SE, DE>
+	  > extends AbstractMixableBidirectedEdge<E,SE,DE> implements MixableDirectedEdge<E,SE,DE>
 {
-	interface Endpoint<T> extends MixableBidirectedEdge.Endpoint<T>
-	{
-	};
+	private static final long serialVersionUID = -5892401329886611386L;
 
-	SE getSourceEndpoint();
-	DE getDestinationEndpoint();
+	@Override
+	public final SE getLeftEndpoint()
+	{
+		return this.getSourceEndpoint();
+	}
+
+	@Override
+	public final DE getRightEndpoint()
+	{
+		return this.getDestinationEndpoint();
+	}
+
+	@Override
+	public final boolean isIntroverted()
+	{
+		return false;
+	}
+
+	@Override
+	public final boolean isExtroverted()
+	{
+		return false;
+	}
+
+	@Override
+	public final boolean isDirected()
+	{
+		return true;
+	}
+
+	@Override
+	public final boolean isHalfEdge()
+	{
+		return false;
+	}
+
+	@Override
+	public final boolean isLooseEdge()
+	{
+		return false;
+	}
+
+	@Override
+	public final boolean isOrdinaryEdge()
+	{
+		return true;
+	}
+
+	@Override
+	public String toString()
+	{
+		return this.getSourceEndpoint().getTarget() + "->" + this.getDestinationEndpoint().getTarget();
+	}
+
+	@Override
+	protected AbstractMixableDirectedEdge<E,SE,DE> clone()
+	{
+		return (AbstractMixableDirectedEdge<E,SE,DE>) super.clone();
+	}
+
+	protected abstract class AbstractEndpoint<T> extends AbstractMixableBidirectedEdge<E,SE,DE>.AbstractEndpoint<T> implements MixableDirectedEdge.Endpoint<T>
+	{
+		protected AbstractEndpoint(Direction direction)
+		{
+			super(direction);
+		}
+
+		protected AbstractEndpoint(T target, Direction direction)
+		{
+			super(target,direction);
+		}
+	};
 }

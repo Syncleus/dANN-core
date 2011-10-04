@@ -24,7 +24,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public abstract class AbstractBidirectedAdjacencyGraph<N, E extends BidirectedEdge<N>> extends AbstractAdjacencyGraph<N, E> implements BidirectedGraph<N, E>
+public abstract class AbstractBidirectedAdjacencyGraph<N, E extends BidirectedEdge<N>> extends AbstractCloudGraph<N, E> implements BidirectedGraph<N, E>
 {
 	protected AbstractBidirectedAdjacencyGraph()
 	{

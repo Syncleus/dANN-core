@@ -18,99 +18,128 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.ArrayList;
+import com.syncleus.dann.graph.cycle.CycleFinder;
+import com.syncleus.dann.graph.cycle.ExhaustiveDepthFirstSearchCycleFinder;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public abstract class AbstractPath<N, E extends Cloud<N>> extends AbstractWalk<N, E> implements Path<N, E>
+public abstract class AbstractPath<N, E extends Cloud<N>> implements Path<N, E>
 {
-	@Override
 	protected boolean verify(final List<N> nodeSteps, final List<E> edgeSteps)
 	{
-		return ((super.verify(nodeSteps, edgeSteps)) && (verifyUtility(nodeSteps, edgeSteps)));
-	}
-
-	static <N, E extends Cloud<N>> boolean verifyUtility(final List<N> nodeSteps, final List<E> edgeSteps)
-	{
-		if( nodeSteps.size() < 2 )
+		if( edgeSteps == null )
+			throw new IllegalArgumentException("steps can not be null");
+		if( edgeSteps.contains(null) )
+			throw new IllegalArgumentException("steps can not contain a null");
+		if( nodeSteps == null )
+			throw new IllegalArgumentException("nodeSteps can not be null");
+		if( nodeSteps.contains(null) )
+			throw new IllegalArgumentException("nodeSteps can not contain a null");
+		if( (nodeSteps.size() != (edgeSteps.size() + 1)) || (nodeSteps.size() < 2) || (edgeSteps.size() < 1) )
 			throw new IllegalArgumentException("Wrong number of nodes or steps");
-		return !(nodeSteps.get(0).equals(nodeSteps.get(nodeSteps.size() - 1)));
+		int nextNodeIndex = 0;
+		for(final E edgeStep : edgeSteps)
+		{
+			if( !edgeStep.getTargets().contains(nodeSteps.get(nextNodeIndex)) )
+				return false;
+			nextNodeIndex++;
+		}
+		return edgeSteps.get(edgeSteps.size() - 1).getTargets().contains(nodeSteps.get(nextNodeIndex));
 	}
 
 	@Override
-	public boolean isChain()
+	public boolean isClosed()
 	{
-		return isChain(this);
-	}
-
-	protected static <N, E extends Cloud<N>> boolean isChain(final Path<N, E> path)
-	{
-		final Set<N> uniqueNodes = new HashSet<N>(path.getNodeSteps());
-		final Set<E> uniqueEdges = new HashSet<E>(path.getSteps());
-		if( uniqueNodes.size() < path.getNodeSteps().size() )
-			return false;
-		return !(uniqueEdges.size() < path.getSteps().size());
+		return this.getNodeSteps().get(0).equals(this.getNodeSteps().get(this.getNodeSteps().size() - 1));
 	}
 
 	@Override
-	public boolean isIndependent(final Path<N, E> path)
+	public int getLength()
 	{
-		return AbstractPath.isIndependentUtility(this, path);
-	}
-
-	static <N, E extends Cloud<N>> boolean isIndependentUtility(final Path<N, E> firstPath, final Path<N, E> secondPath)
-	{
-		if( !firstPath.getFirstNode().equals(secondPath.getFirstNode()) )
-			return false;
-		if( !firstPath.getLastNode().equals(secondPath.getLastNode()) )
-			return false;
-		final List<N> exclusiveFirstNodes = new ArrayList<N>(firstPath.getNodeSteps());
-		exclusiveFirstNodes.remove(exclusiveFirstNodes.size() - 1);
-		exclusiveFirstNodes.remove(0);
-		final List<N> secondNodes = new ArrayList<N>(secondPath.getNodeSteps());
-		secondNodes.remove(secondNodes.size() - 1);
-		secondNodes.remove(0);
-		exclusiveFirstNodes.removeAll(secondNodes);
-		return !(exclusiveFirstNodes.size() < firstPath.getNodeSteps().size());
+		return this.getSteps().size();
 	}
 
 	@Override
+	public boolean isTrail()
+	{
+		final Set<E> edgeSet = new HashSet<E>(this.getSteps());
+		return edgeSet.size() >= this.getSteps().size();
+	}
+
+	@Override
+	public boolean isTour()
+	{
+		return (this.isTrail()) && (this.isClosed());
+	}
+
 	public boolean isCycle()
 	{
+		return this.getNodeSteps().get(0).equals(this.getNodeSteps().get(this.getNodeSteps().size() - 1));
+	}
+
+	@Override
+	public boolean hasChildCycles()
+	{
+		final CloudGraph<N, E> graph = new ImmutableAdjacencyGraph<N, E>(new HashSet<N>(this.getNodeSteps()), new HashSet<E>(this.getSteps()));
+		final CycleFinder<N, E> finder = new ExhaustiveDepthFirstSearchCycleFinder<N, E>();
+		if( this.isCycle() )
+			if( finder.cycleCount(graph) > 1 )
+				return true;
+			else if( finder.hasCycle(graph) )
+				return true;
 		return false;
 	}
 
-	static int hashCodeUtility(final Path path)
+	protected double calculateWeight(final double defaultWeight)
 	{
-		return (path.getNodeSteps().hashCode() + path.getSteps().hashCode()) * path.getSteps().hashCode();
-	}
-
-	static boolean equalsUtility(final Path path, final Object object)
-	{
-		if( (path == null) || (object == null) )
-			return false;
-		final Path secondPath = (Path) object;
-		if( !(secondPath.getNodeSteps().equals(path.getNodeSteps())) )
-			return false;
-		return secondPath.getSteps().equals(path.getSteps());
+		double newTotalWeight = 0.0;
+		for(final E step : this.getSteps())
+		{
+			if( step instanceof Weighted )
+				newTotalWeight += ((Weighted) step).getWeight();
+			else
+				newTotalWeight += defaultWeight;
+		}
+		for(final N step : this.getNodeSteps())
+		{
+			if( step instanceof Weighted )
+				newTotalWeight += ((Weighted) step).getWeight();
+			else
+				newTotalWeight += defaultWeight;
+		}
+		return newTotalWeight;
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return AbstractPath.hashCodeUtility(this);
+		final Set<N> uniqueNodes = new HashSet<N>(this.getNodeSteps());
+		final Set<E> uniqueEdges = new HashSet<E>(this.getSteps());
+		return (uniqueNodes.hashCode() + uniqueEdges.hashCode()) * uniqueEdges.hashCode();
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public boolean equals(final Object object)
 	{
 		if( object == null )
 			return false;
-
-		if( !(object instanceof Path) )
+		if( object.getClass() != this.getClass() )
 			return false;
+		final Path path = (Path) object;
+		final Set uniqueNodes = new HashSet<N>(this.getNodeSteps());
+		final Set uniqueEdges = new HashSet<E>(this.getSteps());
+		final Set otherUniqueNodes = new HashSet(path.getNodeSteps());
+		final Set otherUniqueEdges = new HashSet(path.getSteps());
+		if( !(uniqueNodes.equals(otherUniqueNodes)) )
+			return false;
+		return uniqueEdges.equals(otherUniqueEdges);
+	}
 
-		return AbstractPath.equalsUtility(this, object);
+	@Override
+	public String toString()
+	{
+		return this.getSteps().toString();
 	}
 }

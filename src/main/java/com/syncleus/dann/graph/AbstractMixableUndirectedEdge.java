@@ -18,16 +18,54 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface MixableDirectedEdge<
-	  	E extends MixableBidirectedEdge.Endpoint<?>,
-	  	SE extends E,
-	  	DE extends E
-	  > extends MixableBidirectedEdge<E, SE, DE>
+public abstract class AbstractMixableUndirectedEdge<
+	    E extends MixableBidirectedEdge.Endpoint<?>,
+	  	LE extends E,
+	  	RE extends E
+	  > extends AbstractMixableBidirectedEdge<E,LE,RE> implements MixableBidirectedEdge<E,LE,RE>
 {
-	interface Endpoint<T> extends MixableBidirectedEdge.Endpoint<T>
-	{
-	};
+	private static final long serialVersionUID = 20943589023542L;
 
-	SE getSourceEndpoint();
-	DE getDestinationEndpoint();
+	@Override
+	public final boolean isIntroverted()
+	{
+		return false;
+	}
+
+	@Override
+	public final boolean isExtroverted()
+	{
+		return false;
+	}
+
+	@Override
+	public final boolean isDirected()
+	{
+		return false;
+	}
+
+	@Override
+	public final boolean isHalfEdge()
+	{
+		return false;
+	}
+
+	@Override
+	public final boolean isLooseEdge()
+	{
+		return true;
+	}
+
+	@Override
+	public final boolean isOrdinaryEdge()
+	{
+		return false;
+	}
+
+	@Override
+	protected AbstractMixableUndirectedEdge<E,LE,RE> clone()
+	{
+		return (AbstractMixableUndirectedEdge<E,LE,RE>) super.clone();
+	}
 }
+

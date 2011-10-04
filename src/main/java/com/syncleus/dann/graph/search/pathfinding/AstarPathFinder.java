@@ -28,7 +28,7 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
-public class AstarPathFinder<N, E extends Cloud<? extends N, ? extends Cloud.Endpoint<? extends N>>> implements PathFinder<N, E>
+public class AstarPathFinder<N, E extends Cloud<? extends N, ? extends Cloud.Endpoint<? extends N>>> implements WalkFinder<N, E>
 {
 	private final CloudGraph<N, E, ?, ?> graph;
 	private final HeuristicPathCost<N> heuristicPathCost;

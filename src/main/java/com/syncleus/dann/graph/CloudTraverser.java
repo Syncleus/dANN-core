@@ -18,16 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface MixableDirectedEdge<
-	  	E extends MixableBidirectedEdge.Endpoint<?>,
-	  	SE extends E,
-	  	DE extends E
-	  > extends MixableBidirectedEdge<E, SE, DE>
+public interface CloudTraverser<C extends Cloud<?>>
 {
-	interface Endpoint<T> extends MixableBidirectedEdge.Endpoint<T>
-	{
-	};
-
-	SE getSourceEndpoint();
-	DE getDestinationEndpoint();
+	boolean isTraversable(C cloud, Cloud.Endpoint<?> startTarget, Cloud.Endpoint<?> endTarget);
 }

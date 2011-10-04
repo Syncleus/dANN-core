@@ -18,10 +18,23 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface Path<N, E extends Cloud<N>> extends Walk<N, E>
+import java.util.List;
+
+public interface Path<
+	  	E extends TraversableCloud.Endpoint<?>
+	  > extends TraversableCloud<E>
 {
-	N getFirstNode();
-	N getLastNode();
-	boolean isChain();
-	boolean isIndependent(Path<N, E> path);
+	interface Endpoint<T> extends TraversableCloud.Endpoint<T>
+	{
+	}
+
+	E getFirst();
+	E getLast();
+	E getNext(TraversableCloud.Endpoint<?> current);
+
+	boolean isClosed();
+	boolean isFinite();
+	boolean hasChildCycles();
+
+	boolean isIndependent(Path<?> path);
 }

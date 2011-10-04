@@ -21,7 +21,7 @@ package com.syncleus.dann.graph;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimpleCycle<N, E extends Cloud<N>> extends SimpleWalk<N, E> implements Cycle<N, E>
+public class SimpleCycle<N, E extends Cloud<N>> extends SimplePath<N, E> implements Cycle<N, E>
 {
 	public SimpleCycle(final List<E> steps, final List<N> nodes, final double defaultWeight)
 	{

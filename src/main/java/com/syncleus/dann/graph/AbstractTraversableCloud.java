@@ -21,42 +21,59 @@ package com.syncleus.dann.graph;
 import java.util.*;
 
 public abstract class AbstractTraversableCloud<
-	  	T,
-	  	EP extends TraversableCloud.Endpoint<T,? extends T>
-	  > extends AbstractCloud<T, EP> implements TraversableCloud<T,EP>
+	  	E extends TraversableCloud.Endpoint<?>
+	  > extends AbstractCloud<E> implements TraversableCloud<E>
 {
 	@Override
-	public Set<T> getTraversableFrom(Object source)
+	public Set<E> getTraversableFrom(TraversableCloud.Endpoint<?> source)
 	{
-		final Set<T> nodes = new HashSet<T>();
-		for( final EP sourceEndpoint : this.getEndpoints(source) )
-			for( final TraversableCloud.Endpoint<T,? extends T> fromEndpoint : sourceEndpoint.getTraversableNeighborsFrom())
-				nodes.add(fromEndpoint.getTarget());
+		final Set<E> traversableEndpoints = new HashSet<E>();
+		for( final E toEndpoint : getNeighbors(source))
+			if( this.isTraversable(source, toEndpoint) )
+				traversableEndpoints.add(toEndpoint);
 
-		return Collections.unmodifiableSet(nodes);
+		return Collections.unmodifiableSet(traversableEndpoints);
 	}
 
 	@Override
-	public Set<T> getTraversableTo(Object destination)
+	public Set<E> getTraversableTo(TraversableCloud.Endpoint<?> destination)
 	{
-		final Set<T> nodes = new HashSet<T>();
-		for( final EP destinationEndpoint : this.getEndpoints(destination) )
-			for( final TraversableCloud.Endpoint<T,? extends T> fromEndpoint : destinationEndpoint.getTraversableNeighborsTo())
-				nodes.add(fromEndpoint.getTarget());
+		final Set<E> traversableEndpoints = new HashSet<E>();
+		for( final E fromEndpoint : getNeighbors(destination) )
+			if( this.isTraversable(fromEndpoint, destination))
+				traversableEndpoints.add(fromEndpoint);
 
-		return Collections.unmodifiableSet(nodes);
+		return Collections.unmodifiableSet(traversableEndpoints);
 	}
 
-	protected abstract class AbstractEndpoint<P,T> extends AbstractEndpoint<P,T> implements TraversableCloud.Endpoint<P,T>
+	@Override
+	public boolean isTraversableFrom(TraversableCloud.Endpoint<?> source)
 	{
+		return !this.getTraversableFrom(source).isEmpty();
+	}
+
+	@Override
+	public boolean isTraversableTo(TraversableCloud.Endpoint<?> destination)
+	{
+		return !this.getTraversableTo(destination).isEmpty();
+	}
+
+	protected abstract class AbstractEndpoint<T> extends AbstractCloud<E>.AbstractEndpoint<T> implements TraversableCloud.Endpoint<T>
+	{
+		protected AbstractEndpoint()
+		{
+			super();
+		}
+
+/*
 		@Override
-		public Set<TraversableCloud.Endpoint<P,P>> getTraversableNeighborsTo()
+		public Set<TraversableCloud.Endpoint<T>> TraversableNeighborsTo()
 		{
 			final Set<TraversableCloud.Endpoint<P,P>> traversables = new HashSet<TraversableCloud.Endpoint<P,P>>();
-			for(EP neighbor : AbstractTraversableCloud.this.getEndpoints())
+			for(E neighbor : AbstractTraversableCloud.this.getEndpoints())
 				if( AbstractTraversableCloud.this.isTraversable(this.getTarget(),neighbor.getTarget()) )
 					traversables.add(neighbor);
-			return Collections.unmodifiableSet(traversables);
+			return null;
 		}
 
 		@Override
@@ -79,6 +96,31 @@ public abstract class AbstractTraversableCloud<
 		public boolean isTraversable(Cloud.Endpoint<?> destination)
 		{
 			return AbstractCloud.this.isTraversable(this.getTarget(), destination.getTarget());
+		}
+*/
+
+		@Override
+		public boolean isTraversableFrom(TraversableCloud.Endpoint<?> target)
+		{
+			return isTraversable(target, this);
+		}
+
+		@Override
+		public boolean isTraversableTo(TraversableCloud.Endpoint<?> target)
+		{
+			return isTraversable(this, target);
+		}
+
+		@Override
+		public boolean isTraversableFrom()
+		{
+			return isTraversableFrom(this);
+		}
+
+		@Override
+		public boolean isTraversableTo()
+		{
+			return isTraversableTo(this);
 		}
 	}
 }

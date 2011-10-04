@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public abstract class AbstractHyperedge<N> extends AbstractEdge<N> implements Hyperedge<N>
+public abstract class AbstractHyperedge<E extends Hyperedge.Endpoint<?>> extends AbstractCloud<E> implements Hyperedge<E>
 {
 	private static final long serialVersionUID = -3657973823101515199L;
 
@@ -118,65 +118,21 @@ public abstract class AbstractHyperedge<N> extends AbstractEdge<N> implements Hy
 	}
 
 	@Override
-	protected AbstractHyperedge<N> clone()
+	protected AbstractHyperedge<E> clone()
 	{
-		return (AbstractHyperedge<N>) super.clone();
-/*
-		final AbstractHyperedge<N> clonedEdge = (AbstractHyperedge<N>) super.clone();
-
-		if( !this.contextEnabled )
-			return clonedEdge;
-
-		List<ContextNode> connectedNodes = new ArrayList<ContextNode>();
-		try
-		{
-			for(N node : this.nodes)
-			{
-				if( node instanceof ContextNode )
-				{
-					ContextNode contextNode = (ContextNode)node;
-					contextNode.connectingEdge(clonedEdge);
-					contextNode.connectedEdge(clonedEdge);
-					connectedNodes.add(contextNode);
-				}
-			}
-		}
-		catch(RejectedContextException caught)
-		{
-			//we need to leave all the connections we made
-			for(ContextNode connectedNode : connectedNodes)
-				connectedNode.disconnectedEdge(clonedEdge);
-			throw new InvalidContextException(caught);
-		}
-
-		return clonedEdge;
-*/
+		return (AbstractHyperedge<E>) super.clone();
 	}
 
-	protected abstract class AbstractEndpoint<EN extends N, ON extends N> extends AbstractEdge.AbstractEndpoint<EN> implements Hyperedge.Endpoint<N, EN>
+	protected abstract class AbstractEndpoint<T> extends AbstractCloud<E>.AbstractEndpoint<T> implements Hyperedge.Endpoint<T>
 	{
-		private EN node = null;
-
 		protected AbstractEndpoint()
 		{
 			super();
 		}
 
-		protected AbstractEndpoint(EN node)
+		protected AbstractEndpoint(T target)
 		{
-			super();
-			this.node = node;
-		}
-
-		@Override
-		public EN getTarget()
-		{
-			return this.node;
-		}
-
-		public void setTarget(final EN node)
-		{
-			this.node = node;
+			super(target);
 		}
 	};
 }

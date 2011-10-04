@@ -20,12 +20,13 @@ package com.syncleus.dann.graph.search.pathfinding;
 
 import java.util.List;
 import com.syncleus.dann.graph.Cloud;
+import com.syncleus.dann.graph.Path;
 
 // TODO implement optimizer approach
 
-public interface PathFinder<N, E extends Cloud<? extends N, ? extends Cloud.Endpoint<? extends N>>>
+public interface PathFinder<P extends Path<?>>
 {
-	List<E> getBestPath(N begin, N end);
-	boolean isReachable(N begin, N end);
-	boolean isConnected(N begin, N end);
+	P getBestPath(Object begin, Object end);
+	boolean isReachable(Object begin, Object end);
+	boolean isConnected(Object begin, Object end);
 }
