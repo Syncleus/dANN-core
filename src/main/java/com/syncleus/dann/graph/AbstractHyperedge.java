@@ -111,8 +111,8 @@ public abstract class AbstractHyperedge<E extends Hyperedge.Endpoint<?>> extends
 	}
 */
 	// TODO : Implement This!
-	@Override
-	public boolean isSymmetric(final Hyperedge symmetricEdge)
+    @Override
+	public boolean isSymmetric(Hyperedge<? extends E> symmetricEdge)
 	{
 		throw new UnsupportedOperationException("this operation is not yet supported");
 	}

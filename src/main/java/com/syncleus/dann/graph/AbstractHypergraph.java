@@ -20,22 +20,10 @@ package com.syncleus.dann.graph;
 
 import java.util.Set;
 
-public abstract class AbstractHypergraph<N, E extends Hyperedge<N>> extends AbstractCloudGraph<N, E> implements Hypergraph<N, E>
+public abstract class AbstractHypergraph<
+	  	NE extends Hypergraph.NodeEndpoint<?>,
+	  	EE extends Hypergraph.EdgeEndpoint<? extends Cloud<?>>> extends AbstractCloudGraph<NE,EE> implements Hypergraph<NE,EE>
 {
-	protected AbstractHypergraph()
-	{
-		super();
-	}
-
-	protected AbstractHypergraph(final CloudGraph<N, E> copyGraph)
-	{
-		super(copyGraph.getTargets(), copyGraph.getEdges());
-	}
-
-	protected AbstractHypergraph(final Set<N> nodes, final Set<E> edges)
-	{
-		super(nodes, edges);
-	}
 
 	/**
 	 * This will always return false.
@@ -81,8 +69,8 @@ public abstract class AbstractHypergraph<N, E extends Hyperedge<N>> extends Abst
 	}
 
 	@Override
-	protected AbstractHypergraph<N, E> clone()
+	protected AbstractHypergraph<NE, EE> clone()
 	{
-		return (AbstractHypergraph<N, E>) super.clone();
+		return (AbstractHypergraph<NE, EE>) super.clone();
 	}
 }
