@@ -24,42 +24,52 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public abstract class AbstractBidirectedAdjacencyGraph<N, E extends BidirectedEdge<N>> extends AbstractCloudGraph<N, E> implements BidirectedGraph<N, E>
+public abstract class AbstractBidirectedAdjacencyGraph<
+        NE extends BidirectedGraph.NodeEndpoint<?>,
+        EE extends BidirectedGraph.EdgeEndpoint<?>
+        > extends AbstractCloudGraph<NE, EE> implements BidirectedGraph<NE, EE>
 {
+/*
 	protected AbstractBidirectedAdjacencyGraph()
 	{
 		super();
 	}
 
-	protected AbstractBidirectedAdjacencyGraph(final CloudGraph<N, E> copyGraph)
+	protected AbstractBidirectedAdjacencyGraph(final CloudGraph<NE, EE> copyGraph)
 	{
 		super(copyGraph.getTargets(), copyGraph.getEdges());
 	}
 
-	protected AbstractBidirectedAdjacencyGraph(final Set<N> nodes, final Set<E> edges)
+	protected AbstractBidirectedAdjacencyGraph(final Set<NE> nodes, final Set<EE> edges)
 	{
 		super(nodes, edges);
 	}
-
+*/
+/*
 	@Override
-	public Set<E> getInEdges(final N node)
+	public Set<EE> getInEdges(final NE nodeEndpoint)
 	{
-		final Set<E> inEdges = new HashSet<E>();
-		for(final E edge : this.getEdges())
+		final Set<EE> inEdges = new HashSet<EE>();
+		for(final EE edgeEndpoint : this.getEdgeEndpoints())
 		{
-			final List<N> adjacentNodes = new ArrayList<N>(edge.getTargets());
-			adjacentNodes.remove(node);
-			final N adjacentNode = adjacentNodes.get(0);
+            if( edgeEndpoint.isTraversableTo(nodeEndpoint) )
+                inEdges.add(edgeEndpoint);
 
-			if( edge.isTraversable(adjacentNode) && edge.getTraversableNodes(adjacentNode).contains(node) )
-				inEdges.add(edge);
+//			final List<BidirectedEdge<?>> adjacentNodes = Collections.<BidirectedEdge<?>>singletonList(edgeEndpoint.getTarget());
+//			adjacentNodes.remove(nodeEndpoint);
+//			final NE adjacentNode = adjacentNodes.get(0);
+
+//			if( edgeEndpoint.isTraversable(adjacentNode) && edgeEndpoint.getTraversableNodes(adjacentNode).contains(nodeEndpoint) )
+//				inEdges.add(edgeEndpoint);
+
 		}
 		return Collections.unmodifiableSet(inEdges);
 	}
+*/
 
 	@Override
-	protected AbstractBidirectedAdjacencyGraph<N, E> clone()
+	protected AbstractBidirectedAdjacencyGraph<NE, EE> clone()
 	{
-		return (AbstractBidirectedAdjacencyGraph<N, E>) super.clone();
+		return (AbstractBidirectedAdjacencyGraph<NE, EE>) super.clone();
 	}
 }

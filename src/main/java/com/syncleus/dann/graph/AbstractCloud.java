@@ -363,7 +363,7 @@ public abstract class AbstractCloud<
 			return this.target;
 		}
 
-		protected void setTarget(final T target)
+		protected void setTarget(final T target) throws InvalidGraphException
 		{
 			this.target = target;
 		}

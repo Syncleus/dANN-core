@@ -20,13 +20,16 @@ package com.syncleus.dann.graph;
 
 import java.util.Set;
 
-public abstract class AbstractDirectedAdjacencyGraph<N, E extends DirectedEdge<N>> extends AbstractBidirectedAdjacencyGraph<N, E> implements DirectedGraph<N, E>
+public abstract class AbstractDirectedAdjacencyGraph<
+        NE extends DirectedGraph.NodeEndpoint<?>,
+        EE extends DirectedGraph.EdgeEndpoint<?>
+        > extends AbstractBidirectedAdjacencyGraph<NE, EE> implements DirectedGraph<NE, EE>
 {
 	protected AbstractDirectedAdjacencyGraph()
 	{
 		super();
 	}
-
+/*
 	protected AbstractDirectedAdjacencyGraph(final CloudGraph<N, E> copyGraph)
 	{
 		super(copyGraph.getTargets(), copyGraph.getEdges());
@@ -35,11 +38,12 @@ public abstract class AbstractDirectedAdjacencyGraph<N, E extends DirectedEdge<N
 	protected AbstractDirectedAdjacencyGraph(final Set<N> nodes, final Set<E> edges)
 	{
 		super(nodes, edges);
-	}
+	}                          \
+*/
 
 	@Override
-	protected AbstractDirectedAdjacencyGraph<N, E> clone()
+	protected AbstractDirectedAdjacencyGraph<NE, EE> clone()
 	{
-		return (AbstractDirectedAdjacencyGraph<N, E>) super.clone();
+		return (AbstractDirectedAdjacencyGraph<NE, EE>) super.clone();
 	}
 }

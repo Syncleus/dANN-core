@@ -328,10 +328,10 @@ public abstract class AbstractLocalBrain<IN extends InputNeuron, ON extends Outp
 	}
 
 	@Override
-	public Set<S> getInEdges(final N node)
+	public Set<S> getInEdges(final N nodeEndpoint)
 	{
-		if( this.inMap.containsKey(node) )
-			return Collections.unmodifiableSet(this.inMap.get(node));
+		if( this.inMap.containsKey(nodeEndpoint) )
+			return Collections.unmodifiableSet(this.inMap.get(nodeEndpoint));
 		return Collections.emptySet();
 	}
 

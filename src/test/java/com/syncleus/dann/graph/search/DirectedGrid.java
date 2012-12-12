@@ -121,9 +121,9 @@ public class DirectedGrid extends AbstractBidirectedAdjacencyGraph<GridNode, Dir
 		return this.getTraversableAdjacentEdges(node);
 	}
 
-	public Set<DirectedEdge<GridNode>> getInEdges(final GridNode node)
+	public Set<DirectedEdge<GridNode>> getInEdges(final GridNode nodeEndpoint)
 	{
-		final Set<DirectedEdge<GridNode>> newEdges = new HashSet<DirectedEdge<GridNode>>(this.inNeighborEdges.get(node));
+		final Set<DirectedEdge<GridNode>> newEdges = new HashSet<DirectedEdge<GridNode>>(this.inNeighborEdges.get(nodeEndpoint));
 		return Collections.unmodifiableSet(newEdges);
 	}
 

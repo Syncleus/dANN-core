@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public abstract class AbstractWeightedBidirectedEdge<N, LN extends N, RN extends N> extends AbstractBidirectedEdge<N, LN,RN> implements WeightedMixableBidirectedEdge<LN,RN,N>
+public abstract class AbstractWeightedBidirectedEdge<E extends BidirectedEdge.Endpoint<?>> extends AbstractBidirectedEdge<E> implements Weighted
 {
 	private final double weight;
 
@@ -27,7 +27,7 @@ public abstract class AbstractWeightedBidirectedEdge<N, LN extends N, RN extends
 		super();
 		this.weight = weight;
 	}
-
+/*
 	protected AbstractWeightedBidirectedEdge(final double weight, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
 	{
 		super(allowJoiningMultipleGraphs, contextEnabled);
@@ -47,6 +47,7 @@ public abstract class AbstractWeightedBidirectedEdge<N, LN extends N, RN extends
 
 		this.weight = ourWeight;
 	}
+*/
 
 	@Override
 	public double getWeight()
@@ -55,8 +56,8 @@ public abstract class AbstractWeightedBidirectedEdge<N, LN extends N, RN extends
 	}
 
 	@Override
-	protected AbstractWeightedBidirectedEdge<N, LN,RN> clone()
+	protected AbstractWeightedBidirectedEdge<E> clone()
 	{
-		return (AbstractWeightedBidirectedEdge<N, LN,RN>) super.clone();
+		return (AbstractWeightedBidirectedEdge<E>) super.clone();
 	}
 }

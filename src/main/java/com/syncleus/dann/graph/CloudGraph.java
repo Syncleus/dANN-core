@@ -31,8 +31,8 @@ import java.util.Set;
  *
  * @author Jeffrey Phillips Freeman
  * @since 2.0
- * @param <N> The node type
- * @param <E> The type of edge for the given node type
+ * @param <NE> The node type
+ * @param <EE> The type of edge for the given node type
  */
 public interface CloudGraph<
 	  	NE extends CloudGraph.NodeEndpoint<?>,

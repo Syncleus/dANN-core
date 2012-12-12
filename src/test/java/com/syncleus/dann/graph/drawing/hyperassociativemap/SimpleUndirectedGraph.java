@@ -89,9 +89,9 @@ public class SimpleUndirectedGraph extends AbstractBidirectedAdjacencyGraph<Simp
 		return Collections.unmodifiableSet(this.neighborEdges.get(node));
 	}
 
-	public Set<BidirectedEdge<SimpleNode>> getInEdges(final SimpleNode node)
+	public Set<BidirectedEdge<SimpleNode>> getInEdges(final SimpleNode nodeEndpoint)
 	{
-		return this.getAdjacentEdges(node);
+		return this.getAdjacentEdges(nodeEndpoint);
 	}
 
 	public int getIndegree(final SimpleNode node)

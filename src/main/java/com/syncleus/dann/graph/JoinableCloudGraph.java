@@ -23,7 +23,7 @@ import java.util.Set;
 
 public interface JoinableCloudGraph<
 	  	N,
-	  	NE extends JoinableCloudGraph.NodeEndpoint<N>,
+	  	NE extends JoinableCloudGraph.NodeEndpoint<? super N>,
 	  	E extends Cloud<? extends Cloud.Endpoint<? extends N>>,
 	  	EE extends JoinableCloudGraph.EdgeEndpoint<E>
 	  >  extends CloudGraph<NE,EE>, JoinableCloud<N,NE>

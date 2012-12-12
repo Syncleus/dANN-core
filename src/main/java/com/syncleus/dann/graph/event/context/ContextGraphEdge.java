@@ -22,8 +22,8 @@ import java.util.Set;
 import com.syncleus.dann.graph.CloudGraph;
 
 public interface ContextGraphEdge<
-	  	GEE extends CloudGraph.EdgeEndpoint<?,?>,
-	  	G extends CloudGraph<?, ?, ?, ? extends GEE>
+	  	GEE extends CloudGraph.EdgeEndpoint<?>,
+	  	G extends CloudGraph<?, ? extends GEE>
 	  >
 {
 	void changingGraphEdgeContext( Set<? extends G> joiningContexts, Set<?> leavingContexts) throws RejectedContextException;

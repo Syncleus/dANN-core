@@ -36,7 +36,7 @@ import java.util.Set;
 public interface BidirectedGraph<
 	  	NE extends BidirectedGraph.NodeEndpoint<?>,
 	  	EE extends BidirectedGraph.EdgeEndpoint<?>
-	  > extends TraversableGraph<NE, EE>, BidirectedCloud<NE>
+	  > extends TraversableGraph<NE, EE>
 {
 	interface Endpoint<
 		  	T

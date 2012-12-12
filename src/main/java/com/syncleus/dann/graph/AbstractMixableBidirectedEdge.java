@@ -78,7 +78,7 @@ public abstract class AbstractMixableBidirectedEdge<
 	}
 
 	@Override
-	public Set<E> getTraversableFrom(TraversableCloud.Endpoint<?> source)
+	public Set<E> getTraversableFrom(Cloud.Endpoint<?> source)
 	{
 		final Set<E> traversableEndpoints = new HashSet<E>();
 		for( final E toEndpoint : getNeighbors(source))
@@ -89,7 +89,7 @@ public abstract class AbstractMixableBidirectedEdge<
 	}
 
 	@Override
-	public Set<E> getTraversableTo(TraversableCloud.Endpoint<?> destination)
+	public Set<E> getTraversableTo(Cloud.Endpoint<?> destination)
 	{
 		final Set<E> traversableEndpoints = new HashSet<E>();
 		for( final E fromEndpoint : getNeighbors(destination) )
@@ -100,13 +100,13 @@ public abstract class AbstractMixableBidirectedEdge<
 	}
 
 	@Override
-	public boolean isTraversableFrom(TraversableCloud.Endpoint<?> source)
+	public boolean isTraversableFrom(Cloud.Endpoint<?> source)
 	{
 		return !this.getTraversableFrom(source).isEmpty();
 	}
 
 	@Override
-	public boolean isTraversableTo(TraversableCloud.Endpoint<?> destination)
+	public boolean isTraversableTo(Cloud.Endpoint<?> destination)
 	{
 		return !this.getTraversableTo(destination).isEmpty();
 	}
@@ -241,13 +241,13 @@ public abstract class AbstractMixableBidirectedEdge<
 		}
 
 		@Override
-		public boolean isTraversableFrom(TraversableCloud.Endpoint<?> target)
+		public boolean isTraversableFrom(Cloud.Endpoint<?> target)
 		{
 			return isTraversable(target, this);
 		}
 
 		@Override
-		public boolean isTraversableTo(TraversableCloud.Endpoint<?> target)
+		public boolean isTraversableTo(Cloud.Endpoint<?> target)
 		{
 			return isTraversable(this, target);
 		}

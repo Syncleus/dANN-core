@@ -36,9 +36,9 @@ public abstract class AbstractMixableEdge<
 	public Set<E> getNeighbors(Endpoint<?> endpoint)
 	{
 		if(this.getLeftEndpoint().equals(endpoint))
-			return Collections.singleton(this.getRightEndpoint());
+			return Collections.<E>singleton(this.getRightEndpoint());
 		else if(this.getRightEndpoint().equals(endpoint))
-			return Collections.singleton(this.getLeftEndpoint());
+			return Collections.<E>singleton(this.getLeftEndpoint());
 		else
 			return Collections.emptySet();
 	}

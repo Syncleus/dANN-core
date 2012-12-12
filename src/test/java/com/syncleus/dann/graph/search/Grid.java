@@ -102,9 +102,9 @@ public class Grid extends AbstractBidirectedAdjacencyGraph<GridNode, BidirectedE
 		return this.getAdjacentEdges(node);
 	}
 
-	public Set<BidirectedEdge<GridNode>> getInEdges(final GridNode node)
+	public Set<BidirectedEdge<GridNode>> getInEdges(final GridNode nodeEndpoint)
 	{
-		return this.getAdjacentEdges(node);
+		return this.getAdjacentEdges(nodeEndpoint);
 	}
 
 	public int getIndegree(final GridNode node)

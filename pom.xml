@@ -33,13 +33,13 @@
 				<groupId>org.jvnet.jaxb2.maven2</groupId>
 				<artifactId>maven-jaxb2-plugin</artifactId>
 				<version>0.7.4</version>
-				<executions>
+				<!--executions>
 					<execution>
 						<goals>
 							<goal>generate</goal>
 						</goals>
 					</execution>
-				</executions>
+				</executions-->
 				<configuration>
 					<extension>true</extension>
 					<args>
@@ -126,17 +126,17 @@
 	</dependencies>
 
 	<repositories>
-		<repository>
+		<!--repository>
 			<id>snapshots</id>
 			<name>Syncleus Maven Snapshot Respository</name>
-			<url>http://ezekiel2.syncleus.com:8080/archiva/repository/snapshots/</url>
+			<url>http://ezekiel2.syncleus.com:8080/archiva/repository/snapshots</url>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
 			<snapshots>
 				<enabled>true</enabled>
 			</snapshots>
-		</repository>
+		</repository-->
 
 		<repository>
 			<id>freehep-maven</id>

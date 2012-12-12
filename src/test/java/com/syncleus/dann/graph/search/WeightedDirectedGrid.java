@@ -121,9 +121,9 @@ public class WeightedDirectedGrid extends AbstractBidirectedAdjacencyGraph<GridN
 		return this.getTraversableAdjacentEdges(node);
 	}
 
-	public Set<WeightedDirectedEdge<GridNode>> getInEdges(final GridNode node)
+	public Set<WeightedDirectedEdge<GridNode>> getInEdges(final GridNode nodeEndpoint)
 	{
-		final Set<WeightedDirectedEdge<GridNode>> newEdges = new HashSet<WeightedDirectedEdge<GridNode>>(this.inNeighborEdges.get(node));
+		final Set<WeightedDirectedEdge<GridNode>> newEdges = new HashSet<WeightedDirectedEdge<GridNode>>(this.inNeighborEdges.get(nodeEndpoint));
 		return Collections.unmodifiableSet(newEdges);
 	}
 

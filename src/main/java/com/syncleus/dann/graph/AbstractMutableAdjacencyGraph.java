@@ -24,7 +24,7 @@ import com.syncleus.dann.graph.adjacency.HashAdjacencyMapping;
 
 public abstract class AbstractMutableAdjacencyGraph<
 	  	N,
-	  	NE extends MutableCloudGraph.NodeEndpoint<N>,
+	  	NE extends MutableCloudGraph.NodeEndpoint<? super N>,
 	  	E extends Cloud<? extends Cloud.Endpoint<? extends N>>,
 	  	EE extends MutableCloudGraph.EdgeEndpoint<E>
 	  >
@@ -89,7 +89,19 @@ public abstract class AbstractMutableAdjacencyGraph<
 		this.adjacency.removeRightKey(endpoint);
 	}
 
-	@Override
+    protected void internalAssignEdge(Cloud.Endpoint<?> endpoint, N newTarget) throws InvalidGraphException
+    {
+        if(endpoint == null)
+            throw new IllegalArgumentException(("endpoint can not be null"));
+        else if( !this.adjacency.getRightKeys().contains(endpoint) )
+            throw new IllegalArgumentException("endpoint is not an endpoint in this graph");
+
+        this.adjacency.
+
+        this.adjacency.removeRightKey(endpoint);
+    }
+
+//	@Override
 	protected Set<EE> getAdjacentEdgeEndpoints(Cloud.Endpoint<?> nodeEndpoint)
 	{
 		if( !this.adjacency.getLeftKeys().contains(nodeEndpoint) )
@@ -242,7 +254,7 @@ public abstract class AbstractMutableAdjacencyGraph<
 	}
 
 
-	protected abstract class AbstractNodeEndpoint extends AbstractCloudGraph<NE,EE>.AbstractNodeEndpoint implements MutableCloudGraph.NodeEndpoint<N>
+	protected abstract class AbstractNodeEndpoint<N> extends AbstractCloudGraph<NE,EE>.AbstractNodeEndpoint<N> implements MutableCloudGraph.NodeEndpoint<N>
 	{
 		private N target;
 

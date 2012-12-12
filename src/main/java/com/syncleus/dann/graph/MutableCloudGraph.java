@@ -23,7 +23,7 @@ import java.util.Set;
 
 public interface MutableCloudGraph<
 	  	N,
-	  	NE extends MutableCloudGraph.NodeEndpoint<N>,
+	  	NE extends MutableCloudGraph.NodeEndpoint<? super N>,
 	  	E extends Cloud<? extends Cloud.Endpoint<? extends N>>,
 	  	EE extends MutableCloudGraph.EdgeEndpoint<E>
 	  >  extends JoinableCloudGraph<N,NE,E,EE>, PartibleCloudGraph<NE,EE>, AssignableCloudGraph<NE,EE>, MutableCloud<N,NE>

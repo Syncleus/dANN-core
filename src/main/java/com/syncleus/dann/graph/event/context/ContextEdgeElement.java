@@ -23,7 +23,7 @@ import com.syncleus.dann.graph.*;
 
 public interface ContextEdgeElement<
 	  	EE extends Edge.Endpoint<?>,
-	  	E extends Edge<?, ? extends EE>
+	  	E extends Edge<? extends EE>
 	  >
 {
 	void changingEdgeContext( Set<? extends E> joiningContexts, Set<?> leavingContexts) throws RejectedContextException;

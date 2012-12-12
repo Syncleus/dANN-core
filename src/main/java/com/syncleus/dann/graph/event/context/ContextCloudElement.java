@@ -23,7 +23,7 @@ import com.syncleus.dann.graph.Cloud;
 
 public interface ContextCloudElement<
 		  CE extends Cloud.Endpoint<?>,
-		  C extends Cloud<?, ? extends CE>
+		  C extends Cloud<? extends CE>
 	  >
 {
 	void changingCloudContext(Set<? extends C> joiningContexts, Set<?> leavingContexts) throws RejectedContextException;

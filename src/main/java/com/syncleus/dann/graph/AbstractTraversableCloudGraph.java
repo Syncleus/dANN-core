@@ -23,9 +23,9 @@ import java.util.Set;
 import com.syncleus.dann.graph.search.pathfinding.*;
 
 public abstract class AbstractTraversableCloudGraph<
-	  	NE extends TraversableCloudGraph.NodeEndpoint<?>,
-	  	EE extends TraversableCloudGraph.EdgeEndpoint<? extends Cloud<?>>
-	  > extends AbstractCloudGraph<NE,EE> implements TraversableCloudGraph<NE, EE>
+        NE extends TraversableCloudGraph.NodeEndpoint<?>,
+        EE extends TraversableCloudGraph.EdgeEndpoint<? extends Cloud<?>>
+        > extends AbstractCloudGraph<NE,EE> implements TraversableCloudGraph<NE, EE>
 {
 	private final CloudTraverser<? super Cloud<?>> traverser;
 
@@ -55,7 +55,7 @@ public abstract class AbstractTraversableCloudGraph<
 		final WalkFinder<?> pathFinder = this.getWalkFinder();
 
 		final Set<NE> traversables = new HashSet<NE>();
-		for(N neighbor : this.getNodes())
+		for(NE neighbor : this.getNodes())
 			if( this.isTraversable(source,neighbor,pathFinder) )
 				traversables.add(neighbor);
 		return Collections.unmodifiableSet(traversables);
