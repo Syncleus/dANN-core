@@ -17,6 +17,12 @@
 
 	<name>dANN Core library</name>
 	<description>Artificial Intelligence and Artificial Genetics library - Core library</description>
+        <url>http://wiki.syncleus.com/index.php/DANN</url>
+
+        <scm>
+                <connection>git://git.syncleus.com/dANN-core.git</connection>
+                <developerConnection>git@git.syncleus.com:dANN-core.git</developerConnection>
+        </scm>
 
 	<distributionManagement>
 		<repository>
