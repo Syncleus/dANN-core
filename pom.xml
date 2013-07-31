@@ -24,6 +24,31 @@
                 <developerConnection>git@git.syncleus.com:dANN-core.git</developerConnection>
         </scm>
 
+	<mailingLists>
+		<mailingList>
+			<name>Syncleus Announcements</name>
+			<subscribe>syncleus-announce-subscribe@lists.syncleus.com</subscribe>
+			<unsubscribe>syncleus-announce-leave@lists.syncleus.com</unsubscribe>
+			<post>syncleus-announce@lists.syncleus.com</post>
+			<archive>http://lists.syncleus.com/pipermail/syncleus-announce/</archive>
+		</mailingList>
+		<mailingList>
+			<name>dANN Announcements</name>
+			<subscribe>dann-announce-subscribe@lists.syncleus.com</subscribe>
+			<unsubscribe>dann-announce-leave@lists.syncleus.com</unsubscribe>
+			<post>dann-announce@lists.syncleus.com</post>
+			<archive>http://lists.syncleus.com/pipermail/dann-announce/</archive>
+		</mailingList>
+		<mailingList>
+			<name>dANN Development</name>
+			<subscribe>dann-dev-subscribe@lists.syncleus.com</subscribe>
+			<unsubscribe>dann-dev-leave@lists.syncleus.com</unsubscribe>
+			<post>dann-dev@lists.syncleus.com</post>
+			<archive>http://lists.syncleus.com/pipermail/dann-dev/</archive>
+		</mailingList>
+	</mailingLists>
+
+
 	<distributionManagement>
 		<repository>
 			<id>releases</id>
