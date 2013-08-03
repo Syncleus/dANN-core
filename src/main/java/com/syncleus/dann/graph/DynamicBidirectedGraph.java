@@ -23,12 +23,12 @@ public interface DynamicBidirectedGraph<
 	  	NE extends DynamicBidirectedGraph.NodeEndpoint<N>,
 	  	E extends BidirectedEdge<? extends BidirectedEdge.Endpoint<N>>,
 	  	EE extends DynamicBidirectedGraph.EdgeEndpoint<E>
-	  > extends BidirectedGraph<NE, EE>, DynamicGraph<N, NE, E, EE>, DynamicBidirectedCloud<N,NE>
+	  > extends BidirectedGraph<NE, EE>, DynamicGraph<N, NE, E, EE>, DynamicBidirectedHyperedge<N,NE>
 {
 	interface Endpoint<
 		  	T
 		  >
-		  extends BidirectedGraph.Endpoint<T>, DynamicGraph.Endpoint<T>, DynamicBidirectedCloud.Endpoint<T>
+		  extends BidirectedGraph.Endpoint<T>, DynamicGraph.Endpoint<T>, DynamicBidirectedHyperedge.Endpoint<T>
 	{
 	};
 

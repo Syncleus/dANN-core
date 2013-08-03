@@ -22,9 +22,9 @@ public interface MixableBidirectedEdge<
 	  	E extends MixableBidirectedEdge.Endpoint<?>,
 	  	LE extends E,
 	  	RE extends E
-	  > extends MixableEdge<E, LE, RE>, BidirectedCloud<E>
+	  > extends MixableEdge<E, LE, RE>, BidirectedHyperedge<E>
 {
-	interface Endpoint<T> extends MixableEdge.Endpoint<T>, BidirectedCloud.Endpoint<T>
+	interface Endpoint<T> extends MixableEdge.Endpoint<T>, BidirectedHyperedge.Endpoint<T>
 	{
 	};
 

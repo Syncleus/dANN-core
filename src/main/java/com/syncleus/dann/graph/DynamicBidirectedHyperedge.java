@@ -18,21 +18,12 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.Map;
-
-public interface AssignableBidirectedCloud<
-	  	E extends AssignableBidirectedCloud.Endpoint<?>
-	  > extends AssignableCloud<E>, BidirectedCloud<E>
+public interface DynamicBidirectedHyperedge<
+	  	T,
+	  	E extends DynamicBidirectedHyperedge.Endpoint<T>
+	  > extends DynamicCloud<T,E>, AssignableBidirectedHyperedge<E>
 {
-	interface Endpoint<T> extends AssignableCloud.Endpoint<T>, BidirectedCloud.Endpoint<T>
+	interface Endpoint<T> extends DynamicCloud.Endpoint<T>, AssignableBidirectedHyperedge.Endpoint<T>
 	{
 	}
-
-	interface ReassignmentPair<T>
-	{
-		T getTarget();
-		Endpoint.Direction getDirection();
-	}
-
-	<T, TE extends AssignableBidirectedCloud.Endpoint<? super T>> void reassignDirection(Map<TE,? extends ReassignmentPair<? extends T>> reassignments) throws InvalidGraphException;
 }

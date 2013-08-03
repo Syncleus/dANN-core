@@ -18,15 +18,21 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface AssignableMixableBidirectedEdge<
-	  	E extends AssignableMixableBidirectedEdge.Endpoint<?>,
-	  	LE extends E,
-	  	RE extends E
-	  > extends AssignableMixableEdge<E, LE, RE>, MixableBidirectedEdge<E, LE, RE>, AssignableBidirectedHyperedge<E>
-{
-	interface Endpoint<T> extends AssignableMixableEdge.Endpoint<T>, MixableBidirectedEdge.Endpoint<T>, AssignableBidirectedHyperedge.Endpoint<T>
-	{
-	};
+import java.util.Map;
 
-	void invertDirection() throws InvalidEdgeDirectionException;
+public interface AssignableBidirectedHyperedge<
+	  	E extends AssignableBidirectedHyperedge.Endpoint<?>
+	  > extends AssignableCloud<E>, BidirectedHyperedge<E>
+{
+	interface Endpoint<T> extends AssignableCloud.Endpoint<T>, BidirectedHyperedge.Endpoint<T>
+	{
+	}
+
+	interface ReassignmentPair<T>
+	{
+		T getTarget();
+		Endpoint.Direction getDirection();
+	}
+
+	<T, TE extends AssignableBidirectedHyperedge.Endpoint<? super T>> void reassignDirection(Map<TE,? extends ReassignmentPair<? extends T>> reassignments) throws InvalidGraphException;
 }

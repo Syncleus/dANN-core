@@ -18,8 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.Set;
-
 /**
  * A type of graph where every edge has exactly 2 end points and may have a
  * directionality at either end point. The two end points at each end do not
@@ -41,7 +39,7 @@ public interface BidirectedGraph<
 	interface Endpoint<
 		  	T
 		  >
-		  extends TraversableGraph.Endpoint<T>, BidirectedCloud.Endpoint<T>
+		  extends TraversableGraph.Endpoint<T>, BidirectedHyperedge.Endpoint<T>
 	{
 	};
 

@@ -18,12 +18,15 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface DynamicBidirectedCloud<
-	  	T,
-	  	E extends DynamicBidirectedCloud.Endpoint<T>
-	  > extends DynamicCloud<T,E>, AssignableBidirectedCloud<E>
+public interface TraversableHyperedge<
+        E extends TraversableHyperedge.Endpoint<?>
+        > extends TraversableCloud<E>, Hyperedge<E>
 {
-	interface Endpoint<T> extends DynamicCloud.Endpoint<T>, AssignableBidirectedCloud.Endpoint<T>
-	{
-	}
+    interface Endpoint<T> extends Hyperedge.Endpoint<T>
+    {
+        boolean isTraversableFrom(Hyperedge.Endpoint<?> target);
+        boolean isTraversableTo(Hyperedge.Endpoint<?> target);
+        boolean isTraversableFrom();
+        boolean isTraversableTo();
+    }
 }
