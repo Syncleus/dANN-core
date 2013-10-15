@@ -15,6 +15,14 @@
 	<artifactId>dann-core</artifactId>
 	<version>2.0-SNAPSHOT</version>
 
+
+    <properties>
+        <project.build.encoding>UTF-8</project.build.encoding>
+        <project.build.sourceEncoding>${project.build.encoding}</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>${project.build.encoding}</project.reporting.outputEncoding>
+        <project.build.resourceEncoding>${project.build.encoding}</project.build.resourceEncoding>
+    </properties>
+
 	<name>dANN Core library</name>
 	<description>Artificial Intelligence and Artificial Genetics library - Core library</description>
     <url>http://wiki.syncleus.com/index.php/DANN</url>
@@ -23,11 +31,6 @@
         <connection>scm:git:git://git.syncleus.com/dANN-core</connection>
         <developerConnection>scm:git:ssh://git.syncleus.com/dANN-core</developerConnection>
     </scm>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    </properties>
 
 
 
@@ -69,6 +72,7 @@
 
 
 	<build>
+        <defaultGoal>package</defaultGoal>
 		<plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -77,12 +81,16 @@
                 <configuration>
                     <source>1.7</source>
                     <target>1.7</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>dbunit-maven-plugin</artifactId>
-                <version>1.0-beta-3</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <encoding>${project.build.resourceEncoding}</encoding>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -160,12 +168,6 @@
                     </execution>
                 </executions>
             </plugin>
-
-
-
-
-
-
 			<plugin>
 				<groupId>org.jvnet.jaxb2.maven2</groupId>
 				<artifactId>maven-jaxb2-plugin</artifactId>
