@@ -18,6 +18,12 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
+/**
+ * A type of graph where every edge has exactly 2 end points which always has a
+ * directionality set to inward on one end and outward ont he other.
+ *
+ * @since 2.0
+ */
 public interface DirectedGraph<N, E extends DirectedEdge<N>> extends BidirectedGraph<N, E>
 {
 	//we need this for the optimizer and utility class operations. We might also want to fill it in later.

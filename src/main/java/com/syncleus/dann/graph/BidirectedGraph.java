@@ -30,7 +30,6 @@ import java.util.Set;
  * directed edges both ends have opposite orientation, outward on one end and
  * inward on the other, such that both ends point in the same direction.
  *
- * @author Jeffrey Phillips Freeman
  * @since 2.0
  */
 public interface BidirectedGraph<N, E extends BidirectedEdge<N>> extends Graph<N, E>

@@ -24,14 +24,31 @@ import com.syncleus.dann.graph.topological.sorter.TopologicalSorter;
 import com.syncleus.dann.graph.tree.TreeOptimizedDirectedGraph;
 import com.syncleus.dann.graph.tree.Trees;
 
+/**
+ * An AbstractRootedTreeAdjacencyGraph is a RootedTreeGraph implemented using adjacency lists.
+ *
+ * @since 2.0
+ * @param <N> The node type
+ * @param <E> The type of edge for the given node type
+ */
 public abstract class AbstractRootedTreeAdjacencyGraph<N, E extends DirectedEdge<N>> extends AbstractTreeAdjacencyGraph<N, E> implements RootedTreeGraph<N, E>, TreeOptimizedDirectedGraph<N, E>
 {
 	// TODO restrict all edges when added, to make sure they conform to being a rooted tree
+
+    /**
+     * Creates a new graph with no edges and no adjacencies.
+     * nodeContext and edgeContext is enabled.
+     */
 	protected AbstractRootedTreeAdjacencyGraph()
 	{
 		super();
 	}
 
+    /**
+     * Creates a new graph as a copy of the current Graph.
+     * nodeContext is enabled.
+     * @param copyGraph The Graph to copy
+     */
 	protected AbstractRootedTreeAdjacencyGraph(final DirectedGraph<N, E> copyGraph)
 	{
 		super(copyGraph.getNodes(), copyGraph.getEdges());
@@ -39,6 +56,15 @@ public abstract class AbstractRootedTreeAdjacencyGraph<N, E extends DirectedEdge
 			throw new IllegalArgumentException("copyGraph is not a rooted tree");
 	}
 
+    /**
+     * Creates a new graph from the given list of nodes, and
+     * the given list of Edges.
+     * The adjacency lists are created from this structure. nodeContext is
+     * enabled.
+     *
+     * @param nodes The set of all nodes
+     * @param edges The set of all ourEdges
+     */
 	protected AbstractRootedTreeAdjacencyGraph(final Set<N> nodes, final Set<E> edges)
 	{
 		super(nodes, edges);

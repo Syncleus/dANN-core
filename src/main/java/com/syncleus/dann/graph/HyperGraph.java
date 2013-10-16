@@ -22,7 +22,6 @@ package com.syncleus.dann.graph;
  * A type of graph where each edge has 2 or more end points and is undirected so
  * each edge can be traversed from any end point of the edge to any end point.
  *
- * @author Jeffrey Phillips Freeman
  * @since 2.0
  */
 public interface HyperGraph<N, E extends HyperEdge<N>> extends Graph<N, E>

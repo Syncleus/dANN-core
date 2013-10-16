@@ -37,6 +37,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * An AbstractAdjacencyGraph is a Graph implemented using adjacency lists.
+ *
+ * @since 2.0
  * @param <N> The node type
  * @param <E> The type of edge for the given node type
  */

@@ -20,18 +20,43 @@ package com.syncleus.dann.graph;
 
 import java.util.Set;
 
+/**
+ * An AbstractHyperAdjacencyGraph is a HyperGraph implemented using adjacency lists.
+ *
+ * @since 2.0
+ * @param <N> The node type
+ * @param <E> The type of edge for the given node type
+ */
 public abstract class AbstractHyperAdjacencyGraph<N, E extends HyperEdge<N>> extends AbstractAdjacencyGraph<N, E> implements HyperGraph<N, E>
 {
+    /**
+     * Creates a new graph with no edges and no adjacencies.
+     * nodeContext and edgeContext is enabled.
+     */
 	protected AbstractHyperAdjacencyGraph()
 	{
 		super();
 	}
 
+    /**
+     * Creates a new graph as a copy of the current Graph.
+     * nodeContext is enabled.
+     * @param copyGraph The Graph to copy
+     */
 	protected AbstractHyperAdjacencyGraph(final Graph<N, E> copyGraph)
 	{
 		super(copyGraph.getNodes(), copyGraph.getEdges());
 	}
 
+    /**
+     * Creates a new graph from the given list of nodes, and
+     * the given list of Edges.
+     * The adjacency lists are created from this structure. nodeContext is
+     * enabled.
+     *
+     * @param nodes The set of all nodes
+     * @param edges The set of all ourEdges
+     */
 	protected AbstractHyperAdjacencyGraph(final Set<N> nodes, final Set<E> edges)
 	{
 		super(nodes, edges);

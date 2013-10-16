@@ -23,15 +23,31 @@ import com.syncleus.dann.graph.topological.Topography;
 import com.syncleus.dann.graph.tree.TreeOptimizedGraph;
 import com.syncleus.dann.graph.tree.Trees;
 
+/**
+ * An AbstractTreeAdjacencyGraph is a TreeGraph implemented using adjacency lists.
+ *
+ * @since 2.0
+ * @param <N> The node type
+ * @param <E> The type of edge for the given node type
+ */
 public abstract class AbstractTreeAdjacencyGraph<N, E extends BidirectedEdge<N>> extends AbstractBidirectedAdjacencyGraph<N, E> implements TreeGraph<N, E>, TreeOptimizedGraph<N, E>
 {
 	// TODO restrict tree's to only maximally connected trees or perhaps just tree in general
 
+    /**
+     * Creates a new graph with no edges and no adjacencies.
+     * nodeContext and edgeContext is enabled.
+     */
 	protected AbstractTreeAdjacencyGraph()
 	{
 		super();
 	}
 
+    /**
+     * Creates a new graph as a copy of the current Graph.
+     * nodeContext is enabled.
+     * @param copyGraph The Graph to copy
+     */
 	protected AbstractTreeAdjacencyGraph(final BidirectedGraph<N, E> copyGraph)
 	{
 		super(copyGraph.getNodes(), copyGraph.getEdges());
@@ -39,6 +55,15 @@ public abstract class AbstractTreeAdjacencyGraph<N, E extends BidirectedEdge<N>>
 			throw new IllegalArgumentException("copyGraph is not a Tree");
 	}
 
+    /**
+     * Creates a new graph from the given list of nodes, and
+     * the given list of Edges.
+     * The adjacency lists are created from this structure. nodeContext is
+     * enabled.
+     *
+     * @param nodes The set of all nodes
+     * @param edges The set of all ourEdges
+     */
 	protected AbstractTreeAdjacencyGraph(final Set<N> nodes, final Set<E> edges)
 	{
 		super(nodes, edges);
