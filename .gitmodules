@@ -1,4 +1,5 @@
 [submodule "lib"]
     path = lib
-    url = git://git.syncleus.com/dANN-core-lib.git
+    url = http://gerrit.syncleus.com/dANN-core-lib
+    branch = master
 
