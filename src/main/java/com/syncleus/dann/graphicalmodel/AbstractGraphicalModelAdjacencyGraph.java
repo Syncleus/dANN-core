@@ -139,49 +139,7 @@ public abstract class AbstractGraphicalModelAdjacencyGraph<N extends GraphicalMo
 		}
 	}
 
-	@Override
-	public AbstractGraphicalModelAdjacencyGraph<N, E> cloneAdd(final E newEdge)
-	{
-		return (AbstractGraphicalModelAdjacencyGraph<N, E>) super.cloneAdd(newEdge);
-	}
-
-	@Override
-	public AbstractGraphicalModelAdjacencyGraph<N, E> cloneAdd(final N newNode)
-	{
-		return (AbstractGraphicalModelAdjacencyGraph<N, E>) super.cloneAdd(newNode);
-	}
-
-	@Override
-	public AbstractGraphicalModelAdjacencyGraph<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
-	{
-		return (AbstractGraphicalModelAdjacencyGraph<N, E>) super.cloneAdd(newNodes, newEdges);
-	}
-
-	@Override
-	public AbstractGraphicalModelAdjacencyGraph<N, E> cloneRemove(final E edgeToRemove)
-	{
-		return (AbstractGraphicalModelAdjacencyGraph<N, E>) super.cloneRemove(edgeToRemove);
-	}
-
-	@Override
-	public AbstractGraphicalModelAdjacencyGraph<N, E> cloneRemove(final N nodeToRemove)
-	{
-		return (AbstractGraphicalModelAdjacencyGraph<N, E>) super.cloneRemove(nodeToRemove);
-	}
-
-	@Override
-	public AbstractGraphicalModelAdjacencyGraph<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
-	{
-		return (AbstractGraphicalModelAdjacencyGraph<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
-	}
-
-	@Override
-	public AbstractGraphicalModelAdjacencyGraph<N, E> clone()
-	{
-		return (AbstractGraphicalModelAdjacencyGraph<N, E>) super.clone();
-	}
-
-	@Override
+    @Override
 	public GraphicalModelXml toXml()
 	{
 		final GraphicalModelElementXml networkXml = new GraphicalModelElementXml();

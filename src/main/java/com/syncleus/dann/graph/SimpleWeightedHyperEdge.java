@@ -61,9 +61,4 @@ public final class SimpleWeightedHyperEdge<N> extends AbstractHyperEdge<N> imple
 		return (SimpleWeightedHyperEdge<N>) super.disconnect(nodes);
 	}
 
-	@Override
-	public SimpleWeightedHyperEdge<N> clone()
-	{
-		return (SimpleWeightedHyperEdge<N>) super.clone();
-	}
 }

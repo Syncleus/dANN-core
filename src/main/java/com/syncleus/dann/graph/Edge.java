@@ -51,5 +51,4 @@ public interface Edge<N> extends Serializable, Cloneable, XmlSerializable<EdgeXm
 	 */
 	Edge<N> disconnect(List<N> node);
 
-	Edge<N> clone();
 }

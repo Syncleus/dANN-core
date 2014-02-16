@@ -18,11 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.attributes.hat;
 
-import java.util.Set;
 import com.syncleus.dann.graph.DirectedEdge;
 import com.syncleus.dann.graph.MutableTreeAdjacencyGraph;
 
-// TODO we need to handle clone and cloneAdd and similar methods differently since the nodes here must know which graph it belongs to
 public class MutableAttributeTreeAdjacencyGraph<N extends AbstractHierarchicalAttributePool<T>, E extends DirectedEdge<N>, T> extends MutableTreeAdjacencyGraph<N, E>
 {
 	/**
@@ -58,52 +56,4 @@ public class MutableAttributeTreeAdjacencyGraph<N extends AbstractHierarchicalAt
 		return false;
 	}
 
-	@Override
-	public MutableAttributeTreeAdjacencyGraph<N, E, T> cloneAdd(final E newEdge)
-	{
-		// TODO Implement this method
-		throw new IllegalStateException("Operation not yet supported");
-	}
-
-	@Override
-	public MutableAttributeTreeAdjacencyGraph<N, E, T> cloneAdd(final N newNode)
-	{
-		// TODO Implement this method
-		throw new IllegalStateException("Operation not yet supported");
-	}
-
-	@Override
-	public MutableAttributeTreeAdjacencyGraph<N, E, T> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
-	{
-		// TODO Implement this method
-		throw new IllegalStateException("Operation not yet supported");
-	}
-
-	@Override
-	public MutableAttributeTreeAdjacencyGraph<N, E, T> cloneRemove(final E edgeToRemove)
-	{
-		// TODO Implement this method
-		throw new IllegalStateException("Operation not yet supported");
-	}
-
-	@Override
-	public MutableAttributeTreeAdjacencyGraph<N, E, T> cloneRemove(final N nodeToRemove)
-	{
-		// TODO Implement this method
-		throw new IllegalStateException("Operation not yet supported");
-	}
-
-	@Override
-	public MutableAttributeTreeAdjacencyGraph<N, E, T> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
-	{
-		// TODO Implement this method
-		throw new IllegalStateException("Operation not yet supported");
-	}
-
-	@Override
-	public MutableAttributeTreeAdjacencyGraph<N, E, T> clone()
-	{
-		// TODO Implement this method
-		throw new IllegalStateException("Operation not yet supported");
-	}
 }

@@ -198,45 +198,4 @@ public class MutableDynamicGraphicalModelAdjacencyGraph<N extends DynamicGraphic
 		return removedSomething;
 	}
 
-	@Override
-	public MutableDynamicGraphicalModelAdjacencyGraph<N, E> cloneAdd(final E newEdge)
-	{
-		return (MutableDynamicGraphicalModelAdjacencyGraph<N, E>) super.cloneAdd(newEdge);
-	}
-
-	@Override
-	public MutableDynamicGraphicalModelAdjacencyGraph<N, E> cloneAdd(final N newNode)
-	{
-		return (MutableDynamicGraphicalModelAdjacencyGraph<N, E>) super.cloneAdd(newNode);
-	}
-
-	@Override
-	public MutableDynamicGraphicalModelAdjacencyGraph<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
-	{
-		return (MutableDynamicGraphicalModelAdjacencyGraph<N, E>) super.cloneAdd(newNodes, newEdges);
-	}
-
-	@Override
-	public MutableDynamicGraphicalModelAdjacencyGraph<N, E> cloneRemove(final E edgeToRemove)
-	{
-		return (MutableDynamicGraphicalModelAdjacencyGraph<N, E>) super.cloneRemove(edgeToRemove);
-	}
-
-	@Override
-	public MutableDynamicGraphicalModelAdjacencyGraph<N, E> cloneRemove(final N nodeToRemove)
-	{
-		return (MutableDynamicGraphicalModelAdjacencyGraph<N, E>) super.cloneRemove(nodeToRemove);
-	}
-
-	@Override
-	public MutableDynamicGraphicalModelAdjacencyGraph<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
-	{
-		return (MutableDynamicGraphicalModelAdjacencyGraph<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
-	}
-
-	@Override
-	public MutableDynamicGraphicalModelAdjacencyGraph<N, E> clone()
-	{
-		return (MutableDynamicGraphicalModelAdjacencyGraph<N, E>) super.clone();
-	}
 }

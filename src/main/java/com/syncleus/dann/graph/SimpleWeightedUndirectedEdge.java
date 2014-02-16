@@ -61,9 +61,4 @@ public final class SimpleWeightedUndirectedEdge<N> extends AbstractUndirectedEdg
 		return (SimpleWeightedUndirectedEdge<N>) super.disconnect(nodes);
 	}
 
-	@Override
-	public SimpleWeightedUndirectedEdge<N> clone()
-	{
-		return (SimpleWeightedUndirectedEdge<N>) super.clone();
-	}
 }

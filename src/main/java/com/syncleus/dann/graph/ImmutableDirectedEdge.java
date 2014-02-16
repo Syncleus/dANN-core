@@ -46,9 +46,4 @@ public final class ImmutableDirectedEdge<N> extends AbstractDirectedEdge<N>
 		return (ImmutableDirectedEdge<N>) super.disconnect(nodes);
 	}
 
-	@Override
-	public ImmutableDirectedEdge<N> clone()
-	{
-		return (ImmutableDirectedEdge<N>) super.clone();
-	}
 }

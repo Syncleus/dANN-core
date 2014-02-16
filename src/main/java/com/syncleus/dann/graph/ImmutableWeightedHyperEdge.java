@@ -55,9 +55,4 @@ public final class ImmutableWeightedHyperEdge<N> extends AbstractHyperEdge<N> im
 		return (ImmutableWeightedHyperEdge<N>) super.remove(nodes);
 	}
 
-	@Override
-	public ImmutableWeightedHyperEdge<N> clone()
-	{
-		return (ImmutableWeightedHyperEdge<N>) super.clone();
-	}
 }

@@ -93,9 +93,4 @@ public final class SimpleSynapse<N> extends AbstractSynapse<N>
 		return (SimpleSynapse<N>) super.disconnect(nodes);
 	}
 
-	@Override
-	public SimpleSynapse<N> clone()
-	{
-		return (SimpleSynapse<N>) super.clone();
-	}
 }

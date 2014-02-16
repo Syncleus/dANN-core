@@ -202,45 +202,4 @@ public class MutableBayesianAdjacencyNetwork<N extends GraphicalModelNode, E ext
 		return removedSomething;
 	}
 
-	@Override
-	public MutableBayesianAdjacencyNetwork<N, E> cloneAdd(final E newEdge)
-	{
-		return (MutableBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newEdge);
-	}
-
-	@Override
-	public MutableBayesianAdjacencyNetwork<N, E> cloneAdd(final N newNode)
-	{
-		return (MutableBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newNode);
-	}
-
-	@Override
-	public MutableBayesianAdjacencyNetwork<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
-	{
-		return (MutableBayesianAdjacencyNetwork<N, E>) super.cloneAdd(newNodes, newEdges);
-	}
-
-	@Override
-	public MutableBayesianAdjacencyNetwork<N, E> cloneRemove(final E edgeToRemove)
-	{
-		return (MutableBayesianAdjacencyNetwork<N, E>) super.cloneRemove(edgeToRemove);
-	}
-
-	@Override
-	public MutableBayesianAdjacencyNetwork<N, E> cloneRemove(final N nodeToRemove)
-	{
-		return (MutableBayesianAdjacencyNetwork<N, E>) super.cloneRemove(nodeToRemove);
-	}
-
-	@Override
-	public MutableBayesianAdjacencyNetwork<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
-	{
-		return (MutableBayesianAdjacencyNetwork<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
-	}
-
-	@Override
-	public MutableBayesianAdjacencyNetwork<N, E> clone()
-	{
-		return (MutableBayesianAdjacencyNetwork<N, E>) super.clone();
-	}
 }

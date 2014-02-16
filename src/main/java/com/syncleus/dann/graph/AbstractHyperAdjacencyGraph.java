@@ -105,45 +105,4 @@ public abstract class AbstractHyperAdjacencyGraph<N, E extends HyperEdge<N>> ext
 		return -1;
 	}
 
-	@Override
-	public AbstractHyperAdjacencyGraph<N, E> cloneAdd(final E newEdge)
-	{
-		return (AbstractHyperAdjacencyGraph<N, E>) super.cloneAdd(newEdge);
-	}
-
-	@Override
-	public AbstractHyperAdjacencyGraph<N, E> cloneAdd(final N newNode)
-	{
-		return (AbstractHyperAdjacencyGraph<N, E>) super.cloneAdd(newNode);
-	}
-
-	@Override
-	public AbstractHyperAdjacencyGraph<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
-	{
-		return (AbstractHyperAdjacencyGraph<N, E>) super.cloneAdd(newNodes, newEdges);
-	}
-
-	@Override
-	public AbstractHyperAdjacencyGraph<N, E> cloneRemove(final E edgeToRemove)
-	{
-		return (AbstractHyperAdjacencyGraph<N, E>) super.cloneRemove(edgeToRemove);
-	}
-
-	@Override
-	public AbstractHyperAdjacencyGraph<N, E> cloneRemove(final N nodeToRemove)
-	{
-		return (AbstractHyperAdjacencyGraph<N, E>) super.cloneRemove(nodeToRemove);
-	}
-
-	@Override
-	public AbstractHyperAdjacencyGraph<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
-	{
-		return (AbstractHyperAdjacencyGraph<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
-	}
-
-	@Override
-	public AbstractHyperAdjacencyGraph<N, E> clone()
-	{
-		return (AbstractHyperAdjacencyGraph<N, E>) super.clone();
-	}
 }

@@ -30,6 +30,4 @@ public interface HyperEdge<N> extends Edge<N>
 	HyperEdge<N> disconnect(N node);
 	@Override
 	HyperEdge<N> disconnect(List<N> node);
-	@Override
-	HyperEdge<N> clone();
 }

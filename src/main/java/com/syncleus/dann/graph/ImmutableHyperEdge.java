@@ -68,9 +68,4 @@ public final class ImmutableHyperEdge<N> extends AbstractHyperEdge<N>
 		return (ImmutableHyperEdge<N>) super.disconnect(nodes);
 	}
 
-	@Override
-	public ImmutableHyperEdge<N> clone()
-	{
-		return (ImmutableHyperEdge<N>) super.clone();
-	}
 }

@@ -192,31 +192,7 @@ public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<
 		return outString.toString();
 	}
 
-	@Override
-	public AbstractEdge<N> clone()
-	{
-		try
-		{
-			final AbstractEdge<N> clonedEdge = (AbstractEdge<N>) super.clone();
-			final List<N> clonedNodes = new ArrayList<N>(this.nodes.size());
-			//add each node at a time to the clone considering context
-			for(N node : this.nodes)
-			{
-				if( this.contextEnabled && (node instanceof ContextNode) && ( !((ContextNode)node).connectingEdge(clonedEdge) ) )
-					continue;
-				clonedNodes.add(node);
-			}
-			clonedEdge.nodes = Collections.unmodifiableList(clonedNodes);
-			return clonedEdge;
-		}
-		catch(CloneNotSupportedException caught)
-		{
-			LOGGER.error("Edge was unexpectidly not cloneable", caught);
-			throw new UnexpectedDannError("Edge was unexpectidly not cloneable", caught);
-		}
-	}
-
-	@Override
+    @Override
 	public EdgeXml toXml()
 	{
 		final Namer namer = new Namer();

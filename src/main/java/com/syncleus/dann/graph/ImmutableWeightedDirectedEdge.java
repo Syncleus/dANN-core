@@ -55,9 +55,4 @@ public final class ImmutableWeightedDirectedEdge<N> extends AbstractDirectedEdge
 		return (ImmutableWeightedDirectedEdge<N>) super.disconnect(nodes);
 	}
 
-	@Override
-	public ImmutableWeightedDirectedEdge<N> clone()
-	{
-		return (ImmutableWeightedDirectedEdge<N>) super.clone();
-	}
 }

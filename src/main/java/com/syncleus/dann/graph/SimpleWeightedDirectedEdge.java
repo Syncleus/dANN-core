@@ -61,9 +61,4 @@ public final class SimpleWeightedDirectedEdge<N> extends AbstractDirectedEdge<N>
 		return (SimpleWeightedDirectedEdge<N>) super.disconnect(nodes);
 	}
 
-	@Override
-	public SimpleWeightedDirectedEdge<N> clone()
-	{
-		return (SimpleWeightedDirectedEdge<N>) super.clone();
-	}
 }

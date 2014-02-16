@@ -108,9 +108,4 @@ public abstract class AbstractHyperEdge<N> extends AbstractEdge<N> implements Hy
 		return (AbstractHyperEdge<N>) this.remove(nodes);
 	}
 
-	@Override
-	public AbstractHyperEdge<N> clone()
-	{
-		return (AbstractHyperEdge<N>) super.clone();
-	}
 }

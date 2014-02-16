@@ -208,46 +208,4 @@ public class MutableTreeAdjacencyGraph<N, E extends BidirectedEdge<N>> extends A
 		return removedSomething;
 	}
 
-	//TODO make sure these clone methods done generate a non-tree TreeGraoh
-	@Override
-	public MutableTreeAdjacencyGraph<N, E> cloneAdd(final E newEdge)
-	{
-		return (MutableTreeAdjacencyGraph<N, E>) super.cloneAdd(newEdge);
-	}
-
-	@Override
-	public MutableTreeAdjacencyGraph<N, E> cloneAdd(final N newNode)
-	{
-		return (MutableTreeAdjacencyGraph<N, E>) super.cloneAdd(newNode);
-	}
-
-	@Override
-	public MutableTreeAdjacencyGraph<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
-	{
-		return (MutableTreeAdjacencyGraph<N, E>) super.cloneAdd(newNodes, newEdges);
-	}
-
-	@Override
-	public MutableTreeAdjacencyGraph<N, E> cloneRemove(final E edgeToRemove)
-	{
-		return (MutableTreeAdjacencyGraph<N, E>) super.cloneRemove(edgeToRemove);
-	}
-
-	@Override
-	public MutableTreeAdjacencyGraph<N, E> cloneRemove(final N nodeToRemove)
-	{
-		return (MutableTreeAdjacencyGraph<N, E>) super.cloneRemove(nodeToRemove);
-	}
-
-	@Override
-	public MutableTreeAdjacencyGraph<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
-	{
-		return (MutableTreeAdjacencyGraph<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
-	}
-
-	@Override
-	public MutableTreeAdjacencyGraph<N, E> clone()
-	{
-		return (MutableTreeAdjacencyGraph<N, E>) super.clone();
-	}
 }

@@ -153,9 +153,4 @@ public abstract class AbstractSynapse<N> extends AbstractDirectedEdge<N> impleme
 		return (AbstractSynapse<N>) super.disconnect(nodes);
 	}
 
-	@Override
-	public AbstractSynapse<N> clone()
-	{
-		return (AbstractSynapse<N>) super.clone();
-	}
 }

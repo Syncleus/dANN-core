@@ -70,45 +70,4 @@ public class ImmutableHyperAdjacencyGraph<N, E extends HyperEdge<N>> extends Abs
 		return newAdjacentNodes;
 	}
 
-	@Override
-	public ImmutableHyperAdjacencyGraph<N, E> cloneAdd(final E newEdge)
-	{
-		return (ImmutableHyperAdjacencyGraph<N, E>) super.cloneAdd(newEdge);
-	}
-
-	@Override
-	public ImmutableHyperAdjacencyGraph<N, E> cloneAdd(final N newNode)
-	{
-		return (ImmutableHyperAdjacencyGraph<N, E>) super.cloneAdd(newNode);
-	}
-
-	@Override
-	public ImmutableHyperAdjacencyGraph<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
-	{
-		return (ImmutableHyperAdjacencyGraph<N, E>) super.cloneAdd(newNodes, newEdges);
-	}
-
-	@Override
-	public ImmutableHyperAdjacencyGraph<N, E> cloneRemove(final E edgeToRemove)
-	{
-		return (ImmutableHyperAdjacencyGraph<N, E>) super.cloneRemove(edgeToRemove);
-	}
-
-	@Override
-	public ImmutableHyperAdjacencyGraph<N, E> cloneRemove(final N nodeToRemove)
-	{
-		return (ImmutableHyperAdjacencyGraph<N, E>) super.cloneRemove(nodeToRemove);
-	}
-
-	@Override
-	public ImmutableHyperAdjacencyGraph<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
-	{
-		return (ImmutableHyperAdjacencyGraph<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
-	}
-
-	@Override
-	public ImmutableHyperAdjacencyGraph<N, E> clone()
-	{
-		return (ImmutableHyperAdjacencyGraph<N, E>) super.clone();
-	}
 }

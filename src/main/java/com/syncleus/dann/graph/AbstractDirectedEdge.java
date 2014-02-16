@@ -120,9 +120,4 @@ public abstract class AbstractDirectedEdge<N> extends AbstractBidirectedEdge<N> 
 		return (AbstractDirectedEdge<N>) this.remove(nodes);
 	}
 
-	@Override
-	public AbstractDirectedEdge<N> clone()
-	{
-		return (AbstractDirectedEdge<N>) super.clone();
-	}
 }

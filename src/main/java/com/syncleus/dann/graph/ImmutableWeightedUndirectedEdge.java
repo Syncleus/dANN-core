@@ -55,9 +55,4 @@ public final class ImmutableWeightedUndirectedEdge<N> extends AbstractUndirected
 		return (ImmutableWeightedUndirectedEdge<N>) this.remove(nodes);
 	}
 
-	@Override
-	public ImmutableWeightedUndirectedEdge<N> clone()
-	{
-		return (ImmutableWeightedUndirectedEdge<N>) super.clone();
-	}
 }

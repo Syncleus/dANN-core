@@ -199,45 +199,4 @@ public class MutableMarkovRandomFieldAdjacencyGraph<N extends GraphicalModelNode
 		return removedSomething;
 	}
 
-	@Override
-	public MutableMarkovRandomFieldAdjacencyGraph<N, E> cloneAdd(final E newEdge)
-	{
-		return (MutableMarkovRandomFieldAdjacencyGraph<N, E>) super.cloneAdd(newEdge);
-	}
-
-	@Override
-	public MutableMarkovRandomFieldAdjacencyGraph<N, E> cloneAdd(final N newNode)
-	{
-		return (MutableMarkovRandomFieldAdjacencyGraph<N, E>) super.cloneAdd(newNode);
-	}
-
-	@Override
-	public MutableMarkovRandomFieldAdjacencyGraph<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
-	{
-		return (MutableMarkovRandomFieldAdjacencyGraph<N, E>) super.cloneAdd(newNodes, newEdges);
-	}
-
-	@Override
-	public MutableMarkovRandomFieldAdjacencyGraph<N, E> cloneRemove(final E edgeToRemove)
-	{
-		return (MutableMarkovRandomFieldAdjacencyGraph<N, E>) super.cloneRemove(edgeToRemove);
-	}
-
-	@Override
-	public MutableMarkovRandomFieldAdjacencyGraph<N, E> cloneRemove(final N nodeToRemove)
-	{
-		return (MutableMarkovRandomFieldAdjacencyGraph<N, E>) super.cloneRemove(nodeToRemove);
-	}
-
-	@Override
-	public MutableMarkovRandomFieldAdjacencyGraph<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
-	{
-		return (MutableMarkovRandomFieldAdjacencyGraph<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
-	}
-
-	@Override
-	public MutableMarkovRandomFieldAdjacencyGraph<N, E> clone()
-	{
-		return (MutableMarkovRandomFieldAdjacencyGraph<N, E>) super.clone();
-	}
 }

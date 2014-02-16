@@ -66,45 +66,4 @@ public class ImmutableDynamicGraphicalModel<N extends DynamicGraphicalModelNode,
 		return newAdjacentNodes;
 	}
 
-	@Override
-	public ImmutableDynamicGraphicalModel<N, E> cloneAdd(final E newEdge)
-	{
-		return (ImmutableDynamicGraphicalModel<N, E>) super.cloneAdd(newEdge);
-	}
-
-	@Override
-	public ImmutableDynamicGraphicalModel<N, E> cloneAdd(final N newNode)
-	{
-		return (ImmutableDynamicGraphicalModel<N, E>) super.cloneAdd(newNode);
-	}
-
-	@Override
-	public ImmutableDynamicGraphicalModel<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
-	{
-		return (ImmutableDynamicGraphicalModel<N, E>) super.cloneAdd(newNodes, newEdges);
-	}
-
-	@Override
-	public ImmutableDynamicGraphicalModel<N, E> cloneRemove(final E edgeToRemove)
-	{
-		return (ImmutableDynamicGraphicalModel<N, E>) super.cloneRemove(edgeToRemove);
-	}
-
-	@Override
-	public ImmutableDynamicGraphicalModel<N, E> cloneRemove(final N nodeToRemove)
-	{
-		return (ImmutableDynamicGraphicalModel<N, E>) super.cloneRemove(nodeToRemove);
-	}
-
-	@Override
-	public ImmutableDynamicGraphicalModel<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
-	{
-		return (ImmutableDynamicGraphicalModel<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
-	}
-
-	@Override
-	public ImmutableDynamicGraphicalModel<N, E> clone()
-	{
-		return (ImmutableDynamicGraphicalModel<N, E>) super.clone();
-	}
 }

@@ -177,13 +177,7 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implemen
 		}
 	}
 
-	@Override
-	public AbstractBidirectedEdge<N> clone()
-	{
-		return (AbstractBidirectedEdge<N>) super.clone();
-	}
-
-	@Override
+    @Override
 	public BidirectedEdgeXml toXml()
 	{
 		final Namer namer = new Namer();

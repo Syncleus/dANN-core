@@ -26,6 +26,4 @@ public interface WeightedEdge<N> extends Edge<N>, Weighted
 	WeightedEdge<N> disconnect(N node);
 	@Override
 	WeightedEdge<N> disconnect(List<N> node);
-	@Override
-	WeightedEdge<N> clone();
 }

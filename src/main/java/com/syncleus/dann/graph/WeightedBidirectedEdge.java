@@ -26,6 +26,4 @@ public interface WeightedBidirectedEdge<N> extends BidirectedEdge<N>, Weighted
 	WeightedBidirectedEdge<N> disconnect(N node);
 	@Override
 	WeightedBidirectedEdge<N> disconnect(List<N> node);
-	@Override
-	WeightedBidirectedEdge<N> clone();
 }

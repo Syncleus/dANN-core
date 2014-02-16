@@ -28,6 +28,4 @@ public interface DirectedEdge<N> extends BidirectedEdge<N>
 	DirectedEdge<N> disconnect(N node);
 	@Override
 	DirectedEdge<N> disconnect(List<N> node);
-	@Override
-	DirectedEdge<N> clone();
 }

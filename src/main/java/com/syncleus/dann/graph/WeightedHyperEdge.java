@@ -26,6 +26,4 @@ public interface WeightedHyperEdge<N> extends HyperEdge<N>, Weighted
 	WeightedHyperEdge<N> disconnect(N node);
 	@Override
 	WeightedHyperEdge<N> disconnect(List<N> node);
-	@Override
-	WeightedHyperEdge<N> clone();
 }
