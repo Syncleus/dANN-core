@@ -24,12 +24,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import com.syncleus.dann.graph.TraversableEdge;
+import com.syncleus.dann.graph.TraversableCloud;
 import com.syncleus.dann.graph.Graph;
 
 public class ColoredDepthFirstSearchDetector implements CycleDetector
 {
-	public <N, E extends TraversableEdge<N>> boolean hasCycle(final Graph<N, E> graph)
+	public <N, E extends TraversableCloud<N>> boolean hasCycle(final Graph<N, E> graph)
 	{
 		//A map of the current Node colors. Key is the node, value is null for
 		//white, false for grey, true for black.
@@ -47,7 +47,7 @@ public class ColoredDepthFirstSearchDetector implements CycleDetector
 		return false;
 	}
 
-	private static <N, E extends TraversableEdge<N>> boolean visit(final Graph<N, E> graph, final Map<N, Boolean> colorMap, final Set<E> traversedEdges, final N node)
+	private static <N, E extends TraversableCloud<N>> boolean visit(final Graph<N, E> graph, final Map<N, Boolean> colorMap, final Set<E> traversedEdges, final N node)
 	{
 		colorMap.put(node, Boolean.FALSE);
 
@@ -73,7 +73,7 @@ public class ColoredDepthFirstSearchDetector implements CycleDetector
 		return false;
 	}
 
-	private static <E extends TraversableEdge> boolean traversed(final Set<E> traversedEdges, final E edge)
+	private static <E extends TraversableCloud> boolean traversed(final Set<E> traversedEdges, final E edge)
 	{
 		for(final E traversedEdge : traversedEdges)
 			if( traversedEdge == edge )

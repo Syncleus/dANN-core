@@ -20,7 +20,7 @@ package com.syncleus.dann.graph;
 
 import java.util.List;
 
-public interface HyperEdge<N> extends TraversableEdge<N>
+public interface HyperEdge<N> extends TraversableCloud<N>
 {
 	int getDegree();
 	boolean isSymmetric(HyperEdge symmetricEdge);

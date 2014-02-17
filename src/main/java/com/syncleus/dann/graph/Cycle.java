@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface Cycle<N, E extends TraversableEdge<N>> extends Walk<N, E>
+public interface Cycle<N, E extends TraversableCloud<N>> extends Walk<N, E>
 {
 	boolean isOddCycle();
 }

@@ -20,7 +20,7 @@ package com.syncleus.dann.graph;
 
 import java.util.List;
 
-public interface BidirectedEdge<N> extends TraversableEdge<N>
+public interface BidirectedEdge<N> extends TraversableCloud<N>
 {
 	public enum EndState
 	{

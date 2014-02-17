@@ -18,10 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.cycle;
 
-import com.syncleus.dann.graph.TraversableEdge;
+import com.syncleus.dann.graph.TraversableCloud;
 import com.syncleus.dann.graph.Graph;
 
-public interface CycleOptimizedGraph<N, E extends TraversableEdge<N>> extends Graph<N, E>
+public interface CycleOptimizedGraph<N, E extends TraversableCloud<N>> extends Graph<N, E>
 {
 	/**
 	 * Calculates the number of cylces in the graph. A cycle is any walk that

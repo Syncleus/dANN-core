@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.syncleus.dann.graph.*;
-import com.syncleus.dann.graph.TraversableEdge;
+import com.syncleus.dann.graph.TraversableCloud;
 import com.syncleus.dann.graph.cycle.Cycles;
 import com.syncleus.dann.graph.topological.Topography;
 import com.syncleus.dann.graph.topological.sorter.*;
@@ -37,7 +37,7 @@ public final class Trees
 		throw new IllegalStateException("This is an utility class, it can not be instantiated");
 	}
 
-	public static <N, E extends TraversableEdge<N>> boolean isSpanningTree(final Graph<N, E> graph, final Graph<N, E> subGraph)
+	public static <N, E extends TraversableCloud<N>> boolean isSpanningTree(final Graph<N, E> graph, final Graph<N, E> subGraph)
 	{
 		if( graph instanceof TreeOptimizedGraph )
 		{
@@ -59,7 +59,7 @@ public final class Trees
 				&& (Cycles.isAcyclic(subGraph)));
 	}
 
-	public static <N, E extends TraversableEdge<N>> boolean isTree(final Graph<N, E> graph)
+	public static <N, E extends TraversableCloud<N>> boolean isTree(final Graph<N, E> graph)
 	{
 		if( graph instanceof TreeOptimizedGraph )
 		{
@@ -77,7 +77,7 @@ public final class Trees
 		return ((Topography.isWeaklyConnected(graph)) && (Cycles.isAcyclic(graph)) && (Topography.isSimple(graph)));
 	}
 
-	public static <N, E extends TraversableEdge<N>> boolean isForest(final Graph<N, E> graph)
+	public static <N, E extends TraversableCloud<N>> boolean isForest(final Graph<N, E> graph)
 	{
 		if( graph instanceof TreeOptimizedGraph )
 		{

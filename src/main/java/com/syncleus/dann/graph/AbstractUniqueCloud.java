@@ -20,38 +20,58 @@ package com.syncleus.dann.graph;
 
 import java.util.List;
 
-public abstract class AbstractWeightedEdge<N> extends AbstractTraversableEdge<N> implements WeightedEdge<N>
+public abstract class AbstractUniqueCloud<N> extends AbstractTraversableCloud<N>
 {
-	private final double weight;
-
-	protected AbstractWeightedEdge(final double weight)
+	protected AbstractUniqueCloud()
 	{
 		super();
-		this.weight = weight;
 	}
 
-	protected AbstractWeightedEdge(final double weight, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
+	protected AbstractUniqueCloud(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
 	{
 		super(allowJoiningMultipleGraphs, contextEnabled);
-		this.weight = weight;
 	}
 
-	protected AbstractWeightedEdge(final List<N> nodes, final double ourWEight)
+	protected AbstractUniqueCloud(final List<N> nodes)
 	{
 		super(nodes);
-		this.weight = ourWEight;
 	}
 
-	protected AbstractWeightedEdge(final double ourWeight, final N... nodes)
+	protected AbstractUniqueCloud(final N... nodes)
 	{
 		super(nodes);
-		this.weight = ourWeight;
+	}
+
+	protected AbstractUniqueCloud(final List<N> nodes, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
+	{
+		super(nodes, allowJoiningMultipleGraphs, contextEnabled);
+	}
+
+	protected AbstractUniqueCloud(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled, final N... nodes)
+	{
+		super(allowJoiningMultipleGraphs, contextEnabled, nodes);
 	}
 
 	@Override
-	public double getWeight()
+	public boolean equals(final Object compareToObj)
 	{
-		return this.weight;
+		if( compareToObj == null )
+			return false;
+
+		if( !(compareToObj instanceof TraversableCloud) )
+			return false;
+
+		final TraversableCloud compareTo = (TraversableCloud) compareToObj;
+		return (compareTo.getNodes().equals(this.getNodes()))
+				&& (this.getNodes().equals(compareTo.getNodes()));
 	}
 
+	@Override
+	public int hashCode()
+	{
+		int hash = 0;
+		for(final N node : this.getNodes())
+			hash += node.hashCode();
+		return hash;
+	}
 }

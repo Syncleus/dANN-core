@@ -16,11 +16,33 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph.context;
+package com.syncleus.dann.graph;
 
-import com.syncleus.dann.graph.TraversableEdge;
+import java.util.List;
 
-public interface SignalingContextEdge<N, S> extends TraversableEdge<N>
+public interface TraversableCloud<N> extends Cloud<N>
 {
-	void nodeStateChanged(N node, S newState);
+	boolean isTraversable(N node);
+
+	/**
+	 * Returns an edge with the specified node disconnected.
+	 *
+	 * @param node node to remove from the returned edge.
+	 * @return an edge with the specified node disconnected,
+	 *   <tt>null</tt> if the entire edge should be deleted as a result of
+	 *   removing the specified node.
+	 * @since 2.0
+	 */
+	TraversableCloud<N> disconnect(N node);
+
+	/**
+	 * Returns an edge with the specified nodes disconnected.
+	 *
+	 * @param node node to remove from the returned edge.
+	 * @return an edge with the specified nodes disconnected,
+	 *   <tt>null</tt> if the entire edge should be deleted as a result of
+	 *   removing the specified nodes.
+	 */
+	TraversableCloud<N> disconnect(List<N> node);
+
 }

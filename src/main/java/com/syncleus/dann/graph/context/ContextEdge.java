@@ -18,10 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.context;
 
-import com.syncleus.dann.graph.TraversableEdge;
+import com.syncleus.dann.graph.TraversableCloud;
 import com.syncleus.dann.graph.Graph;
 
-public interface ContextEdge<N, E extends TraversableEdge<N>, G extends Graph<N, E>> extends TraversableEdge<N>
+public interface ContextEdge<N, E extends TraversableCloud<N>, G extends Graph<N, E>> extends TraversableCloud<N>
 {
 	void nodeJoiningGraph(G graph, N node);
 	void nodeLeavingGraph(G graph, N node);

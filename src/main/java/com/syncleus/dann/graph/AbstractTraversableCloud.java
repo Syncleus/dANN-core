@@ -35,29 +35,29 @@ import com.syncleus.dann.xml.Namer;
 import com.syncleus.dann.xml.XmlSerializable;
 import org.apache.log4j.Logger;
 
-public abstract class AbstractTraversableEdge<N> extends AbstractContextGraphElement<Graph<N, ?>> implements TraversableEdge<N>
+public abstract class AbstractTraversableCloud<N> extends AbstractContextGraphElement<Graph<N, ?>> implements TraversableCloud<N>
 {
-	private static final Logger LOGGER = Logger.getLogger(AbstractTraversableEdge.class);
+	private static final Logger LOGGER = Logger.getLogger(AbstractTraversableCloud.class);
 	private final boolean contextEnabled;
 	private List<N> nodes;
 
-	protected AbstractTraversableEdge()
+	protected AbstractTraversableCloud()
 	{
 		this(true, true);
 	}
 
-	protected AbstractTraversableEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
+	protected AbstractTraversableCloud(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
 	{
 		super(allowJoiningMultipleGraphs);
 		this.contextEnabled = contextEnabled;
 	}
 
-	protected AbstractTraversableEdge(final List<N> ourNodes)
+	protected AbstractTraversableCloud(final List<N> ourNodes)
 	{
 		this(ourNodes, true, true);
 	}
 
-	protected AbstractTraversableEdge(final List<N> ourNodes, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
+	protected AbstractTraversableCloud(final List<N> ourNodes, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
 	{
 		super(allowJoiningMultipleGraphs);
 		this.contextEnabled = contextEnabled;
@@ -78,12 +78,12 @@ public abstract class AbstractTraversableEdge<N> extends AbstractContextGraphEle
 			this.nodes = Collections.unmodifiableList(new ArrayList<N>(ourNodes));
 	}
 
-	protected AbstractTraversableEdge(final N... ourNodes)
+	protected AbstractTraversableCloud(final N... ourNodes)
 	{
 		this(true, true, ourNodes);
 	}
 
-	protected AbstractTraversableEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled, final N... ourNodes)
+	protected AbstractTraversableCloud(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled, final N... ourNodes)
 	{
 		this(Arrays.asList(ourNodes), allowJoiningMultipleGraphs, contextEnabled);
 	}
@@ -94,7 +94,7 @@ public abstract class AbstractTraversableEdge<N> extends AbstractContextGraphEle
 		return this.contextEnabled;
 	}
 
-	protected AbstractTraversableEdge<N> add(final N node)
+	protected AbstractTraversableCloud<N> add(final N node)
 	{
 		if( node == null )
 			throw new IllegalArgumentException("node can not be null");
@@ -105,7 +105,7 @@ public abstract class AbstractTraversableEdge<N> extends AbstractContextGraphEle
 		return createDeepCopy(newNodes);
 	}
 
-	protected AbstractTraversableEdge<N> add(final List<N> addNodes)
+	protected AbstractTraversableCloud<N> add(final List<N> addNodes)
 	{
 		if( addNodes == null )
 			throw new IllegalArgumentException("node can not be null");
@@ -115,7 +115,7 @@ public abstract class AbstractTraversableEdge<N> extends AbstractContextGraphEle
 		return createDeepCopy(newNodes);
 	}
 
-	protected AbstractTraversableEdge<N> remove(final N node)
+	protected AbstractTraversableCloud<N> remove(final N node)
 	{
 		if( node == null )
 			throw new IllegalArgumentException("node can not be null");
@@ -128,7 +128,7 @@ public abstract class AbstractTraversableEdge<N> extends AbstractContextGraphEle
 		return createDeepCopy(newNodes);
 	}
 
-	protected AbstractTraversableEdge<N> remove(final List<N> removeNodes)
+	protected AbstractTraversableCloud<N> remove(final List<N> removeNodes)
 	{
 		if( removeNodes == null )
 			throw new IllegalArgumentException("removeNodes can not be null");
@@ -146,11 +146,11 @@ public abstract class AbstractTraversableEdge<N> extends AbstractContextGraphEle
 	 * @param newNodes the set of nodes to use instead of the current ones.
 	 * @return a deep copy of this edge, but with a new set of nodes.
 	 */
-	private AbstractTraversableEdge<N> createDeepCopy(final List<N> newNodes)
+	private AbstractTraversableCloud<N> createDeepCopy(final List<N> newNodes)
 	{
 		try
 		{
-			final AbstractTraversableEdge<N> clonedEdge = (AbstractTraversableEdge<N>) super.clone();
+			final AbstractTraversableCloud<N> clonedEdge = (AbstractTraversableCloud<N>) super.clone();
 			final List<N> clonedNodes = new ArrayList<N>(this.nodes.size());
 			//add each node at a time to the clone considering context
 			for(N newNode : newNodes)

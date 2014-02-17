@@ -22,12 +22,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.syncleus.dann.graph.TraversableEdge;
+
+import com.syncleus.dann.graph.TraversableCloud;
 import com.syncleus.dann.graph.Graph;
 import com.syncleus.dann.graph.Weighted;
-import com.syncleus.dann.graph.WeightedEdge;
+import com.syncleus.dann.graph.WeightedCloud;
 
-public class FloydWarshallPathFinder<N, E extends TraversableEdge<N>> implements PathFinder<N, E>
+public class FloydWarshallPathFinder<N, E extends TraversableCloud<N>> implements PathFinder<N, E>
 {
 	private final Graph<N, E> graph;
 	private final Map<N, Map<N, Double>> walkWeight;
@@ -61,7 +62,7 @@ public class FloydWarshallPathFinder<N, E extends TraversableEdge<N>> implements
 						if( edge.getNodes().contains(nodeY) )
 							connectedEdge = edge;
 					assert connectedEdge != null;
-					initialWeight = (connectedEdge instanceof WeightedEdge ? ((WeightedEdge) connectedEdge).getWeight() : 1.0);
+					initialWeight = (connectedEdge instanceof WeightedCloud ? ((WeightedCloud) connectedEdge).getWeight() : 1.0);
 					if( nodeY instanceof Weighted )
 						initialWeight += ((Weighted) nodeY).getWeight();
 				}
@@ -111,12 +112,12 @@ public class FloydWarshallPathFinder<N, E extends TraversableEdge<N>> implements
 				{
 					if( stepEdge == null )
 						stepEdge = edge;
-					else if( edge instanceof WeightedEdge )
+					else if( edge instanceof WeightedCloud)
 					{
-						if( ((WeightedEdge) edge).getWeight() < stepEdgeWeight )
+						if( ((WeightedCloud) edge).getWeight() < stepEdgeWeight )
 						{
 							stepEdge = edge;
-							stepEdgeWeight = ((WeightedEdge) edge).getWeight();
+							stepEdgeWeight = ((WeightedCloud) edge).getWeight();
 						}
 					}
 					else
@@ -127,8 +128,8 @@ public class FloydWarshallPathFinder<N, E extends TraversableEdge<N>> implements
 			assert stepEdge != null;
 			edgePath.add(stepEdge);
 
-			if( stepEdge instanceof WeightedEdge )
-				overallWeight += ((WeightedEdge) stepEdge).getWeight();
+			if( stepEdge instanceof WeightedCloud)
+				overallWeight += ((WeightedCloud) stepEdge).getWeight();
 			if( toNode instanceof Weighted )
 				overallWeight += ((Weighted) toNode).getWeight();
 		}

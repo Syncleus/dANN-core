@@ -30,7 +30,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import com.syncleus.dann.graph.BidirectedEdge;
 import com.syncleus.dann.graph.BidirectedGraph;
-import com.syncleus.dann.graph.TraversableEdge;
+import com.syncleus.dann.graph.TraversableCloud;
 import com.syncleus.dann.graph.Graph;
 import com.syncleus.dann.graph.HyperEdge;
 import com.syncleus.dann.graph.HyperGraph;
@@ -56,7 +56,7 @@ public final class Topography
 	 * @return The degree of this node
 	 * @see com.syncleus.dann.graph.topological.Topography#getDegree(Graph,Object)
 	 */
-	public static <N, E extends TraversableEdge<N>> int getDegree(final Graph<N, E> graph, final N node)
+	public static <N, E extends TraversableCloud<N>> int getDegree(final Graph<N, E> graph, final N node)
 	{
 		if( graph instanceof ConnectionismOptimizedGraph )
 		{
@@ -103,7 +103,7 @@ public final class Topography
 	 * @return whether this graph is strongly connected
 	 * @see com.syncleus.dann.graph.topological.Topography#isStronglyConnected(Graph)
 	 */
-	public static <N, E extends TraversableEdge<N>> boolean isStronglyConnected(final Graph<N, E> graph)
+	public static <N, E extends TraversableCloud<N>> boolean isStronglyConnected(final Graph<N, E> graph)
 	{
 		if( graph instanceof StrongConnectivityOptimizedGraph )
 		{
@@ -132,7 +132,7 @@ public final class Topography
 	 * @return If this graph is weakly connected
 	 * @see com.syncleus.dann.graph.topological.Topography#isWeaklyConnected(Graph)
 	 */
-	public static <N, E extends TraversableEdge<N>> boolean isWeaklyConnected(final Graph<N, E> graph)
+	public static <N, E extends TraversableCloud<N>> boolean isWeaklyConnected(final Graph<N, E> graph)
 	{
 		if( graph instanceof WeakConnectivityOptimizedGraph )
 		{
@@ -170,7 +170,7 @@ public final class Topography
 	 * @return Whether there is any connection between the two nodes
 	 * @see com.syncleus.dann.graph.topological.Topography#isWeaklyConnected(Graph, Object, Object)
 	 */
-	public static <N, E extends TraversableEdge<N>> boolean isWeaklyConnected(final Graph<N, E> graph, final N leftNode, final N rightNode)
+	public static <N, E extends TraversableCloud<N>> boolean isWeaklyConnected(final Graph<N, E> graph, final N leftNode, final N rightNode)
 	{
 		if( graph instanceof WeakConnectivityOptimizedGraph )
 		{
@@ -218,7 +218,7 @@ public final class Topography
 	 * @see com.syncleus.dann.graph.topological.Topography#isWeaklyConnected(Graph, Object, Object)
 	 * @see com.syncleus.dann.graph.topological.Topography#isStronglyConnected(Graph, Object, Object)
 	 */
-	public static <N, E extends TraversableEdge<N>> boolean isStronglyConnected(final Graph<N, E> graph, final N leftNode, final N rightNode)
+	public static <N, E extends TraversableCloud<N>> boolean isStronglyConnected(final Graph<N, E> graph, final N leftNode, final N rightNode)
 	{
 		if( graph instanceof StrongConnectivityOptimizedGraph )
 		{
@@ -257,7 +257,7 @@ public final class Topography
 	 * @return <code>null</code>
 	 * @see com.syncleus.dann.graph.topological.Topography#getMaximallyConnectedComponents(Graph)
 	 */
-	public static <N, E extends TraversableEdge<N>> Set<Graph<N, E>> getMaximallyConnectedComponents(final Graph<N, E> graph)
+	public static <N, E extends TraversableCloud<N>> Set<Graph<N, E>> getMaximallyConnectedComponents(final Graph<N, E> graph)
 	{
 		if( graph instanceof WeakConnectivityOptimizedGraph )
 		{
@@ -285,7 +285,7 @@ public final class Topography
 	 * @return Whether this is a maximal subgraph
 	 * @see com.syncleus.dann.graph.topological.Topography#isMaximalSubgraph(Graph, Graph)
 	 */
-	public static <N, E extends TraversableEdge<N>> boolean isMaximalSubgraph(final Graph<N, E> graph, final Graph<N, E> subGraph)
+	public static <N, E extends TraversableCloud<N>> boolean isMaximalSubgraph(final Graph<N, E> graph, final Graph<N, E> subGraph)
 	{
 		if( graph instanceof WeakConnectivityOptimizedGraph )
 		{
@@ -318,7 +318,7 @@ public final class Topography
 	}
 
 
-	public static <N, E extends TraversableEdge<N>> boolean isCut(final Graph<N, E> graph, final Set<N> cutNodes, final Set<E> cutEdges)
+	public static <N, E extends TraversableCloud<N>> boolean isCut(final Graph<N, E> graph, final Set<N> cutNodes, final Set<E> cutEdges)
 	{
 		if( graph instanceof WeakConnectivityOptimizedGraph )
 		{
@@ -336,7 +336,7 @@ public final class Topography
 		return Topography.isStronglyConnected(Topography.deleteFromGraph(graph, cutNodes, cutEdges));
 	}
 
-	public static <N, E extends TraversableEdge<N>> boolean isCut(final Graph<N, E> graph, final Set<N> cutNodes, final Set<E> cutEdges, final N begin, final N end)
+	public static <N, E extends TraversableCloud<N>> boolean isCut(final Graph<N, E> graph, final Set<N> cutNodes, final Set<E> cutEdges, final N begin, final N end)
 	{
 		if( graph instanceof WeakConnectivityOptimizedGraph )
 		{
@@ -354,7 +354,7 @@ public final class Topography
 		return Topography.isStronglyConnected(Topography.deleteFromGraph(graph, cutNodes, cutEdges), begin, end);
 	}
 
-	public static <N, E extends TraversableEdge<N>> boolean isCut(final Graph<N, E> graph, final Set<E> cutEdges)
+	public static <N, E extends TraversableCloud<N>> boolean isCut(final Graph<N, E> graph, final Set<E> cutEdges)
 	{
 		if( graph instanceof WeakConnectivityOptimizedGraph )
 		{
@@ -372,7 +372,7 @@ public final class Topography
 		return Topography.isCut(graph, Collections.<N>emptySet(), cutEdges);
 	}
 
-	public static <N, E extends TraversableEdge<N>> boolean isCut(final Graph<N, E> graph, final N node)
+	public static <N, E extends TraversableCloud<N>> boolean isCut(final Graph<N, E> graph, final N node)
 	{
 		if( graph instanceof WeakConnectivityOptimizedGraph )
 		{
@@ -390,7 +390,7 @@ public final class Topography
 		return Topography.isCut(graph, Collections.singleton(node), Collections.<E>emptySet());
 	}
 
-	public static <N, E extends TraversableEdge<N>> boolean isCut(final Graph<N, E> graph, final E edge)
+	public static <N, E extends TraversableCloud<N>> boolean isCut(final Graph<N, E> graph, final E edge)
 	{
 		if( graph instanceof WeakConnectivityOptimizedGraph )
 		{
@@ -408,7 +408,7 @@ public final class Topography
 		return Topography.isCut(graph, Collections.<N>emptySet(), Collections.singleton(edge));
 	}
 
-	public static <N, E extends TraversableEdge<N>> boolean isCut(final Graph<N, E> graph, final Set<E> cutEdges, final N begin, final N end)
+	public static <N, E extends TraversableCloud<N>> boolean isCut(final Graph<N, E> graph, final Set<E> cutEdges, final N begin, final N end)
 	{
 		if( graph instanceof WeakConnectivityOptimizedGraph )
 		{
@@ -426,7 +426,7 @@ public final class Topography
 		return Topography.isCut(graph, Collections.<N>emptySet(), cutEdges, begin, end);
 	}
 
-	public static <N, E extends TraversableEdge<N>> boolean isCut(final Graph<N, E> graph, final N node, final N begin, final N end)
+	public static <N, E extends TraversableCloud<N>> boolean isCut(final Graph<N, E> graph, final N node, final N begin, final N end)
 	{
 		if( graph instanceof WeakConnectivityOptimizedGraph )
 		{
@@ -444,7 +444,7 @@ public final class Topography
 		return Topography.isCut(graph, Collections.singleton(node), Collections.<E>emptySet(), begin, end);
 	}
 
-	public static <N, E extends TraversableEdge<N>> boolean isCut(final Graph<N, E> graph, final E edge, final N begin, final N end)
+	public static <N, E extends TraversableCloud<N>> boolean isCut(final Graph<N, E> graph, final E edge, final N begin, final N end)
 	{
 		if( graph instanceof WeakConnectivityOptimizedGraph )
 		{
@@ -462,7 +462,7 @@ public final class Topography
 		return Topography.isCut(graph, Collections.<N>emptySet(), Collections.singleton(edge), begin, end);
 	}
 
-	public static <N, E extends TraversableEdge<N>> int getNodeConnectivity(final Graph<N, E> graph)
+	public static <N, E extends TraversableCloud<N>> int getNodeConnectivity(final Graph<N, E> graph)
 	{
 		if( graph instanceof WeakConnectivityOptimizedGraph )
 		{
@@ -486,7 +486,7 @@ public final class Topography
 		return graph.getNodes().size();
 	}
 
-	public static <N, E extends TraversableEdge<N>> int getEdgeConnectivity(final Graph<N, E> graph)
+	public static <N, E extends TraversableCloud<N>> int getEdgeConnectivity(final Graph<N, E> graph)
 	{
 		if( graph instanceof WeakConnectivityOptimizedGraph )
 		{
@@ -510,7 +510,7 @@ public final class Topography
 		return graph.getEdges().size();
 	}
 
-	public static <N, E extends TraversableEdge<N>> int getNodeConnectivity(final Graph<N, E> graph, final N begin, final N end)
+	public static <N, E extends TraversableCloud<N>> int getNodeConnectivity(final Graph<N, E> graph, final N begin, final N end)
 	{
 		if( graph instanceof WeakConnectivityOptimizedGraph )
 		{
@@ -534,7 +534,7 @@ public final class Topography
 		return graph.getNodes().size();
 	}
 
-	public static <N, E extends TraversableEdge<N>> int getEdgeConnectivity(final Graph<N, E> graph, final N begin, final N end)
+	public static <N, E extends TraversableCloud<N>> int getEdgeConnectivity(final Graph<N, E> graph, final N begin, final N end)
 	{
 		if( graph instanceof WeakConnectivityOptimizedGraph )
 		{
@@ -558,7 +558,7 @@ public final class Topography
 		return graph.getEdges().size();
 	}
 
-	public static <N, E extends TraversableEdge<N>> boolean isComplete(final Graph<N, E> graph)
+	public static <N, E extends TraversableCloud<N>> boolean isComplete(final Graph<N, E> graph)
 	{
 		if( graph instanceof WeakConnectivityOptimizedGraph )
 		{
@@ -587,7 +587,7 @@ public final class Topography
 		return true;
 	}
 
-	public static <N, E extends TraversableEdge<N>> int getOrder(final Graph<N, E> graph)
+	public static <N, E extends TraversableCloud<N>> int getOrder(final Graph<N, E> graph)
 	{
 		if( graph instanceof ConnectionismOptimizedGraph )
 		{
@@ -605,7 +605,7 @@ public final class Topography
 		return graph.getNodes().size();
 	}
 
-	public static <N, E extends TraversableEdge<N>> boolean isSubGraph(final Graph<N, E> graph, final Graph<N, E> subgraph)
+	public static <N, E extends TraversableCloud<N>> boolean isSubGraph(final Graph<N, E> graph, final Graph<N, E> subgraph)
 	{
 		if( graph instanceof StructureOptimizedGraph )
 		{
@@ -632,7 +632,7 @@ public final class Topography
 		return true;
 	}
 
-	public static <N, E extends TraversableEdge<N>> int getMinimumDegree(final Graph<N, E> graph)
+	public static <N, E extends TraversableCloud<N>> int getMinimumDegree(final Graph<N, E> graph)
 	{
 		if( graph instanceof ConnectionismOptimizedGraph )
 		{
@@ -656,7 +656,7 @@ public final class Topography
 		return minimumDegree;
 	}
 
-	public static <N, E extends TraversableEdge<N>> boolean isMultigraph(final Graph<N, E> graph)
+	public static <N, E extends TraversableCloud<N>> boolean isMultigraph(final Graph<N, E> graph)
 	{
 		if( graph instanceof ConnectionismOptimizedGraph )
 		{
@@ -685,7 +685,7 @@ public final class Topography
 		return false;
 	}
 
-	public static <N, E extends TraversableEdge<N>> boolean isIsomorphic(final Graph<N, E> graph, final Graph<N, E> isomorphicGraph)
+	public static <N, E extends TraversableCloud<N>> boolean isIsomorphic(final Graph<N, E> graph, final Graph<N, E> isomorphicGraph)
 	{
 		if( graph instanceof StructureOptimizedGraph )
 		{
@@ -703,7 +703,7 @@ public final class Topography
 		return (Topography.isHomomorphic(graph, isomorphicGraph) && Topography.isHomomorphic(isomorphicGraph, graph));
 	}
 
-	public static <N, E extends TraversableEdge<N>> boolean isHomomorphic(final Graph<N, E> graph, final Graph<N, E> homomorphicGraph)
+	public static <N, E extends TraversableCloud<N>> boolean isHomomorphic(final Graph<N, E> graph, final Graph<N, E> homomorphicGraph)
 	{
 		if( graph instanceof StructureOptimizedGraph )
 		{
@@ -754,7 +754,7 @@ public final class Topography
 	 * @since 2.0
 	 * @see com.syncleus.dann.graph.topological.Topography#isSimple(Graph)
 	 */
-	public static <N, E extends TraversableEdge<N>> boolean isSimple(final Graph<N, E> graph)
+	public static <N, E extends TraversableCloud<N>> boolean isSimple(final Graph<N, E> graph)
 	{
 		if( graph instanceof ConnectionismOptimizedGraph )
 		{
@@ -788,7 +788,7 @@ public final class Topography
 	 * @since 2.0
 	 * @see com.syncleus.dann.graph.topological.Topography#isRegular(Graph)
 	 */
-	public static <N, E extends TraversableEdge<N>> boolean isRegular(final Graph<N, E> graph)
+	public static <N, E extends TraversableCloud<N>> boolean isRegular(final Graph<N, E> graph)
 	{
 		if( graph instanceof ConnectionismOptimizedGraph )
 		{
@@ -820,7 +820,7 @@ public final class Topography
 	 * @return The degree of the regular graph
 	 * @see com.syncleus.dann.graph.topological.Topography#getRegularDegree(Graph)
 	 */
-	public static <N, E extends TraversableEdge<N>> int getRegularDegree(final Graph<N, E> graph)
+	public static <N, E extends TraversableCloud<N>> int getRegularDegree(final Graph<N, E> graph)
 	{
 		if( graph instanceof ConnectionismOptimizedGraph )
 		{
@@ -858,7 +858,7 @@ public final class Topography
 	 * @since 2.0
 	 * @see com.syncleus.dann.graph.topological.Topography#getMultiplicity(Graph)
 	 */
-	public static <N, E extends TraversableEdge<N>> int getMultiplicity(final Graph<N, E> graph)
+	public static <N, E extends TraversableCloud<N>> int getMultiplicity(final Graph<N, E> graph)
 	{
 		if( graph instanceof ConnectionismOptimizedGraph )
 		{
@@ -893,9 +893,9 @@ public final class Topography
 	 * @throws IllegalArgumentException if the specified edge is not present in the
 	 * graph.
 	 * @since 2.0
-	 * @see com.syncleus.dann.graph.topological.Topography#getMultiplicity(Graph, com.syncleus.dann.graph.TraversableEdge)
+	 * @see com.syncleus.dann.graph.topological.Topography#getMultiplicity(Graph, com.syncleus.dann.graph.TraversableCloud)
 	 */
-	public static <N, E extends TraversableEdge<N>> int getMultiplicity(final Graph<N, E> graph, final E edge)
+	public static <N, E extends TraversableCloud<N>> int getMultiplicity(final Graph<N, E> graph, final E edge)
 	{
 		if( graph instanceof ConnectionismOptimizedGraph )
 		{
@@ -941,7 +941,7 @@ public final class Topography
 	 * graph.
 	 * @since 2.0
 	 */
-	public static <N, E extends TraversableEdge<N>> boolean isMultiple(final Graph<N, E> graph, final E edge)
+	public static <N, E extends TraversableCloud<N>> boolean isMultiple(final Graph<N, E> graph, final E edge)
 	{
 		if( graph instanceof ConnectionismOptimizedGraph )
 		{
@@ -989,7 +989,7 @@ public final class Topography
 	 * @return false
 	 * @since 2.0
 	 */
-	public static <N, E extends TraversableEdge<N>> boolean isKnot(final Graph<N, E> graph, final Set<N> knotedNodes)
+	public static <N, E extends TraversableCloud<N>> boolean isKnot(final Graph<N, E> graph, final Set<N> knotedNodes)
 	{
 		if( graph instanceof KnotOptimizedGraph )
 		{
@@ -1008,7 +1008,7 @@ public final class Topography
 		throw new UnsupportedOperationException();
 	}
 
-	public static <N, E extends TraversableEdge<N>> boolean isKnot(final Graph<N, E> graph, final Set<N> knotedNodes, final Set<E> knotedEdges)
+	public static <N, E extends TraversableCloud<N>> boolean isKnot(final Graph<N, E> graph, final Set<N> knotedNodes, final Set<E> knotedEdges)
 	{
 		if( graph instanceof KnotOptimizedGraph )
 		{
@@ -1167,21 +1167,21 @@ public final class Topography
 	 * @param deleteEdges The edges to remove in addition to the nodes
 	 * @return an ImmutableAdjacencyGraph with the given nodes and edges removed
 	 */
-	private static <N, E extends TraversableEdge<N>> ImmutableAdjacencyGraph<N, TraversableEdge<N>> deleteFromGraph(final Graph<N, E> graph, final Set<N> deleteNodes, final Set<E> deleteEdges)
+	private static <N, E extends TraversableCloud<N>> ImmutableAdjacencyGraph<N, TraversableCloud<N>> deleteFromGraph(final Graph<N, E> graph, final Set<N> deleteNodes, final Set<E> deleteEdges)
 	{
 		// remove the deleteNodes
 		final Set<N> cutNodes = graph.getNodes();
 		cutNodes.removeAll(deleteNodes);
 		// remove the deleteEdges
-		final Set<TraversableEdge<N>> cutEdges = new HashSet<TraversableEdge<N>>(deleteEdges);
+		final Set<TraversableCloud<N>> cutEdges = new HashSet<TraversableCloud<N>>(deleteEdges);
 		for (final E edge : deleteEdges)
 			cutEdges.remove(edge);
 		// remove any remaining deleteEdges which connect to removed deleteNodes
 		// also replace deleteEdges that have one removed node but still have
 		// 2 or more remaining deleteNodes with a new edge.
-		final Set<TraversableEdge<N>> removeEdges = new HashSet<TraversableEdge<N>>();
-		final Set<TraversableEdge<N>> addEdges = new HashSet<TraversableEdge<N>>();
-		for(final TraversableEdge<N> cutEdge : cutEdges)
+		final Set<TraversableCloud<N>> removeEdges = new HashSet<TraversableCloud<N>>();
+		final Set<TraversableCloud<N>> addEdges = new HashSet<TraversableCloud<N>>();
+		for(final TraversableCloud<N> cutEdge : cutEdges)
 		{
 			final List<N> cutEdgeNeighbors = cutEdge.getNodes();
 			cutEdgeNeighbors.removeAll(cutNodes);
@@ -1191,12 +1191,12 @@ public final class Topography
 				// TODO instead of ImmutableHyperEdge implement clone or something
 				addEdges.add(new ImmutableHyperEdge<N>(cutEdgeNeighbors));
 		}
-		for(final TraversableEdge<N> removeEdge : removeEdges)
+		for(final TraversableCloud<N> removeEdge : removeEdges)
 			cutEdges.remove(removeEdge);
 		cutEdges.addAll(addEdges);
 		// check if a graph from the new set of deleteEdges and deleteNodes is
 		// still connected
-		return new ImmutableAdjacencyGraph<N, TraversableEdge<N>>(cutNodes, cutEdges);
+		return new ImmutableAdjacencyGraph<N, TraversableCloud<N>>(cutNodes, cutEdges);
 	}
 
 	/**

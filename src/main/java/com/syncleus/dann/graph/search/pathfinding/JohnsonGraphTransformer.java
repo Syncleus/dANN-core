@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.syncleus.dann.graph.*;
-import com.syncleus.dann.graph.TraversableEdge;
+import com.syncleus.dann.graph.TraversableCloud;
 
 public class JohnsonGraphTransformer<N> implements GraphTransformer<BidirectedGraph<N, ? extends WeightedDirectedEdge<N>>>
 {
@@ -32,7 +32,7 @@ public class JohnsonGraphTransformer<N> implements GraphTransformer<BidirectedGr
 
 	private boolean containsInfinite(final Graph<N, ?> original)
 	{
-		for(final TraversableEdge edge : original.getEdges())
+		for(final TraversableCloud edge : original.getEdges())
 		{
 			if( edge instanceof Weighted
 					&& Double.isInfinite(((Weighted) edge).getWeight()) )

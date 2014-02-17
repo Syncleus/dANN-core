@@ -16,17 +16,11 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann.graph;
+package com.syncleus.dann.graph.context;
 
-import com.syncleus.dann.graph.context.ContextReporter;
-import com.syncleus.dann.graph.xml.EdgeXml;
-import com.syncleus.dann.xml.XmlSerializable;
+import com.syncleus.dann.graph.TraversableCloud;
 
-import java.io.Serializable;
-import java.util.List;
-
-public interface Edge<N> extends Serializable, Cloneable, XmlSerializable<EdgeXml, Object>, ContextReporter
+public interface SignalingContextCloud<N, S> extends TraversableCloud<N>
 {
-    List<N> getNodes();
-    List<N> getTraversableNodes(N node);
+	void nodeStateChanged(N node, S newState);
 }

@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Set;
 import com.syncleus.dann.graph.context.ContextGraphElement;
 
-public class MutableAdjacencyGraph<N, E extends TraversableEdge<N>> extends AbstractAdjacencyGraph<N, E> implements MutableGraph<N, E>
+public class MutableAdjacencyGraph<N, E extends TraversableCloud<N>> extends AbstractAdjacencyGraph<N, E> implements MutableGraph<N, E>
 {
 	private static final long serialVersionUID = -4613327727609060678L;
 

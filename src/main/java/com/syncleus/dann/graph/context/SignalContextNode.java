@@ -18,9 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.context;
 
-import com.syncleus.dann.graph.TraversableEdge;
+import com.syncleus.dann.graph.TraversableCloud;
 
-public interface SignalContextNode<N, E extends TraversableEdge<N>, S>
+public interface SignalContextNode<N, E extends TraversableCloud<N>, S>
 {
 	void neighborNodeStateChanged(E edge, N node, S newState);
 	S getState();

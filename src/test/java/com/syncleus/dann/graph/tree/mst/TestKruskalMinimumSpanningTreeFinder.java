@@ -64,7 +64,7 @@ public class TestKruskalMinimumSpanningTreeFinder
 		final TreeGraph<Object, BidirectedEdge<Object>> mst = new ImmutableTreeAdjacencyGraph<Object, BidirectedEdge<Object>>(graph.getNodes(), mstEdges);
 
 		LOGGER.info("mst edges:");
-		for(final TraversableEdge edge : mst.getEdges())
+		for(final TraversableCloud edge : mst.getEdges())
 			LOGGER.info(edge);
 
 		final CycleDetector detector = new ColoredDepthFirstSearchDetector();
@@ -114,11 +114,11 @@ public class TestKruskalMinimumSpanningTreeFinder
 		for(final Object node : nodes)
 			LOGGER.info(node);
 		LOGGER.info("Linkedgraph edges:");
-		for(final TraversableEdge edge : edges)
+		for(final TraversableCloud edge : edges)
 			LOGGER.info(edge);
 
 		LOGGER.info("Linked mst edges:");
-		for(final TraversableEdge edge : mst.getEdges())
+		for(final TraversableCloud edge : mst.getEdges())
 			LOGGER.info(edge);
 
 		final CycleDetector detector = new ColoredDepthFirstSearchDetector();

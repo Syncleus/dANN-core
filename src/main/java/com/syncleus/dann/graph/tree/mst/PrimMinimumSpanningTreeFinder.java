@@ -31,11 +31,11 @@ import java.util.Queue;
 import java.util.Set;
 
 import com.syncleus.dann.graph.*;
-import com.syncleus.dann.graph.TraversableEdge;
+import com.syncleus.dann.graph.TraversableCloud;
 import com.syncleus.dann.graph.topological.sorter.SimpleTopologicalRanker;
 import com.syncleus.dann.graph.topological.sorter.TopologicalSorter;
 
-public class PrimMinimumSpanningTreeFinder<N, E extends TraversableEdge<N>> implements RootedMinimumSpanningTreeFinder<N, E>
+public class PrimMinimumSpanningTreeFinder<N, E extends TraversableCloud<N>> implements RootedMinimumSpanningTreeFinder<N, E>
 {
 	@SuppressWarnings("unchecked")
 	@Override

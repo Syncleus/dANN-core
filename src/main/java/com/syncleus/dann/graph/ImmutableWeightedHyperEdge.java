@@ -20,7 +20,7 @@ package com.syncleus.dann.graph;
 
 import java.util.List;
 
-public final class ImmutableWeightedHyperEdge<N> extends AbstractHyperEdge<N> implements WeightedEdge<N>
+public final class ImmutableWeightedHyperEdge<N> extends AbstractHyperEdge<N> implements WeightedCloud<N>
 {
 	private static final long serialVersionUID = 2622882478754498808L;
 	private final double weight;

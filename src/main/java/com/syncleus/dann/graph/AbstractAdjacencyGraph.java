@@ -43,7 +43,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * @param <E> The type of edge for the given node type
  */
 @XmlJavaTypeAdapter( com.syncleus.dann.xml.XmlSerializableAdapter.class )
-public abstract class AbstractAdjacencyGraph<N, E extends TraversableEdge<N>> implements Graph<N, E>
+public abstract class AbstractAdjacencyGraph<N, E extends TraversableCloud<N>> implements Graph<N, E>
 {
 	private static final Logger LOGGER = Logger.getLogger(AbstractAdjacencyGraph.class);
 	private Set<E> edges;
@@ -265,7 +265,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends TraversableEdge<N>> im
 	 * Gets the traversable nodes adjacent to the given node.
 	 * @param node The whose traversable neighbors are to be returned.
 	 * @return The traversable nodes adjacent to the given node
-	 * @see TraversableEdge#getTraversableNodes(Object)
+	 * @see TraversableCloud#getTraversableNodes(Object)
 	 */
 	@Override
 	public List<N> getTraversableNodes(final N node)
@@ -280,7 +280,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends TraversableEdge<N>> im
 	 * Gets the traversable edges from this node.
 	 * @param node edges returned will be traversable from this node.
 	 * @return The traversable edges from the given node
-	 * @see TraversableEdge#isTraversable(Object)
+	 * @see TraversableCloud#isTraversable(Object)
 	 */
 	@Override
 	public Set<E> getTraversableEdges(final N node)

@@ -20,12 +20,13 @@ package com.syncleus.dann.graph.context;
 
 import java.util.HashSet;
 import java.util.Set;
-import com.syncleus.dann.graph.TraversableEdge;
+
+import com.syncleus.dann.graph.TraversableCloud;
 import com.syncleus.dann.graph.Graph;
 
-public abstract class AbstractSignalContextNode<N, E extends TraversableEdge<N>, S> extends AbstractContextNode<N, E, Graph<N, E>> implements SignalContextNode<N, E, S>
+public abstract class AbstractSignalContextNode<N, E extends TraversableCloud<N>, S> extends AbstractContextNode<N, E, Graph<N, E>> implements SignalContextNode<N, E, S>
 {
-	private final Set<SignalingContextEdge<N, S>> contextEdges = new HashSet<SignalingContextEdge<N, S>>();
+	private final Set<SignalingContextCloud<N, S>> contextEdges = new HashSet<SignalingContextCloud<N, S>>();
 	private transient S state = null;
 
 	protected AbstractSignalContextNode(final boolean allowJoiningMultipleGraphs)
@@ -43,8 +44,8 @@ public abstract class AbstractSignalContextNode<N, E extends TraversableEdge<N>,
 	{
 		if( super.connectingEdge(edge) )
 		{
-			if(edge instanceof SignalingContextEdge)
-				this.contextEdges.add((SignalingContextEdge)edge);
+			if(edge instanceof SignalingContextCloud)
+				this.contextEdges.add((SignalingContextCloud)edge);
 			return true;
 		}
 		else
@@ -56,7 +57,7 @@ public abstract class AbstractSignalContextNode<N, E extends TraversableEdge<N>,
 	{
 		if( super.disconnectingEdge(edge) )
 		{
-			if(edge instanceof SignalingContextEdge)
+			if(edge instanceof SignalingContextCloud)
 				this.contextEdges.remove(edge);
 			return true;
 		}
@@ -75,7 +76,7 @@ public abstract class AbstractSignalContextNode<N, E extends TraversableEdge<N>,
 		this.state = state;
 
 		//lets notify all edges
-		for(SignalingContextEdge edge : this.contextEdges)
+		for(SignalingContextCloud edge : this.contextEdges)
 		{
 			if( edge.isTraversable(this) )
 				edge.nodeStateChanged(this, state);
