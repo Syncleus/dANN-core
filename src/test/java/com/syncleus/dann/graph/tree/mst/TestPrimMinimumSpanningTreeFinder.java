@@ -64,7 +64,7 @@ public class TestPrimMinimumSpanningTreeFinder
 		final TreeGraph<Object, BidirectedEdge<Object>> mst = new ImmutableTreeAdjacencyGraph<Object, BidirectedEdge<Object>>(graph.getNodes(), mstEdges);
 
 		LOGGER.info("mst edges:");
-		for(final Edge edge : mst.getEdges())
+		for(final TraversableEdge edge : mst.getEdges())
 			LOGGER.info(edge);
 
 		final CycleDetector detector = new ColoredDepthFirstSearchDetector();

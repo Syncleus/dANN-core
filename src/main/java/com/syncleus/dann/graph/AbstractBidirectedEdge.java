@@ -27,7 +27,7 @@ import com.syncleus.dann.xml.NamedValueXml;
 import com.syncleus.dann.xml.Namer;
 import com.syncleus.dann.xml.XmlSerializable;
 
-public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implements BidirectedEdge<N>
+public abstract class AbstractBidirectedEdge<N> extends AbstractTraversableEdge<N> implements BidirectedEdge<N>
 {
 	private final N leftNode;
 	private final N rightNode;

@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class AbstractHyperEdge<N> extends AbstractEdge<N> implements HyperEdge<N>
+public abstract class AbstractHyperEdge<N> extends AbstractTraversableEdge<N> implements HyperEdge<N>
 {
 	private static final long serialVersionUID = -3657973823101515199L;
 

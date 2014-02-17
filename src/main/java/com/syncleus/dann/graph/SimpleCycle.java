@@ -21,7 +21,7 @@ package com.syncleus.dann.graph;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimpleCycle<N, E extends Edge<N>> extends SimpleWalk<N, E> implements Cycle<N, E>
+public class SimpleCycle<N, E extends TraversableEdge<N>> extends SimpleWalk<N, E> implements Cycle<N, E>
 {
 	public SimpleCycle(final List<E> steps, final List<N> nodes, final double defaultWeight)
 	{
@@ -43,7 +43,7 @@ public class SimpleCycle<N, E extends Edge<N>> extends SimpleWalk<N, E> implemen
 		this(steps, SimpleCycle.<N, E>edgeToNodeSteps(steps), 0.0);
 	}
 
-	private static <N, E extends Edge<N>> N startNodeFromSteps(final List<E> steps)
+	private static <N, E extends TraversableEdge<N>> N startNodeFromSteps(final List<E> steps)
 	{
 		if( steps.size() == 1 )
 			return steps.get(0).getNodes().get(0);
@@ -64,7 +64,7 @@ public class SimpleCycle<N, E extends Edge<N>> extends SimpleWalk<N, E> implemen
 		return (super.verify(nodeSteps, edgeSteps)) && (com.syncleus.dann.graph.AbstractCycle.verifyUtility(nodeSteps, edgeSteps));
 	}
 
-	private static <N, E extends Edge<N>> List<N> edgeToNodeSteps(final List<E> steps)
+	private static <N, E extends TraversableEdge<N>> List<N> edgeToNodeSteps(final List<E> steps)
 	{
 		if( steps == null )
 			throw new IllegalArgumentException("steps can not be null");

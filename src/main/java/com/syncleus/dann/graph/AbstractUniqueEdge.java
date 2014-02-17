@@ -20,7 +20,7 @@ package com.syncleus.dann.graph;
 
 import java.util.List;
 
-public abstract class AbstractUniqueEdge<N> extends AbstractEdge<N>
+public abstract class AbstractUniqueEdge<N> extends AbstractTraversableEdge<N>
 {
 	protected AbstractUniqueEdge()
 	{
@@ -58,10 +58,10 @@ public abstract class AbstractUniqueEdge<N> extends AbstractEdge<N>
 		if( compareToObj == null )
 			return false;
 
-		if( !(compareToObj instanceof Edge) )
+		if( !(compareToObj instanceof TraversableEdge) )
 			return false;
 
-		final Edge compareTo = (Edge) compareToObj;
+		final TraversableEdge compareTo = (TraversableEdge) compareToObj;
 		return (compareTo.getNodes().equals(this.getNodes()))
 				&& (this.getNodes().equals(compareTo.getNodes()));
 	}

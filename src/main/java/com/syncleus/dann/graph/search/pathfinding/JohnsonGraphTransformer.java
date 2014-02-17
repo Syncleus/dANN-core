@@ -22,14 +22,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import com.syncleus.dann.graph.BidirectedGraph;
-import com.syncleus.dann.graph.Edge;
-import com.syncleus.dann.graph.Graph;
-import com.syncleus.dann.graph.ImmutableWeightedDirectedEdge;
-import com.syncleus.dann.graph.MutableDirectedAdjacencyGraph;
-import com.syncleus.dann.graph.SimpleWeightedDirectedEdge;
-import com.syncleus.dann.graph.Weighted;
-import com.syncleus.dann.graph.WeightedDirectedEdge;
+
+import com.syncleus.dann.graph.*;
+import com.syncleus.dann.graph.TraversableEdge;
 
 public class JohnsonGraphTransformer<N> implements GraphTransformer<BidirectedGraph<N, ? extends WeightedDirectedEdge<N>>>
 {
@@ -37,7 +32,7 @@ public class JohnsonGraphTransformer<N> implements GraphTransformer<BidirectedGr
 
 	private boolean containsInfinite(final Graph<N, ?> original)
 	{
-		for(final Edge edge : original.getEdges())
+		for(final TraversableEdge edge : original.getEdges())
 		{
 			if( edge instanceof Weighted
 					&& Double.isInfinite(((Weighted) edge).getWeight()) )

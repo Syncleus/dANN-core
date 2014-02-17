@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface MutableGraph<N, E extends Edge<N>> extends Graph<N, E>
+public interface MutableGraph<N, E extends TraversableEdge<N>> extends Graph<N, E>
 {
 	boolean add(E newEdge);
 	boolean add(N newNode);

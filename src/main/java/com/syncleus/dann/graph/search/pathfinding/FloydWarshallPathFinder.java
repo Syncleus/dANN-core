@@ -22,12 +22,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.syncleus.dann.graph.Edge;
+import com.syncleus.dann.graph.TraversableEdge;
 import com.syncleus.dann.graph.Graph;
 import com.syncleus.dann.graph.Weighted;
 import com.syncleus.dann.graph.WeightedEdge;
 
-public class FloydWarshallPathFinder<N, E extends Edge<N>> implements PathFinder<N, E>
+public class FloydWarshallPathFinder<N, E extends TraversableEdge<N>> implements PathFinder<N, E>
 {
 	private final Graph<N, E> graph;
 	private final Map<N, Map<N, Double>> walkWeight;

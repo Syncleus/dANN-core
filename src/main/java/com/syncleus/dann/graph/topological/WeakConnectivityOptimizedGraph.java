@@ -19,10 +19,10 @@
 package com.syncleus.dann.graph.topological;
 
 import java.util.Set;
-import com.syncleus.dann.graph.Edge;
+import com.syncleus.dann.graph.TraversableEdge;
 import com.syncleus.dann.graph.Graph;
 
-public interface WeakConnectivityOptimizedGraph<N, E extends Edge<N>> extends Graph<N, E>
+public interface WeakConnectivityOptimizedGraph<N, E extends TraversableEdge<N>> extends Graph<N, E>
 {
 	/**
 	 * Determines if there is a path between the firstNode and the lastNode. If

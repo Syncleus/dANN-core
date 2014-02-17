@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.search.pathfinding;
 
-import com.syncleus.dann.graph.Edge;
+import com.syncleus.dann.graph.TraversableEdge;
 import com.syncleus.dann.graph.Graph;
 import com.syncleus.dann.graph.Weighted;
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
-public class AstarPathFinder<N, E extends Edge<N>> implements PathFinder<N, E>
+public class AstarPathFinder<N, E extends TraversableEdge<N>> implements PathFinder<N, E>
 {
 	private final class PathedStep implements Comparable<PathedStep>
 	{

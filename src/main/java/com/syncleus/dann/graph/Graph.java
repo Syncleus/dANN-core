@@ -40,7 +40,7 @@ import java.util.Set;
  * @param <N> The node type
  * @param <E> The type of edge for the given node type
  */
-public interface Graph<N, E extends Edge<N>> extends Serializable, Cloneable, XmlSerializable<GraphXml, Object>, ContextReporter
+public interface Graph<N, E extends TraversableEdge<N>> extends Serializable, Cloneable, XmlSerializable<GraphXml, Object>, ContextReporter
 {
 	/**
 	 * Get a set of all nodes in the graph.

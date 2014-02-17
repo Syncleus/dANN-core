@@ -20,7 +20,7 @@ package com.syncleus.dann.graph;
 
 import java.util.List;
 
-public abstract class AbstractWeightedEdge<N> extends AbstractEdge<N> implements WeightedEdge<N>
+public abstract class AbstractWeightedEdge<N> extends AbstractTraversableEdge<N> implements WeightedEdge<N>
 {
 	private final double weight;
 

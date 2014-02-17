@@ -18,10 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.search.pathfinding;
 
-import com.syncleus.dann.graph.Edge;
+import com.syncleus.dann.graph.TraversableEdge;
 import com.syncleus.dann.graph.Graph;
 
-public class DijkstraPathFinder<N, E extends Edge<N>> extends AstarPathFinder<N, E>
+public class DijkstraPathFinder<N, E extends TraversableEdge<N>> extends AstarPathFinder<N, E>
 {
 	public static final class ZeroHeuristicPathCost<N> implements HeuristicPathCost<N>
 	{

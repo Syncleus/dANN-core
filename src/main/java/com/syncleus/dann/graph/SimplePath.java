@@ -21,7 +21,7 @@ package com.syncleus.dann.graph;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimplePath<N, E extends Edge<N>> extends SimpleWalk<N, E> implements Path<N, E>
+public class SimplePath<N, E extends TraversableEdge<N>> extends SimpleWalk<N, E> implements Path<N, E>
 {
 	private static final double DEFAULT_WEIGHT = 0.0;
 
@@ -50,7 +50,7 @@ public class SimplePath<N, E extends Edge<N>> extends SimpleWalk<N, E> implement
 		this(ourFirstNode, ourLastNode, steps, ourNodeSteps, DEFAULT_WEIGHT);
 	}
 
-	private static <N, E extends Edge<N>> List<N> edgeToNodeSteps(final N firstNode, final List<E> ourSteps)
+	private static <N, E extends TraversableEdge<N>> List<N> edgeToNodeSteps(final N firstNode, final List<E> ourSteps)
 	{
 		if( firstNode == null )
 			throw new IllegalArgumentException("firstNode can not be null");

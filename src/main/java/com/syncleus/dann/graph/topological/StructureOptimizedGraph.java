@@ -18,10 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.topological;
 
-import com.syncleus.dann.graph.Edge;
+import com.syncleus.dann.graph.TraversableEdge;
 import com.syncleus.dann.graph.Graph;
 
-public interface StructureOptimizedGraph<N, E extends Edge<N>> extends Graph<N, E>
+public interface StructureOptimizedGraph<N, E extends TraversableEdge<N>> extends Graph<N, E>
 {
 	/**
 	 * Determines if the specified graph only contains nodes and edges that are

@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class SimpleWalk<N, E extends Edge<N>> extends AbstractWalk<N, E>
+public class SimpleWalk<N, E extends TraversableEdge<N>> extends AbstractWalk<N, E>
 {
 	private static final double DEFAULT_WEIGHT = 0.0;
 

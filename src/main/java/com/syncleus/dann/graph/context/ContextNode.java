@@ -18,9 +18,9 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.context;
 
-import com.syncleus.dann.graph.Edge;
+import com.syncleus.dann.graph.TraversableEdge;
 
-public interface ContextNode<N, E extends Edge<N>>
+public interface ContextNode<N, E extends TraversableEdge<N>>
 {
 	boolean connectingEdge(E edge);
 	boolean disconnectingEdge(E edge);

@@ -18,10 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.topological;
 
-import com.syncleus.dann.graph.Edge;
+import com.syncleus.dann.graph.TraversableEdge;
 import com.syncleus.dann.graph.Graph;
 
-public interface ConnectionismOptimizedGraph<N, E extends Edge<N>> extends Graph<N, E>
+public interface ConnectionismOptimizedGraph<N, E extends TraversableEdge<N>> extends Graph<N, E>
 {
 	/**
 	 * The total degree of the specified node. This is essentially the number of

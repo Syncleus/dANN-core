@@ -18,16 +18,35 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
+import com.syncleus.dann.graph.context.ContextReporter;
+import com.syncleus.dann.graph.xml.EdgeXml;
+import com.syncleus.dann.xml.XmlSerializable;
+import java.io.Serializable;
 import java.util.List;
 
-public interface HyperEdge<N> extends TraversableEdge<N>
+public interface TraversableEdge<N> extends Edge<N>
 {
-	int getDegree();
-	boolean isSymmetric(HyperEdge symmetricEdge);
-	HyperEdge<N> connect(N node);
-	HyperEdge<N> connect(List<N> node);
-	@Override
-	HyperEdge<N> disconnect(N node);
-	@Override
-	HyperEdge<N> disconnect(List<N> node);
+	boolean isTraversable(N node);
+
+	/**
+	 * Returns an edge with the specified node disconnected.
+	 *
+	 * @param node node to remove from the returned edge.
+	 * @return an edge with the specified node disconnected,
+	 *   <tt>null</tt> if the entire edge should be deleted as a result of
+	 *   removing the specified node.
+	 * @since 2.0
+	 */
+	TraversableEdge<N> disconnect(N node);
+
+	/**
+	 * Returns an edge with the specified nodes disconnected.
+	 *
+	 * @param node node to remove from the returned edge.
+	 * @return an edge with the specified nodes disconnected,
+	 *   <tt>null</tt> if the entire edge should be deleted as a result of
+	 *   removing the specified nodes.
+	 */
+	TraversableEdge<N> disconnect(List<N> node);
+
 }

@@ -20,10 +20,10 @@ package com.syncleus.dann.graph.context;
 
 import java.util.HashSet;
 import java.util.Set;
-import com.syncleus.dann.graph.Edge;
+import com.syncleus.dann.graph.TraversableEdge;
 import com.syncleus.dann.graph.Graph;
 
-public abstract class AbstractSignalContextNode<N, E extends Edge<N>, S> extends AbstractContextNode<N, E, Graph<N, E>> implements SignalContextNode<N, E, S>
+public abstract class AbstractSignalContextNode<N, E extends TraversableEdge<N>, S> extends AbstractContextNode<N, E, Graph<N, E>> implements SignalContextNode<N, E, S>
 {
 	private final Set<SignalingContextEdge<N, S>> contextEdges = new HashSet<SignalingContextEdge<N, S>>();
 	private transient S state = null;

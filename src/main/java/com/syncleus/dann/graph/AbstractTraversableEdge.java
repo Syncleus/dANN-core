@@ -35,29 +35,29 @@ import com.syncleus.dann.xml.Namer;
 import com.syncleus.dann.xml.XmlSerializable;
 import org.apache.log4j.Logger;
 
-public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<N, ?>> implements Edge<N>
+public abstract class AbstractTraversableEdge<N> extends AbstractContextGraphElement<Graph<N, ?>> implements TraversableEdge<N>
 {
-	private static final Logger LOGGER = Logger.getLogger(AbstractEdge.class);
+	private static final Logger LOGGER = Logger.getLogger(AbstractTraversableEdge.class);
 	private final boolean contextEnabled;
 	private List<N> nodes;
 
-	protected AbstractEdge()
+	protected AbstractTraversableEdge()
 	{
 		this(true, true);
 	}
 
-	protected AbstractEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
+	protected AbstractTraversableEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
 	{
 		super(allowJoiningMultipleGraphs);
 		this.contextEnabled = contextEnabled;
 	}
 
-	protected AbstractEdge(final List<N> ourNodes)
+	protected AbstractTraversableEdge(final List<N> ourNodes)
 	{
 		this(ourNodes, true, true);
 	}
 
-	protected AbstractEdge(final List<N> ourNodes, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
+	protected AbstractTraversableEdge(final List<N> ourNodes, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
 	{
 		super(allowJoiningMultipleGraphs);
 		this.contextEnabled = contextEnabled;
@@ -78,12 +78,12 @@ public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<
 			this.nodes = Collections.unmodifiableList(new ArrayList<N>(ourNodes));
 	}
 
-	protected AbstractEdge(final N... ourNodes)
+	protected AbstractTraversableEdge(final N... ourNodes)
 	{
 		this(true, true, ourNodes);
 	}
 
-	protected AbstractEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled, final N... ourNodes)
+	protected AbstractTraversableEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled, final N... ourNodes)
 	{
 		this(Arrays.asList(ourNodes), allowJoiningMultipleGraphs, contextEnabled);
 	}
@@ -94,7 +94,7 @@ public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<
 		return this.contextEnabled;
 	}
 
-	protected AbstractEdge<N> add(final N node)
+	protected AbstractTraversableEdge<N> add(final N node)
 	{
 		if( node == null )
 			throw new IllegalArgumentException("node can not be null");
@@ -105,7 +105,7 @@ public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<
 		return createDeepCopy(newNodes);
 	}
 
-	protected AbstractEdge<N> add(final List<N> addNodes)
+	protected AbstractTraversableEdge<N> add(final List<N> addNodes)
 	{
 		if( addNodes == null )
 			throw new IllegalArgumentException("node can not be null");
@@ -115,7 +115,7 @@ public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<
 		return createDeepCopy(newNodes);
 	}
 
-	protected AbstractEdge<N> remove(final N node)
+	protected AbstractTraversableEdge<N> remove(final N node)
 	{
 		if( node == null )
 			throw new IllegalArgumentException("node can not be null");
@@ -128,7 +128,7 @@ public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<
 		return createDeepCopy(newNodes);
 	}
 
-	protected AbstractEdge<N> remove(final List<N> removeNodes)
+	protected AbstractTraversableEdge<N> remove(final List<N> removeNodes)
 	{
 		if( removeNodes == null )
 			throw new IllegalArgumentException("removeNodes can not be null");
@@ -146,11 +146,11 @@ public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<
 	 * @param newNodes the set of nodes to use instead of the current ones.
 	 * @return a deep copy of this edge, but with a new set of nodes.
 	 */
-	private AbstractEdge<N> createDeepCopy(final List<N> newNodes)
+	private AbstractTraversableEdge<N> createDeepCopy(final List<N> newNodes)
 	{
 		try
 		{
-			final AbstractEdge<N> clonedEdge = (AbstractEdge<N>) super.clone();
+			final AbstractTraversableEdge<N> clonedEdge = (AbstractTraversableEdge<N>) super.clone();
 			final List<N> clonedNodes = new ArrayList<N>(this.nodes.size());
 			//add each node at a time to the clone considering context
 			for(N newNode : newNodes)

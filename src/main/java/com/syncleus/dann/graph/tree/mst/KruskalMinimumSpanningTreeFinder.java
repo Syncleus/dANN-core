@@ -25,7 +25,7 @@ import java.util.HashSet;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
-import com.syncleus.dann.graph.Edge;
+import com.syncleus.dann.graph.TraversableEdge;
 import com.syncleus.dann.graph.Graph;
 import com.syncleus.dann.graph.Weighted;
 
@@ -41,7 +41,7 @@ import com.syncleus.dann.graph.Weighted;
  * @param <N> The node type
  * @param <E> The type of edge for the given node type
  */
-public class KruskalMinimumSpanningTreeFinder<N, E extends Edge<N>> implements MinimumSpanningTreeFinder<N, E>
+public class KruskalMinimumSpanningTreeFinder<N, E extends TraversableEdge<N>> implements MinimumSpanningTreeFinder<N, E>
 {
 	@Override
 	public Set<E> findMinimumSpanningTree(final Graph<N, E> graph)

@@ -263,7 +263,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 	Map<N, Double> getNeighbors(final N nodeToQuery)
 	{
 		final Map<N, Double> neighbors = new HashMap<N, Double>();
-		for (final Edge<N> neighborEdge : graph.getAdjacentEdges(nodeToQuery))
+		for (final TraversableEdge<N> neighborEdge : graph.getAdjacentEdges(nodeToQuery))
 		{
 			final Double currentWeight = (((neighborEdge instanceof Weighted) && useWeights) ? ((Weighted) neighborEdge).getWeight() : equilibriumDistance);
 			for (final N neighbor : neighborEdge.getNodes())
