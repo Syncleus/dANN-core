@@ -1,5 +1,5 @@
 [gerrit]
 host=gerrit.syncleus.com
 port=29418
-defaultbranch=master
+defaultbranch=v2.x
 project=dANN-core

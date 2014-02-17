@@ -1,5 +1,0 @@
-[submodule "lib"]
-    path = lib
-    url = http://gerrit.syncleus.com/dANN-core-lib
-    branch = master
-
