@@ -18,6 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -36,7 +37,7 @@ public abstract class AbstractUndirectedEdge<N> extends AbstractBidirectedEdge<N
 	}
 
 	@Override
-	public List<N> getTraversableNodes(final N node)
+	public Collection<N> getTraversableNodes(final N node)
 	{
 		if( this.getLeftNode().equals(node) )
 			return Collections.singletonList(this.getRightNode());

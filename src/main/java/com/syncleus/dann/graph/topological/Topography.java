@@ -911,8 +911,10 @@ public final class Topography
 		}
 
 		int multiplicity = 0;
-		final List<N> edgeNodes = edge.getNodes();
-		final Set<E> potentialMultiples = graph.getAdjacentEdges(edge.getNodes().get(0));
+		final Collection<N> edgeNodes = edge.getNodes();
+        if( edgeNodes.isEmpty() )
+            return multiplicity;
+		final Set<E> potentialMultiples = graph.getAdjacentEdges(edge.getNodes().iterator().next());
 		for(final E potentialMultiple : potentialMultiples)
 		{
 			if( potentialMultiple.equals(edge) )
@@ -956,8 +958,10 @@ public final class Topography
 			}
 		}
 
-		final List<N> edgeNodes = edge.getNodes();
-		final Set<E> potentialMultiples = graph.getAdjacentEdges(edge.getNodes().get(0));
+		final Collection<N> edgeNodes = edge.getNodes();
+        if(edgeNodes.isEmpty())
+            return false;
+		final Set<E> potentialMultiples = graph.getAdjacentEdges(edgeNodes.iterator().next());
 		for(final E potentialMultiple : potentialMultiples)
 		{
 			if( potentialMultiple.equals(edge) )
@@ -1183,7 +1187,7 @@ public final class Topography
 		final Set<TraversableCloud<N>> addEdges = new HashSet<TraversableCloud<N>>();
 		for(final TraversableCloud<N> cutEdge : cutEdges)
 		{
-			final List<N> cutEdgeNeighbors = cutEdge.getNodes();
+			final Collection<N> cutEdgeNeighbors = cutEdge.getNodes();
 			cutEdgeNeighbors.removeAll(cutNodes);
 			if( cutEdgeNeighbors.size() != cutEdge.getNodes().size() )
 				removeEdges.add(cutEdge);

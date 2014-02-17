@@ -18,13 +18,14 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
+import java.util.Collection;
 import java.util.List;
 
 public final class ImmutableHyperEdge<N> extends AbstractHyperEdge<N>
 {
 	private static final long serialVersionUID = -3657973823101515199L;
 
-	public ImmutableHyperEdge(final List<N> nodes)
+	public ImmutableHyperEdge(final Collection<N> nodes)
 	{
 		super(nodes);
 	}

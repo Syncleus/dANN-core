@@ -18,12 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+
 import com.syncleus.dann.UnexpectedDannError;
 import com.syncleus.dann.graph.context.AbstractContextGraphElement;
 import com.syncleus.dann.graph.context.ContextNode;
@@ -52,12 +48,12 @@ public abstract class AbstractTraversableCloud<N> extends AbstractContextGraphEl
 		this.contextEnabled = contextEnabled;
 	}
 
-	protected AbstractTraversableCloud(final List<N> ourNodes)
+	protected AbstractTraversableCloud(final Collection<N> ourNodes)
 	{
 		this(ourNodes, true, true);
 	}
 
-	protected AbstractTraversableCloud(final List<N> ourNodes, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
+	protected AbstractTraversableCloud(final Collection<N> ourNodes, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
 	{
 		super(allowJoiningMultipleGraphs);
 		this.contextEnabled = contextEnabled;
@@ -176,7 +172,7 @@ public abstract class AbstractTraversableCloud<N> extends AbstractContextGraphEl
 	}
 
 	@Override
-	public final List<N> getNodes()
+	public final Collection<N> getNodes()
 	{
 		return this.nodes;
 	}

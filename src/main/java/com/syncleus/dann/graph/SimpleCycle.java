@@ -46,14 +46,14 @@ public class SimpleCycle<N, E extends TraversableCloud<N>> extends SimpleWalk<N,
 	private static <N, E extends TraversableCloud<N>> N startNodeFromSteps(final List<E> steps)
 	{
 		if( steps.size() == 1 )
-			return steps.get(0).getNodes().get(0);
+			return steps.get(0).getNodes().iterator().next();
 
 		final List<N> exclusiveFirstNodes = new ArrayList<N>(steps.get(0).getNodes());
 		exclusiveFirstNodes.removeAll(steps.get(1).getNodes());
 		if( exclusiveFirstNodes.size() == 1 )
 			return exclusiveFirstNodes.get(0);
 		else if( exclusiveFirstNodes.isEmpty() )
-			return steps.get(0).getNodes().get(0);
+			return steps.get(0).getNodes().iterator().next();
 		else
 			throw new IllegalArgumentException("steps does not form a path");
 	}

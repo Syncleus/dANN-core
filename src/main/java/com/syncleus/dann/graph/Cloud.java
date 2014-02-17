@@ -23,10 +23,11 @@ import com.syncleus.dann.graph.xml.EdgeXml;
 import com.syncleus.dann.xml.XmlSerializable;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 public interface Cloud<N> extends Serializable, Cloneable, XmlSerializable<EdgeXml, Object>, ContextReporter
 {
-    List<N> getNodes();
-    List<N> getTraversableNodes(N node);
+    Collection<N> getNodes();
+    Collection<N> getTraversableNodes(N node);
 }

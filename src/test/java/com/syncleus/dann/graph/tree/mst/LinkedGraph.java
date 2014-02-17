@@ -40,33 +40,37 @@ public class LinkedGraph<N, E extends TraversableCloud<N>> extends AbstractAdjac
 		this.edges = new LinkedHashSet<E>(edges);
 		for(final E edge : edges)
 		{
-			final List<N> edgeNodes = edge.getNodes();
-			for(int startNodeIndex = 0; startNodeIndex < edgeNodes.size(); startNodeIndex++)
+			final Collection<N> edgeNodes = edge.getNodes();
+            for(N startNode : edgeNodes)
 			{
-				if( !this.nodes.contains(edgeNodes.get(startNodeIndex)) )
+				if( !this.nodes.contains(startNode) )
 					throw new IllegalArgumentException("A node that is an end point in one of the edges was not in the nodes list");
 
-				Set<E> startNeighborEdges = this.neighborEdges.get(edgeNodes.get(startNodeIndex));
+				Set<E> startNeighborEdges = this.neighborEdges.get(startNode);
 				if( startNeighborEdges == null )
 				{
 					startNeighborEdges = new LinkedHashSet<E>();
-					this.neighborEdges.put(edgeNodes.get(startNodeIndex), startNeighborEdges);
+					this.neighborEdges.put(startNode, startNeighborEdges);
 				}
 				startNeighborEdges.add(edge);
 
-				List<N> startNeighborNodes = this.neighborNodes.get(edgeNodes.get(startNodeIndex));
+				List<N> startNeighborNodes = this.neighborNodes.get(startNode);
 				if( startNeighborNodes == null )
 				{
 					startNeighborNodes = new ArrayList<N>();
-					this.neighborNodes.put(edgeNodes.get(startNodeIndex), startNeighborNodes);
+					this.neighborNodes.put(startNode, startNeighborNodes);
 				}
 
-				for(int endNodeIndex = 0; endNodeIndex < edgeNodes.size(); endNodeIndex++)
+                boolean selfEncountered = false;
+                for(N endNode : edgeNodes)
 				{
-					if( startNodeIndex == endNodeIndex )
+					if( startNode.equals(endNode) && !selfEncountered)
+                    {
+                        selfEncountered = true;
 						continue;
+                    }
 
-					startNeighborNodes.add(edgeNodes.get(endNodeIndex));
+					startNeighborNodes.add(endNode);
 				}
 			}
 		}

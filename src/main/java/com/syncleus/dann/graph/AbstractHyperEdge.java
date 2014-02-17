@@ -19,6 +19,7 @@
 package com.syncleus.dann.graph;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public abstract class AbstractHyperEdge<N> extends AbstractTraversableCloud<N> i
 {
 	private static final long serialVersionUID = -3657973823101515199L;
 
-	protected AbstractHyperEdge(final List<N> nodes)
+	protected AbstractHyperEdge(final Collection<N> nodes)
 	{
 		super(nodes);
 	}
@@ -36,7 +37,7 @@ public abstract class AbstractHyperEdge<N> extends AbstractTraversableCloud<N> i
 		super(nodes);
 	}
 
-	protected AbstractHyperEdge(final List<N> nodes, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
+	protected AbstractHyperEdge(final Collection<N> nodes, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
 	{
 		super(nodes, allowJoiningMultipleGraphs, contextEnabled);
 	}
@@ -47,7 +48,7 @@ public abstract class AbstractHyperEdge<N> extends AbstractTraversableCloud<N> i
 	}
 
 	@Override
-	public List<N> getTraversableNodes(final N node)
+	public Collection<N> getTraversableNodes(final N node)
 	{
 		final List<N> traversableNodes = new ArrayList<N>(this.getNodes());
 		if( !traversableNodes.remove(node) )
