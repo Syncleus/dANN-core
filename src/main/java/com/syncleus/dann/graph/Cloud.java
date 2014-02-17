@@ -29,5 +29,4 @@ import java.util.List;
 public interface Cloud<N> extends Serializable, Cloneable, XmlSerializable<EdgeXml, Object>, ContextReporter
 {
     Collection<N> getNodes();
-    Collection<N> getTraversableNodes(N node);
 }

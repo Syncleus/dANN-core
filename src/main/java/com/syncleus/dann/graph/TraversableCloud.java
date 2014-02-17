@@ -18,11 +18,13 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface TraversableCloud<N> extends Cloud<N>
 {
 	boolean isTraversable(N node);
+    Collection<N> getTraversableNodes(N node);
 
 	/**
 	 * Returns an edge with the specified node disconnected.
