@@ -32,10 +32,10 @@ import com.syncleus.dann.graph.BidirectedEdge;
 import com.syncleus.dann.graph.BidirectedGraph;
 import com.syncleus.dann.graph.TraversableCloud;
 import com.syncleus.dann.graph.Graph;
-import com.syncleus.dann.graph.HyperEdge;
+import com.syncleus.dann.graph.Hyperedge;
 import com.syncleus.dann.graph.HyperGraph;
 import com.syncleus.dann.graph.ImmutableAdjacencyGraph;
-import com.syncleus.dann.graph.ImmutableHyperEdge;
+import com.syncleus.dann.graph.ImmutableHyperedge;
 import com.syncleus.dann.math.counting.Counters;
 
 public final class Topography
@@ -1068,7 +1068,7 @@ public final class Topography
 		return graph.getTraversableEdges(node).size();
 	}
 
-	public static <N, E extends HyperEdge<N>> int getRank(final HyperGraph<N, E> graph)
+	public static <N, E extends Hyperedge<N>> int getRank(final HyperGraph<N, E> graph)
 	{
 		if( graph instanceof ConnectionismOptimizedHyperGraph )
 		{
@@ -1087,7 +1087,7 @@ public final class Topography
 		throw new UnsupportedOperationException();
 	}
 
-	public static <N, E extends HyperEdge<N>> BidirectedGraph<N, BidirectedEdge<N>> getPrimal(final HyperGraph<N, E> graph)
+	public static <N, E extends Hyperedge<N>> BidirectedGraph<N, BidirectedEdge<N>> getPrimal(final HyperGraph<N, E> graph)
 	{
 		if( graph instanceof StructureOptimizedHyperGraph )
 		{
@@ -1106,7 +1106,7 @@ public final class Topography
 		throw new UnsupportedOperationException();
 	}
 
-	public static <N, E extends HyperEdge<N>> boolean isPartial(final HyperGraph<N, E> graph, final HyperGraph<N, E> partialGraph)
+	public static <N, E extends Hyperedge<N>> boolean isPartial(final HyperGraph<N, E> graph, final HyperGraph<N, E> partialGraph)
 	{
 		if( graph instanceof StructureOptimizedHyperGraph )
 		{
@@ -1125,7 +1125,7 @@ public final class Topography
 		throw new UnsupportedOperationException();
 	}
 
-	public static <N, E extends HyperEdge<N>> boolean isHost(final HyperGraph<N, E> graph, final HyperGraph<N, E> hostGraph)
+	public static <N, E extends Hyperedge<N>> boolean isHost(final HyperGraph<N, E> graph, final HyperGraph<N, E> hostGraph)
 	{
 		if( graph instanceof StructureOptimizedHyperGraph )
 		{
@@ -1144,7 +1144,7 @@ public final class Topography
 		throw new UnsupportedOperationException();
 	}
 
-	public static <N, E extends HyperEdge<N>> boolean isUniform(final HyperGraph<N, E> graph)
+	public static <N, E extends Hyperedge<N>> boolean isUniform(final HyperGraph<N, E> graph)
 	{
 		if( graph instanceof StructureOptimizedHyperGraph )
 		{
@@ -1192,8 +1192,8 @@ public final class Topography
 			if( cutEdgeNeighbors.size() != cutEdge.getNodes().size() )
 				removeEdges.add(cutEdge);
 			if( cutEdgeNeighbors.size() > 1 )
-				// TODO instead of ImmutableHyperEdge implement clone or something
-				addEdges.add(new ImmutableHyperEdge<N>(cutEdgeNeighbors));
+				// TODO instead of ImmutableHyperedge implement clone or something
+				addEdges.add(new ImmutableHyperedge<N>(cutEdgeNeighbors));
 		}
 		for(final TraversableCloud<N> removeEdge : removeEdges)
 			cutEdges.remove(removeEdge);

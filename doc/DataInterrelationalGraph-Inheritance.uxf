@@ -25,7 +25,7 @@ bg=blue</panel_attributes><additional_attributes/></element><element><type>com.u
 --
 Set&lt;NestedIndex&gt; getNestedIndexes()
 Set&lt;JoinEdge&gt; getJoinEdges()
-bg=blue</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>207</x><y>0</y><w>197</w><h>107</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>180;27;180;54;27;54;27;90</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>729</x><y>0</y><w>90</w><h>27</h></coordinates><panel_attributes>HyperEdge
+bg=blue</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>207</x><y>0</y><w>197</w><h>107</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>180;27;180;54;27;54;27;90</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>729</x><y>0</y><w>90</w><h>27</h></coordinates><panel_attributes>Hyperedge
 bg=yellow</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>729</x><y>90</y><w>90</w><h>27</h></coordinates><panel_attributes>JoinEdge
 bg=yellow</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>747</x><y>0</y><w>44</w><h>107</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>27;27;27;90</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>414</x><y>90</y><w>288</w><h>81</h></coordinates><panel_attributes>NestedIndex
 --

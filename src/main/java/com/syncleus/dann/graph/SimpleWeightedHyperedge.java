@@ -18,55 +18,47 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.Collection;
 import java.util.List;
 
-public final class ImmutableHyperEdge<N> extends AbstractHyperEdge<N>
+public final class SimpleWeightedHyperedge<N> extends AbstractHyperedge<N> implements WeightedCloud<N>, MutableWeighted
 {
-	private static final long serialVersionUID = -3657973823101515199L;
+	private static final long serialVersionUID = 2622882478754498808L;
+	private double weight;
 
-	public ImmutableHyperEdge(final Collection<N> nodes)
+	public SimpleWeightedHyperedge(final List<N> nodes, final double ourWeight)
 	{
 		super(nodes);
+		this.weight = ourWeight;
 	}
 
-	public ImmutableHyperEdge(final N... nodes)
-	{
-		super(nodes);
-	}
-
-	public ImmutableHyperEdge(final List<N> nodes, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
+	public SimpleWeightedHyperedge(final List<N> nodes, final double ourWeight, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
 	{
 		super(nodes, allowJoiningMultipleGraphs, contextEnabled);
-	}
-
-	public ImmutableHyperEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled, final N... nodes)
-	{
-		super(allowJoiningMultipleGraphs, contextEnabled, nodes);
+		this.weight = ourWeight;
 	}
 
 	@Override
-	public ImmutableHyperEdge<N> connect(final N node)
+	public double getWeight()
 	{
-		return (ImmutableHyperEdge<N>) super.connect(node);
+		return this.weight;
 	}
 
 	@Override
-	public ImmutableHyperEdge<N> connect(final List<N> nodes)
+	public void setWeight(final double newWeight)
 	{
-		return (ImmutableHyperEdge<N>) super.connect(nodes);
+		this.weight = newWeight;
 	}
 
 	@Override
-	public ImmutableHyperEdge<N> disconnect(final N node)
+	public SimpleWeightedHyperedge<N> disconnect(final N node)
 	{
-		return (ImmutableHyperEdge<N>) super.disconnect(node);
+		return (SimpleWeightedHyperedge<N>) super.disconnect(node);
 	}
 
 	@Override
-	public ImmutableHyperEdge<N> disconnect(final List<N> nodes)
+	public SimpleWeightedHyperedge<N> disconnect(final List<N> nodes)
 	{
-		return (ImmutableHyperEdge<N>) super.disconnect(nodes);
+		return (SimpleWeightedHyperedge<N>) super.disconnect(nodes);
 	}
 
 }

@@ -27,7 +27,7 @@ import java.util.Set;
  * @param <N> The node type
  * @param <E> The type of edge for the given node type
  */
-public abstract class AbstractHyperAdjacencyGraph<N, E extends HyperEdge<N>> extends AbstractAdjacencyGraph<N, E> implements HyperGraph<N, E>
+public abstract class AbstractHyperAdjacencyGraph<N, E extends Hyperedge<N>> extends AbstractAdjacencyGraph<N, E> implements HyperGraph<N, E>
 {
     /**
      * Creates a new graph with no edges and no adjacencies.

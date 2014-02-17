@@ -20,14 +20,39 @@ package com.syncleus.dann.graph;
 
 import java.util.List;
 
-public interface HyperEdge<N> extends TraversableCloud<N>
+public final class ImmutableWeightedHyperedge<N> extends AbstractHyperedge<N> implements WeightedCloud<N>
 {
-	int getDegree();
-	boolean isSymmetric(HyperEdge symmetricEdge);
-	HyperEdge<N> connect(N node);
-	HyperEdge<N> connect(List<N> node);
+	private static final long serialVersionUID = 2622882478754498808L;
+	private final double weight;
+
+	public ImmutableWeightedHyperedge(final List<N> nodes, final double ourWeight)
+	{
+		super(nodes);
+		this.weight = ourWeight;
+	}
+
+	public ImmutableWeightedHyperedge(final List<N> nodes, final double ourWeight, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
+	{
+		super(nodes, allowJoiningMultipleGraphs, contextEnabled);
+		this.weight = ourWeight;
+	}
+
 	@Override
-	HyperEdge<N> disconnect(N node);
+	public double getWeight()
+	{
+		return this.weight;
+	}
+
 	@Override
-	HyperEdge<N> disconnect(List<N> node);
+	public ImmutableWeightedHyperedge<N> disconnect(final N node)
+	{
+		return (ImmutableWeightedHyperedge<N>) super.remove(node);
+	}
+
+	@Override
+	public ImmutableWeightedHyperedge<N> disconnect(final List<N> nodes)
+	{
+		return (ImmutableWeightedHyperedge<N>) super.remove(nodes);
+	}
+
 }
