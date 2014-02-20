@@ -48,7 +48,7 @@ public class MutableAdjacencyGraph<N, E extends TraversableCloud<N>> extends Abs
 	{
 		if( newEdge == null )
 			throw new IllegalArgumentException("newEdge can not be null");
-		if( !this.getNodes().containsAll(newEdge.getNodes()) )
+		if( !this.getNodes().containsAll(newEdge.getEndpoints()) )
 			throw new IllegalArgumentException("newEdge has a node as an end point that is not part of the graph");
 
 		// if context is enabled lets check if it can join
@@ -58,11 +58,11 @@ public class MutableAdjacencyGraph<N, E extends TraversableCloud<N>> extends Abs
 
 		if( this.getInternalEdges().add(newEdge) )
 		{
-			for(final N currentNode : newEdge.getNodes())
+			for(final N currentNode : newEdge.getEndpoints())
 			{
 				this.getInternalAdjacencyEdges().get(currentNode).add(newEdge);
 
-				final List<N> newAdjacentNodes = new ArrayList<N>(newEdge.getNodes());
+				final List<N> newAdjacentNodes = new ArrayList<N>(newEdge.getEndpoints());
 				newAdjacentNodes.remove(currentNode);
 				for(final N newAdjacentNode : newAdjacentNodes)
 					this.getInternalAdjacencyNodes().get(currentNode).add(newAdjacentNode);
@@ -110,11 +110,11 @@ public class MutableAdjacencyGraph<N, E extends TraversableCloud<N>> extends Abs
 		if( !this.getInternalEdges().remove(edgeToRemove) )
 			throw new IllegalStateException("could not remove edge even though it is present");
 
-		for(final N removeNode : edgeToRemove.getNodes())
+		for(final N removeNode : edgeToRemove.getEndpoints())
 		{
 			this.getInternalAdjacencyEdges().get(removeNode).remove(edgeToRemove);
 
-			final List<N> removeAdjacentNodes = new ArrayList<N>(edgeToRemove.getNodes());
+			final List<N> removeAdjacentNodes = new ArrayList<N>(edgeToRemove.getEndpoints());
 			removeAdjacentNodes.remove(removeNode);
 			for(final N removeAdjacentNode : removeAdjacentNodes)
 				this.getInternalAdjacencyNodes().get(removeNode).remove(removeAdjacentNode);
@@ -148,7 +148,7 @@ public class MutableAdjacencyGraph<N, E extends TraversableCloud<N>> extends Abs
 		for(final E removeEdge : removeEdges)
 		{
 			E newEdge = (E) removeEdge.disconnect(nodeToRemove);
-			while( (newEdge != null) && (newEdge.getNodes().contains(nodeToRemove)) )
+			while( (newEdge != null) && (newEdge.getEndpoints().contains(nodeToRemove)) )
 				newEdge = (E) removeEdge.disconnect(nodeToRemove);
 			if( newEdge != null )
 				newEdges.add(newEdge);

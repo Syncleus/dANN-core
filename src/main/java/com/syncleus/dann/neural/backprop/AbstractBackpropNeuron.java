@@ -123,7 +123,7 @@ public abstract class AbstractBackpropNeuron extends AbstractActivationNeuron im
 		//step thru source synapses and make them learn their new weight.
 		for(final Object currentSynapse : this.getBrain().getInEdges(this))
 		{
-			final Neuron sourceNeuron = (Neuron) ((Synapse)currentSynapse).getSourceNode();
+			final Neuron sourceNeuron = (Neuron) ((Synapse)currentSynapse).getSourceEndpoint();
 			if( sourceNeuron instanceof BackpropNeuron )
 			{
 				final BackpropNeuron sourceBackpropNeuron = (BackpropNeuron) sourceNeuron;

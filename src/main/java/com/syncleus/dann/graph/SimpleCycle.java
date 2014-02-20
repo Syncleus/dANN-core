@@ -46,14 +46,14 @@ public class SimpleCycle<N, E extends TraversableCloud<N>> extends SimpleWalk<N,
 	private static <N, E extends TraversableCloud<N>> N startNodeFromSteps(final List<E> steps)
 	{
 		if( steps.size() == 1 )
-			return steps.get(0).getNodes().iterator().next();
+			return steps.get(0).getEndpoints().iterator().next();
 
-		final List<N> exclusiveFirstNodes = new ArrayList<N>(steps.get(0).getNodes());
-		exclusiveFirstNodes.removeAll(steps.get(1).getNodes());
+		final List<N> exclusiveFirstNodes = new ArrayList<N>(steps.get(0).getEndpoints());
+		exclusiveFirstNodes.removeAll(steps.get(1).getEndpoints());
 		if( exclusiveFirstNodes.size() == 1 )
 			return exclusiveFirstNodes.get(0);
 		else if( exclusiveFirstNodes.isEmpty() )
-			return steps.get(0).getNodes().iterator().next();
+			return steps.get(0).getEndpoints().iterator().next();
 		else
 			throw new IllegalArgumentException("steps does not form a path");
 	}
@@ -79,7 +79,7 @@ public class SimpleCycle<N, E extends TraversableCloud<N>> extends SimpleWalk<N,
 			if( !(edgeStep instanceof BidirectedEdge) )
 				throw new IllegalArgumentException("all steps are not BidirectedEdge");
 			newNodeSteps.add(nextNodeStep);
-			final List<N> nextNodes = new ArrayList<N>(edgeStep.getNodes());
+			final List<N> nextNodes = new ArrayList<N>(edgeStep.getEndpoints());
 			nextNodes.remove(nextNodeStep);
 			nextNodeStep = nextNodes.get(0);
 		}

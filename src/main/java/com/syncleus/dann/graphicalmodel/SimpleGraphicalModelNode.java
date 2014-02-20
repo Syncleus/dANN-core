@@ -153,7 +153,7 @@ public class SimpleGraphicalModelNode<S> extends AbstractContextNode<GraphicalMo
 		for(final BidirectedEdge<GraphicalModelNode<S>> inEdge : inEdges)
 		{
 			//if it is traversable to this node it is an influence
-			List<GraphicalModelNode<S>> otherNodes = new ArrayList<GraphicalModelNode<S>>(inEdge.getNodes());
+			List<GraphicalModelNode<S>> otherNodes = new ArrayList<GraphicalModelNode<S>>(inEdge.getEndpoints());
 			otherNodes.remove(this);
 			GraphicalModelNode<S> otherNode = otherNodes.get(0);
 			if( inEdge.isTraversable(otherNode) )
@@ -174,7 +174,7 @@ public class SimpleGraphicalModelNode<S> extends AbstractContextNode<GraphicalMo
 		for(final BidirectedEdge<GraphicalModelNode<S>> inEdge : inEdges)
 		{
 			//if it is traversable to this node it is an influence
-			List<GraphicalModelNode<S>> otherNodes = new ArrayList<GraphicalModelNode<S>>(inEdge.getNodes());
+			List<GraphicalModelNode<S>> otherNodes = new ArrayList<GraphicalModelNode<S>>(inEdge.getEndpoints());
 			otherNodes.remove(this);
 			GraphicalModelNode<S> otherNode = otherNodes.get(0);
 			if( inEdge.isTraversable(otherNode) )

@@ -119,7 +119,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends TraversableCloud<N>> i
 			throw new IllegalArgumentException("attemptEdges can not be null");
 		//make sure all the edges only connect to contained nodes
 		for( E attemptEdge : attemptEdges )
-			if( !attemptNodes.containsAll(attemptEdge.getNodes()) )
+			if( !attemptNodes.containsAll(attemptEdge.getEndpoints()) )
 			    throw new IllegalArgumentException("A node that is an end point in one of the attemptEdges was not in the nodes list");
 
 		this.contextEnabled = contextEnabled;
@@ -152,10 +152,10 @@ public abstract class AbstractAdjacencyGraph<N, E extends TraversableCloud<N>> i
 
 				this.edges.add(attemptEdge);
 				//populate adjacency maps
-				for(N currentNode : attemptEdge.getNodes())
+				for(N currentNode : attemptEdge.getEndpoints())
 				{
 					boolean passedCurrent = false;
-					for(N neighborNode : attemptEdge.getNodes())
+					for(N neighborNode : attemptEdge.getEndpoints())
 					{
 						if( !passedCurrent && (neighborNode == currentNode))
 						{
@@ -272,7 +272,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends TraversableCloud<N>> i
 	{
 		final List<N> traversableNodes = new ArrayList<N>();
 		for(final E adjacentEdge : this.getAdjacentEdges(node))
-			traversableNodes.addAll(adjacentEdge.getTraversableNodes(node));
+			traversableNodes.addAll(adjacentEdge.getTraversableEndpoints(node));
 		return Collections.unmodifiableList(traversableNodes);
 	}
 
@@ -334,10 +334,10 @@ public abstract class AbstractAdjacencyGraph<N, E extends TraversableCloud<N>> i
 
 					cloneGraph.edges.add(attemptEdge);
 					//populate adjacency maps
-					for(N currentNode : attemptEdge.getNodes())
+					for(N currentNode : attemptEdge.getEndpoints())
 					{
 						boolean passedCurrent = false;
-						for(N neighborNode : attemptEdge.getNodes())
+						for(N neighborNode : attemptEdge.getEndpoints())
 						{
 							if( !passedCurrent && (neighborNode == currentNode))
 							{

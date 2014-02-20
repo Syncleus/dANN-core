@@ -37,7 +37,7 @@ public class MutableAttributeTreeAdjacencyGraph<N extends AbstractHierarchicalAt
 	{
 		if( super.add(newEdge) )
 		{
-			newEdge.getDestinationNode().setParent(newEdge.getSourceNode());
+			newEdge.getDestinationEndpoint().setParent(newEdge.getSourceEndpoint());
 			return true;
 		}
 
@@ -49,7 +49,7 @@ public class MutableAttributeTreeAdjacencyGraph<N extends AbstractHierarchicalAt
 	{
 		if( super.remove(edgeToRemove) )
 		{
-			edgeToRemove.getDestinationNode().setParent(null);
+			edgeToRemove.getDestinationEndpoint().setParent(null);
 			return true;
 		}
 

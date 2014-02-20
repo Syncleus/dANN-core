@@ -25,7 +25,7 @@ package com.syncleus.dann.graph;
  * @author Jeffrey Phillips Freeman
  * @since 2.0
  */
-public interface TreeGraph<N, E extends BidirectedEdge<N>> extends BidirectedGraph<N, E>
+public interface TreeGraph<N, E extends BidirectedEdge<? extends BidirectedEdge.Endpoint<N>>> extends BidirectedGraph<N, E>
 {
 	/**
 	 * Determines if the specified node has exactly one incomming traversable edge,

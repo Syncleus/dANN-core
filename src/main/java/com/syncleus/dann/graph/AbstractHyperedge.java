@@ -50,7 +50,7 @@ public abstract class AbstractHyperedge<N> extends AbstractTraversableCloud<N> i
 	@Override
 	public Collection<N> getTraversableNodes(final N node)
 	{
-		final List<N> traversableNodes = new ArrayList<N>(this.getNodes());
+		final List<N> traversableNodes = new ArrayList<N>(this.getEndpoints());
 		if( !traversableNodes.remove(node) )
 			throw new IllegalArgumentException("node is not one of the end points!");
 		return Collections.unmodifiableList(traversableNodes);
@@ -59,7 +59,7 @@ public abstract class AbstractHyperedge<N> extends AbstractTraversableCloud<N> i
 	@Override
 	public int getDegree()
 	{
-		return this.getNodes().size();
+		return this.getEndpoints().size();
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public abstract class AbstractHyperedge<N> extends AbstractTraversableCloud<N> i
 	{
 		if( node == null )
 			throw new IllegalArgumentException("node can not be null");
-		if( this.getNodes().contains(node) )
+		if( this.getEndpoints().contains(node) )
 			throw new IllegalArgumentException("node is already connected");
 		return (AbstractHyperedge<N>) this.add(node);
 	}
@@ -84,7 +84,7 @@ public abstract class AbstractHyperedge<N> extends AbstractTraversableCloud<N> i
 		if( nodes == null )
 			throw new IllegalArgumentException("node can not be null");
 		for(final N node : nodes)
-			if( this.getNodes().contains(node) )
+			if( this.getEndpoints().contains(node) )
 				throw new IllegalArgumentException("node is already connected");
 		return (AbstractHyperedge<N>) this.add(nodes);
 	}
@@ -94,7 +94,7 @@ public abstract class AbstractHyperedge<N> extends AbstractTraversableCloud<N> i
 	{
 		if( node == null )
 			throw new IllegalArgumentException("node can not be null");
-		if( !this.getNodes().contains(node) )
+		if( !this.getEndpoints().contains(node) )
 			throw new IllegalArgumentException("node is not currently connected to");
 		return (AbstractHyperedge<N>) this.remove(node);
 	}
@@ -104,7 +104,7 @@ public abstract class AbstractHyperedge<N> extends AbstractTraversableCloud<N> i
 	{
 		if( nodes == null )
 			throw new IllegalArgumentException("node can not be null");
-		if( !this.getNodes().containsAll(nodes) )
+		if( !this.getEndpoints().containsAll(nodes) )
 			throw new IllegalArgumentException("node is not currently connected to");
 		return (AbstractHyperedge<N>) this.remove(nodes);
 	}

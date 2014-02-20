@@ -112,7 +112,7 @@ public class ExhaustiveDepthFirstSearchCycleFinder<N, E extends TraversableCloud
 
 	private static <N, E extends TraversableCloud<N>> List<N> neighborsFromEdge(final E edge, final N sourceNode)
 	{
-		final List<N> destinations = new ArrayList<N>(edge.getNodes());
+		final List<N> destinations = new ArrayList<N>(edge.getEndpoints());
 		destinations.remove(sourceNode);
 		return destinations;
 	}

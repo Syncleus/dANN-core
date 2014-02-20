@@ -31,11 +31,11 @@ import com.syncleus.dann.xml.Namer;
 import com.syncleus.dann.xml.XmlSerializable;
 import org.apache.log4j.Logger;
 
-public abstract class AbstractTraversableCloud<N> extends AbstractContextGraphElement<Graph<N, ?>> implements TraversableCloud<N>
+public abstract class AbstractTraversableCloud<E extends TraversableCloud.Endpoint<?>> extends AbstractContextGraphElement<Graph<?, ? extends E>> implements TraversableCloud<E>
 {
 	private static final Logger LOGGER = Logger.getLogger(AbstractTraversableCloud.class);
 	private final boolean contextEnabled;
-	private List<N> nodes;
+//	private Set<E> endpoints;
 
 	protected AbstractTraversableCloud()
 	{
@@ -48,6 +48,7 @@ public abstract class AbstractTraversableCloud<N> extends AbstractContextGraphEl
 		this.contextEnabled = contextEnabled;
 	}
 
+    /*
 	protected AbstractTraversableCloud(final Collection<N> ourNodes)
 	{
 		this(ourNodes, true, true);
@@ -68,10 +69,10 @@ public abstract class AbstractTraversableCloud<N> extends AbstractContextGraphEl
 					continue;
 				nodesCopy.add(ourNode);
 			}
-			this.nodes = Collections.unmodifiableList(new ArrayList<N>(nodesCopy));
+			this.endpoints = Collections.unmodifiableList(new ArrayList<N>(nodesCopy));
 		}
 		else
-			this.nodes = Collections.unmodifiableList(new ArrayList<N>(ourNodes));
+			this.endpoints = Collections.unmodifiableList(new ArrayList<N>(ourNodes));
 	}
 
 	protected AbstractTraversableCloud(final N... ourNodes)
@@ -83,19 +84,20 @@ public abstract class AbstractTraversableCloud<N> extends AbstractContextGraphEl
 	{
 		this(Arrays.asList(ourNodes), allowJoiningMultipleGraphs, contextEnabled);
 	}
+	*/
 
 	@Override
 	public boolean isContextEnabled()
 	{
 		return this.contextEnabled;
 	}
-
+/*
 	protected AbstractTraversableCloud<N> add(final N node)
 	{
 		if( node == null )
 			throw new IllegalArgumentException("node can not be null");
 
-		final List<N> newNodes = new ArrayList<N>(this.nodes);
+		final List<N> newNodes = new ArrayList<N>(this.endpoints);
 		newNodes.add(node);
 
 		return createDeepCopy(newNodes);
@@ -105,7 +107,7 @@ public abstract class AbstractTraversableCloud<N> extends AbstractContextGraphEl
 	{
 		if( addNodes == null )
 			throw new IllegalArgumentException("node can not be null");
-		final List<N> newNodes = new ArrayList<N>(this.nodes);
+		final List<N> newNodes = new ArrayList<N>(this.endpoints);
 		newNodes.addAll(addNodes);
 
 		return createDeepCopy(newNodes);
@@ -115,10 +117,10 @@ public abstract class AbstractTraversableCloud<N> extends AbstractContextGraphEl
 	{
 		if( node == null )
 			throw new IllegalArgumentException("node can not be null");
-		if( !this.nodes.contains(node) )
+		if( !this.endpoints.contains(node) )
 			throw new IllegalArgumentException("is not an endpoint");
 
-		final List<N> newNodes = new ArrayList<N>(this.nodes);
+		final List<N> newNodes = new ArrayList<N>(this.endpoints);
 		newNodes.remove(node);
 
 		return createDeepCopy(newNodes);
@@ -128,26 +130,28 @@ public abstract class AbstractTraversableCloud<N> extends AbstractContextGraphEl
 	{
 		if( removeNodes == null )
 			throw new IllegalArgumentException("removeNodes can not be null");
-		if( !this.nodes.containsAll(removeNodes) )
+		if( !this.endpoints.containsAll(removeNodes) )
 			throw new IllegalArgumentException("removeNodes do not contain all valid end points");
-		final List<N> newNodes = new ArrayList<N>(this.nodes);
+		final List<N> newNodes = new ArrayList<N>(this.endpoints);
 		for(final N node : removeNodes)
 			newNodes.remove(node);
 
 		return createDeepCopy(newNodes);
 	}
-
-	/**
-	 * Create a deep copy of this edge, but with a new set of nodes.
-	 * @param newNodes the set of nodes to use instead of the current ones.
-	 * @return a deep copy of this edge, but with a new set of nodes.
+*/
+/*
+	**
+	 * Create a deep copy of this edge, but with a new set of endpoints.
+	 * @param newNodes the set of endpoints to use instead of the current ones.
+	 * @return a deep copy of this edge, but with a new set of endpoints.
 	 */
+/*
 	private AbstractTraversableCloud<N> createDeepCopy(final List<N> newNodes)
 	{
 		try
 		{
 			final AbstractTraversableCloud<N> clonedEdge = (AbstractTraversableCloud<N>) super.clone();
-			final List<N> clonedNodes = new ArrayList<N>(this.nodes.size());
+			final List<N> clonedNodes = new ArrayList<N>(this.endpoints.size());
 			//add each node at a time to the clone considering context
 			for(N newNode : newNodes)
 			{
@@ -155,7 +159,7 @@ public abstract class AbstractTraversableCloud<N> extends AbstractContextGraphEl
 					continue;
 				clonedNodes.add(newNode);
 			}
-			clonedEdge.nodes = Collections.unmodifiableList(clonedNodes);
+			clonedEdge.endpoints = Collections.unmodifiableList(clonedNodes);
 			return clonedEdge;
 		}
 		catch(CloneNotSupportedException caught)
@@ -164,26 +168,29 @@ public abstract class AbstractTraversableCloud<N> extends AbstractContextGraphEl
 			throw new UnexpectedDannError("Edge was unexpectidly not cloneable", caught);
 		}
 	}
+*/
 
 	@Override
-	public boolean isTraversable(final N node)
+	public boolean isTraversable(final E endpoint)
 	{
-		return (!this.getTraversableNodes(node).isEmpty());
+		return (!this.getTraversableEndpoints(endpoint).isEmpty());
 	}
 
+    /*
 	@Override
-	public final Collection<N> getNodes()
+	public final Set<E> getEndpoints()
 	{
-		return this.nodes;
+		return this.endpoints;
 	}
+	*/
 
 	@Override
 	public String toString()
 	{
-		final StringBuilder outString = new StringBuilder(this.nodes.size() * 10);
-		for(final N node : this.nodes)
+		final StringBuilder outString = new StringBuilder(this.getEndpoints().size() * 10);
+		for(final E endpoint : this.getEndpoints())
 		{
-			outString.append(':').append(node);
+			outString.append(':').append(endpoint);
 		}
 		return outString.toString();
 	}
@@ -195,20 +202,20 @@ public abstract class AbstractTraversableCloud<N> extends AbstractContextGraphEl
 		final EdgeElementXml xml = new EdgeElementXml();
 
 		xml.setNodeInstances(new EdgeElementXml.NodeInstances());
-		final Set<N> writtenNodes = new HashSet<N>();
-		for (N node : this.nodes)
+		final Set<Object> writtenNodes = new HashSet<Object>();
+		for (E endpoint : this.getEndpoints())
 		{
-			if (writtenNodes.add(node))
+			if (writtenNodes.add(endpoint.getTarget()))
 			{
 				final NamedValueXml named = new NamedValueXml();
-				named.setName(namer.getNameOrCreate(node));
-				if (node instanceof XmlSerializable)
+				named.setName(namer.getNameOrCreate(endpoint.getTarget()));
+				if (endpoint.getTarget() instanceof XmlSerializable)
 				{
-					named.setValue(((XmlSerializable) node).toXml(namer));
+					named.setValue(((XmlSerializable) endpoint.getTarget()).toXml(namer));
 				}
 				else
 				{
-					named.setValue(node);
+					named.setValue(endpoint.getTarget());
 				}
 				xml.getNodeInstances().getNodes().add(named);
 			}
@@ -247,10 +254,10 @@ public abstract class AbstractTraversableCloud<N> extends AbstractContextGraphEl
 		{
 			jaxbObject.setConnections(new EdgeXml.Connections());
 		}
-		for (N node : this.nodes)
+		for (E endpoint : this.getEndpoints())
 		{
 			final NameXml connection = new NameXml();
-			connection.setName(nodeNames.getNameOrCreate(node));
+			connection.setName(nodeNames.getNameOrCreate(endpoint.getTarget()));
 			jaxbObject.getConnections().getNodes().add(connection);
 		}
 	}

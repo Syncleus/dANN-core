@@ -18,16 +18,20 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.List;
+import java.util.Set;
 
-public interface Hyperedge<N> extends TraversableCloud<N>
+public interface Hyperedge<E extends Hyperedge.Endpoint<?>> extends TraversableCloud<E>
 {
+    interface Endpoint<T> extends TraversableCloud.Endpoint<T>
+    {
+    }
+
 	int getDegree();
 	boolean isSymmetric(Hyperedge symmetricEdge);
-	Hyperedge<N> connect(N node);
-	Hyperedge<N> connect(List<N> node);
+
+	E addEndpoint();
+    @Override
+    Hyperedge<E> disconnect(E endpoint);
 	@Override
-	Hyperedge<N> disconnect(N node);
-	@Override
-	Hyperedge<N> disconnect(List<N> node);
+    Hyperedge<E> disconnect(Set<E> endpoints);
 }

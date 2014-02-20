@@ -18,16 +18,20 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.List;
+import java.util.Set;
 
-public interface BidirectedEdge<N> extends TraversableCloud<N>
+public interface BidirectedEdge<E extends BidirectedEdge.Endpoint<?>> extends TraversableCloud<E>
 {
+    interface Endpoint<T> extends TraversableCloud.Endpoint<T>
+    {
+    }
+
 	public enum EndState
 	{
 		OUTWARD, INWARD, NONE
 	}
-	N getLeftNode();
-	N getRightNode();
+	E getLeftEndpoint();
+	E getRightEndpoint();
 	EndState getLeftEndState();
 	EndState getRightEndState();
 	boolean isIntroverted();
@@ -38,7 +42,7 @@ public interface BidirectedEdge<N> extends TraversableCloud<N>
 	boolean isOrdinaryEdge();
 	boolean isLoop();
 	@Override
-	BidirectedEdge<N> disconnect(N node);
+    BidirectedEdge<E> disconnect(E endpoint);
 	@Override
-	BidirectedEdge<N> disconnect(List<N> node);
+    BidirectedEdge<E> disconnect(Set<E> endpoints);
 }

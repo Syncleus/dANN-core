@@ -474,8 +474,8 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
 			// TODO fix typing
 			for(final S source : this.getInEdges((N)currentNeuron))
 			{
-				assert (source.getSourceNode() instanceof InputNeuron);
-				final int sourceIndex = this.inputs.indexOf((InputNeuron) source.getSourceNode());
+				assert (source.getSourceEndpoint() instanceof InputNeuron);
+				final int sourceIndex = this.inputs.indexOf((InputNeuron) source.getSourceEndpoint());
 				weightVector[sourceIndex] = source.getWeight();
 			}
 			// add the current weight vector to the map

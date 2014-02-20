@@ -29,7 +29,7 @@ import com.syncleus.dann.graph.Graph;
 
 public class ColoredDepthFirstSearchDetector implements CycleDetector
 {
-	public <N, E extends TraversableCloud<N>> boolean hasCycle(final Graph<N, E> graph)
+	public <N, E extends TraversableCloud<? extends TraversableCloud.Endpoint<N>>> boolean hasCycle(final Graph<N, E> graph)
 	{
 		//A map of the current Node colors. Key is the node, value is null for
 		//white, false for grey, true for black.
@@ -57,7 +57,7 @@ public class ColoredDepthFirstSearchDetector implements CycleDetector
 			if( !ColoredDepthFirstSearchDetector.<E>traversed(traversedEdges, neighborEdge) )
 			{
 				traversedEdges.add(neighborEdge);
-				final List<N> neighborNodes = new ArrayList<N>(neighborEdge.getNodes());
+				final List<N> neighborNodes = new ArrayList<N>(neighborEdge.getEndpoints());
 				neighborNodes.remove(node);
 				for(final N neighborNode : neighborNodes)
 				{

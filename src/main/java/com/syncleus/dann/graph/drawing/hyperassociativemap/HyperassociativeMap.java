@@ -266,7 +266,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
 		for (final TraversableCloud<N> neighborEdge : graph.getAdjacentEdges(nodeToQuery))
 		{
 			final Double currentWeight = (((neighborEdge instanceof Weighted) && useWeights) ? ((Weighted) neighborEdge).getWeight() : equilibriumDistance);
-			for (final N neighbor : neighborEdge.getNodes())
+			for (final N neighbor : neighborEdge.getEndpoints())
 			{
 				if (!neighbor.equals(nodeToQuery))
 				{

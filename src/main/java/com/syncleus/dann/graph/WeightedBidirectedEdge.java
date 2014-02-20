@@ -18,12 +18,16 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.List;
+import java.util.Set;
 
-public interface WeightedBidirectedEdge<N> extends BidirectedEdge<N>, Weighted
+public interface WeightedBidirectedEdge<E extends WeightedBidirectedEdge.Endpoint<?>> extends BidirectedEdge<E>, Weighted
 {
+    interface Endpoint<T> extends BidirectedEdge.Endpoint<T>
+    {
+    }
+
 	@Override
-	WeightedBidirectedEdge<N> disconnect(N node);
+    WeightedBidirectedEdge<E> disconnect(E endpoint);
 	@Override
-	WeightedBidirectedEdge<N> disconnect(List<N> node);
+    WeightedBidirectedEdge<E> disconnect(Set<E> endpoints);
 }

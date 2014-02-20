@@ -24,7 +24,7 @@ package com.syncleus.dann.graph;
  *
  * @since 2.0
  */
-public interface DirectedGraph<N, E extends DirectedEdge<N>> extends BidirectedGraph<N, E>
+public interface DirectedGraph<N, E extends DirectedEdge<? extends DirectedEdge.Endpoint<N>>> extends BidirectedGraph<N, E>
 {
 	//we need this for the optimizer and utility class operations. We might also want to fill it in later.
 }

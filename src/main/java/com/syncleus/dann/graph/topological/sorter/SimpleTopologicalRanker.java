@@ -40,7 +40,7 @@ public class SimpleTopologicalRanker<N> implements TopologicalRanker<N>
 		//construct the remainingNeighborEdges with the entire graphs adjacency
 		for(final DirectedEdge<? extends N> edge : remainingEdges )
 		{
-			for(final N edgeNode : edge.getNodes())
+			for(final N edgeNode : edge.getEndpoints())
 			{
 				if( !remainingNodes.contains(edgeNode) )
 					throw new IllegalArgumentException("A node that is an end point in one of the edges was not in the nodes list");
@@ -74,7 +74,7 @@ public class SimpleTopologicalRanker<N> implements TopologicalRanker<N>
 				final Set<DirectedEdge<? extends N>> neighbors = remainingNeighborEdges.get(node);
 				for(final DirectedEdge<? extends N> neighbor : neighbors)
 				{
-					final List<N> adjacentNodes = new ArrayList<N>(neighbor.getNodes());
+					final List<N> adjacentNodes = new ArrayList<N>(neighbor.getEndpoints());
 					adjacentNodes.remove(node);
 					final N adjacentNode = adjacentNodes.get(0);
 
@@ -112,7 +112,7 @@ public class SimpleTopologicalRanker<N> implements TopologicalRanker<N>
 	{
 		int inDegree = 0;
 		for(final DirectedEdge<? extends N> edge : edges)
-			if( edge.getDestinationNode() == node )
+			if( edge.getDestinationEndpoint() == node )
 				inDegree++;
 		return inDegree;
 	}

@@ -180,7 +180,7 @@ public class AstarPathFinder<N, E extends TraversableCloud<N>> implements PathFi
 
 			for(final E edge : this.graph.getTraversableEdges(currentStep.node))
 			{
-				for(final N neighborNode : edge.getNodes())
+				for(final N neighborNode : edge.getEndpoints())
 				{
 					if( neighborNode.equals(currentStep.node) )
 						continue;

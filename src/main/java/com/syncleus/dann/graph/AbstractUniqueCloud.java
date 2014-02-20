@@ -62,15 +62,15 @@ public abstract class AbstractUniqueCloud<N> extends AbstractTraversableCloud<N>
 			return false;
 
 		final TraversableCloud compareTo = (TraversableCloud) compareToObj;
-		return (compareTo.getNodes().equals(this.getNodes()))
-				&& (this.getNodes().equals(compareTo.getNodes()));
+		return (compareTo.getEndpoints().equals(this.getEndpoints()))
+				&& (this.getEndpoints().equals(compareTo.getEndpoints()));
 	}
 
 	@Override
 	public int hashCode()
 	{
 		int hash = 0;
-		for(final N node : this.getNodes())
+		for(final N node : this.getEndpoints())
 			hash += node.hashCode();
 		return hash;
 	}

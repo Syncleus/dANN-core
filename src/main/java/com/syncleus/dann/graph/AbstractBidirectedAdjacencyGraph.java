@@ -72,11 +72,11 @@ public abstract class AbstractBidirectedAdjacencyGraph<N, E extends BidirectedEd
 		final Set<E> inEdges = new HashSet<E>();
 		for(final E edge : this.getEdges())
 		{
-			final List<N> adjacentNodes = new ArrayList<N>(edge.getNodes());
+			final List<N> adjacentNodes = new ArrayList<N>(edge.getEndpoints());
 			adjacentNodes.remove(node);
 			final N adjacentNode = adjacentNodes.get(0);
 
-			if( edge.isTraversable(adjacentNode) && edge.getTraversableNodes(adjacentNode).contains(node) )
+			if( edge.isTraversable(adjacentNode) && edge.getTraversableEndpoints(adjacentNode).contains(node) )
 				inEdges.add(edge);
 		}
 		return Collections.unmodifiableSet(inEdges);

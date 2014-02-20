@@ -40,7 +40,7 @@ public class LinkedGraph<N, E extends TraversableCloud<N>> extends AbstractAdjac
 		this.edges = new LinkedHashSet<E>(edges);
 		for(final E edge : edges)
 		{
-			final Collection<N> edgeNodes = edge.getNodes();
+			final Collection<N> edgeNodes = edge.getEndpoints();
             for(N startNode : edgeNodes)
 			{
 				if( !this.nodes.contains(startNode) )

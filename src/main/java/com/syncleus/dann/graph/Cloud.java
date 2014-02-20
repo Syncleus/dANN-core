@@ -24,9 +24,14 @@ import com.syncleus.dann.xml.XmlSerializable;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.List;
+import java.util.Set;
 
-public interface Cloud<N> extends Serializable, Cloneable, XmlSerializable<EdgeXml, Object>, ContextReporter
+public interface Cloud<E extends Cloud.Endpoint<?>> extends Serializable, Cloneable, XmlSerializable<EdgeXml, Object>, ContextReporter
 {
-    Collection<N> getNodes();
+    interface Endpoint<T>
+    {
+        T getTarget();
+    }
+
+    Set<E> getEndpoints();
 }

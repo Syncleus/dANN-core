@@ -81,7 +81,7 @@ public class TestDijkstraPathFinder
 		{
 			solutionIndex++;
 
-			final GridNode currentNode = (edge.getLeftNode().equals(lastNode) ? edge.getRightNode() : edge.getLeftNode());
+			final GridNode currentNode = (edge.getLeftEndpoint().equals(lastNode) ? edge.getRightEndpoint() : edge.getLeftEndpoint());
 			if( !checkNode(currentNode, solution[solutionIndex]) )
 				return false;
 			lastNode = currentNode;

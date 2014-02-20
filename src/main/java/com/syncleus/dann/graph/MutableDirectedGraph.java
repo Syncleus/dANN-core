@@ -18,6 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface MutableDirectedGraph<N, E extends DirectedEdge<N>> extends DirectedGraph<N, E>, MutableBidirectedGraph<N, E>
+public interface MutableDirectedGraph<N, E extends DirectedEdge<? extends DirectedEdge.Endpoint<N>>> extends DirectedGraph<N, E>, MutableBidirectedGraph<N, E>
 {
 }

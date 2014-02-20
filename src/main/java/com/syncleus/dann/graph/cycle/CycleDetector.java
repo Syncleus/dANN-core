@@ -23,5 +23,5 @@ import com.syncleus.dann.graph.Graph;
 
 public interface CycleDetector
 {
-	<N, E extends TraversableCloud<N>> boolean hasCycle(Graph<N, E> graph);
+	<N, E extends TraversableCloud<? extends TraversableCloud.Endpoint<N>>> boolean hasCycle(Graph<N, E> graph);
 }

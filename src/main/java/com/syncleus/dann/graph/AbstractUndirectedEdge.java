@@ -39,10 +39,10 @@ public abstract class AbstractUndirectedEdge<N> extends AbstractBidirectedEdge<N
 	@Override
 	public Collection<N> getTraversableNodes(final N node)
 	{
-		if( this.getLeftNode().equals(node) )
-			return Collections.singletonList(this.getRightNode());
-		else if( this.getRightNode().equals(node) )
-			return Collections.singletonList(this.getLeftNode());
+		if( this.getLeftEndpoint().equals(node) )
+			return Collections.singletonList(this.getRightEndpoint());
+		else if( this.getRightEndpoint().equals(node) )
+			return Collections.singletonList(this.getLeftEndpoint());
 		else
 			throw new IllegalArgumentException("node is not one of the end points!");
 	}
@@ -88,7 +88,7 @@ public abstract class AbstractUndirectedEdge<N> extends AbstractBidirectedEdge<N
 	{
 		if( node == null )
 			throw new IllegalArgumentException("node can not be null");
-		if( !this.getNodes().contains(node) )
+		if( !this.getEndpoints().contains(node) )
 			throw new IllegalArgumentException("node is not currently connected to");
 		return (AbstractUndirectedEdge<N>) this.remove(node);
 	}
@@ -98,7 +98,7 @@ public abstract class AbstractUndirectedEdge<N> extends AbstractBidirectedEdge<N
 	{
 		if( nodes == null )
 			throw new IllegalArgumentException("node can not be null");
-		if( !this.getNodes().containsAll(nodes) )
+		if( !this.getEndpoints().containsAll(nodes) )
 			throw new IllegalArgumentException("node is not currently connected to");
 		return (AbstractUndirectedEdge<N>) this.remove(nodes);
 	}

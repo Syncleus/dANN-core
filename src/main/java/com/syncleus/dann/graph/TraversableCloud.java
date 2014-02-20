@@ -18,33 +18,38 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.Set;
 
-public interface TraversableCloud<N> extends Cloud<N>
+public interface TraversableCloud<E extends TraversableCloud.Endpoint<?>> extends Cloud<E>
 {
-	boolean isTraversable(N node);
-    Collection<N> getTraversableNodes(N node);
+    interface Endpoint<T> extends Cloud.Endpoint<T>
+    {
+    }
+
+	boolean isTraversable(E endpoint);
+    Set<E> getTraversableEndpoints(E endpoint);
 
 	/**
 	 * Returns an edge with the specified node disconnected.
 	 *
-	 * @param node node to remove from the returned edge.
-	 * @return an edge with the specified node disconnected,
+	 *
+     * @param endpoint node to remove from the returned edge.
+     * @return an edge with the specified node disconnected,
 	 *   <tt>null</tt> if the entire edge should be deleted as a result of
 	 *   removing the specified node.
 	 * @since 2.0
 	 */
-	TraversableCloud<N> disconnect(N node);
+	TraversableCloud<E> disconnect(E endpoint);
 
 	/**
 	 * Returns an edge with the specified nodes disconnected.
 	 *
-	 * @param node node to remove from the returned edge.
-	 * @return an edge with the specified nodes disconnected,
+	 *
+     * @param endpoints node to remove from the returned edge.
+     * @return an edge with the specified nodes disconnected,
 	 *   <tt>null</tt> if the entire edge should be deleted as a result of
 	 *   removing the specified nodes.
 	 */
-	TraversableCloud<N> disconnect(List<N> node);
+	TraversableCloud<E> disconnect(Set<E> endpoints);
 
 }

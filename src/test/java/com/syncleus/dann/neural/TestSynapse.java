@@ -52,7 +52,7 @@ public class TestSynapse
 		Assert.assertTrue(Math.abs(testSynapse.getInput() - TEST_INPUT) < 0.000001);
 		testSynapse.setWeight(TEST_WEIGHT);
 		Assert.assertTrue(Math.abs(testSynapse.getWeight() - TEST_WEIGHT) < 0.000001);
-		Assert.assertTrue(testSynapse.getSourceNode() == sourceNeuron);
-		Assert.assertTrue(testSynapse.getDestinationNode() == destinationNeuron);
+		Assert.assertTrue(testSynapse.getSourceEndpoint() == sourceNeuron);
+		Assert.assertTrue(testSynapse.getDestinationEndpoint() == destinationNeuron);
 	}
 }

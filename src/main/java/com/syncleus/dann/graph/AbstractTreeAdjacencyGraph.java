@@ -98,7 +98,7 @@ public abstract class AbstractTreeAdjacencyGraph<N, E extends BidirectedEdge<N>>
 	@Override
 	public boolean isLeaf(final E edge)
 	{
-		for(final N node : edge.getNodes())
+		for(final N node : edge.getEndpoints())
 			if( this.isLeaf(node) )
 				return true;
 		return false;

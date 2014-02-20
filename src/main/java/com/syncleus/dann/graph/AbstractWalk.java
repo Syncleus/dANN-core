@@ -41,11 +41,11 @@ public abstract class AbstractWalk<N, E extends TraversableCloud<N>> implements 
 		int nextNodeIndex = 0;
 		for(final E edgeStep : edgeSteps)
 		{
-			if( !edgeStep.getNodes().contains(nodeSteps.get(nextNodeIndex)) )
+			if( !edgeStep.getEndpoints().contains(nodeSteps.get(nextNodeIndex)) )
 				return false;
 			nextNodeIndex++;
 		}
-		return edgeSteps.get(edgeSteps.size() - 1).getNodes().contains(nodeSteps.get(nextNodeIndex));
+		return edgeSteps.get(edgeSteps.size() - 1).getEndpoints().contains(nodeSteps.get(nextNodeIndex));
 	}
 
 	@Override

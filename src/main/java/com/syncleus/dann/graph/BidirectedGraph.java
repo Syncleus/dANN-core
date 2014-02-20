@@ -32,7 +32,7 @@ import java.util.Set;
  *
  * @since 2.0
  */
-public interface BidirectedGraph<N, E extends BidirectedEdge<N>> extends Graph<N, E>
+public interface BidirectedGraph<N, E extends BidirectedEdge<? extends BidirectedEdge.Endpoint<N>>> extends Graph<N, E>
 {
 	/**
 	 * Get all edges which traverse to the specified node. While the combination of

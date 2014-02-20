@@ -37,23 +37,23 @@ public abstract class AbstractDirectedEdge<N> extends AbstractBidirectedEdge<N> 
 	}
 
 	@Override
-	public N getSourceNode()
+	public N getSourceEndpoint()
 	{
-		return this.getLeftNode();
+		return this.getLeftEndpoint();
 	}
 
 	@Override
-	public N getDestinationNode()
+	public N getDestinationEndpoint()
 	{
-		return this.getRightNode();
+		return this.getRightEndpoint();
 	}
 
 	@Override
 	public Collection<N> getTraversableNodes(final N node)
 	{
-		if( this.getSourceNode().equals(node) )
-			return Collections.singletonList(this.getDestinationNode());
-		else if( this.getDestinationNode().equals(node) )
+		if( this.getSourceEndpoint().equals(node) )
+			return Collections.singletonList(this.getDestinationEndpoint());
+		else if( this.getDestinationEndpoint().equals(node) )
 			return Collections.emptyList();
 		else
 			throw new IllegalArgumentException("node is not one of the end points!");
@@ -98,7 +98,7 @@ public abstract class AbstractDirectedEdge<N> extends AbstractBidirectedEdge<N> 
 	@Override
 	public String toString()
 	{
-		return this.getSourceNode() + "->" + this.getDestinationNode();
+		return this.getSourceEndpoint() + "->" + this.getDestinationEndpoint();
 	}
 
 	@Override
@@ -106,7 +106,7 @@ public abstract class AbstractDirectedEdge<N> extends AbstractBidirectedEdge<N> 
 	{
 		if( node == null )
 			throw new IllegalArgumentException("node can not be null");
-		if( !this.getNodes().contains(node) )
+		if( !this.getEndpoints().contains(node) )
 			throw new IllegalArgumentException("node is not currently connected to");
 		return (AbstractDirectedEdge<N>) this.remove(node);
 	}
@@ -116,7 +116,7 @@ public abstract class AbstractDirectedEdge<N> extends AbstractBidirectedEdge<N> 
 	{
 		if( nodes == null )
 			throw new IllegalArgumentException("node can not be null");
-		if( !this.getNodes().containsAll(nodes) )
+		if( !this.getEndpoints().containsAll(nodes) )
 			throw new IllegalArgumentException("node is not currently connected to");
 		return (AbstractDirectedEdge<N>) this.remove(nodes);
 	}

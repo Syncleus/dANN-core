@@ -101,13 +101,13 @@ public abstract class AbstractLocalBrain<IN extends InputNeuron, ON extends Outp
 	{
 		if( newSynapse == null )
 			throw new IllegalArgumentException("newSynapse can not be null");
-		if( !this.neurons.containsAll(newSynapse.getNodes()) )
+		if( !this.neurons.containsAll(newSynapse.getEndpoints()) )
 			throw new IllegalArgumentException("newSynapse has a node as an end point that is not part of the graph");
 
 		if( this.synapses.add(newSynapse) )
 		{
-			this.outMap.get(newSynapse.getSourceNode()).add(newSynapse);
-			this.inMap.get(newSynapse.getDestinationNode()).add(newSynapse);
+			this.outMap.get(newSynapse.getSourceEndpoint()).add(newSynapse);
+			this.inMap.get(newSynapse.getDestinationEndpoint()).add(newSynapse);
 			return true;
 		}
 
@@ -196,7 +196,7 @@ public abstract class AbstractLocalBrain<IN extends InputNeuron, ON extends Outp
 	} */
 	protected boolean connect(final S synapse)
 	{
-		if( !this.neurons.containsAll(synapse.getNodes()) )
+		if( !this.neurons.containsAll(synapse.getEndpoints()) )
 			throw new IllegalArgumentException("the synapse contains nodes not in this brain");
 
 		return this.add(synapse);
@@ -225,10 +225,10 @@ public abstract class AbstractLocalBrain<IN extends InputNeuron, ON extends Outp
 
 		if( this.synapses.remove(removeSynapse) )
 		{
-			if( this.outMap.containsKey(removeSynapse.getSourceNode()) )
-				this.outMap.get(removeSynapse.getSourceNode()).remove(removeSynapse);
-			if( this.inMap.containsKey(removeSynapse.getDestinationNode()) )
-				this.inMap.get(removeSynapse.getDestinationNode()).remove(removeSynapse);
+			if( this.outMap.containsKey(removeSynapse.getSourceEndpoint()) )
+				this.outMap.get(removeSynapse.getSourceEndpoint()).remove(removeSynapse);
+			if( this.inMap.containsKey(removeSynapse.getDestinationEndpoint()) )
+				this.inMap.get(removeSynapse.getDestinationEndpoint()).remove(removeSynapse);
 			return true;
 		}
 		return false;
@@ -358,7 +358,7 @@ public abstract class AbstractLocalBrain<IN extends InputNeuron, ON extends Outp
 		final Set<S> nodeSynapses = this.getAdjacentEdges(node);
 		final List<N> neighbors = new ArrayList<N>();
 		for(final S nodeSynapse : nodeSynapses)
-			neighbors.add((nodeSynapse.getLeftNode().equals(node) ? nodeSynapse.getRightNode() : nodeSynapse.getLeftNode()));
+			neighbors.add((nodeSynapse.getLeftEndpoint().equals(node) ? nodeSynapse.getRightEndpoint() : nodeSynapse.getLeftEndpoint()));
 		return Collections.unmodifiableList(neighbors);
 	}
 

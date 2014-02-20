@@ -18,26 +18,22 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+
 import com.syncleus.dann.graph.xml.*;
 import com.syncleus.dann.xml.NamedValueXml;
 import com.syncleus.dann.xml.Namer;
 import com.syncleus.dann.xml.XmlSerializable;
 
-public abstract class AbstractBidirectedEdge<N> extends AbstractTraversableCloud<N> implements BidirectedEdge<N>
+public abstract class AbstractBidirectedEdge<E extends BidirectedEdge.Endpoint<?>> extends AbstractTraversableCloud<E> implements BidirectedEdge<E>
 {
-	private final N leftNode;
-	private final N rightNode;
+//	private final E leftEndpoint;
+//	private final E rightEndpoint;
 	private final EndState leftEndState;
 	private final EndState rightEndState;
 
 	protected AbstractBidirectedEdge()
 	{
-		this.leftNode = null;
-		this.rightNode = null;
 		this.leftEndState = null;
 		this.rightEndState = null;
 	}
@@ -46,18 +42,17 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractTraversableCloud
 	{
 		super(allowJoiningMultipleGraphs, contextEnabled);
 
-		this.leftNode = null;
-		this.rightNode = null;
 		this.leftEndState = null;
 		this.rightEndState = null;
 	}
 
+    /*
 	protected AbstractBidirectedEdge(final N newLeftNode, final EndState newLeftEndState, final N newRightNode, final EndState newRightEndState)
 	{
 		super(packNodes(newLeftNode, newRightNode));
 
-		this.leftNode = newLeftNode;
-		this.rightNode = newRightNode;
+		this.leftEndpoint = newLeftNode;
+		this.rightEndpoint = newRightNode;
 		this.leftEndState = newLeftEndState;
 		this.rightEndState = newRightEndState;
 	}
@@ -66,8 +61,8 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractTraversableCloud
 	{
 		super(packNodes(newLeftNode, newRightNode), allowJoiningMultipleGraphs, contextEnabled);
 
-		this.leftNode = newLeftNode;
-		this.rightNode = newRightNode;
+		this.leftEndpoint = newLeftNode;
+		this.rightEndpoint = newRightNode;
 		this.leftEndState = newLeftEndState;
 		this.rightEndState = newRightEndState;
 	}
@@ -79,18 +74,29 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractTraversableCloud
 		pack.add(rightNode);
 		return pack;
 	}
-
+	*/
+/*
 	@Override
-	public final N getLeftNode()
+	public final N getLeftEndpoint()
 	{
-		return this.leftNode;
+		return this.leftEndpoint;
 	}
 
 	@Override
-	public final N getRightNode()
+	public final N getRightEndpoint()
 	{
-		return this.rightNode;
+		return this.rightEndpoint;
 	}
+*/
+    @Override
+    public final Set<E> getEndpoints()
+    {
+        Set<E> endpoints = new HashSet<E>(2);
+        endpoints.add(this.getLeftEndpoint());
+        endpoints.add(this.getRightEndpoint());
+        return Collections.unmodifiableSet(endpoints);
+    }
+
 
 	@Override
 	public final EndState getLeftEndState()
@@ -157,11 +163,11 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractTraversableCloud
 	@Override
 	public String toString()
 	{
-		return this.leftNode.toString()
+		return this.getLeftEndpoint().toString()
 				+ endStateToString(this.leftEndState, true)
 				+ '-'
 				+ endStateToString(this.rightEndState, false)
-				+ this.rightNode;
+				+ this.getRightEndpoint();
 	}
 
 	private static String endStateToString(final EndState state, final boolean isLeft)
@@ -184,9 +190,10 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractTraversableCloud
 		final BidirectedEdgeElementXml xml = new BidirectedEdgeElementXml();
 
 		xml.setNodeInstances(new BidirectedEdgeElementXml.NodeInstances());
-		final Set<N> writtenNodes = new HashSet<N>();
-		for (N node : this.getNodes())
+		final Set<Object> writtenNodes = new HashSet<Object>();
+		for (E endpoint : this.getEndpoints())
 		{
+            final Object node = endpoint.getTarget();
 			if (writtenNodes.add(node))
 			{
 				final NamedValueXml named = new NamedValueXml();
@@ -235,8 +242,8 @@ public abstract class AbstractBidirectedEdge<N> extends AbstractTraversableCloud
 
 		if (jaxbObject instanceof BidirectedEdgeXml)
 		{
-			((BidirectedEdgeXml) jaxbObject).setLeftNode(nodeNames.getNameOrCreate(this.leftNode));
-			((BidirectedEdgeXml) jaxbObject).setRightNode(nodeNames.getNameOrCreate(this.rightNode));
+			((BidirectedEdgeXml) jaxbObject).setLeftNode(nodeNames.getNameOrCreate(this.getLeftEndpoint()));
+			((BidirectedEdgeXml) jaxbObject).setRightNode(nodeNames.getNameOrCreate(this.getRightEndpoint()));
 			((BidirectedEdgeXml) jaxbObject).setLeftDirection(this.leftEndState.toString().toLowerCase());
 			((BidirectedEdgeXml) jaxbObject).setRightDirection(this.rightEndState.toString().toLowerCase());
 		}

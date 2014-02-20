@@ -38,10 +38,10 @@ public abstract class AbstractSignalingContextCloud<N, S> extends AbstractContex
 	@Override
 	public void nodeStateChanged(final N node, final S newState)
 	{
-		if( !this.getNodes().contains(node) )
+		if( !this.getEndpoints().contains(node) )
 			throw new IllegalArgumentException("node is not an endpoint of this edge");
 
-		for(N traversableNode : this.getTraversableNodes(node))
+		for(N traversableNode : this.getTraversableEndpoints(node))
 		{
 			if( traversableNode instanceof SignalContextNode)
 				((SignalContextNode)traversableNode).neighborNodeStateChanged(this, node, newState);

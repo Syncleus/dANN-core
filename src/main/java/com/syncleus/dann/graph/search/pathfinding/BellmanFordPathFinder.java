@@ -66,19 +66,19 @@ public class BellmanFordPathFinder<N, E extends DirectedEdge<N>> implements Path
 		{
 			for(final E edge : edges)
 			{
-				if( edge.getDestinationNode() == begin )
+				if( edge.getDestinationEndpoint() == begin )
 					continue;
-				PathedStep sourcePathedStep = pathedSteps.get(edge.getSourceNode());
+				PathedStep sourcePathedStep = pathedSteps.get(edge.getSourceEndpoint());
 				if( sourcePathedStep == null )
 				{
-					sourcePathedStep = new PathedStep(edge.getSourceNode(), (edge.getSourceNode().equals(begin) ? 0.0 : Double.POSITIVE_INFINITY));
-					pathedSteps.put(edge.getSourceNode(), sourcePathedStep);
+					sourcePathedStep = new PathedStep(edge.getSourceEndpoint(), (edge.getSourceEndpoint().equals(begin) ? 0.0 : Double.POSITIVE_INFINITY));
+					pathedSteps.put(edge.getSourceEndpoint(), sourcePathedStep);
 				}
-				PathedStep destinationPathedStep = pathedSteps.get(edge.getDestinationNode());
+				PathedStep destinationPathedStep = pathedSteps.get(edge.getDestinationEndpoint());
 				if( destinationPathedStep == null )
 				{
-					destinationPathedStep = new PathedStep(edge.getDestinationNode(), Double.POSITIVE_INFINITY);
-					pathedSteps.put(edge.getDestinationNode(), destinationPathedStep);
+					destinationPathedStep = new PathedStep(edge.getDestinationEndpoint(), Double.POSITIVE_INFINITY);
+					pathedSteps.put(edge.getDestinationEndpoint(), destinationPathedStep);
 				}
 				destinationPathedStep.updateParent(sourcePathedStep, edge);
 			}
@@ -86,10 +86,10 @@ public class BellmanFordPathFinder<N, E extends DirectedEdge<N>> implements Path
 		//check for negative cycles
 		for(final E edge : edges)
 		{
-			if( edge.getDestinationNode() == begin )
+			if( edge.getDestinationEndpoint() == begin )
 				continue;
-			final PathedStep sourcePathedStep = pathedSteps.get(edge.getSourceNode());
-			final PathedStep destinationPathedStep = pathedSteps.get(edge.getDestinationNode());
+			final PathedStep sourcePathedStep = pathedSteps.get(edge.getSourceEndpoint());
+			final PathedStep destinationPathedStep = pathedSteps.get(edge.getDestinationEndpoint());
 			assert ((sourcePathedStep != null) && (destinationPathedStep != null));
 			if( destinationPathedStep.updateParent(sourcePathedStep, edge) )
 				throw new NegativeWeightCycleException("negative-weight cycle found in graph");

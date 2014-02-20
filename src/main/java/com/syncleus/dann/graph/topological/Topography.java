@@ -89,7 +89,7 @@ public final class Topography
 			final Set<E> adjacentNodesEdges = graph.getAdjacentEdges(node);
 			int degree = 0;
 			for(final E adjacentEdge : adjacentNodesEdges)
-				for(final N adjacentNode : adjacentEdge.getNodes())
+				for(final N adjacentNode : adjacentEdge.getEndpoints())
 					if( adjacentNode.equals(node) )
 						degree++;
 			return degree;
@@ -310,7 +310,7 @@ public final class Topography
 		// connect to any of the nodes in the subgraph.
 		final Set<? extends N> subnodes = subGraph.getNodes();
 		for(final E exclusiveParentEdge : exclusiveParentEdges)
-			for(final N exclusiveParentNode : exclusiveParentEdge.getNodes())
+			for(final N exclusiveParentNode : exclusiveParentEdge.getEndpoints())
 				if( subnodes.contains(exclusiveParentNode) )
 					return false;
 		// passed all the tests, must be maximal
@@ -911,15 +911,15 @@ public final class Topography
 		}
 
 		int multiplicity = 0;
-		final Collection<N> edgeNodes = edge.getNodes();
+		final Collection<N> edgeNodes = edge.getEndpoints();
         if( edgeNodes.isEmpty() )
             return multiplicity;
-		final Set<E> potentialMultiples = graph.getAdjacentEdges(edge.getNodes().iterator().next());
+		final Set<E> potentialMultiples = graph.getAdjacentEdges(edge.getEndpoints().iterator().next());
 		for(final E potentialMultiple : potentialMultiples)
 		{
 			if( potentialMultiple.equals(edge) )
 				continue;
-			final List<N> potentialNodes = new ArrayList<N>(potentialMultiple.getNodes());
+			final List<N> potentialNodes = new ArrayList<N>(potentialMultiple.getEndpoints());
 			if( potentialNodes.size() != edgeNodes.size() )
 				continue;
 			for(final N edgeNode : edgeNodes)
@@ -958,7 +958,7 @@ public final class Topography
 			}
 		}
 
-		final Collection<N> edgeNodes = edge.getNodes();
+		final Collection<N> edgeNodes = edge.getEndpoints();
         if(edgeNodes.isEmpty())
             return false;
 		final Set<E> potentialMultiples = graph.getAdjacentEdges(edgeNodes.iterator().next());
@@ -966,7 +966,7 @@ public final class Topography
 		{
 			if( potentialMultiple.equals(edge) )
 				continue;
-			final List<N> potentialNodes = new ArrayList<N>(potentialMultiple.getNodes());
+			final List<N> potentialNodes = new ArrayList<N>(potentialMultiple.getEndpoints());
 			if( potentialNodes.size() != edgeNodes.size() )
 				continue;
 			for(final N edgeNode : edgeNodes)
@@ -1187,9 +1187,9 @@ public final class Topography
 		final Set<TraversableCloud<N>> addEdges = new HashSet<TraversableCloud<N>>();
 		for(final TraversableCloud<N> cutEdge : cutEdges)
 		{
-			final Collection<N> cutEdgeNeighbors = cutEdge.getNodes();
+			final Collection<N> cutEdgeNeighbors = cutEdge.getEndpoints();
 			cutEdgeNeighbors.removeAll(cutNodes);
-			if( cutEdgeNeighbors.size() != cutEdge.getNodes().size() )
+			if( cutEdgeNeighbors.size() != cutEdge.getEndpoints().size() )
 				removeEdges.add(cutEdge);
 			if( cutEdgeNeighbors.size() > 1 )
 				// TODO instead of ImmutableHyperedge implement clone or something

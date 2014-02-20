@@ -62,7 +62,7 @@ public class KruskalMinimumSpanningTreeFinder<N, E extends TraversableCloud<N>> 
 			final Set<Set<N>> setContainingEndNodes = new HashSet<Set<N>>();
 			for(final Set<N> component : componentNodeSets)
 			{
-				for(final N endNode : queuedEdge.getNodes())
+				for(final N endNode : queuedEdge.getEndpoints())
 				{
 					if( component.contains(endNode) )
 					{

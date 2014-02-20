@@ -18,14 +18,18 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.List;
+import java.util.Set;
 
-public interface DirectedEdge<N> extends BidirectedEdge<N>
+public interface DirectedEdge<E extends DirectedEdge.Endpoint<?>> extends BidirectedEdge<E>
 {
-	N getSourceNode();
-	N getDestinationNode();
+    interface Endpoint<T> extends BidirectedEdge.Endpoint<T>
+    {
+    }
+
+	E getSourceEndpoint();
+	E getDestinationEndpoint();
 	@Override
-	DirectedEdge<N> disconnect(N node);
+    DirectedEdge<E> disconnect(E endpoint);
 	@Override
-	DirectedEdge<N> disconnect(List<N> node);
+    DirectedEdge<E> disconnect(Set<E> endpoint);
 }

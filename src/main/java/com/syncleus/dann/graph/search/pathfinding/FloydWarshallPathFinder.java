@@ -59,7 +59,7 @@ public class FloydWarshallPathFinder<N, E extends TraversableCloud<N>> implement
 				{
 					E connectedEdge = null;
 					for(final E edge : this.graph.getTraversableEdges(nodeX))
-						if( edge.getNodes().contains(nodeY) )
+						if( edge.getEndpoints().contains(nodeY) )
 							connectedEdge = edge;
 					assert connectedEdge != null;
 					initialWeight = (connectedEdge instanceof WeightedCloud ? ((WeightedCloud) connectedEdge).getWeight() : 1.0);
@@ -108,7 +108,7 @@ public class FloydWarshallPathFinder<N, E extends TraversableCloud<N>> implement
 			double stepEdgeWeight = Double.MAX_VALUE;
 			for(final E edge : this.graph.getTraversableEdges(fromNode))
 			{
-				if( edge.getNodes().contains(toNode) )
+				if( edge.getEndpoints().contains(toNode) )
 				{
 					if( stepEdge == null )
 						stepEdge = edge;

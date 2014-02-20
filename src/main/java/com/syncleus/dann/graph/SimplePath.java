@@ -36,9 +36,9 @@ public class SimplePath<N, E extends TraversableCloud<N>> extends SimpleWalk<N, 
 			throw new IllegalArgumentException("ourFirstNode can not be null");
 		if( ourLastNode == null )
 			throw new IllegalArgumentException("ourLastNode can not be null");
-		if( !ourSteps.get(0).getNodes().contains(ourFirstNode) )
+		if( !ourSteps.get(0).getEndpoints().contains(ourFirstNode) )
 			throw new IllegalArgumentException("ourFirstNode is not a end point in the first ourNodeSteps");
-		if( !ourSteps.get(ourSteps.size() - 1).getNodes().contains(ourLastNode) )
+		if( !ourSteps.get(ourSteps.size() - 1).getEndpoints().contains(ourLastNode) )
 			throw new IllegalArgumentException("ourLastNode is not a end point in the last ourNodeSteps");
 
 		this.firstNode = ourFirstNode;
@@ -70,7 +70,7 @@ public class SimplePath<N, E extends TraversableCloud<N>> extends SimpleWalk<N, 
 
 			newNodeSteps.add(nextNodeStep);
 
-			final List<N> nextNodes = new ArrayList<N>(edgeStep.getNodes());
+			final List<N> nextNodes = new ArrayList<N>(edgeStep.getEndpoints());
 			nextNodes.remove(nextNodeStep);
 			nextNodeStep = nextNodes.get(0);
 		}

@@ -96,7 +96,7 @@ public class PrimMinimumSpanningTreeFinder<N, E extends TraversableCloud<N>> imp
 			final Set<E> neighborEdges = graph.getTraversableEdges(currentNode);
 			for(final E neighborEdge : neighborEdges)
 			{
-				final List<N> neighborNodes = new ArrayList<N>(neighborEdge.getNodes());
+				final List<N> neighborNodes = new ArrayList<N>(neighborEdge.getEndpoints());
 				//remove all occurrences of currentNode, not just the first
 				while( neighborNodes.remove(currentNode) )
 				{

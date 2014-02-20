@@ -91,7 +91,7 @@ public class LayeredBrainHyperassociativeMap extends HyperassociativeMap<Feedfor
 		for (final Synapse<BackpropNeuron> neighborEdge : getGraph().getAdjacentEdges(nodeToQuery))
 		{
 			final Double currentWeight = (isUsingWeights() ? neighborEdge.getWeight() : getEquilibriumDistance());
-			for (final BackpropNeuron neighbor : neighborEdge.getNodes())
+			for (final BackpropNeuron neighbor : neighborEdge.getEndpoints())
 			{
 				if (!neighbor.equals(nodeToQuery))
 				{
