@@ -19,12 +19,10 @@
 package com.syncleus.dann.graph;
 
 import com.syncleus.dann.graph.context.ContextReporter;
-import com.syncleus.dann.graph.xml.EdgeXml;
-import com.syncleus.dann.xml.XmlSerializable;
 import java.io.Serializable;
 import java.util.List;
 
-public interface Edge<N> extends Serializable, Cloneable, XmlSerializable<EdgeXml, Object>, ContextReporter
+public interface Edge<N> extends Serializable, Cloneable, ContextReporter
 {
 	List<N> getNodes();
 	List<N> getTraversableNodes(N node);

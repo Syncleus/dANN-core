@@ -21,13 +21,6 @@ package com.syncleus.dann.graphicalmodel;
 import java.util.*;
 import com.syncleus.dann.graph.BidirectedEdge;
 import com.syncleus.dann.graph.context.AbstractContextNode;
-import com.syncleus.dann.graphicalmodel.xml.GraphicalModelNodeXml;
-import com.syncleus.dann.graphicalmodel.xml.SimpleGraphicalModelNodeElementXml;
-import com.syncleus.dann.graphicalmodel.xml.SimpleGraphicalModelNodeXml;
-import com.syncleus.dann.xml.NameXml;
-import com.syncleus.dann.xml.NamedValueXml;
-import com.syncleus.dann.xml.Namer;
-import com.syncleus.dann.xml.XmlSerializable;
 
 public class SimpleGraphicalModelNode<S> extends AbstractContextNode<GraphicalModelNode<S>, BidirectedEdge<GraphicalModelNode<S>>, GraphicalModel<GraphicalModelNode<S>, BidirectedEdge<GraphicalModelNode<S>>>> implements GraphicalModelNode<S>
 {
@@ -200,93 +193,5 @@ public class SimpleGraphicalModelNode<S> extends AbstractContextNode<GraphicalMo
 		}
 
 		return false;
-	}
-
-	@Override
-	public SimpleGraphicalModelNodeXml toXml()
-	{
-		final Namer<Object> namer = new Namer<Object>();
-		final SimpleGraphicalModelNodeElementXml xml = new SimpleGraphicalModelNodeElementXml();
-
-		xml.setStateInstances(new SimpleGraphicalModelNodeElementXml.StateInstances());
-		final Set<S> writtenStates = new HashSet<S>();
-		for (S learnedState : this.learnedStates)
-		{
-			if (writtenStates.add(learnedState))
-			{
-				final NamedValueXml named = new NamedValueXml();
-				named.setName(namer.getNameOrCreate(learnedState));
-				if (learnedState instanceof XmlSerializable)
-				{
-					named.setValue(((XmlSerializable) learnedState).toXml(namer));
-				}
-				else
-				{
-					named.setValue(learnedState);
-				}
-				xml.getStateInstances().getStates().add(named);
-			}
-		}
-
-		if (writtenStates.add(this.state))
-		{
-			final NamedValueXml named = new NamedValueXml();
-			named.setName(namer.getNameOrCreate(this.state));
-			if (this.state instanceof XmlSerializable)
-			{
-				named.setValue(((XmlSerializable) this.state).toXml(namer));
-			}
-			else
-			{
-				named.setValue(this.state);
-			}
-			xml.getStateInstances().getStates().add(named);
-		}
-
-		this.toXml(xml, namer);
-
-		return xml;
-	}
-
-	@Override
-	public SimpleGraphicalModelNodeXml toXml(final Namer<Object> namer)
-	{
-		if (namer == null)
-		{
-			throw new IllegalArgumentException("namer can not be null");
-		}
-
-		final SimpleGraphicalModelNodeXml xml = new SimpleGraphicalModelNodeXml();
-		this.toXml(xml, namer);
-		return xml;
-	}
-
-	@Override
-	public void toXml(final GraphicalModelNodeXml jaxbObject, final Namer<Object> namer)
-	{
-		//set learned states
-		if (jaxbObject.getLearnedStates() == null)
-		{
-			jaxbObject.setLearnedStates(new SimpleGraphicalModelNodeXml.LearnedStates());
-		}
-		for (S learnedState : learnedStates)
-		{
-			final NameXml stateXml = new NameXml();
-			stateXml.setName(namer.getNameOrCreate(learnedState));
-			jaxbObject.getLearnedStates().getStates().add(stateXml);
-		}
-
-		//set current state
-		if (jaxbObject.getState() == null)
-		{
-			jaxbObject.setState(new NameXml());
-		}
-		jaxbObject.getState().setName(namer.getNameOrCreate(this.state));
-
-		//set evidence map
-		if ((jaxbObject instanceof SimpleGraphicalModelNodeXml) && (this.evidence != null))
-		{
-			((SimpleGraphicalModelNodeXml) jaxbObject).setEvidence(this.evidence.toXml(namer));
-		}
 	}
 }

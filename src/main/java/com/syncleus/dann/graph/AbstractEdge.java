@@ -21,18 +21,11 @@ package com.syncleus.dann.graph;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
 import com.syncleus.dann.UnexpectedDannError;
 import com.syncleus.dann.graph.context.AbstractContextGraphElement;
 import com.syncleus.dann.graph.context.ContextNode;
-import com.syncleus.dann.graph.xml.EdgeElementXml;
-import com.syncleus.dann.graph.xml.EdgeXml;
-import com.syncleus.dann.xml.NameXml;
-import com.syncleus.dann.xml.NamedValueXml;
-import com.syncleus.dann.xml.Namer;
-import com.syncleus.dann.xml.XmlSerializable;
 import org.apache.log4j.Logger;
 
 public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<N, ?>> implements Edge<N>
@@ -213,73 +206,6 @@ public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<
 		{
 			LOGGER.error("Edge was unexpectidly not cloneable", caught);
 			throw new UnexpectedDannError("Edge was unexpectidly not cloneable", caught);
-		}
-	}
-
-	@Override
-	public EdgeXml toXml()
-	{
-		final Namer namer = new Namer();
-		final EdgeElementXml xml = new EdgeElementXml();
-
-		xml.setNodeInstances(new EdgeElementXml.NodeInstances());
-		final Set<N> writtenNodes = new HashSet<N>();
-		for (N node : this.nodes)
-		{
-			if (writtenNodes.add(node))
-			{
-				final NamedValueXml named = new NamedValueXml();
-				named.setName(namer.getNameOrCreate(node));
-				if (node instanceof XmlSerializable)
-				{
-					named.setValue(((XmlSerializable) node).toXml(namer));
-				}
-				else
-				{
-					named.setValue(node);
-				}
-				xml.getNodeInstances().getNodes().add(named);
-			}
-		}
-		this.toXml(xml, namer);
-
-		return xml;
-	}
-
-	@Override
-	public EdgeXml toXml(final Namer<Object> nodeNames)
-	{
-		if (nodeNames == null)
-		{
-			throw new IllegalArgumentException("nodeNames can not be null");
-		}
-
-		final EdgeXml xml = new EdgeXml();
-		this.toXml(xml, nodeNames);
-		return xml;
-	}
-
-	@Override
-	public void toXml(final EdgeXml jaxbObject, final Namer<Object> nodeNames)
-	{
-		if (nodeNames == null)
-		{
-			throw new IllegalArgumentException("nodeNames can not be null");
-		}
-		if (jaxbObject == null)
-		{
-			throw new IllegalArgumentException("jaxbObject can not be null");
-		}
-
-		if (jaxbObject.getConnections() == null)
-		{
-			jaxbObject.setConnections(new EdgeXml.Connections());
-		}
-		for (N node : this.nodes)
-		{
-			final NameXml connection = new NameXml();
-			connection.setName(nodeNames.getNameOrCreate(node));
-			jaxbObject.getConnections().getNodes().add(connection);
 		}
 	}
 }

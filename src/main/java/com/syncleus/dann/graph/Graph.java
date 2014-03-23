@@ -19,8 +19,6 @@
 package com.syncleus.dann.graph;
 
 import com.syncleus.dann.graph.context.ContextReporter;
-import com.syncleus.dann.graph.xml.GraphXml;
-import com.syncleus.dann.xml.XmlSerializable;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
@@ -40,7 +38,7 @@ import java.util.Set;
  * @param <N> The node type
  * @param <E> The type of edge for the given node type
  */
-public interface Graph<N, E extends Edge<N>> extends Serializable, Cloneable, XmlSerializable<GraphXml, Object>, ContextReporter
+public interface Graph<N, E extends Edge<N>> extends Serializable, Cloneable, ContextReporter
 {
 	/**
 	 * Get a set of all nodes in the graph.

@@ -168,39 +168,6 @@
                     </execution>
                 </executions>
             </plugin>
-			<plugin>
-				<groupId>org.jvnet.jaxb2.maven2</groupId>
-				<artifactId>maven-jaxb2-plugin</artifactId>
-				<version>0.7.4</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<extension>true</extension>
-					<args>
-						<arg>-Xequals</arg>
-						<arg>-XhashCode</arg>
-						<arg>-Xannotate</arg>
-					</args>
-					<plugins>
-						<plugin>
-							<groupId>org.jvnet.jaxb2_commons</groupId>
-							<artifactId>jaxb2-basics</artifactId>
-							<version>0.6.0</version>
-						</plugin>
-
-						<plugin>
-							<groupId>org.jvnet.jaxb2_commons</groupId>
-							<artifactId>jaxb2-basics-annotate</artifactId>
-							<version>0.6.0</version>
-						</plugin>
-					</plugins>
-				</configuration>
-			</plugin>
 		</plugins>
 
 		<resources>
@@ -272,12 +239,6 @@
 			<groupId>org.freehep</groupId>
 			<artifactId>freehep-java3d</artifactId>
 			<version>2.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jvnet.jaxb2_commons</groupId>
-			<artifactId>jaxb2-basics</artifactId>
-			<version>0.6.0</version>
 		</dependency>
 
 		<dependency>
