@@ -18,18 +18,14 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.markovrandomfield;
 
-import java.io.StringReader;
-import java.io.StringWriter;
 import java.util.*;
 import com.syncleus.dann.graph.ImmutableUndirectedEdge;
 import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
 import com.syncleus.dann.graphicalmodel.SimpleGraphicalModelNode;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.StaxDriver;
 import org.junit.Assert;
 import org.junit.Test;
-
-import javax.xml.bind.JAXB;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
 
 public class TestSicknessRandomMarkovField
 {
@@ -62,6 +58,20 @@ public class TestSicknessRandomMarkovField
 	private GraphicalModelNode<FeverState> fever = new SimpleGraphicalModelNode<FeverState>(FeverState.HOT);
 	private GraphicalModelNode<BooleanState> tired = new SimpleGraphicalModelNode<BooleanState>(BooleanState.FALSE);
 	private GraphicalModelNode<BooleanState> sick = new SimpleGraphicalModelNode<BooleanState>(BooleanState.FALSE);
+
+    @Test
+    public void testXml() throws Exception
+    {
+        testOverall();
+
+        final XStream xstream = new XStream(new StaxDriver());
+        final String xml = xstream.toXML(network);
+        Assert.assertTrue("could not serialize network!", xml != null);
+        final Object networkObject = xstream.fromXML(xml);
+        Assert.assertTrue("deserialized object type doesnt match serialized object type", networkObject instanceof MutableMarkovRandomFieldAdjacencyGraph);
+        Assert.assertTrue("deserialized network had the wrong number of edges", ((MutableMarkovRandomFieldAdjacencyGraph)networkObject).getEdges().size() == network.getEdges().size());
+        Assert.assertTrue("deserialized network had the wrong number of nodes", ((MutableMarkovRandomFieldAdjacencyGraph)networkObject).getNodes().size() == network.getNodes().size());
+    }
 
     @Test
 	public void testOverallRepeated()
