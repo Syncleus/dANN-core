@@ -20,11 +20,6 @@ package com.syncleus.dann.graphicalmodel;
 
 import java.util.*;
 import com.syncleus.dann.graph.*;
-import com.syncleus.dann.graphicalmodel.xml.GraphicalModelElementXml;
-import com.syncleus.dann.graphicalmodel.xml.GraphicalModelXml;
-import com.syncleus.dann.xml.NamedValueXml;
-import com.syncleus.dann.xml.Namer;
-import com.syncleus.dann.xml.XmlSerializable;
 
 public abstract class AbstractGraphicalModelAdjacencyGraph<N extends GraphicalModelNode, E extends BidirectedEdge<N>> extends AbstractBidirectedAdjacencyGraph<N, E> implements GraphicalModel<N, E>
 {
@@ -137,78 +132,6 @@ public abstract class AbstractGraphicalModelAdjacencyGraph<N extends GraphicalMo
 			incNode.setState(stateTypes.get(currentStateIndex + 1));
 			return false;
 		}
-	}
-
-    @Override
-	public GraphicalModelXml toXml()
-	{
-		final GraphicalModelElementXml networkXml = new GraphicalModelElementXml();
-		final Namer<Object> namer = new Namer<Object>();
-
-		networkXml.setNodeInstances(new GraphicalModelElementXml.NodeInstances());
-		networkXml.setStateInstances(new GraphicalModelElementXml.StateInstances());
-		final Set<Object> writtenStates = new HashSet<Object>();
-		for (N node : this.getNodes())
-		{
-			//add the node
-			final NamedValueXml nodeXml = new NamedValueXml();
-			nodeXml.setName(namer.getNameOrCreate(node));
-			nodeXml.setValue(node.toXml(namer));
-			networkXml.getNodeInstances().getNodes().add(nodeXml);
-
-			//add all the node's learned states
-			for (Object learnedState : node.getLearnedStates())
-			{
-				//only add the learnedState if it hasnt yet been added
-				if (writtenStates.add(learnedState))
-				{
-					final NamedValueXml stateXml = new NamedValueXml();
-					stateXml.setName(namer.getNameOrCreate(learnedState));
-					if (learnedState instanceof XmlSerializable)
-					{
-						stateXml.setValue(((XmlSerializable) learnedState).toXml(namer));
-					}
-					else
-					{
-						stateXml.setValue(learnedState);
-					}
-					networkXml.getStateInstances().getStates().add(stateXml);
-				}
-			}
-
-			//add the nodes current state if it wasnt already
-			final Object state = node.getState();
-			if (writtenStates.add(state))
-			{
-				final NamedValueXml stateXml = new NamedValueXml();
-				stateXml.setName(namer.getNameOrCreate(state));
-				if (state instanceof XmlSerializable)
-				{
-					stateXml.setValue(((XmlSerializable) state).toXml(namer));
-				}
-				else
-				{
-					stateXml.setValue(state);
-				}
-				networkXml.getStateInstances().getStates().add(stateXml);
-			}
-		}
-
-		this.toXml(networkXml, namer);
-		return networkXml;
-	}
-
-	@Override
-	public GraphicalModelXml toXml(final Namer<Object> namer)
-	{
-		if (namer == null)
-		{
-			throw new IllegalArgumentException("namer can not be null");
-		}
-
-		final GraphicalModelXml xml = new GraphicalModelXml();
-		this.toXml(xml, namer);
-		return xml;
 	}
 
 	protected static class NodeConnectivity<N extends GraphicalModelNode, E extends BidirectedEdge<N>> extends HashMap<N, Set<E>>

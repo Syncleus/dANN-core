@@ -18,12 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.*;
-
-import com.syncleus.dann.graph.xml.*;
-import com.syncleus.dann.xml.NamedValueXml;
-import com.syncleus.dann.xml.Namer;
-import com.syncleus.dann.xml.XmlSerializable;
+import java.util.HashSet;
+import java.util.Set;
 
 public abstract class AbstractBidirectedEdge<E extends BidirectedEdge.Endpoint<?>> extends AbstractTraversableCloud<E> implements BidirectedEdge<E>
 {
@@ -180,72 +176,6 @@ public abstract class AbstractBidirectedEdge<E extends BidirectedEdge.Endpoint<?
 			return (isLeft ? "<" : ">");
 		default:
 			return "";
-		}
-	}
-
-    @Override
-	public BidirectedEdgeXml toXml()
-	{
-		final Namer namer = new Namer();
-		final BidirectedEdgeElementXml xml = new BidirectedEdgeElementXml();
-
-		xml.setNodeInstances(new BidirectedEdgeElementXml.NodeInstances());
-		final Set<Object> writtenNodes = new HashSet<Object>();
-		for (E endpoint : this.getEndpoints())
-		{
-            final Object node = endpoint.getTarget();
-			if (writtenNodes.add(node))
-			{
-				final NamedValueXml named = new NamedValueXml();
-				named.setName(namer.getNameOrCreate(node));
-				if (node instanceof XmlSerializable)
-				{
-					named.setValue(((XmlSerializable) node).toXml(namer));
-				}
-				else
-				{
-					named.setValue(node);
-				}
-				xml.getNodeInstances().getNodes().add(named);
-			}
-		}
-
-		return xml;
-	}
-
-	@Override
-	public BidirectedEdgeXml toXml(final Namer<Object> nodeNames)
-	{
-		if (nodeNames == null)
-		{
-			throw new IllegalArgumentException("nodeNames can not be null");
-		}
-
-		final BidirectedEdgeXml xml = new BidirectedEdgeXml();
-		this.toXml(xml, nodeNames);
-		return xml;
-	}
-
-	@Override
-	public void toXml(final EdgeXml jaxbObject, final Namer<Object> nodeNames)
-	{
-		if (nodeNames == null)
-		{
-			throw new IllegalArgumentException("nodeNames can not be null");
-		}
-		if (jaxbObject == null)
-		{
-			throw new IllegalArgumentException("jaxbObject can not be null");
-		}
-
-		super.toXml(jaxbObject, nodeNames);
-
-		if (jaxbObject instanceof BidirectedEdgeXml)
-		{
-			((BidirectedEdgeXml) jaxbObject).setLeftNode(nodeNames.getNameOrCreate(this.getLeftEndpoint()));
-			((BidirectedEdgeXml) jaxbObject).setRightNode(nodeNames.getNameOrCreate(this.getRightEndpoint()));
-			((BidirectedEdgeXml) jaxbObject).setLeftDirection(this.leftEndState.toString().toLowerCase());
-			((BidirectedEdgeXml) jaxbObject).setRightDirection(this.rightEndState.toString().toLowerCase());
 		}
 	}
 }

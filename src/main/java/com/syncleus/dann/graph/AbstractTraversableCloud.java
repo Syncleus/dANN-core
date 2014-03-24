@@ -23,12 +23,6 @@ import java.util.*;
 import com.syncleus.dann.UnexpectedDannError;
 import com.syncleus.dann.graph.context.AbstractContextGraphElement;
 import com.syncleus.dann.graph.context.ContextNode;
-import com.syncleus.dann.graph.xml.EdgeElementXml;
-import com.syncleus.dann.graph.xml.EdgeXml;
-import com.syncleus.dann.xml.NameXml;
-import com.syncleus.dann.xml.NamedValueXml;
-import com.syncleus.dann.xml.Namer;
-import com.syncleus.dann.xml.XmlSerializable;
 import org.apache.log4j.Logger;
 
 public abstract class AbstractTraversableCloud<E extends TraversableCloud.Endpoint<?>> extends AbstractContextGraphElement<Graph<?, ? extends E>> implements TraversableCloud<E>
@@ -195,70 +189,4 @@ public abstract class AbstractTraversableCloud<E extends TraversableCloud.Endpoi
 		return outString.toString();
 	}
 
-    @Override
-	public EdgeXml toXml()
-	{
-		final Namer namer = new Namer();
-		final EdgeElementXml xml = new EdgeElementXml();
-
-		xml.setNodeInstances(new EdgeElementXml.NodeInstances());
-		final Set<Object> writtenNodes = new HashSet<Object>();
-		for (E endpoint : this.getEndpoints())
-		{
-			if (writtenNodes.add(endpoint.getTarget()))
-			{
-				final NamedValueXml named = new NamedValueXml();
-				named.setName(namer.getNameOrCreate(endpoint.getTarget()));
-				if (endpoint.getTarget() instanceof XmlSerializable)
-				{
-					named.setValue(((XmlSerializable) endpoint.getTarget()).toXml(namer));
-				}
-				else
-				{
-					named.setValue(endpoint.getTarget());
-				}
-				xml.getNodeInstances().getNodes().add(named);
-			}
-		}
-		this.toXml(xml, namer);
-
-		return xml;
-	}
-
-	@Override
-	public EdgeXml toXml(final Namer<Object> nodeNames)
-	{
-		if (nodeNames == null)
-		{
-			throw new IllegalArgumentException("nodeNames can not be null");
-		}
-
-		final EdgeXml xml = new EdgeXml();
-		this.toXml(xml, nodeNames);
-		return xml;
-	}
-
-	@Override
-	public void toXml(final EdgeXml jaxbObject, final Namer<Object> nodeNames)
-	{
-		if (nodeNames == null)
-		{
-			throw new IllegalArgumentException("nodeNames can not be null");
-		}
-		if (jaxbObject == null)
-		{
-			throw new IllegalArgumentException("jaxbObject can not be null");
-		}
-
-		if (jaxbObject.getConnections() == null)
-		{
-			jaxbObject.setConnections(new EdgeXml.Connections());
-		}
-		for (E endpoint : this.getEndpoints())
-		{
-			final NameXml connection = new NameXml();
-			connection.setName(nodeNames.getNameOrCreate(endpoint.getTarget()));
-			jaxbObject.getConnections().getNodes().add(connection);
-		}
-	}
 }

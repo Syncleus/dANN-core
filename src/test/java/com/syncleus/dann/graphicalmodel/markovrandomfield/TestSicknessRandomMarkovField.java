@@ -18,39 +18,32 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.markovrandomfield;
 
-import javax.xml.bind.*;
-import javax.xml.bind.annotation.XmlRootElement;
-import java.io.StringReader;
-import java.io.StringWriter;
 import java.util.*;
 import com.syncleus.dann.graph.ImmutableUndirectedEdge;
 import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
 import com.syncleus.dann.graphicalmodel.SimpleGraphicalModelNode;
-import com.syncleus.dann.graphicalmodel.xml.GraphicalModelXml;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.StaxDriver;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class TestSicknessRandomMarkovField
 {
-	@XmlRootElement
 	private static enum BooleanState
 	{
 		TRUE, FALSE
 	}
 
-	@XmlRootElement
 	private static enum SeasonState
 	{
 		WINTER, SUMMER, SPRING, FALL
 	}
 
-	@XmlRootElement
 	private static enum AgeState
 	{
 		BABY, CHILD, TEENAGER, ADULT, SENIOR
 	}
 
-	@XmlRootElement
 	private static enum FeverState
 	{
 		LOW, NONE, WARM, HOT
@@ -66,28 +59,21 @@ public class TestSicknessRandomMarkovField
 	private GraphicalModelNode<BooleanState> tired = new SimpleGraphicalModelNode<BooleanState>(BooleanState.FALSE);
 	private GraphicalModelNode<BooleanState> sick = new SimpleGraphicalModelNode<BooleanState>(BooleanState.FALSE);
 
-	@Test
-	public void testXml() throws Exception
-	{
-		testOverall();
+    @Test
+    public void testXml() throws Exception
+    {
+        testOverall();
 
-		//mashall it
-		JAXBContext context = JAXBContext.newInstance(GraphicalModelXml.class, TestSicknessRandomMarkovField.FeverState.class, TestSicknessRandomMarkovField.AgeState.class, TestSicknessRandomMarkovField.BooleanState.class, TestSicknessRandomMarkovField.SeasonState.class);
-		Marshaller marshal = context.createMarshaller();
+        final XStream xstream = new XStream(new StaxDriver());
+        final String xml = xstream.toXML(network);
+        Assert.assertTrue("could not serialize network!", xml != null);
+        final Object networkObject = xstream.fromXML(xml);
+        Assert.assertTrue("deserialized object type doesnt match serialized object type", networkObject instanceof MutableMarkovRandomFieldAdjacencyGraph);
+        Assert.assertTrue("deserialized network had the wrong number of edges", ((MutableMarkovRandomFieldAdjacencyGraph)networkObject).getEdges().size() == network.getEdges().size());
+        Assert.assertTrue("deserialized network had the wrong number of nodes", ((MutableMarkovRandomFieldAdjacencyGraph)networkObject).getNodes().size() == network.getNodes().size());
+    }
 
-		StringWriter writer = new StringWriter();
-		marshal.marshal(network.toXml(), writer);
-
-		//unmarshall it
-		StringReader reader = new StringReader(writer.toString());
-		GraphicalModelXml xml = JAXB.unmarshal(reader, GraphicalModelXml.class);
-
-		Assert.assertTrue("could not unmarshal object!", xml != null);
-		Assert.assertTrue("Wrong number of edges after unmarshaling: " + xml.getEdges().getEdges().size(), xml.getEdges().getEdges().size() == 14);
-		Assert.assertTrue("Wrong number of nodes after unmarshaling: " + xml.getNodes().getNodes().size(), xml.getNodes().getNodes().size() == 6);
-	}
-
-	@Test
+    @Test
 	public void testOverallRepeated()
 	{
 		for(int i = 0; i < 10; i++)
