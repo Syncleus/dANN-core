@@ -27,8 +27,8 @@
     <url>http://wiki.syncleus.com/index.php/DANN</url>
 
     <scm>
-        <connection>scm:git:git://git.syncleus.com/dANN-core</connection>
-        <developerConnection>scm:git:ssh://git.syncleus.com/dANN-core</developerConnection>
+        <connection>scm:git:http://gerrit.syncleus.com/dANN-core</connection>
+        <developerConnection>scm:git:ssh://gerrit.syncleus.com/dANN-core</developerConnection>
     </scm>
 
     <mailingLists>
