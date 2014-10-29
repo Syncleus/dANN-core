@@ -26,6 +26,11 @@
 	<description>Artificial Intelligence and Artificial Genetics library - Core library</description>
     <url>http://wiki.syncleus.com/index.php/DANN</url>
 
+    <issueManagement>
+        <system>JIRA</system>
+        <url>http://bugs.syncleus.com/browse/DANN/</url>
+    </issueManagement>
+
     <scm>
         <connection>scm:git:http://gerrit.syncleus.com/dANN-core</connection>
         <developerConnection>scm:git:ssh://gerrit.syncleus.com/dANN-core</developerConnection>
