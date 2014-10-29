@@ -55,31 +55,31 @@
 		</mailingList>
 	</mailingLists>
 
-	<distributionManagement>
-		<repository>
-			<id>releases</id>
-			<url>http://repo.syncleus.com/repository/releases/</url>
-		</repository>
-		<snapshotRepository>
-			<id>snapshots</id>
-			<url>http://repo.syncleus.com/repository/snapshots/</url>
-		</snapshotRepository>
-	</distributionManagement>
-
     <repositories>
         <repository>
-            <id>snapshots</id>
+            <id>syncleus.releases</id>
+            <name>Syncleus Maven Release Repository</name>
+            <url>http://repo.syncleus.com/repository/releases/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>syncleus.snapshots</id>
             <name>Syncleus Maven Snapshot Repository</name>
             <url>http://repo.syncleus.com/repository/snapshots/</url>
             <releases>
-                <enabled>true</enabled>
+                <enabled>false</enabled>
             </releases>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
         </repository>
         <repository>
-            <id>dependencies</id>
+            <id>syncleus.dependencies</id>
             <name>Syncleus Maven Dependencies Repository</name>
             <url>http://repo.syncleus.com/repository/dependencies/</url>
             <releases>
