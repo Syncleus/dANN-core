@@ -26,6 +26,14 @@
 	<description>Artificial Intelligence and Artificial Genetics library - Core library</description>
     <url>http://wiki.syncleus.com/index.php/DANN</url>
 
+    <licenses>
+        <license>
+            <name>Open Source Community License - Type C version 1.0 or later</name>
+            <url>http://wiki.syncleus.com/images/3/3b/Oscl-c.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
     <issueManagement>
         <system>JIRA</system>
         <url>http://bugs.syncleus.com/browse/DANN/</url>
