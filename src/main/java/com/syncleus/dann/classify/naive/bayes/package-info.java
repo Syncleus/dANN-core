@@ -20,8 +20,6 @@
 
 /**
  * This package contains naive classifiers using Bayes' theorem.
- * See <a href="
- * http://en.wikipedia.org/wiki/Statistical_classification#Bayesian_procedures">
- * Statistical classification - Bayesian procedures</a>.
+ * See http://en.wikipedia.org/wiki/Statistical_classification#Bayesian_procedures
  */
 package com.syncleus.dann.classify.naive.bayes;

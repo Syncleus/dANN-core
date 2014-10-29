@@ -232,7 +232,8 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 	}
 
 	/**
-	 * Internally mutates.<br/> <br/> may change in any of the following ways:<br/>
+	 * Internally mutates. May change in any of the following ways:
+	 *
 	 * <ul> <li>add a new bound wave</li> <li>copy an existing wave and mutates it
 	 * adding the new mutated wave</li> <li>delete an existing wave</li>
 	 * <li>removing a signal</li> <li>Do nothing</li> </ul>
@@ -317,8 +318,8 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 	}
 
 	/**
-	 * Mutates by incorporating a new signal into the mutated result.<br/> <br/>
-	 * May mutate by:<br/> <ul> <li>adding the new signal</li> </ul>
+	 * Mutates by incorporating a new signal into the mutated result.
+	 * May mutate by:<ul> <li>adding the new signal</li> </ul>
 	 *
 	 * @param newSignal The new signal to incorporate.
 	 * @return New mutated wavelet
@@ -356,43 +357,6 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
 		copy.id = RANDOM.nextLong();
 		return copy.mutate(1.0);
 	}
-	/*
-		 * Mutates by incorperating the wave.<br/>
-		 * <br/>
-		 * May mutate by:<br/>
-		 * <ul>
-		 * <li>add the wave with the current newSignals as its dimensions.</li>
-		 * </ul>
-		 *
-		 * @param wave wave to incorperate
-		 * @return New mutated wavelet
-		 */
-	/*
-		public SignalProcessingWavelet mutate(WaveMultidimensionalFunction wave)
-		{
-			String[] dimensionNames = new String[this.newSignals.size()];
-			int index = 0;
-			for(Signal dimension:this.newSignals)
-			{
-				dimensionNames[index++] = dimension.getId().toString();
-			}
-
-			WaveMultidimensionalFunction newWave = new WaveMultidimensionalFunction(dimensionNames);
-			newWave.setAmplitude(wave.getAmplitude());
-			newWave.setDistribution(wave.getDistribution());
-			newWave.setForm(wave.getForm());
-			newWave.setFrequency(wave.getFrequency());
-			newWave.setPhase(wave.getPhase());
-			for(String dimension:wave.getDimensionNames())
-			{
-				newWave.setCenter(dimension, wave.getCenter(dimension));
-				newWave.setDimension(dimension, wave.getDimension(dimension));
-			}
-
-			SignalProcessingWavelet copy = this.clone();
-			copy.waves.add(newWave);
-			return copy.mutate();
-		}*/
 
 	private SignalConcentration getRandomSignal()
 	{

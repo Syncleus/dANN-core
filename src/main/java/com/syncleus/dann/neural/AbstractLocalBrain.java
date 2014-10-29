@@ -37,8 +37,9 @@ import com.syncleus.dann.graph.topological.StrongConnectivityOptimizedGraph;
 /**
  * Represents a single artificial brain typically belonging to a single
  * artificial organism. It will contain a set of input and output neurons which
- * corelate to a specific dataset pattern.<br/> <br/> This class is abstract
- * and must be extended in order to be used.
+ * corelate to a specific dataset pattern.
+ *
+ * This class is abstract and must be extended in order to be used.
  *
  * @author Jeffrey Phillips Freeman
  * @since 1.0

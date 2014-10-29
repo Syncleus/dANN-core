@@ -192,7 +192,7 @@ public class TestSimpleBooleanNetwork
 	}
 
 	/**
-	 * tests four-state boolean bayesian network, mapping "fevers' -> sickness
+	 * tests four-state boolean bayesian network, mapping "fevers' to sickness
 	 */
 	@Test
 	public void testFeverState()
