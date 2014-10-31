@@ -98,9 +98,6 @@
                 <role>Developer</role>
             </roles>
             <timezone>-5</timezone>
-            <properties>
-                <picUrl>http://2.gravatar.com/avatar/4b0fd9df484be9a8546055550f162a68</picUrl>
-            </properties>
         </developer>
     </developers>
     <contributors>
