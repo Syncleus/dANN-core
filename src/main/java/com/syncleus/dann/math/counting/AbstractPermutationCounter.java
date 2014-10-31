@@ -84,7 +84,7 @@ public abstract class AbstractPermutationCounter implements Counter {
 
     @Override
     public boolean hasMore() {
-        return remaining.compareTo(BigInteger.ZERO) == 1;
+        return this.remaining.compareTo(BigInteger.ZERO) == 1;
     }
 
     @Override
@@ -98,12 +98,12 @@ public abstract class AbstractPermutationCounter implements Counter {
         }
 
         if (this.combinationPermutationsRemaining.equals(this.permutationsPerCombination)) {
-            this.remaining = remaining.subtract(BigInteger.ONE);
-            this.combinationPermutationsRemaining = combinationPermutationsRemaining.subtract(BigInteger.ONE);
+            this.remaining = this.remaining.subtract(BigInteger.ONE);
+            this.combinationPermutationsRemaining = this.combinationPermutationsRemaining.subtract(BigInteger.ONE);
             return permutateCombination(this.combination, this.permutation);
         }
 
-        assert next();
+        assert this.next();
 
         this.combinationPermutationsRemaining = this.combinationPermutationsRemaining.subtract(BigInteger.ONE);
         this.remaining = this.remaining.subtract(BigInteger.ONE);
@@ -119,7 +119,7 @@ public abstract class AbstractPermutationCounter implements Counter {
     }
 
     protected int[] getPermutation() {
-        return permutation;
+        return this.permutation;
     }
 
     protected abstract boolean next();

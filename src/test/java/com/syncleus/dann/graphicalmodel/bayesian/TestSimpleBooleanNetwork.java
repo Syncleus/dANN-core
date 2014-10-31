@@ -47,7 +47,7 @@ public class TestSimpleBooleanNetwork {
     @Test
     public void testTwoState50Repeated() {
         for (int iteration = 0; iteration < 1000; iteration++)
-            testTwoState50();
+            this.testTwoState50();
     }
 
     /**
@@ -73,7 +73,7 @@ public class TestSimpleBooleanNetwork {
     @Test
     public void testThreeStateBalancedRepeated() {
         for (int iteration = 0; iteration < 1000; iteration++)
-            testThreeStateBalanced();
+            this.testThreeStateBalanced();
     }
 
     /**
@@ -99,7 +99,7 @@ public class TestSimpleBooleanNetwork {
     @Test
     public void testTwoState75Repeated() {
         for (int iteration = 0; iteration < 1000; iteration++)
-            testTwoState75();
+            this.testTwoState75();
     }
 
     /**
@@ -154,7 +154,7 @@ public class TestSimpleBooleanNetwork {
     @Test
     public void testFeverStateRepeated() {
         for (int iteration = 0; iteration < 1000; iteration++)
-            testFeverState();
+            this.testFeverState();
     }
 
     public static enum BooleanState {
@@ -194,13 +194,13 @@ public class TestSimpleBooleanNetwork {
             this.goals = new HashSet<GraphicalModelNode>();
             this.influences = new HashSet<GraphicalModelNode>();
             //add nodes
-            add(this.influence);
-            add(this.goal);
+            this.add(this.influence);
+            this.add(this.goal);
             //connect nodes
             final DirectedEdge<GraphicalModelNode> testEdge = new ImmutableDirectedEdge<GraphicalModelNode>(this.influence, this.goal);
             this.add(testEdge);
-            goals.add(this.goal);
-            influences.add(this.influence);
+            this.goals.add(this.goal);
+            this.influences.add(this.influence);
         }
 
         public GraphicalModelNode<BooleanState> getGoal() {
@@ -212,18 +212,18 @@ public class TestSimpleBooleanNetwork {
         }
 
         public double getPercentage(final I influenceState) {
-            influence.setState(influenceState);
+            this.influence.setState(influenceState);
             return this.conditionalProbability(this.goals, this.influences);
         }
 
         public void learn(final I influenceState, final boolean goalState) {
-            learn(influenceState, goalState ? BooleanState.TRUE : BooleanState.FALSE);
+            this.learn(influenceState, goalState ? BooleanState.TRUE : BooleanState.FALSE);
         }
 
         public void learn(final I influenceState, final BooleanState goalState) {
-            influence.setState(influenceState);
-            goal.setState(goalState);
-            learnStates();
+            this.influence.setState(influenceState);
+            this.goal.setState(goalState);
+            this.learnStates();
         }
     }
 }

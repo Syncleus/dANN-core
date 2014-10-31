@@ -74,7 +74,7 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
         this.hessenbergMatrix = hessenberbDecomposition.getHessenbergMatrix();
 
         // Reduce Hessenberg to real Schur form.
-        schurReduction();
+        this.schurReduction();
     }
 
     public final int getDimensionSize() {
@@ -424,9 +424,9 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
                     hessenberg[n - 1][n] = -(hessenberg[n][n] - p) / hessenberg[n][n - 1];
                 }
                 else {
-                    cdiv(0.0, -hessenberg[n - 1][n], hessenberg[n - 1][n - 1] - p, q);
-                    hessenberg[n - 1][n - 1] = cdivr.getValue();
-                    hessenberg[n - 1][n] = cdivi.getValue();
+                    this.cdiv(0.0, -hessenberg[n - 1][n], hessenberg[n - 1][n - 1] - p, q);
+                    hessenberg[n - 1][n - 1] = this.cdivr.getValue();
+                    hessenberg[n - 1][n] = this.cdivi.getValue();
                 }
                 hessenberg[n][n - 1] = 0.0;
                 hessenberg[n][n] = 1.0;
@@ -451,9 +451,9 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
                     else {
                         l = i;
                         if (e[i] == 0) {
-                            cdiv(-ra, -sa, w, q);
-                            hessenberg[i][n - 1] = cdivr.getValue();
-                            hessenberg[i][n] = cdivi.getValue();
+                            this.cdiv(-ra, -sa, w, q);
+                            hessenberg[i][n - 1] = this.cdivr.getValue();
+                            hessenberg[i][n] = this.cdivi.getValue();
                         }
                         else {
                             // Solve complex equations
@@ -464,17 +464,17 @@ public class SchurEigenvalueDecomposition implements java.io.Serializable, Eigen
                             if (vr == 0.0 & vi == 0.0)
                                 vr = eps * norm * (Math.abs(w) + Math.abs(q)
                                                            + Math.abs(x) + Math.abs(y) + Math.abs(z));
-                            cdiv(x * r - z * ra + q * sa, x * s - z * sa - q * ra, vr, vi);
-                            hessenberg[i][n - 1] = cdivr.getValue();
-                            hessenberg[i][n] = cdivi.getValue();
+                            this.cdiv(x * r - z * ra + q * sa, x * s - z * sa - q * ra, vr, vi);
+                            hessenberg[i][n - 1] = this.cdivr.getValue();
+                            hessenberg[i][n] = this.cdivi.getValue();
                             if (Math.abs(x) > (Math.abs(z) + Math.abs(q))) {
                                 hessenberg[i + 1][n - 1] = (-ra - w * hessenberg[i][n - 1] + q * hessenberg[i][n]) / x;
                                 hessenberg[i + 1][n] = (-sa - w * hessenberg[i][n] - q * hessenberg[i][n - 1]) / x;
                             }
                             else {
-                                cdiv(-r - y * hessenberg[i][n - 1], -s - y * hessenberg[i][n], z, q);
-                                hessenberg[i + 1][n - 1] = cdivr.getValue();
-                                hessenberg[i + 1][n] = cdivi.getValue();
+                                this.cdiv(-r - y * hessenberg[i][n - 1], -s - y * hessenberg[i][n], z, q);
+                                hessenberg[i + 1][n - 1] = this.cdivr.getValue();
+                                hessenberg[i + 1][n] = this.cdivi.getValue();
                             }
                         }
 

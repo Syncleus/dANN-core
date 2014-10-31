@@ -61,7 +61,7 @@ public class SimpleUndirectedGraph extends AbstractBidirectedAdjacencyGraph<Simp
     }
 
     public SimpleNode getNode(final int layer, final int index) {
-        if ((index >= this.nodes[0].length) || (layer >= nodes.length))
+        if ((index >= this.nodes[0].length) || (layer >= this.nodes.length))
             throw new IllegalArgumentException("coordinates are out of bounds");
         return this.nodes[layer][index];
     }

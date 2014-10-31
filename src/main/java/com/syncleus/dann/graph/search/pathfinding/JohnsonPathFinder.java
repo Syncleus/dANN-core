@@ -34,7 +34,7 @@ public class JohnsonPathFinder<N, E extends WeightedDirectedEdge<N>> implements 
 
     @Override
     public List<WeightedDirectedEdge<N>> getBestPath(final N begin, final N end) {
-        final BidirectedGraph<N, WeightedDirectedEdge<N>> johnsonGraph = transformer.transform(this.graph);
+        final BidirectedGraph<N, WeightedDirectedEdge<N>> johnsonGraph = this.transformer.transform(this.graph);
         final DijkstraPathFinder<N, WeightedDirectedEdge<N>> pathFinder = new DijkstraPathFinder<N, WeightedDirectedEdge<N>>(johnsonGraph);
         final List<WeightedDirectedEdge<N>> pathWalk = pathFinder.getBestPath(begin, end);
         if (pathWalk == null)

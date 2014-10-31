@@ -46,7 +46,7 @@ public class JohnsonGraphTransformer<N> implements GraphTransformer<BidirectedGr
     public BidirectedGraph<N, WeightedDirectedEdge<N>> transform(final BidirectedGraph<N, ? extends WeightedDirectedEdge<N>> original) {
         if (original == null)
             throw new IllegalArgumentException("original can not be null");
-        if (containsInfinite(original))
+        if (this.containsInfinite(original))
             throw new IllegalArgumentException("original can not contain infinite weights");
         final Set<WeightedDirectedEdge<Object>> originalEdges = new HashSet<WeightedDirectedEdge<Object>>();
         for (final WeightedDirectedEdge<N> originalEdge : original.getEdges())

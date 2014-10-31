@@ -38,10 +38,10 @@ public class TestActivationBounds {
     private final ArrayList<ActivationFunction> activationFunctions = new ArrayList<ActivationFunction>();
 
     public TestActivationBounds() {
-        activationFunctions.add(GAUSIAN_ACTIVATION_FUNCTION);
-        activationFunctions.add(HYPERBOLIC_SECANT_ACTIVATION_FUNCTION);
-        activationFunctions.add(HYPERBOLIC_TANGENT_ACTIVATION_FUNCTION);
-        activationFunctions.add(SINE_ACTIVATION_FUNCTION);
+        this.activationFunctions.add(GAUSIAN_ACTIVATION_FUNCTION);
+        this.activationFunctions.add(HYPERBOLIC_SECANT_ACTIVATION_FUNCTION);
+        this.activationFunctions.add(HYPERBOLIC_TANGENT_ACTIVATION_FUNCTION);
+        this.activationFunctions.add(SINE_ACTIVATION_FUNCTION);
     }
 
     @Test

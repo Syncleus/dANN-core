@@ -71,9 +71,9 @@ public class TestXor {
             final ArrayList<OutputNeuron> outputs = new ArrayList<OutputNeuron>(this.brain.getOutputNeurons());
             this.output = (SimpleOutputBackpropNeuron) outputs.get(0);
 
-            train(TRAINING_CYCLES);
+            this.train(TRAINING_CYCLES);
 
-            checkOutput();
+            this.checkOutput();
         }
         finally {
             executor.shutdown();
@@ -89,9 +89,9 @@ public class TestXor {
     }
 
     private void setCurrentInput(final double[] inputToSet) {
-        inputA.setInput(inputToSet[0]);
-        inputB.setInput(inputToSet[1]);
-        inputC.setInput(inputToSet[2]);
+        this.inputA.setInput(inputToSet[0]);
+        this.inputB.setInput(inputToSet[1]);
+        this.inputC.setInput(inputToSet[2]);
     }
 
     private void checkOutput() {
@@ -99,59 +99,59 @@ public class TestXor {
                 {
                         -1, -1, -1
                 };
-        setCurrentInput(curInput);
-        propogateOutput();
-        Assert.assertTrue("Failed Truth Table: curInput[0]:" + curInput[0] + " curInput[1]:" + curInput[1] + " curInput[2]:" + curInput[2] + " result:" + output.getOutput(), checkTruthTable(curInput[0], curInput[1], curInput[2], output.getOutput()));
+        this.setCurrentInput(curInput);
+        this.propogateOutput();
+        Assert.assertTrue("Failed Truth Table: curInput[0]:" + curInput[0] + " curInput[1]:" + curInput[1] + " curInput[2]:" + curInput[2] + " result:" + this.output.getOutput(), checkTruthTable(curInput[0], curInput[1], curInput[2], this.output.getOutput()));
 
 
         curInput[0] = 1;
         curInput[1] = -1;
         curInput[2] = -1;
-        setCurrentInput(curInput);
-        propogateOutput();
-        Assert.assertTrue("Failed Truth Table: curInput[0]:" + curInput[0] + " curInput[1]:" + curInput[1] + " curInput[2]:" + curInput[2] + " result:" + output.getOutput(), checkTruthTable(curInput[0], curInput[1], curInput[2], output.getOutput()));
+        this.setCurrentInput(curInput);
+        this.propogateOutput();
+        Assert.assertTrue("Failed Truth Table: curInput[0]:" + curInput[0] + " curInput[1]:" + curInput[1] + " curInput[2]:" + curInput[2] + " result:" + this.output.getOutput(), checkTruthTable(curInput[0], curInput[1], curInput[2], this.output.getOutput()));
 
         curInput[0] = -1;
         curInput[1] = 1;
         curInput[2] = -1;
-        setCurrentInput(curInput);
-        propogateOutput();
-        Assert.assertTrue("Failed Truth Table: curInput[0]:" + curInput[0] + " curInput[1]:" + curInput[1] + " curInput[2]:" + curInput[2] + " result:" + output.getOutput(), checkTruthTable(curInput[0], curInput[1], curInput[2], output.getOutput()));
+        this.setCurrentInput(curInput);
+        this.propogateOutput();
+        Assert.assertTrue("Failed Truth Table: curInput[0]:" + curInput[0] + " curInput[1]:" + curInput[1] + " curInput[2]:" + curInput[2] + " result:" + this.output.getOutput(), checkTruthTable(curInput[0], curInput[1], curInput[2], this.output.getOutput()));
 
         curInput[0] = -1;
         curInput[1] = -1;
         curInput[2] = 1;
-        setCurrentInput(curInput);
-        propogateOutput();
-        Assert.assertTrue("Failed Truth Table: curInput[0]:" + curInput[0] + " curInput[1]:" + curInput[1] + " curInput[2]:" + curInput[2] + " result:" + output.getOutput(), checkTruthTable(curInput[0], curInput[1], curInput[2], output.getOutput()));
+        this.setCurrentInput(curInput);
+        this.propogateOutput();
+        Assert.assertTrue("Failed Truth Table: curInput[0]:" + curInput[0] + " curInput[1]:" + curInput[1] + " curInput[2]:" + curInput[2] + " result:" + this.output.getOutput(), checkTruthTable(curInput[0], curInput[1], curInput[2], this.output.getOutput()));
 
         curInput[0] = 1;
         curInput[1] = 1;
         curInput[2] = -1;
-        setCurrentInput(curInput);
-        propogateOutput();
-        Assert.assertTrue("Failed Truth Table: curInput[0]:" + curInput[0] + " curInput[1]:" + curInput[1] + " curInput[2]:" + curInput[2] + " result:" + output.getOutput(), checkTruthTable(curInput[0], curInput[1], curInput[2], output.getOutput()));
+        this.setCurrentInput(curInput);
+        this.propogateOutput();
+        Assert.assertTrue("Failed Truth Table: curInput[0]:" + curInput[0] + " curInput[1]:" + curInput[1] + " curInput[2]:" + curInput[2] + " result:" + this.output.getOutput(), checkTruthTable(curInput[0], curInput[1], curInput[2], this.output.getOutput()));
 
         curInput[0] = -1;
         curInput[1] = 1;
         curInput[2] = 1;
-        setCurrentInput(curInput);
-        propogateOutput();
-        Assert.assertTrue("Failed Truth Table: curInput[0]:" + curInput[0] + " curInput[1]:" + curInput[1] + " curInput[2]:" + curInput[2] + " result:" + output.getOutput(), checkTruthTable(curInput[0], curInput[1], curInput[2], output.getOutput()));
+        this.setCurrentInput(curInput);
+        this.propogateOutput();
+        Assert.assertTrue("Failed Truth Table: curInput[0]:" + curInput[0] + " curInput[1]:" + curInput[1] + " curInput[2]:" + curInput[2] + " result:" + this.output.getOutput(), checkTruthTable(curInput[0], curInput[1], curInput[2], this.output.getOutput()));
 
         curInput[0] = 1;
         curInput[1] = -1;
         curInput[2] = 1;
-        setCurrentInput(curInput);
-        propogateOutput();
-        Assert.assertTrue("Failed Truth Table: curInput[0]:" + curInput[0] + " curInput[1]:" + curInput[1] + " curInput[2]:" + curInput[2] + " result:" + output.getOutput(), checkTruthTable(curInput[0], curInput[1], curInput[2], output.getOutput()));
+        this.setCurrentInput(curInput);
+        this.propogateOutput();
+        Assert.assertTrue("Failed Truth Table: curInput[0]:" + curInput[0] + " curInput[1]:" + curInput[1] + " curInput[2]:" + curInput[2] + " result:" + this.output.getOutput(), checkTruthTable(curInput[0], curInput[1], curInput[2], this.output.getOutput()));
 
         curInput[0] = 1;
         curInput[1] = 1;
         curInput[2] = 1;
-        setCurrentInput(curInput);
-        propogateOutput();
-        Assert.assertTrue("Failed Truth Table: curInput[0]:" + curInput[0] + " curInput[1]:" + curInput[1] + " curInput[2]:" + curInput[2] + " result:" + output.getOutput(), checkTruthTable(curInput[0], curInput[1], curInput[2], output.getOutput()));
+        this.setCurrentInput(curInput);
+        this.propogateOutput();
+        Assert.assertTrue("Failed Truth Table: curInput[0]:" + curInput[0] + " curInput[1]:" + curInput[1] + " curInput[2]:" + curInput[2] + " result:" + this.output.getOutput(), checkTruthTable(curInput[0], curInput[1], curInput[2], this.output.getOutput()));
     }
 
     private void train(final int count) {
@@ -161,73 +161,73 @@ public class TestXor {
                             -1, -1, -1
                     };
             double curTrain = -1;
-            setCurrentInput(curInput);
-            propogateOutput();
-            output.setDesired(curTrain);
-            backPropogateTraining();
+            this.setCurrentInput(curInput);
+            this.propogateOutput();
+            this.output.setDesired(curTrain);
+            this.backPropogateTraining();
 
             curInput[0] = 1;
             curInput[1] = -1;
             curInput[2] = -1;
             curTrain = 1;
-            setCurrentInput(curInput);
-            propogateOutput();
-            output.setDesired(curTrain);
-            backPropogateTraining();
+            this.setCurrentInput(curInput);
+            this.propogateOutput();
+            this.output.setDesired(curTrain);
+            this.backPropogateTraining();
 
             curInput[0] = -1;
             curInput[1] = 1;
             curInput[2] = -1;
             curTrain = 1;
-            setCurrentInput(curInput);
-            propogateOutput();
-            output.setDesired(curTrain);
-            backPropogateTraining();
+            this.setCurrentInput(curInput);
+            this.propogateOutput();
+            this.output.setDesired(curTrain);
+            this.backPropogateTraining();
 
             curInput[0] = -1;
             curInput[1] = -1;
             curInput[2] = 1;
             curTrain = 1;
-            setCurrentInput(curInput);
-            propogateOutput();
-            output.setDesired(curTrain);
-            backPropogateTraining();
+            this.setCurrentInput(curInput);
+            this.propogateOutput();
+            this.output.setDesired(curTrain);
+            this.backPropogateTraining();
 
             curInput[0] = 1;
             curInput[1] = 1;
             curInput[2] = -1;
             curTrain = -1;
-            setCurrentInput(curInput);
-            propogateOutput();
-            output.setDesired(curTrain);
-            backPropogateTraining();
+            this.setCurrentInput(curInput);
+            this.propogateOutput();
+            this.output.setDesired(curTrain);
+            this.backPropogateTraining();
 
             curInput[0] = -1;
             curInput[1] = 1;
             curInput[2] = 1;
             curTrain = -1;
-            setCurrentInput(curInput);
-            propogateOutput();
-            output.setDesired(curTrain);
-            backPropogateTraining();
+            this.setCurrentInput(curInput);
+            this.propogateOutput();
+            this.output.setDesired(curTrain);
+            this.backPropogateTraining();
 
             curInput[0] = 1;
             curInput[1] = -1;
             curInput[2] = 1;
             curTrain = -1;
-            setCurrentInput(curInput);
-            propogateOutput();
-            output.setDesired(curTrain);
-            backPropogateTraining();
+            this.setCurrentInput(curInput);
+            this.propogateOutput();
+            this.output.setDesired(curTrain);
+            this.backPropogateTraining();
 
             curInput[0] = 1;
             curInput[1] = 1;
             curInput[2] = 1;
             curTrain = -1;
-            setCurrentInput(curInput);
-            propogateOutput();
-            output.setDesired(curTrain);
-            backPropogateTraining();
+            this.setCurrentInput(curInput);
+            this.propogateOutput();
+            this.output.setDesired(curTrain);
+            this.backPropogateTraining();
         }
     }
 }

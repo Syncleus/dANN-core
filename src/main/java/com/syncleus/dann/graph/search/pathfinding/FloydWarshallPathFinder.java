@@ -80,7 +80,7 @@ public class FloydWarshallPathFinder<N, E extends Edge<N>> implements PathFinder
     }
 
     public List<E> getBestPath(final N begin, final N end) {
-        final List<N> nodePath = getIntermediatePath(begin, end);
+        final List<N> nodePath = this.getIntermediatePath(begin, end);
         if (nodePath.size() < 2)
             return null;
         final List<E> edgePath = new ArrayList<E>(nodePath.size() - 1);
@@ -122,9 +122,9 @@ public class FloydWarshallPathFinder<N, E extends Edge<N>> implements PathFinder
             return new ArrayList<N>();
 
         final List<N> nodePath = new ArrayList<N>();
-        nodePath.addAll(getIntermediatePath(begin, this.nextNode.get(begin).get(end)));
+        nodePath.addAll(this.getIntermediatePath(begin, this.nextNode.get(begin).get(end)));
         nodePath.add(this.nextNode.get(begin).get(end));
-        nodePath.addAll(getIntermediatePath(this.nextNode.get(begin).get(end), end));
+        nodePath.addAll(this.getIntermediatePath(this.nextNode.get(begin).get(end), end));
         return nodePath;
     }
 

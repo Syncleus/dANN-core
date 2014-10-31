@@ -87,7 +87,7 @@ public class TestSignalProcessingWavelet {
     public void testMutations() throws CloneNotSupportedException {
         for (int testCount = 0; testCount < TEST_MUTATIONS_REPEATS; testCount++) {
             LOGGER.debug("performing testMutations test #" + testCount);
-            testMutationOnce();
+            this.testMutationOnce();
         }
     }
 

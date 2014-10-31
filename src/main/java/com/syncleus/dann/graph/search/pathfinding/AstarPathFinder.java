@@ -64,7 +64,7 @@ public class AstarPathFinder<N, E extends Edge<N>> implements PathFinder<N, E> {
         while (!candidateSteps.isEmpty()) {
             final PathedStep currentStep = candidateSteps.poll();
             if (currentStep.getNode().equals(end))
-                return pathedStepToWalk(currentStep);
+                return this.pathedStepToWalk(currentStep);
 
             for (final E edge : this.graph.getTraversableEdges(currentStep.node)) {
                 for (final N neighborNode : edge.getNodes()) {
@@ -164,7 +164,7 @@ public class AstarPathFinder<N, E extends Edge<N>> implements PathFinder<N, E> {
         }
 
         public double getHeuristicCostToGoal() {
-            return heuristicPathCost.getHeuristicPathCost(this.node, this.goalNode);
+            return AstarPathFinder.this.heuristicPathCost.getHeuristicPathCost(this.node, this.goalNode);
         }
 
         public double getHeuristicOverallCost() {

@@ -26,7 +26,7 @@ public class LexicographicPermutationCounter extends AbstractPermutationCounter 
     public LexicographicPermutationCounter(final int setSize, final int permutationSize) {
         super(setSize, permutationSize);
 
-        reset();
+        this.reset();
     }
 
     private static void swap(final int[] permutation, final int firstIndex, final int secondIndex) {

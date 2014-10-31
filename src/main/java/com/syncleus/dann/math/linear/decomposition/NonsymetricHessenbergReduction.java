@@ -46,7 +46,7 @@ public class NonsymetricHessenbergReduction implements java.io.Serializable, Hes
         final int width = matrixToDecompose.getWidth();
 
         // Reduce to Hessenberg form.
-        hessenbergReduction(matrixToDecompose.getSubmatrix(0, width, 0, width));
+        this.hessenbergReduction(matrixToDecompose.getSubmatrix(0, width, 0, width));
     }
 
     public int getDimensionSize() {

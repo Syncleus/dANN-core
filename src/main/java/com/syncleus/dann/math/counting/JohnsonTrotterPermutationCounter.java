@@ -33,7 +33,7 @@ public class JohnsonTrotterPermutationCounter extends AbstractPermutationCounter
 
         this.mobility = new int[permutationSize];
 
-        reset();
+        this.reset();
     }
 
     private static boolean isMobile(final int[] permutation, final int[] mobility, final int index) {
@@ -63,24 +63,24 @@ public class JohnsonTrotterPermutationCounter extends AbstractPermutationCounter
     @Override
     protected void resetPermutations() {
         super.resetPermutations();
-        for (int i = 0; i < getPermutationSize(); i++) {
+        for (int i = 0; i < this.getPermutationSize(); i++) {
             this.mobility[i] = -1;
         }
     }
 
     protected boolean next() {
         final int[] perm = this.getPermutation();
-        final int largestIndex = largestMobileIndex(perm, mobility);
+        final int largestIndex = largestMobileIndex(perm, this.mobility);
         if (largestIndex < 0)
             return false;
 
         final int swapedValue = perm[largestIndex];
-        swap(perm, largestIndex, largestIndex + mobility[largestIndex]);
-        swap(mobility, largestIndex, largestIndex + mobility[largestIndex]);
+        swap(perm, largestIndex, largestIndex + this.mobility[largestIndex]);
+        swap(this.mobility, largestIndex, largestIndex + this.mobility[largestIndex]);
 
-        for (int index = 0; index < getPermutationSize(); index++)
+        for (int index = 0; index < this.getPermutationSize(); index++)
             if (perm[index] > swapedValue)
-                mobility[index] *= -1;
+                this.mobility[index] *= -1;
 
         return true;
     }

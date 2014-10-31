@@ -146,7 +146,7 @@ public final class MathFunctionDataBinder implements Binned2DData {
 
     @Override
     public Color3b colorAt(final int xIndex, final int yIndex) {
-        return new Color3b(colorAtPoint(xIndex, yIndex));
+        return new Color3b(this.colorAtPoint(xIndex, yIndex));
     }
 
     @Override

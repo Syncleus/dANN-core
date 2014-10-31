@@ -46,7 +46,7 @@ public abstract class AbstractContextGraphElement<G extends Graph<?, ?>> impleme
         if (graph == null)
             throw new IllegalArgumentException("graph can not be null");
 
-        if (!this.allowJoiningMultipleGraphs && !joinedGraphs.isEmpty())
+        if (!this.allowJoiningMultipleGraphs && !this.joinedGraphs.isEmpty())
             return false;
 
         this.joinedGraphs.add(graph);
@@ -66,6 +66,6 @@ public abstract class AbstractContextGraphElement<G extends Graph<?, ?>> impleme
 
     @Override
     public boolean isAllowingMultipleGraphs() {
-        return allowJoiningMultipleGraphs;
+        return this.allowJoiningMultipleGraphs;
     }
 }

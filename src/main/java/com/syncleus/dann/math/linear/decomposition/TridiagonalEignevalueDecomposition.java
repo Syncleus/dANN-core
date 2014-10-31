@@ -83,10 +83,10 @@ public class TridiagonalEignevalueDecomposition implements java.io.Serializable,
         this.matrix = new SimpleRealMatrix(matrixElements);
 
         // Tridiagonalize.
-        householderTridiagonalReduction();
+        this.householderTridiagonalReduction();
 
         // Diagonalize.
-        qlTridiagonalReduction();
+        this.qlTridiagonalReduction();
     }
 
     public final int getDimensionSize() {

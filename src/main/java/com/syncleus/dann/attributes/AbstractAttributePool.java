@@ -35,10 +35,10 @@ public abstract class AbstractAttributePool<T> implements AttributePool<T> {
         if (this.globalListeners.contains(listener))
             return false;
 
-        Set<AttributeChangeListener<?>> attributesListeners = listeners.get(attribute);
+        Set<AttributeChangeListener<?>> attributesListeners = this.listeners.get(attribute);
         if (attributesListeners == null) {
             attributesListeners = new HashSet<AttributeChangeListener<?>>();
-            listeners.put(attribute, attributesListeners);
+            this.listeners.put(attribute, attributesListeners);
         }
         return attributesListeners.add(listener);
     }
@@ -66,7 +66,7 @@ public abstract class AbstractAttributePool<T> implements AttributePool<T> {
             if (listenerEntry.getValue().remove(listener)) {
                 removed = true;
                 if (listenerEntry.getValue().size() <= 0)
-                    listeners.remove(listenerEntry.getKey());
+                    this.listeners.remove(listenerEntry.getKey());
             }
         }
 
@@ -92,7 +92,7 @@ public abstract class AbstractAttributePool<T> implements AttributePool<T> {
 
         if (attributeListeners.remove(listener)) {
             if (attributeListeners.size() <= 0)
-                listeners.remove(attribute);
+                this.listeners.remove(attribute);
             return true;
         }
 

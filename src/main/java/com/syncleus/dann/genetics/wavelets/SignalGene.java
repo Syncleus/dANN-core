@@ -66,7 +66,7 @@ public class SignalGene extends AbstractWaveletGene {
     }
 
     protected SignalKeyConcentration getExpressingConcentration() {
-        return expressingConcentration;
+        return this.expressingConcentration;
     }
 
     protected void setExpressingConcentration(final SignalKeyConcentration newExpressingConcentration) {

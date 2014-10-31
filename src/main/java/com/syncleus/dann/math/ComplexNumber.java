@@ -202,7 +202,7 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber> {
 
     @Override
     public final ComplexNumber asin() {
-        return sqrt1Minus().add(this.multiply(ComplexNumber.I)).log().multiply(ComplexNumber.I.negate());
+        return this.sqrt1Minus().add(this.multiply(ComplexNumber.I)).log().multiply(ComplexNumber.I.negate());
     }
 
     @Override
@@ -227,7 +227,7 @@ public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber> {
 
     @Override
     public final ComplexNumber tan() {
-        return sin().divide(cos());
+        return this.sin().divide(this.cos());
     }
 
     @Override

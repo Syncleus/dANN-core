@@ -64,11 +64,11 @@ public final class FullyConnectedFeedforwardBrain<IN extends InputBackpropNeuron
         if (layer == 0) {
             neuron = new SimpleInputBackpropNeuron(this);
         }
-        else if (layer >= (getLayerCount() - 1)) {
-            neuron = new SimpleOutputBackpropNeuron(this, activationFunction, learningRate);
+        else if (layer >= (this.getLayerCount() - 1)) {
+            neuron = new SimpleOutputBackpropNeuron(this, this.activationFunction, this.learningRate);
         }
         else {
-            neuron = new SimpleBackpropNeuron(this, activationFunction, learningRate);
+            neuron = new SimpleBackpropNeuron(this, this.activationFunction, this.learningRate);
         }
 
         // TODO fix typing

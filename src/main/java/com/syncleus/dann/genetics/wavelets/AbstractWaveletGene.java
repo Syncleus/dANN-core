@@ -58,7 +58,7 @@ public abstract class AbstractWaveletGene implements Gene {
     }
 
     protected ExpressionFunction getExpressionFunction() {
-        return expressionFunction;
+        return this.expressionFunction;
     }
 
     protected void setExpressionFunction(final ExpressionFunction newExpressionFunction) {
@@ -66,7 +66,7 @@ public abstract class AbstractWaveletGene implements Gene {
     }
 
     public Set<SignalKeyConcentration> getReceivingConcentrations() {
-        return receivingConcentrations;
+        return this.receivingConcentrations;
     }
 
     public void setReceivingConcentrations(final Set<SignalKeyConcentration> newReceivingConcentrations) {

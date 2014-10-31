@@ -88,7 +88,7 @@ public abstract class AbstractActivationNeuron extends AbstractNeuron {
      * @since 1.0
      */
     protected final double activate() {
-        return activationFunction.activate(activity);
+        return this.activationFunction.activate(this.activity);
     }
 
     // TODO rename because of spell error
@@ -104,7 +104,7 @@ public abstract class AbstractActivationNeuron extends AbstractNeuron {
      * @since 1.0
      */
     protected final double activateDerivitive() {
-        return activationFunction.activateDerivative(activity);
+        return this.activationFunction.activateDerivative(this.activity);
     }
 
     /**
@@ -130,14 +130,14 @@ public abstract class AbstractActivationNeuron extends AbstractNeuron {
     @Override
     public void tick() {
         // calculate the current input activity
-        activity = 0;
-        for (final Synapse<Neuron> currentSynapse : getBrain().getInEdges(this)) {
-            activity += currentSynapse.getInput() * currentSynapse.getWeight();
+        this.activity = 0;
+        for (final Synapse<Neuron> currentSynapse : this.getBrain().getInEdges(this)) {
+            this.activity += currentSynapse.getInput() * currentSynapse.getWeight();
         }
         // calculate the activity function and set the result as the output
-        output = activate();
-        for (final Synapse<Neuron> current : getBrain().getTraversableEdges(this)) {
-            current.setInput(output);
+        this.output = this.activate();
+        for (final Synapse<Neuron> current : this.getBrain().getTraversableEdges(this)) {
+            current.setInput(this.output);
         }
     }
 }

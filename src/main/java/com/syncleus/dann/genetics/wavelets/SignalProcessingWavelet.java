@@ -43,7 +43,7 @@ public class SignalProcessingWavelet implements Comparable<SignalProcessingWavel
     public SignalProcessingWavelet(final SignalConcentration initialInput, final SignalConcentration initialOutput) {
         this.output = initialOutput;
         this.signals.add(initialInput);
-        final WaveMultidimensionalFunction initialWave = generateNewWave();
+        final WaveMultidimensionalFunction initialWave = this.generateNewWave();
         this.waves.add(initialWave);
         this.id = RANDOM.nextLong();
     }

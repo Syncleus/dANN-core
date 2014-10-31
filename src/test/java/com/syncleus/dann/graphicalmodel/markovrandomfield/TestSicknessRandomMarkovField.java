@@ -41,14 +41,14 @@ public class TestSicknessRandomMarkovField {
 
     @Test
     public void testXml() throws Exception {
-        testOverall();
+        this.testOverall();
 
         //mashall it
         JAXBContext context = JAXBContext.newInstance(GraphicalModelXml.class, TestSicknessRandomMarkovField.FeverState.class, TestSicknessRandomMarkovField.AgeState.class, TestSicknessRandomMarkovField.BooleanState.class, TestSicknessRandomMarkovField.SeasonState.class);
         Marshaller marshal = context.createMarshaller();
 
         StringWriter writer = new StringWriter();
-        marshal.marshal(network.toXml(), writer);
+        marshal.marshal(this.network.toXml(), writer);
 
         //unmarshall it
         StringReader reader = new StringReader(writer.toString());
@@ -62,7 +62,7 @@ public class TestSicknessRandomMarkovField {
     @Test
     public void testOverallRepeated() {
         for (int i = 0; i < 10; i++) {
-            testOverall();
+            this.testOverall();
 
             this.network = new MutableMarkovRandomFieldAdjacencyGraph();
             this.season = new SimpleGraphicalModelNode<SeasonState>(SeasonState.WINTER);
@@ -77,27 +77,27 @@ public class TestSicknessRandomMarkovField {
     @Test
     public void testOverall() {
         //add nodes
-        network.add(this.season);
-        network.add(this.age);
-        network.add(this.stuffyNose);
-        network.add(this.fever);
-        network.add(this.tired);
-        network.add(this.sick);
+        this.network.add(this.season);
+        this.network.add(this.age);
+        this.network.add(this.stuffyNose);
+        this.network.add(this.fever);
+        this.network.add(this.tired);
+        this.network.add(this.sick);
         //connect nodes
-        network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.season, this.stuffyNose));
-        network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.season, this.fever));
-        network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.season, this.tired));
-        network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.season, this.sick));
-        network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.age, this.stuffyNose));
-        network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.age, this.fever));
-        network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.age, this.tired));
-        network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.age, this.sick));
-        network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.tired, this.fever));
-        network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.tired, this.stuffyNose));
-        network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.tired, this.sick));
-        network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.stuffyNose, this.fever));
-        network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.stuffyNose, this.sick));
-        network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.fever, this.sick));
+        this.network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.season, this.stuffyNose));
+        this.network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.season, this.fever));
+        this.network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.season, this.tired));
+        this.network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.season, this.sick));
+        this.network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.age, this.stuffyNose));
+        this.network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.age, this.fever));
+        this.network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.age, this.tired));
+        this.network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.age, this.sick));
+        this.network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.tired, this.fever));
+        this.network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.tired, this.stuffyNose));
+        this.network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.tired, this.sick));
+        this.network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.stuffyNose, this.fever));
+        this.network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.stuffyNose, this.sick));
+        this.network.add(new ImmutableUndirectedEdge<GraphicalModelNode>(this.fever, this.sick));
         //let the network learn
         for (int sampleCount = 0; sampleCount < 10; sampleCount++)
             this.sampleState();
@@ -106,96 +106,96 @@ public class TestSicknessRandomMarkovField {
         goals.add(this.sick);
         final Set<GraphicalModelNode> influences = new HashSet<GraphicalModelNode>();
         influences.add(this.fever);
-        sick.setState(BooleanState.TRUE);
-        fever.setState(FeverState.LOW);
-        final double lowPercentage = network.conditionalProbability(goals, influences);
-        fever.setState(FeverState.NONE);
-        final double nonePercentage = network.conditionalProbability(goals, influences);
-        fever.setState(FeverState.WARM);
-        final double warmPercentage = network.conditionalProbability(goals, influences);
-        fever.setState(FeverState.HOT);
-        final double hotPercentage = network.conditionalProbability(goals, influences);
+        this.sick.setState(BooleanState.TRUE);
+        this.fever.setState(FeverState.LOW);
+        final double lowPercentage = this.network.conditionalProbability(goals, influences);
+        this.fever.setState(FeverState.NONE);
+        final double nonePercentage = this.network.conditionalProbability(goals, influences);
+        this.fever.setState(FeverState.WARM);
+        final double warmPercentage = this.network.conditionalProbability(goals, influences);
+        this.fever.setState(FeverState.HOT);
+        final double hotPercentage = this.network.conditionalProbability(goals, influences);
 
         Assert.assertTrue("incorrect fever to sickness mapping! " + nonePercentage + " < " + lowPercentage + " < " + warmPercentage + " < " + hotPercentage, (nonePercentage < lowPercentage) && (lowPercentage < warmPercentage) && (warmPercentage < hotPercentage));
     }
 
     private void sampleState() {
         final SeasonState seasonState = (SeasonState.values())[RANDOM.nextInt(SeasonState.values().length)];
-        season.setState(seasonState);
+        this.season.setState(seasonState);
 
         final AgeState ageState = (AgeState.values())[RANDOM.nextInt(AgeState.values().length)];
-        age.setState(ageState);
+        this.age.setState(ageState);
 
         final BooleanState noseState = (BooleanState.values())[RANDOM.nextInt(BooleanState.values().length)];
-        stuffyNose.setState(noseState);
+        this.stuffyNose.setState(noseState);
 
         final BooleanState tiredState = (BooleanState.values())[RANDOM.nextInt(BooleanState.values().length)];
-        tired.setState(tiredState);
+        this.tired.setState(tiredState);
 
 
-        fever.setState(FeverState.NONE);
-        sick.setState(BooleanState.FALSE);
-        network.learnStates();
-        fever.setState(FeverState.NONE);
-        sick.setState(BooleanState.FALSE);
-        network.learnStates();
-        fever.setState(FeverState.NONE);
-        sick.setState(BooleanState.FALSE);
-        network.learnStates();
-        fever.setState(FeverState.NONE);
-        sick.setState(BooleanState.FALSE);
-        network.learnStates();
-        fever.setState(FeverState.NONE);
-        sick.setState(BooleanState.TRUE);
-        network.learnStates();
+        this.fever.setState(FeverState.NONE);
+        this.sick.setState(BooleanState.FALSE);
+        this.network.learnStates();
+        this.fever.setState(FeverState.NONE);
+        this.sick.setState(BooleanState.FALSE);
+        this.network.learnStates();
+        this.fever.setState(FeverState.NONE);
+        this.sick.setState(BooleanState.FALSE);
+        this.network.learnStates();
+        this.fever.setState(FeverState.NONE);
+        this.sick.setState(BooleanState.FALSE);
+        this.network.learnStates();
+        this.fever.setState(FeverState.NONE);
+        this.sick.setState(BooleanState.TRUE);
+        this.network.learnStates();
 
-        fever.setState(FeverState.LOW);
-        sick.setState(BooleanState.FALSE);
-        network.learnStates();
-        fever.setState(FeverState.LOW);
-        sick.setState(BooleanState.FALSE);
-        network.learnStates();
-        fever.setState(FeverState.LOW);
-        sick.setState(BooleanState.FALSE);
-        network.learnStates();
-        fever.setState(FeverState.LOW);
-        sick.setState(BooleanState.TRUE);
-        network.learnStates();
-        fever.setState(FeverState.LOW);
-        sick.setState(BooleanState.TRUE);
-        network.learnStates();
+        this.fever.setState(FeverState.LOW);
+        this.sick.setState(BooleanState.FALSE);
+        this.network.learnStates();
+        this.fever.setState(FeverState.LOW);
+        this.sick.setState(BooleanState.FALSE);
+        this.network.learnStates();
+        this.fever.setState(FeverState.LOW);
+        this.sick.setState(BooleanState.FALSE);
+        this.network.learnStates();
+        this.fever.setState(FeverState.LOW);
+        this.sick.setState(BooleanState.TRUE);
+        this.network.learnStates();
+        this.fever.setState(FeverState.LOW);
+        this.sick.setState(BooleanState.TRUE);
+        this.network.learnStates();
 
-        fever.setState(FeverState.WARM);
-        sick.setState(BooleanState.FALSE);
-        network.learnStates();
-        fever.setState(FeverState.WARM);
-        sick.setState(BooleanState.FALSE);
-        network.learnStates();
-        fever.setState(FeverState.WARM);
-        sick.setState(BooleanState.TRUE);
-        network.learnStates();
-        fever.setState(FeverState.WARM);
-        sick.setState(BooleanState.TRUE);
-        network.learnStates();
-        fever.setState(FeverState.WARM);
-        sick.setState(BooleanState.TRUE);
-        network.learnStates();
+        this.fever.setState(FeverState.WARM);
+        this.sick.setState(BooleanState.FALSE);
+        this.network.learnStates();
+        this.fever.setState(FeverState.WARM);
+        this.sick.setState(BooleanState.FALSE);
+        this.network.learnStates();
+        this.fever.setState(FeverState.WARM);
+        this.sick.setState(BooleanState.TRUE);
+        this.network.learnStates();
+        this.fever.setState(FeverState.WARM);
+        this.sick.setState(BooleanState.TRUE);
+        this.network.learnStates();
+        this.fever.setState(FeverState.WARM);
+        this.sick.setState(BooleanState.TRUE);
+        this.network.learnStates();
 
-        fever.setState(FeverState.HOT);
-        sick.setState(BooleanState.FALSE);
-        network.learnStates();
-        fever.setState(FeverState.HOT);
-        sick.setState(BooleanState.TRUE);
-        network.learnStates();
-        fever.setState(FeverState.HOT);
-        sick.setState(BooleanState.TRUE);
-        network.learnStates();
-        fever.setState(FeverState.HOT);
-        sick.setState(BooleanState.TRUE);
-        network.learnStates();
-        fever.setState(FeverState.HOT);
-        sick.setState(BooleanState.TRUE);
-        network.learnStates();
+        this.fever.setState(FeverState.HOT);
+        this.sick.setState(BooleanState.FALSE);
+        this.network.learnStates();
+        this.fever.setState(FeverState.HOT);
+        this.sick.setState(BooleanState.TRUE);
+        this.network.learnStates();
+        this.fever.setState(FeverState.HOT);
+        this.sick.setState(BooleanState.TRUE);
+        this.network.learnStates();
+        this.fever.setState(FeverState.HOT);
+        this.sick.setState(BooleanState.TRUE);
+        this.network.learnStates();
+        this.fever.setState(FeverState.HOT);
+        this.sick.setState(BooleanState.TRUE);
+        this.network.learnStates();
     }
 
     @XmlRootElement

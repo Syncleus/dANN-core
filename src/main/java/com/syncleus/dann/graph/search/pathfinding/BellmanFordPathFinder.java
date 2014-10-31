@@ -41,8 +41,8 @@ public class BellmanFordPathFinder<N, E extends DirectedEdge<N>> implements Path
         if ((refresh) || (this.pathedSteps == null))
             this.calculateSteps(begin);
         //construct a walk from the end node
-        final PathedStep endPathedStep = pathedSteps.get(end);
-        final PathedStep beginPathedStep = pathedSteps.get(begin);
+        final PathedStep endPathedStep = this.pathedSteps.get(end);
+        final PathedStep beginPathedStep = this.pathedSteps.get(begin);
         assert ((endPathedStep != null) && (beginPathedStep != null));
         return this.pathedStepToWalk(endPathedStep);
     }
@@ -56,15 +56,15 @@ public class BellmanFordPathFinder<N, E extends DirectedEdge<N>> implements Path
             for (final E edge : edges) {
                 if (edge.getDestinationNode() == begin)
                     continue;
-                PathedStep sourcePathedStep = pathedSteps.get(edge.getSourceNode());
+                PathedStep sourcePathedStep = this.pathedSteps.get(edge.getSourceNode());
                 if (sourcePathedStep == null) {
                     sourcePathedStep = new PathedStep(edge.getSourceNode(), (edge.getSourceNode().equals(begin) ? 0.0 : Double.POSITIVE_INFINITY));
-                    pathedSteps.put(edge.getSourceNode(), sourcePathedStep);
+                    this.pathedSteps.put(edge.getSourceNode(), sourcePathedStep);
                 }
-                PathedStep destinationPathedStep = pathedSteps.get(edge.getDestinationNode());
+                PathedStep destinationPathedStep = this.pathedSteps.get(edge.getDestinationNode());
                 if (destinationPathedStep == null) {
                     destinationPathedStep = new PathedStep(edge.getDestinationNode(), Double.POSITIVE_INFINITY);
-                    pathedSteps.put(edge.getDestinationNode(), destinationPathedStep);
+                    this.pathedSteps.put(edge.getDestinationNode(), destinationPathedStep);
                 }
                 destinationPathedStep.updateParent(sourcePathedStep, edge);
             }
@@ -73,8 +73,8 @@ public class BellmanFordPathFinder<N, E extends DirectedEdge<N>> implements Path
         for (final E edge : edges) {
             if (edge.getDestinationNode() == begin)
                 continue;
-            final PathedStep sourcePathedStep = pathedSteps.get(edge.getSourceNode());
-            final PathedStep destinationPathedStep = pathedSteps.get(edge.getDestinationNode());
+            final PathedStep sourcePathedStep = this.pathedSteps.get(edge.getSourceNode());
+            final PathedStep destinationPathedStep = this.pathedSteps.get(edge.getDestinationNode());
             assert ((sourcePathedStep != null) && (destinationPathedStep != null));
             if (destinationPathedStep.updateParent(sourcePathedStep, edge))
                 throw new NegativeWeightCycleException("negative-weight cycle found in graph");

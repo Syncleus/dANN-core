@@ -33,7 +33,7 @@ public class SimpleWalk<N, E extends Edge<N>> extends AbstractWalk<N, E> {
 
         this.steps = Collections.unmodifiableList(new ArrayList<E>(ourSteps));
         this.nodeSteps = Collections.unmodifiableList(new ArrayList<N>(ourNodeSteps));
-        this.totalWeight = calculateWeight(defaultWeight);
+        this.totalWeight = this.calculateWeight(defaultWeight);
     }
 
     public SimpleWalk(final List<E> ourSteps, final List<N> ourNodeSteps) {

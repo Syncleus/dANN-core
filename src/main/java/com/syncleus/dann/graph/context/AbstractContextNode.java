@@ -34,7 +34,7 @@ public abstract class AbstractContextNode<N, E extends Edge<N>, G extends Graph<
     public boolean joiningGraph(final G graph) {
         if (super.joiningGraph(graph)) {
             //notify all context edges that this node has joined a graph
-            for (ContextEdge<N, E, G> contextEdge : contextEdges)
+            for (ContextEdge<N, E, G> contextEdge : this.contextEdges)
                 contextEdge.nodeJoiningGraph(graph, (N) this);
             return true;
         }
@@ -45,7 +45,7 @@ public abstract class AbstractContextNode<N, E extends Edge<N>, G extends Graph<
     public boolean leavingGraph(final G graph) {
         if (super.leavingGraph(graph)) {
             //notify all context edges that this node is leaving a graph
-            for (ContextEdge<N, E, G> contextEdge : contextEdges)
+            for (ContextEdge<N, E, G> contextEdge : this.contextEdges)
                 contextEdge.nodeLeavingGraph(graph, (N) this);
             return true;
         }
@@ -76,6 +76,6 @@ public abstract class AbstractContextNode<N, E extends Edge<N>, G extends Graph<
     }
 
     public final Set<E> getConnectedEdges() {
-        return Collections.unmodifiableSet(connectedEdges);
+        return Collections.unmodifiableSet(this.connectedEdges);
     }
 }

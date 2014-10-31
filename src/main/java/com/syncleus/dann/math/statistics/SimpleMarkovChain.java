@@ -65,7 +65,7 @@ public class SimpleMarkovChain<S> extends AbstractMarkovChain<S> {
             this.rowMapping.add(columnAsHeader);
         }
 
-        if (rowMapping.contains(Collections.<S>emptyList())) {
+        if (this.rowMapping.contains(Collections.<S>emptyList())) {
             this.columnMapping.add(0, null);
         }
 
@@ -75,7 +75,7 @@ public class SimpleMarkovChain<S> extends AbstractMarkovChain<S> {
 
         //iterate through all the new rows
         int row = 0;
-        for (final List<S> rowHeader : rowMapping) {
+        for (final List<S> rowHeader : this.rowMapping) {
             final Map<S, Double> rowTransition = Collections.unmodifiableMap(new LinkedHashMap<S, Double>(transitionProbabilities.get(rowHeader)));
 
             double rowSum = 0.0;

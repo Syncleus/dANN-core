@@ -113,14 +113,14 @@ public class HyperassociativeMapCanvas<G extends Graph<N, ?>, N> extends JPanel 
             }
 
             myCanvas3D = new HyperassociativeMapCanvasCanvas(myGraphicsConfiguration);
-            add(myCanvas3D, BorderLayout.CENTER);
+            this.add(myCanvas3D, BorderLayout.CENTER);
         }
         catch (UnsatisfiedLinkError error) {
             throw new ComponentUnavailableException(error);
         }
         this.canvas3D = myCanvas3D;
 
-        updateUI();
+        this.updateUI();
     }
 
     /**
@@ -130,8 +130,8 @@ public class HyperassociativeMapCanvas<G extends Graph<N, ?>, N> extends JPanel 
      * @since 1.0
      */
     public void refresh() {
-        if (mapVisual != null) {
-            mapVisual.refresh();
+        if (this.mapVisual != null) {
+            this.mapVisual.refresh();
         }
     }
 
@@ -148,10 +148,10 @@ public class HyperassociativeMapCanvas<G extends Graph<N, ?>, N> extends JPanel 
         public HyperassociativeMapCanvasCanvas(final GraphicsConfiguration config) {
             super(config);
 
-            final BranchGroup root = newRoot();
-            mapVisual = new HyperassociativeMapVisualization<HyperassociativeMap<G, N>, G, N>(map, nodeRadius);
-            mapVisual.refresh();
-            root.addChild(mapVisual);
+            final BranchGroup root = this.newRoot();
+            HyperassociativeMapCanvas.this.mapVisual = new HyperassociativeMapVisualization<HyperassociativeMap<G, N>, G, N>(HyperassociativeMapCanvas.this.map, HyperassociativeMapCanvas.this.nodeRadius);
+            HyperassociativeMapCanvas.this.mapVisual.refresh();
+            root.addChild(HyperassociativeMapCanvas.this.mapVisual);
             final SimpleUniverse universe = new SimpleUniverse(this);
             universe.addBranchGraph(root);
 

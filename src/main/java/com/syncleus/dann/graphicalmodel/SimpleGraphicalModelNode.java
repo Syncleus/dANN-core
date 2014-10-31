@@ -233,7 +233,7 @@ public class SimpleGraphicalModelNode<S> extends AbstractContextNode<GraphicalMo
         if (jaxbObject.getLearnedStates() == null) {
             jaxbObject.setLearnedStates(new SimpleGraphicalModelNodeXml.LearnedStates());
         }
-        for (S learnedState : learnedStates) {
+        for (S learnedState : this.learnedStates) {
             final NameXml stateXml = new NameXml();
             stateXml.setName(namer.getNameOrCreate(learnedState));
             jaxbObject.getLearnedStates().getStates().add(stateXml);

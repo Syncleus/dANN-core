@@ -92,25 +92,25 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
         this.hasRightSingularMatrix = calculateRightSingularMatrix;
         this.hasLeftSingularMatrix = calculateLeftSingularMatrix;
         if (this.hasLeftSingularMatrix)
-            this.leftSingularMatrix = new double[m][nu];
+            this.leftSingularMatrix = new double[this.m][nu];
         else
             this.leftSingularMatrix = null;
         if (this.hasRightSingularMatrix)
-            this.rightSingularMatrix = new double[n][n];
+            this.rightSingularMatrix = new double[this.n][this.n];
         else
             this.rightSingularMatrix = null;
 
         // Derived from LINPACK code.
         // Initialize.
         this.matrix = new double[Math.min(this.m + 1, this.n)];
-        final double[] e = new double[n];
+        final double[] e = new double[this.n];
         final int nct = Math.min(this.m - 1, this.n);
         final int nrt = Math.max(0, Math.min(this.n - 2, this.m));
-        int p = reduceToBidiagonal(rectangularMatrix, e, nct, nrt);
+        int p = this.reduceToBidiagonal(rectangularMatrix, e, nct, nrt);
 
-        generateLeftSingularMatrix(nct, nu);
+        this.generateLeftSingularMatrix(nct, nu);
 
-        generateRightSingularMatrix(e, nrt, nu);
+        this.generateRightSingularMatrix(e, nrt, nu);
 
         // Main iteration loop for the singular values.
         final int pp = p - 1;
@@ -140,7 +140,7 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
             }
             if (k == p - 2) {
                 k++;
-                convergence(k, pp);
+                this.convergence(k, pp);
                 iter = 0;
                 p--;
             }
@@ -158,17 +158,17 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
                 }
                 if (ks == k) {
                     k++;
-                    oneQrStep(e, p, k);
+                    this.oneQrStep(e, p, k);
                     iter = iter + 1;
                 }
                 else if (ks == p - 1) {
                     k++;
-                    deflateNegligibleMatrix(e, p, k);
+                    this.deflateNegligibleMatrix(e, p, k);
                 }
                 else {
                     k = ks;
                     k++;
-                    splitAtNegligibleMatrix(e, p, k);
+                    this.splitAtNegligibleMatrix(e, p, k);
                 }
             }
         }
@@ -182,7 +182,7 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
      */
     private int reduceToBidiagonal(final RealMatrix rectangularMatrix, final double[] e, final int nct, final int nrt) {
         final double[][] transform = rectangularMatrix.toDoubleArray();
-        final double[] work = new double[m];
+        final double[] work = new double[this.m];
         // Reduce A to bidiagonal form, storing the diagonal elements
         // in matrix and the super-diagonal elements in e.
         for (int k = 0; k < Math.max(nct, nrt); k++) {
@@ -500,7 +500,7 @@ public class StewartSingularValueDecomposition implements java.io.Serializable, 
      */
     @Override
     public RealMatrix getMatrix() {
-        final double[][] singular = new double[n][n];
+        final double[][] singular = new double[this.n][this.n];
         for (int i = 0; i < this.n; i++) {
             for (int j = 0; j < this.n; j++)
                 singular[i][j] = 0.0;

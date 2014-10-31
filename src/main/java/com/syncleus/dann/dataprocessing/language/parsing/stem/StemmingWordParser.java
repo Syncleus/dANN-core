@@ -70,7 +70,7 @@ public class StemmingWordParser extends BasicWordParser implements Stemmer {
     private List<String> stemList(final Collection<String> unstemmed) {
         final List<String> stemmedWords = new ArrayList<String>(unstemmed.size());
         for (final String word : unstemmed)
-            stemmedWords.add(stemmer.stemWord(word.toLowerCase(this.getLocale())));
+            stemmedWords.add(this.stemmer.stemWord(word.toLowerCase(this.getLocale())));
         return Collections.unmodifiableList(stemmedWords);
     }
 
@@ -84,7 +84,7 @@ public class StemmingWordParser extends BasicWordParser implements Stemmer {
     private Set<String> stemSet(final Collection<String> unstemmed) {
         final Set<String> stemmedWords = new HashSet<String>(unstemmed.size());
         for (final String word : unstemmed)
-            stemmedWords.add(stemmer.stemWord(word.toLowerCase(this.getLocale())));
+            stemmedWords.add(this.stemmer.stemWord(word.toLowerCase(this.getLocale())));
         return Collections.unmodifiableSet(stemmedWords);
     }
 
@@ -96,7 +96,7 @@ public class StemmingWordParser extends BasicWordParser implements Stemmer {
      */
     @Override
     public List<String> getWords(final String text) {
-        return stemList(super.getWords(text));
+        return this.stemList(super.getWords(text));
     }
 
     /**
@@ -107,6 +107,6 @@ public class StemmingWordParser extends BasicWordParser implements Stemmer {
      */
     @Override
     public Set<String> getUniqueWords(final String text) {
-        return stemSet(super.getUniqueWords(text));
+        return this.stemSet(super.getUniqueWords(text));
     }
 }

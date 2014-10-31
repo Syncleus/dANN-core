@@ -45,7 +45,7 @@ public class WeightedDirectedGrid extends AbstractBidirectedAdjacencyGraph<GridN
                 this.outNeighborNodes.put(this.nodes[y][x], new HashSet<GridNode>());
             }
         //connect nodes
-        for (int y = 0; y < nodes.length; y++)
+        for (int y = 0; y < this.nodes.length; y++)
             for (int x = 0; x < this.nodes[0].length; x++) {
                 //connect to the right
                 if (x < this.nodes[0].length - 1) {
@@ -63,7 +63,7 @@ public class WeightedDirectedGrid extends AbstractBidirectedAdjacencyGraph<GridN
                     this.outNeighborNodes.get(this.nodes[y][x + 1]).add(this.nodes[y][x]);
                 }
                 //connect to the bottom
-                if (y < nodes.length - 1) {
+                if (y < this.nodes.length - 1) {
                     SimpleWeightedDirectedEdge<GridNode> newEdge = new SimpleWeightedDirectedEdge<GridNode>(this.nodes[y][x], this.nodes[y + 1][x], this.nodes[y + 1][x].getWeight());
                     this.edges.add(newEdge);
                     this.outNeighborEdges.get(this.nodes[y][x]).add(newEdge);
@@ -81,7 +81,7 @@ public class WeightedDirectedGrid extends AbstractBidirectedAdjacencyGraph<GridN
     }
 
     public GridNode getNode(final int x, final int y) {
-        if ((x >= this.nodes[0].length) || (y >= nodes.length))
+        if ((x >= this.nodes[0].length) || (y >= this.nodes.length))
             throw new IllegalArgumentException("coordinates are out of bounds");
         return this.nodes[y][x];
     }

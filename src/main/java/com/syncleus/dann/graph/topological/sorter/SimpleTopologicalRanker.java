@@ -50,7 +50,7 @@ public class SimpleTopologicalRanker<N> implements TopologicalRanker<N> {
             //find all nodes current with a in degree of 0
             final Set<N> currentRootNodes = new HashSet<N>();
             for (final N node : remainingNodes)
-                if (getIndegree(remainingEdges, node) == 0)
+                if (this.getIndegree(remainingEdges, node) == 0)
                     currentRootNodes.add(node);
 
             //if no nodes were found yet some are still remaining then this cant be sorted

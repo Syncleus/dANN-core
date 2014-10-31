@@ -60,7 +60,7 @@ public abstract class AbstractFunction implements Cloneable, Function {
     }
 
     public final void setParameter(final int parameterIndex, final double value) {
-        if (parameterIndex >= parameters.length || parameterIndex < 0)
+        if (parameterIndex >= this.parameters.length || parameterIndex < 0)
             throw new IllegalArgumentException("parameterIndex of " + parameterIndex + " is out of range");
         this.parameters[parameterIndex] = value;
     }
@@ -70,7 +70,7 @@ public abstract class AbstractFunction implements Cloneable, Function {
     }
 
     public final double getParameter(final int parameterIndex) {
-        if (parameterIndex >= parameters.length || parameterIndex < 0)
+        if (parameterIndex >= this.parameters.length || parameterIndex < 0)
             throw new IllegalArgumentException("parameterIndex out of range");
         return this.parameters[parameterIndex];
     }

@@ -189,7 +189,7 @@ public class DoolittleLuDecomposition<M extends Matrix<M, F>, F extends OrderedA
      */
     @Override
     public int[] getPivot() {
-        return Arrays.copyOf(pivot, this.getHeight());
+        return Arrays.copyOf(this.pivot, this.getHeight());
     }
 
     /**

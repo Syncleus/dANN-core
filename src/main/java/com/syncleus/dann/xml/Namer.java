@@ -26,22 +26,22 @@ public class Namer<K> {
     private final WeakHashMap<K, Long> nodeNames = new WeakHashMap<K, Long>();
 
     public String getNameOrCreate(final K node) {
-        Long nodeName = nodeNames.get(node);
+        Long nodeName = this.nodeNames.get(node);
 
         if (nodeName == null) {
-            nodeName = currentNodeName.incrementAndGet();
-            nodeNames.put(node, nodeName);
+            nodeName = this.currentNodeName.incrementAndGet();
+            this.nodeNames.put(node, nodeName);
         }
 
         return nodeName.toString();
     }
 
     public String getName(final K node) {
-        return nodeNames.get(node).toString();
+        return this.nodeNames.get(node).toString();
     }
 
     public boolean hasName(final K node) {
-        return nodeNames.containsKey(node);
+        return this.nodeNames.containsKey(node);
     }
 
     public void reset() {

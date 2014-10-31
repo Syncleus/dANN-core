@@ -52,7 +52,7 @@ public class PrimMinimumSpanningTreeFinder<N, E extends Edge<N>> implements Root
 
     @Override
     public Set<E> findMinimumSpanningTree(final Graph<N, E> graph, final N startNode) {
-        return primCalculate(graph, startNode);
+        return this.primCalculate(graph, startNode);
     }
 
     private Set<E> primCalculate(final Graph<N, E> graph, final N startNode) {
@@ -96,20 +96,20 @@ public class PrimMinimumSpanningTreeFinder<N, E extends Edge<N>> implements Root
         private final Queue<Map.Entry<N, E>> weightedNodes = new PriorityQueue<Map.Entry<N, E>>(10, new EntryCompare());
 
         public void resort() {
-            weightedNodes.clear();
+            this.weightedNodes.clear();
             for (final Map.Entry<N, E> entry : this.entrySet())
-                weightedNodes.add(entry);
+                this.weightedNodes.add(entry);
         }
 
         public double getWeight(final N node) {
             final E edge = this.get(node);
-            return edgeToWeight(edge);
+            return this.edgeToWeight(edge);
         }
 
         public boolean isLess(final N node, final E edge) {
             if (edge == null)
                 throw new IllegalArgumentException("edge can not be null");
-            return edgeToWeight(edge) < getWeight(node);
+            return this.edgeToWeight(edge) < this.getWeight(node);
         }
 
         private double edgeToWeight(final E edge) {
@@ -122,7 +122,7 @@ public class PrimMinimumSpanningTreeFinder<N, E extends Edge<N>> implements Root
         }
 
         public Map.Entry<N, E> pop() {
-            final Map.Entry<N, E> poped = weightedNodes.poll();
+            final Map.Entry<N, E> poped = this.weightedNodes.poll();
             if (poped != null)
                 this.remove(poped.getKey());
             return poped;

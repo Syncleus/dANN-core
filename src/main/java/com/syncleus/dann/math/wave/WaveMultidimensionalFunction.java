@@ -175,6 +175,6 @@ public class WaveMultidimensionalFunction extends AbstractFunction {
     }
 
     public String[] getDimensionNames() {
-        return dimensionNames.clone();
+        return this.dimensionNames.clone();
     }
 }

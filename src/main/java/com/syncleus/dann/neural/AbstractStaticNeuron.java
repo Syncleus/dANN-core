@@ -29,8 +29,8 @@ public abstract class AbstractStaticNeuron extends AbstractNeuron {
 
     @Override
     public void tick() {
-        for (final Synapse<Neuron> current : getBrain().getTraversableEdges(this)) {
-            current.setInput(output);
+        for (final Synapse<Neuron> current : this.getBrain().getTraversableEdges(this)) {
+            current.setInput(this.output);
         }
     }
 

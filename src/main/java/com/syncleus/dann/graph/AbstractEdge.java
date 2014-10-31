@@ -82,7 +82,7 @@ public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<
         final List<N> newNodes = new ArrayList<N>(this.nodes);
         newNodes.add(node);
 
-        return createDeepCopy(newNodes);
+        return this.createDeepCopy(newNodes);
     }
 
     protected AbstractEdge<N> add(final List<N> addNodes) {
@@ -91,7 +91,7 @@ public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<
         final List<N> newNodes = new ArrayList<N>(this.nodes);
         newNodes.addAll(addNodes);
 
-        return createDeepCopy(newNodes);
+        return this.createDeepCopy(newNodes);
     }
 
     protected AbstractEdge<N> remove(final N node) {
@@ -103,7 +103,7 @@ public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<
         final List<N> newNodes = new ArrayList<N>(this.nodes);
         newNodes.remove(node);
 
-        return createDeepCopy(newNodes);
+        return this.createDeepCopy(newNodes);
     }
 
     protected AbstractEdge<N> remove(final List<N> removeNodes) {
@@ -115,7 +115,7 @@ public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<
         for (final N node : removeNodes)
             newNodes.remove(node);
 
-        return createDeepCopy(newNodes);
+        return this.createDeepCopy(newNodes);
     }
 
     /**

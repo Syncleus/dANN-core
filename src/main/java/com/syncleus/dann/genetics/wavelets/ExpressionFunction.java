@@ -56,7 +56,7 @@ public class ExpressionFunction implements Cloneable {
 
         this.receptors.add(initialInput);
 
-        final WaveMultidimensionalFunction initialWave = generateNewWave();
+        final WaveMultidimensionalFunction initialWave = this.generateNewWave();
         this.waves.add(initialWave);
     }
 

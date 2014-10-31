@@ -179,7 +179,7 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
      */
     @Override
     public final Vector getBestMatchingUnit() {
-        return getBestMatchingUnit(true);
+        return this.getBestMatchingUnit(true);
     }
 
     /**
@@ -194,7 +194,7 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
     @Override
     public final Vector getBestMatchingUnit(final boolean train) {
         //make sure we have at least one output
-        if (outputs.size() <= 0)
+        if (this.outputs.size() <= 0)
             throw new IllegalStateException("Must have at least one output");
 
         Vector bestMatchingUnit = null;
@@ -444,7 +444,7 @@ public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends Som
         public void run() {
             final double currentDistance = this.neuronPoint.calculateRelativeTo(this.bestMatchPoint).getDistance();
             if (currentDistance < this.neighborhoodRadius) {
-                final double neighborhoodAdjustment = neighborhoodFunction(currentDistance);
+                final double neighborhoodAdjustment = AbstractSomBrain.this.neighborhoodFunction(currentDistance);
                 this.neuron.train(this.learningRate, neighborhoodAdjustment);
             }
         }

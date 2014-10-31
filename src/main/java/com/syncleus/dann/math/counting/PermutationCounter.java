@@ -39,7 +39,7 @@ public class PermutationCounter extends AbstractPermutationCounter {
     public PermutationCounter(final int setSize, final int permutationSize) {
         super(setSize, permutationSize);
 
-        reset();
+        this.reset();
     }
 
     /**
@@ -55,7 +55,7 @@ public class PermutationCounter extends AbstractPermutationCounter {
             j--;
         // Find index k such that permutation[k] is smallest integer
         // greater than permutation[j] to the right of permutation[j]
-        int k = getPermutation().length - 1;
+        int k = this.getPermutation().length - 1;
         while (perm[j] > perm[k])
             k--;
         // Interchange permutation[j] and permutation[k]
@@ -63,7 +63,7 @@ public class PermutationCounter extends AbstractPermutationCounter {
         perm[k] = perm[j];
         perm[j] = temp;
         // Put tail end of permutation after jth position in increasing order
-        int r = getPermutation().length - 1;
+        int r = this.getPermutation().length - 1;
         int s = j + 1;
         while (r > s) {
             temp = perm[s];

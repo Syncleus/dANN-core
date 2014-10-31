@@ -40,11 +40,11 @@ public class ComponentUnavailableException extends Exception {
     public JComponent newPanel() {
         JComponent component;
 
-        if (unsatisfiedLinkError == null) {
+        if (this.unsatisfiedLinkError == null) {
             component = new JLabel(this.toString());
         }
         else {
-            if (unsatisfiedLinkError.getMessage().contains("j3d")) {
+            if (this.unsatisfiedLinkError.getMessage().contains("j3d")) {
                 final JPanel panel = new JPanel(new BorderLayout());
                 final StringBuilder msg = new StringBuilder(
                                                                    "<html> <span style=\"font-size: 20pt\"><b>"
@@ -65,7 +65,7 @@ public class ComponentUnavailableException extends Exception {
                 component = panel;
             }
             else {
-                component = new JLabel(unsatisfiedLinkError.toString());
+                component = new JLabel(this.unsatisfiedLinkError.toString());
             }
         }
 

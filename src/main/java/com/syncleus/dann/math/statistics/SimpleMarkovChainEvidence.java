@@ -58,7 +58,7 @@ public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S> {
     @Override
     public void learnStep(final S state) {
         //update the evidence
-        learnFromMemory(this.history, state);
+        this.learnFromMemory(this.history, state);
 
         //if there is an arbitrary starting place update the evidence for the
         //various sub-states of shorter order
@@ -66,7 +66,7 @@ public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S> {
             final ArrayDeque<S> trainingMemory = new ArrayDeque<S>(this.history);
             while (trainingMemory.size() > 1) {
                 trainingMemory.poll();
-                learnFromMemory(trainingMemory, state);
+                this.learnFromMemory(trainingMemory, state);
             }
         }
 
@@ -120,7 +120,7 @@ public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S> {
             Integer count = this.stateCount.get(state);
             if (count == null)
                 count = 0;
-            return count.doubleValue() / ((double) totalEvidence);
+            return count.doubleValue() / ((double) this.totalEvidence);
         }
 
         public Map<S, Double> probabilities() {

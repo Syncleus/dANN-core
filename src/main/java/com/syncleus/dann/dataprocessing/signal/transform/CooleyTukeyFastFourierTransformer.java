@@ -177,14 +177,14 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 
     @Override
     public DiscreteFourierTransform transform(final double[] signal) {
-        final double[] signalPadded = pad(signal);
+        final double[] signalPadded = this.pad(signal);
         final ComplexNumber[] frequencyDomain = transformMatrix(doubleArrayToComplexArray(signalPadded));
         return new DiscreteFourierTransform(frequencyDomain, this.bitRate);
     }
 
     @Override
     public double[] inverseTransform(final DiscreteFourierTransform transform) {
-        final ComplexNumber[] complexSignal = inverseTransformMatrix(pad(transform.getTransform()));
+        final ComplexNumber[] complexSignal = inverseTransformMatrix(this.pad(transform.getTransform()));
         return complexArrayToDoubleArray(complexSignal);
     }
 
@@ -195,8 +195,8 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
      */
     @Override
     public double[] circularConvolve(final double[] first, final double[] second) {
-        final ComplexNumber[] firstComplex = pad(doubleArrayToComplexArray(first));
-        final ComplexNumber[] secondComplex = pad(doubleArrayToComplexArray(second));
+        final ComplexNumber[] firstComplex = this.pad(doubleArrayToComplexArray(first));
+        final ComplexNumber[] secondComplex = this.pad(doubleArrayToComplexArray(second));
 
         final ComplexNumber[] resultComplex = circularConvolveMatrix(firstComplex, secondComplex);
         return complexArrayToDoubleArray(resultComplex);
@@ -204,8 +204,8 @@ public class CooleyTukeyFastFourierTransformer implements FastFourierTransformer
 
     @Override
     public double[] linearConvolve(final double[] first, final double[] second) {
-        final ComplexNumber[] firstComplex = pad(doubleArrayToComplexArray(first));
-        final ComplexNumber[] secondComplex = pad(doubleArrayToComplexArray(second));
+        final ComplexNumber[] firstComplex = this.pad(doubleArrayToComplexArray(first));
+        final ComplexNumber[] secondComplex = this.pad(doubleArrayToComplexArray(second));
 
         final ComplexNumber[] resultComplex = linearConvolveMatrix(firstComplex, secondComplex);
         return complexArrayToDoubleArray(resultComplex);

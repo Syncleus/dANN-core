@@ -86,12 +86,12 @@ public abstract class AbstractOutputBackpropNeuron extends AbstractBackpropNeuro
     @Override
     protected void calculateDeltaTrain() {
         double newDeltaTrain = 0.0;
-        for (final Synapse currentSynapse : getBrain().getTraversableEdges(this)) {
-            newDeltaTrain += currentSynapse.getWeight() * getDeltaTrainDestinations().get(currentSynapse);
+        for (final Synapse currentSynapse : this.getBrain().getTraversableEdges(this)) {
+            newDeltaTrain += currentSynapse.getWeight() * this.getDeltaTrainDestinations().get(currentSynapse);
         }
-        newDeltaTrain += desired - getOutput();
-        newDeltaTrain *= activateDerivitive();
-        setDeltaTrain(newDeltaTrain);
+        newDeltaTrain += this.desired - this.getOutput();
+        newDeltaTrain *= this.activateDerivitive();
+        this.setDeltaTrain(newDeltaTrain);
     }
 
     @Override
