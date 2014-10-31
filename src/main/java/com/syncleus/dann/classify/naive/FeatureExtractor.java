@@ -22,16 +22,17 @@ import java.util.Set;
 
 /**
  * Extracts a series of features from a given item.
+ *
  * @param <F> The type of feature
  * @param <I> The type of item
  * @author Jeffrey Phillips Freeman
  */
-public interface FeatureExtractor<F, I>
-{
-	/**
-	 * Gets the list of features for a given item.
-	 * @param item The item
-	 * @return The set of features for this item
-	 */
-	Set<F> getFeatures(I item);
+public interface FeatureExtractor<F, I> {
+    /**
+     * Gets the list of features for a given item.
+     *
+     * @param item The item
+     * @return The set of features for this item
+     */
+    Set<F> getFeatures(I item);
 }

@@ -18,19 +18,25 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.drawing;
 
-import java.util.Map;
 import com.syncleus.dann.graph.Graph;
 import com.syncleus.dann.math.Vector;
 
+import java.util.Map;
+
 // TODO use optimizer approach
 
-public interface GraphDrawer<G extends Graph<N, ?>, N>
-{
-	G getGraph();
-	boolean isAlignable();
-	boolean isAligned();
-	void align();
-	int getDimensions();
-	Map<N, Vector> getCoordinates();
-	void reset();
+public interface GraphDrawer<G extends Graph<N, ?>, N> {
+    G getGraph();
+
+    boolean isAlignable();
+
+    boolean isAligned();
+
+    void align();
+
+    int getDimensions();
+
+    Map<N, Vector> getCoordinates();
+
+    void reset();
 }

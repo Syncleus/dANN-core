@@ -18,144 +18,132 @@
  ******************************************************************************/
 package com.syncleus.dann.neural;
 
-import java.util.List;
-import java.util.Random;
 import com.syncleus.dann.graph.AbstractDirectedEdge;
 
-public abstract class AbstractSynapse<N> extends AbstractDirectedEdge<N> implements Synapse<N>
-{
-	private static final long serialVersionUID = -7939448149356677295L;
-	/**
-	 * The current weight of the synapse.
-	 *
-	 * @since 1.0
-	 */
-	private double weight;
-	/**
-	 * The current input from the synapse.
-	 *
-	 * @since 1.0
-	 */
-	private double input;
-	private static final Random RANDOM = new Random();
+import java.util.*;
 
-	/**
-	 * Creates a new instance of AbstractSynapse.
-	 *
-	 * @param sourceToSet The incoming neuron connection.
-	 * @param destinationToSet The outgoing neuron connection.
-	 * @param initialWeight The initial weight of the synapse
-	 * @since 1.0
-	 */
-	protected AbstractSynapse(final N sourceToSet, final N destinationToSet, final double initialWeight)
-	{
-		super(sourceToSet, destinationToSet);
-		this.weight = initialWeight;
-	}
+public abstract class AbstractSynapse<N> extends AbstractDirectedEdge<N> implements Synapse<N> {
+    private static final long serialVersionUID = -7939448149356677295L;
+    private static final Random RANDOM = new Random();
+    /**
+     * The current weight of the synapse.
+     *
+     * @since 1.0
+     */
+    private double weight;
+    /**
+     * The current input from the synapse.
+     *
+     * @since 1.0
+     */
+    private double input;
 
-	/**
-	 * Creates a new instance of AbstractSynapse.
-	 *
-	 * @param sourceToSet The incoming neuron connection.
-	 * @param destinationToSet The outgoing neuron connection.
-	 * @since 1.0
-	 */
-	protected AbstractSynapse(final N sourceToSet, final N destinationToSet)
-	{
-		super(sourceToSet, destinationToSet);
-		this.weight = ((RANDOM.nextDouble() * 2.0) - 1.0) / 10000.0;
-	}
+    /**
+     * Creates a new instance of AbstractSynapse.
+     *
+     * @param sourceToSet      The incoming neuron connection.
+     * @param destinationToSet The outgoing neuron connection.
+     * @param initialWeight    The initial weight of the synapse
+     * @since 1.0
+     */
+    protected AbstractSynapse(final N sourceToSet, final N destinationToSet, final double initialWeight) {
+        super(sourceToSet, destinationToSet);
+        this.weight = initialWeight;
+    }
 
-	/**
-	 * Creates a new instance of AbstractSynapse.
-	 *
-	 * @param sourceToSet The incoming neuron connection.
-	 * @param destinationToSet The outgoing neuron connection.
-	 * @param initialWeight The initial weight of the synapse
-	 * @since 1.0
-	 */
-	protected AbstractSynapse(final N sourceToSet, final N destinationToSet, final double initialWeight, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
-	{
-		super(sourceToSet, destinationToSet, allowJoiningMultipleGraphs, contextEnabled);
-		this.weight = initialWeight;
-	}
+    /**
+     * Creates a new instance of AbstractSynapse.
+     *
+     * @param sourceToSet      The incoming neuron connection.
+     * @param destinationToSet The outgoing neuron connection.
+     * @since 1.0
+     */
+    protected AbstractSynapse(final N sourceToSet, final N destinationToSet) {
+        super(sourceToSet, destinationToSet);
+        this.weight = ((RANDOM.nextDouble() * 2.0) - 1.0) / 10000.0;
+    }
 
-	/**
-	 * Creates a new instance of AbstractSynapse.
-	 *
-	 * @param sourceToSet The incoming neuron connection.
-	 * @param destinationToSet The outgoing neuron connection.
-	 * @since 1.0
-	 */
-	protected AbstractSynapse(final N sourceToSet, final N destinationToSet, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
-	{
-		super(sourceToSet, destinationToSet, allowJoiningMultipleGraphs, contextEnabled);
-		this.weight = ((RANDOM.nextDouble() * 2.0) - 1.0) / 10000.0;
-	}
+    /**
+     * Creates a new instance of AbstractSynapse.
+     *
+     * @param sourceToSet      The incoming neuron connection.
+     * @param destinationToSet The outgoing neuron connection.
+     * @param initialWeight    The initial weight of the synapse
+     * @since 1.0
+     */
+    protected AbstractSynapse(final N sourceToSet, final N destinationToSet, final double initialWeight, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled) {
+        super(sourceToSet, destinationToSet, allowJoiningMultipleGraphs, contextEnabled);
+        this.weight = initialWeight;
+    }
 
-	/**
-	 * Set the current input for the synapse.
-	 *
-	 * @param newInput The new input value to set.
-	 * @since 1.0
-	 */
-	@Override
-	public void setInput(final double newInput)
-	{
-		this.input = newInput;
-	}
+    /**
+     * Creates a new instance of AbstractSynapse.
+     *
+     * @param sourceToSet      The incoming neuron connection.
+     * @param destinationToSet The outgoing neuron connection.
+     * @since 1.0
+     */
+    protected AbstractSynapse(final N sourceToSet, final N destinationToSet, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled) {
+        super(sourceToSet, destinationToSet, allowJoiningMultipleGraphs, contextEnabled);
+        this.weight = ((RANDOM.nextDouble() * 2.0) - 1.0) / 10000.0;
+    }
 
-	/**
-	 * Set the weight of the synapse.
-	 *
-	 * @param newWeight new weight for the synapse.
-	 * @since 1.0
-	 */
-	@Override
-	public void setWeight(final double newWeight)
-	{
-		this.weight = newWeight;
-	}
+    /**
+     * Get the weight of the synapse.
+     *
+     * @return The current weight of the synapse.
+     * @since 1.0
+     */
+    @Override
+    public double getWeight() {
+        return this.weight;
+    }
 
-	/**
-	 * Get the weight of the synapse.
-	 *
-	 * @return The current weight of the synapse.
-	 * @since 1.0
-	 */
-	@Override
-	public double getWeight()
-	{
-		return this.weight;
-	}
+    /**
+     * Set the weight of the synapse.
+     *
+     * @param newWeight new weight for the synapse.
+     * @since 1.0
+     */
+    @Override
+    public void setWeight(final double newWeight) {
+        this.weight = newWeight;
+    }
 
-	/**
-	 * Get the current input of the synapse.
-	 *
-	 * @return The current input of the synapse.
-	 * @since 1.0
-	 */
-	@Override
-	public double getInput()
-	{
-		return this.input;
-	}
+    /**
+     * Get the current input of the synapse.
+     *
+     * @return The current input of the synapse.
+     * @since 1.0
+     */
+    @Override
+    public double getInput() {
+        return this.input;
+    }
 
-	@Override
-	public AbstractSynapse<N> disconnect(final N node)
-	{
-		return (AbstractSynapse<N>) super.disconnect(node);
-	}
+    /**
+     * Set the current input for the synapse.
+     *
+     * @param newInput The new input value to set.
+     * @since 1.0
+     */
+    @Override
+    public void setInput(final double newInput) {
+        this.input = newInput;
+    }
 
-	@Override
-	public AbstractSynapse<N> disconnect(final List<N> nodes)
-	{
-		return (AbstractSynapse<N>) super.disconnect(nodes);
-	}
+    @Override
+    public AbstractSynapse<N> disconnect(final N node) {
+        return (AbstractSynapse<N>) super.disconnect(node);
+    }
 
-	@Override
-	public AbstractSynapse<N> clone()
-	{
-		return (AbstractSynapse<N>) super.clone();
-	}
+    @Override
+    public AbstractSynapse<N> disconnect(final List<N> nodes) {
+        return (AbstractSynapse<N>) super.disconnect(nodes);
+    }
+
+    @Override
+    public AbstractSynapse<N> clone() {
+        return (AbstractSynapse<N>) super.clone();
+    }
 }

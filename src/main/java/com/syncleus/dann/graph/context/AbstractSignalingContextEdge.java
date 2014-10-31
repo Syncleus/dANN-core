@@ -20,34 +20,29 @@ package com.syncleus.dann.graph.context;
 
 import com.syncleus.dann.graph.Graph;
 
-public abstract class AbstractSignalingContextEdge<N, S> extends AbstractContextGraphElement<Graph<N, ?>> implements SignalingContextEdge<N, S>
-{
-	protected AbstractSignalingContextEdge(final boolean allowJoiningMultipleGraphs)
-	{
-		super(allowJoiningMultipleGraphs);
-	}
+public abstract class AbstractSignalingContextEdge<N, S> extends AbstractContextGraphElement<Graph<N, ?>> implements SignalingContextEdge<N, S> {
+    protected AbstractSignalingContextEdge(final boolean allowJoiningMultipleGraphs) {
+        super(allowJoiningMultipleGraphs);
+    }
 
-	protected AbstractSignalingContextEdge()
-	{
-		super(true);
-	}
+    protected AbstractSignalingContextEdge() {
+        super(true);
+    }
 
-	/**
-	 * This method will retransmit the state to all traversable nodes even if context is disabled.
-	 */
-	@Override
-	public void nodeStateChanged(final N node, final S newState)
-	{
-		if( !this.getNodes().contains(node) )
-			throw new IllegalArgumentException("node is not an endpoint of this edge");
+    /**
+     * This method will retransmit the state to all traversable nodes even if context is disabled.
+     */
+    @Override
+    public void nodeStateChanged(final N node, final S newState) {
+        if (!this.getNodes().contains(node))
+            throw new IllegalArgumentException("node is not an endpoint of this edge");
 
-		for(N traversableNode : this.getTraversableNodes(node))
-		{
-			if( traversableNode instanceof SignalContextNode)
-				((SignalContextNode)traversableNode).neighborNodeStateChanged(this, node, newState);
-		}
-	}
+        for (N traversableNode : this.getTraversableNodes(node)) {
+            if (traversableNode instanceof SignalContextNode)
+                ((SignalContextNode) traversableNode).neighborNodeStateChanged(this, node, newState);
+        }
+    }
 
-	@Override
-	public abstract AbstractSignalingContextEdge<N, S> clone();
+    @Override
+    public abstract AbstractSignalingContextEdge<N, S> clone();
 }

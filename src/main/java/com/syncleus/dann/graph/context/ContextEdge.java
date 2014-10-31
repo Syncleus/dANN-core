@@ -18,11 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.context;
 
-import com.syncleus.dann.graph.Edge;
-import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.*;
 
-public interface ContextEdge<N, E extends Edge<N>, G extends Graph<N, E>> extends Edge<N>
-{
-	void nodeJoiningGraph(G graph, N node);
-	void nodeLeavingGraph(G graph, N node);
+public interface ContextEdge<N, E extends Edge<N>, G extends Graph<N, E>> extends Edge<N> {
+    void nodeJoiningGraph(G graph, N node);
+
+    void nodeLeavingGraph(G graph, N node);
 }

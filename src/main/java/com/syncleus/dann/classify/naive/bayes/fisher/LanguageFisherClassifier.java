@@ -22,9 +22,9 @@ import com.syncleus.dann.classify.naive.bayes.LanguageNaiveBayesClassifier;
 
 /**
  * A LanguageFisherClassifier is a FisherClassifier for words.
+ *
  * @param <C> The categories to place words in
  * @author Jeffrey Phillips Freeman
  */
-public interface LanguageFisherClassifier<C> extends FisherClassifier<String, String, C>, LanguageNaiveBayesClassifier<C>
-{
+public interface LanguageFisherClassifier<C> extends FisherClassifier<String, String, C>, LanguageNaiveBayesClassifier<C> {
 }

@@ -23,21 +23,23 @@ import com.syncleus.dann.math.linear.Matrix;
 
 /**
  * QR Decomposition.
- *
+ * <p/>
  * For an m-by-n matrix matrixToDecompose with m &gt;= n, the QR decomposition is
  * an m-by-n orthogonal matrix factor and an n-by-n upper triangular matrix
  * factor so that matrixToDecompose = factor*factor.
- *
+ * <p/>
  * The QR decompostion always exists, even if the matrix does not have full
  * rank, so the constructor will never fail.  The primary use of the QR
  * decomposition is in the least squares solution of nonsquare systems of
  * simultaneous linear equations.  This will fail if isFullRank() returns
  * false.
  */
-public interface QrDecomposition<M extends Matrix<M, F>, F extends OrderedAlgebraic<F>> extends SolvableDecomposition<M>
-{
-	M getHouseholderMatrix();
-	M getOrthogonalFactor();
-	M getUpperTriangularFactor();
-	boolean isFullRank();
+public interface QrDecomposition<M extends Matrix<M, F>, F extends OrderedAlgebraic<F>> extends SolvableDecomposition<M> {
+    M getHouseholderMatrix();
+
+    M getOrthogonalFactor();
+
+    M getUpperTriangularFactor();
+
+    boolean isFullRank();
 }

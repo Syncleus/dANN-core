@@ -20,43 +20,36 @@ package com.syncleus.dann.graph;
 
 import java.util.List;
 
-public abstract class AbstractWeightedEdge<N> extends AbstractEdge<N> implements WeightedEdge<N>
-{
-	private final double weight;
+public abstract class AbstractWeightedEdge<N> extends AbstractEdge<N> implements WeightedEdge<N> {
+    private final double weight;
 
-	protected AbstractWeightedEdge(final double weight)
-	{
-		super();
-		this.weight = weight;
-	}
+    protected AbstractWeightedEdge(final double weight) {
+        super();
+        this.weight = weight;
+    }
 
-	protected AbstractWeightedEdge(final double weight, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
-	{
-		super(allowJoiningMultipleGraphs, contextEnabled);
-		this.weight = weight;
-	}
+    protected AbstractWeightedEdge(final double weight, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled) {
+        super(allowJoiningMultipleGraphs, contextEnabled);
+        this.weight = weight;
+    }
 
-	protected AbstractWeightedEdge(final List<N> nodes, final double ourWEight)
-	{
-		super(nodes);
-		this.weight = ourWEight;
-	}
+    protected AbstractWeightedEdge(final List<N> nodes, final double ourWEight) {
+        super(nodes);
+        this.weight = ourWEight;
+    }
 
-	protected AbstractWeightedEdge(final double ourWeight, final N... nodes)
-	{
-		super(nodes);
-		this.weight = ourWeight;
-	}
+    protected AbstractWeightedEdge(final double ourWeight, final N... nodes) {
+        super(nodes);
+        this.weight = ourWeight;
+    }
 
-	@Override
-	public double getWeight()
-	{
-		return this.weight;
-	}
+    @Override
+    public double getWeight() {
+        return this.weight;
+    }
 
-	@Override
-	public AbstractWeightedEdge<N> clone()
-	{
-		return (AbstractWeightedEdge<N>) super.clone();
-	}
+    @Override
+    public AbstractWeightedEdge<N> clone() {
+        return (AbstractWeightedEdge<N>) super.clone();
+    }
 }

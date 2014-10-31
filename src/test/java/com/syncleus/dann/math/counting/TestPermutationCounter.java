@@ -20,21 +20,19 @@ package com.syncleus.dann.math.counting;
 
 import org.junit.*;
 
-public class TestPermutationCounter
-{
-	@Test
-	public void testPermutationCount()
-	{
-		Counter generator = new PermutationCounter(3, 2);
-		Assert.assertTrue("Generator produced incorrect number of permutations, expected 6, received: " + generator.getTotal(), generator.getTotal().intValue() == 6);
+public class TestPermutationCounter {
+    @Test
+    public void testPermutationCount() {
+        Counter generator = new PermutationCounter(3, 2);
+        Assert.assertTrue("Generator produced incorrect number of permutations, expected 6, received: " + generator.getTotal(), generator.getTotal().intValue() == 6);
 
-		generator = new PermutationCounter(3, 3);
-		Assert.assertTrue("Generator produced incorrect number of permutations, expected 6, received: " + generator.getTotal(), generator.getTotal().intValue() == 6);
+        generator = new PermutationCounter(3, 3);
+        Assert.assertTrue("Generator produced incorrect number of permutations, expected 6, received: " + generator.getTotal(), generator.getTotal().intValue() == 6);
 
-		generator = new PermutationCounter(3, 0);
-		Assert.assertTrue("Generator produced incorrect number of permutations, expected 0, received: " + generator.getTotal(), generator.getTotal().intValue() == 0);
+        generator = new PermutationCounter(3, 0);
+        Assert.assertTrue("Generator produced incorrect number of permutations, expected 0, received: " + generator.getTotal(), generator.getTotal().intValue() == 0);
 
-		generator = new PermutationCounter(0, 0);
-		Assert.assertTrue("Generator produced incorrect number of permutations, expected 0, received: " + generator.getTotal(), generator.getTotal().intValue() == 0);
-	}
+        generator = new PermutationCounter(0, 0);
+        Assert.assertTrue("Generator produced incorrect number of permutations, expected 0, received: " + generator.getTotal(), generator.getTotal().intValue() == 0);
+    }
 }

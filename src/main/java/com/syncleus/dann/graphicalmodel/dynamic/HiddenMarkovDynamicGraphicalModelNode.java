@@ -20,15 +20,12 @@ package com.syncleus.dann.graphicalmodel.dynamic;
 
 import java.util.Collections;
 
-public class HiddenMarkovDynamicGraphicalModelNode<S> extends SimpleDynamicGraphicalModelNode<S>
-{
-	public HiddenMarkovDynamicGraphicalModelNode(final S initialState)
-	{
-		super(0, initialState);
-	}
+public class HiddenMarkovDynamicGraphicalModelNode<S> extends SimpleDynamicGraphicalModelNode<S> {
+    public HiddenMarkovDynamicGraphicalModelNode(final S initialState) {
+        super(0, initialState);
+    }
 
-	public HiddenMarkovDynamicGraphicalModelNode(final S lastState, final S initialState)
-	{
-		super(Collections.singletonList(lastState), initialState);
-	}
+    public HiddenMarkovDynamicGraphicalModelNode(final S lastState, final S initialState) {
+        super(Collections.singletonList(lastState), initialState);
+    }
 }

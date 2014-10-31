@@ -24,37 +24,36 @@ package com.syncleus.dann.graph;
  *
  * @since 2.0
  */
-public interface HyperGraph<N, E extends HyperEdge<N>> extends Graph<N, E>
-{
-	/**
-	 * True if this graph enforces its edges to have a maximum rank.
-	 *
-	 * @since 2.0
-	 * @return true if there is a maximum allowable rank for this graph, false otherwise.
-	 */
-	boolean hasMaximumAllowableRank();
+public interface HyperGraph<N, E extends HyperEdge<N>> extends Graph<N, E> {
+    /**
+     * True if this graph enforces its edges to have a maximum rank.
+     *
+     * @return true if there is a maximum allowable rank for this graph, false otherwise.
+     * @since 2.0
+     */
+    boolean hasMaximumAllowableRank();
 
-	/**
-	 * Returns the maximum allowable rank for each edge, -1 if there is no limit.
-	 *
-	 * @return the maximum allowable rank for each edge, -1 if there is no limit.
-	 * @since 2.0
-	 */
-	int getMaximumAllowableRank();
+    /**
+     * Returns the maximum allowable rank for each edge, -1 if there is no limit.
+     *
+     * @return the maximum allowable rank for each edge, -1 if there is no limit.
+     * @since 2.0
+     */
+    int getMaximumAllowableRank();
 
-	/**
-	 * True if this graph enforces its edges to have a minimum rank.
-	 *
-	 * @return true if there is a minimum allowable rank for this graph, false otherwise.
-	 * @since 2.0
-	 */
-	boolean hasMinimumAllowableRank();
+    /**
+     * True if this graph enforces its edges to have a minimum rank.
+     *
+     * @return true if there is a minimum allowable rank for this graph, false otherwise.
+     * @since 2.0
+     */
+    boolean hasMinimumAllowableRank();
 
-	/**
-	 * Returns the minimum allowable rank for each edge, -1 if there is no limit.
-	 *
-	 * @return the maximum allowable rank for each edge, -1 if there is no limit.
-	 * @since 2.0
-	 */
-	int getMinimumAllowableRank();
+    /**
+     * Returns the minimum allowable rank for each edge, -1 if there is no limit.
+     *
+     * @return the maximum allowable rank for each edge, -1 if there is no limit.
+     * @since 2.0
+     */
+    int getMinimumAllowableRank();
 }

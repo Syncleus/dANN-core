@@ -25,24 +25,26 @@ import com.syncleus.dann.classify.naive.bayes.NaiveBayesClassifier;
  * NaiveBayesClassifier does.
  * However, if a category does not exceed the given minimum level for the
  * category, it is not returned as a result of getCategory() calls.
+ *
  * @param <I> The type of item to classify
  * @param <F> The type of feature to use
  * @param <C> The type of classification to use
  * @author Jeffrey Phillips Freeman
  */
-public interface FisherClassifier<I, F, C> extends NaiveBayesClassifier<I, F, C>
-{
-	/**
-	 * Sets the minimum level for a given category.
-	 * @param category The category
-	 * @param minimum The minimum value.
-	 */
-	void setMinimum(C category, double minimum);
+public interface FisherClassifier<I, F, C> extends NaiveBayesClassifier<I, F, C> {
+    /**
+     * Sets the minimum level for a given category.
+     *
+     * @param category The category
+     * @param minimum  The minimum value.
+     */
+    void setMinimum(C category, double minimum);
 
-	/**
-	 * Gets the minimum level for a given category.
-	 * @param category The category
-	 * @return The minimum level for the given category
-	 */
-	double getMinimum(C category);
+    /**
+     * Gets the minimum level for a given category.
+     *
+     * @param category The category
+     * @return The minimum level for the given category
+     */
+    double getMinimum(C category);
 }

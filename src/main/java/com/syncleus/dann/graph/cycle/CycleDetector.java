@@ -18,10 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.cycle;
 
-import com.syncleus.dann.graph.Edge;
-import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.*;
 
-public interface CycleDetector
-{
-	<N, E extends Edge<N>> boolean hasCycle(Graph<N, E> graph);
+public interface CycleDetector {
+    <N, E extends Edge<N>> boolean hasCycle(Graph<N, E> graph);
 }

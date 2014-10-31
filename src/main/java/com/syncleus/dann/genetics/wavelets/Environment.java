@@ -19,6 +19,5 @@
 package com.syncleus.dann.genetics.wavelets;
 
 // TODO unused.. remove?
-public class Environment
-{
+public class Environment {
 }

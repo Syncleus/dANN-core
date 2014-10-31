@@ -18,48 +18,43 @@
  ******************************************************************************/
 package com.syncleus.dann.math.counting;
 
-public class LexicographicPermutationCounter extends AbstractPermutationCounter
-{
-	public LexicographicPermutationCounter(final int permutationSize)
-	{
-		this(permutationSize, permutationSize);
-	}
+public class LexicographicPermutationCounter extends AbstractPermutationCounter {
+    public LexicographicPermutationCounter(final int permutationSize) {
+        this(permutationSize, permutationSize);
+    }
 
-	public LexicographicPermutationCounter(final int setSize, final int permutationSize)
-	{
-		super(setSize, permutationSize);
+    public LexicographicPermutationCounter(final int setSize, final int permutationSize) {
+        super(setSize, permutationSize);
 
-		reset();
-	}
+        reset();
+    }
 
-	private static void swap(final int[] permutation, final int firstIndex, final int secondIndex)
-	{
-		final int first = permutation[firstIndex];
-		permutation[firstIndex] = permutation[secondIndex];
-		permutation[secondIndex] = first;
-	}
+    private static void swap(final int[] permutation, final int firstIndex, final int secondIndex) {
+        final int first = permutation[firstIndex];
+        permutation[firstIndex] = permutation[secondIndex];
+        permutation[secondIndex] = first;
+    }
 
-	@Override
-	protected boolean next()
-	{
-		final int[] perm = this.getPermutation();
+    @Override
+    protected boolean next() {
+        final int[] perm = this.getPermutation();
 
-		if( perm.length == 1 )
-			return false;
+        if (perm.length == 1)
+            return false;
 
-		int permutationIndex;
-		for(permutationIndex = perm.length - 2; permutationIndex >= 0; permutationIndex--)
-			if( perm[permutationIndex] < perm[permutationIndex + 1] )
-				break;
+        int permutationIndex;
+        for (permutationIndex = perm.length - 2; permutationIndex >= 0; permutationIndex--)
+            if (perm[permutationIndex] < perm[permutationIndex + 1])
+                break;
 
-		int swapIndex = perm.length - 1;
-		while( perm[permutationIndex] > perm[swapIndex] )
-			swapIndex--;
-		swap(perm, swapIndex, permutationIndex);
+        int swapIndex = perm.length - 1;
+        while (perm[permutationIndex] > perm[swapIndex])
+            swapIndex--;
+        swap(perm, swapIndex, permutationIndex);
 
-		for(int firstSwap = perm.length - 1, secondSwap = permutationIndex + 1; firstSwap > secondSwap; firstSwap--, secondSwap++)
-			swap(perm, firstSwap, secondSwap);
+        for (int firstSwap = perm.length - 1, secondSwap = permutationIndex + 1; firstSwap > secondSwap; firstSwap--, secondSwap++)
+            swap(perm, firstSwap, secondSwap);
 
-		return true;
-	}
+        return true;
+    }
 }

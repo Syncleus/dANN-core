@@ -18,39 +18,34 @@
  ******************************************************************************/
 package com.syncleus.dann.genetics.wavelets;
 
-import java.util.Random;
 import com.syncleus.dann.genetics.MutableDouble;
 
-public final class Mutations
-{
-	private static final Random RANDOM = new Random();
+import java.util.Random;
 
-	private Mutations()
-	{
-	}
+public final class Mutations {
+    private static final Random RANDOM = new Random();
 
-	public static double mutabilityMutation(final double mutability)
-	{
-		final double mutabilityMutation = new MutableDouble(0.0).mutate(mutability).doubleValue();
-		if( mutabilityMutation > 0 )
-			return mutability + mutabilityMutation;
-		else
-		{
-			double returnValue = mutability - (mutability * (1 - 1 / (Math.abs(mutabilityMutation) + 1)));
-			if( returnValue == 0.0 )
-				returnValue = Double.MIN_VALUE;
+    private Mutations() {
+    }
 
-			return returnValue;
-		}
-	}
+    public static double mutabilityMutation(final double mutability) {
+        final double mutabilityMutation = new MutableDouble(0.0).mutate(mutability).doubleValue();
+        if (mutabilityMutation > 0)
+            return mutability + mutabilityMutation;
+        else {
+            double returnValue = mutability - (mutability * (1 - 1 / (Math.abs(mutabilityMutation) + 1)));
+            if (returnValue == 0.0)
+                returnValue = Double.MIN_VALUE;
 
-	public static Random getRandom()
-	{
-		return RANDOM;
-	}
+            return returnValue;
+        }
+    }
 
-	public static boolean mutationEvent(final double mutability)
-	{
-		return (Mutations.getRandom().nextDouble() < Math.tanh(Math.abs(mutability)));
-	}
+    public static Random getRandom() {
+        return RANDOM;
+    }
+
+    public static boolean mutationEvent(final double mutability) {
+        return (Mutations.getRandom().nextDouble() < Math.tanh(Math.abs(mutability)));
+    }
 }

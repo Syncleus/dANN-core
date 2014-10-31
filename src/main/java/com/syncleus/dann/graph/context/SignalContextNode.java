@@ -20,8 +20,8 @@ package com.syncleus.dann.graph.context;
 
 import com.syncleus.dann.graph.Edge;
 
-public interface SignalContextNode<N, E extends Edge<N>, S>
-{
-	void neighborNodeStateChanged(E edge, N node, S newState);
-	S getState();
+public interface SignalContextNode<N, E extends Edge<N>, S> {
+    void neighborNodeStateChanged(E edge, N node, S newState);
+
+    S getState();
 }

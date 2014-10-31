@@ -22,35 +22,29 @@ import java.util.List;
 // TODO refine the verify and equals method to match a cycles definition of
 // unique. i.e. no repeat in nodes or edges, sequence matters but starting point doesnt.
 
-public abstract class AbstractCycle<N, E extends Edge<N>> extends AbstractWalk<N, E> implements Cycle<N, E>
-{
-	@Override
-	protected boolean verify(final List<N> nodeSteps, final List<E> edgeSteps)
-	{
-		return (super.verify(nodeSteps, edgeSteps)) && (com.syncleus.dann.graph.AbstractCycle.verifyUtility(nodeSteps, edgeSteps));
-	}
+public abstract class AbstractCycle<N, E extends Edge<N>> extends AbstractWalk<N, E> implements Cycle<N, E> {
+    static <N, E extends Edge<? extends N>> boolean verifyUtility(final List<N> nodeSteps, final List<E> edgeSteps) {
+        if (nodeSteps.size() < 2)
+            throw new IllegalArgumentException("Wrong number of nodes or steps");
+        return nodeSteps.get(0).equals(nodeSteps.get(nodeSteps.size() - 1));
+    }
 
-	static <N, E extends Edge<? extends N>> boolean verifyUtility(final List<N> nodeSteps, final List<E> edgeSteps)
-	{
-		if( nodeSteps.size() < 2 )
-			throw new IllegalArgumentException("Wrong number of nodes or steps");
-		return nodeSteps.get(0).equals(nodeSteps.get(nodeSteps.size() - 1));
-	}
+    static boolean isOddCycle(final Cycle cycle) {
+        return (cycle.getSteps().size() % 2 != 0);
+    }
 
-	@Override
-	public boolean isOddCycle()
-	{
-		return isOddCycle(this);
-	}
+    @Override
+    protected boolean verify(final List<N> nodeSteps, final List<E> edgeSteps) {
+        return (super.verify(nodeSteps, edgeSteps)) && (com.syncleus.dann.graph.AbstractCycle.verifyUtility(nodeSteps, edgeSteps));
+    }
 
-	static boolean isOddCycle(final Cycle cycle)
-	{
-		return (cycle.getSteps().size() % 2 != 0);
-	}
+    @Override
+    public boolean isOddCycle() {
+        return isOddCycle(this);
+    }
 
-	@Override
-	public boolean isCycle()
-	{
-		return true;
-	}
+    @Override
+    public boolean isCycle() {
+        return true;
+    }
 }

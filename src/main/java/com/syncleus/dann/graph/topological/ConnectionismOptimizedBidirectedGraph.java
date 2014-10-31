@@ -18,31 +18,30 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.topological;
 
-import com.syncleus.dann.graph.BidirectedEdge;
-import com.syncleus.dann.graph.BidirectedGraph;
+import com.syncleus.dann.graph.*;
 
-public interface ConnectionismOptimizedBidirectedGraph<N, E extends BidirectedEdge<N>> extends BidirectedGraph<N, E>
-{
-	/**
-	 * Count all edges which traverse from the specified node. While the
-	 * combination of out edges and in edges will usually result in all the
-	 * adjacent edges for a node this is not strictly required.
-	 *
-	 * @param node The source node the returned edges will traverse from.
-	 * @return count of all edges which traverse from the specified node.
-	 * @throws IllegalArgumentException if node does not exist in the graph.
-	 * @since 2.0
-	 */
-	int getOutdegree(N node);
-	/**
-	 * Count all edges which traverse to the specified node. While the combination
-	 * of out edges and in edges will usually result in all the adjacent edges for
-	 * a node this is not strictly required.
-	 *
-	 * @param node The destination node the edges counted will traverse to.
-	 * @return count of all edges which traverse to the specified node.
-	 * @throws IllegalArgumentException if node does not exist in the graph.
-	 * @since 2.0
-	 */
-	int getIndegree(N node);
+public interface ConnectionismOptimizedBidirectedGraph<N, E extends BidirectedEdge<N>> extends BidirectedGraph<N, E> {
+    /**
+     * Count all edges which traverse from the specified node. While the
+     * combination of out edges and in edges will usually result in all the
+     * adjacent edges for a node this is not strictly required.
+     *
+     * @param node The source node the returned edges will traverse from.
+     * @return count of all edges which traverse from the specified node.
+     * @throws IllegalArgumentException if node does not exist in the graph.
+     * @since 2.0
+     */
+    int getOutdegree(N node);
+
+    /**
+     * Count all edges which traverse to the specified node. While the combination
+     * of out edges and in edges will usually result in all the adjacent edges for
+     * a node this is not strictly required.
+     *
+     * @param node The destination node the edges counted will traverse to.
+     * @return count of all edges which traverse to the specified node.
+     * @throws IllegalArgumentException if node does not exist in the graph.
+     * @since 2.0
+     */
+    int getIndegree(N node);
 }

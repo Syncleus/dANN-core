@@ -18,13 +18,15 @@
  ******************************************************************************/
 package com.syncleus.dann.math.linear.decomposition;
 
-import java.util.List;
 import com.syncleus.dann.math.RealNumber;
 import com.syncleus.dann.math.linear.RealMatrix;
 
-public interface EigenvalueDecomposition extends Decomposition<RealMatrix>
-{
-	RealMatrix getBlockDiagonalMatrix();
-	List<RealNumber> getImaginaryEigenvalues();
-	List<RealNumber> getRealEigenvalues();
+import java.util.List;
+
+public interface EigenvalueDecomposition extends Decomposition<RealMatrix> {
+    RealMatrix getBlockDiagonalMatrix();
+
+    List<RealNumber> getImaginaryEigenvalues();
+
+    List<RealNumber> getRealEigenvalues();
 }

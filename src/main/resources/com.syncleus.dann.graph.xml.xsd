@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema
-        xmlns="http://127.0.0.1:8080/Aide/com/syncleus/dann/graph/xml"
         xmlns:dann="http://127.0.0.1:8080/Aide/com/syncleus/dann/xml"
         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
         xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
-        xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
-        xmlns:annox="http://annox.dev.java.net"
-        xmlns:anno="http://annox.dev.java.net/javax.xml.bind.annotation"
+        xmlns="http://127.0.0.1:8080/Aide/com/syncleus/dann/graph/xml"
         targetNamespace="http://127.0.0.1:8080/Aide/com/syncleus/dann/graph/xml"
         jaxb:version="2.0"
         jaxb:extensionBindingPrefixes="xjc annox"
         attributeFormDefault="unqualified"
         elementFormDefault="unqualified">
 
-    <xsd:import namespace="http://127.0.0.1:8080/Aide/com/syncleus/dann/xml" schemaLocation="com.syncleus.dann.xml.xsd"/>
+    <xsd:import namespace="http://127.0.0.1:8080/Aide/com/syncleus/dann/xml"
+                schemaLocation="com.syncleus.dann.xml.xsd"/>
 
     <!-- Global annotations -->
     <xsd:annotation>

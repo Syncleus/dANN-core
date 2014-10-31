@@ -20,35 +20,29 @@ package com.syncleus.dann.graph;
 
 import java.util.List;
 
-public final class ImmutableUndirectedEdge<N> extends AbstractUndirectedEdge<N>
-{
-	private static final long serialVersionUID = -1803274027851230L;
+public final class ImmutableUndirectedEdge<N> extends AbstractUndirectedEdge<N> {
+    private static final long serialVersionUID = -1803274027851230L;
 
-	public ImmutableUndirectedEdge(final N leftNode, final N rightNode)
-	{
-		super(leftNode, rightNode);
-	}
+    public ImmutableUndirectedEdge(final N leftNode, final N rightNode) {
+        super(leftNode, rightNode);
+    }
 
-	public ImmutableUndirectedEdge(final N leftNode, final N rightNode, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
-	{
-		super(leftNode, rightNode, allowJoiningMultipleGraphs, contextEnabled);
-	}
+    public ImmutableUndirectedEdge(final N leftNode, final N rightNode, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled) {
+        super(leftNode, rightNode, allowJoiningMultipleGraphs, contextEnabled);
+    }
 
-	@Override
-	public ImmutableUndirectedEdge<N> disconnect(final N node)
-	{
-		return (ImmutableUndirectedEdge<N>) super.disconnect(node);
-	}
+    @Override
+    public ImmutableUndirectedEdge<N> disconnect(final N node) {
+        return (ImmutableUndirectedEdge<N>) super.disconnect(node);
+    }
 
-	@Override
-	public ImmutableUndirectedEdge<N> disconnect(final List<N> nodes)
-	{
-		return (ImmutableUndirectedEdge<N>) super.disconnect(nodes);
-	}
+    @Override
+    public ImmutableUndirectedEdge<N> disconnect(final List<N> nodes) {
+        return (ImmutableUndirectedEdge<N>) super.disconnect(nodes);
+    }
 
-	@Override
-	public ImmutableUndirectedEdge<N> clone()
-	{
-		return (ImmutableUndirectedEdge<N>) super.clone();
-	}
+    @Override
+    public ImmutableUndirectedEdge<N> clone() {
+        return (ImmutableUndirectedEdge<N>) super.clone();
+    }
 }

@@ -18,7 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public interface Cycle<N, E extends Edge<N>> extends Walk<N, E>
-{
-	boolean isOddCycle();
+public interface Cycle<N, E extends Edge<N>> extends Walk<N, E> {
+    boolean isOddCycle();
 }

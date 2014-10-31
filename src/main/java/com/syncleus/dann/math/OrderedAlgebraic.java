@@ -18,6 +18,5 @@
  ******************************************************************************/
 package com.syncleus.dann.math;
 
-public interface OrderedAlgebraic<F extends OrderedAlgebraic<? extends F>> extends Algebraic<F>, OrderedFieldElement<F>
-{
+public interface OrderedAlgebraic<F extends OrderedAlgebraic<? extends F>> extends Algebraic<F>, OrderedFieldElement<F> {
 }

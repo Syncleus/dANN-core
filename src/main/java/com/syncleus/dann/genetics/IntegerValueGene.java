@@ -26,90 +26,82 @@ package com.syncleus.dann.genetics;
  * @author Jeffrey Phillips Freeman
  * @since 2.0
  */
-public class IntegerValueGene extends AbstractValueGene<MutableInteger>
-{
-	/**
-	 * Initializes a new instance of this class with a value of 0.
-	 *
-	 * @since 2.0
-	 */
-	public IntegerValueGene()
-	{
-		super(new MutableInteger(0));
-	}
+public class IntegerValueGene extends AbstractValueGene<MutableInteger> {
+    /**
+     * Initializes a new instance of this class with a value of 0.
+     *
+     * @since 2.0
+     */
+    public IntegerValueGene() {
+        super(new MutableInteger(0));
+    }
 
-	/**
-	 * Initializes a new instance of this class with the specified value.
-	 *
-	 * @param value The value for this gene.
-	 * @since 2.0
-	 */
-	public IntegerValueGene(final int value)
-	{
-		super(new MutableInteger(value));
-	}
+    /**
+     * Initializes a new instance of this class with the specified value.
+     *
+     * @param value The value for this gene.
+     * @since 2.0
+     */
+    public IntegerValueGene(final int value) {
+        super(new MutableInteger(value));
+    }
 
-	/**
-	 * Initializes a new instance of this class with the specified value.
-	 *
-	 * @param value The value for this gene.
-	 * @since 2.0
-	 */
-	public IntegerValueGene(final Integer value)
-	{
-		super(new MutableInteger(value));
-	}
+    /**
+     * Initializes a new instance of this class with the specified value.
+     *
+     * @param value The value for this gene.
+     * @since 2.0
+     */
+    public IntegerValueGene(final Integer value) {
+        super(new MutableInteger(value));
+    }
 
-	/**
-	 * Initializes a new instance of this class with the specified value.
-	 *
-	 * @param value The value for this gene.
-	 * @since 2.0
-	 */
-	public IntegerValueGene(final MutableInteger value)
-	{
-		super(value);
-	}
+    /**
+     * Initializes a new instance of this class with the specified value.
+     *
+     * @param value The value for this gene.
+     * @since 2.0
+     */
+    public IntegerValueGene(final MutableInteger value) {
+        super(value);
+    }
 
-	/**
-	 * Initializes a new instance of this class that is a copy of the specified
-	 * value.
-	 *
-	 * @param copyGene The value to copy.
-	 * @since 2.0
-	 */
-	public IntegerValueGene(final IntegerValueGene copyGene)
-	{
-		super(copyGene);
-	}
+    /**
+     * Initializes a new instance of this class that is a copy of the specified
+     * value.
+     *
+     * @param copyGene The value to copy.
+     * @since 2.0
+     */
+    public IntegerValueGene(final IntegerValueGene copyGene) {
+        super(copyGene);
+    }
 
-	/**
-	 * Creates a new instance of this object that is an exact copy.
-	 *
-	 * @return an exact copy of this object.
-	 * @since 2.0
-	 */
-	@Override
-	public IntegerValueGene clone()
-	{
-		return (IntegerValueGene) super.clone();
-	}
+    /**
+     * Creates a new instance of this object that is an exact copy.
+     *
+     * @return an exact copy of this object.
+     * @since 2.0
+     */
+    @Override
+    public IntegerValueGene clone() {
+        return (IntegerValueGene) super.clone();
+    }
 
-	/**
-	 * This will make a copy of the object and mutate it. The mutation has a normal
-	 * distribution multiplied by the deviation.
-	 *
-	 * @param deviation A double indicating how extreme the mutation will be. The
-	 * greater the deviation the more drastically the object will mutate. A
-	 * deviation of 0 should cause no mutation.
-	 * @return A copy of the current object with potential mutations.
-	 * @since 2.0
-	 */
-	public IntegerValueGene mutate(final double deviation)
-	{
-		final IntegerValueGene copy = this.clone();
-		copy.internalMutate(deviation);
+    /**
+     * This will make a copy of the object and mutate it. The mutation has a normal
+     * distribution multiplied by the deviation.
+     *
+     * @param deviation A double indicating how extreme the mutation will be. The
+     *                  greater the deviation the more drastically the object will mutate. A
+     *                  deviation of 0 should cause no mutation.
+     * @return A copy of the current object with potential mutations.
+     * @since 2.0
+     */
+    public IntegerValueGene mutate(final double deviation) {
+        final IntegerValueGene copy = this.clone();
+        copy.internalMutate(deviation);
 
-		return copy;
-	}
+        return copy;
+    }
 }

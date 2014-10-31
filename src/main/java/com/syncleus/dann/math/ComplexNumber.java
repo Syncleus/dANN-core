@@ -23,361 +23,302 @@
  */
 package com.syncleus.dann.math;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
-public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber>
-{
-	public static final class Field implements com.syncleus.dann.math.OrderedField<ComplexNumber>
-	{
-		public static final Field FIELD = new Field();
+public class ComplexNumber implements TrigonometricAlgebraic<ComplexNumber> {
+    public static final ComplexNumber ONE = new ComplexNumber(1, 0);
+    public static final ComplexNumber ZERO = new ComplexNumber(0, 0);
+    public static final ComplexNumber I = new ComplexNumber(0, 1);
+    private final double realValue;
+    private final double imaginaryValue;
+    public ComplexNumber(final double real, final double imaginary) {
+        this.realValue = real;
+        this.imaginaryValue = imaginary;
+    }
 
-		private Field()
-		{
-		}
+    public ComplexNumber(final double imaginary) {
+        this.realValue = 0.0;
+        this.imaginaryValue = imaginary;
+    }
 
-		@Override
-		public ComplexNumber getZero()
-		{
-			return ComplexNumber.ZERO;
-		}
+    public static ComplexNumber scalarToComplex(final double scalar) {
+        return new ComplexNumber(scalar, 0.0);
+    }
 
-		@Override
-		public ComplexNumber getOne()
-		{
-			return ComplexNumber.ONE;
-		}
+    public static ComplexNumber scalarToComplex(final float scalar) {
+        return new ComplexNumber(scalar, 0.0);
+    }
 
-		public static ComplexNumber getImaginaryUnit()
-		{
-			return ComplexNumber.I;
-		}
-	}
+    public static ComplexNumber scalarToComplex(final long scalar) {
+        return new ComplexNumber(scalar, 0.0);
+    }
 
-	public static final ComplexNumber ONE = new ComplexNumber(1, 0);
-	public static final ComplexNumber ZERO = new ComplexNumber(0, 0);
-	public static final ComplexNumber I = new ComplexNumber(0, 1);
-	private final double realValue;
-	private final double imaginaryValue;
+    public static ComplexNumber scalarToComplex(final int scalar) {
+        return new ComplexNumber(scalar, 0.0);
+    }
 
-	public ComplexNumber(final double real, final double imaginary)
-	{
-		this.realValue = real;
-		this.imaginaryValue = imaginary;
-	}
+    public static ComplexNumber scalarToComplex(final short scalar) {
+        return new ComplexNumber(scalar, 0.0);
+    }
 
-	public ComplexNumber(final double imaginary)
-	{
-		this.realValue = 0.0;
-		this.imaginaryValue = imaginary;
-	}
+    public static ComplexNumber polarToComplex(final double radius, final double theta) {
+        if (radius < 0)
+            throw new IllegalArgumentException("r must be greater than or equal to 0");
+        return new ComplexNumber(Math.cos(theta) * radius, Math.sin(theta) * radius);
+    }
 
-	@Override
-	public com.syncleus.dann.math.Field<ComplexNumber> getField()
-	{
-		return Field.FIELD;
-	}
+    public static ComplexNumber sum(final ComplexNumber... values) {
+        ComplexNumber complexSum = ComplexNumber.ZERO;
+        for (final ComplexNumber value : values)
+            complexSum = complexSum.add(value);
+        return complexSum;
+    }
 
-	public final double absScalar()
-	{
-		return Math.hypot(this.realValue, this.imaginaryValue);
-	}
+    public static ComplexNumber multiply(final ComplexNumber... values) {
+        ComplexNumber complexProduct = new ComplexNumber(1.0, 0.0);
+        for (final ComplexNumber value : values)
+            complexProduct = complexProduct.multiply(value);
+        return complexProduct;
+    }
 
-	@Override
-	public final ComplexNumber abs()
-	{
-		return new ComplexNumber(this.absScalar(), 0.0);
-	}
+    @Override
+    public com.syncleus.dann.math.Field<ComplexNumber> getField() {
+        return Field.FIELD;
+    }
 
-	//Value between -pi and pi
-	public final double phase()
-	{
-		return Math.atan2(this.imaginaryValue, this.realValue);
-	}
+    public final double absScalar() {
+        return Math.hypot(this.realValue, this.imaginaryValue);
+    }
 
-	@Override
-	public final ComplexNumber add(final ComplexNumber value)
-	{
-		return new ComplexNumber(this.realValue + value.realValue, this.imaginaryValue + value.imaginaryValue);
-	}
+    @Override
+    public final ComplexNumber abs() {
+        return new ComplexNumber(this.absScalar(), 0.0);
+    }
 
-	public final ComplexNumber add(final double value)
-	{
-		return this.add(new ComplexNumber(value, 0.0));
-	}
+    //Value between -pi and pi
+    public final double phase() {
+        return Math.atan2(this.imaginaryValue, this.realValue);
+    }
 
-	@Override
-	public final ComplexNumber subtract(final ComplexNumber value)
-	{
-		return new ComplexNumber(this.realValue - value.realValue, this.imaginaryValue - value.imaginaryValue);
-	}
+    @Override
+    public final ComplexNumber add(final ComplexNumber value) {
+        return new ComplexNumber(this.realValue + value.realValue, this.imaginaryValue + value.imaginaryValue);
+    }
 
-	public final ComplexNumber subtract(final double value)
-	{
-		return this.subtract(new ComplexNumber(value, 0.0));
-	}
+    public final ComplexNumber add(final double value) {
+        return this.add(new ComplexNumber(value, 0.0));
+    }
 
-	@Override
-	public final ComplexNumber multiply(final ComplexNumber value)
-	{
-		final double imaginary = this.realValue * value.imaginaryValue + this.imaginaryValue * value.realValue;
-		final double real = this.realValue * value.realValue - this.imaginaryValue * value.imaginaryValue;
-		return new ComplexNumber(real, imaginary);
-	}
+    @Override
+    public final ComplexNumber subtract(final ComplexNumber value) {
+        return new ComplexNumber(this.realValue - value.realValue, this.imaginaryValue - value.imaginaryValue);
+    }
 
-	public final ComplexNumber multiply(final double value)
-	{
-		return new ComplexNumber(value * this.realValue, value * this.imaginaryValue);
-	}
+    public final ComplexNumber subtract(final double value) {
+        return this.subtract(new ComplexNumber(value, 0.0));
+    }
 
-	@Override
-	public final ComplexNumber divide(final ComplexNumber value)
-	{
-		return this.multiply(value.reciprocal());
-	}
+    @Override
+    public final ComplexNumber multiply(final ComplexNumber value) {
+        final double imaginary = this.realValue * value.imaginaryValue + this.imaginaryValue * value.realValue;
+        final double real = this.realValue * value.realValue - this.imaginaryValue * value.imaginaryValue;
+        return new ComplexNumber(real, imaginary);
+    }
 
-	public final ComplexNumber divide(final double value)
-	{
-		return this.divide(new ComplexNumber(value, 0.0));
-	}
+    public final ComplexNumber multiply(final double value) {
+        return new ComplexNumber(value * this.realValue, value * this.imaginaryValue);
+    }
 
-	@Override
-	public final ComplexNumber exp()
-	{
-		return new ComplexNumber(Math.exp(this.realValue) * Math.cos(this.imaginaryValue), Math.exp(this.realValue) * Math.sin(this.imaginaryValue));
-	}
+    @Override
+    public final ComplexNumber divide(final ComplexNumber value) {
+        return this.multiply(value.reciprocal());
+    }
 
-	@Override
-	public final ComplexNumber log()
-	{
-		return new ComplexNumber(Math.log(this.absScalar()), Math.atan2(this.imaginaryValue, this.realValue));
-	}
+    public final ComplexNumber divide(final double value) {
+        return this.divide(new ComplexNumber(value, 0.0));
+    }
 
-	@Override
-	public final ComplexNumber pow(final ComplexNumber exponent)
-	{
-		if( exponent == null )
-			throw new IllegalArgumentException("exponent can not be null");
+    @Override
+    public final ComplexNumber exp() {
+        return new ComplexNumber(Math.exp(this.realValue) * Math.cos(this.imaginaryValue), Math.exp(this.realValue) * Math.sin(this.imaginaryValue));
+    }
 
-		return this.log().multiply(exponent).exp();
-	}
+    @Override
+    public final ComplexNumber log() {
+        return new ComplexNumber(Math.log(this.absScalar()), Math.atan2(this.imaginaryValue, this.realValue));
+    }
 
-	public final ComplexNumber pow(final double exponent)
-	{
-		return this.log().multiply(exponent).exp();
-	}
+    @Override
+    public final ComplexNumber pow(final ComplexNumber exponent) {
+        if (exponent == null)
+            throw new IllegalArgumentException("exponent can not be null");
 
-	@Override
-	public List<ComplexNumber> root(final int number)
-	{
-		if( number <= 0 )
-			throw new IllegalArgumentException("number must be greater than 0");
+        return this.log().multiply(exponent).exp();
+    }
 
-		final List<ComplexNumber> result = new ArrayList<ComplexNumber>();
+    public final ComplexNumber pow(final double exponent) {
+        return this.log().multiply(exponent).exp();
+    }
 
-		double inner = this.phase() / number;
-		for(int nIndex = 0; nIndex < number; nIndex++)
-		{
-			result.add(new ComplexNumber(Math.cos(inner) * Math.pow(this.absScalar(), 1.0 / number), Math.sin(inner) * Math.pow(this.absScalar(), 1.0 / number)));
-			inner += 2 * Math.PI / number;
-		}
+    @Override
+    public List<ComplexNumber> root(final int number) {
+        if (number <= 0)
+            throw new IllegalArgumentException("number must be greater than 0");
 
-		return Collections.unmodifiableList(result);
-	}
+        final List<ComplexNumber> result = new ArrayList<ComplexNumber>();
 
-	@Override
-	public final ComplexNumber sqrt()
-	{
-		//The square-root of the complex number (a + i b) is
-		//sqrt(a + i b) = +/- (sqrt(radius + a) + i sqrt(radius - a) sign(b)) sqrt(2) / 2,
-		//where radius = sqrt(a^2 + b^2).
-		final double radius = Math.sqrt((this.realValue * this.realValue) + (this.imaginaryValue * this.imaginaryValue));
-		final ComplexNumber intermediate = new ComplexNumber(Math.sqrt(radius + this.realValue), Math.sqrt(radius + this.realValue) * Math.signum(this.imaginaryValue));
-		return intermediate.multiply(Math.sqrt(2.0)).divide(2.0);
-	}
+        double inner = this.phase() / number;
+        for (int nIndex = 0; nIndex < number; nIndex++) {
+            result.add(new ComplexNumber(Math.cos(inner) * Math.pow(this.absScalar(), 1.0 / number), Math.sin(inner) * Math.pow(this.absScalar(), 1.0 / number)));
+            inner += 2 * Math.PI / number;
+        }
 
-	private ComplexNumber sqrt1Minus()
-	{
-		return (new ComplexNumber(1.0, 0.0)).subtract(this.multiply(this)).sqrt();
-	}
+        return Collections.unmodifiableList(result);
+    }
 
-	@Override
-	public ComplexNumber hypot(final ComplexNumber operand)
-	{
-		return this.pow(2.0).add(operand.pow(2.0)).sqrt();
-	}
+    @Override
+    public final ComplexNumber sqrt() {
+        //The square-root of the complex number (a + i b) is
+        //sqrt(a + i b) = +/- (sqrt(radius + a) + i sqrt(radius - a) sign(b)) sqrt(2) / 2,
+        //where radius = sqrt(a^2 + b^2).
+        final double radius = Math.sqrt((this.realValue * this.realValue) + (this.imaginaryValue * this.imaginaryValue));
+        final ComplexNumber intermediate = new ComplexNumber(Math.sqrt(radius + this.realValue), Math.sqrt(radius + this.realValue) * Math.signum(this.imaginaryValue));
+        return intermediate.multiply(Math.sqrt(2.0)).divide(2.0);
+    }
 
-	@Override
-	public final ComplexNumber sin()
-	{
-		return new ComplexNumber(Math.sin(this.realValue) * Math.cosh(this.imaginaryValue), Math.cos(this.realValue) * Math.sinh(this.imaginaryValue));
-	}
+    private ComplexNumber sqrt1Minus() {
+        return (new ComplexNumber(1.0, 0.0)).subtract(this.multiply(this)).sqrt();
+    }
 
-	@Override
-	public final ComplexNumber asin()
-	{
-		return sqrt1Minus().add(this.multiply(ComplexNumber.I)).log().multiply(ComplexNumber.I.negate());
-	}
+    @Override
+    public ComplexNumber hypot(final ComplexNumber operand) {
+        return this.pow(2.0).add(operand.pow(2.0)).sqrt();
+    }
 
-	@Override
-	public final ComplexNumber sinh()
-	{
-		return new ComplexNumber(Math.sinh(this.realValue) * Math.cos(this.imaginaryValue), Math.cosh(this.realValue) * Math.sin(this.imaginaryValue));
-	}
+    @Override
+    public final ComplexNumber sin() {
+        return new ComplexNumber(Math.sin(this.realValue) * Math.cosh(this.imaginaryValue), Math.cos(this.realValue) * Math.sinh(this.imaginaryValue));
+    }
 
-	@Override
-	public final ComplexNumber cos()
-	{
-		return new ComplexNumber(Math.cos(this.realValue) * Math.cosh(this.imaginaryValue), -Math.sin(this.realValue) * Math.sinh(this.imaginaryValue));
-	}
+    @Override
+    public final ComplexNumber asin() {
+        return sqrt1Minus().add(this.multiply(ComplexNumber.I)).log().multiply(ComplexNumber.I.negate());
+    }
 
-	@Override
-	public final ComplexNumber acos()
-	{
-		return this.add(this.sqrt1Minus().multiply(ComplexNumber.I)).log().multiply(ComplexNumber.I.negate());
-	}
+    @Override
+    public final ComplexNumber sinh() {
+        return new ComplexNumber(Math.sinh(this.realValue) * Math.cos(this.imaginaryValue), Math.cosh(this.realValue) * Math.sin(this.imaginaryValue));
+    }
 
-	@Override
-	public final ComplexNumber cosh()
-	{
-		return new ComplexNumber(Math.cosh(this.realValue) * Math.cos(this.imaginaryValue), Math.sinh(this.realValue) * Math.sin(this.imaginaryValue));
-	}
+    @Override
+    public final ComplexNumber cos() {
+        return new ComplexNumber(Math.cos(this.realValue) * Math.cosh(this.imaginaryValue), -Math.sin(this.realValue) * Math.sinh(this.imaginaryValue));
+    }
 
-	@Override
-	public final ComplexNumber tan()
-	{
-		return sin().divide(cos());
-	}
+    @Override
+    public final ComplexNumber acos() {
+        return this.add(this.sqrt1Minus().multiply(ComplexNumber.I)).log().multiply(ComplexNumber.I.negate());
+    }
 
-	@Override
-	public final ComplexNumber atan()
-	{
-		return this.add(ComplexNumber.I).divide(ComplexNumber.I.subtract(this)).log().multiply(ComplexNumber.I.divide(new ComplexNumber(2.0, 0.0)));
-	}
+    @Override
+    public final ComplexNumber cosh() {
+        return new ComplexNumber(Math.cosh(this.realValue) * Math.cos(this.imaginaryValue), Math.sinh(this.realValue) * Math.sin(this.imaginaryValue));
+    }
 
-	@Override
-	public final ComplexNumber tanh()
-	{
-		final double denominator = Math.cosh(2.0 * this.realValue) + Math.cos(2.0 * this.imaginaryValue);
-		return new ComplexNumber(Math.sinh(2.0 * this.realValue) / denominator, Math.sin(2.0 * this.imaginaryValue) / denominator);
-	}
+    @Override
+    public final ComplexNumber tan() {
+        return sin().divide(cos());
+    }
 
-	@Override
-	public final ComplexNumber negate()
-	{
-		return new ComplexNumber(-this.realValue, -this.imaginaryValue);
-	}
+    @Override
+    public final ComplexNumber atan() {
+        return this.add(ComplexNumber.I).divide(ComplexNumber.I.subtract(this)).log().multiply(ComplexNumber.I.divide(new ComplexNumber(2.0, 0.0)));
+    }
 
-	@Override
-	public final ComplexNumber reciprocal()
-	{
-		final double scale = (this.realValue * this.realValue) + (this.imaginaryValue * this.imaginaryValue);
-		return new ComplexNumber(this.realValue / scale, -this.imaginaryValue / scale);
-	}
+    @Override
+    public final ComplexNumber tanh() {
+        final double denominator = Math.cosh(2.0 * this.realValue) + Math.cos(2.0 * this.imaginaryValue);
+        return new ComplexNumber(Math.sinh(2.0 * this.realValue) / denominator, Math.sin(2.0 * this.imaginaryValue) / denominator);
+    }
 
-	public final ComplexNumber conjugate()
-	{
-		return new ComplexNumber(this.realValue, -this.imaginaryValue);
-	}
+    @Override
+    public final ComplexNumber negate() {
+        return new ComplexNumber(-this.realValue, -this.imaginaryValue);
+    }
 
-	public boolean isNaN()
-	{
-		return Double.isNaN(this.realValue) || Double.isNaN(this.imaginaryValue);
-	}
+    @Override
+    public final ComplexNumber reciprocal() {
+        final double scale = (this.realValue * this.realValue) + (this.imaginaryValue * this.imaginaryValue);
+        return new ComplexNumber(this.realValue / scale, -this.imaginaryValue / scale);
+    }
 
-	public boolean isInfinite()
-	{
-		return Double.isInfinite(this.realValue) || Double.isInfinite(this.imaginaryValue);
-	}
+    public final ComplexNumber conjugate() {
+        return new ComplexNumber(this.realValue, -this.imaginaryValue);
+    }
 
-	public final double getRealValue()
-	{
-		return this.realValue;
-	}
+    public boolean isNaN() {
+        return Double.isNaN(this.realValue) || Double.isNaN(this.imaginaryValue);
+    }
 
-	public final double getImaginaryValue()
-	{
-		return this.imaginaryValue;
-	}
+    public boolean isInfinite() {
+        return Double.isInfinite(this.realValue) || Double.isInfinite(this.imaginaryValue);
+    }
 
-	@Override
-	public int hashCode()
-	{
-		final int imaginaryHash = Double.valueOf(this.imaginaryValue).hashCode();
-		final int realHash = Double.valueOf(this.realValue).hashCode();
-		return (imaginaryHash * realHash) + realHash;
-	}
+    public final double getRealValue() {
+        return this.realValue;
+    }
 
-	@Override
-	public boolean equals(final Object compareObject)
-	{
-		if( !(compareObject instanceof ComplexNumber) )
-			return false;
-		final ComplexNumber compareComplex = (ComplexNumber) compareObject;
-		if( compareComplex.realValue != this.realValue )
-			return false;
+    public final double getImaginaryValue() {
+        return this.imaginaryValue;
+    }
 
-		return !(compareComplex.imaginaryValue != this.imaginaryValue);
-	}
+    @Override
+    public int hashCode() {
+        final int imaginaryHash = Double.valueOf(this.imaginaryValue).hashCode();
+        final int realHash = Double.valueOf(this.realValue).hashCode();
+        return (imaginaryHash * realHash) + realHash;
+    }
 
-	@Override
-	public String toString()
-	{
-		if( this.imaginaryValue == 0 )
-			return this.realValue + "0";
-		if( this.realValue == 0 )
-			return this.imaginaryValue + "i";
-		if( this.imaginaryValue < 0 )
-			return this.realValue + " - " + this.imaginaryValue + 'i';
-		return this.realValue + " + " + this.imaginaryValue + 'i';
-	}
+    @Override
+    public boolean equals(final Object compareObject) {
+        if (!(compareObject instanceof ComplexNumber))
+            return false;
+        final ComplexNumber compareComplex = (ComplexNumber) compareObject;
+        if (compareComplex.realValue != this.realValue)
+            return false;
 
-	public static ComplexNumber scalarToComplex(final double scalar)
-	{
-		return new ComplexNumber(scalar, 0.0);
-	}
+        return !(compareComplex.imaginaryValue != this.imaginaryValue);
+    }
 
-	public static ComplexNumber scalarToComplex(final float scalar)
-	{
-		return new ComplexNumber(scalar, 0.0);
-	}
+    @Override
+    public String toString() {
+        if (this.imaginaryValue == 0)
+            return this.realValue + "0";
+        if (this.realValue == 0)
+            return this.imaginaryValue + "i";
+        if (this.imaginaryValue < 0)
+            return this.realValue + " - " + this.imaginaryValue + 'i';
+        return this.realValue + " + " + this.imaginaryValue + 'i';
+    }
 
-	public static ComplexNumber scalarToComplex(final long scalar)
-	{
-		return new ComplexNumber(scalar, 0.0);
-	}
+    public static final class Field implements com.syncleus.dann.math.OrderedField<ComplexNumber> {
+        public static final Field FIELD = new Field();
 
-	public static ComplexNumber scalarToComplex(final int scalar)
-	{
-		return new ComplexNumber(scalar, 0.0);
-	}
+        private Field() {
+        }
 
-	public static ComplexNumber scalarToComplex(final short scalar)
-	{
-		return new ComplexNumber(scalar, 0.0);
-	}
+        public static ComplexNumber getImaginaryUnit() {
+            return ComplexNumber.I;
+        }
 
-	public static ComplexNumber polarToComplex(final double radius, final double theta)
-	{
-		if( radius < 0 )
-			throw new IllegalArgumentException("r must be greater than or equal to 0");
-		return new ComplexNumber(Math.cos(theta) * radius, Math.sin(theta) * radius);
-	}
+        @Override
+        public ComplexNumber getZero() {
+            return ComplexNumber.ZERO;
+        }
 
-	public static ComplexNumber sum(final ComplexNumber... values)
-	{
-		ComplexNumber complexSum = ComplexNumber.ZERO;
-		for(final ComplexNumber value : values)
-			complexSum = complexSum.add(value);
-		return complexSum;
-	}
-
-	public static ComplexNumber multiply(final ComplexNumber... values)
-	{
-		ComplexNumber complexProduct = new ComplexNumber(1.0, 0.0);
-		for(final ComplexNumber value : values)
-			complexProduct = complexProduct.multiply(value);
-		return complexProduct;
-	}
+        @Override
+        public ComplexNumber getOne() {
+            return ComplexNumber.ONE;
+        }
+    }
 }

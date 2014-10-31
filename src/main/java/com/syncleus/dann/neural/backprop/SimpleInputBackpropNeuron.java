@@ -26,12 +26,10 @@ import com.syncleus.dann.neural.Brain;
  * @author Jeffrey Phillips Freeman
  * @since 1.0
  */
-public final class SimpleInputBackpropNeuron extends AbstractInputBackpropNeuron
-{
-	private static final long serialVersionUID = -183209470174312L;
+public final class SimpleInputBackpropNeuron extends AbstractInputBackpropNeuron {
+    private static final long serialVersionUID = -183209470174312L;
 
-	public SimpleInputBackpropNeuron(final Brain brain)
-	{
-		super(brain);
-	}
+    public SimpleInputBackpropNeuron(final Brain brain) {
+        super(brain);
+    }
 }

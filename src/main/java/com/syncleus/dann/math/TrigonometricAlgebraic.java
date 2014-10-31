@@ -18,6 +18,5 @@
  ******************************************************************************/
 package com.syncleus.dann.math;
 
-public interface TrigonometricAlgebraic<F extends TrigonometricAlgebraic<? extends F>> extends Trigonometric<F>, Algebraic<F>
-{
+public interface TrigonometricAlgebraic<F extends TrigonometricAlgebraic<? extends F>> extends Trigonometric<F>, Algebraic<F> {
 }

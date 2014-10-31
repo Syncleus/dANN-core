@@ -23,30 +23,28 @@ import java.util.Set;
 /**
  * An AbstractDirectedAdjacencyGraph is a DirectedGraph implemented using adjacency lists.
  *
- * @since 2.0
  * @param <N> The node type
  * @param <E> The type of edge for the given node type
+ * @since 2.0
  */
-public abstract class AbstractDirectedAdjacencyGraph<N, E extends DirectedEdge<N>> extends AbstractBidirectedAdjacencyGraph<N, E> implements DirectedGraph<N, E>
-{
+public abstract class AbstractDirectedAdjacencyGraph<N, E extends DirectedEdge<N>> extends AbstractBidirectedAdjacencyGraph<N, E> implements DirectedGraph<N, E> {
     /**
      * Creates a new graph with no edges and no adjacencies.
      * nodeContext and edgeContext is enabled.
      */
-	protected AbstractDirectedAdjacencyGraph()
-	{
-		super();
-	}
+    protected AbstractDirectedAdjacencyGraph() {
+        super();
+    }
 
     /**
      * Creates a new graph as a copy of the current Graph.
      * nodeContext is enabled.
+     *
      * @param copyGraph The Graph to copy
      */
-	protected AbstractDirectedAdjacencyGraph(final Graph<N, E> copyGraph)
-	{
-		super(copyGraph.getNodes(), copyGraph.getEdges());
-	}
+    protected AbstractDirectedAdjacencyGraph(final Graph<N, E> copyGraph) {
+        super(copyGraph.getNodes(), copyGraph.getEdges());
+    }
 
     /**
      * Creates a new graph from the given list of nodes, and
@@ -57,50 +55,42 @@ public abstract class AbstractDirectedAdjacencyGraph<N, E extends DirectedEdge<N
      * @param nodes The set of all nodes
      * @param edges The set of all ourEdges
      */
-	protected AbstractDirectedAdjacencyGraph(final Set<N> nodes, final Set<E> edges)
-	{
-		super(nodes, edges);
-	}
+    protected AbstractDirectedAdjacencyGraph(final Set<N> nodes, final Set<E> edges) {
+        super(nodes, edges);
+    }
 
-	@Override
-	public AbstractDirectedAdjacencyGraph<N, E> cloneAdd(final E newEdge)
-	{
-		return (AbstractDirectedAdjacencyGraph<N, E>) super.cloneAdd(newEdge);
-	}
+    @Override
+    public AbstractDirectedAdjacencyGraph<N, E> cloneAdd(final E newEdge) {
+        return (AbstractDirectedAdjacencyGraph<N, E>) super.cloneAdd(newEdge);
+    }
 
-	@Override
-	public AbstractDirectedAdjacencyGraph<N, E> cloneAdd(final N newNode)
-	{
-		return (AbstractDirectedAdjacencyGraph<N, E>) super.cloneAdd(newNode);
-	}
+    @Override
+    public AbstractDirectedAdjacencyGraph<N, E> cloneAdd(final N newNode) {
+        return (AbstractDirectedAdjacencyGraph<N, E>) super.cloneAdd(newNode);
+    }
 
-	@Override
-	public AbstractDirectedAdjacencyGraph<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
-	{
-		return (AbstractDirectedAdjacencyGraph<N, E>) super.cloneAdd(newNodes, newEdges);
-	}
+    @Override
+    public AbstractDirectedAdjacencyGraph<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges) {
+        return (AbstractDirectedAdjacencyGraph<N, E>) super.cloneAdd(newNodes, newEdges);
+    }
 
-	@Override
-	public AbstractDirectedAdjacencyGraph<N, E> cloneRemove(final E edgeToRemove)
-	{
-		return (AbstractDirectedAdjacencyGraph<N, E>) super.cloneRemove(edgeToRemove);
-	}
+    @Override
+    public AbstractDirectedAdjacencyGraph<N, E> cloneRemove(final E edgeToRemove) {
+        return (AbstractDirectedAdjacencyGraph<N, E>) super.cloneRemove(edgeToRemove);
+    }
 
-	@Override
-	public AbstractDirectedAdjacencyGraph<N, E> cloneRemove(final N nodeToRemove)
-	{
-		return (AbstractDirectedAdjacencyGraph<N, E>) super.cloneRemove(nodeToRemove);
-	}
+    @Override
+    public AbstractDirectedAdjacencyGraph<N, E> cloneRemove(final N nodeToRemove) {
+        return (AbstractDirectedAdjacencyGraph<N, E>) super.cloneRemove(nodeToRemove);
+    }
 
-	@Override
-	public AbstractDirectedAdjacencyGraph<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
-	{
-		return (AbstractDirectedAdjacencyGraph<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
-	}
+    @Override
+    public AbstractDirectedAdjacencyGraph<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges) {
+        return (AbstractDirectedAdjacencyGraph<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
+    }
 
-	@Override
-	public AbstractDirectedAdjacencyGraph<N, E> clone()
-	{
-		return (AbstractDirectedAdjacencyGraph<N, E>) super.clone();
-	}
+    @Override
+    public AbstractDirectedAdjacencyGraph<N, E> clone() {
+        return (AbstractDirectedAdjacencyGraph<N, E>) super.clone();
+    }
 }

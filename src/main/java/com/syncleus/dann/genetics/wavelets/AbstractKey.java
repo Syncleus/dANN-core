@@ -20,143 +20,123 @@ package com.syncleus.dann.genetics.wavelets;
 
 import com.syncleus.dann.UnexpectedDannError;
 import com.syncleus.dann.genetics.MutableInteger;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.SortedSet;
-import java.util.TreeSet;
 import org.apache.log4j.Logger;
 
-public abstract class AbstractKey implements Cloneable
-{
-	private Map<Integer, Boolean> points;
-	private static final Random RANDOM = Mutations.getRandom();
-	private static final Logger LOGGER = Logger.getLogger(AbstractKey.class);
+import java.util.*;
 
-	protected AbstractKey()
-	{
-		final Map<Integer, Boolean> newPoints = new HashMap<Integer, Boolean>();
-		newPoints.put(RANDOM.nextInt(), RANDOM.nextBoolean());
-		this.points = Collections.unmodifiableMap(newPoints);
-	}
+public abstract class AbstractKey implements Cloneable {
+    private static final Random RANDOM = Mutations.getRandom();
+    private static final Logger LOGGER = Logger.getLogger(AbstractKey.class);
+    private Map<Integer, Boolean> points;
 
-	protected AbstractKey(final Map<Integer, Boolean> ourPoints)
-	{
-		if( ourPoints.isEmpty() )
-			throw new IllegalArgumentException("ourPoints must have at least one entry");
+    protected AbstractKey() {
+        final Map<Integer, Boolean> newPoints = new HashMap<Integer, Boolean>();
+        newPoints.put(RANDOM.nextInt(), RANDOM.nextBoolean());
+        this.points = Collections.unmodifiableMap(newPoints);
+    }
 
-		this.points = Collections.unmodifiableMap(new HashMap<Integer, Boolean>(ourPoints));
-	}
+    protected AbstractKey(final Map<Integer, Boolean> ourPoints) {
+        if (ourPoints.isEmpty())
+            throw new IllegalArgumentException("ourPoints must have at least one entry");
 
-	protected AbstractKey(final String keyString)
-	{
-		final HashMap<Integer, Boolean> newPoints = new HashMap<Integer, Boolean>();
+        this.points = Collections.unmodifiableMap(new HashMap<Integer, Boolean>(ourPoints));
+    }
 
-		final char[] keyChars = keyString.toCharArray();
-		int index = 0;
-		for(final char keyChar : keyChars)
-		{
-			if( (keyChar != '1') && (keyChar != '0') && (keyChar != 'x') )
-				throw new IllegalArgumentException("keyString is only allowed to contain the following characters: 1, 0, x");
+    protected AbstractKey(final String keyString) {
+        final HashMap<Integer, Boolean> newPoints = new HashMap<Integer, Boolean>();
 
-			if( keyChar == '1' )
-				newPoints.put(index, Boolean.TRUE);
-			else if( keyChar == '0' )
-				newPoints.put(index, Boolean.FALSE);
+        final char[] keyChars = keyString.toCharArray();
+        int index = 0;
+        for (final char keyChar : keyChars) {
+            if ((keyChar != '1') && (keyChar != '0') && (keyChar != 'x'))
+                throw new IllegalArgumentException("keyString is only allowed to contain the following characters: 1, 0, x");
 
-			index++;
-		}
+            if (keyChar == '1')
+                newPoints.put(index, Boolean.TRUE);
+            else if (keyChar == '0')
+                newPoints.put(index, Boolean.FALSE);
 
-		if( newPoints.isEmpty() )
-			throw new IllegalArgumentException("string must contain at least one 1, or 0 point");
+            index++;
+        }
 
-		this.points = Collections.unmodifiableMap(newPoints);
-	}
+        if (newPoints.isEmpty())
+            throw new IllegalArgumentException("string must contain at least one 1, or 0 point");
 
-	protected AbstractKey(final AbstractKey copy)
-	{
-		this.points = copy.points;
-	}
+        this.points = Collections.unmodifiableMap(newPoints);
+    }
 
-	protected Map<Integer, Boolean> getPoints()
-	{
-		return this.points;
-	}
+    protected AbstractKey(final AbstractKey copy) {
+        this.points = copy.points;
+    }
 
-	@Override
-	public int hashCode()
-	{
-		return this.points.hashCode();
-	}
+    protected Map<Integer, Boolean> getPoints() {
+        return this.points;
+    }
 
-	@Override
-	public boolean equals(final Object compareWith)
-	{
-		if( compareWith == null )
-			return false;
+    @Override
+    public int hashCode() {
+        return this.points.hashCode();
+    }
 
-		if( this.getClass() == compareWith.getClass() )
-			return this.points.equals(((AbstractKey) compareWith).points);
-		return false;
-	}
+    @Override
+    public boolean equals(final Object compareWith) {
+        if (compareWith == null)
+            return false;
 
-	@Override
-	public String toString()
-	{
-		final SortedSet<Integer> orderedIndexes = new TreeSet<Integer>(this.points.keySet());
+        if (this.getClass() == compareWith.getClass())
+            return this.points.equals(((AbstractKey) compareWith).points);
+        return false;
+    }
 
-		final Integer lowIndex = orderedIndexes.first();
-		final Integer highIndex = orderedIndexes.last();
+    @Override
+    public String toString() {
+        final SortedSet<Integer> orderedIndexes = new TreeSet<Integer>(this.points.keySet());
 
-		final StringBuilder outBuilder = new StringBuilder(highIndex - lowIndex);
-		for(Integer index = lowIndex; index <= highIndex; index++)
-		{
-			if( orderedIndexes.contains(index) )
-			{
-				final boolean indexPoint = this.points.get(index);
-				if( indexPoint )
-					outBuilder.append('1');
-				else
-					outBuilder.append('0');
-			}
-			else
-				outBuilder.append('x');
-		}
+        final Integer lowIndex = orderedIndexes.first();
+        final Integer highIndex = orderedIndexes.last();
 
-		return outBuilder.toString();
-	}
+        final StringBuilder outBuilder = new StringBuilder(highIndex - lowIndex);
+        for (Integer index = lowIndex; index <= highIndex; index++) {
+            if (orderedIndexes.contains(index)) {
+                final boolean indexPoint = this.points.get(index);
+                if (indexPoint)
+                    outBuilder.append('1');
+                else
+                    outBuilder.append('0');
+            }
+            else
+                outBuilder.append('x');
+        }
 
-	@Override
-	public AbstractKey clone()
-	{
-		try
-		{
-			final AbstractKey copy = (AbstractKey) super.clone();
-			copy.points = this.points;
-			return copy;
-		}
-		catch(CloneNotSupportedException caught)
-		{
-			LOGGER.error("CloneNotSupportedException caught but not expected!", caught);
-			throw new UnexpectedDannError("CloneNotSupportedException caught but not expected", caught);
-		}
-	}
+        return outBuilder.toString();
+    }
 
-	public AbstractKey mutate(final double deviation)
-	{
-		final Integer[] pointsArray = new Integer[this.points.size()];
-		this.points.keySet().toArray(pointsArray);
+    @Override
+    public AbstractKey clone() {
+        try {
+            final AbstractKey copy = (AbstractKey) super.clone();
+            copy.points = this.points;
+            return copy;
+        }
+        catch (CloneNotSupportedException caught) {
+            LOGGER.error("CloneNotSupportedException caught but not expected!", caught);
+            throw new UnexpectedDannError("CloneNotSupportedException caught but not expected", caught);
+        }
+    }
 
-		final MutableInteger point = new MutableInteger(pointsArray[RANDOM.nextInt(pointsArray.length)]);
-		final Map<Integer, Boolean> newPoints = new HashMap<Integer, Boolean>(this.points);
-		if( RANDOM.nextBoolean() )
-			newPoints.put(point.mutate(deviation).getNumber(), RANDOM.nextBoolean());
-		else
-			newPoints.remove(point.getNumber());
+    public AbstractKey mutate(final double deviation) {
+        final Integer[] pointsArray = new Integer[this.points.size()];
+        this.points.keySet().toArray(pointsArray);
 
-		final AbstractKey copy = this.clone();
-		copy.points = Collections.unmodifiableMap(newPoints);
-		return copy;
-	}
+        final MutableInteger point = new MutableInteger(pointsArray[RANDOM.nextInt(pointsArray.length)]);
+        final Map<Integer, Boolean> newPoints = new HashMap<Integer, Boolean>(this.points);
+        if (RANDOM.nextBoolean())
+            newPoints.put(point.mutate(deviation).getNumber(), RANDOM.nextBoolean());
+        else
+            newPoints.remove(point.getNumber());
+
+        final AbstractKey copy = this.clone();
+        copy.points = Collections.unmodifiableMap(newPoints);
+        return copy;
+    }
 }

@@ -20,59 +20,49 @@ package com.syncleus.dann.genetics.wavelets;
 
 import java.util.Set;
 
-public class ExternalSignalGene extends SignalGene
-{
-	private boolean outward;
+public class ExternalSignalGene extends SignalGene {
+    private boolean outward;
 
-	public ExternalSignalGene(final ReceptorKey initialReceptor, final SignalKey initialSignal, final boolean isOutward)
-	{
-		super(initialReceptor, initialSignal);
+    public ExternalSignalGene(final ReceptorKey initialReceptor, final SignalKey initialSignal, final boolean isOutward) {
+        super(initialReceptor, initialSignal);
 
-		this.outward = isOutward;
-	}
+        this.outward = isOutward;
+    }
 
-	public ExternalSignalGene(final ExternalSignalGene copy)
-	{
-		super(copy);
-	}
+    public ExternalSignalGene(final ExternalSignalGene copy) {
+        super(copy);
+    }
 
-	@Override
-	public boolean bind(final SignalKeyConcentration concentration, final boolean isExternal)
-	{
-		if( (this.outward && !isExternal) || (!this.outward && isExternal) )
-		{
-			if( this.getExpressionFunction().receives(concentration.getSignal()) )
-			{
-				this.getReceivingConcentrations().add(concentration);
-				return true;
-			}
-		}
-		else if( (this.outward && isExternal) || (!this.outward && !isExternal) )
-		{
-			this.setExpressingConcentration(concentration);
-			return true;
-		}
+    @Override
+    public boolean bind(final SignalKeyConcentration concentration, final boolean isExternal) {
+        if ((this.outward && !isExternal) || (!this.outward && isExternal)) {
+            if (this.getExpressionFunction().receives(concentration.getSignal())) {
+                this.getReceivingConcentrations().add(concentration);
+                return true;
+            }
+        }
+        else if ((this.outward && isExternal) || (!this.outward && !isExternal)) {
+            this.setExpressingConcentration(concentration);
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	public boolean isOutward()
-	{
-		return this.outward;
-	}
+    public boolean isOutward() {
+        return this.outward;
+    }
 
-	@Override
-	public ExternalSignalGene clone()
-	{
-		return (ExternalSignalGene) super.clone();
-	}
+    @Override
+    public ExternalSignalGene clone() {
+        return (ExternalSignalGene) super.clone();
+    }
 
-	@Override
-	public void mutate(final Set<AbstractKey> keyPool)
-	{
-		super.mutate(keyPool);
+    @Override
+    public void mutate(final Set<AbstractKey> keyPool) {
+        super.mutate(keyPool);
 
-		if( RANDOM.nextDouble() < Math.tanh(this.getMutability()) )
-			this.outward = !this.outward;
-	}
+        if (RANDOM.nextDouble() < Math.tanh(this.getMutability()))
+            this.outward = !this.outward;
+    }
 }

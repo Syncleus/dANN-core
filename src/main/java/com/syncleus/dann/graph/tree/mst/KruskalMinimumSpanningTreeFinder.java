@@ -18,92 +18,77 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.tree.mst;
 
+import com.syncleus.dann.graph.*;
+
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.PriorityQueue;
-import java.util.Queue;
-import java.util.Set;
-import com.syncleus.dann.graph.Edge;
-import com.syncleus.dann.graph.Graph;
-import com.syncleus.dann.graph.Weighted;
+import java.util.*;
 
 /**
  * An implementation of
  * <a href="http://en.wikipedia.org/wiki/Kruskal's_algorithm">
- *     Kruskal's minimum spanning tree algorithm</a>.
+ * Kruskal's minimum spanning tree algorithm</a>.
  * If the given graph is connected it computes the minimum spanning tree,
  * otherwise it computes the minimum spanning forest. The algorithm runs in time
  * O(E log E). This implementation uses the hashCode and equals method of the
  * vertices.
- * @author Jeffrey Phillips Freeman
+ *
  * @param <N> The node type
  * @param <E> The type of edge for the given node type
+ * @author Jeffrey Phillips Freeman
  */
-public class KruskalMinimumSpanningTreeFinder<N, E extends Edge<N>> implements MinimumSpanningTreeFinder<N, E>
-{
-	@Override
-	public Set<E> findMinimumSpanningTree(final Graph<N, E> graph)
-	{
-		final Set<Set<N>> componentNodeSets = new HashSet<Set<N>>();
-		for(final N node : graph.getNodes())
-			componentNodeSets.add(Collections.singleton(node));
-		final Queue<E> edgeQueue = new PriorityQueue<E>(graph.getEdges().size(), new WeightComparator<E>());
-		edgeQueue.addAll(graph.getEdges());
-		final Set<E> mstEdges = new HashSet<E>();
-		while( componentNodeSets.size() > 1 )
-		{
-			//find all the componentNodeSets which contains one of the end points
-			//of the next edge
-			final E queuedEdge = edgeQueue.poll();
-			if( queuedEdge == null )
-				return null;
-			final Set<Set<N>> setContainingEndNodes = new HashSet<Set<N>>();
-			for(final Set<N> component : componentNodeSets)
-			{
-				for(final N endNode : queuedEdge.getNodes())
-				{
-					if( component.contains(endNode) )
-					{
-						setContainingEndNodes.add(component);
-					}
-				}
-			}
-			//if more than one set was found then merge them
-			if( setContainingEndNodes.size() > 1 )
-			{
-				final Set<N> mergedSet = new HashSet<N>();
-				for(final Set<N> toMerge : setContainingEndNodes)
-				{
-					mergedSet.addAll(toMerge);
-					componentNodeSets.remove(toMerge);
-				}
-				componentNodeSets.add(mergedSet);
-				mstEdges.add(queuedEdge);
-			}
-		}
-		return mstEdges;
-	}
+public class KruskalMinimumSpanningTreeFinder<N, E extends Edge<N>> implements MinimumSpanningTreeFinder<N, E> {
+    @Override
+    public Set<E> findMinimumSpanningTree(final Graph<N, E> graph) {
+        final Set<Set<N>> componentNodeSets = new HashSet<Set<N>>();
+        for (final N node : graph.getNodes())
+            componentNodeSets.add(Collections.singleton(node));
+        final Queue<E> edgeQueue = new PriorityQueue<E>(graph.getEdges().size(), new WeightComparator<E>());
+        edgeQueue.addAll(graph.getEdges());
+        final Set<E> mstEdges = new HashSet<E>();
+        while (componentNodeSets.size() > 1) {
+            //find all the componentNodeSets which contains one of the end points
+            //of the next edge
+            final E queuedEdge = edgeQueue.poll();
+            if (queuedEdge == null)
+                return null;
+            final Set<Set<N>> setContainingEndNodes = new HashSet<Set<N>>();
+            for (final Set<N> component : componentNodeSets) {
+                for (final N endNode : queuedEdge.getNodes()) {
+                    if (component.contains(endNode)) {
+                        setContainingEndNodes.add(component);
+                    }
+                }
+            }
+            //if more than one set was found then merge them
+            if (setContainingEndNodes.size() > 1) {
+                final Set<N> mergedSet = new HashSet<N>();
+                for (final Set<N> toMerge : setContainingEndNodes) {
+                    mergedSet.addAll(toMerge);
+                    componentNodeSets.remove(toMerge);
+                }
+                componentNodeSets.add(mergedSet);
+                mstEdges.add(queuedEdge);
+            }
+        }
+        return mstEdges;
+    }
 
-	private static class WeightComparator<E> implements Comparator<E>, Serializable
-	{
-		private static final long serialVersionUID = 4497530556915589495L;
+    private static class WeightComparator<E> implements Comparator<E>, Serializable {
+        private static final long serialVersionUID = 4497530556915589495L;
 
-		@Override
-		public int compare(final E first, final E second)
-		{
-			double firstWeight = 0;
-			if( first instanceof Weighted )
-				firstWeight = ((Weighted) first).getWeight();
-			double secondWeight = 0;
-			if( second instanceof Weighted )
-				secondWeight = ((Weighted) second).getWeight();
-			if( firstWeight < secondWeight )
-				return -1;
-			if( firstWeight > secondWeight )
-				return 1;
-			return 0;
-		}
-	}
+        @Override
+        public int compare(final E first, final E second) {
+            double firstWeight = 0;
+            if (first instanceof Weighted)
+                firstWeight = ((Weighted) first).getWeight();
+            double secondWeight = 0;
+            if (second instanceof Weighted)
+                secondWeight = ((Weighted) second).getWeight();
+            if (firstWeight < secondWeight)
+                return -1;
+            if (firstWeight > secondWeight)
+                return 1;
+            return 0;
+        }
+    }
 }

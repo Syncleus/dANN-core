@@ -18,14 +18,18 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.context;
 
-import java.util.Set;
 import com.syncleus.dann.graph.Graph;
 
-public interface ContextGraphElement<G extends Graph<?, ?>>
-{
-	boolean isAllowingMultipleGraphs();
-	boolean joiningGraph(G graph);
-	boolean leavingGraph(G graph);
-	boolean isGraphMember();
-	Set<G> getJoinedGraphs();
+import java.util.Set;
+
+public interface ContextGraphElement<G extends Graph<?, ?>> {
+    boolean isAllowingMultipleGraphs();
+
+    boolean joiningGraph(G graph);
+
+    boolean leavingGraph(G graph);
+
+    boolean isGraphMember();
+
+    Set<G> getJoinedGraphs();
 }

@@ -18,68 +18,53 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.search.pathfinding;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import com.syncleus.dann.graph.BidirectedGraph;
-import com.syncleus.dann.graph.Edge;
-import com.syncleus.dann.graph.Graph;
-import com.syncleus.dann.graph.ImmutableWeightedDirectedEdge;
-import com.syncleus.dann.graph.MutableDirectedAdjacencyGraph;
-import com.syncleus.dann.graph.SimpleWeightedDirectedEdge;
-import com.syncleus.dann.graph.Weighted;
-import com.syncleus.dann.graph.WeightedDirectedEdge;
+import com.syncleus.dann.graph.*;
 
-public class JohnsonGraphTransformer<N> implements GraphTransformer<BidirectedGraph<N, ? extends WeightedDirectedEdge<N>>>
-{
-	private static final Object BLANK_NODE = new Object();
+import java.util.*;
 
-	private boolean containsInfinite(final Graph<N, ?> original)
-	{
-		for(final Edge edge : original.getEdges())
-		{
-			if( edge instanceof Weighted
-					&& Double.isInfinite(((Weighted) edge).getWeight()) )
-				return true;
-		}
-		return false;
-	}
+public class JohnsonGraphTransformer<N> implements GraphTransformer<BidirectedGraph<N, ? extends WeightedDirectedEdge<N>>> {
+    private static final Object BLANK_NODE = new Object();
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public BidirectedGraph<N, WeightedDirectedEdge<N>> transform(final BidirectedGraph<N, ? extends WeightedDirectedEdge<N>> original)
-	{
-		if( original == null )
-			throw new IllegalArgumentException("original can not be null");
-		if( containsInfinite(original) )
-			throw new IllegalArgumentException("original can not contain infinite weights");
-		final Set<WeightedDirectedEdge<Object>> originalEdges = new HashSet<WeightedDirectedEdge<Object>>();
-		for(final WeightedDirectedEdge<N> originalEdge : original.getEdges())
-			originalEdges.add((WeightedDirectedEdge<Object>) originalEdge);
-		final MutableDirectedAdjacencyGraph<Object, WeightedDirectedEdge<Object>> copyGraph = new MutableDirectedAdjacencyGraph<Object, WeightedDirectedEdge<Object>>(new HashSet<Object>(original.getNodes()), originalEdges);
-		final Set<Object> originalNodes = copyGraph.getNodes();
-		copyGraph.add(BLANK_NODE);
-		for(final Object originalNode : originalNodes)
-			copyGraph.add(new ImmutableWeightedDirectedEdge<Object>(BLANK_NODE, originalNode, 0.0));
-		final BellmanFordPathFinder<Object, WeightedDirectedEdge<Object>> pathFinder = new BellmanFordPathFinder<Object, WeightedDirectedEdge<Object>>(copyGraph);
-		final MutableDirectedAdjacencyGraph johnsonGraph = new MutableDirectedAdjacencyGraph(original.getNodes(), new HashSet<WeightedDirectedEdge<N>>(original.getEdges()));
-		final List<WeightedDirectedEdge<N>> edges = new ArrayList<WeightedDirectedEdge<N>>(johnsonGraph.getEdges());
-		for(final WeightedDirectedEdge<N> edge : edges)
-		{
-			final double newWeight = edge.getWeight() + getPathWeight(pathFinder.getBestPath(BLANK_NODE, edge.getSourceNode(), false)) - getPathWeight(pathFinder.getBestPath(BLANK_NODE, edge.getDestinationNode(), false));
-			johnsonGraph.remove(edge);
-			johnsonGraph.add(new SimpleWeightedDirectedEdge<N>(edge.getSourceNode(), edge.getDestinationNode(), newWeight));
-		}
+    private static double getPathWeight(final List<WeightedDirectedEdge<Object>> path) {
+        double weight = 0.0;
+        for (final WeightedDirectedEdge<Object> node : path)
+            weight += node.getWeight();
+        return weight;
+    }
 
-		return johnsonGraph;
-	}
+    private boolean containsInfinite(final Graph<N, ?> original) {
+        for (final Edge edge : original.getEdges()) {
+            if (edge instanceof Weighted
+                        && Double.isInfinite(((Weighted) edge).getWeight()))
+                return true;
+        }
+        return false;
+    }
 
-	private static double getPathWeight(final List<WeightedDirectedEdge<Object>> path)
-	{
-		double weight = 0.0;
-		for(final WeightedDirectedEdge<Object> node : path)
-			weight += node.getWeight();
-		return weight;
-	}
+    @SuppressWarnings("unchecked")
+    @Override
+    public BidirectedGraph<N, WeightedDirectedEdge<N>> transform(final BidirectedGraph<N, ? extends WeightedDirectedEdge<N>> original) {
+        if (original == null)
+            throw new IllegalArgumentException("original can not be null");
+        if (containsInfinite(original))
+            throw new IllegalArgumentException("original can not contain infinite weights");
+        final Set<WeightedDirectedEdge<Object>> originalEdges = new HashSet<WeightedDirectedEdge<Object>>();
+        for (final WeightedDirectedEdge<N> originalEdge : original.getEdges())
+            originalEdges.add((WeightedDirectedEdge<Object>) originalEdge);
+        final MutableDirectedAdjacencyGraph<Object, WeightedDirectedEdge<Object>> copyGraph = new MutableDirectedAdjacencyGraph<Object, WeightedDirectedEdge<Object>>(new HashSet<Object>(original.getNodes()), originalEdges);
+        final Set<Object> originalNodes = copyGraph.getNodes();
+        copyGraph.add(BLANK_NODE);
+        for (final Object originalNode : originalNodes)
+            copyGraph.add(new ImmutableWeightedDirectedEdge<Object>(BLANK_NODE, originalNode, 0.0));
+        final BellmanFordPathFinder<Object, WeightedDirectedEdge<Object>> pathFinder = new BellmanFordPathFinder<Object, WeightedDirectedEdge<Object>>(copyGraph);
+        final MutableDirectedAdjacencyGraph johnsonGraph = new MutableDirectedAdjacencyGraph(original.getNodes(), new HashSet<WeightedDirectedEdge<N>>(original.getEdges()));
+        final List<WeightedDirectedEdge<N>> edges = new ArrayList<WeightedDirectedEdge<N>>(johnsonGraph.getEdges());
+        for (final WeightedDirectedEdge<N> edge : edges) {
+            final double newWeight = edge.getWeight() + getPathWeight(pathFinder.getBestPath(BLANK_NODE, edge.getSourceNode(), false)) - getPathWeight(pathFinder.getBestPath(BLANK_NODE, edge.getDestinationNode(), false));
+            johnsonGraph.remove(edge);
+            johnsonGraph.add(new SimpleWeightedDirectedEdge<N>(edge.getSourceNode(), edge.getDestinationNode(), newWeight));
+        }
+
+        return johnsonGraph;
+    }
 }

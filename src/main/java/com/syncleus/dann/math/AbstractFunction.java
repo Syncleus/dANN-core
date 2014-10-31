@@ -18,115 +18,99 @@
  ******************************************************************************/
 package com.syncleus.dann.math;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 import com.syncleus.dann.UnexpectedDannError;
 import org.apache.log4j.Logger;
 
-public abstract class AbstractFunction implements Cloneable, Function
-{
-	private double[] parameters;
-	private final String[] parameterNames;
-	private final Map<String, Integer> indexNames;
-	private static final Logger LOGGER = Logger.getLogger(AbstractFunction.class);
+import java.util.*;
 
-	protected AbstractFunction(final AbstractFunction copy)
-	{
-		this.parameters = copy.parameters.clone();
-		this.parameterNames = copy.parameterNames;
-		this.indexNames = copy.indexNames;
-	}
+public abstract class AbstractFunction implements Cloneable, Function {
+    private static final Logger LOGGER = Logger.getLogger(AbstractFunction.class);
+    private final String[] parameterNames;
+    private final Map<String, Integer> indexNames;
+    private double[] parameters;
 
-	protected AbstractFunction(final String[] parameterNames)
-	{
-		if( parameterNames.length <= 0 )
-		{
-			this.indexNames = new HashMap<String, Integer>();
-			this.parameters = null;
-			this.parameterNames = null;
-			return;
-		}
-		this.parameters = new double[parameterNames.length];
-		this.parameterNames = parameterNames.clone();
-		final Map<String, Integer> newIndexNames = new HashMap<String, Integer>();
-		for(int index = 0; index < this.parameterNames.length; index++)
-			newIndexNames.put(this.parameterNames[index], index);
-		this.indexNames = Collections.unmodifiableMap(newIndexNames);
-	}
+    protected AbstractFunction(final AbstractFunction copy) {
+        this.parameters = copy.parameters.clone();
+        this.parameterNames = copy.parameterNames;
+        this.indexNames = copy.indexNames;
+    }
 
-	protected static String[] combineLabels(final String[] first, final String[] second)
-	{
-		final String[] result = new String[first.length + second.length];
-		int resultIndex = 0;
-		System.arraycopy(first, 0, result, resultIndex, first.length);
-		resultIndex += first.length;
-		System.arraycopy(second, 0, result, resultIndex, second.length);
-		return result;
-	}
+    protected AbstractFunction(final String[] parameterNames) {
+        if (parameterNames.length <= 0) {
+            this.indexNames = new HashMap<String, Integer>();
+            this.parameters = null;
+            this.parameterNames = null;
+            return;
+        }
+        this.parameters = new double[parameterNames.length];
+        this.parameterNames = parameterNames.clone();
+        final Map<String, Integer> newIndexNames = new HashMap<String, Integer>();
+        for (int index = 0; index < this.parameterNames.length; index++)
+            newIndexNames.put(this.parameterNames[index], index);
+        this.indexNames = Collections.unmodifiableMap(newIndexNames);
+    }
 
-	public final void setParameter(final int parameterIndex, final double value)
-	{
-		if( parameterIndex >= parameters.length || parameterIndex < 0 )
-			throw new IllegalArgumentException("parameterIndex of " + parameterIndex + " is out of range");
-		this.parameters[parameterIndex] = value;
-	}
+    protected static String[] combineLabels(final String[] first, final String[] second) {
+        final String[] result = new String[first.length + second.length];
+        int resultIndex = 0;
+        System.arraycopy(first, 0, result, resultIndex, first.length);
+        resultIndex += first.length;
+        System.arraycopy(second, 0, result, resultIndex, second.length);
+        return result;
+    }
 
-	public final void setParameter(final String parameterName, final double value)
-	{
-		this.setParameter(this.getParameterNameIndex(parameterName), value);
-	}
+    public final void setParameter(final int parameterIndex, final double value) {
+        if (parameterIndex >= parameters.length || parameterIndex < 0)
+            throw new IllegalArgumentException("parameterIndex of " + parameterIndex + " is out of range");
+        this.parameters[parameterIndex] = value;
+    }
 
-	public final double getParameter(final int parameterIndex)
-	{
-		if( parameterIndex >= parameters.length || parameterIndex < 0 )
-			throw new IllegalArgumentException("parameterIndex out of range");
-		return this.parameters[parameterIndex];
-	}
+    public final void setParameter(final String parameterName, final double value) {
+        this.setParameter(this.getParameterNameIndex(parameterName), value);
+    }
 
-	public final double getParameter(final String parameterName)
-	{
-		return this.getParameter(this.getParameterNameIndex(parameterName));
-	}
+    public final double getParameter(final int parameterIndex) {
+        if (parameterIndex >= parameters.length || parameterIndex < 0)
+            throw new IllegalArgumentException("parameterIndex out of range");
+        return this.parameters[parameterIndex];
+    }
 
-	public final String getParameterName(final int parameterIndex)
-	{
-		if( parameterIndex >= this.parameterNames.length || parameterIndex < 0 )
-			throw new IllegalArgumentException("parameterIndex is not within range");
-		return this.parameterNames[parameterIndex];
-	}
+    public final double getParameter(final String parameterName) {
+        return this.getParameter(this.getParameterNameIndex(parameterName));
+    }
 
-	public final int getParameterNameIndex(final String parameterName)
-	{
-		if( !this.indexNames.containsKey(parameterName) )
-			throw new IllegalArgumentException("parameterName: " + parameterName + " does not exist");
-		return this.indexNames.get(parameterName);
-	}
+    public final String getParameterName(final int parameterIndex) {
+        if (parameterIndex >= this.parameterNames.length || parameterIndex < 0)
+            throw new IllegalArgumentException("parameterIndex is not within range");
+        return this.parameterNames[parameterIndex];
+    }
 
-	public final int getParameterCount()
-	{
-		return this.parameters.length;
-	}
+    public final int getParameterNameIndex(final String parameterName) {
+        if (!this.indexNames.containsKey(parameterName))
+            throw new IllegalArgumentException("parameterName: " + parameterName + " does not exist");
+        return this.indexNames.get(parameterName);
+    }
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public AbstractFunction clone()
-	{
-		try
-		{
-			final AbstractFunction copy = (AbstractFunction) super.clone();
-			copy.parameters = this.parameters.clone();
-			return copy;
-		}
-		catch(CloneNotSupportedException caught)
-		{
-			LOGGER.error("CloneNotSupportedException caught but not expected!", caught);
-			throw new UnexpectedDannError("CloneNotSupportedException caught but not expected", caught);
-		}
-	}
+    public final int getParameterCount() {
+        return this.parameters.length;
+    }
 
-	public abstract double calculate();
+    @Override
+    @SuppressWarnings("unchecked")
+    public AbstractFunction clone() {
+        try {
+            final AbstractFunction copy = (AbstractFunction) super.clone();
+            copy.parameters = this.parameters.clone();
+            return copy;
+        }
+        catch (CloneNotSupportedException caught) {
+            LOGGER.error("CloneNotSupportedException caught but not expected!", caught);
+            throw new UnexpectedDannError("CloneNotSupportedException caught but not expected", caught);
+        }
+    }
 
-	@Override
-	public abstract String toString();
+    public abstract double calculate();
+
+    @Override
+    public abstract String toString();
 }

@@ -18,35 +18,29 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.bayesian;
 
+import com.syncleus.dann.graph.*;
+import com.syncleus.dann.graphicalmodel.*;
+
 import java.util.Set;
-import com.syncleus.dann.graph.DirectedEdge;
-import com.syncleus.dann.graph.Graph;
-import com.syncleus.dann.graphicalmodel.AbstractGraphicalModelAdjacencyGraph;
-import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
 
-public abstract class AbstractBayesianAdjacencyNetwork<N extends GraphicalModelNode, E extends DirectedEdge<N>> extends AbstractGraphicalModelAdjacencyGraph<N, E>
-{
-	protected AbstractBayesianAdjacencyNetwork()
-	{
-		super();
-	}
+public abstract class AbstractBayesianAdjacencyNetwork<N extends GraphicalModelNode, E extends DirectedEdge<N>> extends AbstractGraphicalModelAdjacencyGraph<N, E> {
+    protected AbstractBayesianAdjacencyNetwork() {
+        super();
+    }
 
-	protected AbstractBayesianAdjacencyNetwork(final Graph<N, E> copyGraph)
-	{
-		super(copyGraph.getNodes(), copyGraph.getEdges());
-	}
+    protected AbstractBayesianAdjacencyNetwork(final Graph<N, E> copyGraph) {
+        super(copyGraph.getNodes(), copyGraph.getEdges());
+    }
 
-	protected AbstractBayesianAdjacencyNetwork(final Set<N> nodes, final Set<E> edges)
-	{
-		super(nodes, edges);
-	}
+    protected AbstractBayesianAdjacencyNetwork(final Set<N> nodes, final Set<E> edges) {
+        super(nodes, edges);
+    }
 
-	@Override
-	public double jointProbability()
-	{
-		double probabilityProduct = 1.0;
-		for(final N node : this.getNodes())
-			probabilityProduct *= node.stateProbability();
-		return probabilityProduct;
-	}
+    @Override
+    public double jointProbability() {
+        double probabilityProduct = 1.0;
+        for (final N node : this.getNodes())
+            probabilityProduct *= node.stateProbability();
+        return probabilityProduct;
+    }
 }

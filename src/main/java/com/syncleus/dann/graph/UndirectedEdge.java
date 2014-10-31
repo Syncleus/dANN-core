@@ -20,12 +20,13 @@ package com.syncleus.dann.graph;
 
 import java.util.List;
 
-public interface UndirectedEdge<N> extends BidirectedEdge<N>
-{
-	@Override
-	UndirectedEdge<N> disconnect(N node);
-	@Override
-	UndirectedEdge<N> disconnect(List<N> node);
-	@Override
-	UndirectedEdge<N> clone();
+public interface UndirectedEdge<N> extends BidirectedEdge<N> {
+    @Override
+    UndirectedEdge<N> disconnect(N node);
+
+    @Override
+    UndirectedEdge<N> disconnect(List<N> node);
+
+    @Override
+    UndirectedEdge<N> clone();
 }

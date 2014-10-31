@@ -18,8 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.math;
 
-public interface Field<F extends FieldElement<? extends F>>
-{
-	F getZero();
-	F getOne();
+public interface Field<F extends FieldElement<? extends F>> {
+    F getZero();
+
+    F getOne();
 }

@@ -20,44 +20,37 @@ package com.syncleus.dann.graph;
 
 import java.util.List;
 
-public final class ImmutableWeightedHyperEdge<N> extends AbstractHyperEdge<N> implements WeightedEdge<N>
-{
-	private static final long serialVersionUID = 2622882478754498808L;
-	private final double weight;
+public final class ImmutableWeightedHyperEdge<N> extends AbstractHyperEdge<N> implements WeightedEdge<N> {
+    private static final long serialVersionUID = 2622882478754498808L;
+    private final double weight;
 
-	public ImmutableWeightedHyperEdge(final List<N> nodes, final double ourWeight)
-	{
-		super(nodes);
-		this.weight = ourWeight;
-	}
+    public ImmutableWeightedHyperEdge(final List<N> nodes, final double ourWeight) {
+        super(nodes);
+        this.weight = ourWeight;
+    }
 
-	public ImmutableWeightedHyperEdge(final List<N> nodes, final double ourWeight, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
-	{
-		super(nodes, allowJoiningMultipleGraphs, contextEnabled);
-		this.weight = ourWeight;
-	}
+    public ImmutableWeightedHyperEdge(final List<N> nodes, final double ourWeight, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled) {
+        super(nodes, allowJoiningMultipleGraphs, contextEnabled);
+        this.weight = ourWeight;
+    }
 
-	@Override
-	public double getWeight()
-	{
-		return this.weight;
-	}
+    @Override
+    public double getWeight() {
+        return this.weight;
+    }
 
-	@Override
-	public ImmutableWeightedHyperEdge<N> disconnect(final N node)
-	{
-		return (ImmutableWeightedHyperEdge<N>) super.remove(node);
-	}
+    @Override
+    public ImmutableWeightedHyperEdge<N> disconnect(final N node) {
+        return (ImmutableWeightedHyperEdge<N>) super.remove(node);
+    }
 
-	@Override
-	public ImmutableWeightedHyperEdge<N> disconnect(final List<N> nodes)
-	{
-		return (ImmutableWeightedHyperEdge<N>) super.remove(nodes);
-	}
+    @Override
+    public ImmutableWeightedHyperEdge<N> disconnect(final List<N> nodes) {
+        return (ImmutableWeightedHyperEdge<N>) super.remove(nodes);
+    }
 
-	@Override
-	public ImmutableWeightedHyperEdge<N> clone()
-	{
-		return (ImmutableWeightedHyperEdge<N>) super.clone();
-	}
+    @Override
+    public ImmutableWeightedHyperEdge<N> clone() {
+        return (ImmutableWeightedHyperEdge<N>) super.clone();
+    }
 }

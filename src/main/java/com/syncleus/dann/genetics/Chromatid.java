@@ -29,43 +29,45 @@ import java.util.List;
  * @author Jeffrey Phillips Freeman
  * @since 2.0
  */
-public interface Chromatid<G extends Gene> extends Cloneable
-{
-	/**
-	 * Gets an unmodifiable List of all the genes. The index of the genes indicates
-	 * its position in the chromatid.
-	 *
-	 * @return An unmodifiable List of all genes in the chromatid
-	 * @since 2.0
-	 */
-	List<? extends G> getGenes();
-	/**
-	 * The first step in crossover. This will return a segment of genes from the
-	 * point specified to the end of the chromatid. This will not modify the
-	 * Chromatid.
-	 *
-	 * @param point the point (index) in the chromatid to act as the crossover
-	 * point
-	 * @return A List of the genetic segment crossing over.
-	 */
-	List<? extends G> crossover(int point);
-	/**
-	 * The second step in crossover. This will replace its own genetic code with
-	 * the specified genetic segment at the specified crossover point.
-	 *
-	 * @param geneticSegment Segmet of genetic code crossing over.
-	 * @param point Crossover point (index) where genes are spliced
-	 * @see com.syncleus.dann.genetics.Chromatid#crossover(int)
-	 * @since 2.0
-	 */
-	void crossover(List<G> geneticSegment, int point);
-	/**
-	 * All children of this class should override this method and return their own
-	 * class type even if it is abstract. It should return a copy without any
-	 * mutation.
-	 *
-	 * @return an exact copy of this object.
-	 * @since 2.0
-	 */
-	Chromatid<G> clone();
+public interface Chromatid<G extends Gene> extends Cloneable {
+    /**
+     * Gets an unmodifiable List of all the genes. The index of the genes indicates
+     * its position in the chromatid.
+     *
+     * @return An unmodifiable List of all genes in the chromatid
+     * @since 2.0
+     */
+    List<? extends G> getGenes();
+
+    /**
+     * The first step in crossover. This will return a segment of genes from the
+     * point specified to the end of the chromatid. This will not modify the
+     * Chromatid.
+     *
+     * @param point the point (index) in the chromatid to act as the crossover
+     *              point
+     * @return A List of the genetic segment crossing over.
+     */
+    List<? extends G> crossover(int point);
+
+    /**
+     * The second step in crossover. This will replace its own genetic code with
+     * the specified genetic segment at the specified crossover point.
+     *
+     * @param geneticSegment Segmet of genetic code crossing over.
+     * @param point          Crossover point (index) where genes are spliced
+     * @see com.syncleus.dann.genetics.Chromatid#crossover(int)
+     * @since 2.0
+     */
+    void crossover(List<G> geneticSegment, int point);
+
+    /**
+     * All children of this class should override this method and return their own
+     * class type even if it is abstract. It should return a copy without any
+     * mutation.
+     *
+     * @return an exact copy of this object.
+     * @since 2.0
+     */
+    Chromatid<G> clone();
 }

@@ -18,66 +18,53 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.cycle;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import com.syncleus.dann.graph.Edge;
-import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.*;
 
-public class ColoredDepthFirstSearchDetector implements CycleDetector
-{
-	public <N, E extends Edge<N>> boolean hasCycle(final Graph<N, E> graph)
-	{
-		//A map of the current Node colors. Key is the node, value is null for
-		//white, false for grey, true for black.
-		final Map<N, Boolean> colorMap = new HashMap<N, Boolean>();
+import java.util.*;
 
-		final Set<E> traversedEdges = new HashSet<E>();
+public class ColoredDepthFirstSearchDetector implements CycleDetector {
+    private static <N, E extends Edge<N>> boolean visit(final Graph<N, E> graph, final Map<N, Boolean> colorMap, final Set<E> traversedEdges, final N node) {
+        colorMap.put(node, Boolean.FALSE);
 
-		for(final N node : graph.getNodes())
-		{
-			if( !colorMap.containsKey(node)
-					&& visit(graph, colorMap, traversedEdges, node) )
-				return true;
-		}
+        final Set<E> traversableEdges = graph.getTraversableEdges(node);
+        for (final E neighborEdge : traversableEdges) {
+            if (!ColoredDepthFirstSearchDetector.<E>traversed(traversedEdges, neighborEdge)) {
+                traversedEdges.add(neighborEdge);
+                final List<N> neighborNodes = new ArrayList<N>(neighborEdge.getNodes());
+                neighborNodes.remove(node);
+                for (final N neighborNode : neighborNodes) {
+                    if (colorMap.get(neighborNode) == Boolean.FALSE)
+                        return true;
+                    else if (!colorMap.containsKey(neighborNode)
+                                     && visit(graph, colorMap, traversedEdges, neighborNode))
+                        return true;
+                }
+            }
+        }
+        colorMap.put(node, Boolean.TRUE);
+        return false;
+    }
 
-		return false;
-	}
+    private static <E extends Edge> boolean traversed(final Set<E> traversedEdges, final E edge) {
+        for (final E traversedEdge : traversedEdges)
+            if (traversedEdge == edge)
+                return true;
+        return false;
+    }
 
-	private static <N, E extends Edge<N>> boolean visit(final Graph<N, E> graph, final Map<N, Boolean> colorMap, final Set<E> traversedEdges, final N node)
-	{
-		colorMap.put(node, Boolean.FALSE);
+    public <N, E extends Edge<N>> boolean hasCycle(final Graph<N, E> graph) {
+        //A map of the current Node colors. Key is the node, value is null for
+        //white, false for grey, true for black.
+        final Map<N, Boolean> colorMap = new HashMap<N, Boolean>();
 
-		final Set<E> traversableEdges = graph.getTraversableEdges(node);
-		for(final E neighborEdge : traversableEdges)
-		{
-			if( !ColoredDepthFirstSearchDetector.<E>traversed(traversedEdges, neighborEdge) )
-			{
-				traversedEdges.add(neighborEdge);
-				final List<N> neighborNodes = new ArrayList<N>(neighborEdge.getNodes());
-				neighborNodes.remove(node);
-				for(final N neighborNode : neighborNodes)
-				{
-					if( colorMap.get(neighborNode) == Boolean.FALSE )
-						return true;
-					else if( !colorMap.containsKey(neighborNode)
-							&& visit(graph, colorMap, traversedEdges, neighborNode) )
-						return true;
-				}
-			}
-		}
-		colorMap.put(node, Boolean.TRUE);
-		return false;
-	}
+        final Set<E> traversedEdges = new HashSet<E>();
 
-	private static <E extends Edge> boolean traversed(final Set<E> traversedEdges, final E edge)
-	{
-		for(final E traversedEdge : traversedEdges)
-			if( traversedEdge == edge )
-				return true;
-		return false;
-	}
+        for (final N node : graph.getNodes()) {
+            if (!colorMap.containsKey(node)
+                        && visit(graph, colorMap, traversedEdges, node))
+                return true;
+        }
+
+        return false;
+    }
 }

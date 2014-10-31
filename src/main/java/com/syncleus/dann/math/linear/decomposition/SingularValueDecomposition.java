@@ -18,30 +18,35 @@
  ******************************************************************************/
 package com.syncleus.dann.math.linear.decomposition;
 
-import java.util.List;
 import com.syncleus.dann.math.RealNumber;
 import com.syncleus.dann.math.linear.RealMatrix;
 
+import java.util.List;
+
 /**
  * Singular Value Decomposition.
- *
+ * <p/>
  * For an m-by-n matrix A with m >= n, the singular value decomposition is an
  * m-by-n orthogonal matrix U, an n-by-n diagonal matrix S, and an n-by-n
  * orthogonal matrix V so that A = U*S*V'.
- *
+ * <p/>
  * The singular values, sigma[k] = S[k][k], are ordered so that sigma[0] >=
  * sigma[1] >= ... >= sigma[n-1].
- *
+ * <p/>
  * The singular value decompostion always exists, so the constructor will never
  * fail.  The matrix condition number and the effective numerical rank can be
  * computed from this decomposition.
  */
-public interface SingularValueDecomposition extends Decomposition<RealMatrix>
-{
-	RealMatrix getLeftSingularMatrix();
-	RealMatrix getRightSingularMatrix();
-	List<RealNumber> getSingularValues();
-	RealNumber norm2();
-	RealNumber norm2Condition();
-	int rank();
+public interface SingularValueDecomposition extends Decomposition<RealMatrix> {
+    RealMatrix getLeftSingularMatrix();
+
+    RealMatrix getRightSingularMatrix();
+
+    List<RealNumber> getSingularValues();
+
+    RealNumber norm2();
+
+    RealNumber norm2Condition();
+
+    int rank();
 }

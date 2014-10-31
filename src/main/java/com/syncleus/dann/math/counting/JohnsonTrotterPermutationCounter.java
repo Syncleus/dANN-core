@@ -18,79 +18,70 @@
  ******************************************************************************/
 package com.syncleus.dann.math.counting;
 
-public class JohnsonTrotterPermutationCounter extends AbstractPermutationCounter
-{
-	/**
-	 * -1: left, 1: right
-	 */
-	private final int[] mobility;
+public class JohnsonTrotterPermutationCounter extends AbstractPermutationCounter {
+    /**
+     * -1: left, 1: right
+     */
+    private final int[] mobility;
 
-	public JohnsonTrotterPermutationCounter(final int permutationSize)
-	{
-		this(permutationSize, permutationSize);
-	}
+    public JohnsonTrotterPermutationCounter(final int permutationSize) {
+        this(permutationSize, permutationSize);
+    }
 
-	public JohnsonTrotterPermutationCounter(final int setSize, final int permutationSize)
-	{
-		super(setSize, permutationSize);
+    public JohnsonTrotterPermutationCounter(final int setSize, final int permutationSize) {
+        super(setSize, permutationSize);
 
-		this.mobility = new int[permutationSize];
+        this.mobility = new int[permutationSize];
 
-		reset();
-	}
+        reset();
+    }
 
-	@Override
-	protected void resetPermutations()
-	{
-		super.resetPermutations();
-		for(int i = 0; i < getPermutationSize(); i++)
-		{
-			this.mobility[i] = -1;
-		}
-	}
+    private static boolean isMobile(final int[] permutation, final int[] mobility, final int index) {
+        final int mobilityValue = mobility[index];
 
-	private static boolean isMobile(final int[] permutation, final int[] mobility, final int index)
-	{
-		final int mobilityValue = mobility[index];
+        if ((index == 0) && (mobilityValue < 0))
+            return false;
+        if ((index == permutation.length - 1) && (mobilityValue > 0))
+            return false;
 
-		if( (index == 0) && (mobilityValue < 0) )
-			return false;
-		if( (index == permutation.length - 1) && (mobilityValue > 0) )
-			return false;
+        return (permutation[index] > permutation[index + mobility[index]]);
+    }
 
-		return (permutation[index] > permutation[index + mobility[index]]);
-	}
+    private static void swap(final int[] permutation, final int firstIndex, final int secondIndex) {
+        final int first = permutation[firstIndex];
+        permutation[firstIndex] = permutation[secondIndex];
+        permutation[secondIndex] = first;
+    }
 
-	private static void swap(final int[] permutation, final int firstIndex, final int secondIndex)
-	{
-		final int first = permutation[firstIndex];
-		permutation[firstIndex] = permutation[secondIndex];
-		permutation[secondIndex] = first;
-	}
+    private static int largestMobileIndex(final int[] permutation, final int[] mobility) {
+        for (int index = mobility.length - 1; index >= 0; index--)
+            if (isMobile(permutation, mobility, index))
+                return index;
+        return -1;
+    }
 
-	private static int largestMobileIndex(final int[] permutation, final int[] mobility)
-	{
-		for(int index = mobility.length - 1; index >= 0; index--)
-			if( isMobile(permutation, mobility, index) )
-				return index;
-		return -1;
-	}
+    @Override
+    protected void resetPermutations() {
+        super.resetPermutations();
+        for (int i = 0; i < getPermutationSize(); i++) {
+            this.mobility[i] = -1;
+        }
+    }
 
-	protected boolean next()
-	{
-		final int[] perm = this.getPermutation();
-		final int largestIndex = largestMobileIndex(perm, mobility);
-		if( largestIndex < 0 )
-			return false;
+    protected boolean next() {
+        final int[] perm = this.getPermutation();
+        final int largestIndex = largestMobileIndex(perm, mobility);
+        if (largestIndex < 0)
+            return false;
 
-		final int swapedValue = perm[largestIndex];
-		swap(perm, largestIndex, largestIndex + mobility[largestIndex]);
-		swap(mobility, largestIndex, largestIndex + mobility[largestIndex]);
+        final int swapedValue = perm[largestIndex];
+        swap(perm, largestIndex, largestIndex + mobility[largestIndex]);
+        swap(mobility, largestIndex, largestIndex + mobility[largestIndex]);
 
-		for(int index = 0; index < getPermutationSize(); index++)
-			if( perm[index] > swapedValue )
-				mobility[index] *= -1;
+        for (int index = 0; index < getPermutationSize(); index++)
+            if (perm[index] > swapedValue)
+                mobility[index] *= -1;
 
-		return true;
-	}
+        return true;
+    }
 }

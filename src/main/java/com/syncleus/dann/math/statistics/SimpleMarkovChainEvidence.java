@@ -18,143 +18,116 @@
  ******************************************************************************/
 package com.syncleus.dann.math.statistics;
 
-import java.security.KeyStore;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import com.syncleus.dann.neural.OutputNeuron;
+import java.util.*;
 
-public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S>
-{
-	private final int order;
-	private final ArrayDeque<S> history;
-	private final boolean arbitraryStart;
-	private final Map<List<S>, StateCounter<S>> evidence;
-	private final Set<S> observedStates;
+public class SimpleMarkovChainEvidence<S> implements MarkovChainEvidence<S> {
+    private final int order;
+    private final ArrayDeque<S> history;
+    private final boolean arbitraryStart;
+    private final Map<List<S>, StateCounter<S>> evidence;
+    private final Set<S> observedStates;
 
-	public SimpleMarkovChainEvidence(final boolean arbitraryStart, final int order)
-	{
-		this.history = new ArrayDeque<S>(order);
-		this.order = order;
-		this.arbitraryStart = arbitraryStart;
-		this.evidence = new LinkedHashMap<List<S>, StateCounter<S>>();
-		this.observedStates = new HashSet<S>();
-	}
+    public SimpleMarkovChainEvidence(final boolean arbitraryStart, final int order) {
+        this.history = new ArrayDeque<S>(order);
+        this.order = order;
+        this.arbitraryStart = arbitraryStart;
+        this.evidence = new LinkedHashMap<List<S>, StateCounter<S>>();
+        this.observedStates = new HashSet<S>();
+    }
 
-	@Override
-	public void newChain()
-	{
-		this.history.clear();
-	}
+    @Override
+    public void newChain() {
+        this.history.clear();
+    }
 
-	private void learnFromMemory(final Collection<S> stateMemoryCollection, final S nextState)
-	{
-		final List<S> stateMemory = Collections.unmodifiableList(new ArrayList<S>(stateMemoryCollection));
+    private void learnFromMemory(final Collection<S> stateMemoryCollection, final S nextState) {
+        final List<S> stateMemory = Collections.unmodifiableList(new ArrayList<S>(stateMemoryCollection));
 
-		//get the current evidence for this state
-		StateCounter<S> transitions = this.evidence.get(stateMemory);
-		//if there is no transitions then create a blank one
-		if( transitions == null )
-		{
-			transitions = new StateCounter<S>();
-			this.evidence.put(stateMemory, transitions);
-		}
+        //get the current evidence for this state
+        StateCounter<S> transitions = this.evidence.get(stateMemory);
+        //if there is no transitions then create a blank one
+        if (transitions == null) {
+            transitions = new StateCounter<S>();
+            this.evidence.put(stateMemory, transitions);
+        }
 
-		//update the transitions evidence for the new state
-		transitions.increment(nextState);
-	}
+        //update the transitions evidence for the new state
+        transitions.increment(nextState);
+    }
 
-	@Override
-	public void learnStep(final S state)
-	{
-		//update the evidence
-		learnFromMemory(this.history, state);
+    @Override
+    public void learnStep(final S state) {
+        //update the evidence
+        learnFromMemory(this.history, state);
 
-		//if there is an arbitrary starting place update the evidence for the
-		//various sub-states of shorter order
-		if( (this.arbitraryStart) && (this.order > 1) )
-		{
-			final ArrayDeque<S> trainingMemory = new ArrayDeque<S>(this.history);
-			while( trainingMemory.size() > 1 )
-			{
-				trainingMemory.poll();
-				learnFromMemory(trainingMemory, state);
-			}
-		}
+        //if there is an arbitrary starting place update the evidence for the
+        //various sub-states of shorter order
+        if ((this.arbitraryStart) && (this.order > 1)) {
+            final ArrayDeque<S> trainingMemory = new ArrayDeque<S>(this.history);
+            while (trainingMemory.size() > 1) {
+                trainingMemory.poll();
+                learnFromMemory(trainingMemory, state);
+            }
+        }
 
-		//update the history
-		this.history.add(state);
-		while( this.history.size() > this.order )
-			this.history.poll();
+        //update the history
+        this.history.add(state);
+        while (this.history.size() > this.order)
+            this.history.poll();
 
-		//update the set of observed states
-		this.observedStates.add(state);
-	}
+        //update the set of observed states
+        this.observedStates.add(state);
+    }
 
-	@Override
-	public Set<S> getObservedStates()
-	{
-		return Collections.unmodifiableSet(this.observedStates);
-	}
+    @Override
+    public Set<S> getObservedStates() {
+        return Collections.unmodifiableSet(this.observedStates);
+    }
 
-	@Override
-	public int getOrder()
-	{
-		return this.order;
-	}
+    @Override
+    public int getOrder() {
+        return this.order;
+    }
 
-	public boolean isArbitraryStart()
-	{
-		return this.arbitraryStart;
-	}
+    public boolean isArbitraryStart() {
+        return this.arbitraryStart;
+    }
 
-	@Override
-	public MarkovChain<S> getMarkovChain()
-	{
-		final Map<List<S>, Map<S, Double>> transitionProbabilities = new LinkedHashMap<List<S>, Map<S, Double>>(this.evidence.size());
-		for(Map.Entry<List<S>, StateCounter<S>> countEntry : this.evidence.entrySet())
-			transitionProbabilities.put(countEntry.getKey(), countEntry.getValue().probabilities());
+    @Override
+    public MarkovChain<S> getMarkovChain() {
+        final Map<List<S>, Map<S, Double>> transitionProbabilities = new LinkedHashMap<List<S>, Map<S, Double>>(this.evidence.size());
+        for (Map.Entry<List<S>, StateCounter<S>> countEntry : this.evidence.entrySet())
+            transitionProbabilities.put(countEntry.getKey(), countEntry.getValue().probabilities());
 
-		return new SimpleMarkovChain<S>(transitionProbabilities, this.order, this.observedStates);
-	}
+        return new SimpleMarkovChain<S>(transitionProbabilities, this.order, this.observedStates);
+    }
 
-	private static class StateCounter<S>
-	{
-		private final Map<S, Integer> stateCount = new HashMap<S, Integer>();
-		private long totalEvidence;
+    private static class StateCounter<S> {
+        private final Map<S, Integer> stateCount = new HashMap<S, Integer>();
+        private long totalEvidence;
 
-		public void increment(final S state)
-		{
-			Integer count = this.stateCount.get(state);
-			if(count == null)
-				count = 1;
-			else
-				count++;
-			this.stateCount.put(state, count);
-			this.totalEvidence++;
-		}
+        public void increment(final S state) {
+            Integer count = this.stateCount.get(state);
+            if (count == null)
+                count = 1;
+            else
+                count++;
+            this.stateCount.put(state, count);
+            this.totalEvidence++;
+        }
 
-		public double probability(final S state)
-		{
-			Integer count = this.stateCount.get(state);
-			if(count == null)
-				count = 0;
-			return count.doubleValue() / ((double)totalEvidence);
-		}
+        public double probability(final S state) {
+            Integer count = this.stateCount.get(state);
+            if (count == null)
+                count = 0;
+            return count.doubleValue() / ((double) totalEvidence);
+        }
 
-		public Map<S, Double> probabilities()
-		{
-			final Map<S, Double> prob = new HashMap<S, Double>(this.stateCount.size());
-			for(Map.Entry<S, Integer> countEntry : this.stateCount.entrySet())
-				prob.put(countEntry.getKey(), countEntry.getValue().doubleValue() / ((double)this.totalEvidence));
-			return prob;
-		}
-	}
+        public Map<S, Double> probabilities() {
+            final Map<S, Double> prob = new HashMap<S, Double>(this.stateCount.size());
+            for (Map.Entry<S, Integer> countEntry : this.stateCount.entrySet())
+                prob.put(countEntry.getKey(), countEntry.getValue().doubleValue() / ((double) this.totalEvidence));
+            return prob;
+        }
+    }
 }
