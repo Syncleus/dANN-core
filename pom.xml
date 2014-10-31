@@ -44,6 +44,11 @@
         <developerConnection>scm:git:ssh://gerrit.syncleus.com/dANN-core</developerConnection>
     </scm>
 
+    <ciManagement>
+        <system>jenkins</system>
+        <url>http://builds.syncleus.com/</url>
+    </ciManagement>
+
     <mailingLists>
 		<mailingList>
 			<name>Syncleus Announcements</name>
