@@ -18,9 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.attributes;
 
-public interface Attribute<A, T>
-{
-	A getAttribute();
-	Class<T> getAttributeValueType();
-	boolean isAttributeValue(Object attributeValue);
+public interface Attribute<A, T> {
+    A getAttribute();
+
+    Class<T> getAttributeValueType();
+
+    boolean isAttributeValue(Object attributeValue);
 }

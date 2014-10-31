@@ -20,6 +20,5 @@ package com.syncleus.dann.neural.backprop;
 
 import com.syncleus.dann.neural.InputNeuron;
 
-public interface InputBackpropNeuron extends InputNeuron, BackpropNeuron
-{
+public interface InputBackpropNeuron extends InputNeuron, BackpropNeuron {
 }

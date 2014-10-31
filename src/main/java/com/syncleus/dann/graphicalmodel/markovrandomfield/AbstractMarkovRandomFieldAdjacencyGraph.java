@@ -18,41 +18,35 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.markovrandomfield;
 
-import java.util.*;
 import com.syncleus.dann.graph.*;
-import com.syncleus.dann.graphicalmodel.AbstractGraphicalModelAdjacencyGraph;
-import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
+import com.syncleus.dann.graphicalmodel.*;
 
-public abstract class AbstractMarkovRandomFieldAdjacencyGraph<N extends GraphicalModelNode, E extends UndirectedEdge<N>> extends AbstractGraphicalModelAdjacencyGraph<N, E>
-{
-	protected AbstractMarkovRandomFieldAdjacencyGraph()
-	{
-		super();
-	}
+import java.util.*;
 
-	protected AbstractMarkovRandomFieldAdjacencyGraph(final Graph<N, E> copyGraph)
-	{
-		super(copyGraph.getNodes(), copyGraph.getEdges());
-	}
+public abstract class AbstractMarkovRandomFieldAdjacencyGraph<N extends GraphicalModelNode, E extends UndirectedEdge<N>> extends AbstractGraphicalModelAdjacencyGraph<N, E> {
+    protected AbstractMarkovRandomFieldAdjacencyGraph() {
+        super();
+    }
 
-	protected AbstractMarkovRandomFieldAdjacencyGraph(final Set<N> nodes, final Set<E> edges)
-	{
-		super(nodes, edges);
-	}
+    protected AbstractMarkovRandomFieldAdjacencyGraph(final Graph<N, E> copyGraph) {
+        super(copyGraph.getNodes(), copyGraph.getEdges());
+    }
 
-	@Override
-	public double jointProbability()
-	{
-		final Set<N> seenNodes = new HashSet<N>();
-		double probabilityProduct = 1.0;
-		for(final N node : this.getNodes())
-		{
-			assert !seenNodes.contains(node);
+    protected AbstractMarkovRandomFieldAdjacencyGraph(final Set<N> nodes, final Set<E> edges) {
+        super(nodes, edges);
+    }
 
-			probabilityProduct *= node.stateProbability(seenNodes);
+    @Override
+    public double jointProbability() {
+        final Set<N> seenNodes = new HashSet<N>();
+        double probabilityProduct = 1.0;
+        for (final N node : this.getNodes()) {
+            assert !seenNodes.contains(node);
 
-			seenNodes.add(node);
-		}
-		return probabilityProduct;
-	}
+            probabilityProduct *= node.stateProbability(seenNodes);
+
+            seenNodes.add(node);
+        }
+        return probabilityProduct;
+    }
 }

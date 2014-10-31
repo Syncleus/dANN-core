@@ -20,50 +20,42 @@ package com.syncleus.dann.graph;
 
 import java.util.List;
 
-public final class SimpleWeightedUndirectedEdge<N> extends AbstractUndirectedEdge<N> implements WeightedBidirectedEdge<N>, MutableWeighted
-{
-	private static final long serialVersionUID = 4622255810663472765L;
-	private double weight;
+public final class SimpleWeightedUndirectedEdge<N> extends AbstractUndirectedEdge<N> implements WeightedBidirectedEdge<N>, MutableWeighted {
+    private static final long serialVersionUID = 4622255810663472765L;
+    private double weight;
 
-	public SimpleWeightedUndirectedEdge(final N left, final N right, final double ourWeight)
-	{
-		super(left, right);
-		this.weight = ourWeight;
-	}
+    public SimpleWeightedUndirectedEdge(final N left, final N right, final double ourWeight) {
+        super(left, right);
+        this.weight = ourWeight;
+    }
 
-	public SimpleWeightedUndirectedEdge(final N left, final N right, final double ourWeight, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
-	{
-		super(left, right, allowJoiningMultipleGraphs, contextEnabled);
-		this.weight = ourWeight;
-	}
+    public SimpleWeightedUndirectedEdge(final N left, final N right, final double ourWeight, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled) {
+        super(left, right, allowJoiningMultipleGraphs, contextEnabled);
+        this.weight = ourWeight;
+    }
 
-	@Override
-	public double getWeight()
-	{
-		return this.weight;
-	}
+    @Override
+    public double getWeight() {
+        return this.weight;
+    }
 
-	@Override
-	public void setWeight(final double newWeight)
-	{
-		this.weight = newWeight;
-	}
+    @Override
+    public void setWeight(final double newWeight) {
+        this.weight = newWeight;
+    }
 
-	@Override
-	public SimpleWeightedUndirectedEdge<N> disconnect(final N node)
-	{
-		return (SimpleWeightedUndirectedEdge<N>) super.disconnect(node);
-	}
+    @Override
+    public SimpleWeightedUndirectedEdge<N> disconnect(final N node) {
+        return (SimpleWeightedUndirectedEdge<N>) super.disconnect(node);
+    }
 
-	@Override
-	public SimpleWeightedUndirectedEdge<N> disconnect(final List<N> nodes)
-	{
-		return (SimpleWeightedUndirectedEdge<N>) super.disconnect(nodes);
-	}
+    @Override
+    public SimpleWeightedUndirectedEdge<N> disconnect(final List<N> nodes) {
+        return (SimpleWeightedUndirectedEdge<N>) super.disconnect(nodes);
+    }
 
-	@Override
-	public SimpleWeightedUndirectedEdge<N> clone()
-	{
-		return (SimpleWeightedUndirectedEdge<N>) super.clone();
-	}
+    @Override
+    public SimpleWeightedUndirectedEdge<N> clone() {
+        return (SimpleWeightedUndirectedEdge<N>) super.clone();
+    }
 }

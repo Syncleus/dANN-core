@@ -18,214 +18,203 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.bayesian;
 
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.util.*;
 import com.syncleus.dann.graph.ImmutableDirectedEdge;
-import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
-import com.syncleus.dann.graphicalmodel.SimpleGraphicalModelNode;
+import com.syncleus.dann.graphicalmodel.*;
 import com.syncleus.dann.graphicalmodel.bayesian.xml.BayesianNetworkXml;
 import org.junit.*;
+
 import javax.xml.bind.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.*;
+import java.util.*;
 
-public class TestSicknessBayesianNetwork
-{
-	@XmlRootElement
-	private static enum BooleanState
-	{
-		TRUE, FALSE
-	}
+public class TestSicknessBayesianNetwork {
+    private static final Random RANDOM = new Random();
+    private MutableBayesianAdjacencyNetwork network = new MutableBayesianAdjacencyNetwork();
+    //create nodes
+    private GraphicalModelNode<SeasonState> season = new SimpleGraphicalModelNode<SeasonState>(SeasonState.WINTER);
+    private GraphicalModelNode<AgeState> age = new SimpleGraphicalModelNode<AgeState>(AgeState.BABY);
+    private GraphicalModelNode<BooleanState> stuffyNose = new SimpleGraphicalModelNode<BooleanState>(BooleanState.TRUE);
+    private GraphicalModelNode<FeverState> fever = new SimpleGraphicalModelNode<FeverState>(FeverState.HOT);
+    private GraphicalModelNode<BooleanState> tired = new SimpleGraphicalModelNode<BooleanState>(BooleanState.FALSE);
+    private GraphicalModelNode<BooleanState> sick = new SimpleGraphicalModelNode<BooleanState>(BooleanState.FALSE);
 
-	@XmlRootElement
-	private static enum SeasonState
-	{
-		WINTER, SUMMER, SPRING, FALL
-	}
+    @Test
+    public void testXml() throws Exception {
+        testOverall();
 
-	@XmlRootElement
-	private static enum AgeState
-	{
-		BABY, CHILD, TEENAGER, ADULT, SENIOR
-	}
+        //mashall it
+        JAXBContext context = JAXBContext.newInstance(BayesianNetworkXml.class, TestSicknessBayesianNetwork.FeverState.class, TestSicknessBayesianNetwork.AgeState.class, TestSicknessBayesianNetwork.BooleanState.class, TestSicknessBayesianNetwork.SeasonState.class);
+        Marshaller marshal = context.createMarshaller();
 
-	@XmlRootElement
-	private static enum FeverState
-	{
-		LOW, NONE, WARM, HOT
-	}
+        StringWriter writer = new StringWriter();
+        marshal.marshal(network.toXml(), writer);
 
-	private static final Random RANDOM = new Random();
-	private MutableBayesianAdjacencyNetwork network = new MutableBayesianAdjacencyNetwork();
-	//create nodes
-	private GraphicalModelNode<SeasonState> season = new SimpleGraphicalModelNode<SeasonState>(SeasonState.WINTER);
-	private GraphicalModelNode<AgeState> age = new SimpleGraphicalModelNode<AgeState>(AgeState.BABY);
-	private GraphicalModelNode<BooleanState> stuffyNose = new SimpleGraphicalModelNode<BooleanState>(BooleanState.TRUE);
-	private GraphicalModelNode<FeverState> fever = new SimpleGraphicalModelNode<FeverState>(FeverState.HOT);
-	private GraphicalModelNode<BooleanState> tired = new SimpleGraphicalModelNode<BooleanState>(BooleanState.FALSE);
-	private GraphicalModelNode<BooleanState> sick = new SimpleGraphicalModelNode<BooleanState>(BooleanState.FALSE);
+        //unmarshall it
+        StringReader reader = new StringReader(writer.toString());
+        BayesianNetworkXml xml = JAXB.unmarshal(reader, BayesianNetworkXml.class);
 
-	@Test
-	public void testXml() throws Exception
-	{
-		testOverall();
+        Assert.assertTrue("could not unmarshal object!", xml != null);
+        Assert.assertTrue("Wrong number of edges after unmarshaling: " + xml.getEdges().getEdges().size(), xml.getEdges().getEdges().size() == 14);
+        Assert.assertTrue("Wrong number of nodes after unmarshaling: " + xml.getNodes().getNodes().size(), xml.getNodes().getNodes().size() == 6);
+    }
 
-		//mashall it
-		JAXBContext context = JAXBContext.newInstance(BayesianNetworkXml.class, TestSicknessBayesianNetwork.FeverState.class, TestSicknessBayesianNetwork.AgeState.class, TestSicknessBayesianNetwork.BooleanState.class, TestSicknessBayesianNetwork.SeasonState.class);
-		Marshaller marshal = context.createMarshaller();
+    @Test
+    public void testOverallRepeated() {
+        for (int i = 0; i < 10; i++) {
+            testOverall();
 
-		StringWriter writer = new StringWriter();
-		marshal.marshal(network.toXml(), writer);
+            this.network = new MutableBayesianAdjacencyNetwork();
+            this.season = new SimpleGraphicalModelNode<SeasonState>(SeasonState.WINTER);
+            this.age = new SimpleGraphicalModelNode<AgeState>(AgeState.BABY);
+            this.stuffyNose = new SimpleGraphicalModelNode<BooleanState>(BooleanState.TRUE);
+            this.fever = new SimpleGraphicalModelNode<FeverState>(FeverState.HOT);
+            this.tired = new SimpleGraphicalModelNode<BooleanState>(BooleanState.FALSE);
+            this.sick = new SimpleGraphicalModelNode<BooleanState>(BooleanState.FALSE);
+        }
+    }
 
-		//unmarshall it
-		StringReader reader = new StringReader(writer.toString());
-		BayesianNetworkXml xml = JAXB.unmarshal(reader, BayesianNetworkXml.class);
+    @Test
+    public void testOverall() {
+        //add nodes
+        network.add(this.season);
+        network.add(this.age);
+        network.add(this.stuffyNose);
+        network.add(this.fever);
+        network.add(this.tired);
+        network.add(this.sick);
+        //connect nodes
+        network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.season, this.stuffyNose));
+        network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.season, this.fever));
+        network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.season, this.tired));
+        network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.season, this.sick));
+        network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.age, this.stuffyNose));
+        network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.age, this.fever));
+        network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.age, this.tired));
+        network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.age, this.sick));
+        network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.tired, this.fever));
+        network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.tired, this.stuffyNose));
+        network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.tired, this.sick));
+        network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.stuffyNose, this.fever));
+        network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.stuffyNose, this.sick));
+        network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.fever, this.sick));
+        //let the network learn
+        for (int sampleCount = 0; sampleCount < 10; sampleCount++)
+            this.sampleState();
+        //lets check some probabilities
+        final Set<GraphicalModelNode> goals = new HashSet<GraphicalModelNode>();
+        goals.add(this.sick);
+        final Set<GraphicalModelNode> influences = new HashSet<GraphicalModelNode>();
+        influences.add(this.fever);
+        sick.setState(BooleanState.TRUE);
+        fever.setState(FeverState.LOW);
+        final double lowPercentage = network.conditionalProbability(goals, influences);
+        fever.setState(FeverState.NONE);
+        final double nonePercentage = network.conditionalProbability(goals, influences);
+        fever.setState(FeverState.WARM);
+        final double warmPercentage = network.conditionalProbability(goals, influences);
+        fever.setState(FeverState.HOT);
+        final double hotPercentage = network.conditionalProbability(goals, influences);
 
-		Assert.assertTrue("could not unmarshal object!", xml != null);
-		Assert.assertTrue("Wrong number of edges after unmarshaling: " + xml.getEdges().getEdges().size(), xml.getEdges().getEdges().size() == 14);
-		Assert.assertTrue("Wrong number of nodes after unmarshaling: " + xml.getNodes().getNodes().size(), xml.getNodes().getNodes().size() == 6);
-	}
+        Assert.assertTrue("incorrect fever to sickness mapping! " + nonePercentage + " < " + lowPercentage + " < " + warmPercentage + " < " + hotPercentage, (nonePercentage < lowPercentage) && (lowPercentage < warmPercentage) && (warmPercentage < hotPercentage));
+    }
 
-	@Test
-	public void testOverallRepeated()
-	{
-		for(int i = 0; i < 10; i++)
-		{
-			testOverall();
+    private void sampleState() {
+        final SeasonState seasonState = (SeasonState.values())[RANDOM.nextInt(SeasonState.values().length)];
+        season.setState(seasonState);
 
-			this.network = new MutableBayesianAdjacencyNetwork();
-			this.season = new SimpleGraphicalModelNode<SeasonState>(SeasonState.WINTER);
-			this.age = new SimpleGraphicalModelNode<AgeState>(AgeState.BABY);
-			this.stuffyNose = new SimpleGraphicalModelNode<BooleanState>(BooleanState.TRUE);
-			this.fever = new SimpleGraphicalModelNode<FeverState>(FeverState.HOT);
-			this.tired = new SimpleGraphicalModelNode<BooleanState>(BooleanState.FALSE);
-			this.sick = new SimpleGraphicalModelNode<BooleanState>(BooleanState.FALSE);
-		}
-	}
+        final AgeState ageState = (AgeState.values())[RANDOM.nextInt(AgeState.values().length)];
+        age.setState(ageState);
 
-	@Test
-	public void testOverall()
-	{
-		//add nodes
-		network.add(this.season);
-		network.add(this.age);
-		network.add(this.stuffyNose);
-		network.add(this.fever);
-		network.add(this.tired);
-		network.add(this.sick);
-		//connect nodes
-		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.season, this.stuffyNose));
-		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.season, this.fever));
-		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.season, this.tired));
-		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.season, this.sick));
-		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.age, this.stuffyNose));
-		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.age, this.fever));
-		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.age, this.tired));
-		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.age, this.sick));
-		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.tired, this.fever));
-		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.tired, this.stuffyNose));
-		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.tired, this.sick));
-		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.stuffyNose, this.fever));
-		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.stuffyNose, this.sick));
-		network.add(new ImmutableDirectedEdge<GraphicalModelNode>(this.fever, this.sick));
-		//let the network learn
-		for(int sampleCount = 0; sampleCount < 10; sampleCount++)
-			this.sampleState();
-		//lets check some probabilities
-		final Set<GraphicalModelNode> goals = new HashSet<GraphicalModelNode>();
-		goals.add(this.sick);
-		final Set<GraphicalModelNode> influences = new HashSet<GraphicalModelNode>();
-		influences.add(this.fever);
-		sick.setState(BooleanState.TRUE);
-		fever.setState(FeverState.LOW);
-		final double lowPercentage = network.conditionalProbability(goals, influences);
-		fever.setState(FeverState.NONE);
-		final double nonePercentage = network.conditionalProbability(goals, influences);
-		fever.setState(FeverState.WARM);
-		final double warmPercentage = network.conditionalProbability(goals, influences);
-		fever.setState(FeverState.HOT);
-		final double hotPercentage = network.conditionalProbability(goals, influences);
+        final BooleanState noseState = (BooleanState.values())[RANDOM.nextInt(BooleanState.values().length)];
+        stuffyNose.setState(noseState);
 
-		Assert.assertTrue("incorrect fever to sickness mapping! " + nonePercentage + " < " + lowPercentage + " < " + warmPercentage + " < " + hotPercentage, (nonePercentage < lowPercentage) && (lowPercentage < warmPercentage) && (warmPercentage < hotPercentage));
-	}
-
-	private void sampleState()
-	{
-		final SeasonState seasonState = (SeasonState.values())[RANDOM.nextInt(SeasonState.values().length)];
-		season.setState(seasonState);
-
-		final AgeState ageState = (AgeState.values())[RANDOM.nextInt(AgeState.values().length)];
-		age.setState(ageState);
-
-		final BooleanState noseState = (BooleanState.values())[RANDOM.nextInt(BooleanState.values().length)];
-		stuffyNose.setState(noseState);
-
-		final BooleanState tiredState = (BooleanState.values())[RANDOM.nextInt(BooleanState.values().length)];
-		tired.setState(tiredState);
+        final BooleanState tiredState = (BooleanState.values())[RANDOM.nextInt(BooleanState.values().length)];
+        tired.setState(tiredState);
 
 
-		fever.setState(FeverState.NONE);
-		sick.setState(BooleanState.FALSE);
-		network.learnStates();
-		fever.setState(FeverState.NONE);
-		sick.setState(BooleanState.FALSE);
-		network.learnStates();
-		fever.setState(FeverState.NONE);
-		sick.setState(BooleanState.FALSE);
-		network.learnStates();
-		fever.setState(FeverState.NONE);
-		sick.setState(BooleanState.FALSE);
-		network.learnStates();
-		fever.setState(FeverState.NONE);
-		sick.setState(BooleanState.TRUE);
-		network.learnStates();
+        fever.setState(FeverState.NONE);
+        sick.setState(BooleanState.FALSE);
+        network.learnStates();
+        fever.setState(FeverState.NONE);
+        sick.setState(BooleanState.FALSE);
+        network.learnStates();
+        fever.setState(FeverState.NONE);
+        sick.setState(BooleanState.FALSE);
+        network.learnStates();
+        fever.setState(FeverState.NONE);
+        sick.setState(BooleanState.FALSE);
+        network.learnStates();
+        fever.setState(FeverState.NONE);
+        sick.setState(BooleanState.TRUE);
+        network.learnStates();
 
-		fever.setState(FeverState.LOW);
-		sick.setState(BooleanState.FALSE);
-		network.learnStates();
-		fever.setState(FeverState.LOW);
-		sick.setState(BooleanState.FALSE);
-		network.learnStates();
-		fever.setState(FeverState.LOW);
-		sick.setState(BooleanState.FALSE);
-		network.learnStates();
-		fever.setState(FeverState.LOW);
-		sick.setState(BooleanState.TRUE);
-		network.learnStates();
-		fever.setState(FeverState.LOW);
-		sick.setState(BooleanState.TRUE);
-		network.learnStates();
+        fever.setState(FeverState.LOW);
+        sick.setState(BooleanState.FALSE);
+        network.learnStates();
+        fever.setState(FeverState.LOW);
+        sick.setState(BooleanState.FALSE);
+        network.learnStates();
+        fever.setState(FeverState.LOW);
+        sick.setState(BooleanState.FALSE);
+        network.learnStates();
+        fever.setState(FeverState.LOW);
+        sick.setState(BooleanState.TRUE);
+        network.learnStates();
+        fever.setState(FeverState.LOW);
+        sick.setState(BooleanState.TRUE);
+        network.learnStates();
 
-		fever.setState(FeverState.WARM);
-		sick.setState(BooleanState.FALSE);
-		network.learnStates();
-		fever.setState(FeverState.WARM);
-		sick.setState(BooleanState.FALSE);
-		network.learnStates();
-		fever.setState(FeverState.WARM);
-		sick.setState(BooleanState.TRUE);
-		network.learnStates();
-		fever.setState(FeverState.WARM);
-		sick.setState(BooleanState.TRUE);
-		network.learnStates();
-		fever.setState(FeverState.WARM);
-		sick.setState(BooleanState.TRUE);
-		network.learnStates();
+        fever.setState(FeverState.WARM);
+        sick.setState(BooleanState.FALSE);
+        network.learnStates();
+        fever.setState(FeverState.WARM);
+        sick.setState(BooleanState.FALSE);
+        network.learnStates();
+        fever.setState(FeverState.WARM);
+        sick.setState(BooleanState.TRUE);
+        network.learnStates();
+        fever.setState(FeverState.WARM);
+        sick.setState(BooleanState.TRUE);
+        network.learnStates();
+        fever.setState(FeverState.WARM);
+        sick.setState(BooleanState.TRUE);
+        network.learnStates();
 
-		fever.setState(FeverState.HOT);
-		sick.setState(BooleanState.FALSE);
-		network.learnStates();
-		fever.setState(FeverState.HOT);
-		sick.setState(BooleanState.TRUE);
-		network.learnStates();
-		fever.setState(FeverState.HOT);
-		sick.setState(BooleanState.TRUE);
-		network.learnStates();
-		fever.setState(FeverState.HOT);
-		sick.setState(BooleanState.TRUE);
-		network.learnStates();
-		fever.setState(FeverState.HOT);
-		sick.setState(BooleanState.TRUE);
-		network.learnStates();
-	}
+        fever.setState(FeverState.HOT);
+        sick.setState(BooleanState.FALSE);
+        network.learnStates();
+        fever.setState(FeverState.HOT);
+        sick.setState(BooleanState.TRUE);
+        network.learnStates();
+        fever.setState(FeverState.HOT);
+        sick.setState(BooleanState.TRUE);
+        network.learnStates();
+        fever.setState(FeverState.HOT);
+        sick.setState(BooleanState.TRUE);
+        network.learnStates();
+        fever.setState(FeverState.HOT);
+        sick.setState(BooleanState.TRUE);
+        network.learnStates();
+    }
+
+    @XmlRootElement
+    private static enum BooleanState {
+        TRUE, FALSE
+    }
+
+    @XmlRootElement
+    private static enum SeasonState {
+        WINTER, SUMMER, SPRING, FALL
+    }
+
+    @XmlRootElement
+    private static enum AgeState {
+        BABY, CHILD, TEENAGER, ADULT, SENIOR
+    }
+
+    @XmlRootElement
+    private static enum FeverState {
+        LOW, NONE, WARM, HOT
+    }
 }

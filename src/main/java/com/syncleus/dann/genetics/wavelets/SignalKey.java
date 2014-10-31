@@ -20,37 +20,30 @@ package com.syncleus.dann.genetics.wavelets;
 
 import java.util.Map;
 
-public class SignalKey extends AbstractKey
-{
-	public SignalKey()
-	{
-		super();
-	}
+public class SignalKey extends AbstractKey {
+    public SignalKey() {
+        super();
+    }
 
-	public SignalKey(final AbstractKey copy)
-	{
-		super(copy);
-	}
+    public SignalKey(final AbstractKey copy) {
+        super(copy);
+    }
 
-	public SignalKey(final Map<Integer, Boolean> points)
-	{
-		super(points);
-	}
+    public SignalKey(final Map<Integer, Boolean> points) {
+        super(points);
+    }
 
-	public SignalKey(final String keyString)
-	{
-		super(keyString);
-	}
+    public SignalKey(final String keyString) {
+        super(keyString);
+    }
 
-	@Override
-	public SignalKey clone()
-	{
-		return (SignalKey) super.clone();
-	}
+    @Override
+    public SignalKey clone() {
+        return (SignalKey) super.clone();
+    }
 
-	@Override
-	public SignalKey mutate(final double deviation)
-	{
-		return (SignalKey) super.mutate(deviation);
-	}
+    @Override
+    public SignalKey mutate(final double deviation) {
+        return (SignalKey) super.mutate(deviation);
+    }
 }

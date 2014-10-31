@@ -18,11 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.tree;
 
-import com.syncleus.dann.graph.DirectedEdge;
-import com.syncleus.dann.graph.DirectedGraph;
+import com.syncleus.dann.graph.*;
 
-public interface TreeOptimizedDirectedGraph<N, E extends DirectedEdge<N>> extends DirectedGraph<N, E>
-{
-	boolean isRootedTree();
-	boolean isRootedForest();
+public interface TreeOptimizedDirectedGraph<N, E extends DirectedEdge<N>> extends DirectedGraph<N, E> {
+    boolean isRootedTree();
+
+    boolean isRootedForest();
 }

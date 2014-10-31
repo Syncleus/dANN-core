@@ -18,68 +18,76 @@
  ******************************************************************************/
 package com.syncleus.dann.math;
 
-public interface Trigonometric<F extends Trigonometric<? extends F>> extends FieldElement<F>
-{
-	/**
-	 * Returns the trigonometric sine of this value.
-	 * @see Math#sin(double)
-	 * @return the trigonometric sine of this value.
-	 */
-	F sin();
+public interface Trigonometric<F extends Trigonometric<? extends F>> extends FieldElement<F> {
+    /**
+     * Returns the trigonometric sine of this value.
+     *
+     * @return the trigonometric sine of this value.
+     * @see Math#sin(double)
+     */
+    F sin();
 
-	/**
-	 * Returns the arc sine of a value.
-	 * @see Math#asin(double)
-	 * @return the trigonometric arc sine of this value.
-	 */
-	F asin();
+    /**
+     * Returns the arc sine of a value.
+     *
+     * @return the trigonometric arc sine of this value.
+     * @see Math#asin(double)
+     */
+    F asin();
 
-	/**
-	 * Returns the hyperbolic sine of this value.
-	 * @see Math#sinh(double)
-	 * @return the hyperbolic sine of this value.
-	 */
-	F sinh();
+    /**
+     * Returns the hyperbolic sine of this value.
+     *
+     * @return the hyperbolic sine of this value.
+     * @see Math#sinh(double)
+     */
+    F sinh();
 
-	/**
-	 * Returns the trigonometric cosine of this value.
-	 * @see Math#cos(double)
-	 * @return the trigonometric cosine of this value.
-	 */
-	F cos();
+    /**
+     * Returns the trigonometric cosine of this value.
+     *
+     * @return the trigonometric cosine of this value.
+     * @see Math#cos(double)
+     */
+    F cos();
 
-	/**
-	 * Returns the arc cosine of this value.
-	 * @see Math#acos(double)
-	 * @return the arc cosine of this value.
-	 */
-	F acos();
+    /**
+     * Returns the arc cosine of this value.
+     *
+     * @return the arc cosine of this value.
+     * @see Math#acos(double)
+     */
+    F acos();
 
-	/**
-	 * Returns the hyperbolic cosine of this value.
-	 * @see Math#cosh(double)
-	 * @return the hyperbolic cosine of this value.
-	 */
-	F cosh();
+    /**
+     * Returns the hyperbolic cosine of this value.
+     *
+     * @return the hyperbolic cosine of this value.
+     * @see Math#cosh(double)
+     */
+    F cosh();
 
-	/**
-	 * Returns the trigonometric tangent of this value.
-	 * @see Math#tan(double)
-	 * @return the trigonometric tangent of this value.
-	 */
-	F tan();
+    /**
+     * Returns the trigonometric tangent of this value.
+     *
+     * @return the trigonometric tangent of this value.
+     * @see Math#tan(double)
+     */
+    F tan();
 
-	/**
-	 * Returns the arc tangent of this value.
-	 * @see Math#atan(double)
-	 * @return the arc tangent of this value.
-	 */
-	F atan();
+    /**
+     * Returns the arc tangent of this value.
+     *
+     * @return the arc tangent of this value.
+     * @see Math#atan(double)
+     */
+    F atan();
 
-	/**
-	 * Returns the hyperbolic tangent of this value.
-	 * @see Math#tanh(double)
-	 * @return the hyperbolic tangent of this value.
-	 */
-	F tanh();
+    /**
+     * Returns the hyperbolic tangent of this value.
+     *
+     * @return the hyperbolic tangent of this value.
+     * @see Math#tanh(double)
+     */
+    F tanh();
 }

@@ -25,50 +25,44 @@ package com.syncleus.dann.neural.activation;
  * @author Jeffrey Phillips Freeman
  * @since 1.0
  */
-public class HyperbolicSecantActivationFunction implements ActivationFunction
-{
-	private static final long serialVersionUID = 8019090788123142702L;
-	private static final double UPPER_LIMIT = 1.0;
-	private static final double LOWER_LIMIT = 0.0;
+public class HyperbolicSecantActivationFunction implements ActivationFunction {
+    private static final long serialVersionUID = 8019090788123142702L;
+    private static final double UPPER_LIMIT = 1.0;
+    private static final double LOWER_LIMIT = 0.0;
 
-	/**
-	 * The hyperbolic secant activation function.
-	 *
-	 * @param activity the neuron's current activity.
-	 * @return The result of the hyperbolic secant activation function bound
-	 *         between 0 and 1.
-	 * @since 1.0
-	 */
-	public double activate(final double activity)
-	{
-		return 1.0 / Math.cosh(activity);
-	}
+    /**
+     * The hyperbolic secant activation function.
+     *
+     * @param activity the neuron's current activity.
+     * @return The result of the hyperbolic secant activation function bound
+     * between 0 and 1.
+     * @since 1.0
+     */
+    public double activate(final double activity) {
+        return 1.0 / Math.cosh(activity);
+    }
 
-	/**
-	 * The derivative of the hyperbolic secant activation function.
-	 *
-	 * @param activity The neuron's current activity.
-	 * @return The result of the derivative of the hyperbolic secand activation
-	 *         function.
-	 * @since 1.0
-	 */
-	public double activateDerivative(final double activity)
-	{
-		return -1.0 * Math.tanh(activity) * this.activate(activity);
-	}
+    /**
+     * The derivative of the hyperbolic secant activation function.
+     *
+     * @param activity The neuron's current activity.
+     * @return The result of the derivative of the hyperbolic secand activation
+     * function.
+     * @since 1.0
+     */
+    public double activateDerivative(final double activity) {
+        return -1.0 * Math.tanh(activity) * this.activate(activity);
+    }
 
-	public boolean isBound()
-	{
-		return true;
-	}
+    public boolean isBound() {
+        return true;
+    }
 
-	public double getUpperLimit()
-	{
-		return UPPER_LIMIT;
-	}
+    public double getUpperLimit() {
+        return UPPER_LIMIT;
+    }
 
-	public double getLowerLimit()
-	{
-		return LOWER_LIMIT;
-	}
+    public double getLowerLimit() {
+        return LOWER_LIMIT;
+    }
 }

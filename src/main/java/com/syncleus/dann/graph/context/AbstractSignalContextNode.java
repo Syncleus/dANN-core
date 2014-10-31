@@ -18,67 +18,56 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.context;
 
-import java.util.HashSet;
-import java.util.Set;
-import com.syncleus.dann.graph.Edge;
-import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.*;
 
-public abstract class AbstractSignalContextNode<N, E extends Edge<N>, S> extends AbstractContextNode<N, E, Graph<N, E>> implements SignalContextNode<N, E, S>
-{
-	private final Set<SignalingContextEdge<N, S>> contextEdges = new HashSet<SignalingContextEdge<N, S>>();
-	private transient S state = null;
+import java.util.*;
 
-	protected AbstractSignalContextNode(final boolean allowJoiningMultipleGraphs)
-	{
-		super(allowJoiningMultipleGraphs);
-	}
+public abstract class AbstractSignalContextNode<N, E extends Edge<N>, S> extends AbstractContextNode<N, E, Graph<N, E>> implements SignalContextNode<N, E, S> {
+    private final Set<SignalingContextEdge<N, S>> contextEdges = new HashSet<SignalingContextEdge<N, S>>();
+    private transient S state = null;
 
-	protected AbstractSignalContextNode()
-	{
-		super(true);
-	}
+    protected AbstractSignalContextNode(final boolean allowJoiningMultipleGraphs) {
+        super(allowJoiningMultipleGraphs);
+    }
 
-	@Override
-	public boolean connectingEdge(final E edge)
-	{
-		if( super.connectingEdge(edge) )
-		{
-			if(edge instanceof SignalingContextEdge)
-				this.contextEdges.add((SignalingContextEdge)edge);
-			return true;
-		}
-		else
-			return false;
-	}
+    protected AbstractSignalContextNode() {
+        super(true);
+    }
 
-	@Override
-	public boolean disconnectingEdge(final E edge)
-	{
-		if( super.disconnectingEdge(edge) )
-		{
-			if(edge instanceof SignalingContextEdge)
-				this.contextEdges.remove(edge);
-			return true;
-		}
-		else
-			return false;
-	}
+    @Override
+    public boolean connectingEdge(final E edge) {
+        if (super.connectingEdge(edge)) {
+            if (edge instanceof SignalingContextEdge)
+                this.contextEdges.add((SignalingContextEdge) edge);
+            return true;
+        }
+        else
+            return false;
+    }
 
-	@Override
-	public S getState()
-	{
-		return this.state;
-	}
+    @Override
+    public boolean disconnectingEdge(final E edge) {
+        if (super.disconnectingEdge(edge)) {
+            if (edge instanceof SignalingContextEdge)
+                this.contextEdges.remove(edge);
+            return true;
+        }
+        else
+            return false;
+    }
 
-	protected void setState(final S state)
-	{
-		this.state = state;
+    @Override
+    public S getState() {
+        return this.state;
+    }
 
-		//lets notify all edges
-		for(SignalingContextEdge edge : this.contextEdges)
-		{
-			if( edge.isTraversable(this) )
-				edge.nodeStateChanged(this, state);
-		}
-	}
+    protected void setState(final S state) {
+        this.state = state;
+
+        //lets notify all edges
+        for (SignalingContextEdge edge : this.contextEdges) {
+            if (edge.isTraversable(this))
+                edge.nodeStateChanged(this, state);
+        }
+    }
 }

@@ -18,81 +18,70 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.tree.mst;
 
-import java.util.*;
 import com.syncleus.dann.graph.*;
 
-public class LinkedGraph<N, E extends Edge<N>> extends AbstractAdjacencyGraph<N, E>
-{
-	private final Set<N> nodes;
-	private final Set<E> edges;
-	private final Map<N, Set<E>> neighborEdges = new HashMap<N, Set<E>>();
-	private final Map<N, List<N>> neighborNodes = new HashMap<N, List<N>>();
-	private static final long serialVersionUID = -5301697513399013407L;
+import java.util.*;
 
-	public LinkedGraph(final Graph<N, E> copyGraph)
-	{
-		this(copyGraph.getNodes(), copyGraph.getEdges());
-	}
+public class LinkedGraph<N, E extends Edge<N>> extends AbstractAdjacencyGraph<N, E> {
+    private static final long serialVersionUID = -5301697513399013407L;
+    private final Set<N> nodes;
+    private final Set<E> edges;
+    private final Map<N, Set<E>> neighborEdges = new HashMap<N, Set<E>>();
+    private final Map<N, List<N>> neighborNodes = new HashMap<N, List<N>>();
 
-	public LinkedGraph(final Set<N> nodes, final Set<E> edges)
-	{
-		this.nodes = new LinkedHashSet<N>(nodes);
-		this.edges = new LinkedHashSet<E>(edges);
-		for(final E edge : edges)
-		{
-			final List<N> edgeNodes = edge.getNodes();
-			for(int startNodeIndex = 0; startNodeIndex < edgeNodes.size(); startNodeIndex++)
-			{
-				if( !this.nodes.contains(edgeNodes.get(startNodeIndex)) )
-					throw new IllegalArgumentException("A node that is an end point in one of the edges was not in the nodes list");
+    public LinkedGraph(final Graph<N, E> copyGraph) {
+        this(copyGraph.getNodes(), copyGraph.getEdges());
+    }
 
-				Set<E> startNeighborEdges = this.neighborEdges.get(edgeNodes.get(startNodeIndex));
-				if( startNeighborEdges == null )
-				{
-					startNeighborEdges = new LinkedHashSet<E>();
-					this.neighborEdges.put(edgeNodes.get(startNodeIndex), startNeighborEdges);
-				}
-				startNeighborEdges.add(edge);
+    public LinkedGraph(final Set<N> nodes, final Set<E> edges) {
+        this.nodes = new LinkedHashSet<N>(nodes);
+        this.edges = new LinkedHashSet<E>(edges);
+        for (final E edge : edges) {
+            final List<N> edgeNodes = edge.getNodes();
+            for (int startNodeIndex = 0; startNodeIndex < edgeNodes.size(); startNodeIndex++) {
+                if (!this.nodes.contains(edgeNodes.get(startNodeIndex)))
+                    throw new IllegalArgumentException("A node that is an end point in one of the edges was not in the nodes list");
 
-				List<N> startNeighborNodes = this.neighborNodes.get(edgeNodes.get(startNodeIndex));
-				if( startNeighborNodes == null )
-				{
-					startNeighborNodes = new ArrayList<N>();
-					this.neighborNodes.put(edgeNodes.get(startNodeIndex), startNeighborNodes);
-				}
+                Set<E> startNeighborEdges = this.neighborEdges.get(edgeNodes.get(startNodeIndex));
+                if (startNeighborEdges == null) {
+                    startNeighborEdges = new LinkedHashSet<E>();
+                    this.neighborEdges.put(edgeNodes.get(startNodeIndex), startNeighborEdges);
+                }
+                startNeighborEdges.add(edge);
 
-				for(int endNodeIndex = 0; endNodeIndex < edgeNodes.size(); endNodeIndex++)
-				{
-					if( startNodeIndex == endNodeIndex )
-						continue;
+                List<N> startNeighborNodes = this.neighborNodes.get(edgeNodes.get(startNodeIndex));
+                if (startNeighborNodes == null) {
+                    startNeighborNodes = new ArrayList<N>();
+                    this.neighborNodes.put(edgeNodes.get(startNodeIndex), startNeighborNodes);
+                }
 
-					startNeighborNodes.add(edgeNodes.get(endNodeIndex));
-				}
-			}
-		}
-	}
+                for (int endNodeIndex = 0; endNodeIndex < edgeNodes.size(); endNodeIndex++) {
+                    if (startNodeIndex == endNodeIndex)
+                        continue;
 
-	public Set<N> getNodes()
-	{
-		return Collections.unmodifiableSet(this.nodes);
-	}
+                    startNeighborNodes.add(edgeNodes.get(endNodeIndex));
+                }
+            }
+        }
+    }
 
-	@Override
-	public Set<E> getEdges()
-	{
-		return Collections.unmodifiableSet(this.edges);
-	}
+    public Set<N> getNodes() {
+        return Collections.unmodifiableSet(this.nodes);
+    }
 
-	public Set<E> getAdjacentEdges(final N node)
-	{
-		if( this.neighborEdges.containsKey(node) )
-			return Collections.unmodifiableSet(this.neighborEdges.get(node));
-		else
-			return Collections.<E>emptySet();
-	}
+    @Override
+    public Set<E> getEdges() {
+        return Collections.unmodifiableSet(this.edges);
+    }
 
-	public List<N> getAdjacentNodes(final N node)
-	{
-		return Collections.unmodifiableList(new ArrayList<N>(this.neighborNodes.get(node)));
-	}
+    public Set<E> getAdjacentEdges(final N node) {
+        if (this.neighborEdges.containsKey(node))
+            return Collections.unmodifiableSet(this.neighborEdges.get(node));
+        else
+            return Collections.<E>emptySet();
+    }
+
+    public List<N> getAdjacentNodes(final N node) {
+        return Collections.unmodifiableList(new ArrayList<N>(this.neighborNodes.get(node)));
+    }
 }

@@ -18,68 +18,55 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.drawing.hyperassociativemap;
 
+import com.syncleus.dann.neural.*;
+
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
-import com.syncleus.dann.neural.Brain;
-import com.syncleus.dann.neural.InputNeuron;
-import com.syncleus.dann.neural.Neuron;
-import com.syncleus.dann.neural.OutputNeuron;
-import com.syncleus.dann.neural.Synapse;
 
-public class BrainHyperassociativeMap extends HyperassociativeMap<Brain<InputNeuron, OutputNeuron, Neuron, Synapse<Neuron>>, Neuron>
-{
-	public BrainHyperassociativeMap(final Brain graph, final int dimensions, final double equilibriumDistance, final boolean useWeights, final ExecutorService threadExecutor)
-	{
-		super(graph, dimensions, equilibriumDistance, useWeights, threadExecutor);
-	}
+public class BrainHyperassociativeMap extends HyperassociativeMap<Brain<InputNeuron, OutputNeuron, Neuron, Synapse<Neuron>>, Neuron> {
+    public BrainHyperassociativeMap(final Brain graph, final int dimensions, final double equilibriumDistance, final boolean useWeights, final ExecutorService threadExecutor) {
+        super(graph, dimensions, equilibriumDistance, useWeights, threadExecutor);
+    }
 
-	public BrainHyperassociativeMap(final Brain graph, final int dimensions, final boolean useWeights, final ExecutorService threadExecutor)
-	{
-		super(graph, dimensions, 1.0, useWeights, threadExecutor);
-	}
+    public BrainHyperassociativeMap(final Brain graph, final int dimensions, final boolean useWeights, final ExecutorService threadExecutor) {
+        super(graph, dimensions, 1.0, useWeights, threadExecutor);
+    }
 
-	public BrainHyperassociativeMap(final Brain graph, final int dimensions, final double equilibriumDistance, final boolean useWeights)
-	{
-		super(graph, dimensions, equilibriumDistance, useWeights, null);
-	}
+    public BrainHyperassociativeMap(final Brain graph, final int dimensions, final double equilibriumDistance, final boolean useWeights) {
+        super(graph, dimensions, equilibriumDistance, useWeights, null);
+    }
 
-	public BrainHyperassociativeMap(final Brain graph, final int dimensions, final boolean useWeights)
-	{
-		super(graph, dimensions, 1.0, useWeights, null);
-	}
+    public BrainHyperassociativeMap(final Brain graph, final int dimensions, final boolean useWeights) {
+        super(graph, dimensions, 1.0, useWeights, null);
+    }
 
-	public BrainHyperassociativeMap(final Brain graph, final int dimensions, final double equilibriumDistance, final ExecutorService threadExecutor)
-	{
-		super(graph, dimensions, equilibriumDistance, true, threadExecutor);
-	}
+    public BrainHyperassociativeMap(final Brain graph, final int dimensions, final double equilibriumDistance, final ExecutorService threadExecutor) {
+        super(graph, dimensions, equilibriumDistance, true, threadExecutor);
+    }
 
-	public BrainHyperassociativeMap(final Brain graph, final int dimensions, final ExecutorService threadExecutor)
-	{
-		super(graph, dimensions, 1.0, true, threadExecutor);
-	}
+    public BrainHyperassociativeMap(final Brain graph, final int dimensions, final ExecutorService threadExecutor) {
+        super(graph, dimensions, 1.0, true, threadExecutor);
+    }
 
-	public BrainHyperassociativeMap(final Brain graph, final int dimensions, final double equilibriumDistance)
-	{
-		super(graph, dimensions, equilibriumDistance, true, null);
-	}
+    public BrainHyperassociativeMap(final Brain graph, final int dimensions, final double equilibriumDistance) {
+        super(graph, dimensions, equilibriumDistance, true, null);
+    }
 
-	public BrainHyperassociativeMap(final Brain graph, final int dimensions)
-	{
-		super(graph, dimensions, 1.0, true, null);
-	}
+    public BrainHyperassociativeMap(final Brain graph, final int dimensions) {
+        super(graph, dimensions, 1.0, true, null);
+    }
 
-	@Override
-	Map<Neuron, Double> getNeighbors(final Neuron nodeToQuery)
-	{
-		final Map<Neuron, Double> associations = super.getNeighbors(nodeToQuery);
-		if( nodeToQuery instanceof InputNeuron )
-			for(final InputNeuron neuron : this.getGraph().getInputNeurons())
-				associations.put(neuron, this.getEquilibriumDistance());
-		else if( nodeToQuery instanceof OutputNeuron )
-			for(final OutputNeuron neuron : this.getGraph().getOutputNeurons())
-				associations.put(neuron, this.getEquilibriumDistance());
-		associations.remove(nodeToQuery);
+    @Override
+    Map<Neuron, Double> getNeighbors(final Neuron nodeToQuery) {
+        final Map<Neuron, Double> associations = super.getNeighbors(nodeToQuery);
+        if (nodeToQuery instanceof InputNeuron)
+            for (final InputNeuron neuron : this.getGraph().getInputNeurons())
+                associations.put(neuron, this.getEquilibriumDistance());
+        else if (nodeToQuery instanceof OutputNeuron)
+            for (final OutputNeuron neuron : this.getGraph().getOutputNeurons())
+                associations.put(neuron, this.getEquilibriumDistance());
+        associations.remove(nodeToQuery);
 
-		return associations;
-	}
+        return associations;
+    }
 }

@@ -21,72 +21,60 @@ package com.syncleus.dann.genetics.wavelets;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class ReceptorKey extends AbstractKey
-{
-	public ReceptorKey()
-	{
-		super();
-	}
+public class ReceptorKey extends AbstractKey {
+    public ReceptorKey() {
+        super();
+    }
 
-	public ReceptorKey(final AbstractKey copy)
-	{
-		super(copy);
-	}
+    public ReceptorKey(final AbstractKey copy) {
+        super(copy);
+    }
 
-	public ReceptorKey(final Map<Integer, Boolean> points)
-	{
-		super(points);
-	}
+    public ReceptorKey(final Map<Integer, Boolean> points) {
+        super(points);
+    }
 
-	public ReceptorKey(final String keyString)
-	{
-		super(keyString);
-	}
+    public ReceptorKey(final String keyString) {
+        super(keyString);
+    }
 
-	public boolean binds(final SignalKey signal)
-	{
-		if( signal.getPoints().size() < this.getPoints().size() )
-			return false;
+    public boolean binds(final SignalKey signal) {
+        if (signal.getPoints().size() < this.getPoints().size())
+            return false;
 
-		boolean matching;
-		for(final Integer offsetPoint : signal.getPoints().keySet())
-		{
-			matching = true;
-			Integer offset = null;
-			for(final Entry<Integer, Boolean> point : this.getPoints().entrySet())
-			{
-				if( offset == null )
-					offset = offsetPoint - point.getKey();
+        boolean matching;
+        for (final Integer offsetPoint : signal.getPoints().keySet()) {
+            matching = true;
+            Integer offset = null;
+            for (final Entry<Integer, Boolean> point : this.getPoints().entrySet()) {
+                if (offset == null)
+                    offset = offsetPoint - point.getKey();
 
-				final Boolean bindingValue = signal.getPoints().get(point.getKey() + offset);
-				if( bindingValue == null )
-				{
-					matching = false;
-					break;
-				}
-				else if( bindingValue.booleanValue() != point.getValue().booleanValue() )
-				{
-					matching = false;
-					break;
-				}
-			}
+                final Boolean bindingValue = signal.getPoints().get(point.getKey() + offset);
+                if (bindingValue == null) {
+                    matching = false;
+                    break;
+                }
+                else if (bindingValue.booleanValue() != point.getValue().booleanValue()) {
+                    matching = false;
+                    break;
+                }
+            }
 
-			if( matching )
-				return true;
-		}
+            if (matching)
+                return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	@Override
-	public ReceptorKey clone()
-	{
-		return (ReceptorKey) super.clone();
-	}
+    @Override
+    public ReceptorKey clone() {
+        return (ReceptorKey) super.clone();
+    }
 
-	@Override
-	public ReceptorKey mutate(final double deviation)
-	{
-		return (ReceptorKey) super.mutate(deviation);
-	}
+    @Override
+    public ReceptorKey mutate(final double deviation) {
+        return (ReceptorKey) super.mutate(deviation);
+    }
 }

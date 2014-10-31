@@ -27,13 +27,12 @@ import java.io.Serializable;
  * @author Jeffrey Phillips Freeman
  * @since 1.0
  */
-public interface Neuron extends Serializable
-{
-	/**
-	 * Indicates the neuron has an opportunity to perform any processing of its
-	 * IO.
-	 *
-	 * @since 2.0
-	 */
-	void tick();
+public interface Neuron extends Serializable {
+    /**
+     * Indicates the neuron has an opportunity to perform any processing of its
+     * IO.
+     *
+     * @since 2.0
+     */
+    void tick();
 }

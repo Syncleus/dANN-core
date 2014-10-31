@@ -18,10 +18,8 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.markovrandomfield;
 
-import com.syncleus.dann.graph.UndirectedEdge;
-import com.syncleus.dann.graph.MutableGraph;
+import com.syncleus.dann.graph.*;
 import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
 
-public interface MutableMarkovRandomField<N extends GraphicalModelNode, E extends UndirectedEdge<N>> extends MarkovRandomField<N, E>, MutableGraph<N, E>
-{
+public interface MutableMarkovRandomField<N extends GraphicalModelNode, E extends UndirectedEdge<N>> extends MarkovRandomField<N, E>, MutableGraph<N, E> {
 }

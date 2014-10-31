@@ -25,53 +25,48 @@ package com.syncleus.dann;
  * @author Jeffrey Phillips Freeman
  * @since 2.0
  */
-public class DannError extends RuntimeException
-{
-	private static final long serialVersionUID = -4374806187402275474L;
+public class DannError extends RuntimeException {
+    private static final long serialVersionUID = -4374806187402275474L;
 
-	/**
-	 * Creates a blank default exception.
-	 *
-	 * @since 2.0
-	 */
-	public DannError()
-	{
-		super();
-	}
+    /**
+     * Creates a blank default exception.
+     *
+     * @since 2.0
+     */
+    public DannError() {
+        super();
+    }
 
-	/**
-	 * Creates an error with a message describing the cause.
-	 *
-	 * @param msg A string describing the cause of the error
-	 * @since 2.0
-	 */
-	public DannError(final String msg)
-	{
-		super(msg);
-	}
+    /**
+     * Creates an error with a message describing the cause.
+     *
+     * @param msg A string describing the cause of the error
+     * @since 2.0
+     */
+    public DannError(final String msg) {
+        super(msg);
+    }
 
-	/**
-	 * Creates an error with a message describing the cause as well as the
-	 * throwable which caused this exception to be thrown.
-	 *
-	 * @param msg A string describing the cause of the exception
-	 * @param cause The throwable which caused this exception
-	 * @since 2.0
-	 */
-	public DannError(final String msg, final Throwable cause)
-	{
-		super(msg, cause);
-	}
+    /**
+     * Creates an error with a message describing the cause as well as the
+     * throwable which caused this exception to be thrown.
+     *
+     * @param msg   A string describing the cause of the exception
+     * @param cause The throwable which caused this exception
+     * @since 2.0
+     */
+    public DannError(final String msg, final Throwable cause) {
+        super(msg, cause);
+    }
 
-	/**
-	 * Creates an error containing the throwable which caused this exception to be
-	 * thrown.
-	 *
-	 * @param cause The throwable which caused this exception
-	 * @since 2.0
-	 */
-	public DannError(final Throwable cause)
-	{
-		super(cause);
-	}
+    /**
+     * Creates an error containing the throwable which caused this exception to be
+     * thrown.
+     *
+     * @param cause The throwable which caused this exception
+     * @since 2.0
+     */
+    public DannError(final Throwable cause) {
+        super(cause);
+    }
 }

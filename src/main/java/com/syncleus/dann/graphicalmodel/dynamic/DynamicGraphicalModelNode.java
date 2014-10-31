@@ -18,13 +18,16 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.dynamic;
 
-import java.util.List;
 import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
 
-public interface DynamicGraphicalModelNode<S> extends GraphicalModelNode<S>
-{
-	int getStateHistoryCapacity();
-	List<S> getStateHistory();
-	void setStateHistory(List<S> history);
-	void learnState(boolean updateHistory);
+import java.util.List;
+
+public interface DynamicGraphicalModelNode<S> extends GraphicalModelNode<S> {
+    int getStateHistoryCapacity();
+
+    List<S> getStateHistory();
+
+    void setStateHistory(List<S> history);
+
+    void learnState(boolean updateHistory);
 }

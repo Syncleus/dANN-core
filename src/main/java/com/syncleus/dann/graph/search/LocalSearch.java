@@ -18,7 +18,6 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.search;
 
-public interface LocalSearch<N>
-{
-	N search(N startNode);
+public interface LocalSearch<N> {
+    N search(N startNode);
 }

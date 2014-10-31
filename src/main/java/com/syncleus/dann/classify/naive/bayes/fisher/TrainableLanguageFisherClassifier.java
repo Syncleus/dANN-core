@@ -23,9 +23,9 @@ import com.syncleus.dann.classify.naive.bayes.TrainableLanguageNaiveBayesClassif
 /**
  * A TrainableLanguageFisherClassifier is a LanguageFisherClassifier that is
  * also trainable.
+ *
  * @param <C> The type of class to use
  * @author Jeffrey Phillips Freeman
  */
-public interface TrainableLanguageFisherClassifier<C> extends TrainableFisherClassifier<String, String, C>, LanguageFisherClassifier<C>, TrainableLanguageNaiveBayesClassifier<C>
-{
+public interface TrainableLanguageFisherClassifier<C> extends TrainableFisherClassifier<String, String, C>, LanguageFisherClassifier<C>, TrainableLanguageNaiveBayesClassifier<C> {
 }

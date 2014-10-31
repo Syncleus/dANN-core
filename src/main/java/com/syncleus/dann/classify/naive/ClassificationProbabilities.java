@@ -27,68 +27,67 @@ import java.util.*;
  * @param <C> The type of category
  * @author Jeffrey Phillips Freeman
  */
-public class ClassificationProbabilities<C>
-{
-	private int probabilitySum;
-	private final Map<C, Integer> categoryProbabilityMap = new HashMap<C, Integer>();
+public class ClassificationProbabilities<C> {
+    private final Map<C, Integer> categoryProbabilityMap = new HashMap<C, Integer>();
+    private int probabilitySum;
 
-	/**
-	 * Gets an unmodifiable version of the category's probability map.
-	 * @return The category's probability map.
-	 */
-	public Map<C, Integer> getCategoryProbabilityMap()
-	{
-		return Collections.unmodifiableMap(this.categoryProbabilityMap);
-	}
+    /**
+     * Gets an unmodifiable version of the category's probability map.
+     *
+     * @return The category's probability map.
+     */
+    public Map<C, Integer> getCategoryProbabilityMap() {
+        return Collections.unmodifiableMap(this.categoryProbabilityMap);
+    }
 
-	/**
-	 * Makes a certain category 1 more likely.
-	 * @param category The category to change
-	 * @see com.syncleus.dann.classify.naive.ClassificationProbabilities#incrementCategory(Object, int)
-	 */
-	public void incrementCategory(final C category)
-	{
-		this.incrementCategory(category, 1);
-	}
+    /**
+     * Makes a certain category 1 more likely.
+     *
+     * @param category The category to change
+     * @see com.syncleus.dann.classify.naive.ClassificationProbabilities#incrementCategory(Object, int)
+     */
+    public void incrementCategory(final C category) {
+        this.incrementCategory(category, 1);
+    }
 
-	/**
-	 * Makes a given category more likely by a given value.
-	 * @param category The category to change
-	 * @param value How much to change it by
-	 */
-	public void incrementCategory(final C category, final int value)
-	{
-		Integer currentProbability = this.categoryProbabilityMap.get(category);
-		if( currentProbability == null )
-			currentProbability = value;
-		else
-			currentProbability = currentProbability + value;
-		this.categoryProbabilityMap.put(category, currentProbability);
-		this.probabilitySum += value;
-	}
+    /**
+     * Makes a given category more likely by a given value.
+     *
+     * @param category The category to change
+     * @param value    How much to change it by
+     */
+    public void incrementCategory(final C category, final int value) {
+        Integer currentProbability = this.categoryProbabilityMap.get(category);
+        if (currentProbability == null)
+            currentProbability = value;
+        else
+            currentProbability = currentProbability + value;
+        this.categoryProbabilityMap.put(category, currentProbability);
+        this.probabilitySum += value;
+    }
 
-	/**
-	 * Gets the sum of the probability of all possibilities. This is used to normalize the relative probabilities
-	 * in the map.
-	 * @return The sum of the probabilities
-	 */
-	public int getProbabilitySum()
-	{
-		return this.probabilitySum;
-	}
+    /**
+     * Gets the sum of the probability of all possibilities. This is used to normalize the relative probabilities
+     * in the map.
+     *
+     * @return The sum of the probabilities
+     */
+    public int getProbabilitySum() {
+        return this.probabilitySum;
+    }
 
-	/**
-	 * Gets the probability of a given category.
-	 * @param category The category to use
-	 * @return The probability of that category
-	 * @see ClassificationProbabilities#getProbabilitySum()
-	 */
-	public int getCategoryProbability(final C category)
-	{
-		final Integer probability = this.categoryProbabilityMap.get(category);
-		if( probability == null )
-			return 0;
-		else
-			return probability;
-	}
+    /**
+     * Gets the probability of a given category.
+     *
+     * @param category The category to use
+     * @return The probability of that category
+     * @see ClassificationProbabilities#getProbabilitySum()
+     */
+    public int getCategoryProbability(final C category) {
+        final Integer probability = this.categoryProbabilityMap.get(category);
+        if (probability == null)
+            return 0;
+        else
+            return probability;
+    }
 }

@@ -18,255 +18,215 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel;
 
-import java.util.*;
 import com.syncleus.dann.graph.*;
-import com.syncleus.dann.graphicalmodel.xml.GraphicalModelElementXml;
-import com.syncleus.dann.graphicalmodel.xml.GraphicalModelXml;
-import com.syncleus.dann.xml.NamedValueXml;
-import com.syncleus.dann.xml.Namer;
-import com.syncleus.dann.xml.XmlSerializable;
+import com.syncleus.dann.graphicalmodel.xml.*;
+import com.syncleus.dann.xml.*;
 
-public abstract class AbstractGraphicalModelAdjacencyGraph<N extends GraphicalModelNode, E extends BidirectedEdge<N>> extends AbstractBidirectedAdjacencyGraph<N, E> implements GraphicalModel<N, E>
-{
-	protected AbstractGraphicalModelAdjacencyGraph()
-	{
-		super();
-	}
+import java.util.*;
 
-	protected AbstractGraphicalModelAdjacencyGraph(final Graph<N, E> copyGraph)
-	{
-		super(copyGraph.getNodes(), copyGraph.getEdges());
-	}
+public abstract class AbstractGraphicalModelAdjacencyGraph<N extends GraphicalModelNode, E extends BidirectedEdge<N>> extends AbstractBidirectedAdjacencyGraph<N, E> implements GraphicalModel<N, E> {
+    protected AbstractGraphicalModelAdjacencyGraph() {
+        super();
+    }
 
-	protected AbstractGraphicalModelAdjacencyGraph(final Set<N> nodes, final Set<E> edges)
-	{
-		super(nodes, edges);
-	}
+    protected AbstractGraphicalModelAdjacencyGraph(final Graph<N, E> copyGraph) {
+        super(copyGraph.getNodes(), copyGraph.getEdges());
+    }
 
-	@Override
-	public void learnStates()
-	{
-		for(final N node : this.getNodes())
-			node.learnState();
-	}
+    protected AbstractGraphicalModelAdjacencyGraph(final Set<N> nodes, final Set<E> edges) {
+        super(nodes, edges);
+    }
 
-	@Override
-	public double jointProbability()
-	{
-		// TODO implement this!
-		throw new UnsupportedOperationException();
-	}
+    @SuppressWarnings("unchecked")
+    protected static <N extends GraphicalModelNode> void resetNodeStates(final Collection<N> incNodes) {
+        for (final N incNode : incNodes)
+            incNode.setState((incNode.getLearnedStates().toArray())[0]);
+    }
 
-	@Override
-	public double conditionalProbability(final Set<N> goals, final Set<N> influences)
-	{
-		//first we need to preserve a map of all the starting states so we can reset the network back to its starting
-		//point when we are done
-		Map<N, Object> startingStates = new HashMap<N, Object>();
-		for(N node : this.getNodes())
-		{
-			//we wont be changing influences nodes, so we can skip those
-			if( !influences.contains(node) )
-				startingStates.put(node, node.getState());
-		}
+    protected static <N extends GraphicalModelNode> boolean incrementNodeStates(final Collection<N> incNodes) {
+        for (final N incNode : incNodes)
+            if (!incrementNodeState(incNode))
+                return false;
+        return true;
+    }
 
-		try
-		{
-			List<N> varyingNodes = new ArrayList<N>(this.getNodes());
+    @SuppressWarnings("unchecked")
+    protected static <N extends GraphicalModelNode> boolean incrementNodeState(final N incNode) {
+        final List stateTypes = Arrays.asList(incNode.getLearnedStates().toArray());
+        final int currentStateIndex = stateTypes.indexOf(incNode.getState());
+        if ((currentStateIndex + 1) >= stateTypes.size()) {
+            incNode.setState(stateTypes.get(0));
+            return true;
+        }
+        else {
+            incNode.setState(stateTypes.get(currentStateIndex + 1));
+            return false;
+        }
+    }
 
-			//calculate numerator
-			varyingNodes.removeAll(influences);
-			varyingNodes.removeAll(goals);
-			resetNodeStates(varyingNodes);
-			double numerator = 0.0;
-			do
-			{
-				numerator += this.jointProbability();
-			}
-			while( !incrementNodeStates(varyingNodes) );
+    @Override
+    public void learnStates() {
+        for (final N node : this.getNodes())
+            node.learnState();
+    }
 
-			//calculate denominator
-			varyingNodes = new ArrayList<N>(this.getNodes());
-			varyingNodes.removeAll(influences);
-			resetNodeStates(varyingNodes);
-			double denominator = 0.0;
-			do
-			{
-				denominator += this.jointProbability();
-			}
-			while( !incrementNodeStates(varyingNodes) );
+    @Override
+    public double jointProbability() {
+        // TODO implement this!
+        throw new UnsupportedOperationException();
+    }
 
-			//all done
-			return numerator / denominator;
-		}
-		finally
-		{
-			//restore the initial states when we are done
-			for(Map.Entry<N,Object> nodeState : startingStates.entrySet())
-				nodeState.getKey().setState(nodeState.getValue());
-		}
-	}
+    @Override
+    public double conditionalProbability(final Set<N> goals, final Set<N> influences) {
+        //first we need to preserve a map of all the starting states so we can reset the network back to its starting
+        //point when we are done
+        Map<N, Object> startingStates = new HashMap<N, Object>();
+        for (N node : this.getNodes()) {
+            //we wont be changing influences nodes, so we can skip those
+            if (!influences.contains(node))
+                startingStates.put(node, node.getState());
+        }
 
-	@SuppressWarnings("unchecked")
-	protected static <N extends GraphicalModelNode> void resetNodeStates(final Collection<N> incNodes)
-	{
-		for(final N incNode : incNodes)
-			incNode.setState((incNode.getLearnedStates().toArray())[0]);
-	}
+        try {
+            List<N> varyingNodes = new ArrayList<N>(this.getNodes());
 
-	protected static <N extends GraphicalModelNode> boolean incrementNodeStates(final Collection<N> incNodes)
-	{
-		for(final N incNode : incNodes)
-			if( !incrementNodeState(incNode) )
-				return false;
-		return true;
-	}
+            //calculate numerator
+            varyingNodes.removeAll(influences);
+            varyingNodes.removeAll(goals);
+            resetNodeStates(varyingNodes);
+            double numerator = 0.0;
+            do {
+                numerator += this.jointProbability();
+            }
+            while (!incrementNodeStates(varyingNodes));
 
-	@SuppressWarnings("unchecked")
-	protected static <N extends GraphicalModelNode> boolean incrementNodeState(final N incNode)
-	{
-		final List stateTypes = Arrays.asList(incNode.getLearnedStates().toArray());
-		final int currentStateIndex = stateTypes.indexOf(incNode.getState());
-		if( (currentStateIndex + 1) >= stateTypes.size() )
-		{
-			incNode.setState(stateTypes.get(0));
-			return true;
-		}
-		else
-		{
-			incNode.setState(stateTypes.get(currentStateIndex + 1));
-			return false;
-		}
-	}
+            //calculate denominator
+            varyingNodes = new ArrayList<N>(this.getNodes());
+            varyingNodes.removeAll(influences);
+            resetNodeStates(varyingNodes);
+            double denominator = 0.0;
+            do {
+                denominator += this.jointProbability();
+            }
+            while (!incrementNodeStates(varyingNodes));
 
-	@Override
-	public AbstractGraphicalModelAdjacencyGraph<N, E> cloneAdd(final E newEdge)
-	{
-		return (AbstractGraphicalModelAdjacencyGraph<N, E>) super.cloneAdd(newEdge);
-	}
+            //all done
+            return numerator / denominator;
+        }
+        finally {
+            //restore the initial states when we are done
+            for (Map.Entry<N, Object> nodeState : startingStates.entrySet())
+                nodeState.getKey().setState(nodeState.getValue());
+        }
+    }
 
-	@Override
-	public AbstractGraphicalModelAdjacencyGraph<N, E> cloneAdd(final N newNode)
-	{
-		return (AbstractGraphicalModelAdjacencyGraph<N, E>) super.cloneAdd(newNode);
-	}
+    @Override
+    public AbstractGraphicalModelAdjacencyGraph<N, E> cloneAdd(final E newEdge) {
+        return (AbstractGraphicalModelAdjacencyGraph<N, E>) super.cloneAdd(newEdge);
+    }
 
-	@Override
-	public AbstractGraphicalModelAdjacencyGraph<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges)
-	{
-		return (AbstractGraphicalModelAdjacencyGraph<N, E>) super.cloneAdd(newNodes, newEdges);
-	}
+    @Override
+    public AbstractGraphicalModelAdjacencyGraph<N, E> cloneAdd(final N newNode) {
+        return (AbstractGraphicalModelAdjacencyGraph<N, E>) super.cloneAdd(newNode);
+    }
 
-	@Override
-	public AbstractGraphicalModelAdjacencyGraph<N, E> cloneRemove(final E edgeToRemove)
-	{
-		return (AbstractGraphicalModelAdjacencyGraph<N, E>) super.cloneRemove(edgeToRemove);
-	}
+    @Override
+    public AbstractGraphicalModelAdjacencyGraph<N, E> cloneAdd(final Set<N> newNodes, final Set<E> newEdges) {
+        return (AbstractGraphicalModelAdjacencyGraph<N, E>) super.cloneAdd(newNodes, newEdges);
+    }
 
-	@Override
-	public AbstractGraphicalModelAdjacencyGraph<N, E> cloneRemove(final N nodeToRemove)
-	{
-		return (AbstractGraphicalModelAdjacencyGraph<N, E>) super.cloneRemove(nodeToRemove);
-	}
+    @Override
+    public AbstractGraphicalModelAdjacencyGraph<N, E> cloneRemove(final E edgeToRemove) {
+        return (AbstractGraphicalModelAdjacencyGraph<N, E>) super.cloneRemove(edgeToRemove);
+    }
 
-	@Override
-	public AbstractGraphicalModelAdjacencyGraph<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges)
-	{
-		return (AbstractGraphicalModelAdjacencyGraph<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
-	}
+    @Override
+    public AbstractGraphicalModelAdjacencyGraph<N, E> cloneRemove(final N nodeToRemove) {
+        return (AbstractGraphicalModelAdjacencyGraph<N, E>) super.cloneRemove(nodeToRemove);
+    }
 
-	@Override
-	public AbstractGraphicalModelAdjacencyGraph<N, E> clone()
-	{
-		return (AbstractGraphicalModelAdjacencyGraph<N, E>) super.clone();
-	}
+    @Override
+    public AbstractGraphicalModelAdjacencyGraph<N, E> cloneRemove(final Set<N> deleteNodes, final Set<E> deleteEdges) {
+        return (AbstractGraphicalModelAdjacencyGraph<N, E>) super.cloneRemove(deleteNodes, deleteEdges);
+    }
 
-	@Override
-	public GraphicalModelXml toXml()
-	{
-		final GraphicalModelElementXml networkXml = new GraphicalModelElementXml();
-		final Namer<Object> namer = new Namer<Object>();
+    @Override
+    public AbstractGraphicalModelAdjacencyGraph<N, E> clone() {
+        return (AbstractGraphicalModelAdjacencyGraph<N, E>) super.clone();
+    }
 
-		networkXml.setNodeInstances(new GraphicalModelElementXml.NodeInstances());
-		networkXml.setStateInstances(new GraphicalModelElementXml.StateInstances());
-		final Set<Object> writtenStates = new HashSet<Object>();
-		for (N node : this.getNodes())
-		{
-			//add the node
-			final NamedValueXml nodeXml = new NamedValueXml();
-			nodeXml.setName(namer.getNameOrCreate(node));
-			nodeXml.setValue(node.toXml(namer));
-			networkXml.getNodeInstances().getNodes().add(nodeXml);
+    @Override
+    public GraphicalModelXml toXml() {
+        final GraphicalModelElementXml networkXml = new GraphicalModelElementXml();
+        final Namer<Object> namer = new Namer<Object>();
 
-			//add all the node's learned states
-			for (Object learnedState : node.getLearnedStates())
-			{
-				//only add the learnedState if it hasnt yet been added
-				if (writtenStates.add(learnedState))
-				{
-					final NamedValueXml stateXml = new NamedValueXml();
-					stateXml.setName(namer.getNameOrCreate(learnedState));
-					if (learnedState instanceof XmlSerializable)
-					{
-						stateXml.setValue(((XmlSerializable) learnedState).toXml(namer));
-					}
-					else
-					{
-						stateXml.setValue(learnedState);
-					}
-					networkXml.getStateInstances().getStates().add(stateXml);
-				}
-			}
+        networkXml.setNodeInstances(new GraphicalModelElementXml.NodeInstances());
+        networkXml.setStateInstances(new GraphicalModelElementXml.StateInstances());
+        final Set<Object> writtenStates = new HashSet<Object>();
+        for (N node : this.getNodes()) {
+            //add the node
+            final NamedValueXml nodeXml = new NamedValueXml();
+            nodeXml.setName(namer.getNameOrCreate(node));
+            nodeXml.setValue(node.toXml(namer));
+            networkXml.getNodeInstances().getNodes().add(nodeXml);
 
-			//add the nodes current state if it wasnt already
-			final Object state = node.getState();
-			if (writtenStates.add(state))
-			{
-				final NamedValueXml stateXml = new NamedValueXml();
-				stateXml.setName(namer.getNameOrCreate(state));
-				if (state instanceof XmlSerializable)
-				{
-					stateXml.setValue(((XmlSerializable) state).toXml(namer));
-				}
-				else
-				{
-					stateXml.setValue(state);
-				}
-				networkXml.getStateInstances().getStates().add(stateXml);
-			}
-		}
+            //add all the node's learned states
+            for (Object learnedState : node.getLearnedStates()) {
+                //only add the learnedState if it hasnt yet been added
+                if (writtenStates.add(learnedState)) {
+                    final NamedValueXml stateXml = new NamedValueXml();
+                    stateXml.setName(namer.getNameOrCreate(learnedState));
+                    if (learnedState instanceof XmlSerializable) {
+                        stateXml.setValue(((XmlSerializable) learnedState).toXml(namer));
+                    }
+                    else {
+                        stateXml.setValue(learnedState);
+                    }
+                    networkXml.getStateInstances().getStates().add(stateXml);
+                }
+            }
 
-		this.toXml(networkXml, namer);
-		return networkXml;
-	}
+            //add the nodes current state if it wasnt already
+            final Object state = node.getState();
+            if (writtenStates.add(state)) {
+                final NamedValueXml stateXml = new NamedValueXml();
+                stateXml.setName(namer.getNameOrCreate(state));
+                if (state instanceof XmlSerializable) {
+                    stateXml.setValue(((XmlSerializable) state).toXml(namer));
+                }
+                else {
+                    stateXml.setValue(state);
+                }
+                networkXml.getStateInstances().getStates().add(stateXml);
+            }
+        }
 
-	@Override
-	public GraphicalModelXml toXml(final Namer<Object> namer)
-	{
-		if (namer == null)
-		{
-			throw new IllegalArgumentException("namer can not be null");
-		}
+        this.toXml(networkXml, namer);
+        return networkXml;
+    }
 
-		final GraphicalModelXml xml = new GraphicalModelXml();
-		this.toXml(xml, namer);
-		return xml;
-	}
+    @Override
+    public GraphicalModelXml toXml(final Namer<Object> namer) {
+        if (namer == null) {
+            throw new IllegalArgumentException("namer can not be null");
+        }
 
-	protected static class NodeConnectivity<N extends GraphicalModelNode, E extends BidirectedEdge<N>> extends HashMap<N, Set<E>>
-	{
-		private static final long serialVersionUID = -3068604309573134643L;
+        final GraphicalModelXml xml = new GraphicalModelXml();
+        this.toXml(xml, namer);
+        return xml;
+    }
 
-		public Set<E> get(final N keyNode)
-		{
+    protected static class NodeConnectivity<N extends GraphicalModelNode, E extends BidirectedEdge<N>> extends HashMap<N, Set<E>> {
+        private static final long serialVersionUID = -3068604309573134643L;
 
-			Set<E> edges = super.get(keyNode);
-			if( edges == null )
-			{
-				edges = new HashSet<E>();
-				super.put(keyNode, edges);
-			}
-			return edges;
-		}
-	}
+        public Set<E> get(final N keyNode) {
+
+            Set<E> edges = super.get(keyNode);
+            if (edges == null) {
+                edges = new HashSet<E>();
+                super.put(keyNode, edges);
+            }
+            return edges;
+        }
+    }
 }

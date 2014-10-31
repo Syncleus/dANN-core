@@ -26,53 +26,48 @@ import com.syncleus.dann.DannException;
  * @author Jeffrey Phillips Freeman
  * @since 1.0
  */
-public class NeighborNotFoundException extends DannException
-{
-	private static final long serialVersionUID = -2456894263798776928L;
+public class NeighborNotFoundException extends DannException {
+    private static final long serialVersionUID = -2456894263798776928L;
 
-	/**
-	 * Creates a blank default exception.
-	 *
-	 * @since 1.0
-	 */
-	public NeighborNotFoundException()
-	{
-		super();
-	}
+    /**
+     * Creates a blank default exception.
+     *
+     * @since 1.0
+     */
+    public NeighborNotFoundException() {
+        super();
+    }
 
-	/**
-	 * Creates an exception with a message describing the cause.
-	 *
-	 * @param msg A string describing the cause of the exception
-	 * @since 1.0
-	 */
-	public NeighborNotFoundException(final String msg)
-	{
-		super(msg);
-	}
+    /**
+     * Creates an exception with a message describing the cause.
+     *
+     * @param msg A string describing the cause of the exception
+     * @since 1.0
+     */
+    public NeighborNotFoundException(final String msg) {
+        super(msg);
+    }
 
-	/**
-	 * Creates an exception with a message describing the cause as well as the
-	 * throwable which caused this exception to be thrown.
-	 *
-	 * @param msg A string describing the cause of the exception
-	 * @param cause The throwable which caused this exception
-	 * @since 1.0
-	 */
-	public NeighborNotFoundException(final String msg, final Throwable cause)
-	{
-		super(msg, cause);
-	}
+    /**
+     * Creates an exception with a message describing the cause as well as the
+     * throwable which caused this exception to be thrown.
+     *
+     * @param msg   A string describing the cause of the exception
+     * @param cause The throwable which caused this exception
+     * @since 1.0
+     */
+    public NeighborNotFoundException(final String msg, final Throwable cause) {
+        super(msg, cause);
+    }
 
-	/**
-	 * Creates an exception containing the throwable which caused this exception to
-	 * be thrown.
-	 *
-	 * @param cause The throwable which caused this exception
-	 * @since 1.0
-	 */
-	public NeighborNotFoundException(final Throwable cause)
-	{
-		super(cause);
-	}
+    /**
+     * Creates an exception containing the throwable which caused this exception to
+     * be thrown.
+     *
+     * @param cause The throwable which caused this exception
+     * @since 1.0
+     */
+    public NeighborNotFoundException(final Throwable cause) {
+        super(cause);
+    }
 }

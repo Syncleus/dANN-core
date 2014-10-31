@@ -18,128 +18,122 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel.markovrandomfield;
 
-import java.util.HashSet;
-import java.util.Set;
 import com.syncleus.dann.graph.*;
-import com.syncleus.dann.graphicalmodel.GraphicalModelNode;
-import com.syncleus.dann.graphicalmodel.SimpleGraphicalModelNode;
-import org.junit.Assert;
-import org.junit.Test;
+import com.syncleus.dann.graphicalmodel.*;
+import org.junit.*;
 
-public class TestSimpleMarkovRandomField
-{
-	private static enum SimpleEnum
-	{
-		TRUE, FALSE
-	}
+import java.util.*;
 
-	@Test
-	public void testDependentNode()
-	{
-		final MutableMarkovRandomFieldAdjacencyGraph network = new MutableMarkovRandomFieldAdjacencyGraph();
-		final GraphicalModelNode<SimpleEnum> parentNode = new SimpleGraphicalModelNode<SimpleEnum>(SimpleEnum.TRUE);
-		final GraphicalModelNode<SimpleEnum> childNode = new SimpleGraphicalModelNode<SimpleEnum>(SimpleEnum.TRUE);
+public class TestSimpleMarkovRandomField {
+    @Test
+    public void testDependentNode() {
+        final MutableMarkovRandomFieldAdjacencyGraph network = new MutableMarkovRandomFieldAdjacencyGraph();
+        final GraphicalModelNode<SimpleEnum> parentNode = new SimpleGraphicalModelNode<SimpleEnum>(SimpleEnum.TRUE);
+        final GraphicalModelNode<SimpleEnum> childNode = new SimpleGraphicalModelNode<SimpleEnum>(SimpleEnum.TRUE);
 
-		network.add(parentNode);
-		network.add(childNode);
+        network.add(parentNode);
+        network.add(childNode);
 
-		final UndirectedEdge<GraphicalModelNode> testEdge = new ImmutableUndirectedEdge<GraphicalModelNode>(parentNode, childNode);
-		network.add(testEdge);
+        final UndirectedEdge<GraphicalModelNode> testEdge = new ImmutableUndirectedEdge<GraphicalModelNode>(parentNode, childNode);
+        network.add(testEdge);
 
-		parentNode.setState(SimpleEnum.TRUE);
-		childNode.setState(SimpleEnum.FALSE);
-		network.learnStates();
-		network.learnStates();
-		network.learnStates();
-		childNode.setState(SimpleEnum.TRUE);
-		network.learnStates();
+        parentNode.setState(SimpleEnum.TRUE);
+        childNode.setState(SimpleEnum.FALSE);
+        network.learnStates();
+        network.learnStates();
+        network.learnStates();
+        childNode.setState(SimpleEnum.TRUE);
+        network.learnStates();
 
-		parentNode.setState(SimpleEnum.FALSE);
-		childNode.setState(SimpleEnum.TRUE);
-		network.learnStates();
-		network.learnStates();
-		network.learnStates();
-		childNode.setState(SimpleEnum.FALSE);
-		network.learnStates();
+        parentNode.setState(SimpleEnum.FALSE);
+        childNode.setState(SimpleEnum.TRUE);
+        network.learnStates();
+        network.learnStates();
+        network.learnStates();
+        childNode.setState(SimpleEnum.FALSE);
+        network.learnStates();
 
-		final Set<GraphicalModelNode> goals = new HashSet<GraphicalModelNode>();
-		goals.add(childNode);
-		final Set<GraphicalModelNode> influences = new HashSet<GraphicalModelNode>();
-		influences.add(parentNode);
+        final Set<GraphicalModelNode> goals = new HashSet<GraphicalModelNode>();
+        goals.add(childNode);
+        final Set<GraphicalModelNode> influences = new HashSet<GraphicalModelNode>();
+        influences.add(parentNode);
 
-		parentNode.setState(SimpleEnum.TRUE);
-		childNode.setState(SimpleEnum.TRUE);
-		double probability = network.conditionalProbability(goals, influences);
-		Assert.assertTrue("bad state probability (TRUE,TRUE)! conditionalProbability: " + probability + " jointProbability: " + network.jointProbability() + " child probability: " + childNode.stateProbability() + " parent probability: " + parentNode.stateProbability(), Math.abs(probability - 0.25) < 0.0001);
+        parentNode.setState(SimpleEnum.TRUE);
+        childNode.setState(SimpleEnum.TRUE);
+        double probability = network.conditionalProbability(goals, influences);
+        Assert.assertTrue("bad state probability (TRUE,TRUE)! conditionalProbability: " + probability + " jointProbability: " + network.jointProbability() + " child probability: " + childNode.stateProbability() + " parent probability: " + parentNode.stateProbability(), Math.abs(probability - 0.25) < 0.0001);
 
-		parentNode.setState(SimpleEnum.TRUE);
-		childNode.setState(SimpleEnum.FALSE);
-		probability = network.conditionalProbability(goals, influences);
-		Assert.assertTrue("bad state probability (TRUE,FALSE)! conditionalProbability: " + probability + " jointProbability: " + network.jointProbability() + " child probability: " + childNode.stateProbability() + " parent probability: " + parentNode.stateProbability(), Math.abs(probability - 0.75) < 0.0001);
+        parentNode.setState(SimpleEnum.TRUE);
+        childNode.setState(SimpleEnum.FALSE);
+        probability = network.conditionalProbability(goals, influences);
+        Assert.assertTrue("bad state probability (TRUE,FALSE)! conditionalProbability: " + probability + " jointProbability: " + network.jointProbability() + " child probability: " + childNode.stateProbability() + " parent probability: " + parentNode.stateProbability(), Math.abs(probability - 0.75) < 0.0001);
 
-		parentNode.setState(SimpleEnum.FALSE);
-		childNode.setState(SimpleEnum.TRUE);
-		probability = network.conditionalProbability(goals, influences);
-		Assert.assertTrue("bad state probability (FALSE,TRUE)! conditionalProbability: " + probability + " jointProbability: " + network.jointProbability() + " child probability: " + childNode.stateProbability() + " parent probability: " + parentNode.stateProbability(), Math.abs(probability - 0.75) < 0.0001);
+        parentNode.setState(SimpleEnum.FALSE);
+        childNode.setState(SimpleEnum.TRUE);
+        probability = network.conditionalProbability(goals, influences);
+        Assert.assertTrue("bad state probability (FALSE,TRUE)! conditionalProbability: " + probability + " jointProbability: " + network.jointProbability() + " child probability: " + childNode.stateProbability() + " parent probability: " + parentNode.stateProbability(), Math.abs(probability - 0.75) < 0.0001);
 
-		parentNode.setState(SimpleEnum.FALSE);
-		childNode.setState(SimpleEnum.FALSE);
-		probability = network.conditionalProbability(goals, influences);
-		Assert.assertTrue("bad state probability (FALSE,FALSE)! conditionalProbability: " + probability + " jointProbability: " + network.jointProbability() + " child probability: " + childNode.stateProbability() + " parent probability: " + parentNode.stateProbability(), Math.abs(probability - 0.25) < 0.0001);
-	}
+        parentNode.setState(SimpleEnum.FALSE);
+        childNode.setState(SimpleEnum.FALSE);
+        probability = network.conditionalProbability(goals, influences);
+        Assert.assertTrue("bad state probability (FALSE,FALSE)! conditionalProbability: " + probability + " jointProbability: " + network.jointProbability() + " child probability: " + childNode.stateProbability() + " parent probability: " + parentNode.stateProbability(), Math.abs(probability - 0.25) < 0.0001);
+    }
 
-	@Test
-	public void testDependentNodeAsymmetrical()
-	{
-		final MutableMarkovRandomFieldAdjacencyGraph network = new MutableMarkovRandomFieldAdjacencyGraph();
-		final GraphicalModelNode<SimpleEnum> parentNode = new SimpleGraphicalModelNode<SimpleEnum>(SimpleEnum.TRUE);
-		final GraphicalModelNode<SimpleEnum> childNode = new SimpleGraphicalModelNode<SimpleEnum>(SimpleEnum.TRUE);
+    @Test
+    public void testDependentNodeAsymmetrical() {
+        final MutableMarkovRandomFieldAdjacencyGraph network = new MutableMarkovRandomFieldAdjacencyGraph();
+        final GraphicalModelNode<SimpleEnum> parentNode = new SimpleGraphicalModelNode<SimpleEnum>(SimpleEnum.TRUE);
+        final GraphicalModelNode<SimpleEnum> childNode = new SimpleGraphicalModelNode<SimpleEnum>(SimpleEnum.TRUE);
 
-		network.add(parentNode);
-		network.add(childNode);
+        network.add(parentNode);
+        network.add(childNode);
 
-		final UndirectedEdge<GraphicalModelNode> testEdge = new ImmutableUndirectedEdge<GraphicalModelNode>(parentNode, childNode);
-		network.add(testEdge);
+        final UndirectedEdge<GraphicalModelNode> testEdge = new ImmutableUndirectedEdge<GraphicalModelNode>(parentNode, childNode);
+        network.add(testEdge);
 
-		parentNode.setState(SimpleEnum.TRUE);
-		childNode.setState(SimpleEnum.FALSE);
-		network.learnStates();
-		network.learnStates();
-		network.learnStates();
-		childNode.setState(SimpleEnum.TRUE);
-		network.learnStates();
+        parentNode.setState(SimpleEnum.TRUE);
+        childNode.setState(SimpleEnum.FALSE);
+        network.learnStates();
+        network.learnStates();
+        network.learnStates();
+        childNode.setState(SimpleEnum.TRUE);
+        network.learnStates();
 
-		parentNode.setState(SimpleEnum.FALSE);
-		childNode.setState(SimpleEnum.TRUE);
-		network.learnStates();
-		network.learnStates();
-		childNode.setState(SimpleEnum.FALSE);
-		network.learnStates();
-		network.learnStates();
+        parentNode.setState(SimpleEnum.FALSE);
+        childNode.setState(SimpleEnum.TRUE);
+        network.learnStates();
+        network.learnStates();
+        childNode.setState(SimpleEnum.FALSE);
+        network.learnStates();
+        network.learnStates();
 
-		final Set<GraphicalModelNode> goals = new HashSet<GraphicalModelNode>();
-		goals.add(childNode);
-		final Set<GraphicalModelNode> influences = new HashSet<GraphicalModelNode>();
-		influences.add(parentNode);
+        final Set<GraphicalModelNode> goals = new HashSet<GraphicalModelNode>();
+        goals.add(childNode);
+        final Set<GraphicalModelNode> influences = new HashSet<GraphicalModelNode>();
+        influences.add(parentNode);
 
-		parentNode.setState(SimpleEnum.TRUE);
-		childNode.setState(SimpleEnum.TRUE);
-		double probability = network.conditionalProbability(goals, influences);
-		Assert.assertTrue("bad state probability (TRUE,TRUE)! conditionalProbability: " + probability + " jointProbability: " + network.jointProbability() + " child probability: " + childNode.stateProbability() + " parent probability: " + parentNode.stateProbability(), Math.abs(probability - 0.25) < 0.0001);
+        parentNode.setState(SimpleEnum.TRUE);
+        childNode.setState(SimpleEnum.TRUE);
+        double probability = network.conditionalProbability(goals, influences);
+        Assert.assertTrue("bad state probability (TRUE,TRUE)! conditionalProbability: " + probability + " jointProbability: " + network.jointProbability() + " child probability: " + childNode.stateProbability() + " parent probability: " + parentNode.stateProbability(), Math.abs(probability - 0.25) < 0.0001);
 
-		parentNode.setState(SimpleEnum.TRUE);
-		childNode.setState(SimpleEnum.FALSE);
-		probability = network.conditionalProbability(goals, influences);
-		Assert.assertTrue("bad state probability (TRUE,FALSE)! conditionalProbability: " + probability + " jointProbability: " + network.jointProbability() + " child probability: " + childNode.stateProbability() + " parent probability: " + parentNode.stateProbability(), Math.abs(probability - 0.75) < 0.0001);
+        parentNode.setState(SimpleEnum.TRUE);
+        childNode.setState(SimpleEnum.FALSE);
+        probability = network.conditionalProbability(goals, influences);
+        Assert.assertTrue("bad state probability (TRUE,FALSE)! conditionalProbability: " + probability + " jointProbability: " + network.jointProbability() + " child probability: " + childNode.stateProbability() + " parent probability: " + parentNode.stateProbability(), Math.abs(probability - 0.75) < 0.0001);
 
-		parentNode.setState(SimpleEnum.FALSE);
-		childNode.setState(SimpleEnum.TRUE);
-		probability = network.conditionalProbability(goals, influences);
-		Assert.assertTrue("bad state probability (FALSE,TRUE)! conditionalProbability: " + probability + " jointProbability: " + network.jointProbability() + " child probability: " + childNode.stateProbability() + " parent probability: " + parentNode.stateProbability(), Math.abs(probability - 0.5) < 0.0001);
+        parentNode.setState(SimpleEnum.FALSE);
+        childNode.setState(SimpleEnum.TRUE);
+        probability = network.conditionalProbability(goals, influences);
+        Assert.assertTrue("bad state probability (FALSE,TRUE)! conditionalProbability: " + probability + " jointProbability: " + network.jointProbability() + " child probability: " + childNode.stateProbability() + " parent probability: " + parentNode.stateProbability(), Math.abs(probability - 0.5) < 0.0001);
 
-		parentNode.setState(SimpleEnum.FALSE);
-		childNode.setState(SimpleEnum.FALSE);
-		probability = network.conditionalProbability(goals, influences);
-		Assert.assertTrue("bad state probability (FALSE,FALSE)! conditionalProbability: " + probability + " jointProbability: " + network.jointProbability() + " child probability: " + childNode.stateProbability() + " parent probability: " + parentNode.stateProbability(), Math.abs(probability - 0.5) < 0.0001);
-	}
+        parentNode.setState(SimpleEnum.FALSE);
+        childNode.setState(SimpleEnum.FALSE);
+        probability = network.conditionalProbability(goals, influences);
+        Assert.assertTrue("bad state probability (FALSE,FALSE)! conditionalProbability: " + probability + " jointProbability: " + network.jointProbability() + " child probability: " + childNode.stateProbability() + " parent probability: " + parentNode.stateProbability(), Math.abs(probability - 0.5) < 0.0001);
+    }
+
+    private static enum SimpleEnum {
+        TRUE, FALSE
+    }
 }

@@ -18,268 +18,222 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import com.syncleus.dann.UnexpectedDannError;
-import com.syncleus.dann.graph.context.AbstractContextGraphElement;
-import com.syncleus.dann.graph.context.ContextNode;
-import com.syncleus.dann.graph.xml.EdgeElementXml;
-import com.syncleus.dann.graph.xml.EdgeXml;
-import com.syncleus.dann.xml.NameXml;
-import com.syncleus.dann.xml.NamedValueXml;
-import com.syncleus.dann.xml.Namer;
-import com.syncleus.dann.xml.XmlSerializable;
+import com.syncleus.dann.graph.context.*;
+import com.syncleus.dann.graph.xml.*;
+import com.syncleus.dann.xml.*;
 import org.apache.log4j.Logger;
 
-public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<N, ?>> implements Edge<N>
-{
-	private static final Logger LOGGER = Logger.getLogger(AbstractEdge.class);
-	private final boolean contextEnabled;
-	private List<N> nodes;
+import java.util.*;
 
-	protected AbstractEdge()
-	{
-		this(true, true);
-	}
+public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<N, ?>> implements Edge<N> {
+    private static final Logger LOGGER = Logger.getLogger(AbstractEdge.class);
+    private final boolean contextEnabled;
+    private List<N> nodes;
 
-	protected AbstractEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
-	{
-		super(allowJoiningMultipleGraphs);
-		this.contextEnabled = contextEnabled;
-	}
+    protected AbstractEdge() {
+        this(true, true);
+    }
 
-	protected AbstractEdge(final List<N> ourNodes)
-	{
-		this(ourNodes, true, true);
-	}
+    protected AbstractEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled) {
+        super(allowJoiningMultipleGraphs);
+        this.contextEnabled = contextEnabled;
+    }
 
-	protected AbstractEdge(final List<N> ourNodes, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
-	{
-		super(allowJoiningMultipleGraphs);
-		this.contextEnabled = contextEnabled;
+    protected AbstractEdge(final List<N> ourNodes) {
+        this(ourNodes, true, true);
+    }
 
-		//make sure each node with context allows us to connect to it
-		if(contextEnabled)
-		{
-			final List<N> nodesCopy = new ArrayList<N>(ourNodes.size());
-			for(N ourNode : ourNodes)
-			{
-				if( this.contextEnabled && ( ourNode instanceof ContextNode ) && ( !((ContextNode)ourNode).connectingEdge(this) ))
-					continue;
-				nodesCopy.add(ourNode);
-			}
-			this.nodes = Collections.unmodifiableList(new ArrayList<N>(nodesCopy));
-		}
-		else
-			this.nodes = Collections.unmodifiableList(new ArrayList<N>(ourNodes));
-	}
+    protected AbstractEdge(final List<N> ourNodes, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled) {
+        super(allowJoiningMultipleGraphs);
+        this.contextEnabled = contextEnabled;
 
-	protected AbstractEdge(final N... ourNodes)
-	{
-		this(true, true, ourNodes);
-	}
+        //make sure each node with context allows us to connect to it
+        if (contextEnabled) {
+            final List<N> nodesCopy = new ArrayList<N>(ourNodes.size());
+            for (N ourNode : ourNodes) {
+                if (this.contextEnabled && (ourNode instanceof ContextNode) && (!((ContextNode) ourNode).connectingEdge(this)))
+                    continue;
+                nodesCopy.add(ourNode);
+            }
+            this.nodes = Collections.unmodifiableList(new ArrayList<N>(nodesCopy));
+        }
+        else
+            this.nodes = Collections.unmodifiableList(new ArrayList<N>(ourNodes));
+    }
 
-	protected AbstractEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled, final N... ourNodes)
-	{
-		this(Arrays.asList(ourNodes), allowJoiningMultipleGraphs, contextEnabled);
-	}
+    protected AbstractEdge(final N... ourNodes) {
+        this(true, true, ourNodes);
+    }
 
-	@Override
-	public boolean isContextEnabled()
-	{
-		return this.contextEnabled;
-	}
+    protected AbstractEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled, final N... ourNodes) {
+        this(Arrays.asList(ourNodes), allowJoiningMultipleGraphs, contextEnabled);
+    }
 
-	protected AbstractEdge<N> add(final N node)
-	{
-		if( node == null )
-			throw new IllegalArgumentException("node can not be null");
+    @Override
+    public boolean isContextEnabled() {
+        return this.contextEnabled;
+    }
 
-		final List<N> newNodes = new ArrayList<N>(this.nodes);
-		newNodes.add(node);
+    protected AbstractEdge<N> add(final N node) {
+        if (node == null)
+            throw new IllegalArgumentException("node can not be null");
 
-		return createDeepCopy(newNodes);
-	}
+        final List<N> newNodes = new ArrayList<N>(this.nodes);
+        newNodes.add(node);
 
-	protected AbstractEdge<N> add(final List<N> addNodes)
-	{
-		if( addNodes == null )
-			throw new IllegalArgumentException("node can not be null");
-		final List<N> newNodes = new ArrayList<N>(this.nodes);
-		newNodes.addAll(addNodes);
+        return createDeepCopy(newNodes);
+    }
 
-		return createDeepCopy(newNodes);
-	}
+    protected AbstractEdge<N> add(final List<N> addNodes) {
+        if (addNodes == null)
+            throw new IllegalArgumentException("node can not be null");
+        final List<N> newNodes = new ArrayList<N>(this.nodes);
+        newNodes.addAll(addNodes);
 
-	protected AbstractEdge<N> remove(final N node)
-	{
-		if( node == null )
-			throw new IllegalArgumentException("node can not be null");
-		if( !this.nodes.contains(node) )
-			throw new IllegalArgumentException("is not an endpoint");
+        return createDeepCopy(newNodes);
+    }
 
-		final List<N> newNodes = new ArrayList<N>(this.nodes);
-		newNodes.remove(node);
+    protected AbstractEdge<N> remove(final N node) {
+        if (node == null)
+            throw new IllegalArgumentException("node can not be null");
+        if (!this.nodes.contains(node))
+            throw new IllegalArgumentException("is not an endpoint");
 
-		return createDeepCopy(newNodes);
-	}
+        final List<N> newNodes = new ArrayList<N>(this.nodes);
+        newNodes.remove(node);
 
-	protected AbstractEdge<N> remove(final List<N> removeNodes)
-	{
-		if( removeNodes == null )
-			throw new IllegalArgumentException("removeNodes can not be null");
-		if( !this.nodes.containsAll(removeNodes) )
-			throw new IllegalArgumentException("removeNodes do not contain all valid end points");
-		final List<N> newNodes = new ArrayList<N>(this.nodes);
-		for(final N node : removeNodes)
-			newNodes.remove(node);
+        return createDeepCopy(newNodes);
+    }
 
-		return createDeepCopy(newNodes);
-	}
+    protected AbstractEdge<N> remove(final List<N> removeNodes) {
+        if (removeNodes == null)
+            throw new IllegalArgumentException("removeNodes can not be null");
+        if (!this.nodes.containsAll(removeNodes))
+            throw new IllegalArgumentException("removeNodes do not contain all valid end points");
+        final List<N> newNodes = new ArrayList<N>(this.nodes);
+        for (final N node : removeNodes)
+            newNodes.remove(node);
 
-	/**
-	 * Create a deep copy of this edge, but with a new set of nodes.
-	 * @param newNodes the set of nodes to use instead of the current ones.
-	 * @return a deep copy of this edge, but with a new set of nodes.
-	 */
-	private AbstractEdge<N> createDeepCopy(final List<N> newNodes)
-	{
-		try
-		{
-			final AbstractEdge<N> clonedEdge = (AbstractEdge<N>) super.clone();
-			final List<N> clonedNodes = new ArrayList<N>(this.nodes.size());
-			//add each node at a time to the clone considering context
-			for(N newNode : newNodes)
-			{
-				if( this.contextEnabled && (newNode instanceof ContextNode) && ( !((ContextNode)newNode).connectingEdge(clonedEdge) ) )
-					continue;
-				clonedNodes.add(newNode);
-			}
-			clonedEdge.nodes = Collections.unmodifiableList(clonedNodes);
-			return clonedEdge;
-		}
-		catch(CloneNotSupportedException caught)
-		{
-			LOGGER.error("Edge was unexpectidly not cloneable", caught);
-			throw new UnexpectedDannError("Edge was unexpectidly not cloneable", caught);
-		}
-	}
+        return createDeepCopy(newNodes);
+    }
 
-	@Override
-	public boolean isTraversable(final N node)
-	{
-		return (!this.getTraversableNodes(node).isEmpty());
-	}
+    /**
+     * Create a deep copy of this edge, but with a new set of nodes.
+     *
+     * @param newNodes the set of nodes to use instead of the current ones.
+     * @return a deep copy of this edge, but with a new set of nodes.
+     */
+    private AbstractEdge<N> createDeepCopy(final List<N> newNodes) {
+        try {
+            final AbstractEdge<N> clonedEdge = (AbstractEdge<N>) super.clone();
+            final List<N> clonedNodes = new ArrayList<N>(this.nodes.size());
+            //add each node at a time to the clone considering context
+            for (N newNode : newNodes) {
+                if (this.contextEnabled && (newNode instanceof ContextNode) && (!((ContextNode) newNode).connectingEdge(clonedEdge)))
+                    continue;
+                clonedNodes.add(newNode);
+            }
+            clonedEdge.nodes = Collections.unmodifiableList(clonedNodes);
+            return clonedEdge;
+        }
+        catch (CloneNotSupportedException caught) {
+            LOGGER.error("Edge was unexpectidly not cloneable", caught);
+            throw new UnexpectedDannError("Edge was unexpectidly not cloneable", caught);
+        }
+    }
 
-	@Override
-	public final List<N> getNodes()
-	{
-		return this.nodes;
-	}
+    @Override
+    public boolean isTraversable(final N node) {
+        return (!this.getTraversableNodes(node).isEmpty());
+    }
 
-	@Override
-	public String toString()
-	{
-		final StringBuilder outString = new StringBuilder(this.nodes.size() * 10);
-		for(final N node : this.nodes)
-		{
-			outString.append(':').append(node);
-		}
-		return outString.toString();
-	}
+    @Override
+    public final List<N> getNodes() {
+        return this.nodes;
+    }
 
-	@Override
-	public AbstractEdge<N> clone()
-	{
-		try
-		{
-			final AbstractEdge<N> clonedEdge = (AbstractEdge<N>) super.clone();
-			final List<N> clonedNodes = new ArrayList<N>(this.nodes.size());
-			//add each node at a time to the clone considering context
-			for(N node : this.nodes)
-			{
-				if( this.contextEnabled && (node instanceof ContextNode) && ( !((ContextNode)node).connectingEdge(clonedEdge) ) )
-					continue;
-				clonedNodes.add(node);
-			}
-			clonedEdge.nodes = Collections.unmodifiableList(clonedNodes);
-			return clonedEdge;
-		}
-		catch(CloneNotSupportedException caught)
-		{
-			LOGGER.error("Edge was unexpectidly not cloneable", caught);
-			throw new UnexpectedDannError("Edge was unexpectidly not cloneable", caught);
-		}
-	}
+    @Override
+    public String toString() {
+        final StringBuilder outString = new StringBuilder(this.nodes.size() * 10);
+        for (final N node : this.nodes) {
+            outString.append(':').append(node);
+        }
+        return outString.toString();
+    }
 
-	@Override
-	public EdgeXml toXml()
-	{
-		final Namer namer = new Namer();
-		final EdgeElementXml xml = new EdgeElementXml();
+    @Override
+    public AbstractEdge<N> clone() {
+        try {
+            final AbstractEdge<N> clonedEdge = (AbstractEdge<N>) super.clone();
+            final List<N> clonedNodes = new ArrayList<N>(this.nodes.size());
+            //add each node at a time to the clone considering context
+            for (N node : this.nodes) {
+                if (this.contextEnabled && (node instanceof ContextNode) && (!((ContextNode) node).connectingEdge(clonedEdge)))
+                    continue;
+                clonedNodes.add(node);
+            }
+            clonedEdge.nodes = Collections.unmodifiableList(clonedNodes);
+            return clonedEdge;
+        }
+        catch (CloneNotSupportedException caught) {
+            LOGGER.error("Edge was unexpectidly not cloneable", caught);
+            throw new UnexpectedDannError("Edge was unexpectidly not cloneable", caught);
+        }
+    }
 
-		xml.setNodeInstances(new EdgeElementXml.NodeInstances());
-		final Set<N> writtenNodes = new HashSet<N>();
-		for (N node : this.nodes)
-		{
-			if (writtenNodes.add(node))
-			{
-				final NamedValueXml named = new NamedValueXml();
-				named.setName(namer.getNameOrCreate(node));
-				if (node instanceof XmlSerializable)
-				{
-					named.setValue(((XmlSerializable) node).toXml(namer));
-				}
-				else
-				{
-					named.setValue(node);
-				}
-				xml.getNodeInstances().getNodes().add(named);
-			}
-		}
-		this.toXml(xml, namer);
+    @Override
+    public EdgeXml toXml() {
+        final Namer namer = new Namer();
+        final EdgeElementXml xml = new EdgeElementXml();
 
-		return xml;
-	}
+        xml.setNodeInstances(new EdgeElementXml.NodeInstances());
+        final Set<N> writtenNodes = new HashSet<N>();
+        for (N node : this.nodes) {
+            if (writtenNodes.add(node)) {
+                final NamedValueXml named = new NamedValueXml();
+                named.setName(namer.getNameOrCreate(node));
+                if (node instanceof XmlSerializable) {
+                    named.setValue(((XmlSerializable) node).toXml(namer));
+                }
+                else {
+                    named.setValue(node);
+                }
+                xml.getNodeInstances().getNodes().add(named);
+            }
+        }
+        this.toXml(xml, namer);
 
-	@Override
-	public EdgeXml toXml(final Namer<Object> nodeNames)
-	{
-		if (nodeNames == null)
-		{
-			throw new IllegalArgumentException("nodeNames can not be null");
-		}
+        return xml;
+    }
 
-		final EdgeXml xml = new EdgeXml();
-		this.toXml(xml, nodeNames);
-		return xml;
-	}
+    @Override
+    public EdgeXml toXml(final Namer<Object> nodeNames) {
+        if (nodeNames == null) {
+            throw new IllegalArgumentException("nodeNames can not be null");
+        }
 
-	@Override
-	public void toXml(final EdgeXml jaxbObject, final Namer<Object> nodeNames)
-	{
-		if (nodeNames == null)
-		{
-			throw new IllegalArgumentException("nodeNames can not be null");
-		}
-		if (jaxbObject == null)
-		{
-			throw new IllegalArgumentException("jaxbObject can not be null");
-		}
+        final EdgeXml xml = new EdgeXml();
+        this.toXml(xml, nodeNames);
+        return xml;
+    }
 
-		if (jaxbObject.getConnections() == null)
-		{
-			jaxbObject.setConnections(new EdgeXml.Connections());
-		}
-		for (N node : this.nodes)
-		{
-			final NameXml connection = new NameXml();
-			connection.setName(nodeNames.getNameOrCreate(node));
-			jaxbObject.getConnections().getNodes().add(connection);
-		}
-	}
+    @Override
+    public void toXml(final EdgeXml jaxbObject, final Namer<Object> nodeNames) {
+        if (nodeNames == null) {
+            throw new IllegalArgumentException("nodeNames can not be null");
+        }
+        if (jaxbObject == null) {
+            throw new IllegalArgumentException("jaxbObject can not be null");
+        }
+
+        if (jaxbObject.getConnections() == null) {
+            jaxbObject.setConnections(new EdgeXml.Connections());
+        }
+        for (N node : this.nodes) {
+            final NameXml connection = new NameXml();
+            connection.setName(nodeNames.getNameOrCreate(node));
+            jaxbObject.getConnections().getNodes().add(connection);
+        }
+    }
 }

@@ -18,233 +18,197 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import com.syncleus.dann.graph.xml.*;
-import com.syncleus.dann.xml.NamedValueXml;
-import com.syncleus.dann.xml.Namer;
-import com.syncleus.dann.xml.XmlSerializable;
+import com.syncleus.dann.xml.*;
 
-public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implements BidirectedEdge<N>
-{
-	private final N leftNode;
-	private final N rightNode;
-	private final EndState leftEndState;
-	private final EndState rightEndState;
+import java.util.*;
 
-	protected AbstractBidirectedEdge()
-	{
-		this.leftNode = null;
-		this.rightNode = null;
-		this.leftEndState = null;
-		this.rightEndState = null;
-	}
+public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implements BidirectedEdge<N> {
+    private final N leftNode;
+    private final N rightNode;
+    private final EndState leftEndState;
+    private final EndState rightEndState;
 
-	protected AbstractBidirectedEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
-	{
-		super(allowJoiningMultipleGraphs, contextEnabled);
+    protected AbstractBidirectedEdge() {
+        this.leftNode = null;
+        this.rightNode = null;
+        this.leftEndState = null;
+        this.rightEndState = null;
+    }
 
-		this.leftNode = null;
-		this.rightNode = null;
-		this.leftEndState = null;
-		this.rightEndState = null;
-	}
+    protected AbstractBidirectedEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled) {
+        super(allowJoiningMultipleGraphs, contextEnabled);
 
-	protected AbstractBidirectedEdge(final N newLeftNode, final EndState newLeftEndState, final N newRightNode, final EndState newRightEndState)
-	{
-		super(packNodes(newLeftNode, newRightNode));
+        this.leftNode = null;
+        this.rightNode = null;
+        this.leftEndState = null;
+        this.rightEndState = null;
+    }
 
-		this.leftNode = newLeftNode;
-		this.rightNode = newRightNode;
-		this.leftEndState = newLeftEndState;
-		this.rightEndState = newRightEndState;
-	}
+    protected AbstractBidirectedEdge(final N newLeftNode, final EndState newLeftEndState, final N newRightNode, final EndState newRightEndState) {
+        super(packNodes(newLeftNode, newRightNode));
 
-	protected AbstractBidirectedEdge(final N newLeftNode, final EndState newLeftEndState, final N newRightNode, final EndState newRightEndState, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
-	{
-		super(packNodes(newLeftNode, newRightNode), allowJoiningMultipleGraphs, contextEnabled);
+        this.leftNode = newLeftNode;
+        this.rightNode = newRightNode;
+        this.leftEndState = newLeftEndState;
+        this.rightEndState = newRightEndState;
+    }
 
-		this.leftNode = newLeftNode;
-		this.rightNode = newRightNode;
-		this.leftEndState = newLeftEndState;
-		this.rightEndState = newRightEndState;
-	}
+    protected AbstractBidirectedEdge(final N newLeftNode, final EndState newLeftEndState, final N newRightNode, final EndState newRightEndState, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled) {
+        super(packNodes(newLeftNode, newRightNode), allowJoiningMultipleGraphs, contextEnabled);
 
-	private static <N> List<N> packNodes(final N leftNode, final N rightNode)
-	{
-		final List<N> pack = new ArrayList<N>();
-		pack.add(leftNode);
-		pack.add(rightNode);
-		return pack;
-	}
+        this.leftNode = newLeftNode;
+        this.rightNode = newRightNode;
+        this.leftEndState = newLeftEndState;
+        this.rightEndState = newRightEndState;
+    }
 
-	@Override
-	public final N getLeftNode()
-	{
-		return this.leftNode;
-	}
+    private static <N> List<N> packNodes(final N leftNode, final N rightNode) {
+        final List<N> pack = new ArrayList<N>();
+        pack.add(leftNode);
+        pack.add(rightNode);
+        return pack;
+    }
 
-	@Override
-	public final N getRightNode()
-	{
-		return this.rightNode;
-	}
+    private static String endStateToString(final EndState state, final boolean isLeft) {
+        switch (state) {
+            case INWARD:
+                return (isLeft ? ">" : "<");
+            case OUTWARD:
+                return (isLeft ? "<" : ">");
+            default:
+                return "";
+        }
+    }
 
-	@Override
-	public final EndState getLeftEndState()
-	{
-		return this.leftEndState;
-	}
+    @Override
+    public final N getLeftNode() {
+        return this.leftNode;
+    }
 
-	@Override
-	public final EndState getRightEndState()
-	{
-		return this.rightEndState;
-	}
+    @Override
+    public final N getRightNode() {
+        return this.rightNode;
+    }
 
-	@Override
-	public boolean isIntroverted()
-	{
-		return (this.rightEndState == BidirectedEdge.EndState.INWARD) && (this.leftEndState == BidirectedEdge.EndState.INWARD);
-	}
+    @Override
+    public final EndState getLeftEndState() {
+        return this.leftEndState;
+    }
 
-	@Override
-	public boolean isExtroverted()
-	{
-		return (this.rightEndState == BidirectedEdge.EndState.OUTWARD) && (this.leftEndState == BidirectedEdge.EndState.OUTWARD);
-	}
+    @Override
+    public final EndState getRightEndState() {
+        return this.rightEndState;
+    }
 
-	@Override
-	public boolean isDirected()
-	{
-		if( (this.rightEndState == EndState.INWARD) && (this.leftEndState == EndState.OUTWARD) )
-			return true;
-		else if( (this.rightEndState == EndState.OUTWARD) && (this.leftEndState == EndState.INWARD) )
-			return true;
-		return false;
-	}
+    @Override
+    public boolean isIntroverted() {
+        return (this.rightEndState == BidirectedEdge.EndState.INWARD) && (this.leftEndState == BidirectedEdge.EndState.INWARD);
+    }
 
-	@Override
-	public boolean isHalfEdge()
-	{
-		if( (this.rightEndState == EndState.NONE) && (this.leftEndState != EndState.NONE) )
-			return true;
-		else if( (this.rightEndState != EndState.NONE) && (this.leftEndState == EndState.NONE) )
-			return true;
-		return false;
-	}
+    @Override
+    public boolean isExtroverted() {
+        return (this.rightEndState == BidirectedEdge.EndState.OUTWARD) && (this.leftEndState == BidirectedEdge.EndState.OUTWARD);
+    }
 
-	@Override
-	public boolean isLooseEdge()
-	{
-		return (this.rightEndState == BidirectedEdge.EndState.NONE) && (this.leftEndState == BidirectedEdge.EndState.NONE);
-	}
+    @Override
+    public boolean isDirected() {
+        if ((this.rightEndState == EndState.INWARD) && (this.leftEndState == EndState.OUTWARD))
+            return true;
+        else if ((this.rightEndState == EndState.OUTWARD) && (this.leftEndState == EndState.INWARD))
+            return true;
+        return false;
+    }
 
-	@Override
-	public boolean isOrdinaryEdge()
-	{
-		return (!this.isHalfEdge()) && (!this.isLooseEdge());
-	}
+    @Override
+    public boolean isHalfEdge() {
+        if ((this.rightEndState == EndState.NONE) && (this.leftEndState != EndState.NONE))
+            return true;
+        else if ((this.rightEndState != EndState.NONE) && (this.leftEndState == EndState.NONE))
+            return true;
+        return false;
+    }
 
-	@Override
-	public boolean isLoop()
-	{
-		return this.leftEndState.equals(this.rightEndState);
-	}
+    @Override
+    public boolean isLooseEdge() {
+        return (this.rightEndState == BidirectedEdge.EndState.NONE) && (this.leftEndState == BidirectedEdge.EndState.NONE);
+    }
 
-	@Override
-	public String toString()
-	{
-		return this.leftNode.toString()
-				+ endStateToString(this.leftEndState, true)
-				+ '-'
-				+ endStateToString(this.rightEndState, false)
-				+ this.rightNode;
-	}
+    @Override
+    public boolean isOrdinaryEdge() {
+        return (!this.isHalfEdge()) && (!this.isLooseEdge());
+    }
 
-	private static String endStateToString(final EndState state, final boolean isLeft)
-	{
-		switch(state)
-		{
-		case INWARD:
-			return (isLeft ? ">" : "<");
-		case OUTWARD:
-			return (isLeft ? "<" : ">");
-		default:
-			return "";
-		}
-	}
+    @Override
+    public boolean isLoop() {
+        return this.leftEndState.equals(this.rightEndState);
+    }
 
-	@Override
-	public AbstractBidirectedEdge<N> clone()
-	{
-		return (AbstractBidirectedEdge<N>) super.clone();
-	}
+    @Override
+    public String toString() {
+        return this.leftNode.toString()
+                       + endStateToString(this.leftEndState, true)
+                       + '-'
+                       + endStateToString(this.rightEndState, false)
+                       + this.rightNode;
+    }
 
-	@Override
-	public BidirectedEdgeXml toXml()
-	{
-		final Namer namer = new Namer();
-		final BidirectedEdgeElementXml xml = new BidirectedEdgeElementXml();
+    @Override
+    public AbstractBidirectedEdge<N> clone() {
+        return (AbstractBidirectedEdge<N>) super.clone();
+    }
 
-		xml.setNodeInstances(new BidirectedEdgeElementXml.NodeInstances());
-		final Set<N> writtenNodes = new HashSet<N>();
-		for (N node : this.getNodes())
-		{
-			if (writtenNodes.add(node))
-			{
-				final NamedValueXml named = new NamedValueXml();
-				named.setName(namer.getNameOrCreate(node));
-				if (node instanceof XmlSerializable)
-				{
-					named.setValue(((XmlSerializable) node).toXml(namer));
-				}
-				else
-				{
-					named.setValue(node);
-				}
-				xml.getNodeInstances().getNodes().add(named);
-			}
-		}
+    @Override
+    public BidirectedEdgeXml toXml() {
+        final Namer namer = new Namer();
+        final BidirectedEdgeElementXml xml = new BidirectedEdgeElementXml();
 
-		return xml;
-	}
+        xml.setNodeInstances(new BidirectedEdgeElementXml.NodeInstances());
+        final Set<N> writtenNodes = new HashSet<N>();
+        for (N node : this.getNodes()) {
+            if (writtenNodes.add(node)) {
+                final NamedValueXml named = new NamedValueXml();
+                named.setName(namer.getNameOrCreate(node));
+                if (node instanceof XmlSerializable) {
+                    named.setValue(((XmlSerializable) node).toXml(namer));
+                }
+                else {
+                    named.setValue(node);
+                }
+                xml.getNodeInstances().getNodes().add(named);
+            }
+        }
 
-	@Override
-	public BidirectedEdgeXml toXml(final Namer<Object> nodeNames)
-	{
-		if (nodeNames == null)
-		{
-			throw new IllegalArgumentException("nodeNames can not be null");
-		}
+        return xml;
+    }
 
-		final BidirectedEdgeXml xml = new BidirectedEdgeXml();
-		this.toXml(xml, nodeNames);
-		return xml;
-	}
+    @Override
+    public BidirectedEdgeXml toXml(final Namer<Object> nodeNames) {
+        if (nodeNames == null) {
+            throw new IllegalArgumentException("nodeNames can not be null");
+        }
 
-	@Override
-	public void toXml(final EdgeXml jaxbObject, final Namer<Object> nodeNames)
-	{
-		if (nodeNames == null)
-		{
-			throw new IllegalArgumentException("nodeNames can not be null");
-		}
-		if (jaxbObject == null)
-		{
-			throw new IllegalArgumentException("jaxbObject can not be null");
-		}
+        final BidirectedEdgeXml xml = new BidirectedEdgeXml();
+        this.toXml(xml, nodeNames);
+        return xml;
+    }
 
-		super.toXml(jaxbObject, nodeNames);
+    @Override
+    public void toXml(final EdgeXml jaxbObject, final Namer<Object> nodeNames) {
+        if (nodeNames == null) {
+            throw new IllegalArgumentException("nodeNames can not be null");
+        }
+        if (jaxbObject == null) {
+            throw new IllegalArgumentException("jaxbObject can not be null");
+        }
 
-		if (jaxbObject instanceof BidirectedEdgeXml)
-		{
-			((BidirectedEdgeXml) jaxbObject).setLeftNode(nodeNames.getNameOrCreate(this.leftNode));
-			((BidirectedEdgeXml) jaxbObject).setRightNode(nodeNames.getNameOrCreate(this.rightNode));
-			((BidirectedEdgeXml) jaxbObject).setLeftDirection(this.leftEndState.toString().toLowerCase());
-			((BidirectedEdgeXml) jaxbObject).setRightDirection(this.rightEndState.toString().toLowerCase());
-		}
-	}
+        super.toXml(jaxbObject, nodeNames);
+
+        if (jaxbObject instanceof BidirectedEdgeXml) {
+            ((BidirectedEdgeXml) jaxbObject).setLeftNode(nodeNames.getNameOrCreate(this.leftNode));
+            ((BidirectedEdgeXml) jaxbObject).setRightNode(nodeNames.getNameOrCreate(this.rightNode));
+            ((BidirectedEdgeXml) jaxbObject).setLeftDirection(this.leftEndState.toString().toLowerCase());
+            ((BidirectedEdgeXml) jaxbObject).setRightDirection(this.rightEndState.toString().toLowerCase());
+        }
+    }
 }

@@ -18,31 +18,30 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.topological;
 
-import com.syncleus.dann.graph.Edge;
-import com.syncleus.dann.graph.Graph;
+import com.syncleus.dann.graph.*;
 
-public interface StrongConnectivityOptimizedGraph<N, E extends Edge<N>> extends Graph<N, E>
-{
-	/**
-	 * Determines if there is a path from the firstNode to the lastNode. There may
-	 * be a path from firstNode to lastNode even if there is no path from lastNode
-	 * to firstNode. This is because it only checks if there is a traversable path.
-	 * Both nodes must be present in the graph or else an InvalidArgumentException
-	 * will be thrown.
-	 *
-	 * @param firstNode begining node to find a path from.
-	 * @param lastNode eding node to find a path to.
-	 * @return true if a path exists, false otherwise.
-	 * @since 2.0
-	 */
-	boolean isStronglyConnected(N firstNode, N lastNode);
-	/**
-	 * If there is atleast one path from every node in the graph to any other node
-	 * in the graph then true, false otherwise. There must be a traversable path,
-	 * not just a series of adjacency.
-	 *
-	 * @return true if the graph is connected, false otherwise.
-	 * @since 2.0
-	 */
-	boolean isStronglyConnected();
+public interface StrongConnectivityOptimizedGraph<N, E extends Edge<N>> extends Graph<N, E> {
+    /**
+     * Determines if there is a path from the firstNode to the lastNode. There may
+     * be a path from firstNode to lastNode even if there is no path from lastNode
+     * to firstNode. This is because it only checks if there is a traversable path.
+     * Both nodes must be present in the graph or else an InvalidArgumentException
+     * will be thrown.
+     *
+     * @param firstNode begining node to find a path from.
+     * @param lastNode  eding node to find a path to.
+     * @return true if a path exists, false otherwise.
+     * @since 2.0
+     */
+    boolean isStronglyConnected(N firstNode, N lastNode);
+
+    /**
+     * If there is atleast one path from every node in the graph to any other node
+     * in the graph then true, false otherwise. There must be a traversable path,
+     * not just a series of adjacency.
+     *
+     * @return true if the graph is connected, false otherwise.
+     * @since 2.0
+     */
+    boolean isStronglyConnected();
 }

@@ -23,18 +23,19 @@ package com.syncleus.dann.genetics;
  *
  * @param <N> The type of number to use
  */
-public interface ValueGene<N extends MutableNumber> extends Gene
-{
-	/**
-	 * Gets the mutable numeric value of the gene.
-	 * @return The value of the gene
-	 */
-	N getValue();
+public interface ValueGene<N extends MutableNumber> extends Gene {
+    /**
+     * Gets the mutable numeric value of the gene.
+     *
+     * @return The value of the gene
+     */
+    N getValue();
 
-	/**
-	 * Mutates a gene by the maximum deviation.
-	 * @param deviation The maximum deviation to change the gene by
-	 * @return The resultant gene from the mutation
-	 */
-	ValueGene<N> mutate(double deviation);
+    /**
+     * Mutates a gene by the maximum deviation.
+     *
+     * @param deviation The maximum deviation to change the gene by
+     * @return The resultant gene from the mutation
+     */
+    ValueGene<N> mutate(double deviation);
 }

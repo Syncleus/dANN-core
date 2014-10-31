@@ -18,11 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.neural.som.brain;
 
-import java.util.concurrent.ExecutorService;
 import com.syncleus.dann.neural.Synapse;
-import com.syncleus.dann.neural.som.SomInputNeuron;
-import com.syncleus.dann.neural.som.SomNeuron;
-import com.syncleus.dann.neural.som.SomOutputNeuron;
+import com.syncleus.dann.neural.som.*;
+
+import java.util.concurrent.ExecutorService;
 
 /**
  * A SomBrain which uses exponential decay over time for the neighborhood
@@ -31,17 +30,14 @@ import com.syncleus.dann.neural.som.SomOutputNeuron;
  * @author Jeffrey Phillips Freeman
  * @since 2.0
  */
-public final class ExponentialDecaySomBrain<IN extends SomInputNeuron, ON extends SomOutputNeuron, N extends SomNeuron, S extends Synapse<N>> extends AbstractExponentialDecaySomBrain<IN, ON, N, S>
-{
-	private static final long serialVersionUID = 4523396585666912034L;
+public final class ExponentialDecaySomBrain<IN extends SomInputNeuron, ON extends SomOutputNeuron, N extends SomNeuron, S extends Synapse<N>> extends AbstractExponentialDecaySomBrain<IN, ON, N, S> {
+    private static final long serialVersionUID = 4523396585666912034L;
 
-	public ExponentialDecaySomBrain(final int inputCount, final int dimentionality, final int iterationsToConverge, final double initialLearningRate, final ExecutorService executor)
-	{
-		super(inputCount, dimentionality, iterationsToConverge, initialLearningRate, executor);
-	}
+    public ExponentialDecaySomBrain(final int inputCount, final int dimentionality, final int iterationsToConverge, final double initialLearningRate, final ExecutorService executor) {
+        super(inputCount, dimentionality, iterationsToConverge, initialLearningRate, executor);
+    }
 
-	public ExponentialDecaySomBrain(final int inputCount, final int dimentionality, final int iterationsToConverge, final double initialLearningRate)
-	{
-		this(inputCount, dimentionality, iterationsToConverge, initialLearningRate, null);
-	}
+    public ExponentialDecaySomBrain(final int inputCount, final int dimentionality, final int iterationsToConverge, final double initialLearningRate) {
+        this(inputCount, dimentionality, iterationsToConverge, initialLearningRate, null);
+    }
 }

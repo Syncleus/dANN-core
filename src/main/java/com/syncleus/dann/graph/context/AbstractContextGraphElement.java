@@ -18,62 +18,54 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.context;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-import java.io.Serializable;
 import com.syncleus.dann.graph.Graph;
 
-public abstract class AbstractContextGraphElement<G extends Graph<?, ?>> implements ContextGraphElement<G>, Serializable
-{
-	private final boolean allowJoiningMultipleGraphs;
-	private final Set<G> joinedGraphs = new HashSet<G>();
+import java.io.Serializable;
+import java.util.*;
 
-	protected AbstractContextGraphElement(final boolean allowJoiningMultipleGraphs)
-	{
-		this.allowJoiningMultipleGraphs = allowJoiningMultipleGraphs;
-	}
+public abstract class AbstractContextGraphElement<G extends Graph<?, ?>> implements ContextGraphElement<G>, Serializable {
+    private final boolean allowJoiningMultipleGraphs;
+    private final Set<G> joinedGraphs = new HashSet<G>();
 
-	@Override
-	public boolean isGraphMember()
-	{
-		return (!this.joinedGraphs.isEmpty());
-	}
+    protected AbstractContextGraphElement(final boolean allowJoiningMultipleGraphs) {
+        this.allowJoiningMultipleGraphs = allowJoiningMultipleGraphs;
+    }
 
-	@Override
-	public Set<G> getJoinedGraphs()
-	{
-		return Collections.unmodifiableSet(this.joinedGraphs);
-	}
+    @Override
+    public boolean isGraphMember() {
+        return (!this.joinedGraphs.isEmpty());
+    }
 
-	@Override
-	public boolean joiningGraph(final G graph)
-	{
-		if( graph == null )
-			throw new IllegalArgumentException("graph can not be null");
+    @Override
+    public Set<G> getJoinedGraphs() {
+        return Collections.unmodifiableSet(this.joinedGraphs);
+    }
 
-		if( !this.allowJoiningMultipleGraphs && !joinedGraphs.isEmpty() )
-			return false;
+    @Override
+    public boolean joiningGraph(final G graph) {
+        if (graph == null)
+            throw new IllegalArgumentException("graph can not be null");
 
-		this.joinedGraphs.add(graph);
-		return true;
-	}
+        if (!this.allowJoiningMultipleGraphs && !joinedGraphs.isEmpty())
+            return false;
 
-	@Override
-	public boolean leavingGraph(final G graph)
-	{
-		if( graph == null )
-			throw new IllegalArgumentException("graph can not be null");
-		if( !this.joinedGraphs.contains(graph) )
-			throw new IllegalArgumentException("graph was never joined");
+        this.joinedGraphs.add(graph);
+        return true;
+    }
 
-		this.joinedGraphs.remove(graph);
-		return true;
-	}
+    @Override
+    public boolean leavingGraph(final G graph) {
+        if (graph == null)
+            throw new IllegalArgumentException("graph can not be null");
+        if (!this.joinedGraphs.contains(graph))
+            throw new IllegalArgumentException("graph was never joined");
 
-	@Override
-	public boolean isAllowingMultipleGraphs()
-	{
-		return allowJoiningMultipleGraphs;
-	}
+        this.joinedGraphs.remove(graph);
+        return true;
+    }
+
+    @Override
+    public boolean isAllowingMultipleGraphs() {
+        return allowJoiningMultipleGraphs;
+    }
 }

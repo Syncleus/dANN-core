@@ -21,44 +21,43 @@ package com.syncleus.dann.genetics.wavelets;
 /**
  * A SignalKeyConcentration is a SignalKey with a known concentration value.
  */
-public class SignalKeyConcentration
-{
-	private final SignalKey signal;
-	private double concentration;
+public class SignalKeyConcentration {
+    private final SignalKey signal;
+    private double concentration;
 
-	/**
-	 * Creates a new SignalKeyConcentration from the supplied SignalKey with a given concentration.
-	 * @param ourSignal The SignalKey to use
-	 */
-	public SignalKeyConcentration(final SignalKey ourSignal)
-	{
-		this.signal = ourSignal;
-	}
+    /**
+     * Creates a new SignalKeyConcentration from the supplied SignalKey with a given concentration.
+     *
+     * @param ourSignal The SignalKey to use
+     */
+    public SignalKeyConcentration(final SignalKey ourSignal) {
+        this.signal = ourSignal;
+    }
 
-	/**
-	 * Gets the SignalKey in use.
-	 * @return The SignalKey in use
-	 */
-	public final SignalKey getSignal()
-	{
-		return this.signal;
-	}
+    /**
+     * Gets the SignalKey in use.
+     *
+     * @return The SignalKey in use
+     */
+    public final SignalKey getSignal() {
+        return this.signal;
+    }
 
-	/**
-	 * Gets the current concentration.
-	 * @return The concentration in use
-	 */
-	public final double getConcentration()
-	{
-		return this.concentration;
-	}
+    /**
+     * Gets the current concentration.
+     *
+     * @return The concentration in use
+     */
+    public final double getConcentration() {
+        return this.concentration;
+    }
 
-	/**
-	 * Sets the newConcentration.
-	 * @param newConcentration The newConcentration to use
-	 */
-	public final void setConcentration(final double newConcentration)
-	{
-		this.concentration = newConcentration;
-	}
+    /**
+     * Sets the newConcentration.
+     *
+     * @param newConcentration The newConcentration to use
+     */
+    public final void setConcentration(final double newConcentration) {
+        this.concentration = newConcentration;
+    }
 }

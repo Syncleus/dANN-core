@@ -20,52 +20,59 @@ package com.syncleus.dann.math.linear;
 
 import com.syncleus.dann.math.RealNumber;
 
-public interface RealMatrix extends OrderedMatrix<RealMatrix, RealNumber>
-{
-	@Override
-	com.syncleus.dann.math.OrderedField<RealNumber> getElementField();
-	/**
-	 * Get a single element.
-	 *
-	 * @param heightIndex Row index.
-	 * @param widthIndex Column index.
-	 * @return value at the specified element
-	 */
-	double getDouble(int heightIndex, int widthIndex);
-	/**
-	 * Copy the internal two-dimensional array.
-	 *
-	 * @return Two-dimensional array copy of matrix elements.
-	 */
-	double[][] toDoubleArray();
-	/**
-	 * SimpleRealMatrix determinant.
-	 *
-	 * @return determinant
-	 */
-	double getDeterminant();
-	/**
-	 * Multiply a matrix by a scalar in place, matrixElements =
-	 * scalar*matrixElements.
-	 *
-	 * @param scalar scalar
-	 * @return replace matrixElements by scalar*matrixElements
-	 */
-	RealMatrix multiplyEquals(double scalar);
-	/**
-	 * scalar addition each element of this matrix added to scalar.
-	 *
-	 * @param scalar scalar value to add.
-	 * @return new matrix containing the result of this operation.
-	 */
-	RealMatrix add(double scalar);
-	RealMatrix subtract(double value);
-	/**
-	 * Multiply a matrix by a scalar, resultArray = scalar*matrixElements.
-	 *
-	 * @param scalar scalar
-	 * @return scalar*matrixElements
-	 */
-	RealMatrix multiply(double scalar);
-	RealMatrix divide(double value);
+public interface RealMatrix extends OrderedMatrix<RealMatrix, RealNumber> {
+    @Override
+    com.syncleus.dann.math.OrderedField<RealNumber> getElementField();
+
+    /**
+     * Get a single element.
+     *
+     * @param heightIndex Row index.
+     * @param widthIndex  Column index.
+     * @return value at the specified element
+     */
+    double getDouble(int heightIndex, int widthIndex);
+
+    /**
+     * Copy the internal two-dimensional array.
+     *
+     * @return Two-dimensional array copy of matrix elements.
+     */
+    double[][] toDoubleArray();
+
+    /**
+     * SimpleRealMatrix determinant.
+     *
+     * @return determinant
+     */
+    double getDeterminant();
+
+    /**
+     * Multiply a matrix by a scalar in place, matrixElements =
+     * scalar*matrixElements.
+     *
+     * @param scalar scalar
+     * @return replace matrixElements by scalar*matrixElements
+     */
+    RealMatrix multiplyEquals(double scalar);
+
+    /**
+     * scalar addition each element of this matrix added to scalar.
+     *
+     * @param scalar scalar value to add.
+     * @return new matrix containing the result of this operation.
+     */
+    RealMatrix add(double scalar);
+
+    RealMatrix subtract(double value);
+
+    /**
+     * Multiply a matrix by a scalar, resultArray = scalar*matrixElements.
+     *
+     * @param scalar scalar
+     * @return scalar*matrixElements
+     */
+    RealMatrix multiply(double scalar);
+
+    RealMatrix divide(double value);
 }

@@ -18,45 +18,38 @@
  ******************************************************************************/
 package com.syncleus.dann.graph;
 
-public abstract class AbstractWeightedBidirectedEdge<N> extends AbstractBidirectedEdge<N> implements WeightedBidirectedEdge<N>
-{
-	private final double weight;
+public abstract class AbstractWeightedBidirectedEdge<N> extends AbstractBidirectedEdge<N> implements WeightedBidirectedEdge<N> {
+    private final double weight;
 
-	protected AbstractWeightedBidirectedEdge(final double weight)
-	{
-		super();
-		this.weight = weight;
-	}
+    protected AbstractWeightedBidirectedEdge(final double weight) {
+        super();
+        this.weight = weight;
+    }
 
-	protected AbstractWeightedBidirectedEdge(final double weight, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
-	{
-		super(allowJoiningMultipleGraphs, contextEnabled);
-		this.weight = weight;
-	}
+    protected AbstractWeightedBidirectedEdge(final double weight, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled) {
+        super(allowJoiningMultipleGraphs, contextEnabled);
+        this.weight = weight;
+    }
 
-	protected AbstractWeightedBidirectedEdge(final N leftNode, final EndState leftEndState, final N rightNode, final EndState rightEndState, final double ourWeight)
-	{
-		super(leftNode, leftEndState, rightNode, rightEndState);
+    protected AbstractWeightedBidirectedEdge(final N leftNode, final EndState leftEndState, final N rightNode, final EndState rightEndState, final double ourWeight) {
+        super(leftNode, leftEndState, rightNode, rightEndState);
 
-		this.weight = ourWeight;
-	}
+        this.weight = ourWeight;
+    }
 
-	protected AbstractWeightedBidirectedEdge(final N leftNode, final EndState leftEndState, final N rightNode, final EndState rightEndState, final double ourWeight, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
-	{
-		super(leftNode, leftEndState, rightNode, rightEndState, allowJoiningMultipleGraphs, contextEnabled);
+    protected AbstractWeightedBidirectedEdge(final N leftNode, final EndState leftEndState, final N rightNode, final EndState rightEndState, final double ourWeight, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled) {
+        super(leftNode, leftEndState, rightNode, rightEndState, allowJoiningMultipleGraphs, contextEnabled);
 
-		this.weight = ourWeight;
-	}
+        this.weight = ourWeight;
+    }
 
-	@Override
-	public double getWeight()
-	{
-		return this.weight;
-	}
+    @Override
+    public double getWeight() {
+        return this.weight;
+    }
 
-	@Override
-	public AbstractWeightedBidirectedEdge<N> clone()
-	{
-		return (AbstractWeightedBidirectedEdge<N>) super.clone();
-	}
+    @Override
+    public AbstractWeightedBidirectedEdge<N> clone() {
+        return (AbstractWeightedBidirectedEdge<N>) super.clone();
+    }
 }

@@ -21,7 +21,6 @@ package com.syncleus.dann.math.linear.decomposition;
 import com.syncleus.dann.math.FieldElement;
 import com.syncleus.dann.math.linear.Matrix;
 
-public interface SolvableDecomposition<M extends Matrix<M, ? extends FieldElement<?>>> extends Decomposition<M>
-{
-	M solve(M solutionMatrix);
+public interface SolvableDecomposition<M extends Matrix<M, ? extends FieldElement<?>>> extends Decomposition<M> {
+    M solve(M solutionMatrix);
 }

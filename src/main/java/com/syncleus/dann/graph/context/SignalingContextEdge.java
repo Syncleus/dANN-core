@@ -20,7 +20,6 @@ package com.syncleus.dann.graph.context;
 
 import com.syncleus.dann.graph.Edge;
 
-public interface SignalingContextEdge<N, S> extends Edge<N>
-{
-	void nodeStateChanged(N node, S newState);
+public interface SignalingContextEdge<N, S> extends Edge<N> {
+    void nodeStateChanged(N node, S newState);
 }

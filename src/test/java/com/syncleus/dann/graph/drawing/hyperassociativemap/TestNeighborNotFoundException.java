@@ -20,29 +20,24 @@ package com.syncleus.dann.graph.drawing.hyperassociativemap;
 
 import org.junit.Test;
 
-public class TestNeighborNotFoundException
-{
-	@Test(expected = NeighborNotFoundException.class)
-	public void testDefault() throws NeighborNotFoundException
-	{
-		throw new NeighborNotFoundException();
-	}
+public class TestNeighborNotFoundException {
+    @Test(expected = NeighborNotFoundException.class)
+    public void testDefault() throws NeighborNotFoundException {
+        throw new NeighborNotFoundException();
+    }
 
-	@Test(expected = NeighborNotFoundException.class)
-	public void testString() throws NeighborNotFoundException
-	{
-		throw new NeighborNotFoundException("This is just a test");
-	}
+    @Test(expected = NeighborNotFoundException.class)
+    public void testString() throws NeighborNotFoundException {
+        throw new NeighborNotFoundException("This is just a test");
+    }
 
-	@Test(expected = NeighborNotFoundException.class)
-	public void testCause() throws NeighborNotFoundException
-	{
-		throw new NeighborNotFoundException(new Exception());
-	}
+    @Test(expected = NeighborNotFoundException.class)
+    public void testCause() throws NeighborNotFoundException {
+        throw new NeighborNotFoundException(new Exception());
+    }
 
-	@Test(expected = NeighborNotFoundException.class)
-	public void testStringCause() throws NeighborNotFoundException
-	{
-		throw new NeighborNotFoundException("This is just a test", new Exception());
-	}
+    @Test(expected = NeighborNotFoundException.class)
+    public void testStringCause() throws NeighborNotFoundException {
+        throw new NeighborNotFoundException("This is just a test", new Exception());
+    }
 }

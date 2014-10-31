@@ -21,38 +21,34 @@ package com.syncleus.dann.neural;
 import com.syncleus.dann.neural.backprop.SimpleBackpropNeuron;
 import org.junit.*;
 
-public class TestSynapse
-{
-	private static class TestBrain extends AbstractLocalBrain
-	{
-		private static final long serialVersionUID = -7579268135961655455L;
+public class TestSynapse {
+    private static final double INITIAL_WEIGHT = 0.01;
+    private static final double TEST_INPUT = 2.0;
+    private static final double TEST_WEIGHT = 3.0;
 
-		@Override
-		public boolean add(final Neuron newNeuron)
-		{
-			return super.add(newNeuron);
-		}
-	}
+    @Test
+    public void testAccessors() {
+        final TestBrain brain = new TestBrain();
 
-	private static final double INITIAL_WEIGHT = 0.01;
-	private static final double TEST_INPUT = 2.0;
-	private static final double TEST_WEIGHT = 3.0;
+        final SimpleBackpropNeuron sourceNeuron = new SimpleBackpropNeuron(brain);
+        final SimpleBackpropNeuron destinationNeuron = new SimpleBackpropNeuron(brain);
 
-	@Test
-	public void testAccessors()
-	{
-		final TestBrain brain = new TestBrain();
+        final SimpleSynapse testSynapse = new SimpleSynapse(sourceNeuron, destinationNeuron, INITIAL_WEIGHT);
 
-		final SimpleBackpropNeuron sourceNeuron = new SimpleBackpropNeuron(brain);
-		final SimpleBackpropNeuron destinationNeuron = new SimpleBackpropNeuron(brain);
+        testSynapse.setInput(TEST_INPUT);
+        Assert.assertTrue(Math.abs(testSynapse.getInput() - TEST_INPUT) < 0.000001);
+        testSynapse.setWeight(TEST_WEIGHT);
+        Assert.assertTrue(Math.abs(testSynapse.getWeight() - TEST_WEIGHT) < 0.000001);
+        Assert.assertTrue(testSynapse.getSourceNode() == sourceNeuron);
+        Assert.assertTrue(testSynapse.getDestinationNode() == destinationNeuron);
+    }
 
-		final SimpleSynapse testSynapse = new SimpleSynapse(sourceNeuron, destinationNeuron, INITIAL_WEIGHT);
+    private static class TestBrain extends AbstractLocalBrain {
+        private static final long serialVersionUID = -7579268135961655455L;
 
-		testSynapse.setInput(TEST_INPUT);
-		Assert.assertTrue(Math.abs(testSynapse.getInput() - TEST_INPUT) < 0.000001);
-		testSynapse.setWeight(TEST_WEIGHT);
-		Assert.assertTrue(Math.abs(testSynapse.getWeight() - TEST_WEIGHT) < 0.000001);
-		Assert.assertTrue(testSynapse.getSourceNode() == sourceNeuron);
-		Assert.assertTrue(testSynapse.getDestinationNode() == destinationNeuron);
-	}
+        @Override
+        public boolean add(final Neuron newNeuron) {
+            return super.add(newNeuron);
+        }
+    }
 }

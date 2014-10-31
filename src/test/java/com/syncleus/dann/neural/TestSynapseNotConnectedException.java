@@ -20,29 +20,24 @@ package com.syncleus.dann.neural;
 
 import org.junit.Test;
 
-public class TestSynapseNotConnectedException
-{
-	@Test(expected = SynapseNotConnectedDannException.class)
-	public void testDefault() throws SynapseNotConnectedDannException
-	{
-		throw new SynapseNotConnectedDannException();
-	}
+public class TestSynapseNotConnectedException {
+    @Test(expected = SynapseNotConnectedDannException.class)
+    public void testDefault() throws SynapseNotConnectedDannException {
+        throw new SynapseNotConnectedDannException();
+    }
 
-	@Test(expected = SynapseNotConnectedDannException.class)
-	public void testString() throws SynapseNotConnectedDannException
-	{
-		throw new SynapseNotConnectedDannException("This is just a test");
-	}
+    @Test(expected = SynapseNotConnectedDannException.class)
+    public void testString() throws SynapseNotConnectedDannException {
+        throw new SynapseNotConnectedDannException("This is just a test");
+    }
 
-	@Test(expected = SynapseNotConnectedDannException.class)
-	public void testCause() throws SynapseNotConnectedDannException
-	{
-		throw new SynapseNotConnectedDannException(new Exception());
-	}
+    @Test(expected = SynapseNotConnectedDannException.class)
+    public void testCause() throws SynapseNotConnectedDannException {
+        throw new SynapseNotConnectedDannException(new Exception());
+    }
 
-	@Test(expected = SynapseNotConnectedDannException.class)
-	public void testStringCause() throws SynapseNotConnectedDannException
-	{
-		throw new SynapseNotConnectedDannException("This is just a test", new Exception());
-	}
+    @Test(expected = SynapseNotConnectedDannException.class)
+    public void testStringCause() throws SynapseNotConnectedDannException {
+        throw new SynapseNotConnectedDannException("This is just a test", new Exception());
+    }
 }

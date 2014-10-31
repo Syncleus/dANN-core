@@ -18,12 +18,10 @@
  ******************************************************************************/
 package com.syncleus.dann.neural;
 
-public final class StaticNeuron extends AbstractStaticNeuron
-{
-	private static final long serialVersionUID = 13948812734120L;
+public final class StaticNeuron extends AbstractStaticNeuron {
+    private static final long serialVersionUID = 13948812734120L;
 
-	public StaticNeuron(final Brain brain, final double constantOutput)
-	{
-		super(brain, constantOutput);
-	}
+    public StaticNeuron(final Brain brain, final double constantOutput) {
+        super(brain, constantOutput);
+    }
 }

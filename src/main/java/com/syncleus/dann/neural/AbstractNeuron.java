@@ -20,34 +20,31 @@ package com.syncleus.dann.neural;
 
 import java.util.Random;
 
-public abstract class AbstractNeuron implements Neuron
-{
-	/**
-	 * Random number generator used to produce any needed RANDOM values.
-	 *
-	 * @since 1.0
-	 */
-	protected static final Random RANDOM = new Random();
-	private final Brain<InputNeuron, OutputNeuron, Neuron, Synapse<Neuron>> brain;
+public abstract class AbstractNeuron implements Neuron {
+    /**
+     * Random number generator used to produce any needed RANDOM values.
+     *
+     * @since 1.0
+     */
+    protected static final Random RANDOM = new Random();
+    private final Brain<InputNeuron, OutputNeuron, Neuron, Synapse<Neuron>> brain;
 
-	/**
-	 * Creates a new instance of NeuronImpl with a RANDOM bias weight and
-	 * HyperbolicTangentActivationFunction as the activation function.
-	 *
-	 * @since 1.0
-	 */
-	protected AbstractNeuron(final Brain<InputNeuron, OutputNeuron, Neuron, Synapse<Neuron>> brain)
-	{
-		if( brain == null )
-			throw new IllegalArgumentException("brain can not be null");
-		this.brain = brain;
-	}
+    /**
+     * Creates a new instance of NeuronImpl with a RANDOM bias weight and
+     * HyperbolicTangentActivationFunction as the activation function.
+     *
+     * @since 1.0
+     */
+    protected AbstractNeuron(final Brain<InputNeuron, OutputNeuron, Neuron, Synapse<Neuron>> brain) {
+        if (brain == null)
+            throw new IllegalArgumentException("brain can not be null");
+        this.brain = brain;
+    }
 
-	protected Brain<InputNeuron, OutputNeuron, Neuron, Synapse<Neuron>> getBrain()
-	{
-		return this.brain;
-	}
+    protected Brain<InputNeuron, OutputNeuron, Neuron, Synapse<Neuron>> getBrain() {
+        return this.brain;
+    }
 
-	// TODO consider making this public and moving it to the neuron interface
-	protected abstract double getOutput();
+    // TODO consider making this public and moving it to the neuron interface
+    protected abstract double getOutput();
 }

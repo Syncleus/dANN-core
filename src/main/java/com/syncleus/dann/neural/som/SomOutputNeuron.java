@@ -20,7 +20,6 @@ package com.syncleus.dann.neural.som;
 
 import com.syncleus.dann.neural.OutputNeuron;
 
-public interface SomOutputNeuron extends OutputNeuron, SomNeuron
-{
-	void train(double learningRate, double neighborhoodAdjustment);
+public interface SomOutputNeuron extends OutputNeuron, SomNeuron {
+    void train(double learningRate, double neighborhoodAdjustment);
 }

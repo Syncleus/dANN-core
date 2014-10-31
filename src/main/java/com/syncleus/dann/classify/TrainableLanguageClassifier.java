@@ -20,12 +20,12 @@ package com.syncleus.dann.classify;
 
 /**
  * A TrainableLanguageClassifier is a LanguageClassifier that is also Trainable.
+ *
  * @param <C> The categories to put words into.
  * @author Jeffrey Phillips Freeman
  * @see LanguageClassifier
  * @see Trainable
  * @see TrainableClassifier
  */
-public interface TrainableLanguageClassifier<C> extends Trainable<String, C>, LanguageClassifier<C>, TrainableClassifier<String, C>
-{
+public interface TrainableLanguageClassifier<C> extends Trainable<String, C>, LanguageClassifier<C>, TrainableClassifier<String, C> {
 }

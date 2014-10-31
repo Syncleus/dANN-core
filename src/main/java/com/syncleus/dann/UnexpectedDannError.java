@@ -25,53 +25,48 @@ package com.syncleus.dann;
  * @author Jeffrey Phillips Freeman
  * @since 2.0
  */
-public class UnexpectedDannError extends DannError
-{
-	private static final long serialVersionUID = -822017169989231725L;
+public class UnexpectedDannError extends DannError {
+    private static final long serialVersionUID = -822017169989231725L;
 
-	/**
-	 * Creates a blank default exception.
-	 *
-	 * @since 2.0
-	 */
-	public UnexpectedDannError()
-	{
-		super();
-	}
+    /**
+     * Creates a blank default exception.
+     *
+     * @since 2.0
+     */
+    public UnexpectedDannError() {
+        super();
+    }
 
-	/**
-	 * Creates an error with a message describing the cause.
-	 *
-	 * @param msg A string describing the cause of the error
-	 * @since 2.0
-	 */
-	public UnexpectedDannError(final String msg)
-	{
-		super(msg);
-	}
+    /**
+     * Creates an error with a message describing the cause.
+     *
+     * @param msg A string describing the cause of the error
+     * @since 2.0
+     */
+    public UnexpectedDannError(final String msg) {
+        super(msg);
+    }
 
-	/**
-	 * Creates an error with a message describing the cause as well as the
-	 * throwable which caused this exception to be thrown.
-	 *
-	 * @param msg A string describing the cause of the exception
-	 * @param cause The throwable which caused this exception
-	 * @since 2.0
-	 */
-	public UnexpectedDannError(final String msg, final Throwable cause)
-	{
-		super(msg, cause);
-	}
+    /**
+     * Creates an error with a message describing the cause as well as the
+     * throwable which caused this exception to be thrown.
+     *
+     * @param msg   A string describing the cause of the exception
+     * @param cause The throwable which caused this exception
+     * @since 2.0
+     */
+    public UnexpectedDannError(final String msg, final Throwable cause) {
+        super(msg, cause);
+    }
 
-	/**
-	 * Creates an error containing the throwable which caused this exception to be
-	 * thrown.
-	 *
-	 * @param cause The throwable which caused this exception
-	 * @since 2.0
-	 */
-	public UnexpectedDannError(final Throwable cause)
-	{
-		super(cause);
-	}
+    /**
+     * Creates an error containing the throwable which caused this exception to be
+     * thrown.
+     *
+     * @param cause The throwable which caused this exception
+     * @since 2.0
+     */
+    public UnexpectedDannError(final Throwable cause) {
+        super(cause);
+    }
 }

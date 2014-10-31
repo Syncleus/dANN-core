@@ -18,102 +18,87 @@
  ******************************************************************************/
 package com.syncleus.dann.graph.topological.sorter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import com.syncleus.dann.graph.BidirectedGraph;
-import com.syncleus.dann.graph.DirectedEdge;
+import com.syncleus.dann.graph.*;
 
-public class SimpleTopologicalRanker<N> implements TopologicalRanker<N>
-{
-	@Override
-	public List<Set<N>> rank(final BidirectedGraph<? extends N, ? extends DirectedEdge<? extends N>> graph)
-	{
-		//initialize data structures
-		final Set<N> remainingNodes = new HashSet<N>(graph.getNodes());
-		final Set<DirectedEdge<? extends N>> remainingEdges = new HashSet<DirectedEdge<? extends N>>(graph.getEdges());
-		final Map<N, Set<DirectedEdge<? extends N>>> remainingNeighborEdges = new HashMap<N, Set<DirectedEdge<? extends N>>>();
+import java.util.*;
 
-		//construct the remainingNeighborEdges with the entire graphs adjacency
-		for(final DirectedEdge<? extends N> edge : remainingEdges )
-		{
-			for(final N edgeNode : edge.getNodes())
-			{
-				if( !remainingNodes.contains(edgeNode) )
-					throw new IllegalArgumentException("A node that is an end point in one of the edges was not in the nodes list");
-				java.util.Set<com.syncleus.dann.graph.DirectedEdge<? extends N>> startNeighborEdges = remainingNeighborEdges.get(edgeNode);
-				if( startNeighborEdges == null )
-				{
-					startNeighborEdges = new java.util.HashSet<com.syncleus.dann.graph.DirectedEdge<? extends N>>();
-					remainingNeighborEdges.put(edgeNode, startNeighborEdges);
-				}
-				startNeighborEdges.add(edge);
-			}
-		}
+public class SimpleTopologicalRanker<N> implements TopologicalRanker<N> {
+    @Override
+    public List<Set<N>> rank(final BidirectedGraph<? extends N, ? extends DirectedEdge<? extends N>> graph) {
+        //initialize data structures
+        final Set<N> remainingNodes = new HashSet<N>(graph.getNodes());
+        final Set<DirectedEdge<? extends N>> remainingEdges = new HashSet<DirectedEdge<? extends N>>(graph.getEdges());
+        final Map<N, Set<DirectedEdge<? extends N>>> remainingNeighborEdges = new HashMap<N, Set<DirectedEdge<? extends N>>>();
 
-		//pull all nodes of 0 degree then delete as long as nodes are left
-		final List<Set<N>> topologicalNodes = new ArrayList<Set<N>>();
-		while( !remainingNodes.isEmpty() )
-		{
-			//find all nodes current with a in degree of 0
-			final Set<N> currentRootNodes = new HashSet<N>();
-			for(final N node : remainingNodes )
-				if( getIndegree(remainingEdges, node) == 0 )
-					currentRootNodes.add(node);
+        //construct the remainingNeighborEdges with the entire graphs adjacency
+        for (final DirectedEdge<? extends N> edge : remainingEdges) {
+            for (final N edgeNode : edge.getNodes()) {
+                if (!remainingNodes.contains(edgeNode))
+                    throw new IllegalArgumentException("A node that is an end point in one of the edges was not in the nodes list");
+                java.util.Set<com.syncleus.dann.graph.DirectedEdge<? extends N>> startNeighborEdges = remainingNeighborEdges.get(edgeNode);
+                if (startNeighborEdges == null) {
+                    startNeighborEdges = new java.util.HashSet<com.syncleus.dann.graph.DirectedEdge<? extends N>>();
+                    remainingNeighborEdges.put(edgeNode, startNeighborEdges);
+                }
+                startNeighborEdges.add(edge);
+            }
+        }
 
-			//if no nodes were found yet some are still remaining then this cant be sorted
-			if( currentRootNodes.isEmpty() )
-				return null;
+        //pull all nodes of 0 degree then delete as long as nodes are left
+        final List<Set<N>> topologicalNodes = new ArrayList<Set<N>>();
+        while (!remainingNodes.isEmpty()) {
+            //find all nodes current with a in degree of 0
+            final Set<N> currentRootNodes = new HashSet<N>();
+            for (final N node : remainingNodes)
+                if (getIndegree(remainingEdges, node) == 0)
+                    currentRootNodes.add(node);
 
-			//now lets delete all the nodes we found
-			for(N node : currentRootNodes)
-			{
-				final Set<DirectedEdge<? extends N>> neighbors = remainingNeighborEdges.get(node);
-				for(final DirectedEdge<? extends N> neighbor : neighbors)
-				{
-					final List<N> adjacentNodes = new ArrayList<N>(neighbor.getNodes());
-					adjacentNodes.remove(node);
-					final N adjacentNode = adjacentNodes.get(0);
+            //if no nodes were found yet some are still remaining then this cant be sorted
+            if (currentRootNodes.isEmpty())
+                return null;
 
-					//delete the edge from the neighbor map
-					final Set<DirectedEdge<? extends N>> deleteFromEdges = remainingNeighborEdges.get(adjacentNode);
-					deleteFromEdges.remove(neighbor);
+            //now lets delete all the nodes we found
+            for (N node : currentRootNodes) {
+                final Set<DirectedEdge<? extends N>> neighbors = remainingNeighborEdges.get(node);
+                for (final DirectedEdge<? extends N> neighbor : neighbors) {
+                    final List<N> adjacentNodes = new ArrayList<N>(neighbor.getNodes());
+                    adjacentNodes.remove(node);
+                    final N adjacentNode = adjacentNodes.get(0);
 
-					//delete the edge from edges
-					remainingEdges.remove(neighbor);
-				}
-				remainingNodes.remove(node);
-			}
+                    //delete the edge from the neighbor map
+                    final Set<DirectedEdge<? extends N>> deleteFromEdges = remainingNeighborEdges.get(adjacentNode);
+                    deleteFromEdges.remove(neighbor);
 
-			//lets add the current root nodes and continue
-			topologicalNodes.add(currentRootNodes);
-		}
+                    //delete the edge from edges
+                    remainingEdges.remove(neighbor);
+                }
+                remainingNodes.remove(node);
+            }
 
-		return topologicalNodes;
-	}
+            //lets add the current root nodes and continue
+            topologicalNodes.add(currentRootNodes);
+        }
 
-	@Override
-	public List<N> sort(final BidirectedGraph<? extends N, ? extends DirectedEdge<? extends N>> graph)
-	{
-		final List<Set<N>> rankedNodes = this.rank(graph);
+        return topologicalNodes;
+    }
 
-		//convert ranked nodes into sorted nodes
-		final List<N> sortedNodes = new ArrayList<N>(graph.getNodes().size());
-		for(Set<N> levelNodes : rankedNodes)
-			sortedNodes.addAll(levelNodes);
+    @Override
+    public List<N> sort(final BidirectedGraph<? extends N, ? extends DirectedEdge<? extends N>> graph) {
+        final List<Set<N>> rankedNodes = this.rank(graph);
 
-		return sortedNodes;
-	}
+        //convert ranked nodes into sorted nodes
+        final List<N> sortedNodes = new ArrayList<N>(graph.getNodes().size());
+        for (Set<N> levelNodes : rankedNodes)
+            sortedNodes.addAll(levelNodes);
 
-	private int getIndegree(final Set<DirectedEdge<? extends N>> edges, final N node)
-	{
-		int inDegree = 0;
-		for(final DirectedEdge<? extends N> edge : edges)
-			if( edge.getDestinationNode() == node )
-				inDegree++;
-		return inDegree;
-	}
+        return sortedNodes;
+    }
+
+    private int getIndegree(final Set<DirectedEdge<? extends N>> edges, final N node) {
+        int inDegree = 0;
+        for (final DirectedEdge<? extends N> edge : edges)
+            if (edge.getDestinationNode() == node)
+                inDegree++;
+        return inDegree;
+    }
 }

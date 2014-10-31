@@ -27,53 +27,48 @@ import com.syncleus.dann.DannRuntimeException;
  * @author Jeffrey Phillips Freeman
  * @since 1.0
  */
-public class InvalidConnectionTypeDannException extends DannRuntimeException
-{
-	private static final long serialVersionUID = -2042929829459488405L;
+public class InvalidConnectionTypeDannException extends DannRuntimeException {
+    private static final long serialVersionUID = -2042929829459488405L;
 
-	/**
-	 * Creates a blank default exception.
-	 *
-	 * @since 1.0
-	 */
-	public InvalidConnectionTypeDannException()
-	{
-		super();
-	}
+    /**
+     * Creates a blank default exception.
+     *
+     * @since 1.0
+     */
+    public InvalidConnectionTypeDannException() {
+        super();
+    }
 
-	/**
-	 * Creates an exception with a message describing the cause.
-	 *
-	 * @param msg A string describing the cause of the exception
-	 * @since 1.0
-	 */
-	public InvalidConnectionTypeDannException(final String msg)
-	{
-		super(msg);
-	}
+    /**
+     * Creates an exception with a message describing the cause.
+     *
+     * @param msg A string describing the cause of the exception
+     * @since 1.0
+     */
+    public InvalidConnectionTypeDannException(final String msg) {
+        super(msg);
+    }
 
-	/**
-	 * Creates an exception with a message describing the cause as well as the
-	 * throwable which caused this exception to be thrown.
-	 *
-	 * @param msg A string describing the cause of the exception
-	 * @param cause The throwable which caused this exception
-	 * @since 1.0
-	 */
-	public InvalidConnectionTypeDannException(final String msg, final Throwable cause)
-	{
-		super(msg, cause);
-	}
+    /**
+     * Creates an exception with a message describing the cause as well as the
+     * throwable which caused this exception to be thrown.
+     *
+     * @param msg   A string describing the cause of the exception
+     * @param cause The throwable which caused this exception
+     * @since 1.0
+     */
+    public InvalidConnectionTypeDannException(final String msg, final Throwable cause) {
+        super(msg, cause);
+    }
 
-	/**
-	 * Creates an exception containing the throwable which caused this exception
-	 * to be thrown.
-	 *
-	 * @param cause The throwable which caused this exception
-	 * @since 1.0
-	 */
-	public InvalidConnectionTypeDannException(final Throwable cause)
-	{
-		super(cause);
-	}
+    /**
+     * Creates an exception containing the throwable which caused this exception
+     * to be thrown.
+     *
+     * @param cause The throwable which caused this exception
+     * @since 1.0
+     */
+    public InvalidConnectionTypeDannException(final Throwable cause) {
+        super(cause);
+    }
 }

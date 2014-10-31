@@ -20,7 +20,6 @@ package com.syncleus.dann.neural.backprop;
 
 import com.syncleus.dann.neural.OutputNeuron;
 
-public interface OutputBackpropNeuron extends OutputNeuron, BackpropNeuron
-{
-	void setDesired(final double trainingToSet);
+public interface OutputBackpropNeuron extends OutputNeuron, BackpropNeuron {
+    void setDesired(final double trainingToSet);
 }

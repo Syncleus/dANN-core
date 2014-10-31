@@ -18,253 +18,216 @@
  ******************************************************************************/
 package com.syncleus.dann.graphicalmodel;
 
-import java.util.*;
-import com.syncleus.dann.graphicalmodel.xml.EvidenceMapElementXml;
-import com.syncleus.dann.graphicalmodel.xml.EvidenceMapXml;
+import com.syncleus.dann.graphicalmodel.xml.*;
 import com.syncleus.dann.xml.*;
 
-public class EvidenceMap<S> extends HashMap<Map<GraphicalModelNode, Object>, StateEvidence<S>> implements XmlSerializable<EvidenceMapXml, Object>
-{
-	private static final long serialVersionUID = 5956089319330421885L;
-	private final Set<GraphicalModelNode> influencingNodes;
+import java.util.*;
 
-	public EvidenceMap(final Set<GraphicalModelNode> influencingNodes)
-	{
-		this.influencingNodes = Collections.unmodifiableSet(new HashSet<GraphicalModelNode>(influencingNodes));
-	}
+public class EvidenceMap<S> extends HashMap<Map<GraphicalModelNode, Object>, StateEvidence<S>> implements XmlSerializable<EvidenceMapXml, Object> {
+    private static final long serialVersionUID = 5956089319330421885L;
+    private final Set<GraphicalModelNode> influencingNodes;
 
-	public EvidenceMap(final GraphicalModelNode influencingNode)
-	{
-		final Set<GraphicalModelNode> newInfluences = new HashSet<GraphicalModelNode>();
-		newInfluences.add(influencingNode);
-		this.influencingNodes = Collections.unmodifiableSet(newInfluences);
-	}
+    public EvidenceMap(final Set<GraphicalModelNode> influencingNodes) {
+        this.influencingNodes = Collections.unmodifiableSet(new HashSet<GraphicalModelNode>(influencingNodes));
+    }
 
-	public Set<GraphicalModelNode> getInfluencingNodes()
-	{
-		return this.influencingNodes;
-	}
+    public EvidenceMap(final GraphicalModelNode influencingNode) {
+        final Set<GraphicalModelNode> newInfluences = new HashSet<GraphicalModelNode>();
+        newInfluences.add(influencingNode);
+        this.influencingNodes = Collections.unmodifiableSet(newInfluences);
+    }
 
-	public int incrementState(final Set<GraphicalModelNode> influences, final S state)
-	{
-		final Map<GraphicalModelNode, Object> influenceMap = new HashMap<GraphicalModelNode, Object>();
-		for(final GraphicalModelNode influence : influences)
-			influenceMap.put(influence, influence.getState());
-		return this.incrementState(influenceMap, state);
-	}
+    public Set<GraphicalModelNode> getInfluencingNodes() {
+        return this.influencingNodes;
+    }
 
-	public int incrementState(final Map<GraphicalModelNode, Object> influence, final S state)
-	{
-		this.verifyInfluencingStates(influence);
-		StateEvidence<S> stateEvidence = this.get(influence);
-		if( stateEvidence == null )
-		{
-			stateEvidence = new StateEvidence<S>();
-			this.put(influence, stateEvidence);
-		}
-		Integer evidence = stateEvidence.get(state);
-		if( evidence == null )
-			evidence = 1;
-		else
-			evidence = evidence + 1;
-		stateEvidence.put(state, evidence);
-		return evidence;
-	}
+    public int incrementState(final Set<GraphicalModelNode> influences, final S state) {
+        final Map<GraphicalModelNode, Object> influenceMap = new HashMap<GraphicalModelNode, Object>();
+        for (final GraphicalModelNode influence : influences)
+            influenceMap.put(influence, influence.getState());
+        return this.incrementState(influenceMap, state);
+    }
 
-	private void verifyInfluencingStates(final Map<GraphicalModelNode, Object> influencingStates)
-	{
-		if( !influencingStates.keySet().equals(this.influencingNodes) )
-			throw new IllegalArgumentException("wrong number of influencing nodes");
-	}
+    public int incrementState(final Map<GraphicalModelNode, Object> influence, final S state) {
+        this.verifyInfluencingStates(influence);
+        StateEvidence<S> stateEvidence = this.get(influence);
+        if (stateEvidence == null) {
+            stateEvidence = new StateEvidence<S>();
+            this.put(influence, stateEvidence);
+        }
+        Integer evidence = stateEvidence.get(state);
+        if (evidence == null)
+            evidence = 1;
+        else
+            evidence = evidence + 1;
+        stateEvidence.put(state, evidence);
+        return evidence;
+    }
 
-	@Override
-	public boolean containsKey(final Object keyObj)
-	{
-		if( keyObj instanceof Set )
-		{
-			final Set key = (Set) keyObj;
-			final Map<GraphicalModelNode, Object> newKey = new HashMap<GraphicalModelNode, Object>();
-			for(final Object nodeObj : key)
-			{
-				if( nodeObj instanceof GraphicalModelNode )
-				{
-					final GraphicalModelNode node = (GraphicalModelNode) nodeObj;
-					newKey.put(node, node.getState());
-				}
-				else
-					return super.containsKey(keyObj);
-			}
-			return super.containsKey(newKey);
-		}
+    private void verifyInfluencingStates(final Map<GraphicalModelNode, Object> influencingStates) {
+        if (!influencingStates.keySet().equals(this.influencingNodes))
+            throw new IllegalArgumentException("wrong number of influencing nodes");
+    }
 
-		return super.containsKey(keyObj);
-	}
+    @Override
+    public boolean containsKey(final Object keyObj) {
+        if (keyObj instanceof Set) {
+            final Set key = (Set) keyObj;
+            final Map<GraphicalModelNode, Object> newKey = new HashMap<GraphicalModelNode, Object>();
+            for (final Object nodeObj : key) {
+                if (nodeObj instanceof GraphicalModelNode) {
+                    final GraphicalModelNode node = (GraphicalModelNode) nodeObj;
+                    newKey.put(node, node.getState());
+                }
+                else
+                    return super.containsKey(keyObj);
+            }
+            return super.containsKey(newKey);
+        }
 
-	@Override
-	public StateEvidence<S> get(final Object keyObj)
-	{
-		if( keyObj instanceof Set )
-		{
-			final Set key = (Set) keyObj;
+        return super.containsKey(keyObj);
+    }
 
-			final Map<GraphicalModelNode, Object> newKey = new HashMap<GraphicalModelNode, Object>();
-			for(final Object nodeObj : key)
-			{
-				if( nodeObj instanceof GraphicalModelNode )
-				{
-					final GraphicalModelNode node = (GraphicalModelNode) nodeObj;
-					newKey.put(node, node.getState());
-				}
-				else
-					return super.get(keyObj);
-			}
-			return super.get(newKey);
-		}
+    @Override
+    public StateEvidence<S> get(final Object keyObj) {
+        if (keyObj instanceof Set) {
+            final Set key = (Set) keyObj;
 
-		return super.get(keyObj);
-	}
+            final Map<GraphicalModelNode, Object> newKey = new HashMap<GraphicalModelNode, Object>();
+            for (final Object nodeObj : key) {
+                if (nodeObj instanceof GraphicalModelNode) {
+                    final GraphicalModelNode node = (GraphicalModelNode) nodeObj;
+                    newKey.put(node, node.getState());
+                }
+                else
+                    return super.get(keyObj);
+            }
+            return super.get(newKey);
+        }
 
-	@Override
-	public StateEvidence<S> put(final Map<GraphicalModelNode, Object> key, final StateEvidence<S> value)
-	{
-		this.verifyInfluencingStates(key);
+        return super.get(keyObj);
+    }
 
-		return super.put(key, value);
-	}
+    @Override
+    public StateEvidence<S> put(final Map<GraphicalModelNode, Object> key, final StateEvidence<S> value) {
+        this.verifyInfluencingStates(key);
 
-	@Override
-	public void putAll(final Map<? extends Map<GraphicalModelNode, Object>, ? extends StateEvidence<S>> map)
-	{
-		for(final Map<GraphicalModelNode, Object> inputStates : map.keySet())
-			this.verifyInfluencingStates(inputStates);
-		super.putAll(map);
-	}
+        return super.put(key, value);
+    }
 
-	@Override
-	public EvidenceMapXml toXml()
-	{
-		final EvidenceMapElementXml xml = new EvidenceMapElementXml();
-		final Namer<Object> namer = new Namer<Object>();
+    @Override
+    public void putAll(final Map<? extends Map<GraphicalModelNode, Object>, ? extends StateEvidence<S>> map) {
+        for (final Map<GraphicalModelNode, Object> inputStates : map.keySet())
+            this.verifyInfluencingStates(inputStates);
+        super.putAll(map);
+    }
 
-		final Set<GraphicalModelNode> seenNodes = new HashSet<GraphicalModelNode>();
-		final Set<Object> seenStates = new HashSet<Object>();
+    @Override
+    public EvidenceMapXml toXml() {
+        final EvidenceMapElementXml xml = new EvidenceMapElementXml();
+        final Namer<Object> namer = new Namer<Object>();
 
-		xml.setNodeInstances(new EvidenceMapElementXml.NodeInstances());
-		xml.setStateInstances(new EvidenceMapElementXml.StateInstances());
-		for (Map.Entry<Map<GraphicalModelNode, Object>, StateEvidence<S>> entry : this.entrySet())
-		{
-			final Map<GraphicalModelNode, Object> influences = entry.getKey();
-			final StateEvidence<S> evidence = entry.getValue();
+        final Set<GraphicalModelNode> seenNodes = new HashSet<GraphicalModelNode>();
+        final Set<Object> seenStates = new HashSet<Object>();
 
-			//add instances for all the nodes and states from the influences
-			for (Map.Entry<GraphicalModelNode, Object> influenceEntry : influences.entrySet())
-			{
-				final GraphicalModelNode node = influenceEntry.getKey();
-				final Object state = influenceEntry.getValue();
+        xml.setNodeInstances(new EvidenceMapElementXml.NodeInstances());
+        xml.setStateInstances(new EvidenceMapElementXml.StateInstances());
+        for (Map.Entry<Map<GraphicalModelNode, Object>, StateEvidence<S>> entry : this.entrySet()) {
+            final Map<GraphicalModelNode, Object> influences = entry.getKey();
+            final StateEvidence<S> evidence = entry.getValue();
 
-				if (seenStates.add(state))
-				{
-					final Object stateXml;
-					if (state instanceof XmlSerializable)
-					{
-						stateXml = ((XmlSerializable) state).toXml(namer);
-					}
-					else
-					{
-						stateXml = state;
-					}
+            //add instances for all the nodes and states from the influences
+            for (Map.Entry<GraphicalModelNode, Object> influenceEntry : influences.entrySet()) {
+                final GraphicalModelNode node = influenceEntry.getKey();
+                final Object state = influenceEntry.getValue();
 
-					final NamedValueXml encapsulation = new NamedValueXml();
-					encapsulation.setName(namer.getNameOrCreate(state));
-					encapsulation.setValue(stateXml);
-					xml.getStateInstances().getStates().add(encapsulation);
-				}
+                if (seenStates.add(state)) {
+                    final Object stateXml;
+                    if (state instanceof XmlSerializable) {
+                        stateXml = ((XmlSerializable) state).toXml(namer);
+                    }
+                    else {
+                        stateXml = state;
+                    }
 
-				if (seenNodes.add(node))
-				{
-					final Object nodeXml = node.toXml(namer);
+                    final NamedValueXml encapsulation = new NamedValueXml();
+                    encapsulation.setName(namer.getNameOrCreate(state));
+                    encapsulation.setValue(stateXml);
+                    xml.getStateInstances().getStates().add(encapsulation);
+                }
 
-					final NamedValueXml encapsulation = new NamedValueXml();
-					encapsulation.setName(namer.getNameOrCreate(node));
-					encapsulation.setValue(nodeXml);
-					xml.getNodeInstances().getNodes().add(encapsulation);
-				}
-			}
+                if (seenNodes.add(node)) {
+                    final Object nodeXml = node.toXml(namer);
 
-			//add instances for all states from the evidence
-			for (S state : evidence.keySet())
-			{
-				if (seenStates.add(state))
-				{
-					final Object stateXml;
-					if (state instanceof XmlSerializable)
-					{
-						stateXml = ((XmlSerializable) state).toXml(namer);
-					}
-					else
-					{
-						stateXml = state;
-					}
+                    final NamedValueXml encapsulation = new NamedValueXml();
+                    encapsulation.setName(namer.getNameOrCreate(node));
+                    encapsulation.setValue(nodeXml);
+                    xml.getNodeInstances().getNodes().add(encapsulation);
+                }
+            }
 
-					final NamedValueXml encapsulation = new NamedValueXml();
-					encapsulation.setName(namer.getNameOrCreate(state));
-					encapsulation.setValue(stateXml);
-					xml.getStateInstances().getStates().add(encapsulation);
-				}
-			}
-		}
+            //add instances for all states from the evidence
+            for (S state : evidence.keySet()) {
+                if (seenStates.add(state)) {
+                    final Object stateXml;
+                    if (state instanceof XmlSerializable) {
+                        stateXml = ((XmlSerializable) state).toXml(namer);
+                    }
+                    else {
+                        stateXml = state;
+                    }
 
-		this.toXml(xml, namer);
-		return xml;
-	}
+                    final NamedValueXml encapsulation = new NamedValueXml();
+                    encapsulation.setName(namer.getNameOrCreate(state));
+                    encapsulation.setValue(stateXml);
+                    xml.getStateInstances().getStates().add(encapsulation);
+                }
+            }
+        }
 
-	@Override
-	public EvidenceMapXml toXml(final Namer<Object> namer)
-	{
-		if (namer == null)
-		{
-			throw new IllegalArgumentException("namer can not be null");
-		}
+        this.toXml(xml, namer);
+        return xml;
+    }
 
-		final EvidenceMapXml xml = new EvidenceMapXml();
-		this.toXml(xml, namer);
-		return xml;
-	}
+    @Override
+    public EvidenceMapXml toXml(final Namer<Object> namer) {
+        if (namer == null) {
+            throw new IllegalArgumentException("namer can not be null");
+        }
 
-	@Override
-	public void toXml(final EvidenceMapXml jaxbObject, final Namer<Object> namer)
-	{
-		if (namer == null)
-		{
-			throw new IllegalArgumentException("nodeNames can not be null");
-		}
-		if (jaxbObject == null)
-		{
-			throw new IllegalArgumentException("jaxbObject can not be null");
-		}
+        final EvidenceMapXml xml = new EvidenceMapXml();
+        this.toXml(xml, namer);
+        return xml;
+    }
 
-		if (jaxbObject.getInfluencedEvidences() == null)
-		{
-			jaxbObject.setInfluencedEvidences(new EvidenceMapXml.InfluencedEvidences());
-		}
-		for (Map.Entry<Map<GraphicalModelNode, Object>, StateEvidence<S>> entry : this.entrySet())
-		{
-			final EvidenceMapXml.InfluencedEvidences.InfluencedEvidence influencedEvidence = new EvidenceMapXml.InfluencedEvidences.InfluencedEvidence();
+    @Override
+    public void toXml(final EvidenceMapXml jaxbObject, final Namer<Object> namer) {
+        if (namer == null) {
+            throw new IllegalArgumentException("nodeNames can not be null");
+        }
+        if (jaxbObject == null) {
+            throw new IllegalArgumentException("jaxbObject can not be null");
+        }
 
-			//add the influences to the xml
-			influencedEvidence.setInfluences(new EvidenceMapXml.InfluencedEvidences.InfluencedEvidence.Influences());
-			for (Map.Entry<GraphicalModelNode, Object> influenceEntry : entry.getKey().entrySet())
-			{
-				final EvidenceMapXml.InfluencedEvidences.InfluencedEvidence.Influences.Influence influenceXml = new EvidenceMapXml.InfluencedEvidences.InfluencedEvidence.Influences.Influence();
-				influenceXml.setNode(namer.getNameOrCreate(influenceEntry.getKey()));
-				influenceXml.setState(namer.getNameOrCreate(influenceEntry.getValue()));
-				influencedEvidence.getInfluences().getInfluences().add(influenceXml);
-			}
+        if (jaxbObject.getInfluencedEvidences() == null) {
+            jaxbObject.setInfluencedEvidences(new EvidenceMapXml.InfluencedEvidences());
+        }
+        for (Map.Entry<Map<GraphicalModelNode, Object>, StateEvidence<S>> entry : this.entrySet()) {
+            final EvidenceMapXml.InfluencedEvidences.InfluencedEvidence influencedEvidence = new EvidenceMapXml.InfluencedEvidences.InfluencedEvidence();
 
-			//add the state evidence to the xml
-			influencedEvidence.setStateEvidence(entry.getValue().toXml(namer));
+            //add the influences to the xml
+            influencedEvidence.setInfluences(new EvidenceMapXml.InfluencedEvidences.InfluencedEvidence.Influences());
+            for (Map.Entry<GraphicalModelNode, Object> influenceEntry : entry.getKey().entrySet()) {
+                final EvidenceMapXml.InfluencedEvidences.InfluencedEvidence.Influences.Influence influenceXml = new EvidenceMapXml.InfluencedEvidences.InfluencedEvidence.Influences.Influence();
+                influenceXml.setNode(namer.getNameOrCreate(influenceEntry.getKey()));
+                influenceXml.setState(namer.getNameOrCreate(influenceEntry.getValue()));
+                influencedEvidence.getInfluences().getInfluences().add(influenceXml);
+            }
 
-			jaxbObject.getInfluencedEvidences().getInfluencedEvidences().add(influencedEvidence);
-		}
-	}
+            //add the state evidence to the xml
+            influencedEvidence.setStateEvidence(entry.getValue().toXml(namer));
+
+            jaxbObject.getInfluencedEvidences().getInfluencedEvidences().add(influencedEvidence);
+        }
+    }
 }

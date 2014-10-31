@@ -21,29 +21,24 @@ package com.syncleus.dann.neural;
 import com.syncleus.dann.DannException;
 import org.junit.Test;
 
-public class TestDannException
-{
-	@Test(expected = DannException.class)
-	public void testDefault() throws DannException
-	{
-		throw new DannException();
-	}
+public class TestDannException {
+    @Test(expected = DannException.class)
+    public void testDefault() throws DannException {
+        throw new DannException();
+    }
 
-	@Test(expected = DannException.class)
-	public void testString() throws DannException
-	{
-		throw new DannException("This is just a test");
-	}
+    @Test(expected = DannException.class)
+    public void testString() throws DannException {
+        throw new DannException("This is just a test");
+    }
 
-	@Test(expected = DannException.class)
-	public void testCause() throws DannException
-	{
-		throw new DannException(new Exception());
-	}
+    @Test(expected = DannException.class)
+    public void testCause() throws DannException {
+        throw new DannException(new Exception());
+    }
 
-	@Test(expected = DannException.class)
-	public void testStringCause() throws DannException
-	{
-		throw new DannException("This is just a test", new Exception());
-	}
+    @Test(expected = DannException.class)
+    public void testStringCause() throws DannException {
+        throw new DannException("This is just a test", new Exception());
+    }
 }

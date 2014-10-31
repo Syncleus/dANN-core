@@ -18,148 +18,129 @@
  ******************************************************************************/
 package com.syncleus.dann.dataprocessing.signal.transform;
 
-import java.util.Collections;
-import java.util.NavigableMap;
-import java.util.SortedMap;
-import java.util.TreeMap;
-import com.syncleus.dann.math.Averages;
-import com.syncleus.dann.math.ComplexNumber;
+import com.syncleus.dann.math.*;
+
+import java.util.*;
 
 /**
  * A DiscreteFourierTransform is a Fourier transform that operates on a discrete input function.
+ *
  * @author Jeffrey Phillips Freeman
  */
-public class DiscreteFourierTransform
-{
-	private final ComplexNumber[] transform;
-	private final NavigableMap<Double, ComplexNumber> frequencies;
+public class DiscreteFourierTransform {
+    private final ComplexNumber[] transform;
+    private final NavigableMap<Double, ComplexNumber> frequencies;
 
-	/**
-	 * Creates a new DiscreteFourierTransform with the given frequencies and the
-	 * given bit-rate.
-	 * @param ourFrequencies The frequencies to use
-	 * @param bitrate The bit-rate to use
-	 */
-	public DiscreteFourierTransform(final ComplexNumber[] ourFrequencies, final int bitrate)
-	{
-		final double frequencySize = ((double) ourFrequencies.length) / 2.0;
-		final double frequencyStep = frequencyResolution(ourFrequencies.length, bitrate);
-		final NavigableMap<Double, ComplexNumber> newFrequencies = new TreeMap<Double, ComplexNumber>();
-		for(int index = 0; index <= (int) frequencySize; index++)
-		{
-			final Double currentFrequency = ((double) index) * frequencyStep;
-			newFrequencies.put(currentFrequency, ourFrequencies[index]);
-		}
-		this.frequencies = newFrequencies;
-		this.transform = ourFrequencies.clone();
-	}
+    /**
+     * Creates a new DiscreteFourierTransform with the given frequencies and the
+     * given bit-rate.
+     *
+     * @param ourFrequencies The frequencies to use
+     * @param bitrate        The bit-rate to use
+     */
+    public DiscreteFourierTransform(final ComplexNumber[] ourFrequencies, final int bitrate) {
+        final double frequencySize = ((double) ourFrequencies.length) / 2.0;
+        final double frequencyStep = frequencyResolution(ourFrequencies.length, bitrate);
+        final NavigableMap<Double, ComplexNumber> newFrequencies = new TreeMap<Double, ComplexNumber>();
+        for (int index = 0; index <= (int) frequencySize; index++) {
+            final Double currentFrequency = ((double) index) * frequencyStep;
+            newFrequencies.put(currentFrequency, ourFrequencies[index]);
+        }
+        this.frequencies = newFrequencies;
+        this.transform = ourFrequencies.clone();
+    }
 
-	/**
-	 * Gets the largest frequency possible for the given bitrate.
-	 * @param bitrate The bitrate to calculate the frequency for
-	 * @return The upper frequency for the given bitrate
-	 */
-	public static double upperFrequency(final int bitrate)
-	{
-		return ((double) bitrate) / 2.0;
-	}
+    /**
+     * Gets the largest frequency possible for the given bitrate.
+     *
+     * @param bitrate The bitrate to calculate the frequency for
+     * @return The upper frequency for the given bitrate
+     */
+    public static double upperFrequency(final int bitrate) {
+        return ((double) bitrate) / 2.0;
+    }
 
-	/**
-	 * Calculates the frequency resolution for the given bitrate with the given block size.
-	 * @param blockSize The block size to use
-	 * @param bitrate The bit rate to use
-	 * @return How accurate the frequency sampling is
-	 */
-	public static double frequencyResolution(final int blockSize, final int bitrate)
-	{
-		return upperFrequency(bitrate) / (((double) blockSize) / 2.0);
-	}
+    /**
+     * Calculates the frequency resolution for the given bitrate with the given block size.
+     *
+     * @param blockSize The block size to use
+     * @param bitrate   The bit rate to use
+     * @return How accurate the frequency sampling is
+     */
+    public static double frequencyResolution(final int blockSize, final int bitrate) {
+        return upperFrequency(bitrate) / (((double) blockSize) / 2.0);
+    }
 
-	/**
-	 * Gets the closest discrete frequency to the supplied frequency.
-	 * @param frequency The input frequency
-	 * @return The closest output frequency
-	 */
-	public double getClosestFrequency(final double frequency)
-	{
-		return this.frequencies.ceilingEntry(frequency).getKey();
-	}
+    /**
+     * Gets the closest discrete frequency to the supplied frequency.
+     *
+     * @param frequency The input frequency
+     * @return The closest output frequency
+     */
+    public double getClosestFrequency(final double frequency) {
+        return this.frequencies.ceilingEntry(frequency).getKey();
+    }
 
-	public ComplexNumber getClosestPhasor(final double frequency)
-	{
-		return this.frequencies.ceilingEntry(frequency).getValue();
-	}
+    public ComplexNumber getClosestPhasor(final double frequency) {
+        return this.frequencies.ceilingEntry(frequency).getValue();
+    }
 
-	public ComplexNumber getPhasor(final double frequency)
-	{
-		return this.frequencies.get(frequency);
-	}
+    public ComplexNumber getPhasor(final double frequency) {
+        return this.frequencies.get(frequency);
+    }
 
-	public double getClosestAmplitude(final double frequency)
-	{
-		return this.frequencies.ceilingEntry(frequency).getValue().absScalar();
-	}
+    public double getClosestAmplitude(final double frequency) {
+        return this.frequencies.ceilingEntry(frequency).getValue().absScalar();
+    }
 
-	public double getAmplitude(final double frequency)
-	{
-		return this.frequencies.get(frequency).absScalar();
-	}
+    public double getAmplitude(final double frequency) {
+        return this.frequencies.get(frequency).absScalar();
+    }
 
-	public double getClosestPhase(final double frequency)
-	{
-		return this.frequencies.ceilingEntry(frequency).getValue().phase();
-	}
+    public double getClosestPhase(final double frequency) {
+        return this.frequencies.ceilingEntry(frequency).getValue().phase();
+    }
 
-	public double getPhase(final double frequency)
-	{
-		return this.frequencies.get(frequency).phase();
-	}
+    public double getPhase(final double frequency) {
+        return this.frequencies.get(frequency).phase();
+    }
 
-	private ComplexNumber[] amplitudes(final double startFrequency, final double endFrequency)
-	{
-		final NavigableMap<Double, ComplexNumber> subFrequencies = this.frequencies.subMap(startFrequency, true, endFrequency, true);
-		final ComplexNumber[] amplitudes = new ComplexNumber[subFrequencies.size()];
-		subFrequencies.values().toArray(amplitudes);
-		return amplitudes;
-	}
+    private ComplexNumber[] amplitudes(final double startFrequency, final double endFrequency) {
+        final NavigableMap<Double, ComplexNumber> subFrequencies = this.frequencies.subMap(startFrequency, true, endFrequency, true);
+        final ComplexNumber[] amplitudes = new ComplexNumber[subFrequencies.size()];
+        subFrequencies.values().toArray(amplitudes);
+        return amplitudes;
+    }
 
-	public double getBandSum(final double startFrequency, final double endFrequency)
-	{
-		return ComplexNumber.sum(amplitudes(startFrequency, endFrequency)).absScalar();
-	}
+    public double getBandSum(final double startFrequency, final double endFrequency) {
+        return ComplexNumber.sum(amplitudes(startFrequency, endFrequency)).absScalar();
+    }
 
-	public double getBandRms(final double startFrequency, final double endFrequency)
-	{
-		return Averages.rms(amplitudes(startFrequency, endFrequency)).absScalar();
-	}
+    public double getBandRms(final double startFrequency, final double endFrequency) {
+        return Averages.rms(amplitudes(startFrequency, endFrequency)).absScalar();
+    }
 
-	public double getBandMean(final double startFrequency, final double endFrequency)
-	{
-		return Averages.mean(amplitudes(startFrequency, endFrequency)).absScalar();
-	}
+    public double getBandMean(final double startFrequency, final double endFrequency) {
+        return Averages.mean(amplitudes(startFrequency, endFrequency)).absScalar();
+    }
 
-	public double getBandGeometricMean(final double startFrequency, final double endFrequency)
-	{
-		return Averages.geometricMean(amplitudes(startFrequency, endFrequency)).absScalar();
-	}
+    public double getBandGeometricMean(final double startFrequency, final double endFrequency) {
+        return Averages.geometricMean(amplitudes(startFrequency, endFrequency)).absScalar();
+    }
 
-	public ComplexNumber[] getTransform()
-	{
-		return this.transform.clone();
-	}
+    public ComplexNumber[] getTransform() {
+        return this.transform.clone();
+    }
 
-	public SortedMap<Double, ComplexNumber> getFrequencyPhasors()
-	{
-		return Collections.unmodifiableSortedMap(this.frequencies);
-	}
+    public SortedMap<Double, ComplexNumber> getFrequencyPhasors() {
+        return Collections.unmodifiableSortedMap(this.frequencies);
+    }
 
-	public double getMinimumFrequency()
-	{
-		return this.frequencies.firstEntry().getKey();
-	}
+    public double getMinimumFrequency() {
+        return this.frequencies.firstEntry().getKey();
+    }
 
-	public double getMaximumFrequency()
-	{
-		return this.frequencies.lastEntry().getKey();
-	}
+    public double getMaximumFrequency() {
+        return this.frequencies.lastEntry().getKey();
+    }
 }

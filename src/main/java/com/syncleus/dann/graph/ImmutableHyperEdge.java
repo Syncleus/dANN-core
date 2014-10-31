@@ -20,57 +20,47 @@ package com.syncleus.dann.graph;
 
 import java.util.List;
 
-public final class ImmutableHyperEdge<N> extends AbstractHyperEdge<N>
-{
-	private static final long serialVersionUID = -3657973823101515199L;
+public final class ImmutableHyperEdge<N> extends AbstractHyperEdge<N> {
+    private static final long serialVersionUID = -3657973823101515199L;
 
-	public ImmutableHyperEdge(final List<N> nodes)
-	{
-		super(nodes);
-	}
+    public ImmutableHyperEdge(final List<N> nodes) {
+        super(nodes);
+    }
 
-	public ImmutableHyperEdge(final N... nodes)
-	{
-		super(nodes);
-	}
+    public ImmutableHyperEdge(final N... nodes) {
+        super(nodes);
+    }
 
-	public ImmutableHyperEdge(final List<N> nodes, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled)
-	{
-		super(nodes, allowJoiningMultipleGraphs, contextEnabled);
-	}
+    public ImmutableHyperEdge(final List<N> nodes, final boolean allowJoiningMultipleGraphs, final boolean contextEnabled) {
+        super(nodes, allowJoiningMultipleGraphs, contextEnabled);
+    }
 
-	public ImmutableHyperEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled, final N... nodes)
-	{
-		super(allowJoiningMultipleGraphs, contextEnabled, nodes);
-	}
+    public ImmutableHyperEdge(final boolean allowJoiningMultipleGraphs, final boolean contextEnabled, final N... nodes) {
+        super(allowJoiningMultipleGraphs, contextEnabled, nodes);
+    }
 
-	@Override
-	public ImmutableHyperEdge<N> connect(final N node)
-	{
-		return (ImmutableHyperEdge<N>) super.connect(node);
-	}
+    @Override
+    public ImmutableHyperEdge<N> connect(final N node) {
+        return (ImmutableHyperEdge<N>) super.connect(node);
+    }
 
-	@Override
-	public ImmutableHyperEdge<N> connect(final List<N> nodes)
-	{
-		return (ImmutableHyperEdge<N>) super.connect(nodes);
-	}
+    @Override
+    public ImmutableHyperEdge<N> connect(final List<N> nodes) {
+        return (ImmutableHyperEdge<N>) super.connect(nodes);
+    }
 
-	@Override
-	public ImmutableHyperEdge<N> disconnect(final N node)
-	{
-		return (ImmutableHyperEdge<N>) super.disconnect(node);
-	}
+    @Override
+    public ImmutableHyperEdge<N> disconnect(final N node) {
+        return (ImmutableHyperEdge<N>) super.disconnect(node);
+    }
 
-	@Override
-	public ImmutableHyperEdge<N> disconnect(final List<N> nodes)
-	{
-		return (ImmutableHyperEdge<N>) super.disconnect(nodes);
-	}
+    @Override
+    public ImmutableHyperEdge<N> disconnect(final List<N> nodes) {
+        return (ImmutableHyperEdge<N>) super.disconnect(nodes);
+    }
 
-	@Override
-	public ImmutableHyperEdge<N> clone()
-	{
-		return (ImmutableHyperEdge<N>) super.clone();
-	}
+    @Override
+    public ImmutableHyperEdge<N> clone() {
+        return (ImmutableHyperEdge<N>) super.clone();
+    }
 }

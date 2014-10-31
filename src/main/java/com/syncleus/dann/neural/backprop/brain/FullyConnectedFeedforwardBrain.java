@@ -18,71 +18,60 @@
  ******************************************************************************/
 package com.syncleus.dann.neural.backprop.brain;
 
-import java.util.concurrent.ExecutorService;
 import com.syncleus.dann.neural.Synapse;
 import com.syncleus.dann.neural.activation.ActivationFunction;
-import com.syncleus.dann.neural.backprop.BackpropNeuron;
-import com.syncleus.dann.neural.backprop.InputBackpropNeuron;
-import com.syncleus.dann.neural.backprop.OutputBackpropNeuron;
-import com.syncleus.dann.neural.backprop.SimpleBackpropNeuron;
-import com.syncleus.dann.neural.backprop.SimpleInputBackpropNeuron;
-import com.syncleus.dann.neural.backprop.SimpleOutputBackpropNeuron;
+import com.syncleus.dann.neural.backprop.*;
 
-public final class FullyConnectedFeedforwardBrain<IN extends InputBackpropNeuron, ON extends OutputBackpropNeuron, N extends BackpropNeuron, S extends Synapse<N>> extends AbstractFullyConnectedFeedforwardBrain<IN, ON, N, S>
-{
-	private static final long serialVersionUID = 3666884827880527998L;
-	private final double learningRate;
-	private final ActivationFunction activationFunction;
+import java.util.concurrent.ExecutorService;
 
-	/**
-	 * Uses the given threadExecutor for executing tasks.
-	 *
-	 * @param threadExecutor executor to use for executing tasks.
-	 * @since 2.0
-	 */
-	public FullyConnectedFeedforwardBrain(final int[] neuronsPerLayer, final double learningRate, final ActivationFunction activationFunction, final ExecutorService threadExecutor)
-	{
-		super(threadExecutor);
-		this.learningRate = learningRate;
-		this.activationFunction = activationFunction;
+public final class FullyConnectedFeedforwardBrain<IN extends InputBackpropNeuron, ON extends OutputBackpropNeuron, N extends BackpropNeuron, S extends Synapse<N>> extends AbstractFullyConnectedFeedforwardBrain<IN, ON, N, S> {
+    private static final long serialVersionUID = 3666884827880527998L;
+    private final double learningRate;
+    private final ActivationFunction activationFunction;
 
-		this.initalizeNetwork(neuronsPerLayer);
-	}
+    /**
+     * Uses the given threadExecutor for executing tasks.
+     *
+     * @param threadExecutor executor to use for executing tasks.
+     * @since 2.0
+     */
+    public FullyConnectedFeedforwardBrain(final int[] neuronsPerLayer, final double learningRate, final ActivationFunction activationFunction, final ExecutorService threadExecutor) {
+        super(threadExecutor);
+        this.learningRate = learningRate;
+        this.activationFunction = activationFunction;
 
-	/**
-	 * Default constructor initializes a default threadExecutor based on the number
-	 * of processors.
-	 *
-	 * @since 2.0
-	 */
-	public FullyConnectedFeedforwardBrain(final int[] neuronsPerLayer, final double learningRate, final ActivationFunction activationFunction)
-	{
-		super();
-		this.learningRate = learningRate;
-		this.activationFunction = activationFunction;
+        this.initalizeNetwork(neuronsPerLayer);
+    }
 
-		this.initalizeNetwork(neuronsPerLayer);
-	}
+    /**
+     * Default constructor initializes a default threadExecutor based on the number
+     * of processors.
+     *
+     * @since 2.0
+     */
+    public FullyConnectedFeedforwardBrain(final int[] neuronsPerLayer, final double learningRate, final ActivationFunction activationFunction) {
+        super();
+        this.learningRate = learningRate;
+        this.activationFunction = activationFunction;
 
-	@Override
-	protected N createNeuron(final int layer, final int index)
-	{
-		final BackpropNeuron neuron;
+        this.initalizeNetwork(neuronsPerLayer);
+    }
 
-		if (layer == 0)
-		{
-			neuron = new SimpleInputBackpropNeuron(this);
-		}
-		else if (layer >= (getLayerCount() - 1))
-		{
-			neuron = new SimpleOutputBackpropNeuron(this, activationFunction, learningRate);
-		}
-		else
-		{
-			neuron = new SimpleBackpropNeuron(this, activationFunction, learningRate);
-		}
+    @Override
+    protected N createNeuron(final int layer, final int index) {
+        final BackpropNeuron neuron;
 
-		// TODO fix typing
-		return (N) neuron;
-	}
+        if (layer == 0) {
+            neuron = new SimpleInputBackpropNeuron(this);
+        }
+        else if (layer >= (getLayerCount() - 1)) {
+            neuron = new SimpleOutputBackpropNeuron(this, activationFunction, learningRate);
+        }
+        else {
+            neuron = new SimpleBackpropNeuron(this, activationFunction, learningRate);
+        }
+
+        // TODO fix typing
+        return (N) neuron;
+    }
 }

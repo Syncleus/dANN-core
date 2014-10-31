@@ -18,43 +18,36 @@
  ******************************************************************************/
 package com.syncleus.dann.neural;
 
-public abstract class AbstractInputNeuron extends AbstractNeuron implements InputNeuron
-{
-	private static final long serialVersionUID = 4397150011892747140L;
-	private double input = 0.0;
+public abstract class AbstractInputNeuron extends AbstractNeuron implements InputNeuron {
+    private static final long serialVersionUID = 4397150011892747140L;
+    private double input = 0.0;
 
-	protected AbstractInputNeuron(final Brain<InputNeuron, OutputNeuron, Neuron, Synapse<Neuron>> brain)
-	{
-		super(brain);
-	}
+    protected AbstractInputNeuron(final Brain<InputNeuron, OutputNeuron, Neuron, Synapse<Neuron>> brain) {
+        super(brain);
+    }
 
-	@Override
-	public void setInput(final double inputToSet)
-	{
-		if( Math.abs(inputToSet) > 1.0 )
-			throw new IllegalArgumentException("InputToSet must be between -1 and +1");
+    @Override
+    public double getInput() {
+        return this.input;
+    }
 
-		this.input = inputToSet;
-	}
+    @Override
+    public void setInput(final double inputToSet) {
+        if (Math.abs(inputToSet) > 1.0)
+            throw new IllegalArgumentException("InputToSet must be between -1 and +1");
 
-	@Override
-	public double getInput()
-	{
-		return this.input;
-	}
+        this.input = inputToSet;
+    }
 
-	@Override
-	protected double getOutput()
-	{
-		return this.input;
-	}
+    @Override
+    protected double getOutput() {
+        return this.input;
+    }
 
-	@Override
-	public void tick()
-	{
-		for (final Synapse<Neuron> current : getBrain().getTraversableEdges(this))
-		{
-			current.setInput(input);
-		}
-	}
+    @Override
+    public void tick() {
+        for (final Synapse<Neuron> current : getBrain().getTraversableEdges(this)) {
+            current.setInput(input);
+        }
+    }
 }
