@@ -25,6 +25,10 @@
     <name>dANN Core library</name>
     <description>Artificial Intelligence and Artificial Genetics library - Core library</description>
     <url>http://wiki.syncleus.com/index.php/DANN</url>
+    <organization>
+        <name>Syncleus</name>
+        <url>http://www.syncleus.com</url>
+    </organization>
 
     <licenses>
         <license>
@@ -79,6 +83,37 @@
             <archive>https://groups.google.com/a/syncleus.com/forum/#!forum/dann-dev-list</archive>
         </mailingList>
     </mailingLists>
+
+    <developers>
+        <developer>
+            <id>JeffreyPhillipsFreeman</id>
+            <name>Jeffrey Phillips Freeman</name>
+            <email>Jeffrey.Freeman@Syncleus.com</email>
+            <url>http://JeffreyFreeman.me</url>
+            <organization>Syncleus</organization>
+            <organizationUrl>http://www.syncleus.com</organizationUrl>
+            <roles>
+                <role>Chief Technology Officer</role>
+                <role>Project Owner</role>
+                <role>Developer</role>
+            </roles>
+            <timezone>-4</timezone>
+            <properties>
+                <picUrl>http://2.gravatar.com/avatar/4b0fd9df484be9a8546055550f162a68</picUrl>
+            </properties>
+        </developer>
+    </developers>
+    <contributors>
+        <contributor>
+            <name>Seth Horne</name>
+            <email>seh999@gmail.com</email>
+            <roles>
+                <role>Developer</role>
+                <role>Tester</role>
+            </roles>
+            <timezone>-4</timezone>
+        </contributor>
+    </contributors>
 
     <repositories>
         <repository>
