@@ -33,7 +33,7 @@ public class ColoredDepthFirstSearchDetector implements CycleDetector {
                 final List<N> neighborNodes = new ArrayList<N>(neighborEdge.getNodes());
                 neighborNodes.remove(node);
                 for (final N neighborNode : neighborNodes) {
-                    if (colorMap.get(neighborNode) == Boolean.FALSE)
+                    if (Boolean.FALSE.equals(colorMap.get(neighborNode)))
                         return true;
                     else if (!colorMap.containsKey(neighborNode)
                                      && visit(graph, colorMap, traversedEdges, neighborNode))
@@ -47,7 +47,7 @@ public class ColoredDepthFirstSearchDetector implements CycleDetector {
 
     private static <E extends Edge> boolean traversed(final Set<E> traversedEdges, final E edge) {
         for (final E traversedEdge : traversedEdges)
-            if (traversedEdge == edge)
+            if (traversedEdge.equals(edge))
                 return true;
         return false;
     }

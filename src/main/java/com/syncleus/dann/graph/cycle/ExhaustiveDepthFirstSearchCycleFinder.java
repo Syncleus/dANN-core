@@ -61,7 +61,7 @@ public class ExhaustiveDepthFirstSearchCycleFinder<N, E extends Edge<N>> extends
                     N currentCycleNode = parentNodesCopy.get(parentNodesCopy.size() - 1);
                     cycleNodes.add(currentCycleNode);
                     parentNodesCopy.remove(currentCycleNode);
-                    while (currentCycleNode != neighborNode) {
+                    while (!currentCycleNode.equals(neighborNode)) {
                         currentCycleNode = parentNodesCopy.get(parentNodesCopy.size() - 1);
                         parentNodesCopy.remove(currentCycleNode);
 

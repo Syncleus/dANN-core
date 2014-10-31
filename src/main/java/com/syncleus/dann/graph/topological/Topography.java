@@ -96,7 +96,7 @@ public final class Topography {
         final Set<N> nodes = graph.getNodes();
         for (final N fromNode : nodes)
             for (final N toNode : nodes)
-                if ((toNode != fromNode) && (!Topography.isStronglyConnected(graph, toNode, fromNode)))
+                if ((!toNode.equals(fromNode)) && (!Topography.isStronglyConnected(graph, toNode, fromNode)))
                     return false;
         return true;
     }
@@ -124,7 +124,7 @@ public final class Topography {
             final N fromNode = remainingNodes.get(0);
             remainingNodes.remove(0);
             for (final N toNode : remainingNodes)
-                if ((toNode != fromNode) && (!Topography.isWeaklyConnected(graph, toNode, fromNode)))
+                if ((!toNode.equals(fromNode)) && (!Topography.isWeaklyConnected(graph, toNode, fromNode)))
                     return false;
         }
         return true;

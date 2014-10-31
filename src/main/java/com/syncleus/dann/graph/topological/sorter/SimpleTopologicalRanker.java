@@ -97,7 +97,7 @@ public class SimpleTopologicalRanker<N> implements TopologicalRanker<N> {
     private int getIndegree(final Set<DirectedEdge<? extends N>> edges, final N node) {
         int inDegree = 0;
         for (final DirectedEdge<? extends N> edge : edges)
-            if (edge.getDestinationNode() == node)
+            if (edge.getDestinationNode().equals(node))
                 inDegree++;
         return inDegree;
     }

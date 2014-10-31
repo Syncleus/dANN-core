@@ -54,7 +54,7 @@ public class BellmanFordPathFinder<N, E extends DirectedEdge<N>> implements Path
         //relax edges
         for (int lcv = 0; lcv < (nodes.size() - 1); lcv++) {
             for (final E edge : edges) {
-                if (edge.getDestinationNode() == begin)
+                if (edge.getDestinationNode().equals(begin))
                     continue;
                 PathedStep sourcePathedStep = this.pathedSteps.get(edge.getSourceNode());
                 if (sourcePathedStep == null) {
@@ -71,7 +71,7 @@ public class BellmanFordPathFinder<N, E extends DirectedEdge<N>> implements Path
         }
         //check for negative cycles
         for (final E edge : edges) {
-            if (edge.getDestinationNode() == begin)
+            if (edge.getDestinationNode().equals(begin))
                 continue;
             final PathedStep sourcePathedStep = this.pathedSteps.get(edge.getSourceNode());
             final PathedStep destinationPathedStep = this.pathedSteps.get(edge.getDestinationNode());

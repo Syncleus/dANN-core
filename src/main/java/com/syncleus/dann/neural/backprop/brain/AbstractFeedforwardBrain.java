@@ -28,6 +28,7 @@ import java.util.concurrent.*;
 
 public abstract class AbstractFeedforwardBrain<IN extends InputBackpropNeuron, ON extends OutputBackpropNeuron, N extends BackpropNeuron, S extends Synapse<N>> extends AbstractLocalBrain<IN, ON, N, S> implements FeedforwardBackpropBrain<IN, ON, N, S> {
     private static final Logger LOGGER = Logger.getLogger(AbstractFeedforwardBrain.class);
+    private static final long serialVersionUID = 1419888448835071936L;
     private final List<NeuronGroup<N>> neuronLayers = new ArrayList<NeuronGroup<N>>();
     private boolean initialized = false;
     private int layerCount;

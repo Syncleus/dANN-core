@@ -27,6 +27,7 @@ public abstract class AbstractNeuron implements Neuron {
      * @since 1.0
      */
     protected static final Random RANDOM = new Random();
+    private static final long serialVersionUID = 792426698080564360L;
     private final Brain<InputNeuron, OutputNeuron, Neuron, Synapse<Neuron>> brain;
 
     /**

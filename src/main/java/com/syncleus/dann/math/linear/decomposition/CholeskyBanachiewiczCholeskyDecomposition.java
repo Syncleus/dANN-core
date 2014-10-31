@@ -63,7 +63,7 @@ public class CholeskyBanachiewiczCholeskyDecomposition<M extends Matrix<M, F>, F
                 s = (matrix.get(j, k).subtract(s)).divide(newMatrix.get(k, k));
                 newMatrix = newMatrix.set(j, k, s);
                 d = d.add(s.multiply(s));
-                checkIsSpd = checkIsSpd && (matrix.get(k, j) == matrix.get(j, k));
+                checkIsSpd = checkIsSpd && (matrix.get(k, j).equals(matrix.get(j, k)));
             }
             d = matrix.get(j, j).subtract(d);
             checkIsSpd = checkIsSpd && (d.compareTo(newMatrix.getElementField().getZero()) > 0);

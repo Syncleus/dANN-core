@@ -24,6 +24,7 @@ import com.syncleus.dann.graphicalmodel.*;
 import java.util.*;
 
 public class SimpleDynamicGraphicalModelNode<S> extends SimpleGraphicalModelNode<S> implements DynamicGraphicalModelNode<S> {
+    private static final long serialVersionUID = -8208821495956740927L;
     //0 index is most recent
     private final List<SimpleGraphicalModelNode<S>> historicalNodes;
 

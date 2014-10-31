@@ -37,6 +37,7 @@ import java.util.*;
 @XmlJavaTypeAdapter(com.syncleus.dann.xml.XmlSerializableAdapter.class)
 public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Graph<N, E> {
     private static final Logger LOGGER = Logger.getLogger(AbstractAdjacencyGraph.class);
+    private static final long serialVersionUID = 2594773860938189374L;
     private final boolean contextEnabled;
     private Set<E> edges;
     private Map<N, Set<E>> adjacentEdges = new HashMap<N, Set<E>>();
@@ -139,7 +140,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
                 for (N currentNode : attemptEdge.getNodes()) {
                     boolean passedCurrent = false;
                     for (N neighborNode : attemptEdge.getNodes()) {
-                        if (!passedCurrent && (neighborNode == currentNode)) {
+                        if (!passedCurrent && (neighborNode.equals(currentNode))) {
                             passedCurrent = true;
                             continue;
                         }
@@ -391,7 +392,7 @@ public abstract class AbstractAdjacencyGraph<N, E extends Edge<N>> implements Gr
                     for (N currentNode : attemptEdge.getNodes()) {
                         boolean passedCurrent = false;
                         for (N neighborNode : attemptEdge.getNodes()) {
-                            if (!passedCurrent && (neighborNode == currentNode)) {
+                            if (!passedCurrent && (neighborNode.equals(currentNode))) {
                                 passedCurrent = true;
                                 continue;
                             }

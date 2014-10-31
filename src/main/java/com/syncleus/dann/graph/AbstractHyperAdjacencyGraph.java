@@ -28,6 +28,8 @@ import java.util.Set;
  * @since 2.0
  */
 public abstract class AbstractHyperAdjacencyGraph<N, E extends HyperEdge<N>> extends AbstractAdjacencyGraph<N, E> implements HyperGraph<N, E> {
+    private static final long serialVersionUID = 4585363526232679282L;
+
     /**
      * Creates a new graph with no edges and no adjacencies.
      * nodeContext and edgeContext is enabled.

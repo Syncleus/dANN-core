@@ -21,6 +21,8 @@ package com.syncleus.dann.neural.som;
 import com.syncleus.dann.neural.Brain;
 
 public final class SimpleSomInputNeuron extends AbstractSomInputNeuron {
+    private static final long serialVersionUID = 4632688978636991179L;
+
     public SimpleSomInputNeuron(final Brain brain) {
         super(brain);
     }

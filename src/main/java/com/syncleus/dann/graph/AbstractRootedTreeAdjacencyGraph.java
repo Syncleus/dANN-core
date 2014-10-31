@@ -31,6 +31,7 @@ import java.util.Set;
  * @since 2.0
  */
 public abstract class AbstractRootedTreeAdjacencyGraph<N, E extends DirectedEdge<N>> extends AbstractTreeAdjacencyGraph<N, E> implements RootedTreeGraph<N, E>, TreeOptimizedDirectedGraph<N, E> {
+    private static final long serialVersionUID = 8425866281895999918L;
     // TODO restrict all edges when added, to make sure they conform to being a rooted tree
 
     /**

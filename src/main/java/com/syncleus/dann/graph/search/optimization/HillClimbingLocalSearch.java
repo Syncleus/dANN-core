@@ -49,7 +49,7 @@ public class HillClimbingLocalSearch<G extends Graph<N, ?>, N extends Weighted> 
                 return currentNode;
 
             currentNode = nextNode;
-        } while (currentNode != startNode);
+        } while (!currentNode.equals(startNode));
 
         return null;
     }

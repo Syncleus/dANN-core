@@ -28,6 +28,8 @@ import java.util.*;
  * @since 2.0
  */
 public abstract class AbstractBidirectedAdjacencyGraph<N, E extends BidirectedEdge<N>> extends AbstractAdjacencyGraph<N, E> implements BidirectedGraph<N, E> {
+    private static final long serialVersionUID = -374459309144399096L;
+
     /**
      * Creates a new graph with no edges and no adjacencies.
      * nodeContext and edgeContext is enabled.

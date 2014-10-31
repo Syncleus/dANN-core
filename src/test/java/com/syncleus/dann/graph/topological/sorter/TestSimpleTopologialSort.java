@@ -53,7 +53,7 @@ public class TestSimpleTopologialSort {
         final TopologicalSorter<Object> sorter = new SimpleTopologicalRanker<Object>();
         final List<Object> sortedNodes = sorter.sort(graph);
 
-        Assert.assertTrue("center node is not the first node!", sortedNodes.get(0) == centerNode);
+        Assert.assertTrue("center node is not the first node!", sortedNodes.get(0).equals(centerNode));
         Assert.assertTrue("left node is not before leftiest node!", sortedNodes.indexOf(leftNode) < sortedNodes.indexOf(leftiestNode));
     }
 }

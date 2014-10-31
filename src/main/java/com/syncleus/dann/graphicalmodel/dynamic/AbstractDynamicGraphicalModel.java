@@ -24,6 +24,8 @@ import com.syncleus.dann.graphicalmodel.AbstractGraphicalModelAdjacencyGraph;
 import java.util.Set;
 
 public abstract class AbstractDynamicGraphicalModel<N extends DynamicGraphicalModelNode, E extends BidirectedEdge<N>> extends AbstractGraphicalModelAdjacencyGraph<N, E> implements DynamicGraphicalModel<N, E> {
+    private static final long serialVersionUID = -2468758541920718416L;
+
     protected AbstractDynamicGraphicalModel() {
         super();
     }

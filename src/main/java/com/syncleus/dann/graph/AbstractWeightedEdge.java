@@ -21,6 +21,7 @@ package com.syncleus.dann.graph;
 import java.util.List;
 
 public abstract class AbstractWeightedEdge<N> extends AbstractEdge<N> implements WeightedEdge<N> {
+    private static final long serialVersionUID = 4928087407911457928L;
     private final double weight;
 
     protected AbstractWeightedEdge(final double weight) {

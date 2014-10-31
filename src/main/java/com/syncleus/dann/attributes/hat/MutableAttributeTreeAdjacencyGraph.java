@@ -24,6 +24,8 @@ import java.util.Set;
 
 // TODO we need to handle clone and cloneAdd and similar methods differently since the nodes here must know which graph it belongs to
 public class MutableAttributeTreeAdjacencyGraph<N extends AbstractHierarchicalAttributePool<T>, E extends DirectedEdge<N>, T> extends MutableTreeAdjacencyGraph<N, E> {
+    private static final long serialVersionUID = -4627230606843043180L;
+
     /**
      * Since we need a graph before we can create the nodes, the only way to
      * instantiate a graph is a mutable graph with a default constructor.

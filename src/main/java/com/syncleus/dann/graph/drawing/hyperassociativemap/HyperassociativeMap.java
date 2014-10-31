@@ -286,7 +286,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
         }
         // calculate repulsion with all non-neighbors
         for (final N node : this.graph.getNodes()) {
-            if ((!neighbors.containsKey(node)) && (node != nodeToAlign)
+            if ((!neighbors.containsKey(node)) && (!node.equals(nodeToAlign))
                         && (!this.graph.getAdjacentNodes(node).contains(nodeToAlign))) {
                 Vector nodeVector = this.coordinates.get(node).calculateRelativeTo(location);
                 double newDistance = -EQUILIBRIUM_DISTANCE / Math.pow(nodeVector.getDistance(), REPULSIVE_WEAKNESS);

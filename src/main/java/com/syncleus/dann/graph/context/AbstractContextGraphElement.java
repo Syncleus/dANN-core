@@ -24,6 +24,7 @@ import java.io.Serializable;
 import java.util.*;
 
 public abstract class AbstractContextGraphElement<G extends Graph<?, ?>> implements ContextGraphElement<G>, Serializable {
+    private static final long serialVersionUID = -503682729022050094L;
     private final boolean allowJoiningMultipleGraphs;
     private final Set<G> joinedGraphs = new HashSet<G>();
 

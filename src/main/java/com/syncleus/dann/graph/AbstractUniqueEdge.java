@@ -21,6 +21,8 @@ package com.syncleus.dann.graph;
 import java.util.List;
 
 public abstract class AbstractUniqueEdge<N> extends AbstractEdge<N> {
+    private static final long serialVersionUID = -2666595648229305184L;
+
     protected AbstractUniqueEdge() {
         super();
     }

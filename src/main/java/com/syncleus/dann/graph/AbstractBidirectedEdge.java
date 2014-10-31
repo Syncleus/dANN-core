@@ -24,6 +24,7 @@ import com.syncleus.dann.xml.*;
 import java.util.*;
 
 public abstract class AbstractBidirectedEdge<N> extends AbstractEdge<N> implements BidirectedEdge<N> {
+    private static final long serialVersionUID = -4420749301633865551L;
     private final N leftNode;
     private final N rightNode;
     private final EndState leftEndState;

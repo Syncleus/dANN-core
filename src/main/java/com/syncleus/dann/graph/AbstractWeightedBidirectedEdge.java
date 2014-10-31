@@ -19,6 +19,7 @@
 package com.syncleus.dann.graph;
 
 public abstract class AbstractWeightedBidirectedEdge<N> extends AbstractBidirectedEdge<N> implements WeightedBidirectedEdge<N> {
+    private static final long serialVersionUID = -6927320555612264805L;
     private final double weight;
 
     protected AbstractWeightedBidirectedEdge(final double weight) {

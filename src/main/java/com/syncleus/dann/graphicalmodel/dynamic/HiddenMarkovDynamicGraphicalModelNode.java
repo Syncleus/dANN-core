@@ -21,6 +21,8 @@ package com.syncleus.dann.graphicalmodel.dynamic;
 import java.util.Collections;
 
 public class HiddenMarkovDynamicGraphicalModelNode<S> extends SimpleDynamicGraphicalModelNode<S> {
+    private static final long serialVersionUID = -261190704264171002L;
+
     public HiddenMarkovDynamicGraphicalModelNode(final S initialState) {
         super(0, initialState);
     }

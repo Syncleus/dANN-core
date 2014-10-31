@@ -35,6 +35,7 @@ import java.util.Random;
 public abstract class MutableNumber<N extends Number> extends Number implements Cloneable {
     private static final Random RANDOM = Mutations.getRandom();
     private static final Logger LOGGER = Logger.getLogger(MutableNumber.class);
+    private static final long serialVersionUID = -4001253099294181027L;
     private N number;
 
     /**

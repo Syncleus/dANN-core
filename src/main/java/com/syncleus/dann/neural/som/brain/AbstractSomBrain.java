@@ -39,6 +39,7 @@ import java.util.concurrent.*;
  */
 public abstract class AbstractSomBrain<IN extends SomInputNeuron, ON extends SomOutputNeuron, N extends SomNeuron, S extends Synapse<N>> extends AbstractLocalBrain<IN, ON, N, S> implements SomBrain<IN, ON, N, S> {
     private static final Logger LOGGER = Logger.getLogger(AbstractSomBrain.class);
+    private static final long serialVersionUID = 8622781954227071737L;
     private final List<IN> inputs;
     private final Map<Vector, ON> outputs = new HashMap<Vector, ON>();
     private int iterationsTrained;

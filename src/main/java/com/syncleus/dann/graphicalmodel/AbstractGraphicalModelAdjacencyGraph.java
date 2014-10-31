@@ -25,6 +25,8 @@ import com.syncleus.dann.xml.*;
 import java.util.*;
 
 public abstract class AbstractGraphicalModelAdjacencyGraph<N extends GraphicalModelNode, E extends BidirectedEdge<N>> extends AbstractBidirectedAdjacencyGraph<N, E> implements GraphicalModel<N, E> {
+    private static final long serialVersionUID = -320137516370270055L;
+
     protected AbstractGraphicalModelAdjacencyGraph() {
         super();
     }

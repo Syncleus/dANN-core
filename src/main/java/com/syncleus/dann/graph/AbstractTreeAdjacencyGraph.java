@@ -31,6 +31,7 @@ import java.util.Set;
  * @since 2.0
  */
 public abstract class AbstractTreeAdjacencyGraph<N, E extends BidirectedEdge<N>> extends AbstractBidirectedAdjacencyGraph<N, E> implements TreeGraph<N, E>, TreeOptimizedGraph<N, E> {
+    private static final long serialVersionUID = -6693445734094201705L;
     // TODO restrict tree's to only maximally connected trees or perhaps just tree in general
 
     /**

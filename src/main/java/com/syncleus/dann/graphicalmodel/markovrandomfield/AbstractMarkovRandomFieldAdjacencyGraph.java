@@ -24,6 +24,8 @@ import com.syncleus.dann.graphicalmodel.*;
 import java.util.*;
 
 public abstract class AbstractMarkovRandomFieldAdjacencyGraph<N extends GraphicalModelNode, E extends UndirectedEdge<N>> extends AbstractGraphicalModelAdjacencyGraph<N, E> {
+    private static final long serialVersionUID = 5252973203599959853L;
+
     protected AbstractMarkovRandomFieldAdjacencyGraph() {
         super();
     }

@@ -28,6 +28,7 @@ import java.util.*;
 
 public abstract class AbstractEdge<N> extends AbstractContextGraphElement<Graph<N, ?>> implements Edge<N> {
     private static final Logger LOGGER = Logger.getLogger(AbstractEdge.class);
+    private static final long serialVersionUID = -8451060238060141173L;
     private final boolean contextEnabled;
     private List<N> nodes;
 

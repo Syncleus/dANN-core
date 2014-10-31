@@ -93,7 +93,7 @@ public class SimpleNaiveBayesClassifier<I, F, C> extends SimpleNaiveClassifier<I
 
         if (useThreshold)
             for (final Entry<C, Double> probability : categoryProbabilities.entrySet())
-                if ((probability.getKey() != topCategory) && (probability.getValue() * this.categoryThresholds.get(topCategory) > topProbability))
+                if ((!probability.getKey().equals(topCategory)) && (probability.getValue() * this.categoryThresholds.get(topCategory) > topProbability))
                     return null;
 
         return topCategory;

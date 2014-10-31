@@ -24,6 +24,7 @@ import java.awt.*;
 
 public class ComponentUnavailableException extends Exception {
     private static final int BORDER_SPACE = 6;
+    private static final long serialVersionUID = 2556551692305248225L;
     private final UnsatisfiedLinkError unsatisfiedLinkError;
 
     public ComponentUnavailableException(final UnsatisfiedLinkError error) {

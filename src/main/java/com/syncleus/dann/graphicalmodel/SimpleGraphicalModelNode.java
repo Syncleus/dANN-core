@@ -26,6 +26,7 @@ import com.syncleus.dann.xml.*;
 import java.util.*;
 
 public class SimpleGraphicalModelNode<S> extends AbstractContextNode<GraphicalModelNode<S>, BidirectedEdge<GraphicalModelNode<S>>, GraphicalModel<GraphicalModelNode<S>, BidirectedEdge<GraphicalModelNode<S>>>> implements GraphicalModelNode<S> {
+    private static final long serialVersionUID = -1015332962531343054L;
     private final SortedSet<S> learnedStates;
     private EvidenceMap<S> evidence;
     private S state;

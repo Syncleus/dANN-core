@@ -29,6 +29,7 @@ import com.syncleus.dann.neural.activation.*;
  */
 public abstract class AbstractActivationNeuron extends AbstractNeuron {
     private static final ActivationFunction DEFAULT_ACTIVATION_FUNCTION = new HyperbolicTangentActivationFunction();
+    private static final long serialVersionUID = -3282652822505709376L;
     /**
      * The current activation function used by this neuron. This is used to
      * calculate the output from the activity.

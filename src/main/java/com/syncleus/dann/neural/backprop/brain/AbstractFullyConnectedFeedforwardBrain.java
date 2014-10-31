@@ -25,6 +25,7 @@ import java.util.concurrent.ExecutorService;
 
 // TODO rename bad camel-casing
 public abstract class AbstractFullyConnectedFeedforwardBrain<IN extends InputBackpropNeuron, ON extends OutputBackpropNeuron, N extends BackpropNeuron, S extends Synapse<N>> extends AbstractFeedforwardBrain<IN, ON, N, S> {
+    private static final long serialVersionUID = 4349219505602361845L;
     private final boolean hasBias;
 
     /**

@@ -23,6 +23,7 @@ import com.syncleus.dann.graph.*;
 import java.util.*;
 
 public abstract class AbstractContextNode<N, E extends Edge<N>, G extends Graph<N, E>> extends AbstractContextGraphElement<G> implements ContextNode<N, E> {
+    private static final long serialVersionUID = -631686581627290995L;
     private final Set<E> connectedEdges = new HashSet<E>();
     private final Set<ContextEdge<N, E, G>> contextEdges = new HashSet<ContextEdge<N, E, G>>();
 

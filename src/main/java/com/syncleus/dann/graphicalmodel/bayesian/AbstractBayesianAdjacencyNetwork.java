@@ -24,6 +24,8 @@ import com.syncleus.dann.graphicalmodel.*;
 import java.util.Set;
 
 public abstract class AbstractBayesianAdjacencyNetwork<N extends GraphicalModelNode, E extends DirectedEdge<N>> extends AbstractGraphicalModelAdjacencyGraph<N, E> {
+    private static final long serialVersionUID = 5485539265176008630L;
+
     protected AbstractBayesianAdjacencyNetwork() {
         super();
     }

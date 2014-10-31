@@ -19,6 +19,8 @@
 package com.syncleus.dann.graph;
 
 public abstract class AbstractUniqueBidirectedEdge<N> extends AbstractBidirectedEdge<N> {
+    private static final long serialVersionUID = 8647368659135953164L;
+
     protected AbstractUniqueBidirectedEdge() {
         super();
     }

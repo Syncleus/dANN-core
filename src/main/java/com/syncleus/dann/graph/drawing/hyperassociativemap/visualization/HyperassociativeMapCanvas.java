@@ -41,7 +41,7 @@ public class HyperassociativeMapCanvas<G extends Graph<N, ?>, N> extends JPanel 
     private static final float NODE_RADIUS = 0.07F;
     private final HyperassociativeMap<G, N> map;
     private final Canvas canvas3D;
-    private float nodeRadius;
+    private final float nodeRadius;
     private HyperassociativeMapVisualization<HyperassociativeMap<G, N>, G, N> mapVisual;
 
     /**
@@ -144,6 +144,8 @@ public class HyperassociativeMapCanvas<G extends Graph<N, ?>, N> extends JPanel 
     }
 
     public class HyperassociativeMapCanvasCanvas extends Canvas3D {
+
+        private static final long serialVersionUID = -2701049635977282079L;
 
         public HyperassociativeMapCanvasCanvas(final GraphicsConfiguration config) {
             super(config);
