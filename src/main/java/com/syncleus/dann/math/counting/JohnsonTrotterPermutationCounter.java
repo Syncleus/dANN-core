@@ -68,6 +68,7 @@ public class JohnsonTrotterPermutationCounter extends AbstractPermutationCounter
         }
     }
 
+    @Override
     protected boolean next() {
         final int[] perm = this.getPermutation();
         final int largestIndex = largestMobileIndex(perm, this.mobility);

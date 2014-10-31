@@ -98,6 +98,7 @@ public class ShortValueGene extends AbstractValueGene<MutableShort> {
      * @return A copy of the current object with potential mutations.
      * @since 2.0
      */
+    @Override
     public ShortValueGene mutate(final double deviation) {
         final ShortValueGene copy = this.clone();
         copy.internalMutate(deviation);

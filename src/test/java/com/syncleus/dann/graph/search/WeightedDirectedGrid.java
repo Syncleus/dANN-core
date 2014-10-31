@@ -86,6 +86,7 @@ public class WeightedDirectedGrid extends AbstractBidirectedAdjacencyGraph<GridN
         return this.nodes[y][x];
     }
 
+    @Override
     public Set<GridNode> getNodes() {
         return Collections.unmodifiableSet(this.nodeSet);
     }
@@ -95,12 +96,14 @@ public class WeightedDirectedGrid extends AbstractBidirectedAdjacencyGraph<GridN
         return Collections.unmodifiableSet(this.edges);
     }
 
+    @Override
     public Set<WeightedDirectedEdge<GridNode>> getAdjacentEdges(final GridNode node) {
         final Set<WeightedDirectedEdge<GridNode>> newEdges = new HashSet<WeightedDirectedEdge<GridNode>>(this.inNeighborEdges.get(node));
         newEdges.addAll(this.outNeighborEdges.get(node));
         return Collections.unmodifiableSet(newEdges);
     }
 
+    @Override
     public Set<WeightedDirectedEdge<GridNode>> getTraversableEdges(final GridNode node) {
         final Set<WeightedDirectedEdge<GridNode>> newEdges = new HashSet<WeightedDirectedEdge<GridNode>>(this.outNeighborEdges.get(node));
         return Collections.unmodifiableSet(newEdges);
@@ -110,6 +113,7 @@ public class WeightedDirectedGrid extends AbstractBidirectedAdjacencyGraph<GridN
         return this.getTraversableEdges(node);
     }
 
+    @Override
     public Set<WeightedDirectedEdge<GridNode>> getInEdges(final GridNode node) {
         final Set<WeightedDirectedEdge<GridNode>> newEdges = new HashSet<WeightedDirectedEdge<GridNode>>(this.inNeighborEdges.get(node));
         return Collections.unmodifiableSet(newEdges);
@@ -127,12 +131,14 @@ public class WeightedDirectedGrid extends AbstractBidirectedAdjacencyGraph<GridN
         return this.getAdjacentNodes(leftNode).contains(rightNode);
     }
 
+    @Override
     public List<GridNode> getAdjacentNodes(final GridNode node) {
         final ArrayList<GridNode> newNeighbors = new ArrayList<GridNode>(this.inNeighborNodes.get(node));
         newNeighbors.addAll(this.outNeighborNodes.get(node));
         return Collections.unmodifiableList(newNeighbors);
     }
 
+    @Override
     public List<GridNode> getTraversableNodes(final GridNode node) {
         final ArrayList<GridNode> newNeighbors = new ArrayList<GridNode>(this.outNeighborNodes.get(node));
         return Collections.unmodifiableList(newNeighbors);

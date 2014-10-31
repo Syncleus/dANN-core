@@ -81,6 +81,7 @@ public abstract class MutableNumber<N extends Number> extends Number implements 
      * @return double representation of the value.
      * @since 2.0
      */
+    @Override
     public final double doubleValue() {
         return this.number.doubleValue();
     }
@@ -91,6 +92,7 @@ public abstract class MutableNumber<N extends Number> extends Number implements 
      * @return float representation of the value.
      * @since 2.0
      */
+    @Override
     public final float floatValue() {
         return this.number.floatValue();
     }

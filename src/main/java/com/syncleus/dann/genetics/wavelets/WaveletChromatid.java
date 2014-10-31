@@ -169,6 +169,7 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
         return this.centromerePosition;
     }
 
+    @Override
     public List<AbstractWaveletGene> getGenes() {
         return Collections.unmodifiableList(this.sequencedGenes);
     }
@@ -185,6 +186,7 @@ public class WaveletChromatid implements Chromatid<AbstractWaveletGene>, Cloneab
         return Collections.unmodifiableList(this.externalSignalGenes);
     }
 
+    @Override
     public List<AbstractWaveletGene> crossover(final int point) {
         final int index = point + this.centromerePosition;
 

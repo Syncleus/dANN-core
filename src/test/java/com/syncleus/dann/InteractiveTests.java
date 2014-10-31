@@ -133,6 +133,7 @@ public class InteractiveTests {
     private static class ClassComparator implements Comparator<Class>, Serializable {
         private static final long serialVersionUID = -5688218293882769266L;
 
+        @Override
         public int compare(final Class first, final Class second) {
             return first.toString().compareTo(second.toString());
         }
@@ -151,6 +152,7 @@ public class InteractiveTests {
     private static class MethodComparator implements Comparator<Method>, Serializable {
         private static final long serialVersionUID = 493385418023700863L;
 
+        @Override
         public int compare(final Method first, final Method second) {
             return first.toString().compareTo(second.toString());
         }

@@ -65,6 +65,7 @@ public class LinkedGraph<N, E extends Edge<N>> extends AbstractAdjacencyGraph<N,
         }
     }
 
+    @Override
     public Set<N> getNodes() {
         return Collections.unmodifiableSet(this.nodes);
     }
@@ -74,6 +75,7 @@ public class LinkedGraph<N, E extends Edge<N>> extends AbstractAdjacencyGraph<N,
         return Collections.unmodifiableSet(this.edges);
     }
 
+    @Override
     public Set<E> getAdjacentEdges(final N node) {
         if (this.neighborEdges.containsKey(node))
             return Collections.unmodifiableSet(this.neighborEdges.get(node));
@@ -81,6 +83,7 @@ public class LinkedGraph<N, E extends Edge<N>> extends AbstractAdjacencyGraph<N,
             return Collections.<E>emptySet();
     }
 
+    @Override
     public List<N> getAdjacentNodes(final N node) {
         return Collections.unmodifiableList(new ArrayList<N>(this.neighborNodes.get(node)));
     }

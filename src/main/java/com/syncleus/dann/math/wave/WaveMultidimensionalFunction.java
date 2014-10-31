@@ -127,6 +127,7 @@ public class WaveMultidimensionalFunction extends AbstractFunction {
         this.wave.setForm(form);
     }
 
+    @Override
     public double calculate() {
         if (this.constantMode)
             return this.constantValue;

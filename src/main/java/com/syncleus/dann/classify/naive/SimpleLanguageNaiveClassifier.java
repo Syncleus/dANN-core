@@ -79,6 +79,7 @@ public class SimpleLanguageNaiveClassifier<C> extends SimpleNaiveClassifier<Stri
      *
      * @return The current locale
      */
+    @Override
     public Locale getLocale() {
         return this.locale;
     }

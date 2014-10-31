@@ -98,6 +98,7 @@ public class FloatValueGene extends AbstractValueGene<MutableFloat> {
      * @return A copy of the current object with potential mutations.
      * @since 2.0
      */
+    @Override
     public FloatValueGene mutate(final double deviation) {
         final FloatValueGene copy = this.clone();
         copy.internalMutate(deviation);

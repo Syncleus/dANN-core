@@ -66,6 +66,7 @@ public class SimpleUndirectedGraph extends AbstractBidirectedAdjacencyGraph<Simp
         return this.nodes[layer][index];
     }
 
+    @Override
     public Set<SimpleNode> getNodes() {
         return Collections.unmodifiableSet(this.nodeSet);
     }
@@ -75,10 +76,12 @@ public class SimpleUndirectedGraph extends AbstractBidirectedAdjacencyGraph<Simp
         return Collections.unmodifiableSet(this.edges);
     }
 
+    @Override
     public Set<BidirectedEdge<SimpleNode>> getAdjacentEdges(final SimpleNode node) {
         return Collections.unmodifiableSet(this.neighborEdges.get(node));
     }
 
+    @Override
     public Set<BidirectedEdge<SimpleNode>> getInEdges(final SimpleNode node) {
         return this.getAdjacentEdges(node);
     }
@@ -91,6 +94,7 @@ public class SimpleUndirectedGraph extends AbstractBidirectedAdjacencyGraph<Simp
         return this.getTraversableEdges(node).size();
     }
 
+    @Override
     public List<SimpleNode> getAdjacentNodes(final SimpleNode node) {
         return Collections.unmodifiableList(this.neighborNodes.get(node));
     }

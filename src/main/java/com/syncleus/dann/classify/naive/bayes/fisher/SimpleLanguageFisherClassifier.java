@@ -99,6 +99,7 @@ public class SimpleLanguageFisherClassifier<C> extends SimpleFisherClassifier<St
          * @param item The item
          * @return The words from a String
          */
+        @Override
         public Set<String> getFeatures(final String item) {
             return PARSER.getUniqueWords(item);
         }

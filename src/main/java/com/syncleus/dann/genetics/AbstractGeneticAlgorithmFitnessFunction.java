@@ -76,6 +76,7 @@ public abstract class AbstractGeneticAlgorithmFitnessFunction<E extends Abstract
      * it will return 0.
      * @since 2.0
      */
+    @Override
     public abstract int compareTo(E compareWith);
 
     /**

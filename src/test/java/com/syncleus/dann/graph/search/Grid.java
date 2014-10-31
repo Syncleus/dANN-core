@@ -70,6 +70,7 @@ public class Grid extends AbstractBidirectedAdjacencyGraph<GridNode, BidirectedE
         return this.nodes[y][x];
     }
 
+    @Override
     public Set<GridNode> getNodes() {
         return Collections.unmodifiableSet(this.nodeSet);
     }
@@ -79,10 +80,12 @@ public class Grid extends AbstractBidirectedAdjacencyGraph<GridNode, BidirectedE
         return Collections.unmodifiableSet(this.edges);
     }
 
+    @Override
     public Set<BidirectedEdge<GridNode>> getAdjacentEdges(final GridNode node) {
         return Collections.unmodifiableSet(this.neighborEdges.get(node));
     }
 
+    @Override
     public Set<BidirectedEdge<GridNode>> getTraversableEdges(final GridNode node) {
         return this.getAdjacentEdges(node);
     }
@@ -91,6 +94,7 @@ public class Grid extends AbstractBidirectedAdjacencyGraph<GridNode, BidirectedE
         return this.getAdjacentEdges(node);
     }
 
+    @Override
     public Set<BidirectedEdge<GridNode>> getInEdges(final GridNode node) {
         return this.getAdjacentEdges(node);
     }
@@ -107,10 +111,12 @@ public class Grid extends AbstractBidirectedAdjacencyGraph<GridNode, BidirectedE
         return this.neighborNodes.get(leftNode).contains(rightNode);
     }
 
+    @Override
     public List<GridNode> getAdjacentNodes(final GridNode node) {
         return Collections.unmodifiableList(new ArrayList<GridNode>(this.neighborNodes.get(node)));
     }
 
+    @Override
     public List<GridNode> getTraversableNodes(final GridNode node) {
         return this.getAdjacentNodes(node);
     }

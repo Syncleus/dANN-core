@@ -114,14 +114,17 @@ public class TestAstarPathFinder {
     }
 
     private static class DistanceHeuristic implements HeuristicPathCost<GridNode> {
+        @Override
         public double getHeuristicPathCost(final GridNode begin, final GridNode end) {
             return begin.calculateRelativeTo(end).getDistance();
         }
 
+        @Override
         public boolean isOptimistic() {
             return true;
         }
 
+        @Override
         public boolean isConsistent() {
             return true;
         }

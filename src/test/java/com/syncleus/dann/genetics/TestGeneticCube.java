@@ -52,6 +52,7 @@ public class TestGeneticCube {
                 throw new IllegalArgumentException("Chromosome must have atleast 3 genes");
         }
 
+        @Override
         public void process() {
             final List<AbstractValueGene> genes = this.getChromosome().getGenes();
             final double side1 = genes.get(0).expressionActivity();
@@ -71,6 +72,7 @@ public class TestGeneticCube {
             return this.error;
         }
 
+        @Override
         public int compareTo(final AbstractGeneticAlgorithmFitnessFunction baseCompareWith) {
             if (!(baseCompareWith instanceof VolumeAreaCubeFitness))
                 throw new IllegalArgumentException("Can only compare with VolumeAreaCubeFitness");
@@ -90,6 +92,7 @@ public class TestGeneticCube {
             this.addAll(initialChromosomes);
         }
 
+        @Override
         protected AbstractGeneticAlgorithmFitnessFunction packageChromosome(final GeneticAlgorithmChromosome chromosome) {
             return new VolumeAreaCubeFitness(chromosome);
         }

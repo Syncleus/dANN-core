@@ -98,6 +98,7 @@ public class ByteValueGene extends AbstractValueGene<MutableByte> {
      * @return A copy of the current object with potential mutations.
      * @since 2.0
      */
+    @Override
     public ByteValueGene mutate(final double deviation) {
         final ByteValueGene copy = this.clone();
         copy.internalMutate(deviation);

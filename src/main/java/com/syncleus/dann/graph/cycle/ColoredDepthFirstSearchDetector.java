@@ -52,6 +52,7 @@ public class ColoredDepthFirstSearchDetector implements CycleDetector {
         return false;
     }
 
+    @Override
     public <N, E extends Edge<N>> boolean hasCycle(final Graph<N, E> graph) {
         //A map of the current Node colors. Key is the node, value is null for
         //white, false for grey, true for black.

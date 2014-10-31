@@ -98,6 +98,7 @@ public class LongValueGene extends AbstractValueGene<MutableLong> {
      * @return A copy of the current object with potential mutations.
      * @since 2.0
      */
+    @Override
     public LongValueGene mutate(final double deviation) {
         final LongValueGene copy = this.clone();
         copy.internalMutate(deviation);

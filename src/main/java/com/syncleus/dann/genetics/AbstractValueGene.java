@@ -62,6 +62,7 @@ public abstract class AbstractValueGene<N extends MutableNumber> implements Valu
      * @return The number backing this object.
      * @since 2.0
      */
+    @Override
     public final N getValue() {
         return this.value;
     }
@@ -74,6 +75,7 @@ public abstract class AbstractValueGene<N extends MutableNumber> implements Valu
      * @return The current expression activity.
      * @since 2.0
      */
+    @Override
     public final double expressionActivity() {
         return this.value.doubleValue();
     }
@@ -121,5 +123,6 @@ public abstract class AbstractValueGene<N extends MutableNumber> implements Valu
      * @return A copy of the current object with potential mutations.
      * @since 2.0
      */
+    @Override
     public abstract AbstractValueGene<N> mutate(double deviation);
 }

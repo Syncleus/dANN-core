@@ -37,6 +37,7 @@ public class SqrtActivationFunction implements ActivationFunction {
      * 1 and -1 or 1 and 0. However this bound range is not required.
      * @since 2.0
      */
+    @Override
     public double activate(final double activity) {
         return Math.sqrt(activity);
     }
@@ -48,18 +49,22 @@ public class SqrtActivationFunction implements ActivationFunction {
      * @return The result of the derivative of the activation function.
      * @since 2.0
      */
+    @Override
     public double activateDerivative(final double activity) {
         return 1.0 / (2.0 * Math.sqrt(activity));
     }
 
+    @Override
     public boolean isBound() {
         return false;
     }
 
+    @Override
     public double getUpperLimit() {
         return UPPER_LIMIT;
     }
 
+    @Override
     public double getLowerLimit() {
         return LOWER_LIMIT;
     }

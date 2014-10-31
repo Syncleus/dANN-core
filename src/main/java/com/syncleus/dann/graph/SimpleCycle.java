@@ -77,6 +77,7 @@ public class SimpleCycle<N, E extends Edge<N>> extends SimpleWalk<N, E> implemen
         return (super.verify(nodeSteps, edgeSteps)) && (com.syncleus.dann.graph.AbstractCycle.verifyUtility(nodeSteps, edgeSteps));
     }
 
+    @Override
     public boolean isOddCycle() {
         return AbstractCycle.isOddCycle(this);
     }

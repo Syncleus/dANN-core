@@ -98,6 +98,7 @@ public class IntegerValueGene extends AbstractValueGene<MutableInteger> {
      * @return A copy of the current object with potential mutations.
      * @since 2.0
      */
+    @Override
     public IntegerValueGene mutate(final double deviation) {
         final IntegerValueGene copy = this.clone();
         copy.internalMutate(deviation);

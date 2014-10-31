@@ -59,38 +59,45 @@ public abstract class AbstractFunction implements Cloneable, Function {
         return result;
     }
 
+    @Override
     public final void setParameter(final int parameterIndex, final double value) {
         if (parameterIndex >= this.parameters.length || parameterIndex < 0)
             throw new IllegalArgumentException("parameterIndex of " + parameterIndex + " is out of range");
         this.parameters[parameterIndex] = value;
     }
 
+    @Override
     public final void setParameter(final String parameterName, final double value) {
         this.setParameter(this.getParameterNameIndex(parameterName), value);
     }
 
+    @Override
     public final double getParameter(final int parameterIndex) {
         if (parameterIndex >= this.parameters.length || parameterIndex < 0)
             throw new IllegalArgumentException("parameterIndex out of range");
         return this.parameters[parameterIndex];
     }
 
+    @Override
     public final double getParameter(final String parameterName) {
         return this.getParameter(this.getParameterNameIndex(parameterName));
     }
 
+    @Override
     public final String getParameterName(final int parameterIndex) {
         if (parameterIndex >= this.parameterNames.length || parameterIndex < 0)
             throw new IllegalArgumentException("parameterIndex is not within range");
         return this.parameterNames[parameterIndex];
     }
 
+    @Override
     public final int getParameterNameIndex(final String parameterName) {
         if (!this.indexNames.containsKey(parameterName))
             throw new IllegalArgumentException("parameterName: " + parameterName + " does not exist");
         return this.indexNames.get(parameterName);
     }
 
+    @Override
     public final int getParameterCount() {
         return this.parameters.length;
     }
@@ -109,6 +116,7 @@ public abstract class AbstractFunction implements Cloneable, Function {
         }
     }
 
+    @Override
     public abstract double calculate();
 
     @Override

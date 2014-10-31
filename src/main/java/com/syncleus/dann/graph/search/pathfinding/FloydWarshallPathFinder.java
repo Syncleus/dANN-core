@@ -79,6 +79,7 @@ public class FloydWarshallPathFinder<N, E extends Edge<N>> implements PathFinder
                 }
     }
 
+    @Override
     public List<E> getBestPath(final N begin, final N end) {
         final List<N> nodePath = this.getIntermediatePath(begin, end);
         if (nodePath.size() < 2)
@@ -128,10 +129,12 @@ public class FloydWarshallPathFinder<N, E extends Edge<N>> implements PathFinder
         return nodePath;
     }
 
+    @Override
     public boolean isReachable(final N begin, final N end) {
         return (this.getBestPath(begin, end) != null);
     }
 
+    @Override
     public boolean isConnected(final N begin, final N end) {
         return (this.getBestPath(begin, end) != null);
     }

@@ -92,6 +92,7 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>,
      * @return An unmodifiable List of all genes in the chromatid
      * @since 2.0
      */
+    @Override
     public final List<AbstractValueGene> getGenes() {
         return Collections.unmodifiableList(this.alleles);
     }
@@ -105,6 +106,7 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>,
      *              point
      * @return A List of the genetic segment crossing over.
      */
+    @Override
     public List<AbstractValueGene> crossover(final int point) {
         if (point <= 0)
             throw new IllegalArgumentException("point must be positive");
@@ -123,6 +125,7 @@ public class GeneticAlgorithmChromosome implements Chromatid<AbstractValueGene>,
      * @see com.syncleus.dann.genetics.Chromatid#crossover(int)
      * @since 2.0
      */
+    @Override
     public void crossover(final List<AbstractValueGene> geneticSegment, final int point) {
         if (point <= 0)
             throw new IllegalArgumentException("point must be positive");

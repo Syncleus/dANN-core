@@ -113,7 +113,9 @@ public abstract class AbstractAttributePool<T> implements AttributePool<T> {
         }
     }
 
+    @Override
     public abstract <I extends T> I getAttributeValue(Attribute<?, I> attribute);
 
+    @Override
     public abstract <C extends T> C setAttributeValue(Attribute<?, C> attribute, C value);
 }
