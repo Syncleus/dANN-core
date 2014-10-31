@@ -52,24 +52,31 @@
     <mailingLists>
         <mailingList>
             <name>Syncleus Announcements</name>
-            <subscribe>syncleus-announce-subscribe@lists.syncleus.com</subscribe>
-            <unsubscribe>syncleus-announce-leave@lists.syncleus.com</unsubscribe>
-            <post>syncleus-announce@lists.syncleus.com</post>
-            <archive>http://lists.syncleus.com/pipermail/syncleus-announce/</archive>
+            <subscribe>syncleus-announce-list+subscribe@syncleus.com</subscribe>
+            <unsubscribe>syncleus-announce-list+unsubscribe@syncleus.com</unsubscribe>
+            <post>syncleus-announce-list@syncleus.com</post>
+            <archive>https://groups.google.com/a/syncleus.com/forum/#!forum/syncleus-announce-list</archive>
+        </mailingList>
+        <mailingList>
+            <name>Syncleus Development</name>
+            <subscribe>syncleus-dev-list+subscribe@syncleus.com</subscribe>
+            <unsubscribe>syncleus-dev-list+unsubscribe@syncleus.com</unsubscribe>
+            <post>syncleus-dev-list@syncleus.com</post>
+            <archive>https://groups.google.com/a/syncleus.com/forum/#!forum/syncleus-dev-list</archive>
         </mailingList>
         <mailingList>
             <name>dANN Announcements</name>
-            <subscribe>dann-announce-subscribe@lists.syncleus.com</subscribe>
-            <unsubscribe>dann-announce-leave@lists.syncleus.com</unsubscribe>
-            <post>dann-announce@lists.syncleus.com</post>
-            <archive>http://lists.syncleus.com/pipermail/dann-announce/</archive>
+            <subscribe>dann-announce-list+subscribe@syncleus.com</subscribe>
+            <unsubscribe>dann-announce-list+unsubscribe@syncleus.com</unsubscribe>
+            <post>dann-announce-list@syncleus.com</post>
+            <archive>https://groups.google.com/a/syncleus.com/forum/#!forum/dann-announce-list</archive>
         </mailingList>
         <mailingList>
             <name>dANN Development</name>
-            <subscribe>dann-dev-subscribe@lists.syncleus.com</subscribe>
-            <unsubscribe>dann-dev-leave@lists.syncleus.com</unsubscribe>
-            <post>dann-dev@lists.syncleus.com</post>
-            <archive>http://lists.syncleus.com/pipermail/dann-dev/</archive>
+            <subscribe>dann-dev-list+subscribe@syncleus.com</subscribe>
+            <unsubscribe>dann-dev-list+unsubscribe@syncleus.com</unsubscribe>
+            <post>dann-dev-list@syncleus.com</post>
+            <archive>https://groups.google.com/a/syncleus.com/forum/#!forum/dann-dev-list</archive>
         </mailingList>
     </mailingLists>
 
