@@ -41,7 +41,7 @@
 
     <scm>
         <connection>scm:git:http://gerrit.syncleus.com/dANN-core</connection>
-        <developerConnection>scm:git:ssh://gerrit.syncleus.com/dANN-core</developerConnection>
+        <developerConnection>scm:git:ssh://gerrit.syncleus.com:29418/dANN-core</developerConnection>
     </scm>
 
     <ciManagement>
