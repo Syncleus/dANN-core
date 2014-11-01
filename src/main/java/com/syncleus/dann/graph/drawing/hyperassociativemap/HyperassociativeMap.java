@@ -57,6 +57,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
     private static final double EQUILIBRIUM_ALIGNMENT_FACTOR = 0.005;
     private static final double LEARNING_RATE_INCREASE_FACTOR = 0.9;
     private static final double LEARNING_RATE_PROCESSING_ADJUSTMENT = 1.01;
+    private static final double ACCEPTABLE_DISTANCE_ADJUSTMENT = 0.1;
     private static final Logger LOGGER = Logger.getLogger(HyperassociativeMap.class);
     private static final Random RANDOM = new Random();
     private final G graph;
@@ -342,8 +343,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
             }
         }
         if ((this.learningRate * LEARNING_RATE_PROCESSING_ADJUSTMENT) < DEFAULT_LEARNING_RATE) {
-            final double acceptableDistanceAdjustment = 0.1;
-            if (this.getAverageMovement() < (this.equilibriumDistance * this.acceptableDistanceFactor * acceptableDistanceAdjustment)) {
+            if (this.getAverageMovement() < (this.equilibriumDistance * this.acceptableDistanceFactor * ACCEPTABLE_DISTANCE_ADJUSTMENT)) {
                 this.acceptableDistanceFactor *= LEARNING_RATE_INCREASE_FACTOR;
             }
             this.learningRate *= LEARNING_RATE_PROCESSING_ADJUSTMENT;
@@ -368,8 +368,7 @@ public class HyperassociativeMap<G extends Graph<N, ?>, N> implements GraphDrawe
             throw new UnexpectedDannError("Unexpected execution exception. Get should block indefinitely", caught);
         }
         if (this.learningRate * LEARNING_RATE_PROCESSING_ADJUSTMENT < DEFAULT_LEARNING_RATE) {
-            final double acceptableDistanceAdjustment = 0.1;
-            if (this.getAverageMovement() < (this.equilibriumDistance * this.acceptableDistanceFactor * acceptableDistanceAdjustment)) {
+            if (this.getAverageMovement() < (this.equilibriumDistance * this.acceptableDistanceFactor * ACCEPTABLE_DISTANCE_ADJUSTMENT)) {
                 this.acceptableDistanceFactor = this.maxMovement * 2.0;
             }
             this.learningRate *= LEARNING_RATE_PROCESSING_ADJUSTMENT;
