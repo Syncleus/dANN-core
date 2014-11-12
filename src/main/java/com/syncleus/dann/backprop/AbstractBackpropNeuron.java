@@ -16,4 +16,34 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann;
+package com.syncleus.dann.backprop;
+
+import com.syncleus.dann.*;
+import com.tinkerpop.frames.modules.javahandler.Initializer;
+
+public abstract class AbstractBackpropNeuron extends AbstractActivationNeuron implements BackpropNeuron {
+    private static final double DEFAULT_LEARNING_RATE = 0.0175;
+    @Initializer
+    public void init() {
+        this.setLearningRate(AbstractBackpropNeuron.DEFAULT_LEARNING_RATE);
+        this.setDeltaTrain(0.0);
+    }
+
+    @Override
+    public void backpropagate() {
+        for (final BackpropSynapse synapse : this.getTargetEdges(BackpropSynapse.class)) {
+            final BackpropNeuron target = synapse.getTarget();
+            synapse.setWeight(synapse.getWeight() + (target.getDeltaTrain() * target.getLearningRate() * this.getSignal()));
+        }
+
+        double newDeltaTrain = 0.0;
+        for (final BackpropSynapse synapse : this.getTargetEdges(BackpropSynapse.class)) {
+            final BackpropNeuron target = synapse.getTarget();
+            assert synapse.getWeight() != null;
+            assert target.getDeltaTrain() != null;
+            newDeltaTrain += (synapse.getWeight() * target.getDeltaTrain());
+        }
+        newDeltaTrain *= this.getActivationFunction().activateDerivative(this.getActivity());
+        this.setDeltaTrain(newDeltaTrain);
+    }
+}

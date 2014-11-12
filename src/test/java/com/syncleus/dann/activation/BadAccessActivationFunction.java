@@ -16,4 +16,34 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.dann;
+package com.syncleus.dann.activation;
+
+public class BadAccessActivationFunction implements ActivationFunction {
+    private BadAccessActivationFunction() {
+    }
+
+    @Override
+    public double activate(final double activity) {
+        return 0;
+    }
+
+    @Override
+    public double activateDerivative(final double activity) {
+        return 0;
+    }
+
+    @Override
+    public boolean isBound() {
+        return false;
+    }
+
+    @Override
+    public double getUpperLimit() {
+        return 0;
+    }
+
+    @Override
+    public double getLowerLimit() {
+        return 0;
+    }
+}
