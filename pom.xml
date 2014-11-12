@@ -61,11 +61,11 @@
 
 	<distributionManagement>
 		<repository>
-			<id>releases</id>
+			<id>syncleus.releases</id>
 			<url>http://repo.syncleus.com/repository/releases/</url>
 		</repository>
 		<snapshotRepository>
-			<id>snapshots</id>
+			<id>syncleus.snapshots</id>
 			<url>http://repo.syncleus.com/repository/snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
@@ -155,7 +155,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>findbugs-maven-plugin</artifactId>
-                <version>2.5.2</version>
+                <version>3.0.0</version>
                 <configuration>
                     <xmlOutput>true</xmlOutput>
                 </configuration>
