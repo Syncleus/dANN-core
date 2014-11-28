@@ -20,7 +20,8 @@ package com.syncleus.dann.backprop;
 
 import com.syncleus.dann.activation.*;
 import com.syncleus.dann.BlankGraphFactory;
-import com.tinkerpop.frames.*;
+import com.syncleus.ferma.FramedVertex;
+import com.syncleus.grail.graph.GrailGraph;
 import org.junit.*;
 import java.util.*;
 
@@ -30,7 +31,7 @@ public class SimpleOrTest {
 
     @Test
     public void testOr() {
-        final FramedTransactionalGraph<?> graph = BlankGraphFactory.makeTinkerGraph();
+        final GrailGraph graph = BlankGraphFactory.makeTinkerGraph();
 
         final List<BackpropNeuron> newInputNeurons = new ArrayList<BackpropNeuron>(2);
         newInputNeurons.add(SimpleOrTest.createNeuron(graph, "input"));
@@ -39,12 +40,12 @@ public class SimpleOrTest {
 
         //connect all hidden neurons to the output neuron
         for( BackpropNeuron inputNeuron : newInputNeurons ) {
-            graph.addEdge(null, inputNeuron.asVertex(), newOutputNeuron.asVertex(), "signals", BackpropSynapse.class);//.asEdge().setProperty("type", "BackpropSynapse");
+            graph.addFramedEdge((FramedVertex) inputNeuron, (FramedVertex) newOutputNeuron, "signals", AbstractBackpropSynapse.class);//.asEdge().setProperty("type", "BackpropSynapse");
         }
         //create bias neuron for output neuron
         final BackpropNeuron biasNeuron = SimpleOrTest.createNeuron(graph, "bias");
         biasNeuron.setSignal(1.0);
-        graph.addEdge(null, biasNeuron.asVertex(), newOutputNeuron.asVertex(), "signals", BackpropSynapse.class);//.asEdge().setProperty("type", "BackpropSynapse");
+        graph.addFramedEdge((FramedVertex) biasNeuron, (FramedVertex) newOutputNeuron, "signals", AbstractBackpropSynapse.class);//.asEdge().setProperty("type", "BackpropSynapse");
         graph.commit();
 
         for(int i = 0; i < 10000; i++) {
@@ -62,7 +63,7 @@ public class SimpleOrTest {
         Assert.assertTrue("expected >0.0, got: " + SimpleOrTest.propagate(graph, -1.0, 1.0), SimpleOrTest.propagate(graph, -1.0, 1.0) > 0.0);
     }
 
-    private static double calculateError(FramedTransactionalGraph<?> graph) {
+    private static double calculateError(GrailGraph graph) {
         double actual = SimpleOrTest.propagate(graph, 1.0, 1.0);
         double error = Math.abs(actual - 1.0) / 2.0;
 
@@ -78,35 +79,35 @@ public class SimpleOrTest {
         return error/4.0;
     }
 
-    private static void train(final FramedTransactionalGraph<?> graph, final double input1, final double input2, final double expected) {
+    private static void train(final GrailGraph graph, final double input1, final double input2, final double expected) {
         SimpleOrTest.propagate(graph, input1, input2);
 
-        final Iterator<BackpropNeuron> outputNeurons = graph.getVertices("layer", "output", BackpropNeuron.class).iterator();
+        final Iterator<AbstractBackpropNeuron> outputNeurons = graph.getFramedVertices("layer", "output", AbstractBackpropNeuron.class).iterator();
         final BackpropNeuron outputNeuron = outputNeurons.next();
         Assert.assertTrue(!outputNeurons.hasNext());
         outputNeuron.setDeltaTrain((expected - outputNeuron.getSignal()) * ACTIVATION_FUNCTION.activateDerivative(outputNeuron.getActivity()));
         graph.commit();
 
-        final Iterator<BackpropNeuron> inputNeurons = graph.getVertices("layer", "input", BackpropNeuron.class).iterator();
+        final Iterator<AbstractBackpropNeuron> inputNeurons = graph.getFramedVertices("layer", "input", AbstractBackpropNeuron.class).iterator();
         inputNeurons.next().backpropagate();
         inputNeurons.next().backpropagate();
         Assert.assertTrue(!inputNeurons.hasNext());
         graph.commit();
 
-        final Iterator<BackpropNeuron> biasNeurons = graph.getVertices("layer", "bias", BackpropNeuron.class).iterator();
+        final Iterator<AbstractBackpropNeuron> biasNeurons = graph.getFramedVertices("layer", "bias", AbstractBackpropNeuron.class).iterator();
         biasNeurons.next().backpropagate();
         Assert.assertTrue(!biasNeurons.hasNext());
         graph.commit();
     }
 
-    private static double propagate(final FramedTransactionalGraph<?> graph, final double input1, final double input2) {
-        final Iterator<BackpropNeuron> inputNeurons = graph.getVertices("layer", "input", BackpropNeuron.class).iterator();
+    private static double propagate(final GrailGraph graph, final double input1, final double input2) {
+        final Iterator<AbstractBackpropNeuron> inputNeurons = graph.getFramedVertices("layer", "input", AbstractBackpropNeuron.class).iterator();
         inputNeurons.next().setSignal(input1);
         inputNeurons.next().setSignal(input2);
         Assert.assertTrue(!inputNeurons.hasNext());
         graph.commit();
 
-        final Iterator<BackpropNeuron> outputNeurons = graph.getVertices("layer", "output", BackpropNeuron.class).iterator();
+        final Iterator<AbstractBackpropNeuron> outputNeurons = graph.getFramedVertices("layer", "output", AbstractBackpropNeuron.class).iterator();
         final BackpropNeuron outputNeuron = outputNeurons.next();
         Assert.assertTrue(!outputNeurons.hasNext());
         outputNeuron.propagate();
@@ -114,9 +115,9 @@ public class SimpleOrTest {
         return outputNeuron.getSignal();
     }
 
-    private static BackpropNeuron createNeuron(final FramedGraph<?> graph, final String layer) {
-        final BackpropNeuron neuron = graph.addVertex(null, BackpropNeuron.class);
-        neuron.asVertex().setProperty("layer", layer);
+    private static BackpropNeuron createNeuron(final GrailGraph graph, final String layer) {
+        final BackpropNeuron neuron = graph.addFramedVertex(AbstractBackpropNeuron.class);
+        ((FramedVertex)neuron).setProperty("layer", layer);
         return neuron;
     }
 }

@@ -19,12 +19,8 @@
 package com.syncleus.dann;
 
 import com.syncleus.dann.backprop.*;
-import com.syncleus.grail.graph.GrailGraphFactory;
-import com.thinkaurelius.titan.core.*;
-import com.thinkaurelius.titan.graphdb.configuration.GraphDatabaseConfiguration;
-import com.tinkerpop.frames.*;
-import com.tinkerpop.frames.modules.Module;
-import org.apache.commons.configuration.*;
+import com.syncleus.grail.graph.GrailGraph;
+import com.syncleus.grail.graph.TinkerGrailGraphFactory;
 
 import java.io.File;
 import java.util.*;
@@ -32,31 +28,16 @@ import java.util.*;
 import static com.thinkaurelius.titan.graphdb.configuration.GraphDatabaseConfiguration.*;
 
 public final class BlankGraphFactory {
-    private static final FramedGraphFactory FACTORY = new GrailGraphFactory(Collections.<Module>emptyList(),
+    private static final Set<Class<?>> DANN_TYPES =
             new HashSet<Class<?>>(Arrays.asList(new Class<?>[]{
                     ActivationNeuron.class,
+                    AbstractActivationNeuron.class,
                     BackpropNeuron.class,
-                    BackpropSynapse.class})));
+                    AbstractBackpropNeuron.class,
+                    BackpropSynapse.class,
+                    AbstractBackpropSynapse.class}));
 
-    public static FramedTransactionalGraph makeTitanGraph(final String location) {
-        BaseConfiguration config = new BaseConfiguration();
-        Configuration storage = config.subset(GraphDatabaseConfiguration.STORAGE_NAMESPACE);
-        // configuring local backend
-        storage.setProperty(GraphDatabaseConfiguration.STORAGE_BACKEND_KEY, "local");
-        storage.setProperty(GraphDatabaseConfiguration.STORAGE_DIRECTORY_KEY, location);
-        // configuring elastic search index
-        Configuration index = storage.subset(GraphDatabaseConfiguration.INDEX_NAMESPACE).subset("search");
-        index.setProperty(INDEX_BACKEND_KEY, "elasticsearch");
-        index.setProperty("local-mode", true);
-        index.setProperty("client-only", false);
-        index.setProperty(STORAGE_DIRECTORY_KEY, "./target/TitanBackpropDB" + File.separator + "es");
-
-        TitanGraph graph = TitanFactory.open(config);
-
-        return FACTORY.create(graph);
-    }
-
-    public static FramedTransactionalGraph makeTinkerGraph() {
-        return FACTORY.create(new MockTransactionalTinkerGraph());
+    public static GrailGraph makeTinkerGraph() {
+        return new TinkerGrailGraphFactory(DANN_TYPES).subgraph("0");
     }
 }

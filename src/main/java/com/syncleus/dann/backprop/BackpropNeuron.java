@@ -18,17 +18,13 @@
  ******************************************************************************/
 package com.syncleus.dann.backprop;
 
-import com.syncleus.grail.graph.*;
+import com.syncleus.ferma.annotations.Adjacency;
+import com.syncleus.ferma.annotations.Incidence;
+import com.syncleus.ferma.annotations.Property;
 import com.syncleus.grail.graph.action.Action;
 import com.syncleus.dann.*;
-import com.tinkerpop.frames.*;
-import com.tinkerpop.frames.modules.javahandler.*;
-import com.tinkerpop.frames.modules.typedgraph.TypeValue;
 
-@TypeValue("BackpropNeuron")
-@JavaHandlerClass(AbstractBackpropNeuron.class)
 public interface BackpropNeuron extends ActivationNeuron {
-    @JavaHandler
     @Action("backpropagate")
     void backpropagate();
 
@@ -47,7 +43,7 @@ public interface BackpropNeuron extends ActivationNeuron {
     @Adjacency(label="signals")
     Iterable<? extends BackpropNeuron> getTargets();
 
-    @TypedAdjacency(label="signals")
+    @Adjacency(label="signals")
     <N extends BackpropNeuron> Iterable<? extends N> getTargets(Class<? extends N> type);
 
     @Adjacency(label="signals")
@@ -62,17 +58,14 @@ public interface BackpropNeuron extends ActivationNeuron {
     @Adjacency(label="signals")
     BackpropNeuron addTarget();
 
-    @TypedAdjacency(label="signals")
+    @Adjacency(label="signals")
     <N extends BackpropNeuron> N addTarget(Class<? extends N> type);
 
     @Incidence(label = "signals")
     Iterable<? extends BackpropSynapse> getTargetEdges();
 
-    @TypedIncidence(label="signals")
+    @Incidence(label="signals")
     <E extends BackpropSynapse> Iterable<? extends E> getTargetEdges(Class<? extends E> type);
-
-    @Incidence(label = "signals")
-    <E extends BackpropSynapse> E addTargetEdge(E target);
 
     @Incidence(label = "signals")
     void removeTargetEdge(BackpropSynapse target);

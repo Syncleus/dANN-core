@@ -19,7 +19,7 @@
 package com.syncleus.dann;
 
 import com.syncleus.dann.activation.*;
-import com.tinkerpop.frames.FramedTransactionalGraph;
+import com.syncleus.grail.graph.GrailGraph;
 import junit.framework.Assert;
 import org.junit.Test;
 
@@ -27,38 +27,26 @@ import java.lang.reflect.*;
 
 public class AbstractActivationNeuronTest {
 
-    @Test( expected = UndeclaredThrowableException.class )
+    @Test( expected = IllegalStateException.class )
     public void testBadAccessActivation() {
-        final FramedTransactionalGraph<?> graph = BlankGraphFactory.makeTinkerGraph();
-        final ActivationNeuron neuron = graph.addVertex(null, ActivationNeuron.class);
+        final GrailGraph graph = BlankGraphFactory.makeTinkerGraph();
+        final ActivationNeuron neuron = graph.addFramedVertex(AbstractActivationNeuron.class);
         neuron.setActivationFunctionClass(BadAccessActivationFunction.class);
-        try {
-            neuron.propagate();
-        }
-        catch( final UndeclaredThrowableException caught ) {
-            Assert.assertTrue(InvocationTargetException.class.equals(caught.getUndeclaredThrowable().getClass()));
-            throw caught;
-        }
+        neuron.propagate();
     }
 
-    @Test( expected = UndeclaredThrowableException.class )
+    @Test( expected = IllegalStateException.class )
     public void testNoDefaultConstructorActivation() {
-        final FramedTransactionalGraph<?> graph = BlankGraphFactory.makeTinkerGraph();
-        final ActivationNeuron neuron = graph.addVertex(null, ActivationNeuron.class);
+        final GrailGraph graph = BlankGraphFactory.makeTinkerGraph();
+        final ActivationNeuron neuron = graph.addFramedVertex(AbstractActivationNeuron.class);
         neuron.setActivationFunctionClass(NoDefaultConstructorActivationFunction.class);
-        try {
-            neuron.propagate();
-        }
-        catch( final UndeclaredThrowableException caught ) {
-            Assert.assertTrue(InvocationTargetException.class.equals(caught.getUndeclaredThrowable().getClass()));
-            throw caught;
-        }
+        neuron.propagate();
     }
 
     @Test
     public void testPropagateTwice() {
-        final FramedTransactionalGraph<?> graph = BlankGraphFactory.makeTinkerGraph();
-        final ActivationNeuron neuron = graph.addVertex(null, ActivationNeuron.class);
+        final GrailGraph graph = BlankGraphFactory.makeTinkerGraph();
+        final ActivationNeuron neuron = graph.addFramedVertex(AbstractActivationNeuron.class);
         neuron.setActivationFunctionClass(HyperbolicTangentActivationFunction.class);
         neuron.propagate();
         neuron.propagate();

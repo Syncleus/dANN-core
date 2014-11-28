@@ -19,12 +19,13 @@
 package com.syncleus.dann.backprop;
 
 import com.syncleus.dann.*;
-import com.tinkerpop.frames.modules.javahandler.Initializer;
+import com.syncleus.dann.activation.ActivationFunction;
 
 public abstract class AbstractBackpropNeuron extends AbstractActivationNeuron implements BackpropNeuron {
     private static final double DEFAULT_LEARNING_RATE = 0.0175;
-    @Initializer
+
     public void init() {
+        super.init();
         this.setLearningRate(AbstractBackpropNeuron.DEFAULT_LEARNING_RATE);
         this.setDeltaTrain(0.0);
     }
@@ -43,7 +44,13 @@ public abstract class AbstractBackpropNeuron extends AbstractActivationNeuron im
             assert target.getDeltaTrain() != null;
             newDeltaTrain += (synapse.getWeight() * target.getDeltaTrain());
         }
-        newDeltaTrain *= this.getActivationFunction().activateDerivative(this.getActivity());
+        final ActivationFunction activation = this.getActivationFunction();
+        if( activation == null)
+            System.out.println("activation function is null!!!!!!");
+        final Double activity = this.getActivity();
+        if( activity == null)
+            System.out.println("activity function is null!!!!!!");
+        newDeltaTrain *= activation.activateDerivative(activity);
         this.setDeltaTrain(newDeltaTrain);
     }
 }
