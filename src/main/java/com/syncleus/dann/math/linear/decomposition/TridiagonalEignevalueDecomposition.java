@@ -32,14 +32,14 @@ import com.syncleus.dann.math.linear.SimpleRealMatrix;
 
 /**
  * Eigenvalues and eigenvectors of a real matrix.
- * <p/>
+ *
  * If matrixToDecomposeElements is symmetric, then matrixToDecomposeElements =
  * matrixElements*D*matrixElements' where the eigenvalue matrix D is diagonal
  * and the eigenvector matrix matrixElements is orthogonal. I.e.
  * matrixToDecomposeElements = matrixElements.times(D.times(matrixElements.transpose()))
  * and matrixElements.times(matrixElements.transpose()) equals the identity
  * matrix.
- * <p/>
+ *
  * If matrixToDecomposeElements is not symmetric, then the eigenvalue matrix D
  * is block diagonal with the real eigenvalues in 1-by-1 blocks and any complex
  * eigenvalues, lambda + i*mu, in 2-by-2 blocks, [lambda, mu; -mu, lambda].  The

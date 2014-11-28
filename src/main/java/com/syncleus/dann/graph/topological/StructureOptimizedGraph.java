@@ -28,6 +28,7 @@ public interface StructureOptimizedGraph<N, E extends TraversableCloud<N>> exten
 	 * also present in this graph. If graph is empty then this will always return
 	 * true.
 	 *
+	 * @param graph The graph to check to see if it is a subgraph of this graph.
 	 * @return true if the specified graph only contains nodes and edges that are
 	 *         also present in this graph.
 	 * @since 2.0

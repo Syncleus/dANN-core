@@ -37,9 +37,9 @@ public class CholeskyCroutCholeskyDecomposition<M extends Matrix<M, F>, F extend
 
 	/**
 	 * Right Triangular Cholesky Decomposition.
-	 * <p/>
+	 *
 	 * Cholesky algorithm for symmetric and positive definite matrix.
-	 * <p/>
+	 *
 	 * For a symmetric, positive definite matrix A, the Right Cholesky
 	 * decomposition is an upper triangular matrix R so that A = R'*R. This
 	 * constructor computes R with the Fortran inspired column oriented algorithm

@@ -37,6 +37,9 @@ public class PermutationCounter extends AbstractPermutationCounter
 	 * 20! = 2,432,902,008,176,640,000 and
 	 * 21! is too big to fit into permutation Java long, which is
 	 * why we use BigInteger instead.
+	 *
+	 * @param permutationSize size of the permutation
+	 * @param setSize size of the set
 	 */
 	public PermutationCounter(final int setSize, final int permutationSize)
 	{
@@ -47,6 +50,8 @@ public class PermutationCounter extends AbstractPermutationCounter
 
 	/**
 	 * Generates the next permutation (algorithm from Rosen p. 284)
+	 *
+	 * @return true if there is another permutation to retrieve.
 	 */
 	@Override
 	protected boolean next()

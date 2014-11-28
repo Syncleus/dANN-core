@@ -59,6 +59,8 @@ public final class SimpleSynapse<N> extends AbstractSynapse<N>
 	/**
 	 * Creates a new instance of SimpleSynapse.
 	 *
+	 * @param contextEnabled true if context awareness is enabled in this synapse
+	 * @param allowJoiningMultipleGraphs True if the synapse is allowed to exist in more than one graph at a time.
 	 * @param sourceToSet The incoming neuron connection.
 	 * @param destinationToSet The outgoing neuron connection.
 	 * @param initialWeight The initial weight of the synapse
@@ -72,6 +74,8 @@ public final class SimpleSynapse<N> extends AbstractSynapse<N>
 	/**
 	 * Creates a new instance of SimpleSynapse.
 	 *
+	 * @param contextEnabled true if context awareness is enabled in this synapse
+	 * @param allowJoiningMultipleGraphs True if the synapse is allowed to exist in more than one graph at a time.
 	 * @param sourceToSet The incoming neuron connection.
 	 * @param destinationToSet The outgoing neuron connection.
 	 * @since 1.0

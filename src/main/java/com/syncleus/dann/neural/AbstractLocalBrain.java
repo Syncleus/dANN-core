@@ -37,8 +37,9 @@ import com.syncleus.dann.graph.topological.StrongConnectivityOptimizedGraph;
 /**
  * Represents a single artificial brain typically belonging to a single
  * artificial organism. It will contain a set of input and output neurons which
- * corelate to a specific dataset pattern.<br/> <br/> This class is abstract
- * and must be extended in order to be used.
+ * corelate to a specific dataset pattern.
+ *
+ * This class is abstract and must be extended in order to be used.
  *
  * @author Jeffrey Phillips Freeman
  * @since 1.0
@@ -118,6 +119,7 @@ public abstract class AbstractLocalBrain<IN extends InputNeuron, ON extends Outp
 	 * Adds a new neuron to the brain. The construction of the brain is done by
 	 * the child class so this method is protected.
 	 *
+	 * @return true if neuron was added to the graph, false otherwise.
 	 * @param newNeuron The neuron to add to the brain.
 	 * @since 1.0
 	 */
@@ -145,6 +147,7 @@ public abstract class AbstractLocalBrain<IN extends InputNeuron, ON extends Outp
 	 * Adds a new collection of neurons to the brain. The construction of the brain
 	 * is done by the child class so this method is protected.
 	 *
+	 * @return true if neuron was added to the graph, false otherwise.
 	 * @param newNeurons The collection of neurons to add.
 	 * @since 1.0
 	 */
@@ -238,6 +241,7 @@ public abstract class AbstractLocalBrain<IN extends InputNeuron, ON extends Outp
 	 * Removes the specified neuron from the brain. This only removes it from
 	 * the collection of neurons it does not disconnect it from other neurons.
 	 *
+	 * @return true if neuron was removed from the graph, false otherwise.
 	 * @param removeNeuron The neuron to remove.
 	 * @since 1.0
 	 */

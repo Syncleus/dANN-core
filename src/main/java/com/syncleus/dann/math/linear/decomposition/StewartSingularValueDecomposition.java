@@ -31,20 +31,20 @@ import com.syncleus.dann.math.linear.SimpleRealMatrix;
 
 /**
  * Singular Value Decomposition.
- * <p/>
- * For an m-by-n matrix A with m >= n, the singular value decomposition is an
+ *
+ * For an m-by-n matrix A with m &gt;= n, the singular value decomposition is an
  * m-by-n orthogonal matrix leftSingularMatrix, an n-by-n diagonal matrix S, and
  * an n-by-n orthogonal matrix rightSingularMatrix so that A =
  * leftSingularMatrix*S*rightSingularMatrix'.
- * <p/>
- * The singular values, sigma[k] = S[k][k], are ordered so that sigma[0] >=
- * sigma[1] >= ... >= sigma[n-1].
- * <p/>
+ *
+ * The singular values, sigma[k] = S[k][k], are ordered so that sigma[0] &gt;=
+ * sigma[1] &gt;= ... &gt;= sigma[n-1].
+ *
  * The singular value decomposition always exists, so the constructor will never
  * fail.  The matrix condition number and the effective numerical rank can be
- * computed from this decomposition.<br/> Algorithm taken from: G.W. Stewart,
- * university of Maryland, Argonne national lab. C
- * @author Jeffrey Phillips Freeman
+ * computed from this decomposition.
+ *
+ * Algorithm taken from: G.W. Stewart. university of Maryland, Argonne national lab. C
  */
 public class StewartSingularValueDecomposition implements java.io.Serializable, SingularValueDecomposition
 {

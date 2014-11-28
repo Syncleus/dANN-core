@@ -111,6 +111,7 @@ public class NeuronGroup<N extends Neuron> implements java.io.Serializable
 	/**
 	 * Obtains all the Neurons directly owned by this NeuronGroup.
 	 *
+	 * @return A set of all neurons directly owned by this group.
 	 * @since 1.0
 	 */
 	public Set<N> getChildrenNeurons()
@@ -121,6 +122,7 @@ public class NeuronGroup<N extends Neuron> implements java.io.Serializable
 	/**
 	 * Obtains all the NeuronGroups directly owned by this NeuronGroup.
 	 *
+	 * @return A set of all NeuronGroups owned directly by this group.
 	 * @since 1.0
 	 */
 	public Set<NeuronGroup<? extends N>> getChildrenNeuronGroups()
@@ -130,8 +132,9 @@ public class NeuronGroup<N extends Neuron> implements java.io.Serializable
 
 	/**
 	 * Obtains all the NetworkNodes owned recursively excluding
-	 * NeuronGroups.<BR>
+	 * NeuronGroups.
 	 *
+	 * @return a set of all the NetworkNodes owned recursively by this group, excluding NeuronGroups.
 	 * @since 1.0
 	 */
 	public Set<N> getChildrenNeuronsRecursivly()

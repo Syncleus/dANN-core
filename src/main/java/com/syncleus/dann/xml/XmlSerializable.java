@@ -22,18 +22,26 @@ public interface XmlSerializable<T, N>
 {
 	/**
 	 * Write stand alone element, including all instances.
+	 *
+	 * @return returns a serialized XML version of the object
 	 */
 	T toXml();
 
 	/**
 	 * Write nested element assuming recurring instances of components are
 	 * already named.
+	 *
+	 * @param namer a class responsible for naming repeated occurances of the same object
+	 * @return returns a serialized XML version of the object
 	 */
 	T toXml(Namer<N> namer);
 
 	/**
 	 * Write nested element assuming recurring instances of components are
 	 * already named, use preexisting XML objects.
+	 *
+	 * @param jaxbObject The jaxbObject that will hold the serialization
+	 * @param namer a class responsible for naming repeated occurances of the same object
 	 */
 	void toXml(T jaxbObject, Namer<N> namer);
 }

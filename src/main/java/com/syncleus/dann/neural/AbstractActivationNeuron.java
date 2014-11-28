@@ -55,6 +55,7 @@ public abstract class AbstractActivationNeuron extends AbstractNeuron
 	 * Creates a new instance of NeuronImpl with a RANDOM bias weight and
 	 * HyperbolicTangentActivationFunction as the activation function.
 	 *
+	 * @param brain The brain which contains this neuron.
 	 * @since 1.0
 	 */
 	protected AbstractActivationNeuron(final Brain<InputNeuron, OutputNeuron, Neuron, Synapse<Neuron>> brain)
@@ -67,6 +68,7 @@ public abstract class AbstractActivationNeuron extends AbstractNeuron
 	 * Creates a new instance of NeuronImpl with a RANDOM bias weight and the
 	 * specified activation function.
 	 *
+	 * @param brain The brain which contains this neuron.
 	 * @param activationFunction The activation function used to calculate the
 	 *   output from the neuron's activity.
 	 * @since 1.0

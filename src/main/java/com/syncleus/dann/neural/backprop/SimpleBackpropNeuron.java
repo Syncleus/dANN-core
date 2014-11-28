@@ -38,6 +38,7 @@ public final class SimpleBackpropNeuron extends AbstractBackpropNeuron
 	/**
 	 * Creates a new default instance of SimpleBackpropNeuron.
 	 *
+	 * @param brain The brain which contains this neuron.
 	 * @since 1.0
 	 */
 	public SimpleBackpropNeuron(final Brain brain)
@@ -49,6 +50,7 @@ public final class SimpleBackpropNeuron extends AbstractBackpropNeuron
 	 * Creates a new instance of SimpleBackpropNeuron with the specified
 	 * activation function.
 	 *
+	 * @param brain The brain which contains this neuron.
 	 * @param activationFunction The Neuron's activation function.
 	 * @since 1.0
 	 */
@@ -61,6 +63,7 @@ public final class SimpleBackpropNeuron extends AbstractBackpropNeuron
 	 * Creates a new instance of a SimpleBackpropNeuron using the default
 	 * activation function with the specified learning rate.
 	 *
+	 * @param brain The brain which contains this neuron.
 	 * @param learningRate learning rate of this neuron.
 	 * @since 1.0
 	 */
@@ -73,6 +76,8 @@ public final class SimpleBackpropNeuron extends AbstractBackpropNeuron
 	 * Creates a new instance of a SimpleBackpropNeuron with the specified
 	 * activation function and learning rate.
 	 *
+	 *
+	 * @param brain The brain which contains this neuron.
 	 * @param activationFunction Activation function for this neuron.
 	 * @param learningRate Learning rate for this neuron.
 	 */
