@@ -21,14 +21,15 @@ package com.syncleus.dann;
 import com.syncleus.dann.activation.*;
 import com.syncleus.grail.graph.*;
 import com.syncleus.dann.backprop.*;
-import com.tinkerpop.frames.modules.javahandler.Initializer;
+import com.syncleus.grail.graph.GrailFramedVertex;
 
-public abstract class AbstractActivationNeuron implements ActivationNeuron {
+public abstract class AbstractActivationNeuron extends GrailFramedVertex implements ActivationNeuron {
 
     private ActivationFunction activationFunction;
 
-    @Initializer
+    @Override
     public void init() {
+        super.init();
         this.setActivationFunctionClass(HyperbolicTangentActivationFunction.class);
         this.setActivity(0.0);
     }
@@ -55,7 +56,7 @@ public abstract class AbstractActivationNeuron implements ActivationNeuron {
     @Override
     public void propagate() {
         this.setActivity(0.0);
-        for (final SignalMultiplyingEdge currentSynapse : this.getSourceEdges(BackpropSynapse.class)) {
+        for (final SignalMultiplyingEdge currentSynapse : this.getSourceEdges(AbstractBackpropSynapse.class)) {
             currentSynapse.propagate();
             this.setActivity(this.getActivity() + currentSynapse.getSignal());
         }

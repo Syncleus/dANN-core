@@ -19,17 +19,14 @@
 package com.syncleus.dann;
 
 import com.syncleus.dann.activation.ActivationFunction;
+import com.syncleus.ferma.annotations.Adjacency;
+import com.syncleus.ferma.annotations.Incidence;
+import com.syncleus.ferma.annotations.Property;
 import com.syncleus.grail.graph.*;
 import com.syncleus.grail.graph.action.Action;
 import com.tinkerpop.blueprints.Direction;
-import com.tinkerpop.frames.*;
-import com.tinkerpop.frames.modules.javahandler.*;
-import com.tinkerpop.frames.modules.typedgraph.*;
 
-@TypeValue("ActivationNeuron")
-@JavaHandlerClass(AbstractActivationNeuron.class)
 public interface ActivationNeuron extends SignalNode {
-    @JavaHandler
     @Action("propagate")
     void propagate();
 
@@ -46,10 +43,10 @@ public interface ActivationNeuron extends SignalNode {
     void setActivationFunctionClass(Class<? extends ActivationFunction> activationFunctionClass);
 
     @Adjacency(label="signals", direction= Direction.IN)
-    Iterable<? extends Node> getSources();
+    Iterable<?> getSources();
 
-    @TypedAdjacency(label="signals", direction=Direction.IN)
-    <N extends Node> Iterable<? extends N> getSources(Class<? extends N> type);
+    @Adjacency(label="signals", direction=Direction.IN)
+    <N> Iterable<? extends N> getSources(Class<? extends N> type);
 
     @Adjacency(label="signals", direction=Direction.IN)
     void setSources(Iterable<? extends SignalNode> targets);
@@ -63,17 +60,14 @@ public interface ActivationNeuron extends SignalNode {
     @Adjacency(label="signals", direction=Direction.IN)
     Signaler addSource();
 
-    @TypedAdjacency(label="signals", direction=Direction.IN)
+    @Adjacency(label="signals", direction=Direction.IN)
     <N extends SignalNode> N addSource(Class<? extends N> type);
 
     @Incidence(label = "signals", direction=Direction.IN)
     Iterable<? extends SignalMultiplyingEdge> getSourceEdges();
 
-    @TypedIncidence(label="signals", direction=Direction.IN)
+    @Incidence(label="signals", direction=Direction.IN)
     <E extends SignalMultiplyingEdge> Iterable<? extends E> getSourceEdges(Class<? extends E> type);
-
-    @Incidence(label = "signals", direction=Direction.IN)
-    <E extends SignalMultiplyingEdge> E addSourceEdge(SignalMultiplyingEdge target);
 
     @Incidence(label = "signals", direction=Direction.IN)
     void removeSourceEdge(SignalMultiplyingEdge source);
