@@ -34,6 +34,7 @@ public abstract class AbstractNeuron implements Neuron
 	 * Creates a new instance of NeuronImpl with a RANDOM bias weight and
 	 * HyperbolicTangentActivationFunction as the activation function.
 	 *
+	 * @param brain The brain which contains this neuron.
 	 * @since 1.0
 	 */
 	protected AbstractNeuron(final Brain<InputNeuron, OutputNeuron, Neuron, Synapse<Neuron>> brain)

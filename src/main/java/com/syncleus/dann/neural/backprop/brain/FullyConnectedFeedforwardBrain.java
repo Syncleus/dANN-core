@@ -37,6 +37,10 @@ public final class FullyConnectedFeedforwardBrain<IN extends InputBackpropNeuron
 	/**
 	 * Uses the given threadExecutor for executing tasks.
 	 *
+	 * @param neuronsPerLayer an array of integers, each element in the array specifies a layer and the value of the
+	 *                           integer for that element is the number of neurons in that layer
+	 * @param learningRate the learning rate for the network.
+	 * @param activationFunction the activation function to use for all neurons in the network.
 	 * @param threadExecutor executor to use for executing tasks.
 	 * @since 2.0
 	 */
@@ -53,6 +57,10 @@ public final class FullyConnectedFeedforwardBrain<IN extends InputBackpropNeuron
 	 * Default constructor initializes a default threadExecutor based on the number
 	 * of processors.
 	 *
+	 * @param neuronsPerLayer an array of integers, each element in the array specifies a layer and the value of the
+	 *                           integer for that element is the number of neurons in that layer
+	 * @param learningRate the learning rate for the network.
+	 * @param activationFunction the activation function to use for all neurons in the network.
 	 * @since 2.0
 	 */
 	public FullyConnectedFeedforwardBrain(final int[] neuronsPerLayer, final double learningRate, final ActivationFunction activationFunction)

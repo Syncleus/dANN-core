@@ -28,10 +28,10 @@ import com.syncleus.dann.math.linear.Matrix;
 
 /**
  * Cholesky Decomposition.
- * <p/>
+ *
  * For a symmetric, positive definite matrix A, the Cholesky decomposition is an
  * lower triangular matrix L so that A = L*L'.
- * <p/>
+ *
  * If the matrix is not symmetric or positive definite, the constructor returns
  * a partial decomposition and sets an internal flag that may be queried by the
  * isSpd() method.
