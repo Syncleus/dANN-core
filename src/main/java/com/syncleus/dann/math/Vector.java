@@ -112,6 +112,7 @@ public class Vector implements Serializable
 	/**
 	 * Sets the specified coordinate.
 	 *
+	 * @return returns a new vector with the new coordinate set.
 	 * @param coordinate The new value to set for the coordinate.
 	 * @param dimension The dimension of the coordinate to set.
 	 * @throws IllegalArgumentException Thrown if the coordinate is less than or
@@ -153,6 +154,7 @@ public class Vector implements Serializable
 	 * before this method was called if the distance argument is positive. If
 	 * the distance argument is negative it will invert the vector as well.
 	 *
+	 * @return returns a new vector with the new distance set.
 	 * @param distance The new distance for this vector.
 	 * @since 1.0
 	 */
@@ -175,6 +177,7 @@ public class Vector implements Serializable
 	 * representation of this point. It will keep the other angles and distance
 	 * component close to the same.
 	 *
+	 * @return returns a new vector with the new angle set.
 	 * @param angle New angle to set.
 	 * @param dimension Dimension of the angle you want to set.
 	 * @throws IllegalArgumentException Thrown if dimension is less than or

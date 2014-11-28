@@ -23,14 +23,14 @@ import com.syncleus.dann.math.linear.Matrix;
 
 /**
  * matrixToDecomposeElements Decomposition.
- * <p/>
- * For an height-by-width matrix matrixToDecompose with height >= width, the
+ *
+ * For an height-by-width matrix matrixToDecompose with height &gt;= width, the
  * matrixToDecomposeElements decomposition is an height-by-width unit lower
  * triangular matrix lowerTriangularFactor, an width-by-width upper triangular
  * matrix U, and a permutation vector pivot of length height so that
- * matrixToDecompose(pivot,:) = lowerTriangularFactor*U. If height < width, then
+ * matrixToDecompose(pivot,:) = lowerTriangularFactor*U. If height &lt; width, then
  * lowerTriangularFactor is height-by-height and U is height-by-width.
- * <p/>
+ *
  * The matrixToDecomposeElements decompostion with pivoting always exists, even
  * if the matrix is singular, so the constructor will never fail.  The primary
  * use of the matrixToDecomposeElements decomposition is in the solution of

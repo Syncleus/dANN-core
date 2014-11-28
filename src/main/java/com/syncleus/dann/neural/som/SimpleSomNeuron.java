@@ -42,6 +42,7 @@ public class SimpleSomNeuron extends AbstractNeuron implements SomOutputNeuron
 	/**
 	 * Creates a default SimpleSomNeuron.
 	 *
+	 * @param brain The brain which contains this neuron.
 	 * @since 2.0
 	 */
 	public SimpleSomNeuron(final Brain brain)

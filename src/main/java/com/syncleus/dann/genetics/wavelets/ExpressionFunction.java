@@ -172,7 +172,9 @@ public class ExpressionFunction implements Cloneable
 	}
 
 	/**
-	 * Internally mutates.<br/> <br/> may change in any of the following ways:<br/>
+	 * Internally mutates.
+	 *
+	 * may change in any of the following ways:
 	 * <ul> <li>add a new bound wave</li> <li>copy an existing wave and mutates it
 	 * adding the new mutated wave</li> <li>delete an existing wave</li>
 	 * <li>removing a signal</li> <li>Do nothing</li> </ul>
@@ -239,8 +241,10 @@ public class ExpressionFunction implements Cloneable
 	}
 
 	/**
-	 * Mutates by incorporating a new signal into the mutated result.<br/> <br/>
-	 * May mutate by:<br/> <ul> <li>adding the new signal</li> </ul>
+	 * Mutates by incorporating a new signal into the mutated result.
+	 *
+	 * May mutate by:
+	 * <ul> <li>adding the new signal</li> </ul>
 	 *
 	 * @param newReceptor The new receptor to possibly incorporate into mutation
 	 * @param deviation RANDOM deviation for mutation.

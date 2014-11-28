@@ -26,6 +26,8 @@ public interface OrderedFieldElement<F extends OrderedFieldElement<? extends F>>
 	/**
 	 * Returns a constant holding the maximum value a field of this type can
 	 * have.
+	 *
+	 * @param value the field type which to evaluate
 	 * @return the maximum value a field of this type can have.
 	 */
 	F max(F value);
@@ -33,6 +35,8 @@ public interface OrderedFieldElement<F extends OrderedFieldElement<? extends F>>
 	/**
 	 * Returns a constant holding the minimum value a field of this type can
 	 * have.
+	 *
+	 * @param value the field type which to evaluate
 	 * @return the minimum value a field of this type can have.
 	 */
 	F min(F value);

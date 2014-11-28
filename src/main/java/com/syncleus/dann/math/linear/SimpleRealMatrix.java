@@ -42,13 +42,15 @@ import org.apache.log4j.Logger;
  * Methods for reading and printing matrices are also included.  All the
  * operations in this version of the SimpleRealMatrix Class involve real
  * matrices. Complex matrices may be handled in a future version.
- * <p/>
+ * 
  * Five fundamental matrix decompositions, which consist of pairs or triples of
  * matrices, permutation vectors, and the like, produce results in five
  * decomposition classes.  These decompositions are accessed by the
  * SimpleRealMatrix class to compute solutions of simultaneous linear equations,
  * determinants, inverses and other matrix functions. The five decompositions
- * are: <P><UL> <LI>Cholesky Decomposition of symmetric, positive definite
+ * are:
+ *
+ * <UL> <LI>Cholesky Decomposition of symmetric, positive definite
  * matrices. <LI>LU Decomposition of rectangular matrices. <LI>QR Decomposition
  * of rectangular matrices. <LI>Singular Value Decomposition of rectangular
  * matrices. <LI>Eigenvalue Decomposition of both symmetric and non-symmetric
@@ -165,6 +167,7 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 	/**
 	 * Construct a matrix from a copy of a 2-D array.
 	 *
+	 * @return a new matrix copying the elements specified.
 	 * @param matrixElements Two-dimensional array of doubles.
 	 * @throws IllegalArgumentException All rows must have the same length
 	 */
@@ -175,6 +178,8 @@ public class SimpleRealMatrix implements Cloneable, Serializable, RealMatrix
 
 	/**
 	 * Creates a deep copy of a matrix.
+	 *
+	 * @return A new RealMatrix representing a deep copy of this matrix.
 	 */
 	public RealMatrix copy()
 	{

@@ -63,6 +63,9 @@ public abstract class AbstractAdjacencyGraph<N, E extends TraversableCloud<N>> i
 
 	/**
 	 * Creates a new AbstractAdjacencyGraph with no edges and no adjacencies.
+	 *
+	 * @param contextEnabled determines if element context is enabled or not. If enabled then nodes and edges can
+	 *                       be alerted to changes in their graph topology.
 	 */
 	protected AbstractAdjacencyGraph(final boolean contextEnabled)
 	{
@@ -82,6 +85,9 @@ public abstract class AbstractAdjacencyGraph<N, E extends TraversableCloud<N>> i
 
 	/**
 	 * Creates a new AbstractAdjacencyGraph as a copy of the current Graph.
+	 *
+	 * @param contextEnabled determines if element context is enabled or not. If enabled then nodes and edges can
+	 *                       be alerted to changes in their graph topology.
 	 * @param copyGraph The Graph to copy
 	 */
 	protected AbstractAdjacencyGraph(final Graph<N, E> copyGraph, final boolean contextEnabled)
@@ -108,6 +114,8 @@ public abstract class AbstractAdjacencyGraph<N, E extends TraversableCloud<N>> i
 	 * the given list of ourEdges.
 	 * The adjacency lists are created from this structure.
 	 *
+	 * @param contextEnabled determines if element context is enabled or not. If enabled then nodes and edges can
+	 *                       be alerted to changes in their graph topology.
 	 * @param attemptNodes The set of all nodes
 	 * @param attemptEdges The set of all ourEdges
 	 */

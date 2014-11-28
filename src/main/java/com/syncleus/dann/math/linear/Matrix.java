@@ -38,6 +38,7 @@ public interface Matrix<M extends Matrix<? extends M, ? extends F>, F extends Fi
 	/**
 	 * Set a single element.
 	 *
+	 * @return a matrix of the specified dimensions.
 	 * @param heightIndex Row index.
 	 * @param widthIndex Column index.
 	 * @param fillValue value to set

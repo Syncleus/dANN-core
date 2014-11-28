@@ -36,6 +36,7 @@ public interface KnotOptimizedGraph<N, E extends TraversableCloud<N>> extends Gr
 	 * connected component of the graph it is weakly connected amongst itself.
 	 *
 	 * @param knotedNodes A set of nodes to check if they form a knot.
+	 * @param knotedEdges A set of edges to check if they form a knot.
 	 * @return true if the specified nodes can be traversed to from outside of the
 	 *         set, and once the set is entered there is no path to traverse
 	 *         outside of the set.

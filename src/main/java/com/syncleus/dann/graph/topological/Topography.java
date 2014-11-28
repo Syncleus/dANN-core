@@ -52,6 +52,10 @@ public final class Topography
 	 * connect once to this edge and to one or more other nodes, counting once towards the
 	 * degree. However, loop edges can connect twice or more to this node counting multiple
 	 * times.
+	 *
+	 * @param <N> The type of node allowed in the graph
+	 * @param <E> The type of edge allowed in the graph
+	 * @param graph The graph to check
 	 * @param node The node whose degree is to be returned
 	 * @return The degree of this node
 	 * @see com.syncleus.dann.graph.topological.Topography#getDegree(Graph,Object)
@@ -100,6 +104,10 @@ public final class Topography
 	 * Determines whether this graph is strongly connected.
 	 * A graph is strongly connected if, and only if every node is strongly
 	 * connected to every other node.
+	 *
+	 * @param <N> The type of node allowed in the graph
+	 * @param <E> The type of edge allowed in the graph
+	 * @param graph The graph to check
 	 * @return whether this graph is strongly connected
 	 * @see com.syncleus.dann.graph.topological.Topography#isStronglyConnected(Graph)
 	 */
@@ -129,6 +137,10 @@ public final class Topography
 	/**
 	 * Determines whether this graph is weakly connected. A graph is weakly connected if
 	 * there is only one node or every node is weakly connected to every other node.
+	 *
+	 * @param <N> The type of node allowed in the graph
+	 * @param <E> The type of edge allowed in the graph
+	 * @param graph The graph to check
 	 * @return If this graph is weakly connected
 	 * @see com.syncleus.dann.graph.topological.Topography#isWeaklyConnected(Graph)
 	 */
@@ -162,9 +174,13 @@ public final class Topography
 	/**
 	 * Determines whether two nodes are weakly connected. Nodes are weakly connected if
 	 * there is some path from the left node to the right node, across any adjacent nodes.
-	 * Assume that the hypothetical <pre>A->B</pre> graph is directional. This graph
+	 * Assume that the hypothetical A-&gt;B graph is directional. This graph
 	 * would have a strong connection from A to B, but only a weak connection from B to A.
 	 * This graph would, therefore, be weakly connected overall, but not strongly connected overall.
+	 *
+	 * @param <N> The type of node allowed in the graph
+	 * @param <E> The type of edge allowed in the graph
+	 * @param graph The graph to check
 	 * @param leftNode The left node
 	 * @param rightNode The right node
 	 * @return Whether there is any connection between the two nodes
@@ -212,6 +228,10 @@ public final class Topography
 	 * if there is some path from the left node to the right node, across any traversable
 	 * nodes. See <code>isWeaklyConnected(N,N)</code> for an example of weak versus strong
 	 * connections.
+	 *
+	 * @param <N> The type of node allowed in the graph
+	 * @param <E> The type of edge allowed in the graph
+	 * @param graph The graph to check
 	 * @param leftNode The first node to check
 	 * @param rightNode The second node to check
 	 * @return Whether these nodes are strongly connected
@@ -254,6 +274,10 @@ public final class Topography
 	 * Gets the set of maximally-connected components from a graph. The maximally-connected
 	 * components are those with the most connections to other nodes.
 	 * NOTE: This method currently returns null.
+	 *
+	 * @param <N> The type of node allowed in the graph
+	 * @param <E> The type of edge allowed in the graph
+	 * @param graph The graph to check
 	 * @return <code>null</code>
 	 * @see com.syncleus.dann.graph.topological.Topography#getMaximallyConnectedComponents(Graph)
 	 */
@@ -280,7 +304,11 @@ public final class Topography
 	 * Determines whether the given graph is a maximal subgraph of the current graph.
 	 * A subgraph is maximal if none of the edges of the parent graph not in the subgraph
 	 * connect to any nodes in the subgraph.
-	 * @param subGraph A subgraph of this graph to be checked if maximally
+	 *
+	 * @param <N> The type of node allowed in the graph
+	 * @param <E> The type of edge allowed in the graph
+	 * @param graph The graph to check
+	 * @param subGraph A subgraph of the graph to be checked if maximally
 	 * connected.
 	 * @return Whether this is a maximal subgraph
 	 * @see com.syncleus.dann.graph.topological.Topography#isMaximalSubgraph(Graph, Graph)
@@ -750,6 +778,9 @@ public final class Topography
 	 * Simple graphs can not have two nodes connected by two edges differing only
 	 * by its direction/navigability.
 	 *
+	 * @param <N> The type of node allowed in the graph
+	 * @param <E> The type of edge allowed in the graph
+	 * @param graph The graph to check
 	 * @return true if graph has no loops, and all edges have a multiplicity of 0.
 	 * @since 2.0
 	 * @see com.syncleus.dann.graph.topological.Topography#isSimple(Graph)
@@ -783,6 +814,9 @@ public final class Topography
 	 * Determines if every node in this graph has the same degree. If there are no
 	 * nodes in the graph this will return true.
 	 *
+	 * @param <N> The type of node allowed in the graph
+	 * @param <E> The type of edge allowed in the graph
+	 * @param graph The graph to check
 	 * @return true if every node in this graph has the same degree or there are no
 	 *         nodes, false otherwise.
 	 * @since 2.0
@@ -816,6 +850,10 @@ public final class Topography
 
 	/**
 	 * Gets the degree of the regular graph.
+	 *
+	 * @param <N> The type of node allowed in the graph
+	 * @param <E> The type of edge allowed in the graph
+	 * @param graph The graph to check
 	 * @throws IllegalStateException If this graph has no nodes, or the graph is not regular
 	 * @return The degree of the regular graph
 	 * @see com.syncleus.dann.graph.topological.Topography#getRegularDegree(Graph)
@@ -854,6 +892,9 @@ public final class Topography
 	 * Determined the largest multiplicty of any node in the graph and return it.
 	 * Returns 0 if there are no edges.
 	 *
+	 * @param <N> The type of node allowed in the graph
+	 * @param <E> The type of edge allowed in the graph
+	 * @param graph The graph to check
 	 * @return the largest multiplicty of any node in the graph and return it.
 	 * @since 2.0
 	 * @see com.syncleus.dann.graph.topological.Topography#getMultiplicity(Graph)
@@ -887,6 +928,9 @@ public final class Topography
 	 * Calculates the number of edges in the graph with the exact set of end nodes
 	 * as the specified edge, not including the specified edge itself.
 	 *
+	 * @param <N> The type of node allowed in the graph
+	 * @param <E> The type of edge allowed in the graph
+	 * @param graph The graph to check
 	 * @param edge the edge of which the multiplicity is to be calculated.
 	 * @return the number of edges in the graph with the exact set of end nodes as
 	 *         the specified edge, not including the specified edge itself.
@@ -936,6 +980,9 @@ public final class Topography
 	 * with the exact same set of nodes, no more and no less, then returns true,
 	 * otherwise false.
 	 *
+	 * @param <N> The type of node allowed in the graph
+	 * @param <E> The type of edge allowed in the graph
+	 * @param graph The graph to check
 	 * @param edge the edge to check if it is multiple.
 	 * @return true if there is another edge in the graph with the exact same set
 	 *         of nodes.
@@ -989,6 +1036,9 @@ public final class Topography
 	 *
 	 * NOTE: This method always returns false.
 	 *
+	 * @param <N> The type of node allowed in the graph
+	 * @param <E> The type of edge allowed in the graph
+	 * @param graph The graph to check
 	 * @param knotedNodes A set of nodes to check if they form a knot.
 	 * @return false
 	 * @since 2.0
@@ -1167,6 +1217,10 @@ public final class Topography
 	 * Removes a set of nodes and a set of edges from the given graph.
 	 * First, it removes all nodes from the graph.
 	 * Then, it removes all edges in the edges to remove that are not connected to the given node.
+	 *
+	 * @param <N> The type of node allowed in the graph
+	 * @param <E> The type of edge allowed in the graph
+	 * @param graph The graph to check
 	 * @param deleteNodes The nodes to remove
 	 * @param deleteEdges The edges to remove in addition to the nodes
 	 * @return an ImmutableAdjacencyGraph with the given nodes and edges removed
