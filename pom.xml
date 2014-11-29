@@ -18,9 +18,9 @@
 
     <properties>
         <project.build.encoding>UTF-8</project.build.encoding>
-        <project.build.sourceEncoding>${project.build.encoding}</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>${project.build.encoding}</project.reporting.outputEncoding>
-        <project.build.resourceEncoding>${project.build.encoding}</project.build.resourceEncoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
     </properties>
 
 	<name>dANN Core library</name>
@@ -28,11 +28,9 @@
     <url>http://wiki.syncleus.com/index.php/DANN</url>
 
     <scm>
-        <connection>scm:git:git://git.syncleus.com/dANN-core</connection>
-        <developerConnection>scm:git:ssh://git.syncleus.com/dANN-core</developerConnection>
+        <connection>scm:git:http://gerrit.syncleus.com/dANN-core</connection>
+        <developerConnection>scm:git:ssh://gerrit.syncleus.com:29418/dANN-core</developerConnection>
     </scm>
-
-
 
     <mailingLists>
 		<mailingList>
@@ -70,8 +68,6 @@
             </snapshots>
         </repository>
     </repositories>
-
-
 
 	<build>
         <defaultGoal>package</defaultGoal>
