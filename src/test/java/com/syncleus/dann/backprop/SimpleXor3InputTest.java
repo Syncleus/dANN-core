@@ -20,7 +20,6 @@ package com.syncleus.dann.backprop;
 
 import com.syncleus.dann.BlankGraphFactory;
 import com.syncleus.dann.activation.*;
-import com.syncleus.ferma.FramedVertex;
 import com.syncleus.grail.graph.GrailGraph;
 import com.tinkerpop.frames.*;
 import org.junit.*;
@@ -49,18 +48,18 @@ public class SimpleXor3InputTest {
         //connect all input neurons to hidden neurons
         for( BackpropNeuron inputNeuron : newInputNeurons ) {
             for( BackpropNeuron hiddenNeuron : newHiddenNeurons ) {
-                graph.addFramedEdge((FramedVertex) inputNeuron, (FramedVertex) hiddenNeuron, "signals", AbstractBackpropSynapse.class);
+                graph.addFramedEdge(inputNeuron, hiddenNeuron, "signals", AbstractBackpropSynapse.class);
             }
         }
         //connect all hidden neurons to the output neuron
         for( BackpropNeuron hiddenNeuron : newHiddenNeurons ) {
-            graph.addFramedEdge((FramedVertex) hiddenNeuron, (FramedVertex) newOutputNeuron, "signals", AbstractBackpropSynapse.class);
+            graph.addFramedEdge(hiddenNeuron, newOutputNeuron, "signals", AbstractBackpropSynapse.class);
 
             //create bias connection
-            graph.addFramedEdge((FramedVertex) biasNeuron, (FramedVertex) hiddenNeuron, "signals", AbstractBackpropSynapse.class);
+            graph.addFramedEdge(biasNeuron, hiddenNeuron, "signals", AbstractBackpropSynapse.class);
         }
         //create bias neuron for output neuron
-        graph.addFramedEdge((FramedVertex) biasNeuron, (FramedVertex) newOutputNeuron, "signals", AbstractBackpropSynapse.class);
+        graph.addFramedEdge(biasNeuron, newOutputNeuron, "signals", AbstractBackpropSynapse.class);
         graph.commit();
 
         for(int i = 0; i < 10000 ; i++) {
@@ -116,48 +115,48 @@ public class SimpleXor3InputTest {
     private static void train(final GrailGraph graph, final double input1, final double input2, final double input3, final double expected) {
         SimpleXor3InputTest.propagate(graph, input1, input2, input3);
 
-        final Iterator<AbstractBackpropNeuron> outputNeurons = graph.getFramedVertices("layer", "output", AbstractBackpropNeuron.class).iterator();
+        final Iterator<? extends AbstractBackpropNeuron> outputNeurons = graph.getFramedVertices("layer", "output", AbstractBackpropNeuron.class).iterator();
         final BackpropNeuron outputNeuron = outputNeurons.next();
         Assert.assertTrue(!outputNeurons.hasNext());
         outputNeuron.setDeltaTrain((expected - outputNeuron.getSignal()) * activationFunction.activateDerivative(outputNeuron.getActivity()) );
         graph.commit();
 
-        final Iterator<AbstractBackpropNeuron> hiddenNeurons = graph.getFramedVertices("layer", "hidden", AbstractBackpropNeuron.class).iterator();
+        final Iterator<? extends AbstractBackpropNeuron> hiddenNeurons = graph.getFramedVertices("layer", "hidden", AbstractBackpropNeuron.class).iterator();
         hiddenNeurons.next().backpropagate();
         hiddenNeurons.next().backpropagate();
         hiddenNeurons.next().backpropagate();
         Assert.assertTrue(!hiddenNeurons.hasNext());
         graph.commit();
 
-        final Iterator<AbstractBackpropNeuron> inputNeurons = graph.getFramedVertices("layer", "input", AbstractBackpropNeuron.class).iterator();
+        final Iterator<? extends AbstractBackpropNeuron> inputNeurons = graph.getFramedVertices("layer", "input", AbstractBackpropNeuron.class).iterator();
         inputNeurons.next().backpropagate();
         inputNeurons.next().backpropagate();
         inputNeurons.next().backpropagate();
         Assert.assertTrue(!inputNeurons.hasNext());
         graph.commit();
 
-        final Iterator<AbstractBackpropNeuron> biasNeurons = graph.getFramedVertices("layer", "bias", AbstractBackpropNeuron.class).iterator();
+        final Iterator<? extends AbstractBackpropNeuron> biasNeurons = graph.getFramedVertices("layer", "bias", AbstractBackpropNeuron.class).iterator();
         biasNeurons.next().backpropagate();
         Assert.assertTrue(!biasNeurons.hasNext());
         graph.commit();
     }
 
     private static double propagate(final GrailGraph graph, final double input1, final double input2, final double input3) {
-        final Iterator<AbstractBackpropNeuron> inputNeurons = graph.getFramedVertices("layer", "input", AbstractBackpropNeuron.class).iterator();
+        final Iterator<? extends AbstractBackpropNeuron> inputNeurons = graph.getFramedVertices("layer", "input", AbstractBackpropNeuron.class).iterator();
         inputNeurons.next().setSignal(input1);
         inputNeurons.next().setSignal(input2);
         inputNeurons.next().setSignal(input3);
         Assert.assertTrue(!inputNeurons.hasNext());
         graph.commit();
 
-        final Iterator<AbstractBackpropNeuron> hiddenNeurons = graph.getFramedVertices("layer", "hidden", AbstractBackpropNeuron.class).iterator();
+        final Iterator<? extends AbstractBackpropNeuron> hiddenNeurons = graph.getFramedVertices("layer", "hidden", AbstractBackpropNeuron.class).iterator();
         hiddenNeurons.next().propagate();
         hiddenNeurons.next().propagate();
         hiddenNeurons.next().propagate();
         Assert.assertTrue(!hiddenNeurons.hasNext());
         graph.commit();
 
-        final Iterator<AbstractBackpropNeuron> outputNeurons = graph.getFramedVertices("layer", "output", AbstractBackpropNeuron.class).iterator();
+        final Iterator<? extends AbstractBackpropNeuron> outputNeurons = graph.getFramedVertices("layer", "output", AbstractBackpropNeuron.class).iterator();
         final BackpropNeuron outputNeuron = outputNeurons.next();
         Assert.assertTrue(!outputNeurons.hasNext());
         outputNeuron.propagate();
@@ -167,7 +166,7 @@ public class SimpleXor3InputTest {
 
     private static BackpropNeuron createNeuron(final GrailGraph graph, final String layer) {
         final BackpropNeuron neuron = graph.addFramedVertex(AbstractBackpropNeuron.class);
-        ((FramedVertex)neuron).setProperty("layer", layer);
+        neuron.setProperty("layer", layer);
         return neuron;
     }
 }

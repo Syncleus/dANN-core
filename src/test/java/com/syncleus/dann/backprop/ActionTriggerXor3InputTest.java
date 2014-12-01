@@ -20,7 +20,6 @@ package com.syncleus.dann.backprop;
 
 import com.syncleus.dann.BlankGraphFactory;
 import com.syncleus.dann.activation.*;
-import com.syncleus.ferma.FramedVertex;
 import com.syncleus.grail.graph.GrailGraph;
 import com.syncleus.grail.graph.action.*;
 import org.junit.*;
@@ -54,18 +53,18 @@ public class ActionTriggerXor3InputTest {
         //connect all input neurons to hidden neurons
         for (final BackpropNeuron inputNeuron : newInputNeurons) {
             for (final BackpropNeuron hiddenNeuron : newHiddenNeurons) {
-                graph.addFramedEdge((FramedVertex) inputNeuron, (FramedVertex) hiddenNeuron, "signals", AbstractBackpropSynapse.class);
+                graph.addFramedEdge(inputNeuron, hiddenNeuron, "signals", AbstractBackpropSynapse.class);
             }
         }
         //connect all hidden neurons to the output neuron
         for (final BackpropNeuron hiddenNeuron : newHiddenNeurons) {
-            graph.addFramedEdge((FramedVertex) hiddenNeuron, (FramedVertex) newOutputNeuron, "signals", AbstractBackpropSynapse.class);
+            graph.addFramedEdge(hiddenNeuron, newOutputNeuron, "signals", AbstractBackpropSynapse.class);
 
             //create bias neuron
-            graph.addFramedEdge((FramedVertex) biasNeuron, (FramedVertex) hiddenNeuron, "signals", AbstractBackpropSynapse.class);
+            graph.addFramedEdge(biasNeuron, hiddenNeuron, "signals", AbstractBackpropSynapse.class);
         }
         //create bias neuron for output neuron
-        graph.addFramedEdge((FramedVertex) biasNeuron, (FramedVertex) newOutputNeuron, "signals", AbstractBackpropSynapse.class);
+        graph.addFramedEdge(biasNeuron, newOutputNeuron, "signals", AbstractBackpropSynapse.class);
 
         //
         //Construct the Action Triggers for the neural Graph
@@ -73,22 +72,22 @@ public class ActionTriggerXor3InputTest {
         //First lets handle the output layer for propagation
         final PrioritySerialTrigger propagateOutputTrigger = ActionTriggerXor3InputTest.createPrioritySerialTrigger(graph);
         //connect it to the output neuron with a priority of 0 (highest priority)
-        final PrioritySerialTriggerEdge outputTriggerEdge = graph.addFramedEdge((FramedVertex) propagateOutputTrigger, (FramedVertex) newOutputNeuron, "triggers", PrioritySerialTriggerEdge.class);
+        final PrioritySerialTriggerEdge outputTriggerEdge = graph.addFramedEdge(propagateOutputTrigger, newOutputNeuron, "triggers", PrioritySerialTriggerEdge.class);
         outputTriggerEdge.setTriggerPriority(1000);
         outputTriggerEdge.setTriggerAction("propagate");
 
         //now lets handle the hidden layer for propagation
         final PrioritySerialTrigger propagateHiddenTrigger = ActionTriggerXor3InputTest.createPrioritySerialTrigger(graph);
-        ((FramedVertex)propagateHiddenTrigger).setProperty("triggerPointer", "propagate");
+        propagateHiddenTrigger.setProperty("triggerPointer", "propagate");
         //connect it to each of the hidden neurons with a priority of 0 (highest priority)
         for (final BackpropNeuron hiddenNeuron : newHiddenNeurons) {
-            final PrioritySerialTriggerEdge newEdge = graph.addFramedEdge((FramedVertex) propagateHiddenTrigger, (FramedVertex) hiddenNeuron, "triggers", PrioritySerialTriggerEdge.class);
+            final PrioritySerialTriggerEdge newEdge = graph.addFramedEdge(propagateHiddenTrigger, hiddenNeuron, "triggers", PrioritySerialTriggerEdge.class);
             newEdge.setTriggerPriority(1000);
             newEdge.setTriggerAction("propagate");
         }
 
         //chain the prop[agation of the hidden layer to the propagation of the output layer, but make sure it has less of a priority than the other triggers
-        final PrioritySerialTriggerEdge chainTriggerPropagateEdge = graph.addFramedEdge((FramedVertex) propagateHiddenTrigger, (FramedVertex) propagateOutputTrigger, "triggers", PrioritySerialTriggerEdge.class);
+        final PrioritySerialTriggerEdge chainTriggerPropagateEdge = graph.addFramedEdge(propagateHiddenTrigger, propagateOutputTrigger, "triggers", PrioritySerialTriggerEdge.class);
         chainTriggerPropagateEdge.setTriggerPriority(0);
         chainTriggerPropagateEdge.setTriggerAction("actionTrigger");
 
@@ -96,27 +95,27 @@ public class ActionTriggerXor3InputTest {
         final PrioritySerialTrigger backpropInputTrigger = ActionTriggerXor3InputTest.createPrioritySerialTrigger(graph);
         //connect it to each of the input neurons
         for (final BackpropNeuron inputNeuron : newInputNeurons) {
-            final PrioritySerialTriggerEdge newEdge = graph.addFramedEdge((FramedVertex) backpropInputTrigger, (FramedVertex) inputNeuron, "triggers", PrioritySerialTriggerEdge.class);
+            final PrioritySerialTriggerEdge newEdge = graph.addFramedEdge(backpropInputTrigger, inputNeuron, "triggers", PrioritySerialTriggerEdge.class);
             newEdge.setTriggerPriority(1000);
             newEdge.setTriggerAction("backpropagate");
         }
         //also connect it to all the bias neurons
-        final PrioritySerialTriggerEdge biasTriggerBackpropEdge = graph.addFramedEdge((FramedVertex) backpropInputTrigger, (FramedVertex) biasNeuron, "triggers", PrioritySerialTriggerEdge.class);
+        final PrioritySerialTriggerEdge biasTriggerBackpropEdge = graph.addFramedEdge(backpropInputTrigger, biasNeuron, "triggers", PrioritySerialTriggerEdge.class);
         biasTriggerBackpropEdge.setTriggerPriority(1000);
         biasTriggerBackpropEdge.setTriggerAction("backpropagate");
 
         //create backpropagation trigger for the hidden layer
         final PrioritySerialTrigger backpropHiddenTrigger = ActionTriggerXor3InputTest.createPrioritySerialTrigger(graph);
-        ((FramedVertex)backpropHiddenTrigger).setProperty("triggerPointer", "backpropagate");
+        backpropHiddenTrigger.setProperty("triggerPointer", "backpropagate");
         //connect it to each of the hidden neurons with a priority of 0 (highest priority)
         for (final BackpropNeuron hiddenNeuron : newHiddenNeurons) {
-            final PrioritySerialTriggerEdge newEdge = graph.addFramedEdge((FramedVertex) backpropHiddenTrigger, (FramedVertex) hiddenNeuron, "triggers", PrioritySerialTriggerEdge.class);
+            final PrioritySerialTriggerEdge newEdge = graph.addFramedEdge(backpropHiddenTrigger, hiddenNeuron, "triggers", PrioritySerialTriggerEdge.class);
             newEdge.setTriggerPriority(1000);
             newEdge.setTriggerAction("backpropagate");
         }
 
         //chain the hidden layers back propagation to the input layers trigger
-        final PrioritySerialTriggerEdge chainTriggerBackpropEdge = graph.addFramedEdge((FramedVertex) backpropHiddenTrigger, (FramedVertex) backpropInputTrigger, "triggers", PrioritySerialTriggerEdge.class);
+        final PrioritySerialTriggerEdge chainTriggerBackpropEdge = graph.addFramedEdge(backpropHiddenTrigger, backpropInputTrigger, "triggers", PrioritySerialTriggerEdge.class);
         chainTriggerBackpropEdge.setTriggerPriority(0);
         chainTriggerBackpropEdge.setTriggerAction("actionTrigger");
 
@@ -167,25 +166,25 @@ public class ActionTriggerXor3InputTest {
     private static void train(final GrailGraph graph, final double input1, final double input2, final double input3, final double expected) {
         ActionTriggerXor3InputTest.propagate(graph, input1, input2, input3);
 
-        final Iterator<AbstractBackpropNeuron> outputNeurons = graph.getFramedVertices("layer", "output", AbstractBackpropNeuron.class).iterator();
+        final Iterator<? extends AbstractBackpropNeuron> outputNeurons = graph.getFramedVertices("layer", "output", AbstractBackpropNeuron.class).iterator();
         final BackpropNeuron outputNeuron = outputNeurons.next();
         Assert.assertTrue(!outputNeurons.hasNext());
         outputNeuron.setDeltaTrain((expected - outputNeuron.getSignal()) * ACTIVATION_FUNCTION.activateDerivative(outputNeuron.getActivity()));
 
-        final Iterator<PrioritySerialTrigger> backpropTriggers = graph.getFramedVertices("triggerPointer", "backpropagate", PrioritySerialTrigger.class).iterator();
+        final Iterator<? extends PrioritySerialTrigger> backpropTriggers = graph.getFramedVertices("triggerPointer", "backpropagate", PrioritySerialTrigger.class).iterator();
         final PrioritySerialTrigger backpropTrigger = backpropTriggers.next();
         Assert.assertTrue(!backpropTriggers.hasNext());
         backpropTrigger.trigger();
     }
 
     private static double propagate(final GrailGraph graph, final double input1, final double input2, final double input3) {
-        final Iterator<BackpropNeuron> inputNeurons = graph.getFramedVertices("layer", "input", BackpropNeuron.class).iterator();
+        final Iterator<? extends BackpropNeuron> inputNeurons = graph.getFramedVertices("layer", "input", BackpropNeuron.class).iterator();
         inputNeurons.next().setSignal(input1);
         inputNeurons.next().setSignal(input2);
         inputNeurons.next().setSignal(input3);
         Assert.assertTrue(!inputNeurons.hasNext());
 
-        final Iterator<AbstractPrioritySerialTrigger> propagateTriggers = graph.getFramedVertices("triggerPointer", "propagate", AbstractPrioritySerialTrigger.class).iterator();
+        final Iterator<? extends AbstractPrioritySerialTrigger> propagateTriggers = graph.getFramedVertices("triggerPointer", "propagate", AbstractPrioritySerialTrigger.class).iterator();
         final PrioritySerialTrigger propagateTrigger = propagateTriggers.next();
         Assert.assertTrue(!propagateTriggers.hasNext());
         try {
@@ -195,7 +194,7 @@ public class ActionTriggerXor3InputTest {
             throw caught;
         }
 
-        final Iterator<AbstractBackpropNeuron> outputNeurons = graph.getFramedVertices("layer", "output", AbstractBackpropNeuron.class).iterator();
+        final Iterator<? extends AbstractBackpropNeuron> outputNeurons = graph.getFramedVertices("layer", "output", AbstractBackpropNeuron.class).iterator();
         final BackpropNeuron outputNeuron = outputNeurons.next();
         Assert.assertTrue(!outputNeurons.hasNext());
         return outputNeuron.getSignal();
@@ -203,7 +202,7 @@ public class ActionTriggerXor3InputTest {
 
     private static BackpropNeuron createNeuron(final GrailGraph graph, final String layer) {
         final BackpropNeuron neuron = graph.addFramedVertex(AbstractBackpropNeuron.class);
-        ((FramedVertex)neuron).setProperty("layer", layer);
+        neuron.setProperty("layer", layer);
         return neuron;
     }
 

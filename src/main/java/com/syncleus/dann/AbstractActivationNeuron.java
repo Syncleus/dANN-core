@@ -21,9 +21,8 @@ package com.syncleus.dann;
 import com.syncleus.dann.activation.*;
 import com.syncleus.grail.graph.*;
 import com.syncleus.dann.backprop.*;
-import com.syncleus.grail.graph.GrailFramedVertex;
 
-public abstract class AbstractActivationNeuron extends GrailFramedVertex implements ActivationNeuron {
+public abstract class AbstractActivationNeuron extends AbstractGrailVertexFrame implements ActivationNeuron {
 
     private ActivationFunction activationFunction;
 
