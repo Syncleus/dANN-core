@@ -29,7 +29,6 @@ import org.junit.Test;
 
 public class NestedXor2InputTest {
     private static final ActivationFunction ACTIVATION_FUNCTION = new HyperbolicTangentActivationFunction();
-    //PrioritySerialTrigger propagateTrigger;
 
     @Test
     public void testNestedXor() {
@@ -89,49 +88,6 @@ public class NestedXor2InputTest {
         triggerEdge = graph.addFramedEdge(backpropagateTrigger, hiddenLayer, "triggers", PrioritySerialTriggerEdge.class);
         triggerEdge.setTriggerAction("backpropagate");
         triggerEdge.setTriggerPriority(3);
-        
-
-        /*
-        final List<BackpropNeuron> newInputNeurons = new ArrayList<BackpropNeuron>(2);
-        newInputNeurons.add(createNeuron(graph, "input"));
-        newInputNeurons.add(createNeuron(graph, "input"));
-        final List<BackpropNeuron> newHiddenNeurons = new ArrayList<BackpropNeuron>(4);
-        newHiddenNeurons.add(createNeuron(graph, "hidden"));
-        newHiddenNeurons.add(createNeuron(graph, "hidden"));
-        newHiddenNeurons.add(createNeuron(graph, "hidden"));
-        newHiddenNeurons.add(createNeuron(graph, "hidden"));
-        final BackpropNeuron newOutputNeuron = createNeuron(graph, "output");
-        newOutputNeuron.setActivationFunctionClass(HyperbolicTangentActivationFunction.class);
-        newOutputNeuron.setLearningRate(0.09);
-        final BackpropNeuron biasNeuron = createNeuron(graph, "bias");
-        biasNeuron.setSignal(1.0);
-        biasNeuron.setActivationFunctionClass(HyperbolicTangentActivationFunction.class);
-        biasNeuron.setLearningRate(0.09);
-
-        //connect all input neurons to hidden neurons
-        for( BackpropNeuron inputNeuron : newInputNeurons ) {
-            //make sure all input neurons use tanH activation function
-            inputNeuron.setActivationFunctionClass(HyperbolicTangentActivationFunction.class);
-            inputNeuron.setLearningRate(0.09);
-            for( BackpropNeuron hiddenNeuron : newHiddenNeurons ) {
-                graph.addFramedEdge(inputNeuron, hiddenNeuron, "signals", AbstractBackpropSynapse.class);
-            }
-        }
-        //connect all hidden neurons to the output neuron
-        for( BackpropNeuron hiddenNeuron : newHiddenNeurons ) {
-            graph.addFramedEdge(hiddenNeuron, newOutputNeuron, "signals", AbstractBackpropSynapse.class);
-
-            //all hidden neurons shoudl use tanh activation function
-            hiddenNeuron.setActivationFunctionClass(HyperbolicTangentActivationFunction.class);
-            hiddenNeuron.setLearningRate(0.09);
-
-            //create bias neuron
-            graph.addFramedEdge( biasNeuron, hiddenNeuron, "signals", AbstractBackpropSynapse.class);
-        }
-        //create bias neuron for output neuron
-        graph.addFramedEdge( biasNeuron, newOutputNeuron, "signals", AbstractBackpropSynapse.class);
-        graph.commit();
-              */
 
         for(int i = 0; i < 1500; i++) {
             train(graph, -1.0, 1.0, 1.0);
@@ -147,7 +103,7 @@ public class NestedXor2InputTest {
         Assert.assertTrue(propagate(graph, -1.0, 1.0) > 0.0);
     }
 
-    private double calculateError(GrailGraph graph) {
+    private static double calculateError(GrailGraph graph) {
         double actual = propagate(graph, 1.0, 1.0);
         double error = Math.abs(actual + 1.0) / 2.0;
 
@@ -163,7 +119,7 @@ public class NestedXor2InputTest {
         return error/4.0;
     }
 
-    private void train(final GrailGraph graph, final double input1, final double input2, final double expected) {
+    private static void train(final GrailGraph graph, final double input1, final double input2, final double expected) {
         propagate(graph, input1, input2);
 
         final NestedLayerVertex outputLayer = graph.getFramedVertices("layer", "output", SimpleNestedLayerVertex.class).iterator().next();
@@ -177,7 +133,7 @@ public class NestedXor2InputTest {
         trigger.trigger();
     }
 
-    private double propagate(final GrailGraph graph, final double input1, final double input2) {
+    private static double propagate(final GrailGraph graph, final double input1, final double input2) {
         final NestedLayerVertex inputLayer = graph.getFramedVertices("layer", "input", SimpleNestedLayerVertex.class).iterator().next();
         final Iterator<? extends BackpropNeuron> inputNeurons = inputLayer.getNestedNeurons().iterator();
         inputNeurons.next().setSignal(input1);
