@@ -23,8 +23,6 @@ import com.syncleus.grail.graph.GrailGraph;
 import junit.framework.Assert;
 import org.junit.Test;
 
-import java.lang.reflect.*;
-
 public class AbstractActivationNeuronTest {
 
     @Test( expected = IllegalStateException.class )

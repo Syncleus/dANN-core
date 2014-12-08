@@ -81,13 +81,13 @@ public class NestedXor2InputTest {
         backpropagateTrigger.setProperty("layer", "backpropagateTrigger");
         triggerEdge = graph.addFramedEdge(backpropagateTrigger, biasLayer, "triggers", PrioritySerialTriggerEdge.class);
         triggerEdge.setTriggerAction("backpropagate");
-        triggerEdge.setTriggerPriority(1);
+        triggerEdge.setTriggerPriority(0);
         triggerEdge = graph.addFramedEdge(backpropagateTrigger, inputLayer, "triggers", PrioritySerialTriggerEdge.class);
         triggerEdge.setTriggerAction("backpropagate");
-        triggerEdge.setTriggerPriority(2);
+        triggerEdge.setTriggerPriority(1);
         triggerEdge = graph.addFramedEdge(backpropagateTrigger, hiddenLayer, "triggers", PrioritySerialTriggerEdge.class);
         triggerEdge.setTriggerAction("backpropagate");
-        triggerEdge.setTriggerPriority(3);
+        triggerEdge.setTriggerPriority(2);
 
         for(int i = 0; i < 10000; i++) {
             train(graph, -1.0, 1.0, 1.0);
