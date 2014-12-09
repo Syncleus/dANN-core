@@ -20,12 +20,13 @@ package com.syncleus.dann.backprop;
 
 import com.syncleus.ferma.annotations.InVertex;
 import com.syncleus.ferma.annotations.OutVertex;
-import com.syncleus.grail.graph.SignalMultiplyingEdge;
+import com.syncleus.grail.graph.unit.SignalMultiplyingEdge;
 
-public interface BackpropSynapse extends SignalMultiplyingEdge {
+public abstract class BackpropSynapse extends SignalMultiplyingEdge {
     @InVertex
-    BackpropNeuron getTarget();
+    public abstract BackpropNeuron getTarget();
 
     @OutVertex
-    BackpropNeuron getSource();
+    @Override
+    public abstract BackpropNeuron getSource();
 }

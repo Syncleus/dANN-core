@@ -18,15 +18,18 @@
  ******************************************************************************/
 package com.syncleus.dann;
 
+import com.syncleus.grail.graph.unit.SignalerVertex;
+import com.syncleus.grail.graph.unit.SignalMultiplyingEdge;
+import com.syncleus.grail.graph.unit.Signaler;
 import com.syncleus.dann.activation.ActivationFunction;
 import com.syncleus.ferma.annotations.Adjacency;
 import com.syncleus.ferma.annotations.Incidence;
 import com.syncleus.ferma.annotations.Property;
 import com.syncleus.grail.graph.*;
-import com.syncleus.grail.graph.action.Action;
+import com.syncleus.grail.graph.unit.action.Action;
 import com.tinkerpop.blueprints.Direction;
 
-public interface ActivationNeuron extends SignalNode {
+public interface ActivationNeuron extends SignalerVertex {
     @Action("propagate")
     void propagate();
 
@@ -49,19 +52,19 @@ public interface ActivationNeuron extends SignalNode {
     <N> Iterable<? extends N> getSources(Class<? extends N> type);
 
     @Adjacency(label="signals", direction=Direction.IN)
-    void setSources(Iterable<? extends SignalNode> targets);
+    void setSources(Iterable<? extends SignalerVertex> targets);
 
     @Adjacency(label="signals", direction=Direction.IN)
-    void removeSource(SignalNode target);
+    void removeSource(SignalerVertex target);
 
     @Adjacency(label="signals", direction=Direction.IN)
-    <N extends SignalNode> N addSource(N target);
+    <N extends SignalerVertex> N addSource(N target);
 
     @Adjacency(label="signals", direction=Direction.IN)
     Signaler addSource();
 
     @Adjacency(label="signals", direction=Direction.IN)
-    <N extends SignalNode> N addSource(Class<? extends N> type);
+    <N extends SignalerVertex> N addSource(Class<? extends N> type);
 
     @Incidence(label = "signals", direction=Direction.IN)
     Iterable<? extends SignalMultiplyingEdge> getSourceEdges();

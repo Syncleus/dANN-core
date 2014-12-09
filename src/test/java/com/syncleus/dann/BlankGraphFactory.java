@@ -34,8 +34,7 @@ public final class BlankGraphFactory {
                     AbstractActivationNeuron.class,
                     BackpropNeuron.class,
                     AbstractBackpropNeuron.class,
-                    BackpropSynapse.class,
-                    AbstractBackpropSynapse.class}));
+                    BackpropSynapse.class}));
 
     public static GrailGraph makeTinkerGraph() {
         return new TinkerGrailGraphFactory(DANN_TYPES).subgraph("0");

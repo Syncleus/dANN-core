@@ -21,7 +21,7 @@ package com.syncleus.dann.backprop;
 import com.syncleus.ferma.annotations.Adjacency;
 import com.syncleus.ferma.annotations.Incidence;
 import com.syncleus.ferma.annotations.Property;
-import com.syncleus.grail.graph.action.Action;
+import com.syncleus.grail.graph.unit.action.Action;
 import com.syncleus.dann.*;
 
 public interface BackpropNeuron extends ActivationNeuron {

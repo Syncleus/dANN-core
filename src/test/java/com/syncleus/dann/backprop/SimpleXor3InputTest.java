@@ -33,11 +33,11 @@ public class SimpleXor3InputTest {
     public void testXor() {
         final GrailGraph graph = BlankGraphFactory.makeTinkerGraph();
 
-        final List<BackpropNeuron> newInputNeurons = new ArrayList<BackpropNeuron>(2);
+        final List<BackpropNeuron> newInputNeurons = new ArrayList<>(2);
         newInputNeurons.add(SimpleXor3InputTest.createNeuron(graph, "input"));
         newInputNeurons.add(SimpleXor3InputTest.createNeuron(graph, "input"));
         newInputNeurons.add(SimpleXor3InputTest.createNeuron(graph, "input"));
-        final List<BackpropNeuron> newHiddenNeurons = new ArrayList<BackpropNeuron>(4);
+        final List<BackpropNeuron> newHiddenNeurons = new ArrayList<>(4);
         newHiddenNeurons.add(SimpleXor3InputTest.createNeuron(graph, "hidden"));
         newHiddenNeurons.add(SimpleXor3InputTest.createNeuron(graph, "hidden"));
         newHiddenNeurons.add(SimpleXor3InputTest.createNeuron(graph, "hidden"));
@@ -48,18 +48,18 @@ public class SimpleXor3InputTest {
         //connect all input neurons to hidden neurons
         for( BackpropNeuron inputNeuron : newInputNeurons ) {
             for( BackpropNeuron hiddenNeuron : newHiddenNeurons ) {
-                graph.addFramedEdge(inputNeuron, hiddenNeuron, "signals", AbstractBackpropSynapse.class);
+                graph.addFramedEdge(inputNeuron, hiddenNeuron, "signals", BackpropSynapse.class);
             }
         }
         //connect all hidden neurons to the output neuron
         for( BackpropNeuron hiddenNeuron : newHiddenNeurons ) {
-            graph.addFramedEdge(hiddenNeuron, newOutputNeuron, "signals", AbstractBackpropSynapse.class);
+            graph.addFramedEdge(hiddenNeuron, newOutputNeuron, "signals", BackpropSynapse.class);
 
             //create bias connection
-            graph.addFramedEdge(biasNeuron, hiddenNeuron, "signals", AbstractBackpropSynapse.class);
+            graph.addFramedEdge(biasNeuron, hiddenNeuron, "signals", BackpropSynapse.class);
         }
         //create bias neuron for output neuron
-        graph.addFramedEdge(biasNeuron, newOutputNeuron, "signals", AbstractBackpropSynapse.class);
+        graph.addFramedEdge(biasNeuron, newOutputNeuron, "signals", BackpropSynapse.class);
         graph.commit();
 
         for(int i = 0; i < 10000 ; i++) {

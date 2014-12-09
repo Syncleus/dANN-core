@@ -19,8 +19,8 @@
 package com.syncleus.dann;
 
 import com.syncleus.dann.activation.*;
+import com.syncleus.dann.backprop.BackpropSynapse;
 import com.syncleus.grail.graph.*;
-import com.syncleus.dann.backprop.*;
 
 public abstract class AbstractActivationNeuron extends AbstractGrailVertexFrame implements ActivationNeuron {
 
@@ -55,7 +55,7 @@ public abstract class AbstractActivationNeuron extends AbstractGrailVertexFrame 
     @Override
     public void propagate() {
         this.setActivity(0.0);
-        for (final SignalMultiplyingEdge currentSynapse : this.getSourceEdges(AbstractBackpropSynapse.class)) {
+        for (final BackpropSynapse currentSynapse : this.getSourceEdges(BackpropSynapse.class)) {
             currentSynapse.propagate();
             this.setActivity(this.getActivity() + currentSynapse.getSignal());
         }

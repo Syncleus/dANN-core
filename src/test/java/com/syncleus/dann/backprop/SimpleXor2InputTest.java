@@ -53,22 +53,22 @@ public class SimpleXor2InputTest {
             inputNeuron.setActivationFunctionClass(HyperbolicTangentActivationFunction.class);
             inputNeuron.setLearningRate(0.09);
             for( BackpropNeuron hiddenNeuron : newHiddenNeurons ) {
-                graph.addFramedEdge(inputNeuron, hiddenNeuron, "signals", AbstractBackpropSynapse.class);
+                graph.addFramedEdge(inputNeuron, hiddenNeuron, "signals", BackpropSynapse.class);
             }
         }
         //connect all hidden neurons to the output neuron
         for( BackpropNeuron hiddenNeuron : newHiddenNeurons ) {
-            graph.addFramedEdge(hiddenNeuron, newOutputNeuron, "signals", AbstractBackpropSynapse.class);
+            graph.addFramedEdge(hiddenNeuron, newOutputNeuron, "signals", BackpropSynapse.class);
 
             //all hidden neurons shoudl use tanh activation function
             hiddenNeuron.setActivationFunctionClass(HyperbolicTangentActivationFunction.class);
             hiddenNeuron.setLearningRate(0.09);
 
             //create bias neuron
-            graph.addFramedEdge( biasNeuron, hiddenNeuron, "signals", AbstractBackpropSynapse.class);
+            graph.addFramedEdge( biasNeuron, hiddenNeuron, "signals", BackpropSynapse.class);
         }
         //create bias neuron for output neuron
-        graph.addFramedEdge( biasNeuron, newOutputNeuron, "signals", AbstractBackpropSynapse.class);
+        graph.addFramedEdge( biasNeuron, newOutputNeuron, "signals", BackpropSynapse.class);
         graph.commit();
 
         for(int i = 0; i < 10000; i++) {

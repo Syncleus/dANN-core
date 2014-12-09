@@ -18,11 +18,14 @@
  ******************************************************************************/
 package com.syncleus.dann.backprop;
 
+import com.syncleus.grail.graph.unit.action.SerialPriorityTrigger;
+import com.syncleus.grail.graph.unit.action.ActionTrigger;
+import com.syncleus.grail.graph.unit.action.PrioritySerialTriggerEdge;
+import com.syncleus.grail.graph.unit.action.AbstractPriorityTrigger;
 import com.syncleus.dann.*;
 import com.syncleus.dann.activation.ActivationFunction;
 import com.syncleus.dann.activation.HyperbolicTangentActivationFunction;
 import com.syncleus.grail.graph.GrailGraph;
-import com.syncleus.grail.graph.action.*;
 import java.util.*;
 import org.junit.Assert;
 import org.junit.Test;
@@ -48,15 +51,15 @@ public class NestedXor2InputTest {
         outputLayer.setProperty("layer", "output");
         outputLayer.setNestedGraphName("xorGraph");
         
-        biasLayer.setVertexCount(1, AbstractBackpropNeuron.class, AbstractBackpropSynapse.class);
-        inputLayer.setVertexCount(2, AbstractBackpropNeuron.class, AbstractBackpropSynapse.class);
-        hiddenLayer.setVertexCount(4, AbstractBackpropNeuron.class, AbstractBackpropSynapse.class);
-        outputLayer.setVertexCount(1, AbstractBackpropNeuron.class, AbstractBackpropSynapse.class);
+        biasLayer.setVertexCount(1, AbstractBackpropNeuron.class, BackpropSynapse.class);
+        inputLayer.setVertexCount(2, AbstractBackpropNeuron.class, BackpropSynapse.class);
+        hiddenLayer.setVertexCount(4, AbstractBackpropNeuron.class, BackpropSynapse.class);
+        outputLayer.setVertexCount(1, AbstractBackpropNeuron.class, BackpropSynapse.class);
         
-        graph.addFramedEdge(biasLayer, hiddenLayer, "signals", SimpleNestedFullyConnectedEdge.class).reconnectSubedges(AbstractBackpropSynapse.class);
-        graph.addFramedEdge(biasLayer, outputLayer, "signals", SimpleNestedFullyConnectedEdge.class).reconnectSubedges(AbstractBackpropSynapse.class);
-        graph.addFramedEdge(inputLayer, hiddenLayer, "signals", SimpleNestedFullyConnectedEdge.class).reconnectSubedges(AbstractBackpropSynapse.class);
-        graph.addFramedEdge(hiddenLayer, outputLayer, "signals", SimpleNestedFullyConnectedEdge.class).reconnectSubedges(AbstractBackpropSynapse.class);
+        graph.addFramedEdge(biasLayer, hiddenLayer, "signals", SimpleNestedFullyConnectedEdge.class).reconnectSubedges(BackpropSynapse.class);
+        graph.addFramedEdge(biasLayer, outputLayer, "signals", SimpleNestedFullyConnectedEdge.class).reconnectSubedges(BackpropSynapse.class);
+        graph.addFramedEdge(inputLayer, hiddenLayer, "signals", SimpleNestedFullyConnectedEdge.class).reconnectSubedges(BackpropSynapse.class);
+        graph.addFramedEdge(hiddenLayer, outputLayer, "signals", SimpleNestedFullyConnectedEdge.class).reconnectSubedges(BackpropSynapse.class);
         
         biasLayer.makeBias();
         biasLayer.setActivationFunctionClass(HyperbolicTangentActivationFunction.class);
@@ -68,7 +71,7 @@ public class NestedXor2InputTest {
         outputLayer.setActivationFunctionClass(HyperbolicTangentActivationFunction.class);
         outputLayer.setLearningRate(0.09);
         
-        final PrioritySerialTrigger propagateTrigger = graph.addFramedVertex(AbstractPrioritySerialTrigger.class);
+        final AbstractPriorityTrigger propagateTrigger = graph.addFramedVertex(SerialPriorityTrigger.class);
         propagateTrigger.setProperty("layer", "propagateTrigger");
         PrioritySerialTriggerEdge triggerEdge = graph.addFramedEdge(propagateTrigger, hiddenLayer, "triggers", PrioritySerialTriggerEdge.class);
         triggerEdge.setTriggerAction("propagate");
@@ -77,7 +80,7 @@ public class NestedXor2InputTest {
         triggerEdge.setTriggerAction("propagate");
         triggerEdge.setTriggerPriority(0);
                 
-        final PrioritySerialTrigger backpropagateTrigger = graph.addFramedVertex(AbstractPrioritySerialTrigger.class);
+        final AbstractPriorityTrigger backpropagateTrigger = graph.addFramedVertex(SerialPriorityTrigger.class);
         backpropagateTrigger.setProperty("layer", "backpropagateTrigger");
         triggerEdge = graph.addFramedEdge(backpropagateTrigger, biasLayer, "triggers", PrioritySerialTriggerEdge.class);
         triggerEdge.setTriggerAction("backpropagate");
@@ -129,7 +132,7 @@ public class NestedXor2InputTest {
         outputNeuron.setDeltaTrain((expected - outputNeuron.getSignal()) * ACTIVATION_FUNCTION.activateDerivative(outputNeuron.getActivity()));
         graph.commit();
         
-        final ActionTrigger trigger = graph.getFramedVertices("layer", "backpropagateTrigger", AbstractPrioritySerialTrigger.class).iterator().next();
+        final ActionTrigger trigger = graph.getFramedVertices("layer", "backpropagateTrigger", SerialPriorityTrigger.class).iterator().next();
         trigger.trigger();
     }
 
@@ -141,7 +144,7 @@ public class NestedXor2InputTest {
         Assert.assertTrue(!inputNeurons.hasNext());
         graph.commit();
         
-        final ActionTrigger trigger = graph.v().has("layer", "propagateTrigger").frame(AbstractPrioritySerialTrigger.class).iterator().next();
+        final ActionTrigger trigger = graph.v().has("layer", "propagateTrigger").frame(SerialPriorityTrigger.class).iterator().next();
         trigger.trigger();
 
         final NestedLayerVertex outputLayer = graph.getFramedVertices("layer", "output", SimpleNestedLayerVertex.class).iterator().next();

@@ -18,13 +18,13 @@
  ******************************************************************************/
 package com.syncleus.dann.backprop;
 
+import com.syncleus.grail.graph.unit.SignalMultiplyingEdge;
 import com.syncleus.dann.ActivationNeuron;
 import com.syncleus.dann.activation.ActivationFunction;
-import com.syncleus.dann.backprop.BackpropNeuron;
 import com.syncleus.ferma.annotations.Adjacency;
 import com.syncleus.ferma.annotations.Property;
 import com.syncleus.grail.graph.*;
-import com.syncleus.grail.graph.action.Action;
+import com.syncleus.grail.graph.unit.action.Action;
 import com.tinkerpop.blueprints.Direction;
 
 public interface NestedLayerVertex extends GrailVertexFrame {

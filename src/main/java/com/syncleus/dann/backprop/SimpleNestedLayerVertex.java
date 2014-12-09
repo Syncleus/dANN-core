@@ -18,13 +18,17 @@
  ******************************************************************************/
 package com.syncleus.dann.backprop;
 
+import com.syncleus.grail.graph.unit.action.ActionTrigger;
+import com.syncleus.grail.graph.unit.action.PrioritySerialTriggerEdge;
+import com.syncleus.grail.graph.unit.action.AbstractPriorityTrigger;
+import com.syncleus.grail.graph.unit.action.SerialPriorityTrigger;
+import com.syncleus.grail.graph.unit.SignalMultiplyingEdge;
 import com.syncleus.dann.ActivationNeuron;
 import com.syncleus.dann.activation.ActivationFunction;
 import com.syncleus.dann.backprop.AbstractBackpropNeuron;
 import com.syncleus.dann.backprop.BackpropNeuron;
 import com.syncleus.ferma.*;
 import com.syncleus.grail.graph.*;
-import com.syncleus.grail.graph.action.*;
 import java.util.*;
 
 // TODO : What happens if nestedGraphName changes after there are already vertexes?
@@ -81,9 +85,9 @@ public abstract class SimpleNestedLayerVertex extends AbstractGrailVertexFrame i
             throw new IllegalArgumentException("newVertexCount can not be negative.");
         
         // TODO : this should probably be initalized sooner?
-        final PrioritySerialTrigger propagateTrigger = this.getNestedGraph().addFramedVertex(AbstractPrioritySerialTrigger.class);
+        final AbstractPriorityTrigger propagateTrigger = this.getNestedGraph().addFramedVertex(SerialPriorityTrigger.class);
         propagateTrigger.setProperty(LAYER_KEY, PROPAGATE_ACTION_TRIGGER_ID_PREFIX + this.getId());
-        final PrioritySerialTrigger backpropagateTrigger = this.getNestedGraph().addFramedVertex(AbstractPrioritySerialTrigger.class);
+        final AbstractPriorityTrigger backpropagateTrigger = this.getNestedGraph().addFramedVertex(SerialPriorityTrigger.class);
         backpropagateTrigger.setProperty(LAYER_KEY, BACKPROPAGATE_ACTION_TRIGGER_ID_PREFIX + this.getId());
         
         final long currentCount = this.getVertexCount();
@@ -170,10 +174,10 @@ public abstract class SimpleNestedLayerVertex extends AbstractGrailVertexFrame i
     
     private ActionTrigger getPropagateActionTrigger(){
 //        System.out.println("getting propagate property: " + (PROPAGATE_ACTION_TRIGGER_ID_PREFIX + this.getId()) + " on graph: " + this.getNestedGraph().toString());
-        return this.getNestedGraph().getFramedVertices(LAYER_KEY, PROPAGATE_ACTION_TRIGGER_ID_PREFIX + this.getId(), AbstractPrioritySerialTrigger.class).iterator().next();
+        return this.getNestedGraph().getFramedVertices(LAYER_KEY, PROPAGATE_ACTION_TRIGGER_ID_PREFIX + this.getId(), SerialPriorityTrigger.class).iterator().next();
     }
     
     private ActionTrigger getBackPropagateActionTrigger(){
-        return this.getNestedGraph().v().has(LAYER_KEY, BACKPROPAGATE_ACTION_TRIGGER_ID_PREFIX + this.getId()).next(AbstractPrioritySerialTrigger.class);
+        return this.getNestedGraph().v().has(LAYER_KEY, BACKPROPAGATE_ACTION_TRIGGER_ID_PREFIX + this.getId()).next(SerialPriorityTrigger.class);
     }
 }
