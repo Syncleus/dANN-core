@@ -18,6 +18,7 @@
  ******************************************************************************/
 package com.syncleus.dann;
 
+import com.syncleus.grail.graph.unit.SignalMultiplyingEdge;
 import com.syncleus.dann.backprop.NestedLayerVertex;
 import com.syncleus.ferma.*;
 import com.syncleus.grail.graph.*;

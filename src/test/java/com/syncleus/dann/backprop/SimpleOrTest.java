@@ -39,12 +39,12 @@ public class SimpleOrTest {
 
         //connect all hidden neurons to the output neuron
         for( BackpropNeuron inputNeuron : newInputNeurons ) {
-            graph.addFramedEdge(inputNeuron, newOutputNeuron, "signals", AbstractBackpropSynapse.class);
+            graph.addFramedEdge(inputNeuron, newOutputNeuron, "signals", BackpropSynapse.class);
         }
         //create bias neuron for output neuron
         final BackpropNeuron biasNeuron = SimpleOrTest.createNeuron(graph, "bias");
         biasNeuron.setSignal(1.0);
-        graph.addFramedEdge(biasNeuron, newOutputNeuron, "signals", AbstractBackpropSynapse.class);
+        graph.addFramedEdge(biasNeuron, newOutputNeuron, "signals", BackpropSynapse.class);
         graph.commit();
 
         for(int i = 0; i < 10000; i++) {

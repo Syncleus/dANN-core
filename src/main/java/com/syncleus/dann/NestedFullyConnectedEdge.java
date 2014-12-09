@@ -21,7 +21,7 @@ package com.syncleus.dann;
 import com.syncleus.dann.backprop.NestedLayerVertex;
 import com.syncleus.ferma.annotations.*;
 import com.syncleus.grail.graph.GrailEdgeFrame;
-import com.syncleus.grail.graph.SignalMultiplyingEdge;
+import com.syncleus.grail.graph.unit.SignalMultiplyingEdge;
 
 public interface NestedFullyConnectedEdge extends GrailEdgeFrame {
     
