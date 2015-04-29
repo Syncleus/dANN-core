@@ -24,6 +24,7 @@ import com.syncleus.dann.activation.ActivationFunction;
 public abstract class AbstractBackpropNeuron extends AbstractActivationNeuron implements BackpropNeuron {
     private static final double DEFAULT_LEARNING_RATE = 0.0175;
 
+    @Override
     public void init() {
         super.init();
         this.setLearningRate(AbstractBackpropNeuron.DEFAULT_LEARNING_RATE);
@@ -46,10 +47,10 @@ public abstract class AbstractBackpropNeuron extends AbstractActivationNeuron im
         }
         final ActivationFunction activation = this.getActivationFunction();
         if( activation == null)
-            System.out.println("activation function is null!!!!!!");
+            throw new IllegalStateException("No activation function was configured for this node");
         final Double activity = this.getActivity();
         if( activity == null)
-            System.out.println("activity function is null!!!!!!");
+            throw new IllegalStateException("Node's activity is null.");
         newDeltaTrain *= activation.activateDerivative(activity);
         this.setDeltaTrain(newDeltaTrain);
     }
