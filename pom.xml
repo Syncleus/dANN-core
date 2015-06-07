@@ -42,7 +42,7 @@
     </properties>
 
 	<name>dANN Core library</name>
-	<description>Artificial Intelligence and Artificial Genetics library - Core library</description>
+	<description>Machine Learning and Artificial Genetics library - Core library</description>
     <url>http://wiki.syncleus.com/index.php/DANN</url>
 
     <scm>
