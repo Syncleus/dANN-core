@@ -1,4 +1,6 @@
 # dANN 2.x
+[![Dependency Status](https://www.versioneye.com/user/projects/5574beea336334002000012b/badge.svg?style=flat)](https://www.versioneye.com/user/projects/5574beea336334002000012b)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.syncleus.dann/dann-core/badge.png?style=flat)](https://maven-badges.herokuapp.com/maven-central/com.syncleus.dann/dann-core/)
 
 dANN is an Artificial Intelligence and Artificial Genetics library targeted at employing conventional algorithms as well
 as acting as a platform for research & development of novel algorithms. As new algorithms are developed and proven to be
