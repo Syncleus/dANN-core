@@ -200,7 +200,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10.1</version>
+                <version>2.10.3</version>
                 <configuration>
                     <excludePackageNames>*.xml</excludePackageNames>
                     <failOnError>false</failOnError>
@@ -227,7 +227,7 @@
         <dependency>
             <groupId>com.thinkaurelius.titan</groupId>
             <artifactId>titan-core</artifactId>
-            <version>0.4.4</version>
+            <version>0.5.4</version>
             <scope>test</scope>
         </dependency>
         <dependency>
