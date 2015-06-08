@@ -1,4 +1,10 @@
 # dANN
+[![Build Status](http://builds.syncleus.com/buildStatus/icon?job=dANN Core&style=flat)](http://sonar.syncleus.com/dashboard/index/8265)
+[![Test Coverage](https://img.shields.io/sonar/http/sonar.syncleus.com/com.syncleus.dann:dann-core/coverage.svg?style=flat)](http://sonar.syncleus.com/dashboard/index/8265)
+[![Tests Passed](https://img.shields.io/jenkins/t/http/builds.syncleus.com/dANN Core.svg?style=flat)](http://sonar.syncleus.com/dashboard/index/8265)
+[![Dependencies](https://www.versioneye.com/user/projects/5574bee63363340023000126/badge.svg?style=flat)](https://www.versioneye.com/user/projects/5574bee63363340023000126)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.syncleus.dann/dann-core/badge.png?style=flat)](https://maven-badges.herokuapp.com/maven-central/com.syncleus.dann/dann-core/)
+
 
 dANN is an Artificial Neural Network library built on top of the [GRAIL](http://wiki.syncleus.com/index.php/GRAIL) and
 [Ferma](http://wiki.syncleus.com/index.php/Ferma) frameworks. By leveraging GRAIL features dANN is able to back its
