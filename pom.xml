@@ -233,13 +233,13 @@
         <dependency>
             <groupId>com.thinkaurelius.titan</groupId>
             <artifactId>titan-berkeleyje</artifactId>
-            <version>0.4.4</version>
+            <version>0.5.4</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.thinkaurelius.titan</groupId>
             <artifactId>titan-es</artifactId>
-            <version>0.4.4</version>
+            <version>0.5.4</version>
             <scope>test</scope>
         </dependency>
         <dependency>
